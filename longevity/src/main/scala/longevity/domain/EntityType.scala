@@ -1,4 +1,4 @@
 package longevity.domain
 
 /** an entity type */
-trait EntityType[E]
+trait EntityType[E <: Entity]
