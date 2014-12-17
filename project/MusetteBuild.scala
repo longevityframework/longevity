@@ -20,7 +20,7 @@ object MusetteBuild extends Build with BuildSettings {
     id = "root",
     base = file("."),
     settings = buildSettings
-  ) aggregate(longevity, musette)
+  ) aggregate (longevity, musette)
 
   lazy val longevity = Project(
     id = "longevity",
@@ -32,6 +32,6 @@ object MusetteBuild extends Build with BuildSettings {
     id = "musette",
     base = file("musette"),
     settings = buildSettings
-  ) dependsOn(longevity)
+  ) dependsOn (longevity)
 
 }
