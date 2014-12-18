@@ -2,13 +2,14 @@ package musette.domain
 
 import longevity.domain._
 
-object User extends EntityType[User]
-
 case class User(
   uri: Uri,
-  email: String,
+  site: Assoc[Site],
+  email: Email,
   handle: String,
   slug: Markdown
 )
 extends Entity
+
+object User extends EntityType[User]
 

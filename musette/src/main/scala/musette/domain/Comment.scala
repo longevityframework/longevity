@@ -2,8 +2,6 @@ package musette.domain
 
 import longevity.domain._
 
-object Comment extends EntityType[Comment]
-
 /** content authored by a site user. */
 case class Comment(
   uri: Uri,
@@ -11,4 +9,8 @@ case class Comment(
   subject: Assoc[Content],
   content: Markdown
 )
-extends Content with Entity
+extends Content with Entity {
+  override val authors = Set(author)
+}
+
+object Comment extends EntityType[Comment]
