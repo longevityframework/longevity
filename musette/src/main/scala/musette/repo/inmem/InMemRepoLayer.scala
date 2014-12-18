@@ -2,7 +2,7 @@ package musette.repo.inmem
 
 import musette.repo.RepoLayer
 
-trait InMemRepoLayer extends RepoLayer {
+class InMemRepoLayer extends RepoLayer {
   override val blogRepo = new InMemBlogRepo
   override val blogPostRepo = new InMemBlogPostRepo
   override val commentRepo = new InMemCommentRepo

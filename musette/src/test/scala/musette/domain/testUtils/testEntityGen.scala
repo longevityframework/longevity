@@ -45,6 +45,6 @@ package object testEntityGen {
 
   @inline def string(len: Int): String = (1 to len map { i => char() }).mkString
 
-  @inline def char(): Char = (util.Random.nextInt % 26 + 'a').toChar
+  @inline def char(): Char = (math.abs(util.Random.nextInt % 26) + 'a').toChar
 
 }

@@ -1,5 +1,8 @@
 package longevity.repo
 
+import scala.reflect.ClassTag
+import scala.reflect.classTag
+
 import org.scalatest._
 import org.scalatest.OptionValues._
 
@@ -41,9 +44,9 @@ class RepoPoolSpec extends FeatureSpec with GivenWhenThen with Matchers {
       When("we attempt to retrieve a user repo from the pool")
       Then("we get an exception about no repos for entity type")
       val thrown = intercept[RepoPool.NoRepoForEntityType[User]] {
-        repoPool.repoForEntityType(User)
+        repoPool.repoForEntityClassTag(classTag[User])
       }
-      thrown.entityType should equal (User)
+      thrown.entityClassTag should equal (classTag[User])
     }
 
     scenario("attempt to retrieve a repo for an entity type represented in the entity pool") {
@@ -52,7 +55,7 @@ class RepoPoolSpec extends FeatureSpec with GivenWhenThen with Matchers {
       val userRepo = new DummyRepo(User, repoPool)
       When("we attempt to retrieve a user repo from the pool")
       Then("we get an exception about no repos for entity type")
-      val actualRepo = repoPool.repoForEntityType(User)
+      val actualRepo = repoPool.repoForEntityClassTag(classTag[User])
       actualRepo should equal (userRepo)
     }
 

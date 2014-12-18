@@ -1,12 +1,18 @@
 package longevity.repo
 
+import scala.reflect.ClassTag
+
 import longevity.domain._
 
 // TODO: these methods should all return futures
 
 trait Repo[E <: Entity] {
 
-  /** the type object for the entities this repository handles */
+  /** the class tag for the entities this repository handles */
+  val entityClassTag: ClassTag[E]
+
+  /** the entity type for the entities this repository handles */
+  // this is not currently used, but may be soon!
   val entityType: EntityType[E]
 
   /** the pool of all the repos in context */

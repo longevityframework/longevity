@@ -1,5 +1,7 @@
 package longevity.repo
 
+import scala.reflect.ClassTag
+
 import longevity.domain._
 
 package object testUtils {
@@ -7,6 +9,8 @@ package object testUtils {
   class DummyRepo[E <: Entity](
     override val entityType: EntityType[E],
     override protected val repoPool: RepoPool
+  )(
+    implicit override val entityClassTag: ClassTag[E]
   ) extends Repo[E] {
     def create(e: Unpersisted[E]) = ???
     def retrieve(id: Id[E]) = ???

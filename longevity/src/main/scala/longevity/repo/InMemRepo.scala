@@ -1,10 +1,14 @@
 package longevity.repo
 
-import scala.language.higherKinds
+import scala.reflect.ClassTag
 
 import longevity.domain._
 
-trait InMemRepo[E <: Entity] extends Repo[E] {
+abstract class InMemRepo[E <: Entity](
+  override val entityType: EntityType[E]
+)(
+  implicit override val entityClassTag: ClassTag[E]
+) extends Repo[E] {
   repo =>
 
   case class IntId(i: Int) extends Id[E] {
@@ -25,6 +29,7 @@ trait InMemRepo[E <: Entity] extends Repo[E] {
     persisted
   }
 
+  // TODO: generify this
   // override me!
   protected def handleAssocs(e: E): E = e
 

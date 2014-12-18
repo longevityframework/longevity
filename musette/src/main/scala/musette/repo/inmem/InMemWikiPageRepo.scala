@@ -1,12 +1,11 @@
-package musette.repo.inmem
+package musette.repo
+package inmem
 
 import longevity.repo._
 import musette.domain.WikiPage
-import musette.repo.WikiPageRepo
 
 class InMemWikiPageRepo(
   implicit override protected val repoPool: RepoPool
 )
-extends WikiPageRepo with InMemRepo[WikiPage] {
-  override val entityType = WikiPage
-}
+extends InMemRepo[WikiPage](WikiPage)
+with WikiPageRepo
