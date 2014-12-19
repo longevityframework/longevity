@@ -9,6 +9,7 @@ trait BuildSettings {
     scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
     scalaVersion := "2.11.4",
     libraryDependencies ++= Seq(
+      // TODO: reflect probably not used right now
       "org.scala-lang" % "scala-reflect" % scalaVersion.value withSources() withJavadoc(),
       "org.scalatest" %% "scalatest" % "2.2.1" % "test",
       "org.easymock" % "easymockclassextension" % "3.2" % "test"))

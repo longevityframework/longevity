@@ -29,10 +29,27 @@ abstract class InMemRepo[E <: Entity](
     persisted
   }
 
-  // TODO: generify this
-  // override me!
-  protected def handleAssocs[Q](q: Q)(implicit qTypeTag: TypeTag[Q]): Q = q
-  //protected def handleAssocs(e: E): E = e
+  // TODO name this stuff better
+  protected def handleAssocs(e: E): E = {
+    entityType.assocLenses.foldLeft(e) { (e, lens) =>
+      persistAssoc(e, lens)
+    }
+  }
+
+  private def persistAssoc[F <: Entity](e: E, lens: EntityType.AssocLens[E, F]): E = {
+    implicit val ftag: TypeTag[F] = lens.ftag
+    lens.patchAssoc(e, persistAssocPatcher)
+  }
+
+  private def persistAssocPatcher[F <: Entity](assoc: Assoc[F])(implicit ftag: TypeTag[F]): Assoc[F] = {
+    assoc match {
+      case AssocWithUnpersisted(u) =>
+        val repo = repoPool.repoForEntityTypeTag(ftag)
+        val persisted = repo.create(u)
+        persisted.id
+      case _ => assoc
+    }
+  }
 
   def retrieve(id: Id[E]) = idToEMap.getOrElse(id, NotFound(id))
 

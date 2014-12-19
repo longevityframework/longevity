@@ -1,4 +1,8 @@
-package net.jsmscs.persistence
+package longevity
+
+// TODO move to domain.scala to follow personal naming convention
+
+import scala.reflect.runtime.universe.TypeTag
 
 /** Provides support for constructing your domain.
   * 
