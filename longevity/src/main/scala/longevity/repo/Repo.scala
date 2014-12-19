@@ -1,6 +1,6 @@
 package longevity.repo
 
-import scala.reflect.ClassTag
+import scala.reflect.runtime.universe.TypeTag
 
 import longevity.domain._
 
@@ -9,7 +9,7 @@ import longevity.domain._
 trait Repo[E <: Entity] {
 
   /** the class tag for the entities this repository handles */
-  val entityClassTag: ClassTag[E]
+  val entityTypeTag: TypeTag[E]
 
   /** the entity type for the entities this repository handles */
   // this is not currently used, but may be soon!

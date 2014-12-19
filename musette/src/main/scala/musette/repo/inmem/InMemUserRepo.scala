@@ -13,7 +13,7 @@ with UserRepo {
 
   // override protected def handleAssocs(user: User): User = user.site match {
   //   case SimpleAssoc(site) => {
-  //     val siteRepo = repoPool.repoForEntityClassTag(scala.reflect.classTag[Site])
+  //     val siteRepo = repoPool.repoForEntityTypeTag(scala.reflect.typeTag[Site])
   //     user.copy(site = siteRepo.create(site).id)
   //   }
   //   case _: Id[_] => user

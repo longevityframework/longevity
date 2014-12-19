@@ -1,13 +1,13 @@
 package longevity.repo
 
-import scala.reflect.ClassTag
+import scala.reflect.runtime.universe.TypeTag
 
 import longevity.domain._
 
 abstract class InMemRepo[E <: Entity](
   override val entityType: EntityType[E]
 )(
-  implicit override val entityClassTag: ClassTag[E]
+  implicit override val entityTypeTag: TypeTag[E]
 ) extends Repo[E] {
   repo =>
 
@@ -33,8 +33,8 @@ abstract class InMemRepo[E <: Entity](
   // override me!
   //protected def handleAssocs(e: E): E = e
   protected def handleAssocs(e: E): E = {
-    // val ruType = entityClassTag.tpe
-    // println(s"entityClassTag $entityClassTag")
+    // val ruType = entityTypeTag.tpe
+    // println(s"entityTypeTag $entityTypeTag")
     // println(s"ruType $ruType")
     e
   }
