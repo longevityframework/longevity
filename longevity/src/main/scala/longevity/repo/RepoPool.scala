@@ -29,6 +29,13 @@ class RepoPool {
     entityClassTagToRepo += (entityClassTag -> repo)
   }
 
+  // TODO not currently used
+  @throws[RepoPool.NoRepoForEntityType[_]]
+  //private[repo] 
+  def repoForEntity[E <: Entity](e: E)(implicit classTag: ClassTag[E]): Repo[E] = {
+    repoForEntityClassTag(classTag)
+  }
+
   @throws[RepoPool.NoRepoForEntityType[_]]
   //private[repo] 
   def repoForEntityClassTag[E <: Entity](entityClassTag: ClassTag[E]): Repo[E] = {

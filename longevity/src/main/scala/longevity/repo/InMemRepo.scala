@@ -31,7 +31,13 @@ abstract class InMemRepo[E <: Entity](
 
   // TODO: generify this
   // override me!
-  protected def handleAssocs(e: E): E = e
+  //protected def handleAssocs(e: E): E = e
+  protected def handleAssocs(e: E): E = {
+    // val ruType = entityClassTag.tpe
+    // println(s"entityClassTag $entityClassTag")
+    // println(s"ruType $ruType")
+    e
+  }
 
   def retrieve(id: Id[E]) = idToEMap.getOrElse(id, NotFound(id))
 

@@ -11,5 +11,6 @@ object Assoc {
 /** an association between two domain entities */
 trait Assoc[E]
 
+// TODO rename to AssocWithUnpersisted 
 case class SimpleAssoc[E](e: E) extends Assoc[E]
 

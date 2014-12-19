@@ -9,6 +9,7 @@ trait BuildSettings {
     scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
     scalaVersion := "2.11.4",
     libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value withSources() withJavadoc(),
       "org.scalatest" %% "scalatest" % "2.2.1" % "test",
       "org.easymock" % "easymockclassextension" % "3.2" % "test"))
 
@@ -26,7 +27,8 @@ object MusetteBuild extends Build with BuildSettings {
     id = "longevity",
     base = file("longevity"),
     settings = buildSettings :+ (
-      libraryDependencies += "com.chuusai" %% "shapeless" % "2.0.0"))
+      // TODO not currently used
+      libraryDependencies += "com.chuusai" %% "shapeless" % "2.0.0" withSources() withJavadoc()))
 
   lazy val musette = Project(
     id = "musette",
