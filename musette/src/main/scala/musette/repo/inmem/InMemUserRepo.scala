@@ -2,7 +2,7 @@ package musette.repo
 package inmem
 
 import longevity.repo._
-import longevity.domain.SimpleAssoc
+import longevity.domain.AssocWithUnpersisted
 import musette.domain._
 
 class InMemUserRepo(
@@ -12,7 +12,7 @@ extends InMemRepo[User](User)
 with UserRepo {
 
   // override protected def handleAssocs(user: User): User = user.site match {
-  //   case SimpleAssoc(site) => {
+  //   case AssocWithUnpersisted(site) => {
   //     val siteRepo = repoPool.repoForEntityTypeTag(scala.reflect.typeTag[Site])
   //     user.copy(site = siteRepo.create(site).id)
   //   }

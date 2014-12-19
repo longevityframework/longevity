@@ -4,13 +4,13 @@ import scala.language.implicitConversions
 
 object Assoc {
 
-  /** wraps an entity in a SimpleAssoc when needed */
-  implicit def apply[E](e: E): Assoc[E] = SimpleAssoc(e)
+  /** wraps an entity in a AssocWithUnpersisted when needed */
+  implicit def apply[E](e: E): Assoc[E] = AssocWithUnpersisted(e)
 }
 
 /** an association between two domain entities */
 trait Assoc[E]
 
 // TODO rename to AssocWithUnpersisted 
-case class SimpleAssoc[E](e: E) extends Assoc[E]
+case class AssocWithUnpersisted[E](e: E) extends Assoc[E]
 
