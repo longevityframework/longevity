@@ -14,3 +14,10 @@ project/plugins/project/
 
 # Exuberant CTAGS specific
 /TAGS
+/bin/
+/target-eclipse/
+/TODO.txt
+/.classpath
+/.project
+/longevity/.classpath
+/longevity/.project
