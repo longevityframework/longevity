@@ -23,26 +23,22 @@ with UserRepo {
   // }
   
   import scala.reflect.ClassTag
-  import scala.reflect.runtime.universe.TypeTag
-  override protected def handleAssocs[Q](q: Q)(implicit qTypeTag: TypeTag[Q]): Q = {
+  import scala.reflect.runtime.universe
+  override protected def handleAssocs[Q](q: Q)(implicit qTypeTag: universe.TypeTag[Q]): Q = {
     println(s"q === $q")
 
-    import scala.reflect.runtime.universe.runtimeMirror
-    import scala.reflect.runtime.universe.newTermName
-    import scala.reflect.runtime.universe.Type
-    import scala.reflect.runtime.universe.TermName
-    import scala.reflect.runtime.universe.typeTag
-
-    val qType: Type = qTypeTag.tpe
+    val qType: universe.Type = qTypeTag.tpe
     println(s"entityTypeTag $entityTypeTag")
     println(s"qType $qType")
 
-    val mirror = runtimeMirror(q.getClass.getClassLoader)
-
-    val siteTermSymbol = qType.decl(TermName("site")).asTerm
+    val siteTermSymbol = qType.decl(universe.TermName("site")).asTerm
     println(s"siteTermSymbol $siteTermSymbol")
 
+    val siteType: universe.Type = siteTermSymbol.typeSignatureIn(qType)
+    val unpersistedTermSymbol = siteType.decl(universe.TermName("unpersisted")).asTerm
+    
     val qClassTag = ClassTag[Q](qTypeTag.mirror.runtimeClass(qType))
+    val mirror = universe.runtimeMirror(q.getClass.getClassLoader)
     val instanceMirror = mirror.reflect(q)(qClassTag)
     val siteFieldMirror = instanceMirror.reflectField(siteTermSymbol)
 
