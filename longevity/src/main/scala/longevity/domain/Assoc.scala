@@ -12,5 +12,5 @@ object Assoc {
 trait Assoc[E]
 
 // TODO rename to AssocWithUnpersisted 
-case class AssocWithUnpersisted[E](e: E) extends Assoc[E]
+case class AssocWithUnpersisted[E](unpersisted: E) extends Assoc[E]
 
