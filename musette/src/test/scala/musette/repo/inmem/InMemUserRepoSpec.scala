@@ -21,12 +21,16 @@ class InMemUserRepoSpec extends FeatureSpec with GivenWhenThen with Matchers {
       When("we create a persisted user")
       val userP = repoLayer.userRepo.create(user)
       Then("we get back the user persistent state")
-      println(user)
-      println(userP)
       // TODO
+
+      val blog = testEntityGen.blog()
+      println(blog)
+      val blogP = repoLayer.blogRepo.create(blog)
+      println(blogP.get)
+
     }
 
-    // TODO: uri unique constraint
+    // todo: uri unique constraint
 
   }
 

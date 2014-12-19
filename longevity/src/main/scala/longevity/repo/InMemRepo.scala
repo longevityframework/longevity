@@ -37,7 +37,7 @@ abstract class InMemRepo[E <: Entity](
   }
 
   private def persistAssoc[F <: Entity](e: E, lens: EntityType.AssocLens[E, F]): E = {
-    implicit val ftag: TypeTag[F] = lens.ftag
+    implicit val ftag: TypeTag[F] = lens.associateTypeTag
     lens.patchAssoc(e, persistAssocPatcher)
   }
 
