@@ -5,13 +5,12 @@ import org.scalatest.OptionValues._
 import longevity.repo._
 import longevity.domain._
 
-class InMemRepoSpec[E <: Entity](
-  val entityTypeName: String,
-  val repo: Repo[E],
-  val testEntityGen: () => E,
+trait InMemRepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers {
+
+  val entityTypeName: String
+  val repo: Repo[E]
+  val testEntityGen: () => E
   val persistedShouldMatchUnpersisted: (E, E) => Unit
-)
-extends FeatureSpec with GivenWhenThen with Matchers {
 
   feature(s"${entityTypeName}Repo.create") {
     scenario(s"should produce a persisted $entityTypeName") {
