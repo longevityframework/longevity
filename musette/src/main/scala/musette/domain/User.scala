@@ -14,7 +14,7 @@ extends Entity
 object User extends EntityType[User] {
 
   override val assocLenses =
-    lens(_.site)({ (e, assoc) => e.copy(site = assoc) }) ::
+    lens1(_.site)({ (e, assoc) => e.copy(site = assoc) }) ::
     Nil
 
 }

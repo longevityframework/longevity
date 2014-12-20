@@ -2,16 +2,12 @@ package longevity.repo
 
 import scala.language.implicitConversions
 
-import longevity.domain.Assoc
+import longevity.domain._
 
 object Id {
 
-  implicit def assocToId[E](assoc: Assoc[E]): Id[E] = assoc.asInstanceOf[Id[E]]
+  implicit def assocToId[E <: Entity](assoc: Assoc[E]): Id[E] = assoc.asInstanceOf[Id[E]]
 
 }
 
-trait Id[E] extends Assoc[E] {
-
-  def retrieve: RetrieveResult[E]
-
-}
+trait Id[E <: Entity] extends Assoc[E]

@@ -14,7 +14,7 @@ extends SiteSection with Entity
 object Blog extends EntityType[Blog] {
 
   override val assocLenses =
-    lens(_.site)({ (e, assoc) => e.copy(site = assoc) }) ::
+    lens1(_.site)({ (e, assoc) => e.copy(site = assoc) }) ::
     lenss(_.authors)({ (e, assoc) => e.copy(authors = assoc) }) ::
     Nil
 

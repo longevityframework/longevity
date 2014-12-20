@@ -34,9 +34,10 @@ object EntityType {
 trait EntityType[E <: Entity] {
 
   // override me!
+  /** TODO scaladoc */
   val assocLenses: List[EntityType.AssocLens[E, _ <: Entity]] = Nil
 
-  protected def lens[Associate <: Entity](
+  protected def lens1[Associate <: Entity](
     getter: E => Assoc[Associate]
   )(
     setter: (E, Assoc[Associate]) => E

@@ -12,11 +12,14 @@ abstract class InMemRepo[E <: Entity](
   repo =>
 
   case class IntId(i: Int) extends Id[E] {
-    def retrieve = repo.retrieve(this)
+    private[longevity] val _lock = 0
+    def retrieve = repo.retrieve(this).get
+    def unpersisted = throw new Assoc.AssocIsPersistedException(this)
+    def get = retrieve
   }
 
   private var nextId = 0
-  private var idToEMap = Map[Id[E], Persisted[E]]()
+  private var idToEntityMap = Map[Id[E], Persisted[E]]()
   private var originalCreations = Map[Unpersisted[E], Persisted[E]]()
 
   def create(unpersisted: Unpersisted[E]) = {
@@ -51,13 +54,13 @@ abstract class InMemRepo[E <: Entity](
     }
   }
 
-  def retrieve(id: Id[E]) = idToEMap.getOrElse(id, NotFound(id))
+  def retrieve(id: Id[E]) = idToEntityMap.getOrElse(id, NotFound(id))
 
   def update(persisted: Persisted[E]) =
     persist(persisted.id, handleAssocs(persisted.curr), persisted.currVersion)
 
   def delete(persisted: Persisted[E]) = {
-    idToEMap -= persisted.id
+    idToEntityMap -= persisted.id
     Deleted(persisted)
   }
 
@@ -65,7 +68,7 @@ abstract class InMemRepo[E <: Entity](
 
   private def persist(id: Id[E], e: E, version: Long) = {
       val persisted = Persisted[E](id, e, version)
-      idToEMap += (id -> persisted)
+      idToEntityMap += (id -> persisted)
       persisted
   }
 

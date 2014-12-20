@@ -3,7 +3,8 @@ package repo.inmem
 
 import org.scalatest._
 import org.scalatest.OptionValues._
-
+import longevity.repo.Persisted
+import domain.User
 import domain.testUtils._
 
 class InMemUserRepoSpec extends FeatureSpec with GivenWhenThen with Matchers {
@@ -16,18 +17,14 @@ class InMemUserRepoSpec extends FeatureSpec with GivenWhenThen with Matchers {
   feature("The user repo client can create new persistent users") {
 
     scenario("create a valid new user") {
-      Given("a valid but unpersisted user")
+      Given("an unpersisted user")
       val user = testEntityGen.user()
-      When("we create a persisted user")
+      When("we persist the  user")
       val userP = repoLayer.userRepo.create(user)
       Then("we get back the user persistent state")
-      // TODO
-
-      val blog = testEntityGen.blog()
-      println(blog)
-      val blogP = repoLayer.blogRepo.create(blog)
-      println(blogP.get)
-
+      userP shouldBe a [Persisted[_]]
+      entityMatchers.persistedShouldMatchUnpersisted(userP.get, user)
+      userP.isError should be (false)
     }
 
     // todo: uri unique constraint
