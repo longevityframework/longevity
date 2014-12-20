@@ -28,8 +28,11 @@ object MusetteBuild extends Build with BuildSettings {
     id = "longevity",
     base = file("longevity"),
     settings = buildSettings :+ (
-      // TODO not currently used
-      libraryDependencies += "com.chuusai" %% "shapeless" % "2.0.0" withSources() withJavadoc()))
+      libraryDependencies ++= Seq(
+        "org.scalatest" %% "scalatest" % "2.2.1" % "provided",
+
+        // TODO not currently used
+        "com.chuusai" %% "shapeless" % "2.0.0" withSources() withJavadoc())))
 
   lazy val musette = Project(
     id = "musette",
