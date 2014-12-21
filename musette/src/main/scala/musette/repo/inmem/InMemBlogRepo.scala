@@ -1,8 +1,8 @@
-package musette.repo
-package inmem
+package musette.repo.inmem
 
 import longevity.repo._
 import musette.domain.Blog
+import musette.repo.BlogRepo
 
 class InMemBlogRepo(
   implicit override protected val repoPool: RepoPool

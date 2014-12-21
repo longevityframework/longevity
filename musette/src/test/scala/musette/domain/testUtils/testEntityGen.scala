@@ -1,8 +1,9 @@
-package musette.domain
-package testUtils
+package musette.domain.testUtils
+
+import musette.domain._
 
 // TODO: find some way to do this kind of stuff generically
-package object testEntityGen {
+object testEntityGen {
 
   val rootUri: Uri = "http://localhost:5000"
 

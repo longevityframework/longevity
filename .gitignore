@@ -21,3 +21,9 @@ project/plugins/project/
 /.project
 /longevity/.classpath
 /longevity/.project
+/musette/.classpath
+/musette/.project
+/longevity/.cache
+/longevity/.gitignore
+/musette/.cache
+/musette/.gitignore

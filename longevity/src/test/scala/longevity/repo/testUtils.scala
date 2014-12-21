@@ -4,7 +4,7 @@ import scala.reflect.runtime.universe.TypeTag
 
 import longevity.domain._
 
-package object testUtils {
+object testUtils {
 
   class DummyRepo[E <: Entity](
     override val entityType: EntityType[E],

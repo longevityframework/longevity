@@ -1,12 +1,12 @@
-package musette.domain
-package testUtils
+package musette.domain.testUtils
 
 import org.scalatest._
 import longevity.domain.Assoc
 import longevity.repo.Id
+import musette.domain._
 
 // TODO: find some way to do this kind of stuff generically
-package object entityMatchers extends Matchers {
+object entityMatchers extends Matchers {
 
   def persistedBlogShouldMatchUnpersisted(persisted: Blog, unpersisted: Blog): Unit = {
     persisted.uri should equal (unpersisted.uri)

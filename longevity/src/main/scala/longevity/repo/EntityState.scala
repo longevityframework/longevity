@@ -8,6 +8,8 @@ object EntityState {
   implicit def entityStateToPersisted[E <: Entity](rr: EntityState[E]): Persisted[E] = rr.asPersisted
 }
 
+// TODO rename to persistence state
+
 /** The persistence state of an entity. */
 sealed trait EntityState[E <: Entity] {
 
