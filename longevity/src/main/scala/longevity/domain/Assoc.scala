@@ -22,6 +22,9 @@ trait Assoc[E <: Entity] {
   private[longevity] val _lock: Int
 
   /** TODO scaladoc */
+  def isPersisted: Boolean
+
+  /** TODO scaladoc */
   def retrieve: E
 
   /** TODO scaladoc */
@@ -31,14 +34,10 @@ trait Assoc[E <: Entity] {
   def get: E
 }
 
-// TODO rename to AssocWithUnpersisted 
 case class AssocWithUnpersisted[E <: Entity](unpersisted: E) extends Assoc[E] {
-
   private[longevity] val _lock = 0
-
+  def isPersisted = false
   def retrieve = throw new Assoc.AssocIsUnpersistedException(this)
-
   def get = unpersisted
-
 }
 

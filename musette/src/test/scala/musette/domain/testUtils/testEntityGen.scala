@@ -12,12 +12,12 @@ package object testEntityGen {
 
   def blogPost(): BlogPost = blogPost(blog())
 
-  def blogPost(blog: Blog): BlogPost = BlogPost(uri(blog.uri), blog.authors, blog, markdown(), markdown())
+  def blogPost(blog: Blog): BlogPost = BlogPost(uri(blog.uri), blog, blog.authors, markdown(), markdown())
 
   def comment(): Comment = comment(blogPost())
 
   // TODO: right now, user has her own site. take site from subject
-  def comment(subject: Content): Comment = Comment(uri(subject.uri), user(), subject, markdown())
+  def comment(subject: Content): Comment = Comment(uri(subject.uri), subject, user(), markdown())
 
   def site() = Site(uri())
 

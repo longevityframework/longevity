@@ -7,21 +7,21 @@ import longevity.domain._
 
 trait InMemRepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers {
 
-  val entityTypeName: String
-  val repo: Repo[E]
-  val testEntityGen: () => E
-  val persistedShouldMatchUnpersisted: (E, E) => Unit
+  def entityTypeName: String
+  def repo: Repo[E]
+  def testEntityGen: () => E
+  def persistedShouldMatchUnpersisted: (E, E) => Unit
 
   feature(s"${entityTypeName}Repo.create") {
     scenario(s"should produce a persisted $entityTypeName") {
       Given(s"an unpersisted $entityTypeName")
       val unpersisted = testEntityGen()
-      When("we persist the $entityTypeName")
+      When(s"we persist the $entityTypeName")
       val persistentState = repo.create(unpersisted)
-      Then("we get back the $entityTypeName persistent state")
+      Then(s"we get back the $entityTypeName persistent state")
+      persistentState.isError should be (false)
       persistentState shouldBe a [Persisted[_]]
       persistedShouldMatchUnpersisted(persistentState.get, unpersisted)
-      persistentState.isError should be (false)
     }
   }
 

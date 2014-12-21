@@ -10,10 +10,10 @@ import domain.User
 class InMemUserRepoSpec extends InMemRepoSpec[User] {
 
   private val repoLayer = new InMemRepoLayer
-  val entityTypeName = "user"
-  val repo = repoLayer.userRepo
-  val testEntityGen = domain.testUtils.testEntityGen.user _
-  val persistedShouldMatchUnpersisted = entityMatchers.persistedUserShouldMatchUnpersisted _
+  def entityTypeName = "user"
+  def repo = repoLayer.userRepo
+  def testEntityGen = domain.testUtils.testEntityGen.user _
+  def persistedShouldMatchUnpersisted = entityMatchers.persistedUserShouldMatchUnpersisted _
 
 }
 

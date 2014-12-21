@@ -10,4 +10,6 @@ object Id {
 
 }
 
-trait Id[E <: Entity] extends Assoc[E]
+trait Id[E <: Entity] extends Assoc[E] {
+  def isPersisted = true
+}
