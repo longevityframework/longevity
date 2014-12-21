@@ -12,7 +12,8 @@ class InMemWikiRepoSpec extends InMemRepoSpec[Wiki] {
   private val repoLayer = new InMemRepoLayer
   def entityTypeName = "wiki"
   def repo = repoLayer.wikiRepo
-  def testEntityGen = domain.testUtils.testEntityGen.wiki _
+  def genTestEntity = domain.testUtils.testEntityGen.wiki _
+  def updateTestEntity = { e => e.copy(uri = e.uri + "77") }
   def persistedShouldMatchUnpersisted = entityMatchers.persistedWikiShouldMatchUnpersisted _
 
 }

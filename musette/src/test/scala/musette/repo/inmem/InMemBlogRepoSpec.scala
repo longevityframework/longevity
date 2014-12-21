@@ -12,7 +12,8 @@ class InMemBlogRepoSpec extends InMemRepoSpec[Blog] {
   private val repoLayer = new InMemRepoLayer
   def entityTypeName = "blog"
   def repo = repoLayer.blogRepo
-  def testEntityGen = domain.testUtils.testEntityGen.blog _
+  def genTestEntity = domain.testUtils.testEntityGen.blog _
+  def updateTestEntity = { e => e.copy(uri = e.uri + "77") }
   def persistedShouldMatchUnpersisted = entityMatchers.persistedBlogShouldMatchUnpersisted _
 
 }

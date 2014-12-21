@@ -12,9 +12,8 @@ class InMemCommentRepoSpec extends InMemRepoSpec[Comment] {
   private val repoLayer = new InMemRepoLayer
   def entityTypeName = "comment"
   def repo = repoLayer.commentRepo
-  def testEntityGen = domain.testUtils.testEntityGen.comment _
+  def genTestEntity = domain.testUtils.testEntityGen.comment _
+  def updateTestEntity = { e => e.copy(uri = e.uri + "77") }
   def persistedShouldMatchUnpersisted = entityMatchers.persistedCommentShouldMatchUnpersisted _
 
 }
-
-

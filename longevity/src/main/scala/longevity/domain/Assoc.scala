@@ -21,16 +21,18 @@ trait Assoc[E <: Entity] {
   /** prevent subtyping outside of longevity library */
   private[longevity] val _lock: Int
 
-  /** TODO scaladoc */
+  /** true whenever the assoc is with a persisted entity */
   def isPersisted: Boolean
 
-  /** TODO scaladoc */
+  /** retrieves a persisted entity from the assoc */
+  @throws[Assoc.AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
   def retrieve: E
 
-  /** TODO scaladoc */
+  /** retrieves an unpersisted entity from the assoc */
+  @throws[Assoc.AssocIsPersistedException[E]]("whenever the assoc is persisted")
   def unpersisted: E
 
-  /** TODO scaladoc */
+  /** gets the underlying assoc, whether persisted or not */
   def get: E
 }
 
