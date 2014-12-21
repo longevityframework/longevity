@@ -1,5 +1,8 @@
 package longevity.domain
 
+import scala.collection.TraversableLike
+import scala.collection.generic.CanBuildFrom
+import scala.language.higherKinds
 import scala.reflect.runtime.universe.TypeTag
 
 object EntityType {
@@ -18,12 +21,12 @@ object EntityType {
     def patchAssoc(e: E, patcher: Assoc[Associate] => Assoc[Associate]) = setter(e, patcher(getter(e)))
   }
 
-  // TODO generalize to traversable (or whichever best includes collections and options)
-  case class AssocSetLens[E <: Entity, Associate <: Entity](
-    getter: E => Set[Assoc[Associate]],
-    setter: (E, Set[Assoc[Associate]]) => E
+  case class AssocCollLens[E <: Entity, Associate <: Entity, I[X] <: TraversableLike[X,I[X]]](
+    getter: E => I[Assoc[Associate]],
+    setter: (E, I[Assoc[Associate]]) => E
   )(
-    implicit val associateTypeTag: TypeTag[Associate]
+    implicit val associateTypeTag: TypeTag[Associate],
+    implicit val cbf: CanBuildFrom[I[Assoc[Associate]], Assoc[Associate], I[Assoc[Associate]]]
   ) extends AssocLens[E, Associate] {
     def patchAssoc(e: E, patcher: Assoc[Associate] => Assoc[Associate]) =
       setter(e, getter(e) map patcher)
@@ -58,14 +61,15 @@ trait EntityType[E <: Entity] {
     EntityType.SingleAssocLens(getter, setter)
   }
 
-  protected def lensN[Associate <: Entity](
-    getter: E => Set[Assoc[Associate]]
+  protected def lensN[Associate <: Entity, I[X] <: TraversableLike[X,I[X]]](
+    getter: E => I[Assoc[Associate]]
   )(
-    setter: (E, Set[Assoc[Associate]]) => E
+    setter: (E, I[Assoc[Associate]]) => E
   )(
-    implicit associateTypeTag: TypeTag[Associate]
+    implicit associateTypeTag: TypeTag[Associate],
+    cbf: CanBuildFrom[I[Assoc[Associate]], Assoc[Associate], I[Assoc[Associate]]]
   ) = {
-    EntityType.AssocSetLens(getter, setter)
+    EntityType.AssocCollLens(getter, setter)
   }
 
   protected def lensO[Associate <: Entity](
