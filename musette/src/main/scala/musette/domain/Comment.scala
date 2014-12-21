@@ -2,10 +2,9 @@ package musette.domain
 
 import longevity.domain._
 
-/** content authored by a site user. */
 case class Comment(
   uri: Uri,
-  subject: Assoc[Content],
+  subject: Assoc[BlogPost],
   author: Assoc[User],
   content: Markdown
 )

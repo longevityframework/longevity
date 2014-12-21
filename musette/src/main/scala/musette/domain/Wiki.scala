@@ -11,4 +11,12 @@ case class Wiki(
 )
 extends SiteSection with Entity
 
-object Wiki extends EntityType[Wiki]
+object Wiki extends EntityType[Wiki] {
+
+  override val assocLenses =
+    lens1(_.site)({ (e, assoc) => e.copy(site = assoc) }) ::
+    lenss(_.authors)({ (e, assoc) => e.copy(authors = assoc) }) ::
+    Nil
+
+}
+

@@ -16,8 +16,10 @@ package object testEntityGen {
 
   def comment(): Comment = comment(blogPost())
 
-  // TODO: right now, user has her own site. take site from subject
-  def comment(subject: Content): Comment = Comment(uri(subject.uri), subject, user(), markdown())
+  def comment(subject: BlogPost): Comment = {
+    val site = subject.blog.get.site.get
+    Comment(uri(subject.uri), subject, user(site), markdown())
+  }
 
   def site() = Site(uri())
 

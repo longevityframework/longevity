@@ -18,6 +18,7 @@ object EntityType {
     def patchAssoc(e: E, patcher: Assoc[Associate] => Assoc[Associate]) = setter(e, patcher(getter(e)))
   }
 
+  // TODO generalize to traversable (or whichever best includes collections and options)
   case class AssocSetLens[E <: Entity, Associate <: Entity](
     getter: E => Set[Assoc[Associate]],
     setter: (E, Set[Assoc[Associate]]) => E

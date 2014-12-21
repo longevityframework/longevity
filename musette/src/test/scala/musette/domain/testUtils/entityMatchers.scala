@@ -15,6 +15,7 @@ package object entityMatchers extends Matchers {
     userSetsShouldMatch(persisted.authors, unpersisted.authors)
 
     // constraint: the site of the blog authors and the site of the blog should be the same
+    // TODO some way to enforce constraints like this
     persisted.authors.map(_.retrieve).foreach { user => user.site should equal (persisted.site) }
 
     persisted.slug should equal (unpersisted.slug)
@@ -26,7 +27,7 @@ package object entityMatchers extends Matchers {
     persistedBlogShouldMatchUnpersisted(persisted.blog.retrieve, unpersisted.blog.unpersisted)
     userSetsShouldMatch(persisted.authors, unpersisted.authors)
 
-    // constraint: the site of the blog authors and the site of the blog should be the same
+    // constraint: the site of the blog post authors and the site of the blog should be the same
     persisted.authors.map(_.retrieve).foreach { user => user.site should equal (persisted.blog.retrieve.site) }
 
     persisted.content should equal (unpersisted.content)
@@ -35,7 +36,15 @@ package object entityMatchers extends Matchers {
 
   def persistedCommentShouldMatchUnpersisted(persisted: Comment, unpersisted: Comment): Unit = {
     persisted.uri should equal (unpersisted.uri)
-    // TODO
+    persisted.subject.isPersisted should be (true)
+    persistedBlogPostShouldMatchUnpersisted(persisted.subject.retrieve, unpersisted.subject.unpersisted)
+    persisted.author.isPersisted should be (true)
+    persistedUserShouldMatchUnpersisted(persisted.author.retrieve, unpersisted.author.unpersisted)
+
+    // constraint: the site of the comment author and the site of the blog should be the same
+    persisted.author.retrieve.site should equal (persisted.subject.retrieve.blog.retrieve.site)
+
+    persisted.content should equal (unpersisted.content)
   }
 
   def persistedSiteShouldMatchUnpersisted(persisted: Site, unpersisted: Site): Unit = {
@@ -59,6 +68,31 @@ package object entityMatchers extends Matchers {
       uriToUnpersistedUserMap should contain key (user.uri)
       persistedUserShouldMatchUnpersisted(user, uriToUnpersistedUserMap(user.uri))
     }
+  }
+
+  def persistedWikiShouldMatchUnpersisted(persisted: Wiki, unpersisted: Wiki): Unit = {
+    persisted.uri should equal (unpersisted.uri)
+    persisted.site.isPersisted should be (true)
+    persistedSiteShouldMatchUnpersisted(persisted.site.retrieve, unpersisted.site.unpersisted)
+    userSetsShouldMatch(persisted.authors, unpersisted.authors)
+
+    // constraint: the site of the wiki authors and the site of the wiki should be the same
+    persisted.authors.map(_.retrieve).foreach { user => user.site should equal (persisted.site) }
+
+    persisted.slug should equal (unpersisted.slug)
+  }
+
+  def persistedWikiPageShouldMatchUnpersisted(persisted: WikiPage, unpersisted: WikiPage): Unit = {
+    persisted.uri should equal (unpersisted.uri)
+    persisted.wiki.isPersisted should be (true)
+    persistedWikiShouldMatchUnpersisted(persisted.wiki.retrieve, unpersisted.wiki.unpersisted)
+    userSetsShouldMatch(persisted.authors, unpersisted.authors)
+
+    // constraint: the site of the wiki page authors and the site of the wiki should be the same
+    persisted.authors.map(_.retrieve).foreach { user => user.site should equal (persisted.wiki.retrieve.site) }
+
+    persisted.content should equal (unpersisted.content)
+    persisted.slug should equal (unpersisted.slug)
   }
 
 }
