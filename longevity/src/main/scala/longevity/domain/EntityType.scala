@@ -29,6 +29,16 @@ object EntityType {
       setter(e, getter(e) map patcher)
   }
 
+  case class AssocOptLens[E <: Entity, Associate <: Entity](
+    getter: E => Option[Assoc[Associate]],
+    setter: (E, Option[Assoc[Associate]]) => E
+  )(
+    implicit val associateTypeTag: TypeTag[Associate]
+  ) extends AssocLens[E, Associate] {
+    def patchAssoc(e: E, patcher: Assoc[Associate] => Assoc[Associate]) =
+      setter(e, getter(e) map patcher)
+  }
+
 }
 
 /** an entity type */
@@ -48,7 +58,7 @@ trait EntityType[E <: Entity] {
     EntityType.SingleAssocLens(getter, setter)
   }
 
-  protected def lenss[Associate <: Entity](
+  protected def lensN[Associate <: Entity](
     getter: E => Set[Assoc[Associate]]
   )(
     setter: (E, Set[Assoc[Associate]]) => E
@@ -56,6 +66,16 @@ trait EntityType[E <: Entity] {
     implicit associateTypeTag: TypeTag[Associate]
   ) = {
     EntityType.AssocSetLens(getter, setter)
+  }
+
+  protected def lensO[Associate <: Entity](
+    getter: E => Option[Assoc[Associate]]
+  )(
+    setter: (E, Option[Assoc[Associate]]) => E
+  )(
+    implicit associateTypeTag: TypeTag[Associate]
+  ) = {
+    EntityType.AssocOptLens(getter, setter)
   }
 
 }
