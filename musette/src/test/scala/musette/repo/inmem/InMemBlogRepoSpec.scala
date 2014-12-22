@@ -2,11 +2,11 @@ package musette.repo.inmem
 
 import org.scalatest._
 import org.scalatest.OptionValues._
-import longevity.testUtils.InMemRepoSpec
+import longevity.testUtils.RepoSpec
 import musette.domain.testUtils._
 import musette.domain.Blog
 
-class InMemBlogRepoSpec extends InMemRepoSpec[Blog] {
+class InMemBlogRepoSpec extends RepoSpec[Blog] {
 
   private val repoLayer = new InMemRepoLayer
   def ename = "blog"

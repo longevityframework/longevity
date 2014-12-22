@@ -3,8 +3,9 @@ package longevity.repo
 import scala.reflect.runtime.universe.TypeTag
 import longevity.domain._
 
-/** an in-memory repository for entities of type E */
-abstract class InMemRepo[E <: Entity](
+// TODO: right now this is just a copy of InMemRepo
+/** a MongoDB repository for entities of type E */
+abstract class MongoRepo[E <: Entity](
   override val entityType: EntityType[E]
 )(
   implicit override val entityTypeTag: TypeTag[E]

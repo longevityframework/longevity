@@ -4,6 +4,7 @@ import scala.reflect.runtime.universe.TypeTag
 
 import longevity.domain._
 
+/** a repository for entities of type E */
 trait Repo[E <: Entity] {
 
   /** the class tag for the entities this repository handles */

@@ -5,9 +5,9 @@ import org.scalatest.OptionValues._
 import longevity.repo._
 import longevity.domain._
 
-/** A simple fixture to test your [[InMemRepo]]. all you have to do is extend this class and implement
- * the five abstract methods. */
-trait InMemRepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers {
+/** A simple fixture to test your [[Repo]]. all you have to do is extend this class and implement the five
+ * abstract methods. */
+trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers {
 
   /** the name of the entity type. to be used in test descriptions */
   def ename: String
