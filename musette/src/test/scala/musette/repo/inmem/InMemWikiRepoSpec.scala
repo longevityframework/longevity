@@ -9,7 +9,7 @@ import musette.domain.Wiki
 class InMemWikiRepoSpec extends InMemRepoSpec[Wiki] {
 
   private val repoLayer = new InMemRepoLayer
-  def entityTypeName = "wiki"
+  def ename = "wiki"
   def repo = repoLayer.wikiRepo
   def genTestEntity = testEntityGen.wiki _
   def updateTestEntity = { e => e.copy(uri = e.uri + "77") }

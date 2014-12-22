@@ -9,7 +9,7 @@ import musette.domain.Site
 class InMemSiteRepoSpec extends InMemRepoSpec[Site] {
 
   private val repoLayer = new InMemRepoLayer
-  def entityTypeName = "site"
+  def ename = "site"
   def repo = repoLayer.siteRepo
   def genTestEntity = testEntityGen.site _
   def updateTestEntity = { e => e.copy(uri = e.uri + "77") }

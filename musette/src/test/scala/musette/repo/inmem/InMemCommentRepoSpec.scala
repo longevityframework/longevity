@@ -9,7 +9,7 @@ import musette.domain.Comment
 class InMemCommentRepoSpec extends InMemRepoSpec[Comment] {
 
   private val repoLayer = new InMemRepoLayer
-  def entityTypeName = "comment"
+  def ename = "comment"
   def repo = repoLayer.commentRepo
   def genTestEntity = testEntityGen.comment _
   def updateTestEntity = { e => e.copy(uri = e.uri + "77") }

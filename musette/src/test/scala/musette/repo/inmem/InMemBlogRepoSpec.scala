@@ -9,7 +9,7 @@ import musette.domain.Blog
 class InMemBlogRepoSpec extends InMemRepoSpec[Blog] {
 
   private val repoLayer = new InMemRepoLayer
-  def entityTypeName = "blog"
+  def ename = "blog"
   def repo = repoLayer.blogRepo
   def genTestEntity = testEntityGen.blog _
   def updateTestEntity = { e => e.copy(uri = e.uri + "77") }

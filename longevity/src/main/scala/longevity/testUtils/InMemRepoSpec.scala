@@ -5,78 +5,94 @@ import org.scalatest.OptionValues._
 import longevity.repo._
 import longevity.domain._
 
+/** A simple fixture to test your [[InMemRepo]]. all you have to do is extend this class and implement
+ * the five abstract methods. */
 trait InMemRepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers {
 
-  def entityTypeName: String
+  /** the name of the entity type. to be used in test descriptions */
+  def ename: String
+
+  /** the repository under test */
   def repo: Repo[E]
+
+  /** generates an entity suitable for use in testing */
   def genTestEntity: () => E
-  def updateTestEntity: (E) => E // needs to be idempotent
+
+  /** make an update to an entity that is suitable for use in testing. this means that the change should be
+   * detectable by [[InMemRepoSpec.persistedShouldMatchUnpersisted]]. it also means that the change should be
+   * idempotent, in the sense that calling the function twice with the same input should produce the same
+   * result. */
+  def updateTestEntity: (E) => E
+
+  /** a function that uses ScalaTest matchers to check that two versions of the entity match. the first
+   * entity is the persisted, actual, version, and the second entity is the unpersisted, expected, version. */
   def persistedShouldMatchUnpersisted: (E, E) => Unit
 
-  feature(s"${entityTypeName}Repo.create") {
-    scenario(s"should produce a persisted $entityTypeName") {
-      Given(s"an unpersisted $entityTypeName")
+  feature(s"${ename}Repo.create") {
+    scenario(s"should produce a persisted $ename") {
+      Given(s"an unpersisted $ename")
       val unpersisted = genTestEntity()
-      When(s"we persist the $entityTypeName")
-      val persistentState = repo.create(unpersisted)
-      Then(s"we get back the $entityTypeName persistent state")
-      persistentState.isError should be (false)
-      persistentState shouldBe a [Persisted[_]]
-      persistedShouldMatchUnpersisted(persistentState.get, unpersisted)
-      And(s"further retrieval operations should retrieve the $entityTypeName")
-      val retrieved = repo.retrieve(persistentState.id)
+      When(s"we create the $ename")
+      val created = repo.create(unpersisted)
+      Then(s"we get back the $ename persistent state")
+      And(s"the persistent state should be `Persisted`")
+      created.isError should be (false)
+      created shouldBe a [Persisted[_]]
+      And(s"the persisted $ename should should match the original, unpersisted $ename")
+      persistedShouldMatchUnpersisted(created.get, unpersisted)
+      And(s"further retrieval operations should retrieve the same $ename")
+      val retrieved = repo.retrieve(created.id)
       retrieved shouldBe a [Persisted[_]]
       persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
     }
   }
 
-  feature(s"${entityTypeName}Repo.retrieve") {
-    scenario(s"should produce the same persisted $entityTypeName") {
-      Given(s"a persisted $entityTypeName")
+  feature(s"${ename}Repo.retrieve") {
+    scenario(s"should produce the same persisted $ename") {
+      Given(s"a persisted $ename")
       val unpersisted = genTestEntity()
       val created = repo.create(unpersisted)
-      When(s"we retrieve the $entityTypeName by id")
+      When(s"we retrieve the $ename by id")
       val retrieved = repo.retrieve(created.id)
-      Then(s"we get back the same $entityTypeName persistent state")
+      Then(s"we get back the same $ename persistent state")
       retrieved.isError should be (false)
       retrieved shouldBe a [Persisted[_]]
       persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
     }
   }
 
-  // TODO clean up the confusing language somehow
-  feature(s"${entityTypeName}Repo.update") {
-    scenario(s"should produce an updated persisted $entityTypeName") {
-      Given(s"a persisted $entityTypeName")
-      val originalUnpersisted = genTestEntity()
-      val updatedUnpersisted = updateTestEntity(originalUnpersisted)
-      val originalPersisted = repo.create(originalUnpersisted).asPersisted
-      When(s"we update the persisted $entityTypeName")
-      val updatedPersisted = originalPersisted.copy(updateTestEntity)
-      val updateResult = repo.update(updatedPersisted)
-      Then(s"we get back the updated $entityTypeName persistent state")
-      updateResult.isError should be (false)
-      updateResult shouldBe a [Persisted[_]]
-      persistedShouldMatchUnpersisted(updateResult.get, updatedUnpersisted)
+  feature(s"${ename}Repo.update") {
+    scenario(s"should produce an updated persisted $ename") {
+      Given(s"a persisted $ename")
+      val unpersistedOriginal = genTestEntity()
+      val unpersistedModified = updateTestEntity(unpersistedOriginal)
+      val created = repo.create(unpersistedOriginal).asPersisted
+      When(s"we update the persisted $ename")
+      val modified = created.copy(updateTestEntity)
+      val updated = repo.update(modified)
+      Then(s"we get back the updated $ename persistent state")
+      updated.isError should be (false)
+      updated shouldBe a [Persisted[_]]
+      persistedShouldMatchUnpersisted(updated.get, unpersistedModified)
       And(s"further retrieval operations should retrieve the updated copy")
-      val retrieved = repo.retrieve(updateResult.id)
+      val retrieved = repo.retrieve(updated.id)
       retrieved shouldBe a [Persisted[_]]
-      persistedShouldMatchUnpersisted(retrieved.get, updatedUnpersisted)
+      persistedShouldMatchUnpersisted(retrieved.get, unpersistedModified)
     }
   }
 
-  feature(s"${entityTypeName}Repo.delete") {
-    scenario(s"should deleted persisted $entityTypeName") {
-      Given(s"a persisted $entityTypeName")
+  feature(s"${ename}Repo.delete") {
+    scenario(s"should deleted persisted $ename") {
+      Given(s"a persisted $ename")
       val unpersisted = genTestEntity()
       val created = repo.create(unpersisted)
       created shouldBe a [Persisted[_]]
-      When(s"we delete the persisted $entityTypeName")
+      When(s"we delete the persisted $ename")
       val deleted = repo.delete(created)
       Then(s"we get back a Deleted persistent state")
       deleted shouldBe a [Deleted[_]]
       persistedShouldMatchUnpersisted(deleted.get, unpersisted)
-      And(s"we should no longer be able to retrieve the $entityTypeName")
+      And(s"we should no longer be able to retrieve the $ename")
       val retrieved = repo.retrieve(created.id)
       retrieved shouldBe a [NotFound[_]]
     }
