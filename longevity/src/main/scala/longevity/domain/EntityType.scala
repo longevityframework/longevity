@@ -7,79 +7,88 @@ import scala.reflect.runtime.universe.TypeTag
 
 object EntityType {
 
-  trait AssocLens[E <: Entity, Associate <: Entity] {
-    implicit val associateTypeTag: TypeTag[Associate]
-    def patchAssoc(e: E, patcher: Assoc[Associate] => Assoc[Associate]): E
+  // TODO scaladoc
+  trait AssocLens[Associator <: Entity, Associatee <: Entity] {
+    implicit val associateeTypeTag: TypeTag[Associatee]
+    def patchAssoc(associator: Associator, patcher: Assoc[Associatee] => Assoc[Associatee]): Associator
   }
 
-  case class SingleAssocLens[E <: Entity, Associate <: Entity](
-    getter: E => Assoc[Associate],
-    setter: (E, Assoc[Associate]) => E
+  case class SingleAssocLens[Associator <: Entity, Associatee <: Entity](
+    getter: Associator => Assoc[Associatee],
+    setter: (Associator, Assoc[Associatee]) => Associator
   )(
-    implicit val associateTypeTag: TypeTag[Associate]
-  ) extends AssocLens[E, Associate] {
-    def patchAssoc(e: E, patcher: Assoc[Associate] => Assoc[Associate]) = setter(e, patcher(getter(e)))
+    implicit val associateeTypeTag: TypeTag[Associatee]
+  ) extends AssocLens[Associator, Associatee] {
+    def patchAssoc(associator: Associator, patcher: Assoc[Associatee] => Assoc[Associatee]) =
+      setter(associator, patcher(getter(associator)))
   }
 
-  case class AssocCollLens[E <: Entity, Associate <: Entity, I[X] <: TraversableLike[X,I[X]]](
-    getter: E => I[Assoc[Associate]],
-    setter: (E, I[Assoc[Associate]]) => E
+  case class AssocCollectionLens[
+    Associator <: Entity,
+    Associatee <: Entity,
+    Collection[X] <: TraversableLike[X, Collection[X]]](
+    getter: Associator => Collection[Assoc[Associatee]],
+    setter: (Associator, Collection[Assoc[Associatee]]) => Associator
   )(
-    implicit val associateTypeTag: TypeTag[Associate],
-    implicit val cbf: CanBuildFrom[I[Assoc[Associate]], Assoc[Associate], I[Assoc[Associate]]]
-  ) extends AssocLens[E, Associate] {
-    def patchAssoc(e: E, patcher: Assoc[Associate] => Assoc[Associate]) =
-      setter(e, getter(e) map patcher)
+    implicit val associateeTypeTag: TypeTag[Associatee],
+    implicit val cbf: CanBuildFrom[
+      Collection[Assoc[Associatee]],
+      Assoc[Associatee],
+      Collection[Assoc[Associatee]]]
+  ) extends AssocLens[Associator, Associatee] {
+    def patchAssoc(associator: Associator, patcher: Assoc[Associatee] => Assoc[Associatee]) =
+      setter(associator, getter(associator) map patcher)
   }
 
-  case class AssocOptLens[E <: Entity, Associate <: Entity](
-    getter: E => Option[Assoc[Associate]],
-    setter: (E, Option[Assoc[Associate]]) => E
+  case class AssocOptionLens[Associator <: Entity, Associatee <: Entity](
+    getter: Associator => Option[Assoc[Associatee]],
+    setter: (Associator, Option[Assoc[Associatee]]) => Associator
   )(
-    implicit val associateTypeTag: TypeTag[Associate]
-  ) extends AssocLens[E, Associate] {
-    def patchAssoc(e: E, patcher: Assoc[Associate] => Assoc[Associate]) =
-      setter(e, getter(e) map patcher)
+    implicit val associateeTypeTag: TypeTag[Associatee]
+  ) extends AssocLens[Associator, Associatee] {
+    def patchAssoc(associator: Associator, patcher: Assoc[Associatee] => Assoc[Associatee]) =
+      setter(associator, getter(associator) map patcher)
   }
 
 }
 
-/** an entity type */
+/** an entity type.
+ * TODO scaladoc */
 trait EntityType[E <: Entity] {
 
-  // override me!
-  /** TODO scaladoc */
+  /** override me!
+   * TODO scaladoc */
   val assocLenses: List[EntityType.AssocLens[E, _ <: Entity]] = Nil
 
-  protected def lens1[Associate <: Entity](
-    getter: E => Assoc[Associate]
+  protected def lens1[Associatee <: Entity](
+    getter: E => Assoc[Associatee]
   )(
-    setter: (E, Assoc[Associate]) => E
+    setter: (E, Assoc[Associatee]) => E
   )(
-    implicit associateTypeTag: TypeTag[Associate]
+    implicit associateeTypeTag: TypeTag[Associatee]
   ) = {
     EntityType.SingleAssocLens(getter, setter)
   }
 
-  protected def lensN[Associate <: Entity, I[X] <: TraversableLike[X,I[X]]](
-    getter: E => I[Assoc[Associate]]
+  protected def lensN[Associatee <: Entity, Collection[X] <: TraversableLike[X, Collection[X]]](
+    getter: E => Collection[Assoc[Associatee]]
   )(
-    setter: (E, I[Assoc[Associate]]) => E
+    setter: (E, Collection[Assoc[Associatee]]) => E
   )(
-    implicit associateTypeTag: TypeTag[Associate],
-    cbf: CanBuildFrom[I[Assoc[Associate]], Assoc[Associate], I[Assoc[Associate]]]
+    implicit associateeTypeTag: TypeTag[Associatee],
+    cbf: CanBuildFrom[Collection[Assoc[Associatee]], Assoc[Associatee], Collection[Assoc[Associatee]]]
   ) = {
-    EntityType.AssocCollLens(getter, setter)
+    EntityType.AssocCollectionLens(getter, setter)
   }
 
-  protected def lensO[Associate <: Entity](
-    getter: E => Option[Assoc[Associate]]
+  protected def lensO[Associatee <: Entity](
+    getter: E => Option[Assoc[Associatee]]
   )(
-    setter: (E, Option[Assoc[Associate]]) => E
+    setter: (E, Option[Assoc[Associatee]]) => E
   )(
-    implicit associateTypeTag: TypeTag[Associate]
+    implicit associateeTypeTag: TypeTag[Associatee]
   ) = {
-    EntityType.AssocOptLens(getter, setter)
+    EntityType.AssocOptionLens(getter, setter)
   }
 
 }
