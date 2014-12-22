@@ -15,7 +15,12 @@ object Assoc {
 
 }
 
-/** an association between two domain entities */
+/** a unidirectional association between two domain entities. the left side of the association - that is,
+  * the holder of the `Assoc` instance - is known as the associator. the right side of the association is
+  * the associatee.
+  *
+  * 
+  */
 trait Assoc[E <: Entity] {
 
   /** prevent subtyping outside of longevity library */
@@ -24,11 +29,11 @@ trait Assoc[E <: Entity] {
   /** true whenever the assoc is with a persisted entity */
   def isPersisted: Boolean
 
-  /** retrieves a persisted entity from the assoc */
+  /** retrieves the persisted associatee from the assoc */
   @throws[Assoc.AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
   def retrieve: E
 
-  /** retrieves an unpersisted entity from the assoc */
+  /** retrieves an unpersisted associatee from the assoc */
   @throws[Assoc.AssocIsPersistedException[E]]("whenever the assoc is persisted")
   def unpersisted: E
 

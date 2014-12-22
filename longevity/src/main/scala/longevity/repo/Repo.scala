@@ -21,6 +21,9 @@ trait Repo[E <: Entity] {
   /** creates the entity */
   def create(e: Unpersisted[E]): CreateResult[E]
 
+  /** convenience method for creating the entity */
+  def create(e: E): CreateResult[E] = create(Unpersisted(e))
+
   /** retrieves the entity by id */
   def retrieve(id: Id[E]): RetrieveResult[E]
 

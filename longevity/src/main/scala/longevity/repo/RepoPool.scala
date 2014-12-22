@@ -29,16 +29,8 @@ class RepoPool {
     entityTypeTagToRepo += (entityTypeTag -> repo)
   }
 
-  // TODO not currently used
   @throws[RepoPool.NoRepoForEntityType[_]]
-  //private[repo] 
-  def repoForEntity[E <: Entity](e: E)(implicit typeTag: TypeTag[E]): Repo[E] = {
-    repoForEntityTypeTag(typeTag)
-  }
-
-  @throws[RepoPool.NoRepoForEntityType[_]]
-  //private[repo] 
-  def repoForEntityTypeTag[E <: Entity](entityTypeTag: TypeTag[E]): Repo[E] = {
+  private[repo] def repoForEntityTypeTag[E <: Entity](entityTypeTag: TypeTag[E]): Repo[E] = {
     if (!entityTypeTagToRepo.contains(entityTypeTag)) {
       throw new RepoPool.NoRepoForEntityType(entityTypeTag)
     }

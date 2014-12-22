@@ -42,10 +42,6 @@ sealed trait NonError[E <: Entity] extends EntityState[E] {
   def getOption = Some(e)
 }
 
-object Unpersisted {
-  implicit def unpersisted[E <: Entity](e: E): Unpersisted[E] = Unpersisted(e)
-}
-
 /** Any entity that hasn't been persisted yet. */
 case class Unpersisted[E <: Entity](e: E) extends NonError[E] {
   def copy(f: E => E) = Unpersisted(f(e))
