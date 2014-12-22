@@ -46,7 +46,7 @@ abstract class InMemRepo[E <: Entity](
 
   private def persistAssocPatcher[F <: Entity](assoc: Assoc[F])(implicit ftag: TypeTag[F]): Assoc[F] = {
     assoc match {
-      case AssocWithUnpersisted(u) =>
+      case UnpersistedAssoc(u) =>
         val repo = repoPool.repoForEntityTypeTag(ftag)
         val persisted = repo.create(u)
         persisted.id

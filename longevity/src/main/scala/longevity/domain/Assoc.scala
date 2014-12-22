@@ -4,8 +4,8 @@ import scala.language.implicitConversions
 
 object Assoc {
 
-  /** wraps an entity in a AssocWithUnpersisted when needed */
-  implicit def apply[E <: Entity](e: E): Assoc[E] = AssocWithUnpersisted(e)
+  /** wraps an entity in a UnpersistedAssoc when needed */
+  implicit def apply[E <: Entity](e: E): Assoc[E] = UnpersistedAssoc(e)
 
   class AssocIsUnpersistedException[E <: Entity](val assoc: Assoc[E])
   extends Exception("cannot retrieve from an unpersisted assoc")
@@ -41,7 +41,7 @@ trait Assoc[E <: Entity] {
   def get: E
 }
 
-case class AssocWithUnpersisted[E <: Entity](unpersisted: E) extends Assoc[E] {
+case class UnpersistedAssoc[E <: Entity](unpersisted: E) extends Assoc[E] {
   private[longevity] val _lock = 0
   def isPersisted = false
   def retrieve = throw new Assoc.AssocIsUnpersistedException(this)
