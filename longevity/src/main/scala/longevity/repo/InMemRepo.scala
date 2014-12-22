@@ -13,9 +13,8 @@ abstract class InMemRepo[E <: Entity](
 
   case class IntId(i: Int) extends Id[E] {
     private[longevity] val _lock = 0
-    def retrieve = repo.retrieve(this).get
+    def retrieve = repo.retrieve(this)
     def unpersisted = throw new Assoc.AssocIsPersistedException(this)
-    def get = retrieve
   }
 
   private var nextId = 0
