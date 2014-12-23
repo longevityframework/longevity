@@ -3,6 +3,8 @@ package longevity.repo
 import scala.language.implicitConversions
 import longevity.domain.Entity
 
+// TODO: rename this file
+
 object PersistentState {
 
   @throws[PersistentState.PersistentStateIsNotPersisted[_]]
@@ -65,33 +67,30 @@ sealed trait UpdateResult[E <: Entity] extends PersistentState[E]
 sealed trait DeleteResult[E <: Entity] extends PersistentState[E]
 
 object Persisted {
-
-  def apply[E <: Entity](id: Id[E], e: E): Persisted[E] = Persisted[E](id, e, 0L)
-
-  def apply[E <: Entity](id: Id[E], e: E, version: Long): Persisted[E] = Persisted[E](id, e, version, e, version)
-
+  def apply[E <: Entity](id: Id[E], e: E): Persisted[E] = Persisted[E](id, e, e)
 }
 
 case class Persisted[E <: Entity](
-  id: Id[E], orig: E, origVersion: Long, curr: E, currVersion: Long
+  id: Id[E],
+  orig: E,
+  curr: E
 )
 extends NonError[E] with CreateResult[E] with RetrieveResult[E] with UpdateResult[E] {
   protected val e = curr
-  def copy(f: E => E) = Persisted(id, orig, origVersion, f(curr), origVersion + 1)
+  def copy(f: E => E) = Persisted(id, orig, f(curr))
   def dirty = orig == curr
 }
 
 object Deleted {
-  def apply[E <: Entity](p: Persisted[E]): Deleted[E] =
-    Deleted(p.id, p.orig, p.origVersion, p.curr, p.currVersion)
+  def apply[E <: Entity](p: Persisted[E]): Deleted[E] = Deleted(p.id, p.orig)
 }
 
 case class Deleted[E <: Entity](
-  id: Id[E], orig: E, origVersion: Long, curr: E, currVersion: Long
+  id: Id[E],
+  e: E
 )
 extends NonError[E] with DeleteResult[E] {
-  protected val e = curr
-  def copy(f: E => E) = Persisted(id, orig, origVersion, f(curr), origVersion + 1)
+  def copy(f: E => E) = Deleted(id, e)
 }
 
 trait Error[E <: Entity] extends PersistentState[E] {

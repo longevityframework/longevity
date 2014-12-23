@@ -14,7 +14,6 @@ abstract class InMemRepo[E <: Entity](
   case class IntId(i: Int) extends Id[E] {
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this)
-    def unpersisted = throw new Assoc.AssocIsPersistedException(this)
   }
 
   private var nextId = 0
@@ -29,17 +28,15 @@ abstract class InMemRepo[E <: Entity](
   def retrieve(id: Id[E]) = idToEntityMap.getOrElse(id, NotFound(id))
 
   def update(persisted: Persisted[E]) =
-    persist(persisted.id, patchUnpersistedAssocs(persisted.curr), persisted.currVersion)
+    persist(persisted.id, patchUnpersistedAssocs(persisted.curr))
 
   def delete(persisted: Persisted[E]) = {
     idToEntityMap -= persisted.id
     Deleted(persisted)
   }
 
-  private def persist(id: Id[E], e: E): Persisted[E]= persist(id, e, 0L)
-
-  private def persist(id: Id[E], e: E, version: Long) = {
-      val persisted = Persisted[E](id, e, version)
+  private def persist(id: Id[E], e: E): Persisted[E] = {
+      val persisted = Persisted[E](id, e)
       idToEntityMap += (id -> persisted)
       persisted
   }

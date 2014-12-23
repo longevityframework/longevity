@@ -1,7 +1,6 @@
 package longevity.repo
 
 import scala.reflect.runtime.universe.TypeTag
-
 import longevity.domain._
 
 object RepoPool {
@@ -30,7 +29,9 @@ class RepoPool {
   }
 
   @throws[RepoPool.NoRepoForEntityType[_]]
-  private[repo] def repoForEntityTypeTag[E <: Entity](entityTypeTag: TypeTag[E]): Repo[E] = {
+  // TODO reinstate private
+  //private[repo] 
+  def repoForEntityTypeTag[E <: Entity](entityTypeTag: TypeTag[E]): Repo[E] = {
     if (!entityTypeTagToRepo.contains(entityTypeTag)) {
       throw new RepoPool.NoRepoForEntityType(entityTypeTag)
     }

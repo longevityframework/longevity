@@ -6,7 +6,7 @@ trait BuildSettings {
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "net.jsmscs",
     version := "0.0.0-SNAPSHOT",
-    scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
+    scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),//, "-Ylog-classpath"),
     scalaVersion := "2.11.4",
     resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
     libraryDependencies ++= Seq(
@@ -35,7 +35,9 @@ object MusetteBuild extends Build with BuildSettings {
   lazy val musette = Project(
     id = "musette",
     base = file("musette"),
-    settings = buildSettings
+    settings = buildSettings :+ (
+      libraryDependencies ++= Seq(
+        "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23"))
   ) dependsOn (longevity)
 
 }
