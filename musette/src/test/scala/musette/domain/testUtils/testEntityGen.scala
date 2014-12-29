@@ -34,7 +34,7 @@ object testEntityGen {
 
   def wikiPage(): WikiPage = wikiPage(wiki())
 
-  def wikiPage(wiki: Wiki): WikiPage = WikiPage(uri(wiki.uri), wiki.authors, wiki, markdown(), markdown())
+  def wikiPage(wiki: Wiki): WikiPage = WikiPage(uri(wiki.uri), wiki, wiki.authors, markdown(), markdown())
 
   @inline def email(): Email = string()
 

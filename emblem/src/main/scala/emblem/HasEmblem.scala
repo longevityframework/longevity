@@ -1,0 +1,3 @@
+package emblem
+
+trait HasEmblem

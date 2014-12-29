@@ -1,5 +1,6 @@
 package musette.domain
 
+import emblem._
 import longevity.domain._
 
 case class Comment(
@@ -13,6 +14,17 @@ extends Content with Entity {
 }
 
 object Comment extends EntityType[Comment] {
+
+  val emblem = new Emblem[Comment](
+    "musette.domain",
+    "Comment",
+    Seq(
+      new EmblemProp[Comment, Uri]("uri", _.uri, (p, uri) => p.copy(uri = uri)),
+      new EmblemProp[Comment, Assoc[BlogPost]]("subject", _.subject, (p, subject) => p.copy(subject = subject)),
+      new EmblemProp[Comment, Assoc[User]]("author", _.author, (p, author) => p.copy(author = author)),
+      new EmblemProp[Comment, Markdown]("content", _.content, (p, content) => p.copy(content = content))
+    )
+  )
 
   override val assocLenses =
     lens1(_.subject)({ (e, assoc) => e.copy(subject = assoc) }) ::

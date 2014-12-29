@@ -1,5 +1,6 @@
 package musette.domain
 
+import emblem._
 import longevity.domain._
 
 /** a website. */
@@ -8,4 +9,14 @@ case class Site(
 )
 extends Entity
 
-object Site extends EntityType[Site]
+object Site extends EntityType[Site] {
+
+  val emblem = new Emblem[Site](
+    "musette.domain",
+    "Site",
+    Seq(
+      new EmblemProp[Site, Uri]("uri", _.uri, (p, uri) => p.copy(uri = uri))
+    )
+  )
+
+}

@@ -1,4 +1,6 @@
 package longevity.domain
 
+import emblem.HasEmblem
+
 /** a domain entity */
-trait Entity
+trait Entity extends HasEmblem

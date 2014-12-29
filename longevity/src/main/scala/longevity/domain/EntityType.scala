@@ -4,6 +4,7 @@ import scala.collection.TraversableLike
 import scala.collection.generic.CanBuildFrom
 import scala.language.higherKinds
 import scala.reflect.runtime.universe.TypeTag
+import emblem.Emblem
 
 object EntityType {
 
@@ -55,6 +56,8 @@ object EntityType {
 /** an entity type.
  * TODO scaladoc */
 trait EntityType[E <: Entity] {
+
+  val emblem: Emblem[E]
 
   /** override me!
    * TODO scaladoc */

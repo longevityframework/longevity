@@ -6,12 +6,13 @@ trait BuildSettings {
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "net.jsmscs",
     version := "0.0.0-SNAPSHOT",
-    scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),//, "-Ylog-classpath"),
+    scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
     scalaVersion := "2.11.4",
     resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
     libraryDependencies ++= Seq(
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value withSources() withJavadoc(),
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+      // easymock not currently used
       "org.easymock" % "easymockclassextension" % "3.2" % "test"))
 
 }
@@ -22,7 +23,14 @@ object MusetteBuild extends Build with BuildSettings {
     id = "root",
     base = file("."),
     settings = buildSettings
-  ) aggregate (longevity, musette)
+  ) aggregate (emblem, longevity, musette)
+
+  lazy val emblem = Project(
+    id = "emblem",
+    base = file("emblem"),
+    settings = buildSettings :+ (
+      libraryDependencies ++= Seq(
+        "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23" % "provided")))
 
   lazy val longevity = Project(
     id = "longevity",
@@ -30,7 +38,8 @@ object MusetteBuild extends Build with BuildSettings {
     settings = buildSettings :+ (
       libraryDependencies ++= Seq(
         "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23",
-        "org.scalatest" %% "scalatest" % "2.2.1" % "provided")))
+        "org.scalatest" %% "scalatest" % "2.2.1" % "provided"))
+  ) dependsOn (emblem)
 
   lazy val musette = Project(
     id = "musette",
@@ -38,6 +47,7 @@ object MusetteBuild extends Build with BuildSettings {
     settings = buildSettings :+ (
       libraryDependencies ++= Seq(
         "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23"))
-  ) dependsOn (longevity)
+  ) dependsOn (emblem, longevity)
+  // in the future, this dependsOn emblem may go away
 
 }

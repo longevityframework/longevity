@@ -42,7 +42,7 @@ trait Assoc[E <: Entity] {
   def retrieve: RetrieveResult[E]
 
   /** retrieves the persisted associatee from the assoc */
-  @inline
+  //@inline
   @throws[Assoc.AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
   final def persisted: E = retrieve.get
 
@@ -51,7 +51,7 @@ trait Assoc[E <: Entity] {
   def unpersisted: E
 
   /** gets the underlying assoc, whether persisted or not */
-  @inline
+  //@inline
   final def get: E = if (isPersisted) persisted else unpersisted
 }
 
