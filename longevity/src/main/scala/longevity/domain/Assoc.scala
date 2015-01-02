@@ -1,5 +1,6 @@
 package longevity.domain
 
+import scala.reflect.runtime.universe._
 import scala.language.implicitConversions
 import longevity.repo.RetrieveResult
 
@@ -9,7 +10,7 @@ object Assoc {
    * that has not been persisted. it is made implicit so your code isn't littered with `Assoc(_)` calls
    * everywhere. this ought not to be confusing, as there is no other sensible way to embed one entity into
    * another. */
-  implicit def apply[E <: Entity](e: E): Assoc[E] = UnpersistedAssoc(e)
+  implicit def apply[E <: Entity : TypeTag](e: E): Assoc[E] = UnpersistedAssoc(e)
 
   class AssocIsUnpersistedException[E <: Entity](val assoc: Assoc[E])
   extends Exception("cannot retrieve from an unpersisted assoc")
@@ -32,6 +33,8 @@ object Assoc {
  * lookup. */
 trait Assoc[E <: Entity] {
 
+  val associateeTypeTag: TypeTag[E]
+
   /** prevent subtyping outside of longevity library */
   private[longevity] val _lock: Int
 
@@ -51,11 +54,12 @@ trait Assoc[E <: Entity] {
   def unpersisted: E
 
   /** gets the underlying assoc, whether persisted or not */
-  //@inline
+  @inline
   final def get: E = if (isPersisted) persisted else unpersisted
 }
 
-case class UnpersistedAssoc[E <: Entity](unpersisted: E) extends Assoc[E] {
+case class UnpersistedAssoc[E <: Entity : TypeTag](unpersisted: E) extends Assoc[E] {
+  val associateeTypeTag = typeTag[E]
   private[longevity] val _lock = 0
   def isPersisted = false
   def retrieve = throw new Assoc.AssocIsUnpersistedException(this)

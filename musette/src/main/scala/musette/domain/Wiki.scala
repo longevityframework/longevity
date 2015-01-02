@@ -25,10 +25,5 @@ object Wiki extends EntityType[Wiki] {
     )
   )
 
-  override val assocLenses =
-    lens1(emblem[Assoc[Site]]("site")) ::
-    lensN(_.authors)({ (e, assoc) => e.copy(authors = assoc) }) ::
-    Nil
-
 }
 

@@ -56,22 +56,22 @@ trait Repo[E <: Entity] {
 
   /** returns a version of the entity where all unpersisted associations are persisted */
   protected def patchUnpersistedAssocs(e: E): E = {
-    entityType.assocLenses.foldLeft(e) { (e, lens) =>
-      patchUnpersistedAssoc(e, lens)
+    val e2 = entityType.assocProps.foldLeft(e) { (e, prop) =>
+      prop.set(e, persistAssocWhenUnpersisted(prop.get(e)))
     }
+    val e3 = entityType.assocSetProps.foldLeft(e2) { (e, prop) =>
+      prop.set(e, prop.get(e) map { associatee => persistAssocWhenUnpersisted(associatee) })
+    }
+    val e4 = entityType.assocOptionProps.foldLeft(e3) { (e, prop) =>
+      prop.set(e, prop.get(e) map { associatee => persistAssocWhenUnpersisted(associatee) })
+    }
+    e4
   }
 
-  private def patchUnpersistedAssoc[F <: Entity](e: E, lens: EntityType.AssocLens[E, F]): E = {
-    implicit val associateeTypeTag: TypeTag[F] = lens.associateeTypeTag
-    lens.patchAssoc(e, persistAssocWhenUnpersisted)
-  }
-
-  private def persistAssocWhenUnpersisted[Associatee <: Entity](assoc: Assoc[Associatee])(
-    implicit associateeTypeTag: TypeTag[Associatee]
-  ): Assoc[Associatee] = {
+  private def persistAssocWhenUnpersisted[Associatee <: Entity](assoc: Assoc[Associatee]): Assoc[Associatee] = {
     assoc match {
       case UnpersistedAssoc(u) =>
-        val repo = repoPool.repoForEntityTypeTag(associateeTypeTag)
+        val repo = repoPool.repoForEntityTypeTag(assoc.associateeTypeTag)
         val persisted = repo.create(u)
         persisted.id
       case _ => assoc

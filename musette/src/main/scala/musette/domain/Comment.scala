@@ -26,9 +26,4 @@ object Comment extends EntityType[Comment] {
     )
   )
 
-  override val assocLenses =
-    lens1(emblem[Assoc[BlogPost]]("subject")) ::
-    lens1(emblem[Assoc[User]]("author")) ::
-    Nil
-
 }

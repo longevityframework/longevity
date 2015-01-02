@@ -26,9 +26,5 @@ object User extends EntityType[User] {
     )
   )
 
-  override val assocLenses =
-    lens1(emblem[Assoc[Site]]("site")) ::
-    Nil
-
 }
 

@@ -4,7 +4,7 @@ import scala.reflect.runtime.universe.TypeRef
 import scala.reflect.runtime.universe.TypeTag
 import stringUtil._
 
-class EmblemProp[T <: HasEmblem, U : TypeTag](
+class EmblemProp[T <: HasEmblem : TypeTag, U : TypeTag](
   val name: String,
   val get: (T) => U,
   val set: (T, U) => T

@@ -12,6 +12,7 @@ abstract class InMemRepo[E <: Entity](
   repo =>
 
   case class IntId(i: Int) extends Id[E] {
+    val associateeTypeTag = repo.entityTypeTag
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this)
   }

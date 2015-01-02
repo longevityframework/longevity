@@ -28,9 +28,4 @@ object BlogPost extends EntityType[BlogPost] {
     )
   )
 
-  override val assocLenses =
-    lens1(emblem[Assoc[Blog]]("blog")) ::
-    lensN(_.authors)({ (e, assoc) => e.copy(authors = assoc) }) ::
-    Nil
-
 }

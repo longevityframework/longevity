@@ -18,6 +18,7 @@ abstract class MongoRepo[E <: Entity](
 
   // TODO better names for this part of the hierarchy
   case class MongoId(objectId: BSONObjectID) extends Id[E] {
+    val associateeTypeTag = repo.entityTypeTag
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this)
   }
