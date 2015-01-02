@@ -14,7 +14,7 @@ extends SiteSection with Entity
 
 object Wiki extends EntityType[Wiki] {
 
-  val emblem = new Emblem[Wiki](
+  lazy val emblem = new Emblem[Wiki](
     "musette.domain",
     "Wiki",
     Seq(
@@ -26,7 +26,7 @@ object Wiki extends EntityType[Wiki] {
   )
 
   override val assocLenses =
-    lens1(_.site)({ (e, assoc) => e.copy(site = assoc) }) ::
+    lens1(emblem[Assoc[Site]]("site")) ::
     lensN(_.authors)({ (e, assoc) => e.copy(authors = assoc) }) ::
     Nil
 

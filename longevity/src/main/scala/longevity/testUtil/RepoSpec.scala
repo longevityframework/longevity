@@ -1,4 +1,4 @@
-package longevity.testUtils
+package longevity.testUtil
 
 import org.scalatest._
 import org.scalatest.OptionValues._

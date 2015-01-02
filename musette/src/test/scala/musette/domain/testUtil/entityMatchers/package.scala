@@ -1,4 +1,4 @@
-package musette.domain.testUtils
+package musette.domain.testUtil
 
 import org.scalatest._
 import longevity.domain.Assoc

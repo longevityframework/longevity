@@ -3,14 +3,13 @@ package emblem
 import scala.reflect.runtime.universe.TypeTag
 import stringUtil._
 
-class Emblem[T <: HasEmblem](
+class Emblem[T <: HasEmblem : TypeTag](
   val namePrefix: String,
   val name: String,
   val props: Seq[EmblemProp[T, _]]
-)(
-  implicit val typeTag: TypeTag[T]
 ) {
 
+  lazy val typeTag: TypeTag[T] = scala.reflect.runtime.universe.typeTag[T]
   lazy val fullname = s"$namePrefix.$name"
 
   val propMap: Map[String, EmblemProp[T, _]] = props.view.map(prop => prop.name -> prop).toMap

@@ -1,4 +1,4 @@
-package musette.domain.testUtils
+package musette.domain.testUtil
 
 import musette.domain._
 

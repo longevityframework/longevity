@@ -6,7 +6,7 @@ import scala.reflect.runtime.universe.typeTag
 import org.scalatest._
 import org.scalatest.OptionValues._
 
-import testUtils._
+import testUtil._
 
 class RepoPoolSpec extends FeatureSpec with GivenWhenThen with Matchers {
 

@@ -11,7 +11,7 @@ extends Entity
 
 object Site extends EntityType[Site] {
 
-  val emblem = new Emblem[Site](
+  lazy val emblem = new Emblem[Site](
     "musette.domain",
     "Site",
     Seq(

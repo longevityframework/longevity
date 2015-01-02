@@ -2,8 +2,8 @@ package musette.repo.mongo
 
 import org.scalatest._
 import org.scalatest.OptionValues._
-import longevity.testUtils.RepoSpec
-import musette.domain.testUtils._
+import longevity.testUtil.RepoSpec
+import musette.domain.testUtil._
 import musette.domain.User
 
 class MongoUserRepoSpec extends RepoSpec[User] {

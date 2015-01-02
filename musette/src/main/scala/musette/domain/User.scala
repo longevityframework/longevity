@@ -14,7 +14,7 @@ extends Entity
 
 object User extends EntityType[User] {
 
-  val emblem = new Emblem[User](
+  lazy val emblem = new Emblem[User](
     "musette.domain",
     "User",
     Seq(
@@ -27,7 +27,7 @@ object User extends EntityType[User] {
   )
 
   override val assocLenses =
-    lens1(_.site)({ (e, assoc) => e.copy(site = assoc) }) ::
+    lens1(emblem[Assoc[Site]]("site")) ::
     Nil
 
 }

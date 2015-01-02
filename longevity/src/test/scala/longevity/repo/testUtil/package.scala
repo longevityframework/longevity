@@ -5,7 +5,7 @@ import scala.reflect.runtime.universe.TypeTag
 import emblem._
 import longevity.domain._
 
-object testUtils {
+object testUtil {
 
   class DummyRepo[E <: Entity](
     override val entityType: EntityType[E],
@@ -23,8 +23,8 @@ object testUtils {
 
   object User extends EntityType[User] {
 
-    val emblem = new Emblem[User](
-      "longevity.repo.testUtils",
+    lazy val emblem = new Emblem[User](
+      "longevity.repo.testUtil",
       "User",
       Seq(
         new EmblemProp[User, String]("name", _.name, (p, name) => p.copy(name = name))
@@ -37,15 +37,14 @@ object testUtils {
 
   object Post extends EntityType[Post] {
 
-    val emblem = new Emblem[Post](
-      "longevity.repo.testUtils",
+    lazy val emblem = new Emblem[Post](
+      "longevity.repo.testUtil",
       "Post",
       Seq(
         new EmblemProp[Post, Assoc[User]]("author", _.author, (p, author) => p.copy(author = author)),
         new EmblemProp[Post, String]("content", _.content, (p, content) => p.copy(content = content))
       )
     )
-
   }
 
 }

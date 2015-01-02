@@ -43,26 +43,4 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
          |}""".stripMargin)
   }
 
-  val point = Point(3.0, 4.0)
-
-  it should "allow getter access through the props" in {
-    PointEmblem[Double]("x").get(point) should equal (3.0)
-    PointEmblem[Double]("y").get(point) should equal (4.0)
-  }
-
-  it should "allow setter access through the props" in {
-    PointEmblem[Double]("x").set(point, 5.0) should equal (Point(5.0, 4.0))
-    PointEmblem[Double]("y").set(point, 5.0) should equal (Point(3.0, 5.0))
-  }
-
-  it should "allow getter access through accessors" in {
-    PointEmblem.x.get(point) should equal (3.0)
-    PointEmblem.y.get(point) should equal (4.0)
-  }
-
-  it should "allow setter access through accessors" in {
-    PointEmblem.x.set(point, 5.0) should equal (Point(5.0, 4.0))
-    PointEmblem.y.set(point, 5.0) should equal (Point(3.0, 5.0))
-  }
-
 }

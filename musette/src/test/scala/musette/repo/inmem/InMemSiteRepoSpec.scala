@@ -2,8 +2,8 @@ package musette.repo.inmem
 
 import org.scalatest._
 import org.scalatest.OptionValues._
-import longevity.testUtils.RepoSpec
-import musette.domain.testUtils._
+import longevity.testUtil.RepoSpec
+import musette.domain.testUtil._
 import musette.domain.Site
 
 class InMemSiteRepoSpec extends RepoSpec[Site] {

@@ -15,7 +15,7 @@ extends Content with Entity {
 
 object Comment extends EntityType[Comment] {
 
-  val emblem = new Emblem[Comment](
+  lazy val emblem = new Emblem[Comment](
     "musette.domain",
     "Comment",
     Seq(
@@ -27,8 +27,8 @@ object Comment extends EntityType[Comment] {
   )
 
   override val assocLenses =
-    lens1(_.subject)({ (e, assoc) => e.copy(subject = assoc) }) ::
-    lens1(_.author)({ (e, assoc) => e.copy(author = assoc) }) ::
+    lens1(emblem[Assoc[BlogPost]]("subject")) ::
+    lens1(emblem[Assoc[User]]("author")) ::
     Nil
 
 }
