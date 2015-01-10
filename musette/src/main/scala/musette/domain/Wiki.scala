@@ -22,7 +22,8 @@ object Wiki extends EntityType[Wiki] {
       new EmblemProp[Wiki, Assoc[Site]]("site", _.site, (p, site) => p.copy(site = site)),
       new EmblemProp[Wiki, Set[Assoc[User]]]("authors", _.authors, (p, authors) => p.copy(authors = authors)),
       new EmblemProp[Wiki, Markdown]("slug", _.slug, (p, slug) => p.copy(slug = slug))
-    )
+    ),
+    Wiki(null: String, null: Assoc[Site], null: Set[Assoc[User]], null: String)
   )
 
 }

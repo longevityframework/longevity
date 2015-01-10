@@ -5,14 +5,6 @@ import longevity.repo._
 import musette.domain._
 import musette.repo.BlogRepo
 
-class MongoBlogRepo(
-  implicit override protected val repoPool: RepoPool
-)
-extends MongoRepo[Blog](Blog)
-with BlogRepo {
-
-  private implicit val siteHandler = assocHandler[Site]
-  private implicit val userHandler = assocHandler[User]
-  protected implicit val bsonHandler = Macros.handler[Blog]
-
-}
+class MongoBlogRepo(implicit repoPool: RepoPool)
+extends MusetteMongoRepo[Blog](Blog)
+with BlogRepo

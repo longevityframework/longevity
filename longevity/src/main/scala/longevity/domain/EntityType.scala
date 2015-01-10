@@ -17,7 +17,7 @@ trait EntityType[E <: Entity] {
 
   private[longevity] val assocProps: Seq[EmblemProp[E, Assoc[_ <: Entity]]] = {
     emblem.props.flatMap { prop =>
-      if (prop.typeTag.tpe <:< typeTag[Assoc[_]].tpe)
+      if (prop.typeKey.tag.tpe <:< typeOf[Assoc[_]])
         Some(prop.asInstanceOf[EmblemProp[E, Assoc[_ <: Entity]]])
       else
         None
@@ -27,8 +27,8 @@ trait EntityType[E <: Entity] {
   private[longevity] val assocSetProps: Seq[EmblemProp[E, Set[Assoc[_ <: Entity]]]] = {
     emblem.props.flatMap { prop =>
       if (
-        prop.typeTag.tpe <:< typeTag[Set[_]].tpe &&
-        prop.typeTag.tpe.typeArgs.head <:< typeTag[Assoc[_]].tpe)
+        prop.typeKey.tag.tpe <:< typeOf[Set[_]] &&
+        prop.typeKey.tag.tpe.typeArgs.head <:< typeOf[Assoc[_]])
         Some(prop.asInstanceOf[EmblemProp[E, Set[Assoc[_ <: Entity]]]])
       else
         None
@@ -39,7 +39,7 @@ trait EntityType[E <: Entity] {
 
   private[longevity] val assocOptionProps: Seq[EmblemProp[E, Option[Assoc[_ <: Entity]]]] = {
     emblem.props.flatMap { prop =>
-      if (prop.typeTag.tpe <:< typeTag[Option[Assoc[_]]].tpe)
+      if (prop.typeKey.tag.tpe <:< typeOf[Option[Assoc[_]]])
         Some(prop.asInstanceOf[EmblemProp[E, Option[Assoc[_ <: Entity]]]])
       else
         None

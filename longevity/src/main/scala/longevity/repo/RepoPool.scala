@@ -3,6 +3,8 @@ package longevity.repo
 import scala.reflect.runtime.universe.TypeTag
 import longevity.domain._
 
+// TODO s/ypeTag/ypeKey/
+
 object RepoPool {
 
   class MultipleReposForEntityType[E <: Entity](val repo1: Repo[E], val repo2: Repo[E])
@@ -17,6 +19,9 @@ object RepoPool {
 class RepoPool {
 
   private var entityTypeTagToRepo = Map[TypeTag[_], Repo[_]]()
+
+  // TODO: replace this
+  def entityTypeTags = entityTypeTagToRepo.keys.asInstanceOf[Set[TypeTag[_ <: Entity]]]
 
   /** adds a repo to the repo pool for entity type E. */
   @throws[RepoPool.MultipleReposForEntityType[_]]

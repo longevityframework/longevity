@@ -23,7 +23,8 @@ object Comment extends EntityType[Comment] {
       new EmblemProp[Comment, Assoc[BlogPost]]("subject", _.subject, (p, subject) => p.copy(subject = subject)),
       new EmblemProp[Comment, Assoc[User]]("author", _.author, (p, author) => p.copy(author = author)),
       new EmblemProp[Comment, Markdown]("content", _.content, (p, content) => p.copy(content = content))
-    )
+    ),
+    Comment(null: String, null, null, null: String)
   )
 
 }

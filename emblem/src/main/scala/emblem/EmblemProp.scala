@@ -4,14 +4,14 @@ import scala.reflect.runtime.universe.TypeRef
 import scala.reflect.runtime.universe.TypeTag
 import stringUtil._
 
-class EmblemProp[T <: HasEmblem : TypeTag, U : TypeTag](
+case class EmblemProp[T <: HasEmblem : TypeKey, U : TypeKey](
   val name: String,
   val get: (T) => U,
   val set: (T, U) => T
 ) {
 
-  lazy val typeTag: TypeTag[U] = scala.reflect.runtime.universe.typeTag[U]
+  lazy val typeKey: TypeKey[U] = implicitly[TypeKey[U]]
 
-  override def toString: String = s"$name: ${typeTag.tpe.toString}"
+  override def toString: String = s"$name: ${typeKey.tpe}"
 
 }

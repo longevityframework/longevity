@@ -23,7 +23,8 @@ object User extends EntityType[User] {
       new EmblemProp[User, Email]("email", _.email, (p, email) => p.copy(email = email)),
       new EmblemProp[User, String]("handle", _.handle, (p, handle) => p.copy(handle = handle)),
       new EmblemProp[User, Markdown]("slug", _.slug, (p, slug) => p.copy(slug = slug))
-    )
+    ),
+    User(null: String, null, null: String, null, null: String)
   )
 
 }

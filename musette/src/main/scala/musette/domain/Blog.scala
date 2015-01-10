@@ -22,7 +22,8 @@ object Blog extends EntityType[Blog] {
       new EmblemProp[Blog, Assoc[Site]]("site", _.site, (p, site) => p.copy(site = site)),
       new EmblemProp[Blog, Set[Assoc[User]]]("authors", _.authors, (p, authors) => p.copy(authors = authors)),
       new EmblemProp[Blog, Markdown]("slug", _.slug, (p, slug) => p.copy(slug = slug))
-    )
+    ),
+    Blog(null: String, null, null, null: String)
   )
 
 }

@@ -28,7 +28,8 @@ object testUtil {
       "User",
       Seq(
         new EmblemProp[User, String]("name", _.name, (p, name) => p.copy(name = name))
-      )
+      ),
+      User(null)
     )
 
   }
@@ -43,7 +44,8 @@ object testUtil {
       Seq(
         new EmblemProp[Post, Assoc[User]]("author", _.author, (p, author) => p.copy(author = author)),
         new EmblemProp[Post, String]("content", _.content, (p, content) => p.copy(content = content))
-      )
+      ),
+      Post(null, null)
     )
   }
 

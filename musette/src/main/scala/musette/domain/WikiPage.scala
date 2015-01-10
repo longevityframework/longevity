@@ -25,7 +25,8 @@ object WikiPage extends EntityType[WikiPage] {
         "authors", _.authors, (p, authors) => p.copy(authors = authors)),
       new EmblemProp[WikiPage, Markdown]("content", _.content, (p, content) => p.copy(content = content)),
       new EmblemProp[WikiPage, Markdown]("slug", _.slug, (p, slug) => p.copy(slug = slug))
-    )
+    ),
+    WikiPage(null: String, null: Assoc[Wiki], null: Set[Assoc[User]], null: String, null: String)
   )
 
 }

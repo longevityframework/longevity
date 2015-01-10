@@ -25,7 +25,8 @@ object BlogPost extends EntityType[BlogPost] {
         "authors", _.authors, (p, authors) => p.copy(authors = authors)),
       new EmblemProp[BlogPost, Markdown]("content", _.content, (p, content) => p.copy(content = content)),
       new EmblemProp[BlogPost, Markdown]("slug", _.slug, (p, slug) => p.copy(slug = slug))
-    )
+    ),
+    BlogPost(null: String, null, null, null: String, null: String)
   )
 
 }

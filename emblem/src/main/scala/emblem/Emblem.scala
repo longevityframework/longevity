@@ -3,10 +3,13 @@ package emblem
 import scala.reflect.runtime.universe.TypeTag
 import stringUtil._
 
+// TODO s/ypeTag/ypeKey/
+
 class Emblem[T <: HasEmblem : TypeTag](
   val namePrefix: String,
   val name: String,
-  val props: Seq[EmblemProp[T, _]]
+  val props: Seq[EmblemProp[T, _]],
+  val nullInstance: T
 ) {
 
   lazy val typeTag: TypeTag[T] = scala.reflect.runtime.universe.typeTag[T]

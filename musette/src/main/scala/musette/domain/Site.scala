@@ -16,7 +16,8 @@ object Site extends EntityType[Site] {
     "Site",
     Seq(
       new EmblemProp[Site, Uri]("uri", _.uri, (p, uri) => p.copy(uri = uri))
-    )
+    ),
+    Site(null: String)
   )
 
 }

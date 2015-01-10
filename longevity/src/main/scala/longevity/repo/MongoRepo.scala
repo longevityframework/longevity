@@ -1,16 +1,19 @@
 package longevity.repo
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.reflect.runtime.universe.TypeTag
 import scala.util.Failure
 import scala.util.Success
 import reactivemongo.api.MongoDriver
 import reactivemongo.bson._
+import emblem._
 import emblem.stringUtil._
 import longevity.domain._
 
 /** a MongoDB repository for entities of type E */
 abstract class MongoRepo[E <: Entity](
-  override val entityType: EntityType[E]
+  override val entityType: EntityType[E],
+  protected val domainShorthands: ShorthandPool = ShorthandPool()
 )(
   implicit override val entityTypeTag: TypeTag[E]
 ) extends Repo[E] {
@@ -23,24 +26,10 @@ abstract class MongoRepo[E <: Entity](
     def retrieve = repo.retrieve(this)
   }
 
-  import scala.concurrent.ExecutionContext.Implicits.global
   private lazy val collectionName: String = camelToUnderscores(typeName(entityTypeTag))
   private val mongoCollection = MongoRepo.db.collection(collectionName)
 
-  implicit def assocHandler[Associatee <: Entity : TypeTag]
-  : BSONHandler[BSONObjectID, Assoc[Associatee]] = new BSONHandler[BSONObjectID, Assoc[Associatee]] {
-
-    // TODO: get rid of asInstanceOf by tightening type on repo pools and repo layers
-    lazy val associateeRepo =
-      repoPool.repoForEntityTypeTag(implicitly[TypeTag[Associatee]]).asInstanceOf[MongoRepo[Associatee]]
-
-    def read(objectId: BSONObjectID) = associateeRepo.MongoId(objectId)
-
-    // TODO convert class cast into some kind of longevity error
-    def write(assoc: Assoc[Associatee]) = assoc.asInstanceOf[associateeRepo.MongoId].objectId
-  }
-
-  protected implicit val bsonHandler: BSONDocumentReader[E] with BSONDocumentWriter[E]
+  protected implicit lazy val bsonHandler = new EmblemBsonHandler(entityType.emblem, domainShorthands, repoPool)
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
     val e = patchUnpersistedAssocs(unpersisted.e)
