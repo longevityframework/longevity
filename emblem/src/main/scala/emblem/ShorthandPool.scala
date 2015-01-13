@@ -1,29 +1,32 @@
 package emblem
 
-import scala.reflect.runtime.universe._
+/** a glorified sequence of [[Shorthand shorthands]] that provides for shorthand lookup by type key.
+ * we only provide lookup by the longhand type, since it is epected that multiple longhand types will
+ * map to the same shorthand type.
+ *
+ * A shorthand pool requires that no two shorthands have the same Long type.
+ *
+ * @param shorthands the sequence of shorthands stored in the pool
+ * @throws ShorthandPool.DuplicateShorthandsException when two Shorthands have the same Long type
+ */
+case class ShorthandPool(val shorthands: Shorthand[_, _]*) {
 
-// TODO unit tests
-// TODO scaladoc
+  private val longTypeKeyMap: Map[TypeKey[_], Shorthand[_, _]] = {
+    val map: Map[TypeKey[_], Shorthand[_, _]] = shorthands.map(s => (s.longTypeKey -> s)).toMap
+    if (shorthands.size != map.size) throw new ShorthandPool.DuplicateShorthandsException
+    map
+  }
 
-case class ShorthandPool(val shorthands: Seq[Shorthand[_, _]]) {
-
-  private lazy val longTypeKeyMap: Map[TypeKey[_], Shorthand[_, _]] =
-    shorthands.map(s => (s.longTypeKey -> s)).toMap
-
-  // TODO: this is unused should i keep it?
-  private lazy val shortTypeKeyMap: Map[TypeKey[_], Shorthand[_, _]] =
-    shorthands.map(s => (s.shortTypeKey -> s)).toMap
-
+  /** retrieves an optional [[Shorthand]] for the specified Long type. returns `None` if the Long type
+   * is not represented in the pool. */
   def longTypeKeyToShorthand[Long](key: TypeKey[Long]): Option[Shorthand[Long, _]] =
     longTypeKeyMap.get(key).asInstanceOf[Option[Shorthand[Long, _]]]
-
-  def shortTypeKeyToShorthand[Short](key: TypeKey[Short]): Option[Shorthand[Short, _]] =
-    shortTypeKeyMap.get(key).asInstanceOf[Option[Shorthand[Short, _]]]
 
 }
 
 object ShorthandPool {
 
-  def apply(): ShorthandPool = ShorthandPool(Seq())
+  class DuplicateShorthandsException
+  extends Exception("a ShorthandPool cannot contain multiple Shorthands with the same Long type")
 
 }

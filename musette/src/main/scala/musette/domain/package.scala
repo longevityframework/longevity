@@ -4,11 +4,11 @@ import emblem._
 
 package object domain {
 
-  val shorthands = emblem.ShorthandPool(Seq(
+  val shorthands = emblem.ShorthandPool(
     Shorthand[Email, String](_.toString, Email(_)),
     Shorthand[Markdown, String](_.toString, Markdown(_)),
     Shorthand[Uri, String](_.toString, Uri(_))
-  ))
+  )
 
   // TODO: basic validity checking for these implicits:
 
