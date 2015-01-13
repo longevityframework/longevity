@@ -1,10 +1,9 @@
 package emblem
 
-import scala.reflect.runtime.universe.typeTag
 import org.scalatest._
 import org.scalatest.OptionValues._
 
-/** some basic tests for emblems */
+/** emblem specifications */
 class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   case class Point(x: Double, y: Double) extends HasEmblem
@@ -33,7 +32,7 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "retain type information" in {
-    PointEmblem.typeTag should equal (typeTag[Point])
+    PointEmblem.typeKey should equal (typeKey[Point])
   }
 
   it should "dump helpful debug info" in {

@@ -2,7 +2,8 @@ package emblem
 
 import scala.reflect.runtime.universe.TypeTag
 
-package object stringUtil {
+/** generally useful utility functions for working with strings */
+object stringUtil {
 
   /** returns this string with first character converted to lower case.
    * if the first character of the string is lower case, the string is returned unchanged.

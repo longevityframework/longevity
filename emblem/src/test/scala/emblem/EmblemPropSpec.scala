@@ -6,7 +6,7 @@ import scala.reflect.runtime.universe.typeTag
 import org.scalatest._
 import org.scalatest.OptionValues._
 
-/** some basic tests for emblems */
+/** emblem property specifications */
 class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   case class Point(x: Double, y: Double) extends HasEmblem
