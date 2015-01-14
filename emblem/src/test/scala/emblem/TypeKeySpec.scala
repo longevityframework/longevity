@@ -4,7 +4,7 @@ import scala.reflect.runtime.universe._
 import org.scalatest._
 import org.scalatest.OptionValues._
 
-/** type key specifications */
+/** [[TypeKey type key]] specifications */
 class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "the TypeKey constructor"

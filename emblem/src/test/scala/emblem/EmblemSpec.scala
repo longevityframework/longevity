@@ -3,7 +3,7 @@ package emblem
 import org.scalatest._
 import org.scalatest.OptionValues._
 
-/** emblem specifications */
+/** [[Emblem emblem]] specifications */
 class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   case class Point(x: Double, y: Double) extends HasEmblem

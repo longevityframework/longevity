@@ -4,7 +4,7 @@ import scala.reflect.runtime.universe._
 import org.scalatest._
 import org.scalatest.OptionValues._
 
-/** shorthand specifications */
+/** [[Shorthand shorthand]] specifications */
 class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   case class Uri(uri: String)

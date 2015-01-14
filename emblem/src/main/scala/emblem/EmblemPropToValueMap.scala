@@ -17,6 +17,10 @@ class EmblemPropToValueMap[T <: HasEmblem] private(
   /** creates a new map by adding a new property/value pair to this map */
   def +[U](pair: (EmblemProp[T, U], U)): EmblemPropToValueMap[T] =
     new EmblemPropToValueMap(map + pair)
+
+  def size = map.size
+
+  def isEmpty = map.isEmpty
   
 }
 
