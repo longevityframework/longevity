@@ -23,13 +23,14 @@ object testUtil {
 
   object User extends EntityType[User] {
 
+    private lazy val nameProp = new EmblemProp[User, String]("name", _.name, (p, name) => p.copy(name = name))
+
     lazy val emblem = new Emblem[User](
       "longevity.repo.testUtil",
       "User",
-      Seq(
-        new EmblemProp[User, String]("name", _.name, (p, name) => p.copy(name = name))
-      ),
-      User(null)
+      Seq(nameProp),
+      EmblemPropToValueMap(),
+      { map => User(map.get(nameProp)) }
     )
 
   }
@@ -38,14 +39,18 @@ object testUtil {
 
   object Post extends EntityType[Post] {
 
+    private lazy val authorProp =
+      new EmblemProp[Post, Assoc[User]]("author", _.author, (p, author) => p.copy(author = author))
+
+    private lazy val contentProp =
+      new EmblemProp[Post, String]("content", _.content, (p, content) => p.copy(content = content))
+
     lazy val emblem = new Emblem[Post](
       "longevity.repo.testUtil",
       "Post",
-      Seq(
-        new EmblemProp[Post, Assoc[User]]("author", _.author, (p, author) => p.copy(author = author)),
-        new EmblemProp[Post, String]("content", _.content, (p, content) => p.copy(content = content))
-      ),
-      Post(null, null)
+      Seq(authorProp, contentProp),
+      EmblemPropToValueMap(),
+      { map => Post(map.get(authorProp), map.get(contentProp)) }
     )
   }
 

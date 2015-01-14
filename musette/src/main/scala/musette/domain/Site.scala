@@ -11,13 +11,13 @@ extends Entity
 
 object Site extends EntityType[Site] {
 
+  private lazy val uriProp = new EmblemProp[Site, Uri]("uri", _.uri, (p, uri) => p.copy(uri = uri))
   lazy val emblem = new Emblem[Site](
     "musette.domain",
     "Site",
-    Seq(
-      new EmblemProp[Site, Uri]("uri", _.uri, (p, uri) => p.copy(uri = uri))
-    ),
-    Site(null: String)
+    Seq(uriProp),
+    EmblemPropToValueMap(),
+    { map => Site(map.get(uriProp)) }
   )
 
 }

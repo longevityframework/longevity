@@ -51,12 +51,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
   private class BsonHandlerMap(private val map: Map[TypeKey[_], BSONHandler[_, _]] = Map()) {
 
     def apply[K](key: TypeKey[K]): BSONHandler[_ <: BSONValue, K] =
-    {
-      if (!map.contains(key)) {
-        println(s"couldnt find key $key in \n\n$this")
-      }
       map(key).asInstanceOf[BSONHandler[_ <: BSONValue, K]]
-    }
 
     def +[K : TypeKey](value: BSONHandler[_ <: BSONValue, K]): BsonHandlerMap =
       new BsonHandlerMap(map + (typeKey[K] -> value))
@@ -85,7 +80,6 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     def assocSetTag[E <: Entity](implicit tag: TypeTag[E]) = typeTag[Set[Assoc[E]]]
     def addAssocHandlerToMap[E <: Entity : TypeTag](tag: TypeTag[E], map: BsonHandlerMap) = {
       implicit val key: TypeKey[Set[Assoc[E]]] = TypeKey(assocSetTag(tag))
-      println(s"addAssocHandlerToMap $tag $key")
       map + assocSetHandler(tag)
     }
     repoPool.entityTypeTags.foldLeft(new BsonHandlerMap()) { (map, tag) =>
@@ -96,15 +90,17 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
   private val handlerMap = baseHandlers ++ assocHandlers ++ assocSetHandlers
 
   def read(bson: BSONDocument): E = {
-    emblem.props.foldLeft(emblem.nullInstance) { (e, prop) => setProp(bson, e, prop) }
+    val builder = emblem.builder()
+    emblem.props.foreach { prop => setProp(bson, builder, prop) }
+    builder.build()
   }
 
-  private def setProp[U](bson: BSONDocument, e: E, prop: EmblemProp[E, U]): E = {
+  private def setProp[U](bson: BSONDocument, builder: HasEmblemBuilder[E], prop: EmblemProp[E, U]): Unit = {
     val propVal = shorthands.longTypeKeyToShorthand(prop.typeKey) match {
       case Some(shorthand) => getPropValFromShorthand(bson, shorthand, prop.name)
       case None => getPropVal(bson, prop.typeKey, prop.name)
     }
-    prop.set(e, propVal)
+    builder.setProp(prop, propVal)
   }
 
   private def getPropValFromShorthand[Long, Short](

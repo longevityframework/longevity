@@ -3,6 +3,7 @@ package emblem
 import scala.reflect.runtime.universe.TypeTag
 import stringUtil._
 
+// TODO: update scaladoc for builder changes
 /** A reflective signature for a type. Provides name information, [[EmblemProp properties]],
  * and a degenerate instance. The underlying type is treated as immutable, so each property provides
  * a setter that returns a new instance. The degenerate instance can be used in conjunction with the
@@ -18,7 +19,8 @@ class Emblem[T <: HasEmblem : TypeKey](
   val namePrefix: String,
   val name: String,
   val props: Seq[EmblemProp[T, _]],
-  val nullInstance: T
+  val propDefaults: EmblemPropToValueMap[T],
+  val creator: EmblemPropToValueMap[T] => T
 ) {
 
   /** A [[TypeKey type key]] for the type that this emblem reflects upon */
@@ -31,6 +33,8 @@ class Emblem[T <: HasEmblem : TypeKey](
 
   /** retrieves an [[EmblemProp]] by name */
   def apply[U](name: String) = propMap(name).asInstanceOf[EmblemProp[T, U]]
+
+  def builder(): HasEmblemBuilder[T] = new HasEmblemBuilder[T](propDefaults, creator)
 
   /** A string describing the emblem in full detail */
   lazy val debugInfo = {
