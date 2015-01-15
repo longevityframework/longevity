@@ -1,6 +1,6 @@
 package emblem
 
-import scala.reflect.runtime.universe.TypeTag
+import scala.reflect.runtime.universe.Type
 
 /** generally useful utility functions for working with strings */
 object stringUtil {
@@ -29,7 +29,7 @@ object stringUtil {
    *
    * copied from https://gist.github.com/sidharthkuruvila/3154845
    */
-  def camelToUnderscores(name: String) = "[A-Z\\d]".r.replaceAllIn(uncapitalize(name), { m =>
+  def camelToUnderscore(name: String) = "[A-Z\\d]".r.replaceAllIn(uncapitalize(name), { m =>
     "_" + m.group(0).toLowerCase()
   })
  
@@ -44,7 +44,16 @@ object stringUtil {
     m.group(1).toUpperCase()
   })
 
-  /** returns a simple type name for a type tag */
-  def typeName(typeTag: TypeTag[_]) = typeTag.tpe.typeSymbol.name.decodedName.toString
+  /** returns a full type name for a type */
+  def typeFullname(tpe: Type) = tpe.typeSymbol.fullName.toString
+
+  /** returns a simple type name for a type */
+  def typeName(tpe: Type) = tpe.typeSymbol.name.decodedName.toString
+
+  /** returns a type name prefix for a type */
+  def typeNamePrefix(tpe: Type) = {
+    val fullname = typeFullname(tpe)
+    fullname.substring(0, fullname.lastIndexOf('.'))
+  }
 
 }

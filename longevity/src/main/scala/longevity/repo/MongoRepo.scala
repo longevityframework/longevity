@@ -26,7 +26,7 @@ abstract class MongoRepo[E <: Entity](
     def retrieve = repo.retrieve(this)
   }
 
-  private lazy val collectionName: String = camelToUnderscores(typeName(entityTypeTag))
+  private lazy val collectionName: String = camelToUnderscore(typeName(entityTypeTag.tpe))
   private val mongoCollection = MongoRepo.db.collection(collectionName)
 
   protected implicit lazy val bsonHandler = new EmblemBsonHandler(entityType.emblem, domainShorthands, repoPool)

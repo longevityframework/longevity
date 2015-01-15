@@ -5,6 +5,8 @@ import musette.domain._
 
 package object mongo {
 
+  // TODO: these handlers are no longer needed or used. remove
+
   // TODO: dry. at worst, give a common super and replace the objects below with a single def
 
   implicit object EmailHandler extends BSONHandler[BSONString, Email] {

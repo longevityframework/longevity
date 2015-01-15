@@ -18,7 +18,7 @@ class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "method emblem.typeKey"
   it should "produce a valid type key from a type argument" in {
     val tag = typeTag[List[Int]]
-    val key = emblem.typeKey[List[Int]]
+    val key = typeKey[List[Int]]
     key.tag should equal (tag)
     key.tpe should equal (tag.tpe)
   }
