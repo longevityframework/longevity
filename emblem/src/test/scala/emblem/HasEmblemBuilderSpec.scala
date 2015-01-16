@@ -7,6 +7,7 @@ import org.scalatest.OptionValues._
 class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   private case class Point(x: Double, y: Double) extends HasEmblem
+  private val pointEmblem = emblemFor[Point]
 
   private val xProp = new EmblemProp[Point, Double]("x", _.x, (p, x) => p.copy(x = x))
   private val yProp = new EmblemProp[Point, Double]("y", _.y, (p, y) => p.copy(y = y))
@@ -45,26 +46,30 @@ class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
     point should equal (Point(3.0, 4.0))
   }
 
-  private case class Point2(x: Double = 17.0, y: Double = 13.0) extends HasEmblem
+  private case class PointWithDefaults(x: Double = 17.0, y: Double = 13.0) extends HasEmblem
+  private val pointWithDefaultsEmblem = emblemFor[PointWithDefaults]
 
-  private val xProp2 = new EmblemProp[Point2, Double]("x", _.x, (p, x) => p.copy(x = x))
-  private val yProp2 = new EmblemProp[Point2, Double]("y", _.y, (p, y) => p.copy(y = y))
-
-  private object Point2Emblem extends Emblem[Point2](
+  private val xPropWithDefaults = new EmblemProp[PointWithDefaults, Double](
+    "x", _.x, (p, x) => p.copy(x = x))
+  private val yPropWithDefaults = new EmblemProp[PointWithDefaults, Double](
+    "y", _.y, (p, y) => p.copy(y = y))
+  private object PointWithDefaultsEmblem extends Emblem[PointWithDefaults](
     "emblem.HasEmblemBuilderSpec",
-    "Point2",
-    Seq(xProp2, yProp2),
-    EmblemPropToValueMap[Point2]() + (xProp2, 17.0) + (yProp2, 13.0),
-    { (map: EmblemPropToValueMap[Point2]) => Point2(map.get(xProp2), map.get(yProp2)) }
+    "PointWithDefaults",
+    Seq(xPropWithDefaults, yPropWithDefaults),
+    EmblemPropToValueMap[PointWithDefaults]() + (xPropWithDefaults, 17.0) + (yPropWithDefaults, 13.0),
+    { (map: EmblemPropToValueMap[PointWithDefaults]) =>
+      PointWithDefaults(map.get(xPropWithDefaults), map.get(yPropWithDefaults))
+    }
   )
 
   it should "use the default values provided" in {
-    val builder = Point2Emblem.builder()
+    val builder = PointWithDefaultsEmblem.builder()
     val point = builder.build()
-    point should equal (Point2(17.0, 13.0))
-    builder.setProp(yProp2, 5.0)
+    point should equal (PointWithDefaults(17.0, 13.0))
+    builder.setProp(yPropWithDefaults, 5.0)
     val point2 = builder.build()
-    point2 should equal (Point2(17.0, 5.0))
+    point2 should equal (PointWithDefaults(17.0, 5.0))
   }
 
 }
