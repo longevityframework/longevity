@@ -8,7 +8,7 @@ trait BuildSettings {
     version := "0.0.0-SNAPSHOT",
     logLevel in test := Level.Info,
     scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
-    scalaVersion := "2.11.4",
+    scalaVersion := "2.11.5",
     resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-reflect" % scalaVersion.value,

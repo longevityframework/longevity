@@ -1,5 +1,6 @@
 package emblem
 
+import scala.reflect.ClassTag
 import scala.reflect.runtime.universe._
 import emblem.stringUtil._
 
@@ -37,6 +38,7 @@ object emblemGenerator {
 
     val props = propNames.map(emblemProp[A](tpe, _))
     // TODO
+    // TODO move the prop defaults into the props themselves
     val propDefaults = null
     val creator = null
 
@@ -59,16 +61,16 @@ object emblemGenerator {
   }
 
   private def emblemProp[A <: HasEmblem : TypeKey](tpe: Type, name: TermName): EmblemProp[A, _] = {
+    val key = typeKey[A]
     val memberTerm = tpe.member(name).asTerm.accessed.asTerm
     val propType = memberTerm.typeSignature
-    val getter = memberTerm.getter
-
-    val propTypeTag = makeTypeTag[Any](propType)
-    val propTypeKey = TypeKey(propTypeTag)
-
-    EmblemProp(name.toString, null, null)(typeKey[A], propTypeKey)
+    val propTypeTag = makeTypeTag[Any](propType) // the Any here is bogus
+    val propKey = TypeKey(propTypeTag)
+    makeEmblemProp(tpe, name)(key, propKey)
   }
 
+  // following FixedMirrorTypeCreator in
+  // https://github.com/scala/scala/blob/2.11.x/src/reflect/scala/reflect/internal/StdCreators.scala
   private def makeTypeTag[A](tpe: Type): TypeTag[A] = {
     import scala.reflect.api.Mirror
     import scala.reflect.api.TypeCreator
@@ -86,10 +88,33 @@ object emblemGenerator {
   }
 
   private def makeEmblemProp[T <: HasEmblem : TypeKey, U : TypeKey](
-    name: String,
-    get: (T) => U,
-    set: (T, U) => T,
-    tag: TypeTag[U]
-  ) = EmblemProp[T, U](name, get, set)  
-  
+    tpe: Type, name: TermName)(
+    key: TypeKey[T], propKey: TypeKey[U]
+  ): EmblemProp[T, U] = {
+
+    // TODO
+    val memberTerm = tpe.member(name).asTerm.accessed.asTerm
+    val propType = memberTerm.typeSignature
+    val getter = memberTerm.getter.asTerm
+    val getFunction = makeGetFunction[T, U](getter)(key, propKey)
+    
+    EmblemProp[T, U](name.toString, getFunction, null)(key, propKey)
+  }
+
+  private def makeGetFunction[T <: HasEmblem : TypeKey, U : TypeKey](getter: TermSymbol): (T) => U = {
+    import scala.reflect.runtime.currentMirror
+    implicit val typeTag = typeKey[T].tag
+    implicit val classTag = typeTagToClassTag[T]
+    val getFunction = { t: T =>
+      val instanceMirror = currentMirror.reflect(t)
+      val fieldMirror = instanceMirror.reflectField(getter)
+      fieldMirror.get.asInstanceOf[U]
+    }
+    getFunction
+  }
+
+  private def typeTagToClassTag[T: TypeTag]: ClassTag[T] = {
+    ClassTag[T](typeTag[T].mirror.runtimeClass(typeTag[T].tpe))
+  }
+
 }

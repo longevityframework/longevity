@@ -9,23 +9,19 @@ import org.scalatest.OptionValues._
 /** [[EmblemProp emblem property]] specifications */
 class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  case class Point(x: Double, y: Double) extends HasEmblem
+  private case class Point(x: Double, y: Double) extends HasEmblem
 
   private val pointEmblem = emblemFor[Point]
 
   private val xProp = new EmblemProp[Point, Double]("x", _.x, (p, x) => p.copy(x = x))
   private val yProp = new EmblemProp[Point, Double]("y", _.y, (p, y) => p.copy(y = y))
-  object PointEmblem extends Emblem[Point](
+  private object PointEmblem extends Emblem[Point](
     "emblem.EmblemSpec",
     "Point",
     Seq(xProp, yProp),
     EmblemPropToValueMap[Point](),
     { (map: EmblemPropToValueMap[Point]) => Point(map.get(xProp), map.get(yProp)) }
-  ) {
-
-    lazy val x = this.prop[Double]("x")
-    lazy val y = this.prop[Double]("y")
-  }
+  )
 
   behavior of "an emblem prop"
 
@@ -34,11 +30,11 @@ class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
     pointEmblem("y").typeKey should equal (TypeKey(typeTag[Double]))
   }
 
-  val point = Point(3.0, 4.0)
+  private val point = Point(3.0, 4.0)
 
   it should "allow getter access through the props" in {
-    PointEmblem("x").get(point) should equal (3.0)
-    PointEmblem("y").get(point) should equal (4.0)
+    pointEmblem("x").get(point) should equal (3.0)
+    pointEmblem("y").get(point) should equal (4.0)
   }
 
   it should "allow setter access through the props" in {
