@@ -1,6 +1,7 @@
 package emblem
 
 import scala.reflect.ClassTag
+import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
 import emblem.stringUtil._
 
@@ -75,7 +76,6 @@ object emblemGenerator {
     import scala.reflect.api.Mirror
     import scala.reflect.api.TypeCreator
     import scala.reflect.api.Universe
-    import scala.reflect.runtime.currentMirror
     val typeCreator = new TypeCreator {
       def apply[U <: Universe with Singleton](m: Mirror[U]): U # Type =
         if (m eq currentMirror)
@@ -92,29 +92,61 @@ object emblemGenerator {
     key: TypeKey[T], propKey: TypeKey[U]
   ): EmblemProp[T, U] = {
 
-    // TODO
-    val memberTerm = tpe.member(name).asTerm.accessed.asTerm
-    val propType = memberTerm.typeSignature
-    val getter = memberTerm.getter.asTerm
+    val getter = tpe.decl(name).asMethod
     val getFunction = makeGetFunction[T, U](getter)(key, propKey)
+
+    val copy: MethodSymbol = tpe.decl(TermName("copy")).asMethod
+    val setFunction = makeSetFunction[T, U](name, copy)(key, propKey)
     
-    EmblemProp[T, U](name.toString, getFunction, null)(key, propKey)
+    EmblemProp[T, U](name.toString, getFunction, setFunction)(key, propKey)
   }
 
-  private def makeGetFunction[T <: HasEmblem : TypeKey, U : TypeKey](getter: TermSymbol): (T) => U = {
-    import scala.reflect.runtime.currentMirror
+  private def makeGetFunction[T <: HasEmblem : TypeKey, U : TypeKey](getter: MethodSymbol): (T) => U = {
     implicit val typeTag = typeKey[T].tag
     implicit val classTag = typeTagToClassTag[T]
     val getFunction = { t: T =>
       val instanceMirror = currentMirror.reflect(t)
-      val fieldMirror = instanceMirror.reflectField(getter)
-      fieldMirror.get.asInstanceOf[U]
+      val methodMirror = instanceMirror.reflectMethod(getter)
+      methodMirror().asInstanceOf[U]
     }
     getFunction
   }
 
   private def typeTagToClassTag[T: TypeTag]: ClassTag[T] = {
     ClassTag[T](typeTag[T].mirror.runtimeClass(typeTag[T].tpe))
+  }
+
+  private def makeSetFunction[T <: HasEmblem : TypeKey, U : TypeKey](
+    name: TermName, copy: MethodSymbol
+  ): (T, U) => T = {
+    val key = typeKey[T]
+    val copyParams = singleParamList(copy, key)
+    implicit val typeTag = key.tag
+    implicit val classTag = typeTagToClassTag[T]
+    val setFunction = { (t: T, u: U) =>
+      val instanceMirror = currentMirror.reflect(t)
+      val copyMirror = instanceMirror.reflectMethod(copy)
+      val copyArgs = copyParams.map { param =>
+        if (param.name == name) {
+          u
+        }
+        else {
+          val getter = typeTag.tpe.decl(param.name).asMethod
+          val getterMirror = instanceMirror.reflectMethod(getter)
+          getterMirror()
+        }
+      }
+      copyMirror(copyArgs: _*).asInstanceOf[T]
+    }
+    setFunction
+  }
+
+  private def singleParamList(method: MethodSymbol, key: TypeKey[_ <: HasEmblem]) = {
+    val methodParamLists = method.paramLists
+    if (methodParamLists.size != 1) {
+      throw new CaseClassHasMultipleParamListsException(key)
+    }
+    methodParamLists.head
   }
 
 }

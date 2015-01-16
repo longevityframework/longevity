@@ -10,18 +10,7 @@ import org.scalatest.OptionValues._
 class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   private case class Point(x: Double, y: Double) extends HasEmblem
-
   private val pointEmblem = emblemFor[Point]
-
-  private val xProp = new EmblemProp[Point, Double]("x", _.x, (p, x) => p.copy(x = x))
-  private val yProp = new EmblemProp[Point, Double]("y", _.y, (p, y) => p.copy(y = y))
-  private object PointEmblem extends Emblem[Point](
-    "emblem.EmblemSpec",
-    "Point",
-    Seq(xProp, yProp),
-    EmblemPropToValueMap[Point](),
-    { (map: EmblemPropToValueMap[Point]) => Point(map.get(xProp), map.get(yProp)) }
-  )
 
   behavior of "an emblem prop"
 
@@ -38,8 +27,8 @@ class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "allow setter access through the props" in {
-    PointEmblem.prop[Double]("x").set(point, 5.0) should equal (Point(5.0, 4.0))
-    PointEmblem.prop[Double]("y").set(point, 5.0) should equal (Point(3.0, 5.0))
+    pointEmblem.prop[Double]("x").set(point, 5.0) should equal (Point(5.0, 4.0))
+    pointEmblem.prop[Double]("y").set(point, 5.0) should equal (Point(3.0, 5.0))
   }
 
   private case class Polygon(corners: Set[Point]) extends HasEmblem
