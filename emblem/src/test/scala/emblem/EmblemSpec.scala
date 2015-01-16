@@ -42,10 +42,10 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "dump helpful debug info" in {
-    PointEmblem.debugInfo should equal (
+    pointEmblem.debugInfo should equal (
       """|emblem.EmblemSpec.Point {
-         |  x: Double
-         |  y: Double
+         |  x: scala.Double
+         |  y: scala.Double
          |}""".stripMargin)
   }
 

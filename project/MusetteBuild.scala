@@ -6,14 +6,13 @@ trait BuildSettings {
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "net.jsmscs",
     version := "0.0.0-SNAPSHOT",
+    logLevel in test := Level.Info,
     scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
     scalaVersion := "2.11.4",
     resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-      "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-      // easymock not currently used
-      "org.easymock" % "easymockclassextension" % "3.2" % "test"))
+      "org.scalatest" %% "scalatest" % "2.2.1" % "test"))
 
 }
 

@@ -11,6 +11,8 @@ class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   case class Point(x: Double, y: Double) extends HasEmblem
 
+  private val pointEmblem = emblemFor[Point]
+
   private val xProp = new EmblemProp[Point, Double]("x", _.x, (p, x) => p.copy(x = x))
   private val yProp = new EmblemProp[Point, Double]("y", _.y, (p, y) => p.copy(y = y))
   object PointEmblem extends Emblem[Point](
@@ -28,8 +30,8 @@ class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "an emblem prop"
 
   it should "retain type information" in {
-    PointEmblem.x.typeKey should equal (TypeKey(typeTag[Double]))
-    PointEmblem.y.typeKey should equal (TypeKey(typeTag[Double]))
+    pointEmblem[Double]("x").typeKey should equal (TypeKey(typeTag[Double]))
+    pointEmblem[Double]("y").typeKey should equal (TypeKey(typeTag[Double]))
   }
 
   val point = Point(3.0, 4.0)
