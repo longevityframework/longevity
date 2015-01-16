@@ -12,7 +12,10 @@ package object emblem {
    * anywhere that the corresponding `TypeTag` is implicitly available. */
   implicit def typeKeyFromTag[A : TypeTag]: TypeKey[A] = TypeKey(implicitly[TypeTag[A]])
 
-
+  /** creates and returns an [[Emblem]] for the specified type `A`. `A` must be a case class with a single
+   * parameter list. */
+  @throws[TypeIsNotCaseClassException[_]]
+  @throws[CaseClassHasMultipleParamListsException[_]]
   def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = emblemGenerator.emblemFor[A]
 
 }

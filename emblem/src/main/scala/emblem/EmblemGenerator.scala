@@ -1,9 +1,14 @@
 package emblem
 
 import scala.reflect.runtime.universe._
+import emblem.stringUtil._
+
+// TODO single pass refactor
 
 private[emblem] object emblemGenerator {
 
+  @throws[TypeIsNotCaseClassException[_]]
+  @throws[CaseClassHasMultipleParamListsException[_]]
   def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = {
     val key = implicitly[TypeKey[A]]
     val tpe = key.tpe
@@ -14,21 +19,19 @@ private[emblem] object emblemGenerator {
 
     // TODO: handle extra param lists situation
     if (constructorSymbol.paramLists.size != 1) {
-      throw new RuntimeException("I don't know how to handle case classes with multiple param lists yet")
+      throw new CaseClassHasMultipleParamListsException[A]
     }
       
-    // case classes guaranteed to have a param list
+    // case classes guaranteed to have at least one param list
     val params: List[TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
     val propNames = params.map(_.name)
 
-    val namePrefix = stringUtil.typeNamePrefix(tpe)
-    val name = stringUtil.typeName(tpe)
     val props = propNames.map(emblemProp[A](tpe, _))
     // TODO
     val propDefaults = null
     val creator = null
 
-    new Emblem[A](namePrefix, name, props, propDefaults, creator)
+    new Emblem[A](typeNamePrefix(tpe), typeName(tpe), props, propDefaults, creator)
   }
 
   private def verifyIsCaseClass[A <: HasEmblem : TypeKey](tpe: Type): Unit = {
@@ -50,7 +53,6 @@ private[emblem] object emblemGenerator {
 
     val propTypeTag = makeTypeTag[Any](propType)
     val propTypeKey = TypeKey(propTypeTag)
-    //println(s"getter ${name.toString} ${getter} $propType ${propTypeTag}")
 
     EmblemProp(name.toString, null, null)(typeKey[A], propTypeKey)
   }

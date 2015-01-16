@@ -1,7 +1,7 @@
 package emblem
 
 class TypeIsNotCaseClassException[A <: HasEmblem : TypeKey]
-extends Exception("I only know how to generate emblems and shorthands for case classes") {
+extends Exception(s"emblems for non-case classes is currently not supported: ${typeKey[A]}") {
 
   val key = typeKey[A]
 }

@@ -6,15 +6,6 @@ import org.scalatest.OptionValues._
 /** [[Emblem emblem]] specifications */
 class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  trait Foo extends HasEmblem
-
-  behavior of "emblem.emblemFor"
-  it should "throw exception on non case class types" in {
-    intercept[TypeIsNotCaseClassException[_]] {
-      emblemFor[Foo]
-    }
-  }
-
   private case class Point(x: Double, y: Double) extends HasEmblem
   private val pointEmblem = emblemFor[Point]
 
