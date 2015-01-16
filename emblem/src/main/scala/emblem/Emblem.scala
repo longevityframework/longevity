@@ -36,9 +36,11 @@ class Emblem[T <: HasEmblem : TypeKey](
 
   /** retrieves an [[EmblemProp]] with the specified property type by name */
   def prop[U : TypeKey](name: String) = {
+    val typeKey = implicitly[TypeKey[U]]
     val prop = propMap(name)
-    if (implicitly[TypeKey[U]] != prop.typeKey) {
-      throw new ClassCastException
+    if (typeKey != prop.typeKey) {
+      throw new ClassCastException(
+        s"requested property $name with type ${typeKey.tpe}, but this property has type ${prop.typeKey.tpe}")
     }
     prop.asInstanceOf[EmblemProp[T, U]]
   }
