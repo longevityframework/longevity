@@ -32,7 +32,16 @@ class Emblem[T <: HasEmblem : TypeKey](
   private val propMap: Map[String, EmblemProp[T, _]] = props.view.map(prop => prop.name -> prop).toMap
 
   /** retrieves an [[EmblemProp]] by name */
-  def apply[U](name: String) = propMap(name).asInstanceOf[EmblemProp[T, U]]
+  def apply(name: String) = propMap(name)
+
+  /** retrieves an [[EmblemProp]] with the specified property type by name */
+  def prop[U : TypeKey](name: String) = {
+    val prop = propMap(name)
+    if (implicitly[TypeKey[U]] != prop.typeKey) {
+      throw new ClassCastException
+    }
+    prop.asInstanceOf[EmblemProp[T, U]]
+  }
 
   /** creates and returns a new builder for constructing new instances */
   def builder(): HasEmblemBuilder[T] = new HasEmblemBuilder[T](propDefaults, creator)

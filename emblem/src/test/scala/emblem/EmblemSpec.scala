@@ -8,26 +8,15 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   trait Foo extends HasEmblem
 
-  behavior of "emblem generator"
+  behavior of "emblem.emblemFor"
   it should "throw exception on non case class types" in {
     intercept[TypeIsNotCaseClassException[_]] {
       emblemFor[Foo]
     }
   }
 
-  case class Point(x: Double, y: Double) extends HasEmblem
-
-  private val xProp = new EmblemProp[Point, Double]("x", _.x, (p, x) => p.copy(x = x))
-  private val yProp = new EmblemProp[Point, Double]("y", _.y, (p, y) => p.copy(y = y))
-  object PointEmblem extends Emblem[Point](
-    "emblem.EmblemSpec",
-    "Point",
-    Seq(xProp, yProp),
-    EmblemPropToValueMap[Point](),
-    { (map: EmblemPropToValueMap[Point]) => Point(map.get(xProp), map.get(yProp)) }
-  )
-
-  val pointEmblem = emblemFor[Point]
+  private case class Point(x: Double, y: Double) extends HasEmblem
+  private val pointEmblem = emblemFor[Point]
 
   behavior of "an emblem"
 
@@ -47,6 +36,31 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
          |  x: scala.Double
          |  y: scala.Double
          |}""".stripMargin)
+  }
+
+  behavior of "Emblem.apply"
+
+  it should "return untyped properties" in {
+    val xProp = pointEmblem("x")
+    xProp shouldBe a [EmblemProp[Point, _]]
+  }
+
+  it should "throw exception when no such property" in {
+    intercept[NoSuchElementException] { pointEmblem("z") }
+  }
+
+  behavior of "Emblem.prop"
+
+  it should "return typed properties" in {
+    val xProp: EmblemProp[Point, Double] = pointEmblem.prop[Double]("x")
+  }
+
+  it should "throw NoSuchElementException when no such property" in {
+    intercept[NoSuchElementException] { pointEmblem.prop[Double]("z") }
+  }
+
+  it should "throw ClassCastException when property type does not match" in {
+    intercept[ClassCastException] { pointEmblem.prop[String]("x") }
   }
 
 }
