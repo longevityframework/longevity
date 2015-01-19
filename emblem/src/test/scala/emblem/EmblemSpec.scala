@@ -2,18 +2,17 @@ package emblem
 
 import org.scalatest._
 import org.scalatest.OptionValues._
+import testData._
 
 /** [[Emblem emblem]] specifications */
 class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  private val pointEmblem = emblemFor[Point]
-
   behavior of "an emblem"
 
   it should "retain name information" in {
-    pointEmblem.namePrefix should equal ("emblem")
+    pointEmblem.namePrefix should equal ("emblem.testData")
     pointEmblem.name should equal ("Point")
-    pointEmblem.fullname should equal ("emblem.Point")
+    pointEmblem.fullname should equal ("emblem.testData.Point")
   }
 
   it should "retain type information" in {
@@ -22,7 +21,7 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "dump helpful debug info" in {
     pointEmblem.debugInfo should equal (
-      """|emblem.Point {
+      """|emblem.testData.Point {
          |  x: scala.Double
          |  y: scala.Double
          |}""".stripMargin)

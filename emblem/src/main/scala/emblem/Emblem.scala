@@ -15,7 +15,7 @@ import stringUtil._
  * @param propDefaults default property values used by the builder
  * @param creator a function used by the builder to instantiate the new object
  */
-class Emblem[T <: HasEmblem : TypeKey](
+case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
   val namePrefix: String,
   val name: String,
   val props: Seq[EmblemProp[T, _]],

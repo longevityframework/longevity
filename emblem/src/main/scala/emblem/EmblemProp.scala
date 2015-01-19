@@ -13,7 +13,7 @@ import stringUtil._
  * @param get a function that retrieves the property value from an instance
  * @param set a function that updates the property value to produce a new instance
  */
-case class EmblemProp[T <: HasEmblem : TypeKey, U : TypeKey](
+case class EmblemProp[T <: HasEmblem : TypeKey, U : TypeKey] private[emblem] (
   val name: String,
   val get: (T) => U,
   val set: (T, U) => T

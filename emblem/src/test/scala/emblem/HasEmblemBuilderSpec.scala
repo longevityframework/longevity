@@ -2,13 +2,10 @@ package emblem
 
 import org.scalatest._
 import org.scalatest.OptionValues._
+import emblem.testData._
 
 /** [[HasEmblemBuilder HasEmblem builder]] specifications */
 class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
-
-  private val pointEmblem = emblemFor[Point]
-  private val xProp = pointEmblem.prop[Double]("x")
-  private val yProp = pointEmblem.prop[Double]("y")
 
   behavior of "a HasEmblem builder"
 
@@ -37,9 +34,6 @@ class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
     point should equal (Point(3.0, 4.0))
   }
 
-  private val polygonEmblem = emblemFor[Polygon]
-  private val cornersProp = polygonEmblem.prop[Set[Point]]("corners")
-
   it should "work with set props" in {
     val builder = polygonEmblem.builder()
     builder.setProp(cornersProp, Set(Point(0.0, 0.0)))
@@ -50,11 +44,6 @@ class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   // this exposes a bug in scala-reflect!
   ignore should "work with implicit props" in {
-    import withImplicit._
-    val fooWithImplicitEmblem = emblemFor[FooWithImplicit]
-    val implicitBarProp = fooWithImplicitEmblem.prop[ImplicitBar]("implicitBar")
-    val pointProp = fooWithImplicitEmblem.prop[Point]("point")
-
     val builder = fooWithImplicitEmblem.builder()
     val funnyString = "please implicitly transform me (this String) into an ImplicitBar"
     builder.setProp[ImplicitBar](implicitBarProp, funnyString)

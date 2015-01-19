@@ -2,11 +2,10 @@ package emblem
 
 import org.scalatest._
 import org.scalatest.OptionValues._
+import emblem.testData._
 
 /** [[EmblemPropToValueMap]] specifications */
 class EmblemPropToValueMapSpec extends FlatSpec with GivenWhenThen with Matchers {
-
-  private val pointEmblem = emblemFor[Point]
 
   behavior of "the EmblemPropToValueMap constructor"
   it should "return an empty map" in {
