@@ -6,7 +6,6 @@ import org.scalatest.OptionValues._
 /** [[EmblemPropToValueMap]] specifications */
 class EmblemPropToValueMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  private case class Point(x: Double, y: Double) extends HasEmblem
   private val pointEmblem = emblemFor[Point]
 
   behavior of "the EmblemPropToValueMap constructor"
@@ -14,10 +13,10 @@ class EmblemPropToValueMapSpec extends FlatSpec with GivenWhenThen with Matchers
     val map = EmblemPropToValueMap[Point]()
     map.size should equal (0)
     map.isEmpty should be (true)
-    intercept[EmblemPropToValueMap.NoValueForEmblemProp] {
+    intercept[EmblemPropToValueMap.NoValueForPropName] {
       map.get(pointEmblem("x"))
     }
-    intercept[EmblemPropToValueMap.NoValueForEmblemProp] {
+    intercept[EmblemPropToValueMap.NoValueForPropName] {
       map.get(pointEmblem("y"))
     }
   }
@@ -28,7 +27,7 @@ class EmblemPropToValueMapSpec extends FlatSpec with GivenWhenThen with Matchers
     map.size should equal (1)
     map.isEmpty should be (false)
     map.get(pointEmblem("x")) should equal (7.0)
-    intercept[EmblemPropToValueMap.NoValueForEmblemProp] {
+    intercept[EmblemPropToValueMap.NoValueForPropName] {
       map.get(pointEmblem("y"))
     }
   }

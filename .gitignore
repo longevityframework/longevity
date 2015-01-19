@@ -27,3 +27,7 @@ project/plugins/project/
 /longevity/.gitignore
 /musette/.cache
 /musette/.gitignore
+/emblem/.cache
+/emblem/.classpath
+/emblem/.gitignore
+/emblem/.project

@@ -6,9 +6,9 @@ import emblem._
 
 /** an entity type.
  * TODO scaladoc */
-trait EntityType[E <: Entity] {
+abstract class EntityType[E <: Entity : TypeKey] {
 
-  def emblem: Emblem[E]
+  lazy val emblem: Emblem[E] = emblemFor[E]
 
   // TODO: what about lists? other traversables? do i need to halt at a fixed set of supported traversables?
   // can i use CanBuildFrom somehow to generalize?

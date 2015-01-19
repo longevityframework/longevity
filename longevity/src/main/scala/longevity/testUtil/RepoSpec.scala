@@ -47,6 +47,7 @@ trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers
     }
   }
 
+  /*
   feature(s"${ename}Repo.retrieve") {
     scenario(s"should produce the same persisted $ename") {
       Given(s"a persisted $ename")
@@ -97,4 +98,6 @@ trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers
       retrieved shouldBe a [NotFound[_]]
     }
   }
+
+  */
 }

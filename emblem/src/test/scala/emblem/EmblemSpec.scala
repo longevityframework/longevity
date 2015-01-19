@@ -6,15 +6,14 @@ import org.scalatest.OptionValues._
 /** [[Emblem emblem]] specifications */
 class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  private case class Point(x: Double, y: Double) extends HasEmblem
   private val pointEmblem = emblemFor[Point]
 
   behavior of "an emblem"
 
   it should "retain name information" in {
-    pointEmblem.namePrefix should equal ("emblem.EmblemSpec")
+    pointEmblem.namePrefix should equal ("emblem")
     pointEmblem.name should equal ("Point")
-    pointEmblem.fullname should equal ("emblem.EmblemSpec.Point")
+    pointEmblem.fullname should equal ("emblem.Point")
   }
 
   it should "retain type information" in {
@@ -23,7 +22,7 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "dump helpful debug info" in {
     pointEmblem.debugInfo should equal (
-      """|emblem.EmblemSpec.Point {
+      """|emblem.Point {
          |  x: scala.Double
          |  y: scala.Double
          |}""".stripMargin)

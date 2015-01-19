@@ -1,27 +1,20 @@
 package musette
 
+import scala.language.implicitConversions
 import emblem._
 
 package object domain {
 
   val shorthands = emblem.ShorthandPool(
-    Shorthand[Email, String](_.toString, Email(_)),
-    Shorthand[Markdown, String](_.toString, Markdown(_)),
-    Shorthand[Uri, String](_.toString, Uri(_))
+    Shorthand[Email, String](_.email, Email(_)),
+    Shorthand[Markdown, String](_.markdown, Markdown(_)),
+    Shorthand[Uri, String](_.uri, Uri(_))
   )
 
-  // TODO: basic validity checking for these implicits:
+  implicit def stringToEmail(email: String): Email = Email(email)
 
-  implicit class Email(private val email: String) extends AnyVal {
-    override def toString = email
-  }
+  implicit def stringToMarkdown(markdown: String): Markdown = Markdown(markdown)
 
-  implicit class Markdown(private val markdown: String) extends AnyVal {
-    override def toString = markdown
-  }
-
-  implicit class Uri(private val uri: String) extends AnyVal {
-    override def toString = uri
-  }
+  implicit def stringToUri(uri: String): Uri = Uri(uri)
 
 }

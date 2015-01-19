@@ -23,6 +23,13 @@ object emblemGenerator {
 
   // TODO single pass refactor
 
+  // TODO replace hand coded emblems in longevity/musette
+  // TODO privatize emblem constructors
+
+  // TODO specialized error for inner modules. I used to get this before I moved my case classes to top level:
+  // [error] Could not run test emblem.HasEmblemBuilderSpec: scala.ScalaReflectionException: object PointWithDefaults is an inner module, use reflectModule on an InstanceMirror to obtain its ModuleMirror
+  // with a test
+
   @throws[EmblemGeneratorException]
   private[emblem] def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = {
     val key = implicitly[TypeKey[A]]
@@ -32,18 +39,16 @@ object emblemGenerator {
     val symbol = tpe.typeSymbol.asClass
     val constructorSymbol = symbol.primaryConstructor.asMethod
     verifySingleParamList(constructorSymbol, key)
-      
+
     // case classes guaranteed to have at least one param list
     val params: List[TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
     val propNames = params.map(_.name)
 
     val props = propNames.map(emblemProp[A](tpe, _))
     // TODO
-    // TODO move the prop defaults into the props themselves
-    val propDefaults = null
-    val creator = null
+    val propDefaults = EmblemPropToValueMap[A]()
 
-    new Emblem[A](typeNamePrefix(tpe), typeName(tpe), props, propDefaults, creator)
+    new Emblem[A](typeNamePrefix(tpe), typeName(tpe), props, propDefaults, makeCreator[A](params))
   }
 
   @throws[TypeIsNotCaseClassException]
@@ -96,7 +101,7 @@ object emblemGenerator {
     val getFunction = makeGetFunction[T, U](getter)(key, propKey)
 
     val copy: MethodSymbol = tpe.decl(TermName("copy")).asMethod
-    val setFunction = makeSetFunction[T, U](name, copy)(key, propKey)
+    val setFunction = makeSetFunction[T, U](name)(key, propKey)
     
     EmblemProp[T, U](name.toString, getFunction, setFunction)(key, propKey)
   }
@@ -116,29 +121,42 @@ object emblemGenerator {
     ClassTag[T](typeTag[T].mirror.runtimeClass(typeTag[T].tpe))
   }
 
-  private def makeSetFunction[T <: HasEmblem : TypeKey, U : TypeKey](
-    name: TermName, copy: MethodSymbol
-  ): (T, U) => T = {
+  private def makeSetFunction[T <: HasEmblem : TypeKey, U : TypeKey](name: TermName): (T, U) => T = {
+
     val key = typeKey[T]
-    val copyParams = singleParamList(copy, key)
+    val tpe = key.tpe
+    val symbol = tpe.typeSymbol.asClass
+    val constructorSymbol = symbol.primaryConstructor.asMethod
+    val params: List[TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
+
     implicit val typeTag = key.tag
     implicit val classTag = typeTagToClassTag[T]
+    val classSymbol: ClassSymbol = key.tpe.typeSymbol.asClass
+    val moduleSymbol: ModuleSymbol = classSymbol.companion.asModule
+    val moduleMirror: ModuleMirror = currentMirror.reflectModule(moduleSymbol)
+    val instance: Any = moduleMirror.instance
+    val instanceMirror = currentMirror.reflect(instance)
+    val typeSignature = instanceMirror.symbol.typeSignature
+    val applyMethod = typeSignature.member(TermName("apply")).asMethod
     val setFunction = { (t: T, u: U) =>
-      val instanceMirror = currentMirror.reflect(t)
-      val copyMirror = instanceMirror.reflectMethod(copy)
-      val copyArgs = copyParams.map { param =>
+      val args = params.map { param: TermSymbol =>
         if (param.name == name) {
           u
         }
         else {
           val getter = typeTag.tpe.decl(param.name).asMethod
-          val getterMirror = instanceMirror.reflectMethod(getter)
-          getterMirror()
+          val tMirror = currentMirror.reflect(t)
+          val getterMirror = tMirror.reflectMethod(getter)
+          val getres = getterMirror()
+          getres
         }
       }
-      copyMirror(copyArgs: _*).asInstanceOf[T]
+      val applyMirror = instanceMirror.reflectMethod(applyMethod)
+      val applyResult = applyMirror(args: _*).asInstanceOf[T]
+      applyResult
     }
     setFunction
+
   }
 
   private def singleParamList(method: MethodSymbol, key: TypeKey[_ <: HasEmblem]) = {
@@ -147,6 +165,39 @@ object emblemGenerator {
       throw new CaseClassHasMultipleParamListsException(key)
     }
     methodParamLists.head
+  }
+
+  private def makeCreator[T <: HasEmblem : TypeKey](params: List[TermSymbol]): EmblemPropToValueMap[T] => T = {
+    val key = typeKey[T]
+    implicit val typeTag = key.tag
+    implicit val classTag = typeTagToClassTag[T]
+    val classSymbol: ClassSymbol = key.tpe.typeSymbol.asClass
+    val moduleSymbol: ModuleSymbol = classSymbol.companion.asModule
+    val moduleMirror: ModuleMirror = currentMirror.reflectModule(moduleSymbol)
+    val instance: Any = moduleMirror.instance
+    val instanceMirror = currentMirror.reflect(instance)
+    val typeSignature = instanceMirror.symbol.typeSignature
+    val applyMethod = typeSignature.member(TermName("apply")).asMethod
+    val creator = { map: EmblemPropToValueMap[T] =>
+      val args = params.zipWithIndex.map {
+        case (param: TermSymbol, index: Int) =>
+        val paramName: String = param.name.toString          
+        val value: Option[Any] = map.getOptionByName(paramName)
+        value match {
+          case Some(a) => a
+          case None => {
+            val defaultMethod = typeSignature.member(TermName(s"apply$$default$$${index+1}"))
+            if (defaultMethod == NoSymbol) {
+              throw new EmblemPropToValueMap.NoValueForPropName(paramName, map)
+            }
+            val defaultMirror = instanceMirror.reflectMethod(defaultMethod.asMethod)
+            defaultMirror()
+          }
+        }
+      }
+      instanceMirror.reflectMethod(applyMethod)(args: _*).asInstanceOf[T]
+    }
+    creator
   }
 
 }

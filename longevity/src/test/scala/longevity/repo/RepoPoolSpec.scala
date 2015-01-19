@@ -19,17 +19,17 @@ class RepoPoolSpec extends FeatureSpec with GivenWhenThen with Matchers {
       val repoPool = new RepoPool
       When("a repo adds itself to the repo pool during initialization")
       Then("we can start using the new repo")
-      new DummyRepo(User, repoPool)
+      new DummyRepo(UserType, repoPool)
     }
 
     scenario("attempt to add a repo for an entity type already represented in the entity pool") {
       Given("a repo pool with a user repository in it")
       val repoPool = new RepoPool
-      val userRepo1 = new DummyRepo(User, repoPool)
+      val userRepo1 = new DummyRepo(UserType, repoPool)
       When("a user repo adds itself to the repo pool during initialization")
       Then("we get an exception about multiple repos for entity type")
       val thrown = intercept[RepoPool.MultipleReposForEntityType[User]] {
-        new DummyRepo(User, repoPool)
+        new DummyRepo(UserType, repoPool)
       }
       thrown.repo1 should equal (userRepo1)
     }
@@ -52,7 +52,7 @@ class RepoPoolSpec extends FeatureSpec with GivenWhenThen with Matchers {
     scenario("attempt to retrieve a repo for an entity type represented in the entity pool") {
       Given("a repo pool with a user repository in it")
       val repoPool = new RepoPool
-      val userRepo = new DummyRepo(User, repoPool)
+      val userRepo = new DummyRepo(UserType, repoPool)
       When("we attempt to retrieve a user repo from the pool")
       Then("we get an exception about no repos for entity type")
       val actualRepo = repoPool.repoForEntityTypeTag(typeTag[User])

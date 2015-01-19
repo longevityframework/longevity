@@ -9,7 +9,6 @@ import org.scalatest.OptionValues._
 /** [[EmblemProp emblem property]] specifications */
 class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  private case class Point(x: Double, y: Double) extends HasEmblem
   private val pointEmblem = emblemFor[Point]
 
   behavior of "an emblem prop"
@@ -31,7 +30,6 @@ class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
     pointEmblem.prop[Double]("y").set(point, 5.0) should equal (Point(3.0, 5.0))
   }
 
-  private case class Polygon(corners: Set[Point]) extends HasEmblem
   private val polygonEmblem = emblemFor[Polygon]
 
   it should "retain embedded type information" in {
@@ -41,7 +39,7 @@ class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
     typeArgs.size should equal (1)
     typeArgs.head should equal (typeOf[Point])
 
-    polygonEmblem("corners").toString should equal ("corners: Set[EmblemPropSpec.this.Point]")
+    polygonEmblem("corners").toString should equal ("corners: Set[emblem.Point]")
   }
 
 }
