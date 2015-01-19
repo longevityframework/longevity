@@ -10,19 +10,15 @@ object EmblemGenerator {
   /** an exception indicating you broke the contract of [[emblem.emblemFor]] */
   class EmblemGeneratorException(message: String) extends Exception(message)
 
-  class TypeIsNotCaseClassException(
-    val key: TypeKey[_ <: HasEmblem])
-  extends EmblemGeneratorException(
-    s"emblems for non-case classes is currently not supported: $key")
+  class TypeIsNotCaseClassException(val key: TypeKey[_ <: HasEmblem])
+  extends EmblemGeneratorException(s"emblems for non-case classes is currently not supported: $key")
 
-  class CaseClassHasMultipleParamListsException(
-    val key: TypeKey[_ <: HasEmblem])
+  class CaseClassHasMultipleParamListsException(val key: TypeKey[_ <: HasEmblem])
   extends EmblemGeneratorException(
     s"emblems for case classes with extra param lists currently not supported: $key")
 
-  // TODO specialized error for inner modules. I used to get this before I moved my case classes to top level:
-  // [error] Could not run test emblem.HasEmblemBuilderSpec: scala.ScalaReflectionException: object PointWithDefaults is an inner module, use reflectModule on an InstanceMirror to obtain its ModuleMirror
-  // with a test
+  class CaseClassIsInnerClassException(val key: TypeKey[_ <: HasEmblem])
+  extends EmblemGeneratorException(s"emblems for inner case classes currently not supported: $key")
 
 }
 
@@ -36,6 +32,7 @@ private class EmblemGenerator[A <: HasEmblem : TypeKey] {
   private implicit val classTag = typeTagToClassTag[A]
   private val symbol = tpe.typeSymbol.asClass
   verifyIsCaseClass()
+  verifyIsNotInnerClass()
   private val constructorSymbol = symbol.primaryConstructor.asMethod
   verifySingleParamList()
   private val params: List[TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
@@ -67,6 +64,12 @@ private class EmblemGenerator[A <: HasEmblem : TypeKey] {
   private def verifyIsCaseClass(): Unit = {
     if (!symbol.isClass || !symbol.asClass.isCaseClass) {
       throw new EmblemGenerator.TypeIsNotCaseClassException(key)
+    }
+  }
+
+  private def verifyIsNotInnerClass(): Unit = {
+    if (!symbol.isStatic) {
+      throw new EmblemGenerator.CaseClassIsInnerClassException(key)
     }
   }
 

@@ -6,21 +6,26 @@ import org.scalatest.OptionValues._
 /** [[emblemFor emblem.emblemFor]] specifications */
 class EmblemForSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "emblem.emblemFor"
+  import testData._
 
-  trait Foo extends HasEmblem
+  behavior of "emblem.emblemFor"
 
   it should "throw exception on non case class types" in {
     intercept[EmblemGenerator.TypeIsNotCaseClassException] {
-      emblemFor[Foo]
+      emblemFor[NotACaseClass]
     }
   }
 
-  case class Bar(i: Int)(j: Int) extends HasEmblem
-
   it should "throw exception on case classes with multiple param lists" in {
     intercept[EmblemGenerator.CaseClassHasMultipleParamListsException] {
-      emblemFor[Bar]
+      emblemFor[MultipleParamLists]
+    }
+  }
+
+  it should "throw exception on inner case classes" in {
+    intercept[EmblemGenerator.CaseClassIsInnerClassException] {
+      val hasInner = new HasInnerClass
+      emblemFor[hasInner.IsInnerCaseClass]
     }
   }
 

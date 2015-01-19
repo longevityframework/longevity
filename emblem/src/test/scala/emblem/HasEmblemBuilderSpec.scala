@@ -9,6 +9,7 @@ class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "a HasEmblem builder"
 
+
   it should "build new objects of the emblemized type" in {
     val builder = pointEmblem.builder()
     builder.setProp(xProp, 3.0)
@@ -53,10 +54,6 @@ class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "use the default values provided" in {
-    val pointWithDefaultsEmblem = emblemFor[PointWithDefaults]
-    val xPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("x")
-    val yPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("y")
-
     val builder = pointWithDefaultsEmblem.builder()
     val point = builder.build()
     point should equal (PointWithDefaults(17.0, 13.0))
