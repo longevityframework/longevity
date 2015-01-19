@@ -6,11 +6,9 @@ package emblem
  * @param defaults a set of default property values for the builder
  * @param creator a function to build the object from a [[EmblemPropToValueMap]]
  */
-class HasEmblemBuilder[T <: HasEmblem](
-  defaults: EmblemPropToValueMap[T],
-  creator: EmblemPropToValueMap[T] => T) {
+class HasEmblemBuilder[T <: HasEmblem](creator: EmblemPropToValueMap[T] => T) {
 
-  private var map: EmblemPropToValueMap[T] = defaults
+  private var map: EmblemPropToValueMap[T] = EmblemPropToValueMap[T]
 
   /** specifies the value to use for the given property */
   def setProp[U](prop: EmblemProp[T, U], value: U): Unit = map += (prop -> value)

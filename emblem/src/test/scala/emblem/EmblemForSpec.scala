@@ -11,7 +11,7 @@ class EmblemForSpec extends FlatSpec with GivenWhenThen with Matchers {
   trait Foo extends HasEmblem
 
   it should "throw exception on non case class types" in {
-    intercept[emblemGenerator.TypeIsNotCaseClassException] {
+    intercept[EmblemGenerator.TypeIsNotCaseClassException] {
       emblemFor[Foo]
     }
   }
@@ -19,7 +19,7 @@ class EmblemForSpec extends FlatSpec with GivenWhenThen with Matchers {
   case class Bar(i: Int)(j: Int) extends HasEmblem
 
   it should "throw exception on case classes with multiple param lists" in {
-    intercept[emblemGenerator.CaseClassHasMultipleParamListsException] {
+    intercept[EmblemGenerator.CaseClassHasMultipleParamListsException] {
       emblemFor[Bar]
     }
   }

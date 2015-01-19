@@ -48,7 +48,6 @@ class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
     cornersProp.set(polygon, Set[Point]())
   }
 
-  // TODO: submit as bug to scala
   // this exposes a bug in scala-reflect!
   ignore should "work with implicit props" in {
     import withImplicit._

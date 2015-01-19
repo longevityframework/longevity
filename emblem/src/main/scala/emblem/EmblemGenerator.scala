@@ -6,7 +6,7 @@ import scala.reflect.runtime.universe._
 import emblem.stringUtil._
 
 /** a little container for all things related to emblem generation */
-object emblemGenerator {
+object EmblemGenerator {
 
   /** an exception indicating you broke the contract of [[emblem.emblemFor]] */
   class EmblemGeneratorException(message: String) extends Exception(message)
@@ -21,48 +21,47 @@ object emblemGenerator {
   extends EmblemGeneratorException(
     s"emblems for case classes with extra param lists currently not supported: $key")
 
-  // TODO single pass refactor
-
-  // TODO replace hand coded emblems in longevity/musette
   // TODO privatize emblem constructors
 
   // TODO specialized error for inner modules. I used to get this before I moved my case classes to top level:
   // [error] Could not run test emblem.HasEmblemBuilderSpec: scala.ScalaReflectionException: object PointWithDefaults is an inner module, use reflectModule on an InstanceMirror to obtain its ModuleMirror
   // with a test
 
-  @throws[EmblemGeneratorException]
-  private[emblem] def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = {
-    val key = implicitly[TypeKey[A]]
-    val tpe = key.tpe
-    verifyIsCaseClass(tpe, key)
+}
 
-    val symbol = tpe.typeSymbol.asClass
-    val constructorSymbol = symbol.primaryConstructor.asMethod
-    verifySingleParamList(constructorSymbol, key)
+/** a useful scope to hang on to various data to be shared across methods, so we don't have to recompute them
+ * or pass them around in massive parameter lists */
+private class EmblemGenerator[A <: HasEmblem : TypeKey] {
+
+  private val key = implicitly[TypeKey[A]]
+  private val tpe = key.tpe
+  verifyIsCaseClass(tpe, key)
+  private val symbol = tpe.typeSymbol.asClass
+  private val constructorSymbol = symbol.primaryConstructor.asMethod
+  verifySingleParamList(constructorSymbol, key)
+
+  @throws[EmblemGenerator.EmblemGeneratorException]
+  def generate: Emblem[A] = {
 
     // case classes guaranteed to have at least one param list
     val params: List[TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
     val propNames = params.map(_.name)
-
     val props = propNames.map(emblemProp[A](tpe, _))
-    // TODO
-    val propDefaults = EmblemPropToValueMap[A]()
-
-    new Emblem[A](typeNamePrefix(tpe), typeName(tpe), props, propDefaults, makeCreator[A](params))
+    new Emblem[A](typeNamePrefix(tpe), typeName(tpe), props, makeCreator[A](params))
   }
 
-  @throws[TypeIsNotCaseClassException]
+  @throws[EmblemGenerator.TypeIsNotCaseClassException]
   private def verifyIsCaseClass(tpe: Type, key: TypeKey[_ <: HasEmblem]): Unit = {
     val symbol = tpe.typeSymbol
     if (!symbol.isClass || !symbol.asClass.isCaseClass) {
-      throw new TypeIsNotCaseClassException(key)
+      throw new EmblemGenerator.TypeIsNotCaseClassException(key)
     }
   }
 
-  @throws[CaseClassHasMultipleParamListsException]
+  @throws[EmblemGenerator.CaseClassHasMultipleParamListsException]
   private def verifySingleParamList(constructorSymbol: MethodSymbol, key: TypeKey[_ <: HasEmblem]): Unit = {
     if (constructorSymbol.paramLists.size != 1) {
-      throw new CaseClassHasMultipleParamListsException(key)
+      throw new EmblemGenerator.CaseClassHasMultipleParamListsException(key)
     }
   }
 
@@ -162,7 +161,7 @@ object emblemGenerator {
   private def singleParamList(method: MethodSymbol, key: TypeKey[_ <: HasEmblem]) = {
     val methodParamLists = method.paramLists
     if (methodParamLists.size != 1) {
-      throw new CaseClassHasMultipleParamListsException(key)
+      throw new EmblemGenerator.CaseClassHasMultipleParamListsException(key)
     }
     methodParamLists.head
   }

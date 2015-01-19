@@ -14,7 +14,7 @@ package object emblem {
 
   /** creates and returns an [[Emblem]] for the specified type `A`. `A` must be a case class with a single
    * parameter list. */
-  @throws[emblemGenerator.EmblemGeneratorException]
-  def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = emblemGenerator.emblemFor[A]
+  @throws[EmblemGenerator.EmblemGeneratorException]
+  def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = new EmblemGenerator[A].generate
 
 }

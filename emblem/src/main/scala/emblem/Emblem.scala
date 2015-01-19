@@ -19,7 +19,6 @@ class Emblem[T <: HasEmblem : TypeKey](
   val namePrefix: String,
   val name: String,
   val props: Seq[EmblemProp[T, _]],
-  val propDefaults: EmblemPropToValueMap[T],
   val creator: EmblemPropToValueMap[T] => T
 ) {
 
@@ -46,7 +45,7 @@ class Emblem[T <: HasEmblem : TypeKey](
   }
 
   /** creates and returns a new builder for constructing new instances */
-  def builder(): HasEmblemBuilder[T] = new HasEmblemBuilder[T](propDefaults, creator)
+  def builder(): HasEmblemBuilder[T] = new HasEmblemBuilder[T](creator)
 
   /** A string describing the emblem in full detail */
   lazy val debugInfo = {
