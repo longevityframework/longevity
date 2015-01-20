@@ -45,8 +45,6 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "the shorthand"
 
   it should "contain type keys for the longhand and shorthand types" in {
-    //lazy val uriShorthand = shorthandFor[Uri, String]
-
     uriShorthand.longTypeKey should equal (typeKey[Uri])
     uriShorthand.shortTypeKey should equal (typeKey[String])
   }

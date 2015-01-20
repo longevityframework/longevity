@@ -10,7 +10,7 @@ package emblem
  * @param shorten a function to convert from longhand to shorthand
  * @param unshorten a function to convert from shorthand to longhand
  */
-case class Shorthand[Long : TypeKey, Short : TypeKey](
+case class Shorthand[Long : TypeKey, Short : TypeKey] private[emblem] (
   val shorten: (Long) => Short,
   val unshorten: (Short) => Long
 ) {

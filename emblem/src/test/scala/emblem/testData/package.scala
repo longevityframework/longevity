@@ -31,7 +31,7 @@ package object testData {
   // for shorthand happy cases:
 
   case class Uri(uri: String)
-  lazy val uriShorthand = Shorthand[Uri, String](_.uri, Uri(_))
+  lazy val uriShorthand = shorthandFor[Uri, String]
 
   // for emblem and shorthand failure cases:
 

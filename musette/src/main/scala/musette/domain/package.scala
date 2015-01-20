@@ -6,9 +6,9 @@ import emblem._
 package object domain {
 
   val shorthands = emblem.ShorthandPool(
-    Shorthand[Email, String](_.email, Email(_)),
-    Shorthand[Markdown, String](_.markdown, Markdown(_)),
-    Shorthand[Uri, String](_.uri, Uri(_))
+    shorthandFor[Email, String],
+    shorthandFor[Markdown, String],
+    shorthandFor[Uri, String]
   )
 
   implicit def stringToEmail(email: String): Email = Email(email)

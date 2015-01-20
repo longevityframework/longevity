@@ -31,16 +31,6 @@ private class EmblemGenerator[A <: HasEmblem : TypeKey] extends Generator[A] {
       key,
       propKey)
 
-  private def makeGetFunction[U : TypeKey](name: TermName): (A) => U = {
-    val getter = tpe.decl(name).asMethod
-    val getFunction = { a: A =>
-      val instanceMirror = currentMirror.reflect(a)
-      val methodMirror = instanceMirror.reflectMethod(getter)
-      methodMirror().asInstanceOf[U]
-    }
-    getFunction
-  }
-
   private def makeSetFunction[U : TypeKey](name: TermName): (A, U) => A = {
     val setFunction = { (a: A, u: U) =>
       val args = params.map { param: TermSymbol =>

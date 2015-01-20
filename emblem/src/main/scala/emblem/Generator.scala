@@ -7,7 +7,7 @@ import emblem.stringUtil._
 
 /** a useful scope to hang on to various data to be shared across methods, so we don't have to recompute them
  * or pass them around in massive parameter lists */
-private abstract class Generator[A: TypeKey] {
+private abstract class Generator[A : TypeKey] {
 
   protected val key = implicitly[TypeKey[A]]
   protected val tpe = key.tpe
@@ -51,6 +51,16 @@ private abstract class Generator[A: TypeKey] {
             s"Type tag defined in $currentMirror cannot be migrated to other mirrors.")
     }
     TypeTag[A](currentMirror, typeCreator)
+  }
+
+  protected def makeGetFunction[U : TypeKey](name: TermName): (A) => U = {
+    val getter = tpe.decl(name).asMethod
+    val getFunction = { a: A =>
+      val instanceMirror = currentMirror.reflect(a)
+      val methodMirror = instanceMirror.reflectMethod(getter)
+      methodMirror().asInstanceOf[U]
+    }
+    getFunction
   }
 
   private def typeTagToClassTag[T : TypeTag]: ClassTag[T] = {
