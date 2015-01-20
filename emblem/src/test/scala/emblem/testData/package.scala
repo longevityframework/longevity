@@ -4,27 +4,36 @@ package object testData {
 
   import emblem._
 
+  // for testing emblem success cases:
+
   case class Point(x: Double, y: Double) extends HasEmblem
-  val pointEmblem = emblemFor[Point]
-  val xProp = pointEmblem.prop[Double]("x")
-  val yProp = pointEmblem.prop[Double]("y")
+  lazy val pointEmblem = emblemFor[Point]
+  lazy val xProp = pointEmblem.prop[Double]("x")
+  lazy val yProp = pointEmblem.prop[Double]("y")
 
   case class Polygon(corners: Set[Point]) extends HasEmblem
-  val polygonEmblem = emblemFor[Polygon]
-  val cornersProp = polygonEmblem.prop[Set[Point]]("corners")
+  lazy val polygonEmblem = emblemFor[Polygon]
+  lazy val cornersProp = polygonEmblem.prop[Set[Point]]("corners")
 
   case class PointWithDefaults(x: Double = 17.0, y: Double = 13.0) extends HasEmblem
-  val pointWithDefaultsEmblem = emblemFor[PointWithDefaults]
-  val xPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("x")
-  val yPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("y")
+  lazy val pointWithDefaultsEmblem = emblemFor[PointWithDefaults]
+  lazy val xPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("x")
+  lazy val yPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("y")
 
   implicit class ImplicitBar(private val implicitBar: String) extends AnyVal {
     override def toString = implicitBar
   }
   case class FooWithImplicit(implicitBar: ImplicitBar, point: Point) extends HasEmblem
-  val fooWithImplicitEmblem = emblemFor[FooWithImplicit]
-  val implicitBarProp = fooWithImplicitEmblem.prop[ImplicitBar]("implicitBar")
-  val pointProp = fooWithImplicitEmblem.prop[Point]("point")
+  lazy val fooWithImplicitEmblem = emblemFor[FooWithImplicit]
+  lazy val implicitBarProp = fooWithImplicitEmblem.prop[ImplicitBar]("implicitBar")
+  lazy val pointProp = fooWithImplicitEmblem.prop[Point]("point")
+
+  // for shorthand happy cases:
+
+  case class Uri(uri: String)
+  lazy val uriShorthand = Shorthand[Uri, String](_.uri, Uri(_))
+
+  // for emblem and shorthand failure cases:
 
   trait NotACaseClass extends HasEmblem
 
@@ -33,5 +42,7 @@ package object testData {
   class HasInnerClass {
     case class IsInnerCaseClass(i: Int) extends HasEmblem
   }
+
+  case class MultipleParams(i: Int, j: Int)
 
 }

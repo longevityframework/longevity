@@ -7,13 +7,46 @@ import org.scalatest.OptionValues._
 /** [[Shorthand shorthand]] specifications */
 class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  case class Uri(uri: String)
+  import emblem.testData._
 
-  private val uriShorthand = Shorthand[Uri, String](_.uri, Uri(_))
+  behavior of "emblem.shorthandFor"
+
+  it should "throw exception on non case class types" in {
+    intercept[TypeIsNotCaseClassException] {
+      shorthandFor[NotACaseClass, Any]
+    }
+  }
+
+  it should "throw exception on case classes with multiple param lists" in {
+    intercept[CaseClassHasMultipleParamListsException] {
+      shorthandFor[MultipleParamLists, Any]
+    }
+  }
+
+  it should "throw exception on inner case classes" in {
+    intercept[CaseClassIsInnerClassException] {
+      val hasInner = new HasInnerClass
+      shorthandFor[hasInner.IsInnerCaseClass, Any]
+    }
+  }
+
+  it should "throw exception on case classes with multiple params (one param list)" in {
+    intercept[CaseClassHasMultipleParamsException] {
+      shorthandFor[MultipleParams, Any]
+    }
+  }
+
+  it should "throw exception when the requested short type does not match the case class parameter" in {
+    intercept[UnexpectedShortTypeException] {
+      shorthandFor[Uri, Int]
+    }
+  }
 
   behavior of "the shorthand"
 
   it should "contain type keys for the longhand and shorthand types" in {
+    //lazy val uriShorthand = shorthandFor[Uri, String]
+
     uriShorthand.longTypeKey should equal (typeKey[Uri])
     uriShorthand.shortTypeKey should equal (typeKey[String])
   }

@@ -12,9 +12,15 @@ package object emblem {
    * anywhere that the corresponding `TypeTag` is implicitly available. */
   implicit def typeKeyFromTag[A : TypeTag]: TypeKey[A] = TypeKey(implicitly[TypeTag[A]])
 
-  /** creates and returns an [[Emblem]] for the specified type `A`. `A` must be a case class with a single
+  /** creates and returns an [[Emblem]] for the specified type `A`. `A` must be a stable case class with a single
    * parameter list. */
-  @throws[EmblemGenerator.EmblemGeneratorException]
+  @throws[GeneratorException]
   def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = new EmblemGenerator[A].generate
+
+  /** creates and returns an [[Shorthand]] for the specified type `A`. `A` must be a stable case class with
+   * single a parameter list. */
+  @throws[GeneratorException]
+  def shorthandFor[Long : TypeKey, Short : TypeKey]: Shorthand[Long, Short] =
+    new ShorthandGenerator[Long, Short].generate
 
 }

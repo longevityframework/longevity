@@ -3,7 +3,10 @@ package emblem
 import org.scalatest._
 import org.scalatest.OptionValues._
 
-/** [[emblemFor emblem.emblemFor]] specifications */
+/** [[emblemFor emblem.emblemFor]] specifications.
+ *
+ * non-error cases for emblem generation are covered elsewhere in the test suite. here, we cover [[emblemFor]]
+ * error cases. */
 class EmblemForSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import testData._
@@ -11,19 +14,19 @@ class EmblemForSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "emblem.emblemFor"
 
   it should "throw exception on non case class types" in {
-    intercept[EmblemGenerator.TypeIsNotCaseClassException] {
+    intercept[TypeIsNotCaseClassException] {
       emblemFor[NotACaseClass]
     }
   }
 
   it should "throw exception on case classes with multiple param lists" in {
-    intercept[EmblemGenerator.CaseClassHasMultipleParamListsException] {
+    intercept[CaseClassHasMultipleParamListsException] {
       emblemFor[MultipleParamLists]
     }
   }
 
   it should "throw exception on inner case classes" in {
-    intercept[EmblemGenerator.CaseClassIsInnerClassException] {
+    intercept[CaseClassIsInnerClassException] {
       val hasInner = new HasInnerClass
       emblemFor[hasInner.IsInnerCaseClass]
     }
