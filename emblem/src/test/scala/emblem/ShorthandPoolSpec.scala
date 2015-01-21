@@ -3,6 +3,7 @@ package emblem
 import scala.reflect.runtime.universe._
 import org.scalatest._
 import org.scalatest.OptionValues._
+import emblem.exceptions.DuplicateShorthandsException
 
 /** [[ShorthandPool shorthand pool]] specifications */
 class ShorthandPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -34,7 +35,7 @@ class ShorthandPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "the shorthand pool constructor"
   it should "throw exception if there are multiple longhands represented in the pool" in {
     val extraneousShorthand = Shorthand[Email, String](_.email, Email(_))
-    intercept[ShorthandPool.DuplicateShorthandsException] {
+    intercept[DuplicateShorthandsException] {
       ShorthandPool(uriShorthand, emailShorthand, extraneousShorthand)
     }
   }
