@@ -8,6 +8,19 @@ import scala.language.higherKinds
 // TODO decorator classes for more complex K/V types
 // TODO put in all the map api
 
+// TypedMap
+// this one if you just want to instantiate
+class RenameMe[
+  TK,
+  K[_ <: TK],
+  V[_ <: TK]](map: Map[Any, Any]) extends TypedKeyMap[TK, K, V, RenameMe[TK, K, V]](map) {
+
+  protected def newInstance(map: Map[Any, Any]) = new RenameMe[TK, K, V](map)
+
+}
+
+// BaseTypedMap
+// this one if you want to subclass.
 abstract class TypedKeyMap[
   TK,
   K[_ <: TK],

@@ -1,4 +1,6 @@
-package emblem
+package emblem.exceptions
+
+import emblem.TypeKey
 
 /** this exception is thrown when the short type supplied to [[shorthandFor emblem.shorthandFor]] does not
  * match the type of the single parameter of the longhand case class. */

@@ -3,6 +3,7 @@ package emblem
 import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
+import emblem.exceptions._
 import emblem.stringUtil._
 
 /** a useful scope to hang on to various data to be shared across methods, so we don't have to recompute them
@@ -56,18 +57,18 @@ private class EmblemGenerator[A <: HasEmblem : TypeKey] extends Generator[A] {
     methodParamLists.head
   }
 
-  private def makeCreator(): EmblemPropToValueMap[A] => A = {
-    val creator = { map: EmblemPropToValueMap[A] =>
+  private def makeCreator(): Map[String, Any] => A = {
+    val creator = { map: Map[String, Any] =>
       val args = params.zipWithIndex.map {
         case (param: TermSymbol, index: Int) =>
         val paramName: String = param.name.toString          
-        val value: Option[Any] = map.getOptionByName(paramName)
+        val value: Option[Any] = map.get(paramName)
         value match {
           case Some(a) => a
           case None => {
             val defaultMethod = module.typeSignature.member(TermName(s"apply$$default$$${index+1}"))
             if (defaultMethod == NoSymbol) {
-              throw new EmblemPropToValueMap.NoValueForPropName(paramName, map)
+              throw new RequiredPropertyNotSetException(paramName)
             }
             val defaultMirror = module.instanceMirror.reflectMethod(defaultMethod.asMethod)
             defaultMirror()

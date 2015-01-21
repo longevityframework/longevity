@@ -1,4 +1,6 @@
-package emblem
+package emblem.exceptions
+
+import emblem.TypeKey
 
 /** this exception is thrown when a user tries to generate an emblem or a shorthand for an inner case class.
  * an inner type is a type that belongs to an instance variable, such as `B` in the following example:

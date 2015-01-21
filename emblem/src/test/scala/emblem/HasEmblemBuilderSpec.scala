@@ -2,13 +2,13 @@ package emblem
 
 import org.scalatest._
 import org.scalatest.OptionValues._
+import emblem.exceptions.RequiredPropertyNotSetException
 import emblem.testData._
 
 /** [[HasEmblemBuilder HasEmblem builder]] specifications */
 class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "a HasEmblem builder"
-
 
   it should "build new objects of the emblemized type" in {
     val builder = pointEmblem.builder()
@@ -23,11 +23,11 @@ class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "fail to build a new object when not all properties are set" in {
     val builder = pointEmblem.builder()
-    intercept[EmblemPropToValueMap.NoValueForPropName] {
+    intercept[RequiredPropertyNotSetException] {
       builder.build()
     }
     builder.setProp(xProp, 3.0)
-    intercept[EmblemPropToValueMap.NoValueForPropName] {
+    intercept[RequiredPropertyNotSetException] {
       builder.build()
     }
     builder.setProp(yProp, 4.0)
@@ -43,7 +43,7 @@ class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
     cornersProp.set(polygon, Set[Point]())
   }
 
-  // this exposes a bug in scala-reflect!
+  // this exposes a bug in scala-reflect! https://issues.scala-lang.org/browse/SI-9102
   ignore should "work with implicit props" in {
     val builder = fooWithImplicitEmblem.builder()
     val funnyString = "please implicitly transform me (this String) into an ImplicitBar"

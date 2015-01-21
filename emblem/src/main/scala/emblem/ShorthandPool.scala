@@ -11,16 +11,20 @@ package emblem
  */
 case class ShorthandPool(val shorthands: Shorthand[_, _]*) {
 
-  private val longTypeKeyMap: Map[TypeKey[_], Shorthand[_, _]] = {
+  // TODO rename
+  type Short[T] = Shorthand[T, _]
+
+  private val longTypeKeyMap: RenameMe[Any, TypeKey, Short] = {
     val map: Map[TypeKey[_], Shorthand[_, _]] = shorthands.map(s => (s.longTypeKey -> s)).toMap
     if (shorthands.size != map.size) throw new ShorthandPool.DuplicateShorthandsException
-    map
+
+    new RenameMe[Any, TypeKey, Short](map.asInstanceOf[Map[Any, Any]])
   }
 
   /** retrieves an optional [[Shorthand]] for the specified Long type. returns `None` if the Long type
    * is not represented in the pool. */
-  def longTypeKeyToShorthand[Long](key: TypeKey[Long]): Option[Shorthand[Long, _]] =
-    longTypeKeyMap.get(key).asInstanceOf[Option[Shorthand[Long, _]]]
+  def longTypeKeyToShorthand[Long](implicit key: TypeKey[Long]): Option[Shorthand[Long, _]] =
+    longTypeKeyMap.get(key)
 
 }
 

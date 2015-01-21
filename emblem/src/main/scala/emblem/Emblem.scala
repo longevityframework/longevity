@@ -19,7 +19,7 @@ case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
   val namePrefix: String,
   val name: String,
   val props: Seq[EmblemProp[T, _]],
-  val creator: EmblemPropToValueMap[T] => T
+  val creator: Map[String, Any] => T
 ) {
 
   /** A [[TypeKey type key]] for the type that this emblem reflects upon */

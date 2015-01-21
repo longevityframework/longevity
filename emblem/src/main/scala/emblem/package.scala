@@ -1,5 +1,6 @@
 import scala.language.implicitConversions
 import scala.reflect.runtime.universe.TypeTag
+import emblem.exceptions._
 
 /** a collection of utilities for reflecting on types */
 package object emblem {
