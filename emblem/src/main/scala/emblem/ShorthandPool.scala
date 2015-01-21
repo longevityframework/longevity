@@ -19,7 +19,7 @@ case class ShorthandPool(val shorthands: Shorthand[_, _]*) {
 
   private val longTypeKeyMap: TypedMap[Any, TypeKey, ShorthandFor] =
     shorthands.foldLeft(TypedMap[Any, TypeKey, ShorthandFor]()) {
-      case (map, shorthand) => map + (shorthand.longTypeKey -> shorthand)
+      case (map, shorthand) => map + (shorthand.longTypeKey -> shorthand.longTypeKey -> shorthand)
     }
 
   if (shorthands.size != longTypeKeyMap.size) throw new DuplicateShorthandsException

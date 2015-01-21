@@ -30,6 +30,12 @@ package object testData {
 
   // for shorthand happy cases:
 
+  case class Email(email: String)
+  lazy val emailShorthand = shorthandFor[Email, String]
+
+  case class Markdown(markdown: String)
+  lazy val markdownShorthand = shorthandFor[Markdown, String]
+
   case class Uri(uri: String)
   lazy val uriShorthand = shorthandFor[Uri, String]
 

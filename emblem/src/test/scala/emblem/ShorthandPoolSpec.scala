@@ -8,12 +8,7 @@ import emblem.exceptions.DuplicateShorthandsException
 /** [[ShorthandPool shorthand pool]] specifications */
 class ShorthandPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  case class Uri(uri: String)
-  case class Email(email: String)
-  case class Markdown(markdown: String)
-
-  private val uriShorthand = Shorthand[Uri, String](_.uri, Uri(_))
-  private val emailShorthand = Shorthand[Email, String](_.email, Email(_))
+  import emblem.testData._
 
   private val pool = ShorthandPool(uriShorthand, emailShorthand)
 
@@ -34,7 +29,7 @@ class ShorthandPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "the shorthand pool constructor"
   it should "throw exception if there are multiple longhands represented in the pool" in {
-    val extraneousShorthand = Shorthand[Email, String](_.email, Email(_))
+    val extraneousShorthand = shorthandFor[Email, String]
     intercept[DuplicateShorthandsException] {
       ShorthandPool(uriShorthand, emailShorthand, extraneousShorthand)
     }
