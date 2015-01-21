@@ -4,16 +4,25 @@ package emblem
  *
  * @tparam T the emblemized type that these [EmblemProp emblem props]] reflect on
  */
-class EmblemPropToValueMap[T <: HasEmblem] private(
-  private val propToValueMap: Map[EmblemProp[T, _], Any] = Map[EmblemProp[T, _], Any]()) {
+class EmblemPropToValueMap[T <: HasEmblem] private (map: Map[Any, Any] = Map())
+extends TypedKeyMap[
+  T,
+  EmblemPropToValueMap.AnyProp,
+  Any,
+  EmblemPropToValueMap[T]](
+  map) {
 
-  private val propNameToPropMap: Map[String, EmblemProp[T, _]] = propToValueMap.keys.map { prop =>
-    (prop.name, prop)
-  }.toMap
+  protected def newInstance(map: Map[Any, Any]) = new EmblemPropToValueMap[T](map)
 
+  private val propNameToPropMap: Map[String, EmblemProp[_ <: HasEmblem, _]] =
+    keys.map { prop: EmblemProp[_ <: HasEmblem, _] =>
+      (prop.name, prop)
+    }.toMap
+
+  // TODO: this has to be renamed! get should return Option
   /** gets the value for the supplied prop */
   @throws[EmblemPropToValueMap.NoValueForPropName]("when there is no value set for the supplied prop")
-  def get[U](prop: EmblemProp[T, U]): U = propToValueMap.get(prop) match {
+  def get[U](prop: EmblemProp[T, U]): U = map.get(prop) match {
     case Some(u) => u.asInstanceOf[U]
     case None => throw new EmblemPropToValueMap.NoValueForPropName(prop.name, this)
   }
@@ -21,20 +30,14 @@ class EmblemPropToValueMap[T <: HasEmblem] private(
   /** gets an optional value for the supplied prop name */
   private[emblem] def getOptionByName[U](propName: String): Option[U] = {
     val propOption = propNameToPropMap.get(propName).asInstanceOf[Option[EmblemProp[T, U]]]
-    propOption map { propToValueMap(_).asInstanceOf[U] }
+    propOption map { map(_).asInstanceOf[U] }
   }
-
-  /** creates a new map by adding a new property/value pair to this map */
-  def +[U](pair: (EmblemProp[T, U], U)): EmblemPropToValueMap[T] =
-    new EmblemPropToValueMap(propToValueMap + pair)
-
-  def size = propToValueMap.size
-
-  def isEmpty = propToValueMap.isEmpty
   
 }
 
 object EmblemPropToValueMap {
+
+  type AnyProp[T <: HasEmblem] = EmblemProp[T, _]
 
   /** creates a new, empty map */
   def apply[T <: HasEmblem](): EmblemPropToValueMap[T] = new EmblemPropToValueMap[T]()

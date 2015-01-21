@@ -4,6 +4,7 @@ import scala.reflect.runtime.universe.TypeTag
 import longevity.domain._
 
 // TODO s/ypeTag/ypeKey/
+// TODO: use TypedKeyMap here
 
 object RepoPool {
 

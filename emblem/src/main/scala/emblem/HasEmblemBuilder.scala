@@ -6,7 +6,7 @@ package emblem
  * @param defaults a set of default property values for the builder
  * @param creator a function to build the object from a [[EmblemPropToValueMap]]
  */
-class HasEmblemBuilder[T <: HasEmblem](creator: EmblemPropToValueMap[T] => T) {
+class HasEmblemBuilder[T <: HasEmblem : TypeKey](creator: EmblemPropToValueMap[T] => T) {
 
   private var map: EmblemPropToValueMap[T] = EmblemPropToValueMap[T]
 
