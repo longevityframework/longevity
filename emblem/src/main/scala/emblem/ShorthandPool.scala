@@ -9,7 +9,7 @@ import emblem.exceptions.DuplicateShorthandsException
  * A shorthand pool requires that no two shorthands have the same Long type.
  *
  * @param shorthands the sequence of shorthands stored in the pool
- * @throws DuplicateShorthandsException when two Shorthands have the same Long type
+ * @throws emblem.exceptions.DuplicateShorthandsException when two Shorthands have the same Long type
  */
 case class ShorthandPool(val shorthands: Shorthand[_, _]*) {
 
