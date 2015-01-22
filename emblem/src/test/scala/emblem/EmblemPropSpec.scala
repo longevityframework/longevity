@@ -9,7 +9,7 @@ import org.scalatest.OptionValues._
 /** [[EmblemProp emblem property]] specifications */
 class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  import testData._
+  import testData.geometry._
 
   behavior of "an emblem prop"
 
@@ -37,7 +37,7 @@ class EmblemPropSpec extends FlatSpec with GivenWhenThen with Matchers {
     typeArgs.size should equal (1)
     typeArgs.head =:= typeOf[Point] should be (true)
 
-    polygonEmblem("corners").toString should equal ("corners: Set[emblem.testData.package.Point]")
+    polygonEmblem("corners").toString should equal ("corners: Set[emblem.testData.geometry.Point]")
   }
 
 }

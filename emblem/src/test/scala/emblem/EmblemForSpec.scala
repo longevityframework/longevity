@@ -10,7 +10,7 @@ import emblem.exceptions._
  * error cases. */
 class EmblemForSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  import testData._
+  import emblem.testData.genFailure._
 
   behavior of "emblem.emblemFor"
 

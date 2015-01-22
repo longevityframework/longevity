@@ -6,21 +6,36 @@ import org.scalatest.OptionValues._
 /** [[TypeKeyMap]] specifications */
 class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
+  behavior of "the example code in the scaladocs for TypeKeyMap"
+  it should "compile and produce the expected values" in {
+
+    import emblem.testData.computerParts._
+
+    var partLists = TypeKeyMap[ComputerPart, List]()
+    partLists += Memory(2) :: Memory(4) :: Memory(8) :: Nil
+    partLists += CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
+    partLists += Display(720) :: Display(1080) :: Nil
+
+    val memories: List[Memory] = partLists[Memory]
+    memories.size should be (3)
+    val cpus: List[CPU] = partLists[CPU]
+    cpus.size should be (3)
+    val displays: List[Display] = partLists[Display]
+    displays.size should be (2)
+
+    val cpu: CPU = partLists[CPU].head
+    cpu should equal (CPU(2.2))
+    val display: Display = partLists[Display].tail.head
+    display should equal (Display(1080))
+
+  }
+
   // TODO identity example
 
   behavior of "a TypeKeyMap where the value type has a single type parameter"
 
-  trait Entity
-  case class User(uri: String) extends Entity
-  case class Blog(uri: String) extends Entity
-
-  trait Repo[E <: Entity] {
-    var saveCount = 0
-    def save(entity: E): Unit = saveCount += 1
-  }
-  class UserRepo extends Repo[User]
+  import emblem.testData.blogs._
   val userRepo = new UserRepo
-  class BlogRepo extends Repo[Blog]
   val blogRepo = new BlogRepo
 
   it should "only allow key/value pairs with matching type param" in {

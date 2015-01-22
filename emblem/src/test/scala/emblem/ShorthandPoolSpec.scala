@@ -8,7 +8,7 @@ import emblem.exceptions.DuplicateShorthandsException
 /** [[ShorthandPool shorthand pool]] specifications */
 class ShorthandPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  import emblem.testData._
+  import emblem.testData.shorthands._
 
   private val pool = ShorthandPool(uriShorthand, emailShorthand)
 

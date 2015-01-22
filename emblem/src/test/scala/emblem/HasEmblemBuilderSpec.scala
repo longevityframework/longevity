@@ -3,7 +3,8 @@ package emblem
 import org.scalatest._
 import org.scalatest.OptionValues._
 import emblem.exceptions.RequiredPropertyNotSetException
-import emblem.testData._
+import emblem.testData.geometry._
+import emblem.testData.withImplicits._
 
 /** [[HasEmblemBuilder HasEmblem builder]] specifications */
 class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {

@@ -29,7 +29,7 @@ object TypedMap {
  * val dogStore1 = new PetStore[Dog]
  * }}}
  *
- * I can use a `TypedMap` to store a list of pets of the appropriate type for every pet store:
+ * We can use a `TypedMap` to store a list of pets of the appropriate type for every pet store:
  *
  * {{{
  * var inventories = TypedMap[Pet, PetStore, List]
@@ -70,7 +70,7 @@ object TypedMap {
  *
  * (Code presented here is in TypedMapSpec.scala)
  * 
- * @tparam TypeBound the upper bound on the type parameters passed into the Key and Value types
+ * @tparam TypeBound the upper bound on the type parameters passed to the Key and Val types
  * @tparam Key the parameterized type of the keys in the map
  * @tparam Val the parameterized type of the values in the map
  * 

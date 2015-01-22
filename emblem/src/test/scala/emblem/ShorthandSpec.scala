@@ -8,7 +8,8 @@ import emblem.exceptions._
 /** [[Shorthand shorthand]] specifications */
 class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  import emblem.testData._
+  import emblem.testData.genFailure._
+  import emblem.testData.shorthands._
 
   behavior of "emblem.shorthandFor"
 

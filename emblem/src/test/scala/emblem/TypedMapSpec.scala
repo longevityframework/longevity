@@ -7,13 +7,10 @@ import org.scalatest.OptionValues._
 class TypedMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "the example code in the scaladocs for TypedMap"
-
-  trait Pet
-  case class Cat(name: String) extends Pet
-  case class Dog(name: String) extends Pet
-  class PetStore[P <: Pet]
-
   it should "compile and produce the expected values" in {
+
+    import emblem.testData.pets._
+
     val catStore1 = new PetStore[Cat]
     val catStore2 = new PetStore[Cat]
     val dogStore1 = new PetStore[Dog]
@@ -34,16 +31,13 @@ class TypedMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     cat should equal (Cat("cat11"))
     val dog: Dog = inventories(dogStore1).head
     dog should equal (Dog("dog11"))
+
   }
 
   behavior of "a TypedMap where the type bound, key, and value types are all the same"
 
-  private sealed trait ComputerPart
-  private case class Memory(gb: Int) extends ComputerPart
-  private case class CPU(mhz: Double) extends ComputerPart
-  private case class Display(resolution: Int) extends ComputerPart
-  private type Identity[Part <: ComputerPart] = Part
-  private case class Computer(memory: Memory, cpu: CPU, display: Display)
+  import emblem.testData.computerParts._
+  type Identity[Part <: ComputerPart] = Part
 
   it should "only allow key/value pairs with matching type param" in {
     var partsUpgradeMap = TypedMap[ComputerPart, Identity, Identity]()
@@ -84,21 +78,8 @@ class TypedMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "a TypedMap where both key and value have a single shared type parameter"
 
-  trait Entity
-  case class User(uri: String) extends Entity
-  case class Blog(uri: String) extends Entity
-
-  trait EntityType[E <: Entity]
-  object userType extends EntityType[User]
-  object blogType extends EntityType[Blog]
-
-  trait Repo[E <: Entity] {
-    var saveCount = 0
-    def save(entity: E): Unit = saveCount += 1
-  }
-  class UserRepo extends Repo[User]
+  import emblem.testData.blogs._
   val userRepo = new UserRepo
-  class BlogRepo extends Repo[Blog]
   val blogRepo = new BlogRepo
 
   it should "only allow key/value pairs with matching type param" in {

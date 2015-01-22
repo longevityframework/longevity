@@ -2,9 +2,6 @@ package emblem
 
 import scala.language.higherKinds
 
-// TODO scaladoc
-// TODO specs
-
 object TypeKeyMap {
 
   /** Creates and returns an empty [[TypeKeyMap]] for the supplied types
@@ -16,7 +13,49 @@ object TypeKeyMap {
 
 }
 
-/**
+/** A map where the keys are [[TypeKey TypeKeys]] with an upper bound, and the values have a type parameter
+ * with the same bound. The key and value of each key/value pair are constrained to match on that type
+ * parameter. For example, suppose we are maintaining an inventory of computer parts:
+ *
+ * {{{
+ * sealed trait ComputerPart
+ * case class Memory(gb: Int) extends ComputerPart
+ * case class CPU(mhz: Double) extends ComputerPart
+ * case class Display(resolution: Int) extends ComputerPart
+ * }}}
+ * 
+ * We can use a `TypeKeyMap` to store a list of parts for each kind of part:
+ *
+ * {{{
+ * var partLists = TypeKeyMap[ComputerPart, List]()
+ * partLists += Memory(2) :: Memory(4) :: Memory(8) :: Nil
+ * partLists += CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
+ * partLists += Display(720) :: Display(1080) :: Nil
+ * }}}
+ *
+ * Now we can look up part lists by part type, with everything coming back as the expected type:
+ * 
+ * {{{
+ * val memories: List[Memory] = partLists[Memory]
+ * memories.size should be (3)
+ * val cpus: List[CPU] = partLists[CPU]
+ * cpus.size should be (3)
+ * val displays: List[Display] = partLists[Display]
+ * displays.size should be (2)
+ *
+ * val cpu: CPU = partLists[CPU].head
+ * cpu should equal (CPU(2.2))
+ * val display: Display = partLists[Display].tail.head
+ * display should equal (Display(1080))
+ * }}}
+ *
+ * Note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
+ * each pair needs to be type-checked separately.
+ *
+ * (Code presented here is in TypeKeyMapSpec.scala)
+ * 
+ * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
+ * @tparam Val the parameterized type of the values in the map
  *
  * @see [[ShorthandPool]] for an example of how to use type key maps when the value type is more
  * sophisticated than just type with a single type parameter.
@@ -24,6 +63,8 @@ object TypeKeyMap {
  */
 class TypeKeyMap[TypeBound, Val[_ <: TypeBound]] private (map: Map[Any, Any])
 extends BaseTypedMap[TypeBound, TypeKey, Val](map) {
+
+  // TODO scaladoc
 
   @throws[NoSuchElementException]
   def apply[TypeParam <: TypeBound : TypeKey]: Val[TypeParam] = get[TypeParam].get
@@ -43,6 +84,15 @@ extends BaseTypedMap[TypeBound, TypeKey, Val](map) {
   def +[TypeParam <: TypeBound : TypeKey](key: TypeKey[TypeParam], value: Val[TypeParam])
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](map + (key -> value))
+
+  // TODO this is slightly questionable, - is it better to be explicit with the type key here? i am
+  // worried that the compiler is going to infer an upper bound type in the face of certain programmer
+  // errors
+
+  // we need an explicit type key here, or the compiler will just infer TypeParam =:= TypeBound!
+  def +[TypeParam <: TypeBound : TypeKey](value: Val[TypeParam])
+  : TypeKeyMap[TypeBound, Val] =
+    new TypeKeyMap[TypeBound, Val](map + (typeKey[TypeParam] -> value))
 
   override def toString = s"TypeKey${map}"
 
