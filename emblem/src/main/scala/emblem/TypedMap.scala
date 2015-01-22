@@ -2,15 +2,12 @@ package emblem
 
 import scala.language.higherKinds
 
-// TODO scaladoc
-// TODO specs
-
 object TypedMap {
 
-  /** Creates and returns an empty [[TypedMap]] for the supplied types
-   * @tparam TypeBound TODO
-   * @tparam Key TODO
-   * @tparam Val TODO
+  /** Creates and returns an empty [[TypedMap]] for the supplied types.
+   * @tparam TypeBound the upper bound on the type parameters passed into the Key and Value types
+   * @tparam Key the parameterized type of the keys in the map
+   * @tparam Val the parameterized type of the values in the map
    */
   def apply[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]](): TypedMap[TypeBound, Key, Val] =
     new TypedMap[TypeBound, Key, Val](Map.empty)
@@ -77,12 +74,12 @@ object TypedMap {
  * @tparam Key the parameterized type of the keys in the map
  * @tparam Val the parameterized type of the values in the map
  * 
- * @see [[ShorthandPool]] for an example of how to use typed maps when the key/value types are more
- * sophisticated than just type with a single type parameter.
- * @see TypedMapSpec.scala and BaseTypeMapSpec.scala for many more examples
+ * @see TypedMapSpec.scala and BaseTypedMapSpec.scala for many more examples
  */
 class TypedMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (map: Map[Any, Any])
 extends BaseTypedMap[TypeBound, Key, Val](map) {
+
+  // TODO scaladoc
 
   // note that this key cannot be implicit
   @throws[NoSuchElementException]

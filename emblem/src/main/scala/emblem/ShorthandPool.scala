@@ -17,6 +17,7 @@ case class ShorthandPool(val shorthands: Shorthand[_, _]*) {
   // this allows it to be used as a key in a TypedMap
   private type ShorthandFor[Long] = Shorthand[Long, _]
 
+  // TODO this should use a TypeKeyMap
   private val longTypeKeyMap: TypedMap[Any, TypeKey, ShorthandFor] =
     shorthands.foldLeft(TypedMap[Any, TypeKey, ShorthandFor]()) {
       case (map, shorthand) => map + (shorthand.longTypeKey -> shorthand.longTypeKey -> shorthand)
