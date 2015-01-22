@@ -1,6 +1,8 @@
 package emblem.exceptions
 
-// TODO revise scaladoc
-/** an exception thrown when looking up a value for a property that is not in the map */
+import emblem.HasEmblemBuilder
+
+/** an exception thrown by [[HasEmblemBuilder.build]] when a required property was not set by
+ * [[HasEmblemBuilder.setProp]]. */
 class RequiredPropertyNotSetException(val propName: String)
 extends Exception(s"required propery $propName was not set")

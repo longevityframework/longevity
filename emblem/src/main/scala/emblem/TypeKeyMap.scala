@@ -5,8 +5,8 @@ import scala.language.higherKinds
 object TypeKeyMap {
 
   /** Creates and returns an empty [[TypeKeyMap]] for the supplied types
-   * @tparam TypeBound TODO
-   * @tparam Val TODO
+   * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
+   * @tparam Val the parameterized type of the values in the map
    */
   def apply[TypeBound, Val[_ <: TypeBound]](): TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](Map.empty)
