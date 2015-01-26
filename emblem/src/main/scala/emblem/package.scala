@@ -24,4 +24,7 @@ package object emblem {
   def shorthandFor[Long : TypeKey, Short : TypeKey]: Shorthand[Long, Short] =
     new ShorthandGenerator[Long, Short].generate
 
+  // TODO: an extension class for Map with a toTypeKeyMap[B,V] method
+  // TODO: an extension class for Map with a toTypeBoundMap[B,K,V] method
+
 }

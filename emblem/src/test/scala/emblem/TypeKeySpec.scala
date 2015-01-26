@@ -7,6 +7,8 @@ import org.scalatest.OptionValues._
 /** [[TypeKey type key]] specifications */
 class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
+  // TODO: spec showing when TypeKeys are equal where TypeTags are not
+
   behavior of "the TypeKey constructor"
   it should "produce a valid type key from a type tag" in {
     val tag = typeTag[List[Int]]
@@ -42,7 +44,7 @@ class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     key1 should equal (key2)
     key1.hashCode should equal (key2.hashCode)
     key1 should not equal (key3)
-    // key1 and key2 hashCodes are not guaranteed to differ!
+    // key1 and key3 hashCodes are not guaranteed to differ!
   }
 
 }

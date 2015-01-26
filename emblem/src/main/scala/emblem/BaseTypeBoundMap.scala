@@ -18,7 +18,7 @@ private[emblem] abstract class BaseTypeBoundMap[TypeBound, Key[_ <: TypeBound], 
    */
   def keys: Iterable[Key[_ <: TypeBound]] = map.keys.asInstanceOf[Iterable[Key[_ <: TypeBound]]]
 
-  /** The number of key/vaue bindings in this map */
+  /** The number of key/value bindings in this map */
   def size = map.size
 
 }
