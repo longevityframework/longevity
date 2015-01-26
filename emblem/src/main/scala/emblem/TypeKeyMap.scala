@@ -52,7 +52,7 @@ object TypeKeyMap {
  * Note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
  * each pair needs to be type-checked separately.
  *
- * (Code presented here is in TypeKeyMapSpec.scala, near the top)
+ * (Code presented here is in TypeKeyMapSpec.scala, up at the top)
  * 
  * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
  * @tparam Val the parameterized type of the values in the map
@@ -65,12 +65,13 @@ class TypeKeyMap[TypeBound, Val[_ <: TypeBound]] private (map: Map[Any, Any])
 extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
 
   /** Retrieves the value which is associated with the given type key
-   * @tparam TypeParam the TypeParam from which the type key is inferred */
-  @throws[NoSuchElementException]("when no value is mapped to the supplied TypeParam")
+   * @tparam TypeParam the type param binding both the type key and the value
+   */
+  @throws[NoSuchElementException]("when no value is mapped to the supplied type param")
   def apply[TypeParam <: TypeBound : TypeKey]: Val[TypeParam] = get[TypeParam].get
 
   /** Optionally returns the value associated with the given type key
-   * @tparam TypeParam the type param from which the type key is inferred
+   * @tparam TypeParam the type param bounding both the type key and the value
    * @return an option value containing the value associated with type key in this map, or None if none
    * exists. */
   def get[TypeParam <: TypeBound : TypeKey]: Option[Val[TypeParam]] =
@@ -80,8 +81,8 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
    * map.
    *
    * @param default a computation that yields a default value in case no binding for the type key is found in
-   * the map.
-   * @tparam TypeParam the type param from which the type key is inferred
+   * the map
+   * @tparam TypeParam the type param bounding both the type key and the value
    * @return the value associated with type key if it exists, otherwise the result of the `default` computation.
    */
   def getOrElse[TypeParam <: TypeBound : TypeKey](default: => Val[TypeParam]): Val[TypeParam] =
@@ -89,16 +90,16 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
 
   /** Adds a typekey/value pair to this map, returning a new map.
    * @param pair the typekey/value pair
-   * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[KeyTypeParam])`
-   * @tparam KeyTypeParam the type param from which the type key is inferred
+   * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[TypeParam])`
+   * @tparam TypeParam the type param bounding both the type key and the value
    * @tparam ValTypeParam the type param for the value type. this can be any type, provided that
-   * `Val[ValTypeParam] <: Val[KeyTypeParam])`
+   * `Val[ValTypeParam] <: Val[TypeParam])`
    */
   def +[
-    KeyTypeParam <: TypeBound,
+    TypeParam <: TypeBound,
     ValTypeParam <: TypeBound](
-    pair: (TypeKey[KeyTypeParam], Val[ValTypeParam]))(
-    implicit valConforms: Val[ValTypeParam] <:< Val[KeyTypeParam])
+    pair: (TypeKey[TypeParam], Val[ValTypeParam]))(
+    implicit valConforms: Val[ValTypeParam] <:< Val[TypeParam])
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](map + pair)
 
@@ -110,7 +111,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
    * argument of type `Contra[TypeParam]`, where type `Contra` is defined as, e.g., `trait Contra[+T]`,
    * it's always going to infer `TypeBound` as the `TypeParam`. There seems to be nothing i can do within
    * `TypeKeyMap` to circumvent this. THe easiest way to work around this problem is to specify the type key
-   * yourself with [[TypeKeyMap.+[KeyTypeParam<:TypeBound,ValTypeParam<:TypeBound]* the alternate method +]].
+   * yourself with [[TypeKeyMap.+[TypeParam<:TypeBound,ValTypeParam<:TypeBound]* the alternate method +]].
    *
    * @param value the value to add to the map
    * @param key the type key, which is inferred from the type of value

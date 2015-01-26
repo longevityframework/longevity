@@ -68,30 +68,48 @@ object TypeBoundMap {
 class TypeBoundMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (map: Map[Any, Any])
 extends BaseTypeBoundMap[TypeBound, Key, Val](map) {
 
-  // TODO scaladoc
-
-  // note that this key cannot be implicit
-  @throws[NoSuchElementException]
+  /** Retrieves the value which is associated with the given key, both bound by the same type param.
+   * @tparam TypeParam the type param binding both the key and the value */
+  @throws[NoSuchElementException]("when no value is mapped to the supplied key")
   def apply[TypeParam <: TypeBound](key: Key[TypeParam]): Val[TypeParam] = get(key).get
 
+  /** Optionally returns the value associated with the given key
+   * @tparam TypeParam the type param bounding both the key and the value
+   * @return an option value containing the value associated with type key in this map, or None if none
+   * exists.
+   */
   def get[TypeParam <: TypeBound](key: Key[TypeParam]): Option[Val[TypeParam]] =
     map.get(key).asInstanceOf[Option[Val[TypeParam]]]
 
+  /** Returns the value associated with a key, or a default value if the key is not contained in the map.
+   *
+   * @param default a computation that yields a default value in case no binding for the key is found in
+   * the map
+   * @tparam TypeParam the type param bounding both the key and the value
+   * @return the value associated with key if it exists, otherwise the result of the `default` computation.
+   */
   def getOrElse[TypeParam <: TypeBound](
     key: Key[TypeParam], default: => Val[TypeParam]): Val[TypeParam] =
     map.getOrElse(key, default).asInstanceOf[Val[TypeParam]]
 
+  /** Adds a key/value pair to this map, returning a new map. Both the key and the value are bound by the same
+   * type param.
+   * @param pair the key/value pair
+   * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[TypeParam])`
+   * @tparam TypeParam the type param bounding both the key and the value
+   * @tparam ValTypeParam the type param for the value type. this can be any type, provided that
+   * `Val[ValTypeParam] <: Val[KeyTypeParam])`
+   */
   def +[
     TypeParam <: TypeBound,
-    KeyTypeParam <: TypeBound,
     ValTypeParam <: TypeBound](
-    pair: (Key[KeyTypeParam], Val[ValTypeParam]))(
+    pair: (Key[TypeParam], Val[ValTypeParam]))(
     implicit
-    keyStrictly: KeyTypeParam =:= TypeParam,
-    valLoosely: Val[ValTypeParam] <:< Val[TypeParam])
+    valConforms: Val[ValTypeParam] <:< Val[TypeParam])
   : TypeBoundMap[TypeBound, Key, Val] =
     new TypeBoundMap[TypeBound, Key, Val](map + pair)
 
-  override def toString = s"Typed${map}"
+  /** A string representation of a TypeBoundMap */
+  override def toString = s"TypeBound${map}"
 
 }

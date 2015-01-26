@@ -186,7 +186,6 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     blogRepo.saveCount should equal (2)
   }
 
-  // TODO: double-TP value type
-  // TODO: specs to exercise api in BaseTypeBoundMapSpec
+  // TODO: double-TP value type (like in ShorthandPool)
 
 }
