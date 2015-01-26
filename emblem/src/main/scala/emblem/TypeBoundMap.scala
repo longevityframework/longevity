@@ -2,15 +2,15 @@ package emblem
 
 import scala.language.higherKinds
 
-object TypedMap {
+object TypeBoundMap {
 
-  /** Creates and returns an empty [[TypedMap]] for the supplied types.
+  /** Creates and returns an empty [[TypeBoundMap]] for the supplied types.
    * @tparam TypeBound the upper bound on the type parameters passed into the Key and Value types
    * @tparam Key the parameterized type of the keys in the map
    * @tparam Val the parameterized type of the values in the map
    */
-  def apply[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]](): TypedMap[TypeBound, Key, Val] =
-    new TypedMap[TypeBound, Key, Val](Map.empty)
+  def apply[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]](): TypeBoundMap[TypeBound, Key, Val] =
+    new TypeBoundMap[TypeBound, Key, Val](Map.empty)
 
 }
 
@@ -29,10 +29,10 @@ object TypedMap {
  * val dogStore1 = new PetStore[Dog]
  * }}}
  *
- * We can use a `TypedMap` to store a list of pets of the appropriate type for every pet store:
+ * We can use a `TypeBoundMap` to store a list of pets of the appropriate type for every pet store:
  *
  * {{{
- * var inventories = TypedMap[Pet, PetStore, List]
+ * var inventories = TypeBoundMap[Pet, PetStore, List]
  * inventories += (catStore1, Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil)
  * inventories += (catStore2, Cat("cat21") :: Nil)
  * inventories += (dogStore1, Dog("dog11") :: Dog("dog12") :: Nil)
@@ -57,16 +57,16 @@ object TypedMap {
  * Note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
  * each pair needs to be type-checked separately.
  *
- * (Code presented here is in TypedMapSpec.scala, up at the top)
+ * (Code presented here is in TypeBoundMapSpec.scala, up at the top)
  * 
  * @tparam TypeBound the upper bound on the type parameters passed to the Key and Val types
  * @tparam Key the parameterized type of the keys in the map
  * @tparam Val the parameterized type of the values in the map
  * 
- * @see TypedMapSpec.scala and BaseTypedMapSpec.scala for many more examples
+ * @see TypeBoundMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples
  */
-class TypedMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (map: Map[Any, Any])
-extends BaseTypedMap[TypeBound, Key, Val](map) {
+class TypeBoundMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (map: Map[Any, Any])
+extends BaseTypeBoundMap[TypeBound, Key, Val](map) {
 
   // TODO scaladoc
 
@@ -89,8 +89,8 @@ extends BaseTypedMap[TypeBound, Key, Val](map) {
     implicit
     keyStrictly: KeyTypeParam =:= TypeParam,
     valLoosely: Val[ValTypeParam] <:< Val[TypeParam])
-  : TypedMap[TypeBound, Key, Val] =
-    new TypedMap[TypeBound, Key, Val](map + pair)
+  : TypeBoundMap[TypeBound, Key, Val] =
+    new TypeBoundMap[TypeBound, Key, Val](map + pair)
 
   override def toString = s"Typed${map}"
 

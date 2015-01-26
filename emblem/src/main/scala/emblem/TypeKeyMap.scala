@@ -59,10 +59,10 @@ object TypeKeyMap {
  *
  * @see [[ShorthandPool]] for an example of how to use type key maps when the value type is more
  * sophisticated than just type with a single type parameter.
- * @see TypeKeyMapSpec.scala and BaseTypedMapSpec.scala for many more examples
+ * @see TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples
  */
 class TypeKeyMap[TypeBound, Val[_ <: TypeBound]] private (map: Map[Any, Any])
-extends BaseTypedMap[TypeBound, TypeKey, Val](map) {
+extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
 
   // TODO scaladoc
 

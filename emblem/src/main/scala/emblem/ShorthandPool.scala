@@ -14,7 +14,7 @@ import emblem.exceptions.DuplicateShorthandsException
 case class ShorthandPool(val shorthands: Shorthand[_, _]*) {
 
   // this type is equivalent to Shorthand[Long, _], except with a single type parameter Long.
-  // this allows it to be used as a key in a TypedMap
+  // this allows it to be used as a key in a TypeBoundMap
   private type ShorthandFor[Long] = Shorthand[Long, _]
 
   private val longTypeKeyMap: TypeKeyMap[Any, ShorthandFor] =

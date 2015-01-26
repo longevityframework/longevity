@@ -187,6 +187,6 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   // TODO: double-TP value type
-  // TODO: specs to exercise api in BaseTypedMapSpec
+  // TODO: specs to exercise api in BaseTypeBoundMapSpec
 
 }
