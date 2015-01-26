@@ -16,9 +16,9 @@ class TypedMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     val dogStore1 = new PetStore[Dog]
 
     var inventories = TypedMap[Pet, PetStore, List]
-    inventories += (typeKey[Cat], catStore1, Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil)
-    inventories += (typeKey[Cat], catStore2, Cat("cat21") :: Nil)
-    inventories += (typeKey[Dog], dogStore1, Dog("dog11") :: Dog("dog12") :: Nil)
+    inventories += (catStore1, Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil)
+    inventories += (catStore2, Cat("cat21") :: Nil)
+    inventories += (dogStore1, Dog("dog11") :: Dog("dog12") :: Nil)
 
     val cats1: List[Cat] = inventories(catStore1)
     cats1.size should be (3)
@@ -34,6 +34,89 @@ class TypedMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   }
 
+  behavior of "TypedMaps in the face of someone trying to break through my bulletpoof type signatures"
+  it should "thwart the attack with a compile time error of unspecified opacity" in {
+    import testData.pets._
+    val dog = Dog("dog")
+    val hound = Hound("hound")
+    var petToPetMap = TypedMap[Pet, PetIdentity, PetIdentity]()
+
+    "petToPetMap += dog -> dog" should compile
+
+    petToPetMap += dog -> dog
+    petToPetMap(dog) should equal (dog)
+
+    // you are not allowed to map a hound to a dog.
+    // otherwise you could then call "petToPetMap(hound)" and get a ClassCastException.
+    "petToPetMap += hound -> dog" shouldNot compile
+
+    // you are allowed to map a dog to a hound.
+    // in this case petToPetMap(dog) return something of type PetIdentity[Dog] (which =:= Dog), and the
+    // something returned is hound. nothing weird, no ClassCastException.
+    "petToPetMap += dog -> hound" should compile
+
+    petToPetMap = TypedMap[Pet, PetIdentity, PetIdentity]()
+    petToPetMap += dog -> hound
+    petToPetMap(dog) should equal (hound)
+
+    var petToPetBoxInvarMap = TypedMap[Pet, PetIdentity, PetBoxInvar]()
+
+    "petToPetBoxInvarMap += dog -> new PetBoxInvar(dog)" should compile
+
+    petToPetBoxInvarMap += dog -> new PetBoxInvar(dog)
+    petToPetBoxInvarMap[Pet](dog).p should equal (dog)
+
+    // you are not allowed to map a hound to a PetBoxInvar[Dog].
+    // otherwise you could then call "petToPetBoxInvarMap(hound)" and get a ClassCastException.
+    "petToPetBoxInvarMap += hound -> new PetBoxInvar(dog)" shouldNot compile
+
+    // you are not allowed to map a dog to a PetBoxInvar[Hound].
+    // otherwise you could then call "petToPetBoxInvarMap(dog)" and get a ClassCastException.
+    "petToPetBoxInvarMap += dog -> new PetBoxInvar(hound)" shouldNot compile
+
+    var petToPetBoxCovarMap = TypedMap[Pet, PetIdentity, PetBoxCovar]()
+
+    "petToPetBoxCovarMap += dog -> new PetBoxCovar(dog)" should compile
+
+    petToPetBoxCovarMap += dog -> new PetBoxCovar(dog)
+    petToPetBoxCovarMap[Pet](dog).p should equal (dog)
+
+    // you are not allowed to map a hound to a PetBoxCovar[Dog].
+    // otherwise you could then call "petToPetBoxCovarMap(hound)" and get a ClassCastException.
+    "petToPetBoxCovarMap += hound -> new PetBoxCovar(dog)" shouldNot compile
+
+    // you are allowed to map a dog to a PetBoxCovar[Hound].
+    // in this case petToPetMap(dog) return something of type PetBoxCovar[Dog], which is >:> PetBoxCovar[Hound]
+    "petToPetBoxCovarMap += dog -> new PetBoxCovar(hound)" should compile
+
+    petToPetBoxCovarMap = TypedMap[Pet, PetIdentity, PetBoxCovar]()
+    petToPetBoxCovarMap += dog -> new PetBoxCovar(hound)
+    petToPetBoxCovarMap(dog).p should equal (hound)
+
+    var petToPetBoxContravarMap = TypedMap[Pet, PetIdentity, PetBoxContravar]()
+
+    "petToPetBoxContravarMap += dog -> new PetBoxContravar[Dog]" should compile
+
+    petToPetBoxContravarMap += dog -> new PetBoxContravar[Dog]
+    "val contravar: PetBoxContravar[Dog] = petToPetBoxContravarMap(dog)" should compile
+    "val contravar: PetBoxContravar[Hound] = petToPetBoxContravarMap(dog)" should compile
+
+    // you are allowed to map a hound to a PetBoxContravar[Dog].
+    // in this case petToPetMap(hound) return something of type PetBoxContravar[Hound],
+    // which is >:> PetBoxContravar[Dog]
+    "petToPetBoxContravarMap += hound -> new PetBoxContravar[Dog]" should compile
+
+    petToPetBoxContravarMap = TypedMap[Pet, PetIdentity, PetBoxContravar]()
+    petToPetBoxContravarMap += hound -> new PetBoxContravar[Dog]
+    "val contravar: PetBoxContravar[Dog] = petToPetBoxContravarMap(hound)" should compile
+    "val contravar: PetBoxContravar[Hound] = petToPetBoxContravarMap(hound)" should compile
+
+    // you are not allowed to map a dog to a PetBoxContravar[Hound].
+    // otherwise you could then call "petToPetBoxContravarMap(dog)" and get a ClassCastException.
+    "petToPetBoxContravarMap += dog -> new PetBoxContravar[Hound]" shouldNot compile
+    
+  }
+
   behavior of "a TypedMap where the type bound, key, and value types are all the same"
 
   import emblem.testData.computerParts._
@@ -41,21 +124,25 @@ class TypedMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "only allow key/value pairs with matching type param" in {
     var partsUpgradeMap = TypedMap[ComputerPart, Identity, Identity]()
-    "partsUpgradeMap += typeKey[Memory] -> Memory(4) -> Memory(8)" should compile
-    "partsUpgradeMap += typeKey[Memory] -> Memory(4) -> CPU(2.4)" shouldNot compile
+    "partsUpgradeMap += Memory(4) -> Memory(8)" should compile
+    "partsUpgradeMap += Memory(4) -> CPU(2.4)" shouldNot compile
+    "partsUpgradeMap += CPU(2.4) -> Memory(4)" shouldNot compile
+    "partsUpgradeMap += (Memory(4), Memory(8))" should compile
+    "partsUpgradeMap += (Memory(4), CPU(2.4))" shouldNot compile
+    "partsUpgradeMap += (CPU(2.4), Memory(4))" shouldNot compile
   }
 
   it should "store multiple key/value pairs for a given type param" in {
     var partsUpgradeMap = TypedMap[ComputerPart, Identity, Identity]()
-    partsUpgradeMap += typeKey[Memory] -> Memory(2) -> Memory(0)
-    partsUpgradeMap += typeKey[Memory] -> Memory(2) -> Memory(4) // overwrites value Memory(0)
-    partsUpgradeMap += typeKey[Memory] -> Memory(4) -> Memory(8)
+    partsUpgradeMap += Memory(2) -> Memory(0)
+    partsUpgradeMap += Memory(2) -> Memory(4) // overwrites value Memory(0)
+    partsUpgradeMap += Memory(4) -> Memory(8)
     partsUpgradeMap(Memory(2)) should equal (Memory(4))
     partsUpgradeMap(Memory(4)) should equal (Memory(8))
-    partsUpgradeMap += typeKey[CPU] -> CPU(2.2) -> CPU(2.6)
-    partsUpgradeMap += typeKey[CPU] -> CPU(2.4) -> CPU(2.6)
-    partsUpgradeMap += typeKey[CPU] -> CPU(2.6) -> CPU(2.8)
-    partsUpgradeMap += typeKey[Display] -> Display(720) -> Display(1080)
+    partsUpgradeMap += CPU(2.2) -> CPU(2.6)
+    partsUpgradeMap += CPU(2.4) -> CPU(2.6)
+    partsUpgradeMap += CPU(2.6) -> CPU(2.8)
+    partsUpgradeMap += Display(720) -> Display(1080)
 
     def upgradeComputer(computer: Computer): Computer = Computer(
       partsUpgradeMap.getOrElse(computer.memory, computer.memory),
@@ -85,25 +172,25 @@ class TypedMapSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "only allow key/value pairs with matching type param" in {
     var entityTypeToRepoMap = TypedMap[Entity, EntityType, Repo]()
 
-    "entityTypeToRepoMap += (typeKey[User], userType, userRepo)" should compile
-    "entityTypeToRepoMap += (typeKey[User], userType, blogRepo)" shouldNot compile
-    "entityTypeToRepoMap += (typeKey[User], blogType, userRepo)" shouldNot compile
+    "entityTypeToRepoMap += (userType, userRepo)" should compile
+    "entityTypeToRepoMap += (userType, blogRepo)" shouldNot compile
+    "entityTypeToRepoMap += (blogType, userRepo)" shouldNot compile
 
-    "entityTypeToRepoMap += typeKey[User] -> userType -> userRepo" should compile
-    "entityTypeToRepoMap += typeKey[User] -> userType -> blogRepo" shouldNot compile
-    "entityTypeToRepoMap += typeKey[User] -> blogType -> userRepo" shouldNot compile
+    "entityTypeToRepoMap += userType -> userRepo" should compile
+    "entityTypeToRepoMap += userType -> blogRepo" shouldNot compile
+    "entityTypeToRepoMap += blogType -> userRepo" shouldNot compile
   }
 
   it should "store multiple key/value pairs for a given type param" in {
     val entityTypeSet = Set(userType, blogType)
 
     var localEntityStore = TypedMap[Entity, EntityType, Seq]()
-    localEntityStore += (typeKey[User], userType, Seq(User("user1"), User("user2"), User("user3")))
-    localEntityStore += (typeKey[Blog], blogType, Seq(Blog("blog1"), Blog("blog2")))
+    localEntityStore += (userType, Seq(User("user1"), User("user2"), User("user3")))
+    localEntityStore += (blogType, Seq(Blog("blog1"), Blog("blog2")))
 
     var entityTypeToRepoMap = TypedMap[Entity, EntityType, Repo]()
-    entityTypeToRepoMap += (typeKey[User], userType, userRepo)
-    entityTypeToRepoMap += (typeKey[Blog], blogType, blogRepo)
+    entityTypeToRepoMap += (userType, userRepo)
+    entityTypeToRepoMap += (blogType, blogRepo)
 
     def saveEntities[E <: Entity : TypeKey](entityType: EntityType[E]): Unit = {
       val entities = localEntityStore(entityType)
@@ -119,5 +206,5 @@ class TypedMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   // TODO: single-TP key type, double-TP value type
   // TODO: double-TP key type, single-TP value type
-
+ 
 }

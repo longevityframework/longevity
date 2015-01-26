@@ -75,24 +75,24 @@ extends BaseTypedMap[TypeBound, TypeKey, Val](map) {
   def getOrElse[TypeParam <: TypeBound : TypeKey](default: => Val[TypeParam]): Val[TypeParam] =
     map.getOrElse(typeKey[TypeParam], default).asInstanceOf[Val[TypeParam]]
 
-  // we need an explicit type key here, or the compiler will just infer TypeParam =:= TypeBound!
-  def +[TypeParam <: TypeBound : TypeKey](pair: (TypeKey[TypeParam], Val[TypeParam]))
+  def +[
+    TypeParam <: TypeBound,
+    KeyTypeParam <: TypeBound,
+    ValTypeParam <: TypeBound](
+    pair: (TypeKey[KeyTypeParam], Val[ValTypeParam]))(
+    implicit
+    keyStrictly: KeyTypeParam =:= TypeParam,
+    valLoosely: Val[ValTypeParam] <:< Val[TypeParam])
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](map + pair)
 
-  // we need an explicit type key here, or the compiler will just infer TypeParam =:= TypeBound!
-  def +[TypeParam <: TypeBound : TypeKey](key: TypeKey[TypeParam], value: Val[TypeParam])
+  def +[
+    TypeParam <: TypeBound](
+    value: Val[TypeParam])(
+    implicit
+    key: TypeKey[TypeParam])
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](map + (key -> value))
-
-  // TODO this is slightly questionable, - is it better to be explicit with the type key here? i am
-  // worried that the compiler is going to infer an upper bound type in the face of certain programmer
-  // errors
-
-  // we need an explicit type key here, or the compiler will just infer TypeParam =:= TypeBound!
-  def +[TypeParam <: TypeBound : TypeKey](value: Val[TypeParam])
-  : TypeKeyMap[TypeBound, Val] =
-    new TypeKeyMap[TypeBound, Val](map + (typeKey[TypeParam] -> value))
 
   override def toString = s"TypeKey${map}"
 
