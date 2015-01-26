@@ -108,7 +108,7 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     // this next line of code DOES NOT do what you might expect!
     // when the compiler infers type parameter [TypeParam <: TypeBound] from an argument of type
     // Contra[TypeParam], where type Contra is defined e.g. trait Contra[+T], it's always going to pick
-    // TypeParam as TypeBound. there seems to be nothing i can do within TypeKeyMap to prevent this.
+    // TypeParam as TypeBound. there seems to be nothing i can do within TypeKeyMap to circumvent this.
     petBoxContravarMap += dogContravar
     // the inferred TypeKey was not Dog
     intercept[NoSuchElementException] { petBoxContravarMap[Dog] }
