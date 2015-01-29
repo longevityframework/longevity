@@ -95,6 +95,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     builder.build()
   }
 
+  // http://scabl.blogspot.com/2015/01/introduce-type-param-pattern.html
   private def setProp[U](bson: BSONDocument, builder: HasEmblemBuilder[E], prop: EmblemProp[E, U]): Unit = {
     val propVal = shorthands.longTypeKeyToShorthand(prop.typeKey) match {
       case Some(shorthand) => getPropValFromShorthand(bson, shorthand, prop.name)

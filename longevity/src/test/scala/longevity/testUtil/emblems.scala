@@ -6,6 +6,9 @@ import longevity.testUtil.shorthands._
 /** a handful of emblems used for testing */
 object emblems {
 
+  lazy val pool =
+    TypeKeyMap[HasEmblem, Emblem]() + pointEmblem + userEmblem + withNoShorthandPropEmblem + withBarPropEmblem
+
   case class Point(x: Double, y: Double) extends HasEmblem
   lazy val pointEmblem = emblemFor[Point]
 
@@ -17,5 +20,8 @@ object emblems {
 
   case class WithBarProp(i: Int, bar: Bar) extends HasEmblem
   lazy val withBarPropEmblem = emblemFor[WithBarProp]
+
+  case class NotInPool() extends HasEmblem
+  lazy val notInPoolEmblem = emblemFor[NotInPool]
 
 }
