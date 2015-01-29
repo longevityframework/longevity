@@ -3,20 +3,34 @@ package longevity.testUtil
 import scala.reflect.runtime.universe.typeOf
 import emblem._
 import longevity.exceptions.CouldNotGenerateException
-import TestDataGenerator.GeneratorFunction
+import TestDataGenerator._
 
-// TODO scaladoc
+/** holds types and zero values used by the [[TestDataGenerator]] */
 object TestDataGenerator {
 
+  /** A [[TypeKeyMap]] for [[Emblem Emblems]] */
+  type EmblemPool = TypeKeyMap[HasEmblem, Emblem]
+
+  /** An empty emblem pool */
+  def emptyEmblemPool: EmblemPool = TypeKeyMap[HasEmblem, Emblem]()
+
+  /** A generator function for type A. This kind of function takes a [[TestDataGenerator]] as argument,
+   * so that it can generate complex values based on more primitive values. */
   type GeneratorFunction[A] = Function1[TestDataGenerator, A]
+
+  /** A [[TypeKeyMap]] for [[GeneratorFunction generator functions]] */
+  type CustomGenerators = TypeKeyMap[Any, GeneratorFunction]
+
+  /** An empty map of [[GeneratorFunction generator functions]] */
+  def emptyCustomGenerators: CustomGenerators = TypeKeyMap[Any, GeneratorFunction]()
 
 }
 
 // TODO scaladoc
 class TestDataGenerator (
   private val shorthandPool: ShorthandPool = ShorthandPool(),
-  private val emblemPool: TypeKeyMap[HasEmblem, Emblem] = TypeKeyMap[HasEmblem, Emblem](),
-  private val customGenerators: TypeKeyMap[Any, GeneratorFunction] = TypeKeyMap[Any, GeneratorFunction]()
+  private val emblemPool: TypeKeyMap[HasEmblem, Emblem] = emptyEmblemPool,
+  private val customGenerators: CustomGenerators = emptyCustomGenerators
 ) {
 
   private val random = new util.Random

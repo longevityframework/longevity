@@ -4,7 +4,7 @@ import org.scalatest._
 import org.scalatest.OptionValues._
 import emblem._
 import longevity.exceptions.CouldNotGenerateException
-import TestDataGenerator.GeneratorFunction
+import TestDataGenerator._
 import emblems._
 import shorthands._
 
@@ -18,7 +18,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "produce values according to the supplied custom generator" in {
     val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
-    val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
+    val customGenerators = emptyCustomGenerators + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
       shorthands.pool,
@@ -34,7 +34,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw CouldNotGenerateException when there is no custom generator for the requested type" in {
     val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
-    val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
+    val customGenerators = emptyCustomGenerators + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
       shorthands.pool,
@@ -65,22 +65,13 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw CouldNotGenerateException when it does not know have an emblem for the requested type" in {
     val generator = new TestDataGenerator(shorthands.pool, emblems.pool)
-
-    intercept[CouldNotGenerateException] {
-      generator.emblem[NotInPool]
-    }
+    intercept[CouldNotGenerateException] { generator.emblem[NotInPool] }
   }
 
   it should "throw CouldNotGenerateException when it does not know how to generate for a property type" in {
     val generator = new TestDataGenerator(shorthands.pool, emblems.pool)
-
-    intercept[CouldNotGenerateException] {
-      generator.emblem[WithNoShorthandProp]
-    }
-
-    intercept[CouldNotGenerateException] {
-      generator.emblem[WithBarProp]
-    }
+    intercept[CouldNotGenerateException] { generator.emblem[WithNoShorthandProp] }
+    intercept[CouldNotGenerateException] { generator.emblem[WithBarProp] }
   }
 
   behavior of "TestDataGenerator.shorthand[Long]"
@@ -108,16 +99,12 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw CouldNotGenerateException when it does not have a shorthand registered for the Long type" in {
     val generator = new TestDataGenerator()
-    intercept[CouldNotGenerateException] {
-      generator.shorthand[NoShorthand]
-    }
+    intercept[CouldNotGenerateException] { generator.shorthand[NoShorthand] }
   }
 
   it should "throw CouldNotGenerateException when it does not know how to generate for shorthand type" in {
     val generator = new TestDataGenerator()
-    intercept[CouldNotGenerateException] {
-      generator.shorthand[Bar]
-    }
+    intercept[CouldNotGenerateException] { generator.shorthand[Bar] }
   }
 
   behavior of "TestDataGenerator methods for basic types"
