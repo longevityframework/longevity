@@ -1,5 +1,7 @@
 package longevity.repo
 
+// TODO this is not a package object should be testUtil.scala
+
 import scala.reflect.runtime.universe.TypeTag
 
 import emblem._
