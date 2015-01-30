@@ -47,8 +47,6 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "TestDataGenerator.emblem[A <: HasEmblem]"
 
-  // TODO: specs for when entity props are emblems or customs
-
   it should "produce random values of type A" in {
     val generator = new TestDataGenerator(shorthands.pool, emblems.pool)
 
@@ -75,8 +73,6 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   behavior of "TestDataGenerator.shorthand[Long]"
-
-  // TODO: specs for when Long is an emblem or a custom
 
   it should "produce random values of type Long when the short type is a basic type" in {
     val generator = new TestDataGenerator(shorthands.pool)
@@ -263,7 +259,26 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val l: Long = generator.any[Long]
     val i: Int = generator.any[Int]
     val s: String = generator.any[String]
+  }
 
+  it should "give precedence to customs over emblems, shorthands, collections, and basics" in {
+    val uriGeneratorFunction = (generator: TestDataGenerator) => Uri("frenchy")
+    val pointGeneratorFunction = (generator: TestDataGenerator) => Point(-1.0, -1.0)
+    val listGeneratorFunction = (generator: TestDataGenerator) => List(1, 2, 3)
+    val intGeneratorFunction = (generator: TestDataGenerator) => 77
+    val customGenerators = emptyCustomGenerators +
+      uriGeneratorFunction + pointGeneratorFunction + listGeneratorFunction + intGeneratorFunction
+
+    val generator = new TestDataGenerator(
+      shorthands.pool,
+      emblems.pool,
+      customGenerators
+    )
+
+    generator.any[Uri] should equal (Uri("frenchy"))
+    generator.any[Point] should equal (Point(-1.0, -1.0))
+    generator.any[List[Int]] should equal (List(1, 2, 3))
+    generator.any[Int] should equal (77)
   }
 
 }
