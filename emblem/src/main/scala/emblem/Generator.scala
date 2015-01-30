@@ -36,24 +36,6 @@ private abstract class Generator[A : TypeKey] {
     }
   }
 
-  // following FixedMirrorTypeCreator in
-  // https://github.com/scala/scala/blob/2.11.x/src/reflect/scala/reflect/internal/StdCreators.scala
-  protected def makeTypeTag[A](term: TermSymbol): TypeTag[A] = {
-    val tpe = term.typeSignature
-    import scala.reflect.api.Mirror
-    import scala.reflect.api.TypeCreator
-    import scala.reflect.api.Universe
-    val typeCreator = new TypeCreator {
-      def apply[U <: Universe with Singleton](m: Mirror[U]): U # Type =
-        if (m eq currentMirror)
-          tpe.asInstanceOf[U # Type]
-        else
-          throw new IllegalArgumentException(
-            s"Type tag defined in $currentMirror cannot be migrated to other mirrors.")
-    }
-    TypeTag[A](currentMirror, typeCreator)
-  }
-
   protected def makeGetFunction[U : TypeKey](name: TermName): (A) => U = {
     val getter = tpe.decl(name).asMethod
     val getFunction = { a: A =>

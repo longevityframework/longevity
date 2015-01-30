@@ -1,7 +1,10 @@
 package longevity.testUtil
 
+// TODO: move this + spec + exception to emblem
+
 import scala.reflect.runtime.universe.typeOf
 import emblem._
+import emblem.reflectionUtil.makeTypeTag
 import longevity.exceptions.CouldNotGenerateException
 import TestDataGenerator._
 
@@ -26,6 +29,7 @@ object TestDataGenerator {
 
 }
 
+// TODO specs for option/set/list
 // TODO scaladoc
 class TestDataGenerator (
   private val shorthandPool: ShorthandPool = ShorthandPool(),
@@ -44,65 +48,83 @@ class TestDataGenerator (
   }
 
   @throws[CouldNotGenerateException]
-  def custom[A : TypeKey]: A = customOption[A] match {
-    case Some(a) => a
-    case None => throw new CouldNotGenerateException(typeKey[A])
+  def custom[A : TypeKey]: A = customOption[A] getOrElse {
+    throw new CouldNotGenerateException(typeKey[A])
   }
 
   @throws[CouldNotGenerateException]
-  def emblem[A <: HasEmblem : TypeKey]: A = emblemOption[A] match {
-    case Some(a) => a
-    case None => throw new CouldNotGenerateException(typeKey[A])
+  def emblem[A <: HasEmblem : TypeKey]: A = emblemOption[A] getOrElse {
+    throw new CouldNotGenerateException(typeKey[A])
   }
 
   @throws[CouldNotGenerateException]
-  def shorthand[Long : TypeKey](): Long = shorthandOption[Long] match {
-    case Some(long) => long
-    case None => throw new CouldNotGenerateException(typeKey[Long])
+  def shorthand[Long : TypeKey]: Long = shorthandOption[Long] getOrElse {
+    throw new CouldNotGenerateException(typeKey[Long])
   }
 
-  @inline def boolean: Boolean = random.nextBoolean()
+  def option[B : TypeKey]: Option[B] = if (boolean) Some(any[B]) else None
 
-  @inline def char: Char = math.abs(random.nextInt % 62) match {
+  def set[A : TypeKey]: Set[A] = math.abs(int % 4) match {
+    case 0 => Set[A]()
+    case 1 => Set[A](any[A])
+    case 2 => Set[A](any[A], any[A])
+    case 3 => Set[A](any[A], any[A], any[A])
+  }
+
+  def list[A : TypeKey]: List[A] = math.abs(int % 4) match {
+    case 0 => List[A]()
+    case 1 => List[A](any[A])
+    case 2 => List[A](any[A], any[A])
+    case 3 => List[A](any[A], any[A], any[A])
+  }
+
+  def boolean: Boolean = random.nextBoolean()
+
+  def char: Char = math.abs(random.nextInt % 62) match {
     case i if i < 26 => (i + 'A').toChar
     case i if i < 52 => (i - 26 + 'a').toChar
     case i => (i - 52 + '0').toChar
   }
 
-  @inline def double: Double = random.nextDouble() 
+  def double: Double = random.nextDouble() 
 
-  @inline def float: Float = random.nextFloat() 
+  def float: Float = random.nextFloat() 
 
-  @inline def int: Int = random.nextInt()
+  def int: Int = random.nextInt()
 
-  @inline def long: Long = random.nextLong() 
+  def long: Long = random.nextLong() 
   
-  @inline def string: String = string(8)
+  def string: String = string(8)
 
-  @inline def string(len: Int): String = new String((1 to len).map(i => char).toArray)
+  def string(len: Int): String = new String((1 to len).map(i => char).toArray)
 
   // custom generators have to come first. after that order is immaterial
   private def anyOption[A : TypeKey]: Option[A] =
-    customOption orElse emblemOptionFromAny orElse shorthandOption orElse basicOption
+    customOption orElse
+    emblemOptionFromAny orElse
+    shorthandOption orElse
+    optionOption orElse
+    setOption orElse
+    listOption orElse
+    basicOption
 
   private def customOption[A : TypeKey]: Option[A] = customGenerators.get[A] map { gen => gen(this) }
 
-  private def emblemOptionFromAny[T : TypeKey]: Option[T] = {
-    val keyOption = hasEmblemTypeKeyOption(typeKey[T])
+  private def emblemOptionFromAny[A : TypeKey]: Option[A] = {
+    val keyOption = hasEmblemTypeKeyOption(typeKey[A])
     keyOption flatMap { k => emblemOption(k) }
   }
 
-  private def hasEmblemTypeKeyOption[T : TypeKey, U <: T with HasEmblem]: Option[TypeKey[U]] =
-    if (typeKey[T].tpe <:< typeOf[HasEmblem])
-      Some(typeKey[T].asInstanceOf[TypeKey[U]])
+  private def hasEmblemTypeKeyOption[A : TypeKey, B <: A with HasEmblem]: Option[TypeKey[B]] =
+    if (typeKey[A].tpe <:< typeOf[HasEmblem])
+      Some(typeKey[A].asInstanceOf[TypeKey[B]])
     else
       None
 
-  private def emblemOption[T <: HasEmblem : TypeKey]: Option[T] =
-    emblemPool.get(typeKey[T]) map { e => genFromEmblem(e) }
+  private def emblemOption[A <: HasEmblem : TypeKey]: Option[A] =
+    emblemPool.get(typeKey[A]) map { e => genFromEmblem(e) }
 
-  // todo make private, rename to genEmblem
-  private def genFromEmblem[T <: HasEmblem](emblem: Emblem[T]): T = {
+  private def genFromEmblem[A <: HasEmblem](emblem: Emblem[A]): A = {
     val builder = emblem.builder()
     emblem.props.foreach { prop => setEmblemProp(builder, prop) }
     builder.build()
@@ -120,9 +142,51 @@ class TestDataGenerator (
       case None => throw new CouldNotGenerateException(shorthand.shortTypeKey)
     }
 
+  // TODO: try to remove code duplication below with optionOption / setOption / listOption
+  // generalize to other kinds of "collections"
+
+  private def optionOption[OptionA : TypeKey]: Option[OptionA] = {
+    val keyOption = optionTypeKeyOption(typeKey[OptionA])
+    keyOption map { k => option(k).asInstanceOf[OptionA] }
+  }
+
+  /** returns a `Some` containing the enclosing type of the option whenever the supplied type argument `A`
+   * is an Option. otherwise returns `None`. */
+  private def optionTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
+    if (typeKey[A].tpe <:< typeOf[Option[_]]) {
+      Some(TypeKey(makeTypeTag(typeKey[A].tpe.typeArgs.head)))
+    }
+    else None
+
+  private def setOption[SetA : TypeKey]: Option[SetA] = {
+    val keyOption = setTypeKeyOption(typeKey[SetA])
+    keyOption map { k => set(k).asInstanceOf[SetA] }
+  }
+
+  /** returns a `Some` containing the enclosing type of the set whenever the supplied type argument `A`
+   * is an Set. otherwise returns `None`. */
+  private def setTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
+    if (typeKey[A].tpe <:< typeOf[Set[_]]) {
+      Some(TypeKey(makeTypeTag(typeKey[A].tpe.typeArgs.head)))
+    }
+    else None
+
+  private def listOption[ListA : TypeKey]: Option[ListA] = {
+    val keyOption = listTypeKeyOption(typeKey[ListA])
+    keyOption map { k => list(k).asInstanceOf[ListA] }
+  }
+
+  /** returns a `Some` containing the enclosing type of the list whenever the supplied type argument `A`
+   * is an List. otherwise returns `None`. */
+  private def listTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
+    if (typeKey[A].tpe <:< typeOf[List[_]]) {
+      Some(TypeKey(makeTypeTag(typeKey[A].tpe.typeArgs.head)))
+    }
+    else None
+
   private def basicOption[Basic : TypeKey]: Option[Basic] = basicGenerators.get[Basic] map { gen => gen() }
 
-  private def setEmblemProp[T <: HasEmblem, U](builder: HasEmblemBuilder[T], prop: EmblemProp[T, U]): Unit =
+  private def setEmblemProp[A <: HasEmblem, B](builder: HasEmblemBuilder[A], prop: EmblemProp[A, B]): Unit =
     builder.setProp(prop, any(prop.typeKey))
 
   private def isAlphaNumeric(c: Char) =

@@ -145,7 +145,70 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  behavior of "TestDataGenerator.custom[A]"
+  behavior of "TestDataGenerator.option[A]"
+  it should "produce an option that is None about half the time" in {
+    val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
+    val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
+
+    val generator = new TestDataGenerator(
+      shorthands.pool,
+      emblems.pool,
+      customGenerators
+    )
+
+    val stringOption: Option[String] = generator.option[String]
+    val stringOptionList = List.fill(100) { generator.option[String] }
+    val someCount = stringOptionList.flatten.size
+    someCount should be > 20
+    someCount should be < 80
+
+    val pointOption: Option[Point] = generator.option[Point]
+    val emailOption: Option[Email] = generator.option[Email]
+  }
+
+  behavior of "TestDataGenerator.set[A]"
+  it should "produce a set that has 0, 1, and 2 elements at least some of the time" in {
+    val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
+    val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
+    val generator = new TestDataGenerator(
+      shorthands.pool,
+      emblems.pool,
+      customGenerators
+    )
+
+    val stringSet: Set[String] = generator.set[String]
+    val stringSetList = List.fill(100) { generator.set[String] }
+    val sizeToStringSetMap = stringSetList.groupBy(_.size)
+    sizeToStringSetMap.get(0).value.size should be > 1
+    sizeToStringSetMap.get(1).value.size should be > 1
+    sizeToStringSetMap.get(2).value.size should be > 1
+
+    val pointSet: Set[Point] = generator.set[Point]
+    val emailSet: Set[Email] = generator.set[Email]
+  }
+
+  behavior of "TestDataGenerator.list[A]"
+  it should "produce a list that has 0, 1, and 2 elements at least some of the time" in {
+    val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
+    val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
+    val generator = new TestDataGenerator(
+      shorthands.pool,
+      emblems.pool,
+      customGenerators
+    )
+
+    val stringList: List[String] = generator.list[String]
+    val stringListList = List.fill(100) { generator.list[String] }
+    val sizeToStringListMap = stringListList.groupBy(_.size)
+    sizeToStringListMap.get(0).value.size should be > 1
+    sizeToStringListMap.get(1).value.size should be > 1
+    sizeToStringListMap.get(2).value.size should be > 1
+
+    val pointList: List[Point] = generator.list[Point]
+    val emailList: List[Email] = generator.list[Email]
+  }
+
+  behavior of "TestDataGenerator.any[A]"
   it should "delegate appropriately as in all the above examples" in {
     val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
     val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
@@ -168,11 +231,29 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     intercept[CouldNotGenerateException] { generator.any[WithBarProp] }
 
     // shorthands
-    val email: Email = generator.shorthand[Email]
-    val radians: Radians = generator.shorthand[Radians]
-    val zipcode: Zipcode = generator.shorthand[Zipcode]
-    intercept[CouldNotGenerateException] { generator.shorthand[NoShorthand] }
-    intercept[CouldNotGenerateException] { generator.shorthand[Bar] }
+    val email: Email = generator.any[Email]
+    val radians: Radians = generator.any[Radians]
+    val zipcode: Zipcode = generator.any[Zipcode]
+    intercept[CouldNotGenerateException] { generator.any[NoShorthand] }
+    intercept[CouldNotGenerateException] { generator.any[Bar] }
+
+    // options
+
+    val stringOption: Option[String] = generator.any[Option[String]]
+    val pointOption: Option[Point] = generator.any[Option[Point]]
+    val emailOption: Option[Email] = generator.any[Option[Email]]
+
+    // sets
+
+    val stringSet: Set[String] = generator.any[Set[String]]
+    val pointSet: Set[Point] = generator.any[Set[Point]]
+    val emailSet: Set[Email] = generator.any[Set[Email]]
+
+    // lists
+
+    val stringList: List[String] = generator.any[List[String]]
+    val pointList: List[Point] = generator.any[List[Point]]
+    val emailList: List[Email] = generator.any[List[Email]]
 
     // basics
     val b: Boolean = generator.any[Boolean]
