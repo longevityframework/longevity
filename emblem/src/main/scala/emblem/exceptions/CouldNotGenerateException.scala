@@ -1,4 +1,4 @@
-package longevity.exceptions
+package emblem.exceptions
 
 import emblem.TypeKey
 

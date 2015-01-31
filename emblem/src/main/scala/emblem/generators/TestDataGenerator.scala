@@ -1,11 +1,9 @@
-package longevity.testUtil
-
-// TODO: move this + spec + exception to emblem
+package emblem.generators
 
 import scala.reflect.runtime.universe.typeOf
 import emblem._
 import emblem.reflectionUtil.makeTypeTag
-import longevity.exceptions.CouldNotGenerateException
+import emblem.exceptions.CouldNotGenerateException
 import TestDataGenerator._
 
 /** holds types and zero values used by the [[TestDataGenerator]] */

@@ -1,12 +1,12 @@
-package longevity.testUtil
+package emblem.generators
 
 import org.scalatest._
 import org.scalatest.OptionValues._
 import emblem._
-import longevity.exceptions.CouldNotGenerateException
+import emblem.exceptions.CouldNotGenerateException
 import TestDataGenerator._
-import emblems._
-import shorthands._
+import emblem.testData.emblems._
+import emblem.testData.shorthands._
 
 /** specs for [[TestDataGenerator]] */
 class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -21,8 +21,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val customGenerators = emptyCustomGenerators + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
-      shorthands.pool,
-      emblems.pool,
+      shorthandPool,
+      emblemPool,
       customGenerators
     )
 
@@ -37,8 +37,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val customGenerators = emptyCustomGenerators + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
-      shorthands.pool,
-      emblems.pool,
+      shorthandPool,
+      emblemPool,
       customGenerators
     )
 
@@ -48,7 +48,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "TestDataGenerator.emblem[A <: HasEmblem]"
 
   it should "produce random values of type A" in {
-    val generator = new TestDataGenerator(shorthands.pool, emblems.pool)
+    val generator = new TestDataGenerator(shorthandPool, emblemPool)
 
     val point: Point = generator.emblem[Point]
     List.fill(100) {
@@ -62,12 +62,12 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "throw CouldNotGenerateException when it does not know have an emblem for the requested type" in {
-    val generator = new TestDataGenerator(shorthands.pool, emblems.pool)
+    val generator = new TestDataGenerator(shorthandPool, emblemPool)
     intercept[CouldNotGenerateException] { generator.emblem[NotInPool] }
   }
 
   it should "throw CouldNotGenerateException when it does not know how to generate for a property type" in {
-    val generator = new TestDataGenerator(shorthands.pool, emblems.pool)
+    val generator = new TestDataGenerator(shorthandPool, emblemPool)
     intercept[CouldNotGenerateException] { generator.emblem[WithNoShorthandProp] }
     intercept[CouldNotGenerateException] { generator.emblem[WithBarProp] }
   }
@@ -75,7 +75,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "TestDataGenerator.shorthand[Long]"
 
   it should "produce random values of type Long when the short type is a basic type" in {
-    val generator = new TestDataGenerator(shorthands.pool)
+    val generator = new TestDataGenerator(shorthandPool)
 
     val email: Email = generator.shorthand[Email]
     List.fill(100) {
@@ -147,8 +147,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
-      shorthands.pool,
-      emblems.pool,
+      shorthandPool,
+      emblemPool,
       customGenerators
     )
 
@@ -167,8 +167,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
     val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
     val generator = new TestDataGenerator(
-      shorthands.pool,
-      emblems.pool,
+      shorthandPool,
+      emblemPool,
       customGenerators
     )
 
@@ -188,8 +188,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
     val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
     val generator = new TestDataGenerator(
-      shorthands.pool,
-      emblems.pool,
+      shorthandPool,
+      emblemPool,
       customGenerators
     )
 
@@ -210,8 +210,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
-      shorthands.pool,
-      emblems.pool,
+      shorthandPool,
+      emblemPool,
       customGenerators
     )
 
@@ -270,8 +270,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
       uriGeneratorFunction + pointGeneratorFunction + listGeneratorFunction + intGeneratorFunction
 
     val generator = new TestDataGenerator(
-      shorthands.pool,
-      emblems.pool,
+      shorthandPool,
+      emblemPool,
       customGenerators
     )
 
