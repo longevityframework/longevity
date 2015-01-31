@@ -18,11 +18,21 @@ package object emblem {
   @throws[GeneratorException]
   def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = new EmblemGenerator[A].generate
 
+  /** A [[TypeKeyMap]] of [[HasEmblem]] to [[Emblem]] */
+  type EmblemPool = TypeKeyMap[HasEmblem, Emblem]  
+
   /** creates and returns an [[Shorthand]] for the specified type `A`. `A` must be a stable case class with
    * single a parameter list. */
   @throws[GeneratorException]
   def shorthandFor[Long : TypeKey, Short : TypeKey]: Shorthand[Long, Short] =
     new ShorthandGenerator[Long, Short].generate
+
+  /** A shorthand with the short type unspecified. this type is equivalent to Shorthand[Long, _], except with
+   * a single type parameter Long. this allows it to be used as a key in a TypeBoundMap */
+  type ShorthandFor[Long] = Shorthand[Long, _]
+
+  /** A [[TypeKeyMap]] of `Long` to [[Shorthand]] */
+  type ShorthandPool = TypeKeyMap[Any, ShorthandFor]
 
   /** a no-arg function with return type A */
   type Function0[A] = () => A

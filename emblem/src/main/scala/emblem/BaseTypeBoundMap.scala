@@ -21,4 +21,8 @@ private[emblem] abstract class BaseTypeBoundMap[TypeBound, Key[_ <: TypeBound], 
   /** The number of key/value bindings in this map */
   def size = map.size
 
+  /** Collects all values of this map in an iterable collection.
+   * @return the values of this map as an iterable. */
+  def values: collection.Iterable[Val[_ <: TypeBound]] = map.values.asInstanceOf[Iterable[Val[_ <: TypeBound]]]
+
 }

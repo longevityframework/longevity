@@ -6,7 +6,7 @@ import emblem._
 object shorthands {
 
   lazy val shorthandPool =
-    new ShorthandPool(emailShorthand, markdownShorthand, radiansShorthand, uriShorthand, zipcodeShorthand)
+    ShorthandPool(emailShorthand, markdownShorthand, radiansShorthand, uriShorthand, zipcodeShorthand)
 
   case class Email(email: String)
   lazy val emailShorthand = shorthandFor[Email, String]

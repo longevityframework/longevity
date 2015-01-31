@@ -142,7 +142,7 @@ class TestDataGenerator (
   }
 
   private def shorthandOption[Long : TypeKey]: Option[Long] =
-    shorthandPool.longTypeKeyToShorthand[Long] map { s => genFromShorthand[Long](s) }
+    shorthandPool.get[Long] map { s => genFromShorthand[Long](s) }
 
   private def genFromShorthand[Long](shorthand: Shorthand[Long, _]): Long = genFromFullyTypedShorthand(shorthand)
 

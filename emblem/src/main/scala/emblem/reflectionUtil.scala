@@ -9,8 +9,7 @@ import scala.reflect.runtime.universe.Type
 import scala.reflect.runtime.universe.TypeTag
 
 /** generally useful utility functions for working with Scala reflection library */
-// TODO make this private[emblem]
-object reflectionUtil {
+private[emblem] object reflectionUtil {
 
   // overloaded makeTypeTag follows FixedMirrorTypeCreator in
   // https://github.com/scala/scala/blob/2.11.x/src/reflect/scala/reflect/internal/StdCreators.scala
