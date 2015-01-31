@@ -279,6 +279,12 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     generator.any[Point] should equal (Point(-1.0, -1.0))
     generator.any[List[Int]] should equal (List(1, 2, 3))
     generator.any[Int] should equal (77)
+
+    // but we can circumvent the customs using more specific methods in the TestDataGenerator API..
+    generator.shorthand[Uri] shouldNot equal (Uri("frenchy"))
+    generator.emblem[Point] shouldNot equal (Point(-1.0, -1.0))
+    generator.list[Int] shouldNot equal (List(1, 2, 3))
+    generator.int shouldNot equal (77)
   }
 
 }

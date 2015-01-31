@@ -29,8 +29,8 @@ object TestDataGenerator {
 
 }
 
-// TODO specs for option/set/list
-// TODO scaladoc
+/** Generates test data for a pool of shorthands, a pool of emblems, and some custom generators.
+ * TODO elaborate */
 class TestDataGenerator (
   private val shorthandPool: ShorthandPool = ShorthandPool(),
   private val emblemPool: TypeKeyMap[HasEmblem, Emblem] = emptyEmblemPool,
@@ -42,28 +42,37 @@ class TestDataGenerator (
   private val basicGenerators =
     TypeKeyMap[Any, Function0] + boolean _ + char _ + double _ + float _ + int _ + long _ + string _
 
-  @throws[CouldNotGenerateException]
+  /** Generates test data for the specified type `A`. */
+  @throws[CouldNotGenerateException]("when we cannot find a way to generate something of type A")
   def any[A : TypeKey]: A = anyOption[A] getOrElse {
     throw new CouldNotGenerateException(typeKey[A])
   }
 
-  @throws[CouldNotGenerateException]
+  /** Generates test data for the specified type `A` according to a custom generator */
+  @throws[CouldNotGenerateException]("when there is no custom generator for type A")
   def custom[A : TypeKey]: A = customOption[A] getOrElse {
     throw new CouldNotGenerateException(typeKey[A])
   }
 
-  @throws[CouldNotGenerateException]
+  /** Generates test data for the specified type `A` via an emblem in the pool */
+  @throws[CouldNotGenerateException]("when there is no emblem in the pool for type A")
   def emblem[A <: HasEmblem : TypeKey]: A = emblemOption[A] getOrElse {
     throw new CouldNotGenerateException(typeKey[A])
   }
 
-  @throws[CouldNotGenerateException]
+  /** Generates test data for the specified type `A` via a shorthand in the pool */
+  @throws[CouldNotGenerateException]("when there is no shorthand in the pool for type A")
   def shorthand[Long : TypeKey]: Long = shorthandOption[Long] getOrElse {
     throw new CouldNotGenerateException(typeKey[Long])
   }
 
-  def option[B : TypeKey]: Option[B] = if (boolean) Some(any[B]) else None
+  /** Generates an option containing (or not) an element of type A. Generates `Some` and `None` values
+   * at about a 50-50 ratio. */
+  @throws[CouldNotGenerateException]("when we cannot generate the contained type A")
+  def option[A : TypeKey]: Option[A] = if (boolean) Some(any[A]) else None
 
+  /** Generates a set containing (or not) elements of type A. Generates sets of size 0, 1, 2 and 3
+   * at about a 25-25-25-25 ratio. */
   def set[A : TypeKey]: Set[A] = math.abs(int % 4) match {
     case 0 => Set[A]()
     case 1 => Set[A](any[A])
@@ -71,12 +80,16 @@ class TestDataGenerator (
     case 3 => Set[A](any[A], any[A], any[A])
   }
 
+  /** Generates a list containing (or not) elements of type A. Generates lists of size 0, 1, 2 and 3
+   * at about a 25-25-25-25 ratio. */
   def list[A : TypeKey]: List[A] = math.abs(int % 4) match {
     case 0 => List[A]()
     case 1 => List[A](any[A])
     case 2 => List[A](any[A], any[A])
     case 3 => List[A](any[A], any[A], any[A])
   }
+
+  // TODO scaladoc
 
   def boolean: Boolean = random.nextBoolean()
 
