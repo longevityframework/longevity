@@ -1,6 +1,6 @@
 package longevity
 
-import scala.reflect.runtime.universe.TypeTag
+import emblem.TypeKeyMap
 
 /** Provides support for constructing your domain.
   * 
@@ -9,4 +9,9 @@ import scala.reflect.runtime.universe.TypeTag
   * They should just be tools for the user to use if she chooses to.
   * But we'll see how that turns out.
   */
-package object domain
+package object domain {
+
+  /** A [[TypeKeyMap]] of [[Entity]] to [[EntityType]] */
+  type EntityTypePool = TypeKeyMap[Entity, EntityType]
+
+}

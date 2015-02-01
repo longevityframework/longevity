@@ -4,6 +4,7 @@ import org.scalatest._
 import org.scalatest.OptionValues._
 import longevity.repo._
 import longevity.domain._
+import emblem.generators.TestDataGenerator
 
 /** A simple fixture to test your [[Repo]]. all you have to do is extend this class and implement the five
  * abstract methods. */
@@ -15,9 +16,14 @@ trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers
   /** the repository under test */
   def repo: Repo[E]
 
+  /** the application domain specification. to help us generate test data. */
+  def domainSpec: DomainSpec
+
+  // TODO: this goes
   /** generates an entity suitable for use in testing */
   def genTestEntity: () => E
 
+  // TODO: this goes
   /** make an update to an entity that is suitable for use in testing. this means that the change should be
    * detectable by [[InMemRepoSpec.persistedShouldMatchUnpersisted]]. it also means that the change should be
    * idempotent, in the sense that calling the function twice with the same input should produce the same
@@ -27,6 +33,9 @@ trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers
   /** a function that uses ScalaTest matchers to check that two versions of the entity match. the first
    * entity is the persisted, actual, version, and the second entity is the unpersisted, expected, version. */
   def persistedShouldMatchUnpersisted: (E, E) => Unit
+
+  private val testDataGenerator = new TestDataGenerator(
+    domainSpec.shorthandPool)
 
   feature(s"${ename}Repo.create") {
     scenario(s"should produce a persisted $ename") {
@@ -47,7 +56,6 @@ trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers
     }
   }
 
-  /*
   feature(s"${ename}Repo.retrieve") {
     scenario(s"should produce the same persisted $ename") {
       Given(s"a persisted $ename")
@@ -99,5 +107,4 @@ trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers
     }
   }
 
-  */
 }

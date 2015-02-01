@@ -61,8 +61,8 @@ object TypeKeyMap {
  * sophisticated than just type with a single type parameter.
  * @see TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples
  */
-class TypeKeyMap[TypeBound, Val[_ <: TypeBound]] private (map: Map[Any, Any])
-extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
+class TypeKeyMap[TypeBound, Val[_ <: TypeBound]] private (underlying: Map[Any, Any])
+extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
 
   /** Retrieves the value which is associated with the given type key
    * @tparam TypeParam the type param binding both the type key and the value
@@ -75,7 +75,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
    * @return an option value containing the value associated with type key in this map, or None if none
    * exists. */
   def get[TypeParam <: TypeBound : TypeKey]: Option[Val[TypeParam]] =
-    map.get(typeKey[TypeParam]).asInstanceOf[Option[Val[TypeParam]]]
+    underlying.get(typeKey[TypeParam]).asInstanceOf[Option[Val[TypeParam]]]
 
   /** Returns the value associated with a type key, or a default value if the type key is not contained in the
    * map.
@@ -86,7 +86,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
    * @return the value associated with type key if it exists, otherwise the result of the `default` computation.
    */
   def getOrElse[TypeParam <: TypeBound : TypeKey](default: => Val[TypeParam]): Val[TypeParam] =
-    map.getOrElse(typeKey[TypeParam], default).asInstanceOf[Val[TypeParam]]
+    underlying.getOrElse(typeKey[TypeParam], default).asInstanceOf[Val[TypeParam]]
 
   /** Adds a typekey/value pair to this map, returning a new map.
    * @param pair the typekey/value pair
@@ -101,7 +101,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
     pair: (TypeKey[TypeParam], Val[ValTypeParam]))(
     implicit valConforms: Val[ValTypeParam] <:< Val[TypeParam])
   : TypeKeyMap[TypeBound, Val] =
-    new TypeKeyMap[TypeBound, Val](map + pair)
+    new TypeKeyMap[TypeBound, Val](underlying + pair)
 
   /** Adds a typekey/value pair to this map, returning a new map. The type key is inferred from the type of
    * the supplied value.
@@ -123,9 +123,38 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](map) {
     implicit
     key: TypeKey[TypeParam])
   : TypeKeyMap[TypeBound, Val] =
-    new TypeKeyMap[TypeBound, Val](map + (key -> value))
+    new TypeKeyMap[TypeBound, Val](underlying + (key -> value))
+
+  /** Transforms this map by applying a function to every retrieved value.
+   * @param f the function used to transform values of this map.
+   * @return a map view which maps every key of this map to f(this(key)).
+   */
+  def mapValues[
+    Val2[_ <: TypeBound]](
+    f: TypeBoundFunction[TypeBound, Val, Val2])
+  : TypeKeyMap[TypeBound, Val2] = {
+    def mapValue[TypeParam <: TypeBound](value1: Val[TypeParam]): Val2[TypeParam] = {
+      f.apply[TypeParam](value1)
+    }
+    val newUnderlying = underlying.mapValues { value1 =>
+      mapValue(value1.asInstanceOf[Val[_ <: TypeBound]])
+    }
+    new TypeKeyMap[TypeBound, Val2](newUnderlying)
+  }
+
+  override def hashCode = underlying.hashCode
+
+  /** Compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
+   * the other map, and vice versa.
+   * @param that the other type key map
+   * @return true if both maps contain exactly the same mappings, false otherwise.
+   */
+  override def equals(that: Any) = {
+    that.isInstanceOf[TypeKeyMap[TypeBound, Val]] &&
+    that.asInstanceOf[TypeKeyMap[TypeBound, Val]].underlying == underlying
+  }
 
   /** A string representation of a TypeKeyMap */
-  override def toString = s"TypeKey${map}"
+  override def toString = s"TypeKey${underlying}"
 
 }

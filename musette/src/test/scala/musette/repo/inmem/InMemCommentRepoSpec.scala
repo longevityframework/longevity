@@ -11,6 +11,7 @@ class InMemCommentRepoSpec extends RepoSpec[Comment] {
   private val repoLayer = new InMemRepoLayer
   def ename = "comment"
   def repo = repoLayer.commentRepo
+  def domainSpec = musette.domain.domainSpec
   def genTestEntity = testEntityGen.comment _
   def updateTestEntity = { e => e.copy(uri = e.uri + "77") }
   def persistedShouldMatchUnpersisted = entityMatchers.persistedCommentShouldMatchUnpersisted _

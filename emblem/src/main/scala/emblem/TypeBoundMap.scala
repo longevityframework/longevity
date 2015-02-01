@@ -65,8 +65,8 @@ object TypeBoundMap {
  * 
  * @see TypeBoundMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples
  */
-class TypeBoundMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (map: Map[Any, Any])
-extends BaseTypeBoundMap[TypeBound, Key, Val](map) {
+class TypeBoundMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (underlying: Map[Any, Any])
+extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
 
   /** Retrieves the value which is associated with the given key, both bound by the same type param.
    * @tparam TypeParam the type param binding both the key and the value */
@@ -79,7 +79,7 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](map) {
    * exists.
    */
   def get[TypeParam <: TypeBound](key: Key[TypeParam]): Option[Val[TypeParam]] =
-    map.get(key).asInstanceOf[Option[Val[TypeParam]]]
+    underlying.get(key).asInstanceOf[Option[Val[TypeParam]]]
 
   /** Returns the value associated with a key, or a default value if the key is not contained in the map.
    *
@@ -90,7 +90,7 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](map) {
    */
   def getOrElse[TypeParam <: TypeBound](
     key: Key[TypeParam], default: => Val[TypeParam]): Val[TypeParam] =
-    map.getOrElse(key, default).asInstanceOf[Val[TypeParam]]
+    underlying.getOrElse(key, default).asInstanceOf[Val[TypeParam]]
 
   /** Adds a key/value pair to this map, returning a new map. Both the key and the value are bound by the same
    * type param.
@@ -107,9 +107,37 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](map) {
     implicit
     valConforms: Val[ValTypeParam] <:< Val[TypeParam])
   : TypeBoundMap[TypeBound, Key, Val] =
-    new TypeBoundMap[TypeBound, Key, Val](map + pair)
+    new TypeBoundMap[TypeBound, Key, Val](underlying + pair)
+
+  override def hashCode = underlying.hashCode
+
+  /** Transforms this map by applying a function to every retrieved value.
+   * @param f the function used to transform values of this map.
+   * @return a map view which maps every key of this map to f(this(key)).
+   */
+  def mapValues[
+    Val2[_ <: TypeBound]](
+    f: TypeBoundFunction[TypeBound, Val, Val2])
+  : TypeBoundMap[TypeBound, Key, Val2] = {
+    def mapValue[TypeParam <: TypeBound](value1: Val[TypeParam]): Val2[TypeParam] = {
+      f.apply[TypeParam](value1)
+    }
+    val newUnderlying = underlying.mapValues { value1 =>
+      mapValue(value1.asInstanceOf[Val[_ <: TypeBound]])
+    }
+    new TypeBoundMap[TypeBound, Key, Val2](newUnderlying)
+  }
 
   /** A string representation of a TypeBoundMap */
-  override def toString = s"TypeBound${map}"
+  override def toString = s"TypeBound${underlying}"
+
+  /** Compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
+   * the other map, and vice versa.
+   * @param that the other type key map
+   * @return true if both maps contain exactly the same mappings, false otherwise.
+   */
+  override def equals(that: Any) =
+    that.isInstanceOf[TypeBoundMap[TypeBound, Key, Val]] &&
+    that.asInstanceOf[TypeBoundMap[TypeBound, Key, Val]].underlying == underlying
 
 }
