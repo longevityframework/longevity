@@ -20,6 +20,6 @@ package object domain {
 
   implicit def stringToUri(uri: String): Uri = Uri(uri)
 
-  val domainSpec = DomainSpec(entityTypes, shorthands)
+  val domainSpec = DomainConfig(entityTypes, shorthands)
 
 }

@@ -17,7 +17,7 @@ trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers
   def repo: Repo[E]
 
   /** the application domain specification. to help us generate test data. */
-  def domainSpec: DomainSpec
+  def domainSpec: DomainConfig
 
   // TODO: this goes
   /** generates an entity suitable for use in testing */
