@@ -129,18 +129,9 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
    * @param f the function used to transform values of this map.
    * @return a map view which maps every key of this map to f(this(key)).
    */
-  def mapValues[
-    Val2[_ <: TypeBound]](
-    f: TypeBoundFunction[TypeBound, Val, Val2])
-  : TypeKeyMap[TypeBound, Val2] = {
-    def mapValue[TypeParam <: TypeBound](value1: Val[TypeParam]): Val2[TypeParam] = {
-      f.apply[TypeParam](value1)
-    }
-    val newUnderlying = underlying.mapValues { value1 =>
-      mapValue(value1.asInstanceOf[Val[_ <: TypeBound]])
-    }
-    new TypeKeyMap[TypeBound, Val2](newUnderlying)
-  }
+  def mapValues[Val2[_ <: TypeBound]](f: TypeBoundFunction[TypeBound, Val, Val2])
+  : TypeKeyMap[TypeBound, Val2] = 
+    new TypeKeyMap[TypeBound, Val2](mapValuesUnderlying(f))
 
   override def hashCode = underlying.hashCode
 

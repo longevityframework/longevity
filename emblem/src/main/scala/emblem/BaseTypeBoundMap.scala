@@ -31,4 +31,14 @@ private[emblem] abstract class BaseTypeBoundMap[
   def values: collection.Iterable[Val[_ <: TypeBound]] =
     underlying.values.asInstanceOf[Iterable[Val[_ <: TypeBound]]]
 
+  protected def mapValuesUnderlying[Val2[_ <: TypeBound]](f: TypeBoundFunction[TypeBound, Val, Val2])
+  : Map[Any, Any] = {
+    def mapValue[TypeParam <: TypeBound](value1: Val[TypeParam]): Val2[TypeParam] = {
+      f.apply[TypeParam](value1)
+    }
+    underlying.mapValues { value1 =>
+      mapValue(value1.asInstanceOf[Val[_ <: TypeBound]])
+    }
+  }
+
 }
