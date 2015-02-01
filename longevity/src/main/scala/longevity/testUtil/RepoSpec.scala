@@ -17,7 +17,7 @@ trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers
   def repo: Repo[E]
 
   /** the application domain specification. to help us generate test data. */
-  def domainSpec: DomainConfig
+  def domainConfig: DomainConfig
 
   // TODO: this goes
   /** generates an entity suitable for use in testing */
@@ -35,7 +35,7 @@ trait RepoSpec[E <: Entity] extends FeatureSpec with GivenWhenThen with Matchers
   def persistedShouldMatchUnpersisted: (E, E) => Unit
 
   private val testDataGenerator = new TestDataGenerator(
-    domainSpec.shorthandPool)
+    domainConfig.shorthandPool)
 
   feature(s"${ename}Repo.create") {
     scenario(s"should produce a persisted $ename") {

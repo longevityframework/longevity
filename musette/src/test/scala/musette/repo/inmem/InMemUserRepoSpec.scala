@@ -11,7 +11,7 @@ class InMemUserRepoSpec extends RepoSpec[User] {
   private val repoLayer = new InMemRepoLayer
   def ename = "user"
   def repo = repoLayer.userRepo
-  def domainSpec = musette.domain.domainSpec
+  def domainConfig = musette.domain.domainConfig
   def genTestEntity = testEntityGen.user _
   def updateTestEntity = { e => e.copy(uri = e.uri + "77") }
   def persistedShouldMatchUnpersisted = entityMatchers.persistedUserShouldMatchUnpersisted _
