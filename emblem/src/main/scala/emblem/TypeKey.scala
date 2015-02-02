@@ -1,6 +1,7 @@
 package emblem
 
 import scala.reflect.runtime.universe._
+import emblem.reflectionUtil.makeTypeTag
 
 /** behaves much like a `scala.reflect.runtime.universe.TypeTag`, except that it can also be safely used
  * as a key in a hash or a set. Two type keys will be equal if and only if their underlying types are equivalent
@@ -36,6 +37,8 @@ case class TypeKey[A](val tag: TypeTag[A]) {
 
   /** The scala-reflect `Type` for type `A` */
   def tpe: Type = tag.tpe
+
+  lazy val typeArgs: List[TypeKey[_]] = tpe.typeArgs map { tpe => TypeKey(makeTypeTag(tpe)) }
 
   override def equals(that: Any): Boolean = that.isInstanceOf[AnyRef] && {
     (this eq that.asInstanceOf[AnyRef]) || {

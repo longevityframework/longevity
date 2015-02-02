@@ -13,11 +13,6 @@ object entityMatchers extends Matchers {
     persisted.site.isPersisted should be (true)
     persistedSiteShouldMatchUnpersisted(persisted.site.persisted, unpersisted.site.unpersisted)
     userSetsShouldMatch(persisted.authors, unpersisted.authors)
-
-    // constraint: the site of the blog authors and the site of the blog should be the same
-    // TODO some way to enforce constraints like this
-    persisted.authors.map(_.persisted).foreach { user => user.site should equal (persisted.site) }
-
     persisted.slug should equal (unpersisted.slug)
   }
 
@@ -26,10 +21,6 @@ object entityMatchers extends Matchers {
     persisted.blog.isPersisted should be (true)
     persistedBlogShouldMatchUnpersisted(persisted.blog.persisted, unpersisted.blog.unpersisted)
     userSetsShouldMatch(persisted.authors, unpersisted.authors)
-
-    // constraint: the site of the blog post authors and the site of the blog should be the same
-    persisted.authors.map(_.persisted).foreach { user => user.site should equal (persisted.blog.persisted.site) }
-
     persisted.content should equal (unpersisted.content)
     persisted.slug should equal (unpersisted.slug)
   }
@@ -40,10 +31,6 @@ object entityMatchers extends Matchers {
     persistedBlogPostShouldMatchUnpersisted(persisted.subject.persisted, unpersisted.subject.unpersisted)
     persisted.author.isPersisted should be (true)
     persistedUserShouldMatchUnpersisted(persisted.author.persisted, unpersisted.author.unpersisted)
-
-    // constraint: the site of the comment author and the site of the blog should be the same
-    persisted.author.persisted.site should equal (persisted.subject.persisted.blog.persisted.site)
-
     persisted.content should equal (unpersisted.content)
   }
 
@@ -75,10 +62,6 @@ object entityMatchers extends Matchers {
     persisted.site.isPersisted should be (true)
     persistedSiteShouldMatchUnpersisted(persisted.site.persisted, unpersisted.site.unpersisted)
     userSetsShouldMatch(persisted.authors, unpersisted.authors)
-
-    // constraint: the site of the wiki authors and the site of the wiki should be the same
-    persisted.authors.map(_.persisted).foreach { user => user.site should equal (persisted.site) }
-
     persisted.slug should equal (unpersisted.slug)
   }
 
@@ -87,10 +70,6 @@ object entityMatchers extends Matchers {
     persisted.wiki.isPersisted should be (true)
     persistedWikiShouldMatchUnpersisted(persisted.wiki.persisted, unpersisted.wiki.unpersisted)
     userSetsShouldMatch(persisted.authors, unpersisted.authors)
-
-    // constraint: the site of the wiki page authors and the site of the wiki should be the same
-    persisted.authors.map(_.persisted).foreach { user => user.site should equal (persisted.wiki.persisted.site) }
-
     persisted.content should equal (unpersisted.content)
     persisted.slug should equal (unpersisted.slug)
   }

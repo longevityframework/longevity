@@ -74,7 +74,8 @@ trait Repo[E <: Entity] {
         val repo = repoPool.repoForEntityTypeTag(assoc.associateeTypeTag)
         val persisted = repo.create(u)
         persisted.id
-      case _ => assoc
+      case _ => 
+        assoc
     }
   }
   

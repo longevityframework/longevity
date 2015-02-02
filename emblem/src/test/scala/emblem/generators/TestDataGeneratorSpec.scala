@@ -17,7 +17,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   class IntHolderNoCustom(val i: Int)
 
   it should "produce values according to the supplied custom generator" in {
-    val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
+    val intHolderGeneratorFunction =
+      generatorFunction((generator: TestDataGenerator) => new IntHolder(generator.int))
     val customGenerators = emptyCustomGenerators + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
@@ -33,7 +34,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "throw CouldNotGenerateException when there is no custom generator for the requested type" in {
-    val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
+    val intHolderGeneratorFunction =
+      generatorFunction((generator: TestDataGenerator) => new IntHolder(generator.int))
     val customGenerators = emptyCustomGenerators + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
@@ -143,7 +145,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "TestDataGenerator.option[A]"
   it should "produce an option that is None about half the time" in {
-    val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
+    val intHolderGeneratorFunction =
+      generatorFunction((generator: TestDataGenerator) => new IntHolder(generator.int))
     val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
@@ -164,7 +167,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "TestDataGenerator.set[A]"
   it should "produce a set that has 0, 1, and 2 elements at least some of the time" in {
-    val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
+    val intHolderGeneratorFunction =
+      generatorFunction((generator: TestDataGenerator) => new IntHolder(generator.int))
     val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
     val generator = new TestDataGenerator(
       shorthandPool,
@@ -185,7 +189,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "TestDataGenerator.list[A]"
   it should "produce a list that has 0, 1, and 2 elements at least some of the time" in {
-    val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
+    val intHolderGeneratorFunction =
+      generatorFunction((generator: TestDataGenerator) => new IntHolder(generator.int))
     val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
     val generator = new TestDataGenerator(
       shorthandPool,
@@ -206,7 +211,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "TestDataGenerator.any[A]"
   it should "delegate appropriately as in all the above examples" in {
-    val intHolderGeneratorFunction = (generator: TestDataGenerator) => new IntHolder(generator.int)
+    val intHolderGeneratorFunction =
+      generatorFunction((generator: TestDataGenerator) => new IntHolder(generator.int))
     val customGenerators = TypeKeyMap[Any, GeneratorFunction]() + intHolderGeneratorFunction
 
     val generator = new TestDataGenerator(
@@ -262,10 +268,10 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "give precedence to customs over emblems, shorthands, collections, and basics" in {
-    val uriGeneratorFunction = (generator: TestDataGenerator) => Uri("frenchy")
-    val pointGeneratorFunction = (generator: TestDataGenerator) => Point(-1.0, -1.0)
-    val listGeneratorFunction = (generator: TestDataGenerator) => List(1, 2, 3)
-    val intGeneratorFunction = (generator: TestDataGenerator) => 77
+    val uriGeneratorFunction = generatorFunction((generator) => Uri("frenchy"))
+    val pointGeneratorFunction = generatorFunction((generator: TestDataGenerator) => Point(-1.0, -1.0))
+    val listGeneratorFunction = generatorFunction((generator: TestDataGenerator) => List(1, 2, 3))
+    val intGeneratorFunction = generatorFunction((generator: TestDataGenerator) => 77)
     val customGenerators = emptyCustomGenerators +
       uriGeneratorFunction + pointGeneratorFunction + listGeneratorFunction + intGeneratorFunction
 

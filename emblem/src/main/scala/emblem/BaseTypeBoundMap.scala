@@ -42,3 +42,4 @@ private[emblem] abstract class BaseTypeBoundMap[
   }
 
 }
+

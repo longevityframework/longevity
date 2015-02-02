@@ -74,7 +74,7 @@ abstract class MongoRepo[E <: Entity](
     import scala.concurrent.duration._
     val lastError = Await.result(future, 10.seconds)
 
-    Persisted[E](persisted.id, persisted.curr)
+    Persisted[E](persisted.id, patchedEntity)
   }
 
   def delete(persisted: Persisted[E]) = {

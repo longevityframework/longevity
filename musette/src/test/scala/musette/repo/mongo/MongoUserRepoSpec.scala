@@ -12,8 +12,6 @@ class MongoUserRepoSpec extends RepoSpec[User] {
   def ename = "user"
   def repo = repoLayer.userRepo
   def domainConfig = musette.domain.domainConfig
-  def genTestEntity = testEntityGen.user _
-  def updateTestEntity = { e => e.copy(uri = e.uri + "77") }
   def persistedShouldMatchUnpersisted = entityMatchers.persistedUserShouldMatchUnpersisted _
 
 }

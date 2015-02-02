@@ -12,8 +12,6 @@ class InMemBlogRepoSpec extends RepoSpec[Blog] {
   def ename = "blog"
   def repo = repoLayer.blogRepo
   def domainConfig = musette.domain.domainConfig
-  def genTestEntity = testEntityGen.blog _
-  def updateTestEntity = { e => e.copy(uri = e.uri + "77") }
   def persistedShouldMatchUnpersisted = entityMatchers.persistedBlogShouldMatchUnpersisted _
 
 }

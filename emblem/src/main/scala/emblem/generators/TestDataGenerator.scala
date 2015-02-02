@@ -15,9 +15,19 @@ object TestDataGenerator {
   /** An empty emblem pool */
   def emptyEmblemPool: EmblemPool = TypeKeyMap[HasEmblem, Emblem]()
 
+  // TODO specs for generator function that actually makes use of the type param
+
+  // TODO scaladoc, rename, move
+  def generatorFunction[A](underlying: (TestDataGenerator) => A) = new GeneratorFunction[A] {
+    def apply[B <: A : TypeKey](generator: TestDataGenerator): A = underlying(generator)
+  }
+
+  // TODO SCaladoc rehash
   /** A generator function for type A. This kind of function takes a [[TestDataGenerator]] as argument,
    * so that it can generate complex values based on more primitive values. */
-  type GeneratorFunction[A] = Function1[TestDataGenerator, A]
+  trait GeneratorFunction[A] {
+    def apply[B <: A : TypeKey](generator: TestDataGenerator): A
+  }
 
   /** A [[TypeKeyMap]] for [[GeneratorFunction generator functions]] */
   type CustomGenerators = TypeKeyMap[Any, GeneratorFunction]
@@ -119,7 +129,16 @@ class TestDataGenerator (
     listOption orElse
     basicOption
 
-  private def customOption[A : TypeKey]: Option[A] = customGenerators.get[A] map { gen => gen(this) }
+  // TODO another case to fix in TypeKeyMap
+  private def customOption[A : TypeKey]: Option[A] = {
+    customGenerators.get[A] map { gen => gen(this) }
+    val keyOpt: Option[TypeKey[_ >: A]] = customGenerators.keys.find {
+      key => typeKey[A].tpe <:< key.tpe
+    }.asInstanceOf[Option[TypeKey[_ >: A]]]
+    def getGenerator[B >: A : TypeKey]: GeneratorFunction[B] = customGenerators(typeKey[B])
+    val genOpt: Option[GeneratorFunction[_ >: A]] = keyOpt map { key => getGenerator(key) } 
+    genOpt.asInstanceOf[Option[GeneratorFunction[A]]] map { gen => gen(this) }
+  }
 
   private def emblemOptionFromAny[A : TypeKey]: Option[A] = {
     val keyOption = hasEmblemTypeKeyOption(typeKey[A])
@@ -164,10 +183,7 @@ class TestDataGenerator (
   /** returns a `Some` containing the enclosing type of the option whenever the supplied type argument `A`
    * is an Option. otherwise returns `None`. */
   private def optionTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
-    if (typeKey[A].tpe <:< typeOf[Option[_]]) {
-      Some(TypeKey(makeTypeTag(typeKey[A].tpe.typeArgs.head)))
-    }
-    else None
+    if (typeKey[A].tpe <:< typeOf[Option[_]]) Some(typeKey[A].typeArgs.head) else None
 
   private def setOption[SetA : TypeKey]: Option[SetA] = {
     val keyOption = setTypeKeyOption(typeKey[SetA])
@@ -177,10 +193,7 @@ class TestDataGenerator (
   /** returns a `Some` containing the enclosing type of the set whenever the supplied type argument `A`
    * is an Set. otherwise returns `None`. */
   private def setTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
-    if (typeKey[A].tpe <:< typeOf[Set[_]]) {
-      Some(TypeKey(makeTypeTag(typeKey[A].tpe.typeArgs.head)))
-    }
-    else None
+    if (typeKey[A].tpe <:< typeOf[Set[_]]) Some(typeKey[A].typeArgs.head) else None
 
   private def listOption[ListA : TypeKey]: Option[ListA] = {
     val keyOption = listTypeKeyOption(typeKey[ListA])
@@ -190,10 +203,7 @@ class TestDataGenerator (
   /** returns a `Some` containing the enclosing type of the list whenever the supplied type argument `A`
    * is an List. otherwise returns `None`. */
   private def listTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
-    if (typeKey[A].tpe <:< typeOf[List[_]]) {
-      Some(TypeKey(makeTypeTag(typeKey[A].tpe.typeArgs.head)))
-    }
-    else None
+    if (typeKey[A].tpe <:< typeOf[List[_]]) Some(typeKey[A].typeArgs.head) else None
 
   private def basicOption[Basic : TypeKey]: Option[Basic] = basicGenerators.get[Basic] map { gen => gen() }
 

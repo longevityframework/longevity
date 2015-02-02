@@ -12,8 +12,6 @@ class MongoSiteRepoSpec extends RepoSpec[Site] {
   def ename = "site"
   def repo = repoLayer.siteRepo
   def domainConfig = musette.domain.domainConfig
-  def genTestEntity = testEntityGen.site _
-  def updateTestEntity = { e => e.copy(uri = e.uri + "77") }
   def persistedShouldMatchUnpersisted = entityMatchers.persistedSiteShouldMatchUnpersisted _
 
 }
