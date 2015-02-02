@@ -15,23 +15,11 @@ object TestDataGenerator {
   /** An empty emblem pool */
   def emptyEmblemPool: EmblemPool = TypeKeyMap[HasEmblem, Emblem]()
 
-  // TODO scaladoc, rename, move
-  def generatorFunction[A](underlying: (TestDataGenerator) => A) = new GeneratorFunction[A] {
-    def apply[B <: A : TypeKey](generator: TestDataGenerator): A = underlying(generator)
-  }
+  /** A [[TypeKeyMap]] for [[CustomGenerator generator functions]] */
+  type CustomGenerators = TypeKeyMap[Any, CustomGenerator]
 
-  // TODO SCaladoc rehash
-  /** A generator function for type A. This kind of function takes a [[TestDataGenerator]] as argument,
-   * so that it can generate complex values based on more primitive values. */
-  trait GeneratorFunction[A] {
-    def apply[B <: A : TypeKey](generator: TestDataGenerator): A
-  }
-
-  /** A [[TypeKeyMap]] for [[GeneratorFunction generator functions]] */
-  type CustomGenerators = TypeKeyMap[Any, GeneratorFunction]
-
-  /** An empty map of [[GeneratorFunction generator functions]] */
-  def emptyCustomGenerators: CustomGenerators = TypeKeyMap[Any, GeneratorFunction]()
+  /** An empty map of [[CustomGenerator generator functions]] */
+  def emptyCustomGenerators: CustomGenerators = TypeKeyMap[Any, CustomGenerator]()
 
 }
 
@@ -133,9 +121,9 @@ class TestDataGenerator (
     val keyOpt: Option[TypeKey[_ >: A]] = customGenerators.keys.find {
       key => typeKey[A].tpe <:< key.tpe
     }.asInstanceOf[Option[TypeKey[_ >: A]]]
-    def getGenerator[B >: A : TypeKey]: GeneratorFunction[B] = customGenerators(typeKey[B])
-    val genOpt: Option[GeneratorFunction[_ >: A]] = keyOpt map { key => getGenerator(key) } 
-    genOpt.asInstanceOf[Option[GeneratorFunction[A]]] map { gen => gen(this) }
+    def getGenerator[B >: A : TypeKey]: CustomGenerator[B] = customGenerators(typeKey[B])
+    val genOpt: Option[CustomGenerator[_ >: A]] = keyOpt map { key => getGenerator(key) } 
+    genOpt.asInstanceOf[Option[CustomGenerator[A]]] map { gen => gen(this) }
   }
 
   private def emblemOptionFromAny[A : TypeKey]: Option[A] = {

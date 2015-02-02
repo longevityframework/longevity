@@ -5,6 +5,7 @@ import org.scalatest.OptionValues._
 import emblem._
 import emblem.exceptions.CouldNotGenerateException
 import TestDataGenerator._
+import CustomGenerator.simpleGenerator
 import emblem.testData.emblems._
 import emblem.testData.shorthands._
 
@@ -30,18 +31,19 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "work properly with generators for types that take type params" in {
-    val intHolderGeneratorFunction =
-      generatorFunction((generator: TestDataGenerator) => new IntHolder(generator.int))
+    val intHolderCustomGenerator =
+      simpleGenerator((generator: TestDataGenerator) => new IntHolder(generator.int))
 
     // always generates a 5-element list
-    val listGeneratorFunction = new GeneratorFunction[List[Any]] {
-      def apply[B <: List[_] : TypeKey](generator: TestDataGenerator): List[_] = {
-        val elementTypeKey = typeKey[B].typeArgs.head
-        List.fill(5) { generator.any(elementTypeKey) }
+    val listCustomGenerator = new CustomGenerator[List[Any]] {
+      def apply[B <: List[_] : TypeKey](generator: TestDataGenerator): B = {
+        val eltTypeKey = typeKey[B].typeArgs.head
+        val eltList = List.fill(5) { generator.any(eltTypeKey) }
+        eltList.asInstanceOf[B]
       }
     }
 
-    val customGenerators = emptyCustomGenerators + intHolderGeneratorFunction + listGeneratorFunction
+    val customGenerators = emptyCustomGenerators + intHolderCustomGenerator + listCustomGenerator
     val generator = new TestDataGenerator(
       shorthandPool,
       emblemPool,
@@ -253,12 +255,12 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "give precedence to customs over emblems, shorthands, collections, and basics" in {
-    val uriGeneratorFunction = generatorFunction((generator) => Uri("frenchy"))
-    val pointGeneratorFunction = generatorFunction((generator: TestDataGenerator) => Point(-1.0, -1.0))
-    val listGeneratorFunction = generatorFunction((generator: TestDataGenerator) => List(1, 2, 3))
-    val intGeneratorFunction = generatorFunction((generator: TestDataGenerator) => 77)
+    val uriCustomGenerator = simpleGenerator((generator) => Uri("frenchy"))
+    val pointCustomGenerator = simpleGenerator((generator: TestDataGenerator) => Point(-1.0, -1.0))
+    val listCustomGenerator = simpleGenerator((generator: TestDataGenerator) => List(1, 2, 3))
+    val intCustomGenerator = simpleGenerator((generator: TestDataGenerator) => 77)
     val customGenerators = emptyCustomGenerators +
-      uriGeneratorFunction + pointGeneratorFunction + listGeneratorFunction + intGeneratorFunction
+      uriCustomGenerator + pointCustomGenerator + listCustomGenerator + intCustomGenerator
 
     val generator = new TestDataGenerator(
       shorthandPool,
@@ -279,13 +281,13 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   private def standardGenerator = {
-    val intHolderGeneratorFunction =
-      generatorFunction((generator: TestDataGenerator) => new IntHolder(generator.int))
-    val customGenerators = emptyCustomGenerators + intHolderGeneratorFunction
+    val intHolderCustomGenerator =
+      simpleGenerator((generator: TestDataGenerator) => new IntHolder(generator.int))
+    val customGenerators = emptyCustomGenerators + intHolderCustomGenerator
     new TestDataGenerator(
-      shorthandPool,
-      emblemPool,
-      customGenerators)
+      shorthandPool = shorthandPool,
+      emblemPool = emblemPool,
+      customGenerators = emptyCustomGenerators + intHolderCustomGenerator)
   }
 
 }

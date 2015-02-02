@@ -7,7 +7,7 @@ import longevity.domain._
 import emblem._
 import emblem.generators.TestDataGenerator
 import emblem.generators.TestDataGenerator.emptyCustomGenerators
-import emblem.generators.TestDataGenerator.GeneratorFunction
+import emblem.generators.CustomGenerator
 
 /** A simple fixture to test your [[Repo]]. all you have to do is extend this class and implement the five
  * abstract methods. */
@@ -32,7 +32,7 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
 
   // TODO
   // TODO another case to fix in TypeKeyMap
-  private val assocGenerator: GeneratorFunction[Assoc[_ <: Entity]] = new GeneratorFunction[Assoc[_ <: Entity]] {
+  private val assocGenerator: CustomGenerator[Assoc[_ <: Entity]] = new CustomGenerator[Assoc[_ <: Entity]] {
     def apply[B <: Assoc[_ <: Entity] : TypeKey](generator: TestDataGenerator): B = {
       val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[_ <: Entity]]
       applyTightly(generator)(entityTypeKey, typeKey[B])
