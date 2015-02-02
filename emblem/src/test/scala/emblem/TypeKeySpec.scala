@@ -36,7 +36,7 @@ class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     foo[List[Int]]
   }
 
-  behavior of "equals and hashCode"
+  behavior of "TypeKey equals and hashCode"
   it should "treat two types as equal whenever the underlying types are equivalent according to Type.=:=" in {
     val key1 = typeKey[List[Int]]
     val key2 = typeKey[List[Int]]
@@ -45,6 +45,14 @@ class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     key1.hashCode should equal (key2.hashCode)
     key1 should not equal (key3)
     // key1 and key3 hashCodes are not guaranteed to differ!
+  }
+
+  behavior of "TypeKey.typeArgs"
+  it should "return a list of TypeKeys representing the type arguments of the type" in {
+    typeKey[Int].typeArgs should equal (List.empty)
+    typeKey[List[_]].typeArgs should equal (List(typeKey[Any]))
+    typeKey[List[Int]].typeArgs should equal (List(typeKey[Int]))
+    typeKey[Map[String, Int]].typeArgs should equal (List(typeKey[String], typeKey[Int]))
   }
 
 }
