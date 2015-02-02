@@ -30,11 +30,5 @@ case class DomainConfig(
   //   - the site of the comment author and the site of the blog should be the same
   //   - the site of the wiki authors and the site of the wiki should be the same
   //   - the site of the wiki page authors and the site of the wiki should be the same
-  //   - 
-  //   - 
-  //   - 
-  //   - 
-
-
 
 }

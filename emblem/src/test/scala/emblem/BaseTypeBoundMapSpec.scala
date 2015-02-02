@@ -173,7 +173,6 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "TypeBoundMap.mapValues"
   it should "return the TypeKeyMap obtained by applying the TypeBoundFunction to each of the values" in {
-    // TODO
     import emblem.testData.pets._
     val catStore1 = new PetStore[Cat]
     val catStore2 = new PetStore[Cat]

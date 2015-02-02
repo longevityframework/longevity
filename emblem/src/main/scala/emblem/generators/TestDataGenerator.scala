@@ -15,8 +15,6 @@ object TestDataGenerator {
   /** An empty emblem pool */
   def emptyEmblemPool: EmblemPool = TypeKeyMap[HasEmblem, Emblem]()
 
-  // TODO specs for generator function that actually makes use of the type param
-
   // TODO scaladoc, rename, move
   def generatorFunction[A](underlying: (TestDataGenerator) => A) = new GeneratorFunction[A] {
     def apply[B <: A : TypeKey](generator: TestDataGenerator): A = underlying(generator)
