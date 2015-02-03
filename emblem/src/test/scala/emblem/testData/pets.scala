@@ -22,7 +22,16 @@ object pets {
 
   case class Hound(override val name: String) extends Dog(name)
 
+  class Shepherd protected (name: String) extends Dog(name)
+  object Shepherd {
+    private case class SullShepherd(override val name: String) extends Shepherd(name)
+    def apply(name: String): Shepherd = SullShepherd(name)
+  }
+
+  case class GermanShepherd(override val name: String) extends Shepherd(name)
+
   class PetStore[P <: Pet]
+  class DogKennel[D <: Dog](val sponsor: PetStore[D])
 
   class PetBoxInvar[P <: Pet](var p: P)
   class PetBoxCovar[+P <: Pet](val p: P)

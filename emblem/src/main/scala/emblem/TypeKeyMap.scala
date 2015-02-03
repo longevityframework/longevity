@@ -125,13 +125,32 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](underlying + (key -> value))
 
-  /** Transforms this map by applying a function to every retrieved value.
-   * @param f the function used to transform values of this map.
-   * @return a map view which maps every key of this map to f(this(key)).
+  /** Transforms this type key map by applying a function to every retrieved value.
+   *
+   * @tparam NewVal the new value type for the resulting map
+   * @param f the function used to transform values of this map
+   * @return a map which maps every key of this map to f(this(key))
    */
-  def mapValues[Val2[_ <: TypeBound]](f: TypeBoundFunction[TypeBound, Val, Val2])
-  : TypeKeyMap[TypeBound, Val2] = 
-    new TypeKeyMap[TypeBound, Val2](mapValuesUnderlying(f))
+  def mapValues[NewVal[_ <: TypeBound]](f: TypeBoundFunction[TypeBound, Val, NewVal])
+  : TypeKeyMap[TypeBound, NewVal] = 
+    new TypeKeyMap[TypeBound, NewVal](
+      mapValuesUnderlying[TypeBound, NewVal](f))
+
+  /** Transforms this type key map into a type key map with a wider type bound by applying a function to every
+   * retrieved value.
+   *
+   * @tparam WiderTypeBound the new type bound for the resulting map
+   * @tparam NewVal the new value type for the resulting map
+   * @param f the function used to transform values of this map.
+   * @return a map which maps every key of this map to f(this(key)).
+   */
+  def mapValuesWiden[
+    WiderTypeBound >: TypeBound,
+    NewVal[_ <: WiderTypeBound]](
+    f: WideningTypeBoundFunction[TypeBound, WiderTypeBound, Val, NewVal])
+  : TypeKeyMap[WiderTypeBound, NewVal] =
+    new TypeKeyMap[WiderTypeBound, NewVal](
+      mapValuesUnderlying[WiderTypeBound, NewVal](f))
 
   override def hashCode = underlying.hashCode
 

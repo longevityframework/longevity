@@ -113,11 +113,14 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
 
   /** Transforms this map by applying a function to every retrieved value.
    * @param f the function used to transform values of this map.
-   * @return a map view which maps every key of this map to f(this(key)).
+   * @return a map which maps every key of this map to f(this(key)).
    */
-  def mapValues[Val2[_ <: TypeBound]](f: TypeBoundFunction[TypeBound, Val, Val2])
+  def mapValues[
+    Val2[_ <: TypeBound]](
+    f: TypeBoundFunction[TypeBound, Val, Val2])
   : TypeBoundMap[TypeBound, Key, Val2] =
-    new TypeBoundMap[TypeBound, Key, Val2](mapValuesUnderlying(f))
+    new TypeBoundMap[TypeBound, Key, Val2](
+      mapValuesUnderlying[TypeBound, Val2](f))
 
   /** A string representation of a TypeBoundMap */
   override def toString = s"TypeBound${underlying}"

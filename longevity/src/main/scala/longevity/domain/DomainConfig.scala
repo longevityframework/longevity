@@ -8,12 +8,10 @@ case class DomainConfig(
   entityTypePool: EntityTypePool,
   shorthandPool: ShorthandPool) {
 
-  val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] = {
-    // TODO: cant we get a well-typed pair out of the map?
-    def pair[TP <: Entity](key: TypeKey[TP]): (TypeKey[TP], Emblem[TP]) =
-      key -> entityTypePool(key).emblem
-    entityTypePool.keys.foldLeft(TypeKeyMap[HasEmblem, Emblem]()) {
-      (map, key) => map + pair(key)
+  val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] = entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
+    new WideningTypeBoundFunction[Entity, HasEmblem, EntityType, Emblem] {
+      def apply[TypeParam <: Entity](value1: EntityType[TypeParam]): Emblem[TypeParam] =
+        value1.emblem
     }
   }
 
