@@ -1,17 +1,14 @@
 package musette.repo.inmem
 
-import org.scalatest._
-import org.scalatest.OptionValues._
-import longevity.testUtil.RepoSpec
-import musette.domain.testUtil._
+import musette.domain.testUtil.entityMatchers
 import musette.domain.Wiki
+import musette.repo.MusetteRepoSpec
 
-class InMemWikiRepoSpec extends RepoSpec[Wiki] {
+class InMemWikiRepoSpec extends MusetteRepoSpec[Wiki] {
 
   private val repoLayer = new InMemRepoLayer
   def ename = "wiki"
   def repo = repoLayer.wikiRepo
-  def domainConfig = musette.domain.domainConfig
   def persistedShouldMatchUnpersisted = entityMatchers.persistedWikiShouldMatchUnpersisted _
 
 }

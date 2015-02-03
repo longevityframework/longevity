@@ -256,7 +256,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "give precedence to customs over emblems, shorthands, collections, and basics" in {
     val uriCustomGenerator = simpleGenerator((generator) => Uri("frenchy"))
-    val pointCustomGenerator = simpleGenerator((generator: TestDataGenerator) => Point(-1.0, -1.0))
+    val pointCustomGenerator = simpleGenerator((generator) => Point(-1.0, -1.0))
     val listCustomGenerator = simpleGenerator((generator: TestDataGenerator) => List(1, 2, 3))
     val intCustomGenerator = simpleGenerator((generator: TestDataGenerator) => 77)
     val customGenerators = emptyCustomGenerators +

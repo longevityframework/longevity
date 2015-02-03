@@ -26,8 +26,9 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
    * entity is the persisted, actual, version, and the second entity is the unpersisted, expected, version. */
   protected def persistedShouldMatchUnpersisted: (E, E) => Unit
 
-  // TODO scaladoc
-  // TODO override with gens for uri/email etc
+  /** a collection of custom generators to use when generating test data. returns an empty collection here,
+   * and is intended to be overridden by implementing classes.
+   */
   protected def customGenerators = emptyCustomGenerators
 
   // TODO
