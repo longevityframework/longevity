@@ -31,7 +31,6 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
    */
   protected def customGenerators = emptyCustomGenerators
 
-  // TODO
   // TODO another case to fix in TypeKeyMap
   private val assocGenerator: CustomGenerator[Assoc[_ <: Entity]] = new CustomGenerator[Assoc[_ <: Entity]] {
     def apply[B <: Assoc[_ <: Entity] : TypeKey](generator: TestDataGenerator): B = {

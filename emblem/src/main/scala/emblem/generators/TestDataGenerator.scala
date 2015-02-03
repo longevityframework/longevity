@@ -83,27 +83,34 @@ class TestDataGenerator (
     case 3 => List[A](any[A], any[A], any[A])
   }
 
-  // TODO scaladoc
-
+  /** Generates a boolean that is true around half the time */
   def boolean: Boolean = random.nextBoolean()
 
+  /** Generates a char that is either a decimal digit or a letter (upper or lowercase) from the Roman
+   * alphabet */
   def char: Char = math.abs(random.nextInt % 62) match {
     case i if i < 26 => (i + 'A').toChar
     case i if i < 52 => (i - 26 + 'a').toChar
     case i => (i - 52 + '0').toChar
   }
 
+  /** Generates a double */
   def double: Double = random.nextDouble() 
 
+  /** Generates a float */
   def float: Float = random.nextFloat() 
 
+  /** Generates an int */
   def int: Int = random.nextInt()
 
+  /** Generates a long */
   def long: Long = random.nextLong() 
   
+  /** Generates a string of length 8 */
   def string: String = string(8)
 
-  def string(len: Int): String = new String((1 to len).map(i => char).toArray)
+  /** Generates a string of the specified length */
+  def string(length: Int): String = new String((1 to length).map(i => char).toArray)
 
   // custom generators have to come first. after that order is immaterial
   private def anyOption[A : TypeKey]: Option[A] =
@@ -117,7 +124,6 @@ class TestDataGenerator (
 
   // TODO another case to fix in TypeKeyMap
   private def customOption[A : TypeKey]: Option[A] = {
-    customGenerators.get[A] map { gen => gen(this) }
     val keyOpt: Option[TypeKey[_ >: A]] = customGenerators.keys.find {
       key => typeKey[A].tpe <:< key.tpe
     }.asInstanceOf[Option[TypeKey[_ >: A]]]
