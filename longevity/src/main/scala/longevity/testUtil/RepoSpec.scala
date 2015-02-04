@@ -9,8 +9,8 @@ import emblem.generators.TestDataGenerator
 import emblem.generators.TestDataGenerator.emptyCustomGenerators
 import emblem.generators.CustomGenerator
 
-/** A simple fixture to test your [[Repo]]. all you have to do is extend this class and implement the five
- * abstract methods. */
+/** A simple fixture to test your [[longevity.repo.Repo]]. all you have to do is extend this class and implement
+ * the four abstract methods. */
 abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhenThen with Matchers {
 
   /** the name of the entity type. to be used in test descriptions */

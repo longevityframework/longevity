@@ -35,7 +35,7 @@ trait Repo[E <: Entity] {
 
   /** a cache of create results for those unpersisted entities of type E that have already been created.
    * because entities are just value objects, we expect some duplication in the unpersisted data that gets
-   * passed into [[Repo.create(Unpersisted[E])]], via the associations of created obects. we keep a session
+   * passed into `Repo.create`, via the associations of created obects. we keep a session
    * level cache of these guys to prevent multiple creation attempts on the same entity.
    *
    * note that this cache does not stay current with any updates or deletes to these entities! this cache

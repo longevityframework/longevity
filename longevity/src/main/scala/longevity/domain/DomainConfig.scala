@@ -3,7 +3,7 @@ package longevity.domain
 import emblem._
 
 /** a specification of a project's domain. contains a pool of all the [[EntityType entity types]] in the
- * domain, as well as all the [[Shorthand shorthands]] used by the entities. */
+ * domain, as well as all the shorthands used by the entities. */
 case class DomainConfig(
   entityTypePool: EntityTypePool,
   shorthandPool: ShorthandPool) {

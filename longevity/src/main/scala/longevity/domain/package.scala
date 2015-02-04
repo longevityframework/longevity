@@ -11,7 +11,8 @@ import emblem.TypeKeyMap
   */
 package object domain {
 
-  /** A [[TypeKeyMap]] of [[Entity]] to [[EntityType]] */
+  /** A type key map of [[Entity]] to [[EntityType]]
+   * @see emblem.TypeKeyMap */
   type EntityTypePool = TypeKeyMap[Entity, EntityType]
 
 }
