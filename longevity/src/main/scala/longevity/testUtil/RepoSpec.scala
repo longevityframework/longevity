@@ -10,26 +10,52 @@ import emblem.generators.TestDataGenerator.emptyCustomGenerators
 import emblem.generators.CustomGenerator
 
 /** A simple fixture to test your [[longevity.repo.Repo]]. all you have to do is extend this class and implement
- * the four abstract methods. */
+ * the four abstract methods.
+ *
+ * TODO: clean up this scaladoc presentation. hide scalatest stuff, or at least put the stuff into a group that
+ * gets shown at the top
+ * 
+ * @groupname Implement methods to implement for configuring your specs
+ * @group Implement
+ */
 abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhenThen with Matchers {
 
-  /** the name of the entity type. to be used in test descriptions */
-  protected def ename: String
+  /** the name of the entity type. to be used in test descriptions.
+   *
+   * this method is public for the purposes of generating scaladoc.
+   * @group Implement
+   */
+  def ename: String
 
-  /** the repository under test */
-  protected def repo: Repo[E]
+  /** the repository under test
+   *
+   * this method is public for the purposes of generating scaladoc.
+   * @group Implement
+   */
+  def repo: Repo[E]
 
-  /** the application domain specification. to help us generate test data. */
-  protected def domainConfig: DomainConfig
+  /** the application domain specification. to help us generate test data.
+   *
+   * this method is public for the purposes of generating scaladoc.
+   * @group Implement
+   */
+  def domainConfig: DomainConfig
 
   /** a function that uses ScalaTest matchers to check that two versions of the entity match. the first
-   * entity is the persisted, actual, version, and the second entity is the unpersisted, expected, version. */
-  protected def persistedShouldMatchUnpersisted: (E, E) => Unit
+   * entity is the persisted, actual, version, and the second entity is the unpersisted, expected, version.
+   *
+   * this method is public for the purposes of generating scaladoc.
+   * @group Implement
+   */
+  def persistedShouldMatchUnpersisted: (E, E) => Unit
 
   /** a collection of custom generators to use when generating test data. returns an empty collection here,
    * and is intended to be overridden by implementing classes.
+   *
+   * this method is public for the purposes of generating scaladoc.
+   * @group Implement
    */
-  protected def customGenerators = emptyCustomGenerators
+  def customGenerators = emptyCustomGenerators
 
   private val assocGenerator: CustomGenerator[Assoc[_ <: Entity]] = new CustomGenerator[Assoc[_ <: Entity]] {
     def apply[B <: Assoc[_ <: Entity] : TypeKey](generator: TestDataGenerator): B = {

@@ -9,7 +9,14 @@ import TestDataGenerator._
 object CustomGenerator {
 
   // TODO: you could make a CustomGenerator take a lower type bound as well, and then you could make
-  // simpleGenerator type-tight
+  // simpleGenerator type-tight. what you want to do is:
+  // - replace single TP to CustomGenerator with 2: UpperB and LowerB
+  // - change TestDataGenerator.CustomGenerators to map by both key bounds
+  //   type CustomGenerators = TypeKeyMap[Any, CustomGenerator]
+  // - in TestDataGenerator.customOption, and add in a castToUpperBound in this line:
+  //   val keyOpt: Option[TypeKey[_ >: A]] = customGenerators.keys.map(_.castToLowerBound[A]).flatten.headOption
+  // - simpleGenerator provides same type as upper and lower bound
+
 
   /** Creates a simple [[CustomGenerator]] from a regular function. The simple generator wraps the function
    * in a type-check, to make sure the type requested is equivalent to the return type of the underlying
@@ -24,7 +31,7 @@ object CustomGenerator {
    * 
    * @tparam A the return type of the underlying function
    * @param underlying the regular function backing the custom generator
-   * @returns a simple custom generator backed by the provided underlying function
+   * @return a simple custom generator backed by the provided underlying function
    */
   def simpleGenerator[A : TypeKey](underlying: (TestDataGenerator) => A) = new CustomGenerator[A] {
     def apply[B <: A : TypeKey](generator: TestDataGenerator): B = {

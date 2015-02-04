@@ -23,8 +23,32 @@ object TestDataGenerator {
 
 }
 
-/** Generates test data for a pool of shorthands, a pool of emblems, and some custom generators.
- * TODO elaborate */
+/** Generates test data for a pool of shorthands, a pool of emblems, and some custom generators. You can
+ * generate any kind of data you like by providing the appropriate [[TypeKey]] to [[TestDataGenerator.any]].
+ * Or you can use the provided methods for generating specific kinds of data. If the generator does not know
+ * how to generate for the type you requested, it will throw a [[emblem.exceptions.CouldNotGenerateException]].
+ *
+ * Out of the box, a TestDataGenerator knows how to generate the following basic and collection types:
+ *
+ *   - boolean
+ *   - char
+ *   - double
+ *   - float
+ *   - int
+ *   - long
+ *   - string
+ *   - list
+ *   - option
+ *   - set
+ *
+ * You can extend this behavior by supplying the generator with [[Shorthand shorthands]], [[Emblem emblems]],
+ * and [[CustomGenerator custom generators]].
+ *
+ * @param shorthandPool the shorthands to generate test data for. defaults to empty
+ * @param emblemPool the emblems to generate test data for. defaults to empty
+ * @param customGenerators custom generation functions. defaults to empty. custom generators take precedence
+ * over all other generators
+ */
 class TestDataGenerator (
   private val shorthandPool: ShorthandPool = ShorthandPool(),
   private val emblemPool: TypeKeyMap[HasEmblem, Emblem] = emptyEmblemPool,
@@ -67,6 +91,7 @@ class TestDataGenerator (
 
   /** Generates a set containing (or not) elements of type A. Generates sets of size 0, 1, 2 and 3
    * at about a 25-25-25-25 ratio. */
+  @throws[CouldNotGenerateException]("when we cannot generate the contained type A")
   def set[A : TypeKey]: Set[A] = math.abs(int % 4) match {
     case 0 => Set[A]()
     case 1 => Set[A](any[A])
@@ -76,6 +101,7 @@ class TestDataGenerator (
 
   /** Generates a list containing (or not) elements of type A. Generates lists of size 0, 1, 2 and 3
    * at about a 25-25-25-25 ratio. */
+  @throws[CouldNotGenerateException]("when we cannot generate the contained type A")
   def list[A : TypeKey]: List[A] = math.abs(int % 4) match {
     case 0 => List[A]()
     case 1 => List[A](any[A])

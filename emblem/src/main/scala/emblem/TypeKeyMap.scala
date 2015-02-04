@@ -109,8 +109,8 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
    * PLEASE NOTE: Using this method when your `Val` type is contravariant in its type parameter will not
    * do what you might expect! When the compiler infers type parameter `[TypeParam <: TypeBound]` from an
    * argument of type `Contra[TypeParam]`, where type `Contra` is defined as, e.g., `trait Contra[+T]`,
-   * it's always going to infer `TypeBound` as the `TypeParam`. There seems to be nothing i can do within
-   * `TypeKeyMap` to circumvent this. THe easiest way to work around this problem is to specify the type key
+   * it's always going to infer `TypeBound` as the `TypeParam`. There seems to be nothing I can do within
+   * `TypeKeyMap` to circumvent this. The easiest way to work around this problem is to specify the type key
    * yourself with [[TypeKeyMap.+[TypeParam<:TypeBound,ValTypeParam<:TypeBound]* the alternate method +]].
    *
    * @param value the value to add to the map
