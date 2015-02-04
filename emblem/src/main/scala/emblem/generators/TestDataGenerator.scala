@@ -122,14 +122,10 @@ class TestDataGenerator (
     listOption orElse
     basicOption
 
-  // TODO another case to fix in TypeKeyMap
   private def customOption[A : TypeKey]: Option[A] = {
-    val keyOpt: Option[TypeKey[_ >: A]] = customGenerators.keys.find {
-      key => typeKey[A].tpe <:< key.tpe
-    }.asInstanceOf[Option[TypeKey[_ >: A]]]
+    val keyOpt: Option[TypeKey[_ >: A]] = customGenerators.keys.map(_.castToLowerBound[A]).flatten.headOption
     def getGenerator[B >: A : TypeKey]: CustomGenerator[B] = customGenerators(typeKey[B])
-    val genOpt: Option[CustomGenerator[_ >: A]] = keyOpt map { key => getGenerator(key) } 
-    genOpt.asInstanceOf[Option[CustomGenerator[A]]] map { gen => gen(this) }
+    keyOpt map { key => getGenerator(key).apply[A](this) }
   }
 
   private def emblemOptionFromAny[A : TypeKey]: Option[A] = {
