@@ -78,7 +78,31 @@ class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
     keys.map(_.castToLowerBound[List[Int]]) should equal (List(None, Some(tkli), Some(tkla), None))
     keys.map(_.castToLowerBound[List[_]]) should equal (List(None, None, Some(tkla), None))
+  }
 
+  behavior of "TypeKey.castToUpperBound"
+  it should "present the same equality, but different typing, for the typekey, when the new typing is safe" in {
+    val tki = typeKey[Int]
+    val tkli = typeKey[List[Int]]
+    val tkla = typeKey[List[_]]
+    val tksi = typeKey[Set[Int]]
+    val keys: List[TypeKey[_]] = List(tki, tkli, tkla, tksi)
+
+    // this is how i type:
+
+    val lotks: List[Option[TypeKey[_ <: String]]] = keys.map(_.castToUpperBound[String])
+    val lotki: List[Option[TypeKey[_ <: Int]]] = keys.map(_.castToUpperBound[Int])
+
+    val lotkli: List[Option[TypeKey[_ <: List[Int]]]] = keys.map(_.castToUpperBound[List[Int]])
+    val lotkla: List[Option[TypeKey[_ <: List[_]]]] = keys.map(_.castToUpperBound[List[_]])
+
+    // this is how i equal:
+
+    keys.map(_.castToUpperBound[String]) should equal (List(None, None, None, None))
+    keys.map(_.castToUpperBound[Int]) should equal (List(Some(tki), None, None, None))
+
+    keys.map(_.castToUpperBound[List[Int]]) should equal (List(None, Some(tkli), None, None))
+    keys.map(_.castToUpperBound[List[_]]) should equal (List(None, Some(tkli), Some(tkla), None))
   }
 
 }

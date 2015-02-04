@@ -33,12 +33,9 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
 
   private val assocGenerator: CustomGenerator[Assoc[_ <: Entity]] = new CustomGenerator[Assoc[_ <: Entity]] {
     def apply[B <: Assoc[_ <: Entity] : TypeKey](generator: TestDataGenerator): B = {
-      val entityTypeKey = typeKey[B].typeArgs.head.castToUpperBound[Entity].get
-
-      // TODO: can i get rid of this cast?
-      def applyTightly[E <: Entity : TypeKey] = (Assoc[E](generator.any[E])).asInstanceOf[B]
-
-      applyTightly(entityTypeKey)
+      val entityTypeKey: TypeKey[_ <: Entity] = typeKey[B].typeArgs.head.castToUpperBound[Entity].get
+      def genAssoc[E <: Entity : TypeKey] = Assoc[E](generator.any[E])
+      genAssoc(entityTypeKey).asInstanceOf[B]
     }
   }
 
