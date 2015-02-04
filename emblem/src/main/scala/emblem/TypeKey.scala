@@ -75,7 +75,10 @@ case class TypeKey[A](val tag: TypeTag[A]) {
   def castToLowerBound[B : TypeKey]: Option[TypeKey[_ >: B]] =
     if (typeKey[B].tpe <:< this.tpe) Some(this.asInstanceOf[TypeKey[_ >: B]]) else None
 
-  // TODO: castToUpperBound
+  /** TODO specs and docs
+   * @see castToLowerBound */
+  def castToUpperBound[B : TypeKey]: Option[TypeKey[_ <: B]] =
+    if (this.tpe <:< typeKey[B].tpe) Some(this.asInstanceOf[TypeKey[_ <: B]]) else None
 
   override def equals(that: Any): Boolean = that.isInstanceOf[AnyRef] && {
     (this eq that.asInstanceOf[AnyRef]) || {
