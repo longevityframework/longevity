@@ -7,11 +7,10 @@ import emblem.exceptions._
 import emblem.stringUtil._
 import emblem.reflectionUtil.makeTypeTag
 
-/** a useful scope to hang on to various data to be shared across methods, so we don't have to recompute them
- * or pass them around in massive parameter lists */
-@throws[GeneratorException]
+/** Generates an [[Emblem emblem]] from the corresponding [[TypeKey]] */
 private class EmblemGenerator[A <: HasEmblem : TypeKey] extends Generator[A] {
 
+  /** Generates the emblem */
   def generate: Emblem[A] = Emblem[A](
     typeNamePrefix(tpe),
     typeName(tpe),

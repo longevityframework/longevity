@@ -13,7 +13,8 @@ trait BuildSettings {
     scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
 
     // scaladoc
-    scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits"),
+    scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-encoding", "utf8"),
+    scalacOptions in (Compile, doc) ++= Seq("-skip-packages", "java.util"),
     scalacOptions in (Compile, doc) ++= {
       val projectName = (name in (Compile, doc)).value
       val projectVersion = (version in (Compile, doc)).value
@@ -25,6 +26,8 @@ trait BuildSettings {
           "-doc-source-url", s"$githubUrl/tree/$tagOrBranch€{FILE_PATH}.scala")
     },
     autoAPIMappings := true,
+    apiMappings += (scalaInstance.value.libraryJar ->
+                    url(s"http://www.scala-lang.org/api/${scalaVersion.value}/")),
 
     // test
     logLevel in test := Level.Info, // switch to warn to get less output from scalatest

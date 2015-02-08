@@ -1,6 +1,6 @@
 import scala.language.implicitConversions
 import scala.reflect.runtime.universe.TypeTag
-import emblem.exceptions._
+import emblem.exceptions.GeneratorException
 
 /** a collection of utilities for reflecting on types */
 package object emblem {
@@ -14,16 +14,20 @@ package object emblem {
   implicit def typeKeyFromTag[A : TypeTag]: TypeKey[A] = TypeKey(implicitly[TypeTag[A]])
 
   /** creates and returns an [[Emblem]] for the specified type `A`. `A` must be a stable case class with a single
-   * parameter list. */
-  @throws[GeneratorException]
+   * parameter list.
+   * @throws emblem.exceptions.GeneratorException when `A` is not a stable case class with a single
+   * parameter list.
+   */
   def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = new EmblemGenerator[A].generate
 
   /** A [[TypeKeyMap]] of [[HasEmblem]] to [[Emblem]] */
   type EmblemPool = TypeKeyMap[HasEmblem, Emblem]  
 
   /** creates and returns an [[Shorthand]] for the specified type `A`. `A` must be a stable case class with
-   * single a parameter list. */
-  @throws[GeneratorException]
+   * single a parameter list.
+   * @throws emblem.exceptions.GeneratorException when `A` is not a stable case class with a single
+   * parameter list
+   */
   def shorthandFor[Long : TypeKey, Short : TypeKey]: Shorthand[Long, Short] =
     new ShorthandGenerator[Long, Short].generate
 
