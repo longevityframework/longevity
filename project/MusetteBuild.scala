@@ -14,7 +14,11 @@ trait BuildSettings {
 
     // scaladoc
     scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits"),
-    scalacOptions in (Compile, doc) ++= Seq("-doc-title", (name in (Compile, doc)).value + " API"),
+    scalacOptions in (Compile, doc) ++= {
+      val projectName = (name in (Compile, doc)).value
+      val projectVersion = (version in (Compile, doc)).value
+      Seq("-doc-title", s"$projectName $projectVersion API")
+    },
     scalacOptions in (Compile, doc) <++= (baseDirectory in LocalProject("root"), version) map { (bd, v) =>
       val tagOrBranch = if (v endsWith "SNAPSHOT") gitHash else ("v" + v)
       Seq("-sourcepath", bd.getAbsolutePath,
