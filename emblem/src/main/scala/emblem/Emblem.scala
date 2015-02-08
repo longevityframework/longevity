@@ -52,7 +52,7 @@ case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
     val builder = new StringBuilder()
     builder ++= s"$fullname {\n"
     props.foreach {
-      prop => builder ++= s"  ${prop}\n"
+      prop => builder ++= s"  $prop\n"
     }
     builder ++= s"}"
     builder.toString
