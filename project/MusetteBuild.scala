@@ -5,7 +5,6 @@ trait BuildSettings {
 
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "net.jsmscs",
-    version := "0.0.0-SNAPSHOT",
     logLevel in test := Level.Info,
     scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
     scalaVersion := "2.11.5",
@@ -21,15 +20,16 @@ object MusetteBuild extends Build with BuildSettings {
   lazy val root = Project(
     id = "root",
     base = file("."),
-    settings = buildSettings
+    settings = buildSettings :+ (version := "0.0.0-SNAPSHOT")
   ) aggregate (emblem, longevity, musette)
 
   lazy val emblem = Project(
     id = "emblem",
     base = file("emblem"),
-    settings = buildSettings :+ (
-      libraryDependencies ++= Seq(
-        "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23" % "provided")))
+    settings = buildSettings :+
+      (version := "0.0.0-SNAPSHOT") :+
+      (libraryDependencies += "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23" % "provided")
+  )
 
   lazy val longevity = Project(
     id = "longevity",
@@ -43,9 +43,9 @@ object MusetteBuild extends Build with BuildSettings {
   lazy val musette = Project(
     id = "musette",
     base = file("musette"),
-    settings = buildSettings :+ (
-      libraryDependencies ++= Seq(
-        "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23"))
+    settings = buildSettings :+
+      (version := "0.0.0-SNAPSHOT") :+
+      (libraryDependencies += "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23")
   ) dependsOn (emblem, longevity)
   // in the future, this dependsOn emblem may go away
 
