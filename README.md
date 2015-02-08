@@ -7,9 +7,9 @@ Story board is here: https://www.pivotaltracker.com/n/projects/1231978
 
 Musette currently contains three subprojects:
 
-- emblem - a metaprogramming library for managing types and reflecting case classes
-- longevity - a persistence library for Scala and Mongo
-- musette - a content resource management system
+- **emblem** - a metaprogramming library for managing types and reflecting case classes
+- **longevity** - a persistence library for Scala and Mongo
+- **musette** - a content resource management system
 
 Out of the three, emblem is the only one close to ready for general
 use. There isn't any external documentation yet, but there are some
