@@ -13,7 +13,8 @@ trait BuildSettings {
     scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
 
     // scaladoc
-    scalacOptions in (Compile,doc) ++= Seq("-groups", "-implicits"),
+    scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits"),
+    scalacOptions in (Compile, doc) ++= Seq("-doc-title", (name in (Compile, doc)).value + " API"),
     scalacOptions in (Compile, doc) <++= (baseDirectory in LocalProject("root"), version) map { (bd, v) =>
       val tagOrBranch = if (v endsWith "SNAPSHOT") gitHash else ("v" + v)
       Seq("-sourcepath", bd.getAbsolutePath,
