@@ -1,19 +1,13 @@
 package emblem.generators
 
-import scala.reflect.runtime.universe.typeOf
-import emblem._
-import emblem.reflectionUtil.makeTypeTag
-import emblem.exceptions.CouldNotGenerateException
 import TestDataGenerator._
+import emblem._
+import emblem.exceptions.CouldNotGenerateException
+import emblem.reflectionUtil.makeTypeTag
+import scala.reflect.runtime.universe.typeOf
 
 /** holds types and zero values used by the [[TestDataGenerator]] */
 object TestDataGenerator {
-
-  /** A [[TypeKeyMap]] for [[Emblem Emblems]] */
-  type EmblemPool = TypeKeyMap[HasEmblem, Emblem]
-
-  /** An empty emblem pool */
-  def emptyEmblemPool: EmblemPool = TypeKeyMap[HasEmblem, Emblem]()
 
   /** A [[TypeKeyMap]] for [[CustomGenerator generator functions]] */
   type CustomGenerators = TypeKeyMap[Any, CustomGenerator]
@@ -51,7 +45,7 @@ object TestDataGenerator {
  */
 class TestDataGenerator (
   private val shorthandPool: ShorthandPool = ShorthandPool(),
-  private val emblemPool: TypeKeyMap[HasEmblem, Emblem] = emptyEmblemPool,
+  private val emblemPool: EmblemPool = EmblemPool(),
   private val customGenerators: CustomGenerators = emptyCustomGenerators
 ) {
 
