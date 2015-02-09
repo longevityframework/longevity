@@ -12,11 +12,7 @@ import emblem.generators.CustomGenerator
 /** A simple fixture to test your [[longevity.repo.Repo]]. all you have to do is extend this class and implement
  * the four abstract methods.
  *
- * TODO: clean up this scaladoc presentation. hide scalatest stuff, or at least put the stuff into a group that
- * gets shown at the top
- * 
  * @groupname Implement methods to implement for configuring your specs
- * @group Implement
  */
 abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhenThen with Matchers {
 
@@ -41,14 +37,6 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
    */
   def domainConfig: DomainConfig
 
-  /** a function that uses ScalaTest matchers to check that two versions of the entity match. the first
-   * entity is the persisted, actual, version, and the second entity is the unpersisted, expected, version.
-   *
-   * this method is public for the purposes of generating scaladoc.
-   * @group Implement
-   */
-  def persistedShouldMatchUnpersisted: (E, E) => Unit
-
   /** a collection of custom generators to use when generating test data. returns an empty collection here,
    * and is intended to be overridden by implementing classes.
    *
@@ -56,6 +44,14 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
    * @group Implement
    */
   def customGenerators = emptyCustomGenerators
+
+  /** a function that uses ScalaTest matchers to check that two versions of the entity match. the first
+   * entity is the persisted, actual, version, and the second entity is the unpersisted, expected, version.
+   *
+   * this method is public for the purposes of generating scaladoc.
+   * @group Implement
+   */
+  def persistedShouldMatchUnpersisted: (E, E) => Unit
 
   private val assocGenerator: CustomGenerator[Assoc[_ <: Entity]] = new CustomGenerator[Assoc[_ <: Entity]] {
     def apply[B <: Assoc[_ <: Entity] : TypeKey](generator: TestDataGenerator): B = {

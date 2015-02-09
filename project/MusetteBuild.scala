@@ -61,9 +61,8 @@ object MusetteBuild extends Build with BuildSettings {
     base = file("longevity"),
     settings = buildSettings :+
       (version := "0.0.0-SNAPSHOT") :+
-      (libraryDependencies ++= Seq(
-        "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23",
-        "org.scalatest" %% "scalatest" % "2.2.1" % "provided"))
+      (libraryDependencies += "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23") :+
+      (libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "provided")
   ) dependsOn (emblem)
 
   lazy val musette = Project(
