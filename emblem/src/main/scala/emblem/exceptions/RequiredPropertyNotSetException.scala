@@ -1,7 +1,5 @@
 package emblem.exceptions
 
-import emblem.HasEmblemBuilder
-
 /** an exception thrown by [[HasEmblemBuilder.build]] when a required property was not set by
  * [[HasEmblemBuilder.setProp]]. */
 class RequiredPropertyNotSetException(val propName: String)

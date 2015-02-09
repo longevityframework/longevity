@@ -3,8 +3,6 @@ package emblem.generators
 import scala.reflect.runtime.universe.typeOf
 import emblem._
 import emblem.reflectionUtil.makeTypeTag
-import emblem.exceptions.CouldNotGenerateException
-import TestDataGenerator._
 
 object CustomGenerator {
 

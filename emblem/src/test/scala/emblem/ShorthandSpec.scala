@@ -1,8 +1,6 @@
 package emblem
 
-import scala.reflect.runtime.universe._
 import org.scalatest._
-import org.scalatest.OptionValues._
 import emblem.exceptions._
 
 /** [[Shorthand shorthand]] specifications */
@@ -39,23 +37,23 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "throw exception when the requested short type does not match the case class parameter" in {
-    intercept[UnexpectedShortTypeException] {
+    intercept[UnexpectedAbbreviatedTypeException] {
       shorthandFor[Uri, Int]
     }
   }
 
   behavior of "the shorthand"
 
-  it should "contain type keys for the longhand and shorthand types" in {
-    uriShorthand.longTypeKey should equal (typeKey[Uri])
-    uriShorthand.shortTypeKey should equal (typeKey[String])
+  it should "contain type keys for the actual and abbreviated types" in {
+    uriShorthand.actualTypeKey should equal (typeKey[Uri])
+    uriShorthand.abbreviatedTypeKey should equal (typeKey[String])
   }
 
   it should "provide conversion methods between the longhand and shorthand types" in {
     val uriString = "panda"
     val uri = Uri(uriString)
-    uriShorthand.shorten(uri) should equal (uriString)
-    uriShorthand.unshorten(uriString) should equal (uri)
+    uriShorthand.abbreviate(uri) should equal (uriString)
+    uriShorthand.unabbreviate(uriString) should equal (uri)
   }
 
 }

@@ -1,7 +1,6 @@
 package longevity.domain
 
 import scala.reflect.runtime.universe._
-import scala.language.implicitConversions
 import longevity.repo.RetrieveResult
 import emblem._
 

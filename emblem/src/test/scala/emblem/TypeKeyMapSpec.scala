@@ -1,7 +1,6 @@
 package emblem
 
 import org.scalatest._
-import org.scalatest.OptionValues._
 
 /** [[TypeKeyMap]] specifications */
 class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -39,11 +38,6 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "only allow key/value pairs with matching type param" in {
     var entityTypeToRepoMap = TypeKeyMap[Entity, Repo]()
-
-    "entityTypeToRepoMap += (typeKey[User], userRepo)" should compile
-    "entityTypeToRepoMap += (typeKey[User], blogRepo)" shouldNot compile
-    "entityTypeToRepoMap += (typeKey[Blog], userRepo)" shouldNot compile
-
     "entityTypeToRepoMap += typeKey[User] -> userRepo" should compile
     "entityTypeToRepoMap += typeKey[User] -> blogRepo" shouldNot compile
     "entityTypeToRepoMap += typeKey[Blog] -> userRepo" shouldNot compile
@@ -53,8 +47,8 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     val typeKeySet = Set(typeKey[User], typeKey[Blog])
 
     var localEntityStore = TypeKeyMap[Entity, Seq]()
-    localEntityStore += (typeKey[User], Seq(User("user1"), User("user2"), User("user3")))
-    localEntityStore += (typeKey[Blog], Seq(Blog("blog1"), Blog("blog2")))
+    localEntityStore += (typeKey[User] -> Seq(User("user1"), User("user2"), User("user3")))
+    localEntityStore += (typeKey[Blog] -> Seq(Blog("blog1"), Blog("blog2")))
 
     var entityTypeToRepoMap = TypeKeyMap[Entity, Repo]()
     entityTypeToRepoMap += userRepo

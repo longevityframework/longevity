@@ -4,7 +4,6 @@ import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
 import emblem.exceptions._
-import emblem.stringUtil._
 
 /** a useful scope to hang on to various data to be shared across methods, so we don't have to recompute them
  * or pass them around in massive parameter lists */

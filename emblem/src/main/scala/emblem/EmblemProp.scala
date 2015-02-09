@@ -2,7 +2,6 @@ package emblem
 
 import scala.reflect.runtime.universe.TypeRef
 import scala.reflect.runtime.universe.TypeTag
-import stringUtil._
 
 /** An emblem property. The property belongs to an [[Emblem]], has a name, and a getter and a setter.
  * Because the emblem is treated as an immutable object, the setter returns a new instance.

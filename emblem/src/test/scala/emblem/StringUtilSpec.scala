@@ -1,7 +1,6 @@
 package emblem
 
 import org.scalatest._
-import org.scalatest.OptionValues._
 
 /** [[stringUtil string util]] specifications */
 class StringUtilSpec extends FlatSpec with GivenWhenThen with Matchers {

@@ -1,7 +1,6 @@
 package emblem
 
 import org.scalatest._
-import org.scalatest.OptionValues._
 import emblem.exceptions.RequiredPropertyNotSetException
 import emblem.testData.geometry._
 import emblem.testData.withImplicits._

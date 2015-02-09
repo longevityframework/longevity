@@ -85,8 +85,8 @@ class TestDataGenerator (
   /** Generates test data for the specified type `A` via a shorthand in the pool
    * @throws emblem.exceptions.CouldNotGenerateException when there is no shorthand in the pool for type A
    */
-  def shorthand[Long : TypeKey]: Long = shorthandOption[Long] getOrElse {
-    throw new CouldNotGenerateException(typeKey[Long])
+  def shorthand[Actual : TypeKey]: Actual = shorthandOption[Actual] getOrElse {
+    throw new CouldNotGenerateException(typeKey[Actual])
   }
 
   /** Generates an option containing (or not) an element of type A. Generates `Some` and `None` values
@@ -182,16 +182,18 @@ class TestDataGenerator (
     builder.build()
   }
 
-  private def shorthandOption[Long : TypeKey]: Option[Long] =
-    shorthandPool.get[Long] map { s => genFromShorthand[Long](s) }
+  private def shorthandOption[Actual : TypeKey]: Option[Actual] =
+    shorthandPool.get[Actual] map { s => genFromShorthand[Actual](s) }
 
-  private def genFromShorthand[Long](shorthand: Shorthand[Long, _]): Long = genFromFullyTypedShorthand(shorthand)
+  private def genFromShorthand[Actual](shorthand: Shorthand[Actual, _]): Actual =
+    genFromFullyTypedShorthand(shorthand)
 
   // http://scabl.blogspot.com/2015/01/introduce-type-param-pattern.html
-  private def genFromFullyTypedShorthand[Long, Short](shorthand: Shorthand[Long, Short]): Long =
-    basicGenerators.get(shorthand.shortTypeKey) match {
-      case Some(gen) => shorthand.unshorten(gen())
-      case None => throw new CouldNotGenerateException(shorthand.shortTypeKey)
+  private def genFromFullyTypedShorthand[Actual, Abbreviated](
+    shorthand: Shorthand[Actual, Abbreviated]): Actual =
+    basicGenerators.get(shorthand.abbreviatedTypeKey) match {
+      case Some(gen) => shorthand.unabbreviate(gen())
+      case None => throw new CouldNotGenerateException(shorthand.abbreviatedTypeKey)
     }
 
   // TODO: try to remove code duplication below with optionOption / setOption / listOption

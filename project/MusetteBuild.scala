@@ -10,11 +10,24 @@ trait BuildSettings {
     scalaVersion := "2.11.5",
 
     // compile
-    scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
+    scalacOptions ++= Seq(
+      "-deprecation",
+      "-encoding", "UTF-8",
+      "-feature",
+      "-language:existentials",
+      "-language:higherKinds",
+      "-language:implicitConversions",
+      "-unchecked",
+      "-Xfatal-warnings",
+      "-Xlint",
+      "-Yno-adapted-args",
+      "-Ywarn-numeric-widen",
+      "-Xfuture",
+      "-Ywarn-unused-import"
+    ),
 
     // scaladoc
-    scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-encoding", "utf8"),
-    scalacOptions in (Compile, doc) ++= Seq("-skip-packages", "java.util"),
+    scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-encoding", "UTF-8"),
     scalacOptions in (Compile, doc) ++= {
       val projectName = (name in (Compile, doc)).value
       val projectVersion = (version in (Compile, doc)).value
@@ -34,9 +47,9 @@ trait BuildSettings {
 
     // dependencies
     resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
-    libraryDependencies ++= Seq(
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-      "org.scalatest" %% "scalatest" % "2.2.1" % "test"))
+    libraryDependencies += ("org.scala-lang" % "scala-reflect" % scalaVersion.value),
+    libraryDependencies += ("org.scalatest" %% "scalatest" % "2.2.1" % "test")
+  )
 
   private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
 

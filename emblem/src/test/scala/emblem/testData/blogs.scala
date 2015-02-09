@@ -1,7 +1,5 @@
 package emblem.testData
 
-import emblem._
-
 /** for type map happy cases */
 object blogs {
 

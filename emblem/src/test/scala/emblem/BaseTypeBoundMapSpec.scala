@@ -1,7 +1,6 @@
 package emblem
 
 import org.scalatest._
-import org.scalatest.OptionValues._
 
 /** specifications for methods common to [[TypeKeyMap]] and [[TypeBoundMap]] found in [[BaseTypeBoundMap]]. */
 class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -28,11 +27,11 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     var inventories = TypeBoundMap[Pet, PetStore, List]
     inventories.isEmpty should be (true)
-    inventories += (catStore1, Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil)
+    inventories += (catStore1 -> List(Cat("cat11"), Cat("cat12"), Cat("cat13")))
     inventories.isEmpty should be (false)
-    inventories += (catStore2, Cat("cat21") :: Nil)
+    inventories += (catStore2 -> List(Cat("cat21")))
     inventories.isEmpty should be (false)
-    inventories += (dogStore1, Dog("dog11") :: Dog("dog12") :: Nil)
+    inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
     inventories.isEmpty should be (false)
   }  
 
@@ -68,13 +67,13 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     val keys: Iterable[PetStore[_ <: Pet]] = inventories.keys
     keys.toSet should equal (Set())
 
-    inventories += (catStore1, Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil)
+    inventories += (catStore1 -> List(Cat("cat11"), Cat("cat12"), Cat("cat13")))
     inventories.keys.toSet should equal (Set(catStore1))
 
-    inventories += (catStore2, Cat("cat21") :: Nil)
+    inventories += (catStore2 -> List(Cat("cat21")))
     inventories.keys.toSet should equal (Set(catStore1, catStore2))
 
-    inventories += (dogStore1, Dog("dog11") :: Dog("dog12") :: Nil)
+    inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
     inventories.keys.toSet should equal (Set(catStore1, catStore2, dogStore1))
   }
 
@@ -100,11 +99,11 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     var inventories = TypeBoundMap[Pet, PetStore, List]
     inventories.size should be (0)
-    inventories += (catStore1, Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil)
+    inventories += (catStore1 -> List(Cat("cat11"), Cat("cat12"), Cat("cat13")))
     inventories.size should be (1)
-    inventories += (catStore2, Cat("cat21") :: Nil)
+    inventories += (catStore2 -> List(Cat("cat21")))
     inventories.size should be (2)
-    inventories += (dogStore1, Dog("dog11") :: Dog("dog12") :: Nil)
+    inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
     inventories.size should be (3)
   }
 
@@ -136,15 +135,15 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     values.toSet should equal (Set())
 
     val catList1 = Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil
-    inventories += (catStore1, catList1)
+    inventories += (catStore1 -> catList1)
     inventories.values.toSet should equal (Set(catList1))
 
     val catList2 = Cat("cat21") :: Nil
-    inventories += (catStore2, catList2)
+    inventories += (catStore2 -> catList2)
     inventories.values.toSet should equal (Set(catList1, catList2))
 
     val dogList1 = Dog("dog11") :: Dog("dog12") :: Nil
-    inventories += (dogStore1, dogList1)
+    inventories += (dogStore1 -> dogList1)
     inventories.values.toSet should equal (Set(catList1, catList2, dogList1))
   }
 
@@ -223,19 +222,19 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     inventories.mapValues[Option](toHeadOption) should equal (TypeBoundMap[Pet, PetStore, Option])
 
     val catList1 = Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil
-    inventories += (catStore1, catList1)
+    inventories += (catStore1 -> catList1)
     inventories.mapValues[Option](toHeadOption) should equal (
       TypeBoundMap[Pet, PetStore, Option] + (catStore1 -> catList1.headOption))
 
     val catList2 = Cat("cat21") :: Nil
-    inventories += (catStore2, catList2)
+    inventories += (catStore2 -> catList2)
     inventories.mapValues[Option](toHeadOption) should equal (
       TypeBoundMap[Pet, PetStore, Option] +
       (catStore1 -> catList1.headOption) +
       (catStore2 -> catList2.headOption))
 
     val dogList1 = Dog("dog11") :: Dog("dog12") :: Nil
-    inventories += (dogStore1, dogList1)
+    inventories += (dogStore1 -> dogList1)
     inventories.mapValues[Option](toHeadOption) should equal (
       TypeBoundMap[Pet, PetStore, Option] +
       (catStore1 -> catList1.headOption) +

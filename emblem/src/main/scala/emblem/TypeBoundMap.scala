@@ -33,9 +33,9 @@ object TypeBoundMap {
  *
  * {{{
  * var inventories = TypeBoundMap[Pet, PetStore, List]
- * inventories += (catStore1, Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil)
- * inventories += (catStore2, Cat("cat21") :: Nil)
- * inventories += (dogStore1, Dog("dog11") :: Dog("dog12") :: Nil)
+ * inventories += (catStore1 -> List(Cat("cat11"), Cat("cat12"), Cat("cat13")))
+ * inventories += (catStore2 -> List(Cat("cat21")))
+ * inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
  * }}}
  *
  * Now we can look up pet lists by pet store, with everything coming back as the expected type:

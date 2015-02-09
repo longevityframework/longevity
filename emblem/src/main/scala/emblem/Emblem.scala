@@ -1,7 +1,6 @@
 package emblem
 
 import scala.reflect.runtime.universe.TypeTag
-import stringUtil._
 
 /** A reflective signature for a type. Provides name information, [[EmblemProp properties]],
  * and a tools used to build new instances. The underlying type is treated as immutable, so each property

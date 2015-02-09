@@ -1,8 +1,8 @@
 package musette
 
-import scala.language.implicitConversions
 import emblem._
-import longevity.domain._
+import longevity.domain.DomainConfig
+import longevity.domain.EntityTypePool
 
 package object domain {
 

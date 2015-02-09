@@ -1,7 +1,5 @@
 package musette.repo.mongo
 
-import longevity.domain._
-
 import longevity.repo._
 import musette.domain._
 import musette.repo.WikiRepo

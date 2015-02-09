@@ -1,7 +1,6 @@
 package emblem
 
 import org.scalatest._
-import org.scalatest.OptionValues._
 
 /** [[TypeBoundMap]] specifications */
 class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -16,9 +15,9 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     val dogStore1 = new PetStore[Dog]
 
     var inventories = TypeBoundMap[Pet, PetStore, List]
-    inventories += (catStore1, Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil)
-    inventories += (catStore2, Cat("cat21") :: Nil)
-    inventories += (dogStore1, Dog("dog11") :: Dog("dog12") :: Nil)
+    inventories += (catStore1 -> List(Cat("cat11"), Cat("cat12"), Cat("cat13")))
+    inventories += (catStore2 -> List(Cat("cat21")))
+    inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
 
     val cats1: List[Cat] = inventories(catStore1)
     cats1.size should be (3)
@@ -43,9 +42,6 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     "partsUpgradeMap += Memory(4) -> Memory(8)" should compile
     "partsUpgradeMap += Memory(4) -> CPU(2.4)" shouldNot compile
     "partsUpgradeMap += CPU(2.4) -> Memory(4)" shouldNot compile
-    "partsUpgradeMap += (Memory(4), Memory(8))" should compile
-    "partsUpgradeMap += (Memory(4), CPU(2.4))" shouldNot compile
-    "partsUpgradeMap += (CPU(2.4), Memory(4))" shouldNot compile
   }
 
   it should "store multiple key/value pairs for a given type param" in {
@@ -87,11 +83,6 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "only allow key/value pairs with matching type param" in {
     var entityTypeToRepoMap = TypeBoundMap[Entity, EntityType, Repo]()
-
-    "entityTypeToRepoMap += (userType, userRepo)" should compile
-    "entityTypeToRepoMap += (userType, blogRepo)" shouldNot compile
-    "entityTypeToRepoMap += (blogType, userRepo)" shouldNot compile
-
     "entityTypeToRepoMap += userType -> userRepo" should compile
     "entityTypeToRepoMap += userType -> blogRepo" shouldNot compile
     "entityTypeToRepoMap += blogType -> userRepo" shouldNot compile
@@ -101,8 +92,8 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     val entityTypeSet = Set(userType, blogType)
 
     var localEntityStore = TypeBoundMap[Entity, EntityType, Seq]()
-    localEntityStore += (userType, Seq(User("user1"), User("user2"), User("user3")))
-    localEntityStore += (blogType, Seq(Blog("blog1"), Blog("blog2")))
+    localEntityStore += (userType -> Seq(User("user1"), User("user2"), User("user3")))
+    localEntityStore += (blogType -> Seq(Blog("blog1"), Blog("blog2")))
 
     var entityTypeToRepoMap = TypeBoundMap[Entity, EntityType, Repo]()
     entityTypeToRepoMap += userType -> userRepo

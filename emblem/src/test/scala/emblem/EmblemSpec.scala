@@ -1,7 +1,6 @@
 package emblem
 
 import org.scalatest._
-import org.scalatest.OptionValues._
 import testData.geometry._
 
 /** [[Emblem emblem]] specifications */

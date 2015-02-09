@@ -65,9 +65,9 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     BSONIntegerHandler + BSONLongHandler + BSONStringHandler
 
   private val assocHandlers = {
-    def assocTag[E <: Entity](implicit tag: TypeTag[E]) = typeTag[Assoc[E]]
-    def addAssocHandlerToMap[E <: Entity : TypeTag](tag: TypeTag[E], map: BsonHandlerMap) = {
-      implicit val key: TypeKey[Assoc[E]] = TypeKey(assocTag(tag))
+    def assocTag[Associatee <: Entity](implicit tag: TypeTag[Associatee]) = typeTag[Assoc[Associatee]]
+    def addAssocHandlerToMap[Associatee <: Entity : TypeTag](tag: TypeTag[Associatee], map: BsonHandlerMap) = {
+      implicit val key: TypeKey[Assoc[Associatee]] = TypeKey(assocTag(tag))
       map + assocHandler(tag)
     }
     repoPool.entityTypeTags.foldLeft(new BsonHandlerMap()) { (map, tag) =>
@@ -76,10 +76,10 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
   }
 
   private val assocSetHandlers = {
-    def assocTag[E <: Entity](implicit tag: TypeTag[E]) = typeTag[Assoc[E]]
-    def assocSetTag[E <: Entity](implicit tag: TypeTag[E]) = typeTag[Set[Assoc[E]]]
-    def addAssocHandlerToMap[E <: Entity : TypeTag](tag: TypeTag[E], map: BsonHandlerMap) = {
-      implicit val key: TypeKey[Set[Assoc[E]]] = TypeKey(assocSetTag(tag))
+    def assocTag[Associatee <: Entity](implicit tag: TypeTag[Associatee]) = typeTag[Assoc[Associatee]]
+    def assocSetTag[Associatee <: Entity](implicit tag: TypeTag[Associatee]) = typeTag[Set[Assoc[Associatee]]]
+    def addAssocHandlerToMap[Associatee <: Entity : TypeTag](tag: TypeTag[Associatee], map: BsonHandlerMap) = {
+      implicit val key: TypeKey[Set[Assoc[Associatee]]] = TypeKey(assocSetTag(tag))
       map + assocSetHandler(tag)
     }
     repoPool.entityTypeTags.foldLeft(new BsonHandlerMap()) { (map, tag) =>
@@ -104,10 +104,10 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     builder.setProp(prop, propVal)
   }
 
-  private def getPropValFromShorthand[Long, Short](
-    bson: BSONDocument, shorthand: Shorthand[Long, Short], name: String): Long = {
-    val propVal = getPropVal[Short](bson, shorthand.shortTypeKey, name)
-    shorthand.unshorten(propVal)
+  private def getPropValFromShorthand[Actual, Abbreviated](
+    bson: BSONDocument, shorthand: Shorthand[Actual, Abbreviated], name: String): Actual = {
+    val propVal = getPropVal[Abbreviated](bson, shorthand.abbreviatedTypeKey, name)
+    shorthand.unabbreviate(propVal)
   }
 
   private def getPropVal[U](bson: BSONDocument, typeKey: TypeKey[U], name: String): U = {
@@ -133,10 +133,10 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     }
   }
 
-  private def bsonValueForShorthand[Long, Short](
-    e: E, prop: EmblemProp[E, Long], shorthand: Shorthand[Long, Short]): BSONValue = {
-    val propVal: Short = shorthand.shorten(prop.get(e))
-    val key: TypeKey[Short] = shorthand.shortTypeKey
+  private def bsonValueForShorthand[Actual, Abbreviated](
+    e: E, prop: EmblemProp[E, Actual], shorthand: Shorthand[Actual, Abbreviated]): BSONValue = {
+    val propVal: Abbreviated = shorthand.abbreviate(prop.get(e))
+    val key: TypeKey[Abbreviated] = shorthand.abbreviatedTypeKey
     val handler = handlerMap(key)
     handler.write(propVal)
   }

@@ -2,7 +2,6 @@ package emblem
 
 import scala.reflect.runtime.universe._
 import org.scalatest._
-import org.scalatest.OptionValues._
 
 /** [[TypeKey type key]] specifications */
 class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {

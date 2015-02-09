@@ -1,7 +1,6 @@
 package longevity.testUtil
 
 import org.scalatest._
-import org.scalatest.OptionValues._
 import longevity.repo._
 import longevity.domain._
 import emblem._
@@ -56,7 +55,7 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
   private val assocGenerator: CustomGenerator[Assoc[_ <: Entity]] = new CustomGenerator[Assoc[_ <: Entity]] {
     def apply[B <: Assoc[_ <: Entity] : TypeKey](generator: TestDataGenerator): B = {
       val entityTypeKey: TypeKey[_ <: Entity] = typeKey[B].typeArgs.head.castToUpperBound[Entity].get
-      def genAssoc[E <: Entity : TypeKey] = Assoc[E](generator.any[E])
+      def genAssoc[Associatee <: Entity : TypeKey] = Assoc[Associatee](generator.any[Associatee])
       genAssoc(entityTypeKey).asInstanceOf[B]
     }
   }

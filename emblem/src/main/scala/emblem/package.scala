@@ -1,6 +1,4 @@
-import scala.language.implicitConversions
 import scala.reflect.runtime.universe.TypeTag
-import emblem.exceptions.GeneratorException
 
 /** a collection of utilities for reflecting on types */
 package object emblem {
@@ -28,14 +26,14 @@ package object emblem {
    * @throws emblem.exceptions.GeneratorException when `A` is not a stable case class with a single
    * parameter list
    */
-  def shorthandFor[Long : TypeKey, Short : TypeKey]: Shorthand[Long, Short] =
-    new ShorthandGenerator[Long, Short].generate
+  def shorthandFor[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] =
+    new ShorthandGenerator[Actual, Abbreviated].generate
 
-  /** A shorthand with the short type unspecified. this type is equivalent to Shorthand[Long, _], except with
-   * a single type parameter Long. this allows it to be used as a key in a TypeBoundMap */
-  type ShorthandFor[Long] = Shorthand[Long, _]
+  /** A shorthand with the abbreviated type unspecified. this type is equivalent to Shorthand[Actual, _],
+   * except with a single type parameter Actual. this allows it to be used as a key in a TypeBoundMap */
+  type ShorthandFor[Actual] = Shorthand[Actual, _]
 
-  /** A [[TypeKeyMap]] of `Long` to [[Shorthand]] */
+  /** A [[TypeKeyMap]] of `Actual` to [[Shorthand]] */
   type ShorthandPool = TypeKeyMap[Any, ShorthandFor]
 
   /** a no-arg function with return type A */

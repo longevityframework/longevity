@@ -4,8 +4,6 @@ import scala.reflect.runtime.universe.TypeTag
 import longevity.domain.Entity
 import longevity.domain.EntityType
 import longevity.repo._
-import musette.domain._
-import musette.repo.SiteRepo
 
 class MusetteMongoRepo[E <: Entity : TypeTag](
   override val entityType: EntityType[E]

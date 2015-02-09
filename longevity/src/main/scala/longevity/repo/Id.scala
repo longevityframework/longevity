@@ -1,7 +1,5 @@
 package longevity.repo
 
-import scala.language.implicitConversions
-
 import longevity.domain._
 
 object Id {

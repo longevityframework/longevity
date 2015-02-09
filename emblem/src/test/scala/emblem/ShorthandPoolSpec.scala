@@ -1,6 +1,5 @@
 package emblem
 
-import scala.reflect.runtime.universe._
 import org.scalatest._
 import org.scalatest.OptionValues._
 import emblem.exceptions.DuplicateShorthandsException

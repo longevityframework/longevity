@@ -1,6 +1,5 @@
 package longevity.repo
 
-import scala.language.implicitConversions
 import longevity.domain.Entity
 
 // TODO: rename this file
