@@ -1,5 +1,8 @@
 import scala.reflect.runtime.universe.TypeTag
 
+import emblem.factories.EmblemFactory
+import emblem.factories.ShorthandFactory
+
 /** a collection of utilities for reflecting on types */
 package object emblem {
 
@@ -16,7 +19,7 @@ package object emblem {
    * @throws emblem.exceptions.GeneratorException when `A` is not a stable case class with a single
    * parameter list.
    */
-  def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = new EmblemGenerator[A].generate
+  def emblemFor[A <: HasEmblem : TypeKey]: Emblem[A] = new EmblemFactory[A].generate
 
   /** A [[TypeKeyMap]] of [[HasEmblem]] to [[Emblem]] */
   type EmblemPool = TypeKeyMap[HasEmblem, Emblem]  
@@ -27,7 +30,7 @@ package object emblem {
    * parameter list
    */
   def shorthandFor[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] =
-    new ShorthandGenerator[Actual, Abbreviated].generate
+    new ShorthandFactory[Actual, Abbreviated].generate
 
   /** A shorthand with the abbreviated type unspecified. this type is equivalent to Shorthand[Actual, _],
    * except with a single type parameter Actual. this allows it to be used as a key in a TypeBoundMap */

@@ -1,14 +1,15 @@
-package emblem
+package emblem.factories
 
 import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
+import emblem._
 import emblem.exceptions._
 import emblem.stringUtil._
 import emblem.reflectionUtil.makeTypeTag
 
 /** Generates an [[Emblem emblem]] from the corresponding [[TypeKey]] */
-private class EmblemGenerator[A <: HasEmblem : TypeKey] extends Generator[A] {
+private[emblem] class EmblemFactory[A <: HasEmblem : TypeKey] extends ReflectiveFactory[A] {
 
   /** Generates the emblem */
   def generate: Emblem[A] = Emblem[A](

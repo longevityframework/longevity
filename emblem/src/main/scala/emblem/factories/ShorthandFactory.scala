@@ -1,11 +1,13 @@
-package emblem
+package emblem.factories
 
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
+import emblem._
 import emblem.exceptions._
 
 /** Generates a [[Shorthand shorthand]] from the corresponding [[TypeKey]] */
-private class ShorthandGenerator[Actual : TypeKey, Abbreviated : TypeKey] extends Generator[Actual] {
+private[emblem] class ShorthandFactory[Actual : TypeKey, Abbreviated : TypeKey]
+extends ReflectiveFactory[Actual] {
 
   verifySingleParam()
   private val param: TermSymbol = params.head
