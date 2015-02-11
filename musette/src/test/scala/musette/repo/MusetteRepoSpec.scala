@@ -1,7 +1,7 @@
 package musette.repo
 
 import emblem.TypeKey
-import emblem.generators.TestDataGenerator.emptyCustomGenerators
+import emblem.traversors.Generator.emptyCustomGenerators
 import emblem.generators.CustomGenerator.simpleGenerator
 import longevity.testUtil.RepoSpec
 import longevity.domain.Entity

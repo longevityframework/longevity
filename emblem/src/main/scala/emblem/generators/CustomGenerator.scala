@@ -3,6 +3,7 @@ package emblem.generators
 import scala.reflect.runtime.universe.typeOf
 import emblem._
 import emblem.reflectionUtil.makeTypeTag
+import emblem.traversors.Generator
 
 object CustomGenerator {
 
@@ -31,8 +32,8 @@ object CustomGenerator {
    * @param underlying the regular function backing the custom generator
    * @return a simple custom generator backed by the provided underlying function
    */
-  def simpleGenerator[A : TypeKey](underlying: (TestDataGenerator) => A) = new CustomGenerator[A] {
-    def apply[B <: A : TypeKey](generator: TestDataGenerator): B = {
+  def simpleGenerator[A : TypeKey](underlying: (Generator) => A) = new CustomGenerator[A] {
+    def apply[B <: A : TypeKey](generator: Generator): B = {
       if (typeKey[A].tpe <:< typeKey[B].tpe) // A and B are the same
         underlying(generator).asInstanceOf[B]
       else
@@ -68,8 +69,8 @@ trait CustomGenerator[A] {
 
   /** Generates an element of type B
    * @tparam B the type of element to generate. a subtype of A
-   * @param generator the [[TestDataGenerator]] that is delegating this call to us
+   * @param generator the [[Generator]] that is delegating this call to us
    */
-  def apply[B <: A : TypeKey](generator: TestDataGenerator): B
+  def apply[B <: A : TypeKey](generator: Generator): B
 
 }

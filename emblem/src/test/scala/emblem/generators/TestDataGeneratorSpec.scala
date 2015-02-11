@@ -1,10 +1,11 @@
 package emblem.generators
 
+import emblem.traversors.Generator
 import org.scalatest._
 import org.scalatest.OptionValues._
 import emblem._
 import emblem.exceptions.CouldNotGenerateException
-import TestDataGenerator._
+import emblem.traversors.Generator._
 import CustomGenerator.simpleGenerator
 import emblem.testData.emblems._
 import emblem.testData.shorthands._
@@ -12,33 +13,33 @@ import emblem.testData.shorthands._
 /** specs for [[TestDataGenerator]] */
 class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "TestDataGenerator.custom[A]"
+  behavior of "TestDataGenerator.generate[A] with custom generator"
 
   class IntHolder(val i: Int)
   class IntHolderNoCustom(val i: Int)
 
   it should "produce values according to the supplied custom generator" in {
     val generator = standardGenerator
-    val intHolder: IntHolder = generator.custom[IntHolder]
+    val intHolder: IntHolder = generator.generate[IntHolder]
     List.fill(100) {
-      (generator.custom[IntHolder].i) shouldNot equal (generator.custom[IntHolder].i)
+      (generator.generate[IntHolder].i) shouldNot equal (generator.generate[IntHolder].i)
     }
   }
 
   it should "throw CouldNotGenerateException when there is no custom generator for the requested type" in {
     val generator = standardGenerator
-    intercept[CouldNotGenerateException] { generator.custom[IntHolderNoCustom] }
+    intercept[CouldNotGenerateException] { generator.generate[IntHolderNoCustom] }
   }
 
   it should "work properly with generators for types that take type params" in {
     val intHolderCustomGenerator =
-      simpleGenerator((generator: TestDataGenerator) => new IntHolder(generator.int))
+      simpleGenerator((generator: Generator) => new IntHolder(generator.int))
 
     // always generates a 5-element list
     val listCustomGenerator = new CustomGenerator[List[Any]] {
-      def apply[B <: List[_] : TypeKey](generator: TestDataGenerator): B = {
+      def apply[B <: List[_] : TypeKey](generator: Generator): B = {
         val eltTypeKey = typeKey[B].typeArgs.head
-        val eltList = List.fill(5) { generator.any(eltTypeKey) }
+        val eltList = List.fill(5) { generator.generate(eltTypeKey) }
         eltList.asInstanceOf[B]
       }
     }
@@ -50,120 +51,120 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
       customGenerators)
 
     List.fill(100) {
-      val intList: List[Int] = generator.custom[List[Int]]
+      val intList: List[Int] = generator.generate[List[Int]]
       intList.size should equal (5)
 
-      val stringList: List[String] = generator.custom[List[String]]
+      val stringList: List[String] = generator.generate[List[String]]
       stringList.size should equal (5)
 
-      val pointList: List[Point] = generator.custom[List[Point]]
+      val pointList: List[Point] = generator.generate[List[Point]]
       pointList.size should equal (5)
     }
 
     // flotsam
-    intercept[CouldNotGenerateException] { generator.custom[List[_]] }
+    intercept[CouldNotGenerateException] { generator.generate[List[_]] }
   }
 
-  behavior of "TestDataGenerator.emblem[A <: HasEmblem]"
+  behavior of "TestDataGenerator.generate[A] for A <:< HasEmblem"
 
   it should "produce random values of type A" in {
     val generator = standardGenerator
 
-    val point: Point = generator.emblem[Point]
+    val point: Point = generator.generate[Point]
     List.fill(100) {
-      (generator.emblem[Point]) shouldNot equal (generator.emblem[Point])
+      (generator.generate[Point]) shouldNot equal (generator.generate[Point])
     }
 
-    val user: User = generator.emblem[User]
+    val user: User = generator.generate[User]
     List.fill(100) {
-      (generator.emblem[User]) shouldNot equal (generator.emblem[User])
+      (generator.generate[User]) shouldNot equal (generator.generate[User])
     }
   }
 
   it should "throw CouldNotGenerateException when it does not know have an emblem for the requested type" in {
     val generator = standardGenerator
-    intercept[CouldNotGenerateException] { generator.emblem[NotInPool] }
+    intercept[CouldNotGenerateException] { generator.generate[NotInPool] }
   }
 
   it should "throw CouldNotGenerateException when it does not know how to generate for a property type" in {
     val generator = standardGenerator
-    intercept[CouldNotGenerateException] { generator.emblem[WithNoShorthandProp] }
-    intercept[CouldNotGenerateException] { generator.emblem[WithBarProp] }
+    intercept[CouldNotGenerateException] { generator.generate[WithNoShorthandProp] }
+    intercept[CouldNotGenerateException] { generator.generate[WithBarProp] }
   }
 
-  behavior of "TestDataGenerator.shorthand[Long]"
+  behavior of "TestDataGenerator.generate[A] when A has a shorthand"
 
   it should "produce random values of type Long when the short type is a basic type" in {
     val generator = standardGenerator
 
-    val email: Email = generator.shorthand[Email]
+    val email: Email = generator.generate[Email]
     List.fill(100) {
-      (generator.shorthand[Email]) shouldNot equal (generator.shorthand[Email])
+      (generator.generate[Email]) shouldNot equal (generator.generate[Email])
     }
 
-    val radians: Radians = generator.shorthand[Radians]
+    val radians: Radians = generator.generate[Radians]
     List.fill(100) {
-      (generator.shorthand[Radians]) shouldNot equal (generator.shorthand[Radians])
+      (generator.generate[Radians]) shouldNot equal (generator.generate[Radians])
     }
 
-    val zipcode: Zipcode = generator.shorthand[Zipcode]
+    val zipcode: Zipcode = generator.generate[Zipcode]
     List.fill(100) {
-      (generator.shorthand[Zipcode]) shouldNot equal (generator.shorthand[Zipcode])
+      (generator.generate[Zipcode]) shouldNot equal (generator.generate[Zipcode])
     }
   }
 
   it should "throw CouldNotGenerateException when it does not have a shorthand registered for the Long type" in {
     val generator = standardGenerator
-    intercept[CouldNotGenerateException] { generator.shorthand[NoShorthand] }
+    intercept[CouldNotGenerateException] { generator.generate[NoShorthand] }
   }
 
   it should "throw CouldNotGenerateException when it does not know how to generate for shorthand type" in {
     val generator = standardGenerator
-    intercept[CouldNotGenerateException] { generator.shorthand[Bar] }
+    intercept[CouldNotGenerateException] { generator.generate[Bar] }
   }
 
-  behavior of "TestDataGenerator.option[A]"
+  behavior of "TestDataGenerator.generate[Option[A]]"
   it should "produce an option that is None about half the time" in {
     val generator = standardGenerator
 
-    val stringOption: Option[String] = generator.option[String]
-    val stringOptionList = List.fill(100) { generator.option[String] }
+    val stringOption: Option[String] = generator.generate[Option[String]]
+    val stringOptionList = List.fill(100) { generator.generate[Option[String]] }
     val someCount = stringOptionList.flatten.size
     someCount should be > 20
     someCount should be < 80
 
-    val pointOption: Option[Point] = generator.option[Point]
-    val emailOption: Option[Email] = generator.option[Email]
+    val pointOption: Option[Point] = generator.generate[Option[Point]]
+    val emailOption: Option[Email] = generator.generate[Option[Email]]
   }
 
-  behavior of "TestDataGenerator.set[A]"
+  behavior of "TestDataGenerator.generate[Set[A]]"
   it should "produce a set that has 0, 1, and 2 elements at least some of the time" in {
     val generator = standardGenerator
 
-    val stringSet: Set[String] = generator.set[String]
-    val stringSetList = List.fill(100) { generator.set[String] }
+    val stringSet: Set[String] = generator.generate[Set[String]]
+    val stringSetList: List[Set[String]] = List.fill(100) { generator.generate[Set[String]] }
     val sizeToStringSetMap = stringSetList.groupBy(_.size)
     sizeToStringSetMap.get(0).value.size should be > 1
     sizeToStringSetMap.get(1).value.size should be > 1
     sizeToStringSetMap.get(2).value.size should be > 1
 
-    val pointSet: Set[Point] = generator.set[Point]
-    val emailSet: Set[Email] = generator.set[Email]
+    val pointSet: Set[Point] = generator.generate[Set[Point]]
+    val emailSet: Set[Email] = generator.generate[Set[Email]]
   }
 
-  behavior of "TestDataGenerator.list[A]"
+  behavior of "TestDataGenerator.generate[List[A]]"
   it should "produce a list that has 0, 1, and 2 elements at least some of the time" in {
     val generator = standardGenerator
 
-    val stringList: List[String] = generator.list[String]
-    val stringListList = List.fill(100) { generator.list[String] }
+    val stringList: List[String] = generator.generate[List[String]]
+    val stringListList = List.fill(100) { generator.generate[List[String]] }
     val sizeToStringListMap = stringListList.groupBy(_.size)
     sizeToStringListMap.get(0).value.size should be > 1
     sizeToStringListMap.get(1).value.size should be > 1
     sizeToStringListMap.get(2).value.size should be > 1
 
-    val pointList: List[Point] = generator.list[Point]
-    val emailList: List[Email] = generator.list[Email]
+    val pointList: List[Point] = generator.generate[List[Point]]
+    val emailList: List[Email] = generator.generate[List[Email]]
   }
 
   behavior of "TestDataGenerator methods for basic types"
@@ -204,61 +205,11 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  behavior of "TestDataGenerator.any[A]"
-  it should "delegate appropriately as in all the above examples" in {
-    val generator = standardGenerator
-
-    // customs
-    val intHolder: IntHolder = generator.any[IntHolder]
-    intercept[CouldNotGenerateException] { generator.any[IntHolderNoCustom] }
-
-    // emblems
-    val point: Point = generator.any[Point]
-    val user: User = generator.any[User]
-    intercept[CouldNotGenerateException] { generator.any[NotInPool] }
-    intercept[CouldNotGenerateException] { generator.any[WithNoShorthandProp] }
-    intercept[CouldNotGenerateException] { generator.any[WithBarProp] }
-
-    // shorthands
-    val email: Email = generator.any[Email]
-    val radians: Radians = generator.any[Radians]
-    val zipcode: Zipcode = generator.any[Zipcode]
-    intercept[CouldNotGenerateException] { generator.any[NoShorthand] }
-    intercept[CouldNotGenerateException] { generator.any[Bar] }
-
-    // options
-
-    val stringOption: Option[String] = generator.any[Option[String]]
-    val pointOption: Option[Point] = generator.any[Option[Point]]
-    val emailOption: Option[Email] = generator.any[Option[Email]]
-
-    // sets
-
-    val stringSet: Set[String] = generator.any[Set[String]]
-    val pointSet: Set[Point] = generator.any[Set[Point]]
-    val emailSet: Set[Email] = generator.any[Set[Email]]
-
-    // lists
-
-    val stringList: List[String] = generator.any[List[String]]
-    val pointList: List[Point] = generator.any[List[Point]]
-    val emailList: List[Email] = generator.any[List[Email]]
-
-    // basics
-    val b: Boolean = generator.any[Boolean]
-    val c: Char = generator.any[Char]
-    val d: Double = generator.any[Double]
-    val f: Float = generator.any[Float]
-    val l: Long = generator.any[Long]
-    val i: Int = generator.any[Int]
-    val s: String = generator.any[String]
-  }
-
   it should "give precedence to customs over emblems, shorthands, collections, and basics" in {
     val uriCustomGenerator = simpleGenerator((generator) => Uri("frenchy"))
     val pointCustomGenerator = simpleGenerator((generator) => Point(-1.0, -1.0))
-    val listCustomGenerator = simpleGenerator((generator: TestDataGenerator) => List(1, 2, 3))
-    val intCustomGenerator = simpleGenerator((generator: TestDataGenerator) => 77)
+    val listCustomGenerator = simpleGenerator((generator) => List(1, 2, 3))
+    val intCustomGenerator = simpleGenerator((generator) => 77)
     val customGenerators = emptyCustomGenerators +
       uriCustomGenerator + pointCustomGenerator + listCustomGenerator + intCustomGenerator
 
@@ -268,21 +219,14 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
       customGenerators
     )
 
-    generator.any[Uri] should equal (Uri("frenchy"))
-    generator.any[Point] should equal (Point(-1.0, -1.0))
-    generator.any[List[Int]] should equal (List(1, 2, 3))
-    generator.any[Int] should equal (77)
-
-    // but we can circumvent the customs using more specific methods in the TestDataGenerator API..
-    generator.shorthand[Uri] shouldNot equal (Uri("frenchy"))
-    generator.emblem[Point] shouldNot equal (Point(-1.0, -1.0))
-    generator.list[Int] shouldNot equal (List(1, 2, 3))
-    generator.int shouldNot equal (77)
+    generator.generate[Uri] should equal (Uri("frenchy"))
+    generator.generate[Point] should equal (Point(-1.0, -1.0))
+    generator.generate[List[Int]] should equal (List(1, 2, 3))
+    generator.generate[Int] should equal (77)
   }
 
   private def standardGenerator = {
-    val intHolderCustomGenerator =
-      simpleGenerator((generator: TestDataGenerator) => new IntHolder(generator.int))
+    val intHolderCustomGenerator = simpleGenerator((generator: Generator) => new IntHolder(generator.int))
     val customGenerators = emptyCustomGenerators + intHolderCustomGenerator
     new TestDataGenerator(
       shorthandPool = shorthandPool,

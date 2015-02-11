@@ -1,12 +1,13 @@
 package longevity.testUtil
 
-import org.scalatest._
-import longevity.repo._
-import longevity.domain._
 import emblem._
-import emblem.generators.TestDataGenerator
-import emblem.generators.TestDataGenerator.emptyCustomGenerators
 import emblem.generators.CustomGenerator
+import emblem.traversors.Generator
+import emblem.generators.TestDataGenerator
+import emblem.traversors.Generator.emptyCustomGenerators
+import longevity.domain._
+import longevity.repo._
+import org.scalatest._
 
 /** A simple fixture to test your [[longevity.repo.Repo]]. all you have to do is extend this class and implement
  * the four abstract methods.
@@ -53,9 +54,9 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
   def persistedShouldMatchUnpersisted: (E, E) => Unit
 
   private val assocGenerator: CustomGenerator[Assoc[_ <: Entity]] = new CustomGenerator[Assoc[_ <: Entity]] {
-    def apply[B <: Assoc[_ <: Entity] : TypeKey](generator: TestDataGenerator): B = {
+    def apply[B <: Assoc[_ <: Entity] : TypeKey](generator: Generator): B = {
       val entityTypeKey: TypeKey[_ <: Entity] = typeKey[B].typeArgs.head.castToUpperBound[Entity].get
-      def genAssoc[Associatee <: Entity : TypeKey] = Assoc[Associatee](generator.any[Associatee])
+      def genAssoc[Associatee <: Entity : TypeKey] = Assoc[Associatee](generator.generate[Associatee])
       genAssoc(entityTypeKey).asInstanceOf[B]
     }
   }
@@ -68,7 +69,7 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
   feature(s"${ename}Repo.create") {
     scenario(s"should produce a persisted $ename") {
       Given(s"an unpersisted $ename")
-      val unpersisted = testDataGenerator.emblem[E]
+      val unpersisted = testDataGenerator.generate[E]
       When(s"we create the $ename")
       val created = repo.create(unpersisted)
       Then(s"we get back the $ename persistent state")
@@ -87,7 +88,7 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
   feature(s"${ename}Repo.retrieve") {
     scenario(s"should produce the same persisted $ename") {
       Given(s"a persisted $ename")
-      val unpersisted = testDataGenerator.emblem[E]
+      val unpersisted = testDataGenerator.generate[E]
       val created = repo.create(unpersisted)
       When(s"we retrieve the $ename by id")
       val retrieved = repo.retrieve(created.id)
@@ -101,8 +102,8 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
   feature(s"${ename}Repo.update") {
     scenario(s"should produce an updated persisted $ename") {
       Given(s"a persisted $ename")
-      val unpersistedOriginal = testDataGenerator.emblem[E]
-      val unpersistedModified = testDataGenerator.emblem[E]
+      val unpersistedOriginal = testDataGenerator.generate[E]
+      val unpersistedModified = testDataGenerator.generate[E]
       val created = repo.create(unpersistedOriginal).asPersisted
       When(s"we update the persisted $ename")
       val modified = created.copy(e => unpersistedModified)
@@ -121,7 +122,7 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
   feature(s"${ename}Repo.delete") {
     scenario(s"should deleted persisted $ename") {
       Given(s"a persisted $ename")
-      val unpersisted = testDataGenerator.emblem[E]
+      val unpersisted = testDataGenerator.generate[E]
       val created = repo.create(unpersisted)
       created shouldBe a [Persisted[_]]
       When(s"we delete the persisted $ename")
