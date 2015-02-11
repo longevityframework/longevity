@@ -1,11 +1,8 @@
-package emblem.generators
+package emblem.traversors
 
-// TODO get everything into traversors package
-
-import emblem.traversors.Generator
-import emblem.traversors.Generator._
 import emblem._
 import emblem.reflectionUtil.makeTypeTag
+import emblem.traversors.Generator._
 import scala.reflect.runtime.universe.typeOf
 
 /** Generates test data for a pool of shorthands, a pool of emblems, and some custom generators. You can

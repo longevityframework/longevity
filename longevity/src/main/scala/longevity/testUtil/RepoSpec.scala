@@ -1,10 +1,10 @@
 package longevity.testUtil
 
 import emblem._
-import emblem.generators.CustomGenerator
+import emblem.traversors.CustomGenerator
 import emblem.traversors.Generator
-import emblem.generators.TestDataGenerator
 import emblem.traversors.Generator.emptyCustomGenerators
+import emblem.traversors.TestDataGenerator
 import longevity.domain._
 import longevity.repo._
 import org.scalatest._

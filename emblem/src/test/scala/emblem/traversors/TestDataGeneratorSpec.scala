@@ -1,14 +1,13 @@
-package emblem.generators
+package emblem.traversors
 
-import emblem.traversors.Generator
-import org.scalatest._
-import org.scalatest.OptionValues._
 import emblem._
 import emblem.exceptions.CouldNotGenerateException
-import emblem.traversors.Generator._
-import CustomGenerator.simpleGenerator
 import emblem.testData.emblems._
 import emblem.testData.shorthands._
+import emblem.traversors.CustomGenerator.simpleGenerator
+import emblem.traversors.Generator._
+import org.scalatest.OptionValues._
+import org.scalatest._
 
 /** specs for [[TestDataGenerator]] */
 class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {

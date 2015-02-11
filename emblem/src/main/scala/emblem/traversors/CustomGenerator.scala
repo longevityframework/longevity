@@ -1,9 +1,8 @@
-package emblem.generators
+package emblem.traversors
 
-import scala.reflect.runtime.universe.typeOf
 import emblem._
 import emblem.reflectionUtil.makeTypeTag
-import emblem.traversors.Generator
+import scala.reflect.runtime.universe.typeOf
 
 object CustomGenerator {
 

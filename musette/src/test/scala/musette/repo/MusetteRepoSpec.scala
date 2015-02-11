@@ -1,10 +1,10 @@
 package musette.repo
 
 import emblem.TypeKey
+import emblem.traversors.CustomGenerator.simpleGenerator
 import emblem.traversors.Generator.emptyCustomGenerators
-import emblem.generators.CustomGenerator.simpleGenerator
-import longevity.testUtil.RepoSpec
 import longevity.domain.Entity
+import longevity.testUtil.RepoSpec
 import musette.domain.Email
 import musette.domain.Uri
 

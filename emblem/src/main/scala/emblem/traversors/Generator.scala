@@ -1,10 +1,9 @@
 package emblem.traversors
 
 import emblem._
-import emblem.traversors.Generator._
-import emblem.generators.CustomGenerator
 import emblem.exceptions.CouldNotGenerateException
 import emblem.exceptions.CouldNotTraverseException
+import emblem.traversors.Generator._
 
 /** holds types and zero values used by the [[Generator generators]] */
 object Generator {
