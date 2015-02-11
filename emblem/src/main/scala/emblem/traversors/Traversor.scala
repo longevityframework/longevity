@@ -4,6 +4,8 @@ import emblem._
 import emblem.exceptions.CouldNotTraverseException
 import scala.reflect.runtime.universe.typeOf
 
+// TODO: extract traits TraversorOfCustoms, EmblemTraversor, ShorthandTraversor, BasicTraversor
+
 /** TODO scaladoc */
 trait Traversor {
 
