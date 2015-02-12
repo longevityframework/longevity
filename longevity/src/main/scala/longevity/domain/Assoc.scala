@@ -12,6 +12,8 @@ object Assoc {
    * another. */
   implicit def apply[E <: Entity : TypeKey](e: E): Assoc[E] = UnpersistedAssoc(e)
 
+  // TODO: move these exceptions to the exceptions package. rename to CannotRetrieveUnpersistedAssoc etc
+
   class AssocIsUnpersistedException[E <: Entity](val assoc: Assoc[E])
   extends Exception("cannot retrieve from an unpersisted assoc")
 
@@ -45,7 +47,6 @@ trait Assoc[E <: Entity] {
   def retrieve: RetrieveResult[E]
 
   /** retrieves the persisted associatee from the assoc */
-  //@inline
   @throws[Assoc.AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
   final def persisted: E = retrieve.get
 
@@ -54,14 +55,7 @@ trait Assoc[E <: Entity] {
   def unpersisted: E
 
   /** gets the underlying assoc, whether persisted or not */
-  @inline
   final def get: E = if (isPersisted) persisted else unpersisted
-}
 
-case class UnpersistedAssoc[E <: Entity : TypeKey](unpersisted: E) extends Assoc[E] {
-  val associateeTypeTag = typeKey[E].tag
-  private[longevity] val _lock = 0
-  def isPersisted = false
-  def retrieve = throw new Assoc.AssocIsUnpersistedException(this)
 }
 

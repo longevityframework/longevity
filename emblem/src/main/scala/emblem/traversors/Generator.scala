@@ -22,7 +22,7 @@ trait Generator {
   // public stuff:
 
   def generate[A : TypeKey]: A = try {
-    traversor.traverseAny[A](())
+    traversor.traverse[A](())
   } catch {
     case e: CouldNotTraverseException => throw new CouldNotGenerateException(e.typeKey)
   }
@@ -106,7 +106,7 @@ trait Generator {
       prop: EmblemProp[A, B],
       builder: HasEmblemBuilder[A],
       propResult: B)
-    : TraverseEmblemInput[A] = {
+    : HasEmblemBuilder[A] = {
       builder.setProp(prop, propResult)
       builder
     }
