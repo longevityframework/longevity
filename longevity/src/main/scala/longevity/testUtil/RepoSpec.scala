@@ -2,6 +2,7 @@ package longevity.testUtil
 
 import emblem._
 import emblem.traversors.CustomGenerator
+import emblem.traversors.Differ
 import emblem.traversors.Generator
 import emblem.traversors.Generator.emptyCustomGenerators
 import emblem.traversors.TestDataGenerator
@@ -145,10 +146,14 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
     customGenerators + assocGenerator)
 
   private val unpersistor = new PersistedToUnpersistedTransformer(domainConfig)
+  private lazy val differ = new Differ(domainConfig.shorthandPool, domainConfig.entityEmblemPool)
 
   private def persistedShouldMatchUnpersisted(persisted: E, unpersisted: E): Unit = {
-    unpersistor.transform(persisted) should equal (unpersisted)
-    // TODO: if they don't match, provide some assistance in sorting it out
+    val unpersistorated = unpersistor.transform(persisted)
+    if (unpersistorated != unpersisted) {
+      val diffs = differ.diff(unpersistorated, unpersisted)
+      fail (Differ.explainDiffs(diffs, true))
+    }
   }
  
 }
