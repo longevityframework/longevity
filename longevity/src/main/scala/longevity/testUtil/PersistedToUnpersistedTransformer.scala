@@ -17,6 +17,8 @@ object PersistedToUnpersistedTransformer {
 
 }
 
+// TODO: specs for this
+
 /** traverses an entity graph, replacing every [[Id persisted assoc]] with an [[UnpersistedAssoc]].
  *
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
@@ -44,7 +46,7 @@ class PersistedToUnpersistedTransformer(private val domainConfig: DomainConfig) 
           val persistedEntity = input.persisted
           val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Entity]]
           val unpersistedEntity = transform(persistedEntity)(entityTypeKey)
-          Assoc(unpersistedEntity).asInstanceOf[B] // TODO get rid of this cast
+          Assoc(unpersistedEntity).asInstanceOf[B] // TODO see if you get rid of this cast
         }
       }
     }

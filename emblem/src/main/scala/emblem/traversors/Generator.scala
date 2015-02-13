@@ -129,17 +129,17 @@ trait Generator {
     : Actual =
       shorthand.unabbreviate(abbreviatedResult)
 
-    protected def stageTraverseOption[A : TypeKey](input: Unit): Option[Unit] = option(())
+    protected def stageTraverseOptionValue[A : TypeKey](input: Unit): Option[Unit] = option(())
 
-    protected def unstageTraverseOption[A : TypeKey](result: Option[A]): Option[A] = result
+    protected def unstageTraverseOptionValue[A : TypeKey](result: Option[A]): Option[A] = result
 
-    protected def stageTraverseSet[A : TypeKey](input: Unit): Iterator[Unit] = list(()).iterator
+    protected def stageTraverseSetElements[A : TypeKey](input: Unit): Iterator[Unit] = list(()).iterator
 
-    protected def unstageTraverseSet[A : TypeKey](result: Iterator[A]): Set[A] = result.toSet
+    protected def unstageTraverseSetElements[A : TypeKey](result: Iterator[A]): Set[A] = result.toSet
 
-    protected def stageTraverseList[A : TypeKey](input: Unit): List[Unit] = list(())
+    protected def stageTraverseListElements[A : TypeKey](input: Unit): List[Unit] = list(())
 
-    protected def unstageTraverseList[A : TypeKey](result: List[A]): List[A] = result
+    protected def unstageTraverseListElements[A : TypeKey](result: List[A]): List[A] = result
 
   }
 

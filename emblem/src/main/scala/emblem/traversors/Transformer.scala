@@ -134,17 +134,17 @@ trait Transformer {
     : Actual =
       shorthand.unabbreviate(abbreviated)
 
-    protected def stageTraverseOption[A : TypeKey](input: Option[A]): Option[A] = input
+    protected def stageTraverseOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
 
-    protected def unstageTraverseOption[A : TypeKey](result: Option[A]): Option[A] = result
+    protected def unstageTraverseOptionValue[A : TypeKey](result: Option[A]): Option[A] = result
 
-    protected def stageTraverseSet[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
+    protected def stageTraverseSetElements[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
 
-    protected def unstageTraverseSet[A : TypeKey](result: Iterator[A]): Set[A] = result.toSet
+    protected def unstageTraverseSetElements[A : TypeKey](result: Iterator[A]): Set[A] = result.toSet
 
-    protected def stageTraverseList[A : TypeKey](input: List[A]): List[A] = input
+    protected def stageTraverseListElements[A : TypeKey](input: List[A]): List[A] = input
 
-    protected def unstageTraverseList[A : TypeKey](result: List[A]): List[A] = result
+    protected def unstageTraverseListElements[A : TypeKey](result: List[A]): List[A] = result
 
   }
 
