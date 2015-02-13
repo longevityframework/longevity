@@ -37,11 +37,11 @@ class Differ(
   private val shorthandPool: ShorthandPool = ShorthandPool(),
   private val emblemPool: EmblemPool = EmblemPool()) {
 
-  case class DifferInput[A](lhs: A, rhs: A, path: String)
-
   def diff[A : TypeKey](lhs: A, rhs: A): Diffs = traversor.traverse(DifferInput(lhs, rhs, ""))
 
-  val traversor = new Traversor {
+  private case class DifferInput[A](lhs: A, rhs: A, path: String)
+
+  private val traversor = new Traversor {
 
     type TraverseInput[A] = DifferInput[A]
     type TraverseEmblemInput[A <: HasEmblem] = DifferInput[A]
@@ -49,7 +49,6 @@ class Differ(
 
     override protected val shorthandPool: ShorthandPool = Differ.this.shorthandPool
     override protected val emblemPool: EmblemPool = Differ.this.emblemPool
-    override protected val customTraversors: CustomTraversors = emptyCustomTraversor
 
     protected def traverseBoolean(input: DifferInput[Boolean]): Diffs = {
       if (input.lhs == input.rhs) Seq() else Seq(Diff(input.path, input.lhs, input.rhs))
