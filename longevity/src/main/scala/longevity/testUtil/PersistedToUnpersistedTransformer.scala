@@ -19,13 +19,14 @@ object PersistedToUnpersistedTransformer {
 
 // TODO: specs for this
 
-/** traverses an entity graph, replacing every [[Id persisted assoc]] with an [[UnpersistedAssoc]].
+/** traverses an entity graph, replacing every [[longevity.repo.Id persisted assoc]] with an
+ * [[longevity.domain.UnpersistedAssoc]].
  *
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
  */
 class PersistedToUnpersistedTransformer(private val domainConfig: DomainConfig) {
 
-  /** replaces every [[Id persisted assoc]] with an [[UnpersistedAssoc]].
+  /** replaces every [[longevity.repo.Id persisted assoc]] with an [[longevity.domain.UnpersistedAssoc]].
    * 
    * @throws EncounteredUnpersistedAssocException whenever an unpersisted assoc is encountered in the input.
    * this usually indicates an error in persisting the entity that prevents the entity from being fully

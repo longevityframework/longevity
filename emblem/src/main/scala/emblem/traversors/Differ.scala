@@ -1,7 +1,6 @@
 package emblem.traversors
 
 import emblem._
-import emblem.exceptions.CouldNotTraverseException
 import scala.reflect.runtime.universe.typeOf
 import Differ._
 
@@ -37,6 +36,10 @@ class Differ(
   private val shorthandPool: ShorthandPool = ShorthandPool(),
   private val emblemPool: EmblemPool = EmblemPool()) {
 
+  /** TODO
+   * @throws emblem.exceptions.CouldNotTraverseException when an unsupported type is encountered during the
+   * traversal
+   */
   def diff[A : TypeKey](lhs: A, rhs: A): Diffs = traversor.traverse(DifferInput(lhs, rhs, ""))
 
   private case class DifferInput[A](lhs: A, rhs: A, path: String)

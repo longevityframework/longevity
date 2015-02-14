@@ -6,7 +6,7 @@ import emblem.traversors.Generator._
 import scala.reflect.runtime.universe.typeOf
 
 /** Generates test data for a pool of shorthands, a pool of emblems, and some custom generators. You can
- * generate any kind of data you like by providing the appropriate [[TypeKey]] to [[TestDataGenerator.any]].
+ * generate any kind of data you like by providing the appropriate [[TypeKey]] to [[TestDataGenerator.generate]].
  * Or you can use the provided methods for generating specific kinds of data. If the generator does not know
  * how to generate for the type you requested, it will throw a [[emblem.exceptions.CouldNotGenerateException]].
  *

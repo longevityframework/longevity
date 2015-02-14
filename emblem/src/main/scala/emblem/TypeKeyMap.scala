@@ -64,21 +64,21 @@ object TypeKeyMap {
 class TypeKeyMap[TypeBound, Val[_ <: TypeBound]] private (underlying: Map[Any, Any])
 extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
 
-  // i can find no way to quell the scaladoc warning on the java.util.NoSuchElementException ...
-  /** Retrieves the value which is associated with the given type key
+  /** retrieves the value which is associated with the given type key.
+   * 
+   * throws java.util.NoSuchElementException when no value is mapped to the supplied type param
    * @tparam TypeParam the type param binding both the type key and the value
-   * @throws java.util.NoSuchElementException when no value is mapped to the supplied type param
    */
   def apply[TypeParam <: TypeBound : TypeKey]: Val[TypeParam] = get[TypeParam].get
 
-  /** Optionally returns the value associated with the given type key
+  /** optionally returns the value associated with the given type key
    * @tparam TypeParam the type param bounding both the type key and the value
    * @return an option value containing the value associated with type key in this map, or None if none
    * exists. */
   def get[TypeParam <: TypeBound : TypeKey]: Option[Val[TypeParam]] =
     underlying.get(typeKey[TypeParam]).asInstanceOf[Option[Val[TypeParam]]]
 
-  /** Returns the value associated with a type key, or a default value if the type key is not contained in the
+  /** returns the value associated with a type key, or a default value if the type key is not contained in the
    * map.
    *
    * @param default a computation that yields a default value in case no binding for the type key is found in
@@ -89,7 +89,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   def getOrElse[TypeParam <: TypeBound : TypeKey](default: => Val[TypeParam]): Val[TypeParam] =
     underlying.getOrElse(typeKey[TypeParam], default).asInstanceOf[Val[TypeParam]]
 
-  /** Adds a typekey/value pair to this map, returning a new map.
+  /** adds a typekey/value pair to this map, returning a new map.
    * @param pair the typekey/value pair
    * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[TypeParam])`
    * @tparam TypeParam the type param bounding both the type key and the value
@@ -104,7 +104,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](underlying + pair)
 
-  /** Adds a typekey/value pair to this map, returning a new map. The type key is inferred from the type of
+  /** adds a typekey/value pair to this map, returning a new map. The type key is inferred from the type of
    * the supplied value.
    *
    * PLEASE NOTE: Using this method when your `Val` type is contravariant in its type parameter will not
@@ -126,7 +126,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](underlying + (key -> value))
 
-  /** Transforms this type key map by applying a function to every retrieved value.
+  /** transforms this type key map by applying a function to every retrieved value.
    *
    * @tparam NewVal the new value type for the resulting map
    * @param f the function used to transform values of this map
@@ -137,7 +137,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
     new TypeKeyMap[TypeBound, NewVal](
       mapValuesUnderlying[TypeBound, NewVal](f))
 
-  /** Transforms this type key map into a type key map with a wider type bound by applying a function to every
+  /** transforms this type key map into a type key map with a wider type bound by applying a function to every
    * retrieved value.
    *
    * @tparam WiderTypeBound the new type bound for the resulting map
@@ -155,7 +155,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
 
   override def hashCode = underlying.hashCode
 
-  /** Compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
+  /** compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
    * the other map, and vice versa.
    * @param that the other type key map
    * @return true if both maps contain exactly the same mappings, false otherwise.
@@ -165,7 +165,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
     that.asInstanceOf[TypeKeyMap[TypeBound, Val]].underlying == underlying
   }
 
-  /** A string representation of a TypeKeyMap */
+  /** a string representation of a TypeKeyMap */
   override def toString = s"TypeKey${underlying}"
 
 }

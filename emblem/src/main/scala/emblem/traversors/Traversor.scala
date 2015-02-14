@@ -26,7 +26,11 @@ trait Traversor {
   /** An empty map of [[CustomTraversor custom traversors]] */
   val emptyCustomTraversor: CustomTraversors = TypeKeyMap[Any, CustomTraversor]()
 
-  /** traverses an object of any supported type */
+  /** traverses an object of any supported type.
+   * 
+   * @throws emblem.exceptions.CouldNotTraverseException when an unsupported type is encountered during the
+   * traversal
+   */
   def traverse[A : TypeKey](input: TraverseInput[A]): TraverseResult[A] =
     traverseAnyOption[A](input) getOrElse {
       throw new CouldNotTraverseException(typeKey[A])

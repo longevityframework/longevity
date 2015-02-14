@@ -68,10 +68,10 @@ object TypeBoundMap {
 class TypeBoundMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (underlying: Map[Any, Any])
 extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
 
-  // i can find no way to quell the scaladoc warning on the java.util.NoSuchElementException ...
   /** Retrieves the value which is associated with the given key, both bound by the same type param.
+   * 
+   * throws java.util.NoSuchElementException when no value is mapped to the supplied key
    * @tparam TypeParam the type param binding both the key and the value
-   * @throws java.util.NoSuchElementException when no value is mapped to the supplied key
    */
   def apply[TypeParam <: TypeBound](key: Key[TypeParam]): Val[TypeParam] = get(key).get
 
