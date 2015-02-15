@@ -88,34 +88,19 @@ trait Generator {
       customGenerators.mapValues(generatorToTraversor)
     }
 
-    protected def stageTraverseEmblem[A <: HasEmblem](
-      emblem: Emblem[A],
-      input: Unit)
-    : HasEmblemBuilder[A] =
-      emblem.builder()
+    protected def stageTraverseEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: Unit)
+    : Iterator[TraverseEmblemPropInput[A, _]] =
+      emblem.props.map((_, ())).iterator
 
-    protected def stageTraverseEmblemProp[A <: HasEmblem, B](
+    protected def unstageTraverseEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
-      prop: EmblemProp[A, B],
-      input: HasEmblemBuilder[A])
-    : Unit =
-      ()
-
-    protected def unstageTraverseEmblemProp[A <: HasEmblem, B](
-      emblem: Emblem[A],
-      prop: EmblemProp[A, B],
-      builder: HasEmblemBuilder[A],
-      propResult: B)
-    : HasEmblemBuilder[A] = {
-      builder.setProp(prop, propResult)
-      builder
-    }
-
-    protected def unstageTraverseEmblem[A <: HasEmblem](
-      emblem: Emblem[A],
-      builder: HasEmblemBuilder[A])
-    : A =
+      input: Unit,
+      result: Iterator[TraverseEmblemPropResult[A, _]])
+    : A = {
+      val builder = emblem.builder()
+      result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
       builder.build()
+    }
 
     protected def stageTraverseShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],

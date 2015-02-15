@@ -12,9 +12,13 @@ trait Traversor {
   // pubic stuff:
 
   type TraverseInput[A]
-  type TraverseEmblemInput[A <: HasEmblem]
+  type TraverseEmblemInput[A <: HasEmblem] // TODO this can go
   type TraverseResult[A]
-  type TraversorFunction[A] = (TraverseInput[A]) => TraverseResult[A]
+  type TraversorFunction[A] = (TraverseInput[A]) => TraverseResult[A] // TODO check if this is used
+
+  type TraverseEmblemPropInput[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseInput[B])
+  type TraverseEmblemPropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
+
 
   trait CustomTraversor[A] {
     def apply[B <: A : TypeKey](input: TraverseInput[B]): TraverseResult[B]
@@ -57,27 +61,15 @@ trait Traversor {
 
   protected def traverseString(input: TraverseInput[String]): TraverseResult[String]
 
-  protected def stageTraverseEmblem[A <: HasEmblem](
+  protected def stageTraverseEmblemProps[A <: HasEmblem](
     emblem: Emblem[A],
     input: TraverseInput[A])
-  : TraverseEmblemInput[A]
+  : Iterator[TraverseEmblemPropInput[A, _]]
 
-  protected def stageTraverseEmblemProp[A <: HasEmblem, B](
+  protected def unstageTraverseEmblemProps[A <: HasEmblem](
     emblem: Emblem[A],
-    prop: EmblemProp[A, B],
-    input: TraverseEmblemInput[A])
-  : TraverseInput[B]
-
-  protected def unstageTraverseEmblemProp[A <: HasEmblem, B](
-    emblem: Emblem[A],
-    prop: EmblemProp[A, B],
-    emblemInput: TraverseEmblemInput[A],
-    propResult: TraverseResult[B])
-  : TraverseEmblemInput[A]
-
-  protected def unstageTraverseEmblem[A <: HasEmblem](
-    emblem: Emblem[A],
-    input: TraverseEmblemInput[A])
+    input: TraverseInput[A],
+    result: Iterator[TraverseEmblemPropResult[A, _]])
   : TraverseResult[A]
 
   protected def stageTraverseShorthand[Actual, Abbreviated](
@@ -167,26 +159,23 @@ trait Traversor {
     emblemPool.get(typeKey[A]) map { emblem => traverseFromEmblem(emblem, input) }
   }
 
-  private def traverseFromEmblem[A <: HasEmblem](
-    emblem: Emblem[A],
-    input: TraverseInput[A])
+  private def traverseFromEmblem[A <: HasEmblem](emblem: Emblem[A], hasEmblemInput: TraverseInput[A])
   : TraverseResult[A] = {
-    val emblemInput: TraverseEmblemInput[A] = stageTraverseEmblem(emblem, input)
-    val emblemInput2: TraverseEmblemInput[A] = emblem.props.foldLeft(emblemInput) {
-      case (emblemInput, prop) => traverseEmblemProp(emblem, prop, emblemInput)
-    }
-    // TODO: this unstage doesnt work for differ
-    unstageTraverseEmblem(emblem, emblemInput2)
+    val emblemPropInputIterator: Iterator[TraverseEmblemPropInput[A, _]] =
+      stageTraverseEmblemProps(emblem, hasEmblemInput)
+    val emblemPropResultIterator: Iterator[TraverseEmblemPropResult[A, _]] =
+        emblemPropInputIterator.map { case (prop, input) =>
+          (prop, traverseEmblemProp(emblem, prop, input))
+        }
+    unstageTraverseEmblemProps(emblem, hasEmblemInput, emblemPropResultIterator)
   }
 
   private def traverseEmblemProp[A <: HasEmblem, B](
     emblem: Emblem[A],
     prop: EmblemProp[A, B],
-    emblemInput: TraverseEmblemInput[A])
-  : TraverseEmblemInput[A] = {
-    val propInput: TraverseInput[B] = stageTraverseEmblemProp(emblem, prop, emblemInput)
-    val propResult: TraverseResult[B] = traverse(propInput)(prop.typeKey)
-    unstageTraverseEmblemProp(emblem, prop, emblemInput, propResult)
+    input: TraverseInput[B])
+  : TraverseResult[B] = {
+    traverse(input)(prop.typeKey)
   }
 
   private def traverseShorthandOption[Actual : TypeKey](

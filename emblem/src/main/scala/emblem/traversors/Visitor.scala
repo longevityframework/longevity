@@ -78,24 +78,18 @@ trait Visitor {
       customVisitors.mapValues(visitorToTraversor)
     }
 
-    protected def stageTraverseEmblem[A <: HasEmblem](emblem: Emblem[A], input: A): A = input
+    protected def stageTraverseEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: A)
+    : Iterator[TraverseEmblemPropInput[A, _]] = {
+      def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(input))
+      emblem.props.map(propInput(_)).iterator
+    }
 
-    protected def stageTraverseEmblemProp[A <: HasEmblem, B](
+    protected def unstageTraverseEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
-      prop: EmblemProp[A, B],
-      input: A)
-    : B =
-      prop.get(input)
-
-    protected def unstageTraverseEmblemProp[A <: HasEmblem, B](
-      emblem: Emblem[A],
-      prop: EmblemProp[A, B],
       input: A,
-      propResult: Unit)
-    : A =
-      input
-
-    protected def unstageTraverseEmblem[A <: HasEmblem](emblem: Emblem[A], input: A): Unit = ()
+      result: Iterator[TraverseEmblemPropResult[A, _]])
+    : Unit =
+      ()
 
     protected def stageTraverseShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],

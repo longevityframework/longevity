@@ -83,34 +83,19 @@ class Differ(
       if (input.lhs == input.rhs) Seq() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 
-    protected def stageTraverseEmblem[A <: HasEmblem](
-      emblem: Emblem[A],
-      input: DifferInput[A])
-    : DifferInput[A] = input
+    protected def stageTraverseEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: DifferInput[A])
+    : Iterator[TraverseEmblemPropInput[A, _]] = {
+      def propInput[B](prop: EmblemProp[A, B]) =
+        (prop, DifferInput(prop.get(input.lhs), prop.get(input.rhs), input.path + "." + prop.name))
+      emblem.props.map(propInput(_)).iterator
+    }
 
-    protected def stageTraverseEmblemProp[A <: HasEmblem, B](
+    protected def unstageTraverseEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
-      prop: EmblemProp[A, B],
-      input: DifferInput[A])
-    : DifferInput[B] =
-      DifferInput(
-        prop.get(input.lhs),
-        prop.get(input.rhs),
-        input.path + "." + prop.name)
-
-    protected def unstageTraverseEmblemProp[A <: HasEmblem, B](
-      emblem: Emblem[A],
-      prop: EmblemProp[A, B],
       input: DifferInput[A],
-      propResult: Diffs)
-    : DifferInput[A] =
-      input
-
-    protected def unstageTraverseEmblem[A <: HasEmblem](
-      emblem: Emblem[A],
-      input: DifferInput[A])
+      result: Iterator[TraverseEmblemPropResult[A, _]])
     : Diffs =
-      ???
+      result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
 
     protected def stageTraverseShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],

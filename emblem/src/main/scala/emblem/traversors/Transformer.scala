@@ -93,34 +93,21 @@ trait Transformer {
       customTransformers.mapValues(transformerToTraversor)
     }
 
-    protected def stageTraverseEmblem[A <: HasEmblem](
-      emblem: Emblem[A],
-      input: A)
-    : (A, HasEmblemBuilder[A]) =
-      (input, emblem.builder())
-
-    protected def stageTraverseEmblemProp[A <: HasEmblem, B](
-      emblem: Emblem[A],
-      prop: EmblemProp[A, B],
-      input: (A, HasEmblemBuilder[A]))
-    : B =
-      prop.get(input._1)
-
-    protected def unstageTraverseEmblemProp[A <: HasEmblem, B](
-      emblem: Emblem[A],
-      prop: EmblemProp[A, B],
-      input: (A, HasEmblemBuilder[A]),
-      propResult: B)
-    : (A, HasEmblemBuilder[A]) = {
-      input._2.setProp(prop, propResult)
-      input
+    protected def stageTraverseEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: A)
+    : Iterator[TraverseEmblemPropInput[A, _]] = {
+      def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(input))
+      emblem.props.map(propInput(_)).iterator
     }
 
-    protected def unstageTraverseEmblem[A <: HasEmblem](
+    protected def unstageTraverseEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
-      input: (A, HasEmblemBuilder[A]))
-    : A =
-      input._2.build()
+      input: A,
+      result: Iterator[TraverseEmblemPropResult[A, _]])
+    : A = {
+      val builder = emblem.builder()
+      result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
+      builder.build()
+    }
 
     protected def stageTraverseShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],
