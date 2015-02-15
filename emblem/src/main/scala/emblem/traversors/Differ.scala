@@ -49,7 +49,6 @@ class Differ(
   private val traversor = new Traversor {
 
     type TraverseInput[A] = DifferInput[A]
-    type TraverseEmblemInput[A <: HasEmblem] = DifferInput[A]
     type TraverseResult[A] = Diffs
 
     override protected val shorthandPool: ShorthandPool = Differ.this.shorthandPool

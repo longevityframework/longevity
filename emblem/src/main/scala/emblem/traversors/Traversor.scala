@@ -12,10 +12,7 @@ trait Traversor {
   // pubic stuff:
 
   type TraverseInput[A]
-  type TraverseEmblemInput[A <: HasEmblem] // TODO this can go
   type TraverseResult[A]
-  type TraversorFunction[A] = (TraverseInput[A]) => TraverseResult[A] // TODO check if this is used
-
   type TraverseEmblemPropInput[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseInput[B])
   type TraverseEmblemPropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
 
@@ -111,6 +108,8 @@ trait Traversor {
 
 
   // private stuff:
+
+  private type TraversorFunction[A] = (TraverseInput[A]) => TraverseResult[A]
 
   private val basicTraversors =
     TypeKeyMap[Any, TraversorFunction] +

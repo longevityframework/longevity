@@ -62,7 +62,6 @@ trait Transformer {
   private val traversor = new Traversor {
 
     type TraverseInput[A] = A
-    type TraverseEmblemInput[A <: HasEmblem] = (A, HasEmblemBuilder[A])
     type TraverseResult[A] = A
 
     def traverseBoolean(input: Boolean): Boolean = transformBoolean(input)

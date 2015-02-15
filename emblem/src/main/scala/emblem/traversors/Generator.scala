@@ -58,7 +58,6 @@ trait Generator {
   private val traversor = new Traversor {
 
     type TraverseInput[A] = Unit
-    type TraverseEmblemInput[A <: HasEmblem] = HasEmblemBuilder[A]
     type TraverseResult[A] = A
 
     def traverseBoolean(input: Unit): Boolean = boolean

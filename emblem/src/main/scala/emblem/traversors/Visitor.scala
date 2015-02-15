@@ -23,6 +23,7 @@ trait Visitor {
   def visit[A : TypeKey](input: A): Unit = try {
     traversor.traverse[A](input)
   } catch {
+    // TODO: need nested exception in this and similar situations
     case e: CouldNotTraverseException => throw new CouldNotVisitException(e.typeKey)
   }
 
@@ -47,7 +48,6 @@ trait Visitor {
   private lazy val traversor = new Traversor {
 
     type TraverseInput[A] = A
-    type TraverseEmblemInput[A <: HasEmblem] = A
     type TraverseResult[A] = Unit
 
     def traverseBoolean(input: Boolean): Unit = visitBoolean(input)
