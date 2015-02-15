@@ -136,7 +136,8 @@ trait Transformer {
 
     protected def stageTraverseOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
 
-    protected def unstageTraverseOptionValue[A : TypeKey](result: Option[A]): Option[A] = result
+    protected def unstageTraverseOptionValue[A : TypeKey](input: Option[A], result: Option[A]): Option[A] =
+      result
 
     protected def stageTraverseSetElements[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
 

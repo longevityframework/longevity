@@ -133,17 +133,14 @@ class Differ(
         case _ => None
       }
 
-    protected def unstageTraverseOptionValue[A : TypeKey](result: Option[Diffs]): Diffs =
-      result.getOrElse(Seq())
-
-    override protected def unstageTraverseOption[A : TypeKey](
+    override protected def unstageTraverseOptionValue[A : TypeKey](
       input: DifferInput[Option[A]],
-      optionValueResult: Diffs)
+      optionValueResult: Option[Diffs])
     : Diffs =
       if (input.lhs.size == input.rhs.size)
-        optionValueResult
+        optionValueResult.get
       else
-        optionValueResult :+ Diff(input.path + ".size", input.lhs.size, input.rhs.size)
+        Seq(Diff(input.path + ".size", input.lhs.size, input.rhs.size))
 
     // we kind of have to bail on traversing sets, since there is no obvious way to pull out matching pairs
     // of elements from the lhs and rhs sets

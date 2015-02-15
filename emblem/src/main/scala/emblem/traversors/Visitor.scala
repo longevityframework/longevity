@@ -111,7 +111,7 @@ trait Visitor {
 
     protected def stageTraverseOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
 
-    protected def unstageTraverseOptionValue[A : TypeKey](result: Option[Unit]): Unit = ()
+    protected def unstageTraverseOptionValue[A : TypeKey](input: Option[A], result: Option[Unit]): Unit = ()
 
     protected def stageTraverseSetElements[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
 

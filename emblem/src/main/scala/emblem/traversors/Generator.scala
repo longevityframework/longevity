@@ -131,7 +131,7 @@ trait Generator {
 
     protected def stageTraverseOptionValue[A : TypeKey](input: Unit): Option[Unit] = option(())
 
-    protected def unstageTraverseOptionValue[A : TypeKey](result: Option[A]): Option[A] = result
+    protected def unstageTraverseOptionValue[A : TypeKey](input: Unit, result: Option[A]): Option[A] = result
 
     protected def stageTraverseSetElements[A : TypeKey](input: Unit): Iterator[Unit] = list(()).iterator
 

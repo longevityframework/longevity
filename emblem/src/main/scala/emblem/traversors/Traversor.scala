@@ -90,24 +90,14 @@ trait Traversor {
     abbreviatedResult: TraverseResult[Abbreviated])
   : TraverseResult[Actual]
 
-  protected def stageTraverseOption[A : TypeKey](
-    input: TraverseInput[Option[A]])
-  : TraverseInput[Option[A]] =
-    input
-
   protected def stageTraverseOptionValue[A : TypeKey](
     input: TraverseInput[Option[A]])
-  : Option[TraverseInput[A]]
+  : Option[TraverseInput[A]] // <<<< this is a different kind of option! it is an iterator of 0 or 1
 
   protected def unstageTraverseOptionValue[A : TypeKey](
-    result: Option[TraverseResult[A]])
-  : TraverseResult[Option[A]]
-
-  protected def unstageTraverseOption[A : TypeKey](
     input: TraverseInput[Option[A]],
-    result: TraverseResult[Option[A]])
-  : TraverseResult[Option[A]] =
-    result
+    result: Option[TraverseResult[A]]) // <<<< this is a different kind of option! it is an iterator of 0 or 1
+  : TraverseResult[Option[A]]
 
   protected def stageTraverseSetElements[A : TypeKey](
     input: TraverseInput[Set[A]])
@@ -236,14 +226,12 @@ trait Traversor {
     if (typeKey[A].tpe <:< typeOf[Option[_]]) Some(typeKey[A].typeArgs.head) else None
 
   // TODO: simplify as with set and list
-  private def traverseOption[A : TypeKey](input: TraverseInput[Option[A]]): TraverseResult[Option[A]] = {
-    val stagedOptionInput: TraverseInput[Option[A]] = stageTraverseOption[A](input)
-    val stagedAInput: Option[TraverseInput[A]] = stageTraverseOptionValue[A](input)
-    val aResultOption: Option[TraverseResult[A]] = stagedAInput map { aInput =>
-      traverse[A](aInput)
+  private def traverseOption[A : TypeKey](optionInput: TraverseInput[Option[A]]): TraverseResult[Option[A]] = {
+    val optionValueInputOption: Option[TraverseInput[A]] = stageTraverseOptionValue[A](optionInput)
+    val optionValueResultOption: Option[TraverseResult[A]] = optionValueInputOption map { optionValueInput =>
+      traverse[A](optionValueInput)
     }
-    val unstagedAResult = unstageTraverseOptionValue[A](aResultOption)
-    unstageTraverseOption[A](stagedOptionInput, unstagedAResult)
+    unstageTraverseOptionValue[A](optionInput, optionValueResultOption)
   }
 
   private def traverseSetOption[SetA : TypeKey](
