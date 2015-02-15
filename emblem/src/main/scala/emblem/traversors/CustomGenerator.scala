@@ -23,7 +23,7 @@ object CustomGenerator {
    * {{{
    * class IntHolder(val i: Int)
    * val intHolderGen: CustomGenerator[IntHolder] =
-   *   simpleGenerator((generator: TestDataGenerator) => new IntHolder(generator.int))
+   *   simpleGenerator((generator: Generator) => new IntHolder(generator.int))
    * val generator = new TestDataGenerator(customGenerators = emptyCustomGenerators + intHolderGen)
    * }}}
    * 
@@ -45,17 +45,17 @@ object CustomGenerator {
 /** A custom generator for things of type A. The apply method takes a type parameter that is tighter than
  * A, and acquires a [[TypeKey]] for that type, so it can customize its behavior based on the type requested.
  *
- * The apply method also takes a [[TestDataGenerator]] as argument, so that it can call back into to the calling
- * TestDataGenerator to generate complex values.
+ * The apply method also takes a [[Generator]] as argument, so that it can call back into to the calling
+ * Generator to generate complex values.
  *
  * Example usage:
  *
  * {{{
  * // always generates a 5-element list
  * val listCustomGenerator = new CustomGenerator[List[Any]] {
- *   def apply[B <: List[_] : TypeKey](generator: TestDataGenerator): B = {
+ *   def apply[B <: List[_] : TypeKey](generator: Generator): B = {
  *     val eltTypeKey = typeKey[B].typeArgs.head
- *     val eltList = List.fill(5) { generator.any(eltTypeKey) }
+ *     val eltList = List.fill(5) { generator.generate(eltTypeKey) }
  *     eltList.asInstanceOf[B]
  *   }
  * }
@@ -66,9 +66,10 @@ object CustomGenerator {
  */
 trait CustomGenerator[A] {
 
-  /** Generates an element of type B
+  /** generates an element of type B
    * @tparam B the type of element to generate. a subtype of A
    * @param generator the [[Generator]] that is delegating this call to us
+   * @return the generated element
    */
   def apply[B <: A : TypeKey](generator: Generator): B
 

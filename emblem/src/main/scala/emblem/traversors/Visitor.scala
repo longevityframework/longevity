@@ -30,21 +30,21 @@ trait Visitor {
   protected val emblemPool: EmblemPool = EmblemPool()
   protected val customVisitors: CustomVisitors = emptyCustomVisitors
 
-  protected def visitBoolean(input: Boolean): Unit
+  protected def visitBoolean(input: Boolean): Unit = {}
 
-  protected def visitChar(input: Char): Unit
+  protected def visitChar(input: Char): Unit = {}
 
-  protected def visitDouble(input: Double): Unit
+  protected def visitDouble(input: Double): Unit = {}
 
-  protected def visitFloat(input: Float): Unit
+  protected def visitFloat(input: Float): Unit = {}
 
-  protected def visitInt(input: Int): Unit
+  protected def visitInt(input: Int): Unit = {}
 
-  protected def visitLong(input: Long): Unit
+  protected def visitLong(input: Long): Unit = {}
 
-  protected def visitString(input: String): Unit
+  protected def visitString(input: String): Unit = {}
 
-  private val traversor = new Traversor {
+  private lazy val traversor = new Traversor {
 
     type TraverseInput[A] = A
     type TraverseEmblemInput[A <: HasEmblem] = A
