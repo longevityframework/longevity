@@ -115,11 +115,11 @@ trait Visitor {
 
     protected def stageTraverseSetElements[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
 
-    protected def unstageTraverseSetElements[A : TypeKey](result: Iterator[Unit]): Unit = ()
+    protected def unstageTraverseSetElements[A : TypeKey](input: Set[A], result: Iterator[Unit]): Unit = ()
 
-    protected def stageTraverseListElements[A : TypeKey](input: List[A]): List[A] = input
+    protected def stageTraverseListElements[A : TypeKey](input: List[A]): Iterator[A] = input.iterator
 
-    protected def unstageTraverseListElements[A : TypeKey](result: List[Unit]): Unit = ()
+    protected def unstageTraverseListElements[A : TypeKey](input: List[A], result: Iterator[Unit]): Unit = ()
 
   }
 

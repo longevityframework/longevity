@@ -1,5 +1,7 @@
 package emblem.traversors
 
+// TODO this one is next
+
 import emblem._
 import scala.reflect.runtime.universe.typeOf
 import Differ._
@@ -143,48 +145,41 @@ class Differ(
       else
         optionValueResult :+ Diff(input.path + ".size", input.lhs.size, input.rhs.size)
 
-    override protected def unstageTraverseSet[A : TypeKey](
-      input: DifferInput[Set[A]],
-      setElementsResult: Diffs)
-    : Diffs =
-      if (input.lhs.size != input.rhs.size) {
-        setElementsResult :+ Diff(input.path + ".size", input.lhs.size, input.rhs.size)
-      } else if (input.lhs != input.rhs) {
-        setElementsResult :+ Diff(input.path, input.lhs, input.rhs)
-      } else {
-        Seq()
-      }
-
     // we kind of have to bail on traversing sets, since there is no obvious way to pull out matching pairs
     // of elements from the lhs and rhs sets
     protected def stageTraverseSetElements[A : TypeKey](input: DifferInput[Set[A]]): Iterator[DifferInput[A]] =
       Iterator.empty
 
-    protected def unstageTraverseSetElements[A : TypeKey](result: Iterator[Diffs]): Diffs =
-      result.foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
+    protected def unstageTraverseSetElements[A : TypeKey](
+      setInput: DifferInput[Set[A]],
+      setElementsResult: Iterator[Diffs])
+    : Diffs =
+      if (setInput.lhs.size != setInput.rhs.size) {
+        Seq(Diff(setInput.path + ".size", setInput.lhs.size, setInput.rhs.size))
+      } else if (setInput.lhs != setInput.rhs) {
+        Seq(Diff(setInput.path, setInput.lhs, setInput.rhs))
+      } else {
+        Seq()
+      }
 
-    protected def stageTraverseListElements[A : TypeKey](input: DifferInput[List[A]]): List[DifferInput[A]] =
+    protected def stageTraverseListElements[A : TypeKey](input: DifferInput[List[A]]): Iterator[DifferInput[A]] =
       if (input.lhs.size == input.rhs.size) {
-        (0 until input.lhs.size).toList map { i =>
+        (0 until input.lhs.size).iterator map { i =>
           DifferInput[A](
             input.lhs(i),
             input.rhs(i),
             input.path + "(" + i + ")")
         }
       }
-      else List() 
+      else Iterator.empty
 
-    protected def unstageTraverseListElements[A : TypeKey](result: List[Diffs]): Diffs =
-      result.foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
-
-    override protected def unstageTraverseList[A : TypeKey](
+    protected def unstageTraverseListElements[A : TypeKey](
       input: DifferInput[List[A]],
-      listElementsResult: Diffs)
-    : Diffs =
-      if (input.lhs.size != input.rhs.size) {
-        listElementsResult :+ Diff(input.path + ".size", input.lhs.size, input.rhs.size)
+      result: Iterator[Diffs]): Diffs =
+      if (input.lhs.size == input.rhs.size) {
+        result.foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
       } else {
-        listElementsResult
+        Seq(Diff(input.path + ".size", input.lhs.size, input.rhs.size))
       }
 
   }

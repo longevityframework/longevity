@@ -109,45 +109,23 @@ trait Traversor {
   : TraverseResult[Option[A]] =
     result
 
-  protected def stageTraverseSet[A : TypeKey](
-    input: TraverseInput[Set[A]])
-  : TraverseInput[Set[A]] =
-    input
-
-  // TODO: Seq here probably instead of iterator in return type. or iterable
   protected def stageTraverseSetElements[A : TypeKey](
     input: TraverseInput[Set[A]])
   : Iterator[TraverseInput[A]]
 
   protected def unstageTraverseSetElements[A : TypeKey](
+    input: TraverseInput[Set[A]],
     result: Iterator[TraverseResult[A]])
   : TraverseResult[Set[A]]
 
-  protected def unstageTraverseSet[A : TypeKey](
-    input: TraverseInput[Set[A]],
-    result: TraverseResult[Set[A]])
-  : TraverseResult[Set[A]] =
-    result
-
-  protected def stageTraverseList[A : TypeKey](
-    input: TraverseInput[List[A]])
-  : TraverseInput[List[A]] =
-    input
-
-  // TODO: Seq here probably instead of list in return type. not iterable as order matters
   protected def stageTraverseListElements[A : TypeKey](
     input: TraverseInput[List[A]])
-  : List[TraverseInput[A]]
+  : Iterator[TraverseInput[A]]
 
   protected def unstageTraverseListElements[A : TypeKey](
-    result: List[TraverseResult[A]])
-  : TraverseResult[List[A]]
-
-  protected def unstageTraverseList[A : TypeKey](
     input: TraverseInput[List[A]],
-    result: TraverseResult[List[A]])
-  : TraverseResult[List[A]] =
-    result
+    result: Iterator[TraverseResult[A]])
+  : TraverseResult[List[A]]
 
 
   // private stuff:
@@ -207,6 +185,7 @@ trait Traversor {
     val emblemInput2: TraverseEmblemInput[A] = emblem.props.foldLeft(emblemInput) {
       case (emblemInput, prop) => traverseEmblemProp(emblem, prop, emblemInput)
     }
+    // TODO: this unstage doesnt work for differ
     unstageTraverseEmblem(emblem, emblemInput2)
   }
 
@@ -256,6 +235,7 @@ trait Traversor {
   private def optionElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[Option[_]]) Some(typeKey[A].typeArgs.head) else None
 
+  // TODO: simplify as with set and list
   private def traverseOption[A : TypeKey](input: TraverseInput[Option[A]]): TraverseResult[Option[A]] = {
     val stagedOptionInput: TraverseInput[Option[A]] = stageTraverseOption[A](input)
     val stagedAInput: Option[TraverseInput[A]] = stageTraverseOptionValue[A](input)
@@ -281,11 +261,9 @@ trait Traversor {
     if (typeKey[A].tpe <:< typeOf[Set[_]]) Some(typeKey[A].typeArgs.head) else None
 
   private def traverseSet[A : TypeKey](aSetInput: TraverseInput[Set[A]]): TraverseResult[Set[A]] = {
-    val stagedASetInput: TraverseInput[Set[A]] = stageTraverseSet[A](aSetInput)
-    val aInputIterator: Iterator[TraverseInput[A]] = stageTraverseSetElements[A](stagedASetInput)
-    val aResultSet: Iterator[TraverseResult[A]] = aInputIterator map { aInput => traverse[A](aInput) }
-    val unstagedAResultSet: TraverseResult[Set[A]] = unstageTraverseSetElements[A](aResultSet)
-    unstageTraverseSet[A](stagedASetInput, unstagedAResultSet)
+    val aInputIterator: Iterator[TraverseInput[A]] = stageTraverseSetElements[A](aSetInput)
+    val aResultIterator: Iterator[TraverseResult[A]] = aInputIterator map { aInput => traverse[A](aInput) }
+    unstageTraverseSetElements[A](aSetInput, aResultIterator)
   }
 
   private def traverseListOption[ListA : TypeKey](
@@ -297,11 +275,9 @@ trait Traversor {
   }
 
   private def traverseList[A : TypeKey](aListInput: TraverseInput[List[A]]): TraverseResult[List[A]] = {
-    val stagedAListInput: TraverseInput[List[A]] = stageTraverseList[A](aListInput)
-    val aInputList: List[TraverseInput[A]] = stageTraverseListElements[A](stagedAListInput)
-    val resultAList: List[TraverseResult[A]] = aInputList map { aInput => traverse[A](aInput) }
-    val aListResult = unstageTraverseListElements[A](resultAList)
-    unstageTraverseList[A](stagedAListInput, aListResult)
+    val aInputIterator: Iterator[TraverseInput[A]] = stageTraverseListElements[A](aListInput)
+    val aResultIterator: Iterator[TraverseResult[A]] = aInputIterator map { aInput => traverse[A](aInput) }
+    unstageTraverseListElements[A](aListInput, aResultIterator)
   }
 
   /** returns a `Some` containing the enclosing type of the list whenever the supplied type argument `A`

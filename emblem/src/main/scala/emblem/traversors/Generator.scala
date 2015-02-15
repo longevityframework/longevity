@@ -135,11 +135,13 @@ trait Generator {
 
     protected def stageTraverseSetElements[A : TypeKey](input: Unit): Iterator[Unit] = list(()).iterator
 
-    protected def unstageTraverseSetElements[A : TypeKey](result: Iterator[A]): Set[A] = result.toSet
+    protected def unstageTraverseSetElements[A : TypeKey](input: Unit, result: Iterator[A]): Set[A] =
+      result.toSet
 
-    protected def stageTraverseListElements[A : TypeKey](input: Unit): List[Unit] = list(())
+    protected def stageTraverseListElements[A : TypeKey](input: Unit): Iterator[Unit] = list(()).iterator
 
-    protected def unstageTraverseListElements[A : TypeKey](result: List[A]): List[A] = result
+    protected def unstageTraverseListElements[A : TypeKey](input: Unit, result: Iterator[A]): List[A] =
+      result.toList
 
   }
 

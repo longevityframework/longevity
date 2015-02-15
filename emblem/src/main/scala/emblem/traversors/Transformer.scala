@@ -140,11 +140,13 @@ trait Transformer {
 
     protected def stageTraverseSetElements[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
 
-    protected def unstageTraverseSetElements[A : TypeKey](result: Iterator[A]): Set[A] = result.toSet
+    protected def unstageTraverseSetElements[A : TypeKey](input: Set[A], result: Iterator[A]): Set[A] =
+      result.toSet
 
-    protected def stageTraverseListElements[A : TypeKey](input: List[A]): List[A] = input
+    protected def stageTraverseListElements[A : TypeKey](input: List[A]): Iterator[A] = input.iterator
 
-    protected def unstageTraverseListElements[A : TypeKey](result: List[A]): List[A] = result
+    protected def unstageTraverseListElements[A : TypeKey](input: List[A], result: Iterator[A]): List[A] =
+      result.toList
 
   }
 
