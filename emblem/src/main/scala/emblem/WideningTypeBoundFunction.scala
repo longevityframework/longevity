@@ -20,7 +20,7 @@ trait WideningTypeBoundFunction[
 
   def apply[
     TypeParam <: TypeBound](
-    value1: Arg[TypeParam])
+    value: Arg[TypeParam])
   : ReturnVal[TypeParam]
 
 }
