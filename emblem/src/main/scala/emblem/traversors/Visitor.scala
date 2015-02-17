@@ -5,8 +5,6 @@ import emblem.exceptions.CouldNotVisitException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.Visitor._
 
-// TODO: scaladoc for: Traversor
-
 /** holds types and zero values used by the [[Visitor generators]] */
 object Visitor {
 
@@ -18,7 +16,7 @@ object Visitor {
 
 }
 
-/** visits data as requested by type.
+/** recursively visits a data structure by type.
  *
  * you can visit arbritrary data to your liking by implementing the protected vals and defs in this
  * interface. as yet, i haven't been able to generate the scaladoc for those protected methods.

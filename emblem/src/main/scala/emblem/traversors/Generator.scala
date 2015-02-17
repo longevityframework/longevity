@@ -16,7 +16,7 @@ object Generator {
 
 }
 
-/** generates data as requested by type.
+/** recursively generates a data structure by type.
  *
  * you can generate arbritrary data to your liking by implementing the protected vals and defs in this
  * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.

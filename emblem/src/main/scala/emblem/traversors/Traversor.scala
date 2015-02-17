@@ -5,13 +5,24 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.reflectionUtil.makeTypeTag
 import scala.reflect.runtime.universe.typeOf
 
-/** TODO scaladoc */
+// TODO scaladoc
+
+/** recursively traverses a data structure by type. the inputs and the outputs of the traversal are abstract
+ * here, and specified by the implementing class. this forms a generic pattern for [[Visitor visiting]],
+ * [[Generator generating]], and [[Transformer transforming]] data.
+ * 
+ * you can traverse arbritrary data to your liking by implementing the protected vals and defs in this
+ * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
+ * sorry about that.
+ */
 trait Traversor {
 
   // pubic stuff:
 
   type TraverseInput[A]
   type TraverseResult[A]
+
+  // TODO: these two protected
   type TraverseEmblemPropInput[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseInput[B])
   type TraverseEmblemPropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
 

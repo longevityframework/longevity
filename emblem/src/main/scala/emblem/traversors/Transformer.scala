@@ -29,7 +29,8 @@ object Transformer {
 
 }
 
-/** tranforms data as requested by type. the input and the output of the transformation have the same type.
+/** recursively tranforms a data structure by type. the input and the output of the transformation
+ * have the same type.
  *
  * you can transform arbritrary data to your liking by implementing the protected vals and defs in this
  * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
