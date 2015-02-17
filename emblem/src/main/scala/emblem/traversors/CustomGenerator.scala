@@ -23,7 +23,7 @@ object CustomGenerator {
    * {{{
    * class IntHolder(val i: Int)
    * val intHolderGen: CustomGenerator[IntHolder] =
-   *   simpleGenerator((generator: Generator) => new IntHolder(generator.int))
+   *   simpleGenerator((generator: Generator) => new IntHolder(generator.generate[Int]))
    * val generator = new TestDataGenerator(customGenerators = emptyCustomGenerators + intHolderGen)
    * }}}
    * 

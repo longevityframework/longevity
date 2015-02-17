@@ -16,7 +16,14 @@ object Generator {
 
 }
 
-/** generates data as requested by type. */
+/** generates data as requested by type.
+ *
+ * you can generate arbritrary data to your liking by implementing the protected methods in this
+ * interface. as of this moment, i haven't been able to generate the scaladoc for those protected methods.
+ * sorry about that.
+ *
+ * @see [[TestDataGenerator]]
+ */
 trait Generator {
 
   // public stuff:
@@ -35,28 +42,43 @@ trait Generator {
 
   // protected stuff:
 
+  /** the shorthands to use in the generative traversal */
   protected val shorthandPool: ShorthandPool = ShorthandPool()
+
+  /** the emblems to use in the generative traversal */
   protected val emblemPool: EmblemPool = EmblemPool()
+
+  /** the custom generators to use in the generative traversal */
   protected val customGenerators: CustomGenerators = emptyCustomGenerators
 
+  /** generates an option */
   protected def option[A](a: => A): Option[A]
 
+  /** generates a set */
   protected def set[A](a: => A): Set[A]
 
+  /** generates a list */
   protected def list[A](a: => A): List[A]
 
+  /** generates a boolean */
   protected def boolean: Boolean
 
+  /** generates a char */
   protected def char: Char
 
+  /** generates a double */
   protected def double: Double
 
+  /** generates a float */
   protected def float: Float
 
+  /** generates an int */
   protected def int: Int
 
+  /** generates a long */
   protected def long: Long
   
+  /** generates a string */
   protected def string: String
 
   // private stuff:
