@@ -17,8 +17,43 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
   // traverseCustomOption(input) orElse
   // traverseEmblemOptionFromAny(input) orElse
   // traverseShorthandOption(input) orElse
-  // traverseOptionOption(input) orElse
-  // traverseSetOption(input) orElse
+
+  behavior of "Differ.diff for options"
+
+  it should "produce an empty Diffs when the values match" in {
+
+    // this is known to fail TODO fix
+    //differ.diff(None, None) should equal (Diffs())
+
+    differ.diff(None: Option[Nothing], None: Option[Nothing]) should equal (Diffs())
+    differ.diff(Some(6), Some(6)) should equal (Diffs())
+  }
+
+  it should "produce a single Diff with path .size when the values have different sizes" in {
+    differ.diff(None, Some(34)) should equal (Diffs(Diff(".size", 0, 1)))
+    differ.diff(Some(34), None) should equal (Diffs(Diff(".size", 1, 0)))
+  }
+
+  it should "produce a single diff with path value when values have the same size but don't match" in {
+    differ.diff(Some(33), Some(34)) should equal (Diffs(Diff(".value", 33, 34)))
+  }
+
+  behavior of "Differ.diff for sets"
+
+  it should "produce an empty Diffs when the values match" in {
+    differ.diff(Set(), Set()) should equal (Diffs())
+    differ.diff(Set(6, 7), Set(6, 7)) should equal (Diffs())
+  }
+
+  it should "produce a single Diff with path .size when the values have different sizes" in {
+    differ.diff(Set(), Set(34)) should equal (Diffs(Diff(".size", 0, 1)))
+    differ.diff(Set(6, 7), Set(6, 7, 8)) should equal (Diffs(Diff(".size", 2, 3)))
+  }
+
+  it should "produce a single diff with empty path when values have the same size but don't match" in {
+    differ.diff(Set(33), Set(34)) should equal (Diffs(Diff("", Set(33), Set(34))))
+    differ.diff(Set(12, 7, 9), Set(6, 7, 8)) should equal (Diffs(Diff("", Set(12, 7, 9), Set(6, 7, 8))))
+  }
 
   behavior of "Differ.diff for lists"
 

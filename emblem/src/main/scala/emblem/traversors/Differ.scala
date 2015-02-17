@@ -82,31 +82,31 @@ class Differ(
     override protected val emblemPool: EmblemPool = Differ.this.emblemPool
 
     protected def traverseBoolean(input: DifferInput[Boolean]): Diffs = {
-      if (input.lhs == input.rhs) Seq() else Seq(Diff(input.path, input.lhs, input.rhs))
+      if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 
     protected def traverseChar(input: DifferInput[Char]): Diffs = {
-      if (input.lhs == input.rhs) Seq() else Seq(Diff(input.path, input.lhs, input.rhs))
+      if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 
     protected def traverseDouble(input: DifferInput[Double]): Diffs = {
-      if (input.lhs == input.rhs) Seq() else Seq(Diff(input.path, input.lhs, input.rhs))
+      if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 
     protected def traverseFloat(input: DifferInput[Float]): Diffs = {
-      if (input.lhs == input.rhs) Seq() else Seq(Diff(input.path, input.lhs, input.rhs))
+      if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 
     protected def traverseInt(input: DifferInput[Int]): Diffs = {
-      if (input.lhs == input.rhs) Seq() else Seq(Diff(input.path, input.lhs, input.rhs))
+      if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 
     protected def traverseLong(input: DifferInput[Long]): Diffs = {
-      if (input.lhs == input.rhs) Seq() else Seq(Diff(input.path, input.lhs, input.rhs))
+      if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 
     protected def traverseString(input: DifferInput[String]): Diffs = {
-      if (input.lhs == input.rhs) Seq() else Seq(Diff(input.path, input.lhs, input.rhs))
+      if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 
     protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: DifferInput[A])
@@ -147,7 +147,7 @@ class Differ(
       optionValueResult: Option[Diffs])
     : Diffs =
       if (input.lhs.size == input.rhs.size)
-        optionValueResult.get
+        optionValueResult.getOrElse(Diffs())
       else
         Seq(Diff(input.path + ".size", input.lhs.size, input.rhs.size))
 
@@ -163,7 +163,7 @@ class Differ(
       } else if (setInput.lhs != setInput.rhs) {
         Seq(Diff(setInput.path, setInput.lhs, setInput.rhs))
       } else {
-        Seq()
+        Diffs()
       }
 
     protected def stageListElements[A : TypeKey](input: DifferInput[List[A]]): Iterator[DifferInput[A]] =
