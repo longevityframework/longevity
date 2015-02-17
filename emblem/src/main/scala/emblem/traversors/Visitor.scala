@@ -78,42 +78,42 @@ trait Visitor {
       customVisitors.mapValues(visitorToTraversor)
     }
 
-    protected def stageTraverseEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: A)
+    protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: A)
     : Iterator[TraverseEmblemPropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(input))
       emblem.props.map(propInput(_)).iterator
     }
 
-    protected def unstageTraverseEmblemProps[A <: HasEmblem](
+    protected def unstageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
       input: A,
       result: Iterator[TraverseEmblemPropResult[A, _]])
     : Unit =
       ()
 
-    protected def stageTraverseShorthand[Actual, Abbreviated](
+    protected def stageShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],
       input: Actual)
     : Abbreviated =
       shorthand.abbreviate(input)
 
-    protected def unstageTraverseShorthand[Actual, Abbreviated](
+    protected def unstageShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],
       abbreviatedResult: Unit)
     : Unit =
       ()
 
-    protected def stageTraverseOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
+    protected def stageOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
 
-    protected def unstageTraverseOptionValue[A : TypeKey](input: Option[A], result: Option[Unit]): Unit = ()
+    protected def unstageOptionValue[A : TypeKey](input: Option[A], result: Option[Unit]): Unit = ()
 
-    protected def stageTraverseSetElements[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
+    protected def stageSetElements[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
 
-    protected def unstageTraverseSetElements[A : TypeKey](input: Set[A], result: Iterator[Unit]): Unit = ()
+    protected def unstageSetElements[A : TypeKey](input: Set[A], result: Iterator[Unit]): Unit = ()
 
-    protected def stageTraverseListElements[A : TypeKey](input: List[A]): Iterator[A] = input.iterator
+    protected def stageListElements[A : TypeKey](input: List[A]): Iterator[A] = input.iterator
 
-    protected def unstageTraverseListElements[A : TypeKey](input: List[A], result: Iterator[Unit]): Unit = ()
+    protected def unstageListElements[A : TypeKey](input: List[A], result: Iterator[Unit]): Unit = ()
 
   }
 

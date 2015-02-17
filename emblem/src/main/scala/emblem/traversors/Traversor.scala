@@ -2,9 +2,8 @@ package emblem.traversors
 
 import emblem._
 import emblem.exceptions.CouldNotTraverseException
+import emblem.reflectionUtil.makeTypeTag
 import scala.reflect.runtime.universe.typeOf
-
-// TODO: separate concerns TraversorOfCustoms, EmblemTraversor, ShorthandTraversor, BasicTraversor
 
 /** TODO scaladoc */
 trait Traversor {
@@ -15,7 +14,6 @@ trait Traversor {
   type TraverseResult[A]
   type TraverseEmblemPropInput[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseInput[B])
   type TraverseEmblemPropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
-
 
   trait CustomTraversor[A] {
     def apply[B <: A : TypeKey](input: TraverseInput[B]): TraverseResult[B]
@@ -58,50 +56,50 @@ trait Traversor {
 
   protected def traverseString(input: TraverseInput[String]): TraverseResult[String]
 
-  protected def stageTraverseEmblemProps[A <: HasEmblem](
+  protected def stageEmblemProps[A <: HasEmblem](
     emblem: Emblem[A],
     input: TraverseInput[A])
   : Iterator[TraverseEmblemPropInput[A, _]]
 
-  protected def unstageTraverseEmblemProps[A <: HasEmblem](
+  protected def unstageEmblemProps[A <: HasEmblem](
     emblem: Emblem[A],
     input: TraverseInput[A],
     result: Iterator[TraverseEmblemPropResult[A, _]])
   : TraverseResult[A]
 
-  protected def stageTraverseShorthand[Actual, Abbreviated](
+  protected def stageShorthand[Actual, Abbreviated](
     shorthand: Shorthand[Actual, Abbreviated],
     input: TraverseInput[Actual])
   : TraverseInput[Abbreviated]
 
-  protected def unstageTraverseShorthand[Actual, Abbreviated](
+  protected def unstageShorthand[Actual, Abbreviated](
     shorthand: Shorthand[Actual, Abbreviated],
     abbreviatedResult: TraverseResult[Abbreviated])
   : TraverseResult[Actual]
 
-  protected def stageTraverseOptionValue[A : TypeKey](
+  protected def stageOptionValue[A : TypeKey](
     input: TraverseInput[Option[A]])
   : Option[TraverseInput[A]] // <<<< this is a different kind of option! it is an iterator of 0 or 1
 
-  protected def unstageTraverseOptionValue[A : TypeKey](
+  protected def unstageOptionValue[A : TypeKey](
     input: TraverseInput[Option[A]],
     result: Option[TraverseResult[A]]) // <<<< this is a different kind of option! it is an iterator of 0 or 1
   : TraverseResult[Option[A]]
 
-  protected def stageTraverseSetElements[A : TypeKey](
+  protected def stageSetElements[A : TypeKey](
     input: TraverseInput[Set[A]])
   : Iterator[TraverseInput[A]]
 
-  protected def unstageTraverseSetElements[A : TypeKey](
+  protected def unstageSetElements[A : TypeKey](
     input: TraverseInput[Set[A]],
     result: Iterator[TraverseResult[A]])
   : TraverseResult[Set[A]]
 
-  protected def stageTraverseListElements[A : TypeKey](
+  protected def stageListElements[A : TypeKey](
     input: TraverseInput[List[A]])
   : Iterator[TraverseInput[A]]
 
-  protected def unstageTraverseListElements[A : TypeKey](
+  protected def unstageListElements[A : TypeKey](
     input: TraverseInput[List[A]],
     result: Iterator[TraverseResult[A]])
   : TraverseResult[List[A]]
@@ -161,12 +159,12 @@ trait Traversor {
   private def traverseFromEmblem[A <: HasEmblem](emblem: Emblem[A], hasEmblemInput: TraverseInput[A])
   : TraverseResult[A] = {
     val emblemPropInputIterator: Iterator[TraverseEmblemPropInput[A, _]] =
-      stageTraverseEmblemProps(emblem, hasEmblemInput)
+      stageEmblemProps(emblem, hasEmblemInput)
     val emblemPropResultIterator: Iterator[TraverseEmblemPropResult[A, _]] =
         emblemPropInputIterator.map { case (prop, input) =>
           (prop, traverseEmblemProp(emblem, prop, input))
         }
-    unstageTraverseEmblemProps(emblem, hasEmblemInput, emblemPropResultIterator)
+    unstageEmblemProps(emblem, hasEmblemInput, emblemPropResultIterator)
   }
 
   private def traverseEmblemProp[A <: HasEmblem, B](
@@ -177,8 +175,7 @@ trait Traversor {
     traverse(input)(prop.typeKey)
   }
 
-  private def traverseShorthandOption[Actual : TypeKey](
-    input: TraverseInput[Actual])
+  private def traverseShorthandOption[Actual : TypeKey](input: TraverseInput[Actual])
   : Option[TraverseResult[Actual]] =
     shorthandPool.get[Actual] map { s => traverseFromShorthand[Actual](s, input) }
 
@@ -192,73 +189,64 @@ trait Traversor {
     shorthand: Shorthand[Actual, Abbreviated],
     input: TraverseInput[Actual])
   : TraverseResult[Actual] = {
-    val abbreviatedInput = stageTraverseShorthand(shorthand, input)
+    val abbreviatedInput = stageShorthand(shorthand, input)
     val abbreviatedResult = traverse(abbreviatedInput)(shorthand.abbreviatedTypeKey)
-    unstageTraverseShorthand(shorthand, abbreviatedResult)
+    unstageShorthand(shorthand, abbreviatedResult)
   }
 
   // TODO: remove code duplication below with option/set/list, generalize to other kinds of "collections"
 
-  private def traverseOptionOption[OptionA : TypeKey](
-    input: TraverseInput[OptionA])
+  private def traverseOptionOption[OptionA : TypeKey](input: TraverseInput[OptionA])
   : Option[TraverseResult[OptionA]] = {
     val keyOption = optionElementTypeKeyOption(typeKey[OptionA])
     def doTraverse[A : TypeKey] = traverseOption(input.asInstanceOf[TraverseInput[Option[A]]])
     keyOption map { key => doTraverse(key).asInstanceOf[TraverseResult[OptionA]] }
   }
 
-  /** returns a `Some` containing the enclosing type of the option whenever the supplied type argument `A`
-   * is an Option. otherwise returns `None`.
-   */
+  // returns a `Some` containing the enclosing type of the option whenever the supplied type argument `A`
+  // is an Option. otherwise returns `None`.
   private def optionElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[Option[_]]) Some(typeKey[A].typeArgs.head) else None
 
-  // TODO: simplify as with set and list
   private def traverseOption[A : TypeKey](optionInput: TraverseInput[Option[A]]): TraverseResult[Option[A]] = {
-    val optionValueInputOption: Option[TraverseInput[A]] = stageTraverseOptionValue[A](optionInput)
+    val optionValueInputOption: Option[TraverseInput[A]] = stageOptionValue[A](optionInput)
     val optionValueResultOption: Option[TraverseResult[A]] = optionValueInputOption map { optionValueInput =>
       traverse[A](optionValueInput)
     }
-    unstageTraverseOptionValue[A](optionInput, optionValueResultOption)
+    unstageOptionValue[A](optionInput, optionValueResultOption)
   }
 
-  private def traverseSetOption[SetA : TypeKey](
-    input: TraverseInput[SetA])
-  : Option[TraverseResult[SetA]] = {
+  private def traverseSetOption[SetA : TypeKey](input: TraverseInput[SetA]): Option[TraverseResult[SetA]] = {
     val keyOption = setElementTypeKeyOption(typeKey[SetA])
     def doTraverse[A : TypeKey] = traverseSet(input.asInstanceOf[TraverseInput[Set[A]]])
     keyOption map { k => doTraverse(k).asInstanceOf[TraverseResult[SetA]] }
   }
 
-  /** returns a `Some` containing the enclosing type of the set whenever the supplied type argument `A`
-   * is a Set. otherwise returns `None`.
-   */
+  // returns a `Some` containing the enclosing type of the set whenever the supplied type argument `A`
+  // is a Set. otherwise returns `None`.
   private def setElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[Set[_]]) Some(typeKey[A].typeArgs.head) else None
 
   private def traverseSet[A : TypeKey](aSetInput: TraverseInput[Set[A]]): TraverseResult[Set[A]] = {
-    val aInputIterator: Iterator[TraverseInput[A]] = stageTraverseSetElements[A](aSetInput)
+    val aInputIterator: Iterator[TraverseInput[A]] = stageSetElements[A](aSetInput)
     val aResultIterator: Iterator[TraverseResult[A]] = aInputIterator map { aInput => traverse[A](aInput) }
-    unstageTraverseSetElements[A](aSetInput, aResultIterator)
+    unstageSetElements[A](aSetInput, aResultIterator)
   }
 
-  private def traverseListOption[ListA : TypeKey](
-    input: TraverseInput[ListA])
-  : Option[TraverseResult[ListA]] = {
+  private def traverseListOption[ListA : TypeKey](input: TraverseInput[ListA]): Option[TraverseResult[ListA]] = {
     val keyOption = listElementTypeKeyOption(typeKey[ListA])
     def doTraverse[A : TypeKey] = traverseList(input.asInstanceOf[TraverseInput[List[A]]])
     keyOption map { k => doTraverse(k).asInstanceOf[TraverseResult[ListA]] }
   }
 
   private def traverseList[A : TypeKey](aListInput: TraverseInput[List[A]]): TraverseResult[List[A]] = {
-    val aInputIterator: Iterator[TraverseInput[A]] = stageTraverseListElements[A](aListInput)
+    val aInputIterator: Iterator[TraverseInput[A]] = stageListElements[A](aListInput)
     val aResultIterator: Iterator[TraverseResult[A]] = aInputIterator map { aInput => traverse[A](aInput) }
-    unstageTraverseListElements[A](aListInput, aResultIterator)
+    unstageListElements[A](aListInput, aResultIterator)
   }
 
-  /** returns a `Some` containing the enclosing type of the list whenever the supplied type argument `A`
-   * is a List. otherwise returns `None`.
-   */
+  // returns a `Some` containing the enclosing type of the list whenever the supplied type argument `A`
+  // is a List. otherwise returns `None`.
   private def listElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[List[_]]) Some(typeKey[A].typeArgs.head) else None
 

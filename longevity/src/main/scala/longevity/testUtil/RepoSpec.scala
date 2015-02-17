@@ -146,7 +146,7 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
     customGenerators + assocGenerator)
 
   private val unpersistor = new PersistedToUnpersistedTransformer(domainConfig)
-  private lazy val differ = new Differ(domainConfig.shorthandPool, domainConfig.entityEmblemPool)
+  private lazy val differ = new Differ(domainConfig.entityEmblemPool, domainConfig.shorthandPool)
 
   private def persistedShouldMatchUnpersisted(persisted: E, unpersisted: E): Unit = {
     val unpersistorated = unpersistor.transform(persisted)

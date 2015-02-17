@@ -4,7 +4,7 @@ import scala.reflect.api.Mirror
 import scala.reflect.api.TypeCreator
 import scala.reflect.api.Universe
 import scala.reflect.runtime.currentMirror
-import scala.reflect.runtime.universe.TermSymbol
+import scala.reflect.runtime.universe.Symbol
 import scala.reflect.runtime.universe.Type
 import scala.reflect.runtime.universe.TypeTag
 
@@ -14,7 +14,7 @@ private[emblem] object reflectionUtil {
   // overloaded makeTypeTag follows FixedMirrorTypeCreator in
   // https://github.com/scala/scala/blob/2.11.x/src/reflect/scala/reflect/internal/StdCreators.scala
 
-  def makeTypeTag[A](term: TermSymbol): TypeTag[A] = makeTypeTag(term.typeSignature)
+  def makeTypeTag[A](term: Symbol): TypeTag[A] = makeTypeTag(term.typeSignature)
 
   def makeTypeTag[A](tpe: Type): TypeTag[A] = {
     val typeCreator = new TypeCreator {
