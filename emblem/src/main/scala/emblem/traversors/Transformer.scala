@@ -52,11 +52,11 @@ trait Transformer {
     case e: CouldNotTraverseException => throw new CouldNotTransformException(e.typeKey, e)
   }
 
-  /** the shorthands to use in the recursive transformation */
-  protected val shorthandPool: ShorthandPool = ShorthandPool()
-
   /** the emblems to use in the recursive transformation */
   protected val emblemPool: EmblemPool = EmblemPool()
+
+  /** the shorthands to use in the recursive transformation */
+  protected val shorthandPool: ShorthandPool = ShorthandPool()
 
   /** the custom transformers to use in the recursive transformation */
   protected val customTransformers: CustomTransformers = emptyCustomTransformers
@@ -116,7 +116,7 @@ trait Transformer {
     }
 
     protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: A)
-    : Iterator[TraverseEmblemPropInput[A, _]] = {
+    : Iterator[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(input))
       emblem.props.map(propInput(_)).iterator
     }
@@ -124,7 +124,7 @@ trait Transformer {
     protected def unstageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
       input: A,
-      result: Iterator[TraverseEmblemPropResult[A, _]])
+      result: Iterator[PropResult[A, _]])
     : A = {
       val builder = emblem.builder()
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }

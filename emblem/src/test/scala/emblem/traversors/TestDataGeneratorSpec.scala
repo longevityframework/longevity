@@ -44,10 +44,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     val customGenerators = emptyCustomGenerators + intHolderCustomGenerator + listCustomGenerator
-    val generator = new TestDataGenerator(
-      shorthandPool,
-      emblemPool,
-      customGenerators)
+    val generator = new TestDataGenerator(emblemPool, shorthandPool, customGenerators)
 
     List.fill(100) {
       val intList: List[Int] = generator.generate[List[Int]]
@@ -212,11 +209,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val customGenerators = emptyCustomGenerators +
       uriCustomGenerator + pointCustomGenerator + listCustomGenerator + intCustomGenerator
 
-    val generator = new TestDataGenerator(
-      shorthandPool,
-      emblemPool,
-      customGenerators
-    )
+    val generator = new TestDataGenerator(emblemPool, shorthandPool, customGenerators)
 
     generator.generate[Uri] should equal (Uri("frenchy"))
     generator.generate[Point] should equal (Point(-1.0, -1.0))
@@ -229,8 +222,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
       (generator: Generator) => new IntHolder(generator.generate[Int]))
     val customGenerators = emptyCustomGenerators + intHolderCustomGenerator
     new TestDataGenerator(
-      shorthandPool = shorthandPool,
       emblemPool = emblemPool,
+      shorthandPool = shorthandPool,
       customGenerators = emptyCustomGenerators + intHolderCustomGenerator)
   }
 

@@ -38,11 +38,11 @@ trait Generator {
     case e: CouldNotTraverseException => throw new CouldNotGenerateException(e.typeKey, e)
   }
 
-  /** the shorthands to use in the recursive generation */
-  protected val shorthandPool: ShorthandPool = ShorthandPool()
-
   /** the emblems to use in the recursive generation */
   protected val emblemPool: EmblemPool = EmblemPool()
+
+  /** the shorthands to use in the recursive generation */
+  protected val shorthandPool: ShorthandPool = ShorthandPool()
 
   /** the custom generators to use in the recursive generation */
   protected val customGenerators: CustomGenerators = emptyCustomGenerators
@@ -110,13 +110,13 @@ trait Generator {
     }
 
     protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: Unit)
-    : Iterator[TraverseEmblemPropInput[A, _]] =
+    : Iterator[PropInput[A, _]] =
       emblem.props.map((_, ())).iterator
 
     protected def unstageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
       input: Unit,
-      result: Iterator[TraverseEmblemPropResult[A, _]])
+      result: Iterator[PropResult[A, _]])
     : A = {
       val builder = emblem.builder()
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }

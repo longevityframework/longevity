@@ -141,8 +141,8 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
   }
 
   private val testDataGenerator = new TestDataGenerator(
-    domainConfig.shorthandPool,
     domainConfig.entityEmblemPool,
+    domainConfig.shorthandPool,
     customGenerators + assocGenerator)
 
   private val unpersistor = new PersistedToUnpersistedTransformer(domainConfig)

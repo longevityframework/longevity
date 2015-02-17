@@ -108,7 +108,7 @@ class Differ(
     }
 
     protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: DifferInput[A])
-    : Iterator[TraverseEmblemPropInput[A, _]] = {
+    : Iterator[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) =
         (prop, DifferInput(prop.get(input.lhs), prop.get(input.rhs), input.path + "." + prop.name))
       emblem.props.map(propInput(_)).iterator
@@ -117,7 +117,7 @@ class Differ(
     protected def unstageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
       input: DifferInput[A],
-      result: Iterator[TraverseEmblemPropResult[A, _]])
+      result: Iterator[PropResult[A, _]])
     : Diffs =
       result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
 

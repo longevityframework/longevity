@@ -32,8 +32,8 @@ import scala.reflect.runtime.universe.typeOf
  * over all other generators
  */
 class TestDataGenerator (
-  override protected val shorthandPool: ShorthandPool = ShorthandPool(),
   override protected val emblemPool: EmblemPool = EmblemPool(),
+  override protected val shorthandPool: ShorthandPool = ShorthandPool(),
   override protected val customGenerators: CustomGenerators = emptyCustomGenerators
 ) extends Generator {
 
