@@ -5,17 +5,46 @@ import emblem._
 /** for type map happy cases */
 object blogs {
 
+
+  implicit def stringToEmail(email: String): Email = Email(email)
+
+  implicit def stringToMarkdown(markdown: String): Markdown = Markdown(markdown)
+
+  implicit def stringToUri(uri: String): Uri = Uri(uri)
+
+  implicit def intToZipcode(zip: Int): Zipcode = Zipcode(zip)
+
+  object User {
+
+    private val dummyAddress = Address("street1", "street2", "city", "state", /*0*/1210)
+    private val dummyUser = User(Uri("uri"), "firstName", "lastName", dummyAddress)
+
+    def apply(uri: Uri): User = dummyUser.copy(uri = uri)
+  }
+
   // entities
 
   trait Entity extends HasEmblem
 
-  case class Blog(uri: String) extends Entity
-  val blogEmblem = emblemFor[Blog]
-
-  case class User(uri: String) extends Entity
+  case class User(
+    uri: Uri,
+    firstName: String,
+    lastName: String,
+    address: Address) extends Entity
   val userEmblem = emblemFor[User]
 
-  val emblemPool = EmblemPool(blogEmblem, userEmblem)
+  case class Address(
+    street1: String,
+    street2: String,
+    city: String,
+    state: String,
+    zipcode: Zipcode) extends Entity
+  val addressEmblem = emblemFor[Address]
+
+  case class Blog(uri: Uri) extends Entity
+  val blogEmblem = emblemFor[Blog]
+
+  val emblemPool = EmblemPool(userEmblem, addressEmblem, blogEmblem)
 
   // shorthands
 

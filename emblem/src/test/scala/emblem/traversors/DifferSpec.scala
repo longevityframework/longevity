@@ -1,12 +1,8 @@
 package emblem.traversors
 
-//import emblem._
-//import emblem.exceptions.CouldNotGenerateException
-import emblem.testData.blogs._
-//import emblem.traversors.Generator._
-//import org.scalatest.OptionValues._
-import org.scalatest._
 import Differ._
+import emblem.testData.blogs._
+import org.scalatest._
 
 /** specs for [[Differ]] */
 class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -14,9 +10,62 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
   lazy val differ = new Differ(emblemPool, shorthandPool)
 
   // TODO:
-  // traverseCustomOption(input) orElse
-  // traverseEmblemOptionFromAny(input) orElse
-  // traverseShorthandOption(input) orElse
+  // - emblems with embedded options, sets, and lists
+  // - options, sets, and lists of emblems
+  // - CouldNotTraverseException cases
+
+  behavior of "Differ.diff for emblems"
+
+  lazy val user = User("funnyUri", "strangeFirstName", "Smith",
+                       Address("someStreet", "", "Big Frost", "QW", 21211))
+
+  it should "produce an empty Diffs when the values match" in {
+    differ.diff(user, user) should equal (Diffs())
+    val blog = Blog("blogUri")
+    differ.diff(blog, blog) should equal (Diffs())
+  }
+
+  it should "find diffs in basic values found directly in the emblem" in {
+    val user1 = user
+    val user2 = user.copy(firstName = "strangerFirstName", lastName = "Smithie")
+    differ.diff(user1, user2) should equal (Diffs(
+      Diff(".firstName", "strangeFirstName", "strangerFirstName"),
+      Diff(".lastName", "Smith", "Smithie")))
+  }
+
+  it should "find diffs in shorthands found directly in the emblem" in {
+    val user1 = user
+    val user2 = user.copy(uri = "sillyUri")
+    differ.diff(user1, user2) should equal (Diffs(
+      Diff(".uri.abbreviated", "funnyUri", "sillyUri")))
+  }
+
+  it should "find diffs in basic values found in a nested emblem" in {
+    val user1 = user
+    val user2 = user.copy(address = user.address.copy(street2 = "Hollow St"))
+    differ.diff(user1, user2) should equal (Diffs(
+      Diff(".address.street2", "", "Hollow St")))
+  }
+
+  it should "find diffs in shorthands found in a nested emblem" in {
+    val user1 = user
+    val user2 = user.copy(address = user.address.copy(zipcode = 98765))
+    differ.diff(user1, user2) should equal (Diffs(
+      Diff(".address.zipcode.abbreviated", user1.address.zipcode.zipcode, user2.address.zipcode.zipcode)))
+  }
+
+  behavior of "Differ.diff for shorthands"
+
+  it should "produce an empty Diffs when the values match" in {
+    differ.diff(Uri("x"), Uri("x")) should equal (Diffs())
+    differ.diff(Zipcode(/*0*/1210), Zipcode(/*0*/1210)) should equal (Diffs())
+  }
+
+  it should "produce a single Diff with path .abbreviated when the values have different sizes" in {
+    differ.diff(Uri("x"), Uri("y")) should equal (Diffs(Diff(".abbreviated", "x", "y")))
+    differ.diff(Zipcode(/*0*/1210), Zipcode(/*0*/1211)) should equal (Diffs(
+      Diff(".abbreviated", /*0*/1210, /*0*/1211)))
+  }
 
   behavior of "Differ.diff for options"
 

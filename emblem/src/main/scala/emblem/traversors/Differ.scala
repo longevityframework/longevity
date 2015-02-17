@@ -38,10 +38,10 @@ object Differ {
       val builder = new StringBuilder
       builder.append("lhs and rhs have the following diffs:\n")
       diffs.foreach { diff =>
-        builder.append(s" - lhs.${diff.path} != rhs.${diff.path}\n")
+        builder.append(s" - lhs${diff.path} != rhs${diff.path}\n")
         if (goryDetails) {
-          builder.append(s"     lhs.${diff.path} = ${diff.lhs}\n")
-          builder.append(s"     rhs.${diff.path} = ${diff.rhs}\n")
+          builder.append(s"     lhs${diff.path} = ${diff.lhs}\n")
+          builder.append(s"     rhs${diff.path} = ${diff.rhs}\n")
         }
       }
       builder.toString
@@ -50,7 +50,7 @@ object Differ {
 
 }
 
-/** recursively computes a sequence of [[Differ.Diff diffs] between two different values of the same type.
+/** recursively computes a sequence of [[Differ.Diff diffs]] between two different values of the same type.
  * 
  * we kind of have to bail on traversing sets, since there is no obvious way to pull out matching pairs
  * of elements from the lhs and rhs sets. if the sets have differing sizes, then we report the difference in
@@ -129,7 +129,8 @@ class Differ(
     : DifferInput[Abbreviated] =
       input.copy(
         lhs = shorthand.abbreviate(input.lhs),
-        rhs = shorthand.abbreviate(input.rhs))
+        rhs = shorthand.abbreviate(input.rhs),
+        path = input.path + ".abbreviated")
 
     protected def unstageShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],
