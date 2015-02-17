@@ -5,17 +5,17 @@ import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.Transformer._
 
-/** holds types and zero values used by the [[Transformer transformers]] */
+/** holds types and zero values used by the [[Transformer transformers]], and supplies the API for custom
+ * tranformers */
 object Transformer {
 
-  /** TODO scaladoc
-   */
+  /** a custom transformer of things of type A */
   trait CustomTransformer[A] {
 
-    /** Visits an element of type B
-     * @tparam B the type of element to generate. a subtype of A
+    /** transforms an element of type B
+     * @tparam B the type of element to transform. a subtype of A
      * @param transformer the [[Transformer]] that is delegating this call to us
-     * @param input the element to visit
+     * @param input the element to transform
      */
     def apply[B <: A : TypeKey](transformer: Transformer, input: B): B
 
@@ -29,37 +29,59 @@ object Transformer {
 
 }
 
-// TODO scaladoc
-/** WARNING: this code is completely untested and may possibly have a design flaw */
+/** tranforms data as requested by type. the input and the output of the transformation have the same type.
+ *
+ * you can transform arbritrary data to your liking by implementing the protected methods in this
+ * interface. as of this moment, i haven't been able to generate the scaladoc for those protected methods.
+ * sorry about that.
+ *
+ * the only usage example as of now, longevity.testUtil.PersistedToUnpersistedTransformer, lives outside of
+ * emblem project, in sibling project longevity. it might give you some ideas in how to use, but then so will
+ * other traversors in this directory.
+ */
 trait Transformer {
 
+  /** transforms an element of type A
+   * @throws emblem.exceptions.CouldNotTransformException when it encounters a type it doesn't know how to
+   * transform
+   */
   def transform[A : TypeKey](input: A): A = try {
     traversor.traverse[A](input)
   } catch {
     case e: CouldNotTraverseException => throw new CouldNotTransformException(e.typeKey)
   }
 
-  protected def shorthandPool: ShorthandPool = ShorthandPool()
+  /** the shorthands to use in the tranformative traversal */
+  protected val shorthandPool: ShorthandPool = ShorthandPool()
 
-  protected def emblemPool: EmblemPool = EmblemPool()
+  /** the emblems to use in the tranformative traversal */
+  protected val emblemPool: EmblemPool = EmblemPool()
 
-  protected def customTransformers: CustomTransformers = emptyCustomTransformers
+  /** the custom transformers to use in the tranformative traversal */
+  protected val customTransformers: CustomTransformers = emptyCustomTransformers
 
+  /** transforms a boolean */
   protected def transformBoolean(input: Boolean): Boolean = input
 
+  /** transforms a char */
   protected def transformChar(input: Char): Char = input
 
+  /** transforms a double */
   protected def transformDouble(input: Double): Double = input
 
+  /** transforms a float */
   protected def transformFloat(input: Float): Float = input
 
+  /** transforms an int */
   protected def transformInt(input: Int): Int = input
 
+  /** transforms a long */
   protected def transformLong(input: Long): Long = input
 
+  /** transforms a string */
   protected def transformString(input: String): String = input
 
-  private val traversor = new Traversor {
+  private lazy val traversor = new Traversor {
 
     type TraverseInput[A] = A
     type TraverseResult[A] = A

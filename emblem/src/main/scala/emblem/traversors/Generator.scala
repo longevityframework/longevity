@@ -26,8 +26,6 @@ object Generator {
  */
 trait Generator {
 
-  // public stuff:
-
   /** generates data for the specified type A
    * @tparam A the type of data to generate
    * @return the generated data
@@ -39,8 +37,6 @@ trait Generator {
   } catch {
     case e: CouldNotTraverseException => throw new CouldNotGenerateException(e.typeKey)
   }
-
-  // protected stuff:
 
   /** the shorthands to use in the generative traversal */
   protected val shorthandPool: ShorthandPool = ShorthandPool()
@@ -80,8 +76,6 @@ trait Generator {
   
   /** generates a string */
   protected def string: String
-
-  // private stuff:
 
   private val traversor = new Traversor {
 
