@@ -16,30 +16,22 @@ object Generator {
 
 }
 
-// TODO scaladoc
+/** generates data as requested by type. */
 trait Generator {
 
   // public stuff:
 
+  /** generates data for the specified type A
+   * @tparam A the type of data to generate
+   * @return the generated data
+   * @throws emblem.exceptions.CouldNotGenerateException when we encounter a type in the recursive traversal
+   * that we don't know how to generate for
+   */
   def generate[A : TypeKey]: A = try {
     traversor.traverse[A](())
   } catch {
     case e: CouldNotTraverseException => throw new CouldNotGenerateException(e.typeKey)
   }
-
-  def boolean: Boolean
-
-  def char: Char
-
-  def double: Double
-
-  def float: Float
-
-  def int: Int
-
-  def long: Long
-  
-  def string: String
 
   // protected stuff:
 
@@ -52,6 +44,20 @@ trait Generator {
   protected def set[A](a: => A): Set[A]
 
   protected def list[A](a: => A): List[A]
+
+  protected def boolean: Boolean
+
+  protected def char: Char
+
+  protected def double: Double
+
+  protected def float: Float
+
+  protected def int: Int
+
+  protected def long: Long
+  
+  protected def string: String
 
   // private stuff:
 

@@ -4,8 +4,6 @@ import Differ._
 import emblem._
 import scala.reflect.runtime.universe.typeOf
 
-// TODO: DifferSpec
-
 object Differ {
 
   /** a diff encountered by the [[Differ]].

@@ -17,7 +17,7 @@ class CustomGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "compile and produce the expected results" in {
 
     val intHolderGen: CustomGenerator[IntHolder] =
-      simpleGenerator((generator: Generator) => new IntHolder(generator.int))
+      simpleGenerator((generator: Generator) => new IntHolder(generator.generate[Int]))
     val generator = new TestDataGenerator(customGenerators = emptyCustomGenerators + intHolderGen)
 
   }

@@ -32,7 +32,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "work properly with generators for types that take type params" in {
     val intHolderCustomGenerator =
-      simpleGenerator((generator: Generator) => new IntHolder(generator.int))
+      simpleGenerator((generator: Generator) => new IntHolder(generator.generate[Int]))
 
     // always generates a 5-element list
     val listCustomGenerator = new CustomGenerator[List[Any]] {
@@ -225,7 +225,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   private def standardGenerator = {
-    val intHolderCustomGenerator = simpleGenerator((generator: Generator) => new IntHolder(generator.int))
+    val intHolderCustomGenerator = simpleGenerator(
+      (generator: Generator) => new IntHolder(generator.generate[Int]))
     val customGenerators = emptyCustomGenerators + intHolderCustomGenerator
     new TestDataGenerator(
       shorthandPool = shorthandPool,
