@@ -18,8 +18,8 @@ object Generator {
 
 /** generates data as requested by type.
  *
- * you can generate arbritrary data to your liking by implementing the protected methods in this
- * interface. as of this moment, i haven't been able to generate the scaladoc for those protected methods.
+ * you can generate arbritrary data to your liking by implementing the protected vals and defs in this
+ * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
  * sorry about that.
  *
  * @see [[TestDataGenerator]]
@@ -35,16 +35,16 @@ trait Generator {
   def generate[A : TypeKey]: A = try {
     traversor.traverse[A](())
   } catch {
-    case e: CouldNotTraverseException => throw new CouldNotGenerateException(e.typeKey)
+    case e: CouldNotTraverseException => throw new CouldNotGenerateException(e.typeKey, e)
   }
 
-  /** the shorthands to use in the generative traversal */
+  /** the shorthands to use in the recursive generation */
   protected val shorthandPool: ShorthandPool = ShorthandPool()
 
-  /** the emblems to use in the generative traversal */
+  /** the emblems to use in the recursive generation */
   protected val emblemPool: EmblemPool = EmblemPool()
 
-  /** the custom generators to use in the generative traversal */
+  /** the custom generators to use in the recursive generation */
   protected val customGenerators: CustomGenerators = emptyCustomGenerators
 
   /** generates an option */

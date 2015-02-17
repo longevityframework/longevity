@@ -31,8 +31,8 @@ object Transformer {
 
 /** tranforms data as requested by type. the input and the output of the transformation have the same type.
  *
- * you can transform arbritrary data to your liking by implementing the protected methods in this
- * interface. as of this moment, i haven't been able to generate the scaladoc for those protected methods.
+ * you can transform arbritrary data to your liking by implementing the protected vals and defs in this
+ * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
  * sorry about that.
  *
  * the only usage example as of now, longevity.testUtil.PersistedToUnpersistedTransformer, lives outside of
@@ -48,16 +48,16 @@ trait Transformer {
   def transform[A : TypeKey](input: A): A = try {
     traversor.traverse[A](input)
   } catch {
-    case e: CouldNotTraverseException => throw new CouldNotTransformException(e.typeKey)
+    case e: CouldNotTraverseException => throw new CouldNotTransformException(e.typeKey, e)
   }
 
-  /** the shorthands to use in the tranformative traversal */
+  /** the shorthands to use in the recursive transformation */
   protected val shorthandPool: ShorthandPool = ShorthandPool()
 
-  /** the emblems to use in the tranformative traversal */
+  /** the emblems to use in the recursive transformation */
   protected val emblemPool: EmblemPool = EmblemPool()
 
-  /** the custom transformers to use in the tranformative traversal */
+  /** the custom transformers to use in the recursive transformation */
   protected val customTransformers: CustomTransformers = emptyCustomTransformers
 
   /** transforms a boolean */

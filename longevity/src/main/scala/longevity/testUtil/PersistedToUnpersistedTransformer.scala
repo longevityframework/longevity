@@ -11,16 +11,9 @@ import longevity.repo.Id
 import longevity.domain.UnpersistedAssoc
 import PersistedToUnpersistedTransformer.AssocAny
 
-// TODO: scaladoc for: Traversor, Visitor
-// TODO: scaladoc and specs for PersistedToUnpersistedTransformer
-
 object PersistedToUnpersistedTransformer {
-
   private type AssocAny = Assoc[_ <: Entity]
-
 }
-
-// TODO: specs for this
 
 /** traverses an entity graph, replacing every [[longevity.repo.Id persisted assoc]] with an
  * [[longevity.domain.UnpersistedAssoc]].

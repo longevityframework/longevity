@@ -5,6 +5,8 @@ import emblem.exceptions.CouldNotVisitException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.Visitor._
 
+// TODO: scaladoc for: Traversor
+
 /** holds types and zero values used by the [[Visitor generators]] */
 object Visitor {
 
@@ -16,33 +18,54 @@ object Visitor {
 
 }
 
-// TODO scaladoc
-/** WARNING: this code is completely untested and may possibly have a design flaw */
+/** visits data as requested by type.
+ *
+ * you can visit arbritrary data to your liking by implementing the protected vals and defs in this
+ * interface. as yet, i haven't been able to generate the scaladoc for those protected methods.
+ * sorry about that.
+ *
+ * WARNING: as of yet, this code is completely untested, and there is no example usage for you to follow.
+ */
 trait Visitor {
 
+  /** visits an element of type A
+   * @throws emblem.exceptions.CouldNotVisitException when it encounters a type it doesn't know how to
+   * visit
+   */
   def visit[A : TypeKey](input: A): Unit = try {
     traversor.traverse[A](input)
   } catch {
-    // TODO: need nested exception in this and similar situations
-    case e: CouldNotTraverseException => throw new CouldNotVisitException(e.typeKey)
+    case e: CouldNotTraverseException => throw new CouldNotVisitException(e.typeKey, e)
   }
 
+  /** the shorthands to use in the recursive visit */
   protected val shorthandPool: ShorthandPool = ShorthandPool()
+
+  /** the emblems to use in the recursive visit */
   protected val emblemPool: EmblemPool = EmblemPool()
+
+  /** the custom visitors to use in the recursive visit */
   protected val customVisitors: CustomVisitors = emptyCustomVisitors
 
+  /** visits a boolean */
   protected def visitBoolean(input: Boolean): Unit = {}
 
+  /** visits a chat */
   protected def visitChar(input: Char): Unit = {}
 
+  /** visits a double */
   protected def visitDouble(input: Double): Unit = {}
 
+  /** visits a float */
   protected def visitFloat(input: Float): Unit = {}
 
+  /** visits an int */
   protected def visitInt(input: Int): Unit = {}
 
+  /** visits a long */
   protected def visitLong(input: Long): Unit = {}
 
+  /** visits a string */
   protected def visitString(input: String): Unit = {}
 
   private lazy val traversor = new Traversor {
