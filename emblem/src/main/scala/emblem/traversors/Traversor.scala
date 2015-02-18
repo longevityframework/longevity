@@ -269,7 +269,7 @@ trait Traversor {
     unstageShorthand(shorthand, abbreviatedResult)
   }
 
-  // TODO: remove code duplication below with option/set/list, generalize to other kinds of "collections"
+  // TODO pt 88571474: remove code duplication with option/set/list, generalize to other kinds of "collections"
 
   private def traverseOptionOption[OptionA : TypeKey](input: TraverseInput[OptionA])
   : Option[TraverseResult[OptionA]] = {

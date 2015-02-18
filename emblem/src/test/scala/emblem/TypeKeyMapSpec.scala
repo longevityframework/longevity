@@ -28,7 +28,9 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     display should equal (Display(1080))
   }
 
-  // TODO identity example
+  // TODO pt 86951076: more specs:
+  // - identity example
+  // - double-TP value type (like in ShorthandPool)
 
   behavior of "a TypeKeyMap where the value type has a single type parameter"
 
@@ -66,8 +68,6 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     userRepo.saveCount should equal (3)
     blogRepo.saveCount should equal (2)
   }
-
-  // TODO: double-TP value type (like in ShorthandPool)
 
   behavior of "TypeKeyMaps in the face of someone trying to break through my bulletpoof type signatures"
   it should "thwart the attack with a compile time error of unspecified opacity" in {

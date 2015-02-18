@@ -112,8 +112,9 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     blogRepo.saveCount should equal (2)
   }
 
-  // TODO: single-TP key type, double-TP value type
-  // TODO: double-TP key type, single-TP value type
+  // TODO pt 86950990:
+  // - single-TP key type, double-TP value type
+  // - double-TP key type, single-TP value type
 
   behavior of "TypeBoundMaps in the face of someone trying to break through my bulletpoof type signatures"
   it should "thwart the attack with a compile time error of unspecified opacity" in {

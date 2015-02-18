@@ -126,8 +126,8 @@ case class TypeKey[A](val tag: TypeTag[A]) {
     }
   }
 
-  // TODO: this will map types such as List[Int] and List[String] to the same hash value. include considerations
-  // for the type arguments to account for this
+  // TODO pt 86950618: this will map types such as List[Int] and List[String] to the same hash value. include
+  // considerations for the type arguments to account for this
   override lazy val hashCode = {
     def symbolToString(s: Symbol):String = {
       val fullName = s.fullName

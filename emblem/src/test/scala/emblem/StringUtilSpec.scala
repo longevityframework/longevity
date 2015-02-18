@@ -25,7 +25,7 @@ class StringUtilSpec extends FlatSpec with GivenWhenThen with Matchers {
     uncapitalize(" Foo") should equal (" Foo")
   }
 
-  // TODO specs for camelToUnderscores, underscoreToCamel
+  // TODO pt 86950732: specs for camelToUnderscores, underscoreToCamel
 
   case class Foo()
 
