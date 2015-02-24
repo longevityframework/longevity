@@ -1,7 +1,6 @@
 package emblem.traversors
 
 import emblem._
-import emblem.exceptions.CouldNotGenerateException
 import emblem.testData.emblems._
 import emblem.testData.shorthands._
 import emblem.traversors.CustomGenerator.simpleGenerator

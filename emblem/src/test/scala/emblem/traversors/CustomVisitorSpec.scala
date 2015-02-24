@@ -1,7 +1,6 @@
 package emblem.traversors
 
 import emblem._
-import emblem.exceptions.CouldNotGenerateException
 import emblem.traversors.Visitor._
 import org.scalatest._
 
