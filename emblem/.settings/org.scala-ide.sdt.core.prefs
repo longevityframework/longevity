@@ -31,6 +31,7 @@ recompileOnMacroDef=true
 relationsDebug=false
 scala.compiler.additionalParams=-language\:existentials -language\:higherKinds -language\:implicitConversions -Yno-adapted-args -Ywarn-numeric-widen -Ywarn-unused-import
 scala.compiler.installation=2.11
+scala.compiler.sourceLevel=2.11
 scala.compiler.useProjectSettings=true
 stopBuildOnError=true
 target=jvm-1.6

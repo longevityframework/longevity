@@ -4,7 +4,9 @@ import scala.reflect.runtime.universe.TypeTag
 import scala.reflect.runtime.universe.typeTag
 import org.scalatest._
 import testUtil._
+import longevity.UnitTest
 
+@UnitTest
 class RepoPoolSpec extends FeatureSpec with GivenWhenThen with Matchers {
 
   feature("The repo pool client can add a repo by entity type") {
