@@ -11,7 +11,7 @@ import musette.domain.Uri
 /** Fills in `RepoSpec` requirements that are common across the project */
 abstract class MusetteRepoSpec[E <: Entity : TypeKey] extends RepoSpec[E] {
 
-  def domainConfig = musette.domain.domainConfig
+  def boundedContext = musette.domain.boundedContext
 
   override def customGenerators = emptyCustomGenerators +
     simpleGenerator((generator) => Uri("http://localhost/" + generator.generate[String])) +

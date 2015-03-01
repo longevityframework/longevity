@@ -9,7 +9,7 @@ import emblem._
  * @param shorthandPool a complete set of the shorthands used by the domain
  * @see emblem.Shorthand and emblem.ShorthandPool
  */
-case class DomainConfig(
+case class BoundedContext(
   entityTypePool: EntityTypePool,
   shorthandPool: ShorthandPool) {
 

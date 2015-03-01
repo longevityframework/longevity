@@ -36,7 +36,7 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
    * this method is public for the purposes of generating scaladoc.
    * @group Implement
    */
-  def domainConfig: DomainConfig
+  def boundedContext: BoundedContext
 
   /** a collection of custom generators to use when generating test data. returns an empty collection here,
    * and is intended to be overridden by implementing classes.
@@ -141,12 +141,12 @@ abstract class RepoSpec[E <: Entity : TypeKey] extends FeatureSpec with GivenWhe
   }
 
   private val testDataGenerator = new TestDataGenerator(
-    domainConfig.entityEmblemPool,
-    domainConfig.shorthandPool,
+    boundedContext.entityEmblemPool,
+    boundedContext.shorthandPool,
     customGenerators + assocGenerator)
 
-  private val unpersistor = new PersistedToUnpersistedTransformer(domainConfig)
-  private lazy val differ = new Differ(domainConfig.entityEmblemPool, domainConfig.shorthandPool)
+  private val unpersistor = new PersistedToUnpersistedTransformer(boundedContext)
+  private lazy val differ = new Differ(boundedContext.entityEmblemPool, boundedContext.shorthandPool)
 
   private def persistedShouldMatchUnpersisted(persisted: E, unpersisted: E): Unit = {
     val unpersistorated = unpersistor.transform(persisted)

@@ -176,7 +176,7 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
       TypeKeyMap[ComputerPart, Option]() + memoryList.headOption + cpuList.headOption + displayList.headOption)
   }  
 
-  // a good example of the utility of mapValuesWiden is in longevity.domain.DomainConfig
+  // a good example of the utility of mapValuesWiden is in longevity.domain.BoundedContext
   behavior of "TypeKeyMap.mapValuesWiden"
   it should "return a TypeKeyMap with a wider type bound than the original" in {
     import emblem.testData.pets._
