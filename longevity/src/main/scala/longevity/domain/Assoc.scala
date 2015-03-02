@@ -1,6 +1,5 @@
 package longevity.domain
 
-import scala.reflect.runtime.universe._
 import longevity.repo.RetrieveResult
 import emblem._
 
@@ -35,7 +34,7 @@ object Assoc {
  * lookup. */
 trait Assoc[E <: Entity] {
 
-  val associateeTypeTag: TypeTag[E]
+  val associateeTypeKey: TypeKey[E]
 
   /** prevent subtyping outside of longevity library */
   private[longevity] val _lock: Int

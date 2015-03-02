@@ -13,7 +13,7 @@ extends Repo[E](repoPool) {
   repo =>
 
   case class IntId(i: Int) extends Id[E] {
-    val associateeTypeTag = repo.entityTypeKey.tag
+    val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this)
   }

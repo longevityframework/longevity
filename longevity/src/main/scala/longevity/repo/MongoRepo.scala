@@ -22,7 +22,7 @@ extends Repo[E](repoPool) {
 
   // TODO better names for this part of the hierarchy
   case class MongoId(objectId: BSONObjectID) extends Id[E] {
-    val associateeTypeTag = repo.entityTypeKey.tag
+    val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this)
   }
