@@ -4,11 +4,12 @@ import scala.reflect.runtime.universe.TypeTag
 import longevity.domain._
 
 /** an in-memory repository for entities of type E */
-abstract class InMemRepo[E <: Entity](
+class InMemRepo[E <: Entity : TypeTag](
   override val entityType: EntityType[E]
 )(
-  implicit override val entityTypeTag: TypeTag[E]
-) extends Repo[E] {
+  implicit repoPool: RepoPool
+)
+extends Repo[E](repoPool) {
   repo =>
 
   case class IntId(i: Int) extends Id[E] {

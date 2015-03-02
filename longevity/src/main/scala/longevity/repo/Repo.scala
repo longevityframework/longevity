@@ -1,17 +1,21 @@
 package longevity.repo
 
+import scala.reflect.runtime.universe.typeTag
 import scala.reflect.runtime.universe.TypeTag
-
 import longevity.domain._
 
-/** a repository for entities of type E */
-trait Repo[E <: Entity] {
+/** a repository for entities of type E
+ * @param repoPool the pool of all the repos in context
+ */
+abstract class Repo[E <: Entity : TypeTag](protected val repoPool: RepoPool) {
 
   /** the class tag for the entities this repository handles */
-  val entityTypeTag: TypeTag[E]
+  val entityTypeTag: TypeTag[E] = typeTag[E]
 
   /** the entity type for the entities this repository handles */
   val entityType: EntityType[E]
+
+  repoPool.addRepo(this)
 
   /** creates the entity */
   def create(e: Unpersisted[E]): CreateResult[E]
@@ -28,18 +32,14 @@ trait Repo[E <: Entity] {
   /** deletes the entity */
   def delete(p: Persisted[E]): DeleteResult[E]
 
-  /** the pool of all the repos in context */
-  protected val repoPool: RepoPool
-
-  repoPool.addRepo(this)
-
   /** a cache of create results for those unpersisted entities of type E that have already been created.
    * because entities are just value objects, we expect some duplication in the unpersisted data that gets
    * passed into `Repo.create`, via the associations of created obects. we keep a session
    * level cache of these guys to prevent multiple creation attempts on the same entity.
    *
    * note that this cache does not stay current with any updates or deletes to these entities! this cache
-   * is not intended for use with interleaving create/update/delete, but rather for a series of create calls. */
+   * is not intended for use with interleaving create/update/delete, but rather for a series of create calls.
+   */
   protected var sessionCreations = Map[Unpersisted[E], CreateResult[E]]()
 
   /** pull a create result out of the cache for the given unpersisted. if it's not there, then create it,

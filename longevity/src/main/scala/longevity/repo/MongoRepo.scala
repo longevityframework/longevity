@@ -11,12 +11,13 @@ import emblem.stringUtil._
 import longevity.domain._
 
 /** a MongoDB repository for entities of type E */
-abstract class MongoRepo[E <: Entity](
+class MongoRepo[E <: Entity : TypeTag](
   override val entityType: EntityType[E],
   protected val domainShorthands: ShorthandPool = ShorthandPool()
 )(
-  implicit override val entityTypeTag: TypeTag[E]
-) extends Repo[E] {
+  implicit repoPool: RepoPool
+)
+extends Repo[E](repoPool) {
   repo =>
 
   // TODO better names for this part of the hierarchy
