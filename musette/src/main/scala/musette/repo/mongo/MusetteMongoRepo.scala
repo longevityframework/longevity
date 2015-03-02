@@ -8,7 +8,7 @@ import longevity.repo._
 class MusetteMongoRepo[E <: Entity : TypeTag](
   override val entityType: EntityType[E]
 )(
-  implicit protected val repoPool: RepoPool
+  implicit repoPool: RepoPool
 )
 extends MongoRepo[E](entityType, musette.domain.shorthands)
 
