@@ -38,7 +38,6 @@ class RepoPool {
   // TODO reinstate private
   //private[repo] 
   def repoForEntityTypeTag[E <: Entity](entityTypeTag: TypeTag[E]): Repo[E] = {
-    println(entityTypeTagToRepo)
     if (!entityTypeTagToRepo.contains(entityTypeTag)) {
       throw new RepoPool.NoRepoForEntityType(entityTypeTag)
     }
