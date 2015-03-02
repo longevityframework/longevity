@@ -14,7 +14,7 @@ class MongoRepo[E <: Entity : TypeKey](
   override val entityType: EntityType[E],
   protected val domainShorthands: ShorthandPool = ShorthandPool()
 )(
-  implicit repoPool: RepoPool
+  implicit repoPool: OldRepoPool
 )
 extends Repo[E](repoPool) {
   repo =>

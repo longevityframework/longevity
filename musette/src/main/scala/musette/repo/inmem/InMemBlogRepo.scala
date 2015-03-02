@@ -5,8 +5,6 @@ import musette.domain.Blog
 import musette.domain.BlogType
 import musette.repo.BlogRepo
 
-class InMemBlogRepo(
-  implicit override protected val repoPool: RepoPool
-)
+class InMemBlogRepo(implicit repoPool: OldRepoPool)
 extends InMemRepo[Blog](BlogType)
 with BlogRepo

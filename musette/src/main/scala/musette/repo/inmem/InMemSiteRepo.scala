@@ -6,7 +6,7 @@ import musette.domain.SiteType
 import musette.repo.SiteRepo
 
 class InMemSiteRepo(
-  implicit override protected val repoPool: RepoPool
+  implicit repoPool: OldRepoPool
 )
 extends InMemRepo[Site](SiteType)
 with SiteRepo

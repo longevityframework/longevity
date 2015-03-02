@@ -6,7 +6,7 @@ import musette.domain.WikiPageType
 import musette.repo.WikiPageRepo
 
 class InMemWikiPageRepo(
-  implicit override protected val repoPool: RepoPool
+  implicit repoPool: OldRepoPool
 )
 extends InMemRepo[WikiPage](WikiPageType)
 with WikiPageRepo

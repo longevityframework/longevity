@@ -74,7 +74,8 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   /** optionally returns the value associated with the given type key
    * @tparam TypeParam the type param bounding both the type key and the value
    * @return an option value containing the value associated with type key in this map, or None if none
-   * exists. */
+   * exists.
+   */
   def get[TypeParam <: TypeBound : TypeKey]: Option[Val[TypeParam]] =
     underlying.get(typeKey[TypeParam]).asInstanceOf[Option[Val[TypeParam]]]
 

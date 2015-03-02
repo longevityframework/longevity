@@ -8,7 +8,7 @@ object testUtil {
   class DummyRepo[E <: Entity : TypeKey](
     override val entityType: EntityType[E]
   )(
-    implicit repoPool: RepoPool
+    implicit repoPool: OldRepoPool
   ) extends Repo[E](repoPool) {
     def create(e: Unpersisted[E]) = ???
     def retrieve(id: Id[E]) = ???

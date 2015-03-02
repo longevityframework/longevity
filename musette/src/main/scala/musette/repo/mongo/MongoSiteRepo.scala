@@ -5,6 +5,6 @@ import musette.domain.Site
 import musette.domain.SiteType
 import musette.repo.SiteRepo
 
-class MongoSiteRepo(implicit repoPool: RepoPool)
+class MongoSiteRepo(implicit repoPool: OldRepoPool)
 extends MusetteMongoRepo[Site](SiteType)
 with SiteRepo

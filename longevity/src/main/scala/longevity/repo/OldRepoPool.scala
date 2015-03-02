@@ -3,10 +3,9 @@ package longevity.repo
 import emblem._
 import longevity.domain._
 
-// TODO s/ypeTag/ypeKey/
 // TODO: use TypedKeyMap here
 
-object RepoPool {
+object OldRepoPool {
 
   // TODO: move these exceptions to the exceptions package
 
@@ -19,7 +18,7 @@ object RepoPool {
 }
 
 /** maintains a pool of all the repositories in use. */
-class RepoPool {
+class OldRepoPool {
 
   private var entityTypeKeyToRepo = Map[TypeKey[_], Repo[_]]()
 
@@ -27,21 +26,21 @@ class RepoPool {
   def entityTypeKeys = entityTypeKeyToRepo.keys.asInstanceOf[Set[TypeKey[_ <: Entity]]]
 
   /** adds a repo to the repo pool for entity type E. */
-  @throws[RepoPool.MultipleReposForEntityType[_]]
+  @throws[OldRepoPool.MultipleReposForEntityType[_]]
   private[repo] def addRepo[E <: Entity](repo: Repo[E]): Unit = {
     val entityTypeKey = repo.entityTypeKey
     if (entityTypeKeyToRepo.contains(entityTypeKey)) {
-      throw new RepoPool.MultipleReposForEntityType(keyToRepo(entityTypeKey), repo)
+      throw new OldRepoPool.MultipleReposForEntityType(keyToRepo(entityTypeKey), repo)
     }
     entityTypeKeyToRepo += (entityTypeKey -> repo)
   }
 
-  @throws[RepoPool.NoRepoForEntityType[_]]
+  @throws[OldRepoPool.NoRepoForEntityType[_]]
   // TODO reinstate private
   //private[repo] 
   def repoForEntityTypeKey[E <: Entity](entityTypeKey: TypeKey[E]): Repo[E] = {
     if (!entityTypeKeyToRepo.contains(entityTypeKey)) {
-      throw new RepoPool.NoRepoForEntityType(entityTypeKey)
+      throw new OldRepoPool.NoRepoForEntityType(entityTypeKey)
     }
     keyToRepo(entityTypeKey)
   }

@@ -5,7 +5,7 @@ import musette.domain._
 import musette.repo.UserRepo
 
 class InMemUserRepo(
-  implicit override protected val repoPool: RepoPool
+  implicit repoPool: OldRepoPool
 )
 extends InMemRepo[User](UserType)
 with UserRepo

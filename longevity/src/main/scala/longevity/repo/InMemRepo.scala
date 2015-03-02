@@ -7,7 +7,7 @@ import longevity.domain._
 class InMemRepo[E <: Entity : TypeKey](
   override val entityType: EntityType[E]
 )(
-  implicit repoPool: RepoPool
+  implicit repoPool: OldRepoPool
 )
 extends Repo[E](repoPool) {
   repo =>

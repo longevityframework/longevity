@@ -7,16 +7,16 @@ import reactivemongo.bson._
 import emblem._
 import longevity.domain._
 
+// TODO limit visibility
 // TODO scaladoc
 // TODO unit tests
-// TODO refactor for better naming
 // TODO convert to a traversor
 // TODO order methods public/private
 
 class EmblemBsonHandler[E <: Entity : TypeKey](
   private val emblem: Emblem[E],
   private val shorthands: ShorthandPool,
-  private val repoPool: RepoPool
+  private val repoPool: OldRepoPool
 )
 extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
 

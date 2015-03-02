@@ -6,7 +6,7 @@ import longevity.domain._
 /** a repository for entities of type E
  * @param repoPool the pool of all the repos in context
  */
-abstract class Repo[E <: Entity : TypeKey](protected val repoPool: RepoPool) {
+abstract class Repo[E <: Entity : TypeKey](protected val repoPool: OldRepoPool) {
 
   /** the type key for the entities this repository handles */
   val entityTypeKey: TypeKey[E] = typeKey[E]

@@ -5,6 +5,6 @@ import musette.domain.Blog
 import musette.domain.BlogType
 import musette.repo.BlogRepo
 
-class MongoBlogRepo(implicit repoPool: RepoPool)
+class MongoBlogRepo(implicit repoPool: OldRepoPool)
 extends MusetteMongoRepo[Blog](BlogType)
 with BlogRepo

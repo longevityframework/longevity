@@ -6,7 +6,7 @@ import musette.domain.CommentType
 import musette.repo.CommentRepo
 
 class InMemCommentRepo(
-  implicit override protected val repoPool: RepoPool
+  implicit repoPool: OldRepoPool
 )
 extends InMemRepo[Comment](CommentType)
 with CommentRepo
