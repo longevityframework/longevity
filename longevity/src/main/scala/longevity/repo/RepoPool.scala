@@ -1,6 +1,7 @@
 package longevity.repo
 
 import scala.reflect.runtime.universe.TypeTag
+//import emblem._
 import longevity.domain._
 
 // TODO s/ypeTag/ypeKey/
@@ -9,7 +10,7 @@ import longevity.domain._
 object RepoPool {
 
   class MultipleReposForEntityType[E <: Entity](val repo1: Repo[E], val repo2: Repo[E])
-  extends Exception(s"multiple repos for entity type ${repo1.entityTypeTag}: $repo1 and $repo2")
+  extends Exception(s"multiple repos for entity type ${repo1.entityTypeKey.tag}: $repo1 and $repo2")
 
   class NoRepoForEntityType[E <: Entity](val entityTypeTag: TypeTag[E])
   extends Exception(s"no repo for entity type $entityTypeTag found in the pool")
@@ -27,7 +28,7 @@ class RepoPool {
   /** adds a repo to the repo pool for entity type E. */
   @throws[RepoPool.MultipleReposForEntityType[_]]
   private[repo] def addRepo[E <: Entity](repo: Repo[E]): Unit = {
-    val entityTypeTag = repo.entityTypeTag
+    val entityTypeTag = repo.entityTypeKey.tag
     if (entityTypeTagToRepo.contains(entityTypeTag)) {
       throw new RepoPool.MultipleReposForEntityType(tagToRepo(entityTypeTag), repo)
     }

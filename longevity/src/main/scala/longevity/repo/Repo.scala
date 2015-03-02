@@ -1,16 +1,15 @@
 package longevity.repo
 
-import scala.reflect.runtime.universe.typeTag
-import scala.reflect.runtime.universe.TypeTag
+import emblem._
 import longevity.domain._
 
 /** a repository for entities of type E
  * @param repoPool the pool of all the repos in context
  */
-abstract class Repo[E <: Entity : TypeTag](protected val repoPool: RepoPool) {
+abstract class Repo[E <: Entity : TypeKey](protected val repoPool: RepoPool) {
 
-  /** the class tag for the entities this repository handles */
-  val entityTypeTag: TypeTag[E] = typeTag[E]
+  /** the type key for the entities this repository handles */
+  val entityTypeKey: TypeKey[E] = typeKey[E]
 
   /** the entity type for the entities this repository handles */
   val entityType: EntityType[E]
