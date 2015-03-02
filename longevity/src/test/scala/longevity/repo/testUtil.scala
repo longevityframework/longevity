@@ -1,13 +1,11 @@
 package longevity.repo
 
-import scala.reflect.runtime.universe.TypeTag
-
 import emblem._
 import longevity.domain._
 
 object testUtil {
 
-  class DummyRepo[E <: Entity : TypeTag](
+  class DummyRepo[E <: Entity : TypeKey](
     override val entityType: EntityType[E]
   )(
     implicit repoPool: RepoPool
