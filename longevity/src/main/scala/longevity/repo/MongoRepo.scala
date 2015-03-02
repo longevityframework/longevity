@@ -1,7 +1,6 @@
 package longevity.repo
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.reflect.runtime.universe.TypeTag
 import scala.util.Failure
 import scala.util.Success
 import reactivemongo.api.MongoDriver

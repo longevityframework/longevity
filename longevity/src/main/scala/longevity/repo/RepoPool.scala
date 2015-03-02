@@ -1,7 +1,6 @@
 package longevity.repo
 
-import scala.reflect.runtime.universe.TypeTag
-//import emblem._
+import emblem._
 import longevity.domain._
 
 // TODO s/ypeTag/ypeKey/
@@ -9,43 +8,45 @@ import longevity.domain._
 
 object RepoPool {
 
+  // TODO: move these exceptions to the exceptions package
+
   class MultipleReposForEntityType[E <: Entity](val repo1: Repo[E], val repo2: Repo[E])
   extends Exception(s"multiple repos for entity type ${repo1.entityTypeKey.tag}: $repo1 and $repo2")
 
-  class NoRepoForEntityType[E <: Entity](val entityTypeTag: TypeTag[E])
-  extends Exception(s"no repo for entity type $entityTypeTag found in the pool")
+  class NoRepoForEntityType[E <: Entity](val entityTypeKey: TypeKey[E])
+  extends Exception(s"no repo for entity type ${entityTypeKey.tag} found in the pool")
 
 }
 
 /** maintains a pool of all the repositories in use. */
 class RepoPool {
 
-  private var entityTypeTagToRepo = Map[TypeTag[_], Repo[_]]()
+  private var entityTypeKeyToRepo = Map[TypeKey[_], Repo[_]]()
 
   // TODO: replace this
-  def entityTypeTags = entityTypeTagToRepo.keys.asInstanceOf[Set[TypeTag[_ <: Entity]]]
+  def entityTypeKeys = entityTypeKeyToRepo.keys.asInstanceOf[Set[TypeKey[_ <: Entity]]]
 
   /** adds a repo to the repo pool for entity type E. */
   @throws[RepoPool.MultipleReposForEntityType[_]]
   private[repo] def addRepo[E <: Entity](repo: Repo[E]): Unit = {
-    val entityTypeTag = repo.entityTypeKey.tag
-    if (entityTypeTagToRepo.contains(entityTypeTag)) {
-      throw new RepoPool.MultipleReposForEntityType(tagToRepo(entityTypeTag), repo)
+    val entityTypeKey = repo.entityTypeKey
+    if (entityTypeKeyToRepo.contains(entityTypeKey)) {
+      throw new RepoPool.MultipleReposForEntityType(keyToRepo(entityTypeKey), repo)
     }
-    entityTypeTagToRepo += (entityTypeTag -> repo)
+    entityTypeKeyToRepo += (entityTypeKey -> repo)
   }
 
   @throws[RepoPool.NoRepoForEntityType[_]]
   // TODO reinstate private
   //private[repo] 
-  def repoForEntityTypeTag[E <: Entity](entityTypeTag: TypeTag[E]): Repo[E] = {
-    if (!entityTypeTagToRepo.contains(entityTypeTag)) {
-      throw new RepoPool.NoRepoForEntityType(entityTypeTag)
+  def repoForEntityTypeKey[E <: Entity](entityTypeKey: TypeKey[E]): Repo[E] = {
+    if (!entityTypeKeyToRepo.contains(entityTypeKey)) {
+      throw new RepoPool.NoRepoForEntityType(entityTypeKey)
     }
-    tagToRepo(entityTypeTag)
+    keyToRepo(entityTypeKey)
   }
 
-  private def tagToRepo[E <: Entity](entityTypeTag: TypeTag[E]): Repo[E] =
-    entityTypeTagToRepo(entityTypeTag).asInstanceOf[Repo[E]]
+  private def keyToRepo[E <: Entity](entityTypeKey: TypeKey[E]): Repo[E] =
+    entityTypeKeyToRepo(entityTypeKey).asInstanceOf[Repo[E]]
 
 }

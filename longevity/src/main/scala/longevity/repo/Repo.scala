@@ -70,7 +70,7 @@ abstract class Repo[E <: Entity : TypeKey](protected val repoPool: RepoPool) {
   private def persistAssocWhenUnpersisted[Associatee <: Entity](assoc: Assoc[Associatee]): Assoc[Associatee] = {
     assoc match {
       case UnpersistedAssoc(u) =>
-        val repo = repoPool.repoForEntityTypeTag(assoc.associateeTypeKey.tag)
+        val repo = repoPool.repoForEntityTypeKey(assoc.associateeTypeKey)
         val persisted = repo.create(u)
         persisted.id
       case _ => 

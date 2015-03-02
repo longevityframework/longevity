@@ -22,7 +22,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
 
     // TODO: get rid of asInstanceOf by tightening type on repo pools and repo layers
     lazy val associateeRepo =
-      repoPool.repoForEntityTypeTag(implicitly[TypeTag[Associatee]]).asInstanceOf[MongoRepo[Associatee]]
+      repoPool.repoForEntityTypeKey(typeKey[Associatee]).asInstanceOf[MongoRepo[Associatee]]
 
     def read(objectId: BSONObjectID) = associateeRepo.MongoId(objectId)
 
@@ -70,8 +70,8 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
       implicit val key: TypeKey[Assoc[Associatee]] = TypeKey(assocTag(tag))
       map + assocHandler(tag)
     }
-    repoPool.entityTypeTags.foldLeft(new BsonHandlerMap()) { (map, tag) =>
-      addAssocHandlerToMap(tag, map)
+    repoPool.entityTypeKeys.foldLeft(new BsonHandlerMap()) { (map, key) =>
+      addAssocHandlerToMap(key.tag, map)
     }
   }
 
@@ -82,8 +82,8 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
       implicit val key: TypeKey[Set[Assoc[Associatee]]] = TypeKey(assocSetTag(tag))
       map + assocSetHandler(tag)
     }
-    repoPool.entityTypeTags.foldLeft(new BsonHandlerMap()) { (map, tag) =>
-      addAssocHandlerToMap(tag, map)
+    repoPool.entityTypeKeys.foldLeft(new BsonHandlerMap()) { (map, key) =>
+      addAssocHandlerToMap(key.tag, map)
     }
   }
 
