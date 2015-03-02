@@ -10,15 +10,17 @@ import longevity.domain._
 // TODO scaladoc
 // TODO unit tests
 // TODO refactor for better naming
+// TODO convert to a traversor
+// TODO order methods public/private
 
-class EmblemBsonHandler[E <: Entity :TypeTag](
+class EmblemBsonHandler[E <: Entity : TypeKey](
   private val emblem: Emblem[E],
   private val shorthands: ShorthandPool,
   private val repoPool: RepoPool
 )
 extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
 
-  def assocHandler[Associatee <: Entity : TypeTag] = new BSONHandler[BSONObjectID, Assoc[Associatee]] {
+  def assocHandler[Associatee <: Entity : TypeKey] = new BSONHandler[BSONObjectID, Assoc[Associatee]] {
 
     // TODO: get rid of asInstanceOf by tightening type on repo pools and repo layers
     lazy val associateeRepo =
@@ -30,10 +32,10 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     def write(assoc: Assoc[Associatee]) = assoc.asInstanceOf[associateeRepo.MongoId].objectId
   }
 
-  def assocSetHandler[Associatee <: Entity : TypeTag] = new BSONHandler[BSONArray, Set[Assoc[Associatee]]] {
+  def assocSetHandler[Associatee <: Entity : TypeKey] = new BSONHandler[BSONArray, Set[Assoc[Associatee]]] {
 
     def read(bsonArray: BSONArray) = {
-      val handler = assocHandlers(TypeKey(typeTag[Assoc[Associatee]]))
+      val handler = assocHandlers(assocKey[Associatee])
       val assocHandler = handler.asInstanceOf[BSONHandler[BSONObjectID, Assoc[Associatee]]]
       (0 until bsonArray.length).map { i =>
         val objectId = bsonArray.getAs[BSONObjectID](i).get
@@ -42,12 +44,19 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     }
 
     def write(set: Set[Assoc[Associatee]]) = {
-      val assocHandler = assocHandlers(TypeKey(typeTag[Assoc[Associatee]]))
+      val assocHandler = assocHandlers(assocKey[Associatee])
       val objectIds = set map { assoc => assocHandler.write(assoc) }
       BSONArray(objectIds)
     }
   }
 
+  private def assocKey[Associatee <: Entity : TypeKey] = {
+    // TODO: this should be an emblem-supplied one-liner
+    implicit val innerTag = typeKey[Associatee].tag
+    TypeKey(typeTag[Assoc[Associatee]])
+  }
+
+  // TODO replace with TypeKeyMap
   private class BsonHandlerMap(private val map: Map[TypeKey[_], BSONHandler[_, _]] = Map()) {
 
     def apply[K](key: TypeKey[K]): BSONHandler[_ <: BSONValue, K] =
@@ -65,26 +74,29 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     BSONIntegerHandler + BSONLongHandler + BSONStringHandler
 
   private val assocHandlers = {
-    def assocTag[Associatee <: Entity](implicit tag: TypeTag[Associatee]) = typeTag[Assoc[Associatee]]
-    def addAssocHandlerToMap[Associatee <: Entity : TypeTag](tag: TypeTag[Associatee], map: BsonHandlerMap) = {
-      implicit val key: TypeKey[Assoc[Associatee]] = TypeKey(assocTag(tag))
-      map + assocHandler(tag)
+    def addAssocHandlerToMap[Associatee <: Entity : TypeKey](map: BsonHandlerMap) = {
+      implicit val assocKey2 = assocKey[Associatee]
+      map + assocHandler(typeKey[Associatee])
     }
     repoPool.entityTypeKeys.foldLeft(new BsonHandlerMap()) { (map, key) =>
-      addAssocHandlerToMap(key.tag, map)
+      addAssocHandlerToMap(map)(key)
     }
   }
 
   private val assocSetHandlers = {
-    def assocTag[Associatee <: Entity](implicit tag: TypeTag[Associatee]) = typeTag[Assoc[Associatee]]
-    def assocSetTag[Associatee <: Entity](implicit tag: TypeTag[Associatee]) = typeTag[Set[Assoc[Associatee]]]
-    def addAssocHandlerToMap[Associatee <: Entity : TypeTag](tag: TypeTag[Associatee], map: BsonHandlerMap) = {
-      implicit val key: TypeKey[Set[Assoc[Associatee]]] = TypeKey(assocSetTag(tag))
-      map + assocSetHandler(tag)
+    def addAssocHandlerToMap[Associatee <: Entity : TypeKey](map: BsonHandlerMap) = {
+      implicit val setKey = assocSetKey[Associatee]
+      map + assocSetHandler(typeKey[Associatee])
     }
     repoPool.entityTypeKeys.foldLeft(new BsonHandlerMap()) { (map, key) =>
-      addAssocHandlerToMap(key.tag, map)
+      addAssocHandlerToMap(map)(key)
     }
+  }
+
+  private def assocSetKey[Associatee <: Entity : TypeKey] = {
+    // TODO: this should be an emblem-supplied one-liner
+    implicit val innerTag = typeKey[Associatee].tag
+    TypeKey(typeTag[Set[Assoc[Associatee]]])
   }
 
   private val handlerMap = baseHandlers ++ assocHandlers ++ assocSetHandlers

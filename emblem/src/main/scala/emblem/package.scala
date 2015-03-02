@@ -1,7 +1,6 @@
-import scala.reflect.runtime.universe.TypeTag
-
 import emblem.factories.EmblemFactory
 import emblem.factories.ShorthandFactory
+import scala.reflect.runtime.universe.TypeTag
 
 /** a collection of utilities for reflecting on types */
 package object emblem {

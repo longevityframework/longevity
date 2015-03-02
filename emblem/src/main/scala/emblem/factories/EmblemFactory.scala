@@ -25,7 +25,7 @@ private[emblem] class EmblemFactory[A <: HasEmblem : TypeKey] extends Reflective
     makeEmblemProp(name)(propKey)
   }
 
-  private def makeEmblemProp[U : TypeKey](name: TermName)(propKey: TypeKey[U]): EmblemProp[A, U] =
+  private def makeEmblemProp[U](name: TermName)(implicit propKey: TypeKey[U]): EmblemProp[A, U] =
     EmblemProp[A, U](
       name.toString,
       makeGetFunction[U](name),
