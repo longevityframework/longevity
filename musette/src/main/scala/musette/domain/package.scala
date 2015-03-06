@@ -23,6 +23,6 @@ package object domain {
 
   implicit def stringToUri(uri: String): Uri = Uri(uri)
 
-  val boundedContext = BoundedContext(entityTypes, shorthands)
+  val boundedContext = BoundedContext("Musette", entityTypes, shorthands)
 
 }

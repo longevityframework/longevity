@@ -16,15 +16,14 @@ import longevity.domain._
 class EmblemBsonHandler[E <: Entity : TypeKey](
   private val emblem: Emblem[E],
   private val shorthands: ShorthandPool,
-  private val repoPool: OldRepoPool
+  private val repoPool: RepoPool
 )
 extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
 
   def assocHandler[Associatee <: Entity : TypeKey] = new BSONHandler[BSONObjectID, Assoc[Associatee]] {
 
     // TODO: get rid of asInstanceOf by tightening type on repo pools and repo layers
-    lazy val associateeRepo =
-      repoPool.repoForEntityTypeKey(typeKey[Associatee]).asInstanceOf[MongoRepo[Associatee]]
+    lazy val associateeRepo = repoPool(typeKey[Associatee]).asInstanceOf[MongoRepo[Associatee]]
 
     def read(objectId: BSONObjectID) = associateeRepo.MongoId(objectId)
 
@@ -78,7 +77,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
       implicit val assocKey2 = assocKey[Associatee]
       map + assocHandler(typeKey[Associatee])
     }
-    repoPool.entityTypeKeys.foldLeft(new BsonHandlerMap()) { (map, key) =>
+    repoPool.keys.foldLeft(new BsonHandlerMap()) { (map, key) =>
       addAssocHandlerToMap(map)(key)
     }
   }
@@ -88,7 +87,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
       implicit val setKey = assocSetKey[Associatee]
       map + assocSetHandler(typeKey[Associatee])
     }
-    repoPool.entityTypeKeys.foldLeft(new BsonHandlerMap()) { (map, key) =>
+    repoPool.keys.foldLeft(new BsonHandlerMap()) { (map, key) =>
       addAssocHandlerToMap(map)(key)
     }
   }

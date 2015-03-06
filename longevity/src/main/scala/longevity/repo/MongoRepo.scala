@@ -12,11 +12,8 @@ import longevity.domain._
 /** a MongoDB repository for entities of type E */
 class MongoRepo[E <: Entity : TypeKey](
   override val entityType: EntityType[E],
-  protected val domainShorthands: ShorthandPool = ShorthandPool()
-)(
-  implicit repoPool: OldRepoPool
-)
-extends Repo[E](repoPool) {
+  protected val domainShorthands: ShorthandPool = ShorthandPool())
+extends Repo[E] {
   repo =>
 
   // TODO better names for this part of the hierarchy

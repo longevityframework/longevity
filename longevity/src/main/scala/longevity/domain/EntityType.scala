@@ -1,12 +1,13 @@
 package longevity.domain
 
-import scala.language.higherKinds
 import scala.reflect.runtime.universe._
 import emblem._
 
 /** an entity type.
  * TODO scaladoc */
 abstract class EntityType[E <: Entity : TypeKey] {
+
+  lazy val entityTypeKey: TypeKey[E] = typeKey[E]
 
   lazy val emblem: Emblem[E] = emblemFor[E]
 

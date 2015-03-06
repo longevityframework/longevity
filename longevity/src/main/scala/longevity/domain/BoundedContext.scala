@@ -10,6 +10,7 @@ import emblem._
  * @see emblem.Shorthand and emblem.ShorthandPool
  */
 case class BoundedContext(
+  name: String,
   entityTypePool: EntityTypePool,
   shorthandPool: ShorthandPool) {
 

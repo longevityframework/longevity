@@ -5,11 +5,7 @@ import longevity.domain._
 
 object testUtil {
 
-  class DummyRepo[E <: Entity : TypeKey](
-    override val entityType: EntityType[E]
-  )(
-    implicit repoPool: OldRepoPool
-  ) extends Repo[E](repoPool) {
+  class DummyRepo[E <: Entity : TypeKey](override val entityType: EntityType[E]) extends Repo[E] {
     def create(e: Unpersisted[E]) = ???
     def retrieve(id: Id[E]) = ???
     def update(p: Persisted[E]) = ???

@@ -4,12 +4,7 @@ import emblem._
 import longevity.domain._
 
 /** an in-memory repository for entities of type E */
-class InMemRepo[E <: Entity : TypeKey](
-  override val entityType: EntityType[E]
-)(
-  implicit repoPool: OldRepoPool
-)
-extends Repo[E](repoPool) {
+class InMemRepo[E <: Entity : TypeKey](override val entityType: EntityType[E]) extends Repo[E] {
   repo =>
 
   case class IntId(i: Int) extends Id[E] {

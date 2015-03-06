@@ -6,15 +6,15 @@ import longevity.domain._
 /** a repository for entities of type E
  * @param repoPool the pool of all the repos in context
  */
-abstract class Repo[E <: Entity : TypeKey](protected val repoPool: OldRepoPool) {
+abstract class Repo[E <: Entity : TypeKey] {
+
+  private[repo] var _repoPoolOption: Option[RepoPool] = None
 
   /** the type key for the entities this repository handles */
   val entityTypeKey: TypeKey[E] = typeKey[E]
 
   /** the entity type for the entities this repository handles */
   val entityType: EntityType[E]
-
-  repoPool.addRepo(this)
 
   /** creates the entity */
   def create(e: Unpersisted[E]): CreateResult[E]
@@ -30,6 +30,14 @@ abstract class Repo[E <: Entity : TypeKey](protected val repoPool: OldRepoPool) 
 
   /** deletes the entity */
   def delete(p: Persisted[E]): DeleteResult[E]
+
+  /** the pool of all the repos for the [[BoundedContext bounded context]].
+   *
+   * PLEASE NOTE that the repo pool is only available for use after all the repositories in the pool have
+   * been initialized. if you attempt to access the pool during the initialization of your customized
+   * repository, you will get a NoSuchElementException.
+   */
+  protected lazy val repoPool: RepoPool = _repoPoolOption.get
 
   /** a cache of create results for those unpersisted entities of type E that have already been created.
    * because entities are just value objects, we expect some duplication in the unpersisted data that gets
@@ -70,7 +78,7 @@ abstract class Repo[E <: Entity : TypeKey](protected val repoPool: OldRepoPool) 
   private def persistAssocWhenUnpersisted[Associatee <: Entity](assoc: Assoc[Associatee]): Assoc[Associatee] = {
     assoc match {
       case UnpersistedAssoc(u) =>
-        val repo = repoPool.repoForEntityTypeKey(assoc.associateeTypeKey)
+        val repo = repoPool(assoc.associateeTypeKey)
         val persisted = repo.create(u)
         persisted.id
       case _ => 
