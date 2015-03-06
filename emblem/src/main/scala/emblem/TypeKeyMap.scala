@@ -127,6 +127,12 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](underlying + (key -> value))
 
+  /** tests whether this TypeKeyMap contains a binding for a type param
+   * @tparam TypeParam the type param binding both the type key and the value
+   * @return `true` if there is a binding for type param in this map, `false` otherwise.
+   */
+  def contains[TypeParam <: TypeBound : TypeKey] = super.contains(typeKey[TypeParam])
+
   /** transforms this type key map by applying a function to every retrieved value.
    *
    * @tparam NewVal the new value type for the resulting map

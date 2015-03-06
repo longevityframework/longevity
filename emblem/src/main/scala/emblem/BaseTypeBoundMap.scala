@@ -34,7 +34,7 @@ private[emblem] abstract class BaseTypeBoundMap[
     underlying.iterator.map { pair =>
 
       // this is a lie: TypeParam is not the same as TypeBound. but the TypeParam type will be discarded before
-      // this loop iter completes, so nobody will ever know.
+      // this loop iter completes, so nobody will ever know the difference.
       type TypeParam = TypeBound
 
       TypeBoundPair[TypeBound, Key, Val, TypeParam](

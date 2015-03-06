@@ -5,6 +5,62 @@ import org.scalatest._
 /** specifications for methods common to [[TypeKeyMap]] and [[TypeBoundMap]] found in [[BaseTypeBoundMap]]. */
 class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
+  behavior of "TypeKeyMap.contains"
+  it should "return true iff the map contains the given key" in {
+    import emblem.testData.computerParts._
+    val memoryList = Memory(2) :: Memory(4) :: Memory(8) :: Nil
+    val cpuList = CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
+    val displayList = Display(720) :: Display(1080) :: Nil
+
+    var partLists = TypeKeyMap[ComputerPart, List]()
+    partLists.contains[Memory] should be (false)
+    partLists.contains[CPU] should be (false)
+    partLists.contains[Display] should be (false)
+
+    partLists += memoryList
+    partLists.contains[Memory] should be (true)
+    partLists.contains[CPU] should be (false)
+    partLists.contains[Display] should be (false)
+
+    partLists += cpuList
+    partLists.contains[Memory] should be (true)
+    partLists.contains[CPU] should be (true)
+    partLists.contains[Display] should be (false)
+
+    partLists += displayList
+    partLists.contains[Memory] should be (true)
+    partLists.contains[CPU] should be (true)
+    partLists.contains[Display] should be (true)
+  }  
+
+  behavior of "TypeBoundMap.contains"
+  it should "return true iff the map contains the given key" in {
+    import emblem.testData.pets._
+    val catStore1 = new PetStore[Cat]
+    val catStore2 = new PetStore[Cat]
+    val dogStore1 = new PetStore[Dog]
+
+    var inventories = TypeBoundMap[Pet, PetStore, List]
+    inventories.contains(catStore1) should equal (false)
+    inventories.contains(catStore2) should equal (false)
+    inventories.contains(dogStore1) should equal (false)
+
+    inventories += (catStore1 -> List(Cat("cat11"), Cat("cat12"), Cat("cat13")))
+    inventories.contains(catStore1) should equal (true)
+    inventories.contains(catStore2) should equal (false)
+    inventories.contains(dogStore1) should equal (false)
+
+    inventories += (catStore2 -> List(Cat("cat21"))) 
+    inventories.contains(catStore1) should equal (true)
+    inventories.contains(catStore2) should equal (true)
+    inventories.contains(dogStore1) should equal (false)
+
+    inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
+    inventories.contains(catStore1) should equal (true)
+    inventories.contains(catStore2) should equal (true)
+    inventories.contains(dogStore1) should equal (true)
+  }
+
   behavior of "TypeKeyMap.isEmpty"
   it should "produce true iff the map is empty" in {
     import emblem.testData.computerParts._
@@ -75,76 +131,6 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
     inventories.keys.toSet should equal (Set(catStore1, catStore2, dogStore1))
-  }
-
-  behavior of "TypeKeyMap.size"
-  it should "return the number of typekey/value bindings in the map" in {
-    import emblem.testData.computerParts._
-    var partLists = TypeKeyMap[ComputerPart, List]()
-    partLists.size should be (0)
-    partLists += Memory(2) :: Memory(4) :: Memory(8) :: Nil
-    partLists.size should be (1)
-    partLists += CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
-    partLists.size should be (2)
-    partLists += Display(720) :: Display(1080) :: Nil
-    partLists.size should be (3)
-  }  
-
-  behavior of "TypeBoundMap.size"
-  it should "return the number of key/value bindings in the map" in {
-    import emblem.testData.pets._
-    val catStore1 = new PetStore[Cat]
-    val catStore2 = new PetStore[Cat]
-    val dogStore1 = new PetStore[Dog]
-
-    var inventories = TypeBoundMap[Pet, PetStore, List]
-    inventories.size should be (0)
-    inventories += (catStore1 -> List(Cat("cat11"), Cat("cat12"), Cat("cat13")))
-    inventories.size should be (1)
-    inventories += (catStore2 -> List(Cat("cat21")))
-    inventories.size should be (2)
-    inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
-    inventories.size should be (3)
-  }
-
-  behavior of "TypeKeyMap.values"
-  it should "return the values of this map as an iterable" in {
-    import emblem.testData.computerParts._
-    var partLists = TypeKeyMap[ComputerPart, List]()
-    partLists.values.toSet should be (Set())
-    val memoryList = Memory(2) :: Memory(4) :: Memory(8) :: Nil
-    partLists += memoryList
-    partLists.values.toSet should be (Set(memoryList))
-    val cpuList = CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
-    partLists += cpuList
-    partLists.values.toSet should be (Set(memoryList, cpuList))
-    val displayList = Display(720) :: Display(1080) :: Nil
-    partLists += displayList
-    partLists.values.toSet should be (Set(memoryList, cpuList, displayList))
-  }  
-
-  behavior of "TypeBoundMap.values"
-  it should "return the values of this map as an iterable" in {
-    import emblem.testData.pets._
-    val catStore1 = new PetStore[Cat]
-    val catStore2 = new PetStore[Cat]
-    val dogStore1 = new PetStore[Dog]
-
-    var inventories = TypeBoundMap[Pet, PetStore, List]
-    val values: Iterable[List[_ <: Pet]] = inventories.values
-    values.toSet should equal (Set())
-
-    val catList1 = Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil
-    inventories += (catStore1 -> catList1)
-    inventories.values.toSet should equal (Set(catList1))
-
-    val catList2 = Cat("cat21") :: Nil
-    inventories += (catStore2 -> catList2)
-    inventories.values.toSet should equal (Set(catList1, catList2))
-
-    val dogList1 = Dog("dog11") :: Dog("dog12") :: Nil
-    inventories += (dogStore1 -> dogList1)
-    inventories.values.toSet should equal (Set(catList1, catList2, dogList1))
   }
 
   behavior of "TypeKeyMap.mapValues"
@@ -240,6 +226,76 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
       (catStore1 -> catList1.headOption) +
       (catStore2 -> catList2.headOption) +
       (dogStore1 -> dogList1.headOption))
+  }
+
+  behavior of "TypeKeyMap.size"
+  it should "return the number of typekey/value bindings in the map" in {
+    import emblem.testData.computerParts._
+    var partLists = TypeKeyMap[ComputerPart, List]()
+    partLists.size should be (0)
+    partLists += Memory(2) :: Memory(4) :: Memory(8) :: Nil
+    partLists.size should be (1)
+    partLists += CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
+    partLists.size should be (2)
+    partLists += Display(720) :: Display(1080) :: Nil
+    partLists.size should be (3)
+  }  
+
+  behavior of "TypeBoundMap.size"
+  it should "return the number of key/value bindings in the map" in {
+    import emblem.testData.pets._
+    val catStore1 = new PetStore[Cat]
+    val catStore2 = new PetStore[Cat]
+    val dogStore1 = new PetStore[Dog]
+
+    var inventories = TypeBoundMap[Pet, PetStore, List]
+    inventories.size should be (0)
+    inventories += (catStore1 -> List(Cat("cat11"), Cat("cat12"), Cat("cat13")))
+    inventories.size should be (1)
+    inventories += (catStore2 -> List(Cat("cat21")))
+    inventories.size should be (2)
+    inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
+    inventories.size should be (3)
+  }
+
+  behavior of "TypeKeyMap.values"
+  it should "return the values of this map as an iterable" in {
+    import emblem.testData.computerParts._
+    var partLists = TypeKeyMap[ComputerPart, List]()
+    partLists.values.toSet should be (Set())
+    val memoryList = Memory(2) :: Memory(4) :: Memory(8) :: Nil
+    partLists += memoryList
+    partLists.values.toSet should be (Set(memoryList))
+    val cpuList = CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
+    partLists += cpuList
+    partLists.values.toSet should be (Set(memoryList, cpuList))
+    val displayList = Display(720) :: Display(1080) :: Nil
+    partLists += displayList
+    partLists.values.toSet should be (Set(memoryList, cpuList, displayList))
+  }  
+
+  behavior of "TypeBoundMap.values"
+  it should "return the values of this map as an iterable" in {
+    import emblem.testData.pets._
+    val catStore1 = new PetStore[Cat]
+    val catStore2 = new PetStore[Cat]
+    val dogStore1 = new PetStore[Dog]
+
+    var inventories = TypeBoundMap[Pet, PetStore, List]
+    val values: Iterable[List[_ <: Pet]] = inventories.values
+    values.toSet should equal (Set())
+
+    val catList1 = Cat("cat11") :: Cat("cat12") :: Cat("cat13") :: Nil
+    inventories += (catStore1 -> catList1)
+    inventories.values.toSet should equal (Set(catList1))
+
+    val catList2 = Cat("cat21") :: Nil
+    inventories += (catStore2 -> catList2)
+    inventories.values.toSet should equal (Set(catList1, catList2))
+
+    val dogList1 = Dog("dog11") :: Dog("dog12") :: Nil
+    inventories += (dogStore1 -> dogList1)
+    inventories.values.toSet should equal (Set(catList1, catList2, dogList1))
   }
  
 }
