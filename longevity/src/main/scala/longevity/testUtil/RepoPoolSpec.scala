@@ -32,7 +32,12 @@ extends FeatureSpec with GivenWhenThen with Matchers {
     case None => ""
   }}"
 
-  repoPool.foreach { pair => new RepoSpec(pair._2)(pair._1) }
+  repoPool.foreach { pair =>
+    def repoSpec[E <: Entity](pair: TypeBoundPair[Entity, TypeKey, Repo, E]): Unit = {
+      new RepoSpec(pair._2)(pair._1)
+    }
+    repoSpec(pair)
+  }
 
   private class RepoSpec[E <: Entity : TypeKey](private val repo: Repo[E]) {
 

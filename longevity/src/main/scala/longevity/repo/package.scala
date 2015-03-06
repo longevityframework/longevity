@@ -29,7 +29,7 @@ package object repo {
     specializations: SpecializedRepoGeneratorPool = SpecializedRepoGeneratorPool())
   : RepoPool = {
     var repoPool = RepoPool()
-    boundedContext.entityTypePool.iterator.foreach { pair =>
+    def createRepoFromPair[E <: Entity](pair: TypeBoundPair[Entity, TypeKey, EntityType, E]): Unit = {
       val entityKey = pair._1
       val entityType = pair._2
       val repo = specializations.get(entityKey) match {
@@ -38,7 +38,8 @@ package object repo {
       }
       repoPool += (entityKey -> repo)
     }
-    repoPool.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
+    boundedContext.entityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    finishRepoInitialization(repoPool)
     repoPool
   }
 
@@ -47,7 +48,7 @@ package object repo {
     specializations: TypeKeyMap[Entity, SpecializedRepoGenerator] = TypeKeyMap[Entity, SpecializedRepoGenerator])
   : RepoPool = {
     var repoPool = RepoPool()
-    boundedContext.entityTypePool.iterator.foreach { pair =>
+    def createRepoFromPair[E <: Entity](pair: TypeBoundPair[Entity, TypeKey, EntityType, E]): Unit = {
       val entityKey = pair._1
       val entityType = pair._2
       val repo = specializations.get(entityKey) match {
@@ -56,8 +57,13 @@ package object repo {
       }
       repoPool += (entityKey -> repo)
     }
-    repoPool.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
+    boundedContext.entityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    finishRepoInitialization(repoPool)
     repoPool
+  }
+
+  private def finishRepoInitialization(repoPool: RepoPool): Unit = {
+    repoPool.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
   }
 
 }

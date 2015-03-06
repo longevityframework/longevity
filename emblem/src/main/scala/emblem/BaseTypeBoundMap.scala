@@ -9,37 +9,54 @@ private[emblem] abstract class BaseTypeBoundMap[
   Val[_ <: TypeBound]] (
   protected val underlying: Map[Any, Any]) {
 
-  /** TODO scaladoc, specs */
+  /** tests whether this map contains a binding for a key.
+   * @param key the key
+   * @return `true` if there is a binding for key in this map, `false` otherwise.
+   */
   def contains(key: Key[_ <: TypeBound]) = underlying.contains(key)
 
-  /** TODO scaladoc, specs */
-  def foreach(f: (TypeBoundPair[TypeBound, Key, Val]) => Unit): Unit = iterator.foreach(f)
+  /** applies a function `f` to all elements of this type bound map.
+   *
+   * @param f the function that is applied for its side-effect to every element. the result of function `f` is
+   * discarded
+   * 
+   * @usecase def foreach(f: TypeBoundPair[TypeBound, Key, Val, _ <: TypeBound] => Unit): Unit
+   * @inheritdoc
+   */
+  def foreach[U](f: TypeBoundPair[TypeBound, Key, Val, _ <: TypeBound] => U): Unit = iterator.foreach(f)
 
   override def hashCode = underlying.hashCode
 
-  /** TODO scaladoc, specs */
-  def iterator: Iterator[TypeBoundPair[TypeBound, Key, Val]] = {
+  /** creates a new iterator over all key/value pairs of this map
+   * @return the new iterator
+   */
+  def iterator: Iterator[TypeBoundPair[TypeBound, Key, Val, _ <: TypeBound]] = {
     underlying.iterator.map { pair =>
-      TypeBoundPair[TypeBound, Key, Val](
-        pair._1.asInstanceOf[Key[TypeBound]],
-        pair._2.asInstanceOf[Val[TypeBound]])
+
+      // this is a lie: TypeParam is not the same as TypeBound. but the TypeParam type will be discarded before
+      // this loop iter completes, so nobody will ever know.
+      type TypeParam = TypeBound
+
+      TypeBoundPair[TypeBound, Key, Val, TypeParam](
+        pair._1.asInstanceOf[Key[TypeParam]],
+        pair._2.asInstanceOf[Val[TypeParam]])
     }
   }
 
-  /** Tests whether the map is empty.
+  /** tests whether the map is empty.
    * @return `true` if the map does not contain any key/value binding, `false` otherwise.
    */
   def isEmpty = underlying.isEmpty
 
-  /** Collects all keys of this map in an iterable collection.
+  /** collects all keys of this map in an iterable collection.
    * @return the keys of this map as an iterable.
    */
   def keys: Iterable[Key[_ <: TypeBound]] = underlying.keys.asInstanceOf[Iterable[Key[_ <: TypeBound]]]
 
-  /** The number of key/value bindings in this map */
+  /** the number of key/value bindings in this map */
   def size = underlying.size
 
-  /** Collects all values of this map in an iterable collection.
+  /** collects all values of this map in an iterable collection.
    * @return the values of this map as an iterable. */
   def values: collection.Iterable[Val[_ <: TypeBound]] =
     underlying.values.asInstanceOf[Iterable[Val[_ <: TypeBound]]]
