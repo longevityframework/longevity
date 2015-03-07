@@ -3,46 +3,40 @@ package longevity
 import emblem._
 import domain._
 
+// TODO: package level scaladoc
 package object repo {
 
-  /** A [[TypeKeyMap]] of [[Entity]] to [[Repo]] */
+  /** a [[TypeKeyMap]] of [[Entity]] to [[Repo]] */
   type RepoPool = TypeKeyMap[Entity, Repo]  
+
+  /** like a [[RepoPool]], except that the [[Repo repositories]] have not yet been fully initialized */
+  type ProvisionalRepoPool = TypeKeyMap[Entity, Repo]  
+
+  /** an empty [[ProvisionalRepoPool]] */
+  val emptyProvisionalRepoPool = TypeKeyMap[Entity, Repo]
 
   // TODO: docs for all this new stuff
 
-  type SpecializedRepoFactory[E <: Entity] = (EntityType[E]) => Repo[E]
-
-  type SpecializedRepoFactoryPool = TypeKeyMap[Entity, SpecializedRepoFactory]
-
-  object SpecializedRepoFactoryPool {
-    def apply(): SpecializedRepoFactoryPool = TypeKeyMap[Entity, SpecializedRepoFactory]
-  }
-
-  def inMemRepoPoolForBoundedCountext(
+  def inMemRepoPool(
     boundedContext: BoundedContext,
-    specializations: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool())
+    specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
   : RepoPool = {
     object repoFactory extends stock.RepoFactory {
       def build[E <: Entity](entityType: EntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new InMemRepo(entityType)(entityKey)
     }
-    repoPoolForBoundedCountext(boundedContext, repoFactory, specializations)
+    buildRepoPool(boundedContext, repoFactory, specializations)
   }
 
-  def mongoRepoPoolForBoundedCountext(
+  def mongoRepoPool(
     boundedContext: BoundedContext,
-    specializations: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool())
+    specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
   : RepoPool = {
     object repoFactory extends stock.RepoFactory {
       def build[E <: Entity](entityType: EntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new MongoRepo(entityType, boundedContext.shorthandPool)(entityKey)
     }
-    repoPoolForBoundedCountext(boundedContext, repoFactory, specializations)
-  }
-
-  // this is private because we build the repo pool for you
-  private object RepoPool {
-    def apply(): RepoPool = TypeKeyMap[Entity, Repo]
+    buildRepoPool(boundedContext, repoFactory, specializations)
   }
 
   // RepoFactory is inside object stock to prevent lint warning about declaring classes in package objects
@@ -52,17 +46,17 @@ package object repo {
     }
   }
 
-  private def repoPoolForBoundedCountext(
+  private def buildRepoPool(
     boundedContext: BoundedContext,
     stockRepoFactory: stock.RepoFactory,
-    specializations: SpecializedRepoFactoryPool)
+    specializations: ProvisionalRepoPool)
   : RepoPool = {
-    var repoPool = RepoPool()
+    var repoPool = emptyRepoPool
     def createRepoFromPair[E <: Entity](pair: TypeBoundPair[Entity, TypeKey, EntityType, E]): Unit = {
       val entityKey = pair._1
       val entityType = pair._2
       val repo = specializations.get(entityKey) match {
-        case Some(specRepoGen) => specRepoGen(entityType)
+        case Some(repo) => repo
         case None => stockRepoFactory.build(entityType, entityKey)
       }
       repoPool += (entityKey -> repo)
@@ -71,6 +65,8 @@ package object repo {
     finishRepoInitialization(repoPool)
     repoPool
   }
+
+  private val emptyRepoPool = TypeKeyMap[Entity, Repo]
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
     repoPool.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }

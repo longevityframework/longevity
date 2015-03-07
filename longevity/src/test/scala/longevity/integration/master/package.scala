@@ -2,7 +2,6 @@ package longevity.integration
 
 import emblem._
 import longevity.domain._
-import longevity.repo._
 
 package object master {
 
@@ -10,8 +9,8 @@ package object master {
 
   val boundedContext = BoundedContext("Master", entityTypes, ShorthandPool())
 
-  val inMemRepoPool = inMemRepoPoolForBoundedCountext(boundedContext)
+  val inMemRepoPool = longevity.repo.inMemRepoPool(boundedContext)
 
-  val mongoRepoPool = mongoRepoPoolForBoundedCountext(boundedContext)
+  val mongoRepoPool = longevity.repo.mongoRepoPool(boundedContext)
 
 }
