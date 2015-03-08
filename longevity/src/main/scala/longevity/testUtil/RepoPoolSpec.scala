@@ -11,14 +11,17 @@ import longevity.domain._
 import longevity.repo._
 import org.scalatest._
 
-// TODO scaladoc
-/** A simple fixture to test your [[longevity.repo.Repo]]. all you have to do is extend this class and implement
- * the four abstract methods.
+/** a simple fixture to test your [[longevity.repo.RepoPool]]. all you have to do is extend this class and
+ * provide the necessary inputs to the constructor.
  *
- * @param boundedContext TODO
- * @param repoPool TODO
+ * the repo pool spec exercises create/retrieve/update/delete for all the repos in your repo pool.
+ *
+ * @param boundedContext the bounded context
+ * @param repoPool the repo pool under test
  * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
  * empty collection.
+ * @param suiteNameSuffix a short string to add to the suite name, to help differentiate between suites for
+ * bounded contexts with the same name, when reading scalatest output
  */
 class RepoPoolSpec(
   private val boundedContext: BoundedContext,
