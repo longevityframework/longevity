@@ -31,7 +31,7 @@ abstract class Repo[E <: Entity : TypeKey] {
   /** deletes the entity */
   def delete(p: Persisted[E]): DeleteResult[E]
 
-  /** the pool of all the repos for the [[BoundedContext bounded context]].
+  /** the pool of all the repos for the [[longevity.domain.BoundedContext bounded context]].
    *
    * PLEASE NOTE that the repo pool is only available for use after all the repositories in the pool have
    * been initialized. if you attempt to access the pool during the initialization of your customized

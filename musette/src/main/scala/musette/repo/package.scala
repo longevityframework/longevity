@@ -1,12 +1,11 @@
 package musette
 
-import longevity.repo._
 import musette.domain.boundedContext
 
 package object repo {
 
-  val inMemRepoPool = inMemRepoPoolForBoundedCountext(boundedContext)
+  val inMemRepoPool = longevity.repo.inMemRepoPool(boundedContext)
 
-  val mongoRepoPool = mongoRepoPoolForBoundedCountext(boundedContext)
+  val mongoRepoPool = longevity.repo.mongoRepoPool(boundedContext)
 
 }

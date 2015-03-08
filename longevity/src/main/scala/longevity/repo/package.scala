@@ -1,12 +1,14 @@
 package longevity
 
 import emblem._
-import domain._
+import domain.Entity
+import domain.EntityType
+import domain.BoundedContext
 
 // TODO: package level scaladoc
 package object repo {
 
-  /** a [[TypeKeyMap]] of [[Entity]] to [[Repo]] */
+  /** a `TypeKeyMap` of [[domain.Entity Entity]] to [[Repo]] */
   type RepoPool = TypeKeyMap[Entity, Repo]  
 
   /** like a [[RepoPool]], except that the [[Repo repositories]] have not yet been fully initialized */
@@ -15,8 +17,13 @@ package object repo {
   /** an empty [[ProvisionalRepoPool]] */
   val emptyProvisionalRepoPool = TypeKeyMap[Entity, Repo]
 
-  // TODO: docs for all this new stuff
-
+  /** builds and returns a [[RepoPool]] of [[InMemRepo in-memory repositories]] for all the entities in a
+   * bounded context. stock in-memory repositories will created, except where specialized versions are
+   * provided.
+   * @param boundedContext the bounded context
+   * @param specializations specialized repositories to include in the pool, in place of the stock
+   * in-memory repositories
+   */
   def inMemRepoPool(
     boundedContext: BoundedContext,
     specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
@@ -28,6 +35,13 @@ package object repo {
     buildRepoPool(boundedContext, repoFactory, specializations)
   }
 
+  /** builds and returns a [[RepoPool]] of [[MongoRepo mongo repositories]] for all the entities in a
+   * bounded context. stock mongo repositories will created, except where specialized versions are
+   * provided.
+   * @param boundedContext the bounded context
+   * @param specializations specialized repositories to include in the pool, in place of the stock
+   * mongo repositories
+   */
   def mongoRepoPool(
     boundedContext: BoundedContext,
     specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
