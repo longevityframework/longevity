@@ -3,13 +3,10 @@ package longevity.integration
 import emblem._
 import longevity.domain._
 
-/** covers everything found in the rest of the integration tests */
-package object master {
+/** covers a root entity with shorthands for every supported basic type */
+package object allShorthands {
 
-  val entityTypes = EntityTypePool() +
-    AllAttributes +
-    OneAttribute +
-    OneShorthand
+  val entityTypes = EntityTypePool() + AllShorthands
 
   val booleanShorthand = shorthandFor[BooleanShorthand, Boolean]
   val charShorthand = shorthandFor[CharShorthand, Char]
@@ -28,7 +25,7 @@ package object master {
     longShorthand +
     stringShorthand
 
-  val boundedContext = BoundedContext("Master", entityTypes, shorthandPool)
+  val boundedContext = BoundedContext("All Shorthands", entityTypes, shorthandPool)
 
   val inMemRepoPool = longevity.repo.inMemRepoPool(boundedContext)
 

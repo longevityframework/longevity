@@ -3,7 +3,7 @@ package longevity.integration
 import emblem._
 import longevity.domain._
 
-/** covers a root entity with attribute of every supported basic type */
+/** covers a root entity with attributes of every supported basic type */
 package object allAttributes {
 
   val entityTypes = EntityTypePool() + AllAttributes
