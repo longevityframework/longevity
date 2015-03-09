@@ -8,8 +8,10 @@ package object master {
 
   val entityTypes = EntityTypePool() +
     AllAttributes +
+    Associated +
     OneAttribute +
-    OneShorthand
+    OneShorthand +
+    WithAssoc
 
   val booleanShorthand = shorthandFor[BooleanShorthand, Boolean]
   val charShorthand = shorthandFor[CharShorthand, Char]
