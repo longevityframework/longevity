@@ -127,6 +127,10 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](underlying + (key -> value))
 
+  // TODO: specs, scaladocs
+  def ++(that: TypeKeyMap[TypeBound, Val]): TypeKeyMap[TypeBound, Val] =
+    new TypeKeyMap[TypeBound, Val](this.underlying ++ that.underlying)
+
   /** tests whether this TypeKeyMap contains a binding for a type param
    * @tparam TypeParam the type param binding both the type key and the value
    * @return `true` if there is a binding for type param in this map, `false` otherwise.

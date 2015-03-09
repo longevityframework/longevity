@@ -3,6 +3,7 @@ package longevity.integration
 import emblem._
 import longevity.domain._
 
+/** covers a root entity with a single attribute */
 package object oneAttribute {
 
   val entityTypes = EntityTypePool() + OneAttribute

@@ -3,6 +3,7 @@ package longevity.integration
 import emblem._
 import longevity.domain._
 
+/** covers everything found in the rest of the integration tests */
 package object master {
 
   val entityTypes = EntityTypePool() + OneAttribute

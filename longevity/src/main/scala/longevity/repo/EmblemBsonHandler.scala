@@ -55,29 +55,35 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     TypeKey(typeTag[Assoc[Associatee]])
   }
 
-  // TODO replace with TypeKeyMap
-  private class BsonHandlerMap(private val map: Map[TypeKey[_], BSONHandler[_, _]] = Map()) {
-
-    def apply[K](key: TypeKey[K]): BSONHandler[_ <: BSONValue, K] =
-      map(key).asInstanceOf[BSONHandler[_ <: BSONValue, K]]
-
-    def +[K : TypeKey](value: BSONHandler[_ <: BSONValue, K]): BsonHandlerMap =
-      new BsonHandlerMap(map + (typeKey[K] -> value))
-
-    def ++(thatHandlerMap: BsonHandlerMap): BsonHandlerMap = new BsonHandlerMap(map ++ thatHandlerMap.map)
-
-    override def toString = map.keys.toString
+  val BSONCharHandler = new BSONHandler[BSONString, Char] {
+    def read(bson: BSONString): Char = bson.value(0)
+    def write(char: Char): BSONString = new BSONString(char.toString)
   }
 
-  private val baseHandlers = new BsonHandlerMap() + BSONBooleanHandler + BSONDoubleHandler +
-    BSONIntegerHandler + BSONLongHandler + BSONStringHandler
+  val BSONFloatHandler = new BSONHandler[BSONDouble, Float] {
+    def read(bson: BSONDouble): Float = bson.value.toFloat
+    def write(float: Float): BSONDouble = new BSONDouble(float.toDouble)
+  }
+
+  private type BsonHandlerFromAny[K] = BSONHandler[_ <: BSONValue, K]
+  private type BsonHandlerMap = TypeKeyMap[Any, BsonHandlerFromAny]
+  private object BsonHandlerMap { def apply() = TypeKeyMap[Any, BsonHandlerFromAny]() }
+
+  private val baseHandlers = BsonHandlerMap() +
+    BSONBooleanHandler +
+    BSONCharHandler +
+    BSONDoubleHandler +
+    BSONFloatHandler +
+    BSONIntegerHandler +
+    BSONLongHandler +
+    BSONStringHandler
 
   private val assocHandlers = {
     def addAssocHandlerToMap[Associatee <: Entity : TypeKey](map: BsonHandlerMap) = {
       implicit val assocKey2 = assocKey[Associatee]
       map + assocHandler(typeKey[Associatee])
     }
-    repoPool.keys.foldLeft(new BsonHandlerMap()) { (map, key) =>
+    repoPool.keys.foldLeft(BsonHandlerMap()) { (map, key) =>
       addAssocHandlerToMap(map)(key)
     }
   }
@@ -87,7 +93,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
       implicit val setKey = assocSetKey[Associatee]
       map + assocSetHandler(typeKey[Associatee])
     }
-    repoPool.keys.foldLeft(new BsonHandlerMap()) { (map, key) =>
+    repoPool.keys.foldLeft(BsonHandlerMap()) { (map, key) =>
       addAssocHandlerToMap(map)(key)
     }
   }
