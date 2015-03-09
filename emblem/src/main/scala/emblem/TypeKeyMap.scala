@@ -127,7 +127,10 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](underlying + (key -> value))
 
-  // TODO: specs, scaladocs
+  /** takes the union of two type key maps with the same type params
+   * @param that the type key map to union with this type key map
+   * @return a new type key map with the bindings of this map and that map
+   */
   def ++(that: TypeKeyMap[TypeBound, Val]): TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](this.underlying ++ that.underlying)
 
