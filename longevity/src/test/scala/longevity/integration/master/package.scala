@@ -11,7 +11,8 @@ package object master {
     Associated +
     OneAttribute +
     OneShorthand +
-    WithAssoc
+    WithAssoc +
+    WithAssocSet
 
   val booleanShorthand = shorthandFor[BooleanShorthand, Boolean]
   val charShorthand = shorthandFor[CharShorthand, Char]
