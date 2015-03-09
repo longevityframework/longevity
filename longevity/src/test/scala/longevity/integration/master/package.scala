@@ -6,9 +6,16 @@ import longevity.domain._
 /** covers everything found in the rest of the integration tests */
 package object master {
 
-  val entityTypes = EntityTypePool() + OneAttribute
+  val entityTypes = EntityTypePool() +
+    AllAttributes +
+    OneAttribute +
+    OneShorthand
 
-  val boundedContext = BoundedContext("Master", entityTypes, ShorthandPool())
+  val uriShorthand = shorthandFor[Uri, String]
+
+  val shorthandPool = ShorthandPool() + uriShorthand
+
+  val boundedContext = BoundedContext("Master", entityTypes, shorthandPool)
 
   val inMemRepoPool = longevity.repo.inMemRepoPool(boundedContext)
 
