@@ -9,7 +9,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   lazy val differ = new Differ(emblemPool, shorthandPool)
 
-  // TODO more specs for: 
+  // TODO pt 89937096 pt 89942150 more specs for: 
   // - emblems with embedded options, sets, and lists
   // - options, sets, and lists of emblems
   // - CouldNotTraverseException cases
