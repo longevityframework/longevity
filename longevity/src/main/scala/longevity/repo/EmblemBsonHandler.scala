@@ -7,11 +7,12 @@ import reactivemongo.bson._
 import emblem._
 import longevity.domain._
 
-// TODO limit visibility
-// TODO scaladoc
-// TODO unit tests
-// TODO convert to a traversor
-// TODO order methods public/private
+// things i would do if i were not going to replace this class altogether:
+// - limit visibility
+// - scaladoc
+// - unit tests
+// - convert to a traversor
+// - order methods public/private
 
 class EmblemBsonHandler[E <: Entity : TypeKey](
   private val emblem: Emblem[E],
