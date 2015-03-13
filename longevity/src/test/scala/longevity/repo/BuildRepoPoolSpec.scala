@@ -15,23 +15,23 @@ class BuildRepoPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "build repo pools full of stock repos" in {
     val repoPool = inMemRepoPool(boundedContext)
     repoPool.size should equal (2)
-    repoPool.get[User].value shouldBe an [InMemRepo[_]]
-    repoPool.get[User].value.entityType should equal (UserType)
+    repoPool.get[Friend].value shouldBe an [InMemRepo[_]]
+    repoPool.get[Friend].value.entityType should equal (FriendType)
     repoPool.get[Post].value shouldBe an [InMemRepo[_]]
     repoPool.get[Post].value.entityType should equal (PostType)
   }
 
   it should "build repo pools with specialized repos when requested" in {
-    class SpecializedUserRepo extends InMemRepo[User](UserType) {
+    class SpecializedFriendRepo extends InMemRepo[Friend](FriendType) {
       def numHolesItTakesToFillTheAlbertHall: Int = ???
     }
     val repoPool = inMemRepoPool(
       boundedContext,
-      emptyProvisionalRepoPool + new SpecializedUserRepo
+      emptyProvisionalRepoPool + new SpecializedFriendRepo
     )
     repoPool.size should equal (2)
-    repoPool.get[User].value shouldBe a [SpecializedUserRepo]
-    repoPool.get[User].value.entityType should equal (UserType)
+    repoPool.get[Friend].value shouldBe a [SpecializedFriendRepo]
+    repoPool.get[Friend].value.entityType should equal (FriendType)
     repoPool.get[Post].value shouldBe an [InMemRepo[_]]
     repoPool.get[Post].value.entityType should equal (PostType)
   }
@@ -41,23 +41,23 @@ class BuildRepoPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "build repo pools full of stock repos" in {
     val repoPool = mongoRepoPool(boundedContext)
     repoPool.size should equal (2)
-    repoPool.get[User].value shouldBe an [MongoRepo[_]]
-    repoPool.get[User].value.entityType should equal (UserType)
+    repoPool.get[Friend].value shouldBe an [MongoRepo[_]]
+    repoPool.get[Friend].value.entityType should equal (FriendType)
     repoPool.get[Post].value shouldBe an [MongoRepo[_]]
     repoPool.get[Post].value.entityType should equal (PostType)
   }
 
   it should "build repo pools with specialized repos when requested" in {
-    class SpecializedUserRepo extends MongoRepo[User](UserType) {
+    class SpecializedFriendRepo extends MongoRepo[Friend](FriendType) {
       def numHolesItTakesToFillTheAlbertHall: Int = ???
     }
     val repoPool = mongoRepoPool(
       boundedContext,
-      emptyProvisionalRepoPool + new SpecializedUserRepo
+      emptyProvisionalRepoPool + new SpecializedFriendRepo
     )
     repoPool.size should equal (2)
-    repoPool.get[User].value shouldBe a [SpecializedUserRepo]
-    repoPool.get[User].value.entityType should equal (UserType)
+    repoPool.get[Friend].value shouldBe a [SpecializedFriendRepo]
+    repoPool.get[Friend].value.entityType should equal (FriendType)
     repoPool.get[Post].value shouldBe an [MongoRepo[_]]
     repoPool.get[Post].value.entityType should equal (PostType)
   }

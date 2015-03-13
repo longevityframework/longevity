@@ -7,19 +7,19 @@ import shorthands._
 object emblems {
 
   lazy val emblemPool =
-    TypeKeyMap[HasEmblem, Emblem]() + pointEmblem + userEmblem + withNoShorthandPropEmblem + withBarPropEmblem
+    TypeKeyMap[HasEmblem, Emblem]() + friendEmblem + pointEmblem + withBarPropEmblem + withNoShorthandPropEmblem
+
+  case class Friend(uri: Uri, email: Email) extends HasEmblem
+  lazy val friendEmblem = emblemFor[Friend]
 
   case class Point(x: Double, y: Double) extends HasEmblem
   lazy val pointEmblem = emblemFor[Point]
 
-  case class User(uri: Uri, email: Email) extends HasEmblem
-  lazy val userEmblem = emblemFor[User]
+  case class WithBarProp(i: Int, bar: Bar) extends HasEmblem
+  lazy val withBarPropEmblem = emblemFor[WithBarProp]
 
   case class WithNoShorthandProp(i: Int, noShorthand: NoShorthand) extends HasEmblem
   lazy val withNoShorthandPropEmblem = emblemFor[WithNoShorthandProp]
-
-  case class WithBarProp(i: Int, bar: Bar) extends HasEmblem
-  lazy val withBarPropEmblem = emblemFor[WithBarProp]
 
   case class NotInPool() extends HasEmblem
   lazy val notInPoolEmblem = emblemFor[NotInPool]

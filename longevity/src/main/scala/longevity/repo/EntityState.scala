@@ -1,23 +1,23 @@
 package longevity.repo
 
-import longevity.domain.Entity
+import longevity.domain.RootEntity
 
 // TODO: rename this file
 
 object PersistentState {
 
   @throws[PersistentState.PersistentStateIsNotPersisted[_]]
-  implicit def persistentStateToPersisted[E <: Entity](state: PersistentState[E]): Persisted[E] =
+  implicit def persistentStateToPersisted[E <: RootEntity](state: PersistentState[E]): Persisted[E] =
     state.asPersisted
 
   /** an attempt was made to cast a non-persisted persistent state into a persisted persistent state */
-  class PersistentStateIsNotPersisted[E <: Entity](state: PersistentState[E])
+  class PersistentStateIsNotPersisted[E <: RootEntity](state: PersistentState[E])
   extends Exception(s"persistent state is not persisted: $state")
 
 }
 
 /** The persistence state of an entity. */
-sealed trait PersistentState[E <: Entity] {
+sealed trait PersistentState[E <: RootEntity] {
 
   /** updates the entity if non-empty. otherwise does nothing. */
   def copy(f: E => E): PersistentState[E]
@@ -45,7 +45,7 @@ sealed trait PersistentState[E <: Entity] {
 }
 
 /** A non-error persistence state. */
-sealed trait NonError[E <: Entity] extends PersistentState[E] {
+sealed trait NonError[E <: RootEntity] extends PersistentState[E] {
   protected val e: E
   def foreach(f: E => Unit) = f(e)
   def isError = false
@@ -53,23 +53,23 @@ sealed trait NonError[E <: Entity] extends PersistentState[E] {
 }
 
 /** Any entity that hasn't been persisted yet. */
-case class Unpersisted[E <: Entity](e: E) extends NonError[E] {
+case class Unpersisted[E <: RootEntity](e: E) extends NonError[E] {
   def copy(f: E => E) = Unpersisted(f(e))
 }
 
-sealed trait CreateResult[E <: Entity] extends PersistentState[E]
+sealed trait CreateResult[E <: RootEntity] extends PersistentState[E]
 
-sealed trait RetrieveResult[E <: Entity] extends PersistentState[E]
+sealed trait RetrieveResult[E <: RootEntity] extends PersistentState[E]
 
-sealed trait UpdateResult[E <: Entity] extends PersistentState[E]
+sealed trait UpdateResult[E <: RootEntity] extends PersistentState[E]
 
-sealed trait DeleteResult[E <: Entity] extends PersistentState[E]
+sealed trait DeleteResult[E <: RootEntity] extends PersistentState[E]
 
 object Persisted {
-  def apply[E <: Entity](id: Id[E], e: E): Persisted[E] = Persisted[E](id, e, e)
+  def apply[E <: RootEntity](id: Id[E], e: E): Persisted[E] = Persisted[E](id, e, e)
 }
 
-case class Persisted[E <: Entity](
+case class Persisted[E <: RootEntity](
   id: Id[E],
   orig: E,
   curr: E
@@ -81,10 +81,10 @@ extends NonError[E] with CreateResult[E] with RetrieveResult[E] with UpdateResul
 }
 
 object Deleted {
-  def apply[E <: Entity](p: Persisted[E]): Deleted[E] = Deleted(p.id, p.orig)
+  def apply[E <: RootEntity](p: Persisted[E]): Deleted[E] = Deleted(p.id, p.orig)
 }
 
-case class Deleted[E <: Entity](
+case class Deleted[E <: RootEntity](
   id: Id[E],
   e: E
 )
@@ -92,11 +92,11 @@ extends NonError[E] with DeleteResult[E] {
   def copy(f: E => E) = Deleted(id, e)
 }
 
-trait Error[E <: Entity] extends PersistentState[E] {
+trait Error[E <: RootEntity] extends PersistentState[E] {
   def copy(f: E => E) = this
   def foreach(f: E => Unit) = {}
   def isError = true
   def getOption = None
 }
 
-case class NotFound[E <: Entity](id: Id[E]) extends Error[E] with RetrieveResult[E]
+case class NotFound[E <: RootEntity](id: Id[E]) extends Error[E] with RetrieveResult[E]

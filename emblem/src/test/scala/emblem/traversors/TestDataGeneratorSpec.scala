@@ -71,9 +71,9 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
       (generator.generate[Point]) shouldNot equal (generator.generate[Point])
     }
 
-    val user: User = generator.generate[User]
+    val friend: Friend = generator.generate[Friend]
     List.fill(100) {
-      (generator.generate[User]) shouldNot equal (generator.generate[User])
+      (generator.generate[Friend]) shouldNot equal (generator.generate[Friend])
     }
   }
 

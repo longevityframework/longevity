@@ -36,13 +36,13 @@ extends FeatureSpec with GivenWhenThen with Matchers {
   }}"
 
   repoPool.foreach { pair =>
-    def repoSpec[E <: Entity](pair: TypeBoundPair[Entity, TypeKey, Repo, E]): Unit = {
+    def repoSpec[E <: RootEntity](pair: TypeBoundPair[RootEntity, TypeKey, Repo, E]): Unit = {
       new RepoSpec(pair._2)(pair._1)
     }
     repoSpec(pair)
   }
 
-  private class RepoSpec[E <: Entity : TypeKey](private val repo: Repo[E]) {
+  private class RepoSpec[E <: RootEntity : TypeKey](private val repo: Repo[E]) {
 
     private val entityName = repo.entityType.emblem.name
 
@@ -134,13 +134,16 @@ extends FeatureSpec with GivenWhenThen with Matchers {
 
   }
 
-  private val assocGenerator: CustomGenerator[Assoc[_ <: Entity]] = new CustomGenerator[Assoc[_ <: Entity]] {
-    def apply[B <: Assoc[_ <: Entity] : TypeKey](generator: Generator): B = {
-      val entityTypeKey: TypeKey[_ <: Entity] = typeKey[B].typeArgs.head.castToUpperBound[Entity].get
-      def genAssoc[Associatee <: Entity : TypeKey] = Assoc[Associatee](generator.generate[Associatee])
-      genAssoc(entityTypeKey).asInstanceOf[B]
+  private val assocGenerator: CustomGenerator[Assoc[_ <: RootEntity]] =
+    new CustomGenerator[Assoc[_ <: RootEntity]] {
+      def apply[B <: Assoc[_ <: RootEntity] : TypeKey](generator: Generator): B = {
+        val entityTypeKey: TypeKey[_ <: RootEntity] =
+          typeKey[B].typeArgs.head.castToUpperBound[RootEntity].get
+        def genAssoc[Associatee <: RootEntity : TypeKey] =
+            Assoc[Associatee](generator.generate[Associatee])
+        genAssoc(entityTypeKey).asInstanceOf[B]
+      }
     }
-  }
 
   private val testDataGenerator = new TestDataGenerator(
     boundedContext.entityEmblemPool,

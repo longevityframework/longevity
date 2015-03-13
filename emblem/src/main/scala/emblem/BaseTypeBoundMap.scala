@@ -15,6 +15,8 @@ private[emblem] abstract class BaseTypeBoundMap[
    */
   def contains(key: Key[_ <: TypeBound]) = underlying.contains(key)
 
+
+
   /** applies a function `f` to all elements of this type bound map.
    *
    * @param f the function that is applied for its side-effect to every element. the result of function `f` is

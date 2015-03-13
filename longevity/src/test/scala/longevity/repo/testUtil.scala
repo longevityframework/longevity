@@ -5,15 +5,15 @@ import longevity.domain._
 
 object testUtil {
 
-  case class User(name: String) extends Entity
+  case class Friend(name: String) extends RootEntity
 
-  object UserType extends EntityType[User]
+  object FriendType extends RootEntityType[Friend]
 
-  case class Post(author: Assoc[User], content: String) extends Entity
+  case class Post(author: Assoc[Friend], content: String) extends RootEntity
 
-  object PostType extends EntityType[Post]
+  object PostType extends RootEntityType[Post]
 
-  val entityTypes = EntityTypePool() + UserType + PostType
+  val entityTypes = EntityTypePool() + FriendType + PostType
 
   val shorthands = ShorthandPool()
 

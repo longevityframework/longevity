@@ -10,6 +10,6 @@ case class User(
   handle: String,
   slug: Markdown
 )
-extends Entity
+extends RootEntity
 
-object UserType extends EntityType[User]
+object UserType extends RootEntityType[User]

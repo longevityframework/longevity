@@ -11,6 +11,6 @@ case class WikiPage(
   content: Markdown,
   slug: Markdown
 )
-extends TopContent with Entity
+extends TopContent with RootEntity
 
-object WikiPageType extends EntityType[WikiPage]
+object WikiPageType extends RootEntityType[WikiPage]

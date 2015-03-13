@@ -1,22 +1,20 @@
 package longevity.domain
 
+import longevity.exceptions.AssocIsUnpersistedException
 import longevity.repo.RetrieveResult
 import emblem._
 
 object Assoc {
 
-  /** wraps an entity in an unpersisted assoc. this is useful for building out domain data
+  /** wraps a root entity in an unpersisted assoc. this is useful for building out domain data
    * that has not been persisted. it is made implicit so your code isn't littered with `Assoc(_)` calls
-   * everywhere. this ought not to be confusing, as there is no other sensible way to embed one entity into
-   * another. */
-  implicit def apply[E <: Entity : TypeKey](e: E): Assoc[E] = UnpersistedAssoc(e)
+   * everywhere. this ought not to be confusing, as there is no other sensible way to embed a root entity into
+   * another entity. */
+  implicit def apply[E <: RootEntity : TypeKey](e: E): Assoc[E] = UnpersistedAssoc(e)
 
   // TODO: move these exceptions to the exceptions package. rename to CannotRetrieveUnpersistedAssoc etc
 
-  class AssocIsUnpersistedException[E <: Entity](val assoc: Assoc[E])
-  extends Exception("cannot retrieve from an unpersisted assoc")
-
-  class AssocIsPersistedException[E <: Entity](val assoc: Assoc[E])
+  class AssocIsPersistedException[E <: RootEntity](val assoc: Assoc[E])
   extends Exception("cannot get an unpersisted entity from a persisted assoc")
 
 }
@@ -32,7 +30,7 @@ object Assoc {
  * a persisted assoc is one in which the associatee has already been persisted. it may or may not have already
  * been loaded in to program memory, and calling `retrieve` or `persisted` or `get` may well trigger a database
  * lookup. */
-trait Assoc[E <: Entity] {
+trait Assoc[E <: RootEntity] {
 
   val associateeTypeKey: TypeKey[E]
 
@@ -42,11 +40,11 @@ trait Assoc[E <: Entity] {
   /** true whenever the assoc is with a persisted entity */
   def isPersisted: Boolean
 
-  @throws[Assoc.AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
+  @throws[AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
   def retrieve: RetrieveResult[E]
 
   /** retrieves the persisted associatee from the assoc */
-  @throws[Assoc.AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
+  @throws[AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
   final def persisted: E = retrieve.get
 
   /** retrieves an unpersisted associatee from the assoc */

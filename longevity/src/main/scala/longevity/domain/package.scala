@@ -15,4 +15,8 @@ package object domain {
    * @see emblem.TypeKeyMap */
   type EntityTypePool = TypeKeyMap[Entity, EntityType]
 
+  /** A type key map of [[RootEntity]] to [[RootEntityType]]
+   * @see emblem.TypeKeyMap */
+  type RootEntityTypePool = TypeKeyMap[RootEntity, RootEntityType]
+
 }

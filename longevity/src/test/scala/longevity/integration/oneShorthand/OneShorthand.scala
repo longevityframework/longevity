@@ -2,6 +2,6 @@ package longevity.integration.oneShorthand
 
 import longevity.domain._
 
-case class OneShorthand(uri: Uri) extends Entity
+case class OneShorthand(uri: Uri) extends RootEntity
 
-object OneShorthand extends EntityType[OneShorthand]
+object OneShorthand extends RootEntityType[OneShorthand]

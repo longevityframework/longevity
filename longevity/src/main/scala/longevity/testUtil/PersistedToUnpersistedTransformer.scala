@@ -6,13 +6,13 @@ import emblem.traversors.Transformer.CustomTransformer
 import emblem.traversors.Transformer.emptyCustomTransformers
 import longevity.domain.Assoc
 import longevity.domain.BoundedContext
-import longevity.domain.Entity
+import longevity.domain.RootEntity
 import longevity.repo.Id
 import longevity.domain.UnpersistedAssoc
 import PersistedToUnpersistedTransformer.AssocAny
 
 object PersistedToUnpersistedTransformer {
-  private type AssocAny = Assoc[_ <: Entity]
+  private type AssocAny = Assoc[_ <: RootEntity]
 }
 
 /** traverses an entity graph, replacing every [[longevity.repo.Id persisted assoc]] with an
@@ -33,7 +33,7 @@ extends Transformer {
         throw new EncounteredUnpersistedAssocException(unpersistedAssoc)
       case id: Id[_] => {
         val persistedEntity = input.persisted
-        val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Entity]]
+        val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
         val unpersistedEntity = transform(persistedEntity)(entityTypeKey)
         Assoc(unpersistedEntity).asInstanceOf[B] // TODO see if you get rid of this cast
       }

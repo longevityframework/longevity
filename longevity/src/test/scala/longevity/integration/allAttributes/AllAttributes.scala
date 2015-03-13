@@ -10,6 +10,6 @@ case class AllAttributes(
   int: Int,
   long: Long,
   string: String)
-extends Entity
+extends RootEntity
 
-object AllAttributes extends EntityType[AllAttributes]
+object AllAttributes extends RootEntityType[AllAttributes]

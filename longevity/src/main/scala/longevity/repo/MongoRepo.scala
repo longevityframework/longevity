@@ -10,8 +10,8 @@ import emblem.stringUtil._
 import longevity.domain._
 
 /** a MongoDB repository for entities of type E */
-class MongoRepo[E <: Entity : TypeKey](
-  override val entityType: EntityType[E],
+class MongoRepo[E <: RootEntity : TypeKey](
+  override val entityType: RootEntityType[E],
   protected val domainShorthands: ShorthandPool = ShorthandPool())
 extends Repo[E] {
   repo =>

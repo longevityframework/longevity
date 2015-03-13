@@ -2,11 +2,12 @@ package longevity.domain
 
 import emblem.TypeKey
 import emblem.typeKey
+import longevity.exceptions.AssocIsUnpersistedException
 
 // TODO: scaladoc
-case class UnpersistedAssoc[E <: Entity : TypeKey](unpersisted: E) extends Assoc[E] {
+case class UnpersistedAssoc[E <: RootEntity : TypeKey](unpersisted: E) extends Assoc[E] {
   val associateeTypeKey = typeKey[E]
   private[longevity] val _lock = 0
   def isPersisted = false
-  def retrieve = throw new Assoc.AssocIsUnpersistedException(this)
+  def retrieve = throw new AssocIsUnpersistedException(this)
 }
