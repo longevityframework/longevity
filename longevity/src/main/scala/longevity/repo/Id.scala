@@ -1,6 +1,7 @@
 package longevity.repo
 
 import longevity.domain._
+import longevity.exceptions.AssocIsPersistedException
 
 // TODO scaladoc
 // TODO shouldnt this be private[longevity.repo]?
@@ -15,5 +16,5 @@ object Id {
 // TODO shouldnt this be private[longevity.repo]?
 trait Id[E <: RootEntity] extends Assoc[E] {
   def isPersisted = true
-  def unpersisted = throw new Assoc.AssocIsPersistedException(this)
+  def unpersisted = throw new AssocIsPersistedException(this)
 }

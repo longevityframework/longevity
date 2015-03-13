@@ -6,4 +6,4 @@ import longevity.domain._
 abstract class AssocException[E <: RootEntity](
   val assoc: Assoc[E],
   message: String)
-extends Exception(message)
+extends LongevityException(message)
