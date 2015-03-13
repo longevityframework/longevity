@@ -78,11 +78,11 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "a TypeBoundMap where both key and value have a single shared type parameter"
 
   import emblem.testData.blogs._
-  val userRepo = new UserRepo
-  val blogRepo = new BlogRepo
+  val userRepo = new CrmUserRepo
+  val blogRepo = new CrmBlogRepo
 
   it should "only allow key/value pairs with matching type param" in {
-    var entityTypeToRepoMap = TypeBoundMap[Entity, EntityType, Repo]()
+    var entityTypeToRepoMap = TypeBoundMap[CrmEntity, CrmEntityType, CrmRepo]()
     "entityTypeToRepoMap += userType -> userRepo" should compile
     "entityTypeToRepoMap += userType -> blogRepo" shouldNot compile
     "entityTypeToRepoMap += blogType -> userRepo" shouldNot compile
@@ -91,16 +91,16 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "store multiple key/value pairs for a given type param" in {
     val entityTypeSet = Set(userType, blogType)
 
-    var localEntityStore = TypeBoundMap[Entity, EntityType, Seq]()
-    localEntityStore += (userType -> Seq(User("user1"), User("user2"), User("user3")))
-    localEntityStore += (blogType -> Seq(Blog("blog1"), Blog("blog2")))
+    var localEntityStore = TypeBoundMap[CrmEntity, CrmEntityType, Seq]()
+    localEntityStore += (userType -> Seq(CrmUser("user1"), CrmUser("user2"), CrmUser("user3")))
+    localEntityStore += (blogType -> Seq(CrmBlog("blog1"), CrmBlog("blog2")))
 
-    var entityTypeToRepoMap = TypeBoundMap[Entity, EntityType, Repo]()
+    var entityTypeToRepoMap = TypeBoundMap[CrmEntity, CrmEntityType, CrmRepo]()
     entityTypeToRepoMap += userType -> userRepo
     entityTypeToRepoMap += blogType -> blogRepo
 
     // http://scabl.blogspot.com/2015/01/introduce-type-param-pattern.html
-    def saveEntities[E <: Entity : TypeKey](entityType: EntityType[E]): Unit = {
+    def saveEntities[E <: CrmEntity : TypeKey](entityType: CrmEntityType[E]): Unit = {
       val entities = localEntityStore(entityType)
       val repo = entityTypeToRepoMap(entityType)
       entities.foreach { entity => repo.save(entity) }

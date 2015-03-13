@@ -14,35 +14,35 @@ object blogs {
 
   implicit def intToZipcode(zip: Int): Zipcode = Zipcode(zip)
 
-  object User {
+  object CrmUser {
 
-    private val dummyAddress = Address("street1", "street2", "city", "state", /*0*/1210)
-    private val dummyUser = User(Uri("uri"), "firstName", "lastName", dummyAddress)
+    private val dummyAddress = CrmAddress("street1", "street2", "city", "state", /*0*/1210)
+    private val dummyUser = CrmUser(Uri("uri"), "firstName", "lastName", dummyAddress)
 
-    def apply(uri: Uri): User = dummyUser.copy(uri = uri)
+    def apply(uri: Uri): CrmUser = dummyUser.copy(uri = uri)
   }
 
   // entities
 
-  trait Entity extends HasEmblem
+  trait CrmEntity extends HasEmblem
 
-  case class User(
+  case class CrmUser(
     uri: Uri,
     firstName: String,
     lastName: String,
-    address: Address) extends Entity
-  val userEmblem = emblemFor[User]
+    address: CrmAddress) extends CrmEntity
+  val userEmblem = emblemFor[CrmUser]
 
-  case class Address(
+  case class CrmAddress(
     street1: String,
     street2: String,
     city: String,
     state: String,
-    zipcode: Zipcode) extends Entity
-  val addressEmblem = emblemFor[Address]
+    zipcode: Zipcode) extends CrmEntity
+  val addressEmblem = emblemFor[CrmAddress]
 
-  case class Blog(uri: Uri) extends Entity
-  val blogEmblem = emblemFor[Blog]
+  case class CrmBlog(uri: Uri) extends CrmEntity
+  val blogEmblem = emblemFor[CrmBlog]
 
   val emblemPool = EmblemPool(userEmblem, addressEmblem, blogEmblem)
 
@@ -64,17 +64,17 @@ object blogs {
 
   // entity types
 
-  trait EntityType[E <: Entity]
-  object userType extends EntityType[User]
-  object blogType extends EntityType[Blog]
+  trait CrmEntityType[E <: CrmEntity]
+  object userType extends CrmEntityType[CrmUser]
+  object blogType extends CrmEntityType[CrmBlog]
 
   // repos
 
-  trait Repo[E <: Entity] {
+  trait CrmRepo[E <: CrmEntity] {
     var saveCount = 0
     def save(entity: E): Unit = saveCount += 1
   }
-  class UserRepo extends Repo[User]
-  class BlogRepo extends Repo[Blog]
+  class CrmUserRepo extends CrmRepo[CrmUser]
+  class CrmBlogRepo extends CrmRepo[CrmBlog]
 
 }

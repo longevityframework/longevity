@@ -16,12 +16,15 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "Differ.diff for emblems"
 
-  lazy val user = User("funnyUri", "strangeFirstName", "Smith",
-                       Address("someStreet", "", "Big Frost", "QW", 21211))
+  lazy val user = CrmUser(
+    "funnyUri",
+    "strangeFirstName",
+    "Smith",
+    CrmAddress("someStreet", "", "Big Frost", "QW", 21211))
 
   it should "produce an empty Diffs when the values match" in {
     differ.diff(user, user) should equal (Diffs())
-    val blog = Blog("blogUri")
+    val blog = CrmBlog("blogUri")
     differ.diff(blog, blog) should equal (Diffs())
   }
 
