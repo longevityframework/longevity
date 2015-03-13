@@ -21,7 +21,7 @@ case class BoundedContext(
     }
   }
 
-  // TODO: some way to express domain constraints, particularly those that span multiple entities
+  // TODO pt-87441928: some way to express domain constraints, particularly those that span multiple entities
   // - figure a way for TestDataGenerator/RepoSpec to respect these
   // - figure a way to check constraints in entityMatchers/RepoSpec
   // - user-callable checkConstraint{,s} somewhere
