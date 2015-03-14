@@ -23,7 +23,7 @@ abstract class Repo[E <: RootEntity : TypeKey] {
   def create(e: E): CreateResult[E] = create(Unpersisted(e))
 
   /** retrieves the aggregate by id */
-  def retrieve(id: Id[E]): RetrieveResult[E]
+  def retrieve(id: PersistedAssoc[E]): RetrieveResult[E]
 
   /** updates the aggregate */
   def update(p: Persisted[E]): UpdateResult[E]

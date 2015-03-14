@@ -8,7 +8,7 @@ import longevity.domain.Assoc
 import longevity.domain.BoundedContext
 import longevity.domain.RootEntity
 import longevity.exceptions.AssocIsUnpersistedException
-import longevity.repo.Id
+import longevity.repo.PersistedAssoc
 import longevity.domain.UnpersistedAssoc
 import PersistedToUnpersistedTransformer.AssocAny
 
@@ -16,7 +16,7 @@ object PersistedToUnpersistedTransformer {
   private type AssocAny = Assoc[_ <: RootEntity]
 }
 
-/** traverses an entity graph, replacing every [[longevity.repo.Id persisted assoc]] with an
+/** traverses an entity graph, replacing every [[longevity.repo.PersistedAssoc persisted assoc]] with an
  * [[longevity.domain.UnpersistedAssoc]].
  *
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
@@ -32,7 +32,7 @@ extends Transformer {
     def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: B): B = input match {
       case unpersistedAssoc: UnpersistedAssoc[_] =>
         throw new AssocIsUnpersistedException(unpersistedAssoc)
-      case id: Id[_] => {
+      case persistedAssoc: PersistedAssoc[_] => {
         val persistedEntity = input.persisted
         val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
         val unpersistedEntity = transform(persistedEntity)(entityTypeKey)

@@ -17,7 +17,7 @@ extends Repo[E] {
   repo =>
 
   // TODO better names for this part of the hierarchy
-  case class MongoId(objectId: BSONObjectID) extends Id[E] {
+  case class MongoId(objectId: BSONObjectID) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this)
@@ -43,7 +43,7 @@ extends Repo[E] {
     Persisted[E](MongoId(id), e)
   })
 
-  def retrieve(id: Id[E]) = {
+  def retrieve(id: PersistedAssoc[E]) = {
     val objectId = id.asInstanceOf[MongoId].objectId
     val selector = BSONDocument("_id" -> objectId)
 

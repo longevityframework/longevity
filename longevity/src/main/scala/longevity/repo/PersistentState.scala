@@ -65,11 +65,11 @@ sealed trait UpdateResult[E <: RootEntity] extends PersistentState[E]
 sealed trait DeleteResult[E <: RootEntity] extends PersistentState[E]
 
 object Persisted {
-  def apply[E <: RootEntity](id: Id[E], e: E): Persisted[E] = Persisted[E](id, e, e)
+  def apply[E <: RootEntity](assoc: PersistedAssoc[E], e: E): Persisted[E] = Persisted[E](assoc, e, e)
 }
 
 case class Persisted[E <: RootEntity](
-  id: Id[E],
+  id: PersistedAssoc[E],
   orig: E,
   curr: E
 )
@@ -84,7 +84,7 @@ object Deleted {
 }
 
 case class Deleted[E <: RootEntity](
-  id: Id[E],
+  id: PersistedAssoc[E],
   e: E
 )
 extends NonError[E] with DeleteResult[E] {
@@ -98,4 +98,4 @@ trait Error[E <: RootEntity] extends PersistentState[E] {
   def getOption = None
 }
 
-case class NotFound[E <: RootEntity](id: Id[E]) extends Error[E] with RetrieveResult[E]
+case class NotFound[E <: RootEntity](id: PersistedAssoc[E]) extends Error[E] with RetrieveResult[E]
