@@ -7,6 +7,6 @@ import longevity.domain._
 case class Site(
   val uri: Uri
 )
-extends Entity
+extends RootEntity
 
-object SiteType extends EntityType[Site]
+object SiteType extends RootEntityType[Site]

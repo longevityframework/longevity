@@ -10,6 +10,6 @@ case class Blog(
   authors: Set[Assoc[User]],
   slug: Markdown
 )
-extends SiteSection with Entity
+extends SiteSection with RootEntity
 
-object BlogType extends EntityType[Blog]
+object BlogType extends RootEntityType[Blog]

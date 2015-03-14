@@ -35,29 +35,29 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "a TypeKeyMap where the value type has a single type parameter"
 
   import emblem.testData.blogs._
-  val userRepo = new UserRepo
-  val blogRepo = new BlogRepo
+  val userRepo = new CrmUserRepo
+  val blogRepo = new CrmBlogRepo
 
   it should "only allow key/value pairs with matching type param" in {
-    var entityTypeToRepoMap = TypeKeyMap[Entity, Repo]()
-    "entityTypeToRepoMap += typeKey[User] -> userRepo" should compile
-    "entityTypeToRepoMap += typeKey[User] -> blogRepo" shouldNot compile
-    "entityTypeToRepoMap += typeKey[Blog] -> userRepo" shouldNot compile
+    var entityTypeToRepoMap = TypeKeyMap[CrmEntity, CrmRepo]()
+    "entityTypeToRepoMap += typeKey[CrmUser] -> userRepo" should compile
+    "entityTypeToRepoMap += typeKey[CrmUser] -> blogRepo" shouldNot compile
+    "entityTypeToRepoMap += typeKey[CrmBlog] -> userRepo" shouldNot compile
   }
 
   it should "store multiple key/value pairs for a given type param" in {
-    val typeKeySet = Set(typeKey[User], typeKey[Blog])
+    val typeKeySet = Set(typeKey[CrmUser], typeKey[CrmBlog])
 
-    var localEntityStore = TypeKeyMap[Entity, Seq]()
-    localEntityStore += (typeKey[User] -> Seq(User("user1"), User("user2"), User("user3")))
-    localEntityStore += (typeKey[Blog] -> Seq(Blog("blog1"), Blog("blog2")))
+    var localEntityStore = TypeKeyMap[CrmEntity, Seq]()
+    localEntityStore += (typeKey[CrmUser] -> Seq(CrmUser("user1"), CrmUser("user2"), CrmUser("user3")))
+    localEntityStore += (typeKey[CrmBlog] -> Seq(CrmBlog("blog1"), CrmBlog("blog2")))
 
-    var entityTypeToRepoMap = TypeKeyMap[Entity, Repo]()
+    var entityTypeToRepoMap = TypeKeyMap[CrmEntity, CrmRepo]()
     entityTypeToRepoMap += userRepo
     entityTypeToRepoMap += blogRepo
 
     // http://scabl.blogspot.com/2015/01/introduce-type-param-pattern.html
-    def saveEntities[E <: Entity : TypeKey]: Unit = {
+    def saveEntities[E <: CrmEntity : TypeKey]: Unit = {
       val entitySeq = localEntityStore(typeKey)
       val repo = entityTypeToRepoMap(typeKey)
       entitySeq.foreach { entity => repo.save(entity) }

@@ -5,6 +5,6 @@ import longevity.domain._
 case class WithAssoc(
   uri: String,
   associated: Assoc[Associated])
-extends Entity
+extends RootEntity
 
-object WithAssoc extends EntityType[WithAssoc]
+object WithAssoc extends RootEntityType[WithAssoc]

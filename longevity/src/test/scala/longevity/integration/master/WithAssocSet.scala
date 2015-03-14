@@ -5,6 +5,6 @@ import longevity.domain._
 case class WithAssocSet(
   uri: String,
   associated: Set[Assoc[Associated]])
-extends Entity
+extends RootEntity
 
-object WithAssocSet extends EntityType[WithAssocSet]
+object WithAssocSet extends RootEntityType[WithAssocSet]

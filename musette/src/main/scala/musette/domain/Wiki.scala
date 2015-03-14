@@ -10,6 +10,6 @@ case class Wiki(
   authors: Set[Assoc[User]],
   slug: Markdown
 )
-extends SiteSection with Entity
+extends SiteSection with RootEntity
 
-object WikiType extends EntityType[Wiki]
+object WikiType extends RootEntityType[Wiki]

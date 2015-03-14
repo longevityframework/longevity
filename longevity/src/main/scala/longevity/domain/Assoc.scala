@@ -1,29 +1,23 @@
 package longevity.domain
 
+import longevity.exceptions.AssocIsPersistedException
+import longevity.exceptions.AssocIsUnpersistedException
 import longevity.repo.RetrieveResult
 import emblem._
 
 object Assoc {
 
-  /** wraps an entity in an unpersisted assoc. this is useful for building out domain data
+  /** wraps a root entity in an unpersisted assoc. this is useful for building out domain data
    * that has not been persisted. it is made implicit so your code isn't littered with `Assoc(_)` calls
-   * everywhere. this ought not to be confusing, as there is no other sensible way to embed one entity into
-   * another. */
-  implicit def apply[E <: Entity : TypeKey](e: E): Assoc[E] = UnpersistedAssoc(e)
-
-  // TODO: move these exceptions to the exceptions package. rename to CannotRetrieveUnpersistedAssoc etc
-
-  class AssocIsUnpersistedException[E <: Entity](val assoc: Assoc[E])
-  extends Exception("cannot retrieve from an unpersisted assoc")
-
-  class AssocIsPersistedException[E <: Entity](val assoc: Assoc[E])
-  extends Exception("cannot get an unpersisted entity from a persisted assoc")
+   * everywhere. this ought not to be confusing, as there is no other sensible way to embed a root entity into
+   * another entity. */
+  implicit def apply[E <: RootEntity : TypeKey](e: E): Assoc[E] = UnpersistedAssoc(e)
 
 }
 
-/** a unidirectional association, or "assoc", between two domain entities. the left side of the association -
- * that is, the holder of the `Assoc` instance - is known as the associator. the right side of the association
- * is the associatee.
+/** a unidirectional association, or "assoc", between an entity and an aggregate root. the left side of the
+ * association - that is, the holder of the `Assoc` instance - is known as the associator. the right side of
+ * the association is the associatee.
  *
  * there are basically two kinds of associations that you have to understand. an unpersisted assoc is one in
  * which the associatee has not been persisted. in this case, an attempt to persist the associator will cascade
@@ -32,8 +26,9 @@ object Assoc {
  * a persisted assoc is one in which the associatee has already been persisted. it may or may not have already
  * been loaded in to program memory, and calling `retrieve` or `persisted` or `get` may well trigger a database
  * lookup. */
-trait Assoc[E <: Entity] {
+trait Assoc[E <: RootEntity] {
 
+  /** a type key for the associatee */
   val associateeTypeKey: TypeKey[E]
 
   /** prevent subtyping outside of longevity library */
@@ -42,18 +37,21 @@ trait Assoc[E <: Entity] {
   /** true whenever the assoc is with a persisted entity */
   def isPersisted: Boolean
 
-  @throws[Assoc.AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
+  /** retrieves a persisted assoc. if the associatee has not been loaded into memory, calling this method
+   * will result in a database lookup */
+  @throws[AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
   def retrieve: RetrieveResult[E]
 
-  /** retrieves the persisted associatee from the assoc */
-  @throws[Assoc.AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
+  /** @return the persisted associatee from the assoc. if the associatee has not been loaded into memory,
+   * calling this method will result in a database lookup */
+  @throws[AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
   final def persisted: E = retrieve.get
 
   /** retrieves an unpersisted associatee from the assoc */
-  @throws[Assoc.AssocIsPersistedException[E]]("whenever the assoc is persisted")
+  @throws[AssocIsPersistedException[E]]("whenever the assoc is persisted")
   def unpersisted: E
 
-  /** gets the underlying assoc, whether persisted or not */
+  /** @return the associatee, whether persisted or not */
   final def get: E = if (isPersisted) persisted else unpersisted
 
 }

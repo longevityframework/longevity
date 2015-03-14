@@ -1,21 +1,19 @@
 package longevity
 
 import emblem._
-import domain.Entity
-import domain.EntityType
-import domain.BoundedContext
+import domain._
 
 // TODO: package level scaladoc
 package object repo {
 
-  /** a `TypeKeyMap` of [[domain.Entity Entity]] to [[Repo]] */
-  type RepoPool = TypeKeyMap[Entity, Repo]  
+  /** a `TypeKeyMap` of [[domain.RootEntity RootEntity]] to [[Repo]] */
+  type RepoPool = TypeKeyMap[RootEntity, Repo]
 
   /** like a [[RepoPool]], except that the [[Repo repositories]] have not yet been fully initialized */
-  type ProvisionalRepoPool = TypeKeyMap[Entity, Repo]  
+  type ProvisionalRepoPool = TypeKeyMap[RootEntity, Repo]
 
   /** an empty [[ProvisionalRepoPool]] */
-  val emptyProvisionalRepoPool = TypeKeyMap[Entity, Repo]
+  val emptyProvisionalRepoPool = TypeKeyMap[RootEntity, Repo]
 
   /** builds and returns a [[RepoPool]] of [[InMemRepo in-memory repositories]] for all the entities in a
    * bounded context. stock in-memory repositories will created, except where specialized versions are
@@ -29,7 +27,7 @@ package object repo {
     specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
   : RepoPool = {
     object repoFactory extends stock.RepoFactory {
-      def build[E <: Entity](entityType: EntityType[E], entityKey: TypeKey[E]): Repo[E] =
+      def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new InMemRepo(entityType)(entityKey)
     }
     buildRepoPool(boundedContext, repoFactory, specializations)
@@ -47,7 +45,7 @@ package object repo {
     specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
   : RepoPool = {
     object repoFactory extends stock.RepoFactory {
-      def build[E <: Entity](entityType: EntityType[E], entityKey: TypeKey[E]): Repo[E] =
+      def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new MongoRepo(entityType, boundedContext.shorthandPool)(entityKey)
     }
     buildRepoPool(boundedContext, repoFactory, specializations)
@@ -56,7 +54,7 @@ package object repo {
   // RepoFactory is inside object stock to prevent lint warning about declaring classes in package objects
   private object stock {
     trait RepoFactory {
-      def build[E <: Entity](entityType: EntityType[E], entityKey: TypeKey[E]): Repo[E]
+      def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E]
     }
   }
 
@@ -66,7 +64,10 @@ package object repo {
     specializations: ProvisionalRepoPool)
   : RepoPool = {
     var repoPool = emptyRepoPool
-    def createRepoFromPair[E <: Entity](pair: TypeBoundPair[Entity, TypeKey, EntityType, E]): Unit = {
+    def createRepoFromPair[
+      E <: RootEntity](
+      pair: TypeBoundPair[RootEntity, TypeKey, RootEntityType, E])
+    : Unit = {
       val entityKey = pair._1
       val entityType = pair._2
       val repo = specializations.get(entityKey) match {
@@ -75,12 +76,13 @@ package object repo {
       }
       repoPool += (entityKey -> repo)
     }
-    boundedContext.entityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    boundedContext.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
     finishRepoInitialization(repoPool)
     repoPool
   }
 
-  private val emptyRepoPool = TypeKeyMap[Entity, Repo]
+  // this is private because longevity takes responsibility for building the repo pools
+  private val emptyRepoPool = TypeKeyMap[RootEntity, Repo]
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
     repoPool.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }

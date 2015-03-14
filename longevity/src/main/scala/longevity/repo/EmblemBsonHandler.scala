@@ -21,7 +21,7 @@ class EmblemBsonHandler[E <: Entity : TypeKey](
 )
 extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
 
-  def assocHandler[Associatee <: Entity : TypeKey] = new BSONHandler[BSONObjectID, Assoc[Associatee]] {
+  def assocHandler[Associatee <: RootEntity : TypeKey] = new BSONHandler[BSONObjectID, Assoc[Associatee]] {
 
     // TODO: get rid of asInstanceOf by tightening type on repo pools and repo layers
     lazy val associateeRepo = repoPool(typeKey[Associatee]).asInstanceOf[MongoRepo[Associatee]]
@@ -32,7 +32,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     def write(assoc: Assoc[Associatee]) = assoc.asInstanceOf[associateeRepo.MongoId].objectId
   }
 
-  def assocSetHandler[Associatee <: Entity : TypeKey] = new BSONHandler[BSONArray, Set[Assoc[Associatee]]] {
+  def assocSetHandler[Associatee <: RootEntity : TypeKey] = new BSONHandler[BSONArray, Set[Assoc[Associatee]]] {
 
     def read(bsonArray: BSONArray) = {
       val handler = assocHandlers(assocKey[Associatee])
@@ -50,7 +50,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     }
   }
 
-  private def assocKey[Associatee <: Entity : TypeKey] = {
+  private def assocKey[Associatee <: RootEntity : TypeKey] = {
     // TODO: this should be an emblem-supplied one-liner
     implicit val innerTag = typeKey[Associatee].tag
     TypeKey(typeTag[Assoc[Associatee]])
@@ -80,7 +80,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     BSONStringHandler
 
   private val assocHandlers = {
-    def addAssocHandlerToMap[Associatee <: Entity : TypeKey](map: BsonHandlerMap) = {
+    def addAssocHandlerToMap[Associatee <: RootEntity : TypeKey](map: BsonHandlerMap) = {
       implicit val assocKey2 = assocKey[Associatee]
       map + assocHandler(typeKey[Associatee])
     }
@@ -90,7 +90,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
   }
 
   private val assocSetHandlers = {
-    def addAssocHandlerToMap[Associatee <: Entity : TypeKey](map: BsonHandlerMap) = {
+    def addAssocHandlerToMap[Associatee <: RootEntity : TypeKey](map: BsonHandlerMap) = {
       implicit val setKey = assocSetKey[Associatee]
       map + assocSetHandler(typeKey[Associatee])
     }
@@ -99,7 +99,7 @@ extends BSONDocumentReader[E] with BSONDocumentWriter[E] {
     }
   }
 
-  private def assocSetKey[Associatee <: Entity : TypeKey] = {
+  private def assocSetKey[Associatee <: RootEntity : TypeKey] = {
     // TODO: this should be an emblem-supplied one-liner
     implicit val innerTag = typeKey[Associatee].tag
     TypeKey(typeTag[Set[Assoc[Associatee]]])

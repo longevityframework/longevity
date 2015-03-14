@@ -14,6 +14,8 @@ case class BoundedContext(
   entityTypePool: EntityTypePool,
   shorthandPool: ShorthandPool) {
 
+  val rootEntityTypePool = RootEntityTypePool(entityTypePool)
+
   val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] = entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
     new WideningTypeBoundFunction[Entity, HasEmblem, EntityType, Emblem] {
       def apply[TypeParam <: Entity](value1: EntityType[TypeParam]): Emblem[TypeParam] =
@@ -21,7 +23,7 @@ case class BoundedContext(
     }
   }
 
-  // TODO: some way to express domain constraints, particularly those that span multiple entities
+  // TODO pt-87441928: some way to express domain constraints, particularly those that span multiple entities
   // - figure a way for TestDataGenerator/RepoSpec to respect these
   // - figure a way to check constraints in entityMatchers/RepoSpec
   // - user-callable checkConstraint{,s} somewhere

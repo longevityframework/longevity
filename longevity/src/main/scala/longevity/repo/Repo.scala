@@ -3,32 +3,32 @@ package longevity.repo
 import emblem._
 import longevity.domain._
 
-/** a repository for entities of type E
+/** a repository for aggregate roots of type E
  * @param repoPool the pool of all the repos in context
  */
-abstract class Repo[E <: Entity : TypeKey] {
+abstract class Repo[E <: RootEntity : TypeKey] {
 
   private[repo] var _repoPoolOption: Option[RepoPool] = None
 
-  /** the type key for the entities this repository handles */
+  /** the type key for the aggregate roots this repository handles */
   val entityTypeKey: TypeKey[E] = typeKey[E]
 
-  /** the entity type for the entities this repository handles */
+  /** the entity type for the aggregate roots this repository handles */
   val entityType: EntityType[E]
 
-  /** creates the entity */
+  /** creates the aggregate */
   def create(e: Unpersisted[E]): CreateResult[E]
 
-  /** convenience method for creating the entity */
+  /** convenience method for creating the aggregate */
   def create(e: E): CreateResult[E] = create(Unpersisted(e))
 
-  /** retrieves the entity by id */
-  def retrieve(id: Id[E]): RetrieveResult[E]
+  /** retrieves the aggregate by id */
+  def retrieve(id: PersistedAssoc[E]): RetrieveResult[E]
 
-  /** updates the entity */
+  /** updates the aggregate */
   def update(p: Persisted[E]): UpdateResult[E]
 
-  /** deletes the entity */
+  /** deletes the aggregate */
   def delete(p: Persisted[E]): DeleteResult[E]
 
   /** the pool of all the repos for the [[longevity.domain.BoundedContext bounded context]].
@@ -42,7 +42,7 @@ abstract class Repo[E <: Entity : TypeKey] {
   /** a cache of create results for those unpersisted entities of type E that have already been created.
    * because entities are just value objects, we expect some duplication in the unpersisted data that gets
    * passed into `Repo.create`, via the associations of created obects. we keep a session
-   * level cache of these guys to prevent multiple creation attempts on the same entity.
+   * level cache of these guys to prevent multiple creation attempts on the same aggregate.
    *
    * note that this cache does not stay current with any updates or deletes to these entities! this cache
    * is not intended for use with interleaving create/update/delete, but rather for a series of create calls.
@@ -61,7 +61,7 @@ abstract class Repo[E <: Entity : TypeKey] {
     createResult
   }
 
-  /** returns a version of the entity where all unpersisted associations are persisted */
+  /** returns a version of the aggregate where all unpersisted associations are persisted */
   protected def patchUnpersistedAssocs(e: E): E = {
     val e2 = entityType.assocProps.foldLeft(e) { (e, prop) =>
       prop.set(e, persistAssocWhenUnpersisted(prop.get(e)))
@@ -75,7 +75,10 @@ abstract class Repo[E <: Entity : TypeKey] {
     e4
   }
 
-  private def persistAssocWhenUnpersisted[Associatee <: Entity](assoc: Assoc[Associatee]): Assoc[Associatee] = {
+  private def persistAssocWhenUnpersisted[
+    Associatee <: RootEntity](
+    assoc: Assoc[Associatee])
+  : Assoc[Associatee] = {
     assoc match {
       case UnpersistedAssoc(u) =>
         val repo = repoPool(assoc.associateeTypeKey)

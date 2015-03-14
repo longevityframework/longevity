@@ -10,6 +10,6 @@ case class AllShorthands(
   int: IntShorthand,
   long: LongShorthand,
   string: StringShorthand)
-extends Entity
+extends RootEntity
 
-object AllShorthands extends EntityType[AllShorthands]
+object AllShorthands extends RootEntityType[AllShorthands]

@@ -9,8 +9,8 @@ case class Comment(
   author: Assoc[User],
   content: Markdown
 )
-extends Content with Entity {
+extends Content with RootEntity {
   override val authors = Set(author)
 }
 
-object CommentType extends EntityType[Comment]
+object CommentType extends RootEntityType[Comment]

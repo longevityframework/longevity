@@ -11,6 +11,6 @@ case class BlogPost(
   content: Markdown,
   slug: Markdown
 )
-extends TopContent with Entity
+extends TopContent with RootEntity
 
-object BlogPostType extends EntityType[BlogPost]
+object BlogPostType extends RootEntityType[BlogPost]

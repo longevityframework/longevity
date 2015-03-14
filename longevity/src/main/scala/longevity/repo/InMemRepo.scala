@@ -3,18 +3,18 @@ package longevity.repo
 import emblem._
 import longevity.domain._
 
-/** an in-memory repository for entities of type E */
-class InMemRepo[E <: Entity : TypeKey](override val entityType: EntityType[E]) extends Repo[E] {
+/** an in-memory repository for aggregate roots of type E */
+class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityType[E]) extends Repo[E] {
   repo =>
 
-  case class IntId(i: Int) extends Id[E] {
+  case class IntId(i: Int) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this)
   }
 
   private var nextId = 0
-  private var idToEntityMap = Map[Id[E], Persisted[E]]()
+  private var idToEntityMap = Map[PersistedAssoc[E], Persisted[E]]()
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
     val id = IntId(nextId)
@@ -22,20 +22,19 @@ class InMemRepo[E <: Entity : TypeKey](override val entityType: EntityType[E]) e
     persist(id, patchUnpersistedAssocs(unpersisted.get))
   })
 
-  def retrieve(id: Id[E]) = idToEntityMap.getOrElse(id, NotFound(id))
+  def retrieve(id: PersistedAssoc[E]) = idToEntityMap.getOrElse(id, NotFound(id))
 
-  def update(persisted: Persisted[E]) =
-    persist(persisted.id, patchUnpersistedAssocs(persisted.curr))
+  def update(persisted: Persisted[E]) = persist(persisted.id, patchUnpersistedAssocs(persisted.curr))
 
   def delete(persisted: Persisted[E]) = {
     idToEntityMap -= persisted.id
     Deleted(persisted)
   }
 
-  private def persist(id: Id[E], e: E): Persisted[E] = {
-      val persisted = Persisted[E](id, e)
-      idToEntityMap += (id -> persisted)
-      persisted
+  private def persist(id: PersistedAssoc[E], e: E): Persisted[E] = {
+    val persisted = Persisted[E](id, e)
+    idToEntityMap += (id -> persisted)
+    persisted
   }
 
 }
