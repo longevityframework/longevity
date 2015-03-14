@@ -20,7 +20,7 @@ extends Repo[E] {
   case class MongoId(objectId: BSONObjectID) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
-    def retrieve = repo.retrieve(this)
+    def retrieve = repo.retrieve(this).get.get
   }
 
   private lazy val collectionName: String = camelToUnderscore(typeName(entityTypeKey.tpe))
@@ -55,7 +55,7 @@ extends Repo[E] {
     val lastError = Await.result(future, 10.seconds)
 
     // TODO: okay, but an error here could indicate something else, like network problem
-    lastError.map(Persisted[E](id, _)).getOrElse(NotFound(id))
+    lastError.map(Persisted[E](id, _))
   }
 
   def update(persisted: Persisted[E]) = {

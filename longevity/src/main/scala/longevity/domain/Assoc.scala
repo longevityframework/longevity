@@ -2,7 +2,6 @@ package longevity.domain
 
 import longevity.exceptions.AssocIsPersistedException
 import longevity.exceptions.AssocIsUnpersistedException
-import longevity.repo.RetrieveResult
 import emblem._
 
 object Assoc {
@@ -37,15 +36,17 @@ trait Assoc[E <: RootEntity] {
   /** true whenever the assoc is with a persisted entity */
   def isPersisted: Boolean
 
+  // TODO: probably should merge the next wo
+
   /** retrieves a persisted assoc. if the associatee has not been loaded into memory, calling this method
    * will result in a database lookup */
   @throws[AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
-  def retrieve: RetrieveResult[E]
+  def retrieve: E
 
   /** @return the persisted associatee from the assoc. if the associatee has not been loaded into memory,
    * calling this method will result in a database lookup */
   @throws[AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
-  final def persisted: E = retrieve.get
+  final def persisted: E = retrieve
 
   /** retrieves an unpersisted associatee from the assoc */
   @throws[AssocIsPersistedException[E]]("whenever the assoc is persisted")

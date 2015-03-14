@@ -10,6 +10,7 @@ import emblem.traversors.TestDataGenerator
 import longevity.domain._
 import longevity.repo._
 import org.scalatest._
+import org.scalatest.OptionValues._
 
 /** a simple fixture to test your [[longevity.repo.RepoPool]]. all you have to do is extend this class and
  * provide the necessary inputs to the constructor.
@@ -50,22 +51,17 @@ extends FeatureSpec with GivenWhenThen with Matchers {
       scenario(s"should produce a persisted $entityName") {
 
         Given(s"an unpersisted $entityName")
-        val unpersisted = testDataGenerator.generate[E]
+        val unpersisted: E = testDataGenerator.generate[E]
 
-        When(s"we create the $entityName")
-        val created = repo.create(unpersisted)
-
+        When(s"we create the $entityName") 
         Then(s"we get back the $entityName persistent state")
-        And(s"the persistent state should be `Persisted`")
-        created.isError should be (false)
-        created shouldBe a [Persisted[_]]
+        val created: Persisted[E] = repo.create(unpersisted)
 
         And(s"the persisted $entityName should should match the original, unpersisted $entityName")
         persistedShouldMatchUnpersisted(created.get, unpersisted)
 
         And(s"further retrieval operations should retrieve the same $entityName")
-        val retrieved = repo.retrieve(created.id)
-        retrieved shouldBe a [Persisted[_]]
+        val retrieved: Persisted[E] = repo.retrieve(created.id).value
         persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
       }
     }
@@ -74,15 +70,13 @@ extends FeatureSpec with GivenWhenThen with Matchers {
       scenario(s"should produce the same persisted $entityName") {
 
         Given(s"a persisted $entityName")
-        val unpersisted = testDataGenerator.generate[E]
+        val unpersisted: E = testDataGenerator.generate[E]
         val created = repo.create(unpersisted)
 
         When(s"we retrieve the $entityName by id")
-        val retrieved = repo.retrieve(created.id)
+        val retrieved: Persisted[E] = repo.retrieve(created.id).value
 
         Then(s"we get back the same $entityName persistent state")
-        retrieved.isError should be (false)
-        retrieved shouldBe a [Persisted[_]]
         persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
       }
     }
@@ -91,22 +85,19 @@ extends FeatureSpec with GivenWhenThen with Matchers {
       scenario(s"should produce an updated persisted $entityName") {
 
         Given(s"a persisted $entityName")
-        val unpersistedOriginal = testDataGenerator.generate[E]
-        val unpersistedModified = testDataGenerator.generate[E]
-        val created = repo.create(unpersistedOriginal).asPersisted
+        val unpersistedOriginal: E = testDataGenerator.generate[E]
+        val unpersistedModified: E = testDataGenerator.generate[E]
+        val created: Persisted[E] = repo.create(unpersistedOriginal)
 
         When(s"we update the persisted $entityName")
-        val modified = created.copy(e => unpersistedModified)
-        val updated = repo.update(modified)
+        val modified: Persisted[E] = created.map(e => unpersistedModified)
+        val updated: Persisted[E] = repo.update(modified)
 
         Then(s"we get back the updated $entityName persistent state")
-        updated.isError should be (false)
-        updated shouldBe a [Persisted[_]]
         persistedShouldMatchUnpersisted(updated.get, unpersistedModified)
 
         And(s"further retrieval operations should retrieve the updated copy")
-        val retrieved = repo.retrieve(updated.id)
-        retrieved shouldBe a [Persisted[_]]
+        val retrieved: Persisted[E] = repo.retrieve(updated.id).value
         persistedShouldMatchUnpersisted(retrieved.get, unpersistedModified)
       }
     }
@@ -115,20 +106,19 @@ extends FeatureSpec with GivenWhenThen with Matchers {
       scenario(s"should deleted persisted $entityName") {
 
         Given(s"a persisted $entityName")
-        val unpersisted = testDataGenerator.generate[E]
-        val created = repo.create(unpersisted)
+        val unpersisted: E = testDataGenerator.generate[E]
+        val created: Persisted[E] = repo.create(unpersisted)
         created shouldBe a [Persisted[_]]
 
         When(s"we delete the persisted $entityName")
-        val deleted = repo.delete(created)
+        val deleted: Deleted[E] = repo.delete(created)
 
         Then(s"we get back a Deleted persistent state")
-        deleted shouldBe a [Deleted[_]]
         persistedShouldMatchUnpersisted(deleted.get, unpersisted)
 
         And(s"we should no longer be able to retrieve the $entityName")
-        val retrieved = repo.retrieve(created.id)
-        retrieved shouldBe a [NotFound[_]]
+        val retrieved: Option[Persisted[E]] = repo.retrieve(created.id)
+        retrieved.isEmpty should be (true)
       }
     }
 

@@ -17,19 +17,19 @@ abstract class Repo[E <: RootEntity : TypeKey] {
   val entityType: EntityType[E]
 
   /** creates the aggregate */
-  def create(e: Unpersisted[E]): CreateResult[E]
+  def create(e: Unpersisted[E]): Persisted[E]
 
   /** convenience method for creating the aggregate */
-  def create(e: E): CreateResult[E] = create(Unpersisted(e))
+  def create(e: E): Persisted[E] = create(Unpersisted(e))
 
   /** retrieves the aggregate by id */
-  def retrieve(id: PersistedAssoc[E]): RetrieveResult[E]
+  def retrieve(id: PersistedAssoc[E]): Option[Persisted[E]]
 
   /** updates the aggregate */
-  def update(p: Persisted[E]): UpdateResult[E]
+  def update(p: Persisted[E]): Persisted[E]
 
   /** deletes the aggregate */
-  def delete(p: Persisted[E]): DeleteResult[E]
+  def delete(p: Persisted[E]): Deleted[E]
 
   /** the pool of all the repos for the [[longevity.domain.BoundedContext bounded context]].
    *
@@ -47,18 +47,18 @@ abstract class Repo[E <: RootEntity : TypeKey] {
    * note that this cache does not stay current with any updates or deletes to these entities! this cache
    * is not intended for use with interleaving create/update/delete, but rather for a series of create calls.
    */
-  protected var sessionCreations = Map[Unpersisted[E], CreateResult[E]]()
+  protected var sessionCreations = Map[Unpersisted[E], Persisted[E]]()
 
   /** pull a create result out of the cache for the given unpersisted. if it's not there, then create it,
    * cache it, and return it */
-  protected def getSessionCreationOrElse(unpersisted: Unpersisted[E], create: => CreateResult[E])
-  : CreateResult[E] = {
-    val createResult = sessionCreations.getOrElse(unpersisted, {
-      val createResult = create
-      sessionCreations += (unpersisted -> createResult)
-      createResult
+  protected def getSessionCreationOrElse(unpersisted: Unpersisted[E], create: => Persisted[E])
+  : Persisted[E] = {
+    val persisted = sessionCreations.getOrElse(unpersisted, {
+      val persisted = create
+      sessionCreations += (unpersisted -> persisted)
+      persisted
     })
-    createResult
+    persisted
   }
 
   /** returns a version of the aggregate where all unpersisted associations are persisted */

@@ -10,7 +10,7 @@ class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityTy
   case class IntId(i: Int) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
-    def retrieve = repo.retrieve(this)
+    def retrieve = repo.retrieve(this).get.get
   }
 
   private var nextId = 0
@@ -22,7 +22,7 @@ class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityTy
     persist(id, patchUnpersistedAssocs(unpersisted.get))
   })
 
-  def retrieve(id: PersistedAssoc[E]) = idToEntityMap.getOrElse(id, NotFound(id))
+  def retrieve(id: PersistedAssoc[E]) = idToEntityMap.get(id)
 
   def update(persisted: Persisted[E]) = persist(persisted.id, patchUnpersistedAssocs(persisted.curr))
 
