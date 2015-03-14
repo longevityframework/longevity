@@ -7,6 +7,7 @@ import emblem.traversors.Transformer.emptyCustomTransformers
 import longevity.domain.Assoc
 import longevity.domain.BoundedContext
 import longevity.domain.RootEntity
+import longevity.exceptions.AssocIsUnpersistedException
 import longevity.repo.Id
 import longevity.domain.UnpersistedAssoc
 import PersistedToUnpersistedTransformer.AssocAny
@@ -30,7 +31,7 @@ extends Transformer {
   private lazy val transformAssoc = new CustomTransformer[AssocAny] {
     def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: B): B = input match {
       case unpersistedAssoc: UnpersistedAssoc[_] =>
-        throw new EncounteredUnpersistedAssocException(unpersistedAssoc)
+        throw new AssocIsUnpersistedException(unpersistedAssoc)
       case id: Id[_] => {
         val persistedEntity = input.persisted
         val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]

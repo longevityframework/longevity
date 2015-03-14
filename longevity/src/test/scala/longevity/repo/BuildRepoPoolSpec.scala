@@ -5,8 +5,7 @@ import org.scalatest.OptionValues._
 import testUtil._
 
 /** unit tests for builder methods [[longevity.repo.inMemRepoPool]] and [[longevity.repo.mongoRepoPool]]
- * found in the [[longevity.repo]] package object
- */
+ * found in the [[longevity.repo]] package object */
 @longevity.UnitTest
 class BuildRepoPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
 

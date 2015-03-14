@@ -64,7 +64,10 @@ package object repo {
     specializations: ProvisionalRepoPool)
   : RepoPool = {
     var repoPool = emptyRepoPool
-    def createRepoFromPair[E <: RootEntity](pair: TypeBoundPair[RootEntity, TypeKey, RootEntityType, E]): Unit = {
+    def createRepoFromPair[
+      E <: RootEntity](
+      pair: TypeBoundPair[RootEntity, TypeKey, RootEntityType, E])
+    : Unit = {
       val entityKey = pair._1
       val entityType = pair._2
       val repo = specializations.get(entityKey) match {
@@ -78,6 +81,7 @@ package object repo {
     repoPool
   }
 
+  // this is private because longevity takes responsibility for building the repo pools
   private val emptyRepoPool = TypeKeyMap[RootEntity, Repo]
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {

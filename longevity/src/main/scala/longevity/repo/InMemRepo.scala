@@ -3,7 +3,7 @@ package longevity.repo
 import emblem._
 import longevity.domain._
 
-/** an in-memory repository for entities of type E */
+/** an in-memory repository for aggregate roots of type E */
 class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityType[E]) extends Repo[E] {
   repo =>
 
@@ -24,8 +24,7 @@ class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityTy
 
   def retrieve(id: Id[E]) = idToEntityMap.getOrElse(id, NotFound(id))
 
-  def update(persisted: Persisted[E]) =
-    persist(persisted.id, patchUnpersistedAssocs(persisted.curr))
+  def update(persisted: Persisted[E]) = persist(persisted.id, patchUnpersistedAssocs(persisted.curr))
 
   def delete(persisted: Persisted[E]) = {
     idToEntityMap -= persisted.id
@@ -33,9 +32,9 @@ class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityTy
   }
 
   private def persist(id: Id[E], e: E): Persisted[E] = {
-      val persisted = Persisted[E](id, e)
-      idToEntityMap += (id -> persisted)
-      persisted
+    val persisted = Persisted[E](id, e)
+    idToEntityMap += (id -> persisted)
+    persisted
   }
 
 }

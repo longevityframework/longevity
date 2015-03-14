@@ -9,7 +9,7 @@ import emblem._
 import emblem.stringUtil._
 import longevity.domain._
 
-/** a MongoDB repository for entities of type E */
+/** a MongoDB repository for aggregate roots of type E */
 class MongoRepo[E <: RootEntity : TypeKey](
   override val entityType: RootEntityType[E],
   protected val domainShorthands: ShorthandPool = ShorthandPool())
@@ -26,7 +26,6 @@ extends Repo[E] {
   private lazy val collectionName: String = camelToUnderscore(typeName(entityTypeKey.tpe))
   private val mongoCollection = MongoRepo.db.collection(collectionName)
 
-  private implicit val tag = entityTypeKey.tag // TODO delete
   protected implicit lazy val bsonHandler = new EmblemBsonHandler(entityType.emblem, domainShorthands, repoPool)
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
@@ -63,8 +62,7 @@ extends Repo[E] {
     val objectId = persisted.id.asInstanceOf[MongoId].objectId
     val selector = BSONDocument("_id" -> objectId)
     val patchedEntity = patchUnpersistedAssocs(persisted.curr)
-    val document = BSON.writeDocument(patchedEntity).add(BSONDocument(
-      "_id" -> objectId))
+    val document = BSON.writeDocument(patchedEntity).add(BSONDocument("_id" -> objectId))
     val future = mongoCollection.update(selector, document)
 
     // TODO handle errors for real
