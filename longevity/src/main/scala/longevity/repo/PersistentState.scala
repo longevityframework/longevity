@@ -2,36 +2,35 @@ package longevity.repo
 
 import longevity.domain.RootEntity
 
-// TODO: rename this file
-
 object PersistentState {
 
   @throws[PersistentState.PersistentStateIsNotPersisted[_]]
   implicit def persistentStateToPersisted[E <: RootEntity](state: PersistentState[E]): Persisted[E] =
     state.asPersisted
 
+  // i would move this exception, but its probably going to go away in an upcoming story
   /** an attempt was made to cast a non-persisted persistent state into a persisted persistent state */
   class PersistentStateIsNotPersisted[E <: RootEntity](state: PersistentState[E])
   extends Exception(s"persistent state is not persisted: $state")
 
 }
 
-/** The persistence state of an entity. */
+/** the persistence state of an aggregate. */
 sealed trait PersistentState[E <: RootEntity] {
 
-  /** updates the entity if non-empty. otherwise does nothing. */
+  /** updates the aggregate if non-empty. otherwise does nothing */
   def copy(f: E => E): PersistentState[E]
 
-  /** iterates over the entity if non-empty. otherwise does nothing. */
+  /** iterates over the aggregate if non-empty. otherwise does nothing */
   def foreach(f: E => Unit): Unit
 
-  /** true if there was an error for a persistence operation on the entity. */
+  /** true if there was an error for a persistence operation on the aggregate */
   def isError: Boolean
 
-  /** returns the entity if non-error. otherwise returns `None`. */
+  /** returns the aggregate if non-error. otherwise returns `None`. */
   def getOption: Option[E]
 
-  /** returns the entity */
+  /** returns the aggregate */
   @throws[NoSuchElementException]
   def get: E = getOption.get
 
