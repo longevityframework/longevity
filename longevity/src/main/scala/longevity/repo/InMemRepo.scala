@@ -1,5 +1,7 @@
 package longevity.repo
 
+import scala.concurrent._
+import scala.concurrent.ExecutionContext.Implicits.global
 import emblem._
 import longevity.domain._
 
@@ -7,33 +9,38 @@ import longevity.domain._
 class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityType[E]) extends Repo[E] {
   repo =>
 
-  case class IntId(i: Int) extends PersistedAssoc[E] {
+  protected[longevity] case class IntId(i: Int) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
-    def retrieve = repo.retrieve(this).get.get
+    def retrieve = repo.retrieve(this).map(_.get.get)
   }
 
   private var nextId = 0
   private var idToEntityMap = Map[PersistedAssoc[E], Persisted[E]]()
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
-    val id = IntId(nextId)
-    nextId += 1
-    persist(id, patchUnpersistedAssocs(unpersisted.get))
+    val id = synchronized {
+      val id = IntId(nextId)
+      nextId += 1
+      id
+    }
+    patchUnpersistedAssocs(unpersisted.get).map(persist(id, _))
   })
 
-  def retrieve(id: PersistedAssoc[E]) = idToEntityMap.get(id)
+  def retrieve(id: PersistedAssoc[E]) = Future { idToEntityMap.get(id) }
 
-  def update(persisted: Persisted[E]) = persist(persisted.id, patchUnpersistedAssocs(persisted.curr))
+  def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.curr) map {
+    persist(persisted.id, _)
+  }
 
-  def delete(persisted: Persisted[E]) = {
-    idToEntityMap -= persisted.id
+  def delete(persisted: Persisted[E]) = Future {
+    synchronized { idToEntityMap -= persisted.id }
     Deleted(persisted)
   }
 
   private def persist(id: PersistedAssoc[E], e: E): Persisted[E] = {
     val persisted = Persisted[E](id, e)
-    idToEntityMap += (id -> persisted)
+    synchronized { idToEntityMap += (id -> persisted) }
     persisted
   }
 

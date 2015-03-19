@@ -3,10 +3,7 @@ package longevity.domain
 import scala.reflect.runtime.universe._
 import emblem._
 
-/** a type class for a domain entity
- * 
- * TODO scaladoc
- */
+/** a type class for a domain entity */
 abstract class EntityType[E <: Entity : TypeKey] {
 
   lazy val entityTypeKey: TypeKey[E] = typeKey[E]
@@ -15,34 +12,42 @@ abstract class EntityType[E <: Entity : TypeKey] {
 
   // TODO pt-87441650 intra-entity contraints
 
+  private type AssocProp =
+    EmblemProp[E, Assoc[Associatee]] forSome { type Associatee <: RootEntity }
+
+  private type AssocSetProp =
+    EmblemProp[E, Set[Assoc[Associatee]]] forSome { type Associatee <: RootEntity }
+
+  private type AssocOptionProp =
+    EmblemProp[E, Option[Assoc[Associatee]]] forSome { type Associatee <: RootEntity }
+
   // TODO: can i get rid of these annoying casts?
 
-  private[longevity] val assocProps: Seq[EmblemProp[E, Assoc[_ <: RootEntity]]] = {
+  private[longevity] val assocProps: Seq[AssocProp] = {
     emblem.props.flatMap { prop =>
       if (prop.typeKey.tag.tpe <:< typeOf[Assoc[_]])
-        Some(prop.asInstanceOf[EmblemProp[E, Assoc[_ <: RootEntity]]])
+        Some(prop).asInstanceOf[Option[AssocProp]]
       else
         None
     }
   }
 
-  private[longevity] val assocSetProps: Seq[EmblemProp[E, Set[Assoc[_ <: RootEntity]]]] = {
+  private[longevity] val assocSetProps: Seq[AssocSetProp] = {
     emblem.props.flatMap { prop =>
-      if (
+      def isAssocSetProp =
         prop.typeKey.tag.tpe <:< typeOf[Set[_]] &&
-        prop.typeKey.tag.tpe.typeArgs.head <:< typeOf[Assoc[_]])
-        Some(prop.asInstanceOf[EmblemProp[E, Set[Assoc[_ <: RootEntity]]]])
+        prop.typeKey.tag.tpe.typeArgs.head <:< typeOf[Assoc[_]]
+      if (isAssocSetProp)
+        Some(prop).asInstanceOf[Option[AssocSetProp]]
       else
         None
     }
   }
 
-  // TODO: definitely need some tests to cover options
-
-  private[longevity] val assocOptionProps: Seq[EmblemProp[E, Option[Assoc[_ <: RootEntity]]]] = {
+  private[longevity] val assocOptionProps: Seq[AssocOptionProp] = {
     emblem.props.flatMap { prop =>
       if (prop.typeKey.tag.tpe <:< typeOf[Option[Assoc[_]]])
-        Some(prop.asInstanceOf[EmblemProp[E, Option[Assoc[_ <: RootEntity]]]])
+        Some(prop).asInstanceOf[Option[AssocOptionProp]]
       else
         None
     }

@@ -17,7 +17,7 @@ import scala.reflect.runtime.universe.TypeTag
 case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
   val namePrefix: String,
   val name: String,
-  val props: Seq[EmblemProp[T, _]],
+  val props: Seq[EmblemProp[T, U] forSome { type U }],
   val creator: Map[String, Any] => T
 ) {
 

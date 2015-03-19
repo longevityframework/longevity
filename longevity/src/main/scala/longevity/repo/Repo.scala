@@ -1,5 +1,7 @@
 package longevity.repo
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
 import emblem._
 import longevity.domain._
 
@@ -17,19 +19,19 @@ abstract class Repo[E <: RootEntity : TypeKey] {
   val entityType: EntityType[E]
 
   /** creates the aggregate */
-  def create(e: Unpersisted[E]): Persisted[E]
+  def create(e: Unpersisted[E]): Future[Persisted[E]]
 
   /** convenience method for creating the aggregate */
-  def create(e: E): Persisted[E] = create(Unpersisted(e))
+  def create(e: E): Future[Persisted[E]] = create(Unpersisted(e))
 
   /** retrieves the aggregate by id */
-  def retrieve(id: PersistedAssoc[E]): Option[Persisted[E]]
+  def retrieve(id: PersistedAssoc[E]): Future[Option[Persisted[E]]]
 
   /** updates the aggregate */
-  def update(p: Persisted[E]): Persisted[E]
+  def update(p: Persisted[E]): Future[Persisted[E]]
 
   /** deletes the aggregate */
-  def delete(p: Persisted[E]): Deleted[E]
+  def delete(p: Persisted[E]): Future[Deleted[E]]
 
   /** the pool of all the repos for the [[longevity.domain.BoundedContext bounded context]].
    *
@@ -51,42 +53,80 @@ abstract class Repo[E <: RootEntity : TypeKey] {
 
   /** pull a create result out of the cache for the given unpersisted. if it's not there, then create it,
    * cache it, and return it */
-  protected def getSessionCreationOrElse(unpersisted: Unpersisted[E], create: => Persisted[E])
-  : Persisted[E] = {
-    val persisted = sessionCreations.getOrElse(unpersisted, {
-      val persisted = create
-      sessionCreations += (unpersisted -> persisted)
-      persisted
-    })
-    persisted
+  protected def getSessionCreationOrElse(unpersisted: Unpersisted[E], create: => Future[Persisted[E]])
+  : Future[Persisted[E]] = {
+    sessionCreations.get(unpersisted).map(Future(_)).getOrElse {
+      create.map { persisted =>
+        sessionCreations += (unpersisted -> persisted)
+        persisted
+      }
+    }
   }
 
+  // TODO for comprehensions throughout below
+
   /** returns a version of the aggregate where all unpersisted associations are persisted */
-  protected def patchUnpersistedAssocs(e: E): E = {
-    val e2 = entityType.assocProps.foldLeft(e) { (e, prop) =>
-      prop.set(e, persistAssocWhenUnpersisted(prop.get(e)))
+  protected def patchUnpersistedAssocs(entity: E): Future[E] = {
+    var futureE = Future { entity }
+    futureE = entityType.assocProps.foldLeft(futureE) { (futureE, prop) =>
+      futureE flatMap { e => persistAssocWhenUnpersisted(e, prop) }
     }
-    val e3 = entityType.assocSetProps.foldLeft(e2) { (e, prop) =>
-      prop.set(e, prop.get(e) map { associatee => persistAssocWhenUnpersisted(associatee) })
+    futureE = entityType.assocSetProps.foldLeft(futureE) { (futureE, prop) =>
+      futureE flatMap { e => persistUnpersistedMembersOfAssocSet(e, prop) }
     }
-    val e4 = entityType.assocOptionProps.foldLeft(e3) { (e, prop) =>
-      prop.set(e, prop.get(e) map { associatee => persistAssocWhenUnpersisted(associatee) })
+    futureE = entityType.assocOptionProps.foldLeft(futureE) { (e, prop) =>
+      futureE flatMap { e => persistUnpersistedMembersOfAssocOption(e, prop) }
     }
-    e4
+    futureE
   }
+
+  private def persistAssocWhenUnpersisted[Associatee <: RootEntity](
+    e: E,
+    prop: EmblemProp[E, Assoc[Associatee]])
+  : Future[E] =
+    for (assoc <- persistAssocWhenUnpersisted(prop.get(e))) yield prop.set(e, assoc)
 
   private def persistAssocWhenUnpersisted[
     Associatee <: RootEntity](
     assoc: Assoc[Associatee])
-  : Assoc[Associatee] = {
+  : Future[Assoc[Associatee]] = {
     assoc match {
       case UnpersistedAssoc(u) =>
         val repo = repoPool(assoc.associateeTypeKey)
-        val persisted = repo.create(u)
-        persisted.id
-      case _ => 
-        assoc
+        for (persisted <- repo.create(u)) yield persisted.id
+      case _ => Future(assoc)
     }
+  }
+
+  private def persistUnpersistedMembersOfAssocSet[
+    Associatee <: RootEntity](
+    e: E,
+    assocSetProp: EmblemProp[E, Set[Assoc[Associatee]]])
+  : Future[E] = {
+    val assocFutureSet = for (
+      assoc <- assocSetProp.get(e)
+    ) yield persistAssocWhenUnpersisted(assoc)
+
+    for (
+      assocSet <- Future.sequence(assocFutureSet)
+    ) yield assocSetProp.set(e, assocSet)
+  }
+
+  private def persistUnpersistedMembersOfAssocOption[
+    Associatee <: RootEntity](
+    e: E,
+    assocOptionProp: EmblemProp[E, Option[Assoc[Associatee]]])
+  : Future[E] = {
+    val assocFutureOption = for (
+      unpersisted <- assocOptionProp.get(e)
+    ) yield persistAssocWhenUnpersisted(unpersisted)
+
+    val assocOptionFuture: Future[Option[Assoc[Associatee]]] = assocFutureOption match {
+      case Some(f) => f map { assoc => Some(assoc) }
+      case None => Future { None }
+    }
+
+    for (assocOption <- assocOptionFuture) yield assocOptionProp.set(e, assocOption)
   }
   
 }

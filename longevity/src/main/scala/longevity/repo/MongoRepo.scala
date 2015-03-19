@@ -16,11 +16,10 @@ class MongoRepo[E <: RootEntity : TypeKey](
 extends Repo[E] {
   repo =>
 
-  // TODO better names for this part of the hierarchy
-  case class MongoId(objectId: BSONObjectID) extends PersistedAssoc[E] {
+  protected[longevity] case class MongoId(objectId: BSONObjectID) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
-    def retrieve = repo.retrieve(this).get.get
+    def retrieve = repo.retrieve(this).map(_.get.get)
   }
 
   private lazy val collectionName: String = camelToUnderscore(typeName(entityTypeKey.tpe))
@@ -29,61 +28,36 @@ extends Repo[E] {
   protected implicit lazy val bsonHandler = new EmblemBsonHandler(entityType.emblem, domainShorthands, repoPool)
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
-    val e = patchUnpersistedAssocs(unpersisted.e)
-    val id = BSONObjectID.generate
-    val document = BSON.writeDocument(e).add(BSONDocument("_id" -> id))
-
-    val future = mongoCollection.insert(document)
-
-    // TODO handle errors for real
-    import scala.concurrent.Await
-    import scala.concurrent.duration._
-    val lastError = Await.result(future, 10.seconds)
-
-    Persisted[E](MongoId(id), e)
+    for (
+      patched <- patchUnpersistedAssocs(unpersisted.e);
+      id = BSONObjectID.generate;
+      document = BSON.writeDocument(patched).add(BSONDocument("_id" -> id));
+      lastError <- mongoCollection.insert(document)
+    ) yield Persisted[E](MongoId(id), patched)
   })
 
   def retrieve(id: PersistedAssoc[E]) = {
     val objectId = id.asInstanceOf[MongoId].objectId
     val selector = BSONDocument("_id" -> objectId)
-
     val future = mongoCollection.find(selector).one[E]
-
-    // TODO handle futures appropriately
-    import scala.concurrent.Await
-    import scala.concurrent.duration._
-    val lastError = Await.result(future, 10.seconds)
-
-    // TODO: okay, but an error here could indicate something else, like network problem
-    lastError.map(Persisted[E](id, _))
+    future map { resultOption => resultOption.map( Persisted[E](id, _) ) }
   }
 
   def update(persisted: Persisted[E]) = {
     val objectId = persisted.id.asInstanceOf[MongoId].objectId
     val selector = BSONDocument("_id" -> objectId)
-    val patchedEntity = patchUnpersistedAssocs(persisted.curr)
-    val document = BSON.writeDocument(patchedEntity).add(BSONDocument("_id" -> objectId))
-    val future = mongoCollection.update(selector, document)
-
-    // TODO handle errors for real
-    import scala.concurrent.Await
-    import scala.concurrent.duration._
-    val lastError = Await.result(future, 10.seconds)
-
-    Persisted[E](persisted.id, patchedEntity)
+    for (
+      patched <- patchUnpersistedAssocs(persisted.curr);
+      document = BSON.writeDocument(patched).add(BSONDocument("_id" -> objectId));
+      lastError <- mongoCollection.update(selector, document)
+    ) yield Persisted[E](persisted.id, patched)
   }
 
   def delete(persisted: Persisted[E]) = {
     val objectId = persisted.id.asInstanceOf[MongoId].objectId
     val selector = BSONDocument("_id" -> objectId)
-
     val future = mongoCollection.remove(selector)
-
-    import scala.concurrent.Await
-    import scala.concurrent.duration._
-    val lastError = Await.result(future, 10.seconds)
-
-    Deleted(persisted)
+    future map { lastError => Deleted(persisted) }
   }
 
 }
