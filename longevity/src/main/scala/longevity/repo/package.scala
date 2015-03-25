@@ -10,24 +10,23 @@ package object repo {
   /** a `TypeKeyMap` of [[domain.RootEntity RootEntity]] to [[Repo]] */
   type RepoPool = TypeKeyMap[RootEntity, Repo]
 
-  /** like a [[RepoPool]], except that the [[Repo repositories]] have not yet been fully initialized */
-  type ProvisionalRepoPool = TypeKeyMap[RootEntity, Repo]
+  // TODO scaladoc for these three
 
-  /** an empty [[ProvisionalRepoPool]] */
-  val emptyProvisionalRepoPool = TypeKeyMap[RootEntity, Repo]
+  type SpecializedRepoFactory[RE <: RootEntity] = (BoundedContext) => Repo[RE]
+
+  type SpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
+
+  val emptySpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
 
   /** builds and returns a [[RepoPool]] for the [[BoundedContext]]. */
-  private[longevity] def repoPoolForBoundedContext(boundedContext: BoundedContext[_]): RepoPool = {
+  private[longevity] def repoPoolForBoundedContext(boundedContext: BoundedContext): RepoPool = {
     boundedContext.persistenceStrategy match {
-      case InMem => inMemRepoPool(
-        boundedContext.subdomain,
-        boundedContext.specializations)
-      case Mongo => mongoRepoPool(
-        boundedContext.subdomain,
-        boundedContext.shorthandPool,
-        boundedContext.specializations)
+      case InMem => inMemRepoPool(boundedContext, boundedContext.specializations)
+      case Mongo => mongoRepoPool(boundedContext, boundedContext.specializations)
     }
   }
+
+  // TODO @params for scaladocs below have fallen off
 
   /** builds and returns a [[RepoPool]] of [[InMemRepo in-memory repositories]] for all the root entities in
    * the subdomain. stock in-memory repositories will created, except where specialized versions are
@@ -37,34 +36,29 @@ package object repo {
    * in-memory repositories
    */
   private[longevity] def inMemRepoPool(
-    subdomain: Subdomain,
-    specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
+    boundedContext: BoundedContext,
+    specializations: SpecializedRepoFactoryPool = emptySpecializedRepoFactoryPool)
   : RepoPool = {
     object repoFactory extends stock.RepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new InMemRepo(entityType)(entityKey)
+        new InMemRepo(entityType, boundedContext)(entityKey)
     }
-    buildRepoPool(subdomain, repoFactory, specializations)
+    buildRepoPool(boundedContext, repoFactory, specializations)
   }
 
   /** builds and returns a [[RepoPool]] of [[MongoRepo mongo repositories]] for all the root entities in the
    * subdomain. stock mongo repositories will created, except where specialized versions are
    * provided.
-   * @param subdomain the bounded context
-   * @param shorthandPool the shorthands to use when converting to/from BSON
-   * @param specializations specialized repositories to include in the pool, in place of the stock
-   * mongo repositories
+   * @param boundedContext the bounded context
    */
   private def mongoRepoPool(
-    subdomain: Subdomain,
-    shorthandPool: ShorthandPool = ShorthandPool(),
-    specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
-  : RepoPool = {
+    boundedContext: BoundedContext,
+    specializations: SpecializedRepoFactoryPool): RepoPool = {
     object repoFactory extends stock.RepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new MongoRepo(entityType, shorthandPool)(entityKey)
+        new MongoRepo(entityType, boundedContext)(entityKey)
     }
-    buildRepoPool(subdomain, repoFactory, specializations)
+    buildRepoPool(boundedContext, repoFactory, boundedContext.specializations)
   }
 
   // RepoFactory is inside object stock to prevent lint warning about declaring classes in package objects
@@ -75,9 +69,9 @@ package object repo {
   }
 
   private def buildRepoPool(
-    subdomain: Subdomain,
+    boundedContext: BoundedContext,
     stockRepoFactory: stock.RepoFactory,
-    specializations: ProvisionalRepoPool)
+    specializations: SpecializedRepoFactoryPool)
   : RepoPool = {
     var repoPool = emptyRepoPool
     def createRepoFromPair[
@@ -87,12 +81,12 @@ package object repo {
       val entityKey = pair._1
       val entityType = pair._2
       val repo = specializations.get(entityKey) match {
-        case Some(repo) => repo
+        case Some(specializedRepoFactory) => specializedRepoFactory(boundedContext)
         case None => stockRepoFactory.build(entityType, entityKey)
       }
       repoPool += (entityKey -> repo)
     }
-    subdomain.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    boundedContext.subdomain.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
     finishRepoInitialization(repoPool)
     repoPool
   }

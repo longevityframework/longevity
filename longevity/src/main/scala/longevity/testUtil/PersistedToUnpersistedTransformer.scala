@@ -21,7 +21,7 @@ object PersistedToUnpersistedTransformer {
  *
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
  */
-class PersistedToUnpersistedTransformer(private val boundedContext: BoundedContext[_])
+class PersistedToUnpersistedTransformer(private val boundedContext: BoundedContext)
 extends Transformer {
 
   override protected val emblemPool = boundedContext.subdomain.entityEmblemPool

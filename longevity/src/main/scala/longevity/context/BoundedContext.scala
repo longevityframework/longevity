@@ -1,7 +1,7 @@
 package longevity.context
 
-import longevity.repo.ProvisionalRepoPool
-import longevity.repo.emptyProvisionalRepoPool
+import longevity.repo.SpecializedRepoFactoryPool
+import longevity.repo.emptySpecializedRepoFactoryPool
 import longevity.repo.repoPoolForBoundedContext
 import longevity.domain.Subdomain
 import emblem.ShorthandPool
@@ -14,16 +14,16 @@ import emblem.traversors.Generator.emptyCustomGenerators
  * @tparam PS the kind of persistence strategy for this bounded context
  * @param subdomain The subdomain
  * @param shorthandPool a complete set of the shorthands used by the domain
- * @param specializations a collection specialized repositories
+ * @param specializations a collection factories for specialized repositories
  * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
  * empty collection.
  * @param persistenceStrategy the persistence strategy for this bounded context
  */
-case class BoundedContext[PS <: PersistenceStrategy](
-  persistenceStrategy: PS,
+case class BoundedContext(
+  persistenceStrategy: PersistenceStrategy,
   subdomain: Subdomain,
   shorthandPool: ShorthandPool = ShorthandPool(),
-  specializations: ProvisionalRepoPool = emptyProvisionalRepoPool,
+  specializations: SpecializedRepoFactoryPool = emptySpecializedRepoFactoryPool,
   customGenerators: CustomGenerators = emptyCustomGenerators) {
 
   /** The standard set of repositories for this bounded context */
@@ -31,7 +31,7 @@ case class BoundedContext[PS <: PersistenceStrategy](
 
   /** An in-memory set of repositories for this bounded context, for use in testing. no specializations are
    * provided. */
-  lazy val inMemRepoPool = longevity.repo.inMemRepoPool(subdomain)
+  lazy val inMemRepoPool = longevity.repo.inMemRepoPool(this)
 
   // TODO scaladoc
   class RepoPoolSpec extends longevity.testUtil.RepoPoolSpec(

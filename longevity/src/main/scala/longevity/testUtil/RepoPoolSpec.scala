@@ -15,8 +15,6 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
 
-// TODO: this should take a BoundedContext instead of Subdomain, repoPool, and custom generators
-
 /** a simple fixture to test your [[longevity.repo.RepoPool]]. all you have to do is extend this class and
  * provide the necessary inputs to the constructor.
  *
@@ -32,7 +30,7 @@ import org.scalatest.time.SpanSugar._
  * bounded contexts with the same name, when reading scalatest output
  */
 class RepoPoolSpec(
-  private val boundedContext: BoundedContext[_],
+  private val boundedContext: BoundedContext,
   private val repoPool: RepoPool,
   private val suiteNameSuffix: Option[String] = None)
 extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {

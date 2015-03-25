@@ -17,8 +17,4 @@ package object oneShorthand {
 
   val boundedContext = BoundedContext(Mongo, subdomain, shorthandPool)
 
-  val inMemRepoPool = longevity.repo.inMemRepoPool(subdomain)
-
-  val mongoRepoPool = boundedContext.repoPool
-
 }

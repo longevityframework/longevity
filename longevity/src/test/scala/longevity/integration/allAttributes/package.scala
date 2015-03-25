@@ -13,8 +13,4 @@ package object allAttributes {
 
   val boundedContext = BoundedContext(Mongo, subdomain)
 
-  val inMemRepoPool = longevity.repo.inMemRepoPool(subdomain)
-
-  val mongoRepoPool = boundedContext.repoPool
-
 }

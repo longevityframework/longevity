@@ -8,11 +8,12 @@ import reactivemongo.bson._
 import emblem._
 import emblem.stringUtil._
 import longevity.domain._
+import longevity.context.BoundedContext
 
 /** a MongoDB repository for aggregate roots of type E */
 class MongoRepo[E <: RootEntity : TypeKey](
   override val entityType: RootEntityType[E],
-  protected val domainShorthands: ShorthandPool = ShorthandPool())
+  protected val boundedContext: BoundedContext)
 extends Repo[E] {
   repo =>
 
@@ -25,7 +26,8 @@ extends Repo[E] {
   private lazy val collectionName: String = camelToUnderscore(typeName(entityTypeKey.tpe))
   private val mongoCollection = MongoRepo.db.collection(collectionName)
 
-  protected implicit lazy val bsonHandler = new EmblemBsonHandler(entityType.emblem, domainShorthands, repoPool)
+  protected implicit lazy val bsonHandler =
+    new EmblemBsonHandler(entityType.emblem, boundedContext.shorthandPool, repoPool)
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
     for (

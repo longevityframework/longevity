@@ -4,9 +4,13 @@ import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 import emblem._
 import longevity.domain._
+import longevity.context.BoundedContext
 
 /** an in-memory repository for aggregate roots of type E */
-class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityType[E]) extends Repo[E] {
+class InMemRepo[E <: RootEntity : TypeKey](
+  override val entityType: RootEntityType[E],
+  protected val boundedContext: BoundedContext)
+extends Repo[E] {
   repo =>
 
   protected[longevity] case class IntId(i: Int) extends PersistedAssoc[E] {

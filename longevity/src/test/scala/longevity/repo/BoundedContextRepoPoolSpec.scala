@@ -50,13 +50,15 @@ class BoundedContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matche
   behavior of "a repo pool of an in-memory bounded context with specializations"
 
   it should "contain the specialized repos" in {
-    class SpecializedFriendRepo extends InMemRepo[Friend](FriendType) {
+    class SpecializedFriendRepo(boundedContext: BoundedContext)
+    extends InMemRepo[Friend](FriendType, boundedContext) {
       def numHolesItTakesToFillTheAlbertHall: Int = ???
     }
+    def factory = (boundedContext: BoundedContext) => new SpecializedFriendRepo(boundedContext)
     val boundedContext = BoundedContext(
       InMem,
       subdomain,
-      specializations = emptyProvisionalRepoPool + new SpecializedFriendRepo
+      specializations = emptySpecializedRepoFactoryPool + factory
     )
     val repoPool = boundedContext.repoPool
     repoPool.size should equal (2)
@@ -69,19 +71,21 @@ class BoundedContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matche
   behavior of "a repo pool of a mongo bounded context with specializations"
 
   it should "contain the specialized repos" in {
-    class SpecializedFriendRepo extends MongoRepo[Friend](FriendType) {
+    class SpecializedFriendRepo(boundedContext: BoundedContext)
+    extends MongoRepo[Friend](FriendType, boundedContext) {
       def numHolesItTakesToFillTheAlbertHall: Int = ???
     }
+    def factory = (boundedContext: BoundedContext) => new SpecializedFriendRepo(boundedContext)
     val boundedContext = BoundedContext(
       Mongo,
       subdomain,
-      specializations = emptyProvisionalRepoPool + new SpecializedFriendRepo
+      specializations = emptySpecializedRepoFactoryPool + factory
     )
     val repoPool = boundedContext.repoPool
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe a [SpecializedFriendRepo]
     repoPool.get[Friend].value.entityType should equal (FriendType)
-    repoPool.get[Post].value shouldBe an [MongoRepo[_]]
+    repoPool.get[Post].value shouldBe a [MongoRepo[_]]
     repoPool.get[Post].value.entityType should equal (PostType)
   }
 
