@@ -72,11 +72,12 @@ class BoundedContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matche
     class SpecializedFriendRepo extends MongoRepo[Friend](FriendType) {
       def numHolesItTakesToFillTheAlbertHall: Int = ???
     }
-    val repoPool = mongoRepoPool(
+    val boundedContext = BoundedContext(
+      Mongo,
       subdomain,
-      shorthandPool,
-      emptyProvisionalRepoPool + new SpecializedFriendRepo
+      specializations = emptyProvisionalRepoPool + new SpecializedFriendRepo
     )
+    val repoPool = boundedContext.repoPool
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe a [SpecializedFriendRepo]
     repoPool.get[Friend].value.entityType should equal (FriendType)

@@ -29,8 +29,6 @@ package object repo {
     }
   }
 
-  // TODO: this method and the next should take a BoundedContext not a Subdomain
-
   /** builds and returns a [[RepoPool]] of [[InMemRepo in-memory repositories]] for all the root entities in
    * the subdomain. stock in-memory repositories will created, except where specialized versions are
    * provided.
@@ -38,7 +36,7 @@ package object repo {
    * @param specializations specialized repositories to include in the pool, in place of the stock
    * in-memory repositories
    */
-  def inMemRepoPool(
+  private[longevity] def inMemRepoPool(
     subdomain: Subdomain,
     specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
   : RepoPool = {
@@ -57,7 +55,7 @@ package object repo {
    * @param specializations specialized repositories to include in the pool, in place of the stock
    * mongo repositories
    */
-  def mongoRepoPool(
+  private def mongoRepoPool(
     subdomain: Subdomain,
     shorthandPool: ShorthandPool = ShorthandPool(),
     specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)

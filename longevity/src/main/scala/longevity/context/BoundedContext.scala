@@ -33,4 +33,16 @@ case class BoundedContext[PS <: PersistenceStrategy](
    * provided. */
   lazy val inMemRepoPool = longevity.repo.inMemRepoPool(subdomain)
 
+  // TODO scaladoc
+  class RepoPoolSpec extends longevity.testUtil.RepoPoolSpec(
+    this,
+    this.repoPool,
+    suiteNameSuffix = Some("(Mongo)"))
+
+  // TODO scaladoc
+  class InMemRepoPoolSpec extends longevity.testUtil.RepoPoolSpec(
+    this,
+    inMemRepoPool,
+    suiteNameSuffix = Some("(InMem)"))
+
 }
