@@ -1,8 +1,8 @@
 package musette
 
 import emblem._
-import longevity.domain.BoundedContext
-import longevity.domain.EntityTypePool
+import longevity.context._
+import longevity.domain._
 
 package object domain {
 
@@ -23,6 +23,8 @@ package object domain {
 
   implicit def stringToUri(uri: String): Uri = Uri(uri)
 
-  val boundedContext = BoundedContext("Musette", entityTypes, shorthands)
+  val subdomain = Subdomain("Musette", entityTypes)
+
+  val boundedContext = BoundedContext(Mongo, subdomain, shorthands)
 
 }

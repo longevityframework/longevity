@@ -1,7 +1,8 @@
 package longevity
 
 import emblem._
-import domain._
+import longevity.context._
+import longevity.domain._
 
 // TODO: package level scaladoc
 package object repo {
@@ -15,40 +16,57 @@ package object repo {
   /** an empty [[ProvisionalRepoPool]] */
   val emptyProvisionalRepoPool = TypeKeyMap[RootEntity, Repo]
 
-  /** builds and returns a [[RepoPool]] of [[InMemRepo in-memory repositories]] for all the entities in a
-   * bounded context. stock in-memory repositories will created, except where specialized versions are
+  /** builds and returns a [[RepoPool]] for the [[BoundedContext]]. */
+  private[longevity] def repoPoolForBoundedContext(boundedContext: BoundedContext[_]): RepoPool = {
+    boundedContext.persistenceStrategy match {
+      case InMem => inMemRepoPool(
+        boundedContext.subdomain,
+        boundedContext.specializations)
+      case Mongo => mongoRepoPool(
+        boundedContext.subdomain,
+        boundedContext.shorthandPool,
+        boundedContext.specializations)
+    }
+  }
+
+  // TODO: this method and the next should take a BoundedContext not a Subdomain
+
+  /** builds and returns a [[RepoPool]] of [[InMemRepo in-memory repositories]] for all the root entities in
+   * the subdomain. stock in-memory repositories will created, except where specialized versions are
    * provided.
-   * @param boundedContext the bounded context
+   * @param subdomain the bounded context
    * @param specializations specialized repositories to include in the pool, in place of the stock
    * in-memory repositories
    */
   def inMemRepoPool(
-    boundedContext: BoundedContext,
+    subdomain: Subdomain,
     specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
   : RepoPool = {
     object repoFactory extends stock.RepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new InMemRepo(entityType)(entityKey)
     }
-    buildRepoPool(boundedContext, repoFactory, specializations)
+    buildRepoPool(subdomain, repoFactory, specializations)
   }
 
-  /** builds and returns a [[RepoPool]] of [[MongoRepo mongo repositories]] for all the entities in a
-   * bounded context. stock mongo repositories will created, except where specialized versions are
+  /** builds and returns a [[RepoPool]] of [[MongoRepo mongo repositories]] for all the root entities in the
+   * subdomain. stock mongo repositories will created, except where specialized versions are
    * provided.
-   * @param boundedContext the bounded context
+   * @param subdomain the bounded context
+   * @param shorthandPool the shorthands to use when converting to/from BSON
    * @param specializations specialized repositories to include in the pool, in place of the stock
    * mongo repositories
    */
   def mongoRepoPool(
-    boundedContext: BoundedContext,
+    subdomain: Subdomain,
+    shorthandPool: ShorthandPool = ShorthandPool(),
     specializations: ProvisionalRepoPool = emptyProvisionalRepoPool)
   : RepoPool = {
     object repoFactory extends stock.RepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new MongoRepo(entityType, boundedContext.shorthandPool)(entityKey)
+        new MongoRepo(entityType, shorthandPool)(entityKey)
     }
-    buildRepoPool(boundedContext, repoFactory, specializations)
+    buildRepoPool(subdomain, repoFactory, specializations)
   }
 
   // RepoFactory is inside object stock to prevent lint warning about declaring classes in package objects
@@ -59,7 +77,7 @@ package object repo {
   }
 
   private def buildRepoPool(
-    boundedContext: BoundedContext,
+    subdomain: Subdomain,
     stockRepoFactory: stock.RepoFactory,
     specializations: ProvisionalRepoPool)
   : RepoPool = {
@@ -76,7 +94,7 @@ package object repo {
       }
       repoPool += (entityKey -> repo)
     }
-    boundedContext.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    subdomain.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
     finishRepoInitialization(repoPool)
     repoPool
   }

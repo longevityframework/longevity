@@ -1,6 +1,7 @@
 package longevity.repo
 
 import emblem._
+import longevity.context._
 import longevity.domain._
 
 object testUtil {
@@ -15,8 +16,12 @@ object testUtil {
 
   val entityTypes = EntityTypePool() + FriendType + PostType
 
-  val shorthands = ShorthandPool()
+  val subdomain = Subdomain("blog", entityTypes)
 
-  val boundedContext = BoundedContext("blog", entityTypes, shorthands)
+  val shorthandPool = ShorthandPool()
+
+  val boundedContext = BoundedContext(Mongo, subdomain, shorthandPool)
+
+  val inMemBoundedContext = BoundedContext(InMem, subdomain, shorthandPool)
 
 }

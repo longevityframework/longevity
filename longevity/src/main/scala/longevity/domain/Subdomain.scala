@@ -2,17 +2,16 @@ package longevity.domain
 
 import emblem._
 
-/** a specification of a project's domain. contains a pool of all the [[EntityType entity types]] in the
- * domain, as well as all the shorthands used by the entities.
+// TODO: shorthands should be in the context
+/** a specification of a subdomain of a project's domain. contains a pool of all the [[EntityType entity types]]
+ * in the subdomain, as well as all the shorthands used by the entities.
  * 
  * @param entityTypePool a complete set of the entity types within the domain
- * @param shorthandPool a complete set of the shorthands used by the domain
  * @see emblem.Shorthand and emblem.ShorthandPool
  */
-case class BoundedContext(
+case class Subdomain(
   name: String,
-  entityTypePool: EntityTypePool,
-  shorthandPool: ShorthandPool) {
+  entityTypePool: EntityTypePool) {
 
   val rootEntityTypePool = RootEntityTypePool(entityTypePool)
 

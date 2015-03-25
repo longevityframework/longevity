@@ -5,5 +5,5 @@ import musette.domain.boundedContext
 
 class InMemRepoPoolSpec extends RepoPoolSpec(
   boundedContext,
-  inMemRepoPool,
+  longevity.repo.inMemRepoPool(boundedContext.subdomain),
   suiteNameSuffix = Some("(InMem)"))

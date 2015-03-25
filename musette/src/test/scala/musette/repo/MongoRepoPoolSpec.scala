@@ -5,5 +5,5 @@ import musette.domain.boundedContext
 
 class MongoRepoPoolSpec extends RepoPoolSpec(
   boundedContext,
-  mongoRepoPool,
+  boundedContext.repoPool,
   suiteNameSuffix = Some("(Mongo)"))

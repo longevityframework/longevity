@@ -4,9 +4,9 @@ import emblem._
 import emblem.traversors.CustomGenerator
 import emblem.traversors.Differ
 import emblem.traversors.Generator
-import emblem.traversors.Generator.CustomGenerators
 import emblem.traversors.Generator.emptyCustomGenerators
 import emblem.traversors.TestDataGenerator
+import longevity.context.BoundedContext
 import longevity.domain._
 import longevity.repo._
 import org.scalatest.OptionValues._
@@ -15,22 +15,25 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
 
+// TODO: this should take a BoundedContext instead of Subdomain, repoPool, and custom generators
+
 /** a simple fixture to test your [[longevity.repo.RepoPool]]. all you have to do is extend this class and
  * provide the necessary inputs to the constructor.
  *
  * the repo pool spec exercises create/retrieve/update/delete for all the repos in your repo pool.
  *
  * @param boundedContext the bounded context
- * @param repoPool the repo pool under test
- * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
- * empty collection.
+ *
+ * @param repoPool the repo pool under test. this may be different than the `boundedContext.repoPool`, as
+ * users may want to test against other repo pools. (for instance, they may want a spec for in-memory repo
+ * pools if other parts of their test suite rely on them.)
+ * 
  * @param suiteNameSuffix a short string to add to the suite name, to help differentiate between suites for
  * bounded contexts with the same name, when reading scalatest output
  */
 class RepoPoolSpec(
-  private val boundedContext: BoundedContext,
+  private val boundedContext: BoundedContext[_],
   private val repoPool: RepoPool,
-  private val customGenerators: CustomGenerators = emptyCustomGenerators,
   private val suiteNameSuffix: Option[String] = None)
 extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
 
@@ -38,7 +41,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     timeout = scaled(1000 millis),
     interval = scaled(50 millis))
 
-  override val suiteName = s"RepoPoolSpec for ${boundedContext.name}${suiteNameSuffix match {
+  override val suiteName = s"RepoPoolSpec for ${boundedContext.subdomain.name}${suiteNameSuffix match {
     case Some(suffix) => s" $suffix"
     case None => ""
   }}"
@@ -143,12 +146,12 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     }
 
   private val testDataGenerator = new TestDataGenerator(
-    boundedContext.entityEmblemPool,
+    boundedContext.subdomain.entityEmblemPool,
     boundedContext.shorthandPool,
-    customGenerators + assocGenerator)
+    boundedContext.customGenerators + assocGenerator)
 
   private val unpersistor = new PersistedToUnpersistedTransformer(boundedContext)
-  private lazy val differ = new Differ(boundedContext.entityEmblemPool, boundedContext.shorthandPool)
+  private lazy val differ = new Differ(boundedContext.subdomain.entityEmblemPool, boundedContext.shorthandPool)
 
   private def persistedShouldMatchUnpersisted[E <: Entity : TypeKey](persisted: E, unpersisted: E): Unit = {
     val unpersistorated = unpersistor.transform(persisted)

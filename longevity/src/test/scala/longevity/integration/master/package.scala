@@ -1,6 +1,7 @@
 package longevity.integration
 
 import emblem._
+import longevity.context._
 import longevity.domain._
 
 /** covers everything found in the rest of the integration tests */
@@ -13,6 +14,8 @@ package object master {
     OneShorthand +
     WithAssoc +
     WithAssocSet
+
+  val subdomain = Subdomain("Master", entityTypes)
 
   val booleanShorthand = shorthandFor[BooleanShorthand, Boolean]
   val charShorthand = shorthandFor[CharShorthand, Char]
@@ -31,10 +34,10 @@ package object master {
     longShorthand +
     stringShorthand
 
-  val boundedContext = BoundedContext("Master", entityTypes, shorthandPool)
+  val boundedContext = BoundedContext(Mongo, subdomain, shorthandPool)
 
-  val inMemRepoPool = longevity.repo.inMemRepoPool(boundedContext)
+  val inMemRepoPool = longevity.repo.inMemRepoPool(subdomain)
 
-  val mongoRepoPool = longevity.repo.mongoRepoPool(boundedContext)
+  val mongoRepoPool = boundedContext.repoPool
 
 }

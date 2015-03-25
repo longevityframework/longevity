@@ -1,6 +1,7 @@
 package longevity.integration
 
 import emblem._
+import longevity.context._
 import longevity.domain._
 
 /** covers a root entity with a single shorthand */
@@ -10,12 +11,14 @@ package object oneShorthand {
 
   val uriShorthand = shorthandFor[Uri, String]
 
+  val subdomain = Subdomain("One Shorthand", entityTypes)
+
   val shorthandPool = ShorthandPool() + uriShorthand
 
-  val boundedContext = BoundedContext("One Shorthand", entityTypes, shorthandPool)
+  val boundedContext = BoundedContext(Mongo, subdomain, shorthandPool)
 
-  val inMemRepoPool = longevity.repo.inMemRepoPool(boundedContext)
+  val inMemRepoPool = longevity.repo.inMemRepoPool(subdomain)
 
-  val mongoRepoPool = longevity.repo.mongoRepoPool(boundedContext)
+  val mongoRepoPool = boundedContext.repoPool
 
 }
