@@ -72,8 +72,10 @@ object MusetteBuild extends Build with BuildSettings {
   lazy val longevity = Project(
     id = "longevity",
     base = file("longevity"),
-    settings = buildSettings :+
+    settings =
+      buildSettings :+
       (version := "0.0-SNAPSHOT") :+
+      (libraryDependencies += "org.mongodb" %% "casbah" % "2.8.0") :+
       (libraryDependencies += "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23") :+
       (libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "provided")
   )
@@ -93,9 +95,7 @@ object MusetteBuild extends Build with BuildSettings {
   lazy val musette = Project(
     id = "musette",
     base = file("musette"),
-    settings = buildSettings :+
-      (version := "0.0-SNAPSHOT") :+
-      (libraryDependencies += "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23")
+    settings = buildSettings :+ (version := "0.0-SNAPSHOT")
   ) dependsOn (emblem, longevity)
   // in the future, this dependsOn emblem may go away
 
