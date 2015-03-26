@@ -2,7 +2,7 @@ package longevity.repo
 
 import org.scalatest._
 import org.scalatest.OptionValues._
-import longevity.repo.testUtil._
+import longevity.repo.messageFriend._
 import longevity.context._
 
 /** unit tests for the proper construction of [[BoundedContext.repoPool]] and [[BoundedContext.inMemRepoPool]]
@@ -17,8 +17,8 @@ class BoundedContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matche
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe an [InMemRepo[_]]
     repoPool.get[Friend].value.entityType should equal (FriendType)
-    repoPool.get[Post].value shouldBe an [InMemRepo[_]]
-    repoPool.get[Post].value.entityType should equal (PostType)
+    repoPool.get[Message].value shouldBe an [InMemRepo[_]]
+    repoPool.get[Message].value.entityType should equal (MessageType)
   }
 
   behavior of "a repo pool of a mongo bounded context with no specializations"
@@ -28,8 +28,8 @@ class BoundedContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matche
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe a [MongoRepo[_]]
     repoPool.get[Friend].value.entityType should equal (FriendType)
-    repoPool.get[Post].value shouldBe a [MongoRepo[_]]
-    repoPool.get[Post].value.entityType should equal (PostType)
+    repoPool.get[Message].value shouldBe a [MongoRepo[_]]
+    repoPool.get[Message].value.entityType should equal (MessageType)
   }
 
   behavior of "a test in-memory repo pool of a bounded context"
@@ -42,8 +42,8 @@ class BoundedContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matche
       repoPool.size should equal (2)
       repoPool.get[Friend].value shouldBe an [InMemRepo[_]]
       repoPool.get[Friend].value.entityType should equal (FriendType)
-      repoPool.get[Post].value shouldBe an [InMemRepo[_]]
-      repoPool.get[Post].value.entityType should equal (PostType)
+      repoPool.get[Message].value shouldBe an [InMemRepo[_]]
+      repoPool.get[Message].value.entityType should equal (MessageType)
     }
   }
 
@@ -64,8 +64,8 @@ class BoundedContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matche
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe a [SpecializedFriendRepo]
     repoPool.get[Friend].value.entityType should equal (FriendType)
-    repoPool.get[Post].value shouldBe an [InMemRepo[_]]
-    repoPool.get[Post].value.entityType should equal (PostType)
+    repoPool.get[Message].value shouldBe an [InMemRepo[_]]
+    repoPool.get[Message].value.entityType should equal (MessageType)
   }
 
   behavior of "a repo pool of a mongo bounded context with specializations"
@@ -85,8 +85,8 @@ class BoundedContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matche
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe a [SpecializedFriendRepo]
     repoPool.get[Friend].value.entityType should equal (FriendType)
-    repoPool.get[Post].value shouldBe a [MongoRepo[_]]
-    repoPool.get[Post].value.entityType should equal (PostType)
+    repoPool.get[Message].value shouldBe a [MongoRepo[_]]
+    repoPool.get[Message].value.entityType should equal (MessageType)
   }
 
 }
