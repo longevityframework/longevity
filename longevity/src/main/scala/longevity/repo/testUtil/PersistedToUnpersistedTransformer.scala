@@ -1,4 +1,4 @@
-package longevity.testUtil
+package longevity.repo.testUtil
 
 import emblem._
 import emblem.traversors.Transformer

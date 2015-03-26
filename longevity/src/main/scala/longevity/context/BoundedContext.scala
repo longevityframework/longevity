@@ -37,7 +37,7 @@ case class BoundedContext(
   /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[repoPool repo pool]].
    * all you have to do is extend this class some place where ScalaTest is going to find it.
    */
-  class RepoPoolSpec extends longevity.testUtil.RepoPoolSpec(
+  class RepoPoolSpec extends longevity.repo.testUtil.RepoPoolSpec(
     this,
     this.repoPool,
     suiteNameSuffix = Some("(Mongo)"))
@@ -45,7 +45,7 @@ case class BoundedContext(
   /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[inMemRepoPool in-memory repo
    * pool]]. all you have to do is extend this class some place where ScalaTest is going to find it.
    */
-  class InMemRepoPoolSpec extends longevity.testUtil.RepoPoolSpec(
+  class InMemRepoPoolSpec extends longevity.repo.testUtil.RepoPoolSpec(
     this,
     inMemRepoPool,
     suiteNameSuffix = Some("(InMem)"))
