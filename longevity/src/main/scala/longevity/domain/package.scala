@@ -13,4 +13,9 @@ package object domain {
    * @see emblem.TypeKeyMap */
   type RootEntityTypePool = TypeKeyMap[RootEntity, RootEntityType]
 
+  /** TODO scaladoc
+   * TODO expose if use-case
+   */
+  private[longevity] type AssocAny = Assoc[_ <: RootEntity]
+
 }

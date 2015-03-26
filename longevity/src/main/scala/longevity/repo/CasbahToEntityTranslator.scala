@@ -9,65 +9,83 @@ import longevity.context._
 import longevity.domain._
 import longevity.exceptions.CouldNotTranslateException
 
-// TODO stick translator at the end of name
 /** TODO scaladoc */
-private[repo] class EntityToCasbah(boundedContext: BoundedContext) {
+private[repo] class CasbahToEntityTranslator(boundedContext: BoundedContext) {
 
   /** TODO scaladoc */
-  def translate[E <: Entity : TypeKey](e: E): MongoDBObject = try {
-    traversor.traverse[E](e).asInstanceOf[BasicDBObject]
+  def translate[E <: Entity : TypeKey](casbah: MongoDBObject): E = try {
+    traversor.traverse[E](casbah)
   } catch {
+    // case e: CouldNotTraverseException => throw new CouldNotTranslateException(typeKey[E], e)
     case e: CouldNotTraverseException =>
       e.printStackTrace
-      throw new CouldNotTranslateException(e.typeKey, e)
+      throw new CouldNotTranslateException(typeKey[E], e)
   }
 
   private val traversor = new Traversor {
 
-    type TraverseInput[A] = A
+    type TraverseInput[A] = Any
 
-    type TraverseResult[A] = Any
+    type TraverseResult[A] = A
 
     override protected val emblemPool: EmblemPool = boundedContext.subdomain.entityEmblemPool
 
     override protected val shorthandPool: ShorthandPool = boundedContext.shorthandPool
 
-    val assocTraversor = new CustomTraversor[AssocAny] {
+    override protected val customTraversors: CustomTraversors = emptyCustomTraversor + assocTraversor
+
+    def assocTraversor = new CustomTraversor[AssocAny] {
       def apply[B <: Assoc[_ <: RootEntity] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
         val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: RootEntity]]
  
-        // TODO: get rid of asInstanceOf by tightening type on repo pools and repo layers
-        val associateeRepo = boundedContext.repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]
+        def associateeRepo[Associatee <: RootEntity : TypeKey] =
+          boundedContext.repoPool(typeKey[Associatee]).asInstanceOf[MongoRepo[Associatee]]
 
-        // TODO this is for the other xlator
-        //associateeRepo.MongoId(input.asInstanceOf[ObjectId])
-
-        input.asInstanceOf[associateeRepo.MongoId].objectId
+        associateeRepo(associateeTypeKey).MongoId(input.asInstanceOf[ObjectId]).asInstanceOf[B]
       }
     }
 
-    override protected val customTraversors: CustomTraversors =
-      emptyCustomTraversor + assocTraversor
+    protected def traverseBoolean(input: TraverseInput[Boolean]): TraverseResult[Boolean] =
+      //input.asInstanceOf[BasicDBList](0)
+      input
+        .asInstanceOf[Boolean]
 
-    protected def traverseBoolean(input: TraverseInput[Boolean]): TraverseResult[Boolean] = input
+    protected def traverseChar(input: TraverseInput[Char]): TraverseResult[Char] =
+      //input.asInstanceOf[BasicDBList](0)
+      input
+        .asInstanceOf[String](0)
 
-    protected def traverseChar(input: TraverseInput[Char]): TraverseResult[Char] = input
+    protected def traverseDouble(input: TraverseInput[Double]): TraverseResult[Double] =
+      //input.asInstanceOf[BasicDBList](0)
+      input
+        .asInstanceOf[Double]
 
-    protected def traverseDouble(input: TraverseInput[Double]): TraverseResult[Double] = input
+    protected def traverseFloat(input: TraverseInput[Float]): TraverseResult[Float] =
+      //input.asInstanceOf[BasicDBList](0)
+      input
+        .asInstanceOf[Double].toFloat
 
-    protected def traverseFloat(input: TraverseInput[Float]): TraverseResult[Float] = input
+    protected def traverseInt(input: TraverseInput[Int]): TraverseResult[Int] =
+      //input.asInstanceOf[BasicDBList](0)
+      input
+        .asInstanceOf[Int]
 
-    protected def traverseInt(input: TraverseInput[Int]): TraverseResult[Int] = input
+    protected def traverseLong(input: TraverseInput[Long]): TraverseResult[Long] =
+      //input.asInstanceOf[BasicDBList](0)
+      input
+        .asInstanceOf[Long]
 
-    protected def traverseLong(input: TraverseInput[Long]): TraverseResult[Long] = input
-
-    protected def traverseString(input: TraverseInput[String]): TraverseResult[String] = input
+    protected def traverseString(input: TraverseInput[String]): TraverseResult[String] =
+      //input.asInstanceOf[BasicDBList](0)
+      input
+        .asInstanceOf[String]
 
     protected def stageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
       input: TraverseInput[A])
     : Iterator[PropInput[A, _]] = {
-      def propInput[B](prop: EmblemProp[A, B]) = prop -> prop.get(input)
+      def propInput[B](prop: EmblemProp[A, B]) =
+        prop -> input.asInstanceOf[MongoDBObject](prop.name)
       emblem.props.map(propInput(_)).iterator
     }
 
@@ -76,34 +94,29 @@ private[repo] class EntityToCasbah(boundedContext: BoundedContext) {
       input: TraverseInput[A],
       result: Iterator[PropResult[A, _]])
     : TraverseResult[A] = {
-      val builder = new MongoDBObjectBuilder()
-      result.foreach {
-        case (prop, propResult) =>
-          def pair[B : TypeKey] = prop.name -> propResult.asInstanceOf[B]
-          builder += pair(prop.typeKey)
-      }
-      builder.result()
+      val builder = emblem.builder()
+      result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
+      builder.build()
     }
 
     protected def stageShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],
       input: TraverseInput[Actual])
     : TraverseInput[Abbreviated] = {
-      shorthand.abbreviate(input)
+      input
     }
 
     protected def unstageShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],
       abbreviatedResult: TraverseResult[Abbreviated])
     : TraverseResult[Actual] = {
-      abbreviatedResult
-      //shorthand.unabbreviate(abbreviatedResult.asInstanceOf[Abbreviated])
+      shorthand.unabbreviate(abbreviatedResult)
     }
 
     protected def stageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]])
     : Option[TraverseInput[A]] = {
-      input
+      input.asInstanceOf[Option[TraverseInput[A]]]
     }
 
     protected def unstageOptionValue[A : TypeKey](
@@ -116,7 +129,8 @@ private[repo] class EntityToCasbah(boundedContext: BoundedContext) {
     protected def stageSetElements[A : TypeKey](
       input: TraverseInput[Set[A]])
     : Iterator[TraverseInput[A]] = {
-      input.iterator
+      val list: MongoDBList = input.asInstanceOf[BasicDBList]
+      list.iterator
     }
 
     protected def unstageSetElements[A : TypeKey](
@@ -129,7 +143,7 @@ private[repo] class EntityToCasbah(boundedContext: BoundedContext) {
     protected def stageListElements[A : TypeKey](
       input: TraverseInput[List[A]])
     : Iterator[TraverseInput[A]] = {
-      input.iterator
+      input.asInstanceOf[List[_]].iterator
     }
 
     protected def unstageListElements[A : TypeKey](

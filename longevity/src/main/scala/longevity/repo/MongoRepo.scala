@@ -1,10 +1,11 @@
 package longevity.repo
 
+import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Failure
+import scala.concurrent.Future
 import scala.util.Success
-import reactivemongo.api.MongoDriver
-import reactivemongo.bson._
+import com.mongodb.casbah.Imports._
 import emblem._
 import emblem.stringUtil._
 import longevity.domain._
@@ -17,58 +18,61 @@ class MongoRepo[E <: RootEntity : TypeKey](
 extends Repo[E] {
   repo =>
 
-  protected[longevity] case class MongoId(objectId: BSONObjectID) extends PersistedAssoc[E] {
+  protected[longevity] case class MongoId(objectId: ObjectId) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this).map(_.get.get)
   }
 
-  private lazy val collectionName: String = camelToUnderscore(typeName(entityTypeKey.tpe))
-  private val mongoCollection = MongoRepo.db.collection(collectionName)
-
-  protected implicit lazy val bsonHandler =
-    new EmblemBsonHandler(entityType.emblem, boundedContext.shorthandPool, repoPool)
+  private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
+  private val mongoCollection = MongoRepo.mongoDb(collectionName)
+  private val entityToCasbahTranslator = new EntityToCasbah(boundedContext)
+  private val casbahToEntityTranslator = new CasbahToEntityTranslator(boundedContext)
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
-    for (
-      patched <- patchUnpersistedAssocs(unpersisted.e);
-      id = BSONObjectID.generate;
-      document = BSON.writeDocument(patched).add(BSONDocument("_id" -> id));
-      lastError <- mongoCollection.insert(document)
-    ) yield Persisted[E](MongoId(id), patched)
+    patchUnpersistedAssocs(unpersisted.e) map { patched =>
+      val objectId = new ObjectId();
+      val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
+      val writeResult = mongoCollection.insert(casbah)
+      Persisted[E](MongoId(objectId), patched)
+    }
   })
 
   def retrieve(id: PersistedAssoc[E]) = {
-    val objectId = id.asInstanceOf[MongoId].objectId
-    val selector = BSONDocument("_id" -> objectId)
-    val future = mongoCollection.find(selector).one[E]
-    future map { resultOption => resultOption.map( Persisted[E](id, _) ) }
+    Future {
+      val objectId = id.asInstanceOf[MongoId].objectId
+      val query = MongoDBObject("_id" -> objectId)
+      val resultOption = mongoCollection.findOne(query)
+      val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
+      entityOption map { e => Persisted[E](id, e) }
+    }
   }
 
   def update(persisted: Persisted[E]) = {
     val objectId = persisted.id.asInstanceOf[MongoId].objectId
-    val selector = BSONDocument("_id" -> objectId)
+    val query = MongoDBObject("_id" -> objectId)
     for (
       patched <- patchUnpersistedAssocs(persisted.curr);
-      document = BSON.writeDocument(patched).add(BSONDocument("_id" -> objectId));
-      lastError <- mongoCollection.update(selector, document)
+      casbahObject = entityToCasbahTranslator.translate(patched) ++ query;
+      writeResult = mongoCollection.update(query, casbahObject)
     ) yield Persisted[E](persisted.id, patched)
   }
 
   def delete(persisted: Persisted[E]) = {
-    val objectId = persisted.id.asInstanceOf[MongoId].objectId
-    val selector = BSONDocument("_id" -> objectId)
-    val future = mongoCollection.remove(selector)
-    future map { lastError => Deleted(persisted) }
+    Future {
+      val objectId = persisted.id.asInstanceOf[MongoId].objectId
+      val query = MongoDBObject("_id" -> objectId)
+      val writeResult = mongoCollection.remove(query)
+      Deleted(persisted)
+    }
   }
 
 }
 
 object MongoRepo {
-  // TODO: move 4 lines to MongoSessionManager
-  val driver = new MongoDriver
-  val connection = driver.connection(List("localhost"))
-  import scala.concurrent.ExecutionContext.Implicits.global
-  val db = connection.db("test")
-  // TODO: fix strange compiler problem
+
+  // TODO: move this stuff to context config
+  val mongoClient = MongoClient("localhost", 27017)
+  val mongoDb = mongoClient("test")
+
 }

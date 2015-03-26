@@ -4,17 +4,13 @@ import emblem._
 import emblem.traversors.Transformer
 import emblem.traversors.Transformer.CustomTransformer
 import emblem.traversors.Transformer.emptyCustomTransformers
-import longevity.domain.Assoc
 import longevity.context.BoundedContext
+import longevity.domain.Assoc
+import longevity.domain.AssocAny
 import longevity.domain.RootEntity
+import longevity.domain.UnpersistedAssoc
 import longevity.exceptions.AssocIsUnpersistedException
 import longevity.repo.PersistedAssoc
-import longevity.domain.UnpersistedAssoc
-import PersistedToUnpersistedTransformer.AssocAny
-
-object PersistedToUnpersistedTransformer {
-  private type AssocAny = Assoc[_ <: RootEntity]
-}
 
 /** traverses an entity graph, replacing every [[longevity.repo.PersistedAssoc persisted assoc]] with an
  * [[longevity.domain.UnpersistedAssoc]].
