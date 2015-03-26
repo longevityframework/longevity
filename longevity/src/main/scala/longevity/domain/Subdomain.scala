@@ -2,12 +2,11 @@ package longevity.domain
 
 import emblem._
 
-// TODO: shorthands should be in the context
 /** a specification of a subdomain of a project's domain. contains a pool of all the [[EntityType entity types]]
  * in the subdomain, as well as all the shorthands used by the entities.
- * 
+ *
+ * @param name the name of the subdomain
  * @param entityTypePool a complete set of the entity types within the domain
- * @see emblem.Shorthand and emblem.ShorthandPool
  */
 case class Subdomain(
   name: String,

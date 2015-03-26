@@ -12,6 +12,8 @@ abstract class EntityType[E <: Entity : TypeKey] {
 
   // TODO pt-87441650 intra-entity contraints
 
+  // all this assoc stuff below goes away with https://www.pivotaltracker.com/story/show/91219980
+
   private type AssocProp =
     EmblemProp[E, Assoc[Associatee]] forSome { type Associatee <: RootEntity }
 
@@ -20,8 +22,6 @@ abstract class EntityType[E <: Entity : TypeKey] {
 
   private type AssocOptionProp =
     EmblemProp[E, Option[Assoc[Associatee]]] forSome { type Associatee <: RootEntity }
-
-  // TODO: can i get rid of these annoying casts?
 
   private[longevity] val assocProps: Seq[AssocProp] = {
     emblem.props.flatMap { prop =>

@@ -29,7 +29,7 @@ import org.scalatest.time.SpanSugar._
  * @param suiteNameSuffix a short string to add to the suite name, to help differentiate between suites for
  * bounded contexts with the same name, when reading scalatest output
  */
-class RepoPoolSpec(
+private[longevity] class RepoPoolSpec(
   private val boundedContext: BoundedContext,
   private val repoPool: RepoPool,
   private val suiteNameSuffix: Option[String] = None)

@@ -20,10 +20,6 @@ case class Unpersisted[E <: RootEntity](e: E) extends PersistentState[E] {
   def map(f: E => E) = Unpersisted(f(e))
 }
 
-object Persisted {
-  def apply[E <: RootEntity](assoc: PersistedAssoc[E], e: E): Persisted[E] = Persisted[E](assoc, e, e)
-}
-
 /** the persistent state of a persisted entity */
 case class Persisted[E <: RootEntity](
   id: PersistedAssoc[E],
@@ -31,13 +27,18 @@ case class Persisted[E <: RootEntity](
   curr: E
 )
 extends PersistentState[E] {
+
   protected val e = curr
+
   def map(f: E => E) = Persisted(id, orig, f(curr))
-  def dirty = orig == curr // TODO will need === here maybe when we allow for non-case classes
+
+  // we may want to consider === here if we allow for non-case class entities
+  def dirty = orig == curr
+
 }
 
-object Deleted {
-  def apply[E <: RootEntity](p: Persisted[E]): Deleted[E] = Deleted(p.id, p.orig)
+object Persisted {
+  def apply[E <: RootEntity](assoc: PersistedAssoc[E], e: E): Persisted[E] = Persisted[E](assoc, e, e)
 }
 
 /** the persistent state of a deleted entity */
@@ -47,4 +48,8 @@ case class Deleted[E <: RootEntity](
 )
 extends PersistentState[E] {
   def map(f: E => E) = Deleted(id, e)
+}
+
+object Deleted {
+  def apply[E <: RootEntity](p: Persisted[E]): Deleted[E] = Deleted(p.id, p.orig)
 }

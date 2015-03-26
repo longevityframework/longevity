@@ -32,7 +32,7 @@ extends Transformer {
         val persistedEntity = input.persisted
         val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
         val unpersistedEntity = transform(persistedEntity)(entityTypeKey)
-        Assoc(unpersistedEntity).asInstanceOf[B] // TODO see if you get rid of this cast
+        Assoc(unpersistedEntity).asInstanceOf[B]
       }
     }
   }

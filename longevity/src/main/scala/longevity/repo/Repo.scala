@@ -63,6 +63,7 @@ abstract class Repo[E <: RootEntity : TypeKey] {
     }
   }
 
+  // TODO pt 91219980 rewrite patchUnpersistedAssocs to use traversor
   /** returns a version of the aggregate where all unpersisted associations are persisted */
   protected def patchUnpersistedAssocs(entity: E): Future[E] = {
     var futureE = Future { entity }

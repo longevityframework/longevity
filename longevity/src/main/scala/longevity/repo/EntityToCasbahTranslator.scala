@@ -37,7 +37,7 @@ private[repo] class EntityToCasbahTranslator(boundedContext: BoundedContext) {
       def apply[B <: Assoc[_ <: RootEntity] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
         val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: RootEntity]]
  
-        // TODO: get rid of asInstanceOf by tightening type on repo pools and repo layers
+        // TODO pt 91220826: get rid of asInstanceOf by tightening type on repo pools and repo layers
         val associateeRepo = boundedContext.repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]
 
         input.asInstanceOf[associateeRepo.MongoId].objectId

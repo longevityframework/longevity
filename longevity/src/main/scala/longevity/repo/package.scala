@@ -4,18 +4,23 @@ import emblem._
 import longevity.context._
 import longevity.domain._
 
-// TODO: package level scaladoc
+/** manages entity persistence operations */
 package object repo {
 
   /** a `TypeKeyMap` of [[domain.RootEntity RootEntity]] to [[Repo]] */
   type RepoPool = TypeKeyMap[RootEntity, Repo]
 
-  // TODO scaladoc for these three
-
+  /** a function producing a specialized version of a repository given a bounded context
+   * @tparam RE the root entity type for the repository
+   */
   type SpecializedRepoFactory[RE <: RootEntity] = (BoundedContext) => Repo[RE]
 
+  /** a pool of [[SpecializedRepoFactory specialized repo factories, type-mapped on the root entity type */
   type SpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
 
+  /** an empty [[SpecializedRepoFactoryPool specialized repo factory pool. used to grow larger factory pools
+   * via the `+` operation
+   */
   val emptySpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
 
   /** builds and returns a [[RepoPool]] for the [[BoundedContext]]. */
@@ -26,16 +31,11 @@ package object repo {
     }
   }
 
-  // TODO @params for scaladocs below have fallen off
+  /** builds and returns an in-memory [[RepoPool]] for the [[BoundedContext]]. for use in testing */
+  private[longevity] def testRepoPoolForBoundedContext(boundedContext: BoundedContext): RepoPool =
+    inMemRepoPool(boundedContext)
 
-  /** builds and returns a [[RepoPool]] of [[InMemRepo in-memory repositories]] for all the root entities in
-   * the subdomain. stock in-memory repositories will created, except where specialized versions are
-   * provided.
-   * @param subdomain the bounded context
-   * @param specializations specialized repositories to include in the pool, in place of the stock
-   * in-memory repositories
-   */
-  private[longevity] def inMemRepoPool(
+  private def inMemRepoPool(
     boundedContext: BoundedContext,
     specializations: SpecializedRepoFactoryPool = emptySpecializedRepoFactoryPool)
   : RepoPool = {
@@ -46,11 +46,6 @@ package object repo {
     buildRepoPool(boundedContext, repoFactory, specializations)
   }
 
-  /** builds and returns a [[RepoPool]] of [[MongoRepo mongo repositories]] for all the root entities in the
-   * subdomain. stock mongo repositories will created, except where specialized versions are
-   * provided.
-   * @param boundedContext the bounded context
-   */
   private def mongoRepoPool(
     boundedContext: BoundedContext,
     specializations: SpecializedRepoFactoryPool): RepoPool = {
@@ -91,7 +86,6 @@ package object repo {
     repoPool
   }
 
-  // this is private because longevity takes responsibility for building the repo pools
   private val emptyRepoPool = TypeKeyMap[RootEntity, Repo]
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {

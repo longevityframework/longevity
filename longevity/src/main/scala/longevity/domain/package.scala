@@ -20,4 +20,13 @@ package object domain {
    */
   private[longevity] type AssocAny = Assoc[_ <: RootEntity]
 
+  /** a core domain. functionally equivalent to a [[Subdomain]] */
+  type CoreDomain = Subdomain
+
+  /** a supporting subdomain. functionally equivalent to a [[Subdomain]] */
+  type SupportingSubdomain = Subdomain
+
+  /** a generic subdomain. functionally equivalent to a [[Subdomain]] */
+  type GenericSubdomain = Subdomain
+
 }

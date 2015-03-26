@@ -3,6 +3,7 @@ package longevity.context
 import longevity.repo.SpecializedRepoFactoryPool
 import longevity.repo.emptySpecializedRepoFactoryPool
 import longevity.repo.repoPoolForBoundedContext
+import longevity.repo.testRepoPoolForBoundedContext
 import longevity.domain.Subdomain
 import emblem.ShorthandPool
 import emblem.traversors.Generator.CustomGenerators
@@ -29,17 +30,21 @@ case class BoundedContext(
   /** The standard set of repositories for this bounded context */
   lazy val repoPool = repoPoolForBoundedContext(this)
 
-  /** An in-memory set of repositories for this bounded context, for use in testing. no specializations are
-   * provided. */
-  lazy val inMemRepoPool = longevity.repo.inMemRepoPool(this)
+  /** An in-memory set of repositories for this bounded context, for use in testing. at the moment, no
+   * specializations are provided. */
+  lazy val inMemRepoPool = testRepoPoolForBoundedContext(this)
 
-  // TODO scaladoc
+  /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[repoPool repo pool]].
+   * all you have to do is extend this class some place where ScalaTest is going to find it.
+   */
   class RepoPoolSpec extends longevity.testUtil.RepoPoolSpec(
     this,
     this.repoPool,
     suiteNameSuffix = Some("(Mongo)"))
 
-  // TODO scaladoc
+  /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[inMemRepoPool in-memory repo
+   * pool]]. all you have to do is extend this class some place where ScalaTest is going to find it.
+   */
   class InMemRepoPoolSpec extends longevity.testUtil.RepoPoolSpec(
     this,
     inMemRepoPool,
