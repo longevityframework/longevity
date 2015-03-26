@@ -26,52 +26,46 @@ extends Repo[E] {
 
   private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
   private val mongoCollection = MongoRepo.mongoDb(collectionName)
-  private val entityToCasbahTranslator = new EntityToCasbah(boundedContext)
+  private val entityToCasbahTranslator = new EntityToCasbahTranslator(boundedContext)
   private val casbahToEntityTranslator = new CasbahToEntityTranslator(boundedContext)
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
-    patchUnpersistedAssocs(unpersisted.e) map { patched =>
-      val objectId = new ObjectId();
+    patchUnpersistedAssocs(unpersisted.get) map { patched =>
+      val objectId = new ObjectId()
       val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
       val writeResult = mongoCollection.insert(casbah)
       Persisted[E](MongoId(objectId), patched)
     }
   })
 
-  def retrieve(id: PersistedAssoc[E]) = {
-    Future {
-      val objectId = id.asInstanceOf[MongoId].objectId
-      val query = MongoDBObject("_id" -> objectId)
-      val resultOption = mongoCollection.findOne(query)
-      val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
-      entityOption map { e => Persisted[E](id, e) }
-    }
+  def retrieve(id: PersistedAssoc[E]) = Future {
+    val objectId = id.asInstanceOf[MongoId].objectId
+    val query = MongoDBObject("_id" -> objectId)
+    val resultOption = mongoCollection.findOne(query)
+    val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
+    entityOption map { e => Persisted[E](id, e) }
   }
 
-  def update(persisted: Persisted[E]) = {
+  def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.get) map { patched =>
     val objectId = persisted.id.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
-    for (
-      patched <- patchUnpersistedAssocs(persisted.curr);
-      casbahObject = entityToCasbahTranslator.translate(patched) ++ query;
-      writeResult = mongoCollection.update(query, casbahObject)
-    ) yield Persisted[E](persisted.id, patched)
+    val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
+    val writeResult = mongoCollection.update(query, casbah)
+    Persisted[E](persisted.id, patched)
   }
 
-  def delete(persisted: Persisted[E]) = {
-    Future {
-      val objectId = persisted.id.asInstanceOf[MongoId].objectId
-      val query = MongoDBObject("_id" -> objectId)
-      val writeResult = mongoCollection.remove(query)
-      Deleted(persisted)
-    }
+  def delete(persisted: Persisted[E]) = Future {
+    val objectId = persisted.id.asInstanceOf[MongoId].objectId
+    val query = MongoDBObject("_id" -> objectId)
+    val writeResult = mongoCollection.remove(query)
+    Deleted(persisted)
   }
 
 }
 
 object MongoRepo {
 
-  // TODO: move this stuff to context config
+  // TODO pt-84759650 move this stuff to context config
   val mongoClient = MongoClient("localhost", 27017)
   val mongoDb = mongoClient("test")
 

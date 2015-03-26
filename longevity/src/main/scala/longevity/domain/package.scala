@@ -13,8 +13,10 @@ package object domain {
    * @see emblem.TypeKeyMap */
   type RootEntityTypePool = TypeKeyMap[RootEntity, RootEntityType]
 
-  /** TODO scaladoc
-   * TODO expose if use-case
+  /** an [[Assoc association]] to an unspecified type of [[RootEntity root]]. this is useful for building
+   * stuff from `emblem.traversors` for traversing entities.
+   * 
+   * leaving this `private[longevity]` for now, but if any user-facing use-case comes up, we can expose it.
    */
   private[longevity] type AssocAny = Assoc[_ <: RootEntity]
 
