@@ -1,6 +1,6 @@
 package longevity.persistence
 
-import longevity.domain.RootEntity
+import longevity.subdomain.RootEntity
 
 /** the persistent state of an aggregate */
 sealed trait PersistentState[E <: RootEntity] {

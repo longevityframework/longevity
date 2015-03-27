@@ -2,7 +2,7 @@ package longevity.persistence
 
 import emblem._
 import longevity.context._
-import longevity.domain._
+import longevity.subdomain._
 
 object messageFriend {
 

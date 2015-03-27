@@ -2,7 +2,7 @@ package longevity
 
 import emblem._
 import longevity.context._
-import longevity.domain._
+import longevity.subdomain._
 
 /** manages entity persistence operations */
 package object persistence {

@@ -4,7 +4,7 @@ import longevity.persistence.SpecializedRepoFactoryPool
 import longevity.persistence.emptySpecializedRepoFactoryPool
 import longevity.persistence.repoPoolForLongevityContext
 import longevity.persistence.testRepoPoolForLongevityContext
-import longevity.domain.Subdomain
+import longevity.subdomain.Subdomain
 import emblem.ShorthandPool
 import emblem.traversors.Generator.CustomGenerators
 import emblem.traversors.Generator.emptyCustomGenerators

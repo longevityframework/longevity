@@ -1,6 +1,6 @@
 package longevity.integration.withAssoc
 
-import longevity.domain._
+import longevity.subdomain._
 
 case class WithAssoc(
   uri: String,

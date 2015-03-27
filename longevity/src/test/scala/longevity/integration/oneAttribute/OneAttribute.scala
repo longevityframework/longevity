@@ -1,6 +1,6 @@
 package longevity.integration.oneAttribute
 
-import longevity.domain._
+import longevity.subdomain._
 
 case class OneAttribute(uri: String) extends RootEntity
 

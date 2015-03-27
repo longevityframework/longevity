@@ -1,6 +1,6 @@
 package musette.domain
 
-import longevity.domain._
+import longevity.subdomain._
 
 /** a section of a website. it could be a blog, a wiki, or a forum. */
 trait SiteSection {

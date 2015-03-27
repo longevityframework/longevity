@@ -3,7 +3,7 @@ package longevity.persistence
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import emblem._
-import longevity.domain._
+import longevity.subdomain._
 
 /** a repository for aggregate roots of type E
  * @param repoPool the pool of all the repos in the longevity context
@@ -33,7 +33,7 @@ abstract class Repo[E <: RootEntity : TypeKey] {
   /** deletes the aggregate */
   def delete(p: Persisted[E]): Future[Deleted[E]]
 
-  /** the pool of all the repos for the [[longevity.domain.Subdomain longevity context]].
+  /** the pool of all the repos for the [[longevity.subdomain.Subdomain longevity context]].
    *
    * PLEASE NOTE that the repo pool is only available for use after all the repositories in the pool have
    * been initialized. if you attempt to access the pool during the initialization of your customized

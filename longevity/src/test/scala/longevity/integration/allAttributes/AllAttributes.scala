@@ -1,6 +1,6 @@
 package longevity.integration.allAttributes
 
-import longevity.domain._
+import longevity.subdomain._
 
 case class AllAttributes(
   boolean: Boolean,

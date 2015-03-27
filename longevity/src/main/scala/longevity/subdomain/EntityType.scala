@@ -1,4 +1,4 @@
-package longevity.domain
+package longevity.subdomain
 
 import scala.reflect.runtime.universe._
 import emblem._

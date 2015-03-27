@@ -1,7 +1,7 @@
 package musette.domain
 
 import emblem._
-import longevity.domain._
+import longevity.subdomain._
 
 case class User(
   uri: Uri,

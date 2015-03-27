@@ -1,6 +1,6 @@
 package longevity.integration.oneShorthand
 
-import longevity.domain._
+import longevity.subdomain._
 
 case class OneShorthand(uri: Uri) extends RootEntity
 

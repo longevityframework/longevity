@@ -1,6 +1,6 @@
 package longevity.integration.master
 
-import longevity.domain._
+import longevity.subdomain._
 
 case class Associated(uri: String) extends RootEntity
 

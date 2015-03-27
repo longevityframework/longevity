@@ -2,7 +2,7 @@ package longevity.integration
 
 import emblem._
 import longevity.context._
-import longevity.domain._
+import longevity.subdomain._
 
 /** covers a root entity with an set of associations to another root entity */
 package object withAssocSet {

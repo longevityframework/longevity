@@ -3,7 +3,7 @@ package longevity.persistence
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 import emblem._
-import longevity.domain._
+import longevity.subdomain._
 import longevity.context.LongevityContext
 
 /** an in-memory repository for aggregate roots of type E */

@@ -1,4 +1,4 @@
-package longevity.domain
+package longevity.subdomain
 
 import emblem._
 

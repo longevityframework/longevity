@@ -5,15 +5,15 @@ import emblem.traversors.Transformer
 import emblem.traversors.Transformer.CustomTransformer
 import emblem.traversors.Transformer.emptyCustomTransformers
 import longevity.context.LongevityContext
-import longevity.domain.Assoc
-import longevity.domain.AssocAny
-import longevity.domain.RootEntity
-import longevity.domain.UnpersistedAssoc
+import longevity.subdomain.Assoc
+import longevity.subdomain.AssocAny
+import longevity.subdomain.RootEntity
+import longevity.subdomain.UnpersistedAssoc
 import longevity.exceptions.AssocIsUnpersistedException
 import longevity.persistence.PersistedAssoc
 
 /** traverses an entity graph, replacing every [[longevity.persistence.PersistedAssoc persisted assoc]] with an
- * [[longevity.domain.UnpersistedAssoc]].
+ * [[longevity.subdomain.UnpersistedAssoc]].
  *
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
  */

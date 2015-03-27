@@ -1,6 +1,6 @@
 package longevity.integration.allShorthands
 
-import longevity.domain._
+import longevity.subdomain._
 
 case class AllShorthands(
   boolean: BooleanShorthand,

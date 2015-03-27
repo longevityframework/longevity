@@ -2,8 +2,8 @@ package longevity
 
 import emblem.TypeKeyMap
 
-/** provides support for constructing your domain */
-package object domain {
+/** provides support for constructing your subdomain */
+package object subdomain {
 
   /** a type key map of [[Entity]] to [[EntityType]]
    * @see emblem.TypeKeyMap */

@@ -7,7 +7,7 @@ import emblem.traversors.Generator
 import emblem.traversors.Generator.emptyCustomGenerators
 import emblem.traversors.TestDataGenerator
 import longevity.context.LongevityContext
-import longevity.domain._
+import longevity.subdomain._
 import longevity.persistence._
 import org.scalatest.OptionValues._
 import org.scalatest._

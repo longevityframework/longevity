@@ -8,7 +8,7 @@ import scala.util.Success
 import com.mongodb.casbah.Imports._
 import emblem._
 import emblem.stringUtil._
-import longevity.domain._
+import longevity.subdomain._
 import longevity.context.LongevityContext
 
 /** a MongoDB repository for aggregate roots of type E */

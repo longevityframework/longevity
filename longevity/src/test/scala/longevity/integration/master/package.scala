@@ -2,7 +2,7 @@ package longevity.integration
 
 import emblem._
 import longevity.context._
-import longevity.domain._
+import longevity.subdomain._
 
 /** covers everything found in the rest of the integration tests */
 package object master {

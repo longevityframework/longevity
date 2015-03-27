@@ -6,7 +6,7 @@ import emblem._
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.Traversor
 import longevity.context._
-import longevity.domain._
+import longevity.subdomain._
 import longevity.exceptions.CouldNotTranslateException
 
 /** translates [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList

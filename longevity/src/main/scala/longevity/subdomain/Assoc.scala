@@ -1,4 +1,4 @@
-package longevity.domain
+package longevity.subdomain
 
 import longevity.exceptions.AssocIsPersistedException
 import longevity.exceptions.AssocIsUnpersistedException
