@@ -1,0 +1,5 @@
+package musette.persistence
+
+import musette.coredomain.longevityContext
+
+class InMemRepoPoolSpec extends longevityContext.InMemRepoPoolSpec

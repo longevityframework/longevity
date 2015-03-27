@@ -1,4 +1,4 @@
-package musette.domain
+package musette.coredomain
 
 // TODO scaladoc
 // TODO validation

@@ -1,4 +1,4 @@
-package musette.domain
+package musette.coredomain
 
 import longevity.subdomain._
 

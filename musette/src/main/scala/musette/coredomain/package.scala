@@ -4,12 +4,16 @@ import emblem._
 import longevity.context._
 import longevity.subdomain._
 
-package object domain {
+package object coredomain {
 
   val entityTypes = EntityTypePool() +
-    BlogType + BlogPostType + CommentType + 
-    (typeKey[Site] -> SiteType) +
-    UserType + WikiType + WikiPageType
+    BlogType +
+    BlogPostType +
+    CommentType + 
+    SiteType +
+    UserType +
+    WikiType +
+    WikiPageType
 
   val shorthands = emblem.ShorthandPool(
     shorthandFor[Email, String],
