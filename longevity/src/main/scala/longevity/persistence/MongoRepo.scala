@@ -11,10 +11,16 @@ import emblem.stringUtil._
 import longevity.subdomain._
 import longevity.context.LongevityContext
 
-/** a MongoDB repository for aggregate roots of type E */
-class MongoRepo[E <: RootEntity : TypeKey](
+/** a MongoDB repository for aggregate roots of type `E`.
+ *
+ * @param entityType the entity type for the aggregate roots this repository handles
+ * @param emblemPool a pool of emblems for the entities within the subdomain
+ * @param shorthandPool a complete set of the shorthands used by the bounded context
+ */
+class MongoRepo[E <: RootEntity : TypeKey] protected[persistence] (
   override val entityType: RootEntityType[E],
-  protected val longevityContext: LongevityContext)
+  emblemPool: EmblemPool,
+  shorthandPool: ShorthandPool)
 extends Repo[E] {
   repo =>
 
@@ -26,8 +32,9 @@ extends Repo[E] {
 
   private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
   private val mongoCollection = MongoRepo.mongoDb(collectionName)
-  private val entityToCasbahTranslator = new EntityToCasbahTranslator(longevityContext)
-  private val casbahToEntityTranslator = new CasbahToEntityTranslator(longevityContext)
+
+  private lazy val entityToCasbahTranslator = new EntityToCasbahTranslator(emblemPool, shorthandPool, repoPool)
+  private lazy val casbahToEntityTranslator = new CasbahToEntityTranslator(emblemPool, shorthandPool, repoPool)
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
     patchUnpersistedAssocs(unpersisted.get) map { patched =>

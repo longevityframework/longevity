@@ -6,10 +6,11 @@ import emblem._
 import longevity.subdomain._
 import longevity.context.LongevityContext
 
-/** an in-memory repository for aggregate roots of type E */
-class InMemRepo[E <: RootEntity : TypeKey](
-  override val entityType: RootEntityType[E],
-  protected val longevityContext: LongevityContext)
+/** an in-memory repository for aggregate roots of type `E`
+ * 
+ * @param entityType the entity type for the aggregate roots this repository handles
+ */
+class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityType[E])
 extends Repo[E] {
   repo =>
 

@@ -5,17 +5,20 @@ import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import emblem._
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.Traversor
-import longevity.context._
 import longevity.subdomain._
 import longevity.exceptions.CouldNotTranslateException
 
 /** translates [[Entity entities]] into
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList casbah MongoDBObjects]].
  *
- * @param longevityContext the longevity context that contains the entity types and shorthands to use in the
- * translation
+ * @param emblemPool a pool of emblems for the entities within the subdomain
+ * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param repoPool a pool of the repositories for this persistence context
  */
-private[persistence] class EntityToCasbahTranslator(longevityContext: LongevityContext) {
+private[persistence] class EntityToCasbahTranslator(
+  emblemPool: EmblemPool,
+  shorthandPool: ShorthandPool,
+  private val repoPool: RepoPool) {
 
   /** translates an [[Entity]] into a `MongoDBList` */
   def translate[E <: Entity : TypeKey](e: E): MongoDBObject = try {
@@ -29,8 +32,8 @@ private[persistence] class EntityToCasbahTranslator(longevityContext: LongevityC
     type TraverseInput[A] = A
     type TraverseResult[A] = Any
 
-    override protected val emblemPool: EmblemPool = longevityContext.entityEmblemPool
-    override protected val shorthandPool: ShorthandPool = longevityContext.shorthandPool
+    override protected val emblemPool: EmblemPool = EntityToCasbahTranslator.this.emblemPool
+    override protected val shorthandPool: ShorthandPool = EntityToCasbahTranslator.this.shorthandPool
     override protected val customTraversors: CustomTraversors = emptyCustomTraversor + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
@@ -38,7 +41,7 @@ private[persistence] class EntityToCasbahTranslator(longevityContext: LongevityC
         val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: RootEntity]]
  
         // TODO pt 91220826: get rid of asInstanceOf by tightening type on repo pools and repo layers
-        val associateeRepo = longevityContext.repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]
+        val associateeRepo = repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]
 
         input.asInstanceOf[associateeRepo.MongoId].objectId
       }

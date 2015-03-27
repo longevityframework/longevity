@@ -4,8 +4,11 @@ import org.scalatest._
 import org.scalatest.OptionValues._
 import longevity.persistence.messageFriend._
 import longevity.context._
+import emblem._
 
-/** unit tests for the proper construction of [[LongevityContext.repoPool]] and [[LongevityContext.inMemRepoPool]]
+// TODO: these repoPools have moved around. bring up to date
+/** unit tests for the proper construction of [[LongevityContext.repoPool]] and
+ * [[LongevityContext.inMemRepoPool]]
  */
 @longevity.UnitTest
 class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -50,11 +53,10 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
   behavior of "a repo pool of an in-memory longevity context with specializations"
 
   it should "contain the specialized repos" in {
-    class SpecializedFriendRepo(longevityContext: LongevityContext)
-    extends InMemRepo[Friend](FriendType, longevityContext) {
+    class SpecializedFriendRepo extends InMemRepo[Friend](FriendType) {
       def numHolesItTakesToFillTheAlbertHall: Int = ???
     }
-    def factory = (longevityContext: LongevityContext) => new SpecializedFriendRepo(longevityContext)
+    def factory = (emblemPool: EmblemPool, shorthandPool: ShorthandPool) => new SpecializedFriendRepo
     val longevityContext = LongevityContext(
       InMem,
       subdomain,
@@ -71,11 +73,13 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
   behavior of "a repo pool of a mongo longevity context with specializations"
 
   it should "contain the specialized repos" in {
-    class SpecializedFriendRepo(longevityContext: LongevityContext)
-    extends MongoRepo[Friend](FriendType, longevityContext) {
+    class SpecializedFriendRepo(emblemPool: EmblemPool, shorthandPool: ShorthandPool)
+    extends MongoRepo[Friend](FriendType, emblemPool, shorthandPool) {
       def numHolesItTakesToFillTheAlbertHall: Int = ???
     }
-    def factory = (longevityContext: LongevityContext) => new SpecializedFriendRepo(longevityContext)
+    def factory = { (emblemPool: EmblemPool, shorthandPool: ShorthandPool) =>
+      new SpecializedFriendRepo(emblemPool, shorthandPool)
+    }
     val longevityContext = LongevityContext(
       Mongo,
       subdomain,

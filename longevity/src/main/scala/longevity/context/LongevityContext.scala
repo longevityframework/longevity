@@ -1,22 +1,22 @@
 package longevity.context
 
-import longevity.persistence.PersistenceContext
-import longevity.persistence.PersistenceStrategy
-import longevity.persistence.SpecializedRepoFactoryPool
-import longevity.persistence.emptySpecializedRepoFactoryPool
-import longevity.persistence.repoPoolForLongevityContext
-import longevity.persistence.testRepoPoolForLongevityContext
-import longevity.subdomain.Subdomain
 import emblem.ShorthandPool
 import emblem.traversors.Generator.CustomGenerators
 import emblem.traversors.Generator.emptyCustomGenerators
+import longevity.persistence.InMem
+import longevity.persistence.PersistenceContext
+import longevity.persistence.PersistenceStrategy
+import longevity.persistence.SpecializedRepoFactoryPool
+import longevity.persistence.buildRepoPool
+import longevity.persistence.emptySpecializedRepoFactoryPool
+import longevity.subdomain.Subdomain
 
 // TODO: move this up a package maybe??
 
 // TODO scaladoc in here
 object LongevityContext {
 
-  // TODO reorder params
+  // TODO reorder params to match below
   def apply(
     persistenceStrategy: PersistenceStrategy,
     subdomain: Subdomain,
@@ -45,12 +45,12 @@ object LongevityContext {
  * used by the applications relating to your subdomain. in other words, those tools that speak the language of
  * the subdomain.
  *
- * // TODO fix params
- * @param subdomain The subdomain
- * @param shorthandPool a complete set of the shorthands used by the domain
+ * @param subdomain the subdomain
+ * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param persistenceStrategy the persistence strategy for this longevity context
+ * @param specializations a collection factories for specialized repositories
  * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
  * empty collection.
- * @param persistenceStrategy the persistence strategy for this longevity context
  */
 final class LongevityContext private(
   val subdomain: Subdomain,
@@ -59,11 +59,12 @@ final class LongevityContext private(
   specializations: SpecializedRepoFactoryPool,
   val customGenerators: CustomGenerators) {
 
-  lazy val persistenceContext = new PersistenceContext(persistenceStrategy, specializations, this)
+  lazy val persistenceContext =
+    new PersistenceContext(subdomain, shorthandPool, persistenceStrategy, specializations)
 
   /** An in-memory set of repositories for this longevity context, for use in testing. at the moment, no
    * specializations are provided. */
-  lazy val inMemRepoPool = testRepoPoolForLongevityContext(this)
+  lazy val inMemRepoPool = buildRepoPool(subdomain, shorthandPool, InMem)
 
   /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[repoPool repo pool]].
    * all you have to do is extend this class some place where ScalaTest is going to find it.

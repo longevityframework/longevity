@@ -6,7 +6,7 @@ import emblem._
  * in the subdomain, as well as all the shorthands used by the entities.
  *
  * @param name the name of the subdomain
- * @param entityTypePool a complete set of the entity types within the domain
+ * @param entityTypePool a complete set of the entity types within the subdomain
  */
 case class Subdomain(
   name: String,
@@ -14,6 +14,7 @@ case class Subdomain(
 
   val rootEntityTypePool = RootEntityTypePool(entityTypePool)
 
+  /** a pool of emblems for the entities within the subdomain */
   val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] = entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
     new WideningTypeBoundFunction[Entity, HasEmblem, EntityType, Emblem] {
       def apply[TypeParam <: Entity](value1: EntityType[TypeParam]): Emblem[TypeParam] =
