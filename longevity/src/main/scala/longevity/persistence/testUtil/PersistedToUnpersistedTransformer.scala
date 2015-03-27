@@ -1,4 +1,4 @@
-package longevity.repo.testUtil
+package longevity.persistence.testUtil
 
 import emblem._
 import emblem.traversors.Transformer
@@ -10,9 +10,9 @@ import longevity.domain.AssocAny
 import longevity.domain.RootEntity
 import longevity.domain.UnpersistedAssoc
 import longevity.exceptions.AssocIsUnpersistedException
-import longevity.repo.PersistedAssoc
+import longevity.persistence.PersistedAssoc
 
-/** traverses an entity graph, replacing every [[longevity.repo.PersistedAssoc persisted assoc]] with an
+/** traverses an entity graph, replacing every [[longevity.persistence.PersistedAssoc persisted assoc]] with an
  * [[longevity.domain.UnpersistedAssoc]].
  *
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.

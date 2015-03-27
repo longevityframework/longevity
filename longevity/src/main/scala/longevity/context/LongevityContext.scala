@@ -1,9 +1,9 @@
 package longevity.context
 
-import longevity.repo.SpecializedRepoFactoryPool
-import longevity.repo.emptySpecializedRepoFactoryPool
-import longevity.repo.repoPoolForLongevityContext
-import longevity.repo.testRepoPoolForLongevityContext
+import longevity.persistence.SpecializedRepoFactoryPool
+import longevity.persistence.emptySpecializedRepoFactoryPool
+import longevity.persistence.repoPoolForLongevityContext
+import longevity.persistence.testRepoPoolForLongevityContext
 import longevity.domain.Subdomain
 import emblem.ShorthandPool
 import emblem.traversors.Generator.CustomGenerators
@@ -39,7 +39,7 @@ case class LongevityContext(
   /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[repoPool repo pool]].
    * all you have to do is extend this class some place where ScalaTest is going to find it.
    */
-  class RepoPoolSpec extends longevity.repo.testUtil.RepoPoolSpec(
+  class RepoPoolSpec extends longevity.persistence.testUtil.RepoPoolSpec(
     this,
     this.repoPool,
     suiteNameSuffix = Some("(Mongo)"))
@@ -47,7 +47,7 @@ case class LongevityContext(
   /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[inMemRepoPool in-memory repo
    * pool]]. all you have to do is extend this class some place where ScalaTest is going to find it.
    */
-  class InMemRepoPoolSpec extends longevity.repo.testUtil.RepoPoolSpec(
+  class InMemRepoPoolSpec extends longevity.persistence.testUtil.RepoPoolSpec(
     this,
     inMemRepoPool,
     suiteNameSuffix = Some("(InMem)"))

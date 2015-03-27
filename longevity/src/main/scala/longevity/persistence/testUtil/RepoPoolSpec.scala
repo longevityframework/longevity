@@ -1,4 +1,4 @@
-package longevity.repo.testUtil
+package longevity.persistence.testUtil
 
 import emblem._
 import emblem.traversors.CustomGenerator
@@ -8,14 +8,14 @@ import emblem.traversors.Generator.emptyCustomGenerators
 import emblem.traversors.TestDataGenerator
 import longevity.context.LongevityContext
 import longevity.domain._
-import longevity.repo._
+import longevity.persistence._
 import org.scalatest.OptionValues._
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
 
-/** a simple fixture to test your [[longevity.repo.RepoPool]]. all you have to do is extend this class and
+/** a simple fixture to test your [[longevity.persistence.RepoPool]]. all you have to do is extend this class and
  * provide the necessary inputs to the constructor.
  *
  * the repo pool spec exercises create/retrieve/update/delete for all the repos in your repo pool.

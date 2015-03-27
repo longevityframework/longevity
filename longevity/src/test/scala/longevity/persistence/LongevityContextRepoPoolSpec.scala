@@ -1,8 +1,8 @@
-package longevity.repo
+package longevity.persistence
 
 import org.scalatest._
 import org.scalatest.OptionValues._
-import longevity.repo.messageFriend._
+import longevity.persistence.messageFriend._
 import longevity.context._
 
 /** unit tests for the proper construction of [[LongevityContext.repoPool]] and [[LongevityContext.inMemRepoPool]]

@@ -5,7 +5,7 @@ import longevity.context._
 import longevity.domain._
 
 /** manages entity persistence operations */
-package object repo {
+package object persistence {
 
   /** a `TypeKeyMap` of [[domain.RootEntity RootEntity]] to [[Repo]] */
   type RepoPool = TypeKeyMap[RootEntity, Repo]

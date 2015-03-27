@@ -1,4 +1,4 @@
-package longevity.repo
+package longevity.persistence
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.MongoDBObjectBuilder
@@ -9,25 +9,25 @@ import longevity.context._
 import longevity.domain._
 import longevity.exceptions.CouldNotTranslateException
 
-/** translates [[Entity entities]] into
- * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList casbah MongoDBObjects]].
+/** translates [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
+ * casbah MongoDBObjects]] into [[Entity entities]].
  *
  * @param longevityContext the longevity context that contains the entity types and shorthands to use in the
  * translation
  */
-private[repo] class EntityToCasbahTranslator(longevityContext: LongevityContext) {
+private[persistence] class CasbahToEntityTranslator(longevityContext: LongevityContext) {
 
-  /** translates an [[Entity]] into a `MongoDBList` */
-  def translate[E <: Entity : TypeKey](e: E): MongoDBObject = try {
-    traversor.traverse[E](e).asInstanceOf[BasicDBObject]
+  /** translates a `MongoDBList` into an [[Entity]] */
+  def translate[E <: Entity : TypeKey](casbah: MongoDBObject): E = try {
+    traversor.traverse[E](casbah)
   } catch {
-    case e: CouldNotTraverseException => throw new CouldNotTranslateException(e.typeKey, e)
+    case e: CouldNotTraverseException => throw new CouldNotTranslateException(typeKey[E], e)
   }
 
   private val traversor = new Traversor {
 
-    type TraverseInput[A] = A
-    type TraverseResult[A] = Any
+    type TraverseInput[A] = Any
+    type TraverseResult[A] = A
 
     override protected val emblemPool: EmblemPool = longevityContext.subdomain.entityEmblemPool
     override protected val shorthandPool: ShorthandPool = longevityContext.shorthandPool
@@ -35,34 +35,46 @@ private[repo] class EntityToCasbahTranslator(longevityContext: LongevityContext)
 
     def assocTraversor = new CustomTraversor[AssocAny] {
       def apply[B <: Assoc[_ <: RootEntity] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
+
+        // this asInstanceOf is because of emblem shortfall
         val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: RootEntity]]
  
-        // TODO pt 91220826: get rid of asInstanceOf by tightening type on repo pools and repo layers
-        val associateeRepo = longevityContext.repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]
+        // this asInstanceOf is because we dont type param our RepoPool with PersistenceStrategy
+        def associateeRepo[Associatee <: RootEntity : TypeKey] =
+          longevityContext.repoPool(typeKey[Associatee]).asInstanceOf[MongoRepo[Associatee]]
 
-        input.asInstanceOf[associateeRepo.MongoId].objectId
+        // first asInstanceOf because casbah gives us Any
+        // second asInstanceOf is basically the same emblem shortfall as before
+        associateeRepo(associateeTypeKey).MongoId(input.asInstanceOf[ObjectId]).asInstanceOf[B]
       }
     }
 
-    protected def traverseBoolean(input: TraverseInput[Boolean]): TraverseResult[Boolean] = input
+    protected def traverseBoolean(input: TraverseInput[Boolean]): TraverseResult[Boolean] =
+      input.asInstanceOf[Boolean]
 
-    protected def traverseChar(input: TraverseInput[Char]): TraverseResult[Char] = input
+    protected def traverseChar(input: TraverseInput[Char]): TraverseResult[Char] =
+      input.asInstanceOf[String](0)
 
-    protected def traverseDouble(input: TraverseInput[Double]): TraverseResult[Double] = input
+    protected def traverseDouble(input: TraverseInput[Double]): TraverseResult[Double] =
+      input.asInstanceOf[Double]
 
-    protected def traverseFloat(input: TraverseInput[Float]): TraverseResult[Float] = input
+    protected def traverseFloat(input: TraverseInput[Float]): TraverseResult[Float] =
+      input.asInstanceOf[Double].toFloat
 
-    protected def traverseInt(input: TraverseInput[Int]): TraverseResult[Int] = input
+    protected def traverseInt(input: TraverseInput[Int]): TraverseResult[Int] =
+      input.asInstanceOf[Int]
 
-    protected def traverseLong(input: TraverseInput[Long]): TraverseResult[Long] = input
+    protected def traverseLong(input: TraverseInput[Long]): TraverseResult[Long] =
+      input.asInstanceOf[Long]
 
-    protected def traverseString(input: TraverseInput[String]): TraverseResult[String] = input
+    protected def traverseString(input: TraverseInput[String]): TraverseResult[String] =
+      input.asInstanceOf[String]
 
     protected def stageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
       input: TraverseInput[A])
     : Iterator[PropInput[A, _]] = {
-      def propInput[B](prop: EmblemProp[A, B]) = prop -> prop.get(input)
+      def propInput[B](prop: EmblemProp[A, B]) = prop -> input.asInstanceOf[MongoDBObject](prop.name)
       emblem.props.map(propInput(_)).iterator
     }
 
@@ -71,32 +83,27 @@ private[repo] class EntityToCasbahTranslator(longevityContext: LongevityContext)
       input: TraverseInput[A],
       result: Iterator[PropResult[A, _]])
     : TraverseResult[A] = {
-      val builder = new MongoDBObjectBuilder()
-      result.foreach {
-        case (prop, propResult) =>
-          def pair[B : TypeKey] = prop.name -> propResult.asInstanceOf[B]
-          builder += pair(prop.typeKey)
-      }
-      builder.result()
+      val builder = emblem.builder()
+      result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
+      builder.build()
     }
 
     protected def stageShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],
       input: TraverseInput[Actual])
-    : TraverseInput[Abbreviated] = {
-      shorthand.abbreviate(input)
-    }
+    : TraverseInput[Abbreviated] =
+      input
 
     protected def unstageShorthand[Actual, Abbreviated](
       shorthand: Shorthand[Actual, Abbreviated],
       abbreviatedResult: TraverseResult[Abbreviated])
     : TraverseResult[Actual] =
-      abbreviatedResult
+      shorthand.unabbreviate(abbreviatedResult)
 
     protected def stageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]])
     : Option[TraverseInput[A]] =
-      input
+      input.asInstanceOf[Option[TraverseInput[A]]]
 
     protected def unstageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]],
@@ -106,8 +113,10 @@ private[repo] class EntityToCasbahTranslator(longevityContext: LongevityContext)
 
     protected def stageSetElements[A : TypeKey](
       input: TraverseInput[Set[A]])
-    : Iterator[TraverseInput[A]] =
-      input.iterator
+    : Iterator[TraverseInput[A]] = {
+      val list: MongoDBList = input.asInstanceOf[BasicDBList]
+      list.iterator
+    }
 
     protected def unstageSetElements[A : TypeKey](
       input: TraverseInput[Set[A]],
@@ -117,8 +126,10 @@ private[repo] class EntityToCasbahTranslator(longevityContext: LongevityContext)
 
     protected def stageListElements[A : TypeKey](
       input: TraverseInput[List[A]])
-    : Iterator[TraverseInput[A]] =
-      input.iterator
+    : Iterator[TraverseInput[A]] = {
+      val list: MongoDBList = input.asInstanceOf[BasicDBList]
+      list.iterator
+    }
 
     protected def unstageListElements[A : TypeKey](
       input: TraverseInput[List[A]],

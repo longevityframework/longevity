@@ -1,4 +1,4 @@
-package longevity.repo
+package longevity.persistence
 
 import longevity.domain.RootEntity
 

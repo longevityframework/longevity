@@ -1,4 +1,4 @@
-package longevity.repo
+package longevity.persistence
 
 import emblem._
 import longevity.context._

@@ -1,4 +1,4 @@
-package longevity.repo
+package longevity.persistence
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
@@ -10,7 +10,7 @@ import longevity.domain._
  */
 abstract class Repo[E <: RootEntity : TypeKey] {
 
-  private[repo] var _repoPoolOption: Option[RepoPool] = None
+  private[persistence] var _repoPoolOption: Option[RepoPool] = None
 
   /** the type key for the aggregate roots this repository handles */
   val entityTypeKey: TypeKey[E] = typeKey[E]

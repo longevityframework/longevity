@@ -1,4 +1,4 @@
-package longevity.repo
+package longevity.persistence
 
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext.Implicits.global

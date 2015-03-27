@@ -1,4 +1,4 @@
-package longevity.repo
+package longevity.persistence
 
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
