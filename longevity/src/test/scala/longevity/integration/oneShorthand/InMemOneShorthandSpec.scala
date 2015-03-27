@@ -3,4 +3,4 @@ package longevity.integration.oneShorthand
 import longevity.IntegrationTest
 
 @IntegrationTest
-class InMemOneShorthandSpec extends boundedContext.InMemRepoPoolSpec
+class InMemOneShorthandSpec extends longevityContext.InMemRepoPoolSpec

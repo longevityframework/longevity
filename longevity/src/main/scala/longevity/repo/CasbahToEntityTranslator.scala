@@ -12,10 +12,10 @@ import longevity.exceptions.CouldNotTranslateException
 /** translates [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
  * casbah MongoDBObjects]] into [[Entity entities]].
  *
- * @param boundedContext the bounded context that contains the entity types and shorthands to use in the
+ * @param longevityContext the longevity context that contains the entity types and shorthands to use in the
  * translation
  */
-private[repo] class CasbahToEntityTranslator(boundedContext: BoundedContext) {
+private[repo] class CasbahToEntityTranslator(longevityContext: LongevityContext) {
 
   /** translates a `MongoDBList` into an [[Entity]] */
   def translate[E <: Entity : TypeKey](casbah: MongoDBObject): E = try {
@@ -29,8 +29,8 @@ private[repo] class CasbahToEntityTranslator(boundedContext: BoundedContext) {
     type TraverseInput[A] = Any
     type TraverseResult[A] = A
 
-    override protected val emblemPool: EmblemPool = boundedContext.subdomain.entityEmblemPool
-    override protected val shorthandPool: ShorthandPool = boundedContext.shorthandPool
+    override protected val emblemPool: EmblemPool = longevityContext.subdomain.entityEmblemPool
+    override protected val shorthandPool: ShorthandPool = longevityContext.shorthandPool
     override protected val customTraversors: CustomTraversors = emptyCustomTraversor + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
@@ -41,7 +41,7 @@ private[repo] class CasbahToEntityTranslator(boundedContext: BoundedContext) {
  
         // this asInstanceOf is because we dont type param our RepoPool with PersistenceStrategy
         def associateeRepo[Associatee <: RootEntity : TypeKey] =
-          boundedContext.repoPool(typeKey[Associatee]).asInstanceOf[MongoRepo[Associatee]]
+          longevityContext.repoPool(typeKey[Associatee]).asInstanceOf[MongoRepo[Associatee]]
 
         // first asInstanceOf because casbah gives us Any
         // second asInstanceOf is basically the same emblem shortfall as before

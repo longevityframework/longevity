@@ -1,5 +1,5 @@
 package musette.repo
 
-import musette.domain.boundedContext
+import musette.domain.longevityContext
 
-class InMemRepoPoolSpec extends boundedContext.InMemRepoPoolSpec
+class InMemRepoPoolSpec extends longevityContext.InMemRepoPoolSpec

@@ -25,6 +25,6 @@ package object domain {
 
   val subdomain = Subdomain("Musette", entityTypes)
 
-  val boundedContext = BoundedContext(Mongo, subdomain, shorthands)
+  val longevityContext = LongevityContext(Mongo, subdomain, shorthands)
 
 }

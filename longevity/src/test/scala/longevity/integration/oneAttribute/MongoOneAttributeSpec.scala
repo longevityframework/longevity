@@ -3,4 +3,4 @@ package longevity.integration.oneAttribute
 import longevity.IntegrationTest
 
 @IntegrationTest
-class MongoOneAttributeSpec extends boundedContext.RepoPoolSpec
+class MongoOneAttributeSpec extends longevityContext.RepoPoolSpec

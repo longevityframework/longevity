@@ -12,10 +12,10 @@ import longevity.exceptions.CouldNotTranslateException
 /** translates [[Entity entities]] into
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList casbah MongoDBObjects]].
  *
- * @param boundedContext the bounded context that contains the entity types and shorthands to use in the
+ * @param longevityContext the longevity context that contains the entity types and shorthands to use in the
  * translation
  */
-private[repo] class EntityToCasbahTranslator(boundedContext: BoundedContext) {
+private[repo] class EntityToCasbahTranslator(longevityContext: LongevityContext) {
 
   /** translates an [[Entity]] into a `MongoDBList` */
   def translate[E <: Entity : TypeKey](e: E): MongoDBObject = try {
@@ -29,8 +29,8 @@ private[repo] class EntityToCasbahTranslator(boundedContext: BoundedContext) {
     type TraverseInput[A] = A
     type TraverseResult[A] = Any
 
-    override protected val emblemPool: EmblemPool = boundedContext.subdomain.entityEmblemPool
-    override protected val shorthandPool: ShorthandPool = boundedContext.shorthandPool
+    override protected val emblemPool: EmblemPool = longevityContext.subdomain.entityEmblemPool
+    override protected val shorthandPool: ShorthandPool = longevityContext.shorthandPool
     override protected val customTraversors: CustomTraversors = emptyCustomTraversor + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
@@ -38,7 +38,7 @@ private[repo] class EntityToCasbahTranslator(boundedContext: BoundedContext) {
         val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: RootEntity]]
  
         // TODO pt 91220826: get rid of asInstanceOf by tightening type on repo pools and repo layers
-        val associateeRepo = boundedContext.repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]
+        val associateeRepo = longevityContext.repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]
 
         input.asInstanceOf[associateeRepo.MongoId].objectId
       }

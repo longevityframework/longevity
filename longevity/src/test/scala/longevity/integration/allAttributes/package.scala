@@ -11,6 +11,6 @@ package object allAttributes {
 
   val subdomain = Subdomain("All Attributes", entityTypes)
 
-  val boundedContext = BoundedContext(Mongo, subdomain)
+  val longevityContext = LongevityContext(Mongo, subdomain)
 
 }

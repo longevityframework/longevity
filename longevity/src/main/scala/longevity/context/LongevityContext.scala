@@ -2,8 +2,8 @@ package longevity.context
 
 import longevity.repo.SpecializedRepoFactoryPool
 import longevity.repo.emptySpecializedRepoFactoryPool
-import longevity.repo.repoPoolForBoundedContext
-import longevity.repo.testRepoPoolForBoundedContext
+import longevity.repo.repoPoolForLongevityContext
+import longevity.repo.testRepoPoolForLongevityContext
 import longevity.domain.Subdomain
 import emblem.ShorthandPool
 import emblem.traversors.Generator.CustomGenerators
@@ -14,27 +14,27 @@ import emblem.traversors.Generator.emptyCustomGenerators
  * used by the applications relating to your subdomain. in other words, those tools that speak the language of
  * the subdomain.
  *
- * @tparam PS the kind of persistence strategy for this bounded context
+ * @tparam PS the kind of persistence strategy for this longevity context
  * @param subdomain The subdomain
  * @param shorthandPool a complete set of the shorthands used by the domain
  * @param specializations a collection factories for specialized repositories
  * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
  * empty collection.
- * @param persistenceStrategy the persistence strategy for this bounded context
+ * @param persistenceStrategy the persistence strategy for this longevity context
  */
-case class BoundedContext(
+case class LongevityContext(
   persistenceStrategy: PersistenceStrategy,
   subdomain: Subdomain,
   shorthandPool: ShorthandPool = ShorthandPool(),
   specializations: SpecializedRepoFactoryPool = emptySpecializedRepoFactoryPool,
   customGenerators: CustomGenerators = emptyCustomGenerators) {
 
-  /** The standard set of repositories for this bounded context */
-  lazy val repoPool = repoPoolForBoundedContext(this)
+  /** The standard set of repositories for this longevity context */
+  lazy val repoPool = repoPoolForLongevityContext(this)
 
-  /** An in-memory set of repositories for this bounded context, for use in testing. at the moment, no
+  /** An in-memory set of repositories for this longevity context, for use in testing. at the moment, no
    * specializations are provided. */
-  lazy val inMemRepoPool = testRepoPoolForBoundedContext(this)
+  lazy val inMemRepoPool = testRepoPoolForLongevityContext(this)
 
   /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[repoPool repo pool]].
    * all you have to do is extend this class some place where ScalaTest is going to find it.

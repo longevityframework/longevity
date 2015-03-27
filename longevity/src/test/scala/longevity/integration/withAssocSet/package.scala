@@ -11,6 +11,6 @@ package object withAssocSet {
 
   val subdomain = Subdomain("With Assoc Set", entityTypes)
 
-  val boundedContext = BoundedContext(Mongo, subdomain)
+  val longevityContext = LongevityContext(Mongo, subdomain)
 
 }

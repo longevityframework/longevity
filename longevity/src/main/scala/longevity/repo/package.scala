@@ -10,10 +10,10 @@ package object repo {
   /** a `TypeKeyMap` of [[domain.RootEntity RootEntity]] to [[Repo]] */
   type RepoPool = TypeKeyMap[RootEntity, Repo]
 
-  /** a function producing a specialized version of a repository given a bounded context
+  /** a function producing a specialized version of a repository given a longevity context
    * @tparam RE the root entity type for the repository
    */
-  type SpecializedRepoFactory[RE <: RootEntity] = (BoundedContext) => Repo[RE]
+  type SpecializedRepoFactory[RE <: RootEntity] = (LongevityContext) => Repo[RE]
 
   /** a pool of [[SpecializedRepoFactory specialized repo factories, type-mapped on the root entity type */
   type SpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
@@ -23,37 +23,37 @@ package object repo {
    */
   val emptySpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
 
-  /** builds and returns a [[RepoPool]] for the [[BoundedContext]]. */
-  private[longevity] def repoPoolForBoundedContext(boundedContext: BoundedContext): RepoPool = {
-    boundedContext.persistenceStrategy match {
-      case InMem => inMemRepoPool(boundedContext, boundedContext.specializations)
-      case Mongo => mongoRepoPool(boundedContext, boundedContext.specializations)
+  /** builds and returns a [[RepoPool]] for the [[LongevityContext]]. */
+  private[longevity] def repoPoolForLongevityContext(longevityContext: LongevityContext): RepoPool = {
+    longevityContext.persistenceStrategy match {
+      case InMem => inMemRepoPool(longevityContext, longevityContext.specializations)
+      case Mongo => mongoRepoPool(longevityContext, longevityContext.specializations)
     }
   }
 
-  /** builds and returns an in-memory [[RepoPool]] for the [[BoundedContext]]. for use in testing */
-  private[longevity] def testRepoPoolForBoundedContext(boundedContext: BoundedContext): RepoPool =
-    inMemRepoPool(boundedContext)
+  /** builds and returns an in-memory [[RepoPool]] for the [[LongevityContext]]. for use in testing */
+  private[longevity] def testRepoPoolForLongevityContext(longevityContext: LongevityContext): RepoPool =
+    inMemRepoPool(longevityContext)
 
   private def inMemRepoPool(
-    boundedContext: BoundedContext,
+    longevityContext: LongevityContext,
     specializations: SpecializedRepoFactoryPool = emptySpecializedRepoFactoryPool)
   : RepoPool = {
     object repoFactory extends stock.RepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new InMemRepo(entityType, boundedContext)(entityKey)
+        new InMemRepo(entityType, longevityContext)(entityKey)
     }
-    buildRepoPool(boundedContext, repoFactory, specializations)
+    buildRepoPool(longevityContext, repoFactory, specializations)
   }
 
   private def mongoRepoPool(
-    boundedContext: BoundedContext,
+    longevityContext: LongevityContext,
     specializations: SpecializedRepoFactoryPool): RepoPool = {
     object repoFactory extends stock.RepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new MongoRepo(entityType, boundedContext)(entityKey)
+        new MongoRepo(entityType, longevityContext)(entityKey)
     }
-    buildRepoPool(boundedContext, repoFactory, boundedContext.specializations)
+    buildRepoPool(longevityContext, repoFactory, longevityContext.specializations)
   }
 
   // RepoFactory is inside object stock to prevent lint warning about declaring classes in package objects
@@ -64,7 +64,7 @@ package object repo {
   }
 
   private def buildRepoPool(
-    boundedContext: BoundedContext,
+    longevityContext: LongevityContext,
     stockRepoFactory: stock.RepoFactory,
     specializations: SpecializedRepoFactoryPool)
   : RepoPool = {
@@ -76,12 +76,12 @@ package object repo {
       val entityKey = pair._1
       val entityType = pair._2
       val repo = specializations.get(entityKey) match {
-        case Some(specializedRepoFactory) => specializedRepoFactory(boundedContext)
+        case Some(specializedRepoFactory) => specializedRepoFactory(longevityContext)
         case None => stockRepoFactory.build(entityType, entityKey)
       }
       repoPool += (entityKey -> repo)
     }
-    boundedContext.subdomain.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    longevityContext.subdomain.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
     finishRepoInitialization(repoPool)
     repoPool
   }

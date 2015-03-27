@@ -3,4 +3,4 @@ package longevity.integration.withAssocSet
 import longevity.IntegrationTest
 
 @IntegrationTest
-class MongoWithAssocSetSpec extends boundedContext.RepoPoolSpec
+class MongoWithAssocSetSpec extends longevityContext.RepoPoolSpec

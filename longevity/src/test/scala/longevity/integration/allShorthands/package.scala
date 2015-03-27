@@ -28,6 +28,6 @@ package object allShorthands {
     longShorthand +
     stringShorthand
 
-  val boundedContext = BoundedContext(Mongo, subdomain, shorthandPool)
+  val longevityContext = LongevityContext(Mongo, subdomain, shorthandPool)
 
 }

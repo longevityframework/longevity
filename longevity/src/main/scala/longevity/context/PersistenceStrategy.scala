@@ -1,11 +1,11 @@
 package longevity.context
 
-/** the persistence strategy used by a bounded context. right now, you have two options:
+/** the persistence strategy used by a longevity context. right now, you have two options:
  *
  *   - [[InMem]]
  *   - [[Mongo]]
  *
- * please note that the persistence strategy selected for your bounded context can be overridden in a test
+ * please note that the persistence strategy selected for your longevity context can be overridden in a test
  * environment, so that you can use an in-memory database for integration testing on your mongo projects.
  */
 sealed trait PersistenceStrategy

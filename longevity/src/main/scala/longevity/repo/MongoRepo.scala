@@ -9,12 +9,12 @@ import com.mongodb.casbah.Imports._
 import emblem._
 import emblem.stringUtil._
 import longevity.domain._
-import longevity.context.BoundedContext
+import longevity.context.LongevityContext
 
 /** a MongoDB repository for aggregate roots of type E */
 class MongoRepo[E <: RootEntity : TypeKey](
   override val entityType: RootEntityType[E],
-  protected val boundedContext: BoundedContext)
+  protected val longevityContext: LongevityContext)
 extends Repo[E] {
   repo =>
 
@@ -26,8 +26,8 @@ extends Repo[E] {
 
   private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
   private val mongoCollection = MongoRepo.mongoDb(collectionName)
-  private val entityToCasbahTranslator = new EntityToCasbahTranslator(boundedContext)
-  private val casbahToEntityTranslator = new CasbahToEntityTranslator(boundedContext)
+  private val entityToCasbahTranslator = new EntityToCasbahTranslator(longevityContext)
+  private val casbahToEntityTranslator = new CasbahToEntityTranslator(longevityContext)
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
     patchUnpersistedAssocs(unpersisted.get) map { patched =>

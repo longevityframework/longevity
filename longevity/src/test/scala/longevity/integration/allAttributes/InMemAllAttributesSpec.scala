@@ -3,4 +3,4 @@ package longevity.integration.allAttributes
 import longevity.IntegrationTest
 
 @IntegrationTest
-class InMemAllAttributesSpec extends boundedContext.InMemRepoPoolSpec
+class InMemAllAttributesSpec extends longevityContext.InMemRepoPoolSpec
