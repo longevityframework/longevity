@@ -7,11 +7,9 @@ import longevity.persistence.InMem
 import longevity.persistence.PersistenceContext
 import longevity.persistence.PersistenceStrategy
 import longevity.persistence.SpecializedRepoFactoryPool
-import longevity.persistence.buildRepoPool
 import longevity.persistence.emptySpecializedRepoFactoryPool
 import longevity.subdomain.Subdomain
-
-// TODO: move this up a package maybe??
+import longevity.test.TestContext
 
 // TODO scaladoc in here
 object LongevityContext {
@@ -38,6 +36,9 @@ object LongevityContext {
   implicit def longevityContextToPersistenceContext(longevityContext: LongevityContext): PersistenceContext =
     longevityContext.persistenceContext
 
+  implicit def longevityContextToTestContext(longevityContext: LongevityContext): TestContext =
+    longevityContext.testContext
+
 }
 
 /** the longevity managed portion of the [[http://martinfowler.com/bliki/BoundedContext.html bounded context]]
@@ -59,27 +60,16 @@ final class LongevityContext private(
   specializations: SpecializedRepoFactoryPool,
   val customGenerators: CustomGenerators) {
 
-  lazy val persistenceContext =
-    new PersistenceContext(subdomain, shorthandPool, persistenceStrategy, specializations)
+  lazy val persistenceContext = new PersistenceContext(
+    subdomain,
+    shorthandPool,
+    persistenceStrategy,
+    specializations)
 
-  /** An in-memory set of repositories for this longevity context, for use in testing. at the moment, no
-   * specializations are provided. */
-  lazy val inMemRepoPool = buildRepoPool(subdomain, shorthandPool, InMem)
-
-  /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[repoPool repo pool]].
-   * all you have to do is extend this class some place where ScalaTest is going to find it.
-   */
-  class RepoPoolSpec extends longevity.persistence.testUtil.RepoPoolSpec(
-    this,
-    this.repoPool,
-    suiteNameSuffix = Some("(Mongo)"))
-
-  /** a simple [[http://www.scalatest.org/ ScalaTest]] fixture to test your [[inMemRepoPool in-memory repo
-   * pool]]. all you have to do is extend this class some place where ScalaTest is going to find it.
-   */
-  class InMemRepoPoolSpec extends longevity.persistence.testUtil.RepoPoolSpec(
-    this,
-    inMemRepoPool,
-    suiteNameSuffix = Some("(InMem)"))
+  lazy val testContext = new TestContext(
+    subdomain,
+    shorthandPool,
+    customGenerators,
+    persistenceContext.repoPool)
 
 }

@@ -3,4 +3,4 @@ package longevity.integration.allShorthands
 import longevity.IntegrationTest
 
 @IntegrationTest
-class MongoAllShorthandsSpec extends longevityContext.RepoPoolSpec
+class MongoAllShorthandsSpec extends longevityContext.testContext.RepoPoolSpec

@@ -1,4 +1,4 @@
-package longevity.persistence.testUtil
+package longevity.test
 
 import emblem._
 import emblem.traversors.Transformer
@@ -16,12 +16,16 @@ import longevity.persistence.PersistedAssoc
  * [[longevity.subdomain.UnpersistedAssoc]].
  *
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
+ *
+ * TODO docs for params
+ * @param emblemPool a pool of emblems for the entities to be transformed
+ * @param shorthandPool a complete set of the shorthands used by the bounded context
  */
-class PersistedToUnpersistedTransformer(private val longevityContext: LongevityContext)
+class PersistedToUnpersistedTransformer(
+  override protected val emblemPool: EmblemPool,
+  override protected val shorthandPool: ShorthandPool)
 extends Transformer {
 
-  override protected val emblemPool = longevityContext.entityEmblemPool
-  override protected val shorthandPool = longevityContext.shorthandPool
   override protected val customTransformers = emptyCustomTransformers + transformAssoc
 
   private lazy val transformAssoc = new CustomTransformer[AssocAny] {

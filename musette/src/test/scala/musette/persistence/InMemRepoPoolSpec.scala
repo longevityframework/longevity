@@ -2,4 +2,4 @@ package musette.persistence
 
 import musette.coredomain.longevityContext
 
-class InMemRepoPoolSpec extends longevityContext.InMemRepoPoolSpec
+class InMemRepoPoolSpec extends longevityContext.testContext.InMemRepoPoolSpec

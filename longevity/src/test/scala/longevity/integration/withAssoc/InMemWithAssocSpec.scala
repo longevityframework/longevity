@@ -3,4 +3,4 @@ package longevity.integration.withAssoc
 import longevity.IntegrationTest
 
 @IntegrationTest
-class InMemWithAssocSpec extends longevityContext.InMemRepoPoolSpec
+class InMemWithAssocSpec extends longevityContext.testContext.InMemRepoPoolSpec

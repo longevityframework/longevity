@@ -1,6 +1,7 @@
-package longevity.persistence.testUtil
+package longevity.test
 
 import emblem._
+import emblem.traversors.Generator.CustomGenerators
 import emblem.traversors.CustomGenerator
 import emblem.traversors.Differ
 import emblem.traversors.Generator
@@ -20,6 +21,7 @@ import org.scalatest.time.SpanSugar._
  *
  * the repo pool spec exercises create/retrieve/update/delete for all the repos in your repo pool.
  *
+ * TODO update @params
  * @param longevityContext the longevity context
  *
  * @param repoPool the repo pool under test. this may be different than the `longevityContext.repoPool`, as
@@ -30,16 +32,18 @@ import org.scalatest.time.SpanSugar._
  * longevity contexts with the same name, when reading scalatest output
  */
 private[longevity] class RepoPoolSpec(
-  private val longevityContext: LongevityContext,
-  private val repoPool: RepoPool,
-  private val suiteNameSuffix: Option[String] = None)
+  subdomain: Subdomain,
+  shorthandPool: ShorthandPool,
+  customGenerators: CustomGenerators,
+  repoPool: RepoPool,
+  suiteNameSuffix: Option[String] = None)
 extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(1000 millis),
     interval = scaled(50 millis))
 
-  override val suiteName = s"RepoPoolSpec for ${longevityContext.name}${suiteNameSuffix match {
+  override val suiteName = s"RepoPoolSpec for ${subdomain.name}${suiteNameSuffix match {
     case Some(suffix) => s" $suffix"
     case None => ""
   }}"
@@ -143,13 +147,12 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
       }
     }
 
-  private val testDataGenerator = new TestDataGenerator(
-    longevityContext.entityEmblemPool,
-    longevityContext.shorthandPool,
-    longevityContext.customGenerators + assocGenerator)
+  private val testDataGenerator =
+    new TestDataGenerator(subdomain.entityEmblemPool, shorthandPool, customGenerators + assocGenerator)
 
-  private val unpersistor = new PersistedToUnpersistedTransformer(longevityContext)
-  private lazy val differ = new Differ(longevityContext.entityEmblemPool, longevityContext.shorthandPool)
+  private lazy val unpersistor = new PersistedToUnpersistedTransformer(subdomain.entityEmblemPool, shorthandPool)
+
+  private lazy val differ = new Differ(subdomain.entityEmblemPool, shorthandPool)
 
   private def persistedShouldMatchUnpersisted[E <: Entity : TypeKey](persisted: E, unpersisted: E): Unit = {
     val unpersistorated = unpersistor.transform(persisted)

@@ -5,4 +5,4 @@ import longevity.MasterIntegrationTest
 
 @IntegrationTest
 @MasterIntegrationTest
-class MongoMasterSpec extends longevityContext.RepoPoolSpec
+class MongoMasterSpec extends longevityContext.testContext.RepoPoolSpec

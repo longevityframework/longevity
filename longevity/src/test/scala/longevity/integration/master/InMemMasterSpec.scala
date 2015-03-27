@@ -5,4 +5,4 @@ import longevity.MasterIntegrationTest
 
 @IntegrationTest
 @MasterIntegrationTest
-class InMemMasterSpec extends longevityContext.InMemRepoPoolSpec
+class InMemMasterSpec extends longevityContext.testContext.InMemRepoPoolSpec
