@@ -9,8 +9,10 @@ import emblem.ShorthandPool
 import emblem.traversors.Generator.CustomGenerators
 import emblem.traversors.Generator.emptyCustomGenerators
 
-/** the bounded context of your subdomain. this is a capture of the strategies and tools used by the applications
- * relating to your subdomain
+/** the longevity managed portion of the [[http://martinfowler.com/bliki/BoundedContext.html bounded context]]
+ * for your [[http://bit.ly/1BPZfIW subdomain]]. the bounded context is a capture of the strategies and tools
+ * used by the applications relating to your subdomain. in other words, those tools that speak the language of
+ * the subdomain.
  *
  * @tparam PS the kind of persistence strategy for this bounded context
  * @param subdomain The subdomain
