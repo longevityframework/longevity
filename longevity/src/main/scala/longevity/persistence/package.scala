@@ -81,7 +81,7 @@ package object persistence {
       }
       repoPool += (entityKey -> repo)
     }
-    longevityContext.subdomain.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    longevityContext.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
     finishRepoInitialization(repoPool)
     repoPool
   }

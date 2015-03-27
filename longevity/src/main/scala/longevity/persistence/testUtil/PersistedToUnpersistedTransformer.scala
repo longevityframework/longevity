@@ -20,7 +20,7 @@ import longevity.persistence.PersistedAssoc
 class PersistedToUnpersistedTransformer(private val longevityContext: LongevityContext)
 extends Transformer {
 
-  override protected val emblemPool = longevityContext.subdomain.entityEmblemPool
+  override protected val emblemPool = longevityContext.entityEmblemPool
   override protected val shorthandPool = longevityContext.shorthandPool
   override protected val customTransformers = emptyCustomTransformers + transformAssoc
 

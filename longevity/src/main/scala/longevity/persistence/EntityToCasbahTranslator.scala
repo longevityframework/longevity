@@ -29,7 +29,7 @@ private[persistence] class EntityToCasbahTranslator(longevityContext: LongevityC
     type TraverseInput[A] = A
     type TraverseResult[A] = Any
 
-    override protected val emblemPool: EmblemPool = longevityContext.subdomain.entityEmblemPool
+    override protected val emblemPool: EmblemPool = longevityContext.entityEmblemPool
     override protected val shorthandPool: ShorthandPool = longevityContext.shorthandPool
     override protected val customTraversors: CustomTraversors = emptyCustomTraversor + assocTraversor
 

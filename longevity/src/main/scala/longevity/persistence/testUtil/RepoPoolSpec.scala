@@ -39,7 +39,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     timeout = scaled(1000 millis),
     interval = scaled(50 millis))
 
-  override val suiteName = s"RepoPoolSpec for ${longevityContext.subdomain.name}${suiteNameSuffix match {
+  override val suiteName = s"RepoPoolSpec for ${longevityContext.name}${suiteNameSuffix match {
     case Some(suffix) => s" $suffix"
     case None => ""
   }}"
@@ -144,12 +144,12 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     }
 
   private val testDataGenerator = new TestDataGenerator(
-    longevityContext.subdomain.entityEmblemPool,
+    longevityContext.entityEmblemPool,
     longevityContext.shorthandPool,
     longevityContext.customGenerators + assocGenerator)
 
   private val unpersistor = new PersistedToUnpersistedTransformer(longevityContext)
-  private lazy val differ = new Differ(longevityContext.subdomain.entityEmblemPool, longevityContext.shorthandPool)
+  private lazy val differ = new Differ(longevityContext.entityEmblemPool, longevityContext.shorthandPool)
 
   private def persistedShouldMatchUnpersisted[E <: Entity : TypeKey](persisted: E, unpersisted: E): Unit = {
     val unpersistorated = unpersistor.transform(persisted)

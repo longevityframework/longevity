@@ -2,6 +2,8 @@ package longevity.integration
 
 import emblem._
 import longevity.context._
+import longevity.persistence._
+
 import longevity.subdomain._
 
 /** covers a root entity with an set of associations to another root entity */

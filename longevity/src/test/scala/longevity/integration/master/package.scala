@@ -2,6 +2,7 @@ package longevity.integration
 
 import emblem._
 import longevity.context._
+import longevity.persistence._
 import longevity.subdomain._
 
 /** covers everything found in the rest of the integration tests */
