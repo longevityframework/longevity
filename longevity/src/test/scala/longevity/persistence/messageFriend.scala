@@ -20,8 +20,8 @@ object messageFriend {
 
   val shorthandPool = ShorthandPool()
 
-  val longevityContext = LongevityContext(Mongo, subdomain, shorthandPool)
+  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
 
-  val inMemLongevityContext = LongevityContext(InMem, subdomain, shorthandPool)
+  val inMemLongevityContext = LongevityContext(subdomain, shorthandPool, InMem)
 
 }

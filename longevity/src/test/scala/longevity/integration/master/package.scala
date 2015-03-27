@@ -35,6 +35,6 @@ package object master {
     longShorthand +
     stringShorthand
 
-  val longevityContext = LongevityContext(Mongo, subdomain, shorthandPool)
+  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
 
 }

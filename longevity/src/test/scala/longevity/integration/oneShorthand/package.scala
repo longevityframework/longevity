@@ -16,6 +16,6 @@ package object oneShorthand {
 
   val shorthandPool = ShorthandPool() + uriShorthand
 
-  val longevityContext = LongevityContext(Mongo, subdomain, shorthandPool)
+  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
 
 }

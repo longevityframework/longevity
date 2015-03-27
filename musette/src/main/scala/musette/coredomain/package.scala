@@ -30,6 +30,6 @@ package object coredomain {
 
   val subdomain = Subdomain("Musette", entityTypes)
 
-  val longevityContext = LongevityContext(Mongo, subdomain, shorthands)
+  val longevityContext = LongevityContext(subdomain, ShorthandPool(), Mongo, shorthands)
 
 }

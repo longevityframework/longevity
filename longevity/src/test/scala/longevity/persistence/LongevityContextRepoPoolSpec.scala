@@ -58,8 +58,9 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     }
     def factory = (emblemPool: EmblemPool, shorthandPool: ShorthandPool) => new SpecializedFriendRepo
     val longevityContext = LongevityContext(
-      InMem,
       subdomain,
+      ShorthandPool(),
+      InMem,
       specializations = emptySpecializedRepoFactoryPool + factory
     )
     val repoPool = longevityContext.repoPool
@@ -81,8 +82,9 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
       new SpecializedFriendRepo(emblemPool, shorthandPool)
     }
     val longevityContext = LongevityContext(
-      Mongo,
       subdomain,
+      ShorthandPool(), // TODO rename to emptyShorthandPool
+      Mongo,
       specializations = emptySpecializedRepoFactoryPool + factory
     )
     val repoPool = longevityContext.repoPool

@@ -14,11 +14,19 @@ import longevity.test.TestContext
 // TODO scaladoc in here
 object LongevityContext {
 
-  // TODO reorder params to match below
+  /** TODO scaladoc
+   * 
+   * @param subdomain the subdomain
+   * @param shorthandPool a complete set of the shorthands used by the bounded context
+   * @param persistenceStrategy the persistence strategy for this longevity context
+   * @param specializations a collection factories for specialized repositories
+   * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
+   * empty collection.
+   */
   def apply(
-    persistenceStrategy: PersistenceStrategy,
     subdomain: Subdomain,
-    shorthandPool: ShorthandPool = ShorthandPool(),
+    shorthandPool: ShorthandPool,
+    persistenceStrategy: PersistenceStrategy,
     specializations: SpecializedRepoFactoryPool = emptySpecializedRepoFactoryPool,
     customGenerators: CustomGenerators = emptyCustomGenerators)
   : LongevityContext = {
