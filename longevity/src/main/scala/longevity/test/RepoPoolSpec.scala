@@ -16,18 +16,18 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
 
-/** a simple fixture to test your [[longevity.persistence.RepoPool]]. all you have to do is extend this class and
+/** a simple fixture to test a [[longevity.persistence.RepoPool]]. all you have to do is extend this class and
  * provide the necessary inputs to the constructor.
  *
  * the repo pool spec exercises create/retrieve/update/delete for all the repos in your repo pool.
  *
- * TODO update @params
- * @param longevityContext the longevity context
- *
+ * @param subdomain the subdomain
+ * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
+ * empty collection.
  * @param repoPool the repo pool under test. this may be different than the `longevityContext.repoPool`, as
  * users may want to test against other repo pools. (for instance, they may want a spec for in-memory repo
  * pools if other parts of their test suite rely on them.)
- * 
  * @param suiteNameSuffix a short string to add to the suite name, to help differentiate between suites for
  * longevity contexts with the same name, when reading scalatest output
  */

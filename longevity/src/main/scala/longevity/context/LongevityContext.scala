@@ -11,10 +11,10 @@ import longevity.persistence.emptySpecializedRepoFactoryPool
 import longevity.subdomain.Subdomain
 import longevity.test.TestContext
 
-// TODO scaladoc in here
+/** contains factory methods and implicits for longevity contexts */
 object LongevityContext {
 
-  /** TODO scaladoc
+  /** constructs and returns a `LongevityContext`
    * 
    * @param subdomain the subdomain
    * @param shorthandPool a complete set of the shorthands used by the bounded context

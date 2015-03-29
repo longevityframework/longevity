@@ -6,7 +6,6 @@ import longevity.persistence.messageFriend._
 import longevity.context._
 import emblem._
 
-// TODO: these repoPools have moved around. bring up to date
 /** unit tests for the proper construction of [[LongevityContext.repoPool]] and
  * [[LongevityContext.inMemRepoPool]]
  */
@@ -83,7 +82,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     }
     val longevityContext = LongevityContext(
       subdomain,
-      ShorthandPool(), // TODO rename to emptyShorthandPool
+      ShorthandPool(),
       Mongo,
       specializations = emptySpecializedRepoFactoryPool + factory
     )

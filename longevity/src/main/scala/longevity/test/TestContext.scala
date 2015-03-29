@@ -7,7 +7,7 @@ import longevity.subdomain.Subdomain
 import longevity.persistence.buildRepoPool
 import longevity.persistence.InMem
 
-// TODO scaladoc
+/** test utilities for your bounded context provided by longevity */
 class TestContext private[longevity](
   subdomain: Subdomain,
   shorthandPool: ShorthandPool,

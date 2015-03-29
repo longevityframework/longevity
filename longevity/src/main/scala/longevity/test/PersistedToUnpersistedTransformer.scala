@@ -17,7 +17,6 @@ import longevity.persistence.PersistedAssoc
  *
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
  *
- * TODO docs for params
  * @param emblemPool a pool of emblems for the entities to be transformed
  * @param shorthandPool a complete set of the shorthands used by the bounded context
  */
