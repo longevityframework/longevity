@@ -83,18 +83,18 @@ private[persistence] class EntityToCasbahTranslator(
       builder.result()
     }
 
-    protected def stageExtractor[Actual, Abbreviated](
-      extractor: Extractor[Actual, Abbreviated],
-      input: TraverseInput[Actual])
-    : TraverseInput[Abbreviated] = {
-      extractor.abbreviate(input)
+    protected def stageExtractor[Domain, Range](
+      extractor: Extractor[Domain, Range],
+      input: TraverseInput[Range])
+    : TraverseInput[Domain] = {
+      extractor.unapply(input)
     }
 
-    protected def unstageExtractor[Actual, Abbreviated](
-      extractor: Extractor[Actual, Abbreviated],
-      abbreviatedResult: TraverseResult[Abbreviated])
-    : TraverseResult[Actual] =
-      abbreviatedResult
+    protected def unstageExtractor[Domain, Range](
+      extractor: Extractor[Domain, Range],
+      domainResult: TraverseResult[Domain])
+    : TraverseResult[Range] =
+      domainResult
 
     protected def stageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]])

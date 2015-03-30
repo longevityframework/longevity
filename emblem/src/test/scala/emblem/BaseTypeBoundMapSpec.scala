@@ -68,90 +68,90 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     val cpuList = CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
     val displayList = Display(720) :: Display(1080) :: Nil
 
-    var actual = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
+    var range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
 
     var partLists = TypeKeyMap[ComputerPart, List]()
-    partLists.foreach { pair => actual += pair }
+    partLists.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
     } should be {
       false
     }
 
-    actual = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
+    range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
     partLists += memoryList
-    partLists.foreach { pair => actual += pair }
+    partLists.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
     } should be {
       false
     }
 
-    actual = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
+    range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
     partLists += cpuList
-    partLists.foreach { pair => actual += pair }
+    partLists.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
     } should be {
       false
     }
 
-    actual = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
+    range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
     partLists += displayList
-    partLists.foreach { pair => actual += pair }
+    partLists.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
     } should be {
       true
@@ -169,90 +169,90 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     val catList2 = List(Cat("cat21"))
     val dogList1 = List(Dog("dog11"), Dog("dog12"))
 
-    var actual = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
+    var range = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
     var inventories = TypeBoundMap[Pet, PetStore, List]
 
-    inventories.foreach { pair => actual += pair }
+    inventories.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore1, catList1))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore2, catList2))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Dog](dogStore1, dogList1))
     } should be {
       false
     }
 
     inventories += (catStore1 -> catList1)
-    actual = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
-    inventories.foreach { pair => actual += pair }
+    range = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
+    inventories.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore1, catList1))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore2, catList2))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Dog](dogStore1, dogList1))
     } should be {
       false
     }
 
     inventories += (catStore2 -> catList2)
-    actual = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
-    inventories.foreach { pair => actual += pair }
+    range = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
+    inventories.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore1, catList1))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore2, catList2))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Dog](dogStore1, dogList1))
     } should be {
       false
     }
 
     inventories += (dogStore1 -> dogList1)
-    actual = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
-    inventories.foreach { pair => actual += pair }
+    range = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
+    inventories.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore1, catList1))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore2, catList2))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Dog](dogStore1, dogList1))
     } should be {
       true
@@ -296,90 +296,90 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     val cpuList = CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
     val displayList = Display(720) :: Display(1080) :: Nil
 
-    var actual = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
+    var range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
 
     var partLists = TypeKeyMap[ComputerPart, List]()
-    partLists.iterator.foreach { pair => actual += pair }
+    partLists.iterator.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
     } should be {
       false
     }
 
-    actual = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
+    range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
     partLists += memoryList
-    partLists.iterator.foreach { pair => actual += pair }
+    partLists.iterator.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
     } should be {
       false
     }
 
-    actual = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
+    range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
     partLists += cpuList
-    partLists.iterator.foreach { pair => actual += pair }
+    partLists.iterator.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
     } should be {
       false
     }
 
-    actual = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
+    range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
     partLists += displayList
-    partLists.iterator.foreach { pair => actual += pair }
+    partLists.iterator.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
     } should be {
       true
@@ -397,90 +397,90 @@ class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     val catList2 = List(Cat("cat21"))
     val dogList1 = List(Dog("dog11"), Dog("dog12"))
 
-    var actual = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
+    var range = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
     var inventories = TypeBoundMap[Pet, PetStore, List]
 
-    inventories.iterator.foreach { pair => actual += pair }
+    inventories.iterator.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore1, catList1))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore2, catList2))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Dog](dogStore1, dogList1))
     } should be {
       false
     }
 
     inventories += (catStore1 -> catList1)
-    actual = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
-    inventories.iterator.foreach { pair => actual += pair }
+    range = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
+    inventories.iterator.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore1, catList1))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore2, catList2))
     } should be {
       false
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Dog](dogStore1, dogList1))
     } should be {
       false
     }
 
     inventories += (catStore2 -> catList2)
-    actual = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
-    inventories.iterator.foreach { pair => actual += pair }
+    range = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
+    inventories.iterator.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore1, catList1))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore2, catList2))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Dog](dogStore1, dogList1))
     } should be {
       false
     }
 
     inventories += (dogStore1 -> dogList1)
-    actual = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
-    inventories.iterator.foreach { pair => actual += pair }
+    range = Set[TypeBoundPair[Pet, PetStore, List, _ <: Pet]]()
+    inventories.iterator.foreach { pair => range += pair }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore1, catList1))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Cat](catStore2, catList2))
     } should be {
       true
     }
 
-    { actual.contains(
+    { range.contains(
         TypeBoundPair[Pet, PetStore, List, Dog](dogStore1, dogList1))
     } should be {
       true

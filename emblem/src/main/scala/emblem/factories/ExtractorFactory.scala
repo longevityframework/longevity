@@ -6,14 +6,16 @@ import emblem._
 import emblem.exceptions._
 
 /** Generates a [[Extractor extractor]] from the corresponding [[TypeKey]] */
-private[emblem] class ExtractorFactory[Actual : TypeKey, Abbreviated : TypeKey]
-extends ReflectiveFactory[Actual] {
+private[emblem] class ExtractorFactory[Domain : TypeKey, Range : TypeKey]
+extends ReflectiveFactory[Range] {
 
   verifySingleParam()
   private val param: TermSymbol = params.head
-  verifyExpectedAbbreviatedType()
+  verifyExpectedDomainType()
 
-  def generate: Extractor[Actual, Abbreviated] = Extractor(makeShorten(), makeUnshorten())
+  // TODO rename makeShorten makeUnshorten
+
+  def generate: Extractor[Domain, Range] = Extractor(makeUnshorten(), makeShorten())
 
   private def verifySingleParam(): Unit = {
     if (params.size != 1) {
@@ -21,16 +23,16 @@ extends ReflectiveFactory[Actual] {
     }
   }
 
-  private def verifyExpectedAbbreviatedType(): Unit = {
-    if (! (param.typeSignature =:= typeKey[Abbreviated].tpe)) {
-      throw new UnexpectedAbbreviatedTypeException(key, typeKey[Abbreviated])
+  private def verifyExpectedDomainType(): Unit = {
+    if (! (param.typeSignature =:= typeKey[Domain].tpe)) {
+      throw new UnexpectedDomainTypeException(key, typeKey[Domain])
     }
   }
 
-  private def makeShorten(): (Actual) => Abbreviated = makeGetFunction[Abbreviated](param.name)
+  private def makeShorten(): (Range) => Domain = makeGetFunction[Domain](param.name)
 
-  private def makeUnshorten(): (Abbreviated) => Actual = { abbreviated: Abbreviated =>
-    module.applyMirror(abbreviated).asInstanceOf[Actual]
+  private def makeUnshorten(): (Domain) => Range = { domain: Domain =>
+    module.applyMirror(domain).asInstanceOf[Range]
   }
 
 }

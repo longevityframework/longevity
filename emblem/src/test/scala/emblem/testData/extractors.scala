@@ -9,19 +9,19 @@ object extractors {
     ExtractorPool(emailExtractor, markdownExtractor, radiansExtractor, uriExtractor, zipcodeExtractor)
 
   case class Email(email: String)
-  lazy val emailExtractor = extractorFor[Email, String]
+  lazy val emailExtractor = extractorFor[String, Email]
 
   case class Markdown(markdown: String)
-  lazy val markdownExtractor = extractorFor[Markdown, String]
+  lazy val markdownExtractor = extractorFor[String, Markdown]
 
   case class Radians(radians: Double)
-  lazy val radiansExtractor = extractorFor[Radians, Double]
+  lazy val radiansExtractor = extractorFor[Double, Radians]
 
   case class Uri(uri: String)
-  lazy val uriExtractor = extractorFor[Uri, String]
+  lazy val uriExtractor = extractorFor[String, Uri]
 
   case class Zipcode(zipcode: Int)
-  lazy val zipcodeExtractor = extractorFor[Zipcode, Int]
+  lazy val zipcodeExtractor = extractorFor[Int, Zipcode]
 
   // failure cases
 

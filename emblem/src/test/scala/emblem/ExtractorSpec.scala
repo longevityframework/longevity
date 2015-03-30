@@ -13,47 +13,47 @@ class ExtractorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception on non case class types" in {
     intercept[TypeIsNotCaseClassException] {
-      extractorFor[NotACaseClass, Any]
+      extractorFor[Any, NotACaseClass]
     }
   }
 
   it should "throw exception on case classes with multiple param lists" in {
     intercept[CaseClassHasMultipleParamListsException] {
-      extractorFor[MultipleParamLists, Any]
+      extractorFor[Any, MultipleParamLists]
     }
   }
 
   it should "throw exception on inner case classes" in {
     intercept[CaseClassIsInnerClassException] {
       val hasInner = new HasInnerClass
-      extractorFor[hasInner.IsInnerCaseClass, Any]
+      extractorFor[Any, hasInner.IsInnerCaseClass]
     }
   }
 
   it should "throw exception on case classes with multiple params (one param list)" in {
     intercept[CaseClassHasMultipleParamsException] {
-      extractorFor[MultipleParams, Any]
+      extractorFor[Any, MultipleParams]
     }
   }
 
   it should "throw exception when the requested short type does not match the case class parameter" in {
-    intercept[UnexpectedAbbreviatedTypeException] {
-      extractorFor[Uri, Int]
+    intercept[UnexpectedDomainTypeException] {
+      extractorFor[Int, Uri]
     }
   }
 
   behavior of "the extractor"
 
-  it should "contain type keys for the actual and abbreviated types" in {
-    uriExtractor.actualTypeKey should equal (typeKey[Uri])
-    uriExtractor.abbreviatedTypeKey should equal (typeKey[String])
+  it should "contain type keys for the range and domain types" in {
+    uriExtractor.rangeTypeKey should equal (typeKey[Uri])
+    uriExtractor.domainTypeKey should equal (typeKey[String])
   }
 
   it should "provide conversion methods between the longhand and extractor types" in {
     val uriString = "panda"
     val uri = Uri(uriString)
-    uriExtractor.abbreviate(uri) should equal (uriString)
-    uriExtractor.unabbreviate(uriString) should equal (uri)
+    uriExtractor.apply(uriString) should equal (uri)
+    uriExtractor.unapply(uri) should equal (uriString)
   }
 
 }

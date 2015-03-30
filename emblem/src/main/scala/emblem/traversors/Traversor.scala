@@ -100,25 +100,26 @@ trait Traversor {
     result: Iterator[PropResult[A, _]])
   : TraverseResult[A]
 
+  // TODO tparamas
   /** stage the traversal of a [[Extractor extractor]].
    * @param extractor the extractor being traversed
    * @param input the input to the extractor traversal
-   * @return the input for traversing the [[Extractor.abbreviate extractor abbreviation]]
+   * @return the input for traversing the [[Extractor.unapply extractor abbreviation]]
    */
-  protected def stageExtractor[Actual, Abbreviated](
-    extractor: Extractor[Actual, Abbreviated],
-    input: TraverseInput[Actual])
-  : TraverseInput[Abbreviated]
+  protected def stageExtractor[Domain, Range](
+    extractor: Extractor[Domain, Range],
+    input: TraverseInput[Range])
+  : TraverseInput[Domain]
 
   /** unstage the traversal of a [[Extractor extractor]].
    * @param extractor the extractor being traversed
-   * @param abbreviatedResult the result of traversing the [[Extractor.abbreviate extractor abbreviation]]
+   * @param domainResult the result of traversing the [[Extractor.unapply extractor abbreviation]]
    * @return the result of traversing the extractor
    */
-  protected def unstageExtractor[Actual, Abbreviated](
-    extractor: Extractor[Actual, Abbreviated],
-    abbreviatedResult: TraverseResult[Abbreviated])
-  : TraverseResult[Actual]
+  protected def unstageExtractor[Domain, Range](
+    extractor: Extractor[Domain, Range],
+    domainResult: TraverseResult[Domain])
+  : TraverseResult[Range]
 
   /** stage the traversal of an option's value
    * @param input the input to traversing the option
@@ -250,23 +251,23 @@ trait Traversor {
     traverse(input)(prop.typeKey)
   }
 
-  private def traverseExtractorOption[Actual : TypeKey](input: TraverseInput[Actual])
-  : Option[TraverseResult[Actual]] =
-    extractorPool.get[Actual] map { s => traverseFromExtractor[Actual](s, input) }
+  private def traverseExtractorOption[Range : TypeKey](input: TraverseInput[Range])
+  : Option[TraverseResult[Range]] =
+    extractorPool.get[Range] map { s => traverseFromExtractor[Range](s, input) }
 
-  private def traverseFromExtractor[Actual](
-    extractor: Extractor[Actual, _],
-    input: TraverseInput[Actual])
-  : TraverseResult[Actual] =
+  private def traverseFromExtractor[Range](
+    extractor: Extractor[_, Range],
+    input: TraverseInput[Range])
+  : TraverseResult[Range] =
     traverseFromFullyTypedExtractor(extractor, input)
 
-  private def traverseFromFullyTypedExtractor[Actual, Abbreviated](
-    extractor: Extractor[Actual, Abbreviated],
-    input: TraverseInput[Actual])
-  : TraverseResult[Actual] = {
-    val abbreviatedInput = stageExtractor(extractor, input)
-    val abbreviatedResult = traverse(abbreviatedInput)(extractor.abbreviatedTypeKey)
-    unstageExtractor(extractor, abbreviatedResult)
+  private def traverseFromFullyTypedExtractor[Domain, Range](
+    extractor: Extractor[Domain, Range],
+    input: TraverseInput[Range])
+  : TraverseResult[Range] = {
+    val domainInput = stageExtractor(extractor, input)
+    val domainResult = traverse(domainInput)(extractor.domainTypeKey)
+    unstageExtractor(extractor, domainResult)
   }
 
   // TODO pt 88571474: remove code duplication with option/set/list, generalize to other kinds of "collections"

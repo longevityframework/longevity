@@ -12,20 +12,22 @@ import longevity.exceptions.ShorthandCreationException
  * @tparam Abbreviated the abbreviated type
  */
 class Shorthand[Actual, Abbreviated] private[longevity] (
-  private[longevity] val extractor: Extractor[Actual, Abbreviated]
+  private[longevity] val extractor: Extractor[Abbreviated, Actual]
 ) {
 
   /** a [[TypeKey]] for the actual type */
-  lazy val actualTypeKey: TypeKey[Actual] = extractor.actualTypeKey
+  lazy val actualTypeKey: TypeKey[Actual] = extractor.rangeTypeKey
 
   /** a [[TypeKey]] for the abbreviated type */
-  lazy val abbreviatedTypeKey: TypeKey[Abbreviated] = extractor.abbreviatedTypeKey
+  lazy val abbreviatedTypeKey: TypeKey[Abbreviated] = extractor.domainTypeKey
 
   /** converts from actual to abbreviated */
-  def abbreviate(actual: Actual): Abbreviated = extractor.abbreviate(actual)
+  def abbreviate(actual: Actual): Abbreviated = extractor.unapply(actual)
 
-  /** converts from abbreviate to actual */
-  def unabbreviate(abbreviated: Abbreviated): Actual = extractor.unabbreviate(abbreviated)
+  /** converts from abbreviate to actual
+   * @throws
+   */
+  def unabbreviate(abbreviated: Abbreviated): Actual = extractor.apply(abbreviated)
 
   override def toString = s"Shorthand[${actualTypeKey.tpe}, ${abbreviatedTypeKey.tpe}]"
 
@@ -40,7 +42,7 @@ object Shorthand {
    */
   def apply[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] =
     try {
-      new Shorthand(emblem.extractorFor[Actual, Abbreviated])
+      new Shorthand(emblem.extractorFor[Abbreviated, Actual])
     } catch {
       case e: emblem.exceptions.GeneratorException =>
         throw new ShorthandCreationException(e, typeKey[Actual], typeKey[Abbreviated])

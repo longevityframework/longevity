@@ -131,17 +131,17 @@ trait Transformer {
       builder.build()
     }
 
-    protected def stageExtractor[Actual, Abbreviated](
-      extractor: Extractor[Actual, Abbreviated],
-      actual: Actual)
-    : Abbreviated =
-      extractor.abbreviate(actual)
+    protected def stageExtractor[Domain, Range](
+      extractor: Extractor[Domain, Range],
+      range: Range)
+    : Domain =
+      extractor.unapply(range)
 
-    protected def unstageExtractor[Actual, Abbreviated](
-      extractor: Extractor[Actual, Abbreviated],
-      abbreviated: Abbreviated)
-    : Actual =
-      extractor.unabbreviate(abbreviated)
+    protected def unstageExtractor[Domain, Range](
+      extractor: Extractor[Domain, Range],
+      domain: Domain)
+    : Range =
+      extractor.apply(domain)
 
     protected def stageOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
 

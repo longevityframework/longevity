@@ -123,17 +123,17 @@ trait Generator {
       builder.build()
     }
 
-    protected def stageExtractor[Actual, Abbreviated](
-      extractor: Extractor[Actual, Abbreviated],
+    protected def stageExtractor[Domain, Range](
+      extractor: Extractor[Domain, Range],
       input: Unit)
     : Unit =
       ()
 
-    protected def unstageExtractor[Actual, Abbreviated](
-      extractor: Extractor[Actual, Abbreviated],
-      abbreviatedResult: Abbreviated)
-    : Actual =
-      extractor.unabbreviate(abbreviatedResult)
+    protected def unstageExtractor[Domain, Range](
+      extractor: Extractor[Domain, Range],
+      domainResult: Domain)
+    : Range =
+      extractor.apply(domainResult)
 
     protected def stageOptionValue[A : TypeKey](input: Unit): Option[Unit] = option(())
 

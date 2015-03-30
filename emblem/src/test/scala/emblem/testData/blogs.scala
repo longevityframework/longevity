@@ -49,16 +49,16 @@ object blogs {
   // extractors
 
   case class Email(email: String)
-  lazy val emailExtractor = extractorFor[Email, String]
+  lazy val emailExtractor = extractorFor[String, Email]
 
   case class Markdown(markdown: String)
-  lazy val markdownExtractor = extractorFor[Markdown, String]
+  lazy val markdownExtractor = extractorFor[String, Markdown]
 
   case class Uri(uri: String)
-  lazy val uriExtractor = extractorFor[Uri, String]
+  lazy val uriExtractor = extractorFor[String, Uri]
 
   case class Zipcode(zipcode: Int)
-  lazy val zipcodeExtractor = extractorFor[Zipcode, Int]
+  lazy val zipcodeExtractor = extractorFor[Int, Zipcode]
 
   val extractorPool = ExtractorPool(emailExtractor, markdownExtractor, uriExtractor, zipcodeExtractor)
 

@@ -19,7 +19,7 @@ trait BuildSettings {
       "-language:implicitConversions",
       "-unchecked",
       "-Xfatal-warnings",
-      "-Xlint",
+      //"-Xlint",
       "-Yno-adapted-args",
       "-Ywarn-numeric-widen",
       "-Xfuture",

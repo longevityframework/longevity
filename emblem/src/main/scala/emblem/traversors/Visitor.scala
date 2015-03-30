@@ -112,15 +112,15 @@ trait Visitor {
     : Unit =
       ()
 
-    protected def stageExtractor[Actual, Abbreviated](
-      extractor: Extractor[Actual, Abbreviated],
-      input: Actual)
-    : Abbreviated =
-      extractor.abbreviate(input)
+    protected def stageExtractor[Domain, Range](
+      extractor: Extractor[Domain, Range],
+      input: Range)
+    : Domain =
+      extractor.unapply(input)
 
-    protected def unstageExtractor[Actual, Abbreviated](
-      extractor: Extractor[Actual, Abbreviated],
-      abbreviatedResult: Unit)
+    protected def unstageExtractor[Domain, Range](
+      extractor: Extractor[Domain, Range],
+      domainResult: Unit)
     : Unit =
       ()
 

@@ -23,19 +23,20 @@ package object emblem {
   /** A [[TypeKeyMap]] of [[HasEmblem]] to [[Emblem]] */
   type EmblemPool = TypeKeyMap[HasEmblem, Emblem]  
 
-  /** creates and returns an [[Extractor]] for the specified types `Actual` and `Abbreviated`. `A` must be a
+  // TODO cleanup comment add tparams
+  /** creates and returns an [[Extractor]] for the specified types `Range` and `Domain`. `A` must be a
    * stable case class with single a parameter list.
    * @throws emblem.exceptions.GeneratorException when `A` is not a stable case class with a single
    * parameter list
    */
-  def extractorFor[Actual : TypeKey, Abbreviated : TypeKey]: Extractor[Actual, Abbreviated] =
-    new ExtractorFactory[Actual, Abbreviated].generate
+  def extractorFor[Domain : TypeKey, Range : TypeKey]: Extractor[Domain, Range] =
+    new ExtractorFactory[Domain, Range].generate
 
-  /** An extractor with the abbreviated type unspecified. this type is equivalent to Extractor[Actual, _],
-   * except with a single type parameter Actual. this allows it to be used as a key in a TypeBoundMap */
-  type ExtractorFor[Actual] = Extractor[Actual, _]
+  /** An extractor with the domain type unspecified. this type is equivalent to Extractor[Range, _],
+   * except with a single type parameter Range. this allows it to be used as a key in a TypeBoundMap */
+  type ExtractorFor[Range] = Extractor[_, Range]
 
-  /** A [[TypeKeyMap]] of `Actual` to [[Extractor]] */
+  /** A [[TypeKeyMap]] of `Range` to [[Extractor]] */
   type ExtractorPool = TypeKeyMap[Any, ExtractorFor]
 
   /** a no-arg function with return type A */
