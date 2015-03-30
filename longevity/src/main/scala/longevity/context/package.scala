@@ -14,7 +14,7 @@ package object context {
    */
   type ShorthandFor[Actual] = Shorthand[Actual, _]
 
-  /** A [[TypeKeyMap]] of `Actual` to [[Shorthand]] */
+  /** an `emblem.TypeKeyMap` of [[Shorthand shorthands]], indexed by the `Actual` type */
   type ShorthandPool = TypeKeyMap[Any, ShorthandFor]
 
   private[longevity] def shorthandPoolToExtractorPool(shorthandPool: ShorthandPool): ExtractorPool = {

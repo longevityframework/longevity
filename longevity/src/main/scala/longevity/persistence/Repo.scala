@@ -31,7 +31,7 @@ abstract class Repo[E <: RootEntity : TypeKey] {
   /** deletes the aggregate */
   def delete(p: Persisted[E]): Future[Deleted[E]]
 
-  /** the pool of all the repos for the [[longevity.persistence.PersistenceContext]].
+  /** the pool of all the repos for the [[longevity.context.PersistenceContext]].
    *
    * PLEASE NOTE that the repo pool is only available for use after all the repositories in the pool have
    * been initialized. if you attempt to access the pool during the initialization of your customized

@@ -43,8 +43,8 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
       }
     }
 
-    val customGenerators = CustomGeneratorPool.empty + intHolderCustomGenerator + listCustomGenerator
-    val generator = new TestDataGenerator(emblemPool, extractorPool, customGenerators)
+    val customGeneratorPool = CustomGeneratorPool.empty + intHolderCustomGenerator + listCustomGenerator
+    val generator = new TestDataGenerator(emblemPool, extractorPool, customGeneratorPool)
 
     List.fill(100) {
       val intList: List[Int] = generator.generate[List[Int]]
@@ -206,10 +206,10 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val pointCustomGenerator = simpleGenerator((generator) => Point(-1.0, -1.0))
     val listCustomGenerator = simpleGenerator((generator) => List(1, 2, 3))
     val intCustomGenerator = simpleGenerator((generator) => 77)
-    val customGenerators = CustomGeneratorPool.empty +
+    val customGeneratorPool = CustomGeneratorPool.empty +
       uriCustomGenerator + pointCustomGenerator + listCustomGenerator + intCustomGenerator
 
-    val generator = new TestDataGenerator(emblemPool, extractorPool, customGenerators)
+    val generator = new TestDataGenerator(emblemPool, extractorPool, customGeneratorPool)
 
     generator.generate[Uri] should equal (Uri("frenchy"))
     generator.generate[Point] should equal (Point(-1.0, -1.0))
@@ -220,11 +220,11 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   private def standardGenerator = {
     val intHolderCustomGenerator = simpleGenerator(
       (generator: Generator) => new IntHolder(generator.generate[Int]))
-    val customGenerators = CustomGeneratorPool.empty + intHolderCustomGenerator
+    val customGeneratorPool = CustomGeneratorPool.empty + intHolderCustomGenerator
     new TestDataGenerator(
       emblemPool = emblemPool,
       extractorPool = extractorPool,
-      customGenerators = CustomGeneratorPool.empty + intHolderCustomGenerator)
+      customGeneratorPool = CustomGeneratorPool.empty + intHolderCustomGenerator)
   }
 
 }

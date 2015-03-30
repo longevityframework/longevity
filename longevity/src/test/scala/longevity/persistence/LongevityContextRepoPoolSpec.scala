@@ -12,7 +12,7 @@ import emblem._
 @longevity.UnitTest
 class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "a repo pool of an in-memory longevity context with no specializations"
+  behavior of "a repo pool of an in-memory longevity context with no specializedRepoFactoryPool"
 
   it should "be full of stock repos" in {
     val repoPool = inMemLongevityContext.repoPool
@@ -23,7 +23,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     repoPool.get[Message].value.entityType should equal (MessageType)
   }
 
-  behavior of "a repo pool of a mongo longevity context with no specializations"
+  behavior of "a repo pool of a mongo longevity context with no specializedRepoFactoryPool"
 
   it should "be full of stock repos" in {
     val repoPool = longevityContext.repoPool
@@ -49,7 +49,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     }
   }
 
-  behavior of "a repo pool of an in-memory longevity context with specializations"
+  behavior of "a repo pool of an in-memory longevity context with specializedRepoFactoryPool"
 
   it should "contain the specialized repos" in {
     class SpecializedFriendRepo extends InMemRepo[Friend](FriendType) {
@@ -60,7 +60,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
       subdomain,
       ShorthandPool.empty,
       InMem,
-      specializations = SpecializedRepoFactoryPool.empty + factory
+      specializedRepoFactoryPool = SpecializedRepoFactoryPool.empty + factory
     )
     val repoPool = longevityContext.repoPool
     repoPool.size should equal (2)
@@ -70,7 +70,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     repoPool.get[Message].value.entityType should equal (MessageType)
   }
 
-  behavior of "a repo pool of a mongo longevity context with specializations"
+  behavior of "a repo pool of a mongo longevity context with specializedRepoFactoryPool"
 
   it should "contain the specialized repos" in {
     class SpecializedFriendRepo(emblemPool: EmblemPool, shorthandPool: ShorthandPool)
@@ -84,7 +84,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
       subdomain,
       ShorthandPool.empty,
       Mongo,
-      specializations = SpecializedRepoFactoryPool.empty + factory
+      specializedRepoFactoryPool = SpecializedRepoFactoryPool.empty + factory
     )
     val repoPool = longevityContext.repoPool
     repoPool.size should equal (2)

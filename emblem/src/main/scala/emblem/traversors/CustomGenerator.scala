@@ -12,7 +12,7 @@ object CustomGenerator {
   // - change TestDataGenerator.CustomGeneratorPool to map by both key bounds
   //   type CustomGeneratorPool = TypeKeyMap[Any, CustomGenerator]
   // - in TestDataGenerator.customOption, and add in a castToUpperBound in this line:
-  //   val keyOpt: Option[TypeKey[_ >: A]] = customGenerators.keys.map(_.castToLowerBound[A]).flatten.headOption
+  //   val keyOpt: Option[TypeKey[_ >: A]] = customGeneratorPool.keys.map(_.castToLowerBound[A]).flatten.headOption
   // - simpleGenerator provides same type as upper and lower bound
 
   /** Creates a simple [[CustomGenerator]] from a regular function. The simple generator wraps the function
@@ -23,7 +23,7 @@ object CustomGenerator {
    * class IntHolder(val i: Int)
    * val intHolderGen: CustomGenerator[IntHolder] =
    *   simpleGenerator((generator: Generator) => new IntHolder(generator.generate[Int]))
-   * val generator = new TestDataGenerator(customGenerators = CustomGeneratorPool.empty + intHolderGen)
+   * val generator = new TestDataGenerator(customGeneratorPool = CustomGeneratorPool.empty + intHolderGen)
    * }}}
    * 
    * @tparam A the return type of the underlying function
@@ -58,7 +58,7 @@ object CustomGenerator {
  *     eltList.asInstanceOf[B]
  *   }
  * }
- * val generator = new TestDataGenerator(customGenerators = CustomGeneratorPool.empty + listCustomGenerator)
+ * val generator = new TestDataGenerator(customGeneratorPool = CustomGeneratorPool.empty + listCustomGenerator)
  * }}}
  *
  * @tparam the type of things this custom generator generates

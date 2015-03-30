@@ -7,7 +7,7 @@ import longevity.subdomain._
 /** manages entity persistence operations */
 package object persistence {
 
-  /** a `TypeKeyMap` of [[domain.RootEntity RootEntity]] to [[Repo]] */
+  /** a `TypeKeyMap` of [[longevity.subdomain.RootEntity RootEntity]] to [[Repo]] */
   type RepoPool = TypeKeyMap[RootEntity, Repo]
 
   /** a function producing a specialized version of a repository given a longevity context
@@ -30,35 +30,35 @@ package object persistence {
     subdomain: Subdomain,
     shorthandPool: ShorthandPool,
     persistenceStrategy: PersistenceStrategy,
-    specializations: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool.empty)
+    specializedRepoFactoryPool: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool.empty)
   : RepoPool =
     persistenceStrategy match {
-      case InMem => inMemRepoPool(subdomain, shorthandPool, specializations)
-      case Mongo => mongoRepoPool(subdomain, shorthandPool, specializations)
+      case InMem => inMemRepoPool(subdomain, shorthandPool, specializedRepoFactoryPool)
+      case Mongo => mongoRepoPool(subdomain, shorthandPool, specializedRepoFactoryPool)
     }
 
   private def inMemRepoPool(
     subdomain: Subdomain,
     shorthandPool: ShorthandPool,
-    specializations: SpecializedRepoFactoryPool)
+    specializedRepoFactoryPool: SpecializedRepoFactoryPool)
   : RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new InMemRepo(entityType)(entityKey)
     }
-    buildRepoPool(subdomain, shorthandPool, specializations, repoFactory)
+    buildRepoPool(subdomain, shorthandPool, specializedRepoFactoryPool, repoFactory)
   }
 
   private def mongoRepoPool(
     subdomain: Subdomain,
     shorthandPool: ShorthandPool,
-    specializations: SpecializedRepoFactoryPool)
+    specializedRepoFactoryPool: SpecializedRepoFactoryPool)
   : RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new MongoRepo(entityType, subdomain.entityEmblemPool, shorthandPool)(entityKey)
     }
-    buildRepoPool(subdomain, shorthandPool, specializations, repoFactory)
+    buildRepoPool(subdomain, shorthandPool, specializedRepoFactoryPool, repoFactory)
   }
 
   private trait StockRepoFactory {
@@ -68,7 +68,7 @@ package object persistence {
   private def buildRepoPool(
     subdomain: Subdomain,
     shorthandPool: ShorthandPool,
-    specializations: SpecializedRepoFactoryPool,
+    specializedRepoFactoryPool: SpecializedRepoFactoryPool,
     stockRepoFactory: StockRepoFactory)
   : RepoPool = {
     var repoPool = emptyRepoPool
@@ -76,7 +76,7 @@ package object persistence {
     def createRepoFromPair[RE <: RootEntity](pair: Pair[RE]): Unit = {
       val entityKey = pair._1
       val entityType = pair._2
-      val repo = specializations.get(entityKey) match {
+      val repo = specializedRepoFactoryPool.get(entityKey) match {
         case Some(specializedRepoFactory) =>
           specializedRepoFactory(subdomain.entityEmblemPool, shorthandPool)
         case None => stockRepoFactory.build(entityType, entityKey)

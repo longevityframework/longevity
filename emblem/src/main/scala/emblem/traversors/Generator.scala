@@ -48,7 +48,7 @@ trait Generator {
   protected val extractorPool: ExtractorPool = ExtractorPool.empty
 
   /** the custom generators to use in the recursive generation */
-  protected val customGenerators: CustomGeneratorPool = CustomGeneratorPool.empty
+  protected val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty
 
   /** generates an option */
   protected def option[A](a: => A): Option[A]
@@ -109,7 +109,7 @@ trait Generator {
       val generatorToTraversor = new TypeBoundFunction[Any, CustomGenerator, CustomTraversor] {
         def apply[A](generator: CustomGenerator[A]): CustomTraversor[A] = new GenCustomTraversor(generator)
       }
-      customGenerators.mapValues(generatorToTraversor)
+      customGeneratorPool.mapValues(generatorToTraversor)
     }
 
     protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: Unit)

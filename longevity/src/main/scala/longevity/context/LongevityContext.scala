@@ -2,47 +2,39 @@ package longevity.context
 
 import emblem.traversors.Generator.CustomGeneratorPool
 import longevity.persistence.InMem
-import longevity.persistence.PersistenceContext
 import longevity.persistence.PersistenceStrategy
 import longevity.persistence.SpecializedRepoFactoryPool
 import longevity.subdomain.Subdomain
-import longevity.test.TestContext
 
-/** contains factory methods and implicits for longevity contexts */
 object LongevityContext {
 
   /** constructs and returns a `LongevityContext`
    * 
    * @param subdomain the subdomain
-   * @param shorthandPool a complete set of the shorthands used by the bounded context
-   * @param persistenceStrategy the persistence strategy for this longevity context
-   * @param specializations a collection factories for specialized repositories
-   * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
-   * empty collection.
+   * 
+   * @param shorthandPool a complete set of the shorthands used by the bounded context. defaults to empty
+   * 
+   * @param persistenceStrategy the persistence strategy for this longevity context. defaults to
+   * [[longevity.persistence.InMem InMem]]
+   * 
+   * @param specializedRepoFactoryPool a collection factories for specialized repositories. defaults to empty
+   * 
+   * @param customGeneratorPool a collection of custom generators to use when generating test data. defaults to
+   * empty
    */
   def apply(
     subdomain: Subdomain,
-    shorthandPool: ShorthandPool,
-    persistenceStrategy: PersistenceStrategy,
-    specializations: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool.empty,
-    customGenerators: CustomGeneratorPool = CustomGeneratorPool.empty)
-  : LongevityContext = {
-    new LongevityContext(
+    shorthandPool: ShorthandPool = ShorthandPool.empty,
+    persistenceStrategy: PersistenceStrategy = InMem,
+    specializedRepoFactoryPool: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool.empty,
+    customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
+  : LongevityContext =
+    new LongevityContextImpl(
       subdomain,
       shorthandPool,
       persistenceStrategy,
-      specializations,
-      customGenerators)
-  }
-
-  implicit def longevityContextSubdomain(longevityContext: LongevityContext): Subdomain =
-    longevityContext.subdomain
-
-  implicit def longevityContextToPersistenceContext(longevityContext: LongevityContext): PersistenceContext =
-    longevityContext.persistenceContext
-
-  implicit def longevityContextToTestContext(longevityContext: LongevityContext): TestContext =
-    longevityContext.testContext
+      specializedRepoFactoryPool,
+      customGeneratorPool)
 
 }
 
@@ -50,31 +42,13 @@ object LongevityContext {
  * for your [[http://bit.ly/1BPZfIW subdomain]]. the bounded context is a capture of the strategies and tools
  * used by the applications relating to your subdomain. in other words, those tools that speak the language of
  * the subdomain.
- *
- * @param subdomain the subdomain
- * @param shorthandPool a complete set of the shorthands used by the bounded context
- * @param persistenceStrategy the persistence strategy for this longevity context
- * @param specializations a collection factories for specialized repositories
- * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
- * empty collection.
  */
-final class LongevityContext private(
-  val subdomain: Subdomain,
-  val shorthandPool: ShorthandPool,
-  persistenceStrategy: PersistenceStrategy,
-  specializations: SpecializedRepoFactoryPool,
-  val customGenerators: CustomGeneratorPool) {
+trait LongevityContext extends PersistenceContext with TestContext {
 
-  lazy val persistenceContext = new PersistenceContext(
-    subdomain,
-    shorthandPool,
-    persistenceStrategy,
-    specializations)
+  /** the subdomain that provides the ubiquitous language for the bounded context */
+  val subdomain: Subdomain
 
-  lazy val testContext = new TestContext(
-    subdomain,
-    shorthandPool,
-    customGenerators,
-    persistenceContext.repoPool)
+  /** a complete set of the shorthands used by the bounded context */
+  val shorthandPool: ShorthandPool
 
 }

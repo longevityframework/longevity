@@ -28,13 +28,13 @@ import scala.reflect.runtime.universe.typeOf
  *
  * @param extractorPool the extractors to generate test data for. defaults to empty
  * @param emblemPool the emblems to generate test data for. defaults to empty
- * @param customGenerators custom generation functions. defaults to empty. custom generators take precedence
+ * @param customGeneratorPool custom generation functions. defaults to empty. custom generators take precedence
  * over all other generators
  */
 class TestDataGenerator (
   override protected val emblemPool: EmblemPool = EmblemPool.empty,
   override protected val extractorPool: ExtractorPool = ExtractorPool.empty,
-  override protected val customGenerators: CustomGeneratorPool = CustomGeneratorPool.empty
+  override protected val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty
 ) extends Generator {
 
   private val random = new util.Random

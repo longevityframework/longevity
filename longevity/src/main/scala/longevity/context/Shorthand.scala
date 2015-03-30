@@ -6,7 +6,7 @@ import longevity.exceptions.ShorthandCreationException
 /** describes a relation (one-to-one mapping) between two types, `Actual` and `Abbreviated`. The "actual" type is
  * typically a richer type, such as a case class with a single parameter, and an abbreviated value for the
  * type, such as a string. Provides functions for mapping between the actual and abbreviated types, as well as
- * [[TypeKey type keys]] for the two types.
+ * an `emblem.TypeKey` for both types.
  *
  * @tparam Actual the actual type
  * @tparam Abbreviated the abbreviated type
@@ -15,18 +15,16 @@ class Shorthand[Actual, Abbreviated] private[longevity] (
   private[longevity] val extractor: Extractor[Abbreviated, Actual]
 ) {
 
-  /** a [[TypeKey]] for the actual type */
-  lazy val actualTypeKey: TypeKey[Actual] = extractor.rangeTypeKey
+  /** a type key for the actual type */
+  private[longevity] lazy val actualTypeKey: TypeKey[Actual] = extractor.rangeTypeKey
 
-  /** a [[TypeKey]] for the abbreviated type */
-  lazy val abbreviatedTypeKey: TypeKey[Abbreviated] = extractor.domainTypeKey
+  /** a type key for the abbreviated type */
+  private[longevity] lazy val abbreviatedTypeKey: TypeKey[Abbreviated] = extractor.domainTypeKey
 
   /** converts from actual to abbreviated */
   def abbreviate(actual: Actual): Abbreviated = extractor.unapply(actual)
 
-  /** converts from abbreviate to actual
-   * @throws
-   */
+  /** converts from abbreviate to actual */
   def unabbreviate(abbreviated: Abbreviated): Actual = extractor.apply(abbreviated)
 
   override def toString = s"Shorthand[${actualTypeKey.tpe}, ${abbreviatedTypeKey.tpe}]"

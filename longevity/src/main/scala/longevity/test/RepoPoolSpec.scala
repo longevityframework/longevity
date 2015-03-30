@@ -22,7 +22,7 @@ import org.scalatest.time.SpanSugar._
  *
  * @param subdomain the subdomain
  * @param shorthandPool a complete set of the shorthands used by the bounded context
- * @param customGenerators a collection of custom generators to use when generating test data
+ * @param customGeneratorPool a collection of custom generators to use when generating test data
  * @param repoPool the repo pool under test. this may be different than the `longevityContext.repoPool`, as
  * users may want to test against other repo pools. (for instance, they may want a spec for in-memory repo
  * pools if other parts of their test suite rely on them.)
@@ -32,7 +32,7 @@ import org.scalatest.time.SpanSugar._
 private[longevity] class RepoPoolSpec(
   subdomain: Subdomain,
   shorthandPool: ShorthandPool,
-  customGenerators: CustomGeneratorPool,
+  customGeneratorPool: CustomGeneratorPool,
   repoPool: RepoPool,
   suiteNameSuffix: Option[String] = None)
 extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
@@ -147,7 +147,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
 
   private val emblemPool = subdomain.entityEmblemPool
   private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
-  private val generators = customGenerators + assocGenerator
+  private val generators = customGeneratorPool + assocGenerator
   private val testDataGenerator = new TestDataGenerator(emblemPool, extractorPool, generators)
   private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool)
   private val differ = new Differ(emblemPool, extractorPool)
