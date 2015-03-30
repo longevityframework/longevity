@@ -4,7 +4,6 @@ import Differ._
 import emblem._
 import scala.reflect.runtime.universe.typeOf
 
-// TODO change .domain string here to .unapplied
 object Differ {
 
   /** a diff encountered by the [[Differ]].
@@ -129,7 +128,7 @@ class Differ(
       input.copy(
         lhs = extractor.unapply(input.lhs),
         rhs = extractor.unapply(input.rhs),
-        path = input.path + ".domain")
+        path = input.path + ".unapply")
 
     protected def unstageExtractor[Domain, Range](
       extractor: Extractor[Domain, Range],

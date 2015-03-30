@@ -42,7 +42,7 @@ object Shorthand {
    */
   def apply[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] =
     try {
-      new Shorthand(emblem.extractorFor[Abbreviated, Actual])
+      new Shorthand(emblem.Extractor[Abbreviated, Actual])
     } catch {
       case e: emblem.exceptions.GeneratorException =>
         throw new ShorthandCreationException(e, typeKey[Actual], typeKey[Abbreviated])

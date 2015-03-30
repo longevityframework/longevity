@@ -5,7 +5,10 @@ import scala.reflect.runtime.universe._
 import emblem._
 import emblem.exceptions._
 
-/** Generates a [[Extractor extractor]] from the corresponding [[TypeKey]] */
+/** generates an [[Extractor extractor]] from [[TypeKey type keys]] for the `Domain` and `Range` types
+ * @tparam Range the range type
+ * @tparam Domain the domain type
+ */
 private[emblem] class ExtractorFactory[Domain : TypeKey, Range : TypeKey]
 extends ReflectiveFactory[Range] {
 
@@ -13,9 +16,7 @@ extends ReflectiveFactory[Range] {
   private val param: TermSymbol = params.head
   verifyExpectedDomainType()
 
-  // TODO rename makeShorten makeUnshorten
-
-  def generate: Extractor[Domain, Range] = Extractor(makeUnshorten(), makeShorten())
+  def generate: Extractor[Domain, Range] = Extractor(makeApply(), makeUnapply())
 
   private def verifySingleParam(): Unit = {
     if (params.size != 1) {
@@ -29,9 +30,9 @@ extends ReflectiveFactory[Range] {
     }
   }
 
-  private def makeShorten(): (Range) => Domain = makeGetFunction[Domain](param.name)
+  private def makeUnapply(): (Range) => Domain = makeGetFunction[Domain](param.name)
 
-  private def makeUnshorten(): (Domain) => Range = { domain: Domain =>
+  private def makeApply(): (Domain) => Range = { domain: Domain =>
     module.applyMirror(domain).asInstanceOf[Range]
   }
 

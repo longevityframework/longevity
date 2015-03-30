@@ -4,7 +4,7 @@ import emblem.exceptions.DuplicateExtractorsException
 
 object ExtractorPool {
 
-  /** Collects a sequence of [[Extractor extractors]] into a [[ExtractorPool]].
+  /** collects a sequence of [[Extractor extractors]] into a [[ExtractorPool]]
    * @param extractors the sequence of extractors stored in the pool
    * @throws emblem.exceptions.DuplicateExtractorsException when two or more of the extractors have the same
    * Range type

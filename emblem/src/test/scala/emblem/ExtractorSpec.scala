@@ -9,36 +9,36 @@ class ExtractorSpec extends FlatSpec with GivenWhenThen with Matchers {
   import emblem.testData.genFailure._
   import emblem.testData.extractors._
 
-  behavior of "emblem.extractorFor"
+  behavior of "emblem.Extractor"
 
   it should "throw exception on non case class types" in {
     intercept[TypeIsNotCaseClassException] {
-      extractorFor[Any, NotACaseClass]
+      Extractor[Any, NotACaseClass]
     }
   }
 
   it should "throw exception on case classes with multiple param lists" in {
     intercept[CaseClassHasMultipleParamListsException] {
-      extractorFor[Any, MultipleParamLists]
+      Extractor[Any, MultipleParamLists]
     }
   }
 
   it should "throw exception on inner case classes" in {
     intercept[CaseClassIsInnerClassException] {
       val hasInner = new HasInnerClass
-      extractorFor[Any, hasInner.IsInnerCaseClass]
+      Extractor[Any, hasInner.IsInnerCaseClass]
     }
   }
 
   it should "throw exception on case classes with multiple params (one param list)" in {
     intercept[CaseClassHasMultipleParamsException] {
-      extractorFor[Any, MultipleParams]
+      Extractor[Any, MultipleParams]
     }
   }
 
   it should "throw exception when the requested short type does not match the case class parameter" in {
     intercept[UnexpectedDomainTypeException] {
-      extractorFor[Int, Uri]
+      Extractor[Int, Uri]
     }
   }
 

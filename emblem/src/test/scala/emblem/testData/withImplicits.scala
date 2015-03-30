@@ -10,7 +10,7 @@ object withImplicits {
     override def toString = implicitBar
   }
   case class FooWithImplicit(implicitBar: ImplicitBar, point: Point) extends HasEmblem
-  lazy val fooWithImplicitEmblem = emblemFor[FooWithImplicit]
+  lazy val fooWithImplicitEmblem = Emblem[FooWithImplicit]
   lazy val implicitBarProp = fooWithImplicitEmblem.prop[ImplicitBar]("implicitBar")
   lazy val pointProp = fooWithImplicitEmblem.prop[Point]("point")
 

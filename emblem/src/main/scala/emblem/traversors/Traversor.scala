@@ -33,7 +33,8 @@ trait Traversor {
   val emptyCustomTraversor: CustomTraversors = TypeKeyMap[Any, CustomTraversor]()
 
   /** traverses an object of any supported type.
-   * 
+   *
+   * @tparam A the type of the object to traverse
    * @throws emblem.exceptions.CouldNotTraverseException when an unsupported type is encountered during the
    * traversal
    */
@@ -78,7 +79,8 @@ trait Traversor {
   /** traverses a string */
   protected def traverseString(input: TraverseInput[String]): TraverseResult[String]
 
-  /** stage the traversal of a [[Emblem emblem's]] [[EmblemProp props]].
+  /** stage the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
+   * @tparam A the type of the [[HasEmblem]] object to traverse
    * @param emblem the emblem being traversed
    * @param input the input to the emblem traversal
    * @return an iterator of inputs for the emblem props
@@ -88,7 +90,8 @@ trait Traversor {
     input: TraverseInput[A])
   : Iterator[PropInput[A, _]]
 
-  /** unstage the traversal of a [[Emblem emblem's]] [[EmblemProp props]].
+  /** unstage the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
+   * @tparam A the type of the [[HasEmblem]] object to traverse
    * @param emblem the emblem being traversed
    * @param input the input to the emblem traversal
    * @param an iterator of the outputs for the emblem props
@@ -100,20 +103,23 @@ trait Traversor {
     result: Iterator[PropResult[A, _]])
   : TraverseResult[A]
 
-  // TODO tparamas
-  /** stage the traversal of a [[Extractor extractor]].
+  /** stage the traversal of a [[Extractor extractor]]
+   * @tparam Range the range type for the extractor
+   * @tparam Domain the domain type for the extractor
    * @param extractor the extractor being traversed
    * @param input the input to the extractor traversal
-   * @return the input for traversing the [[Extractor.unapply extractor abbreviation]]
+   * @return the input for traversing `Extractor.unapply`
    */
   protected def stageExtractor[Domain, Range](
     extractor: Extractor[Domain, Range],
     input: TraverseInput[Range])
   : TraverseInput[Domain]
 
-  /** unstage the traversal of a [[Extractor extractor]].
+  /** unstage the traversal of a [[Extractor extractor]]
+   * @tparam Range the range type for the extractor
+   * @tparam Domain the domain type for the extractor
    * @param extractor the extractor being traversed
-   * @param domainResult the result of traversing the [[Extractor.unapply extractor abbreviation]]
+   * @param domainResult the result of traversing `Extractor.unapply`
    * @return the result of traversing the extractor
    */
   protected def unstageExtractor[Domain, Range](
@@ -122,6 +128,7 @@ trait Traversor {
   : TraverseResult[Range]
 
   /** stage the traversal of an option's value
+   * @tparam A the type of the option's value
    * @param input the input to traversing the option
    * @return an iterator of 0 or 1 inputs of the option's value. an empty iterator is returned to avoid
    * traversal into the option. we use an option here to stand in for an iterator of 0 or 1 values. note that
@@ -132,6 +139,7 @@ trait Traversor {
   : Option[TraverseInput[A]]
 
   /** unstage the traversal of an option's value
+   * @tparam A the type of the option's value
    * @param input the input to traversing the option
    * @param result an iterator of 0 or 1 results of the option's value. an empty iterator indicates that
    * traversal into the option has been avoided. we use an option here to stand in for an iterator of 0 or 1
@@ -144,6 +152,7 @@ trait Traversor {
   : TraverseResult[Option[A]]
 
   /** stage the traversal of an set's elements
+   * @tparam A the type of the set elements
    * @param input the input to traversing the set
    * @return a iterator of inputs for the set's elements. an empty iterator is returned to avoid
    * traversal into the set.
@@ -153,6 +162,7 @@ trait Traversor {
   : Iterator[TraverseInput[A]]
 
   /** unstage the traversal of an set's elements
+   * @tparam A the type of the set elements
    * @param input the input to traversing the set
    * @param result an iterator of results for the set's elements. an empty iterator indicates that traversal
    * into the set has been avoided
@@ -164,6 +174,7 @@ trait Traversor {
   : TraverseResult[Set[A]]
 
   /** stage the traversal of an list's elements
+   * @tparam A the type of the list elements
    * @param input the input to traversing the list
    * @return a iterator of inputs for the list's elements. an empty iterator is returned to avoid
    * traversal into the list.
@@ -173,6 +184,7 @@ trait Traversor {
   : Iterator[TraverseInput[A]]
 
   /** unstage the traversal of an list's elements
+   * @tparam A the type of the list elements
    * @param input the input to traversing the list
    * @param result an iterator of results for the list's elements. an empty iterator indicates that traversal
    * into the list has been avoided

@@ -31,7 +31,7 @@ object blogs {
     firstName: String,
     lastName: String,
     address: CrmAddress) extends CrmEntity
-  val userEmblem = emblemFor[CrmUser]
+  val userEmblem = Emblem[CrmUser]
 
   case class CrmAddress(
     street1: String,
@@ -39,26 +39,26 @@ object blogs {
     city: String,
     state: String,
     zipcode: Zipcode) extends CrmEntity
-  val addressEmblem = emblemFor[CrmAddress]
+  val addressEmblem = Emblem[CrmAddress]
 
   case class CrmBlog(uri: Uri) extends CrmEntity
-  val blogEmblem = emblemFor[CrmBlog]
+  val blogEmblem = Emblem[CrmBlog]
 
   val emblemPool = EmblemPool(userEmblem, addressEmblem, blogEmblem)
 
   // extractors
 
   case class Email(email: String)
-  lazy val emailExtractor = extractorFor[String, Email]
+  lazy val emailExtractor = Extractor[String, Email]
 
   case class Markdown(markdown: String)
-  lazy val markdownExtractor = extractorFor[String, Markdown]
+  lazy val markdownExtractor = Extractor[String, Markdown]
 
   case class Uri(uri: String)
-  lazy val uriExtractor = extractorFor[String, Uri]
+  lazy val uriExtractor = Extractor[String, Uri]
 
   case class Zipcode(zipcode: Int)
-  lazy val zipcodeExtractor = extractorFor[Int, Zipcode]
+  lazy val zipcodeExtractor = Extractor[Int, Zipcode]
 
   val extractorPool = ExtractorPool(emailExtractor, markdownExtractor, uriExtractor, zipcodeExtractor)
 

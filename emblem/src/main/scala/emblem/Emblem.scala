@@ -1,5 +1,6 @@
 package emblem
 
+import emblem.factories.EmblemFactory
 import scala.reflect.runtime.universe.TypeTag
 
 /** A reflective signature for a type. Provides name information, [[EmblemProp properties]],
@@ -58,5 +59,18 @@ case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
   }
 
   override def toString = fullname
+
+}
+
+object Emblem {
+
+  /** creates and returns an [[Emblem]] for the specified type `A`. `A` must be a stable case class with a
+   * single parameter list.
+   * 
+   * @tparam A the type to create an emblem for
+   * @throws emblem.exceptions.GeneratorException when `A` is not a stable case class with a single
+   * parameter list.
+   */
+  def apply[A <: HasEmblem : TypeKey]: Emblem[A] = new EmblemFactory[A].generate
 
 }

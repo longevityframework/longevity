@@ -39,7 +39,7 @@ package object persistence {
     shorthandPool: ShorthandPool,
     specializations: SpecializedRepoFactoryPool)
   : RepoPool = {
-    object repoFactory extends stock.RepoFactory {
+    object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new InMemRepo(entityType)(entityKey)
     }
@@ -51,25 +51,22 @@ package object persistence {
     shorthandPool: ShorthandPool,
     specializations: SpecializedRepoFactoryPool)
   : RepoPool = {
-    object repoFactory extends stock.RepoFactory {
+    object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new MongoRepo(entityType, subdomain.entityEmblemPool, shorthandPool)(entityKey)
     }
     buildRepoPool(subdomain, shorthandPool, specializations, repoFactory)
   }
 
-  // RepoFactory is inside object stock to prevent lint warning about declaring classes in package objects
-  private object stock {
-    trait RepoFactory {
-      def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E]
-    }
+  private trait StockRepoFactory {
+    def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E]
   }
 
   private def buildRepoPool(
     subdomain: Subdomain,
     shorthandPool: ShorthandPool,
     specializations: SpecializedRepoFactoryPool,
-    stockRepoFactory: stock.RepoFactory)
+    stockRepoFactory: StockRepoFactory)
   : RepoPool = {
     var repoPool = emptyRepoPool
     type Pair[RE <: RootEntity] = TypeBoundPair[RootEntity, TypeKey, RootEntityType, RE]
