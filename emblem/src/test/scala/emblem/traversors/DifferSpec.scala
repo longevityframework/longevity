@@ -7,7 +7,7 @@ import org.scalatest._
 /** specs for [[Differ]] */
 class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  lazy val differ = new Differ(emblemPool, shorthandPool)
+  lazy val differ = new Differ(emblemPool, extractorPool)
 
   // TODO pt 89937096 pt 89942150 more specs for: 
   // - emblems with embedded options, sets, and lists
@@ -36,7 +36,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
       Diff(".lastName", "Smith", "Smithie")))
   }
 
-  it should "find diffs in shorthands found directly in the emblem" in {
+  it should "find diffs in extractors found directly in the emblem" in {
     val user1 = user
     val user2 = user.copy(uri = "sillyUri")
     differ.diff(user1, user2) should equal (Diffs(
@@ -50,14 +50,14 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
       Diff(".address.street2", "", "Hollow St")))
   }
 
-  it should "find diffs in shorthands found in a nested emblem" in {
+  it should "find diffs in extractors found in a nested emblem" in {
     val user1 = user
     val user2 = user.copy(address = user.address.copy(zipcode = 98765))
     differ.diff(user1, user2) should equal (Diffs(
       Diff(".address.zipcode.abbreviated", user1.address.zipcode.zipcode, user2.address.zipcode.zipcode)))
   }
 
-  behavior of "Differ.diff for shorthands"
+  behavior of "Differ.diff for extractors"
 
   it should "produce an empty Diffs when the values match" in {
     differ.diff(Uri("x"), Uri("x")) should equal (Diffs())

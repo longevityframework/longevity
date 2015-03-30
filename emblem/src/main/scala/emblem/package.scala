@@ -1,5 +1,5 @@
 import emblem.factories.EmblemFactory
-import emblem.factories.ShorthandFactory
+import emblem.factories.ExtractorFactory
 import scala.reflect.runtime.universe.TypeTag
 
 /** a collection of utilities for reflecting on types */
@@ -23,20 +23,20 @@ package object emblem {
   /** A [[TypeKeyMap]] of [[HasEmblem]] to [[Emblem]] */
   type EmblemPool = TypeKeyMap[HasEmblem, Emblem]  
 
-  /** creates and returns an [[Shorthand]] for the specified type `A`. `A` must be a stable case class with
-   * single a parameter list.
+  /** creates and returns an [[Extractor]] for the specified types `Actual` and `Abbreviated`. `A` must be a
+   * stable case class with single a parameter list.
    * @throws emblem.exceptions.GeneratorException when `A` is not a stable case class with a single
    * parameter list
    */
-  def shorthandFor[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] =
-    new ShorthandFactory[Actual, Abbreviated].generate
+  def extractorFor[Actual : TypeKey, Abbreviated : TypeKey]: Extractor[Actual, Abbreviated] =
+    new ExtractorFactory[Actual, Abbreviated].generate
 
-  /** A shorthand with the abbreviated type unspecified. this type is equivalent to Shorthand[Actual, _],
+  /** An extractor with the abbreviated type unspecified. this type is equivalent to Extractor[Actual, _],
    * except with a single type parameter Actual. this allows it to be used as a key in a TypeBoundMap */
-  type ShorthandFor[Actual] = Shorthand[Actual, _]
+  type ExtractorFor[Actual] = Extractor[Actual, _]
 
-  /** A [[TypeKeyMap]] of `Actual` to [[Shorthand]] */
-  type ShorthandPool = TypeKeyMap[Any, ShorthandFor]
+  /** A [[TypeKeyMap]] of `Actual` to [[Extractor]] */
+  type ExtractorPool = TypeKeyMap[Any, ExtractorFor]
 
   /** a no-arg function with return type A */
   type Function0[A] = () => A

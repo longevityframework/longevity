@@ -12,6 +12,6 @@ package object withAssoc {
 
   val subdomain = Subdomain("With Assoc", entityTypes)
 
-  val longevityContext = LongevityContext(subdomain, ShorthandPool(), Mongo)
+  val longevityContext = LongevityContext(subdomain, ShorthandPool.empty, Mongo)
 
 }

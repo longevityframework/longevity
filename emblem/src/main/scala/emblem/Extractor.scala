@@ -8,19 +8,19 @@ package emblem
  * @tparam Actual the actual type
  * @tparam Abbreviated the abbreviated type
  * @param abbreviate a function to convert from actual to abbreviated
- * @param unabbreviate a function to convert from short to actual
+ * @param unabbreviate a function to convert from abbreviated to actual
  */
-case class Shorthand[Actual : TypeKey, Abbreviated : TypeKey] private[emblem] (
+case class Extractor[Actual : TypeKey, Abbreviated : TypeKey] private[emblem] (
   val abbreviate: (Actual) => Abbreviated,
   val unabbreviate: (Abbreviated) => Actual
 ) {
 
-  /** a [[TypeKey]] for the actualhand type */
+  /** a [[TypeKey]] for the actual type */
   lazy val actualTypeKey: TypeKey[Actual] = implicitly[TypeKey[Actual]]
 
-  /** a [[TypeKey]] for the abbreviatedhand type */
+  /** a [[TypeKey]] for the abbreviated type */
   lazy val abbreviatedTypeKey: TypeKey[Abbreviated] = implicitly[TypeKey[Abbreviated]]
 
-  override def toString = s"Shorthand[${actualTypeKey.tpe}, ${abbreviatedTypeKey.tpe}]"
+  override def toString = s"Extractor[${actualTypeKey.tpe}, ${abbreviatedTypeKey.tpe}]"
 
 }

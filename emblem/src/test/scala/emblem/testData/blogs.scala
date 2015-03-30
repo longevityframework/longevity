@@ -46,21 +46,21 @@ object blogs {
 
   val emblemPool = EmblemPool(userEmblem, addressEmblem, blogEmblem)
 
-  // shorthands
+  // extractors
 
   case class Email(email: String)
-  lazy val emailShorthand = shorthandFor[Email, String]
+  lazy val emailExtractor = extractorFor[Email, String]
 
   case class Markdown(markdown: String)
-  lazy val markdownShorthand = shorthandFor[Markdown, String]
+  lazy val markdownExtractor = extractorFor[Markdown, String]
 
   case class Uri(uri: String)
-  lazy val uriShorthand = shorthandFor[Uri, String]
+  lazy val uriExtractor = extractorFor[Uri, String]
 
   case class Zipcode(zipcode: Int)
-  lazy val zipcodeShorthand = shorthandFor[Zipcode, Int]
+  lazy val zipcodeExtractor = extractorFor[Zipcode, Int]
 
-  val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand, zipcodeShorthand)
+  val extractorPool = ExtractorPool(emailExtractor, markdownExtractor, uriExtractor, zipcodeExtractor)
 
   // entity types
 

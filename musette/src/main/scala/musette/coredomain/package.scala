@@ -16,10 +16,10 @@ package object coredomain {
     WikiType +
     WikiPageType
 
-  val shorthands = emblem.ShorthandPool(
-    shorthandFor[Email, String],
-    shorthandFor[Markdown, String],
-    shorthandFor[Uri, String]
+  val shorthands = ShorthandPool(
+    Shorthand[Email, String],
+    Shorthand[Markdown, String],
+    Shorthand[Uri, String]
   )
 
   implicit def stringToEmail(email: String): Email = Email(email)
@@ -30,6 +30,6 @@ package object coredomain {
 
   val subdomain = Subdomain("Musette", entityTypes)
 
-  val longevityContext = LongevityContext(subdomain, ShorthandPool(), Mongo, shorthands)
+  val longevityContext = LongevityContext(subdomain, shorthands, Mongo)
 
 }

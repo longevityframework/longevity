@@ -3,57 +3,57 @@ package emblem
 import org.scalatest._
 import emblem.exceptions._
 
-/** [[Shorthand shorthand]] specifications */
-class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
+/** [[Extractor extractor]] specifications */
+class ExtractorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import emblem.testData.genFailure._
-  import emblem.testData.shorthands._
+  import emblem.testData.extractors._
 
-  behavior of "emblem.shorthandFor"
+  behavior of "emblem.extractorFor"
 
   it should "throw exception on non case class types" in {
     intercept[TypeIsNotCaseClassException] {
-      shorthandFor[NotACaseClass, Any]
+      extractorFor[NotACaseClass, Any]
     }
   }
 
   it should "throw exception on case classes with multiple param lists" in {
     intercept[CaseClassHasMultipleParamListsException] {
-      shorthandFor[MultipleParamLists, Any]
+      extractorFor[MultipleParamLists, Any]
     }
   }
 
   it should "throw exception on inner case classes" in {
     intercept[CaseClassIsInnerClassException] {
       val hasInner = new HasInnerClass
-      shorthandFor[hasInner.IsInnerCaseClass, Any]
+      extractorFor[hasInner.IsInnerCaseClass, Any]
     }
   }
 
   it should "throw exception on case classes with multiple params (one param list)" in {
     intercept[CaseClassHasMultipleParamsException] {
-      shorthandFor[MultipleParams, Any]
+      extractorFor[MultipleParams, Any]
     }
   }
 
   it should "throw exception when the requested short type does not match the case class parameter" in {
     intercept[UnexpectedAbbreviatedTypeException] {
-      shorthandFor[Uri, Int]
+      extractorFor[Uri, Int]
     }
   }
 
-  behavior of "the shorthand"
+  behavior of "the extractor"
 
   it should "contain type keys for the actual and abbreviated types" in {
-    uriShorthand.actualTypeKey should equal (typeKey[Uri])
-    uriShorthand.abbreviatedTypeKey should equal (typeKey[String])
+    uriExtractor.actualTypeKey should equal (typeKey[Uri])
+    uriExtractor.abbreviatedTypeKey should equal (typeKey[String])
   }
 
-  it should "provide conversion methods between the longhand and shorthand types" in {
+  it should "provide conversion methods between the longhand and extractor types" in {
     val uriString = "panda"
     val uri = Uri(uriString)
-    uriShorthand.abbreviate(uri) should equal (uriString)
-    uriShorthand.unabbreviate(uriString) should equal (uri)
+    uriExtractor.abbreviate(uri) should equal (uriString)
+    uriExtractor.unabbreviate(uriString) should equal (uri)
   }
 
 }

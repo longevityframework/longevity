@@ -5,7 +5,7 @@ import emblem.reflectionUtil.makeTypeTag
 import emblem.traversors.Generator._
 import scala.reflect.runtime.universe.typeOf
 
-/** Generates test data for a pool of shorthands, a pool of emblems, and some custom generators. You can
+/** Generates test data for a pool of extractors, a pool of emblems, and some custom generators. You can
  * generate any kind of data you like by providing the appropriate [[TypeKey]] to [[TestDataGenerator.generate]].
  * Or you can use the provided methods for generating specific kinds of data. If the generator does not know
  * how to generate for the type you requested, it will throw a [[emblem.exceptions.CouldNotGenerateException]].
@@ -23,17 +23,17 @@ import scala.reflect.runtime.universe.typeOf
  *   - option
  *   - set
  *
- * You can extend this behavior by supplying the generator with [[Shorthand shorthands]], [[Emblem emblems]],
+ * You can extend this behavior by supplying the generator with [[Extractor extractors]], [[Emblem emblems]],
  * and [[CustomGenerator custom generators]].
  *
- * @param shorthandPool the shorthands to generate test data for. defaults to empty
+ * @param extractorPool the extractors to generate test data for. defaults to empty
  * @param emblemPool the emblems to generate test data for. defaults to empty
  * @param customGenerators custom generation functions. defaults to empty. custom generators take precedence
  * over all other generators
  */
 class TestDataGenerator (
   override protected val emblemPool: EmblemPool = EmblemPool(),
-  override protected val shorthandPool: ShorthandPool = ShorthandPool(),
+  override protected val extractorPool: ExtractorPool = ExtractorPool(),
   override protected val customGenerators: CustomGenerators = emptyCustomGenerators
 ) extends Generator {
 

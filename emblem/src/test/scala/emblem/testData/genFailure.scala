@@ -2,7 +2,7 @@ package emblem.testData
 
 import emblem._
 
-/** for emblem and shorthand failure cases */
+/** for emblem and extractor failure cases */
 object genFailure {
 
   trait NotACaseClass extends HasEmblem

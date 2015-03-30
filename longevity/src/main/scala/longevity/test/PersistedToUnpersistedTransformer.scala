@@ -4,7 +4,6 @@ import emblem._
 import emblem.traversors.Transformer
 import emblem.traversors.Transformer.CustomTransformer
 import emblem.traversors.Transformer.emptyCustomTransformers
-import longevity.context.LongevityContext
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.RootEntity
@@ -18,11 +17,11 @@ import longevity.persistence.PersistedAssoc
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
  *
  * @param emblemPool a pool of emblems for the entities to be transformed
- * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param extractorPool a complete set of the extractors used by the bounded context
  */
 class PersistedToUnpersistedTransformer(
   override protected val emblemPool: EmblemPool,
-  override protected val shorthandPool: ShorthandPool)
+  override protected val extractorPool: ExtractorPool)
 extends Transformer {
 
   override protected val customTransformers = emptyCustomTransformers + transformAssoc

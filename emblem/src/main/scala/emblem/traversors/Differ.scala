@@ -54,12 +54,12 @@ object Differ {
  * of elements from the lhs and rhs sets. if the sets have differing sizes, then we report the difference in
  * size. if the sets are otherwise different, then we report the sets as different.
  *
- * @param shorthandPool the shorthands to use in the traversal
+ * @param extractorPool the extractors to use in the traversal
  * @param emblemPool the emblems to use in the traversal
  */
 class Differ(
   private val emblemPool: EmblemPool = EmblemPool(),
-  private val shorthandPool: ShorthandPool = ShorthandPool()) {
+  private val extractorPool: ExtractorPool = ExtractorPool()) {
 
   /** computes the diffs between the left- and right-hand sides
    * @param lhs the left-hand side
@@ -76,7 +76,7 @@ class Differ(
     type TraverseInput[A] = DifferInput[A]
     type TraverseResult[A] = Diffs
 
-    override protected val shorthandPool: ShorthandPool = Differ.this.shorthandPool
+    override protected val extractorPool: ExtractorPool = Differ.this.extractorPool
     override protected val emblemPool: EmblemPool = Differ.this.emblemPool
 
     protected def traverseBoolean(input: DifferInput[Boolean]): Diffs = {
@@ -121,17 +121,17 @@ class Differ(
     : Diffs =
       result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
 
-    protected def stageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def stageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       input: DifferInput[Actual])
     : DifferInput[Abbreviated] =
       input.copy(
-        lhs = shorthand.abbreviate(input.lhs),
-        rhs = shorthand.abbreviate(input.rhs),
+        lhs = extractor.abbreviate(input.lhs),
+        rhs = extractor.abbreviate(input.rhs),
         path = input.path + ".abbreviated")
 
-    protected def unstageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def unstageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       result: Diffs)
     : Diffs = result
 

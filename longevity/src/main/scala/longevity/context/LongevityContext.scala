@@ -1,6 +1,5 @@
 package longevity.context
 
-import emblem.ShorthandPool
 import emblem.traversors.Generator.CustomGenerators
 import emblem.traversors.Generator.emptyCustomGenerators
 import longevity.persistence.InMem

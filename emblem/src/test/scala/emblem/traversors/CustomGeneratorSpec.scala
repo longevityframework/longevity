@@ -2,7 +2,7 @@ package emblem.traversors
 
 import emblem._
 import emblem.testData.emblems._
-import emblem.testData.shorthands._
+import emblem.testData.extractors._
 import emblem.traversors.CustomGenerator.simpleGenerator
 import emblem.traversors.Generator._
 import org.scalatest._

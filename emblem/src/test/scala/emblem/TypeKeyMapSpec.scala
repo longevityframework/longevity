@@ -30,7 +30,7 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   // TODO pt 86951076: more specs:
   // - identity example
-  // - double-TP value type (like in ShorthandPool)
+  // - double-TP value type (like in ExtractorPool)
 
   behavior of "a TypeKeyMap where the value type has a single type parameter"
 

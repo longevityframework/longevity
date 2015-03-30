@@ -12,15 +12,15 @@ package object allShorthands {
 
   val subdomain = Subdomain("All Shorthands", entityTypes)
 
-  val booleanShorthand = shorthandFor[BooleanShorthand, Boolean]
-  val charShorthand = shorthandFor[CharShorthand, Char]
-  val doubleShorthand = shorthandFor[DoubleShorthand, Double]
-  val floatShorthand = shorthandFor[FloatShorthand, Float]
-  val intShorthand = shorthandFor[IntShorthand, Int]
-  val longShorthand = shorthandFor[LongShorthand, Long]
-  val stringShorthand = shorthandFor[StringShorthand, String]
+  val booleanShorthand = Shorthand[BooleanShorthand, Boolean]
+  val charShorthand = Shorthand[CharShorthand, Char]
+  val doubleShorthand = Shorthand[DoubleShorthand, Double]
+  val floatShorthand = Shorthand[FloatShorthand, Float]
+  val intShorthand = Shorthand[IntShorthand, Int]
+  val longShorthand = Shorthand[LongShorthand, Long]
+  val stringShorthand = Shorthand[StringShorthand, String]
 
-  val shorthandPool = ShorthandPool() +
+  val shorthandPool = ShorthandPool.empty +
     booleanShorthand +
     charShorthand +
     doubleShorthand +

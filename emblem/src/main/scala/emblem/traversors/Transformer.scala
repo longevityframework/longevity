@@ -55,8 +55,8 @@ trait Transformer {
   /** the emblems to use in the recursive transformation */
   protected val emblemPool: EmblemPool = EmblemPool()
 
-  /** the shorthands to use in the recursive transformation */
-  protected val shorthandPool: ShorthandPool = ShorthandPool()
+  /** the extractors to use in the recursive transformation */
+  protected val extractorPool: ExtractorPool = ExtractorPool()
 
   /** the custom transformers to use in the recursive transformation */
   protected val customTransformers: CustomTransformers = emptyCustomTransformers
@@ -101,7 +101,7 @@ trait Transformer {
 
     def traverseString(input: String): String = transformString(input)
 
-    override protected val shorthandPool = Transformer.this.shorthandPool
+    override protected val extractorPool = Transformer.this.extractorPool
     override protected val emblemPool = Transformer.this.emblemPool
 
     override protected val customTraversors = {
@@ -131,17 +131,17 @@ trait Transformer {
       builder.build()
     }
 
-    protected def stageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def stageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       actual: Actual)
     : Abbreviated =
-      shorthand.abbreviate(actual)
+      extractor.abbreviate(actual)
 
-    protected def unstageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def unstageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       abbreviated: Abbreviated)
     : Actual =
-      shorthand.unabbreviate(abbreviated)
+      extractor.unabbreviate(abbreviated)
 
     protected def stageOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
 

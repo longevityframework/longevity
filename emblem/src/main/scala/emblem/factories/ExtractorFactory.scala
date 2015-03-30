@@ -5,15 +5,15 @@ import scala.reflect.runtime.universe._
 import emblem._
 import emblem.exceptions._
 
-/** Generates a [[Shorthand shorthand]] from the corresponding [[TypeKey]] */
-private[emblem] class ShorthandFactory[Actual : TypeKey, Abbreviated : TypeKey]
+/** Generates a [[Extractor extractor]] from the corresponding [[TypeKey]] */
+private[emblem] class ExtractorFactory[Actual : TypeKey, Abbreviated : TypeKey]
 extends ReflectiveFactory[Actual] {
 
   verifySingleParam()
   private val param: TermSymbol = params.head
   verifyExpectedAbbreviatedType()
 
-  def generate: Shorthand[Actual, Abbreviated] = Shorthand(makeShorten(), makeUnshorten())
+  def generate: Extractor[Actual, Abbreviated] = Extractor(makeShorten(), makeUnshorten())
 
   private def verifySingleParam(): Unit = {
     if (params.size != 1) {

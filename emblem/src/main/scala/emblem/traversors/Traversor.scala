@@ -51,8 +51,8 @@ trait Traversor {
   /** the emblems to use in the recursive traversal */
   protected val emblemPool: EmblemPool = EmblemPool()
 
-  /** the shorthands to use in the recursive traversal */
-  protected val shorthandPool: ShorthandPool = ShorthandPool()
+  /** the extractors to use in the recursive traversal */
+  protected val extractorPool: ExtractorPool = ExtractorPool()
 
   /** the custom traversors to use in the recursive traversal */
   protected val customTraversors: CustomTraversors = emptyCustomTraversor
@@ -100,23 +100,23 @@ trait Traversor {
     result: Iterator[PropResult[A, _]])
   : TraverseResult[A]
 
-  /** stage the traversal of a [[Shorthand shorthand]].
-   * @param shorthand the shorthand being traversed
-   * @param input the input to the shorthand traversal
-   * @return the input for traversing the [[Shorthand.abbreviate shorthand abbreviation]]
+  /** stage the traversal of a [[Extractor extractor]].
+   * @param extractor the extractor being traversed
+   * @param input the input to the extractor traversal
+   * @return the input for traversing the [[Extractor.abbreviate extractor abbreviation]]
    */
-  protected def stageShorthand[Actual, Abbreviated](
-    shorthand: Shorthand[Actual, Abbreviated],
+  protected def stageExtractor[Actual, Abbreviated](
+    extractor: Extractor[Actual, Abbreviated],
     input: TraverseInput[Actual])
   : TraverseInput[Abbreviated]
 
-  /** unstage the traversal of a [[Shorthand shorthand]].
-   * @param shorthand the shorthand being traversed
-   * @param abbreviatedResult the result of traversing the [[Shorthand.abbreviate shorthand abbreviation]]
-   * @return the result of traversing the shorthand
+  /** unstage the traversal of a [[Extractor extractor]].
+   * @param extractor the extractor being traversed
+   * @param abbreviatedResult the result of traversing the [[Extractor.abbreviate extractor abbreviation]]
+   * @return the result of traversing the extractor
    */
-  protected def unstageShorthand[Actual, Abbreviated](
-    shorthand: Shorthand[Actual, Abbreviated],
+  protected def unstageExtractor[Actual, Abbreviated](
+    extractor: Extractor[Actual, Abbreviated],
     abbreviatedResult: TraverseResult[Abbreviated])
   : TraverseResult[Actual]
 
@@ -198,7 +198,7 @@ trait Traversor {
   private def traverseAnyOption[A : TypeKey](input: TraverseInput[A]): Option[TraverseResult[A]] =
     traverseCustomOption(input) orElse
     traverseEmblemOptionFromAny(input) orElse
-    traverseShorthandOption(input) orElse
+    traverseExtractorOption(input) orElse
     traverseOptionOption(input) orElse
     traverseSetOption(input) orElse
     traverseListOption(input) orElse
@@ -250,23 +250,23 @@ trait Traversor {
     traverse(input)(prop.typeKey)
   }
 
-  private def traverseShorthandOption[Actual : TypeKey](input: TraverseInput[Actual])
+  private def traverseExtractorOption[Actual : TypeKey](input: TraverseInput[Actual])
   : Option[TraverseResult[Actual]] =
-    shorthandPool.get[Actual] map { s => traverseFromShorthand[Actual](s, input) }
+    extractorPool.get[Actual] map { s => traverseFromExtractor[Actual](s, input) }
 
-  private def traverseFromShorthand[Actual](
-    shorthand: Shorthand[Actual, _],
+  private def traverseFromExtractor[Actual](
+    extractor: Extractor[Actual, _],
     input: TraverseInput[Actual])
   : TraverseResult[Actual] =
-    traverseFromFullyTypedShorthand(shorthand, input)
+    traverseFromFullyTypedExtractor(extractor, input)
 
-  private def traverseFromFullyTypedShorthand[Actual, Abbreviated](
-    shorthand: Shorthand[Actual, Abbreviated],
+  private def traverseFromFullyTypedExtractor[Actual, Abbreviated](
+    extractor: Extractor[Actual, Abbreviated],
     input: TraverseInput[Actual])
   : TraverseResult[Actual] = {
-    val abbreviatedInput = stageShorthand(shorthand, input)
-    val abbreviatedResult = traverse(abbreviatedInput)(shorthand.abbreviatedTypeKey)
-    unstageShorthand(shorthand, abbreviatedResult)
+    val abbreviatedInput = stageExtractor(extractor, input)
+    val abbreviatedResult = traverse(abbreviatedInput)(extractor.abbreviatedTypeKey)
+    unstageExtractor(extractor, abbreviatedResult)
   }
 
   // TODO pt 88571474: remove code duplication with option/set/list, generalize to other kinds of "collections"

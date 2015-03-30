@@ -5,19 +5,19 @@ import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import emblem._
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.Traversor
-import longevity.subdomain._
 import longevity.exceptions.CouldNotTranslateException
+import longevity.subdomain._
 
 /** translates [[Entity entities]] into
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList casbah MongoDBObjects]].
  *
  * @param emblemPool a pool of emblems for the entities within the subdomain
- * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param extractorPool a complete set of the extractors used by the bounded context
  * @param repoPool a pool of the repositories for this persistence context
  */
 private[persistence] class EntityToCasbahTranslator(
   emblemPool: EmblemPool,
-  shorthandPool: ShorthandPool,
+  extractorPool: ExtractorPool,
   private val repoPool: RepoPool) {
 
   /** translates an [[Entity]] into a `MongoDBList` */
@@ -33,7 +33,7 @@ private[persistence] class EntityToCasbahTranslator(
     type TraverseResult[A] = Any
 
     override protected val emblemPool: EmblemPool = EntityToCasbahTranslator.this.emblemPool
-    override protected val shorthandPool: ShorthandPool = EntityToCasbahTranslator.this.shorthandPool
+    override protected val extractorPool: ExtractorPool = EntityToCasbahTranslator.this.extractorPool
     override protected val customTraversors: CustomTraversors = emptyCustomTraversor + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
@@ -83,15 +83,15 @@ private[persistence] class EntityToCasbahTranslator(
       builder.result()
     }
 
-    protected def stageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def stageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       input: TraverseInput[Actual])
     : TraverseInput[Abbreviated] = {
-      shorthand.abbreviate(input)
+      extractor.abbreviate(input)
     }
 
-    protected def unstageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def unstageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       abbreviatedResult: TraverseResult[Abbreviated])
     : TraverseResult[Actual] =
       abbreviatedResult

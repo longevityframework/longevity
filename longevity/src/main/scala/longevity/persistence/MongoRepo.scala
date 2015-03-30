@@ -1,15 +1,15 @@
 package longevity.persistence
 
-import org.bson.types.ObjectId
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.Failure
-import scala.concurrent.Future
-import scala.util.Success
 import com.mongodb.casbah.Imports._
 import emblem._
 import emblem.stringUtil._
+import longevity.context._
 import longevity.subdomain._
-import longevity.context.LongevityContext
+import org.bson.types.ObjectId
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.Failure
+import scala.util.Success
 
 /** a MongoDB repository for aggregate roots of type `E`.
  *
@@ -33,8 +33,9 @@ extends Repo[E] {
   private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
   private val mongoCollection = MongoRepo.mongoDb(collectionName)
 
-  private lazy val entityToCasbahTranslator = new EntityToCasbahTranslator(emblemPool, shorthandPool, repoPool)
-  private lazy val casbahToEntityTranslator = new CasbahToEntityTranslator(emblemPool, shorthandPool, repoPool)
+  private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
+  private lazy val entityToCasbahTranslator = new EntityToCasbahTranslator(emblemPool, extractorPool, repoPool)
+  private lazy val casbahToEntityTranslator = new CasbahToEntityTranslator(emblemPool, extractorPool, repoPool)
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
     patchUnpersistedAssocs(unpersisted.get) map { patched =>

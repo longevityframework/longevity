@@ -39,8 +39,8 @@ trait Visitor {
   /** the emblems to use in the recursive visit */
   protected val emblemPool: EmblemPool = EmblemPool()
 
-  /** the shorthands to use in the recursive visit */
-  protected val shorthandPool: ShorthandPool = ShorthandPool()
+  /** the extractors to use in the recursive visit */
+  protected val extractorPool: ExtractorPool = ExtractorPool()
 
   /** the custom visitors to use in the recursive visit */
   protected val customVisitors: CustomVisitors = emptyCustomVisitors
@@ -85,7 +85,7 @@ trait Visitor {
 
     def traverseString(input: String): Unit = visitString(input)
 
-    override protected val shorthandPool = Visitor.this.shorthandPool
+    override protected val extractorPool = Visitor.this.extractorPool
     override protected val emblemPool = Visitor.this.emblemPool
 
     override protected val customTraversors = {
@@ -112,14 +112,14 @@ trait Visitor {
     : Unit =
       ()
 
-    protected def stageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def stageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       input: Actual)
     : Abbreviated =
-      shorthand.abbreviate(input)
+      extractor.abbreviate(input)
 
-    protected def unstageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def unstageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       abbreviatedResult: Unit)
     : Unit =
       ()

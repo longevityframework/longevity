@@ -1,11 +1,11 @@
 package longevity.test
 
-import emblem.ShorthandPool
 import emblem.traversors.Generator.CustomGenerators
-import longevity.persistence.RepoPool
-import longevity.subdomain.Subdomain
-import longevity.persistence.buildRepoPool
+import longevity.context.ShorthandPool
 import longevity.persistence.InMem
+import longevity.persistence.RepoPool
+import longevity.persistence.buildRepoPool
+import longevity.subdomain.Subdomain
 
 /** test utilities for your bounded context provided by longevity */
 class TestContext private[longevity](

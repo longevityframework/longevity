@@ -12,6 +12,6 @@ package object allAttributes {
 
   val subdomain = Subdomain("All Attributes", entityTypes)
 
-  val longevityContext = LongevityContext(subdomain, ShorthandPool(), Mongo)
+  val longevityContext = LongevityContext(subdomain, ShorthandPool.empty, Mongo)
 
 }

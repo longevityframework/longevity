@@ -41,8 +41,8 @@ trait Generator {
   /** the emblems to use in the recursive generation */
   protected val emblemPool: EmblemPool = EmblemPool()
 
-  /** the shorthands to use in the recursive generation */
-  protected val shorthandPool: ShorthandPool = ShorthandPool()
+  /** the extractors to use in the recursive generation */
+  protected val extractorPool: ExtractorPool = ExtractorPool()
 
   /** the custom generators to use in the recursive generation */
   protected val customGenerators: CustomGenerators = emptyCustomGenerators
@@ -96,7 +96,7 @@ trait Generator {
 
     def traverseString(input: Unit): String = string
 
-    override protected val shorthandPool = Generator.this.shorthandPool
+    override protected val extractorPool = Generator.this.extractorPool
     override protected val emblemPool = Generator.this.emblemPool
 
     override protected val customTraversors = {
@@ -123,17 +123,17 @@ trait Generator {
       builder.build()
     }
 
-    protected def stageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def stageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       input: Unit)
     : Unit =
       ()
 
-    protected def unstageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def unstageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       abbreviatedResult: Abbreviated)
     : Actual =
-      shorthand.unabbreviate(abbreviatedResult)
+      extractor.unabbreviate(abbreviatedResult)
 
     protected def stageOptionValue[A : TypeKey](input: Unit): Option[Unit] = option(())
 

@@ -7,7 +7,7 @@ import emblem.traversors.Differ
 import emblem.traversors.Generator
 import emblem.traversors.Generator.emptyCustomGenerators
 import emblem.traversors.TestDataGenerator
-import longevity.context.LongevityContext
+import longevity.context._
 import longevity.subdomain._
 import longevity.persistence._
 import org.scalatest.OptionValues._
@@ -147,12 +147,12 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
       }
     }
 
-  private val testDataGenerator =
-    new TestDataGenerator(subdomain.entityEmblemPool, shorthandPool, customGenerators + assocGenerator)
-
-  private lazy val unpersistor = new PersistedToUnpersistedTransformer(subdomain.entityEmblemPool, shorthandPool)
-
-  private lazy val differ = new Differ(subdomain.entityEmblemPool, shorthandPool)
+  private val emblemPool = subdomain.entityEmblemPool
+  private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
+  private val generators = customGenerators + assocGenerator
+  private val testDataGenerator = new TestDataGenerator(emblemPool, extractorPool, generators)
+  private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool)
+  private val differ = new Differ(emblemPool, extractorPool)
 
   private def persistedShouldMatchUnpersisted[E <: Entity : TypeKey](persisted: E, unpersisted: E): Unit = {
     val unpersistorated = unpersistor.transform(persisted)

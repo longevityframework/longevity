@@ -12,12 +12,12 @@ import longevity.exceptions.CouldNotTranslateException
  * casbah MongoDBObjects]] into [[Entity entities]].
  *
  * @param emblemPool a pool of emblems for the entities within the subdomain
- * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param extractorPool a complete set of the extractors used by the bounded context
  * @param repoPool a pool of the repositories for this persistence context
  */
 private[persistence] class CasbahToEntityTranslator(
   emblemPool: EmblemPool,
-  shorthandPool: ShorthandPool,
+  extractorPool: ExtractorPool,
   private val repoPool: RepoPool) {
 
   /** translates a `MongoDBList` into an [[Entity]] */
@@ -33,7 +33,7 @@ private[persistence] class CasbahToEntityTranslator(
     type TraverseResult[A] = A
 
     override protected val emblemPool: EmblemPool = CasbahToEntityTranslator.this.emblemPool
-    override protected val shorthandPool: ShorthandPool = CasbahToEntityTranslator.this.shorthandPool
+    override protected val extractorPool: ExtractorPool = CasbahToEntityTranslator.this.extractorPool
     override protected val customTraversors: CustomTraversors = emptyCustomTraversor + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
@@ -91,17 +91,17 @@ private[persistence] class CasbahToEntityTranslator(
       builder.build()
     }
 
-    protected def stageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def stageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       input: TraverseInput[Actual])
     : TraverseInput[Abbreviated] =
       input
 
-    protected def unstageShorthand[Actual, Abbreviated](
-      shorthand: Shorthand[Actual, Abbreviated],
+    protected def unstageExtractor[Actual, Abbreviated](
+      extractor: Extractor[Actual, Abbreviated],
       abbreviatedResult: TraverseResult[Abbreviated])
     : TraverseResult[Actual] =
-      shorthand.unabbreviate(abbreviatedResult)
+      extractor.unabbreviate(abbreviatedResult)
 
     protected def stageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]])

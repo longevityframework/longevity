@@ -1,7 +1,7 @@
 package longevity.persistence
 
+import longevity.context.ShorthandPool
 import longevity.subdomain.Subdomain
-import emblem.ShorthandPool
 
 /** the persistence portion of the [[http://martinfowler.com/bliki/BoundedContext.html bounded context]]
  * for your [[http://bit.ly/1BPZfIW subdomain]]. the bounded context is a capture of the strategies and tools

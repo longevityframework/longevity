@@ -10,11 +10,11 @@ package object oneShorthand {
 
   val entityTypes = EntityTypePool() + OneShorthand
 
-  val uriShorthand = shorthandFor[Uri, String]
+  val uriShorthand = Shorthand[Uri, String]
 
   val subdomain = Subdomain("One Shorthand", entityTypes)
 
-  val shorthandPool = ShorthandPool() + uriShorthand
+  val shorthandPool = ShorthandPool.empty + uriShorthand
 
   val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
 

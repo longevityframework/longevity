@@ -18,7 +18,7 @@ object messageFriend {
 
   val subdomain = Subdomain("blog", entityTypes)
 
-  val shorthandPool = ShorthandPool()
+  val shorthandPool = ShorthandPool.empty
 
   val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
 
