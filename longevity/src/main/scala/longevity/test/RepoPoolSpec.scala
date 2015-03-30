@@ -5,7 +5,6 @@ import emblem.traversors.Generator.CustomGenerators
 import emblem.traversors.CustomGenerator
 import emblem.traversors.Differ
 import emblem.traversors.Generator
-import emblem.traversors.Generator.emptyCustomGenerators
 import emblem.traversors.TestDataGenerator
 import longevity.context._
 import longevity.subdomain._
@@ -23,8 +22,7 @@ import org.scalatest.time.SpanSugar._
  *
  * @param subdomain the subdomain
  * @param shorthandPool a complete set of the shorthands used by the bounded context
- * @param customGenerators a collection of custom generators to use when generating test data. defaults to an
- * empty collection.
+ * @param customGenerators a collection of custom generators to use when generating test data
  * @param repoPool the repo pool under test. this may be different than the `longevityContext.repoPool`, as
  * users may want to test against other repo pools. (for instance, they may want a spec for in-memory repo
  * pools if other parts of their test suite rely on them.)

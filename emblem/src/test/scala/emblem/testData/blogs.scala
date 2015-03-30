@@ -5,7 +5,6 @@ import emblem._
 /** for type map happy cases */
 object blogs {
 
-
   implicit def stringToEmail(email: String): Email = Email(email)
 
   implicit def stringToMarkdown(markdown: String): Markdown = Markdown(markdown)

@@ -8,11 +8,15 @@ import emblem.traversors.Generator._
 /** holds types and zero values used by the [[Generator generators]] */
 object Generator {
 
-  /** A [[TypeKeyMap]] for [[CustomGenerator generator functions]] */
+  /** a [[TypeKeyMap]] for [[CustomGenerator generator functions]] */
   type CustomGenerators = TypeKeyMap[Any, CustomGenerator]
 
-  /** An empty map of [[CustomGenerator generator functions]] */
-  def emptyCustomGenerators: CustomGenerators = TypeKeyMap[Any, CustomGenerator]()
+  // TODO rename to CustomGeneratorPool
+  object CustomGenerators {
+
+    /** an empty map of [[CustomGenerator generator functions]] */
+    val empty: CustomGenerators = TypeKeyMap[Any, CustomGenerator]()
+  }
 
 }
 
@@ -39,13 +43,13 @@ trait Generator {
   }
 
   /** the emblems to use in the recursive generation */
-  protected val emblemPool: EmblemPool = EmblemPool()
+  protected val emblemPool: EmblemPool = EmblemPool.empty
 
   /** the extractors to use in the recursive generation */
-  protected val extractorPool: ExtractorPool = ExtractorPool()
+  protected val extractorPool: ExtractorPool = ExtractorPool.empty
 
   /** the custom generators to use in the recursive generation */
-  protected val customGenerators: CustomGenerators = emptyCustomGenerators
+  protected val customGenerators: CustomGenerators = CustomGenerators.empty
 
   /** generates an option */
   protected def option[A](a: => A): Option[A]

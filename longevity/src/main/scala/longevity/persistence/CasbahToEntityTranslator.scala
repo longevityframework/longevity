@@ -34,7 +34,7 @@ private[persistence] class CasbahToEntityTranslator(
 
     override protected val emblemPool: EmblemPool = CasbahToEntityTranslator.this.emblemPool
     override protected val extractorPool: ExtractorPool = CasbahToEntityTranslator.this.extractorPool
-    override protected val customTraversors: CustomTraversors = emptyCustomTraversor + assocTraversor
+    override protected val customTraversors: CustomTraversors = CustomTraversors.empty + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
       def apply[B <: Assoc[_ <: RootEntity] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {

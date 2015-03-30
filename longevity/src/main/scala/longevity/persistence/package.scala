@@ -18,16 +18,19 @@ package object persistence {
   /** a pool of [[SpecializedRepoFactory specialized repo factories, type-mapped on the root entity type */
   type SpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
 
-  /** an empty [[SpecializedRepoFactoryPool specialized repo factory pool. used to grow larger factory pools
-   * via the `+` operation
-   */
-  val emptySpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
+  object SpecializedRepoFactoryPool {
+    
+    /** an empty [[SpecializedRepoFactoryPool specialized repo factory pool. used to grow larger factory pools
+     * via the `+` operation
+     */
+    val empty: SpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
+  }
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
     shorthandPool: ShorthandPool,
     persistenceStrategy: PersistenceStrategy,
-    specializations: SpecializedRepoFactoryPool = emptySpecializedRepoFactoryPool)
+    specializations: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool.empty)
   : RepoPool =
     persistenceStrategy match {
       case InMem => inMemRepoPool(subdomain, shorthandPool, specializations)

@@ -60,7 +60,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
       subdomain,
       ShorthandPool.empty,
       InMem,
-      specializations = emptySpecializedRepoFactoryPool + factory
+      specializations = SpecializedRepoFactoryPool.empty + factory
     )
     val repoPool = longevityContext.repoPool
     repoPool.size should equal (2)
@@ -84,7 +84,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
       subdomain,
       ShorthandPool.empty,
       Mongo,
-      specializations = emptySpecializedRepoFactoryPool + factory
+      specializations = SpecializedRepoFactoryPool.empty + factory
     )
     val repoPool = longevityContext.repoPool
     repoPool.size should equal (2)

@@ -15,7 +15,6 @@ object CustomGenerator {
   //   val keyOpt: Option[TypeKey[_ >: A]] = customGenerators.keys.map(_.castToLowerBound[A]).flatten.headOption
   // - simpleGenerator provides same type as upper and lower bound
 
-
   /** Creates a simple [[CustomGenerator]] from a regular function. The simple generator wraps the function
    * in a type-check, to make sure the type requested is equivalent to the return type of the underlying
    * function. Example usage:
@@ -24,7 +23,7 @@ object CustomGenerator {
    * class IntHolder(val i: Int)
    * val intHolderGen: CustomGenerator[IntHolder] =
    *   simpleGenerator((generator: Generator) => new IntHolder(generator.generate[Int]))
-   * val generator = new TestDataGenerator(customGenerators = emptyCustomGenerators + intHolderGen)
+   * val generator = new TestDataGenerator(customGenerators = CustomGenerators.empty + intHolderGen)
    * }}}
    * 
    * @tparam A the return type of the underlying function
@@ -59,7 +58,7 @@ object CustomGenerator {
  *     eltList.asInstanceOf[B]
  *   }
  * }
- * val generator = new TestDataGenerator(customGenerators = emptyCustomGenerators + listCustomGenerator)
+ * val generator = new TestDataGenerator(customGenerators = CustomGenerators.empty + listCustomGenerator)
  * }}}
  *
  * @tparam the type of things this custom generator generates

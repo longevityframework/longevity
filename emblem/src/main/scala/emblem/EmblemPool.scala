@@ -16,4 +16,7 @@ object EmblemPool {
     map
   }
 
+  /** an empty emblem pool */
+  val empty: EmblemPool = TypeKeyMap[HasEmblem, Emblem]
+
 }

@@ -1,12 +1,10 @@
 package longevity.context
 
 import emblem.traversors.Generator.CustomGenerators
-import emblem.traversors.Generator.emptyCustomGenerators
 import longevity.persistence.InMem
 import longevity.persistence.PersistenceContext
 import longevity.persistence.PersistenceStrategy
 import longevity.persistence.SpecializedRepoFactoryPool
-import longevity.persistence.emptySpecializedRepoFactoryPool
 import longevity.subdomain.Subdomain
 import longevity.test.TestContext
 
@@ -26,8 +24,8 @@ object LongevityContext {
     subdomain: Subdomain,
     shorthandPool: ShorthandPool,
     persistenceStrategy: PersistenceStrategy,
-    specializations: SpecializedRepoFactoryPool = emptySpecializedRepoFactoryPool,
-    customGenerators: CustomGenerators = emptyCustomGenerators)
+    specializations: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool.empty,
+    customGenerators: CustomGenerators = CustomGenerators.empty)
   : LongevityContext = {
     new LongevityContext(
       subdomain,

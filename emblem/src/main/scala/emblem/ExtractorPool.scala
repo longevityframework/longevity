@@ -17,4 +17,7 @@ object ExtractorPool {
     rangeTypeKeyMap
   }
 
+  /** an empty extractor pool */
+  val empty: ExtractorPool = TypeKeyMap[Any, ExtractorFor]
+
 }

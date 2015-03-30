@@ -8,11 +8,15 @@ import emblem.traversors.Visitor._
 /** holds types and zero values used by the [[Visitor generators]] */
 object Visitor {
 
-  /** A [[TypeKeyMap]] for [[CustomVisitor generator functions]] */
+  /** a [[TypeKeyMap]] for [[CustomVisitor generator functions]] */
   type CustomVisitors = TypeKeyMap[Any, CustomVisitor]
 
-  /** An empty map of [[CustomVisitor generator functions]] */
-  def emptyCustomVisitors: CustomVisitors = TypeKeyMap[Any, CustomVisitor]()
+  // TODO rename to pool
+  object CustomVisitors {
+
+    /** an empty map of [[CustomVisitor generator functions]] */
+    def empty: CustomVisitors = TypeKeyMap[Any, CustomVisitor]
+  }
 
 }
 
@@ -37,13 +41,13 @@ trait Visitor {
   }
 
   /** the emblems to use in the recursive visit */
-  protected val emblemPool: EmblemPool = EmblemPool()
+  protected val emblemPool: EmblemPool = EmblemPool.empty
 
   /** the extractors to use in the recursive visit */
-  protected val extractorPool: ExtractorPool = ExtractorPool()
+  protected val extractorPool: ExtractorPool = ExtractorPool.empty
 
   /** the custom visitors to use in the recursive visit */
-  protected val customVisitors: CustomVisitors = emptyCustomVisitors
+  protected val customVisitors: CustomVisitors = CustomVisitors.empty
 
   /** visits a boolean */
   protected def visitBoolean(input: Boolean): Unit = {}

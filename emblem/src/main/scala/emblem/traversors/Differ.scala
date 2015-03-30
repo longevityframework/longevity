@@ -58,8 +58,8 @@ object Differ {
  * @param emblemPool the emblems to use in the traversal
  */
 class Differ(
-  private val emblemPool: EmblemPool = EmblemPool(),
-  private val extractorPool: ExtractorPool = ExtractorPool()) {
+  private val emblemPool: EmblemPool = EmblemPool.empty,
+  private val extractorPool: ExtractorPool = ExtractorPool.empty) {
 
   /** computes the diffs between the left- and right-hand sides
    * @param lhs the left-hand side

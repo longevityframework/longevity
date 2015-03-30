@@ -21,7 +21,7 @@ class CustomVisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     val visitor = new Visitor {
-      override protected val customVisitors: CustomVisitors = emptyCustomVisitors + listCustomVisitor
+      override protected val customVisitors: CustomVisitors = CustomVisitors.empty + listCustomVisitor
     }
 
   }
@@ -67,7 +67,7 @@ class CustomVisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     val visitor = new Visitor {
-      override protected val customVisitors: CustomVisitors = emptyCustomVisitors + listCustomVisitor
+      override protected val customVisitors: CustomVisitors = CustomVisitors.empty + listCustomVisitor
     }
 
   }

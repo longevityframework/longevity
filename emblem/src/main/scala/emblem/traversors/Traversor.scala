@@ -26,11 +26,14 @@ trait Traversor {
     def apply[B <: A : TypeKey](input: TraverseInput[B]): TraverseResult[B]
   }
 
-  /** A [[TypeKeyMap]] for [[CustomTraversor custom traversors]] */
+  /** a [[TypeKeyMap]] for [[CustomTraversor custom traversors]] */
   type CustomTraversors = TypeKeyMap[Any, CustomTraversor]
 
-  /** An empty map of [[CustomTraversor custom traversors]] */
-  val emptyCustomTraversor: CustomTraversors = TypeKeyMap[Any, CustomTraversor]()
+  object CustomTraversors {
+
+    /** an empty map of [[CustomTraversor custom traversors]] */
+    val empty: CustomTraversors = TypeKeyMap[Any, CustomTraversor]
+  }
 
   /** traverses an object of any supported type.
    *
@@ -50,13 +53,13 @@ trait Traversor {
   protected type PropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
 
   /** the emblems to use in the recursive traversal */
-  protected val emblemPool: EmblemPool = EmblemPool()
+  protected val emblemPool: EmblemPool = EmblemPool.empty
 
   /** the extractors to use in the recursive traversal */
-  protected val extractorPool: ExtractorPool = ExtractorPool()
+  protected val extractorPool: ExtractorPool = ExtractorPool.empty
 
   /** the custom traversors to use in the recursive traversal */
-  protected val customTraversors: CustomTraversors = emptyCustomTraversor
+  protected val customTraversors: CustomTraversors = CustomTraversors.empty
 
   /** traverses a boolean */
   protected def traverseBoolean(input: TraverseInput[Boolean]): TraverseResult[Boolean]
