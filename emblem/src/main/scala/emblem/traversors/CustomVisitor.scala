@@ -22,7 +22,7 @@ import emblem.TypeKey
  * }
  *
  * val visitor = new Visitor {
- *   override protected val customVisitors: CustomVisitors = CustomVisitors.empty + listCustomVisitor
+ *   override protected val customVisitors: CustomVisitorPool = CustomVisitorPool.empty + listCustomVisitor
  * }
  * }}}
  *

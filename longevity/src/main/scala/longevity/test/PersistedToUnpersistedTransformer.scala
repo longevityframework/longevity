@@ -3,7 +3,7 @@ package longevity.test
 import emblem._
 import emblem.traversors.Transformer
 import emblem.traversors.Transformer.CustomTransformer
-import emblem.traversors.Transformer.CustomTransformers
+import emblem.traversors.Transformer.CustomTransformerPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.RootEntity
@@ -24,7 +24,7 @@ class PersistedToUnpersistedTransformer(
   override protected val extractorPool: ExtractorPool)
 extends Transformer {
 
-  override protected val customTransformers = CustomTransformers.empty + transformAssoc
+  override protected val customTransformers = CustomTransformerPool.empty + transformAssoc
 
   private lazy val transformAssoc = new CustomTransformer[AssocAny] {
     def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: B): B = input match {

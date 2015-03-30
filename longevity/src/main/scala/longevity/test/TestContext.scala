@@ -1,6 +1,6 @@
 package longevity.test
 
-import emblem.traversors.Generator.CustomGenerators
+import emblem.traversors.Generator.CustomGeneratorPool
 import longevity.context.ShorthandPool
 import longevity.persistence.InMem
 import longevity.persistence.RepoPool
@@ -11,7 +11,7 @@ import longevity.subdomain.Subdomain
 class TestContext private[longevity](
   subdomain: Subdomain,
   shorthandPool: ShorthandPool,
-  customGenerators: CustomGenerators,
+  customGenerators: CustomGeneratorPool,
   repoPool: RepoPool) {
 
   /** An in-memory set of repositories for this longevity context, for use in testing. at the moment, no

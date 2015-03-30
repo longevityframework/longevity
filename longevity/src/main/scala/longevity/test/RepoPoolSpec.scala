@@ -1,7 +1,7 @@
 package longevity.test
 
 import emblem._
-import emblem.traversors.Generator.CustomGenerators
+import emblem.traversors.Generator.CustomGeneratorPool
 import emblem.traversors.CustomGenerator
 import emblem.traversors.Differ
 import emblem.traversors.Generator
@@ -32,7 +32,7 @@ import org.scalatest.time.SpanSugar._
 private[longevity] class RepoPoolSpec(
   subdomain: Subdomain,
   shorthandPool: ShorthandPool,
-  customGenerators: CustomGenerators,
+  customGenerators: CustomGeneratorPool,
   repoPool: RepoPool,
   suiteNameSuffix: Option[String] = None)
 extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {

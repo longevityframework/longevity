@@ -21,14 +21,13 @@ object Transformer {
 
   }
 
-  // TODO rename to pool
   /** a [[TypeKeyMap]] for [[CustomTransformer transformer functions]] */
-  type CustomTransformers = TypeKeyMap[Any, CustomTransformer]
+  type CustomTransformerPool = TypeKeyMap[Any, CustomTransformer]
 
-  object CustomTransformers {
+  object CustomTransformerPool {
 
     /** an empty map of [[CustomTransformer transformer functions]] */
-    def empty: CustomTransformers = TypeKeyMap[Any, CustomTransformer]()
+    def empty: CustomTransformerPool = TypeKeyMap[Any, CustomTransformer]()
   }
 
 }
@@ -63,7 +62,7 @@ trait Transformer {
   protected val extractorPool: ExtractorPool = ExtractorPool.empty
 
   /** the custom transformers to use in the recursive transformation */
-  protected val customTransformers: CustomTransformers = CustomTransformers.empty
+  protected val customTransformers: CustomTransformerPool = CustomTransformerPool.empty
 
   /** transforms a boolean */
   protected def transformBoolean(input: Boolean): Boolean = input

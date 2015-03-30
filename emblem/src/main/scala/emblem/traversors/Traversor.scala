@@ -27,12 +27,12 @@ trait Traversor {
   }
 
   /** a [[TypeKeyMap]] for [[CustomTraversor custom traversors]] */
-  type CustomTraversors = TypeKeyMap[Any, CustomTraversor]
+  type CustomTraversorPool = TypeKeyMap[Any, CustomTraversor]
 
-  object CustomTraversors {
+  object CustomTraversorPool {
 
     /** an empty map of [[CustomTraversor custom traversors]] */
-    val empty: CustomTraversors = TypeKeyMap[Any, CustomTraversor]
+    val empty: CustomTraversorPool = TypeKeyMap[Any, CustomTraversor]
   }
 
   /** traverses an object of any supported type.
@@ -59,7 +59,7 @@ trait Traversor {
   protected val extractorPool: ExtractorPool = ExtractorPool.empty
 
   /** the custom traversors to use in the recursive traversal */
-  protected val customTraversors: CustomTraversors = CustomTraversors.empty
+  protected val customTraversors: CustomTraversorPool = CustomTraversorPool.empty
 
   /** traverses a boolean */
   protected def traverseBoolean(input: TraverseInput[Boolean]): TraverseResult[Boolean]

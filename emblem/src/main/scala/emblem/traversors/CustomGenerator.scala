@@ -9,8 +9,8 @@ object CustomGenerator {
   // TODO pt 87463304: you could make a CustomGenerator take a lower type bound as well, and then you could make
   // simpleGenerator type-tight. what you want to do is:
   // - replace single TP to CustomGenerator with 2: UpperB and LowerB
-  // - change TestDataGenerator.CustomGenerators to map by both key bounds
-  //   type CustomGenerators = TypeKeyMap[Any, CustomGenerator]
+  // - change TestDataGenerator.CustomGeneratorPool to map by both key bounds
+  //   type CustomGeneratorPool = TypeKeyMap[Any, CustomGenerator]
   // - in TestDataGenerator.customOption, and add in a castToUpperBound in this line:
   //   val keyOpt: Option[TypeKey[_ >: A]] = customGenerators.keys.map(_.castToLowerBound[A]).flatten.headOption
   // - simpleGenerator provides same type as upper and lower bound
@@ -23,7 +23,7 @@ object CustomGenerator {
    * class IntHolder(val i: Int)
    * val intHolderGen: CustomGenerator[IntHolder] =
    *   simpleGenerator((generator: Generator) => new IntHolder(generator.generate[Int]))
-   * val generator = new TestDataGenerator(customGenerators = CustomGenerators.empty + intHolderGen)
+   * val generator = new TestDataGenerator(customGenerators = CustomGeneratorPool.empty + intHolderGen)
    * }}}
    * 
    * @tparam A the return type of the underlying function
@@ -58,7 +58,7 @@ object CustomGenerator {
  *     eltList.asInstanceOf[B]
  *   }
  * }
- * val generator = new TestDataGenerator(customGenerators = CustomGenerators.empty + listCustomGenerator)
+ * val generator = new TestDataGenerator(customGenerators = CustomGeneratorPool.empty + listCustomGenerator)
  * }}}
  *
  * @tparam the type of things this custom generator generates

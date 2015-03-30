@@ -43,7 +43,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
       }
     }
 
-    val customGenerators = CustomGenerators.empty + intHolderCustomGenerator + listCustomGenerator
+    val customGenerators = CustomGeneratorPool.empty + intHolderCustomGenerator + listCustomGenerator
     val generator = new TestDataGenerator(emblemPool, extractorPool, customGenerators)
 
     List.fill(100) {
@@ -206,7 +206,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val pointCustomGenerator = simpleGenerator((generator) => Point(-1.0, -1.0))
     val listCustomGenerator = simpleGenerator((generator) => List(1, 2, 3))
     val intCustomGenerator = simpleGenerator((generator) => 77)
-    val customGenerators = CustomGenerators.empty +
+    val customGenerators = CustomGeneratorPool.empty +
       uriCustomGenerator + pointCustomGenerator + listCustomGenerator + intCustomGenerator
 
     val generator = new TestDataGenerator(emblemPool, extractorPool, customGenerators)
@@ -220,11 +220,11 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   private def standardGenerator = {
     val intHolderCustomGenerator = simpleGenerator(
       (generator: Generator) => new IntHolder(generator.generate[Int]))
-    val customGenerators = CustomGenerators.empty + intHolderCustomGenerator
+    val customGenerators = CustomGeneratorPool.empty + intHolderCustomGenerator
     new TestDataGenerator(
       emblemPool = emblemPool,
       extractorPool = extractorPool,
-      customGenerators = CustomGenerators.empty + intHolderCustomGenerator)
+      customGenerators = CustomGeneratorPool.empty + intHolderCustomGenerator)
   }
 
 }

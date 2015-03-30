@@ -1,6 +1,6 @@
 package longevity.context
 
-import emblem.traversors.Generator.CustomGenerators
+import emblem.traversors.Generator.CustomGeneratorPool
 import longevity.persistence.InMem
 import longevity.persistence.PersistenceContext
 import longevity.persistence.PersistenceStrategy
@@ -25,7 +25,7 @@ object LongevityContext {
     shorthandPool: ShorthandPool,
     persistenceStrategy: PersistenceStrategy,
     specializations: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool.empty,
-    customGenerators: CustomGenerators = CustomGenerators.empty)
+    customGenerators: CustomGeneratorPool = CustomGeneratorPool.empty)
   : LongevityContext = {
     new LongevityContext(
       subdomain,
@@ -63,7 +63,7 @@ final class LongevityContext private(
   val shorthandPool: ShorthandPool,
   persistenceStrategy: PersistenceStrategy,
   specializations: SpecializedRepoFactoryPool,
-  val customGenerators: CustomGenerators) {
+  val customGenerators: CustomGeneratorPool) {
 
   lazy val persistenceContext = new PersistenceContext(
     subdomain,
