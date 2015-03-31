@@ -12,8 +12,7 @@ object LongevityContext {
    * 
    * @param shorthandPool a complete set of the shorthands used by the bounded context. defaults to empty
    * 
-   * @param persistenceStrategy the persistence strategy for this longevity context. defaults to
-   * [[longevity.persistence.InMem InMem]]
+   * @param persistenceStrategy the persistence strategy for this longevity context. defaults to [[InMem]]
    * 
    * @param specializedRepoFactoryPool a collection factories for specialized repositories. defaults to empty
    * 
