@@ -1,4 +1,4 @@
-package longevity.context
+package longevity.shorthands
 
 import emblem.imports._
 import longevity.exceptions.DuplicateShorthandsException

@@ -1,6 +1,7 @@
 package longevity.integration
 
 import longevity.context._
+import longevity.shorthands._
 import longevity.subdomain._
 
 /** covers a root entity with a single shorthand */

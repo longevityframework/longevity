@@ -7,7 +7,7 @@ import emblem.traversors.CustomGenerator
 import emblem.traversors.Differ
 import emblem.traversors.Generator
 import emblem.traversors.TestDataGenerator
-import longevity.context._
+import longevity.shorthands._
 import longevity.subdomain._
 import longevity.persistence._
 import org.scalatest.OptionValues._

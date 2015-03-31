@@ -2,7 +2,7 @@ package longevity
 
 import emblem.imports._
 import emblem.TypeBoundPair
-import longevity.context._
+import longevity.shorthands._
 import longevity.subdomain._
 
 /** manages entity persistence operations */

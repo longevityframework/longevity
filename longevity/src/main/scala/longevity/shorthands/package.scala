@@ -4,11 +4,7 @@ import emblem.imports._
 import emblem.ExtractorFor
 import emblem.TypeBoundFunction
 
-/** the context package contains the [[LongevityContext]] and support classes. at the moment, all things
- * [[Shorthand]] are living here, as they are part of the context, and don't have their own place yet. it might
- * make sense to create a `shorthand` package.
- */
-package object context {
+package object shorthands {
 
   /** a shorthand with the abbreviated type unspecified. this type is equivalent to `Shorthand[Actual, _]`,
    * except with a single type parameter `Actual`. this allows it to be used as a key or value in a

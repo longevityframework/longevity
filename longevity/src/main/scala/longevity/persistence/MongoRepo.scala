@@ -3,7 +3,7 @@ package longevity.persistence
 import com.mongodb.casbah.Imports._
 import emblem.imports._
 import emblem.stringUtil._
-import longevity.context._
+import longevity.shorthands._
 import longevity.subdomain._
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext.Implicits.global

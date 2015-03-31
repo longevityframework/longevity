@@ -23,8 +23,8 @@ object TestContext {
    * [[longevity.context.LongevityContext LongevityContext]].
    *
    * `ScalaTestSpecs` is provided by an implicit conversion from `LongevityContext`,
-   * so that ScalaTest can remain an optional dependency for longevity users. otherwise, it would be included
-   * as part of the [[TestContext]].
+   * so that ScalaTest can remain an optional dependency for longevity users. otherwise, it would have been
+   * included as part of the [[TestContext]].
    */
   implicit class ScalaTestSpecs(longevityContext: LongevityContext) {
 
