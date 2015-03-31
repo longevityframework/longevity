@@ -26,7 +26,7 @@ class ExtractorPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "the extractor pool constructor"
   it should "throw exception if there are multiple longhands represented in the pool" in {
-    val extraneousExtractor = Extractor[String, Email]
+    val extraneousExtractor = Extractor[Email, String]
     intercept[DuplicateExtractorsException] {
       ExtractorPool(uriExtractor, emailExtractor, extraneousExtractor)
     }

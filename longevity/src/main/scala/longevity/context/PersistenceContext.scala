@@ -11,7 +11,7 @@ trait PersistenceContext {
   val persistenceStrategy: PersistenceStrategy
 
   /** a collection factories for specialized repositories */
-  val specializedRepoFactoryPool: SpecializedRepoFactoryPool // TODO name this better
+  val specializedRepoFactoryPool: SpecializedRepoFactoryPool
 
   /** a pool of the repositories for this persistence context */
   val repoPool: RepoPool

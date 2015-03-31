@@ -4,9 +4,11 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import emblem._
 import emblem.exceptions.CouldNotTraverseException
+import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.Traversor
-import longevity.subdomain._
 import longevity.exceptions.CouldNotTranslateException
+import longevity.exceptions.ShorthandUnabbreviationException
+import longevity.subdomain._
 
 /** translates [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
  * casbah MongoDBObjects]] into [[Entity entities]].
@@ -91,17 +93,22 @@ private[persistence] class CasbahToEntityTranslator(
       builder.build()
     }
 
-    protected def stageExtractor[Domain, Range](
+    protected def stageExtractor[Domain : TypeKey, Range](
       extractor: Extractor[Domain, Range],
-      input: TraverseInput[Range])
-    : TraverseInput[Domain] =
+      input: TraverseInput[Domain])
+    : TraverseInput[Range] =
       input
 
-    protected def unstageExtractor[Domain, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range](
       extractor: Extractor[Domain, Range],
-      domainResult: TraverseResult[Domain])
-    : TraverseResult[Range] =
-      extractor.apply(domainResult)
+      rangeResult: TraverseResult[Range])
+    : TraverseResult[Domain] =
+      try {
+        extractor.inverse(rangeResult)
+      } catch {
+        case e: ExtractorInverseException =>
+          throw new ShorthandUnabbreviationException(rangeResult, typeKey[Domain], e)
+      }
 
     protected def stageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]])

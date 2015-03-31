@@ -111,24 +111,24 @@ trait Traversor {
    * @tparam Domain the domain type for the extractor
    * @param extractor the extractor being traversed
    * @param input the input to the extractor traversal
-   * @return the input for traversing `Extractor.unapply`
+   * @return the input for traversing `Extractor.inverse`
    */
-  protected def stageExtractor[Domain, Range](
+  protected def stageExtractor[Domain : TypeKey, Range](
     extractor: Extractor[Domain, Range],
-    input: TraverseInput[Range])
-  : TraverseInput[Domain]
+    input: TraverseInput[Domain])
+  : TraverseInput[Range]
 
   /** unstage the traversal of a [[Extractor extractor]]
    * @tparam Range the range type for the extractor
    * @tparam Domain the domain type for the extractor
    * @param extractor the extractor being traversed
-   * @param domainResult the result of traversing `Extractor.unapply`
+   * @param domainResult the result of traversing `Extractor.inverse`
    * @return the result of traversing the extractor
    */
-  protected def unstageExtractor[Domain, Range](
+  protected def unstageExtractor[Domain : TypeKey, Range](
     extractor: Extractor[Domain, Range],
-    domainResult: TraverseResult[Domain])
-  : TraverseResult[Range]
+    rangeResult: TraverseResult[Range])
+  : TraverseResult[Domain]
 
   /** stage the traversal of an option's value
    * @tparam A the type of the option's value
@@ -266,26 +266,26 @@ trait Traversor {
     traverse(input)(prop.typeKey)
   }
 
-  private def traverseExtractorOption[Range : TypeKey](input: TraverseInput[Range])
-  : Option[TraverseResult[Range]] =
-    extractorPool.get[Range] map { s => traverseFromExtractor[Range](s, input) }
+  private def traverseExtractorOption[Domain : TypeKey](input: TraverseInput[Domain])
+  : Option[TraverseResult[Domain]] =
+    extractorPool.get[Domain] map { s => traverseFromExtractor[Domain](s, input) }
 
-  private def traverseFromExtractor[Range](
-    extractor: Extractor[_, Range],
-    input: TraverseInput[Range])
-  : TraverseResult[Range] =
+  private def traverseFromExtractor[Domain : TypeKey](
+    extractor: ExtractorFor[Domain],
+    input: TraverseInput[Domain])
+  : TraverseResult[Domain] =
     traverseFromFullyTypedExtractor(extractor, input)
 
-  private def traverseFromFullyTypedExtractor[Domain, Range](
+  private def traverseFromFullyTypedExtractor[Domain : TypeKey, Range](
     extractor: Extractor[Domain, Range],
-    input: TraverseInput[Range])
-  : TraverseResult[Range] = {
-    val domainInput = stageExtractor(extractor, input)
-    val domainResult = traverse(domainInput)(extractor.domainTypeKey)
-    unstageExtractor(extractor, domainResult)
+    input: TraverseInput[Domain])
+  : TraverseResult[Domain] = {
+    val rangeInput = stageExtractor(extractor, input)
+    val rangeResult = traverse(rangeInput)(extractor.rangeTypeKey)
+    unstageExtractor(extractor, rangeResult)
   }
 
-  // TODO pt 88571474: remove code duplication with option/set/list, generalize to other kinds of "collections"
+  // TODO pt-88571474: remove code duplication with option/set/list, generalize to other kinds of "collections"
 
   private def traverseOptionOption[OptionA : TypeKey](input: TraverseInput[OptionA])
   : Option[TraverseResult[OptionA]] = {

@@ -3,6 +3,7 @@ package emblem.traversors
 import emblem._
 import emblem.exceptions.CouldNotGenerateException
 import emblem.exceptions.CouldNotTraverseException
+import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.Generator._
 
 /** holds types and zero values used by the [[Generator generators]] */
@@ -126,17 +127,21 @@ trait Generator {
       builder.build()
     }
 
-    protected def stageExtractor[Domain, Range](
+    protected def stageExtractor[Domain : TypeKey, Range](
       extractor: Extractor[Domain, Range],
       input: Unit)
     : Unit =
       ()
 
-    protected def unstageExtractor[Domain, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range](
       extractor: Extractor[Domain, Range],
-      domainResult: Domain)
-    : Range =
-      extractor.apply(domainResult)
+      range: Range)
+    : Domain =
+      try {
+        extractor.inverse(range)
+      } catch {
+        case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
+      }
 
     protected def stageOptionValue[A : TypeKey](input: Unit): Option[Unit] = option(())
 

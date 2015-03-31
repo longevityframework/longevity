@@ -121,16 +121,16 @@ class Differ(
     : Diffs =
       result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
 
-    protected def stageExtractor[Domain, Range](
+    protected def stageExtractor[Domain : TypeKey, Range](
       extractor: Extractor[Domain, Range],
-      input: DifferInput[Range])
-    : DifferInput[Domain] =
+      input: DifferInput[Domain])
+    : DifferInput[Range] =
       input.copy(
-        lhs = extractor.unapply(input.lhs),
-        rhs = extractor.unapply(input.rhs),
-        path = input.path + ".unapply")
+        lhs = extractor.apply(input.lhs),
+        rhs = extractor.apply(input.rhs),
+        path = input.path + ".inverse")
 
-    protected def unstageExtractor[Domain, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range](
       extractor: Extractor[Domain, Range],
       result: Diffs)
     : Diffs = result

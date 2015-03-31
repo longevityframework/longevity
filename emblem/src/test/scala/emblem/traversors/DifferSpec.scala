@@ -40,7 +40,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
     val user1 = user
     val user2 = user.copy(uri = "sillyUri")
     differ.diff(user1, user2) should equal (Diffs(
-      Diff(".uri.unapply", "funnyUri", "sillyUri")))
+      Diff(".uri.inverse", "funnyUri", "sillyUri")))
   }
 
   it should "find diffs in basic values found in a nested emblem" in {
@@ -54,7 +54,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
     val user1 = user
     val user2 = user.copy(address = user.address.copy(zipcode = 98765))
     differ.diff(user1, user2) should equal (Diffs(
-      Diff(".address.zipcode.unapply", user1.address.zipcode.zipcode, user2.address.zipcode.zipcode)))
+      Diff(".address.zipcode.inverse", user1.address.zipcode.zipcode, user2.address.zipcode.zipcode)))
   }
 
   behavior of "Differ.diff for extractors"
@@ -64,12 +64,12 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
     differ.diff(Zipcode(/*0*/1210), Zipcode(/*0*/1210)) should equal (Diffs())
   }
 
-  it should "produce a single Diff with path .unapply when the values have different sizes" in {
+  it should "produce a single Diff with path .inverse when the values have different sizes" in {
     differ.diff(Uri("x"), Uri("y")) should equal {
-      Diffs(Diff(".unapply", "x", "y"))
+      Diffs(Diff(".inverse", "x", "y"))
     }
     differ.diff(Zipcode(/*0*/1210), Zipcode(/*0*/1211)) should equal {
-      Diffs(Diff(".unapply", /*0*/1210, /*0*/1211))
+      Diffs(Diff(".inverse", /*0*/1210, /*0*/1211))
     }
   }
 

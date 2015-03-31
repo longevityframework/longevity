@@ -17,13 +17,13 @@ package object emblem {
   type EmblemPool = TypeKeyMap[HasEmblem, Emblem]  
 
   /** an [[Extractor extractor]] with the domain type unspecified. this type is equivalent to
-   * `Extractor[_, Range]`, except with a single type parameter `Range`. this allows the extractor to be used
+   * `Extractor[Domain, _]`, except with a single type parameter `Domain`. this allows the extractor to be used
    * as a key or value in a `TypeBoundMap` or `TypeKeyMap`
    * @see ExtractorPool
    */
-  type ExtractorFor[Range] = Extractor[_, Range]
+  type ExtractorFor[Domain] = Extractor[Domain, _]
 
-  /** A [[TypeKeyMap]] of `Range` to [[Extractor]] */
+  /** A [[TypeKeyMap]] of `Domain` to [[Extractor]] */
   type ExtractorPool = TypeKeyMap[Any, ExtractorFor]
 
   /** a no-arg function with return type `A` */

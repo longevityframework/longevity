@@ -115,13 +115,13 @@ trait Visitor {
     : Unit =
       ()
 
-    protected def stageExtractor[Domain, Range](
+    protected def stageExtractor[Domain : TypeKey, Range](
       extractor: Extractor[Domain, Range],
-      input: Range)
-    : Domain =
-      extractor.unapply(input)
+      input: Domain)
+    : Range =
+      extractor.apply(input)
 
-    protected def unstageExtractor[Domain, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range](
       extractor: Extractor[Domain, Range],
       domainResult: Unit)
     : Unit =

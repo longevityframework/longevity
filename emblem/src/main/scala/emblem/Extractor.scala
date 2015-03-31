@@ -12,24 +12,38 @@ import factories.ExtractorFactory
  *
  * {{{
  * case class Uri(uri: String)
- * val extractor = Extractor[String, Uri]
+ * val extractor = Extractor[Uri, String]
+ * extractor.domainTypeKey should equal (typeKey[Uri])
+ * extractor.rangeTypeKey should equal (typeKey[String])
+ * extractor.apply(Uri("someUri")) should equal ("someUri")
+ * extractor.unapply("someUri") should equal (Some(Uri("someUri")))
  * }}}
  *
- * @tparam Range the range type
  * @tparam Domain the domain type
+ * @tparam Range the range type
  * @param apply a function to convert from domain to range
- * @param unapply a function to convert from range to domain @throws
+ * @param inverse a function to convert from range to domain. throws exception if
+ * there is no element in the domain that corresponds to the element in the range
  */
 case class Extractor[Domain : TypeKey, Range : TypeKey] private[emblem] (
   val apply: (Domain) => Range,
-  val unapply: (Range) => Domain
+  val inverse: (Range) => Domain
 ) {
 
-  /** a [[TypeKey]] for the range type */
-  lazy val rangeTypeKey: TypeKey[Range] = implicitly[TypeKey[Range]]
+  /** a function to convert from range to domain. returns `None` if there is no element in the domain that
+   * corresponds to the element in the range
+   */
+  def unapply(range: Range): Option[Domain] = try {
+    Some(inverse(range))
+  } catch {
+    case e: Exception => None
+  }
 
   /** a [[TypeKey]] for the domain type */
   lazy val domainTypeKey: TypeKey[Domain] = implicitly[TypeKey[Domain]]
+
+  /** a [[TypeKey]] for the range type */
+  lazy val rangeTypeKey: TypeKey[Range] = implicitly[TypeKey[Range]]
 
   override def toString = s"Extractor[${rangeTypeKey.tpe}, ${domainTypeKey.tpe}]"
 

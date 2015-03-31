@@ -10,13 +10,13 @@ import emblem.exceptions._
  * @tparam Domain the domain type
  */
 private[emblem] class ExtractorFactory[Domain : TypeKey, Range : TypeKey]
-extends ReflectiveFactory[Range] {
+extends ReflectiveFactory[Domain] {
 
   verifySingleParam()
   private val param: TermSymbol = params.head
   verifyExpectedDomainType()
 
-  def generate: Extractor[Domain, Range] = Extractor(makeApply(), makeUnapply())
+  def generate: Extractor[Domain, Range] = Extractor(makeApply(), makeInverse())
 
   private def verifySingleParam(): Unit = {
     if (params.size != 1) {
@@ -25,15 +25,15 @@ extends ReflectiveFactory[Range] {
   }
 
   private def verifyExpectedDomainType(): Unit = {
-    if (! (param.typeSignature =:= typeKey[Domain].tpe)) {
+    if (! (param.typeSignature =:= typeKey[Range].tpe)) {
       throw new UnexpectedDomainTypeException(key, typeKey[Domain])
     }
   }
 
-  private def makeUnapply(): (Range) => Domain = makeGetFunction[Domain](param.name)
+  private def makeApply(): (Domain) => Range = makeGetFunction[Range](param.name)
 
-  private def makeApply(): (Domain) => Range = { domain: Domain =>
-    module.applyMirror(domain).asInstanceOf[Range]
+  private def makeInverse(): (Range) => Domain = { range: Range =>
+    module.applyMirror(range).asInstanceOf[Domain]
   }
 
 }

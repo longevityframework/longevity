@@ -3,6 +3,7 @@ package emblem.traversors
 import emblem._
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
+import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.Transformer._
 
 /** holds types and zero values used by the [[Transformer transformers]], and supplies the API for custom
@@ -134,17 +135,21 @@ trait Transformer {
       builder.build()
     }
 
-    protected def stageExtractor[Domain, Range](
-      extractor: Extractor[Domain, Range],
-      range: Range)
-    : Domain =
-      extractor.unapply(range)
-
-    protected def unstageExtractor[Domain, Range](
+    protected def stageExtractor[Domain : TypeKey, Range](
       extractor: Extractor[Domain, Range],
       domain: Domain)
     : Range =
       extractor.apply(domain)
+
+    protected def unstageExtractor[Domain : TypeKey, Range](
+      extractor: Extractor[Domain, Range],
+      range: Range)
+    : Domain =
+      try {
+        extractor.inverse(range)
+      } catch {
+        case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
+      }
 
     protected def stageOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
 

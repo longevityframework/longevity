@@ -4,4 +4,4 @@ package emblem.exceptions
  * for the same `Range` type.
  */
 class DuplicateExtractorsException
-extends Exception("a ExtractorPool cannot contain multiple Extractors with the same Range type")
+extends ExtractorPoolException("a ExtractorPool cannot contain multiple Extractors with the same Range type")
