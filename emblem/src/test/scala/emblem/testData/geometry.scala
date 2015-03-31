@@ -1,6 +1,6 @@
 package emblem.testData
 
-import emblem._
+import emblem.imports._
 
 /** for testing emblem success cases */
 object geometry {

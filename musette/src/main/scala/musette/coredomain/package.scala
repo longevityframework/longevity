@@ -1,6 +1,5 @@
 package musette
 
-import emblem._
 import longevity.context._
 import longevity.persistence._
 import longevity.subdomain._

@@ -1,6 +1,7 @@
 package longevity
 
-import emblem._
+import emblem.imports._
+import emblem.TypeBoundPair
 import longevity.context._
 import longevity.subdomain._
 

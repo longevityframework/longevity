@@ -1,6 +1,7 @@
 package emblem.traversors
 
-import emblem._
+import emblem.imports._
+import emblem.TypeBoundFunction
 import emblem.exceptions.CouldNotVisitException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.Visitor._

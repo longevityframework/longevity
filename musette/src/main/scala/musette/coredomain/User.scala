@@ -1,6 +1,5 @@
 package musette.coredomain
 
-import emblem._
 import longevity.subdomain._
 
 case class User(

@@ -1,6 +1,8 @@
 package longevity
 
-import emblem._
+import emblem.imports._
+import emblem.ExtractorFor
+import emblem.TypeBoundFunction
 
 /** the context package contains the [[LongevityContext]] and support classes. at the moment, all things
  * [[Shorthand]] are living here, as they are part of the context, and don't have their own place yet. it might

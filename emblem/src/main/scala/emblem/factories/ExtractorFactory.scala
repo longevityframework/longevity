@@ -2,7 +2,7 @@ package emblem.factories
 
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
-import emblem._
+import emblem.imports._
 import emblem.exceptions._
 
 /** generates an [[Extractor extractor]] from [[TypeKey type keys]] for the `Domain` and `Range` types

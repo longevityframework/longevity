@@ -1,6 +1,6 @@
 package longevity.context
 
-import emblem._
+import emblem.imports._
 import longevity.exceptions.DuplicateShorthandsException
 
 object ShorthandPool {

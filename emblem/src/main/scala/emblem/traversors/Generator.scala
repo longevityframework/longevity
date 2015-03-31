@@ -1,9 +1,10 @@
 package emblem.traversors
 
-import emblem._
+import emblem.TypeBoundFunction
 import emblem.exceptions.CouldNotGenerateException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
+import emblem.imports._
 import emblem.traversors.Generator._
 
 /** holds types and zero values used by the [[Generator generators]] */

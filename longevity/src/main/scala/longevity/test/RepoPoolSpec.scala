@@ -1,6 +1,7 @@
 package longevity.test
 
-import emblem._
+import emblem.imports._
+import emblem.TypeBoundPair
 import emblem.traversors.Generator.CustomGeneratorPool
 import emblem.traversors.CustomGenerator
 import emblem.traversors.Differ

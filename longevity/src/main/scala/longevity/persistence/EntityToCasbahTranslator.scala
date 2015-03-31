@@ -2,7 +2,7 @@ package longevity.persistence
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.MongoDBObjectBuilder
-import emblem._
+import emblem.imports._
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.Traversor
 import longevity.exceptions.CouldNotTranslateException

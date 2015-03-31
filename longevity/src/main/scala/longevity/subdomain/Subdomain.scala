@@ -1,6 +1,7 @@
 package longevity.subdomain
 
-import emblem._
+import emblem.imports._
+import emblem.WideningTypeBoundFunction
 
 /** a specification of a subdomain of a project's domain. contains a pool of all the [[EntityType entity types]]
  * in the subdomain, as well as all the shorthands used by the entities.

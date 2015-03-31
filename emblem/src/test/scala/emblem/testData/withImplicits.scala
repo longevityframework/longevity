@@ -1,6 +1,6 @@
 package emblem.testData
 
-import emblem._
+import emblem.imports._
 import emblem.testData.geometry.Point
 
 /** for testing ignored emblem cases */

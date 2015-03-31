@@ -1,6 +1,5 @@
 package longevity.integration
 
-import emblem._
 import longevity.context._
 import longevity.subdomain._
 

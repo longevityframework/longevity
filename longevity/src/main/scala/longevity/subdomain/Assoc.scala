@@ -1,8 +1,8 @@
 package longevity.subdomain
 
+import emblem.imports._
 import longevity.exceptions.AssocIsPersistedException
 import longevity.exceptions.AssocIsUnpersistedException
-import emblem._
 import scala.concurrent.Future
 
 object Assoc {

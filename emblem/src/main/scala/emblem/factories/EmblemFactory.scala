@@ -3,7 +3,7 @@ package emblem.factories
 import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
-import emblem._
+import emblem.imports._
 import emblem.exceptions._
 import emblem.stringUtil._
 import emblem.reflectionUtil.makeTypeTag

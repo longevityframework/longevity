@@ -1,6 +1,6 @@
 package longevity.exceptions
 
-import emblem._
+import emblem.imports._
 import emblem.exceptions.GeneratorException
 
 class ShorthandCreationException(

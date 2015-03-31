@@ -1,6 +1,7 @@
 package emblem.traversors
 
-import emblem._
+import emblem.imports._
+import emblem.TypeBoundFunction
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException

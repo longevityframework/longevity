@@ -1,9 +1,9 @@
 package longevity.persistence
 
+import emblem.imports._
+import longevity.subdomain._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
-import emblem._
-import longevity.subdomain._
 
 /** a repository for aggregate roots of type `E` */
 abstract class Repo[E <: RootEntity : TypeKey] {

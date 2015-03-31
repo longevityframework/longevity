@@ -1,7 +1,7 @@
 package emblem.traversors
 
 import Differ._
-import emblem._
+import emblem.imports._
 import scala.reflect.runtime.universe.typeOf
 
 object Differ {

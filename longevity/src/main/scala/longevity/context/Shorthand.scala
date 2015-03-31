@@ -1,6 +1,6 @@
 package longevity.context
 
-import emblem._
+import emblem.imports._
 import longevity.exceptions.ShorthandCreationException
 
 /** describes a relation (one-to-one mapping) between two types, `Actual` and `Abbreviated`. The "actual" type is

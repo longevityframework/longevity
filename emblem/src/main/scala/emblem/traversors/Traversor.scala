@@ -1,6 +1,7 @@
 package emblem.traversors
 
-import emblem._
+import emblem.imports._
+import emblem.ExtractorFor
 import emblem.exceptions.CouldNotTraverseException
 import emblem.reflectionUtil.makeTypeTag
 import scala.reflect.runtime.universe.typeOf

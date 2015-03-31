@@ -1,7 +1,7 @@
 package emblem.testData
 
-import emblem._
-import extractors._
+import emblem.imports._
+import emblem.testData.extractors._
 
 /** a handful of emblems used for testing */
 object emblems {

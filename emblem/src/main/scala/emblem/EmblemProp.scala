@@ -12,14 +12,14 @@ import scala.reflect.runtime.universe.TypeTag
  * @param get a function that retrieves the property value from an instance
  * @param set a function that updates the property value to produce a new instance
  */
-case class EmblemProp[T <: HasEmblem : TypeKey, U : TypeKey] private[emblem] (
+case class EmblemProp[A <: HasEmblem : TypeKey, B : TypeKey] private[emblem] (
   val name: String,
-  val get: (T) => U,
-  val set: (T, U) => T
+  val get: (A) => B,
+  val set: (A, B) => A
 ) {
 
   /** A [[TypeKey type key]] for the property value type */
-  lazy val typeKey: TypeKey[U] = implicitly[TypeKey[U]]
+  lazy val typeKey: TypeKey[B] = implicitly[TypeKey[B]]
 
   override def toString: String = s"$name: ${typeKey.tpe}"
 

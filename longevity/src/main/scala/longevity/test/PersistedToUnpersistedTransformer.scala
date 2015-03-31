@@ -1,6 +1,6 @@
 package longevity.test
 
-import emblem._
+import emblem.imports._
 import emblem.traversors.Transformer
 import emblem.traversors.Transformer.CustomTransformer
 import emblem.traversors.Transformer.CustomTransformerPool

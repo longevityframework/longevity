@@ -1,6 +1,6 @@
 package longevity.subdomain
 
-import emblem._
+import emblem.imports._
 
 /** a type class for a domain entity that serves as an aggregate root */
 abstract class RootEntityType[E <: RootEntity : TypeKey] extends EntityType[E] {

@@ -1,6 +1,6 @@
 package emblem.traversors
 
-import emblem._
+import emblem.imports._
 import emblem.traversors.Visitor._
 import org.scalatest._
 

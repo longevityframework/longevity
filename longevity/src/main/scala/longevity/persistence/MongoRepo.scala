@@ -1,7 +1,7 @@
 package longevity.persistence
 
 import com.mongodb.casbah.Imports._
-import emblem._
+import emblem.imports._
 import emblem.stringUtil._
 import longevity.context._
 import longevity.subdomain._

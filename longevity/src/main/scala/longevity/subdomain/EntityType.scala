@@ -1,7 +1,7 @@
 package longevity.subdomain
 
+import emblem.imports._
 import scala.reflect.runtime.universe._
-import emblem._
 
 /** a type class for a domain entity */
 abstract class EntityType[E <: Entity : TypeKey] {

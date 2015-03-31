@@ -1,6 +1,5 @@
 package longevity.persistence
 
-import emblem._
 import longevity.context._
 import longevity.subdomain._
 

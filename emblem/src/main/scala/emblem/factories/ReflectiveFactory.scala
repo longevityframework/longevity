@@ -1,7 +1,7 @@
 package emblem.factories
 
-import emblem._
 import emblem.exceptions._
+import emblem.imports._
 import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
