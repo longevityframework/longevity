@@ -19,7 +19,7 @@ import longevity.persistence.PersistedAssoc
  * @param emblemPool a pool of emblems for the entities to be transformed
  * @param extractorPool a complete set of the extractors used by the bounded context
  */
-class PersistedToUnpersistedTransformer(
+private[test] class PersistedToUnpersistedTransformer(
   override protected val emblemPool: EmblemPool,
   override protected val extractorPool: ExtractorPool)
 extends Transformer {
