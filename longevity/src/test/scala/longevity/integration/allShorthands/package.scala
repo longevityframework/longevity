@@ -1,7 +1,6 @@
 package longevity.integration
 
 import longevity.context._
-import longevity.persistence._
 import longevity.shorthands._
 import longevity.subdomain._
 

@@ -1,8 +1,6 @@
 package longevity.context
 
 import longevity.persistence.RepoPool
-import longevity.persistence.PersistenceStrategy
-import longevity.persistence.SpecializedRepoFactoryPool
 
 /** the portion of a [[LongevityContext]] that deals with persistence */
 trait PersistenceContext {

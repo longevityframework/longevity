@@ -2,9 +2,6 @@ package longevity.context
 
 import emblem.traversors.Generator.CustomGeneratorPool
 import longevity.persistence.buildRepoPool
-import longevity.persistence.InMem
-import longevity.persistence.PersistenceStrategy
-import longevity.persistence.SpecializedRepoFactoryPool
 import longevity.shorthands.ShorthandPool
 import longevity.subdomain.Subdomain
 

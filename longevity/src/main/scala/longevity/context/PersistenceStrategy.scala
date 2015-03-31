@@ -1,4 +1,4 @@
-package longevity.persistence
+package longevity.context
 
 /** the persistence strategy used by a longevity context. right now, you have two options:
  *

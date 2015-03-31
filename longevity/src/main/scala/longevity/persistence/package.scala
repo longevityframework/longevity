@@ -2,6 +2,7 @@ package longevity
 
 import emblem.imports._
 import emblem.TypeBoundPair
+import longevity.context._
 import longevity.shorthands._
 import longevity.subdomain._
 
@@ -10,22 +11,6 @@ package object persistence {
 
   /** a `TypeKeyMap` of [[longevity.subdomain.RootEntity RootEntity]] to [[Repo]] */
   type RepoPool = TypeKeyMap[RootEntity, Repo]
-
-  /** a function producing a specialized version of a repository given a longevity context
-   * @tparam RE the root entity type for the repository
-   */
-  type SpecializedRepoFactory[RE <: RootEntity] = (EmblemPool, ShorthandPool) => Repo[RE]
-
-  /** a pool of [[SpecializedRepoFactory specialized repo factories, type-mapped on the root entity type */
-  type SpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
-
-  object SpecializedRepoFactoryPool {
-    
-    /** an empty [[SpecializedRepoFactoryPool specialized repo factory pool. used to grow larger factory pools
-     * via the `+` operation
-     */
-    val empty: SpecializedRepoFactoryPool = TypeKeyMap[RootEntity, SpecializedRepoFactory]
-  }
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
