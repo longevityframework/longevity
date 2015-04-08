@@ -112,7 +112,7 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     blogRepo.saveCount should equal (2)
   }
 
-  // TODO pt 86950990:
+  // TODO pt-86950990:
   // - single-TP key type, double-TP value type
   // - double-TP key type, single-TP value type
 

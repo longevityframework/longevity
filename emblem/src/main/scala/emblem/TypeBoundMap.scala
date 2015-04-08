@@ -4,7 +4,7 @@ import scala.language.higherKinds
 
 object TypeBoundMap {
 
-  /** Creates and returns an empty [[TypeBoundMap]] for the supplied types.
+  /** creates and returns an empty [[TypeBoundMap]] for the supplied types.
    * @tparam TypeBound the upper bound on the type parameters passed into the Key and Value types
    * @tparam Key the parameterized type of the keys in the map
    * @tparam Val the parameterized type of the values in the map
@@ -14,7 +14,7 @@ object TypeBoundMap {
 
 }
 
-/** A map where the types for keys and values share a type parameter with the same bounds. The key and value
+/** a map where the types for keys and values share a type parameter with the same bounds. The key and value
  * of each key/value pair are constrained to match on that type parameter. For example, I might have some pet
  * stores that only cater to a single kind of pet:
  *
@@ -68,14 +68,14 @@ object TypeBoundMap {
 class TypeBoundMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (underlying: Map[Any, Any])
 extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
 
-  /** Retrieves the value which is associated with the given key, both bound by the same type param.
+  /** retrieves the value which is associated with the given key, both bound by the same type param.
    * 
    * throws java.util.NoSuchElementException when no value is mapped to the supplied key
    * @tparam TypeParam the type param binding both the key and the value
    */
   def apply[TypeParam <: TypeBound](key: Key[TypeParam]): Val[TypeParam] = get(key).get
 
-  /** Optionally returns the value associated with the given key
+  /** optionally returns the value associated with the given key
    * @tparam TypeParam the type param bounding both the key and the value
    * @return an option value containing the value associated with type key in this map, or None if none
    * exists.
@@ -83,7 +83,7 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
   def get[TypeParam <: TypeBound](key: Key[TypeParam]): Option[Val[TypeParam]] =
     underlying.get(key).asInstanceOf[Option[Val[TypeParam]]]
 
-  /** Returns the value associated with a key, or a default value if the key is not contained in the map.
+  /** returns the value associated with a key, or a default value if the key is not contained in the map.
    *
    * @param default a computation that yields a default value in case no binding for the key is found in
    * the map
@@ -94,7 +94,7 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
     key: Key[TypeParam], default: => Val[TypeParam]): Val[TypeParam] =
     underlying.getOrElse(key, default).asInstanceOf[Val[TypeParam]]
 
-  /** Adds a key/value pair to this map, returning a new map. Both the key and the value are bound by the same
+  /** adds a key/value pair to this map, returning a new map. Both the key and the value are bound by the same
    * type param.
    * @param pair the key/value pair
    * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[TypeParam])`
@@ -113,7 +113,7 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
 
   override def hashCode = underlying.hashCode
 
-  /** Transforms this map by applying a function to every retrieved value.
+  /** transforms this map by applying a function to every retrieved value.
    * @param f the function used to transform values of this map.
    * @return a map which maps every key of this map to f(this(key)).
    */
@@ -124,10 +124,10 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
     new TypeBoundMap[TypeBound, Key, Val2](
       mapValuesUnderlying[TypeBound, Val2](f))
 
-  /** A string representation of a TypeBoundMap */
+  /** a string representation of a TypeBoundMap */
   override def toString = s"TypeBound${underlying}"
 
-  /** Compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
+  /** compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
    * the other map, and vice versa.
    * @param that the other type key map
    * @return true if both maps contain exactly the same mappings, false otherwise.

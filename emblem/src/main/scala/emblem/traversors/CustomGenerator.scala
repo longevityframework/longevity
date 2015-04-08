@@ -6,13 +6,14 @@ import scala.reflect.runtime.universe.typeOf
 
 object CustomGenerator {
 
-  // TODO pt 87463304: you could make a CustomGenerator take a lower type bound as well, and then you could make
+  // TODO pt-87463304: you could make a CustomGenerator take a lower type bound as well, and then you could make
   // simpleGenerator type-tight. what you want to do is:
   // - replace single TP to CustomGenerator with 2: UpperB and LowerB
   // - change TestDataGenerator.CustomGeneratorPool to map by both key bounds
   //   type CustomGeneratorPool = TypeKeyMap[Any, CustomGenerator]
   // - in TestDataGenerator.customOption, and add in a castToUpperBound in this line:
-  //   val keyOpt: Option[TypeKey[_ >: A]] = customGeneratorPool.keys.map(_.castToLowerBound[A]).flatten.headOption
+  //   val keyOpt: Option[TypeKey[_ >: A]] =
+  //     customGeneratorPool.keys.map(_.castToLowerBound[A]).flatten.headOption
   // - simpleGenerator provides same type as upper and lower bound
 
   /** Creates a simple [[CustomGenerator]] from a regular function. The simple generator wraps the function

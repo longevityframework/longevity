@@ -6,7 +6,7 @@ import org.scalatest._
 /** [[TypeKey type key]] specifications */
 class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  // TODO pt 86950678: spec showing when TypeKeys are equal where TypeTags are not
+  // TODO pt-86950678: spec showing when TypeKeys are equal where TypeTags are not
 
   behavior of "the TypeKey constructor"
   it should "produce a valid type key from a type tag" in {

@@ -40,7 +40,7 @@ private[persistence] class EntityToCasbahTranslator(
       def apply[B <: Assoc[_ <: RootEntity] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
         val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: RootEntity]]
  
-        // TODO pt 91220826: get rid of asInstanceOf by tightening type on repo pools and repo layers
+        // TODO pt-91220826: get rid of asInstanceOf by tightening type on repo pools and repo layers
         val associateeRepo = repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]
 
         input.asInstanceOf[associateeRepo.MongoId].objectId
@@ -76,9 +76,7 @@ private[persistence] class EntityToCasbahTranslator(
     : TraverseResult[A] = {
       val builder = new MongoDBObjectBuilder()
       result.foreach {
-        case (prop, propResult) =>
-          def pair[B : TypeKey] = prop.name -> propResult.asInstanceOf[B]
-          builder += pair(prop.typeKey)
+        case (prop, propResult) => builder += prop.name -> propResult
       }
       builder.result()
     }

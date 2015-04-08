@@ -28,7 +28,7 @@ class TypeKeyMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     display should equal (Display(1080))
   }
 
-  // TODO pt 86951076: more specs:
+  // TODO pt-86951076: more specs:
   // - identity example
   // - double-TP value type (like in ExtractorPool)
 

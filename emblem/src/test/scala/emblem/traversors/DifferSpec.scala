@@ -9,7 +9,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   lazy val differ = new Differ(emblemPool, extractorPool)
 
-  // TODO pt 89937096 pt 89942150 more specs for: 
+  // TODO pt-89937096 pt-89942150 more specs for: 
   // - emblems with embedded options, sets, and lists
   // - options, sets, and lists of emblems
   // - CouldNotTraverseException cases
@@ -77,7 +77,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "produce an empty Diffs when the values match" in {
 
-    // TODO pt 88572226: fix differ to handle Nil and None types. theres a similar case with Nil further down
+    // TODO pt-88572226: fix differ to handle Nil and None types. theres a similar case with Nil further down
     //differ.diff(None, None) should equal (Diffs())
 
     differ.diff(None: Option[Nothing], None: Option[Nothing]) should equal (Diffs())
@@ -114,7 +114,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "produce an empty Diffs when the values match" in {
 
-    // TODO pt 88572226: fix differ to handle Nil and None types. theres a similar case with None further up
+    // TODO pt-88572226: fix differ to handle Nil and None types. theres a similar case with None further up
     //differ.diff(Nil, Nil) should equal (Diffs())
 
     differ.diff(List(), List()) should equal (Diffs())
