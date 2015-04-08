@@ -6,8 +6,6 @@ import org.scalatest._
 /** [[TypeKey type key]] specifications */
 class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  // TODO pt-86950678: spec showing when TypeKeys are equal where TypeTags are not
-
   behavior of "the TypeKey constructor"
   it should "produce a valid type key from a type tag" in {
     val tag = typeTag[List[Int]]
@@ -44,6 +42,24 @@ class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     key1.hashCode should equal (key2.hashCode)
     key1 should not equal (key3)
     // key1 and key3 hashCodes are not guaranteed to differ!
+  }
+
+  object foo {
+    case class Bar(i: Int)
+    val tag = typeTag[Bar]
+    val key = typeKey[Bar]
+  }
+  
+  it should "treat two types as equal even when the type tags are not" in {
+    val tag = typeTag[foo.Bar]
+    val key = typeKey[foo.Bar]
+
+    (foo.tag.tpe =:= tag.tpe) should be (true)
+    (foo.key == key) should be (true)
+
+    // use of "should not" below is a little awkward. they should not be equal in the sense that there should
+    // be a case where two tags of the same type are not equal. otherwise, TypeKeys are useless wrappers of tags
+    foo.tag should not equal (tag)
   }
 
   behavior of "TypeKey.typeArgs"
