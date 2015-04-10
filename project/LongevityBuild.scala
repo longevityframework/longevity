@@ -54,7 +54,7 @@ trait BuildSettings {
 
 }
 
-object MusetteBuild extends Build with BuildSettings {
+object LongevityBuild extends Build with BuildSettings {
 
   lazy val root = Project(
     id = "root",
