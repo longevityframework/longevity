@@ -1,11 +1,11 @@
-Musette
-=======
+longevity
+=========
 
-A toy CMS project written in Scala.
+A Domain Driven Design persistence framework for Scala and MongoDB.
 
 Story board is here: https://www.pivotaltracker.com/n/projects/1231978
 
-Musette currently contains three subprojects:
+longevity currently contains three subprojects:
 
 - **emblem** - a metaprogramming library for managing types and reflecting case classes
 - **longevity** - a persistence library for Scala and Mongo
@@ -17,11 +17,11 @@ good examples in the Scaladocs and in the test suite.
 
 To use emblem, first clone the repository:
 
-    git clone https://github.com/sullivan-/musette.git
+    git clone https://github.com/sullivan-/longevity.git
 
 Then, compile the project and publish locally:
 
-    cd musette
+    cd longevity
     sbt "project emblem" publish-local
 
 Now you can use the project my including the following dependency in
