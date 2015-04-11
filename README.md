@@ -1,31 +1,20 @@
-longevity
-=========
+#longevity
 
 A Domain Driven Design persistence framework for Scala and MongoDB.
 
-Story board is here: https://www.pivotaltracker.com/n/projects/1231978
+This project is still in early development. A minimum marketable
+product (MMP) - that is, the earliest version suitable for your use - is
+currently projected for release in mid June. Please be aware that this
+is only my best estimate. If you want to track progress, take a look
+at [my story
+board](https://www.pivotaltracker.com/n/projects/1231978). The
+longevity 0.2 release is my MMP.
 
 longevity currently contains three subprojects:
 
 - **emblem** - a metaprogramming library for managing types and reflecting case classes
-- **longevity** - a persistence library for Scala and Mongo
+- **longevity** - a DDD persistence frameowkr for Scala and MongoDB
 - **musette** - a content resource management system
 
-Out of the three, emblem is the only one close to ready for general
-use. There isn't any external documentation yet, but there are some
-good examples in the Scaladocs and in the test suite.
-
-To use emblem, first clone the repository:
-
-    git clone https://github.com/sullivan-/longevity.git
-
-Then, compile the project and publish locally:
-
-    cd longevity
-    sbt "project emblem" publish-local
-
-Now you can use the project my including the following dependency in
-your project:
-
-    libraryDependencies += "net.jsmscs" %% "emblem" % "0.0.0-SNAPSHOT"
-
+emblem is a utility library used by longevity, and you can think of
+musette as a flagship project that makes use of longevity.
