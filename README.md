@@ -5,7 +5,7 @@ A Domain Driven Design persistence framework for Scala and MongoDB.
 This project is still in early development. A [minimum marketable
 product
 (MMP)](http://www.romanpichler.com/blog/minimum-viable-product-and-minimal-marketable-product/)
-- that is, the earliest version suitable for your use - is currently
+\- that is, the earliest version suitable for your use - is currently
 projected for release in mid June. Please be aware that this is only
 my best estimate. If you want to track progress, take a look at [my
 story board](https://www.pivotaltracker.com/n/projects/1231978). The
