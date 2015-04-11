@@ -3,9 +3,9 @@ package emblem
 import emblem.factories.EmblemFactory
 import scala.reflect.runtime.universe.TypeTag
 
-/** A reflective signature for a type. Provides name information, [[EmblemProp properties]],
- * and a tools used to build new instances. The underlying type is treated as immutable, so each property
- * provides a setter that returns a new instance. New instances can be built using a [[HasEmblemBuilder]]
+/** a reflective signature for a type. provides name information, [[EmblemProp properties]],
+ * and a tool used to build new instances. the underlying type is treated as immutable, so each property
+ * provides a setter that returns a new instance. new instances can be built using a [[HasEmblemBuilder]]
  * returned by method [[builder]].
  *
  * @tparam T the type that this emblem reflects upon
@@ -23,7 +23,7 @@ case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
 ) {
 
   /** A [[TypeKey type key]] for the type that this emblem reflects upon */
-  lazy val typeKey: TypeKey[T] = implicitly[TypeKey[T]]
+  lazy val typeKey: TypeKey[T] = emblem.typeKey[T]
 
   /** the fully qualified type name */
   lazy val fullname = s"$namePrefix.$name"
@@ -47,7 +47,7 @@ case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
   /** creates and returns a new builder for constructing new instances */
   def builder(): HasEmblemBuilder[T] = new HasEmblemBuilder[T](creator)
 
-  /** A string describing the emblem in full detail */
+  /** a string describing the emblem in full detail */
   lazy val debugInfo = {
     val builder = new StringBuilder()
     builder ++= s"$fullname {\n"

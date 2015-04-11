@@ -1,6 +1,6 @@
 package emblem.exceptions
 
-/** An exception that is thrown on attempt to construct a [[ExtractorPool]] with more than one [[Extractor]]
+/** an exception that is thrown on attempt to construct a [[ExtractorPool]] with more than one [[Extractor]]
  * for the same `Range` type.
  */
 class DuplicateExtractorsException

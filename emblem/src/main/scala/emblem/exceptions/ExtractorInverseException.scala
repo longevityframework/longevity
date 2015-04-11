@@ -2,7 +2,7 @@ package emblem.exceptions
 
 import emblem.TypeKey
 
-/** an exception thrown by a [[emblem.traversors.Traversor]], or one of its cousins in the
+/** an exception thrown by a [[emblem.traversors.Traversor Traversor]], or one of its cousins in the
  * [[emblem.traversors emblem.traversors package]], when invoking [[emblem.Extractor.inverse]] throws
  * exception
  */

@@ -39,9 +39,7 @@ private[emblem] abstract class BaseTypeBoundMap[
                          forSome { type TypeParam <: TypeBound }] = {
     underlying.iterator.map { pair =>
 
-      // this is a lie: TypeParam is not the same as TypeBound. but the TypeParam type will be discarded before
-      // this loop iter completes, so nobody will ever know the difference.
-      type TypeParam = TypeBound
+      type TypeParam = TP forSome { type TP <: TypeBound }
 
       TypeBoundPair[TypeBound, Key, Val, TypeParam](
         pair._1.asInstanceOf[Key[TypeParam]],
@@ -52,8 +50,7 @@ private[emblem] abstract class BaseTypeBoundMap[
   /** collects all keys of this map in an iterable collection.
    * @return the keys of this map as an iterable.
    */
-  def keys: Iterable[Key[TypeParam] forSome { type TypeParam <: TypeBound }] =
-    underlying.keys.asInstanceOf[Iterable[Key[_ <: TypeBound]]]
+  def keys: Iterable[Key[_ <: TypeBound]] = underlying.keys.asInstanceOf[Iterable[Key[_ <: TypeBound]]]
 
   /** the number of key/value bindings in this map */
   def size = underlying.size
@@ -61,19 +58,19 @@ private[emblem] abstract class BaseTypeBoundMap[
   /** collects all values of this map in an iterable collection.
    * @return the values of this map as an iterable.
    */
-  def values: collection.Iterable[Val[TypeParam] forSome { type TypeParam <: TypeBound }] =
-    underlying.values.asInstanceOf[Iterable[Val[TypeParam] forSome { type TypeParam <: TypeBound }]]
+  def values: collection.Iterable[Val[_ <: TypeBound]] =
+    underlying.values.asInstanceOf[Iterable[Val[_ <: TypeBound]]]
 
   protected def mapValuesUnderlying[
     TypeBound2 >: TypeBound,
     Val2[_ <: TypeBound2]](
     f: WideningTypeBoundFunction[TypeBound, TypeBound2, Val, Val2])
   : Map[Any, Any] = {
-    def mapValue[TypeParam <: TypeBound](value1: Val[TypeParam]): Val2[TypeParam] = {
-      f.apply[TypeParam](value1)
+    def mapValue[TypeParam <: TypeBound](value: Val[TypeParam]): Val2[TypeParam] = {
+      f.apply[TypeParam](value)
     }
-    underlying.mapValues { value1 =>
-      mapValue(value1.asInstanceOf[Val[_ <: TypeBound]])
+    underlying.mapValues { value =>
+      mapValue(value.asInstanceOf[Val[_ <: TypeBound]])
     }
   }
 
