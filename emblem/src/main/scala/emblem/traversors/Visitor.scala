@@ -6,19 +6,7 @@ import emblem.exceptions.CouldNotVisitException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.Visitor._
 
-/** holds types and zero values used by the [[Visitor generators]] */
-object Visitor {
-
-  /** a [[TypeKeyMap]] for [[CustomVisitor generator functions]] */
-  type CustomVisitorPool = TypeKeyMap[Any, CustomVisitor]
-
-  object CustomVisitorPool {
-
-    /** an empty map of [[CustomVisitor generator functions]] */
-    def empty: CustomVisitorPool = TypeKeyMap[Any, CustomVisitor]
-  }
-
-}
+// TODO pt-92300784 VisitorSpec
 
 /** recursively visits a data structure by type.
  *
@@ -30,7 +18,7 @@ object Visitor {
  */
 trait Visitor {
 
-  /** visits an element of type A
+  /** visits an element of type `A`
    * @throws emblem.exceptions.CouldNotVisitException when it encounters a type it doesn't know how to
    * visit
    */
@@ -52,7 +40,7 @@ trait Visitor {
   /** visits a boolean */
   protected def visitBoolean(input: Boolean): Unit = {}
 
-  /** visits a chat */
+  /** visits a char */
   protected def visitChar(input: Char): Unit = {}
 
   /** visits a double */
@@ -140,6 +128,20 @@ trait Visitor {
 
     protected def unstageListElements[A : TypeKey](input: List[A], result: Iterator[Unit]): Unit = ()
 
+  }
+
+}
+
+/** holds types and zero values used by the [[Visitor visitors]] */
+object Visitor {
+
+  /** a [[TypeKeyMap]] for [[CustomVisitor visitor functions]] */
+  type CustomVisitorPool = TypeKeyMap[Any, CustomVisitor]
+
+  object CustomVisitorPool {
+
+    /** an empty map of [[CustomVisitor visitor functions]] */
+    def empty: CustomVisitorPool = TypeKeyMap[Any, CustomVisitor]
   }
 
 }

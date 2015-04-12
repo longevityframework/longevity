@@ -7,7 +7,8 @@ import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
 
 /** a useful scope to hang on to various data to be shared across methods, so we don't have to recompute them
- * or pass them around in massive parameter lists */
+ * or pass them around in massive parameter lists
+ */
 private[emblem] abstract class ReflectiveFactory[A : TypeKey] {
 
   protected val key = implicitly[TypeKey[A]]

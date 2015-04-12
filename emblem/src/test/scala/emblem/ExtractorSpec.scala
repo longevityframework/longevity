@@ -3,6 +3,8 @@ package emblem
 import org.scalatest._
 import emblem.exceptions._
 
+// TODO rename. more info in scaladoc copy from EmblemForSpec
+
 /** [[Extractor extractor]] specifications */
 class ExtractorSpec extends FlatSpec with GivenWhenThen with Matchers {
 

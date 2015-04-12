@@ -2,7 +2,7 @@ package emblem
 
 import scala.language.higherKinds
 
-/** Like a [[TypeBoundFunction]], except that the type bound for the return value is wider than the type bound
+/** like a [[TypeBoundFunction]], except that the type bound for the return value is wider than the type bound
  * for the argument. This is useful for `mapWiden` and `mapValuesWiden` methods in [[TypeKeyMap]] and
  * [[TypeBoundMap]] that return a map with a wider type bound than the original.
  * 

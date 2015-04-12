@@ -7,31 +7,17 @@ import emblem.exceptions.ExtractorInverseException
 import emblem.imports._
 import emblem.traversors.Generator._
 
-/** holds types and zero values used by the [[Generator generators]] */
-object Generator {
-
-  /** a [[TypeKeyMap]] for [[CustomGenerator generator functions]] */
-  type CustomGeneratorPool = TypeKeyMap[Any, CustomGenerator]
-
-  object CustomGeneratorPool {
-
-    /** an empty map of [[CustomGenerator generator functions]] */
-    val empty: CustomGeneratorPool = TypeKeyMap[Any, CustomGenerator]()
-  }
-
-}
-
 /** recursively generates a data structure by type.
  *
  * you can generate arbritrary data to your liking by implementing the protected vals and defs in this
  * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
  * sorry about that.
  *
- * @see [[TestDataGenerator]]
+ * @see [[TestDataGenerator]] for an example usage
  */
 trait Generator {
 
-  /** generates data for the specified type A
+  /** generates data for the specified type `A`
    * @tparam A the type of data to generate
    * @return the generated data
    * @throws emblem.exceptions.CouldNotGenerateException when we encounter a type in the recursive traversal
@@ -158,6 +144,20 @@ trait Generator {
     protected def unstageListElements[A : TypeKey](input: Unit, result: Iterator[A]): List[A] =
       result.toList
 
+  }
+
+}
+
+/** holds types and zero values used by the [[Generator generators]] */
+object Generator {
+
+  /** a [[TypeKeyMap]] for [[CustomGenerator generator functions]] */
+  type CustomGeneratorPool = TypeKeyMap[Any, CustomGenerator]
+
+  object CustomGeneratorPool {
+
+    /** an empty map of [[CustomGenerator generator functions]] */
+    val empty: CustomGeneratorPool = TypeKeyMap[Any, CustomGenerator]()
   }
 
 }

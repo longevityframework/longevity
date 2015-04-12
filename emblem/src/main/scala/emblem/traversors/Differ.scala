@@ -4,50 +4,6 @@ import Differ._
 import emblem.imports._
 import scala.reflect.runtime.universe.typeOf
 
-object Differ {
-
-  /** a diff encountered by the [[Differ]].
-   * @param path the path from the root where the diff was encountered
-   * @param lhs the left-hand side value
-   * @param rhs the right-hand side value
-   */
-  case class Diff(path: String, lhs: Any, rhs: Any)
-
-  /** a sequence of [[Diff diffs]] */
-  type Diffs = Seq[Diff]
-
-  /** generator methods for Diffs */
-  object Diffs {
-
-    /** Creates and returns a set of diffs */
-    def apply(diffs: Diff*): Diffs = Seq[Diff](diffs: _*)
-  }
-
-  /** A textual explanation of a [[Diffs sequence of diffs]].
-   * @param diffs the diffs
-   * @param goryDetails when true, the explanation is expanded by including the left- and right-hand side
-   * values of the diffs encountered
-   * @return the textual explanation
-   */
-  def explainDiffs(diffs: Diffs, goryDetails: Boolean = false): String = {
-    if (diffs.isEmpty)
-      "lhs and rhs have no diffs"
-    else {
-      val builder = new StringBuilder
-      builder.append("lhs and rhs have the following diffs:\n")
-      diffs.foreach { diff =>
-        builder.append(s" - lhs${diff.path} != rhs${diff.path}\n")
-        if (goryDetails) {
-          builder.append(s"     lhs${diff.path} = ${diff.lhs}\n")
-          builder.append(s"     rhs${diff.path} = ${diff.rhs}\n")
-        }
-      }
-      builder.toString
-    }
-  }
-
-}
-
 /** recursively computes a sequence of [[Differ.Diff diffs]] between two different values of the same type.
  * 
  * we kind of have to bail on traversing sets, since there is no obvious way to pull out matching pairs
@@ -185,6 +141,50 @@ class Differ(
         Seq(Diff(input.path + ".size", input.lhs.size, input.rhs.size))
       }
 
+  }
+
+}
+
+object Differ {
+
+  /** a diff encountered by the [[Differ]].
+   * @param path the path from the root where the diff was encountered
+   * @param lhs the left-hand side value
+   * @param rhs the right-hand side value
+   */
+  case class Diff(path: String, lhs: Any, rhs: Any)
+
+  /** a sequence of [[Diff diffs]] */
+  type Diffs = Seq[Diff]
+
+  /** generator methods for Diffs */
+  object Diffs {
+
+    /** creates and returns a set of diffs */
+    def apply(diffs: Diff*): Diffs = Seq[Diff](diffs: _*)
+  }
+
+  /** a textual explanation of a [[Diffs sequence of diffs]].
+   * @param diffs the diffs
+   * @param goryDetails when true, the explanation is expanded by including the left- and right-hand side
+   * values of the diffs encountered
+   * @return the textual explanation
+   */
+  def explainDiffs(diffs: Diffs, goryDetails: Boolean = false): String = {
+    if (diffs.isEmpty)
+      "lhs and rhs have no diffs"
+    else {
+      val builder = new StringBuilder
+      builder.append("lhs and rhs have the following diffs:\n")
+      diffs.foreach { diff =>
+        builder.append(s" - lhs${diff.path} != rhs${diff.path}\n")
+        if (goryDetails) {
+          builder.append(s"     lhs${diff.path} = ${diff.lhs}\n")
+          builder.append(s"     rhs${diff.path} = ${diff.rhs}\n")
+        }
+      }
+      builder.toString
+    }
   }
 
 }

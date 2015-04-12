@@ -2,7 +2,7 @@ package emblem
 
 import org.scalatest._
 
-/** [[stringUtil string util]] specifications */
+/** [[stringUtil]] specifications */
 class StringUtilSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import stringUtil._

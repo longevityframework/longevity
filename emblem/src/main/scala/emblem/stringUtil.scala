@@ -21,8 +21,7 @@ object stringUtil {
     }
   }
 
-  /** takes a camel cased identifier name and returns an underscore separated
-   * name.
+  /** takes a camel cased identifier name and returns an underscore separated name.
    *
    * example:
    *     camelToUnderscores("ThisIsA1Test") == "this_is_a_1_test"

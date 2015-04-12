@@ -8,7 +8,7 @@ import emblem.reflectionUtil.makeTypeTag
  * according to method `=:=` in `scala.reflect.api.Types.Type`. The [[hashCode]] method does its best to
  * produce unique hash values, and always produces values compatible with [[equals]].
  *
- * Type keys are provided by an implicit method in [[emblem package emblem]], so you can get one implicitly
+ * type keys are provided by an implicit method in [[emblem package emblem]], so you can get one implicitly
  * like so:
  *
  * {{{
@@ -17,13 +17,13 @@ import emblem.reflectionUtil.makeTypeTag
  * }
  * }}}
  *
- * Or you can get one explicitly like so:
+ * or you can get one explicitly like so:
  *
  * {{{
  * val key = emblem.typeKey[List[String]]
  * }}}
  *
- * Or if you already have a `TypeTag` at hand:
+ * or if you already have a `TypeTag` at hand:
  *
  * {{{
  * val tag: TypeTag[A] = ???
@@ -35,9 +35,10 @@ import emblem.reflectionUtil.makeTypeTag
  */
 case class TypeKey[A](val tag: TypeTag[A]) {
 
-  /** The scala-reflect `Type` for type `A` */
+  /** the scala-reflect `Type` for type `A` */
   def tpe: Type = tag.tpe
 
+  /** a list of type keys for the type arguments of this type */
   lazy val typeArgs: List[TypeKey[_]] = tpe.typeArgs map { tpe => TypeKey(makeTypeTag(tpe)) }
 
   /** if `B` is a lower bound to type `A`, then return `this` cast to `TypeKey[_ >: B]`, wrapped in an option.

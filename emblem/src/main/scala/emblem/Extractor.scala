@@ -56,8 +56,8 @@ object Extractor {
    *
    * @tparam Domain the domain type
    * @tparam Range the range type
-   * @throws emblem.exceptions.GeneratorException when `Range` is not a stable case class with a single
-   * parameter list
+   * @throws emblem.exceptions.GeneratorException when `Domain` is not a stable case class with a single
+   * parameter list, or when `Range` does not match the parameter of the `Domain`
    */
   def apply[Domain : TypeKey, Range : TypeKey]: Extractor[Domain, Range] =
     new ExtractorFactory[Domain, Range].generate

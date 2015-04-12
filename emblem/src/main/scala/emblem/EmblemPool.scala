@@ -4,9 +4,10 @@ import emblem.exceptions.DuplicateEmblemsException
 
 object EmblemPool {
 
-  /** Collects a sequence of [[Emblem emblems]] into a [[EmblemPool]].
-   * @param emblems the sequence of emblems stored in the pool
-   * @throws emblem.exceptions.DuplicateEmblemsException when two or more of the Emblems have the same Long type
+  /** collects a sequence of [[Emblem emblems]] into an [[EmblemPool]].
+   * @param emblems the sequence of emblems to store in the pool
+   * @throws emblem.exceptions.DuplicateEmblemsException when two or more of the Emblems have the same HasEmblem
+   * type
    */
   def apply(emblems: Emblem[_ <: HasEmblem]*): EmblemPool = {
     val map: EmblemPool = emblems.foldLeft(TypeKeyMap[HasEmblem, Emblem]()) {

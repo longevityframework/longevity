@@ -7,33 +7,6 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.Transformer._
 
-/** holds types and zero values used by the [[Transformer transformers]], and supplies the API for custom
- * tranformers */
-object Transformer {
-
-  /** a custom transformer of things of type A */
-  trait CustomTransformer[A] {
-
-    /** transforms an element of type B
-     * @tparam B the type of element to transform. a subtype of A
-     * @param transformer the [[Transformer]] that is delegating this call to us
-     * @param input the element to transform
-     */
-    def apply[B <: A : TypeKey](transformer: Transformer, input: B): B
-
-  }
-
-  /** a [[TypeKeyMap]] for [[CustomTransformer transformer functions]] */
-  type CustomTransformerPool = TypeKeyMap[Any, CustomTransformer]
-
-  object CustomTransformerPool {
-
-    /** an empty map of [[CustomTransformer transformer functions]] */
-    def empty: CustomTransformerPool = TypeKeyMap[Any, CustomTransformer]()
-  }
-
-}
-
 /** recursively tranforms a data structure by type. the input and the output of the transformation
  * have the same type.
  *
@@ -41,13 +14,13 @@ object Transformer {
  * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
  * sorry about that.
  *
- * the only usage example as of now, longevity.testUtil.PersistedToUnpersistedTransformer, lives outside of
+ * the only usage example as of now, `longevity.testUtil.PersistedToUnpersistedTransformer`, lives outside of
  * emblem project, in sibling project longevity. it might give you some ideas in how to use, but then so will
  * other traversors in this directory.
  */
 trait Transformer {
 
-  /** transforms an element of type A
+  /** transforms an element of type `A`
    * @throws emblem.exceptions.CouldNotTransformException when it encounters a type it doesn't know how to
    * transform
    */
@@ -154,19 +127,44 @@ trait Transformer {
 
     protected def stageOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
 
-    protected def unstageOptionValue[A : TypeKey](input: Option[A], result: Option[A]): Option[A] =
-      result
+    protected def unstageOptionValue[A : TypeKey](input: Option[A], result: Option[A]): Option[A] = result
 
     protected def stageSetElements[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
 
-    protected def unstageSetElements[A : TypeKey](input: Set[A], result: Iterator[A]): Set[A] =
-      result.toSet
+    protected def unstageSetElements[A : TypeKey](input: Set[A], result: Iterator[A]): Set[A] = result.toSet
 
     protected def stageListElements[A : TypeKey](input: List[A]): Iterator[A] = input.iterator
 
-    protected def unstageListElements[A : TypeKey](input: List[A], result: Iterator[A]): List[A] =
-      result.toList
+    protected def unstageListElements[A : TypeKey](input: List[A], result: Iterator[A]): List[A] = result.toList
 
+  }
+
+}
+
+/** holds types and zero values used by the [[Transformer transformers]], and supplies the API for custom
+ * tranformers
+ */
+object Transformer {
+
+  /** a custom transformer of things of type A */
+  trait CustomTransformer[A] {
+
+    /** transforms an element of type `B`
+     * @tparam B the type of element to transform. a subtype of `A`
+     * @param transformer the [[Transformer]] that is delegating this call to us
+     * @param input the element to transform
+     */
+    def apply[B <: A : TypeKey](transformer: Transformer, input: B): B
+
+  }
+
+  /** a [[TypeKeyMap]] for [[CustomTransformer transformer functions]] */
+  type CustomTransformerPool = TypeKeyMap[Any, CustomTransformer]
+
+  object CustomTransformerPool {
+
+    /** an empty map of [[CustomTransformer transformer functions]] */
+    def empty: CustomTransformerPool = TypeKeyMap[Any, CustomTransformer]()
   }
 
 }

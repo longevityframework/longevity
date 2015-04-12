@@ -2,6 +2,8 @@ package emblem
 
 import org.scalatest._
 
+// TODO pt-92300898 reorg specs for TypeKeyMap and TypeBoundMap
+
 /** specifications for methods common to [[TypeKeyMap]] and [[TypeBoundMap]] found in [[BaseTypeBoundMap]]. */
 class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 

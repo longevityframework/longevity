@@ -26,7 +26,7 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
          |}""".stripMargin)
   }
 
-  behavior of "Emblem.apply"
+  behavior of "Emblem.apply(String)"
 
   it should "return untyped properties" in {
     val xProp = pointEmblem("x")

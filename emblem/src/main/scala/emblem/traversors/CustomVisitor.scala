@@ -2,13 +2,13 @@ package emblem.traversors
 
 import emblem.TypeKey
 
-/** A custom visitor for elements of type A. The apply method takes a type parameter that is tighter than
- * A, and acquires a [[TypeKey]] for that type, so it can customize its behavior based on the type requested.
+/** a custom visitor for elements of type `A`. the `apply` method takes a type parameter that is tighter than
+ * `A`, and acquires a [[TypeKey]] for that type, so it can customize its behavior based on the type requested.
  *
- * The apply method also takes a [[Visitor]] as argument, so that it can call back into to the calling
- * Visitor to visit complex values.
+ * the apply method also takes a [[Visitor]] as argument, so that it can call back into to the calling
+ * `Visitor` to visit complex values.
  *
- * Example usage:
+ * example usage:
  *
  * {{{
  * // only visit the first five elements of a list

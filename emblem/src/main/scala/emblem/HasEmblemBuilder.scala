@@ -1,6 +1,6 @@
 package emblem
 
-/** A builder of objects that [[HasEmblem have an emblem]].
+/** a builder of objects that [[HasEmblem have an emblem]].
  *
  * @tparam T the type of the object to build
  */

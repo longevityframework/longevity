@@ -2,20 +2,8 @@ package emblem
 
 import scala.language.higherKinds
 
-object TypeBoundMap {
-
-  /** creates and returns an empty [[TypeBoundMap]] for the supplied types.
-   * @tparam TypeBound the upper bound on the type parameters passed into the Key and Value types
-   * @tparam Key the parameterized type of the keys in the map
-   * @tparam Val the parameterized type of the values in the map
-   */
-  def apply[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]](): TypeBoundMap[TypeBound, Key, Val] =
-    new TypeBoundMap[TypeBound, Key, Val](Map.empty)
-
-}
-
-/** a map where the types for keys and values share a type parameter with the same bounds. The key and value
- * of each key/value pair are constrained to match on that type parameter. For example, I might have some pet
+/** a map where the types for keys and values share a type parameter with the same bounds. the key and value
+ * of each key/value pair are constrained to match on that type parameter. for example, we might have some pet
  * stores that only cater to a single kind of pet:
  *
  * {{{
@@ -29,7 +17,7 @@ object TypeBoundMap {
  * val dogStore1 = new PetStore[Dog]
  * }}}
  *
- * We can use a `TypeBoundMap` to store a list of pets of the appropriate type for every pet store:
+ * we can use a `TypeBoundMap` to store a list of pets of the appropriate type for every pet store:
  *
  * {{{
  * var inventories = TypeBoundMap[Pet, PetStore, List]
@@ -38,7 +26,7 @@ object TypeBoundMap {
  * inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
  * }}}
  *
- * Now we can look up pet lists by pet store, with everything coming back as the expected type:
+ * now we can look up pet lists by pet store, with everything coming back as the expected type:
  * 
  * {{{
  * val cats1: List[Cat] = inventories(catStore1)
@@ -54,10 +42,10 @@ object TypeBoundMap {
  * dog should equal (Dog("dog11"))
  * }}}
  *
- * Note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
+ * note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
  * each pair needs to be type-checked separately.
  *
- * (Code presented here is in TypeBoundMapSpec.scala, up at the top)
+ * (the code presented here is in TypeBoundMapSpec.scala, up at the top)
  * 
  * @tparam TypeBound the upper bound on the type parameters passed to the Key and Val types
  * @tparam Key the parameterized type of the keys in the map
@@ -77,7 +65,7 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
 
   /** optionally returns the value associated with the given key
    * @tparam TypeParam the type param bounding both the key and the value
-   * @return an option value containing the value associated with type key in this map, or None if none
+   * @return an option value containing the value associated with type key in this map, or `None` if none
    * exists.
    */
   def get[TypeParam <: TypeBound](key: Key[TypeParam]): Option[Val[TypeParam]] =
@@ -94,8 +82,9 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
     key: Key[TypeParam], default: => Val[TypeParam]): Val[TypeParam] =
     underlying.getOrElse(key, default).asInstanceOf[Val[TypeParam]]
 
-  /** adds a key/value pair to this map, returning a new map. Both the key and the value are bound by the same
+  /** adds a key/value pair to this map, returning a new map. both the key and the value are bound by the same
    * type param.
+   * 
    * @param pair the key/value pair
    * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[TypeParam])`
    * @tparam TypeParam the type param bounding both the key and the value
@@ -115,7 +104,7 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
 
   /** transforms this map by applying a function to every retrieved value.
    * @param f the function used to transform values of this map.
-   * @return a map which maps every key of this map to f(this(key)).
+   * @return a map which maps every key of this map to `f(this(key))`.
    */
   def mapValues[
     Val2[_ <: TypeBound]](
@@ -135,5 +124,17 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
   override def equals(that: Any) =
     that.isInstanceOf[TypeBoundMap[TypeBound, Key, Val]] &&
     that.asInstanceOf[TypeBoundMap[TypeBound, Key, Val]].underlying == underlying
+
+}
+
+object TypeBoundMap {
+
+  /** creates and returns an empty [[TypeBoundMap]] for the supplied types.
+   * @tparam TypeBound the upper bound on the type parameters passed into the Key and Value types
+   * @tparam Key the parameterized type of the keys in the map
+   * @tparam Val the parameterized type of the values in the map
+   */
+  def apply[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]](): TypeBoundMap[TypeBound, Key, Val] =
+    new TypeBoundMap[TypeBound, Key, Val](Map.empty)
 
 }

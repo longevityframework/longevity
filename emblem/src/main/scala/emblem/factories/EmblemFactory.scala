@@ -8,10 +8,10 @@ import emblem.exceptions._
 import emblem.stringUtil._
 import emblem.reflectionUtil.makeTypeTag
 
-/** Generates an [[Emblem emblem]] from the corresponding [[TypeKey]] */
+/** generates an [[Emblem]] from the corresponding [[TypeKey]] */
 private[emblem] class EmblemFactory[A <: HasEmblem : TypeKey] extends ReflectiveFactory[A] {
 
-  /** Generates the emblem */
+  /** generates the emblem */
   def generate: Emblem[A] = Emblem[A](
     typeNamePrefix(tpe),
     typeName(tpe),

@@ -2,18 +2,7 @@ package emblem
 
 import scala.language.higherKinds
 
-object TypeKeyMap {
-
-  /** Creates and returns an empty [[TypeKeyMap]] for the supplied types
-   * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
-   * @tparam Val the parameterized type of the values in the map
-   */
-  def apply[TypeBound, Val[_ <: TypeBound]](): TypeKeyMap[TypeBound, Val] =
-    new TypeKeyMap[TypeBound, Val](Map.empty)
-
-}
-
-/** A map where the keys are [[TypeKey TypeKeys]] with an upper bound, and the values have a type parameter
+/** a map where the keys are [[TypeKey type keys]] with an upper bound, and the values have a type parameter
  * with the same bound. The key and value of each key/value pair are constrained to match on that type
  * parameter. For example, suppose we are maintaining an inventory of computer parts:
  *
@@ -24,7 +13,7 @@ object TypeKeyMap {
  * case class Display(resolution: Int) extends ComputerPart
  * }}}
  * 
- * We can use a `TypeKeyMap` to store a list of parts for each kind of part:
+ * we can use a `TypeKeyMap` to store a list of parts for each kind of part:
  *
  * {{{
  * var partLists = TypeKeyMap[ComputerPart, List]()
@@ -33,7 +22,7 @@ object TypeKeyMap {
  * partLists += Display(720) :: Display(1080) :: Nil
  * }}}
  *
- * Now we can look up part lists by part type, with everything coming back as the expected type:
+ * now we can look up part lists by part type, with everything coming back as the expected type:
  * 
  * {{{
  * val memories: List[Memory] = partLists[Memory]
@@ -49,10 +38,10 @@ object TypeKeyMap {
  * display should equal (Display(1080))
  * }}}
  *
- * Note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
+ * note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
  * each pair needs to be type-checked separately.
  *
- * (Code presented here is in TypeKeyMapSpec.scala, up at the top)
+ * (code presented here is in TypeKeyMapSpec.scala, up at the top)
  * 
  * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
  * @tparam Val the parameterized type of the values in the map
@@ -105,14 +94,14 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](underlying + pair)
 
-  /** adds a typekey/value pair to this map, returning a new map. The type key is inferred from the type of
+  /** adds a typekey/value pair to this map, returning a new map. the type key is inferred from the type of
    * the supplied value.
    *
-   * PLEASE NOTE: Using this method when your `Val` type is contravariant in its type parameter will not
-   * do what you might expect! When the compiler infers type parameter `[TypeParam <: TypeBound]` from an
+   * PLEASE NOTE: using this method when your `Val` type is contravariant in its type parameter will not
+   * do what you might expect! when the compiler infers type parameter `[TypeParam <: TypeBound]` from an
    * argument of type `Contra[TypeParam]`, where type `Contra` is defined as, e.g., `trait Contra[+T]`,
-   * it's always going to infer `TypeBound` as the `TypeParam`. There seems to be nothing I can do within
-   * `TypeKeyMap` to circumvent this. The easiest way to work around this problem is to specify the type key
+   * it's always going to infer `TypeBound` as the `TypeParam`. there seems to be nothing I can do within
+   * `TypeKeyMap` to circumvent this. the easiest way to work around this problem is to specify the type key
    * yourself with [[TypeKeyMap.+[TypeParam<:TypeBound,ValTypeParam<:TypeBound]* the alternate method +]].
    *
    * @param value the value to add to the map
@@ -148,8 +137,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
    */
   def mapValues[NewVal[_ <: TypeBound]](f: TypeBoundFunction[TypeBound, Val, NewVal])
   : TypeKeyMap[TypeBound, NewVal] = 
-    new TypeKeyMap[TypeBound, NewVal](
-      mapValuesUnderlying[TypeBound, NewVal](f))
+    new TypeKeyMap[TypeBound, NewVal](mapValuesUnderlying[TypeBound, NewVal](f))
 
   /** transforms this type key map into a type key map with a wider type bound by applying a function to every
    * retrieved value.
@@ -157,7 +145,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
    * @tparam WiderTypeBound the new type bound for the resulting map
    * @tparam NewVal the new value type for the resulting map
    * @param f the function used to transform values of this map.
-   * @return a map which maps every key of this map to f(this(key)).
+   * @return a map which maps every key of this map to `f(this(key))`.
    */
   def mapValuesWiden[
     WiderTypeBound >: TypeBound,
@@ -181,5 +169,16 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
 
   /** a string representation of a TypeKeyMap */
   override def toString = s"TypeKey${underlying}"
+
+}
+
+object TypeKeyMap {
+
+  /** creates and returns an empty [[TypeKeyMap]] for the supplied types
+   * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
+   * @tparam Val the parameterized type of the values in the map
+   */
+  def apply[TypeBound, Val[_ <: TypeBound]](): TypeKeyMap[TypeBound, Val] =
+    new TypeKeyMap[TypeBound, Val](Map.empty)
 
 }
