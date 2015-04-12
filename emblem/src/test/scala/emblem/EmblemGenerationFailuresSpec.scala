@@ -3,14 +3,11 @@ package emblem
 import org.scalatest._
 import emblem.exceptions._
 
-// TODO rename to EmblemFactorySpec. or maybe EmblemApplySpec
-
-/** [[Emblem emblem.Emblem.apply]] specifications.
+/** specifications for cases where [[Emblem.apply Emblem generation]] should fail.
  *
- * non-error cases for emblem generation are covered elsewhere in the test suite. here, we cover [[Emblem]]
- * error cases.
+ * non-error cases for emblem generation are covered elsewhere in the test suite.
  */
-class EmblemForSpec extends FlatSpec with GivenWhenThen with Matchers {
+class EmblemGenerationFailuresSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import emblem.testData.genFailure._
 

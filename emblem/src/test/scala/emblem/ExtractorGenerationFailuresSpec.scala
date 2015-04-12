@@ -3,10 +3,11 @@ package emblem
 import org.scalatest._
 import emblem.exceptions._
 
-// TODO rename. more info in scaladoc copy from EmblemForSpec
-
-/** [[Extractor extractor]] specifications */
-class ExtractorSpec extends FlatSpec with GivenWhenThen with Matchers {
+/** specifications for cases where [[Extractor.apply Extractor generation]] should fail.
+ *
+ * non-error cases for emblem generation are covered elsewhere in the test suite.
+ */
+class ExtractorGenerationFailuresSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import emblem.testData.genFailure._
   import emblem.testData.extractors._
