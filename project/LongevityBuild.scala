@@ -3,26 +3,35 @@ import Keys._
 
 trait BuildSettings {
 
-  val githubUrl = "https://github.com/sullivan-/musette"
+  val githubUrl = "https://github.com/sullivan-/longevity"
+
+  val nonConsoleScalacOptions = Seq(
+    "-Xfatal-warnings",
+    "-Ywarn-unused-import")
+
+  val otherScalacOptions = Seq(
+    "-Xfuture",
+    "-Yno-adapted-args",
+    "-Ywarn-numeric-widen",
+    "-Ywarn-unused-import",
+    "-deprecation",
+    "-encoding", "UTF-8",
+    "-feature",
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-unchecked")
 
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "net.jsmscs",
     scalaVersion := "2.11.5",
 
     // compile
-    scalacOptions ++= Seq(
-      "-deprecation",
-      "-encoding", "UTF-8",
-      "-feature",
-      "-language:existentials",
-      "-language:higherKinds",
-      "-language:implicitConversions",
-      "-unchecked",
-      "-Xfatal-warnings",
-      "-Yno-adapted-args",
-      "-Ywarn-numeric-widen",
-      "-Xfuture",
-      "-Ywarn-unused-import"),
+    scalacOptions ++= nonConsoleScalacOptions ++ otherScalacOptions,
+
+    // console
+    scalacOptions in (Compile, console) ~= (_ filterNot (nonConsoleScalacOptions.contains(_))),
+    scalacOptions in (Test, console) ~= (_ filterNot (nonConsoleScalacOptions.contains(_))),
 
     // scaladoc
     scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-encoding", "UTF-8"),
