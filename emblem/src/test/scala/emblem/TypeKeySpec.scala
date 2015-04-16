@@ -46,6 +46,7 @@ class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   object foo {
     case class Bar(i: Int)
+    type Baz = Bar
     val tag = typeTag[Bar]
     val key = typeKey[Bar]
   }
@@ -60,6 +61,9 @@ class TypeKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     // use of "should not" below is a little awkward. they should not be equal in the sense that there should
     // be a case where two tags of the same type are not equal. otherwise, TypeKeys are useless wrappers of tags
     foo.tag should not equal (tag)
+
+    typeKey[foo.Baz] should equal (typeKey[foo.Bar])
+    typeTag[foo.Baz] should not equal (typeTag[foo.Bar])
   }
 
   behavior of "TypeKey.typeArgs"
