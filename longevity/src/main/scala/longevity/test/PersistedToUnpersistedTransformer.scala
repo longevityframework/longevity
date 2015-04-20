@@ -12,7 +12,7 @@ import longevity.exceptions.AssocIsUnpersistedException
 import longevity.persistence.PersistedAssoc
 
 /** traverses an entity graph, replacing every [[longevity.persistence.PersistedAssoc persisted assoc]] with an
- * [[longevity.subdomain.UnpersistedAssoc]].
+ * [[longevity.subdomain.UnpersistedAssoc unpersisted assoc]].
  *
  * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
  *

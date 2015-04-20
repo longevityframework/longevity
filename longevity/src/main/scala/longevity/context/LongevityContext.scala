@@ -9,13 +9,8 @@ object LongevityContext {
   /** constructs and returns a `LongevityContext`
    * 
    * @param subdomain the subdomain
-   * 
    * @param shorthandPool a complete set of the shorthands used by the bounded context. defaults to empty
-   * 
    * @param persistenceStrategy the persistence strategy for this longevity context. defaults to [[InMem]]
-   * 
-   * @param specializedRepoFactoryPool a collection factories for specialized repositories. defaults to empty
-   * 
    * @param customGeneratorPool a collection of custom generators to use when generating test data. defaults to
    * empty
    */
@@ -23,14 +18,12 @@ object LongevityContext {
     subdomain: Subdomain,
     shorthandPool: ShorthandPool = ShorthandPool.empty,
     persistenceStrategy: PersistenceStrategy = InMem,
-    specializedRepoFactoryPool: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool.empty,
     customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
   : LongevityContext =
     new LongevityContextImpl(
       subdomain,
       shorthandPool,
       persistenceStrategy,
-      specializedRepoFactoryPool,
       customGeneratorPool)
 
 }

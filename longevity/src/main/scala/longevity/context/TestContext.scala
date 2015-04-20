@@ -10,9 +10,7 @@ trait TestContext {
   /** a collection of custom generators to use when generating test data. defaults to an empty collection */
   val customGeneratorPool: CustomGeneratorPool
 
-  /** An in-memory set of repositories for this longevity context, for use in testing. at the moment, no
-   * specializedRepoFactoryPool are provided.
-   */
+  /** an in-memory set of repositories for this longevity context, for use in testing. */
   val inMemRepoPool: RepoPool
 
 }

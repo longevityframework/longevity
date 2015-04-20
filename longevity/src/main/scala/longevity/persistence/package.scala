@@ -15,36 +15,27 @@ package object persistence {
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
     shorthandPool: ShorthandPool,
-    persistenceStrategy: PersistenceStrategy,
-    specializedRepoFactoryPool: SpecializedRepoFactoryPool = SpecializedRepoFactoryPool.empty)
+    persistenceStrategy: PersistenceStrategy)
   : RepoPool =
     persistenceStrategy match {
-      case InMem => inMemRepoPool(subdomain, shorthandPool, specializedRepoFactoryPool)
-      case Mongo => mongoRepoPool(subdomain, shorthandPool, specializedRepoFactoryPool)
+      case InMem => inMemRepoPool(subdomain, shorthandPool)
+      case Mongo => mongoRepoPool(subdomain, shorthandPool)
     }
 
-  private def inMemRepoPool(
-    subdomain: Subdomain,
-    shorthandPool: ShorthandPool,
-    specializedRepoFactoryPool: SpecializedRepoFactoryPool)
-  : RepoPool = {
+  private def inMemRepoPool(subdomain: Subdomain, shorthandPool: ShorthandPool): RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new InMemRepo(entityType)(entityKey)
     }
-    buildRepoPool(subdomain, shorthandPool, specializedRepoFactoryPool, repoFactory)
+    buildRepoPool(subdomain, shorthandPool, repoFactory)
   }
 
-  private def mongoRepoPool(
-    subdomain: Subdomain,
-    shorthandPool: ShorthandPool,
-    specializedRepoFactoryPool: SpecializedRepoFactoryPool)
-  : RepoPool = {
+  private def mongoRepoPool(subdomain: Subdomain, shorthandPool: ShorthandPool): RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
         new MongoRepo(entityType, subdomain.entityEmblemPool, shorthandPool)(entityKey)
     }
-    buildRepoPool(subdomain, shorthandPool, specializedRepoFactoryPool, repoFactory)
+    buildRepoPool(subdomain, shorthandPool, repoFactory)
   }
 
   private trait StockRepoFactory {
@@ -54,7 +45,6 @@ package object persistence {
   private def buildRepoPool(
     subdomain: Subdomain,
     shorthandPool: ShorthandPool,
-    specializedRepoFactoryPool: SpecializedRepoFactoryPool,
     stockRepoFactory: StockRepoFactory)
   : RepoPool = {
     var repoPool = emptyRepoPool
@@ -62,11 +52,7 @@ package object persistence {
     def createRepoFromPair[RE <: RootEntity](pair: Pair[RE]): Unit = {
       val entityKey = pair._1
       val entityType = pair._2
-      val repo = specializedRepoFactoryPool.get(entityKey) match {
-        case Some(specializedRepoFactory) =>
-          specializedRepoFactory(subdomain.entityEmblemPool, shorthandPool)
-        case None => stockRepoFactory.build(entityType, entityKey)
-      }
+      val repo = stockRepoFactory.build(entityType, entityKey)
       repoPool += (entityKey -> repo)
     }
     subdomain.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
