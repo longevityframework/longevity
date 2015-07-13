@@ -3,15 +3,24 @@ package longevity.persistence
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 import emblem.imports._
+import longevity.shorthands._
 import longevity.subdomain._
 import longevity.context.LongevityContext
 
 /** an in-memory repository for aggregate roots of type `E`
  * 
  * @param entityType the entity type for the aggregate roots this repository handles
+ * @param emblemPool a pool of emblems for the entities within the subdomain
+ * @param shorthandPool a complete set of the shorthands used by the bounded context
  */
-class InMemRepo[E <: RootEntity : TypeKey](override val entityType: RootEntityType[E])
-extends Repo[E] {
+class InMemRepo[E <: RootEntity : TypeKey](
+  entityType: RootEntityType[E],
+  emblemPool: EmblemPool,
+  shorthandPool: ShorthandPool)
+extends Repo[E](
+  entityType,
+  emblemPool,
+  shorthandPool) {
   repo =>
 
   protected[longevity] case class IntId(i: Int) extends PersistedAssoc[E] {

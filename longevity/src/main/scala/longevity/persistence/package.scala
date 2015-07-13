@@ -25,7 +25,7 @@ package object persistence {
   private def inMemRepoPool(subdomain: Subdomain, shorthandPool: ShorthandPool): RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new InMemRepo(entityType)(entityKey)
+        new InMemRepo(entityType, subdomain.entityEmblemPool, shorthandPool)(entityKey)
     }
     buildRepoPool(subdomain, shorthandPool, repoFactory)
   }

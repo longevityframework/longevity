@@ -8,7 +8,7 @@ package object shorthands {
 
   /** a shorthand with the abbreviated type unspecified. this type is equivalent to `Shorthand[Actual, _]`,
    * except with a single type parameter `Actual`. this allows it to be used as a key or value in a
-   * `TypeBoundMap` or `TypeKeyMap`
+   * `TypeBoundMap` or `TypeKeyMap`.
    */
   type ShorthandFor[Actual] = Shorthand[Actual, _]
 

@@ -24,7 +24,7 @@ trait BuildSettings {
 
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "net.jsmscs",
-    scalaVersion := "2.11.5",
+    scalaVersion := "2.11.7",
 
     // compile
     scalacOptions ++= nonConsoleScalacOptions ++ otherScalacOptions,
@@ -56,6 +56,9 @@ trait BuildSettings {
     // dependencies
     resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
     libraryDependencies += ("org.scala-lang" % "scala-reflect" % scalaVersion.value),
+    libraryDependencies += ("org.scala-lang.modules" %% "scala-async" % "0.9.2"),
+    libraryDependencies += ("io.reactivex" %% "rxscala" % "0.25.0"),
+
     libraryDependencies += ("org.scalatest" %% "scalatest" % "2.2.1" % "test")
   )
 

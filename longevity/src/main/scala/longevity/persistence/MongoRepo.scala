@@ -18,10 +18,13 @@ import scala.util.Success
  * @param shorthandPool a complete set of the shorthands used by the bounded context
  */
 class MongoRepo[E <: RootEntity : TypeKey] protected[persistence] (
-  override val entityType: RootEntityType[E],
+  entityType: RootEntityType[E],
   emblemPool: EmblemPool,
   shorthandPool: ShorthandPool)
-extends Repo[E] {
+extends Repo[E](
+  entityType,
+  emblemPool,
+  shorthandPool) {
   repo =>
 
   protected[longevity] case class MongoId(objectId: ObjectId) extends PersistedAssoc[E] {
