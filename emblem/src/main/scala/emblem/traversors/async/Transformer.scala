@@ -1,11 +1,11 @@
-package emblem.traversors
+package emblem.traversors.async
 
 import emblem.TypeBoundFunction
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.imports._
-import emblem.traversors.FutureTransformer._
+import emblem.traversors.async.Transformer._
 import rx.lang.scala.Observable
 import rx.lang.scala.Subscription
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -27,7 +27,7 @@ import scala.util.Success
  * emblem project, in sibling project longevity. it might give you some ideas in how to use, but then so will
  * other traversors in this directory.
  */
-trait FutureTransformer {
+trait Transformer {
 
   /** transforms an element of type `A`
    * @throws emblem.exceptions.CouldNotTransformException when it encounters a type it doesn't know how to
@@ -69,7 +69,7 @@ trait FutureTransformer {
   /** transforms a string */
   protected def transformString(input: Future[String]): Future[String] = input
 
-  private lazy val traversor = new FutureTraversor {
+  private lazy val traversor = new Traversor {
 
     type TraverseInput[A] = A
     type TraverseResult[A] = A
@@ -88,13 +88,13 @@ trait FutureTransformer {
 
     def traverseString(input: Future[String]): Future[String] = transformString(input)
 
-    override protected val extractorPool = FutureTransformer.this.extractorPool
-    override protected val emblemPool = FutureTransformer.this.emblemPool
+    override protected val extractorPool = Transformer.this.extractorPool
+    override protected val emblemPool = Transformer.this.emblemPool
 
     override protected val customTraversors = {
       class VisCustomTraversor[A](val customTransformer: CustomTransformer[A]) extends CustomTraversor[A] {
         def apply[B <: A : TypeKey](input: Future[B]): Future[B] =
-          customTransformer.apply[B](FutureTransformer.this, input)
+          customTransformer.apply[B](Transformer.this, input)
       }
       val transformerToTraversor = new TypeBoundFunction[Any, CustomTransformer, CustomTraversor] {
         def apply[A](transformer: CustomTransformer[A]): CustomTraversor[A] = new VisCustomTraversor(transformer)
@@ -253,7 +253,7 @@ trait FutureTransformer {
 /** holds types and zero values used by the [[Transformer transformers]], and supplies the API for custom
  * tranformers
  */
-object FutureTransformer {
+object Transformer {
 
   /** a custom transformer of things of type A */
   trait CustomTransformer[A] {
@@ -263,7 +263,7 @@ object FutureTransformer {
      * @param transformer the [[Transformer]] that is delegating this call to us
      * @param input the element to transform
      */
-    def apply[B <: A : TypeKey](transformer: FutureTransformer, input: Future[B]): Future[B]
+    def apply[B <: A : TypeKey](transformer: Transformer, input: Future[B]): Future[B]
 
   }
 

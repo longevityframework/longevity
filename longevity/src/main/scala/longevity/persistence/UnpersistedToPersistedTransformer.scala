@@ -1,9 +1,9 @@
 package longevity.persistence
 
 import emblem.imports._
-import emblem.traversors.FutureTransformer
-import emblem.traversors.FutureTransformer.CustomTransformer
-import emblem.traversors.FutureTransformer.CustomTransformerPool
+import emblem.traversors.async.Transformer
+import emblem.traversors.async.Transformer.CustomTransformer
+import emblem.traversors.async.Transformer.CustomTransformerPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.RootEntity
@@ -26,12 +26,12 @@ private[persistence] class UnpersistedToPersistedTransformer(
   private val repoPool: RepoPool,
   override protected val emblemPool: EmblemPool,
   override protected val extractorPool: ExtractorPool)
-extends FutureTransformer {
+extends Transformer {
 
   override protected val customTransformers = CustomTransformerPool.empty + transformAssoc
 
   private lazy val transformAssoc = new CustomTransformer[AssocAny] {
-    def apply[B <: AssocAny : TypeKey](transformer: FutureTransformer, input: Future[B]): Future[B] = {
+    def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: Future[B]): Future[B] = {
       val promise = Promise[B]()
       // TODO better variable name than b
       def completeB(b: B): Unit = b match {

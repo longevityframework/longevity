@@ -1,4 +1,4 @@
-package emblem.traversors
+package emblem.traversors.sync
 
 import emblem.imports._
 import emblem.reflectionUtil.makeTypeTag

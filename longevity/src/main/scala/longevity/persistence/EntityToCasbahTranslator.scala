@@ -4,7 +4,7 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import emblem.imports._
 import emblem.exceptions.CouldNotTraverseException
-import emblem.traversors.Traversor
+import emblem.traversors.sync.Traversor
 import longevity.exceptions.CouldNotTranslateException
 import longevity.subdomain._
 

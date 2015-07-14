@@ -1,8 +1,8 @@
-package emblem.traversors
+package emblem.traversors.sync
 
 import emblem.imports._
 import emblem.reflectionUtil.makeTypeTag
-import emblem.traversors.Generator._
+import emblem.traversors.sync.Generator._
 import scala.reflect.runtime.universe.typeOf
 
 /** generates test data for a pool of extractors, a pool of emblems, and some custom generators. you can

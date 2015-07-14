@@ -2,11 +2,11 @@ package longevity.test
 
 import emblem.imports._
 import emblem.TypeBoundPair
-import emblem.traversors.Generator.CustomGeneratorPool
-import emblem.traversors.CustomGenerator
-import emblem.traversors.Differ
-import emblem.traversors.Generator
-import emblem.traversors.TestDataGenerator
+import emblem.traversors.sync.Generator.CustomGeneratorPool
+import emblem.traversors.sync.CustomGenerator
+import emblem.traversors.sync.Differ
+import emblem.traversors.sync.Generator
+import emblem.traversors.sync.TestDataGenerator
 import longevity.shorthands._
 import longevity.subdomain._
 import longevity.persistence._

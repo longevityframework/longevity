@@ -1,10 +1,10 @@
-package emblem.traversors
+package emblem.traversors.sync
 
 import emblem.imports._
 import emblem.TypeBoundFunction
 import emblem.exceptions.CouldNotVisitException
 import emblem.exceptions.CouldNotTraverseException
-import emblem.traversors.Visitor._
+import emblem.traversors.sync.Visitor._
 
 // TODO pt-92300784 VisitorSpec
 

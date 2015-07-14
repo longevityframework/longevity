@@ -1,11 +1,11 @@
-package emblem.traversors
+package emblem.traversors.sync
 
 import emblem.imports._
 import emblem.TypeBoundFunction
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
-import emblem.traversors.Transformer._
+import emblem.traversors.sync.Transformer._
 
 /** recursively tranforms a data structure by type. the input and the output of the transformation
  * have the same type.

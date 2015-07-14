@@ -1,4 +1,4 @@
-package emblem.traversors
+package emblem.traversors.sync
 
 import Differ._
 import emblem.imports._

@@ -1,6 +1,6 @@
 package longevity.context
 
-import emblem.traversors.Generator.CustomGeneratorPool
+import emblem.traversors.sync.Generator.CustomGeneratorPool
 import longevity.shorthands._
 import longevity.subdomain.Subdomain
 

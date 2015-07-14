@@ -1,7 +1,7 @@
-package emblem.traversors
+package emblem.traversors.sync
 
 import emblem.imports._
-import emblem.traversors.Visitor._
+import emblem.traversors.sync.Visitor._
 import org.scalatest._
 
 /** specs for [[CustomVisitor]] */

@@ -1,25 +1,10 @@
-package emblem.traversors
+package emblem.traversors.sync
 
 import emblem.imports._
 import emblem.ExtractorFor
 import emblem.exceptions.CouldNotTraverseException
 import emblem.reflectionUtil.makeTypeTag
 import scala.reflect.runtime.universe.typeOf
-import scala.concurrent.Future
-import scala.concurrent.Promise
-import rx.lang.scala.Observable
-import scala.concurrent.ExecutionContext.Implicits.global
-
-// TODO update comments here
-
-// TODO
-//   - rename existing to SyncTrav etc
-//   - move existing into sync subpackage
-//   - rewrite Traversor in terms of FutureTraversor
-//   - rewrite Transformer in terms of FutureTransformer
-//   - async versions for the rest of the traversors
-//   - always use iterator for the option stuff
-//   - rerun scaladoc
 
 /** recursively traverses a data structure by type. the inputs and the outputs of the traversal are abstract
  * here, and specified by the implementing class. this forms a generic pattern for [[Visitor visiting]],
@@ -29,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
  * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
  * sorry about that.
  */
-trait FutureTraversor {
+trait Traversor {
 
   /** the input to a traversal step over type `A` */
   type TraverseInput[A]
@@ -39,7 +24,7 @@ trait FutureTraversor {
 
   /** a custom traversor over type `A` */
   trait CustomTraversor[A] {
-    def apply[B <: A : TypeKey](input: Future[TraverseInput[B]]): Future[TraverseResult[B]]
+    def apply[B <: A : TypeKey](input: TraverseInput[B]): TraverseResult[B]
   }
 
   /** a [[TypeKeyMap]] for [[CustomTraversor custom traversors]] */
@@ -57,16 +42,16 @@ trait FutureTraversor {
    * @throws emblem.exceptions.CouldNotTraverseException when an unsupported type is encountered during the
    * traversal
    */
-  def traverse[A : TypeKey](input: Future[TraverseInput[A]]): Future[TraverseResult[A]] =
+  def traverse[A : TypeKey](input: TraverseInput[A]): TraverseResult[A] =
     traverseAnyOption[A](input) getOrElse {
       throw new CouldNotTraverseException(typeKey[A])
     }
 
   /** an input for traversing an [[EmblemProp]] */
-  protected type PropInput[A <: HasEmblem, B] = (EmblemProp[A, B], Future[TraverseInput[B]])
+  protected type PropInput[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseInput[B])
 
   /** an output for traversing an [[EmblemProp]] */
-  protected type PropResult[A <: HasEmblem, B] = (EmblemProp[A, B], Future[TraverseResult[B]])
+  protected type PropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
 
   /** the emblems to use in the recursive traversal */
   protected val emblemPool: EmblemPool = EmblemPool.empty
@@ -78,25 +63,25 @@ trait FutureTraversor {
   protected val customTraversors: CustomTraversorPool = CustomTraversorPool.empty
 
   /** traverses a boolean */
-  protected def traverseBoolean(input: Future[TraverseInput[Boolean]]): Future[TraverseResult[Boolean]]
+  protected def traverseBoolean(input: TraverseInput[Boolean]): TraverseResult[Boolean]
 
   /** traverses a char */
-  protected def traverseChar(input: Future[TraverseInput[Char]]): Future[TraverseResult[Char]]
+  protected def traverseChar(input: TraverseInput[Char]): TraverseResult[Char]
 
   /** traverses a double */
-  protected def traverseDouble(input: Future[TraverseInput[Double]]): Future[TraverseResult[Double]]
+  protected def traverseDouble(input: TraverseInput[Double]): TraverseResult[Double]
 
   /** traverses a float */
-  protected def traverseFloat(input: Future[TraverseInput[Float]]): Future[TraverseResult[Float]]
+  protected def traverseFloat(input: TraverseInput[Float]): TraverseResult[Float]
 
   /** traverses an int */
-  protected def traverseInt(input: Future[TraverseInput[Int]]): Future[TraverseResult[Int]]
+  protected def traverseInt(input: TraverseInput[Int]): TraverseResult[Int]
 
   /** traverses a long */
-  protected def traverseLong(input: Future[TraverseInput[Long]]): Future[TraverseResult[Long]]
+  protected def traverseLong(input: TraverseInput[Long]): TraverseResult[Long]
 
   /** traverses a string */
-  protected def traverseString(input: Future[TraverseInput[String]]): Future[TraverseResult[String]]
+  protected def traverseString(input: TraverseInput[String]): TraverseResult[String]
 
   /** stages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
    * @tparam A the type of the [[HasEmblem]] object to traverse
@@ -106,8 +91,8 @@ trait FutureTraversor {
    */
   protected def stageEmblemProps[A <: HasEmblem](
     emblem: Emblem[A],
-    input: Future[TraverseInput[A]])
-  : Observable[PropInput[A, _]]
+    input: TraverseInput[A])
+  : Iterator[PropInput[A, _]]
 
   /** unstages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
    * @tparam A the type of the [[HasEmblem]] object to traverse
@@ -118,9 +103,9 @@ trait FutureTraversor {
    */
   protected def unstageEmblemProps[A <: HasEmblem](
     emblem: Emblem[A],
-    input: Future[TraverseInput[A]],
-    result: Observable[PropResult[A, _]])
-  : Future[TraverseResult[A]]
+    input: TraverseInput[A],
+    result: Iterator[PropResult[A, _]])
+  : TraverseResult[A]
 
   /** stages the traversal of a [[Extractor extractor]]
    * @tparam Range the range type for the extractor
@@ -131,8 +116,8 @@ trait FutureTraversor {
    */
   protected def stageExtractor[Domain : TypeKey, Range](
     extractor: Extractor[Domain, Range],
-    input: Future[TraverseInput[Domain]])
-  : Future[TraverseInput[Range]]
+    input: TraverseInput[Domain])
+  : TraverseInput[Range]
 
   /** unstages the traversal of a [[Extractor extractor]]
    * @tparam Range the range type for the extractor
@@ -143,8 +128,8 @@ trait FutureTraversor {
    */
   protected def unstageExtractor[Domain : TypeKey, Range](
     extractor: Extractor[Domain, Range],
-    rangeResult: Future[TraverseResult[Range]])
-  : Future[TraverseResult[Domain]]
+    rangeResult: TraverseResult[Range])
+  : TraverseResult[Domain]
 
   /** stages the traversal of an option's value
    * @tparam A the type of the option's value
@@ -154,8 +139,8 @@ trait FutureTraversor {
    * this usage of an option is different from the kind of option we are traversing
    */
   protected def stageOptionValue[A : TypeKey](
-    input: Future[TraverseInput[Option[A]]])
-  : Observable[TraverseInput[A]]
+    input: TraverseInput[Option[A]])
+  : Option[TraverseInput[A]]
 
   /** unstages the traversal of an option's value
    * @tparam A the type of the option's value
@@ -166,9 +151,9 @@ trait FutureTraversor {
    * @return the result of traversing the option
    */
   protected def unstageOptionValue[A : TypeKey](
-    input: Future[TraverseInput[Option[A]]],
-    result: Observable[TraverseResult[A]])
-  : Future[TraverseResult[Option[A]]]
+    input: TraverseInput[Option[A]],
+    result: Option[TraverseResult[A]])
+  : TraverseResult[Option[A]]
 
   /** stages the traversal of an set's elements
    * @tparam A the type of the set elements
@@ -177,8 +162,8 @@ trait FutureTraversor {
    * traversal into the set.
    */
   protected def stageSetElements[A : TypeKey](
-    input: Future[TraverseInput[Set[A]]])
-  : Observable[TraverseInput[A]]
+    input: TraverseInput[Set[A]])
+  : Iterator[TraverseInput[A]]
 
   /** unstages the traversal of an set's elements
    * @tparam A the type of the set elements
@@ -188,9 +173,9 @@ trait FutureTraversor {
    * @return the result of travering the set
    */
   protected def unstageSetElements[A : TypeKey](
-    input: Future[TraverseInput[Set[A]]],
-    result: Observable[TraverseResult[A]])
-  : Future[TraverseResult[Set[A]]]
+    input: TraverseInput[Set[A]],
+    result: Iterator[TraverseResult[A]])
+  : TraverseResult[Set[A]]
 
   /** stages the traversal of an list's elements
    * @tparam A the type of the list elements
@@ -199,8 +184,8 @@ trait FutureTraversor {
    * traversal into the list.
    */
   protected def stageListElements[A : TypeKey](
-    input: Future[TraverseInput[List[A]]])
-  : Observable[TraverseInput[A]]
+    input: TraverseInput[List[A]])
+  : Iterator[TraverseInput[A]]
 
   /** unstages the traversal of a list's elements
    * @tparam A the type of the list elements
@@ -210,11 +195,11 @@ trait FutureTraversor {
    * @return the result of travering the list
    */
   protected def unstageListElements[A : TypeKey](
-    input: Future[TraverseInput[List[A]]],
-    result: Observable[TraverseResult[A]])
-  : Future[TraverseResult[List[A]]]
+    input: TraverseInput[List[A]],
+    result: Iterator[TraverseResult[A]])
+  : TraverseResult[List[A]]
 
-  private type TraversorFunction[A] = (Future[TraverseInput[A]]) => Future[TraverseResult[A]]
+  private type TraversorFunction[A] = (TraverseInput[A]) => TraverseResult[A]
 
   private val basicTraversors =
     TypeKeyMap[Any, TraversorFunction] +
@@ -227,7 +212,7 @@ trait FutureTraversor {
     traverseString _
 
   // custom generators have to come first. after that order is immaterial
-  private def traverseAnyOption[A : TypeKey](input: Future[TraverseInput[A]]): Option[Future[TraverseResult[A]]] =
+  private def traverseAnyOption[A : TypeKey](input: TraverseInput[A]): Option[TraverseResult[A]] =
     traverseCustomOption(input) orElse
     traverseEmblemOptionFromAny(input) orElse
     traverseExtractorOption(input) orElse
@@ -236,15 +221,13 @@ trait FutureTraversor {
     traverseListOption(input) orElse
     traverseBasicOption(input)
 
-  private def traverseCustomOption[A : TypeKey](input: Future[TraverseInput[A]])
-  : Option[Future[TraverseResult[A]]] = {
+  private def traverseCustomOption[A : TypeKey](input: TraverseInput[A]): Option[TraverseResult[A]] = {
     val keyOpt: Option[TypeKey[_ >: A]] = customTraversors.keys.map(_.castToLowerBound[A]).flatten.headOption
     def getCustomTraversor[B >: A : TypeKey]: CustomTraversor[B] = customTraversors(typeKey[B])
     keyOpt map { key => getCustomTraversor(key).apply[A](input) }
   }
 
-  private def traverseEmblemOptionFromAny[A : TypeKey](input: Future[TraverseInput[A]])
-  : Option[Future[TraverseResult[A]]] = {
+  private def traverseEmblemOptionFromAny[A : TypeKey](input: TraverseInput[A]): Option[TraverseResult[A]] = {
     val keyOption = hasEmblemTypeKeyOption(typeKey[A])
     keyOption flatMap { key => introduceHasEmblemTraverseEmblemOption(input)(key) }
   }
@@ -255,24 +238,21 @@ trait FutureTraversor {
     else
       None
 
-  private def introduceHasEmblemTraverseEmblemOption[A, B <: A with HasEmblem : TypeKey](
-    input: Future[TraverseInput[A]])
-  : Option[Future[TraverseResult[A]]] = {
-    traverseEmblemOption[B](
-      input.asInstanceOf[Future[TraverseInput[B]]]
-    ).asInstanceOf[Option[Future[TraverseResult[A]]]]
+  private def introduceHasEmblemTraverseEmblemOption[A, B <: A with HasEmblem : TypeKey](input: TraverseInput[A])
+  : Option[TraverseResult[A]] = {
+    traverseEmblemOption[B](input.asInstanceOf[TraverseInput[B]]).asInstanceOf[Option[TraverseResult[A]]]
   }
 
-  private def traverseEmblemOption[A <: HasEmblem : TypeKey](input: Future[TraverseInput[A]])
-  : Option[Future[TraverseResult[A]]] = {
+  private def traverseEmblemOption[A <: HasEmblem : TypeKey](input: TraverseInput[A])
+  : Option[TraverseResult[A]] = {
     emblemPool.get(typeKey[A]) map { emblem => traverseFromEmblem(emblem, input) }
   }
 
-  private def traverseFromEmblem[A <: HasEmblem](emblem: Emblem[A], hasEmblemInput: Future[TraverseInput[A]])
-  : Future[TraverseResult[A]] = {
-    val emblemPropInputIterator: Observable[PropInput[A, _]] =
+  private def traverseFromEmblem[A <: HasEmblem](emblem: Emblem[A], hasEmblemInput: TraverseInput[A])
+  : TraverseResult[A] = {
+    val emblemPropInputIterator: Iterator[PropInput[A, _]] =
       stageEmblemProps(emblem, hasEmblemInput)
-    val emblemPropResultIterator: Observable[PropResult[A, _]] =
+    val emblemPropResultIterator: Iterator[PropResult[A, _]] =
         emblemPropInputIterator.map { case (prop, input) =>
           (prop, traverseEmblemProp(emblem, prop, input))
         }
@@ -282,25 +262,25 @@ trait FutureTraversor {
   private def traverseEmblemProp[A <: HasEmblem, B](
     emblem: Emblem[A],
     prop: EmblemProp[A, B],
-    input: Future[TraverseInput[B]])
-  : Future[TraverseResult[B]] = {
+    input: TraverseInput[B])
+  : TraverseResult[B] = {
     traverse(input)(prop.typeKey)
   }
 
-  private def traverseExtractorOption[Domain : TypeKey](input: Future[TraverseInput[Domain]])
-  : Option[Future[TraverseResult[Domain]]] =
+  private def traverseExtractorOption[Domain : TypeKey](input: TraverseInput[Domain])
+  : Option[TraverseResult[Domain]] =
     extractorPool.get[Domain] map { s => traverseFromExtractor[Domain](s, input) }
 
   private def traverseFromExtractor[Domain : TypeKey](
     extractor: ExtractorFor[Domain],
-    input: Future[TraverseInput[Domain]])
-  : Future[TraverseResult[Domain]] =
+    input: TraverseInput[Domain])
+  : TraverseResult[Domain] =
     traverseFromFullyTypedExtractor(extractor, input)
 
   private def traverseFromFullyTypedExtractor[Domain : TypeKey, Range](
     extractor: Extractor[Domain, Range],
-    input: Future[TraverseInput[Domain]])
-  : Future[TraverseResult[Domain]] = {
+    input: TraverseInput[Domain])
+  : TraverseResult[Domain] = {
     val rangeInput = stageExtractor(extractor, input)
     val rangeResult = traverse(rangeInput)(extractor.rangeTypeKey)
     unstageExtractor(extractor, rangeResult)
@@ -308,11 +288,11 @@ trait FutureTraversor {
 
   // TODO pt-88571474: remove code duplication with option/set/list, generalize to other kinds of "collections"
 
-  private def traverseOptionOption[OptionA : TypeKey](input: Future[TraverseInput[OptionA]])
-  : Option[Future[TraverseResult[OptionA]]] = {
+  private def traverseOptionOption[OptionA : TypeKey](input: TraverseInput[OptionA])
+  : Option[TraverseResult[OptionA]] = {
     val keyOption = optionElementTypeKeyOption(typeKey[OptionA])
-    def doTraverse[A : TypeKey] = traverseOption(input.asInstanceOf[Future[TraverseInput[Option[A]]]])
-    keyOption map { key => doTraverse(key).asInstanceOf[Future[TraverseResult[OptionA]]] }
+    def doTraverse[A : TypeKey] = traverseOption(input.asInstanceOf[TraverseInput[Option[A]]])
+    keyOption map { key => doTraverse(key).asInstanceOf[TraverseResult[OptionA]] }
   }
 
   // returns a `Some` containing the enclosing type of the option whenever the supplied type argument `A`
@@ -320,25 +300,19 @@ trait FutureTraversor {
   private def optionElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[Option[_]]) Some(typeKey[A].typeArgs.head) else None
 
-  private[traversors] def traverseOption[A : TypeKey](optionInput: Future[TraverseInput[Option[A]]])
-  : Future[TraverseResult[Option[A]]] = {
-    val optionValueInputObservable: Observable[TraverseInput[A]] = stageOptionValue[A](optionInput)
-
-    val optionValueResultObservable: Observable[TraverseResult[A]] =
-      optionValueInputObservable flatMap { optionValueInput =>
-        val promise = Promise.successful(optionValueInput)
-        val optionValueResultFuture: Future[TraverseResult[A]] = traverse[A](promise.future)
-        Observable.from(optionValueResultFuture)
-      }
-
-    unstageOptionValue[A](optionInput, optionValueResultObservable)
+  private[traversors] def traverseOption[A : TypeKey](optionInput: TraverseInput[Option[A]])
+  : TraverseResult[Option[A]] = {
+    val optionValueInputOption: Option[TraverseInput[A]] = stageOptionValue[A](optionInput)
+    val optionValueResultOption: Option[TraverseResult[A]] = optionValueInputOption map { optionValueInput =>
+      traverse[A](optionValueInput)
+    }
+    unstageOptionValue[A](optionInput, optionValueResultOption)
   }
 
-  private def traverseSetOption[SetA : TypeKey](input: Future[TraverseInput[SetA]])
-  : Option[Future[TraverseResult[SetA]]] = {
+  private def traverseSetOption[SetA : TypeKey](input: TraverseInput[SetA]): Option[TraverseResult[SetA]] = {
     val keyOption = setElementTypeKeyOption(typeKey[SetA])
-    def doTraverse[A : TypeKey] = traverseSet(input.asInstanceOf[Future[TraverseInput[Set[A]]]])
-    keyOption map { k => doTraverse(k).asInstanceOf[Future[TraverseResult[SetA]]] }
+    def doTraverse[A : TypeKey] = traverseSet(input.asInstanceOf[TraverseInput[Set[A]]])
+    keyOption map { k => doTraverse(k).asInstanceOf[TraverseResult[SetA]] }
   }
 
   // returns a `Some` containing the enclosing type of the set whenever the supplied type argument `A`
@@ -346,20 +320,16 @@ trait FutureTraversor {
   private def setElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[Set[_]]) Some(typeKey[A].typeArgs.head) else None
 
-  private def traverseSet[A : TypeKey](aSetInput: Future[TraverseInput[Set[A]]])
-  : Future[TraverseResult[Set[A]]] = {
-    val aInputObservable: Observable[TraverseInput[A]] = stageSetElements[A](aSetInput)
-    val aResultObserable: Observable[TraverseResult[A]] = aInputObservable flatMap { aInput => 
-      Observable.from(traverse[A](Future(aInput)))
-    }
-    unstageSetElements[A](aSetInput, aResultObserable)
+  private def traverseSet[A : TypeKey](aSetInput: TraverseInput[Set[A]]): TraverseResult[Set[A]] = {
+    val aInputIterator: Iterator[TraverseInput[A]] = stageSetElements[A](aSetInput)
+    val aResultIterator: Iterator[TraverseResult[A]] = aInputIterator map { aInput => traverse[A](aInput) }
+    unstageSetElements[A](aSetInput, aResultIterator)
   }
 
-  private def traverseListOption[ListA : TypeKey](input: Future[TraverseInput[ListA]])
-  : Option[Future[TraverseResult[ListA]]] = {
+  private def traverseListOption[ListA : TypeKey](input: TraverseInput[ListA]): Option[TraverseResult[ListA]] = {
     val keyOption = listElementTypeKeyOption(typeKey[ListA])
-    def doTraverse[A : TypeKey] = traverseList(input.asInstanceOf[Future[TraverseInput[List[A]]]])
-    keyOption map { k => doTraverse(k).asInstanceOf[Future[TraverseResult[ListA]]] }
+    def doTraverse[A : TypeKey] = traverseList(input.asInstanceOf[TraverseInput[List[A]]])
+    keyOption map { k => doTraverse(k).asInstanceOf[TraverseResult[ListA]] }
   }
 
   // returns a `Some` containing the enclosing type of the list whenever the supplied type argument `A`
@@ -367,17 +337,13 @@ trait FutureTraversor {
   private def listElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[List[_]]) Some(typeKey[A].typeArgs.head) else None
 
-  private def traverseList[A : TypeKey](aListInput: Future[TraverseInput[List[A]]])
-  : Future[TraverseResult[List[A]]] = {
-    val aInputObservable: Observable[TraverseInput[A]] = stageListElements[A](aListInput)
-    val aResultObservable: Observable[TraverseResult[A]] = aInputObservable flatMap { aInput =>
-      Observable.from(traverse[A](Future(aInput)))
-    }
-    unstageListElements[A](aListInput, aResultObservable)
+  private def traverseList[A : TypeKey](aListInput: TraverseInput[List[A]]): TraverseResult[List[A]] = {
+    val aInputIterator: Iterator[TraverseInput[A]] = stageListElements[A](aListInput)
+    val aResultIterator: Iterator[TraverseResult[A]] = aInputIterator map { aInput => traverse[A](aInput) }
+    unstageListElements[A](aListInput, aResultIterator)
   }
 
-  private def traverseBasicOption[Basic : TypeKey](input: Future[TraverseInput[Basic]])
-  : Option[Future[TraverseResult[Basic]]] =
+  private def traverseBasicOption[Basic : TypeKey](input: TraverseInput[Basic]): Option[TraverseResult[Basic]] =
     basicTraversors.get[Basic] map { traversor => traversor(input) }
 
 }
