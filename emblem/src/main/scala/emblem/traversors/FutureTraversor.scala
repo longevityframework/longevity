@@ -13,12 +13,13 @@ import scala.concurrent.ExecutionContext.Implicits.global
 // TODO update comments here
 
 // TODO
+//   - rename existing to SyncTrav etc
+//   - move existing into sync subpackage
 //   - rewrite Traversor in terms of FutureTraversor
 //   - rewrite Transformer in terms of FutureTransformer
 //   - async versions for the rest of the traversors
-//   - rename existing to SyncTrav etc
-//   - move existing into sync subpackage
 //   - always use iterator for the option stuff
+//   - rerun scaladoc
 
 /** recursively traverses a data structure by type. the inputs and the outputs of the traversal are abstract
  * here, and specified by the implementing class. this forms a generic pattern for [[Visitor visiting]],
