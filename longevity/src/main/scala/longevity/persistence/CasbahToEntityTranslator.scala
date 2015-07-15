@@ -78,15 +78,12 @@ private[persistence] class CasbahToEntityTranslator(
     protected def stageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
       input: TraverseInput[A])
-    : Iterator[PropInput[A, _]] = {
+    : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) = prop -> input.asInstanceOf[MongoDBObject](prop.name)
-      emblem.props.map(propInput(_)).iterator
+      emblem.props.map(propInput(_))
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem](
-      emblem: Emblem[A],
-      input: TraverseInput[A],
-      result: Iterator[PropResult[A, _]])
+    protected def unstageEmblemProps[A <: HasEmblem](emblem: Emblem[A], result: Iterable[PropResult[A, _]])
     : TraverseResult[A] = {
       val builder = emblem.builder()
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
@@ -112,38 +109,38 @@ private[persistence] class CasbahToEntityTranslator(
 
     protected def stageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]])
-    : Option[TraverseInput[A]] =
-      input.asInstanceOf[Option[TraverseInput[A]]]
+    : Iterable[TraverseInput[A]] =
+      input.asInstanceOf[Option[TraverseInput[A]]].toIterable
 
     protected def unstageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]],
-      result: Option[TraverseResult[A]])
+      result: Iterable[TraverseResult[A]])
     : TraverseResult[Option[A]] =
-      result
+      result.headOption
 
     protected def stageSetElements[A : TypeKey](
       input: TraverseInput[Set[A]])
-    : Iterator[TraverseInput[A]] = {
+    : Iterable[TraverseInput[A]] = {
       val list: MongoDBList = input.asInstanceOf[BasicDBList]
-      list.iterator
+      list
     }
 
     protected def unstageSetElements[A : TypeKey](
       input: TraverseInput[Set[A]],
-      result: Iterator[TraverseResult[A]])
+      result: Iterable[TraverseResult[A]])
     : TraverseResult[Set[A]] =
       result.toSet
 
     protected def stageListElements[A : TypeKey](
       input: TraverseInput[List[A]])
-    : Iterator[TraverseInput[A]] = {
+    : Iterable[TraverseInput[A]] = {
       val list: MongoDBList = input.asInstanceOf[BasicDBList]
-      list.iterator
+      list
     }
 
     protected def unstageListElements[A : TypeKey](
       input: TraverseInput[List[A]],
-      result: Iterator[TraverseResult[A]])
+      result: Iterable[TraverseResult[A]])
     : TraverseResult[List[A]] =
       result.toList
 

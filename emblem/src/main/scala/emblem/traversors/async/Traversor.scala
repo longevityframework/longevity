@@ -7,16 +7,18 @@ import emblem.reflectionUtil.makeTypeTag
 import scala.reflect.runtime.universe.typeOf
 import scala.concurrent.Future
 import scala.concurrent.Promise
-import rx.lang.scala.Observable
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.Failure
+import scala.util.Success
+import scala.util.Try
 
 // TODO update comments here
 
 // TODO
-//   - rewrite Traversor in terms of Traversor
-//   - rewrite Transformer in terms of Transformer
+//   - rewrite sync.Traversor in terms of async.Traversor
 //   - async versions for the rest of the traversors
 //   - always use iterator for the option stuff
+//   - use iterable instead of iterator
 //   - rerun scaladoc
 
 /** recursively traverses a data structure by type. the inputs and the outputs of the traversal are abstract
@@ -61,10 +63,10 @@ trait Traversor {
     }
 
   /** an input for traversing an [[EmblemProp]] */
-  protected type PropInput[A <: HasEmblem, B] = (EmblemProp[A, B], Future[TraverseInput[B]])
+  protected type PropInput[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseInput[B])
 
   /** an output for traversing an [[EmblemProp]] */
-  protected type PropResult[A <: HasEmblem, B] = (EmblemProp[A, B], Future[TraverseResult[B]])
+  protected type PropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
 
   /** the emblems to use in the recursive traversal */
   protected val emblemPool: EmblemPool = EmblemPool.empty
@@ -105,7 +107,7 @@ trait Traversor {
   protected def stageEmblemProps[A <: HasEmblem](
     emblem: Emblem[A],
     input: Future[TraverseInput[A]])
-  : Observable[PropInput[A, _]]
+  : Future[Iterable[PropInput[A, _]]]
 
   /** unstages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
    * @tparam A the type of the [[HasEmblem]] object to traverse
@@ -116,8 +118,7 @@ trait Traversor {
    */
   protected def unstageEmblemProps[A <: HasEmblem](
     emblem: Emblem[A],
-    input: Future[TraverseInput[A]],
-    result: Observable[PropResult[A, _]])
+    result: Future[Iterable[PropResult[A, _]]])
   : Future[TraverseResult[A]]
 
   /** stages the traversal of a [[Extractor extractor]]
@@ -153,7 +154,7 @@ trait Traversor {
    */
   protected def stageOptionValue[A : TypeKey](
     input: Future[TraverseInput[Option[A]]])
-  : Observable[TraverseInput[A]]
+  : Future[Iterable[TraverseInput[A]]]
 
   /** unstages the traversal of an option's value
    * @tparam A the type of the option's value
@@ -165,7 +166,7 @@ trait Traversor {
    */
   protected def unstageOptionValue[A : TypeKey](
     input: Future[TraverseInput[Option[A]]],
-    result: Observable[TraverseResult[A]])
+    result: Future[Iterable[TraverseResult[A]]])
   : Future[TraverseResult[Option[A]]]
 
   /** stages the traversal of an set's elements
@@ -176,7 +177,7 @@ trait Traversor {
    */
   protected def stageSetElements[A : TypeKey](
     input: Future[TraverseInput[Set[A]]])
-  : Observable[TraverseInput[A]]
+  : Future[Iterable[TraverseInput[A]]]
 
   /** unstages the traversal of an set's elements
    * @tparam A the type of the set elements
@@ -187,7 +188,7 @@ trait Traversor {
    */
   protected def unstageSetElements[A : TypeKey](
     input: Future[TraverseInput[Set[A]]],
-    result: Observable[TraverseResult[A]])
+    result: Future[Iterable[TraverseResult[A]]])
   : Future[TraverseResult[Set[A]]]
 
   /** stages the traversal of an list's elements
@@ -198,7 +199,7 @@ trait Traversor {
    */
   protected def stageListElements[A : TypeKey](
     input: Future[TraverseInput[List[A]]])
-  : Observable[TraverseInput[A]]
+  : Future[Iterable[TraverseInput[A]]]
 
   /** unstages the traversal of a list's elements
    * @tparam A the type of the list elements
@@ -209,7 +210,7 @@ trait Traversor {
    */
   protected def unstageListElements[A : TypeKey](
     input: Future[TraverseInput[List[A]]],
-    result: Observable[TraverseResult[A]])
+    result: Future[Iterable[TraverseResult[A]]])
   : Future[TraverseResult[List[A]]]
 
   private type TraversorFunction[A] = (Future[TraverseInput[A]]) => Future[TraverseResult[A]]
@@ -266,15 +267,32 @@ trait Traversor {
     emblemPool.get(typeKey[A]) map { emblem => traverseFromEmblem(emblem, input) }
   }
 
+  // TODO make sure i am not dropping an exceptions on the floor
+
   private def traverseFromEmblem[A <: HasEmblem](emblem: Emblem[A], hasEmblemInput: Future[TraverseInput[A]])
   : Future[TraverseResult[A]] = {
-    val emblemPropInputIterator: Observable[PropInput[A, _]] =
+    // TODO refactor
+    val futureIterablePropInput: Future[Iterable[PropInput[A, _]]] =
       stageEmblemProps(emblem, hasEmblemInput)
-    val emblemPropResultIterator: Observable[PropResult[A, _]] =
-        emblemPropInputIterator.map { case (prop, input) =>
-          (prop, traverseEmblemProp(emblem, prop, input))
+    val promise = Promise[TraverseResult[A]]()
+    futureIterablePropInput onSuccess {
+      case iterablePropInput =>
+        try {
+          val iterableFuturePropResult: Iterable[Future[PropResult[A, _]]] = iterablePropInput map {
+            case (prop, input) =>
+              val futureInput = Promise.successful(input).future
+              traverseEmblemProp(emblem, prop, futureInput) map { result => (prop, result) }
+          }
+          val futureIterablePropResult: Future[Iterable[PropResult[A, _]]] =
+            Future.sequence(iterableFuturePropResult)
+          val futureTraverseResult = unstageEmblemProps(emblem, futureIterablePropResult)
+          promise.completeWith(futureTraverseResult)
+        } catch {
+          case e: Throwable => promise.failure(e)
         }
-    unstageEmblemProps(emblem, hasEmblemInput, emblemPropResultIterator)
+    }
+    futureIterablePropInput onFailure { case e => promise.failure(e) }
+    promise.future
   }
 
   private def traverseEmblemProp[A <: HasEmblem, B](
@@ -318,18 +336,27 @@ trait Traversor {
   private def optionElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[Option[_]]) Some(typeKey[A].typeArgs.head) else None
 
-  private[traversors] def traverseOption[A : TypeKey](optionInput: Future[TraverseInput[Option[A]]])
+  private[traversors] def traverseOption[A : TypeKey](
+    futureTraverseInputOption: Future[TraverseInput[Option[A]]])
   : Future[TraverseResult[Option[A]]] = {
-    val optionValueInputObservable: Observable[TraverseInput[A]] = stageOptionValue[A](optionInput)
-
-    val optionValueResultObservable: Observable[TraverseResult[A]] =
-      optionValueInputObservable flatMap { optionValueInput =>
-        val promise = Promise.successful(optionValueInput)
-        val optionValueResultFuture: Future[TraverseResult[A]] = traverse[A](promise.future)
-        Observable.from(optionValueResultFuture)
-      }
-
-    unstageOptionValue[A](optionInput, optionValueResultObservable)
+    val futureIterableTraverseInput: Future[Iterable[TraverseInput[A]]] =
+      stageOptionValue[A](futureTraverseInputOption)
+    val promise = Promise[TraverseResult[Option[A]]]()
+    futureIterableTraverseInput onSuccess {
+      case iterableTraverseInput =>
+        val iterableFutureTraverseResult: Iterable[Future[TraverseResult[A]]] =
+          iterableTraverseInput map { traverseInput =>
+            val futureTraverseInput = Promise.successful(traverseInput).future
+            traverse[A](futureTraverseInput)
+          }
+        val futureIterableTraverseResult: Future[Iterable[TraverseResult[A]]] =
+            Future.sequence(iterableFutureTraverseResult)
+        val futureTraverseResultOption =
+            unstageOptionValue(futureTraverseInputOption, futureIterableTraverseResult)
+        promise.completeWith(futureTraverseResultOption)
+    }
+    futureIterableTraverseInput onFailure { case e => promise.failure(e) }
+    promise.future
   }
 
   private def traverseSetOption[SetA : TypeKey](input: Future[TraverseInput[SetA]])
@@ -344,13 +371,26 @@ trait Traversor {
   private def setElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[Set[_]]) Some(typeKey[A].typeArgs.head) else None
 
-  private def traverseSet[A : TypeKey](aSetInput: Future[TraverseInput[Set[A]]])
+  private def traverseSet[A : TypeKey](futureTraverseInputSet: Future[TraverseInput[Set[A]]])
   : Future[TraverseResult[Set[A]]] = {
-    val aInputObservable: Observable[TraverseInput[A]] = stageSetElements[A](aSetInput)
-    val aResultObserable: Observable[TraverseResult[A]] = aInputObservable flatMap { aInput => 
-      Observable.from(traverse[A](Future(aInput)))
+    val futureIterableTraverseInput: Future[Iterable[TraverseInput[A]]] =
+      stageSetElements[A](futureTraverseInputSet)
+    val promise = Promise[TraverseResult[Set[A]]]()
+    futureIterableTraverseInput onSuccess {
+      case iterableTraverseInput =>
+        val iterableFutureTraverseResult: Iterable[Future[TraverseResult[A]]] =
+          iterableTraverseInput map { traverseInput =>
+            val futureTraverseInput = Promise.successful(traverseInput).future
+            traverse[A](futureTraverseInput)
+          }
+        val futureIterableTraverseResult: Future[Iterable[TraverseResult[A]]] =
+            Future.sequence(iterableFutureTraverseResult)
+        val futureTraverseResultSet =
+            unstageSetElements(futureTraverseInputSet, futureIterableTraverseResult)
+        promise.completeWith(futureTraverseResultSet)
     }
-    unstageSetElements[A](aSetInput, aResultObserable)
+    futureIterableTraverseInput onFailure { case e => promise.failure(e) }
+    promise.future
   }
 
   private def traverseListOption[ListA : TypeKey](input: Future[TraverseInput[ListA]])
@@ -365,13 +405,26 @@ trait Traversor {
   private def listElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
     if (typeKey[A].tpe <:< typeOf[List[_]]) Some(typeKey[A].typeArgs.head) else None
 
-  private def traverseList[A : TypeKey](aListInput: Future[TraverseInput[List[A]]])
+  private def traverseList[A : TypeKey](futureTraverseInputList: Future[TraverseInput[List[A]]])
   : Future[TraverseResult[List[A]]] = {
-    val aInputObservable: Observable[TraverseInput[A]] = stageListElements[A](aListInput)
-    val aResultObservable: Observable[TraverseResult[A]] = aInputObservable flatMap { aInput =>
-      Observable.from(traverse[A](Future(aInput)))
+    val futureIterableTraverseInput: Future[Iterable[TraverseInput[A]]] =
+      stageListElements[A](futureTraverseInputList)
+    val promise = Promise[TraverseResult[List[A]]]()
+    futureIterableTraverseInput onSuccess {
+      case iterableTraverseInput =>
+        val iterableFutureTraverseResult: Iterable[Future[TraverseResult[A]]] =
+          iterableTraverseInput map { traverseInput =>
+            val futureTraverseInput = Promise.successful(traverseInput).future
+            traverse[A](futureTraverseInput)
+          }
+        val futureIterableTraverseResult: Future[Iterable[TraverseResult[A]]] =
+            Future.sequence(iterableFutureTraverseResult)
+        val futureTraverseResultList =
+            unstageListElements(futureTraverseInputList, futureIterableTraverseResult)
+        promise.completeWith(futureTraverseResultList)
     }
-    unstageListElements[A](aListInput, aResultObservable)
+    futureIterableTraverseInput onFailure { case e => promise.failure(e) }
+    promise.future
   }
 
   private def traverseBasicOption[Basic : TypeKey](input: Future[TraverseInput[Basic]])

@@ -94,15 +94,14 @@ trait Transformer {
     }
 
     protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: A)
-    : Iterator[PropInput[A, _]] = {
+    : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(input))
-      emblem.props.map(propInput(_)).iterator
+      emblem.props.map(propInput(_))
     }
 
     protected def unstageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
-      input: A,
-      result: Iterator[PropResult[A, _]])
+      result: Iterable[PropResult[A, _]])
     : A = {
       val builder = emblem.builder()
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
@@ -125,17 +124,18 @@ trait Transformer {
         case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
       }
 
-    protected def stageOptionValue[A : TypeKey](input: Option[A]): Option[A] = input
+    protected def stageOptionValue[A : TypeKey](input: Option[A]): Iterable[A] = input.toIterable
 
-    protected def unstageOptionValue[A : TypeKey](input: Option[A], result: Option[A]): Option[A] = result
+    protected def unstageOptionValue[A : TypeKey](input: Option[A], result: Iterable[A]): Option[A] =
+      result.headOption
 
-    protected def stageSetElements[A : TypeKey](input: Set[A]): Iterator[A] = input.iterator
+    protected def stageSetElements[A : TypeKey](input: Set[A]): Iterable[A] = input
 
-    protected def unstageSetElements[A : TypeKey](input: Set[A], result: Iterator[A]): Set[A] = result.toSet
+    protected def unstageSetElements[A : TypeKey](input: Set[A], result: Iterable[A]): Set[A] = result.toSet
 
-    protected def stageListElements[A : TypeKey](input: List[A]): Iterator[A] = input.iterator
+    protected def stageListElements[A : TypeKey](input: List[A]): Iterable[A] = input
 
-    protected def unstageListElements[A : TypeKey](input: List[A], result: Iterator[A]): List[A] = result.toList
+    protected def unstageListElements[A : TypeKey](input: List[A], result: Iterable[A]): List[A] = result.toList
 
   }
 

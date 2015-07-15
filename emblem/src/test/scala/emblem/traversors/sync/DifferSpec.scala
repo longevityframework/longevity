@@ -114,7 +114,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "produce an empty Diffs when the values match" in {
 
-    // TODO pt-88572226: fix differ to handle Nil and None types. theres a similar case with None further up
+    // TODO pt-88572226: fix differ to handle Nil and None types. there's a similar case with None further up
     //differ.diff(Nil, Nil) should equal (Diffs())
 
     differ.diff(List(), List()) should equal (Diffs())

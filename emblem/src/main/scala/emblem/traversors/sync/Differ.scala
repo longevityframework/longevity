@@ -64,16 +64,15 @@ class Differ(
     }
 
     protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: DifferInput[A])
-    : Iterator[PropInput[A, _]] = {
+    : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) =
         (prop, DifferInput(prop.get(input.lhs), prop.get(input.rhs), input.path + "." + prop.name))
-      emblem.props.map(propInput(_)).iterator
+      emblem.props.map(propInput(_))
     }
 
     protected def unstageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
-      input: DifferInput[A],
-      result: Iterator[PropResult[A, _]])
+      result: Iterable[PropResult[A, _]])
     : Diffs =
       result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
 
@@ -91,27 +90,27 @@ class Differ(
       result: Diffs)
     : Diffs = result
 
-    protected def stageOptionValue[A : TypeKey](input: DifferInput[Option[A]]): Option[DifferInput[A]] =
+    protected def stageOptionValue[A : TypeKey](input: DifferInput[Option[A]]): Iterable[DifferInput[A]] =
       (input.lhs, input.rhs) match {
-        case (Some(lhso), Some(rhso)) => Some(DifferInput[A](lhso, rhso, input.path + ".value"))
-        case _ => None
+        case (Some(lhso), Some(rhso)) => Seq(DifferInput[A](lhso, rhso, input.path + ".value"))
+        case _ => Seq()
       }
 
     override protected def unstageOptionValue[A : TypeKey](
       input: DifferInput[Option[A]],
-      optionValueResult: Option[Diffs])
+      optionValueResult: Iterable[Diffs])
     : Diffs =
       if (input.lhs.size == input.rhs.size)
-        optionValueResult.getOrElse(Diffs())
+        optionValueResult.headOption.getOrElse(Diffs())
       else
         Seq(Diff(input.path + ".size", input.lhs.size, input.rhs.size))
 
-    protected def stageSetElements[A : TypeKey](input: DifferInput[Set[A]]): Iterator[DifferInput[A]] =
-      Iterator.empty
+    protected def stageSetElements[A : TypeKey](input: DifferInput[Set[A]]): Iterable[DifferInput[A]] =
+      Iterable.empty
 
     protected def unstageSetElements[A : TypeKey](
       setInput: DifferInput[Set[A]],
-      setElementsResult: Iterator[Diffs])
+      setElementsResult: Iterable[Diffs])
     : Diffs =
       if (setInput.lhs.size != setInput.rhs.size) {
         Seq(Diff(setInput.path + ".size", setInput.lhs.size, setInput.rhs.size))
@@ -121,20 +120,20 @@ class Differ(
         Diffs()
       }
 
-    protected def stageListElements[A : TypeKey](input: DifferInput[List[A]]): Iterator[DifferInput[A]] =
+    protected def stageListElements[A : TypeKey](input: DifferInput[List[A]]): Iterable[DifferInput[A]] =
       if (input.lhs.size == input.rhs.size) {
-        (0 until input.lhs.size).iterator map { i =>
+        (0 until input.lhs.size) map { i =>
           DifferInput[A](
             input.lhs(i),
             input.rhs(i),
             input.path + "(" + i + ")")
         }
       }
-      else Iterator.empty
+      else Iterable.empty
 
     protected def unstageListElements[A : TypeKey](
       input: DifferInput[List[A]],
-      result: Iterator[Diffs]): Diffs =
+      result: Iterable[Diffs]): Diffs =
       if (input.lhs.size == input.rhs.size) {
         result.foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
       } else {

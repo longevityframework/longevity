@@ -101,28 +101,20 @@ trait Generator {
     }
 
     protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: Unit)
-    : Iterator[PropInput[A, _]] =
-      emblem.props.map((_, ())).iterator
+    : Iterable[PropInput[A, _]] =
+      emblem.props.map((_, ()))
 
-    protected def unstageEmblemProps[A <: HasEmblem](
-      emblem: Emblem[A],
-      input: Unit,
-      result: Iterator[PropResult[A, _]])
-    : A = {
+    protected def unstageEmblemProps[A <: HasEmblem](emblem: Emblem[A], result: Iterable[PropResult[A, _]]): A = {
       val builder = emblem.builder()
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
       builder.build()
     }
 
-    protected def stageExtractor[Domain : TypeKey, Range](
-      extractor: Extractor[Domain, Range],
-      input: Unit)
+    protected def stageExtractor[Domain : TypeKey, Range](extractor: Extractor[Domain, Range], input: Unit)
     : Unit =
       ()
 
-    protected def unstageExtractor[Domain : TypeKey, Range](
-      extractor: Extractor[Domain, Range],
-      range: Range)
+    protected def unstageExtractor[Domain : TypeKey, Range](extractor: Extractor[Domain, Range], range: Range)
     : Domain =
       try {
         extractor.inverse(range)
@@ -130,18 +122,18 @@ trait Generator {
         case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
       }
 
-    protected def stageOptionValue[A : TypeKey](input: Unit): Option[Unit] = option(())
+    protected def stageOptionValue[A : TypeKey](input: Unit): Iterable[Unit] = list(())
 
-    protected def unstageOptionValue[A : TypeKey](input: Unit, result: Option[A]): Option[A] = result
+    protected def unstageOptionValue[A : TypeKey](input: Unit, result: Iterable[A]): Option[A] = result.headOption
 
-    protected def stageSetElements[A : TypeKey](input: Unit): Iterator[Unit] = list(()).iterator
+    protected def stageSetElements[A : TypeKey](input: Unit): Iterable[Unit] = list(())
 
-    protected def unstageSetElements[A : TypeKey](input: Unit, result: Iterator[A]): Set[A] =
+    protected def unstageSetElements[A : TypeKey](input: Unit, result: Iterable[A]): Set[A] =
       result.toSet
 
-    protected def stageListElements[A : TypeKey](input: Unit): Iterator[Unit] = list(()).iterator
+    protected def stageListElements[A : TypeKey](input: Unit): Iterable[Unit] = list(())
 
-    protected def unstageListElements[A : TypeKey](input: Unit, result: Iterator[A]): List[A] =
+    protected def unstageListElements[A : TypeKey](input: Unit, result: Iterable[A]): List[A] =
       result.toList
 
   }

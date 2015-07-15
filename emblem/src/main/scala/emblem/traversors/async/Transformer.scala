@@ -6,8 +6,6 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.imports._
 import emblem.traversors.async.Transformer._
-import rx.lang.scala.Observable
-import rx.lang.scala.Subscription
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.Promise
@@ -102,52 +100,24 @@ trait Transformer {
       customTransformers.mapValues(transformerToTraversor)
     }
 
-    protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: Future[A])
-    : Observable[PropInput[A, _]] = {
-      def propInput[B](prop: EmblemProp[A, B]) = (prop, input map { i => prop.get(i) })
-      Observable.from(emblem.props.map(propInput(_)))
+    // TODO make sure i am not dropping an exceptions on the floor
+    protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], futureA: Future[A])
+    : Future[Iterable[PropInput[A, _]]] = {
+      futureA map { a =>
+        def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(a))
+        emblem.props.map { prop => propInput(prop) }
+      }
     }
 
     protected def unstageEmblemProps[A <: HasEmblem](
       emblem: Emblem[A],
-      input: Future[A],
-      result: Observable[PropResult[A, _]])
+      result: Future[Iterable[PropResult[A, _]]])
     : Future[A] = {
-
-      // TODO figure out how to do this without locking
-
-      val promise = Promise[A]
-      val builder = emblem.builder()
-
-      val lock = new AnyRef
-      var resultCompleted = false
-      var unfinishedProps = emblem.props.toSet
-      def completeUnstage(): Unit =
-        if (resultCompleted && unfinishedProps.isEmpty) promise.success(builder.build())
-
-      result.subscribe(
-        { case (prop, propResultFuture) =>
-          lock.synchronized { unfinishedProps += prop }
-          propResultFuture.onSuccess {
-            case propResult =>
-              lock.synchronized {
-                builder.setProp(prop, propResult)
-                unfinishedProps -= prop
-                completeUnstage()
-              }
-          }
-          propResultFuture.onFailure { case e => promise.failure(e) }
-        },
-        { (e) => promise.failure(e) },
-        { () =>
-          lock.synchronized {
-            resultCompleted = true
-            completeUnstage()
-          }
-        }
-      )
-
-      promise.future
+      result map { propResults =>
+        val builder = emblem.builder()
+        propResults foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
+        builder.build()
+      }
     }
 
     protected def stageExtractor[Domain : TypeKey, Range](
@@ -166,84 +136,31 @@ trait Transformer {
         case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
       }
 
-    protected def stageOptionValue[A : TypeKey](input: Future[Option[A]]): Observable[A] =
-      Observable.create { observer =>
-        input.onComplete { tryOptionA =>
-          tryOptionA match {
-            case Success(optionA) =>
-              optionA foreach { a => observer.onNext(a) }
-              observer.onCompleted()
-            case Failure(e) =>
-              observer.onError(e)
-          }
-        }
-        Subscription()
-      }
+    protected def stageOptionValue[A : TypeKey](input: Future[Option[A]]): Future[Iterable[A]] = {
+      input.map(_.toIterable)
+    }
 
-    protected def unstageOptionValue[A : TypeKey](input: Future[Option[A]], result: Observable[A])
+    protected def unstageOptionValue[A : TypeKey](input: Future[Option[A]], result: Future[Iterable[A]])
     : Future[Option[A]] = {
-      val promise = Promise[Option[A]]()
-      var optionA: Option[A] = None
-      result subscribe(
-        { (a) => optionA = Some(a) },
-        { (e) => promise.failure(e) },
-        { () => promise.success(optionA) }
-      )
-      promise.future
+      result.map(_.headOption)
     }
 
-    protected def stageSetElements[A : TypeKey](input: Future[Set[A]]): Observable[A] = {
-      Observable.create { observer =>
-        input.onComplete { trySetA =>
-          trySetA match {
-            case Success(setA) =>
-              setA foreach { a => observer.onNext(a) }
-              observer.onCompleted()
-            case Failure(e) =>
-              observer.onError(e)
-          }
-        }
-        Subscription()
-      }
+    protected def stageSetElements[A : TypeKey](input: Future[Set[A]]): Future[Iterable[A]] = {
+      input
     }
 
-    protected def unstageSetElements[A : TypeKey](input: Future[Set[A]], result: Observable[A])
+    protected def unstageSetElements[A : TypeKey](input: Future[Set[A]], result: Future[Iterable[A]])
     : Future[Set[A]] = {
-      val promise = Promise[Set[A]]()
-      var setA = Set[A]()
-      result subscribe(
-        { (a) => setA += a },
-        { (e) => promise.failure(e) },
-        { () => promise.success(setA) }
-      )
-      promise.future
+      result.map(_.toSet)
     }
 
-    protected def stageListElements[A : TypeKey](input: Future[List[A]]): Observable[A] = {
-      Observable.create { observer =>
-        input.onComplete { tryListA =>
-          tryListA match {
-            case Success(listA) =>
-              listA foreach { a => observer.onNext(a) }
-              observer.onCompleted()
-            case Failure(e) =>
-              observer.onError(e)
-          }
-        }
-        Subscription()
-      }
+    protected def stageListElements[A : TypeKey](input: Future[List[A]]): Future[Iterable[A]] = {
+      input
     }
 
-    protected def unstageListElements[A : TypeKey](input: Future[List[A]], result: Observable[A])
+    protected def unstageListElements[A : TypeKey](input: Future[List[A]], result: Future[Iterable[A]])
     : Future[List[A]] = {
-      val promise = Promise[List[A]]()
-      var listA = List[A]()
-      result subscribe(
-        { (a) => listA +:= a },
-        { (e) => promise.failure(e) },
-        { () => promise.success(listA) }
-      )
-      promise.future
+      result.map(_.toList)
     }
 
   }
