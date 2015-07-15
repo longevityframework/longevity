@@ -12,18 +12,14 @@ import scala.concurrent.Promise
 import scala.util.Failure
 import scala.util.Success
 
-// TODO update comments
-
-/** recursively tranforms a data structure by type. the input and the output of the transformation
+/** asynchronously tranforms a recursive data structure. the input and the output of the transformation
  * have the same type.
  *
  * you can transform arbritrary data to your liking by implementing the protected vals and defs in this
- * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
- * sorry about that.
+ * interface.
  *
- * the only usage example as of now, `longevity.testUtil.PersistedToUnpersistedTransformer`, lives outside of
- * emblem project, in sibling project longevity. it might give you some ideas in how to use, but then so will
- * other traversors in this directory.
+ * the only usage example as of now, `longevity.persistence.UnpersistedToPersistedTransformer`, lives outside of
+ * emblem project, in sibling project longevity. it might give you some ideas in how to use.
  */
 trait Transformer {
 
@@ -31,10 +27,8 @@ trait Transformer {
    * @throws emblem.exceptions.CouldNotTransformException when it encounters a type it doesn't know how to
    * transform
    */
-  def transform[A : TypeKey](input: Future[A]): Future[A] = try {
-    traversor.traverse[A](input)
-  } catch {
-    case e: CouldNotTraverseException => throw new CouldNotTransformException(e.typeKey, e)
+  def transform[A : TypeKey](input: Future[A]): Future[A] = traversor.traverse[A](input) recoverWith {
+    case e: CouldNotTraverseException => Future.failed(new CouldNotTransformException(e.typeKey, e))
   }
 
   /** the emblems to use in the recursive transformation */
@@ -100,7 +94,6 @@ trait Transformer {
       customTransformers.mapValues(transformerToTraversor)
     }
 
-    // TODO make sure i am not dropping an exceptions on the floor
     protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], futureA: Future[A])
     : Future[Iterable[PropInput[A, _]]] = {
       futureA map { a =>
@@ -130,38 +123,34 @@ trait Transformer {
       extractor: Extractor[Domain, Range],
       range: Future[Range])
     : Future[Domain] =
-      try {
-        range map extractor.inverse
-      } catch {
-        case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
+      range map { r =>
+        try {
+          extractor.inverse(r)
+        } catch {
+          case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
+        }
       }
 
-    protected def stageOptionValue[A : TypeKey](input: Future[Option[A]]): Future[Iterable[A]] = {
+    protected def stageOptionValue[A : TypeKey](input: Future[Option[A]]): Future[Iterable[A]] =
       input.map(_.toIterable)
-    }
 
     protected def unstageOptionValue[A : TypeKey](input: Future[Option[A]], result: Future[Iterable[A]])
-    : Future[Option[A]] = {
+    : Future[Option[A]] =
       result.map(_.headOption)
-    }
 
-    protected def stageSetElements[A : TypeKey](input: Future[Set[A]]): Future[Iterable[A]] = {
+    protected def stageSetElements[A : TypeKey](input: Future[Set[A]]): Future[Iterable[A]] =
       input
-    }
 
     protected def unstageSetElements[A : TypeKey](input: Future[Set[A]], result: Future[Iterable[A]])
-    : Future[Set[A]] = {
+    : Future[Set[A]] =
       result.map(_.toSet)
-    }
 
-    protected def stageListElements[A : TypeKey](input: Future[List[A]]): Future[Iterable[A]] = {
+    protected def stageListElements[A : TypeKey](input: Future[List[A]]): Future[Iterable[A]] =
       input
-    }
 
     protected def unstageListElements[A : TypeKey](input: Future[List[A]], result: Future[Iterable[A]])
-    : Future[List[A]] = {
+    : Future[List[A]] =
       result.map(_.toList)
-    }
 
   }
 
@@ -171,6 +160,8 @@ trait Transformer {
  * tranformers
  */
 object Transformer {
+
+  // TODO why are some customs in objects, some top level? normalize
 
   /** a custom transformer of things of type A */
   trait CustomTransformer[A] {

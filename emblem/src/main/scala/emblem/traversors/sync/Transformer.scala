@@ -7,12 +7,11 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.sync.Transformer._
 
-/** recursively tranforms a data structure by type. the input and the output of the transformation
+/** synchronously tranforms a recursive data structure. the input and the output of the transformation
  * have the same type.
  *
  * you can transform arbritrary data to your liking by implementing the protected vals and defs in this
- * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
- * sorry about that.
+ * interface.
  *
  * the only usage example as of now, `longevity.testUtil.PersistedToUnpersistedTransformer`, lives outside of
  * emblem project, in sibling project longevity. it might give you some ideas in how to use, but then so will

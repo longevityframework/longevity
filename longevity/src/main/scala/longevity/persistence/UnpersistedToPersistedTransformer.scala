@@ -14,11 +14,12 @@ import scala.concurrent.Promise
 import scala.util.Failure
 import scala.util.Success
 
-/** traverses an entity graph, replacing every [[longevity.persistence.PersistedAssoc persisted assoc]] with an
- * [[longevity.subdomain.UnpersistedAssoc unpersisted assoc]].
+/** traverses an entity graph, replacing every [[longevity.subdomain.UnpersistedAssoc unpersisted assoc]] with a
+ * [[longevity.persistence.PersistedAssoc persisted assoc]].
  *
- * this is useful for testing purposes, as it transforms a persisted entity into its unpersisted equivalent.
+ * used by the [[Repo]] to recursively persist entities.
  *
+ * @param repoPool a pool of all the repos in the [[longevity.context.PersistenceContext]]
  * @param emblemPool a pool of emblems for the entities to be transformed
  * @param extractorPool a complete set of the extractors used by the bounded context
  */
@@ -28,27 +29,22 @@ private[persistence] class UnpersistedToPersistedTransformer(
   override protected val extractorPool: ExtractorPool)
 extends Transformer {
 
-  override protected val customTransformers = CustomTransformerPool.empty + transformAssoc
+  override protected val customTransformers = CustomTransformerPool.empty + transformFutureAssoc
 
-  private lazy val transformAssoc = new CustomTransformer[AssocAny] {
+  private lazy val transformFutureAssoc = new CustomTransformer[AssocAny] {
     def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: Future[B]): Future[B] = {
       val promise = Promise[B]()
-      // TODO better variable name than b
-      def completeB(b: B): Unit = b match {
-        case persistedAssoc: PersistedAssoc[_] => promise.success(b)
+      def transformAssoc(assoc: B): Unit = assoc match {
+        case persistedAssoc: PersistedAssoc[_] => promise.success(assoc)
         case unpersistedAssoc: UnpersistedAssoc[_] =>
-          val unpersistedEntity = b.unpersisted
+          val unpersistedEntity = assoc.unpersisted
           val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
           val repo = repoPool(entityTypeKey)
           val futurePersistedEntity = repo.create(unpersistedEntity).map(_.id).asInstanceOf[Future[B]]
           promise.completeWith(futurePersistedEntity)
       }
-      input.onComplete { tryB =>
-        tryB match {
-          case Success(b) => completeB(b)
-          case Failure(e) => promise.failure(e)
-        }
-      }
+      input onSuccess { case assoc => transformAssoc(assoc) }
+      input onFailure { case e => promise.failure(e) }
       promise.future
     }
   }
