@@ -69,20 +69,8 @@ class TestDataGenerator (
   /** generates a string of the specified length */
   def string(length: Int): String = new String((1 to length).map(i => char).toArray)
 
-  protected def option[A](a: => A): Option[A] = if (boolean) Some(a) else None
-
-  protected def set[A](a: => A): Set[A] = math.abs(int % 4) match {
-    case 0 => Set[A]()
-    case 1 => Set[A](a)
-    case 2 => Set[A](a, a)
-    case 3 => Set[A](a, a, a)
-  }
-
-  protected def list[A](a: => A): List[A] = math.abs(int % 4) match {
-    case 0 => List[A]()
-    case 1 => List[A](a)
-    case 2 => List[A](a, a)
-    case 3 => List[A](a, a, a)
-  }
+  protected def optionSize[A : TypeKey]: Int = math.abs(int % 2)
+  protected def setSize[A : TypeKey]: Int = math.abs(int % 4)
+  protected def listSize[A : TypeKey]: Int = math.abs(int % 4)
 
 }

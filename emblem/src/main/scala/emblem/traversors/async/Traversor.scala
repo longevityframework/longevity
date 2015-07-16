@@ -12,8 +12,6 @@ import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
 
-// TODO rerun scaladoc
-
 /** asynchronously traverses a recursive data structure. the inputs and the outputs of the traversal are abstract
  * here, and specified by the implementing class. this forms a generic pattern for
  * [[emblem.traversors.sync.Visitor visiting]],

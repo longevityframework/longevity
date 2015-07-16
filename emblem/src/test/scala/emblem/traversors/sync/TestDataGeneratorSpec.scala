@@ -14,13 +14,10 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "TestDataGenerator.generate[A] with custom generator"
 
-  class IntHolder(val i: Int)
-  class IntHolderNoCustom(val i: Int)
-
   it should "produce values according to the supplied custom generator" in {
     val generator = standardGenerator
     val intHolder: IntHolder = generator.generate[IntHolder]
-    List.fill(100) {
+    List.fill(10) {
       (generator.generate[IntHolder].i) shouldNot equal (generator.generate[IntHolder].i)
     }
   }
@@ -46,7 +43,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val customGeneratorPool = CustomGeneratorPool.empty + intHolderCustomGenerator + listCustomGenerator
     val generator = new TestDataGenerator(emblemPool, extractorPool, customGeneratorPool)
 
-    List.fill(100) {
+    List.fill(10) {
       val intList: List[Int] = generator.generate[List[Int]]
       intList.size should equal (5)
 
@@ -67,12 +64,12 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val generator = standardGenerator
 
     val point: Point = generator.generate[Point]
-    List.fill(100) {
+    List.fill(10) {
       (generator.generate[Point]) shouldNot equal (generator.generate[Point])
     }
 
     val friend: Friend = generator.generate[Friend]
-    List.fill(100) {
+    List.fill(10) {
       (generator.generate[Friend]) shouldNot equal (generator.generate[Friend])
     }
   }
@@ -94,17 +91,17 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val generator = standardGenerator
 
     val email: Email = generator.generate[Email]
-    List.fill(100) {
+    List.fill(10) {
       (generator.generate[Email]) shouldNot equal (generator.generate[Email])
     }
 
     val radians: Radians = generator.generate[Radians]
-    List.fill(100) {
+    List.fill(10) {
       (generator.generate[Radians]) shouldNot equal (generator.generate[Radians])
     }
 
     val zipcode: Zipcode = generator.generate[Zipcode]
-    List.fill(100) {
+    List.fill(10) {
       (generator.generate[Zipcode]) shouldNot equal (generator.generate[Zipcode])
     }
   }
@@ -138,7 +135,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val generator = standardGenerator
 
     val stringSet: Set[String] = generator.generate[Set[String]]
-    val stringSetList: List[Set[String]] = List.fill(100) { generator.generate[Set[String]] }
+    val stringSetList: List[Set[String]] = List.fill(50) { generator.generate[Set[String]] }
     val sizeToStringSetMap = stringSetList.groupBy(_.size)
     sizeToStringSetMap.get(0).value.size should be > 1
     sizeToStringSetMap.get(1).value.size should be > 1
@@ -153,7 +150,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val generator = standardGenerator
 
     val stringList: List[String] = generator.generate[List[String]]
-    val stringListList = List.fill(100) { generator.generate[List[String]] }
+    val stringListList = List.fill(50) { generator.generate[List[String]] }
     val sizeToStringListMap = stringListList.groupBy(_.size)
     sizeToStringListMap.get(0).value.size should be > 1
     sizeToStringListMap.get(1).value.size should be > 1
@@ -171,30 +168,30 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val c: Char = generator.char
 
     val d: Double = generator.double
-    List.fill(100) { (generator.double) shouldNot equal (generator.double) }
+    List.fill(10) { (generator.double) shouldNot equal (generator.double) }
 
     val f: Float = generator.float
-    List.fill(100) { (generator.float) shouldNot equal (generator.float) }
+    List.fill(10) { (generator.float) shouldNot equal (generator.float) }
 
     val l: Long = generator.long
-    List.fill(100) { (generator.long) shouldNot equal (generator.long) }
+    List.fill(10) { (generator.long) shouldNot equal (generator.long) }
 
     val i: Int = generator.int
-    List.fill(100) { (generator.int) shouldNot equal (generator.int) }
+    List.fill(10) { (generator.int) shouldNot equal (generator.int) }
 
     def isAlphaNumeric(c: Char) =
     (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')
 
-    (0 to 100) foreach { i =>
+    (0 to 10) foreach { i =>
       val s: String = generator.string(i)
       s.length should equal (i)
-      if (i > 10) {
-        s.filterNot(isAlphaNumeric(_)) should equal ("")
+      s.filterNot(isAlphaNumeric(_)) should equal ("")
+      if (i > 5) {
         generator.string(i) shouldNot equal (generator.string(i))
       }
     }
 
-    List.fill(100) {
+    List.fill(10) {
       val s: String = generator.string
       s.length should equal (8)
       s.filterNot(isAlphaNumeric(_)) should equal ("")
@@ -216,6 +213,9 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     generator.generate[List[Int]] should equal (List(1, 2, 3))
     generator.generate[Int] should equal (77)
   }
+
+  class IntHolder(val i: Int)
+  class IntHolderNoCustom(val i: Int)
 
   private def standardGenerator = {
     val intHolderCustomGenerator = simpleGenerator(

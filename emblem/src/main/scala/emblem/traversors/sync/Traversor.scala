@@ -14,9 +14,6 @@ import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
 
-// TODO investigate stall in test suite
-// TODO investigate sporadic failure in TestDataGeneratorSpec
-
 /** synchronously traverses a recursive data structure. the inputs and the outputs of the traversal are abstract
  * here, and specified by the implementing class. this forms a generic pattern for [[Visitor visiting]],
  * [[Generator generating]], and [[Transformer transforming]] data.

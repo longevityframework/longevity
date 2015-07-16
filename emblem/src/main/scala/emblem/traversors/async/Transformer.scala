@@ -161,8 +161,6 @@ trait Transformer {
  */
 object Transformer {
 
-  // TODO why are some customs in objects, some top level? normalize
-
   /** a custom transformer of things of type A */
   trait CustomTransformer[A] {
 

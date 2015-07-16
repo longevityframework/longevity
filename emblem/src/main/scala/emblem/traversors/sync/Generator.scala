@@ -38,14 +38,21 @@ trait Generator {
   /** the custom generators to use in the recursive generation */
   protected val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty
 
-  /** generates an option */
-  protected def option[A](a: => A): Option[A]
+  /** returns the size of the option to be generated. a return value of `0` will generate a `None`, and a
+   * return value of `1` (or anything other than `0`) will generate a `Some`.
+   * @tparam A the type of the optional value
+   */
+  protected def optionSize[A : TypeKey]: Int
 
-  /** generates a set */
-  protected def set[A](a: => A): Set[A]
+  /** returns the size of the set to be generated. a negative return value will result in an empty set.
+   * @tparam A the type of the set elements
+   */
+  protected def setSize[A : TypeKey]: Int
 
-  /** generates a list */
-  protected def list[A](a: => A): List[A]
+  /** returns the size of the list to be generated. a negative return value will result in an empty list.
+   * @tparam A the type of the list elements
+   */
+  protected def listSize[A : TypeKey]: Int
 
   /** generates a boolean */
   protected def boolean: Boolean
@@ -122,16 +129,16 @@ trait Generator {
         case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
       }
 
-    protected def stageOptionValue[A : TypeKey](input: Unit): Iterable[Unit] = list(())
+    protected def stageOptionValue[A : TypeKey](input: Unit): Iterable[Unit] = List.fill(optionSize)(())
 
     protected def unstageOptionValue[A : TypeKey](input: Unit, result: Iterable[A]): Option[A] = result.headOption
 
-    protected def stageSetElements[A : TypeKey](input: Unit): Iterable[Unit] = list(())
+    protected def stageSetElements[A : TypeKey](input: Unit): Iterable[Unit] = List.fill(listSize)(())
 
     protected def unstageSetElements[A : TypeKey](input: Unit, result: Iterable[A]): Set[A] =
       result.toSet
 
-    protected def stageListElements[A : TypeKey](input: Unit): Iterable[Unit] = list(())
+    protected def stageListElements[A : TypeKey](input: Unit): Iterable[Unit] = List.fill(setSize)(())
 
     protected def unstageListElements[A : TypeKey](input: Unit, result: Iterable[A]): List[A] =
       result.toList
