@@ -43,7 +43,36 @@ object blogs {
   case class CrmBlog(uri: Uri) extends CrmEntity
   val blogEmblem = Emblem[CrmBlog]
 
-  val emblemPool = EmblemPool(userEmblem, addressEmblem, blogEmblem)
+  case class CrmBlogPost(
+    uri: Uri,
+
+    authors: Set[CrmUser],
+    comments: List[CrmComment],
+    blog: Option[CrmBlog],
+
+    tags: Set[String],
+    longOpt: Option[Long],
+    intList: List[Int])
+  extends CrmEntity
+
+  val blogPostEmblem = Emblem[CrmBlogPost]
+
+  object CrmBlogPost {
+
+    def apply(): CrmBlogPost = CrmBlogPost(
+      "uri",
+      Set(CrmUser("userUri")),
+      List(CrmComment("c1"), CrmComment("c2")),
+      Some(CrmBlog("blogUri")),
+      Set("tag1", "tag2"),
+      Some(0l),
+      List(1, 2, 3))
+  }
+
+  case class CrmComment(uri: Uri) extends CrmEntity
+  val commentEmblem = Emblem[CrmComment]
+
+  val emblemPool = EmblemPool(userEmblem, addressEmblem, blogEmblem, blogPostEmblem, commentEmblem)
 
   // extractors
 

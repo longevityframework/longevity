@@ -9,10 +9,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   lazy val differ = new Differ(emblemPool, extractorPool)
 
-  // TODO pt-89937096 pt-89942150 more specs for: 
-  // - emblems with embedded options, sets, and lists
-  // - options, sets, and lists of emblems
-  // - CouldNotTraverseException cases
+  // TODO pt-89942150 specs for CouldNotTraverseException cases
 
   behavior of "Differ.diff for emblems"
 
@@ -153,6 +150,62 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
     differ.diff(316, 317) should equal (Diffs(Diff("", 316, 317)))
     differ.diff(24L, 25L) should equal (Diffs(Diff("", 24L, 25L)))
     differ.diff("foo", "bar") should equal (Diffs(Diff("", "foo", "bar")))
+  }
+
+  behavior of "Differ.diff for emblems with options, sets and lists of basic values"
+
+  it should "produce an empty Diffs when the values match" in {
+    CrmBlogPost() should equal (CrmBlogPost())
+  }
+
+  it should "find diffs in the basic value collections of the emblem" in {
+    val post1 = CrmBlogPost()
+    val post2 = post1.copy(tags = Set("tag2", "tag3"))
+    val post3 = post1.copy(tags = post1.tags + "new tag")
+    val post4 = post1.copy(longOpt = Some(-7))
+    val post5 = post1.copy(longOpt = None)
+    val post6 = post1.copy(intList = List(1, 4, 5))
+    val post7 = post1.copy(intList = List())
+
+    differ.diff(post1, post2) should equal (Diffs(Diff(".tags", post1.tags, post2.tags)))
+    differ.diff(post1, post3) should equal (Diffs(Diff(".tags.size", post1.tags.size, post3.tags.size)))
+
+    differ.diff(post1, post4) should equal (Diffs(Diff(".longOpt.value", post1.longOpt.get, post4.longOpt.get)))
+    differ.diff(post1, post5) should equal (Diffs(Diff(".longOpt.size", post1.longOpt.size, post5.longOpt.size)))
+
+    differ.diff(post1, post6) should equal (Diffs(
+      Diff(".intList(1)", post1.intList(1), post6.intList(1)),
+      Diff(".intList(2)", post1.intList(2), post6.intList(2))))
+    differ.diff(post1, post7) should equal (Diffs(Diff(".intList.size", post1.intList.size, post7.intList.size)))
+  }
+
+  behavior of "Differ.diff for emblems with options, sets and lists of emblems"
+
+  it should "produce an empty Diffs when the values match" in {
+    CrmBlogPost() should equal (CrmBlogPost())
+  }
+
+  it should "find diffs in the emblem collections of the emblem" in {
+    val post1 = CrmBlogPost()
+    val post2 = post1.copy(authors = Set(CrmUser("some other user")))
+    val post3 = post1.copy(authors = Set())
+    val post4 = post1.copy(comments = List(CrmComment("c1"), CrmComment("c77")))
+    val post5 = post1.copy(comments = List(CrmComment("c1")))
+    val post6 = post1.copy(blog = Some(CrmBlog("new blog")))
+    val post7 = post1.copy(blog = None)
+
+    differ.diff(post1, post2) should equal (Diffs(Diff(".authors", post1.authors, post2.authors)))
+    differ.diff(post1, post3) should equal (Diffs(Diff(".authors.size", post1.authors.size, post3.authors.size)))
+
+    differ.diff(post1, post4) should equal (
+      Diffs(Diff(".comments(1).uri.inverse", post1.comments(1).uri.uri, post4.comments(1).uri.uri)))
+    differ.diff(post1, post5) should equal (
+      Diffs(Diff(".comments.size", post1.comments.size, post5.comments.size)))
+
+    differ.diff(post1, post6) should equal (
+      Diffs(Diff(".blog.value.uri.inverse", post1.blog.get.uri.uri, post6.blog.get.uri.uri)))
+    differ.diff(post1, post7) should equal (Diffs(Diff(".blog.size", post1.blog.size, post7.blog.size)))
+
   }
 
 }
