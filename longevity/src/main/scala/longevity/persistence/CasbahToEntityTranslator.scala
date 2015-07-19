@@ -9,6 +9,7 @@ import emblem.traversors.sync.Traversor
 import longevity.exceptions.CouldNotTranslateException
 import longevity.exceptions.ShorthandUnabbreviationException
 import longevity.subdomain._
+import scala.reflect.runtime.universe.typeOf
 
 /** translates [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
  * casbah MongoDBObjects]] into [[Entity entities]].
@@ -28,6 +29,8 @@ private[persistence] class CasbahToEntityTranslator(
   } catch {
     case e: CouldNotTraverseException => throw new CouldNotTranslateException(typeKey[E], e)
   }
+
+  private val optionAnyType = typeOf[scala.Option[_]]
 
   private val traversor = new Traversor {
 
@@ -79,7 +82,15 @@ private[persistence] class CasbahToEntityTranslator(
       emblem: Emblem[A],
       input: TraverseInput[A])
     : Iterable[PropInput[A, _]] = {
-      def propInput[B](prop: EmblemProp[A, B]) = prop -> input.asInstanceOf[MongoDBObject](prop.name)
+      val mongoDBObject = input.asInstanceOf[MongoDBObject]
+      def propInput[B](prop: EmblemProp[A, B]) = {
+        if (prop.typeKey.tpe <:< optionAnyType) {
+          prop -> mongoDBObject.get(prop.name)
+        }
+        else {
+          prop -> mongoDBObject(prop.name)
+        }
+      }
       emblem.props.map(propInput(_))
     }
 

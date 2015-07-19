@@ -10,6 +10,9 @@ package object master {
   val entityTypes = EntityTypePool() +
     AllAttributes +
     Associated +
+    AttributeLists +
+    AttributeOptions +
+    AttributeSets +
     OneAttribute +
     OneShorthand +
     WithAssoc +
