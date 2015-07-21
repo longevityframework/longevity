@@ -16,6 +16,7 @@ package object master {
     OneAttribute +
     OneShorthand +
     WithAssoc +
+    WithAssocList +
     WithAssocOption +
     WithAssocSet
 
