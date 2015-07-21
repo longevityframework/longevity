@@ -1,5 +1,6 @@
 package emblem.traversors.sync
 
+import emblem.exceptions.CouldNotTraverseException
 import Differ._
 import emblem.testData.blogs._
 import org.scalatest._
@@ -9,7 +10,15 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   lazy val differ = new Differ(emblemPool, extractorPool)
 
-  // TODO pt-89942150 specs for CouldNotTraverseException cases
+  behavior of "Differ.diff for types not covered by the emblem and extractor pools"
+
+  case class NoEmblem()
+
+  it should "produce a CouldNotTraverseException" in {
+    intercept[CouldNotTraverseException] {
+      differ.diff(NoEmblem(), NoEmblem())
+    }
+  }
 
   behavior of "Differ.diff for emblems"
 
