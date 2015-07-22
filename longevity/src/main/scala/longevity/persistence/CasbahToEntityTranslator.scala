@@ -78,13 +78,23 @@ private[persistence] class CasbahToEntityTranslator(
     protected def traverseString(input: TraverseInput[String]): TraverseResult[String] =
       input.asInstanceOf[String]
 
-    protected def stageEmblemProps[A <: HasEmblem](
+    protected def stageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       input: TraverseInput[A])
     : Iterable[PropInput[A, _]] = {
-      val mongoDBObject = input.asInstanceOf[MongoDBObject]
+      val mongoDBObject: MongoDBObject = {
+        val key = typeKey[A]
+        if (key <:< typeOf[RootEntity]) {
+          input.asInstanceOf[MongoDBObject]
+        } else if (key <:< typeOf[Entity]) {
+          input.asInstanceOf[BasicDBObject]
+        } else {
+          throw new CouldNotTraverseException(key)
+        }
+      }
+
       def propInput[B](prop: EmblemProp[A, B]) = {
-        if (prop.typeKey.tpe <:< optionAnyType) {
+        if (prop.typeKey <:< optionAnyType) {
           prop -> mongoDBObject.get(prop.name)
         }
         else {
@@ -94,20 +104,22 @@ private[persistence] class CasbahToEntityTranslator(
       emblem.props.map(propInput(_))
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem](emblem: Emblem[A], result: Iterable[PropResult[A, _]])
+    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+      emblem: Emblem[A],
+      result: Iterable[PropResult[A, _]])
     : TraverseResult[A] = {
       val builder = emblem.builder()
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
       builder.build()
     }
 
-    protected def stageExtractor[Domain : TypeKey, Range](
+    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       input: TraverseInput[Domain])
     : TraverseInput[Range] =
       input
 
-    protected def unstageExtractor[Domain : TypeKey, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       rangeResult: TraverseResult[Range])
     : TraverseResult[Domain] =

@@ -107,21 +107,28 @@ trait Generator {
       customGeneratorPool.mapValues(generatorToTraversor)
     }
 
-    protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: Unit)
+    protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: Unit)
     : Iterable[PropInput[A, _]] =
       emblem.props.map((_, ()))
 
-    protected def unstageEmblemProps[A <: HasEmblem](emblem: Emblem[A], result: Iterable[PropResult[A, _]]): A = {
+    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+      emblem: Emblem[A],
+      result: Iterable[PropResult[A, _]])
+    : A = {
       val builder = emblem.builder()
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
       builder.build()
     }
 
-    protected def stageExtractor[Domain : TypeKey, Range](extractor: Extractor[Domain, Range], input: Unit)
+    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
+      extractor: Extractor[Domain, Range],
+      input: Unit)
     : Unit =
       ()
 
-    protected def unstageExtractor[Domain : TypeKey, Range](extractor: Extractor[Domain, Range], range: Range)
+    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
+      extractor: Extractor[Domain, Range],
+      range: Range)
     : Domain =
       try {
         extractor.inverse(range)

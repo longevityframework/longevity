@@ -94,7 +94,7 @@ trait Transformer {
       customTransformers.mapValues(transformerToTraversor)
     }
 
-    protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], futureA: Future[A])
+    protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], futureA: Future[A])
     : Future[Iterable[PropInput[A, _]]] = {
       futureA map { a =>
         def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(a))
@@ -102,7 +102,7 @@ trait Transformer {
       }
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem](
+    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       result: Future[Iterable[PropResult[A, _]]])
     : Future[A] = {
@@ -113,13 +113,13 @@ trait Transformer {
       }
     }
 
-    protected def stageExtractor[Domain : TypeKey, Range](
+    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       domain: Future[Domain])
     : Future[Range] =
       domain map extractor.apply
 
-    protected def unstageExtractor[Domain : TypeKey, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       range: Future[Range])
     : Future[Domain] =

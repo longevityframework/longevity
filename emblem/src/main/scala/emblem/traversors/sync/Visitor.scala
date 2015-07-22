@@ -91,23 +91,25 @@ trait Visitor {
       customVisitors.mapValues(visitorToTraversor)
     }
 
-    protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: A)
+    protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: A)
     : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(input))
       emblem.props.map(propInput(_))
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem](emblem: Emblem[A], result: Iterable[PropResult[A, _]])
+    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+      emblem: Emblem[A],
+      result: Iterable[PropResult[A, _]])
     : Unit =
       ()
 
-    protected def stageExtractor[Domain : TypeKey, Range](
+    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       input: Domain)
     : Range =
       extractor.apply(input)
 
-    protected def unstageExtractor[Domain : TypeKey, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       domainResult: Unit)
     : Unit =

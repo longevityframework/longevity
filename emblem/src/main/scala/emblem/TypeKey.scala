@@ -38,6 +38,18 @@ case class TypeKey[A](val tag: TypeTag[A]) {
   /** the scala-reflect `Type` for type `A` */
   def tpe: Type = tag.tpe
 
+  /** shorthand for `this.tpe.<:<` */
+  def <:<(that: Type) = this.tpe <:< that
+
+  /** shorthand for `this.tpe.<:<` */
+  def <:<(that: TypeKey[_]) = this.tpe <:< that.tpe
+
+  /** shorthand for `this.tpe.=:=` */
+  def =:=(that: Type) = this.tpe =:= that
+
+  /** shorthand for `this.tpe.=:=` */
+  def =:=(that: TypeKey[_]) = this.tpe =:= that.tpe
+
   /** a list of type keys for the type arguments of this type */
   lazy val typeArgs: List[TypeKey[_]] = tpe.typeArgs map { tpe => TypeKey(makeTypeTag(tpe)) }
 

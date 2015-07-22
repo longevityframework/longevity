@@ -13,12 +13,14 @@ package object master {
     AttributeLists +
     AttributeOptions +
     AttributeSets +
+    Component +
     OneAttribute +
     OneShorthand +
     WithAssoc +
     WithAssocList +
     WithAssocOption +
-    WithAssocSet
+    WithAssocSet +
+    WithComponent
 
   val subdomain = Subdomain("Master", entityTypes)
 

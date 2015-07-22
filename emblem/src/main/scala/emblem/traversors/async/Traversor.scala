@@ -95,7 +95,7 @@ trait Traversor {
    * @param input the input to the emblem traversal
    * @return an iterable of inputs for the emblem props
    */
-  protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: Future[TraverseInput[A]])
+  protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: Future[TraverseInput[A]])
   : Future[Iterable[PropInput[A, _]]]
 
   /** unstages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
@@ -104,7 +104,9 @@ trait Traversor {
    * @param result an iterable of the outputs for the emblem props
    * @return the output for the emblem
    */
-  protected def unstageEmblemProps[A <: HasEmblem](emblem: Emblem[A], result: Future[Iterable[PropResult[A, _]]])
+  protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    emblem: Emblem[A],
+    result: Future[Iterable[PropResult[A, _]]])
   : Future[TraverseResult[A]]
 
   /** stages the traversal of a [[Extractor extractor]]
@@ -114,7 +116,7 @@ trait Traversor {
    * @param input the input to the extractor traversal
    * @return the input for traversing `Extractor.inverse`
    */
-  protected def stageExtractor[Domain : TypeKey, Range](
+  protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
     input: Future[TraverseInput[Domain]])
   : Future[TraverseInput[Range]]
@@ -126,7 +128,7 @@ trait Traversor {
    * @param rangeResult the result of traversing `Extractor.inverse`
    * @return the result of traversing the extractor
    */
-  protected def unstageExtractor[Domain : TypeKey, Range](
+  protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
     rangeResult: Future[TraverseResult[Range]])
   : Future[TraverseResult[Domain]]
@@ -251,7 +253,9 @@ trait Traversor {
     emblemPool.get(typeKey[A]) map { emblem => traverseFromEmblem(emblem, input) }
   }
 
-  private def traverseFromEmblem[A <: HasEmblem](emblem: Emblem[A], hasEmblemInput: Future[TraverseInput[A]])
+  private def traverseFromEmblem[A <: HasEmblem : TypeKey](
+    emblem: Emblem[A],
+    hasEmblemInput: Future[TraverseInput[A]])
   : Future[TraverseResult[A]] = {
     val promise = Promise[TraverseResult[A]]()
 
@@ -290,7 +294,7 @@ trait Traversor {
   : Future[TraverseResult[Domain]] =
     traverseFromFullyTypedExtractor(extractor, input)
 
-  private def traverseFromFullyTypedExtractor[Domain : TypeKey, Range](
+  private def traverseFromFullyTypedExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
     input: Future[TraverseInput[Domain]])
   : Future[TraverseResult[Domain]] = {

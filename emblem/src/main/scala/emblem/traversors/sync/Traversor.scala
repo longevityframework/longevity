@@ -97,7 +97,7 @@ trait Traversor {
    * @param input the input to the emblem traversal
    * @return an iteratable of inputs for the emblem props
    */
-  protected def stageEmblemProps[A <: HasEmblem](
+  protected def stageEmblemProps[A <: HasEmblem : TypeKey](
     emblem: Emblem[A],
     input: TraverseInput[A])
   : Iterable[PropInput[A, _]]
@@ -108,7 +108,7 @@ trait Traversor {
    * @param an iterable of the outputs for the emblem props
    * @return the output for the emblem
    */
-  protected def unstageEmblemProps[A <: HasEmblem](
+  protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
     emblem: Emblem[A],
     result: Iterable[PropResult[A, _]])
   : TraverseResult[A]
@@ -120,7 +120,7 @@ trait Traversor {
    * @param input the input to the extractor traversal
    * @return the input for traversing `Extractor.inverse`
    */
-  protected def stageExtractor[Domain : TypeKey, Range](
+  protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
     input: TraverseInput[Domain])
   : TraverseInput[Range]
@@ -132,7 +132,7 @@ trait Traversor {
    * @param rangeResult the result of traversing `Extractor.inverse`
    * @return the result of traversing the extractor
    */
-  protected def unstageExtractor[Domain : TypeKey, Range](
+  protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
     rangeResult: TraverseResult[Range])
   : TraverseResult[Domain]
@@ -245,25 +245,25 @@ trait Traversor {
     protected def traverseString(input: Future[TraverseInput[String]]): Future[TraverseResult[String]] =
       input.map(Traversor.this.traverseString(_))
 
-    protected def stageEmblemProps[A <: HasEmblem](
+    protected def stageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       futureInputA: Future[TraverseInput[A]])
     : Future[Iterable[PropInput[A, _]]] =
       futureInputA map { inputA => Traversor.this.stageEmblemProps(emblem, inputA) }
 
-    protected def unstageEmblemProps[A <: HasEmblem](
+    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       asyncResult: Future[Iterable[PropResult[A, _]]])
     : Future[TraverseResult[A]] =
       asyncResult map { result => Traversor.this.unstageEmblemProps(emblem, result) }
 
-    protected def stageExtractor[Domain : TypeKey, Range](
+    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       input: Future[TraverseInput[Domain]])
     : Future[TraverseInput[Range]] =
       input.map(Traversor.this.stageExtractor(extractor, _))
 
-    protected def unstageExtractor[Domain : TypeKey, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       rangeResult: Future[TraverseResult[Range]])
     : Future[TraverseResult[Domain]] =

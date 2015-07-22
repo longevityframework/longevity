@@ -61,7 +61,7 @@ private[persistence] class EntityToCasbahTranslator(
 
     protected def traverseString(input: TraverseInput[String]): TraverseResult[String] = input
 
-    protected def stageEmblemProps[A <: HasEmblem](
+    protected def stageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       input: TraverseInput[A])
     : Iterable[PropInput[A, _]] = {
@@ -69,7 +69,9 @@ private[persistence] class EntityToCasbahTranslator(
       emblem.props.map(propInput(_))
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem](emblem: Emblem[A], result: Iterable[PropResult[A, _]])
+    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+      emblem: Emblem[A],
+      result: Iterable[PropResult[A, _]])
     : TraverseResult[A] = {
       val builder = new MongoDBObjectBuilder()
       result.foreach {
@@ -78,13 +80,13 @@ private[persistence] class EntityToCasbahTranslator(
       builder.result()
     }
 
-    protected def stageExtractor[Domain : TypeKey, Range](
+    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       input: TraverseInput[Domain])
     : TraverseInput[Range] =
       extractor.apply(input)
 
-    protected def unstageExtractor[Domain : TypeKey, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       rangeResult: TraverseResult[Range])
     : TraverseResult[Domain] =

@@ -63,20 +63,20 @@ class Differ(
       if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 
-    protected def stageEmblemProps[A <: HasEmblem](emblem: Emblem[A], input: DifferInput[A])
+    protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: DifferInput[A])
     : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) =
         (prop, DifferInput(prop.get(input.lhs), prop.get(input.rhs), input.path + "." + prop.name))
       emblem.props.map(propInput(_))
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem](
+    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : Diffs =
       result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
 
-    protected def stageExtractor[Domain : TypeKey, Range](
+    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       input: DifferInput[Domain])
     : DifferInput[Range] =
@@ -85,7 +85,7 @@ class Differ(
         rhs = extractor.apply(input.rhs),
         path = input.path + ".inverse")
 
-    protected def unstageExtractor[Domain : TypeKey, Range](
+    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       result: Diffs)
     : Diffs = result
