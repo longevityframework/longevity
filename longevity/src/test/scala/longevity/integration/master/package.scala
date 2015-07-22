@@ -20,7 +20,8 @@ package object master {
     WithAssocList +
     WithAssocOption +
     WithAssocSet +
-    WithComponent
+    WithComponent +
+    WithComponentOption
 
   val subdomain = Subdomain("Master", entityTypes)
 
