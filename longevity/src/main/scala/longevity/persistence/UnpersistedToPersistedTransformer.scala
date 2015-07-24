@@ -1,9 +1,11 @@
 package longevity.persistence
 
+import emblem.exceptions.CouldNotTransformException
 import emblem.imports._
 import emblem.traversors.async.Transformer
 import emblem.traversors.async.Transformer.CustomTransformer
 import emblem.traversors.async.Transformer.CustomTransformerPool
+import longevity.exceptions.CouldNotTranslateException
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.RootEntity
@@ -28,6 +30,10 @@ private[persistence] class UnpersistedToPersistedTransformer(
   override protected val emblemPool: EmblemPool,
   override protected val extractorPool: ExtractorPool)
 extends Transformer {
+
+  override def transform[A : TypeKey](input: Future[A]): Future[A] = super.transform[A](input) recoverWith {
+    case e: CouldNotTransformException => Future.failed(new CouldNotTranslateException(e.typeKey, e))
+  }
 
   override protected val customTransformers = CustomTransformerPool.empty + transformFutureAssoc
 
