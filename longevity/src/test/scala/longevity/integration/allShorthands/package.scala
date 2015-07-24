@@ -1,5 +1,6 @@
 package longevity.integration
 
+import com.github.nscala_time.time.Imports._
 import longevity.context._
 import longevity.shorthands._
 import longevity.subdomain._
@@ -13,6 +14,7 @@ package object allShorthands {
 
   val booleanShorthand = Shorthand[BooleanShorthand, Boolean]
   val charShorthand = Shorthand[CharShorthand, Char]
+  val dateTimeShorthand = Shorthand[DateTimeShorthand, DateTime]
   val doubleShorthand = Shorthand[DoubleShorthand, Double]
   val floatShorthand = Shorthand[FloatShorthand, Float]
   val intShorthand = Shorthand[IntShorthand, Int]
@@ -22,6 +24,7 @@ package object allShorthands {
   val shorthandPool = ShorthandPool.empty +
     booleanShorthand +
     charShorthand +
+    dateTimeShorthand +
     doubleShorthand +
     floatShorthand +
     intShorthand +

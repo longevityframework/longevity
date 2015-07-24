@@ -11,6 +11,7 @@ import scala.concurrent.Future
 import scala.concurrent.Promise
 import scala.util.Failure
 import scala.util.Success
+import org.joda.time.DateTime
 
 /** asynchronously tranforms a recursive data structure. the input and the output of the transformation
  * have the same type.
@@ -46,6 +47,9 @@ trait Transformer {
   /** transforms a char */
   protected def transformChar(input: Future[Char]): Future[Char] = input
 
+  /** transforms a date-time */
+  protected def transformDateTime(input: Future[DateTime]): Future[DateTime] = input
+
   /** transforms a double */
   protected def transformDouble(input: Future[Double]): Future[Double] = input
 
@@ -69,6 +73,8 @@ trait Transformer {
     def traverseBoolean(input: Future[Boolean]): Future[Boolean] = transformBoolean(input)
 
     def traverseChar(input: Future[Char]): Future[Char] = transformChar(input)
+
+    def traverseDateTime(input: Future[DateTime]): Future[DateTime] = transformDateTime(input)
 
     def traverseDouble(input: Future[Double]): Future[Double] = transformDouble(input)
 

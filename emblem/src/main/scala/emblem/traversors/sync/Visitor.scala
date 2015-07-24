@@ -5,6 +5,7 @@ import emblem.TypeBoundFunction
 import emblem.exceptions.CouldNotVisitException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.sync.Visitor._
+import org.joda.time.DateTime
 
 // TODO pt-92300784 VisitorSpec
 
@@ -43,6 +44,9 @@ trait Visitor {
   /** visits a char */
   protected def visitChar(input: Char): Unit = {}
 
+  /** visits a date-time */
+  protected def visitDateTime(input: DateTime): Unit = {}
+
   /** visits a double */
   protected def visitDouble(input: Double): Unit = {}
 
@@ -66,6 +70,8 @@ trait Visitor {
     def traverseBoolean(input: Boolean): Unit = visitBoolean(input)
 
     def traverseChar(input: Char): Unit = visitChar(input)
+
+    def traverseDateTime(input: DateTime): Unit = visitDateTime(input)
 
     def traverseDouble(input: Double): Unit = visitDouble(input)
 

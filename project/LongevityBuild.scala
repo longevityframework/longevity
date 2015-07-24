@@ -57,7 +57,7 @@ trait BuildSettings {
     resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
     libraryDependencies += ("org.scala-lang" % "scala-reflect" % scalaVersion.value),
     libraryDependencies += ("org.scala-lang.modules" %% "scala-async" % "0.9.2"),
-
+    libraryDependencies += ("com.github.nscala-time" %% "nscala-time" % "1.0.0"),
     libraryDependencies += ("org.scalatest" %% "scalatest" % "2.2.1" % "test")
   )
 
@@ -84,9 +84,8 @@ object LongevityBuild extends Build with BuildSettings {
     base = file("longevity"),
     settings =
       buildSettings :+
-      (version := "0.0-SNAPSHOT") :+
-      (libraryDependencies += "org.mongodb" %% "casbah" % "2.8.0") :+
-      (libraryDependencies += "org.reactivemongo" %% "reactivemongo" % "0.10.5.0.akka23") :+
+      (version := "0.1-SNAPSHOT") :+
+      (libraryDependencies += "org.mongodb" %% "casbah" % "2.8.2") :+
       (libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "provided")
   )
   .dependsOn(emblem)

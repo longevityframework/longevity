@@ -3,6 +3,7 @@ package emblem.traversors.sync
 import Differ._
 import emblem.imports._
 import scala.reflect.runtime.universe.typeOf
+import org.joda.time.DateTime
 
 /** recursively computes a sequence of [[Differ.Diff diffs]] between two different values of the same type.
  * 
@@ -40,6 +41,10 @@ class Differ(
     }
 
     protected def traverseChar(input: DifferInput[Char]): Diffs = {
+      if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
+    }
+
+    protected def traverseDateTime(input: DifferInput[DateTime]): Diffs = {
       if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))
     }
 

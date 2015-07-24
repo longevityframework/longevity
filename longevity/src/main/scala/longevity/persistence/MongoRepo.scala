@@ -80,4 +80,6 @@ object MongoRepo {
   val mongoClient = MongoClient("localhost", 27017)
   val mongoDb = mongoClient("test")
 
+  import com.mongodb.casbah.commons.conversions.scala._
+  RegisterJodaTimeConversionHelpers()
 }

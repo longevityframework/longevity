@@ -2,6 +2,6 @@ package longevity.integration.master
 
 import longevity.subdomain._
 
-case class OneShorthand(string: StringShorthand) extends Entity
+case class OneShorthand(string: StringShorthand) extends RootEntity
 
-object OneShorthand extends EntityType[OneShorthand]
+object OneShorthand extends RootEntityType[OneShorthand]

@@ -1,13 +1,14 @@
 package emblem.traversors.async
 
-import emblem.imports._
 import emblem.ExtractorFor
 import emblem.exceptions.CouldNotTraverseException
+import emblem.imports._
 import emblem.reflectionUtil.makeTypeTag
-import scala.reflect.runtime.universe.typeOf
+import org.joda.time.DateTime
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.Promise
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.reflect.runtime.universe.typeOf
 import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
@@ -73,6 +74,9 @@ trait Traversor {
 
   /** traverses a char */
   protected def traverseChar(input: Future[TraverseInput[Char]]): Future[TraverseResult[Char]]
+
+  /** traverses a date-time */
+  protected def traverseDateTime(input: Future[TraverseInput[DateTime]]): Future[TraverseResult[DateTime]]
 
   /** traverses a double */
   protected def traverseDouble(input: Future[TraverseInput[Double]]): Future[TraverseResult[Double]]
@@ -205,6 +209,7 @@ trait Traversor {
     TypeKeyMap[Any, TraversorFunction] +
     traverseBoolean _ +
     traverseChar _ +
+    traverseDateTime _ +
     traverseDouble _ +
     traverseFloat _ +
     traverseInt _ +

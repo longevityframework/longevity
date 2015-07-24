@@ -1,5 +1,6 @@
 package longevity.persistence
 
+import com.github.nscala_time.time.Imports._
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import emblem.imports._
@@ -62,6 +63,9 @@ private[persistence] class CasbahToEntityTranslator(
 
     protected def traverseChar(input: TraverseInput[Char]): TraverseResult[Char] =
       input.asInstanceOf[String](0)
+
+    protected def traverseDateTime(input: TraverseInput[DateTime]): TraverseResult[DateTime] =
+      input.asInstanceOf[DateTime]
 
     protected def traverseDouble(input: TraverseInput[Double]): TraverseResult[Double] =
       input.asInstanceOf[Double]

@@ -1,5 +1,6 @@
 package longevity.integration.allAttributes
 
+import com.github.nscala_time.time.Imports._
 import longevity.subdomain._
 
 case class AllAttributes(
@@ -9,7 +10,8 @@ case class AllAttributes(
   float: Float,
   int: Int,
   long: Long,
-  string: String)
+  string: String,
+  dateTime: DateTime)
 extends RootEntity
 
 object AllAttributes extends RootEntityType[AllAttributes]

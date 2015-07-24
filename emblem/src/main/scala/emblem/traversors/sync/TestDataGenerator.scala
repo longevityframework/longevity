@@ -3,6 +3,7 @@ package emblem.traversors.sync
 import emblem.imports._
 import emblem.reflectionUtil.makeTypeTag
 import emblem.traversors.sync.Generator._
+import org.joda.time.DateTime
 import scala.reflect.runtime.universe.typeOf
 
 /** generates test data for a pool of extractors, a pool of emblems, and some custom generators. you can
@@ -50,6 +51,9 @@ class TestDataGenerator (
     case i if i < 52 => (i - 26 + 'a').toChar
     case i => (i - 52 + '0').toChar
   }
+
+  /** generates a date-time */
+  def dateTime = new DateTime(long)
 
   /** generates a double */
   def double: Double = random.nextDouble() 

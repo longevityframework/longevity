@@ -6,10 +6,15 @@ import longevity.exceptions.CouldNotTranslateException
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
+import org.scalatest.time.SpanSugar._
 
 @IntegrationTest
 @MasterIntegrationTest
 class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
+
+  override implicit def patienceConfig = PatienceConfig(
+    timeout = scaled(1000 millis),
+    interval = scaled(50 millis))
 
   val repoPool = longevityContext.repoPool
 

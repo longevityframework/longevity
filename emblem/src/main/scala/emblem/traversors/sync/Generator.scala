@@ -6,6 +6,7 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.imports._
 import emblem.traversors.sync.Generator._
+import org.joda.time.DateTime
 
 /** recursively generates a data structure by type.
  *
@@ -63,6 +64,9 @@ trait Generator {
   /** generates a double */
   protected def double: Double
 
+  /** generates a date-time */
+  protected def dateTime: DateTime
+
   /** generates a float */
   protected def float: Float
 
@@ -83,6 +87,8 @@ trait Generator {
     def traverseBoolean(input: Unit): Boolean = boolean
 
     def traverseChar(input: Unit): Char = char
+
+    def traverseDateTime(input: Unit): DateTime = dateTime
 
     def traverseDouble(input: Unit): Double = double
 

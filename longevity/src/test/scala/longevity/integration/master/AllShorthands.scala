@@ -9,7 +9,8 @@ case class AllShorthands(
   float: FloatShorthand,
   int: IntShorthand,
   long: LongShorthand,
-  string: StringShorthand)
-extends Entity
+  string: StringShorthand,
+  dateTime: DateTimeShorthand)
+extends RootEntity
 
-object AllShorthands extends EntityType[AllShorthands]
+object AllShorthands extends RootEntityType[AllShorthands]

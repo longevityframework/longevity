@@ -1,7 +1,8 @@
 package emblem.traversors.sync
 
-import emblem.exceptions.CouldNotTraverseException
 import Differ._
+import com.github.nscala_time.time.Imports._
+import emblem.exceptions.CouldNotTraverseException
 import emblem.testData.blogs._
 import org.scalatest._
 
@@ -142,8 +143,10 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "Differ.diff for basic values"
 
   it should "produce an empty Diffs when the values match" in {
+    val date = DateTime.now
     differ.diff(true, true) should equal (Diffs())
     differ.diff('c', 'c') should equal (Diffs())
+    differ.diff(date, date) should equal (Diffs())
     differ.diff(0.7d, 0.7d) should equal (Diffs())
     differ.diff(0.7f, 0.7f) should equal (Diffs())
     differ.diff(316, 316) should equal (Diffs())
@@ -152,8 +155,11 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce a single Diff with empty path when the values don't match" in {
+    val date1 = DateTime.now
+    val date2 = date1 + 1.hour
     differ.diff(true, false) should equal (Diffs(Diff("", true, false)))
     differ.diff('c', 'd') should equal (Diffs(Diff("", 'c', 'd')))
+    differ.diff(date1, date2) should equal (Diffs(Diff("", date1, date2)))
     differ.diff(0.7d, 0.8d) should equal (Diffs(Diff("", 0.7d, 0.8d)))
     differ.diff(0.7f, 0.8f) should equal (Diffs(Diff("", 0.7f, 0.8f)))
     differ.diff(316, 317) should equal (Diffs(Diff("", 316, 317)))

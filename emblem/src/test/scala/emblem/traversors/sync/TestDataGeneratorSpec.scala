@@ -1,7 +1,8 @@
 package emblem.traversors.sync
 
-import emblem.imports._
+import com.github.nscala_time.time.Imports._
 import emblem.exceptions.CouldNotGenerateException
+import emblem.imports._
 import emblem.testData.emblems._
 import emblem.testData.extractors._
 import emblem.traversors.sync.CustomGenerator.simpleGenerator
@@ -166,6 +167,9 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     val b: Boolean = generator.boolean
     val c: Char = generator.char
+
+    val da: DateTime = generator.dateTime
+    List.fill(10) { (generator.dateTime) shouldNot equal (generator.dateTime) }
 
     val d: Double = generator.double
     List.fill(10) { (generator.double) shouldNot equal (generator.double) }

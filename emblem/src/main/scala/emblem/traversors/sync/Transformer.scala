@@ -6,6 +6,7 @@ import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.sync.Transformer._
+import org.joda.time.DateTime
 
 /** synchronously tranforms a recursive data structure. the input and the output of the transformation
  * have the same type.
@@ -44,6 +45,9 @@ trait Transformer {
   /** transforms a char */
   protected def transformChar(input: Char): Char = input
 
+  /** transforms a date-time */
+  protected def transformDateTime(input: DateTime): DateTime = input
+
   /** transforms a double */
   protected def transformDouble(input: Double): Double = input
 
@@ -67,6 +71,8 @@ trait Transformer {
     def traverseBoolean(input: Boolean): Boolean = transformBoolean(input)
 
     def traverseChar(input: Char): Char = transformChar(input)
+
+    def traverseDateTime(input: DateTime): DateTime = transformDateTime(input)
 
     def traverseDouble(input: Double): Double = transformDouble(input)
 
