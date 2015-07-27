@@ -54,8 +54,7 @@ abstract class Repo[E <: RootEntity : TypeKey](
    * cache it, and return it */
   protected def getSessionCreationOrElse(unpersisted: Unpersisted[E], create: => Future[Persisted[E]])
   : Future[Persisted[E]] = {
-    // TODO Promisify this Future!!
-    sessionCreations.get(unpersisted).map(Future(_)).getOrElse {
+    sessionCreations.get(unpersisted).map(Promise.successful(_).future).getOrElse {
       create.map { persisted =>
         sessionCreations += (unpersisted -> persisted)
         persisted
