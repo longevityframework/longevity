@@ -39,8 +39,8 @@ private[longevity] class RepoPoolSpec(
 extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
 
   override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(3000 millis),
-    interval = scaled(100 millis))
+    timeout = scaled(4000 millis),
+    interval = scaled(50 millis))
 
   override val suiteName = s"RepoPoolSpec for ${subdomain.name}${suiteNameSuffix match {
     case Some(suffix) => s" $suffix"
