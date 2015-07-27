@@ -62,10 +62,10 @@ abstract class Repo[E <: RootEntity : TypeKey](
     }
   }
 
-  private lazy val unpersistedToPersistedTransformer = {
-    val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
+  private lazy val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
+
+  private lazy val unpersistedToPersistedTransformer =
     new UnpersistedToPersistedTransformer(repoPool, emblemPool, extractorPool)
-  }
 
   /** returns a version of the aggregate where all unpersisted associations are persisted */
   protected def patchUnpersistedAssocs(entity: E): Future[E] = {
