@@ -72,12 +72,12 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         persistedShouldMatchUnpersisted(created.get, unpersisted)
 
         And(s"further retrieval operations should retrieve the same $entityName")
-        val retrieved: Persisted[E] = repo.retrieve(created.assoc).futureValue.value
+        val retrieved: Persisted[E] = repo.retrieveAssoc(created.assoc).futureValue.value
         persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
       }
     }
 
-    feature(s"${entityName}Repo.retrieve") {
+    feature(s"${entityName}Repo.retrieveAssoc") {
       scenario(s"should produce the same persisted $entityName") {
 
         Given(s"a persisted $entityName")
@@ -85,7 +85,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         val created = repo.create(unpersisted).futureValue
 
         When(s"we retrieve the $entityName by assoc")
-        val retrieved: Persisted[E] = repo.retrieve(created.assoc).futureValue.value
+        val retrieved: Persisted[E] = repo.retrieveAssoc(created.assoc).futureValue.value
 
         Then(s"we get back the same $entityName persistent state")
         persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
@@ -108,14 +108,13 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         persistedShouldMatchUnpersisted(updated.get, unpersistedModified)
 
         And(s"further retrieval operations should retrieve the updated copy")
-        val retrieved: Persisted[E] = repo.retrieve(updated.assoc).futureValue.value
+        val retrieved: Persisted[E] = repo.retrieveAssoc(updated.assoc).futureValue.value
         persistedShouldMatchUnpersisted(retrieved.get, unpersistedModified)
       }
     }
 
     feature(s"${entityName}Repo.delete") {
-      scenario(s"should deleted persisted $entityName") {
-
+      scenario(s"should delete a persisted $entityName") {
         Given(s"a persisted $entityName")
         val unpersisted: E = testDataGenerator.generate[E]
         val created: Persisted[E] = repo.create(unpersisted).futureValue
@@ -128,7 +127,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         persistedShouldMatchUnpersisted(deleted.get, unpersisted)
 
         And(s"we should no longer be able to retrieve the $entityName")
-        val retrieved: Option[Persisted[E]] = repo.retrieve(created.assoc).futureValue
+        val retrieved: Option[Persisted[E]] = repo.retrieveAssoc(created.assoc).futureValue
         retrieved.isEmpty should be (true)
       }
     }

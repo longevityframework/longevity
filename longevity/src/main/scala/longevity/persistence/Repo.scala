@@ -1,6 +1,7 @@
 package longevity.persistence
 
 import emblem.imports._
+import longevity.exceptions.AssocIsUnpersistedException
 import longevity.shorthands._
 import longevity.subdomain._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -28,8 +29,13 @@ abstract class Repo[E <: RootEntity : TypeKey](
   /** convenience method for creating the aggregate */
   def create(e: E): Future[Persisted[E]] = create(new Unpersisted(e))
 
-  /** retrieves the aggregate by id */
-  def retrieve(id: PersistedAssoc[E]): Future[Option[Persisted[E]]]
+  /** retrieves the aggregate by assoc
+   * @throws AssocIsUnpersistedException if the provided assoc is unpersisted
+   */
+  def retrieveAssoc(assoc: Assoc[E]): Future[Option[Persisted[E]]] = {
+    if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
+    retrieve(assoc.asInstanceOf[PersistedAssoc[E]])
+  }
 
   /** updates the aggregate */
   def update(p: Persisted[E]): Future[Persisted[E]]
@@ -61,6 +67,8 @@ abstract class Repo[E <: RootEntity : TypeKey](
       }
     }
   }
+
+  protected def retrieve(assoc: PersistedAssoc[E]): Future[Option[Persisted[E]]]
 
   private lazy val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
 

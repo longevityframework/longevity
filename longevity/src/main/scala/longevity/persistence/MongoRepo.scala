@@ -27,7 +27,7 @@ extends Repo[E](
   shorthandPool) {
   repo =>
 
-  protected[longevity] case class MongoId(objectId: ObjectId) extends PersistedAssoc[E] {
+  private[persistence] case class MongoId(objectId: ObjectId) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this).map(_.get.get)
