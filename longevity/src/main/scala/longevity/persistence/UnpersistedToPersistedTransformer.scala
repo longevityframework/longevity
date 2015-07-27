@@ -46,7 +46,7 @@ extends Transformer {
           val unpersistedEntity = assoc.unpersisted
           val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
           val repo = repoPool(entityTypeKey)
-          val futurePersistedEntity = repo.create(unpersistedEntity).map(_.id).asInstanceOf[Future[B]]
+          val futurePersistedEntity = repo.create(unpersistedEntity).map(_.assoc).asInstanceOf[Future[B]]
           promise.completeWith(futurePersistedEntity)
       }
       input onSuccess { case assoc => transformAssoc(assoc) }

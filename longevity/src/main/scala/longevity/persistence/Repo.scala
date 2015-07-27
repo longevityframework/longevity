@@ -26,7 +26,7 @@ abstract class Repo[E <: RootEntity : TypeKey](
   def create(e: Unpersisted[E]): Future[Persisted[E]]
 
   /** convenience method for creating the aggregate */
-  def create(e: E): Future[Persisted[E]] = create(Unpersisted(e))
+  def create(e: E): Future[Persisted[E]] = create(new Unpersisted(e))
 
   /** retrieves the aggregate by id */
   def retrieve(id: PersistedAssoc[E]): Future[Option[Persisted[E]]]
@@ -54,6 +54,7 @@ abstract class Repo[E <: RootEntity : TypeKey](
    * cache it, and return it */
   protected def getSessionCreationOrElse(unpersisted: Unpersisted[E], create: => Future[Persisted[E]])
   : Future[Persisted[E]] = {
+    // TODO Promisify this Future!!
     sessionCreations.get(unpersisted).map(Future(_)).getOrElse {
       create.map { persisted =>
         sessionCreations += (unpersisted -> persisted)

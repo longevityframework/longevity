@@ -1,55 +1,60 @@
 package longevity.persistence
 
-import longevity.subdomain.RootEntity
+import emblem.TypeKey
+import longevity.subdomain._
 
 /** the persistent state of an aggregate */
 sealed trait PersistentState[E <: RootEntity] {
 
   protected val e: E
 
+  /** returns the aggregate */
+  def get: E = e
+
   /** returns the persistent state of an entity modified according to function `f` */
   def map(f: E => E): PersistentState[E]
 
-  /** returns the aggregate */
-  def get: E = e
+  /** returns an association to the aggregate */
+  def assoc: Assoc[E]
 
 }
 
 /** the persistent state of an entity that hasn't been persisted yet. */
-case class Unpersisted[E <: RootEntity](e: E) extends PersistentState[E] {
-  def map(f: E => E) = Unpersisted(f(e))
+class Unpersisted[E <: RootEntity : TypeKey] private[persistence] (override protected val e: E)
+extends PersistentState[E] {
+
+  def map(f: E => E) = new Unpersisted(f(e))
+
+  def assoc = Assoc(e)
+
 }
 
 /** the persistent state of a persisted entity */
-case class Persisted[E <: RootEntity](
-  id: PersistedAssoc[E],
-  orig: E,
-  curr: E
+class Persisted[E <: RootEntity] private[persistence] (
+  val assoc: PersistedAssoc[E],
+  private[persistence] val orig: E,
+  protected val e: E
 )
 extends PersistentState[E] {
 
-  protected val e = curr
+  private[persistence] def this(assoc: PersistedAssoc[E], e: E) = this(assoc, e, e)
 
-  def map(f: E => E) = Persisted(id, orig, f(curr))
+  def map(f: E => E) = new Persisted(assoc, orig, f(e))
 
   // we may want to consider === here if we allow for non-case class entities
-  def dirty = orig == curr
+  def dirty = orig == e
 
-}
-
-object Persisted {
-  def apply[E <: RootEntity](assoc: PersistedAssoc[E], e: E): Persisted[E] = Persisted[E](assoc, e, e)
 }
 
 /** the persistent state of a deleted entity */
-case class Deleted[E <: RootEntity](
-  id: PersistedAssoc[E],
-  e: E
+class Deleted[E <: RootEntity] private[persistence] (
+  override val assoc: PersistedAssoc[E],
+  override protected val e: E
 )
 extends PersistentState[E] {
-  def map(f: E => E) = Deleted(id, e)
-}
 
-object Deleted {
-  def apply[E <: RootEntity](p: Persisted[E]): Deleted[E] = Deleted(p.id, p.orig)
+  def this(p: Persisted[E]) = this(p.assoc, p.orig)
+
+  def map(f: E => E) = new Deleted(assoc, e)
+
 }

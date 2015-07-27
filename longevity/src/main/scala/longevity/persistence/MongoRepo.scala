@@ -45,31 +45,31 @@ extends Repo[E](
       val objectId = new ObjectId()
       val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
       val writeResult = mongoCollection.insert(casbah)
-      Persisted[E](MongoId(objectId), patched)
+      new Persisted[E](MongoId(objectId), patched)
     }
   })
 
-  def retrieve(id: PersistedAssoc[E]) = Future {
-    val objectId = id.asInstanceOf[MongoId].objectId
+  def retrieve(assoc: PersistedAssoc[E]) = Future {
+    val objectId = assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
     val resultOption = mongoCollection.findOne(query)
     val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
-    entityOption map { e => Persisted[E](id, e) }
+    entityOption map { e => new Persisted[E](assoc, e) }
   }
 
   def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.get) map { patched =>
-    val objectId = persisted.id.asInstanceOf[MongoId].objectId
+    val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
     val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.update(query, casbah)
-    Persisted[E](persisted.id, patched)
+    new Persisted[E](persisted.assoc, patched)
   }
 
   def delete(persisted: Persisted[E]) = Future {
-    val objectId = persisted.id.asInstanceOf[MongoId].objectId
+    val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
-    Deleted(persisted)
+    new Deleted(persisted)
   }
 
 }

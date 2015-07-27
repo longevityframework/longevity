@@ -72,7 +72,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         persistedShouldMatchUnpersisted(created.get, unpersisted)
 
         And(s"further retrieval operations should retrieve the same $entityName")
-        val retrieved: Persisted[E] = repo.retrieve(created.id).futureValue.value
+        val retrieved: Persisted[E] = repo.retrieve(created.assoc).futureValue.value
         persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
       }
     }
@@ -84,8 +84,8 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         val unpersisted: E = testDataGenerator.generate[E]
         val created = repo.create(unpersisted).futureValue
 
-        When(s"we retrieve the $entityName by id")
-        val retrieved: Persisted[E] = repo.retrieve(created.id).futureValue.value
+        When(s"we retrieve the $entityName by assoc")
+        val retrieved: Persisted[E] = repo.retrieve(created.assoc).futureValue.value
 
         Then(s"we get back the same $entityName persistent state")
         persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
@@ -108,7 +108,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         persistedShouldMatchUnpersisted(updated.get, unpersistedModified)
 
         And(s"further retrieval operations should retrieve the updated copy")
-        val retrieved: Persisted[E] = repo.retrieve(updated.id).futureValue.value
+        val retrieved: Persisted[E] = repo.retrieve(updated.assoc).futureValue.value
         persistedShouldMatchUnpersisted(retrieved.get, unpersistedModified)
       }
     }
@@ -128,7 +128,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         persistedShouldMatchUnpersisted(deleted.get, unpersisted)
 
         And(s"we should no longer be able to retrieve the $entityName")
-        val retrieved: Option[Persisted[E]] = repo.retrieve(created.id).futureValue
+        val retrieved: Option[Persisted[E]] = repo.retrieve(created.assoc).futureValue
         retrieved.isEmpty should be (true)
       }
     }

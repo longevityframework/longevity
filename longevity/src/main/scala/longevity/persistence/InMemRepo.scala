@@ -23,7 +23,7 @@ extends Repo[E](
   shorthandPool) {
   repo =>
 
-  protected[longevity] case class IntId(i: Int) extends PersistedAssoc[E] {
+  private case class IntId(i: Int) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this).map(_.get.get)
@@ -33,28 +33,34 @@ extends Repo[E](
   private var idToEntityMap = Map[PersistedAssoc[E], Persisted[E]]()
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
-    val id = synchronized {
-      val id = IntId(nextId)
-      nextId += 1
-      id
+    patchUnpersistedAssocs(unpersisted.get).map { e =>
+      val id = repo.synchronized {
+        val id = IntId(nextId)
+        nextId += 1
+        id
+      }
+      persist(id, e)
     }
-    patchUnpersistedAssocs(unpersisted.get).map(persist(id, _))
   })
 
-  def retrieve(id: PersistedAssoc[E]) = Future { idToEntityMap.get(id) }
-
-  def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.curr) map {
-    persist(persisted.id, _)
+  def retrieve(assoc: PersistedAssoc[E]) = {
+    val optionE = idToEntityMap.get(assoc)
+    Promise.successful(optionE).future
   }
 
-  def delete(persisted: Persisted[E]) = Future {
-    synchronized { idToEntityMap -= persisted.id }
-    Deleted(persisted)
+  def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.get) map {
+    persist(persisted.assoc, _)
   }
 
-  private def persist(id: PersistedAssoc[E], e: E): Persisted[E] = {
-    val persisted = Persisted[E](id, e)
-    synchronized { idToEntityMap += (id -> persisted) }
+  def delete(persisted: Persisted[E]) = {
+    repo.synchronized { idToEntityMap -= persisted.assoc }
+    val deleted = new Deleted(persisted)
+    Promise.successful(deleted).future
+  }
+
+  private def persist(assoc: PersistedAssoc[E], e: E): Persisted[E] = {
+    val persisted = new Persisted[E](assoc, e)
+    repo.synchronized { idToEntityMap += (assoc -> persisted) }
     persisted
   }
 
