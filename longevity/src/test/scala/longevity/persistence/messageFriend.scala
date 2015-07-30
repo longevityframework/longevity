@@ -5,6 +5,8 @@ import longevity.subdomain._
 
 object messageFriend {
 
+  implicit val shorthandPool = ShorthandPool.empty
+
   case class Friend(name: String) extends RootEntity
 
   object FriendType extends RootEntityType[Friend]
@@ -16,8 +18,6 @@ object messageFriend {
   val entityTypes = EntityTypePool() + FriendType + MessageType
 
   val subdomain = Subdomain("blog", entityTypes)
-
-  val shorthandPool = ShorthandPool.empty
 
   val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
 

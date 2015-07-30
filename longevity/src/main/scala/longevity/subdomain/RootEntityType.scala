@@ -3,7 +3,11 @@ package longevity.subdomain
 import emblem.imports._
 
 /** a type class for a domain entity that serves as an aggregate root */
-abstract class RootEntityType[E <: RootEntity : TypeKey] extends EntityType[E] {
+abstract class RootEntityType[
+  E <: RootEntity](
+  implicit rootTypeKey: TypeKey[E],
+  implicit private val shorthandPool: ShorthandPool)
+extends EntityType[E] {
 
   // TODO pt-84760388 natural keys (in progress)
 

@@ -5,6 +5,10 @@ import longevity.subdomain._
 
 package object noTranslation {
 
+  val booleanShorthand = Shorthand[NoTranslationLonghand, NoTranslation]
+
+  implicit val shorthandPool = ShorthandPool.empty + booleanShorthand
+
   val entityTypes = EntityTypePool() +
     WithNoTranslation +
     WithNoTranslationList +
@@ -13,10 +17,6 @@ package object noTranslation {
     WithNoTranslationSet
 
   val subdomain = Subdomain("No Translation", entityTypes)
-
-  val booleanShorthand = Shorthand[NoTranslationLonghand, NoTranslation]
-
-  val shorthandPool = ShorthandPool.empty + booleanShorthand
 
   val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
 

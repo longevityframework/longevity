@@ -6,13 +6,13 @@ import longevity.subdomain._
 /** covers a root entity with a single shorthand */
 package object oneShorthand {
 
-  val entityTypes = EntityTypePool() + OneShorthand
-
   val uriShorthand = Shorthand[Uri, String]
 
-  val subdomain = Subdomain("One Shorthand", entityTypes)
+  implicit val shorthandPool = ShorthandPool.empty + uriShorthand
 
-  val shorthandPool = ShorthandPool.empty + uriShorthand
+  val entityTypes = EntityTypePool() + OneShorthand
+
+  val subdomain = Subdomain("One Shorthand", entityTypes)
 
   val longevityContext = LongevityContext(subdomain, shorthandPool)
 

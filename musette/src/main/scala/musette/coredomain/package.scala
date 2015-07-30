@@ -5,6 +5,12 @@ import longevity.subdomain._
 
 package object coredomain {
 
+  implicit val shorthands = ShorthandPool(
+    Shorthand[Email, String],
+    Shorthand[Markdown, String],
+    Shorthand[Uri, String]
+  )
+
   val entityTypes = EntityTypePool() +
     BlogType +
     BlogPostType +
@@ -13,12 +19,6 @@ package object coredomain {
     UserType +
     WikiType +
     WikiPageType
-
-  val shorthands = ShorthandPool(
-    Shorthand[Email, String],
-    Shorthand[Markdown, String],
-    Shorthand[Uri, String]
-  )
 
   implicit def stringToEmail(email: String): Email = Email(email)
 

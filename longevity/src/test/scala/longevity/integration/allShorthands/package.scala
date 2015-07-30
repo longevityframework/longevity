@@ -7,10 +7,6 @@ import longevity.subdomain._
 /** covers a root entity with shorthands for every supported basic type */
 package object allShorthands {
 
-  val entityTypes = EntityTypePool() + AllShorthands
-
-  val subdomain = Subdomain("All Shorthands", entityTypes)
-
   val booleanShorthand = Shorthand[BooleanShorthand, Boolean]
   val charShorthand = Shorthand[CharShorthand, Char]
   val dateTimeShorthand = Shorthand[DateTimeShorthand, DateTime]
@@ -20,7 +16,7 @@ package object allShorthands {
   val longShorthand = Shorthand[LongShorthand, Long]
   val stringShorthand = Shorthand[StringShorthand, String]
 
-  val shorthandPool = ShorthandPool.empty +
+  implicit val shorthandPool = ShorthandPool.empty +
     booleanShorthand +
     charShorthand +
     dateTimeShorthand +
@@ -29,6 +25,10 @@ package object allShorthands {
     intShorthand +
     longShorthand +
     stringShorthand
+
+  val entityTypes = EntityTypePool() + AllShorthands
+
+  val subdomain = Subdomain("All Shorthands", entityTypes)
 
   val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
 

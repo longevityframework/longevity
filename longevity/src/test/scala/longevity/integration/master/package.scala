@@ -7,6 +7,25 @@ import longevity.subdomain._
 /** covers everything found in the rest of the integration tests */
 package object master {
 
+  val booleanShorthand = Shorthand[BooleanShorthand, Boolean]
+  val charShorthand = Shorthand[CharShorthand, Char]
+  val dateTimeShorthand = Shorthand[DateTimeShorthand, DateTime]
+  val doubleShorthand = Shorthand[DoubleShorthand, Double]
+  val floatShorthand = Shorthand[FloatShorthand, Float]
+  val intShorthand = Shorthand[IntShorthand, Int]
+  val longShorthand = Shorthand[LongShorthand, Long]
+  val stringShorthand = Shorthand[StringShorthand, String]
+
+  implicit val shorthandPool = ShorthandPool.empty +
+    booleanShorthand +
+    charShorthand +
+    dateTimeShorthand +
+    doubleShorthand +
+    floatShorthand +
+    intShorthand +
+    longShorthand +
+    stringShorthand
+
   val entityTypes = EntityTypePool() +
     AllAttributes +
     AllShorthands +
@@ -27,25 +46,6 @@ package object master {
     WithComponentSet
 
   val subdomain = Subdomain("Master", entityTypes)
-
-  val booleanShorthand = Shorthand[BooleanShorthand, Boolean]
-  val charShorthand = Shorthand[CharShorthand, Char]
-  val dateTimeShorthand = Shorthand[DateTimeShorthand, DateTime]
-  val doubleShorthand = Shorthand[DoubleShorthand, Double]
-  val floatShorthand = Shorthand[FloatShorthand, Float]
-  val intShorthand = Shorthand[IntShorthand, Int]
-  val longShorthand = Shorthand[LongShorthand, Long]
-  val stringShorthand = Shorthand[StringShorthand, String]
-
-  val shorthandPool = ShorthandPool.empty +
-    booleanShorthand +
-    charShorthand +
-    dateTimeShorthand +
-    doubleShorthand +
-    floatShorthand +
-    intShorthand +
-    longShorthand +
-    stringShorthand
 
   val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
 
