@@ -28,7 +28,8 @@ case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
   /** the fully qualified type name */
   lazy val fullname = s"$namePrefix.$name"
 
-  private val propMap: Map[String, EmblemProp[T, _]] = props.view.map(prop => prop.name -> prop).toMap
+  /** a map of the [[props]], keyed by name */
+  val propMap: Map[String, EmblemProp[T, _]] = props.view.map(prop => prop.name -> prop).toMap
 
   /** retrieves an [[EmblemProp]] by name */
   def apply(name: String) = propMap(name)
