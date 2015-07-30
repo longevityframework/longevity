@@ -1,7 +1,6 @@
 package musette
 
 import longevity.context._
-import longevity.shorthands._
 import longevity.subdomain._
 
 package object coredomain {

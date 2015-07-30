@@ -2,7 +2,6 @@ package longevity.integration
 
 import com.github.nscala_time.time.Imports._
 import longevity.context._
-import longevity.shorthands._
 import longevity.subdomain._
 
 /** covers a root entity with shorthands for every supported basic type */

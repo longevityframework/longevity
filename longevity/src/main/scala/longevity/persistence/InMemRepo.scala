@@ -3,7 +3,6 @@ package longevity.persistence
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 import emblem.imports._
-import longevity.shorthands._
 import longevity.subdomain._
 import longevity.context.LongevityContext
 

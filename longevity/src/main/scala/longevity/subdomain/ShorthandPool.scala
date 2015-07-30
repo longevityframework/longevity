@@ -1,4 +1,4 @@
-package longevity.shorthands
+package longevity.subdomain
 
 import emblem.imports._
 import longevity.exceptions.DuplicateShorthandsException

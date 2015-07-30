@@ -2,8 +2,7 @@ package longevity.context
 
 import emblem.traversors.sync.Generator.CustomGeneratorPool
 import longevity.persistence.buildRepoPool
-import longevity.shorthands.ShorthandPool
-import longevity.subdomain.Subdomain
+import longevity.subdomain._
 
 private[context] final class LongevityContextImpl (
   val subdomain: Subdomain,
