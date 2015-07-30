@@ -1,5 +1,8 @@
 #longevity
 
+[![Build
+Status](https://travis-ci.org/sullivan-/longevity.svg?branch=master)](https://travis-ci.org/sullivan-/longevity.svg)
+
 A Domain Driven Design persistence framework for Scala and MongoDB.
 
 This project is still in early development. A [minimum marketable
