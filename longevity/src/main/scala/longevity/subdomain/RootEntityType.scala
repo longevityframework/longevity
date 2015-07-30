@@ -1,11 +1,12 @@
 package longevity.subdomain
 
 import emblem.imports._
+import longevity.exceptions.InvalidNatKeyPropPathException
 
 /** a type class for a domain entity that serves as an aggregate root */
 abstract class RootEntityType[
   E <: RootEntity](
-  implicit rootTypeKey: TypeKey[E],
+  implicit private val rootTypeKey: TypeKey[E],
   implicit private val shorthandPool: ShorthandPool)
 extends EntityType[E] {
 
@@ -26,15 +27,18 @@ extends EntityType[E] {
   object NatKeyProp {
 
     /** constructs a [[NatKeyProp]] from a path
-     * @throws InvalidNatKeyPropPath if any step along the path does not exist
-     * @throws InvalidNatKeyPropPath if any step along the path is not an exactly-one containment
-     * @throws InvalidNatKeyPropPath if the final step along the path is not an [[Assoc]] or a basic type
+     * @throws InvalidNatKeyPropPathException if any step along the path does not exist
+     * @throws InvalidNatKeyPropPathException if any step along the path is not an exactly-one containment
+     * @throws InvalidNatKeyPropPathException if the final step along the path is not an [[Assoc]] or a basic type
      * @see `emblem.basicTypes`
      */
     def apply(path: String): NatKeyProp = {
       val pathSegments = path.split('.')
       if (pathSegments.size == 1) {
-        //val emblemProp = emblem.propMap.getOrElse(pathSegments(0), 
+        val emblemProp = emblem.propMap.getOrElse(
+          pathSegments(0),
+          throw new InvalidNatKeyPropPathException(
+            s"natural key property path $path does not specify a property in root entity type ${emblem.name}"))
         new NatKeyProp(path, emblem.propMap(pathSegments(0)).typeKey)
       } else {
         // TODO
