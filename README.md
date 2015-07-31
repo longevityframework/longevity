@@ -10,10 +10,13 @@ This project is still in early development. A [minimum marketable
 product
 (MMP)](http://www.romanpichler.com/blog/minimum-viable-product-and-minimal-marketable-product/)
 \- that is, the earliest version suitable for your use - is currently
-projected for release in mid June. Please be aware that this is only
+projected for release in mid September. Please be aware that this is only
 my best estimate. If you want to track progress, take a look at [my
 story board](https://www.pivotaltracker.com/n/projects/1231978). The
 longevity 0.2 release is my MMP.
+
+Once the 0.2 release is out, I will begin working in earnest on a
+complete set of user documentation.
 
 longevity currently contains three subprojects:
 
