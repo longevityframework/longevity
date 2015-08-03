@@ -15,8 +15,9 @@ my best estimate. If you want to track progress, take a look at [my
 story board](https://www.pivotaltracker.com/n/projects/1231978). The
 longevity 0.2 release is my MMP.
 
-Once the 0.2 release is out, I will begin working in earnest on a
-complete set of user documentation.
+Once the 0.1 release is out, I will begin working in earnest on a
+complete set of user documentation. In this way I hope to have a
+servicable set of docs by the 0.2 release.
 
 longevity currently contains three subprojects:
 
