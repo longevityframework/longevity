@@ -4,8 +4,10 @@ import emblem.typeKey
 
 case class WithSimpleNatKey(
   uri: String,
-  scores: List[Int],
-  topScore: Int)
+  topScore: Int,
+  scoreList: List[Int],
+  scoreOption: Option[Int],
+  scoreSet: Set[Int])
 extends RootEntity
 
 object WithSimpleNatKey extends RootEntityType[WithSimpleNatKey]()(

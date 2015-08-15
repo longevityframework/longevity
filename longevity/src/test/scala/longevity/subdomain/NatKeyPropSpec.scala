@@ -17,6 +17,21 @@ class NatKeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
+  it should "throw InvalidNatKeyPropPathException when the specified prop path passes through a collection" in {
+    intercept[InvalidNatKeyPropPathException] {
+      WithSimpleNatKey.NatKeyProp("scoreList")
+    }
+
+    intercept[InvalidNatKeyPropPathException] {
+      WithSimpleNatKey.NatKeyProp("scoreOption")
+    }
+
+    intercept[InvalidNatKeyPropPathException] {
+      WithSimpleNatKey.NatKeyProp("scoreSet")
+    }
+
+  }
+
   it should "produce a valid nat key prop for basic types" in {
     val uriProp = WithSimpleNatKey.NatKeyProp("uri")
     uriProp.path should equal ("uri")
@@ -27,8 +42,7 @@ class NatKeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
     topScoreProp.typeKey should equal (typeKey[Int])
   }
 
-  // TODO: prop path passes through a collection
-  // TODO: prop path specifies a non-basic
+  // TODO: prop path specifies a non-basic, non-assoc, non-longhand
   // TODO: nat keys involving assocs
   // TODO: nat keys involving shorthands
   // TODO: prop paths with length > 1

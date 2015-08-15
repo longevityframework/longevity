@@ -39,6 +39,11 @@ extends EntityType[E] {
           pathSegments(0),
           throw new InvalidNatKeyPropPathException(
             s"natural key property path $path does not specify a property in root entity type ${emblem.name}"))
+        if (emblemProp.typeKey <:< typeKey[List[_]] ||
+            emblemProp.typeKey <:< typeKey[Set[_]] ||
+            emblemProp.typeKey <:< typeKey[Option[_]])
+          throw new InvalidNatKeyPropPathException(
+            s"natural key property path $path specifies a collection property in root entity type ${emblem.name}")
         new NatKeyProp(path, emblem.propMap(pathSegments(0)).typeKey)
       } else {
         // TODO
