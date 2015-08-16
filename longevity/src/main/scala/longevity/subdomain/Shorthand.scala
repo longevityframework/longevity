@@ -1,5 +1,6 @@
 package longevity.subdomain
 
+import emblem.basicTypes.isBasicType
 import emblem.imports._
 import longevity.exceptions.ShorthandCreationException
 
@@ -34,16 +35,23 @@ class Shorthand[Actual, Abbreviated] private[longevity] (
 object Shorthand {
 
   /** creates and returns a [[Shorthand]] for the specified types `Actual` and `Abbreviated`. `Actual` must be
-   * a stable case class with single a parameter list.
-   * @throws longevity.exceptions.ShorthandCreationException when `A` is not a stable case class with a single
-   * parameter list
+   * a stable case class with single a parameter list. `Abbreviated` must be a basic type.
+   * @throws longevity.exceptions.ShorthandCreationException when `Abbreviated` is not a basic type
+   * @throws longevity.exceptions.ShorthandCreationException when `Actual` is not a stable case class with a
+   * single parameter list
+   * @see `emblem.basicTypes`
    */
-  def apply[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] =
+  def apply[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] = {
+    if (!isBasicType[Abbreviated]) {
+      throw new ShorthandCreationException(
+        "abbreviated type is not a basic type", typeKey[Actual], typeKey[Abbreviated])
+    }
     try {
       new Shorthand(emblem.Extractor[Actual, Abbreviated])
     } catch {
       case e: emblem.exceptions.GeneratorException =>
         throw new ShorthandCreationException(e, typeKey[Actual], typeKey[Abbreviated])
     }
+  }
 
 }

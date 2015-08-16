@@ -62,12 +62,13 @@ extends EntityType[E] {
       val natKeyPropTypeKey = leafInfo._1.typeKey
       if (!validLeafNatKeyPropType(natKeyPropTypeKey))
         throw new InvalidNatKeyPropPathException(
-          s"nat key prop path $path for root ${rootTypeKey.name} is not a basic type or an assoc")
+          s"nat key prop path $path for root ${rootTypeKey.name} is not a basic type, shorthand, or an assoc")
 
       new NatKeyProp(path, natKeyPropTypeKey)
     }
   }
 
-  private def validLeafNatKeyPropType(key: TypeKey[_]): Boolean = isBasicType(key) || key <:< typeKey[Assoc[_]]
+  private def validLeafNatKeyPropType(key: TypeKey[_]): Boolean =
+    isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)
 
 }
