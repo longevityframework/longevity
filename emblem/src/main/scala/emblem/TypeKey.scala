@@ -2,6 +2,8 @@ package emblem
 
 import scala.reflect.runtime.universe._
 import emblem.reflectionUtil.makeTypeTag
+import emblem.stringUtil.typeFullname
+import emblem.stringUtil.typeName
 
 /** behaves much like a `scala.reflect.runtime.universe.TypeTag`, except that it can also be safely used
  * as a key in a hash or a set. Two type keys will be equal if and only if their underlying types are equivalent
@@ -49,6 +51,12 @@ case class TypeKey[A](val tag: TypeTag[A]) {
 
   /** shorthand for `this.tpe.=:=` */
   def =:=(that: TypeKey[_]) = this.tpe =:= that.tpe
+
+  /** the full type name for the type represented by this key */
+  def fullname(tpe: Type) = typeFullname(tpe)
+
+  /** the simple type name for the type represented by this key */
+  def name = typeName(tpe)
 
   /** a list of type keys for the type arguments of this type */
   lazy val typeArgs: List[TypeKey[_]] = tpe.typeArgs map { tpe => TypeKey(makeTypeTag(tpe)) }

@@ -1,5 +1,6 @@
 package longevity.subdomain
 
+import emblem.basicTypes.isBasicType
 import emblem.imports._
 import longevity.exceptions.InvalidNatKeyPropPathException
 
@@ -28,28 +29,45 @@ extends EntityType[E] {
 
     /** constructs a [[NatKeyProp]] from a path
      * @throws InvalidNatKeyPropPathException if any step along the path does not exist
-     * @throws InvalidNatKeyPropPathException if any step along the path is not an exactly-one containment
+     * @throws InvalidNatKeyPropPathException if any non-final step along the path is not an entity
      * @throws InvalidNatKeyPropPathException if the final step along the path is not an [[Assoc]] or a basic type
      * @see `emblem.basicTypes`
      */
     def apply(path: String): NatKeyProp = {
       val pathSegments = path.split('.')
-      if (pathSegments.size == 1) {
+      if (pathSegments.size == 0) throw new InvalidNatKeyPropPathException("empty nat key prop path")
+
+      type PathSegmentInfo = (EmblemProp[_, _], String)
+      def pathSegmentInfo(emblem: Emblem[_ <: HasEmblem], pathSegment: String): PathSegmentInfo = {
         val emblemProp = emblem.propMap.getOrElse(
-          pathSegments(0),
+          pathSegment,
           throw new InvalidNatKeyPropPathException(
-            s"natural key property path $path does not specify a property in root entity type ${emblem.name}"))
-        if (emblemProp.typeKey <:< typeKey[List[_]] ||
-            emblemProp.typeKey <:< typeKey[Set[_]] ||
-            emblemProp.typeKey <:< typeKey[Option[_]])
-          throw new InvalidNatKeyPropPathException(
-            s"natural key property path $path specifies a collection property in root entity type ${emblem.name}")
-        new NatKeyProp(path, emblem.propMap(pathSegments(0)).typeKey)
-      } else {
-        // TODO
-        new NatKeyProp(path, typeKey[String])
+            s"path segment $pathSegment does not specify a property in path $path for root ${rootTypeKey.name}"))
+        (emblemProp, pathSegment)
       }
+
+      val headInfo = pathSegmentInfo(emblem, pathSegments.head)
+
+      val leafInfo = pathSegments.tail.foldLeft(headInfo) {
+        case ((prop, prevSegment), segment) =>
+          if (prop.typeKey <:< typeKey[Entity]) {
+            val emblem = Emblem(prop.typeKey.asInstanceOf[TypeKey[Entity]])
+            pathSegmentInfo(emblem, segment)
+          } else {
+            throw new InvalidNatKeyPropPathException(
+              s"non-leaf path segment $prevSegment is not an entity in path $path for root ${rootTypeKey.name}")
+          }
+      }
+
+      val natKeyPropTypeKey = leafInfo._1.typeKey
+      if (!validLeafNatKeyPropType(natKeyPropTypeKey))
+        throw new InvalidNatKeyPropPathException(
+          s"nat key prop path $path for root ${rootTypeKey.name} is not a basic type or an assoc")
+
+      new NatKeyProp(path, natKeyPropTypeKey)
     }
   }
+
+  private def validLeafNatKeyPropType(key: TypeKey[_]): Boolean = isBasicType(key) || key <:< typeKey[Assoc[_]]
 
 }
