@@ -133,7 +133,11 @@ class NatKeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
     prop.typeKey should equal (typeKey[String])
   }
 
-  // TODO: nested assocs: WithComponentWithAssoc, ComponentWithAssoc
+  it should "produce a valid nat key prop for a nested assoc" in {
+    val prop = WithComponentWithAssoc.NatKeyProp("component.associated")
+    prop.path should equal ("component.associated")
+    prop.typeKey should equal (typeKey[Assoc[Associated]])
+  }
 
   // TODO: non-nested shorthands: AllShorthands
   // TODO: nested shorthands

@@ -34,6 +34,7 @@ package object master {
     AttributeOptions +
     AttributeSets +
     Component +
+    ComponentWithAssoc +
     OneAttribute +
     OneShorthand +
     WithAssoc +
@@ -43,7 +44,8 @@ package object master {
     WithComponent +
     WithComponentList +
     WithComponentOption +
-    WithComponentSet
+    WithComponentSet +
+    WithComponentWithAssoc
 
   val subdomain = Subdomain("Master", entityTypes)
 
