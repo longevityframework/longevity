@@ -16,18 +16,18 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
   they should "produce equivalent keys for equivalent inputs" in {
 
     // this factory method take property paths as input
-    val key1 = AllAttributes.NatKey("boolean", "char")
+    val key1 = AllAttributes.natKey("boolean", "char")
 
     // this factory method take properties as input
     val booleanProp = AllAttributes.natKeyProp("boolean")
     val charProp = AllAttributes.natKeyProp("char")
-    val key2 = AllAttributes.NatKey(booleanProp, charProp)
+    val key2 = AllAttributes.natKey(booleanProp, charProp)
 
     key1 should equal (key2)
 
     // order of arguments should not matter
-    key1 should equal (AllAttributes.NatKey(charProp, booleanProp))
-    key1 should equal (AllAttributes.NatKey("char", "boolean"))
+    key1 should equal (AllAttributes.natKey(charProp, booleanProp))
+    key1 should equal (AllAttributes.natKey("char", "boolean"))
 
   }
 
@@ -37,7 +37,7 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val booleanProp = AllAttributes.natKeyProp("boolean")
     val charProp = AllAttributes.natKeyProp("char")
     val doubleProp = AllAttributes.natKeyProp("double")
-    val key = AllAttributes.NatKey(booleanProp, charProp)
+    val key = AllAttributes.natKey(booleanProp, charProp)
     val builder = key.builder
     intercept[NatKeyDoesNotContainPropException[_]] {
       builder.setProp(doubleProp, 6.6d)
@@ -47,7 +47,7 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "throw exception when the propVal does not match the type of the prop" in {
     val booleanProp = AllAttributes.natKeyProp("boolean")
     val charProp = AllAttributes.natKeyProp("char")
-    val key = AllAttributes.NatKey(booleanProp, charProp)
+    val key = AllAttributes.natKey(booleanProp, charProp)
     val builder = key.builder
     intercept[NatKeyPropValTypeMismatchException[_]] {
       builder.setProp(booleanProp, 6.6d)
@@ -61,7 +61,7 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val booleanProp = AllAttributes.natKeyProp("boolean")
     val charProp = AllAttributes.natKeyProp("char")
     val doubleProp = AllAttributes.natKeyProp("double")
-    val key = AllAttributes.NatKey(booleanProp, charProp, doubleProp)
+    val key = AllAttributes.natKey(booleanProp, charProp, doubleProp)
     val builder = key.builder
     intercept[UnsetNatKeyPropException[_]] {
       builder.build
@@ -85,7 +85,7 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val charVal = 'c'
     val doubleVal = 6.667d
 
-    val key = AllAttributes.NatKey(booleanProp, charProp, doubleProp)
+    val key = AllAttributes.natKey(booleanProp, charProp, doubleProp)
 
     val builder = key.builder
     builder.setProp(booleanProp, booleanVal)
@@ -103,7 +103,7 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val charVal = 'c'
     val doubleVal = 6.667d
 
-    val key = AllAttributes.NatKey("boolean", "char", "double")
+    val key = AllAttributes.natKey("boolean", "char", "double")
 
     val builder = key.builder
     builder.setProp("boolean", booleanVal)

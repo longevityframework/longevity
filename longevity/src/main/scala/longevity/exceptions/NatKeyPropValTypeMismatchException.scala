@@ -4,7 +4,7 @@ import longevity.subdomain.NatKeyProp
 import longevity.subdomain.RootEntity
 
 /** an exception indicating that the property value passed to
- * [[longevity.subdomain.RootEntityType#NatKey#Builder.setProp]] does not match the type of the
+ * [[longevity.subdomain.NatKey#Builder.setProp]] does not match the type of the
  * [[longevity.subdomain.NatKeyProp natural key property]].
  *
  * @param prop the nat key prop
