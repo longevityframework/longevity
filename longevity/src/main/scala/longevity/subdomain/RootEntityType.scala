@@ -3,6 +3,9 @@ package longevity.subdomain
 import emblem.basicTypes.isBasicType
 import emblem.imports._
 import longevity.exceptions.InvalidNatKeyPropPathException
+import longevity.exceptions.NatKeyDoesNotContainPropException
+import longevity.exceptions.NatKeyPropValTypeMismatchException
+import longevity.exceptions.UnsetNatKeyPropException
 
 /** a type class for a domain entity that serves as an aggregate root */
 abstract class RootEntityType[
@@ -21,7 +24,7 @@ extends EntityType[E] {
    * @param typeKey [[TypeKey type key]] for the property value type
    * @see `emblem.basicTypes`
    */
-  class NatKeyProp private (
+  case class NatKeyProp private (
     val path: String,
     val typeKey: TypeKey[_])
 
@@ -59,6 +62,9 @@ extends EntityType[E] {
           }
       }
 
+      def validLeafNatKeyPropType(key: TypeKey[_]): Boolean =
+        isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)
+
       val natKeyPropTypeKey = leafInfo._1.typeKey
       if (!validLeafNatKeyPropType(natKeyPropTypeKey))
         throw new InvalidNatKeyPropPathException(
@@ -68,7 +74,65 @@ extends EntityType[E] {
     }
   }
 
-  private def validLeafNatKeyPropType(key: TypeKey[_]): Boolean =
-    isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)
+  /** a natural key for this root entity type
+   * @param props the set of nat key properties that make up this natural key
+   */
+  case class NatKey private (val props: Set[NatKeyProp]) {
+
+    private lazy val propPathToProp = props.map(p => p.path -> p).toMap
+
+    def builder = new ValBuilder
+
+    class Val private[NatKey] (private val propVals: Map[NatKeyProp, Any]) {
+
+      def apply(prop: NatKeyProp): Any = propVals(prop)
+
+      def apply(propPath: String): Any = propVals(propPathToProp(propPath))
+    }
+
+    class ValBuilder {
+
+      private var propVals = Map[NatKeyProp, Any]()
+
+      def setProp[A : TypeKey](propPath: String, propVal: A): Unit = setProp(propPathToProp(propPath), propVal)
+
+      def setProp[A : TypeKey](prop: NatKeyProp, propVal: A): Unit = {
+        if (!props.contains(prop)) throw new NatKeyDoesNotContainPropException(NatKey.this, prop)
+        if (! (typeKey[A] <:< prop.typeKey)) throw new NatKeyPropValTypeMismatchException(prop, propVal)
+        propVals += prop -> propVal
+      }
+
+      def build: Val = {
+        if (propVals.size < props.size) {
+          throw new UnsetNatKeyPropException(NatKey.this, props -- propVals.keys)
+        }
+        new Val(propVals)
+      }
+    }
+
+  }
+
+  object NatKey {
+
+    /** constructs a natural key for this root entity type based on the supplied set of property paths.
+     * @param propPathHead one of the property paths for the properties that define this nat key
+     * @param propPathTail any remaining property paths for the properties that define this nat key
+     * @throws InvalidNatKeyPropPathException if any of the supplied property paths are invalid
+     * @see NatKeyProp.apply
+     */
+    def apply(propPathHead: String, propPathTail: String*): NatKey = {
+      val propPaths = propPathTail.toSet + propPathHead
+      new NatKey(propPaths.map(NatKeyProp(_)))
+    }
+
+    /** constructs a natural key for this root entity type based on the supplied set of nat key props.
+     * @param propsHead one of the properties that define this nat key
+     * @param propsTail any remaining properties that define this nat key
+     */
+    def apply(propsHead: NatKeyProp, propsTail: NatKeyProp*): NatKey = {
+      new NatKey(propsTail.toSet + propsHead)
+    }
+
+  }
 
 }
