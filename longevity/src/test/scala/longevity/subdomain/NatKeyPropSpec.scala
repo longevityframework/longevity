@@ -14,199 +14,199 @@ class NatKeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw InvalidNatKeyPropPathException when the specified prop path is empty" in {
     intercept[InvalidNatKeyPropPathException] {
-      AllAttributes.NatKeyProp("")
+      AllAttributes.natKeyProp("")
     }
   }
 
   it should "throw InvalidNatKeyPropPathException when the specified prop path does not map " +
   "to an actual prop path" in {
     intercept[InvalidNatKeyPropPathException] {
-      AllAttributes.NatKeyProp("invalidPropPath")
+      AllAttributes.natKeyProp("invalidPropPath")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithComponent.NatKeyProp("component.noSuchPathSegment")
+      WithComponent.natKeyProp("component.noSuchPathSegment")
     }
   }
 
   it should "throw InvalidNatKeyPropPathException when the specified prop path passes through a collection" in {
     intercept[InvalidNatKeyPropPathException] {
-      WithComponentList.NatKeyProp("components.uri")
+      WithComponentList.natKeyProp("components.uri")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithComponentOption.NatKeyProp("component.uri")
+      WithComponentOption.natKeyProp("component.uri")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithComponentSet.NatKeyProp("components.uri")
+      WithComponentSet.natKeyProp("components.uri")
     }
   }
 
   it should "throw InvalidNatKeyPropPathException when the specified prop path terminates with a collection" in {
     intercept[InvalidNatKeyPropPathException] {
-      AttributeLists.NatKeyProp("boolean")
+      AttributeLists.natKeyProp("boolean")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      AttributeOptions.NatKeyProp("boolean")
+      AttributeOptions.natKeyProp("boolean")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      AttributeSets.NatKeyProp("boolean")
+      AttributeSets.natKeyProp("boolean")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithAssocList.NatKeyProp("associated")
+      WithAssocList.natKeyProp("associated")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithAssocOption.NatKeyProp("associated")
+      WithAssocOption.natKeyProp("associated")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithAssocSet.NatKeyProp("associated")
+      WithAssocSet.natKeyProp("associated")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithComponentList.NatKeyProp("components")
+      WithComponentList.natKeyProp("components")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithComponentOption.NatKeyProp("component")
+      WithComponentOption.natKeyProp("component")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithComponentSet.NatKeyProp("components")
+      WithComponentSet.natKeyProp("components")
     }
 
     intercept[InvalidNatKeyPropPathException] {
-      WithComponent.NatKeyProp("component.tags")
+      WithComponent.natKeyProp("component.tags")
     }
   }
 
   it should "produce a valid nat key prop for basic types" in {
-    var prop: AllAttributes.NatKeyProp = null
+    var prop: NatKeyProp[AllAttributes] = null
 
-    prop = AllAttributes.NatKeyProp("boolean")
+    prop = AllAttributes.natKeyProp("boolean")
     prop.path should equal ("boolean")
     prop.typeKey should equal (typeKey[Boolean])
 
-    prop = AllAttributes.NatKeyProp("char")
+    prop = AllAttributes.natKeyProp("char")
     prop.path should equal ("char")
     prop.typeKey should equal (typeKey[Char])
 
-    prop = AllAttributes.NatKeyProp("double")
+    prop = AllAttributes.natKeyProp("double")
     prop.path should equal ("double")
     prop.typeKey should equal (typeKey[Double])
 
-    prop = AllAttributes.NatKeyProp("float")
+    prop = AllAttributes.natKeyProp("float")
     prop.path should equal ("float")
     prop.typeKey should equal (typeKey[Float])
 
-    prop = AllAttributes.NatKeyProp("int")
+    prop = AllAttributes.natKeyProp("int")
     prop.path should equal ("int")
     prop.typeKey should equal (typeKey[Int])
 
-    prop = AllAttributes.NatKeyProp("long")
+    prop = AllAttributes.natKeyProp("long")
     prop.path should equal ("long")
     prop.typeKey should equal (typeKey[Long])
 
-    prop = AllAttributes.NatKeyProp("string")
+    prop = AllAttributes.natKeyProp("string")
     prop.path should equal ("string")
     prop.typeKey should equal (typeKey[String])
 
-    prop = AllAttributes.NatKeyProp("dateTime")
+    prop = AllAttributes.natKeyProp("dateTime")
     prop.path should equal ("dateTime")
     prop.typeKey should equal (typeKey[DateTime])
   }
 
   it should "produce a valid nat key prop for shorthand types" in {
-    var prop: AllShorthands.NatKeyProp = null
+    var prop: NatKeyProp[AllShorthands] = null
 
-    prop = AllShorthands.NatKeyProp("boolean")
+    prop = AllShorthands.natKeyProp("boolean")
     prop.path should equal ("boolean")
     prop.typeKey should equal (typeKey[BooleanShorthand])
 
-    prop = AllShorthands.NatKeyProp("char")
+    prop = AllShorthands.natKeyProp("char")
     prop.path should equal ("char")
     prop.typeKey should equal (typeKey[CharShorthand])
 
-    prop = AllShorthands.NatKeyProp("double")
+    prop = AllShorthands.natKeyProp("double")
     prop.path should equal ("double")
     prop.typeKey should equal (typeKey[DoubleShorthand])
 
-    prop = AllShorthands.NatKeyProp("float")
+    prop = AllShorthands.natKeyProp("float")
     prop.path should equal ("float")
     prop.typeKey should equal (typeKey[FloatShorthand])
 
-    prop = AllShorthands.NatKeyProp("int")
+    prop = AllShorthands.natKeyProp("int")
     prop.path should equal ("int")
     prop.typeKey should equal (typeKey[IntShorthand])
 
-    prop = AllShorthands.NatKeyProp("long")
+    prop = AllShorthands.natKeyProp("long")
     prop.path should equal ("long")
     prop.typeKey should equal (typeKey[LongShorthand])
 
-    prop = AllShorthands.NatKeyProp("string")
+    prop = AllShorthands.natKeyProp("string")
     prop.path should equal ("string")
     prop.typeKey should equal (typeKey[StringShorthand])
 
-    prop = AllShorthands.NatKeyProp("dateTime")
+    prop = AllShorthands.natKeyProp("dateTime")
     prop.path should equal ("dateTime")
     prop.typeKey should equal (typeKey[DateTimeShorthand])
   }
 
   it should "produce a valid nat key prop for an assoc" in {
-    val prop = WithAssoc.NatKeyProp("associated")
+    val prop = WithAssoc.natKeyProp("associated")
     prop.path should equal ("associated")
     prop.typeKey should equal (typeKey[Assoc[Associated]])
   }
 
   it should "produce a valid nat key prop for a nested basic type" in {
-    val prop = WithComponent.NatKeyProp("component.uri")
+    val prop = WithComponent.natKeyProp("component.uri")
     prop.path should equal ("component.uri")
     prop.typeKey should equal (typeKey[String])
   }
 
   it should "produce a valid nat key prop for shorthand types in nested components" in {
-    var prop: WithComponentWithShorthands.NatKeyProp = null
+    var prop: NatKeyProp[WithComponentWithShorthands] = null
 
-    prop = WithComponentWithShorthands.NatKeyProp("component.boolean")
+    prop = WithComponentWithShorthands.natKeyProp("component.boolean")
     prop.path should equal ("component.boolean")
     prop.typeKey should equal (typeKey[BooleanShorthand])
 
-    prop = WithComponentWithShorthands.NatKeyProp("component.char")
+    prop = WithComponentWithShorthands.natKeyProp("component.char")
     prop.path should equal ("component.char")
     prop.typeKey should equal (typeKey[CharShorthand])
 
-    prop = WithComponentWithShorthands.NatKeyProp("component.double")
+    prop = WithComponentWithShorthands.natKeyProp("component.double")
     prop.path should equal ("component.double")
     prop.typeKey should equal (typeKey[DoubleShorthand])
 
-    prop = WithComponentWithShorthands.NatKeyProp("component.float")
+    prop = WithComponentWithShorthands.natKeyProp("component.float")
     prop.path should equal ("component.float")
     prop.typeKey should equal (typeKey[FloatShorthand])
 
-    prop = WithComponentWithShorthands.NatKeyProp("component.int")
+    prop = WithComponentWithShorthands.natKeyProp("component.int")
     prop.path should equal ("component.int")
     prop.typeKey should equal (typeKey[IntShorthand])
 
-    prop = WithComponentWithShorthands.NatKeyProp("component.long")
+    prop = WithComponentWithShorthands.natKeyProp("component.long")
     prop.path should equal ("component.long")
     prop.typeKey should equal (typeKey[LongShorthand])
 
-    prop = WithComponentWithShorthands.NatKeyProp("component.string")
+    prop = WithComponentWithShorthands.natKeyProp("component.string")
     prop.path should equal ("component.string")
     prop.typeKey should equal (typeKey[StringShorthand])
 
-    prop = WithComponentWithShorthands.NatKeyProp("component.dateTime")
+    prop = WithComponentWithShorthands.natKeyProp("component.dateTime")
     prop.path should equal ("component.dateTime")
     prop.typeKey should equal (typeKey[DateTimeShorthand])
   }
 
   it should "produce a valid nat key prop for a nested assoc" in {
-    val prop = WithComponentWithAssoc.NatKeyProp("component.associated")
+    val prop = WithComponentWithAssoc.natKeyProp("component.associated")
     prop.path should equal ("component.associated")
     prop.typeKey should equal (typeKey[Assoc[Associated]])
   }

@@ -1,10 +1,11 @@
 package longevity.exceptions
 
+import longevity.subdomain.NatKeyProp
 import longevity.subdomain.RootEntity
 import longevity.subdomain.RootEntityType
 
 /** an exception indicating that the
- * [[longevity.subdomain.RootEntityType#NatKeyProp natural key property]] passed to
+ * [[longevity.subdomain.NatKeyProp natural key property]] passed to
  * [[longevity.subdomain.RootEntityType#NatKey#Builder.setProp]] is not a part of the natural key
  * being built.
  *
@@ -13,6 +14,6 @@ import longevity.subdomain.RootEntityType
  */
 class NatKeyDoesNotContainPropException[E <: RootEntity](
   key: RootEntityType[E]#NatKey,
-  prop: RootEntityType[E]#NatKeyProp)
+  prop: NatKeyProp[E])
 extends NatKeyValBuilderException(
   s"nat key prop $prop is not a part of natural key $key")
