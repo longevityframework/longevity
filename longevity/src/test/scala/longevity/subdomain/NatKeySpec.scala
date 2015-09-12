@@ -3,66 +3,91 @@ package longevity.subdomain
 import emblem.imports._
 import longevity.exceptions.NatKeyDoesNotContainPropException
 import longevity.exceptions.NatKeyPropValTypeMismatchException
+import longevity.exceptions.SubdomainException
 import longevity.exceptions.UnsetNatKeyPropException
 import org.scalatest._
-import longevity.integration.master._
+import NatKeySpec._
+import NatKeySpec.NatKeySampler._
+
+object NatKeySpec {
+
+  case class NatKeySampler(
+    boolean: Boolean,
+    char: Char,
+    double: Double,
+    float: Float,
+    int: Int,
+    long: Long)
+  extends RootEntity
+
+  object NatKeySampler extends RootEntityType[NatKeySampler] {
+    val booleanProp = NatKeySampler.natKeyProp("boolean")
+    val charProp = NatKeySampler.natKeyProp("char")
+    val doubleProp = NatKeySampler.natKeyProp("double")
+
+    val keyFromPropPaths = NatKeySampler.natKey("boolean", "char")
+    val keyFromProps = NatKeySampler.natKey(booleanProp, charProp)
+
+    val keyFromPropPathsReversed = NatKeySampler.natKey("char", "boolean")
+    val keyFromPropsReversed = NatKeySampler.natKey(charProp, booleanProp)
+
+    val tripleKey = NatKeySampler.natKey(booleanProp, charProp, doubleProp)
+  }
+
+  implicit val shorthandPool = ShorthandPool.empty
+
+  // TODO: this "object context" pattern should be applied to all my integration tests. otherwise,
+  // anybody accessing an entity before accessing the subdomain/context will get an initialization error
+  object context {
+    val entityTypes = EntityTypePool(NatKeySampler)
+    val subdomain = Subdomain("Nat Key Spec", entityTypes)
+  }
+
+}
 
 /** unit tests for the proper construction of [[RootEntityType#NatKeyProp nat key props]] */
 @longevity.UnitTest
 class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "RootEntityType.NatKey factory methods"
+  behavior of "RootEntityType.natKey factory methods"
+
+  they should "throw exception when called after subdomain initialization" in {
+
+    // trigger subdomain initialization
+    import longevity.context._
+    val longevityContext = LongevityContext(context.subdomain, shorthandPool, Mongo)
+
+    intercept[SubdomainException] {
+      NatKeySampler.natKey("boolean", "char")
+    }
+  }
 
   they should "produce equivalent keys for equivalent inputs" in {
-
-    // this factory method take property paths as input
-    val key1 = AllAttributes.natKey("boolean", "char")
-
-    // this factory method take properties as input
-    val booleanProp = AllAttributes.natKeyProp("boolean")
-    val charProp = AllAttributes.natKeyProp("char")
-    val key2 = AllAttributes.natKey(booleanProp, charProp)
-
-    key1 should equal (key2)
-
-    // order of arguments should not matter
-    key1 should equal (AllAttributes.natKey(charProp, booleanProp))
-    key1 should equal (AllAttributes.natKey("char", "boolean"))
-
+    keyFromPropPaths should equal (keyFromProps)
+    keyFromPropPaths should equal (keyFromPropPathsReversed)
+    keyFromPropPaths should equal (keyFromPropsReversed)
   }
 
   behavior of "RootEntityType.NatKey.Builder.setProp"
 
   it should "throw exception when the prop is not part of the nat key being built" in {
-    val booleanProp = AllAttributes.natKeyProp("boolean")
-    val charProp = AllAttributes.natKeyProp("char")
-    val doubleProp = AllAttributes.natKeyProp("double")
-    val key = AllAttributes.natKey(booleanProp, charProp)
-    val builder = key.builder
+    val builder = keyFromProps.builder
     intercept[NatKeyDoesNotContainPropException[_]] {
       builder.setProp(doubleProp, 6.6d)
     }
   }
 
   it should "throw exception when the propVal does not match the type of the prop" in {
-    val booleanProp = AllAttributes.natKeyProp("boolean")
-    val charProp = AllAttributes.natKeyProp("char")
-    val key = AllAttributes.natKey(booleanProp, charProp)
-    val builder = key.builder
+    val builder = keyFromProps.builder
     intercept[NatKeyPropValTypeMismatchException[_]] {
       builder.setProp(booleanProp, 6.6d)
     }
   }
 
-
   behavior of "RootEntityType.NatKey.Builder.build"
 
   it should "throw exception when not all the props in the nat key have been set" in {
-    val booleanProp = AllAttributes.natKeyProp("boolean")
-    val charProp = AllAttributes.natKeyProp("char")
-    val doubleProp = AllAttributes.natKeyProp("double")
-    val key = AllAttributes.natKey(booleanProp, charProp, doubleProp)
-    val builder = key.builder
+    val builder = tripleKey.builder
     intercept[UnsetNatKeyPropException[_]] {
       builder.build
     }
@@ -77,17 +102,11 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce a valid nat key val when used appropriately" in {
-    val booleanProp = AllAttributes.natKeyProp("boolean")
-    val charProp = AllAttributes.natKeyProp("char")
-    val doubleProp = AllAttributes.natKeyProp("double")
-
     val booleanVal = true
     val charVal = 'c'
     val doubleVal = 6.667d
 
-    val key = AllAttributes.natKey(booleanProp, charProp, doubleProp)
-
-    val builder = key.builder
+    val builder = tripleKey.builder
     builder.setProp(booleanProp, booleanVal)
     builder.setProp(charProp, charVal)
     builder.setProp(doubleProp, doubleVal)
@@ -103,16 +122,14 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val charVal = 'c'
     val doubleVal = 6.667d
 
-    val key = AllAttributes.natKey("boolean", "char", "double")
-
-    val builder = key.builder
+    val builder = tripleKey.builder
     builder.setProp("boolean", booleanVal)
     builder.setProp("char", charVal)
     builder.setProp("double", doubleVal)
 
     val keyval = builder.build
 
-    keyval(AllAttributes.natKeyProp("boolean")) should equal (booleanVal)
+    keyval(NatKeySampler.natKeyProp("boolean")) should equal (booleanVal)
     keyval("boolean") should equal (booleanVal)
   }
 

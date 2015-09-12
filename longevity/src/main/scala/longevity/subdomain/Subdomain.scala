@@ -15,6 +15,9 @@ case class Subdomain(
 
   val rootEntityTypePool = RootEntityTypePool(entityTypePool)
 
+  // prohibit further creation of natural keys
+  rootEntityTypePool.values.foreach(_.register)
+
   /** a pool of emblems for the entities within the subdomain */
   val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] = entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
     new WideningTypeBoundFunction[Entity, HasEmblem, EntityType, Emblem] {
