@@ -39,12 +39,11 @@ extends EntityType[E] {
    */
   def natKeyProp(path: String): NatKeyProp[E] = NatKeyProp(path, emblem, entityTypeKey, shorthandPool)
 
-  // TODO: update scaladoc below about creating nat keys too late
-
   /** constructs a natural key for this root entity type based on the supplied set of property paths.
    * @param propPathHead one of the property paths for the properties that define this nat key
    * @param propPathTail any remaining property paths for the properties that define this nat key
    * @throws InvalidNatKeyPropPathException if any of the supplied property paths are invalid
+   * @throws SubdomainException on attempt to create a new nat key after the `RootEntityType` is fully initialized
    * @see NatKeyProp.apply
    */
   def natKey(propPathHead: String, propPathTail: String*): NatKey[E] = {
@@ -59,6 +58,7 @@ extends EntityType[E] {
   /** constructs a natural key for this root entity type based on the supplied set of nat key props.
    * @param propsHead one of the properties that define this nat key
    * @param propsTail any remaining properties that define this nat key
+   * @throws SubdomainException on attempt to create a new nat key after the `RootEntityType` is fully initialized
    */
   def natKey(propsHead: NatKeyProp[E], propsTail: NatKeyProp[E]*): NatKey[E] = {
     if (registered)
