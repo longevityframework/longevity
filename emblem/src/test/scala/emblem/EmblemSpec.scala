@@ -1,5 +1,6 @@
 package emblem
 
+import emblem.exceptions.NoSuchPropertyException
 import org.scalatest._
 import testData.geometry._
 
@@ -34,7 +35,7 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "throw exception when no such property" in {
-    intercept[NoSuchElementException] { pointEmblem("z") }
+    intercept[NoSuchPropertyException] { pointEmblem("z") }
   }
 
   behavior of "Emblem.prop"
@@ -43,8 +44,8 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
     val xProp: EmblemProp[Point, Double] = pointEmblem.prop[Double]("x")
   }
 
-  it should "throw NoSuchElementException when no such property" in {
-    intercept[NoSuchElementException] { pointEmblem.prop[Double]("z") }
+  it should "throw NoSuchPropertyException when no such property" in {
+    intercept[NoSuchPropertyException] { pointEmblem.prop[Double]("z") }
   }
 
   it should "throw ClassCastException when property type does not match" in {

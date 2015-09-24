@@ -1,6 +1,10 @@
 package longevity.subdomain
 
+import emblem.exceptions.NoSuchPropertyException
+import emblem.exceptions.NonEmblemInPropPathException
+import emblem.exceptions.EmptyPropPathException
 import emblem.basicTypes.isBasicType
+import emblem.EmblemPropPath
 import emblem.imports._
 import longevity.exceptions.InvalidNatKeyPropPathException
 
@@ -14,7 +18,14 @@ import longevity.exceptions.InvalidNatKeyPropPathException
  */
 case class NatKeyProp[E <: RootEntity] private (
   val path: String,
-  val typeKey: TypeKey[_])
+  val typeKey: TypeKey[_])(
+  private val emblemPropPath: EmblemPropPath[E, _]) {
+
+  // TODO scaladocs in this file
+
+  def natKeyPropVal(e: E): Any = emblemPropPath.get(e)
+
+}
 
 object NatKeyProp {
 
@@ -24,40 +35,51 @@ object NatKeyProp {
     rootTypeKey: TypeKey[E],
     shorthandPool: ShorthandPool)
   : NatKeyProp[E] = {
-    val pathSegments = path.split('.')
-    if (pathSegments.size == 0) throw new InvalidNatKeyPropPathException("empty nat key prop path")
 
-    type PathSegmentInfo = (EmblemProp[_, _], String)
-    def pathSegmentInfo(emblem: Emblem[_ <: HasEmblem], pathSegment: String): PathSegmentInfo = {
-      val emblemProp = emblem.propMap.getOrElse(
-        pathSegment,
-        throw new InvalidNatKeyPropPathException(
-          s"path segment $pathSegment does not specify a property in path $path for root ${rootTypeKey.name}"))
+    // TODO build out fuckin hierarchy for InvalidNatKeyPropPathException
 
-      (emblemProp, pathSegment)
-    }
-
-    val headInfo = pathSegmentInfo(emblem, pathSegments.head)
-
-    val leafInfo = pathSegments.tail.foldLeft(headInfo) {
-      case ((prop, prevSegment), segment) =>
-        if (prop.typeKey <:< typeKey[Entity]) {
-          val emblem = Emblem(prop.typeKey.asInstanceOf[TypeKey[Entity]])
-          pathSegmentInfo(emblem, segment)
-        } else {
+    def validatePath(): EmblemPropPath[E, _] =
+      try {
+        EmblemPropPath.unbounded(emblem, path)
+      } catch {
+        case e: EmptyPropPathException =>
+          throw new InvalidNatKeyPropPathException("empty nat key prop path", e)
+        case e: NoSuchPropertyException =>
           throw new InvalidNatKeyPropPathException(
-            s"non-leaf path segment $prevSegment is not an entity in path $path for root ${rootTypeKey.name}")
-        }
+            s"path segment ${e.propName} does not specify a property in path $path for root ${rootTypeKey.name}",
+            e)
+        case e: NonEmblemInPropPathException =>
+          throw new InvalidNatKeyPropPathException(
+            s"non-leaf path segment ${e.nonEmblemPathSegment} is not an entity in path $path " +
+            s"for root ${rootTypeKey.name}",
+            e)
+      }
+
+    def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[EmblemProp[_ <: HasEmblem, _]]): Unit =
+      nonLeafEmblemProps foreach { nonLeafEmblemProp =>
+        if (!(nonLeafEmblemProp.typeKey <:< typeKey[Entity]))
+          throw new InvalidNatKeyPropPathException(
+            s"non-leaf path segment ${nonLeafEmblemProp.name} is not an entity in path $path " +
+            s"for root ${rootTypeKey.name}")
+      }
+
+    def validateLeafEmblemProp(leafEmblemProp: EmblemProp[_ <: HasEmblem, _]): TypeKey[_] = {
+      val key = leafEmblemProp.typeKey
+      if (!(isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)))
+        throw new InvalidNatKeyPropPathException(
+          s"nat key prop path $path for root ${rootTypeKey.name} is not a basic type, shorthand, or an assoc")
+      key
     }
 
-    def validLeafNatKeyPropType(key: TypeKey[_]): Boolean =
-      isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)
+    val emblemPropPath = validatePath()
+    val emblemProps = emblemPropPath.props
 
-    val natKeyPropTypeKey = leafInfo._1.typeKey
-    if (!validLeafNatKeyPropType(natKeyPropTypeKey))
-      throw new InvalidNatKeyPropPathException(
-      s"nat key prop path $path for root ${rootTypeKey.name} is not a basic type, shorthand, or an assoc")
+    val nonLeafEmblemProps = emblemProps.dropRight(1)
+    val () = validateNonLeafEmblemProps(nonLeafEmblemProps)
 
-    new NatKeyProp(path, natKeyPropTypeKey)
+    val leafEmblemProp = emblemProps.last
+    val natKeyPropTypeKey = validateLeafEmblemProp(leafEmblemProp)
+    new NatKeyProp(path, natKeyPropTypeKey)(emblemPropPath)
   }
+
 }
