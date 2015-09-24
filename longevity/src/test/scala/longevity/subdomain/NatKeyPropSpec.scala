@@ -2,7 +2,7 @@ package longevity.subdomain
 
 import com.github.nscala_time.time.Imports._
 import emblem.imports._
-import longevity.exceptions.InvalidNatKeyPropPathException
+import longevity.exceptions._
 import org.scalatest._
 import longevity.integration.master._
 
@@ -12,75 +12,74 @@ class NatKeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "RootEntityType.NatKeyProp.apply(String)"
 
-  it should "throw InvalidNatKeyPropPathException when the specified prop path is empty" in {
-    intercept[InvalidNatKeyPropPathException] {
+  it should "throw exception when the specified prop path is empty" in {
+    intercept[EmptyNatKeyPropPathException] {
       AllAttributes.natKeyProp("")
     }
   }
 
-  it should "throw InvalidNatKeyPropPathException when the specified prop path does not map " +
-  "to an actual prop path" in {
-    intercept[InvalidNatKeyPropPathException] {
+  it should "throw exception when the specified prop path does not map to an actual prop path" in {
+    intercept[NoSuchNatKeyPropPathSegmentException] {
       AllAttributes.natKeyProp("invalidPropPath")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[NoSuchNatKeyPropPathSegmentException] {
       WithComponent.natKeyProp("component.noSuchPathSegment")
     }
   }
 
-  it should "throw InvalidNatKeyPropPathException when the specified prop path passes through a collection" in {
-    intercept[InvalidNatKeyPropPathException] {
+  it should "throw exception when the specified prop path passes through a collection" in {
+    intercept[NonEntityNatKeyPropPathSegmentException] {
       WithComponentList.natKeyProp("components.uri")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[NonEntityNatKeyPropPathSegmentException] {
       WithComponentOption.natKeyProp("component.uri")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[NonEntityNatKeyPropPathSegmentException] {
       WithComponentSet.natKeyProp("components.uri")
     }
   }
 
-  it should "throw InvalidNatKeyPropPathException when the specified prop path terminates with a collection" in {
-    intercept[InvalidNatKeyPropPathException] {
+  it should "throw exception when the specified prop path terminates with a collection" in {
+    intercept[InvalidNatKeyPropPathLeafException] {
       AttributeLists.natKeyProp("boolean")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[InvalidNatKeyPropPathLeafException] {
       AttributeOptions.natKeyProp("boolean")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[InvalidNatKeyPropPathLeafException] {
       AttributeSets.natKeyProp("boolean")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[InvalidNatKeyPropPathLeafException] {
       WithAssocList.natKeyProp("associated")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[InvalidNatKeyPropPathLeafException] {
       WithAssocOption.natKeyProp("associated")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[InvalidNatKeyPropPathLeafException] {
       WithAssocSet.natKeyProp("associated")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[InvalidNatKeyPropPathLeafException] {
       WithComponentList.natKeyProp("components")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[InvalidNatKeyPropPathLeafException] {
       WithComponentOption.natKeyProp("component")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[InvalidNatKeyPropPathLeafException] {
       WithComponentSet.natKeyProp("components")
     }
 
-    intercept[InvalidNatKeyPropPathException] {
+    intercept[InvalidNatKeyPropPathLeafException] {
       WithComponent.natKeyProp("component.tags")
     }
   }
