@@ -9,16 +9,22 @@ import longevity.exceptions.UnsetNatKeyPropException
 /** a natural key for this root entity type
  * @param props the set of nat key properties that make up this natural key
  */
-case class NatKey[E <: RootEntity] private [subdomain] (props: Set[NatKeyProp[E]]) {
+case class NatKey[E <: RootEntity] private [subdomain] (val props: Set[NatKeyProp[E]]) {
 
   private lazy val propPathToProp = props.map(p => p.path -> p).toMap
 
+  // TODO scaladocs here
+
   def builder = new ValBuilder
 
-  class Val private[NatKey] (private val propVals: Map[NatKeyProp[E], Any]) {
+  def natKeyVal(e: E): Val = {
+    val b = builder
+    props.foreach { prop => b.setPropRaw(prop, prop.natKeyPropVal(e)) }
+    b.build
+  }
 
+  case class Val private[NatKey] (val propVals: Map[NatKeyProp[E], Any]) {
     def apply(prop: NatKeyProp[E]): Any = propVals(prop)
-
     def apply(propPath: String): Any = propVals(propPathToProp(propPath))
   }
 
@@ -34,11 +40,15 @@ case class NatKey[E <: RootEntity] private [subdomain] (props: Set[NatKeyProp[E]
       propVals += prop -> propVal
     }
 
+    private[NatKey] def setPropRaw(prop: NatKeyProp[E], propVal: Any): Unit = {
+      propVals += prop -> propVal
+    }
+
     def build: Val = {
       if (propVals.size < props.size) {
         throw new UnsetNatKeyPropException(NatKey.this, props -- propVals.keys)
       }
-      new Val(propVals)
+      Val(propVals)
     }
   }
 

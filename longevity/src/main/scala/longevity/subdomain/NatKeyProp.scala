@@ -16,6 +16,7 @@ import longevity.exceptions.InvalidNatKeyPropPathException
  * @param typeKey [[TypeKey type key]] for the property value type
  * @see `emblem.basicTypes`
  */
+// TODO should i incorporate the resulting type into the type for NatKeyProp?
 case class NatKeyProp[E <: RootEntity] private (
   val path: String,
   val typeKey: TypeKey[_])(

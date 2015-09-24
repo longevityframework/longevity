@@ -133,4 +133,20 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
     keyval("boolean") should equal (booleanVal)
   }
 
+  behavior of "RootEntityType.NatKey.natKeyVal"
+
+  it should "return nat key vals for the supplied instances" in {
+    val booleanVal = true
+    val charVal = 'c'
+    val doubleVal = 6.667d
+    val floatVal = 3.44F
+    val intVal = 7
+    val longVal = 99L
+    val sampler = NatKeySampler(booleanVal, charVal, doubleVal, floatVal, intVal, longVal)
+
+    val keyval = keyFromPropPaths.natKeyVal(sampler)
+    keyval("boolean") should equal (booleanVal)
+    keyval("char") should equal (charVal)
+  }
+
 }
