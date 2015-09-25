@@ -22,6 +22,8 @@ extends Repo[E](
   shorthandPool) {
   repo =>
 
+  // TODO unit test this for CRUD with assoc & nat key combos
+
   private case class IntId(i: Int) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
@@ -30,6 +32,9 @@ extends Repo[E](
 
   private var nextId = 0
   private var idToEntityMap = Map[PersistedAssoc[E], Persisted[E]]()
+  
+  case class NKV(val natKey: NatKey[E], val natKeyVal: NatKey[E]#Val)
+  private var nkvToEntityMap = Map[NKV, Persisted[E]]()
 
   def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
     patchUnpersistedAssocs(unpersisted.get).map { e =>
@@ -42,25 +47,47 @@ extends Repo[E](
     }
   })
 
+  def retrieveByNatKeyVal(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = {
+    val optionE = nkvToEntityMap.get(NKV(natKey, natKeyVal))
+    Promise.successful(optionE).future
+  }
+
   def retrieve(assoc: PersistedAssoc[E]) = {
     val optionE = idToEntityMap.get(assoc)
     Promise.successful(optionE).future
   }
 
-  def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.get) map {
-    persist(persisted.assoc, _)
+  def update(persisted: Persisted[E]) = {
+    dumpNatKeys(persisted.orig)
+    patchUnpersistedAssocs(persisted.get) map {
+      persist(persisted.assoc, _)
+    }
   }
 
   def delete(persisted: Persisted[E]) = {
     repo.synchronized { idToEntityMap -= persisted.assoc }
+    dumpNatKeys(persisted.orig)
     val deleted = new Deleted(persisted)
     Promise.successful(deleted).future
   }
 
   private def persist(assoc: PersistedAssoc[E], e: E): Persisted[E] = {
     val persisted = new Persisted[E](assoc, e)
-    repo.synchronized { idToEntityMap += (assoc -> persisted) }
+    repo.synchronized {
+      idToEntityMap += (assoc -> persisted)
+      entityType.natKeys.foreach { natKey =>
+        val natKeyVal = natKey.natKeyVal(e)
+        nkvToEntityMap += (NKV(natKey, natKeyVal) -> persisted)
+      }
+    }
     persisted
+  }
+
+  private def dumpNatKeys(e: E) = repo.synchronized {
+    entityType.natKeys.foreach { natKey =>
+      val natKeyVal = natKey.natKeyVal(e)
+      nkvToEntityMap -= NKV(natKey, natKeyVal)
+    }
   }
 
 }

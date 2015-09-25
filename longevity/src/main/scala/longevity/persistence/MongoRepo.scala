@@ -48,6 +48,18 @@ extends Repo[E](
     }
   })
 
+  def retrieveByNatKeyVal(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = Future {
+    val builder = MongoDBObject.newBuilder
+    natKey.props.foreach { prop => builder += prop.path -> natKeyVal(prop) }
+    val query = builder.result
+    val resultOption = mongoCollection.findOne(query)
+    val idEntityOption = resultOption map { result =>
+      val id = result.getAs[ObjectId]("_id").get
+      id -> casbahToEntityTranslator.translate(result)
+    }
+    idEntityOption map { case (id, e) => new Persisted[E](MongoId(id), e) }
+  }
+
   def retrieve(assoc: PersistedAssoc[E]) = Future {
     val objectId = assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
