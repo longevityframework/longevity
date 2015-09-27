@@ -7,4 +7,7 @@ case class WithAssoc(
   associated: Assoc[Associated])
 extends RootEntity
 
-object WithAssoc extends RootEntityType[WithAssoc]
+object WithAssoc extends RootEntityType[WithAssoc] {
+  natKey("uri")
+}
+

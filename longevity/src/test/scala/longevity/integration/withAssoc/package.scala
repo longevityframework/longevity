@@ -8,10 +8,10 @@ package object withAssoc {
 
   implicit val shorthandPool = ShorthandPool.empty
 
-  val entityTypes = EntityTypePool() + WithAssoc + Associated
-
-  val subdomain = Subdomain("With Assoc", entityTypes)
-
-  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
+  object context {
+    val entityTypes = EntityTypePool() + WithAssoc + Associated
+    val subdomain = Subdomain("With Assoc", entityTypes, shorthandPool)
+    val longevityContext = LongevityContext(subdomain, Mongo)
+  }
 
 }

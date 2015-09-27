@@ -11,6 +11,8 @@ import NatKeySpec.NatKeySampler._
 
 object NatKeySpec {
 
+  implicit val shorthandPool = ShorthandPool.empty
+
   case class NatKeySampler(
     boolean: Boolean,
     char: Char,
@@ -34,13 +36,9 @@ object NatKeySpec {
     val tripleKey = NatKeySampler.natKey(booleanProp, charProp, doubleProp)
   }
 
-  implicit val shorthandPool = ShorthandPool.empty
-
-  // TODO: this "object context" pattern should be applied to all my integration tests. otherwise,
-  // anybody accessing an entity before accessing the subdomain/context will get an initialization error
   object context {
     val entityTypes = EntityTypePool(NatKeySampler)
-    val subdomain = Subdomain("Nat Key Spec", entityTypes)
+    val subdomain = Subdomain("Nat Key Spec", entityTypes, shorthandPool)
   }
 
 }
@@ -55,7 +53,7 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
     // trigger subdomain initialization
     import longevity.context._
-    val longevityContext = LongevityContext(context.subdomain, shorthandPool, Mongo)
+    val longevityContext = LongevityContext(context.subdomain, Mongo)
 
     intercept[SubdomainException] {
       NatKeySampler.natKey("boolean", "char")

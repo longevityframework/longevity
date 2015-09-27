@@ -11,23 +11,23 @@ package object coredomain {
     Shorthand[Uri, String]
   )
 
-  val entityTypes = EntityTypePool() +
-    BlogType +
-    BlogPostType +
-    CommentType + 
-    SiteType +
-    UserType +
-    WikiType +
-    WikiPageType
+  object context {
 
-  implicit def stringToEmail(email: String): Email = Email(email)
+    val entityTypes = EntityTypePool(
+      BlogType,
+      BlogPostType,
+      CommentType ,
+      SiteType,
+      UserType,
+      WikiType,
+      WikiPageType)
 
-  implicit def stringToMarkdown(markdown: String): Markdown = Markdown(markdown)
+    implicit def stringToEmail(email: String): Email = Email(email)
+    implicit def stringToMarkdown(markdown: String): Markdown = Markdown(markdown)
+    implicit def stringToUri(uri: String): Uri = Uri(uri)
 
-  implicit def stringToUri(uri: String): Uri = Uri(uri)
-
-  val subdomain = Subdomain("Musette", entityTypes)
-
-  val longevityContext = LongevityContext(subdomain, shorthands, Mongo)
+    val subdomain = Subdomain("Musette", entityTypes, shorthands)
+    val longevityContext = LongevityContext(subdomain, Mongo)
+  }
 
 }

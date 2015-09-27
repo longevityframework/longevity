@@ -7,4 +7,4 @@ import org.scalatest.Suites
 
 @IntegrationTest
 @MasterIntegrationTest
-class InMemMasterSpec extends Suites(longevityContext.inMemRepoPoolSpec)
+class InMemMasterSpec extends Suites(context.longevityContext.inMemRepoPoolSpec)

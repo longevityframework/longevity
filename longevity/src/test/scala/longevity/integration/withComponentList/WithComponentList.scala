@@ -7,4 +7,7 @@ case class WithComponentList(
   components: List[Component])
 extends RootEntity
 
-object WithComponentList extends RootEntityType[WithComponentList]
+object WithComponentList extends RootEntityType[WithComponentList] {
+  natKey("uri")
+}
+

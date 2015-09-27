@@ -8,6 +8,11 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
 
+/** integration tests for things in the subdomain that don't have mongo transations.
+ * this indicates a "bug" in the subdomain - some kind of shorthand or entity is missing.
+ * this should really be tested for you on subdomain construction.
+ * @see https://www.pivotaltracker.com/story/show/99755864
+ */
 @IntegrationTest
 @MasterIntegrationTest
 class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
@@ -16,7 +21,7 @@ class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with S
     timeout = scaled(1000 millis),
     interval = scaled(50 millis))
 
-  val repoPool = longevityContext.repoPool
+  val repoPool = context.longevityContext.repoPool
 
   behavior of "Repo.create in the face of a untranslatable objects"
 

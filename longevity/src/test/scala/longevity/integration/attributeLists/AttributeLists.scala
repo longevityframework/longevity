@@ -4,6 +4,7 @@ import com.github.nscala_time.time.Imports._
 import longevity.subdomain._
 
 case class AttributeLists(
+  uri: String,
   boolean: List[Boolean],
   char: List[Char],
   double: List[Double],
@@ -14,4 +15,7 @@ case class AttributeLists(
   dateTime: List[DateTime])
 extends RootEntity
 
-object AttributeLists extends RootEntityType[AttributeLists]
+object AttributeLists extends RootEntityType[AttributeLists] {
+  natKey("uri")
+}
+

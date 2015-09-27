@@ -7,4 +7,7 @@ case class WithComponentWithShorthands(
   component: ComponentWithShorthands)
 extends RootEntity
 
-object WithComponentWithShorthands extends RootEntityType[WithComponentWithShorthands]
+object WithComponentWithShorthands extends RootEntityType[WithComponentWithShorthands] {
+  natKey("uri")
+}
+

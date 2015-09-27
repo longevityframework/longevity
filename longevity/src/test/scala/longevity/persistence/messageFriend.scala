@@ -15,12 +15,11 @@ object messageFriend {
 
   object MessageType extends RootEntityType[Message]
 
-  val entityTypes = EntityTypePool() + FriendType + MessageType
-
-  val subdomain = Subdomain("blog", entityTypes)
-
-  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
-
-  val inMemLongevityContext = LongevityContext(subdomain, shorthandPool, InMem)
+  object context {
+    val entityTypes = EntityTypePool() + FriendType + MessageType
+    val subdomain = Subdomain("blog", entityTypes, shorthandPool)
+    val longevityContext = LongevityContext(subdomain, Mongo)
+    val inMemLongevityContext = LongevityContext(subdomain, InMem)
+  }
 
 }

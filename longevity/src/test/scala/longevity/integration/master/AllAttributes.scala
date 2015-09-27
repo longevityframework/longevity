@@ -4,6 +4,7 @@ import com.github.nscala_time.time.Imports._
 import longevity.subdomain._
 
 case class AllAttributes(
+  uri: String,
   boolean: Boolean,
   char: Char,
   double: Double,
@@ -14,4 +15,6 @@ case class AllAttributes(
   dateTime: DateTime)
 extends RootEntity
 
-object AllAttributes extends RootEntityType[AllAttributes]
+object AllAttributes extends RootEntityType[AllAttributes] {
+  natKey("uri")
+}

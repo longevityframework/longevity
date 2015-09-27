@@ -50,7 +50,7 @@ extends Repo[E](
 
   def retrieveByNatKeyVal(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = Future {
     val builder = MongoDBObject.newBuilder
-    natKey.props.foreach { prop => builder += prop.path -> natKeyVal(prop) }
+    natKey.props.foreach { prop => builder += (prop.path -> natKeyVal.shorthand(prop)) }
     val query = builder.result
     val resultOption = mongoCollection.findOne(query)
     val idEntityOption = resultOption map { result =>

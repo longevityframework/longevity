@@ -1,6 +1,6 @@
 package musette.persistence
 
-import musette.coredomain.longevityContext
+import musette.coredomain.context.longevityContext
 
 import org.scalatest.Suites
 

@@ -6,6 +6,8 @@ import longevity.subdomain._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 
+// TODO: should get subdomain instead of pair of pools
+
 /** a repository for aggregate roots of type `E`.
  * 
  * @param entityType the entity type for the aggregate roots this repository handles
@@ -13,7 +15,7 @@ import scala.concurrent._
  * @param shorthandPool a complete set of the shorthands used by the bounded context
  */
 abstract class Repo[E <: RootEntity : TypeKey](
-  val entityType: EntityType[E],
+  val entityType: RootEntityType[E],
   emblemPool: EmblemPool,
   shorthandPool: ShorthandPool) {
 

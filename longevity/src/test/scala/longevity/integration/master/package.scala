@@ -1,5 +1,10 @@
 package longevity.integration
 
+// TODO integration test with a shorthand for a nat key
+// TODO integration test with an assoc in the nat key
+// TODO integration test with composite nat key
+
+
 import com.github.nscala_time.time.Imports._
 import longevity.context._
 import longevity.subdomain._
@@ -26,31 +31,33 @@ package object master {
     longShorthand +
     stringShorthand
 
-  val entityTypes = EntityTypePool() +
-    AllAttributes +
-    AllShorthands +
-    Associated +
-    AttributeLists +
-    AttributeOptions +
-    AttributeSets +
-    Component +
-    ComponentWithAssoc +
-    ComponentWithShorthands +
-    OneAttribute +
-    OneShorthand +
-    WithAssoc +
-    WithAssocList +
-    WithAssocOption +
-    WithAssocSet +
-    WithComponent +
-    WithComponentList +
-    WithComponentOption +
-    WithComponentSet +
-    WithComponentWithAssoc +
-    WithComponentWithShorthands
+  object context {
 
-  val subdomain = Subdomain("Master", entityTypes)
+    val entityTypes = EntityTypePool(
+      AllAttributes,
+      AllShorthands,
+      Associated,
+      AttributeLists,
+      AttributeOptions,
+      AttributeSets,
+      Component,
+      ComponentWithAssoc,
+      ComponentWithShorthands,
+      OneAttribute,
+      OneShorthand,
+      WithAssoc,
+      WithAssocList,
+      WithAssocOption,
+      WithAssocSet,
+      WithComponent,
+      WithComponentList,
+      WithComponentOption,
+      WithComponentSet,
+      WithComponentWithAssoc,
+      WithComponentWithShorthands)
 
-  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
+    val subdomain = Subdomain("Master", entityTypes, shorthandPool)
+    val longevityContext = LongevityContext(subdomain, Mongo)
+  }
 
 }

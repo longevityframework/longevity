@@ -5,4 +5,4 @@ import longevity.IntegrationTest
 import org.scalatest.Suites
 
 @IntegrationTest
-class InMemWithAssocOptionSpec extends Suites(longevityContext.inMemRepoPoolSpec)
+class InMemWithAssocOptionSpec extends Suites(context.longevityContext.inMemRepoPoolSpec)

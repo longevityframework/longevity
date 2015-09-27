@@ -10,10 +10,10 @@ package object oneShorthand {
 
   implicit val shorthandPool = ShorthandPool.empty + uriShorthand
 
-  val entityTypes = EntityTypePool() + OneShorthand
-
-  val subdomain = Subdomain("One Shorthand", entityTypes)
-
-  val longevityContext = LongevityContext(subdomain, shorthandPool)
+  object context {
+    val entityTypes = EntityTypePool() + OneShorthand
+    val subdomain = Subdomain("One Shorthand", entityTypes, shorthandPool)
+    val longevityContext = LongevityContext(subdomain)
+  }
 
 }

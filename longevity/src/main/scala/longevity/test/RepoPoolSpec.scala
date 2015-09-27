@@ -21,7 +21,6 @@ import org.scalatest.time.SpanSugar._
  * the repo pool spec exercises create/retrieve/update/delete for all the repos in your repo pool.
  *
  * @param subdomain the subdomain
- * @param shorthandPool a complete set of the shorthands used by the bounded context
  * @param customGeneratorPool a collection of custom generators to use when generating test data
  * @param repoPool the repo pool under test. this may be different than the `longevityContext.repoPool`, as
  * users may want to test against other repo pools. (for instance, they may want a spec for in-memory repo
@@ -31,7 +30,6 @@ import org.scalatest.time.SpanSugar._
  */
 private[longevity] class RepoPoolSpec(
   subdomain: Subdomain,
-  shorthandPool: ShorthandPool,
   customGeneratorPool: CustomGeneratorPool,
   repoPool: RepoPool,
   suiteNameSuffix: Option[String] = None)
@@ -56,38 +54,48 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
   private class RepoSpec[E <: RootEntity : TypeKey](private val repo: Repo[E]) {
 
     private val entityName = repo.entityType.emblem.name
+    private val representativeNatKeyOption = repo.entityType.natKeys.headOption
 
     feature(s"${entityName}Repo.create") {
       scenario(s"should produce a persisted $entityName") {
 
+        representativeNatKeyOption should be ('nonEmpty)
+
         Given(s"an unpersisted $entityName")
-        val unpersisted: E = testDataGenerator.generate[E]
+        val entity: E = testDataGenerator.generate[E]
 
         When(s"we create the $entityName") 
         Then(s"we get back the $entityName persistent state")
-        val created: Persisted[E] = repo.create(unpersisted).futureValue
+        val created: Persisted[E] = repo.create(entity).futureValue
 
         And(s"the persisted $entityName should should match the original, unpersisted $entityName")
-        persistedShouldMatchUnpersisted(created.get, unpersisted)
+        persistedShouldMatchUnpersisted(created.get, entity)
 
+        // i cant figure out if this and clause is a sensible part of this test or not. opinions?
         And(s"further retrieval operations should retrieve the same $entityName")
-        val retrieved: Persisted[E] = repo.retrieveAssoc(created.assoc).futureValue.value
-        persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
+        representativeNatKeyOption.foreach { natKey =>
+          val natKeyVal = natKey.natKeyVal(entity)
+          val retrieved: Persisted[E] = repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue.value
+          persistedShouldMatchUnpersisted(retrieved.get, entity)
+        }
+
       }
     }
 
-    feature(s"${entityName}Repo.retrieveAssoc") {
+    feature(s"${entityName}Repo.retrieveByNatKeyVal") {
       scenario(s"should produce the same persisted $entityName") {
 
         Given(s"a persisted $entityName")
-        val unpersisted: E = testDataGenerator.generate[E]
-        val created = repo.create(unpersisted).futureValue
+        val entity: E = testDataGenerator.generate[E]
+        val created = repo.create(entity).futureValue
 
-        When(s"we retrieve the $entityName by assoc")
-        val retrieved: Persisted[E] = repo.retrieveAssoc(created.assoc).futureValue.value
-
+        When(s"we retrieve the $entityName by any of its natural keys")
         Then(s"we get back the same $entityName persistent state")
-        persistedShouldMatchUnpersisted(retrieved.get, unpersisted)
+        repo.entityType.natKeys.foreach { natKey =>
+          val natKeyVal = natKey.natKeyVal(entity)
+          val retrieved: Persisted[E] = repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue.value
+          persistedShouldMatchUnpersisted(retrieved.get, entity)
+        }
       }
     }
 
@@ -95,39 +103,51 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
       scenario(s"should produce an updated persisted $entityName") {
 
         Given(s"a persisted $entityName")
-        val unpersistedOriginal: E = testDataGenerator.generate[E]
-        val unpersistedModified: E = testDataGenerator.generate[E]
-        val created: Persisted[E] = repo.create(unpersistedOriginal).futureValue
+        val originalEntity: E = testDataGenerator.generate[E]
+        val modifiedEntity: E = testDataGenerator.generate[E]
+        val created: Persisted[E] = repo.create(originalEntity).futureValue
 
         When(s"we update the persisted $entityName")
-        val modified: Persisted[E] = created.map(e => unpersistedModified)
+        val modified: Persisted[E] = created.map(e => modifiedEntity)
         val updated: Persisted[E] = repo.update(modified).futureValue
 
         Then(s"we get back the updated $entityName persistent state")
-        persistedShouldMatchUnpersisted(updated.get, unpersistedModified)
+        persistedShouldMatchUnpersisted(updated.get, modifiedEntity)
 
         And(s"further retrieval operations should retrieve the updated copy")
-        val retrieved: Persisted[E] = repo.retrieveAssoc(updated.assoc).futureValue.value
-        persistedShouldMatchUnpersisted(retrieved.get, unpersistedModified)
+        representativeNatKeyOption.foreach { natKey =>
+          val natKeyVal = natKey.natKeyVal(modifiedEntity)
+          val retrieved: Persisted[E] = repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue.value
+          persistedShouldMatchUnpersisted(retrieved.get, modifiedEntity)
+        }
+
+        And(s"further retrieval operations based on the original version should retrieve nothing")
+        representativeNatKeyOption.foreach { natKey =>
+          val natKeyVal = natKey.natKeyVal(originalEntity)
+          repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue should be (None)
+        }
+
       }
     }
 
     feature(s"${entityName}Repo.delete") {
       scenario(s"should delete a persisted $entityName") {
         Given(s"a persisted $entityName")
-        val unpersisted: E = testDataGenerator.generate[E]
-        val created: Persisted[E] = repo.create(unpersisted).futureValue
-        created shouldBe a [Persisted[_]]
+        val entity: E = testDataGenerator.generate[E]
+        val created: Persisted[E] = repo.create(entity).futureValue
 
         When(s"we delete the persisted $entityName")
         val deleted: Deleted[E] = repo.delete(created).futureValue
 
         Then(s"we get back a Deleted persistent state")
-        persistedShouldMatchUnpersisted(deleted.get, unpersisted)
+        persistedShouldMatchUnpersisted(deleted.get, entity)
 
         And(s"we should no longer be able to retrieve the $entityName")
-        val retrieved: Option[Persisted[E]] = repo.retrieveAssoc(created.assoc).futureValue
-        retrieved.isEmpty should be (true)
+        representativeNatKeyOption.foreach { natKey =>
+          val natKeyVal = natKey.natKeyVal(entity)
+          val retrieved: Option[Persisted[E]] = repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue
+          retrieved.isEmpty should be (true)
+        }
       }
     }
 
@@ -145,7 +165,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     }
 
   private val emblemPool = subdomain.entityEmblemPool
-  private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
+  private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
   private val generators = customGeneratorPool + assocGenerator
   private val testDataGenerator = new TestDataGenerator(emblemPool, extractorPool, generators)
   private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool)

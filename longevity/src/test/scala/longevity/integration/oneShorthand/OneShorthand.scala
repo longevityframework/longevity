@@ -4,4 +4,7 @@ import longevity.subdomain._
 
 case class OneShorthand(uri: Uri) extends RootEntity
 
-object OneShorthand extends RootEntityType[OneShorthand]
+object OneShorthand extends RootEntityType[OneShorthand] {
+  natKey("uri")
+}
+

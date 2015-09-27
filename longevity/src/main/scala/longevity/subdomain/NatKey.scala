@@ -9,7 +9,9 @@ import longevity.exceptions.UnsetNatKeyPropException
 /** a natural key for this root entity type
  * @param props the set of nat key properties that make up this natural key
  */
-case class NatKey[E <: RootEntity] private [subdomain] (val props: Set[NatKeyProp[E]]) {
+case class NatKey[E <: RootEntity] private [subdomain] (
+  val props: Set[NatKeyProp[E]])(
+  private implicit val shorthandPool: ShorthandPool) {
 
   private lazy val propPathToProp = props.map(p => p.path -> p).toMap
 
@@ -39,6 +41,22 @@ case class NatKey[E <: RootEntity] private [subdomain] (val props: Set[NatKeyPro
      * @throws NoSuchElementException if the prop indicated by the prop path is not part of the key
      */
     def apply(propPath: String): Any = propVals(propPathToProp(propPath))
+
+    /** gets the shorthanded value of the nat key val for the specified prop. if there is a shorthand in
+     * the shorthand pool that applies, it is applied to the raw value before it is returned.
+     * @param the prop to look up a value for
+     * @throws NoSuchElementException if the prop is not part of the key
+     */
+    def shorthand(prop: NatKeyProp[E]): Any = {
+      val raw = propVals(prop)
+      if (shorthandPool.contains(prop.typeKey)) {
+        def abbreviate[PV : TypeKey] = shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
+        abbreviate(prop.typeKey)
+      } else {
+        raw
+      }
+    }
+
   }
 
   /** a builder of values for this natural key */

@@ -3,19 +3,22 @@ package longevity.integration
 import longevity.context._
 import longevity.subdomain._
 
+/** a malformed subdomain that manages to include objects that don't have mongo transations. */
 package object noTranslation {
 
   implicit val shorthandPool = ShorthandPool.empty
 
-  val entityTypes = EntityTypePool() +
-    WithNoTranslation +
-    WithNoTranslationList +
-    WithNoTranslationLonghand +
-    WithNoTranslationOption +
-    WithNoTranslationSet
+  object context {
 
-  val subdomain = Subdomain("No Translation", entityTypes)
+    val entityTypes = EntityTypePool(
+      WithNoTranslation,
+      WithNoTranslationList,
+      WithNoTranslationLonghand,
+      WithNoTranslationOption,
+      WithNoTranslationSet)
 
-  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
+    val subdomain = Subdomain("No Translation", entityTypes, shorthandPool)
+    val longevityContext = LongevityContext(subdomain, Mongo)
+  }
 
 }

@@ -12,4 +12,7 @@ case class WikiPage(
 )
 extends TopContent with RootEntity
 
-object WikiPageType extends RootEntityType[WikiPage]
+object WikiPageType extends RootEntityType[WikiPage] {
+  natKey("uri")
+}
+

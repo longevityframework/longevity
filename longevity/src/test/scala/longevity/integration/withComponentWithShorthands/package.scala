@@ -4,8 +4,7 @@ import com.github.nscala_time.time.Imports._
 import longevity.context._
 import longevity.subdomain._
 
-// TODO: review & fix package object scaladoc for integration tests
-/** covers a component entity with shorthands for every supported basic type */
+/** covers a root entity with a single component entity with shorthands for every supported basic type */
 package object withComponentWithShorthands {
 
   val booleanShorthand = Shorthand[BooleanShorthand, Boolean]
@@ -27,10 +26,10 @@ package object withComponentWithShorthands {
     longShorthand +
     stringShorthand
 
-  val entityTypes = EntityTypePool() + WithComponentWithShorthands + ComponentWithShorthands
-
-  val subdomain = Subdomain("With Component With Shorthands", entityTypes)
-
-  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
+  object context {
+    val entityTypes = EntityTypePool() + WithComponentWithShorthands + ComponentWithShorthands
+    val subdomain = Subdomain("With Component With Shorthands", entityTypes, shorthandPool)
+    val longevityContext = LongevityContext(subdomain, Mongo)
+  }
 
 }

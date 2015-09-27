@@ -8,10 +8,14 @@ import emblem.WideningTypeBoundFunction
  *
  * @param name the name of the subdomain
  * @param entityTypePool a complete set of the entity types within the subdomain
+ * @param shorthandPool a complete set of the shorthands used by the bounded context. defaults to empty
  */
 case class Subdomain(
   name: String,
-  entityTypePool: EntityTypePool) {
+  entityTypePool: EntityTypePool,
+  shorthandPool: ShorthandPool) {
+
+  // TODO: assert none of the entity types were built with shorthands that we dont have in our pool
 
   val rootEntityTypePool = RootEntityTypePool(entityTypePool)
 

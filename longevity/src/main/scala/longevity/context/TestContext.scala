@@ -39,7 +39,6 @@ object TestContext {
      */
     val repoPoolSpec = new RepoPoolSpec(
       longevityContext.subdomain,
-      longevityContext.shorthandPool,
       longevityContext.customGeneratorPool,
       longevityContext.repoPool,
       Some("(Mongo)"))
@@ -57,7 +56,6 @@ object TestContext {
      */
     val inMemRepoPoolSpec = new RepoPoolSpec(
       longevityContext.subdomain,
-      longevityContext.shorthandPool,
       longevityContext.customGeneratorPool,
       longevityContext.inMemRepoPool,
       Some("(InMem)"))    
