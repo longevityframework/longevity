@@ -48,7 +48,7 @@ extends Repo[E](
     }
   })
 
-  def retrieveByNatKeyVal(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = Future {
+  def retrieve(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = Future {
     val builder = MongoDBObject.newBuilder
     natKey.props.foreach { prop => builder += (prop.path -> natKeyVal.shorthand(prop)) }
     val query = builder.result
@@ -58,14 +58,6 @@ extends Repo[E](
       id -> casbahToEntityTranslator.translate(result)
     }
     idEntityOption map { case (id, e) => new Persisted[E](MongoId(id), e) }
-  }
-
-  def retrieve(assoc: PersistedAssoc[E]) = Future {
-    val objectId = assoc.asInstanceOf[MongoId].objectId
-    val query = MongoDBObject("_id" -> objectId)
-    val resultOption = mongoCollection.findOne(query)
-    val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
-    entityOption map { e => new Persisted[E](assoc, e) }
   }
 
   def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.get) map { patched =>
@@ -81,6 +73,14 @@ extends Repo[E](
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
     new Deleted(persisted)
+  }
+
+  private def retrieve(assoc: PersistedAssoc[E]) = Future {
+    val objectId = assoc.asInstanceOf[MongoId].objectId
+    val query = MongoDBObject("_id" -> objectId)
+    val resultOption = mongoCollection.findOne(query)
+    val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
+    entityOption map { e => new Persisted[E](assoc, e) }
   }
 
 }

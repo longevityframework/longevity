@@ -47,13 +47,8 @@ extends Repo[E](
     }
   })
 
-  def retrieveByNatKeyVal(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = {
+  def retrieve(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = {
     val optionE = nkvToEntityMap.get(NKV(natKey, natKeyVal))
-    Promise.successful(optionE).future
-  }
-
-  def retrieve(assoc: PersistedAssoc[E]) = {
-    val optionE = idToEntityMap.get(assoc)
     Promise.successful(optionE).future
   }
 
@@ -69,6 +64,11 @@ extends Repo[E](
     dumpNatKeys(persisted.orig)
     val deleted = new Deleted(persisted)
     Promise.successful(deleted).future
+  }
+
+  private def retrieve(assoc: PersistedAssoc[E]) = {
+    val optionE = idToEntityMap.get(assoc)
+    Promise.successful(optionE).future
   }
 
   private def persist(assoc: PersistedAssoc[E], e: E): Persisted[E] = {

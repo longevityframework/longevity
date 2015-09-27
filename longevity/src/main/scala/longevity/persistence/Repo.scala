@@ -31,15 +31,7 @@ abstract class Repo[E <: RootEntity : TypeKey](
   def create(e: E): Future[Persisted[E]] = create(new Unpersisted(e))
 
   /** retrieves the aggregate by a natural key value */
-  def retrieveByNatKeyVal(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]]
-
-  /** retrieves the aggregate by assoc
-   * @throws AssocIsUnpersistedException if the provided assoc is unpersisted
-   */
-  def retrieveAssoc(assoc: Assoc[E]): Future[Option[Persisted[E]]] = {
-    if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
-    retrieve(assoc.asInstanceOf[PersistedAssoc[E]])
-  }
+  def retrieve(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]]
 
   /** updates the aggregate */
   def update(p: Persisted[E]): Future[Persisted[E]]
@@ -71,8 +63,6 @@ abstract class Repo[E <: RootEntity : TypeKey](
       }
     }
   }
-
-  protected def retrieve(assoc: PersistedAssoc[E]): Future[Option[Persisted[E]]]
 
   private lazy val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
 

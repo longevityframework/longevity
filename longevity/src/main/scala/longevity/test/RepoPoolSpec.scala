@@ -75,14 +75,14 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         And(s"further retrieval operations should retrieve the same $entityName")
         representativeNatKeyOption.foreach { natKey =>
           val natKeyVal = natKey.natKeyVal(entity)
-          val retrieved: Persisted[E] = repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue.value
+          val retrieved: Persisted[E] = repo.retrieve(natKey)(natKeyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, entity)
         }
 
       }
     }
 
-    feature(s"${entityName}Repo.retrieveByNatKeyVal") {
+    feature(s"${entityName}Repo.retrieve") {
       scenario(s"should produce the same persisted $entityName") {
 
         Given(s"a persisted $entityName")
@@ -93,7 +93,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         Then(s"we get back the same $entityName persistent state")
         repo.entityType.natKeys.foreach { natKey =>
           val natKeyVal = natKey.natKeyVal(entity)
-          val retrieved: Persisted[E] = repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue.value
+          val retrieved: Persisted[E] = repo.retrieve(natKey)(natKeyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, entity)
         }
       }
@@ -117,14 +117,14 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         And(s"further retrieval operations should retrieve the updated copy")
         representativeNatKeyOption.foreach { natKey =>
           val natKeyVal = natKey.natKeyVal(modifiedEntity)
-          val retrieved: Persisted[E] = repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue.value
+          val retrieved: Persisted[E] = repo.retrieve(natKey)(natKeyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, modifiedEntity)
         }
 
         And(s"further retrieval operations based on the original version should retrieve nothing")
         representativeNatKeyOption.foreach { natKey =>
           val natKeyVal = natKey.natKeyVal(originalEntity)
-          repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue should be (None)
+          repo.retrieve(natKey)(natKeyVal).futureValue should be (None)
         }
 
       }
@@ -145,7 +145,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         And(s"we should no longer be able to retrieve the $entityName")
         representativeNatKeyOption.foreach { natKey =>
           val natKeyVal = natKey.natKeyVal(entity)
-          val retrieved: Option[Persisted[E]] = repo.retrieveByNatKeyVal(natKey)(natKeyVal).futureValue
+          val retrieved: Option[Persisted[E]] = repo.retrieve(natKey)(natKeyVal).futureValue
           retrieved.isEmpty should be (true)
         }
       }
