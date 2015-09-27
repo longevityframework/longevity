@@ -1,9 +1,9 @@
 package longevity.integration
 
-// TODO integration test with a shorthand for a nat key
-// TODO integration test with an assoc in the nat key
-// TODO integration test with composite nat key
-
+// TODO integration tests for nat keys:
+// - integration test with a shorthand for a nat key
+// - integration test with an assoc in the nat key
+// - integration test with composite nat key
 
 import com.github.nscala_time.time.Imports._
 import longevity.context._

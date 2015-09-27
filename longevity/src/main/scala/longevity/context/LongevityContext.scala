@@ -24,8 +24,6 @@ object LongevityContext {
 
 }
 
-// TODO review the shape of this trait:
-
 /** the longevity managed portion of the [[http://martinfowler.com/bliki/BoundedContext.html bounded context]]
  * for your [[http://bit.ly/1BPZfIW subdomain]]. the bounded context is a capture of the strategies and tools
  * used by the applications relating to your subdomain. in other words, those tools that speak the language of

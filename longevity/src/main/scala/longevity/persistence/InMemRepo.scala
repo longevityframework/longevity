@@ -9,20 +9,13 @@ import longevity.context.LongevityContext
 /** an in-memory repository for aggregate roots of type `E`
  * 
  * @param entityType the entity type for the aggregate roots this repository handles
- * @param emblemPool a pool of emblems for the entities within the subdomain
- * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param subdomain the subdomain containing the root that this repo persists
  */
 class InMemRepo[E <: RootEntity : TypeKey](
   entityType: RootEntityType[E],
-  emblemPool: EmblemPool,
-  shorthandPool: ShorthandPool)
-extends Repo[E](
-  entityType,
-  emblemPool,
-  shorthandPool) {
+  subdomain: Subdomain)
+extends Repo[E](entityType, subdomain) {
   repo =>
-
-  // TODO unit test this for CRUD with assoc & nat key combos
 
   private case class IntId(i: Int) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey

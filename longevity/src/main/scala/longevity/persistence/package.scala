@@ -23,7 +23,7 @@ package object persistence {
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new InMemRepo(entityType, subdomain.entityEmblemPool, subdomain.shorthandPool)(entityKey)
+        new InMemRepo(entityType, subdomain)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -31,7 +31,7 @@ package object persistence {
   private def mongoRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new MongoRepo(entityType, subdomain.entityEmblemPool, subdomain.shorthandPool)(entityKey)
+        new MongoRepo(entityType, subdomain)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }

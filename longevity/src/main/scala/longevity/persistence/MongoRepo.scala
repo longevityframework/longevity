@@ -13,17 +13,12 @@ import scala.util.Success
 /** a MongoDB repository for aggregate roots of type `E`.
  *
  * @param entityType the entity type for the aggregate roots this repository handles
- * @param emblemPool a pool of emblems for the entities within the subdomain
- * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param subdomain the subdomain containing the root that this repo persists
  */
 class MongoRepo[E <: RootEntity : TypeKey] protected[persistence] (
   entityType: RootEntityType[E],
-  emblemPool: EmblemPool,
-  shorthandPool: ShorthandPool)
-extends Repo[E](
-  entityType,
-  emblemPool,
-  shorthandPool) {
+  subdomain: Subdomain)
+extends Repo[E](entityType, subdomain) {
   repo =>
 
   private[persistence] case class MongoId(objectId: ObjectId) extends PersistedAssoc[E] {
@@ -35,7 +30,8 @@ extends Repo[E](
   private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
   private val mongoCollection = MongoRepo.mongoDb(collectionName)
 
-  private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
+  private val emblemPool = subdomain.entityEmblemPool
+  private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
   private lazy val entityToCasbahTranslator = new EntityToCasbahTranslator(emblemPool, extractorPool, repoPool)
   private lazy val casbahToEntityTranslator = new CasbahToEntityTranslator(emblemPool, extractorPool, repoPool)
 

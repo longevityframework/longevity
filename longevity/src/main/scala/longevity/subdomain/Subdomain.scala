@@ -15,8 +15,6 @@ case class Subdomain(
   entityTypePool: EntityTypePool,
   shorthandPool: ShorthandPool) {
 
-  // TODO: assert none of the entity types were built with shorthands that we dont have in our pool
-
   val rootEntityTypePool = RootEntityTypePool(entityTypePool)
 
   // prohibit further creation of natural keys
