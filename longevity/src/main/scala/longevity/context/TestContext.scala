@@ -31,8 +31,6 @@ object TestContext {
      * within a ScalaTest suite. for example:
      *
      * {{{
-     * longevity.test.ScalaTestSpecs longevity.test.ScalaTestSpecs
-     * longevity.test.ScalaTestSpecs org.scalatest.Suites
      * val storefrontContext: LongevityContext = ???
      * class StorefrontRepoPoolSpec extends Suites(storefrontContext.repoPoolSpec)
      * }}}
@@ -48,8 +46,6 @@ object TestContext {
      * this value within a ScalaTest suite. for example:
      *
      * {{{
-     * longevity.test.ScalaTestSpecs longevity.test.ScalaTestSpecs
-     * longevity.test.ScalaTestSpecs org.scalatest.Suites
      * val storefrontContext: LongevityContext = ???
      * class StorefrontRepoPoolSpec extends Suites(storefrontContext.inMemRepoPoolSpec)
      * }}}
