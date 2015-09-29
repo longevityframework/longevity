@@ -1,5 +1,7 @@
 package longevity.test
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 import emblem.imports._
 import emblem.TypeBoundPair
 import emblem.traversors.sync.Generator.CustomGeneratorPool
@@ -172,8 +174,8 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
   private val differ = new Differ(emblemPool, extractorPool)
 
   private def persistedShouldMatchUnpersisted[E <: Entity : TypeKey](persisted: E, unpersisted: E): Unit = {
-    val unpersistorated = unpersistor.transform(persisted)
-    if (unpersistorated != unpersisted) {
+    val unpersistorated = unpersistor.transform(Future(persisted))
+    if (unpersistorated.futureValue != unpersisted) {
       val diffs = differ.diff(unpersistorated, unpersisted)
       fail (Differ.explainDiffs(diffs, true))
     }

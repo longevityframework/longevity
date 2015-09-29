@@ -1,9 +1,11 @@
 package longevity.test
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 import emblem.imports._
-import emblem.traversors.sync.Transformer
-import emblem.traversors.sync.Transformer.CustomTransformer
-import emblem.traversors.sync.Transformer.CustomTransformerPool
+import emblem.traversors.async.Transformer
+import emblem.traversors.async.Transformer.CustomTransformer
+import emblem.traversors.async.Transformer.CustomTransformerPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.RootEntity
@@ -27,16 +29,19 @@ extends Transformer {
   override protected val customTransformers = CustomTransformerPool.empty + transformAssoc
 
   private lazy val transformAssoc = new CustomTransformer[AssocAny] {
-    def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: B): B = input match {
-      case unpersistedAssoc: UnpersistedAssoc[_] =>
-        throw new AssocIsUnpersistedException(unpersistedAssoc)
-      case persistedAssoc: PersistedAssoc[_] => {
-        val persistedEntity = input.persisted
-        val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
-        val unpersistedEntity = transform(persistedEntity)(entityTypeKey)
-        Assoc(unpersistedEntity).asInstanceOf[B]
+    def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: Future[B]): Future[B] =
+      input.flatMap { b =>
+        b match {
+          case unpersistedAssoc: UnpersistedAssoc[_] =>
+            throw new AssocIsUnpersistedException(unpersistedAssoc)
+          case persistedAssoc: PersistedAssoc[_] => {
+            val futurePersistedEntity = b.retrieve
+            val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
+            val unpersistedEntity = transform(futurePersistedEntity)(entityTypeKey)
+            unpersistedEntity.map(Assoc(_).asInstanceOf[B])
+          }
+        }
       }
-    }
   }
 
 }
