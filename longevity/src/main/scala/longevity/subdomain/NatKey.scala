@@ -30,22 +30,25 @@ case class NatKey[E <: RootEntity] private [subdomain] (
   /** a value of this natural key */
   case class Val private[NatKey] (val propVals: Map[NatKeyProp[E], Any]) {
 
-    /** gets the value of the nat key val for the specified prop
+    /** gets the value of the nat key val for the specified prop.
+     * 
+     * throws java.util.NoSuchElementException if the prop is not part of the key
      * @param the prop to look up a value for
-     * @throws NoSuchElementException if the prop is not part of the key
      */
     def apply(prop: NatKeyProp[E]): Any = propVals(prop)
 
-    /** gets the value of the nat key val for the specified prop path
-     * @param the prop patg to look up a value for
-     * @throws NoSuchElementException if the prop indicated by the prop path is not part of the key
+    /** gets the value of the nat key val for the specified prop path.
+     * 
+     * throws java.util.NoSuchElementException if the prop indicated by the prop path is not part of the key
+     * @param the prop to look up a value for
      */
     def apply(propPath: String): Any = propVals(propPathToProp(propPath))
 
     /** gets the shorthanded value of the nat key val for the specified prop. if there is a shorthand in
      * the shorthand pool that applies, it is applied to the raw value before it is returned.
+     * 
+     * throws java.util.NoSuchElementException if the prop is not part of the key
      * @param the prop to look up a value for
-     * @throws NoSuchElementException if the prop is not part of the key
      */
     def shorthand(prop: NatKeyProp[E]): Any = {
       val raw = propVals(prop)
@@ -79,7 +82,8 @@ case class NatKey[E <: RootEntity] private [subdomain] (
     }
 
     /** builds the nat key value
-     * @throws UnsetNatKeyPropException if any of the properties of the nat key were not set in this builder
+     * @throws longevity.exceptions.UnsetNatKeyPropException if any of the properties of the nat key were not set
+     * in this builder
      */
     def build: Val = {
       if (propVals.size < props.size) {

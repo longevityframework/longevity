@@ -42,8 +42,8 @@ object EmblemPropPath {
    * @tparam A the type of the starting point of the prop path
    * @tparam B the leaf property value type
    * @param path a dot-separated string representation of the path
-   * @throws EmblemPropPathException whenever there is a problem constructing the path. either your path string
-   * is poorly formed, or you asked for an incorrect leaf type.
+   * @throws emblem.exceptions.EmblemPropPathException whenever there is a problem constructing the path. either
+   * your path string is poorly formed, or you asked for an incorrect leaf type.
    */
   def apply[A <: HasEmblem : TypeKey, B : TypeKey](path: String): EmblemPropPath[A, B] = apply(Emblem[A], path)
 
@@ -52,8 +52,8 @@ object EmblemPropPath {
    * @tparam B the leaf property value type
    * @param emblem the emblem for the starting point of the prop path
    * @param path a dot-separated string representation of the path
-   * @throws EmblemPropPathException whenever there is a problem constructing the path. either your path string
-   * is poorly formed, or you asked for an incorrect leaf type.
+   * @throws emblem.exceptions.EmblemPropPathException whenever there is a problem constructing the path. either
+   * your path string is poorly formed, or you asked for an incorrect leaf type.
    */
   def apply[A <: HasEmblem, B : TypeKey](emblem: Emblem[A], path: String): EmblemPropPath[A, B] = {
     val uepp = unbounded(emblem, path)
@@ -66,7 +66,7 @@ object EmblemPropPath {
   /** constructs an [[EmblemPropPath]]
    * @tparam A the type of the starting point of the prop path
    * @param path a dot-separated string representation of the path
-   * @throws EmblemPropPathException on poorly formed path string
+   * @throws emblem.exceptions.EmblemPropPathException on poorly formed path string
    */
   def unbounded[A <: HasEmblem : TypeKey](path: String): EmblemPropPath[A, _] = unbounded(Emblem[A], path)
 
@@ -74,7 +74,7 @@ object EmblemPropPath {
    * @tparam A the type of the starting point of the prop path
    * @param emblem the emblem for the starting point of the prop path
    * @param path a dot-separated string representation of the path
-   * @throws EmblemPropPathException on poorly formed path string
+   * @throws emblem.exceptions.EmblemPropPathException on poorly formed path string
    */
   def unbounded[A <: HasEmblem](emblem: Emblem[A], path: String): EmblemPropPath[A, _] = {
     if (path.isEmpty) throw new EmptyPropPathException

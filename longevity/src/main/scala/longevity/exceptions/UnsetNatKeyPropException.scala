@@ -5,7 +5,7 @@ import longevity.subdomain.NatKeyProp
 import longevity.subdomain.RootEntity
 
 /** an exception indicating that
- * [[longevity.subdomain.NatKey#Builder.build]] was called before all of the nat key
+ * [[longevity.subdomain.NatKey#ValBuilder.build]] was called before all of the nat key
  * properties have been set
  *
  * @param key the nat key

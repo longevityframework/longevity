@@ -4,9 +4,8 @@ import longevity.subdomain.NatKey
 import longevity.subdomain.NatKeyProp
 import longevity.subdomain.RootEntity
 
-/** an exception indicating that the
- * [[longevity.subdomain.NatKeyProp natural key property]] passed to
- * [[longevity.subdomain.NatKey#Builder.setProp]] is not a part of the natural key
+/** an exception indicating that the [[longevity.subdomain.NatKeyProp natural key property]] passed to
+ * either of the `setProp` methods in [[longevity.subdomain.NatKey#ValBuilder]] is not a part of the natural key
  * being built.
  *
  * @param key the nat key

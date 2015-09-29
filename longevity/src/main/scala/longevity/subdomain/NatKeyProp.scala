@@ -16,7 +16,7 @@ import longevity.exceptions.InvalidNatKeyPropPathLeafException
  * path is exactly-one. the type of the property must be a [[Assoc]], a [[Shorthand]], or a basic type.
  * 
  * @param path a dot-separated path of the property descending from the root entity
- * @param typeKey [[TypeKey type key]] for the property value type
+ * @param typeKey the `TypeKey` for the property value type
  * @see `emblem.basicTypes`
  */
 case class NatKeyProp[E <: RootEntity] private (

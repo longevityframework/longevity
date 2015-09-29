@@ -36,9 +36,8 @@ object Shorthand {
 
   /** creates and returns a [[Shorthand]] for the specified types `Actual` and `Abbreviated`. `Actual` must be
    * a stable case class with single a parameter list. `Abbreviated` must be a basic type.
-   * @throws longevity.exceptions.ShorthandCreationException when `Abbreviated` is not a basic type
-   * @throws longevity.exceptions.ShorthandCreationException when `Actual` is not a stable case class with a
-   * single parameter list
+   * @throws longevity.exceptions.ShorthandCreationException when `Abbreviated` is not a basic type, or when
+   * `Actual` is not a stable case class with a single parameter list
    * @see `emblem.basicTypes`
    */
   def apply[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] = {
