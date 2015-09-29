@@ -2,9 +2,9 @@ package longevity.integration.oneShorthand
 
 import longevity.subdomain._
 
-case class OneShorthand(uri: Uri) extends RootEntity
+case class OneShorthand(id: String, uri: Uri) extends RootEntity
 
 object OneShorthand extends RootEntityType[OneShorthand] {
-  natKey("uri")
+  natKey("id")
 }
 

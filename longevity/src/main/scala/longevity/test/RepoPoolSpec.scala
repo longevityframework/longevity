@@ -94,7 +94,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         When(s"we retrieve the $entityName by any of its natural keys")
         Then(s"we get back the same $entityName persistent state")
         repo.entityType.natKeys.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(entity)
+          val natKeyVal = natKey.natKeyVal(created.get)
           val retrieved: Persisted[E] = repo.retrieve(natKey)(natKeyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, entity)
         }

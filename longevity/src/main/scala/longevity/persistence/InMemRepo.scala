@@ -3,6 +3,7 @@ package longevity.persistence
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 import emblem.imports._
+import longevity.exceptions.AssocIsUnpersistedException
 import longevity.subdomain._
 import longevity.context.LongevityContext
 
@@ -41,6 +42,12 @@ extends Repo[E](entityType, subdomain) {
   })
 
   def retrieve(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = {
+    natKey.props.foreach { prop =>
+      if (prop.typeKey <:< typeKey[Assoc[_]]) {
+        val assoc = natKeyVal(prop).asInstanceOf[Assoc[_ <: RootEntity]]
+        if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
+      }
+    }
     val optionE = nkvToEntityMap.get(NKV(natKey, natKeyVal))
     Promise.successful(optionE).future
   }

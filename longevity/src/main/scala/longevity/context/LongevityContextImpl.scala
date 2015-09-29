@@ -12,6 +12,6 @@ extends LongevityContext {
 
   lazy val repoPool = buildRepoPool(subdomain, persistenceStrategy)
 
-  lazy val inMemRepoPool = buildRepoPool(subdomain, InMem)
+  lazy val inMemRepoPool = println(s"building in mem repo pool $persistenceStrategy")
 
 }

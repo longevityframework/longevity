@@ -1,10 +1,5 @@
 package longevity.integration
 
-// TODO integration tests for nat keys:
-// - integration test with a shorthand for a nat key
-// - integration test with an assoc in the nat key
-// - integration test with composite nat key
-
 import com.github.nscala_time.time.Imports._
 import longevity.context._
 import longevity.subdomain._
@@ -20,6 +15,7 @@ package object master {
   val intShorthand = Shorthand[IntShorthand, Int]
   val longShorthand = Shorthand[LongShorthand, Long]
   val stringShorthand = Shorthand[StringShorthand, String]
+  val uriShorthand = Shorthand[Uri, String]
 
   implicit val shorthandPool = ShorthandPool.empty +
     booleanShorthand +
@@ -29,7 +25,8 @@ package object master {
     floatShorthand +
     intShorthand +
     longShorthand +
-    stringShorthand
+    stringShorthand +
+    uriShorthand
 
   object context {
 
@@ -43,6 +40,9 @@ package object master {
       Component,
       ComponentWithAssoc,
       ComponentWithShorthands,
+      NatKeyWithAssoc,
+      NatKeyWithShorthand,
+      NatKeyWithMultipleProperties,
       OneAttribute,
       OneShorthand,
       WithAssoc,

@@ -8,13 +8,13 @@ object LongevityContext {
   /** constructs and returns a `LongevityContext`
    * 
    * @param subdomain the subdomain
-   * @param persistenceStrategy the persistence strategy for this longevity context. defaults to [[InMem]]
+   * @param persistenceStrategy the persistence strategy for this longevity context. defaults to [[Mongo]]
    * @param customGeneratorPool a collection of custom generators to use when generating test data. defaults to
    * empty
    */
   def apply(
     subdomain: Subdomain,
-    persistenceStrategy: PersistenceStrategy = InMem,
+    persistenceStrategy: PersistenceStrategy = Mongo,
     customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
   : LongevityContext =
     new LongevityContextImpl(

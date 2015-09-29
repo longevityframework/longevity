@@ -3,6 +3,7 @@ package longevity.persistence
 import com.mongodb.casbah.Imports._
 import emblem.imports._
 import emblem.stringUtil._
+import longevity.exceptions.AssocIsUnpersistedException
 import longevity.subdomain._
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -46,7 +47,7 @@ extends Repo[E](entityType, subdomain) {
 
   def retrieve(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = Future {
     val builder = MongoDBObject.newBuilder
-    natKey.props.foreach { prop => builder += (prop.path -> natKeyVal.shorthand(prop)) }
+    natKey.props.foreach { prop => builder += (prop.path -> resolvePropVal(prop, natKeyVal(prop))) }
     val query = builder.result
     val resultOption = mongoCollection.findOne(query)
     val idEntityOption = resultOption map { result =>
@@ -54,6 +55,19 @@ extends Repo[E](entityType, subdomain) {
       id -> casbahToEntityTranslator.translate(result)
     }
     idEntityOption map { case (id, e) => new Persisted[E](MongoId(id), e) }
+  }
+
+  private def resolvePropVal(prop: NatKeyProp[E], raw: Any): Any = {
+    if (subdomain.shorthandPool.contains(prop.typeKey)) {
+      def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
+      abbreviate(prop.typeKey)
+    } else if (prop.typeKey <:< typeKey[Assoc[_]]) {
+      val assoc = raw.asInstanceOf[Assoc[_ <: RootEntity]]
+      if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
+      raw.asInstanceOf[MongoRepo[T]#MongoId forSome { type T <: RootEntity }].objectId
+    } else {
+      raw
+    }
   }
 
   def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.get) map { patched =>
