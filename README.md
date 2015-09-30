@@ -9,15 +9,9 @@ A Domain Driven Design persistence framework for Scala and MongoDB.
 This project is still in early development. A [minimum marketable
 product
 (MMP)](http://www.romanpichler.com/blog/minimum-viable-product-and-minimal-marketable-product/)
-\- that is, the earliest version suitable for your use - is currently
-projected for release in mid September. Please be aware that this is only
-my best estimate. If you want to track progress, take a look at [my
-story board](https://www.pivotaltracker.com/n/projects/1231978). The
-longevity 0.2 release is my MMP.
-
-Once the 0.1 release is out, I will begin working in earnest on a
-complete set of user documentation. In this way I hope to have a
-servicable set of docs by the 0.2 release.
+\- that is, the earliest version suitable for your use - is coming soon! I just hit my 0.1 milestone,
+and 0.2 - the MMP - has three stories in it. I plan to work through those three stories while I'm
+writing the initial user doc. I can't make any promises about timing, but you can always [watch the board](https://www.pivotaltracker.com/n/projects/1231978), and I'll let you know when it's ready.
 
 longevity currently contains three subprojects:
 
