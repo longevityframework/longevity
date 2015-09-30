@@ -1,5 +1,7 @@
 package emblem
 
+import emblem.exceptions.NoSuchPropertyException
+import scala.util.Try
 import emblem.factories.EmblemFactory
 import scala.reflect.runtime.universe.TypeTag
 
@@ -32,12 +34,17 @@ case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
   val propMap: Map[String, EmblemProp[T, _]] = props.view.map(prop => prop.name -> prop).toMap
 
   /** retrieves an [[EmblemProp]] by name */
-  def apply(name: String) = propMap(name)
+  def apply(name: String) =
+    try {
+      propMap(name)
+    } catch {
+      case e: NoSuchElementException => throw new NoSuchPropertyException(this, name)
+    }
 
   /** retrieves an [[EmblemProp]] with the specified property type by name */
   def prop[U : TypeKey](name: String) = {
     val typeKey = implicitly[TypeKey[U]]
-    val prop = propMap(name)
+    val prop = apply(name)
     if (typeKey != prop.typeKey) {
       throw new ClassCastException(
         s"requested property $name with type ${typeKey.tpe}, but this property has type ${prop.typeKey.tpe}")

@@ -12,4 +12,7 @@ case class BlogPost(
 )
 extends TopContent with RootEntity
 
-object BlogPostType extends RootEntityType[BlogPost]
+object BlogPostType extends RootEntityType[BlogPost] {
+  natKey("uri")
+}
+

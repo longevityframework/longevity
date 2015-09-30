@@ -8,10 +8,10 @@ package object oneAttribute {
 
   implicit val shorthandPool = ShorthandPool.empty
 
-  val entityTypes = EntityTypePool() + OneAttribute
-
-  val subdomain = Subdomain("One Attribute", entityTypes)
-
-  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
+  object context {
+    val entityTypes = EntityTypePool() + OneAttribute
+    val subdomain = Subdomain("One Attribute", entityTypes, shorthandPool)
+    val longevityContext = LongevityContext(subdomain, Mongo)
+  }
 
 }

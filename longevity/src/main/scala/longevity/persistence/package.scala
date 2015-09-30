@@ -13,28 +13,27 @@ package object persistence {
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
-    shorthandPool: ShorthandPool,
     persistenceStrategy: PersistenceStrategy)
   : RepoPool =
     persistenceStrategy match {
-      case InMem => inMemRepoPool(subdomain, shorthandPool)
-      case Mongo => mongoRepoPool(subdomain, shorthandPool)
+      case InMem => inMemRepoPool(subdomain)
+      case Mongo => mongoRepoPool(subdomain)
     }
 
-  private def inMemRepoPool(subdomain: Subdomain, shorthandPool: ShorthandPool): RepoPool = {
+  private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new InMemRepo(entityType, subdomain.entityEmblemPool, shorthandPool)(entityKey)
+        new InMemRepo(entityType, subdomain)(entityKey)
     }
-    buildRepoPool(subdomain, shorthandPool, repoFactory)
+    buildRepoPool(subdomain, repoFactory)
   }
 
-  private def mongoRepoPool(subdomain: Subdomain, shorthandPool: ShorthandPool): RepoPool = {
+  private def mongoRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new MongoRepo(entityType, subdomain.entityEmblemPool, shorthandPool)(entityKey)
+        new MongoRepo(entityType, subdomain)(entityKey)
     }
-    buildRepoPool(subdomain, shorthandPool, repoFactory)
+    buildRepoPool(subdomain, repoFactory)
   }
 
   private trait StockRepoFactory {
@@ -43,7 +42,6 @@ package object persistence {
 
   private def buildRepoPool(
     subdomain: Subdomain,
-    shorthandPool: ShorthandPool,
     stockRepoFactory: StockRepoFactory)
   : RepoPool = {
     var repoPool = emptyRepoPool

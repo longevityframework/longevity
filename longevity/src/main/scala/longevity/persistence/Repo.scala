@@ -1,7 +1,6 @@
 package longevity.persistence
 
 import emblem.imports._
-import longevity.exceptions.AssocIsUnpersistedException
 import longevity.subdomain._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
@@ -9,13 +8,11 @@ import scala.concurrent._
 /** a repository for aggregate roots of type `E`.
  * 
  * @param entityType the entity type for the aggregate roots this repository handles
- * @param emblemPool a pool of emblems for the entities within the subdomain
- * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param subdomain the subdomain containing the root that this repo persists
  */
 abstract class Repo[E <: RootEntity : TypeKey](
-  val entityType: EntityType[E],
-  emblemPool: EmblemPool,
-  shorthandPool: ShorthandPool) {
+  val entityType: RootEntityType[E],
+  val subdomain: Subdomain) {
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
 
@@ -28,13 +25,8 @@ abstract class Repo[E <: RootEntity : TypeKey](
   /** convenience method for creating the aggregate */
   def create(e: E): Future[Persisted[E]] = create(new Unpersisted(e))
 
-  /** retrieves the aggregate by assoc
-   * @throws AssocIsUnpersistedException if the provided assoc is unpersisted
-   */
-  def retrieveAssoc(assoc: Assoc[E]): Future[Option[Persisted[E]]] = {
-    if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
-    retrieve(assoc.asInstanceOf[PersistedAssoc[E]])
-  }
+  /** retrieves the aggregate by a natural key value */
+  def retrieve(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]]
 
   /** updates the aggregate */
   def update(p: Persisted[E]): Future[Persisted[E]]
@@ -67,12 +59,10 @@ abstract class Repo[E <: RootEntity : TypeKey](
     }
   }
 
-  protected def retrieve(assoc: PersistedAssoc[E]): Future[Option[Persisted[E]]]
-
-  private lazy val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
+  private lazy val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
 
   private lazy val unpersistedToPersistedTransformer =
-    new UnpersistedToPersistedTransformer(repoPool, emblemPool, extractorPool)
+    new UnpersistedToPersistedTransformer(repoPool, subdomain.entityEmblemPool, extractorPool)
 
   /** returns a version of the aggregate where all unpersisted associations are persisted */
   protected def patchUnpersistedAssocs(entity: E): Future[E] = {

@@ -7,4 +7,7 @@ case class WithComponentOption(
   component: Option[Component])
 extends RootEntity
 
-object WithComponentOption extends RootEntityType[WithComponentOption]
+object WithComponentOption extends RootEntityType[WithComponentOption] {
+  natKey("uri")
+}
+

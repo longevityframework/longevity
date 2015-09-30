@@ -11,4 +11,7 @@ case class Blog(
 )
 extends SiteSection with RootEntity
 
-object BlogType extends RootEntityType[Blog]
+object BlogType extends RootEntityType[Blog] {
+  natKey("uri")
+}
+

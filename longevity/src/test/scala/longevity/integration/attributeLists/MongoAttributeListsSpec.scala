@@ -5,4 +5,4 @@ import longevity.IntegrationTest
 import org.scalatest.Suites
 
 @IntegrationTest
-class MongoAttributeListsSpec extends Suites(longevityContext.repoPoolSpec)
+class MongoAttributeListsSpec extends Suites(context.longevityContext.repoPoolSpec)

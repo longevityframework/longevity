@@ -3,6 +3,7 @@ package longevity.persistence
 import com.mongodb.casbah.Imports._
 import emblem.imports._
 import emblem.stringUtil._
+import longevity.exceptions.AssocIsUnpersistedException
 import longevity.subdomain._
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -13,17 +14,12 @@ import scala.util.Success
 /** a MongoDB repository for aggregate roots of type `E`.
  *
  * @param entityType the entity type for the aggregate roots this repository handles
- * @param emblemPool a pool of emblems for the entities within the subdomain
- * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param subdomain the subdomain containing the root that this repo persists
  */
 class MongoRepo[E <: RootEntity : TypeKey] protected[persistence] (
   entityType: RootEntityType[E],
-  emblemPool: EmblemPool,
-  shorthandPool: ShorthandPool)
-extends Repo[E](
-  entityType,
-  emblemPool,
-  shorthandPool) {
+  subdomain: Subdomain)
+extends Repo[E](entityType, subdomain) {
   repo =>
 
   private[persistence] case class MongoId(objectId: ObjectId) extends PersistedAssoc[E] {
@@ -35,7 +31,8 @@ extends Repo[E](
   private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
   private val mongoCollection = MongoRepo.mongoDb(collectionName)
 
-  private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
+  private val emblemPool = subdomain.entityEmblemPool
+  private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
   private lazy val entityToCasbahTranslator = new EntityToCasbahTranslator(emblemPool, extractorPool, repoPool)
   private lazy val casbahToEntityTranslator = new CasbahToEntityTranslator(emblemPool, extractorPool, repoPool)
 
@@ -48,12 +45,29 @@ extends Repo[E](
     }
   })
 
-  def retrieve(assoc: PersistedAssoc[E]) = Future {
-    val objectId = assoc.asInstanceOf[MongoId].objectId
-    val query = MongoDBObject("_id" -> objectId)
+  def retrieve(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = Future {
+    val builder = MongoDBObject.newBuilder
+    natKey.props.foreach { prop => builder += (prop.path -> resolvePropVal(prop, natKeyVal(prop))) }
+    val query = builder.result
     val resultOption = mongoCollection.findOne(query)
-    val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
-    entityOption map { e => new Persisted[E](assoc, e) }
+    val idEntityOption = resultOption map { result =>
+      val id = result.getAs[ObjectId]("_id").get
+      id -> casbahToEntityTranslator.translate(result)
+    }
+    idEntityOption map { case (id, e) => new Persisted[E](MongoId(id), e) }
+  }
+
+  private def resolvePropVal(prop: NatKeyProp[E], raw: Any): Any = {
+    if (subdomain.shorthandPool.contains(prop.typeKey)) {
+      def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
+      abbreviate(prop.typeKey)
+    } else if (prop.typeKey <:< typeKey[Assoc[_]]) {
+      val assoc = raw.asInstanceOf[Assoc[_ <: RootEntity]]
+      if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
+      raw.asInstanceOf[MongoRepo[T]#MongoId forSome { type T <: RootEntity }].objectId
+    } else {
+      raw
+    }
   }
 
   def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.get) map { patched =>
@@ -69,6 +83,14 @@ extends Repo[E](
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
     new Deleted(persisted)
+  }
+
+  private def retrieve(assoc: PersistedAssoc[E]) = Future {
+    val objectId = assoc.asInstanceOf[MongoId].objectId
+    val query = MongoDBObject("_id" -> objectId)
+    val resultOption = mongoCollection.findOne(query)
+    val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
+    entityOption map { e => new Persisted[E](assoc, e) }
   }
 
 }

@@ -42,21 +42,9 @@ trait Assoc[E <: RootEntity] {
   @throws[AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
   def retrieve: Future[E]
 
-  /** @return the persisted associatee from the assoc. if the associatee has not been loaded into memory,
-   * calling this method will result in a database lookup */
-  @throws[AssocIsUnpersistedException[E]]("whenever the assoc is not persisted")
-  final def persisted: E = {
-    import scala.concurrent.Await
-    import scala.concurrent.duration._
-    Await.result(retrieve, 10.seconds)
-  }
-
   /** retrieves an unpersisted associatee from the assoc */
   @throws[AssocIsPersistedException[E]]("whenever the assoc is persisted")
   def unpersisted: E
-
-  /** @return the associatee, whether persisted or not */
-  final def get: E = if (isPersisted) persisted else unpersisted
 
 }
 

@@ -12,4 +12,7 @@ extends Content with RootEntity {
   override val authors = Set(author)
 }
 
-object CommentType extends RootEntityType[Comment]
+object CommentType extends RootEntityType[Comment] {
+  natKey("uri")
+}
+

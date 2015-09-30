@@ -7,4 +7,4 @@ import org.scalatest.Suites
 
 @IntegrationTest
 @MasterIntegrationTest
-class MongoMasterSpec extends Suites(longevityContext.repoPoolSpec)
+class MongoMasterSpec extends Suites(context.longevityContext.repoPoolSpec)

@@ -15,6 +15,7 @@ package object master {
   val intShorthand = Shorthand[IntShorthand, Int]
   val longShorthand = Shorthand[LongShorthand, Long]
   val stringShorthand = Shorthand[StringShorthand, String]
+  val uriShorthand = Shorthand[Uri, String]
 
   implicit val shorthandPool = ShorthandPool.empty +
     booleanShorthand +
@@ -24,29 +25,39 @@ package object master {
     floatShorthand +
     intShorthand +
     longShorthand +
-    stringShorthand
+    stringShorthand +
+    uriShorthand
 
-  val entityTypes = EntityTypePool() +
-    AllAttributes +
-    AllShorthands +
-    Associated +
-    AttributeLists +
-    AttributeOptions +
-    AttributeSets +
-    Component +
-    OneAttribute +
-    OneShorthand +
-    WithAssoc +
-    WithAssocList +
-    WithAssocOption +
-    WithAssocSet +
-    WithComponent +
-    WithComponentList +
-    WithComponentOption +
-    WithComponentSet
+  object context {
 
-  val subdomain = Subdomain("Master", entityTypes)
+    val entityTypes = EntityTypePool(
+      AllAttributes,
+      AllShorthands,
+      Associated,
+      AttributeLists,
+      AttributeOptions,
+      AttributeSets,
+      Component,
+      ComponentWithAssoc,
+      ComponentWithShorthands,
+      NatKeyWithAssoc,
+      NatKeyWithShorthand,
+      NatKeyWithMultipleProperties,
+      OneAttribute,
+      OneShorthand,
+      WithAssoc,
+      WithAssocList,
+      WithAssocOption,
+      WithAssocSet,
+      WithComponent,
+      WithComponentList,
+      WithComponentOption,
+      WithComponentSet,
+      WithComponentWithAssoc,
+      WithComponentWithShorthands)
 
-  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
+    val subdomain = Subdomain("Master", entityTypes, shorthandPool)
+    val longevityContext = LongevityContext(subdomain, Mongo)
+  }
 
 }

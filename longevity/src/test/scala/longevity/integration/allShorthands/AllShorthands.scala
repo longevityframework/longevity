@@ -3,6 +3,7 @@ package longevity.integration.allShorthands
 import longevity.subdomain._
 
 case class AllShorthands(
+  uri: String,
   boolean: BooleanShorthand,
   char: CharShorthand,
   double: DoubleShorthand,
@@ -13,4 +14,7 @@ case class AllShorthands(
   dateTime: DateTimeShorthand)
 extends RootEntity
 
-object AllShorthands extends RootEntityType[AllShorthands]
+object AllShorthands extends RootEntityType[AllShorthands] {
+  natKey("uri")
+}
+

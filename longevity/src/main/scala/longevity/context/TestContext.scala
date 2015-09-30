@@ -31,15 +31,12 @@ object TestContext {
      * within a ScalaTest suite. for example:
      *
      * {{{
-     * longevity.test.ScalaTestSpecs longevity.test.ScalaTestSpecs
-     * longevity.test.ScalaTestSpecs org.scalatest.Suites
      * val storefrontContext: LongevityContext = ???
      * class StorefrontRepoPoolSpec extends Suites(storefrontContext.repoPoolSpec)
      * }}}
      */
     val repoPoolSpec = new RepoPoolSpec(
       longevityContext.subdomain,
-      longevityContext.shorthandPool,
       longevityContext.customGeneratorPool,
       longevityContext.repoPool,
       Some("(Mongo)"))
@@ -49,15 +46,12 @@ object TestContext {
      * this value within a ScalaTest suite. for example:
      *
      * {{{
-     * longevity.test.ScalaTestSpecs longevity.test.ScalaTestSpecs
-     * longevity.test.ScalaTestSpecs org.scalatest.Suites
      * val storefrontContext: LongevityContext = ???
      * class StorefrontRepoPoolSpec extends Suites(storefrontContext.inMemRepoPoolSpec)
      * }}}
      */
     val inMemRepoPoolSpec = new RepoPoolSpec(
       longevityContext.subdomain,
-      longevityContext.shorthandPool,
       longevityContext.customGeneratorPool,
       longevityContext.inMemRepoPool,
       Some("(InMem)"))    

@@ -3,15 +3,15 @@ package longevity.integration
 import longevity.context._
 import longevity.subdomain._
 
-/** covers a root entity with an set of associations to another root entity */
+/** covers a root entity with a set of associations to another root entity */
 package object withAssocSet {
 
   implicit val shorthandPool = ShorthandPool.empty
 
-  val entityTypes = EntityTypePool() + WithAssocSet + Associated
-
-  val subdomain = Subdomain("With Assoc Set", entityTypes)
-
-  val longevityContext = LongevityContext(subdomain, shorthandPool, Mongo)
+  object context {
+    val entityTypes = EntityTypePool() + WithAssocSet + Associated
+    val subdomain = Subdomain("With Assoc Set", entityTypes, shorthandPool)
+    val longevityContext = LongevityContext(subdomain, Mongo)
+  }
 
 }

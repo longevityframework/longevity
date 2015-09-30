@@ -3,6 +3,7 @@ package longevity.persistence
 import org.scalatest._
 import org.scalatest.OptionValues._
 import longevity.persistence.messageFriend._
+import longevity.persistence.messageFriend.context._
 import emblem.imports._
 
 /** unit tests for the proper construction of [[LongevityContext.repoPool]] and

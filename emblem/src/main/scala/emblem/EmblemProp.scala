@@ -15,11 +15,13 @@ import scala.reflect.runtime.universe.TypeTag
 case class EmblemProp[A <: HasEmblem : TypeKey, B : TypeKey] private[emblem] (
   val name: String,
   val get: (A) => B,
-  val set: (A, B) => A
-) {
+  val set: (A, B) => A)
+extends EmblemPropPath[A, B] {
 
   /** a [[TypeKey type key]] for the property value type */
   lazy val typeKey: TypeKey[B] = implicitly[TypeKey[B]]
+
+  val props = this :: Nil
 
   override def toString: String = s"$name: ${typeKey.tpe}"
 

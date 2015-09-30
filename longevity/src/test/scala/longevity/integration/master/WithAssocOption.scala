@@ -7,4 +7,6 @@ case class WithAssocOption(
   associated: Option[Assoc[Associated]])
 extends RootEntity
 
-object WithAssocOption extends RootEntityType[WithAssocOption]
+object WithAssocOption extends RootEntityType[WithAssocOption] {
+  natKey("uri")
+}
