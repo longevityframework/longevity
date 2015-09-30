@@ -16,7 +16,7 @@ writing the initial user doc. I can't make any promises about timing, but you ca
 longevity currently contains three subprojects:
 
 - **emblem** - a metaprogramming library for managing types and reflecting case classes
-- **longevity** - a DDD persistence frameowkr for Scala and MongoDB
+- **longevity** - a DDD persistence framework for Scala and MongoDB
 - **musette** - a content resource management system
 
 emblem is a utility library used by longevity, and you can think of
