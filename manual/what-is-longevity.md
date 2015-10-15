@@ -28,5 +28,5 @@ functional concepts such as immutability and higher ordered functions
 to improve on the relationship between OO and DDD.
 
 Longevity will do for you what an ORM would, and more. It puts your
-focus back on your domain, instead of mapping your objects to and from
-the database.
+focus back on your domain, instead of on mapping your objects to and
+from the database.
