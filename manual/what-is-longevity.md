@@ -30,3 +30,9 @@ to improve on the relationship between OO and DDD.
 Longevity will do for you what an ORM would, and more. It puts your
 focus back on your domain, instead of on mapping your objects to and
 from the database.
+
+{% assign upTitle = "user manual" %}
+{% assign upLink = "./" %}
+{% assign nextTitle="ddd basics" %}
+{% assign nextLink="ddd-basics/" %}
+{% include navigate.html %}
