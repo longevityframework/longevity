@@ -1,4 +1,4 @@
-package longevity.subdomain
+package longevity.unit.subdomain
 
 import emblem.imports._
 import longevity.exceptions.NatKeyDoesNotContainPropException
@@ -6,8 +6,7 @@ import longevity.exceptions.NatKeyPropValTypeMismatchException
 import longevity.exceptions.SubdomainException
 import longevity.exceptions.UnsetNatKeyPropException
 import org.scalatest._
-import NatKeySpec._
-import NatKeySpec.NatKeySampler._
+import longevity.subdomain._
 
 object NatKeySpec {
 
@@ -44,8 +43,10 @@ object NatKeySpec {
 }
 
 /** unit tests for the proper construction of [[RootEntityType#NatKeyProp nat key props]] */
-@longevity.UnitTest
 class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
+
+  import NatKeySpec.NatKeySampler
+  import NatKeySpec.NatKeySampler._
 
   behavior of "RootEntityType.natKey factory methods"
 
@@ -53,7 +54,7 @@ class NatKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
     // trigger subdomain initialization
     import longevity.context._
-    val longevityContext = LongevityContext(context.subdomain, Mongo)
+    val longevityContext = LongevityContext(NatKeySpec.context.subdomain, Mongo)
 
     intercept[SubdomainException] {
       NatKeySampler.natKey("boolean", "char")

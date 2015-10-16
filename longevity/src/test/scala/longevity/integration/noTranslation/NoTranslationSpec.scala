@@ -1,7 +1,5 @@
 package longevity.integration.noTranslation
 
-import longevity.IntegrationTest
-import longevity.MasterIntegrationTest
 import longevity.exceptions.CouldNotTranslateException
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
@@ -13,8 +11,6 @@ import org.scalatest.time.SpanSugar._
  * this should really be tested for you on subdomain construction.
  * @see https://www.pivotaltracker.com/story/show/99755864
  */
-@IntegrationTest
-@MasterIntegrationTest
 class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
 
   override implicit def patienceConfig = PatienceConfig(

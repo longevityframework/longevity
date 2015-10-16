@@ -133,7 +133,7 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     "petToPetMap += hound -> dog" shouldNot compile
 
     // you are allowed to map a dog to a hound.
-    // in this case petToPetMap(dog) return something of type PetIdentity[Dog] (which =:= Dog), and the
+    // in this case petToPetMap(dog) will return something of type PetIdentity[Dog] (which =:= Dog), and the
     // something returned is hound. nothing weird, no ClassCastException.
     petToPetMap = TypeBoundMap[Pet, PetIdentity, PetIdentity]()
     petToPetMap += dog -> hound
@@ -181,7 +181,7 @@ class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
     petToPetBoxContravarMap(dog) should be theSameInstanceAs dogContravar
 
     // you are allowed to map a hound to a PetBoxContravar[Dog].
-    // in this case petToPetMap(hound) return something of type PetBoxContravar[Hound],
+    // in this case petToPetMap(hound) will return something of type PetBoxContravar[Hound],
     // which is >:> PetBoxContravar[Dog]
     petToPetBoxContravarMap = TypeBoundMap[Pet, PetIdentity, PetBoxContravar]()
     petToPetBoxContravarMap += hound -> dogContravar

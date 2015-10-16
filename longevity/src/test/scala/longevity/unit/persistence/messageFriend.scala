@@ -1,4 +1,4 @@
-package longevity.persistence
+package longevity.unit.persistence
 
 import longevity.context._
 import longevity.subdomain._

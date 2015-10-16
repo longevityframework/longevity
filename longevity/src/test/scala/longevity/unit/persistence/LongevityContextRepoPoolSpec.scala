@@ -1,15 +1,15 @@
-package longevity.persistence
+package longevity.unit.persistence
 
 import org.scalatest._
 import org.scalatest.OptionValues._
-import longevity.persistence.messageFriend._
-import longevity.persistence.messageFriend.context._
+import longevity.unit.persistence.messageFriend._
+import longevity.unit.persistence.messageFriend.context._
 import emblem.imports._
+import longevity.persistence._
 
 /** unit tests for the proper construction of [[LongevityContext.repoPool]] and
  * [[LongevityContext.inMemRepoPool]]
  */
-@longevity.UnitTest
 class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "a repo pool of an in-memory longevity context"

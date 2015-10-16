@@ -1,8 +1,6 @@
 package longevity.integration.natKeyWithMultipleProperties
 
-import longevity.IntegrationTest
 
 import org.scalatest.Suites
 
-@IntegrationTest
 class InMemNatKeyWithMultiplePropertiesSpec extends Suites(context.longevityContext.inMemRepoPoolSpec)

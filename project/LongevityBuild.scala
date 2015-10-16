@@ -54,11 +54,25 @@ trait BuildSettings {
     testOptions in Test += Tests.Argument("-oF"),
 
     // dependencies
-    resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
+    //resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
+    resolvers += Resolver.typesafeRepo("releases"),
     libraryDependencies += ("org.scala-lang" % "scala-reflect" % scalaVersion.value),
     libraryDependencies += ("org.scala-lang.modules" %% "scala-async" % "0.9.2"),
     libraryDependencies += ("com.github.nscala-time" %% "nscala-time" % "1.0.0"),
-    libraryDependencies += ("org.scalatest" %% "scalatest" % "2.2.1" % "test")
+    libraryDependencies += ("org.scalatest" %% "scalatest" % "2.2.1" % "test"),
+
+    // publish
+    publishMavenStyle := true,
+    publishTo := {
+      val nexus = "https://oss.sonatype.org/"
+      if (isSnapshot.value)
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    },
+    licenses := Seq("Apache License, Version 2.0" ->
+                    url("http://www.apache.org/licenses/LICENSE-2.0"))
+    
   )
 
   private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
@@ -76,30 +90,34 @@ object LongevityBuild extends Build with BuildSettings {
   lazy val emblem = Project(
     id = "emblem",
     base = file("emblem"),
-    settings = buildSettings :+ (version := "0.1-SNAPSHOT")
+    settings = buildSettings ++ Seq(
+      version := "0.1-SNAPSHOT",
+      homepage := Some(url("https://github.com/sullivan-/emblem")),
+      pomExtra := (
+        <scm>
+          <url>git@github.com:sullivan-/emblem.git</url>
+          <connection>scm:git:git@github.com:sullivan-/emblem.git</connection>
+        </scm>
+        <developers>
+          <developer>
+            <id>sullivan-</id>
+            <name>John Sullivan</name>
+            <url>https://github.com/sullivan-</url>
+          </developer>
+        </developers>)
+    )
   )
 
   lazy val longevity = Project(
     id = "longevity",
     base = file("longevity"),
-    settings =
-      buildSettings :+
-      (version := "0.1-SNAPSHOT") :+
-      (libraryDependencies += "org.mongodb" %% "casbah" % "2.8.2") :+
-      (libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "provided")
+    settings = buildSettings ++ Seq(
+      version := "0.2-SNAPSHOT",
+      libraryDependencies += "org.mongodb" %% "casbah" % "2.8.2",
+      libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "provided"
+    )
   )
   .dependsOn(emblem)
-  .configs(UnitTest, IntegrationTest, MasterIntegrationTest)
-  .settings(inConfig(UnitTest)(Defaults.testTasks): _*)
-  .settings(testOptions in UnitTest := Seq(Tests.Argument("-n", "longevity.UnitTest")))
-  .settings(inConfig(IntegrationTest)(Defaults.testTasks): _*)
-  .settings(testOptions in IntegrationTest := Seq(Tests.Argument("-n", "longevity.IntegrationTest")))
-  .settings(inConfig(MasterIntegrationTest)(Defaults.testTasks): _*)
-  .settings(testOptions in MasterIntegrationTest := Seq(Tests.Argument("-n", "longevity.MasterIntegrationTest")))
-
-  lazy val UnitTest = config("unit") extend (Test)
-  lazy val IntegrationTest = config("integration") extend (Test)
-  lazy val MasterIntegrationTest = config("master") extend (Test)
 
   lazy val musette = Project(
     id = "musette",
