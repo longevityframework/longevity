@@ -13,8 +13,8 @@ we provide a quick primer here on those concepts of DDD that are most
 relevant to using longevity:
 
 - [Ubiquitous Language](ubiquitous-language.html)
-- Subdomains and Bounded Contexts
-- Roots, Entities and Value Objects
+- [Subdomains and Bounded Contexts](ddd-basics/subdomains-and-bounded-contexts.html)
+- [Roots, Entities and Value Objects](ddd-basics/roots-entities-and-value-objects.html)
 
 {% assign prevTitle = "what is longevity" %}
 {% assign prevLink = "../what-is-longevity.html" %}

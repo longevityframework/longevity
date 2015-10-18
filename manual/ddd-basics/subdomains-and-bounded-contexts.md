@@ -5,6 +5,8 @@ layout: page
 
 placeholder
 
+
+
 {% assign prevTitle = "ubiquitous language" %}
 {% assign prevLink = "ubiquitous-language.html" %}
 {% assign upTitle = "ddd basics" %}
