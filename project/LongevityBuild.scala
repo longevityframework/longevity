@@ -54,7 +54,6 @@ trait BuildSettings {
     testOptions in Test += Tests.Argument("-oF"),
 
     // dependencies
-    //resolvers += "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
     resolvers += Resolver.typesafeRepo("releases"),
     libraryDependencies += ("org.scala-lang" % "scala-reflect" % scalaVersion.value),
     libraryDependencies += ("org.scala-lang.modules" %% "scala-async" % "0.9.2"),
@@ -63,6 +62,7 @@ trait BuildSettings {
 
     // publish
     publishMavenStyle := true,
+    pomIncludeRepository := { _ => false },
     publishTo := {
       val nexus = "https://oss.sonatype.org/"
       if (isSnapshot.value)
