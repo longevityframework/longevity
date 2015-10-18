@@ -1,5 +1,5 @@
 ---
-title: roots, entities, and value objects
+title: aggregates and entities
 layout: page
 ---
 

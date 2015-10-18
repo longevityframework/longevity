@@ -3,12 +3,11 @@ title: user manual
 layout: page
 ---
 
-Thanks for taking a look at longevity! This user manual will show you
-all you need to know in order to use it. We recommend you read through
-the manual once, and then come back to it as a reference. If you are
-new to Domain Driven Design, or feel that you might need a refresher,
-please don't overlook the chapters on [the basics of
-DDD](./ddd-basics/).
+Welcome to longevity! This user manual will show you all you need to
+know in order to use it. We recommend you read through the manual
+once, and then come back to it as a reference. If you are new to
+Domain Driven Design, or feel that you might need a refresher, please
+don't overlook the chapters on [the basics of DDD](./ddd-basics/).
 
 ## Table of Contents
 
@@ -19,8 +18,8 @@ will put in links as I write the chapters.
 - [The Basics of Domain Driven Design](ddd-basics/)
   - [Ubiquitous Language](ddd-basics/ubiquitous-language.html)
   - [Subdomains and Bounded Contexts](ddd-basics/subdomains-and-bounded-contexts.html)
-  - [Roots, Entities and Value Objects](ddd-basics/roots-entities-and-value-objects.html)
-- Project Setup
+  - [Aggregates and Entities](ddd-basics/aggregates-and-entities.html)
+- [Project Setup](project-setup.html)
 - Building Your Subdomain
   - Aggregate Roots
   - Natural Keys
