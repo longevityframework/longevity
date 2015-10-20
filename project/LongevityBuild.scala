@@ -114,7 +114,7 @@ object LongevityBuild extends Build with BuildSettings {
     settings = buildSettings ++ Seq(
       version := "0.2-SNAPSHOT",
       libraryDependencies += "org.mongodb" %% "casbah" % "2.8.2",
-      libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "provided",
+      libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % Optional,
       homepage := Some(url("https://github.com/sullivan-/emblem")),
       pomExtra := (
         <scm>
