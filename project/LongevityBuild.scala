@@ -112,9 +112,22 @@ object LongevityBuild extends Build with BuildSettings {
     id = "longevity",
     base = file("longevity"),
     settings = buildSettings ++ Seq(
-      version := "0.2-SNAPSHOT",
+      version := "0.1.1",
       libraryDependencies += "org.mongodb" %% "casbah" % "2.8.2",
-      libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "provided"
+      libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "provided",
+      homepage := Some(url("https://github.com/sullivan-/emblem")),
+      pomExtra := (
+        <scm>
+          <url>git@github.com:sullivan-/longevity.git</url>
+          <connection>scm:git:git@github.com:sullivan-/longevity.git</connection>
+        </scm>
+        <developers>
+          <developer>
+            <id>sullivan-</id>
+            <name>John Sullivan</name>
+            <url>https://github.com/sullivan-</url>
+          </developer>
+        </developers>)
     )
   )
   .dependsOn(emblem)
