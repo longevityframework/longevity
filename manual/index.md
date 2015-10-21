@@ -30,7 +30,7 @@ will put in links as I write the chapters.
   - [Subdomains and Bounded Contexts](ddd-basics/subdomains-and-bounded-contexts.html)
   - [Aggregates and Entities](ddd-basics/aggregates-and-entities.html)
 - [Project Setup](project-setup.html)
-- Building Your Subdomain
+- [Building Your Subdomain](subdomain)
   - Aggregate Roots
   - Natural Keys
   - Entities
@@ -46,6 +46,7 @@ will put in links as I write the chapters.
     - Reactive with Futures
     - `Assoc.retrieve`
     - Optimistic Locking
+  - Something about Unpersisted Assocs
   - Testing Your Subdomain
   - Configuring MongoDB
 - Querying MongoDB Outside of Longevity
