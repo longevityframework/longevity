@@ -31,10 +31,10 @@ will put in links as I write the chapters.
   - [Aggregates and Entities](ddd-basics/aggregates-and-entities.html)
 - [Project Setup](project-setup.html)
 - [Building Your Subdomain](subdomain)
-  - Aggregate Roots
+  - [Aggregate Roots](subdomain/roots.html)
   - Natural Keys
-  - Entities
   - Shorthands
+  - Entities
   - Basics
   - Collections
   - Associations

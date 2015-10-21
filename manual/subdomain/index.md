@@ -20,7 +20,7 @@ in the future. But we want to get the persistence part right, first.
 Domain Driven Design describes a few [different kinds of
 subdomains](http://blog.jonathanoliver.com/ddd-strategic-design-core-supporting-and-generic-subdomains/),
 such as core, supporting, and generic. In longevity, these are all
-the same thing, but you can name it as you please. You can also make
+the same thing, but you can call them as you please. You can also make
 use of multiple longevity `Subdomains` in a single application.
 
 Longevity `Subdomains` are quite easy to construct, and in this
@@ -34,7 +34,7 @@ them. To get started, here are a few ways to build an empty
 {% assign prevLink = "../project-setup.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
-{% assign nextTitle="building your subdomain" %}
-{% assign nextLink="subdomain/" %}
+{% assign nextTitle="aggregate roots" %}
+{% assign nextLink="roots.html" %}
 {% include navigate.html %}
 
