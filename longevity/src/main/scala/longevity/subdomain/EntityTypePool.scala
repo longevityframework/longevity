@@ -20,4 +20,7 @@ object EntityTypePool {
     map
   }
 
+  /** an empty entity type pool */
+  val empty: EntityTypePool = apply()
+
 }

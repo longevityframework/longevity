@@ -13,7 +13,7 @@ import emblem.WideningTypeBoundFunction
 case class Subdomain(
   name: String,
   entityTypePool: EntityTypePool,
-  shorthandPool: ShorthandPool) {
+  shorthandPool: ShorthandPool = ShorthandPool()) {
 
   val rootEntityTypePool = RootEntityTypePool(entityTypePool)
 
