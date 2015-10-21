@@ -28,17 +28,7 @@ section, we will review all the tools at your disposal to build
 them. To get started, here are a few ways to build an empty
 `Subdomain`:
 
-```scala
-import longevity.subdomain._
-val subdomain = Subdomain("blogging", EntityTypePool.empty)
-
-// you can also use these synonyms freely:
-val coreDomain: CoreDomain = CoreDomain("blogging", EntityTypePool.empty)
-val supportingSubdomain: SupportingSubdomain = SupportingSubdomain("accounts", EntityTypePool.empty)
-val genericSubdomain: GenericSubdomain = GenericSubdomain("search", EntityTypePool.empty)
-```
-
-egg
+{% gist sullivan-/1bf6e826ce266588ecde %}
 
 {% assign prevTitle = "project setup" %}
 {% assign prevLink = "../project-setup.html" %}
