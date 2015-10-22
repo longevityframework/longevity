@@ -18,7 +18,8 @@ import scala.util.Success
  */
 class MongoRepo[E <: RootEntity : TypeKey] protected[persistence] (
   entityType: RootEntityType[E],
-  subdomain: Subdomain)
+  subdomain: Subdomain,
+  mongoDb: MongoDB)
 extends Repo[E](entityType, subdomain) {
   repo =>
 
@@ -29,7 +30,7 @@ extends Repo[E](entityType, subdomain) {
   }
 
   private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
-  private val mongoCollection = MongoRepo.mongoDb(collectionName)
+  private val mongoCollection = mongoDb(collectionName)
 
   private val emblemPool = subdomain.entityEmblemPool
   private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
@@ -93,14 +94,4 @@ extends Repo[E](entityType, subdomain) {
     entityOption map { e => new Persisted[E](assoc, e) }
   }
 
-}
-
-object MongoRepo {
-
-  // TODO pt-84759650 move this stuff to context config
-  val mongoClient = MongoClient("localhost", 27017)
-  val mongoDb = mongoClient("test")
-
-  import com.mongodb.casbah.commons.conversions.scala._
-  RegisterJodaTimeConversionHelpers()
 }

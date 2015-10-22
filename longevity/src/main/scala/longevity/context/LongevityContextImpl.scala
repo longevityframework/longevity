@@ -1,5 +1,6 @@
 package longevity.context
 
+import com.typesafe.config.Config
 import emblem.traversors.sync.Generator.CustomGeneratorPool
 import longevity.persistence.buildRepoPool
 import longevity.subdomain._
@@ -7,11 +8,17 @@ import longevity.subdomain._
 private[context] final class LongevityContextImpl (
   val subdomain: Subdomain,
   val persistenceStrategy: PersistenceStrategy,
-  val customGeneratorPool: CustomGeneratorPool)
+  val customGeneratorPool: CustomGeneratorPool,
+  val config: Config)
 extends LongevityContext {
 
-  lazy val repoPool = buildRepoPool(subdomain, persistenceStrategy)
+  private lazy val longevityConfig = config.getConfig("longevity")
+  private lazy val longevityTestConfig = config.getConfig("longevity.test")
 
-  lazy val inMemRepoPool = buildRepoPool(subdomain, InMem)
+  lazy val repoPool = buildRepoPool(subdomain, persistenceStrategy, longevityConfig)
+
+  lazy val testRepoPool = buildRepoPool(subdomain, persistenceStrategy, longevityTestConfig)
+
+  lazy val inMemTestRepoPool = buildRepoPool(subdomain, InMem, longevityTestConfig)
 
 }

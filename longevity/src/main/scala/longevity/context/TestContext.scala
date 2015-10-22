@@ -10,8 +10,11 @@ trait TestContext {
   /** a collection of custom generators to use when generating test data. defaults to an empty collection */
   val customGeneratorPool: CustomGeneratorPool
 
-  /** an in-memory set of repositories for this longevity context, for use in testing. */
-  val inMemRepoPool: RepoPool
+  /** a set of repositories used for testing, targeting the same persistence strategy as your main repo pool */
+  val testRepoPool: RepoPool
+
+  /** an in-memory set of repositories for this longevity context, for use in testing */
+  val inMemTestRepoPool: RepoPool
 
 }
 
@@ -38,7 +41,7 @@ object TestContext {
     val repoPoolSpec = new RepoPoolSpec(
       longevityContext.subdomain,
       longevityContext.customGeneratorPool,
-      longevityContext.repoPool,
+      longevityContext.testRepoPool,
       Some("(Mongo)"))
 
     /** a simple [[http://www.scalatest.org/ ScalaTest]] spec to test your
@@ -53,7 +56,7 @@ object TestContext {
     val inMemRepoPoolSpec = new RepoPoolSpec(
       longevityContext.subdomain,
       longevityContext.customGeneratorPool,
-      longevityContext.inMemRepoPool,
+      longevityContext.inMemTestRepoPool,
       Some("(InMem)"))    
 
   }

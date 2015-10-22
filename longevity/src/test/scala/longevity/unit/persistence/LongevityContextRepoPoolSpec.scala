@@ -2,8 +2,6 @@ package longevity.unit.persistence
 
 import org.scalatest._
 import org.scalatest.OptionValues._
-import longevity.unit.persistence.messageFriend._
-import longevity.unit.persistence.messageFriend.context._
 import emblem.imports._
 import longevity.persistence._
 
@@ -12,9 +10,12 @@ import longevity.persistence._
  */
 class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "a repo pool of an in-memory longevity context"
+  import longevity.unit.persistence.messageFriend._
+  import longevity.unit.persistence.messageFriend.context._
 
-  it should "be full of stock repos" in {
+  behavior of "LongevityContext.repoPool of an in-memory longevity context"
+
+  it should "be full of InMemRepos" in {
     val repoPool = inMemLongevityContext.repoPool
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe an [InMemRepo[_]]
@@ -23,9 +24,9 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     repoPool.get[Message].value.entityType should equal (MessageType)
   }
 
-  behavior of "a repo pool of a mongo longevity context"
+  behavior of "LongevityContext.repoPool of a mongo longevity context"
 
-  it should "be full of stock repos" in {
+  it should "be full of MongoRepos" in {
     val repoPool = longevityContext.repoPool
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe a [MongoRepo[_]]
@@ -34,12 +35,34 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     repoPool.get[Message].value.entityType should equal (MessageType)
   }
 
-  behavior of "a test in-memory repo pool of a longevity context"
+  behavior of "LongevityContext.testRepoPool of an in-memory longevity context"
 
-  it should "be full of stock repos" in {
+  it should "be full of InMemRepos" in {
+    val testRepoPool = inMemLongevityContext.testRepoPool
+    testRepoPool.size should equal (2)
+    testRepoPool.get[Friend].value shouldBe an [InMemRepo[_]]
+    testRepoPool.get[Friend].value.entityType should equal (FriendType)
+    testRepoPool.get[Message].value shouldBe an [InMemRepo[_]]
+    testRepoPool.get[Message].value.entityType should equal (MessageType)
+  }
+
+  behavior of "LongevityContext.testRepoPool of a mongo longevity context"
+
+  it should "be full of MongoRepos" in {
+    val testRepoPool = longevityContext.testRepoPool
+    testRepoPool.size should equal (2)
+    testRepoPool.get[Friend].value shouldBe a [MongoRepo[_]]
+    testRepoPool.get[Friend].value.entityType should equal (FriendType)
+    testRepoPool.get[Message].value shouldBe a [MongoRepo[_]]
+    testRepoPool.get[Message].value.entityType should equal (MessageType)
+  }
+
+  behavior of "LongevityContext.inMemTestRepoPool"
+
+  it should "be full of InMemRepos" in {
     Seq(
-      longevityContext.inMemRepoPool,
-      inMemLongevityContext.inMemRepoPool
+      longevityContext.inMemTestRepoPool,
+      inMemLongevityContext.inMemTestRepoPool
     ) foreach { repoPool =>
       repoPool.size should equal (2)
       repoPool.get[Friend].value shouldBe an [InMemRepo[_]]

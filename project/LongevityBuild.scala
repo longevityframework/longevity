@@ -113,7 +113,8 @@ object LongevityBuild extends Build with BuildSettings {
     base = file("longevity"),
     settings = buildSettings ++ Seq(
       version := "0.2-SNAPSHOT",
-      libraryDependencies += "org.mongodb" %% "casbah" % "2.8.2",
+      libraryDependencies += "com.typesafe" % "config" % "1.3.0",
+      libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % Optional,
       homepage := Some(url("http://sullivan-.github.io/longevity/")),
       pomExtra := (

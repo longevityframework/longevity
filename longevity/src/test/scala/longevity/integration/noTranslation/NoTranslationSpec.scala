@@ -17,7 +17,7 @@ class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with S
     timeout = scaled(1000 millis),
     interval = scaled(50 millis))
 
-  val repoPool = context.longevityContext.repoPool
+  val repoPool = context.longevityContext.testRepoPool
 
   behavior of "Repo.create in the face of a untranslatable objects"
 

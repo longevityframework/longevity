@@ -1,5 +1,7 @@
 package longevity
 
+import com.mongodb.casbah.Imports._
+import com.typesafe.config.Config
 import emblem.imports._
 import emblem.TypeBoundPair
 import longevity.context._
@@ -13,11 +15,19 @@ package object persistence {
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
-    persistenceStrategy: PersistenceStrategy)
+    persistenceStrategy: PersistenceStrategy,
+    config: Config)
   : RepoPool =
     persistenceStrategy match {
       case InMem => inMemRepoPool(subdomain)
-      case Mongo => mongoRepoPool(subdomain)
+      case Mongo =>
+        val mongoClient = MongoClient(config.getString("mongodb.uri"))
+        val mongoDb = mongoClient.getDB(config.getString("mongodb.db"))
+
+        import com.mongodb.casbah.commons.conversions.scala._
+        RegisterJodaTimeConversionHelpers()
+
+        mongoRepoPool(subdomain, mongoDb)
     }
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
@@ -28,10 +38,10 @@ package object persistence {
     buildRepoPool(subdomain, repoFactory)
   }
 
-  private def mongoRepoPool(subdomain: Subdomain): RepoPool = {
+  private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
-        new MongoRepo(entityType, subdomain)(entityKey)
+        new MongoRepo(entityType, subdomain, mongoDB)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
