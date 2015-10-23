@@ -42,22 +42,22 @@ object TestContext {
       longevityContext.subdomain,
       longevityContext.customGeneratorPool,
       longevityContext.testRepoPool,
-      Some("(Mongo)"))
+      Some(" - Mongo"))
 
     /** a simple [[http://www.scalatest.org/ ScalaTest]] spec to test your
-     * [[longevity.context.LongevityContext.inMemRepoPool in-memory repo pool]]. all you have to do is include
-     * this value within a ScalaTest suite. for example:
+     * [[longevity.context.LongevityContext.inMemTestRepoPool in-memory repo pool]]. all you have to do is
+     * include this value within a ScalaTest suite. for example:
      *
      * {{{
      * val storefrontContext: LongevityContext = ???
-     * class StorefrontRepoPoolSpec extends Suites(storefrontContext.inMemRepoPoolSpec)
+     * class StorefrontRepoPoolSpec extends Suites(storefrontContext.inMemTestRepoPoolSpec)
      * }}}
      */
     val inMemRepoPoolSpec = new RepoPoolSpec(
       longevityContext.subdomain,
       longevityContext.customGeneratorPool,
       longevityContext.inMemTestRepoPool,
-      Some("(InMem)"))    
+      Some(" - InMem"))    
 
   }
 
