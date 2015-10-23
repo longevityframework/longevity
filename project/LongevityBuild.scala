@@ -84,7 +84,8 @@ object LongevityBuild extends Build with BuildSettings {
 
   lazy val root = Project(
     id = "root",
-    base = file(".")
+    base = file("."),
+    settings = buildSettings
   ) aggregate (emblem, longevity, musette)
 
   lazy val emblem = Project(
@@ -133,7 +134,8 @@ object LongevityBuild extends Build with BuildSettings {
 
   lazy val musette = Project(
     id = "musette",
-    base = file("musette")
+    base = file("musette"),
+    settings = buildSettings
   ) dependsOn (emblem, longevity)
   // in the future, this dependsOn emblem may go away
 
