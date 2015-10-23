@@ -23,6 +23,8 @@ such as core, supporting, and generic. In longevity, these are all
 the same thing, but you can call them as you please. You can also make
 use of multiple longevity `Subdomains` in a single application.
 
+TODO: possible link here to longevity config chapter on multiple contexts.
+
 Longevity `Subdomains` are quite easy to construct, and in this
 section, we will review all the tools at your disposal to build
 them. To get started, here are a few ways to build an empty
