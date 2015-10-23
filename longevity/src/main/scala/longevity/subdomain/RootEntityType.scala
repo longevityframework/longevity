@@ -8,7 +8,7 @@ import longevity.exceptions.SubdomainException
 abstract class RootEntityType[
   E <: RootEntity](
   implicit private val rootTypeKey: TypeKey[E],
-  implicit private val shorthandPool: ShorthandPool)
+  implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty)
 extends EntityType[E] {
 
   private var registered = false

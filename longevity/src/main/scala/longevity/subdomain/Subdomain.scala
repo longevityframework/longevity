@@ -21,12 +21,13 @@ case class Subdomain(
   rootEntityTypePool.values.foreach(_.register)
 
   /** a pool of emblems for the entities within the subdomain */
-  val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] = entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
-    new WideningTypeBoundFunction[Entity, HasEmblem, EntityType, Emblem] {
-      def apply[TypeParam <: Entity](value1: EntityType[TypeParam]): Emblem[TypeParam] =
-        value1.emblem
+  private[longevity] val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] =
+    entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
+      new WideningTypeBoundFunction[Entity, HasEmblem, EntityType, Emblem] {
+        def apply[TypeParam <: Entity](value1: EntityType[TypeParam]): Emblem[TypeParam] =
+          value1.emblem
+      }
     }
-  }
 
   // TODO pt-87441928: some way to express domain constraints, particularly those that span multiple entities
   // - figure a way for TestDataGenerator/RepoSpec to respect these
