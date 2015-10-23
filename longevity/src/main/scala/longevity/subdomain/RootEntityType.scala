@@ -43,9 +43,10 @@ extends EntityType[E] {
   /** constructs a natural key for this root entity type based on the supplied set of property paths.
    * @param propPathHead one of the property paths for the properties that define this nat key
    * @param propPathTail any remaining property paths for the properties that define this nat key
-   * @throws longevity.exceptions.InvalidNatKeyPropPathException if any of the supplied property paths are invalid
-   * @throws longevity.exceptions.SubdomainException on attempt to create a new nat key after the `RootEntityType`
-   * is fully initialized
+   * @throws longevity.exceptions.InvalidNatKeyPropPathException if any of the supplied property paths are
+   * invalid
+   * @throws longevity.exceptions.SubdomainException on attempt to create a new nat key after the
+   * `RootEntityType` is fully initialized
    * @see NatKeyProp.apply
    */
   def natKey(propPathHead: String, propPathTail: String*): NatKey[E] = {
