@@ -24,6 +24,7 @@ trait BuildSettings {
 
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "net.jsmscs",
+    version := "0.2-SNAPSHOT",
     scalaVersion := "2.11.7",
 
     // compile
@@ -83,15 +84,13 @@ object LongevityBuild extends Build with BuildSettings {
 
   lazy val root = Project(
     id = "root",
-    base = file("."),
-    settings = buildSettings :+ (version := "0.0-SNAPSHOT")
+    base = file(".")
   ) aggregate (emblem, longevity, musette)
 
   lazy val emblem = Project(
     id = "emblem",
     base = file("emblem"),
     settings = buildSettings ++ Seq(
-      version := "0.1-SNAPSHOT",
       homepage := Some(url("https://github.com/sullivan-/emblem")),
       pomExtra := (
         <scm>
@@ -112,7 +111,6 @@ object LongevityBuild extends Build with BuildSettings {
     id = "longevity",
     base = file("longevity"),
     settings = buildSettings ++ Seq(
-      version := "0.2-SNAPSHOT",
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
       libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % Optional,
@@ -135,8 +133,7 @@ object LongevityBuild extends Build with BuildSettings {
 
   lazy val musette = Project(
     id = "musette",
-    base = file("musette"),
-    settings = buildSettings :+ (version := "0.0-SNAPSHOT")
+    base = file("musette")
   ) dependsOn (emblem, longevity)
   // in the future, this dependsOn emblem may go away
 
