@@ -11,7 +11,20 @@ aggregate. We start out by giving the user three basic fields:
 root, we need to mark it as a `RootEntity`:
 
 {% gist sullivan-/db1226b4d31a0526ac8c %}
-    
+
+Every root entity class needs a corresponding `RootEntityType`
+instance. By convention, we designate the companion object as the root
+entity type. We put all your entity types into an `EntityTypePool`,
+and pass it to the subdomain:
+
+{% gist sullivan-/6a68ac5f6f6331274e21 %}
+
+All we need to do now is to slap our `Subdomain` into a
+`LongevityContext`, and we are ready to start persisting users, as we
+will see in a later chapter.
+
+TODO: link to chapter on building LongevityContext
+
 {% capture content %}
 
 Perhaps <code>AggregateRoot</code>, or even just <code>Root</code>,
@@ -36,19 +49,6 @@ empty-bodied marker traits (as you can see from the scaladocs).
 {% include longevity-meta.html content=content %}
 
 TODO: link to scaladocs for RootEntity
-
-Every root entity class needs a corresponding `RootEntityType`
-instance. By convention, we designate the companion object as the root
-entity type. We put all your entity types into an `EntityTypePool`,
-and pass it to the subdomain:
-
-{% gist sullivan-/6a68ac5f6f6331274e21 %}
-
-All we need to do now is to slap our `Subdomain` into a
-`LongevityContext`, and we are ready to start persisting users, as we
-will see in a later chapter.
-
-TODO: link to chapter on building LongevityContext
 
 {% assign prevTitle = "building your subdomain" %}
 {% assign prevLink = "." %}

@@ -6,7 +6,7 @@ div.longevity-meta
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
     border-radius: 6px;
-    padding: 0px 10px 10px 5px;
+    padding: 0px 10px 5px 10px;
 
     margin-left: 3em;
     margin-right: 3em;
@@ -17,4 +17,6 @@ p.longevity-meta-header
 {
     text-align: center;
     font-weight: bold;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
