@@ -1,14 +1,11 @@
-<fieldset style="display: flex;
-                 justify-content: space-between;
-                 margin-left: 2em;
-                 margin-right: 3em;
-                 margin-bottom: 1em;
-                 ">
+<div class = "longevity-meta">
 
 {% if include.title %}
-<legend style="font-weight: bold;">&nbsp;longevity meta - {{ include.title }}&nbsp;</legend>
+<p class = "longevity-meta-header">longevity meta - {{ include.title }}</p>
 {% else %}
-<legend style="font-weight: bold;">&nbsp;longevity meta&nbsp;</legend>
+<p class = "longevity-meta-header">longevity meta</p>
 {% endif %}
+
 {{ include.content }}
-</fieldset>
+
+</div>
