@@ -54,7 +54,7 @@ TODO: link to chapter on building LongevityContext
 {% assign prevLink = "." %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle="todo" %}
-{% assign nextLink="todo.html" %}
+{% assign nextTitle="natural keys" %}
+{% assign nextLink="keys.html" %}
 {% include navigate.html %}
 

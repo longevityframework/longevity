@@ -32,7 +32,7 @@ will put in links as I write the chapters.
 - [Project Setup](project-setup.html)
 - [Building Your Subdomain](subdomain)
   - [Aggregate Roots](subdomain/roots.html)
-  - Natural Keys
+  - [Natural Keys](subdomain/keys.html)
   - Shorthands
   - Entities
   - Basics
