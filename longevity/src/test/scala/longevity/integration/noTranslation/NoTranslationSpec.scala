@@ -14,7 +14,7 @@ import org.scalatest.time.SpanSugar._
 class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
 
   override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(1000 millis),
+    timeout = scaled(2000 millis),
     interval = scaled(50 millis))
 
   val repoPool = context.longevityContext.testRepoPool
