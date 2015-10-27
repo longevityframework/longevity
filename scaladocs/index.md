@@ -12,5 +12,5 @@ generated on October 9th, 2015.
 In the future, I'll put in API docs for release versions, and try to
 set up an autopublish on new commits.
 
-- [longevity API](longevity)
-- [emblem API](emblem)
+- [longevity API](longevity-latest)
+- [emblem API](emblem-latest)
