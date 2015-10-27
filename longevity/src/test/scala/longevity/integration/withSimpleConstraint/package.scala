@@ -14,7 +14,7 @@ package object withSimpleConstraint {
 
   object context {
     val entityTypes = EntityTypePool() + WithSimpleConstraint
-    val subdomain = Subdomain("With Simple Constraint", entityTypes, shorthandPool)
+    val subdomain = Subdomain("With Simple Constraint", entityTypes)
 
     val emailGenerator = CustomGenerator.simpleGenerator[Email] { generator =>
       Email(s"{generator.generate[String]}@{generate.generate[String]")

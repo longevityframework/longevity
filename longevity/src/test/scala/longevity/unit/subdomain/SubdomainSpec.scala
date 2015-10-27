@@ -134,7 +134,7 @@ object SubdomainSpec {
 
     object User extends RootEntityType[User]
 
-    val subdomain = Subdomain("blogging", EntityTypePool(User), shorthandPool)
+    val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
 }

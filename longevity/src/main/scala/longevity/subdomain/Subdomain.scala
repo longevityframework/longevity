@@ -8,12 +8,12 @@ import emblem.WideningTypeBoundFunction
  *
  * @param name the name of the subdomain
  * @param entityTypePool a complete set of the entity types within the subdomain
- * @param shorthandPool a complete set of the shorthands used by the bounded context. defaults to empty
+ * @param shorthandPool a complete set of the shorthands used by the bounded context
  */
-case class Subdomain(
-  name: String,
-  entityTypePool: EntityTypePool,
-  shorthandPool: ShorthandPool = ShorthandPool()) {
+class Subdomain(
+  val name: String,
+  val entityTypePool: EntityTypePool,
+  val shorthandPool: ShorthandPool) {
 
   val rootEntityTypePool = RootEntityTypePool(entityTypePool)
 
@@ -42,5 +42,21 @@ case class Subdomain(
   //   - the site of the comment author and the site of the blog should be the same
   //   - the site of the wiki authors and the site of the wiki should be the same
   //   - the site of the wiki page authors and the site of the wiki should be the same
+
+}
+
+object Subdomain {
+
+  /** constructs a new subdomain.
+   * 
+   * @param name the name of the subdomain
+   * @param entityTypePool a complete set of the entity types within the subdomain
+   * @param shorthandPool a complete set of the shorthands used by the bounded context. defaults to empty
+   */
+  def apply(
+    name: String,
+    entityTypePool: EntityTypePool)(
+    implicit shorthandPool: ShorthandPool = ShorthandPool()): Subdomain =
+    new Subdomain(name, entityTypePool, shorthandPool)
 
 }

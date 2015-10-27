@@ -10,8 +10,8 @@ object CoreDomain {
    */
   def apply(
     name: String,
-    entityTypePool: EntityTypePool,
-    shorthandPool: ShorthandPool = ShorthandPool()): CoreDomain = 
-    Subdomain(name, entityTypePool, shorthandPool)
+    entityTypePool: EntityTypePool)(
+    implicit shorthandPool: ShorthandPool = ShorthandPool()): CoreDomain = 
+    Subdomain(name, entityTypePool)(shorthandPool)
 
 }

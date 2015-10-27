@@ -10,7 +10,7 @@ package object withAssocOption {
 
   object context {
     val entityTypes = EntityTypePool() + WithAssocOption + Associated
-    val subdomain = Subdomain("With Assoc Option", entityTypes, shorthandPool)
+    val subdomain = Subdomain("With Assoc Option", entityTypes)
     val longevityContext = LongevityContext(subdomain, Mongo)
   }
 

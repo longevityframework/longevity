@@ -12,7 +12,7 @@ package object natKeyWithAssoc {
 
   object context {
     val entityTypes = EntityTypePool() + NatKeyWithAssoc + Associated
-    val subdomain = Subdomain("Nat Key With Assoc", entityTypes, shorthandPool)
+    val subdomain = Subdomain("Nat Key With Assoc", entityTypes)
     val longevityContext = LongevityContext(subdomain)
   }
 

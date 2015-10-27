@@ -37,7 +37,7 @@ object NatKeySpec {
 
   object context {
     val entityTypes = EntityTypePool(NatKeySampler)
-    val subdomain = Subdomain("Nat Key Spec", entityTypes, shorthandPool)
+    val subdomain = Subdomain("Nat Key Spec", entityTypes)(shorthandPool)
   }
 
 }

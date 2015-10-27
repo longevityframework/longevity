@@ -28,7 +28,7 @@ package object coredomain {
     implicit def stringToMarkdown(markdown: String): Markdown = Markdown(markdown)
     implicit def stringToUri(uri: String): Uri = Uri(uri)
 
-    val subdomain = Subdomain("Musette", entityTypes, shorthands)
+    val subdomain = Subdomain("Musette", entityTypes)
 
     val emailGenerator = CustomGenerator.simpleGenerator[Email] { generator =>
       def part = generator.generate[String]

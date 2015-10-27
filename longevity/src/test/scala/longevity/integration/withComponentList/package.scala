@@ -10,7 +10,7 @@ package object withComponentList {
 
   object context {
     val entityTypes = EntityTypePool() + WithComponentList + Component
-    val subdomain = Subdomain("With Component List", entityTypes, shorthandPool)
+    val subdomain = Subdomain("With Component List", entityTypes)
     val longevityContext = LongevityContext(subdomain, Mongo)
   }
 

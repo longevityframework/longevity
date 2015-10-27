@@ -10,8 +10,8 @@ object SupportingSubdomain {
    */
   def apply(
     name: String,
-    entityTypePool: EntityTypePool,
-    shorthandPool: ShorthandPool = ShorthandPool()): SupportingSubdomain = 
-    Subdomain(name, entityTypePool, shorthandPool)
+    entityTypePool: EntityTypePool)(
+    implicit shorthandPool: ShorthandPool = ShorthandPool()): SupportingSubdomain = 
+    Subdomain(name, entityTypePool)(shorthandPool)
 
 }

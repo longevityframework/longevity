@@ -28,7 +28,7 @@ package object withComponentWithShorthands {
 
   object context {
     val entityTypes = EntityTypePool() + WithComponentWithShorthands + ComponentWithShorthands
-    val subdomain = Subdomain("With Component With Shorthands", entityTypes, shorthandPool)
+    val subdomain = Subdomain("With Component With Shorthands", entityTypes)
     val longevityContext = LongevityContext(subdomain, Mongo)
   }
 

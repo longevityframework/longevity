@@ -10,8 +10,8 @@ object GenericSubdomain {
    */
   def apply(
     name: String,
-    entityTypePool: EntityTypePool,
-    shorthandPool: ShorthandPool = ShorthandPool()): GenericSubdomain = 
-    Subdomain(name, entityTypePool, shorthandPool)
+    entityTypePool: EntityTypePool)(
+    implicit shorthandPool: ShorthandPool = ShorthandPool()): GenericSubdomain = 
+    Subdomain(name, entityTypePool)(shorthandPool)
 
 }

@@ -10,7 +10,7 @@ package object allAttributes {
 
   object context {
     val entityTypes = EntityTypePool() + AllAttributes
-    val subdomain = Subdomain("All Attributes", entityTypes, shorthandPool)
+    val subdomain = Subdomain("All Attributes", entityTypes)
     val longevityContext = LongevityContext(subdomain, Mongo)
   }
 

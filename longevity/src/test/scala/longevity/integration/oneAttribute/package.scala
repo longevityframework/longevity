@@ -10,7 +10,7 @@ package object oneAttribute {
 
   object context {
     val entityTypes = EntityTypePool() + OneAttribute
-    val subdomain = Subdomain("One Attribute", entityTypes, shorthandPool)
+    val subdomain = Subdomain("One Attribute", entityTypes)
     val longevityContext = LongevityContext(subdomain, Mongo)
   }
 

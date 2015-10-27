@@ -17,7 +17,7 @@ package object noTranslation {
       WithNoTranslationOption,
       WithNoTranslationSet)
 
-    val subdomain = Subdomain("No Translation", entityTypes, shorthandPool)
+    val subdomain = Subdomain("No Translation", entityTypes)
     val longevityContext = LongevityContext(subdomain, Mongo)
   }
 

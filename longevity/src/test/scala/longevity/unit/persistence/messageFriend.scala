@@ -17,7 +17,7 @@ object messageFriend {
 
   object context {
     val entityTypes = EntityTypePool() + FriendType + MessageType
-    val subdomain = Subdomain("blog", entityTypes, shorthandPool)
+    val subdomain = Subdomain("blog", entityTypes)
     val longevityContext = LongevityContext(subdomain, Mongo)
     val inMemLongevityContext = LongevityContext(subdomain, InMem)
   }

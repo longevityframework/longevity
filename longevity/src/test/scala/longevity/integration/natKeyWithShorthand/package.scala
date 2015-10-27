@@ -12,7 +12,7 @@ package object natKeyWithShorthand {
 
   object context {
     val entityTypes = EntityTypePool() + NatKeyWithShorthand
-    val subdomain = Subdomain("Nat Key With Shorthand", entityTypes, shorthandPool)
+    val subdomain = Subdomain("Nat Key With Shorthand", entityTypes)
     val longevityContext = LongevityContext(subdomain)
   }
 

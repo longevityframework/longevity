@@ -12,7 +12,7 @@ package object oneShorthand {
 
   object context {
     val entityTypes = EntityTypePool() + OneShorthand
-    val subdomain = Subdomain("One Shorthand", entityTypes, shorthandPool)
+    val subdomain = Subdomain("One Shorthand", entityTypes)
     val longevityContext = LongevityContext(subdomain)
   }
 

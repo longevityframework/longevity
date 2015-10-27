@@ -13,7 +13,7 @@ package object natKeyWithMultipleProperties {
 
   object context {
     val entityTypes = EntityTypePool() + NatKeyWithMultipleProperties + Associated
-    val subdomain = Subdomain("Nat Key With Multiple Props", entityTypes, shorthandPool)
+    val subdomain = Subdomain("Nat Key With Multiple Props", entityTypes)
     val longevityContext = LongevityContext(subdomain)
   }
 
