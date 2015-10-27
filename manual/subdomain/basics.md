@@ -24,7 +24,7 @@ For example, we might add a few fields to our `User` like so:
 
 {% capture content %}
 
-We recommend you use <a href =
+We recommend using <a href =
 "https://github.com/nscala-time/nscala-time">nscala-time</a> to wrap
 your <a href = "http://www.joda.org/joda-time/">Joda-Time</a> dates in
 a Scala-friendly wrapper.

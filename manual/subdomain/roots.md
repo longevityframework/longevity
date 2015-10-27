@@ -48,8 +48,8 @@ empty-bodied marker traits (as you can see from the <a href="http://sullivan-.gi
 {% endcapture %}
 {% include longevity-meta.html content=content %}
 
-{% assign prevTitle = "building your subdomain" %}
-{% assign prevLink = "." %}
+{% assign prevTitle = "kinds of subdomains" %}
+{% assign prevLink = "kinds.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
 {% assign nextTitle="natural keys" %}

@@ -31,6 +31,7 @@ will put in links as I write the chapters.
   - [Aggregates and Entities](ddd-basics/aggregates-and-entities.html)
 - [Project Setup](project-setup.html)
 - [Building Your Subdomain](subdomain)
+  - [Kinds of Subdomains](subdomain/kinds.html)
   - [Aggregate Roots](subdomain/roots.html)
   - [Natural Keys](subdomain/keys.html)
   - [Basic Properties](subdomain/basics.html)
