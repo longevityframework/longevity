@@ -17,7 +17,7 @@ choices we made, rather than how to use longevity. We hope these notes
 will help you to better understand why longevity is the way it is.
 
 {% endcapture %}
-{% include longevity-meta.html content=content%}
+{% include longevity-meta.html content=content %}
 
 ## Table of Contents
 
@@ -34,9 +34,9 @@ will put in links as I write the chapters.
   - [Aggregate Roots](subdomain/roots.html)
   - [Natural Keys](subdomain/keys.html)
   - [Basic Properties](subdomain/basics.html)
+  - [Collections](subdomain/collections.html)
   - Shorthands
   - Entities
-  - Collections
   - Associations
   - Enforcing Constraints
 - The Longevity Context
