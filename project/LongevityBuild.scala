@@ -24,7 +24,7 @@ trait BuildSettings {
 
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "net.jsmscs",
-    version := "0.2",
+    version := "0.3-SNAPSHOT",
     scalaVersion := "2.11.7",
 
     // compile
