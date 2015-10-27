@@ -4,7 +4,7 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import emblem.imports._
 import emblem.TypeBoundPair
-import emblem.traversors.sync.Generator.CustomGeneratorPool
+import emblem.traversors.sync.CustomGeneratorPool
 import emblem.traversors.sync.CustomGenerator
 import emblem.traversors.sync.Differ
 import emblem.traversors.sync.Generator

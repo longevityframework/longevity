@@ -6,7 +6,6 @@ import emblem.imports._
 import emblem.testData.emblems._
 import emblem.testData.extractors._
 import emblem.traversors.sync.CustomGenerator.simpleGenerator
-import emblem.traversors.sync.Generator._
 import org.scalatest.OptionValues._
 import org.scalatest._
 

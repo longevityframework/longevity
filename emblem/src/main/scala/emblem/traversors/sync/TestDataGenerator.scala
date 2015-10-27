@@ -2,7 +2,6 @@ package emblem.traversors.sync
 
 import emblem.imports._
 import emblem.reflectionUtil.makeTypeTag
-import emblem.traversors.sync.Generator._
 import org.joda.time.DateTime
 import scala.reflect.runtime.universe.typeOf
 

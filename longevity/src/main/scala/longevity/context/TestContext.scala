@@ -1,6 +1,6 @@
 package longevity.context
 
-import emblem.traversors.sync.Generator.CustomGeneratorPool
+import emblem.traversors.sync.CustomGeneratorPool
 import longevity.persistence.RepoPool
 import longevity.test.RepoPoolSpec
 

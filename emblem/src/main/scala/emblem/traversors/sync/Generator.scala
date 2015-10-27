@@ -5,7 +5,6 @@ import emblem.exceptions.CouldNotGenerateException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.imports._
-import emblem.traversors.sync.Generator._
 import org.joda.time.DateTime
 
 /** recursively generates a data structure by type.
