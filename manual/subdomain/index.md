@@ -24,7 +24,7 @@ Our discussion on building subdomains breaks down as follows:
 - [Natural Keys](keys.html)
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
-- Shorthands
+- [Shorthands](shorthands.html)
 - Entities
 - Associations
 - Enforcing Constraints

@@ -36,7 +36,7 @@ will put in links as I write the chapters.
   - [Natural Keys](subdomain/keys.html)
   - [Basic Properties](subdomain/basics.html)
   - [Collections](subdomain/collections.html)
-  - Shorthands
+  - [Shorthands](subdomain/shorthands.html)
   - Entities
   - Associations
   - Enforcing Constraints
