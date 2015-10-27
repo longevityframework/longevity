@@ -44,7 +44,7 @@ object SubdomainSpec {
       username: String,
       firstName: String,
       lastName: String)
-         extends RootEntity
+    extends RootEntity
 
     object User extends RootEntityType[User] {
       natKey("username")
@@ -53,7 +53,7 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-  // duplicated at 
+  // duplicated at https://gist.github.com/sullivan-/b72900a6882b557e6728
   // used in http://sullivan-.github.io/longevity/manual/subdomain/keys.html
   object keys2 {
     import longevity.subdomain._
@@ -68,6 +68,27 @@ object SubdomainSpec {
       natKey("username")
       natKey("firstName", "lastName")
     }
+
+    val subdomain = Subdomain("blogging", EntityTypePool(User))
+  }
+
+  // duplicated at https://gist.github.com/sullivan-/58f8ae308d9ca96dbd63
+  // used in http://sullivan-.github.io/longevity/manual/subdomain/basics.html
+  object basics {
+
+    import longevity.subdomain._
+    import org.joda.time.DateTime
+
+    case class User(
+      username: String,
+      firstName: String,
+      lastName: String,
+      dateJoined: DateTime,
+      numCats: Int,
+      isSuspended: Boolean = false)
+    extends RootEntity
+
+    object User extends RootEntityType[User]
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
@@ -88,7 +109,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   "user manual example code" should "produce correct subdomains" in {
 
-    // emptySubdomain:
     {
       def emptySubdomainShould(subdomain: Subdomain, name: String): Unit = {
         subdomain.name should equal (name)
@@ -103,7 +123,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       emptySubdomainShould(emptySubdomain.genericSubdomain, "searches")
     }
 
-    // roots:
     {
       roots.subdomain.name should equal ("blogging")
       roots.subdomain.entityTypePool.size should equal (1)
@@ -113,7 +132,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       roots.User.natKeys should be ('empty)
     }
 
-    // keys1:
     {
       keys1.subdomain.name should equal ("blogging")
       keys1.subdomain.rootEntityTypePool.size should equal (1)
@@ -126,7 +144,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       prop.typeKey should equal (typeKey[String])
     }
 
-    // keys2:
     {
       keys2.subdomain.name should equal ("blogging")
       keys2.subdomain.rootEntityTypePool.size should equal (1)
@@ -146,6 +163,15 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       val lastNameKeyProp = fullnameKey.props.find(_.path == "lastName").value
       lastNameKeyProp.path should equal ("lastName")
       lastNameKeyProp.typeKey should equal (typeKey[String])
+    }
+
+    {
+      basics.subdomain.name should equal ("blogging")
+      basics.subdomain.entityTypePool.size should equal (1)
+      basics.subdomain.entityTypePool.values.head should equal (basics.User)
+      basics.subdomain.shorthandPool should be ('empty)
+      basics.subdomain.rootEntityTypePool.size should equal (1)
+      basics.User.natKeys should be ('empty)
     }
 
   }
