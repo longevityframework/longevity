@@ -159,17 +159,3 @@ trait Generator {
   }
 
 }
-
-/** holds types and zero values used by the [[Generator generators]] */
-object Generator {
-
-  /** a [[TypeKeyMap]] for [[CustomGenerator generator functions]] */
-  type CustomGeneratorPool = TypeKeyMap[Any, CustomGenerator]
-
-  object CustomGeneratorPool {
-
-    /** an empty map of [[CustomGenerator generator functions]] */
-    val empty: CustomGeneratorPool = TypeKeyMap[Any, CustomGenerator]()
-  }
-
-}
