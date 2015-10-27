@@ -33,9 +33,9 @@ will put in links as I write the chapters.
 - [Building Your Subdomain](subdomain)
   - [Aggregate Roots](subdomain/roots.html)
   - [Natural Keys](subdomain/keys.html)
+  - [Basic Properties](subdomain/basics.html)
   - Shorthands
   - Entities
-  - Basics
   - Collections
   - Associations
   - Enforcing Constraints

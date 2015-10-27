@@ -57,10 +57,10 @@ it.
 
 <br/><br/>
 
-Even if we implement some macros for natural keys, we will probably
-choose to leave in a runtime based implementation as well, for the
-sake of any users that feel a little timid about using macros. If you
-are itching for macro-driven natural keys, please let us know! You can
+Even if we implement a macro for natural keys, we will probably choose
+to leave in a runtime based implementation as well, for the sake of
+any users that feel a little timid about using macros. If you are
+itching for macro-driven natural keys, please let us know! You can
 track the status of the feature on <a href =
 "https://www.pivotaltracker.com/story/show/106521598">the longevity
 story board</a>.
@@ -72,7 +72,7 @@ story board</a>.
 {% assign prevLink = "roots.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle="todo" %}
-{% assign nextLink="todo.html" %}
+{% assign nextTitle="basic properties" %}
+{% assign nextLink="basics.html" %}
 {% include navigate.html %}
 

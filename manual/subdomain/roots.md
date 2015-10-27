@@ -43,12 +43,10 @@ You may find it onerous to have to extend a longevity class in your
 domain. It's not strictly necessary, but it makes the typing work out
 a lot more cleanly. It's not terribly harmful either, as both
 <code>Entity</code> and <code>RootEntity</code> are simply
-empty-bodied marker traits (as you can see from the scaladocs).
+empty-bodied marker traits (as you can see from the <a href="http://sullivan-.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.RootEntity">scaladocs</a>).
 
 {% endcapture %}
 {% include longevity-meta.html content=content %}
-
-TODO: link to scaladocs for RootEntity
 
 {% assign prevTitle = "building your subdomain" %}
 {% assign prevLink = "." %}
