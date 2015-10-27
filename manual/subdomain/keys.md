@@ -5,14 +5,19 @@ layout: page
 
 Part of the longevity philosophy is to encapsulate all persistence
 concerns within a persistence layer that provides a simple, intuitive
-API. One upshot of this is that, within your `LongevityContext`, you
-do not have access to your database primary key. This may seem odd for
-those of us that are used to using the database ID as an identifier
+API. One upshot of this is that, within your application, you do not
+have access to your database primary key. This may seem odd for those
+of us that are used to using the database ID as an identifier
 throughout the application. Our philosophy is that if the entity has a
 natural key _as part of the domain model_, then we should include it
-within our domain model. There is no reason - aside from potential
-performance concerns of negligible merit - why our natural key should
-be the same as our database ID. Because of this, we always keep the
+within our domain model. There is no reason
+why our natural key should
+be the same as our database ID.
+(True, there are potential
+performance concerns here, but at the moment, we are inclined to believe
+they are negligible. We will investigate this more carefully when we have
+the chance. Here's [the ticket](https://www.pivotaltracker.com/story/show/106611128).)
+Because of this, we always keep the
 two concepts separate in longevity.
 
 Thankfully, it is a simple matter to define a natural key in
@@ -47,23 +52,9 @@ will not be detected until runtime. Any such errors will result in an
 exception when the <code>Subdomain</code> is being built. We could
 escalate these kinds of errors to compile time errors using <a href =
 "http://scalamacros.org/">Scala macros</a>. We chose not to do this at
-this time for a number of reasons. First, the current API is "good
-enough", and there are higher priority features to implement. Second,
-it would be really nice if we could hold off on implementing macros until
-<a href = "http://scalameta.org/">scala.meta</a> is ready for use. And
-third, we would like to get a better sense of the usability of the
-current API for natural keys before attempting it to write a macro for
-it.
-
-<br/><br/>
-
-Even if we implement a macro for natural keys, we will probably choose
-to leave in a runtime based implementation as well, for the sake of
-any users that feel a little timid about using macros. If you are
-itching for macro-driven natural keys, please let us know! You can
-track the status of the feature on <a href =
-"https://www.pivotaltracker.com/story/show/106521598">the longevity
-story board</a>.
+this time for a number of reasons, but mainly because, the current API
+is "good enough" for now, and there are higher priority features to
+implement.
 
 {% endcapture %}
 {% include longevity-meta.html content=content %}

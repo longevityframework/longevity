@@ -49,7 +49,7 @@ will put in links as I write the chapters.
     - Optimistic Locking
   - Something about Unpersisted Assocs
   - Testing Your Subdomain
-  - Configuring MongoDB
+- Configuring your LongevityContext
 - Querying MongoDB Outside of Longevity
   - Translation of Aggregates into BSON
   - Translation of Persistent State into BSON

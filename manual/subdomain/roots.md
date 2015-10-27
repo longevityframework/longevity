@@ -29,7 +29,7 @@ TODO: link to chapter on building LongevityContext
 
 Perhaps <code>AggregateRoot</code>, or even just <code>Root</code>,
 would have been a better name than <code>RootEntity</code>. We chose
-to call it a <code>RootEntity</code> to indicate that this was a
+to call it a <code>RootEntity</code> to emphasize that this is a
 specialization of <code>Entity</code>, which we introduce later.
 
 {% endcapture %}
@@ -40,10 +40,12 @@ TODO: link to entity chapter
 {% capture content %}
 
 You may find it onerous to have to extend a longevity class in your
-domain. It's not strictly necessary, but it makes the typing work out
-a lot more cleanly. It's not terribly harmful either, as both
-<code>Entity</code> and <code>RootEntity</code> are simply
-empty-bodied marker traits (as you can see from the <a href="http://sullivan-.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.RootEntity">scaladocs</a>).
+domain. In theory, we could remove this requirement entirely, but it
+makes the typing work out a lot more cleanly. It's not terribly
+harmful either, as both <code>Entity</code> and
+<code>RootEntity</code> are simply empty-bodied marker traits (as you
+can see from the <a
+href="http://sullivan-.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.RootEntity">scaladocs</a>).
 
 {% endcapture %}
 {% include longevity-meta.html content=content %}
