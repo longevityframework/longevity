@@ -3,25 +3,30 @@ title: welcome to longevity
 layout: page
 ---
 
-This project is still in early development. A [minimum marketable
-product
-(MMP)](http://www.romanpichler.com/blog/minimum-viable-product-and-minimal-marketable-product/)
-\- that is, the earliest version suitable for your use - is coming soon! I just hit my 0.1 milestone,
-and 0.2 - the MMP - has three stories in it. I plan to work through those three stories while I'm
-writing the initial user doc. I can't make any promises about timing, but you can always [watch the board](https://www.pivotaltracker.com/n/projects/1231978), and I'll let you know when it's ready.
+Longevity is gearing up for an MMP release!
 
-longevity currently contains three subprojects:
+I've been working on the [user manual](manual), and I think it's
+looking really nice. I want to get an initial version of that out
+before I go to release. I also have one more feature to include -
+[optimistic
+locking](https://www.pivotaltracker.com/story/show/84759552). I figure
+it's an easy win for the effort I'll put in. The critical feature
+after that is [ad-hoc aggregate
+queries](https://www.pivotaltracker.com/story/show/100264584). I have
+a [lot of stuff
+after](https://www.pivotaltracker.com/epic/show/1769462) that that I
+want to get in a 1.0 release, but the criticality of those features
+tapers off, so people will actually be able to start using it real
+soon.
 
-- **emblem** - a metaprogramming library for managing types and reflecting case classes
-- **longevity** - a DDD persistence framework for Scala and MongoDB
-- **musette** - a content resource management system
+TODO elevator pitch goes right here
 
-emblem is a utility library used by longevity, and you can think of
-musette as a flagship project that makes use of longevity.
-
-I've started working on the [User Manual](manual). It's early
-yet. I'll put out an announcement when the user manual is good enough
-for you to get started.
+- [User Manual](manual)
+- [Longevity is Like Hibernate](not-hibernate.html)
+- Feature List TODO
+- Longevity and Emblem TODO
+- Contributing TODO
+- Reporting Problems TODO
 
 [![Build
 Status](https://travis-ci.org/sullivan-/longevity.svg?branch=master)](https://travis-ci.org/sullivan-/longevity.svg)

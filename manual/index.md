@@ -39,6 +39,7 @@ will put in links as I write the chapters.
   - [Shorthands](subdomain/shorthands.html)
   - [Shorthand Pools](subdomain/shorthand-pools.html)
   - [Entities](subdomain/entities.html)
+  - TODO entities and value objects
   - Limitations on Entities and Shorthands
   - Associations
   - Enforcing Constraints
