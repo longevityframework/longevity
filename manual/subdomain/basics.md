@@ -36,7 +36,7 @@ a Scala-friendly wrapper.
 {% assign prevLink = "keys.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle="collections" %}
-{% assign nextLink="collections.html" %}
+{% assign nextTitle = "collections" %}
+{% assign nextLink = "collections.html" %}
 {% include navigate.html %}
 

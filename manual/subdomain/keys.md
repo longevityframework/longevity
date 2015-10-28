@@ -63,7 +63,7 @@ implement.
 {% assign prevLink = "roots.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle="basic properties" %}
-{% assign nextLink="basics.html" %}
+{% assign nextTitle = "basic properties" %}
+{% assign nextLink = "basics.html" %}
 {% include navigate.html %}
 

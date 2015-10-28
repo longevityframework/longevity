@@ -54,7 +54,7 @@ href="http://sullivan-.github.io/longevity/scaladocs/longevity-latest/#longevity
 {% assign prevLink = "kinds.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle="natural keys" %}
-{% assign nextLink="keys.html" %}
+{% assign nextTitle = "natural keys" %}
+{% assign nextLink = "keys.html" %}
 {% include navigate.html %}
 

@@ -22,7 +22,7 @@ them. To get started, here are a few ways to build an empty
 {% assign prevLink = "." %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle="aggregate roots" %}
-{% assign nextLink="roots.html" %}
+{% assign nextTitle = "aggregate roots" %}
+{% assign nextLink = "roots.html" %}
 {% include navigate.html %}
 

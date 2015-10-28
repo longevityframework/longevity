@@ -37,7 +37,8 @@ will put in links as I write the chapters.
   - [Basic Properties](subdomain/basics.html)
   - [Collections](subdomain/collections.html)
   - [Shorthands](subdomain/shorthands.html)
-  - Entities
+  - [Entities](subdomain/entities.html)
+  - Limitations on Entities and Shorthands
   - Associations
   - Enforcing Constraints
 - The Longevity Context

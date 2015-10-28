@@ -25,7 +25,8 @@ Our discussion on building subdomains breaks down as follows:
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
 - [Shorthands](shorthands.html)
-- Entities
+- [Entities](entities.html)
+- Limitations on Entities and Shorthands
 - Associations
 - Enforcing Constraints
 
@@ -33,7 +34,7 @@ Our discussion on building subdomains breaks down as follows:
 {% assign prevLink = "../project-setup.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
-{% assign nextTitle="kinds of subdomains" %}
-{% assign nextLink="kinds.html" %}
+{% assign nextTitle = "kinds of subdomains" %}
+{% assign nextLink = "kinds.html" %}
 {% include navigate.html %}
 
