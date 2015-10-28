@@ -36,16 +36,16 @@ If you want to be explicit about it, you can do it like so:
     val subdomain = Subdomain("blogging", EntityTypePool(User))(shorthandPool)
 
 If you don't supply a `ShorthandPool`, an empty one will be provided
-for you. If you make use of a shorthand that's not in your pool, you
+for you. If you make use of a shorthand that's not in the pool, you
 won't find out until some time after your `Subdomain` is
 constructed. [We plan to remedy
 things](https://www.pivotaltracker.com/story/show/99755864) so that
 these kinds of errors get reported on construction of your `Subdomain`
-or your `RootEntityType`. In the meantime, longevity provides support
-for you to exercise persistence operations on your `Subdomain`, and
+or your `RootEntityType`. In the meantime, longevity provides test
+support to exercise persistence operations on your `Subdomain`, and
 this kind of error will be exposed by these tests.
 
-TODO: link to LongevityRepoSpec on "provides support"
+TODO: link to LongevityRepoSpec on "provides test support"
 
 {% assign prevTitle = "shorthands" %}
 {% assign prevLink = "shorthands.html" %}

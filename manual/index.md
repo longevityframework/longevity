@@ -37,6 +37,7 @@ will put in links as I write the chapters.
   - [Basic Properties](subdomain/basics.html)
   - [Collections](subdomain/collections.html)
   - [Shorthands](subdomain/shorthands.html)
+  - [Shorthand Pools](subdomain/shorthand-pools.html)
   - [Entities](subdomain/entities.html)
   - Limitations on Entities and Shorthands
   - Associations

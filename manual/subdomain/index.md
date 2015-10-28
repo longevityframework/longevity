@@ -25,6 +25,7 @@ Our discussion on building subdomains breaks down as follows:
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
 - [Shorthands](shorthands.html)
+- [Shorthand Pools](shorthand-pools.html)
 - [Entities](entities.html)
 - Limitations on Entities and Shorthands
 - Associations
