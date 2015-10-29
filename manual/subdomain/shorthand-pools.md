@@ -24,16 +24,11 @@ Shorthand pools are needed to construct your `RootEntityTypes`, as
 well as your `Subdomains`. We normally provide the pool implicitly,
 like so:
 
-    implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
-    object User extends RootEntityType[User]
-    val subdomain = Subdomain("blogging", EntityTypePool(User))
+{% gist sullivan-/5bd434d757dc64b6caac %}
 
 If you want to be explicit about it, you can do it like so:
 
-    import emblem.imports._
-    val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
-    object User extends RootEntityType()(typeKey[User], shorthandPool)
-    val subdomain = Subdomain("blogging", EntityTypePool(User))(shorthandPool)
+{% gist sullivan-/76f4dbb5f99af7eaf090 %}
 
 If you don't supply a `ShorthandPool`, an empty one will be provided
 for you. If you make use of a shorthand that's not in the pool, you
