@@ -30,7 +30,6 @@ Our discussion on building subdomains breaks down as follows:
 - [Entities and Value Objects](value-objects.html)
 - [Limitations on Entities and Shorthands](limitations.html)
 - Associations
-- Enforcing Constraints
 - Where Not to Construct Your Subdomain
 
 {% assign prevTitle = "project setup" %}

@@ -42,7 +42,7 @@ will put in links as I write the chapters.
   - [Entities and Value Objects](subdomain/value-objects.html)
   - [Limitations on Entities and Shorthands](subdomain/limitations.html)
   - Associations
-  - Enforcing Constraints
+  - Where Not to Construct Your Subdomain
 - The Longevity Context
   - Using Your Repositories
     - Persistent State with `map` and `get`
@@ -52,6 +52,7 @@ will put in links as I write the chapters.
     - Optimistic Locking
   - Something about Unpersisted Assocs
   - Testing Your Subdomain
+  - Enforcing Constraints
 - Configuring your LongevityContext
 - Querying MongoDB Outside of Longevity
   - Translation of Aggregates into BSON
