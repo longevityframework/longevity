@@ -137,6 +137,149 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
+  // used in http://sullivan-.github.io/longevity/manual/subdomain/shorthands.html
+  object shorthandPools {
+    import longevity.subdomain._
+
+    object e1 {
+      val pool = ShorthandPool()
+    }
+
+    object e2 {
+      val pool = ShorthandPool.empty
+    }
+
+    object e3 {
+      val pool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+    }
+
+    case class User() extends RootEntity
+    case class Email(email: String)
+    case class Markdown(markdown: String)
+    case class Uri(uri: String)
+    val emailShorthand = Shorthand[Email, String]
+    val markdownShorthand = Shorthand[Markdown, String]
+    val uriShorthand = Shorthand[Uri, String]
+
+    // duplicated at https://gist.github.com/sullivan-/5bd434d757dc64b6caac
+    object e4 {
+      implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+      object User extends RootEntityType[User]
+      val subdomain = Subdomain("blogging", EntityTypePool(User))
+    }
+
+    // duplicated at https://gist.github.com/sullivan-/76f4dbb5f99af7eaf090
+    object e5 {
+      import emblem.imports._
+      val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+      object User extends RootEntityType()(typeKey[User], shorthandPool)
+      val subdomain = Subdomain("blogging", EntityTypePool(User))(shorthandPool)
+    }
+
+  }
+
+  // TODO: tests for all below:
+
+  // duplicated at https://gist.github.com/sullivan-/62a216ece7a16bec63c9
+  // duplicated at https://gist.github.com/sullivan-/ca7bb9e6911ff93b4743
+  // duplicated at https://gist.github.com/sullivan-/5b350f2f51ee61efcf8e
+  // used in http://sullivan-.github.io/longevity/manual/subdomain/entities.html
+  object entities {
+    import longevity.subdomain._
+
+    case class Email(email: String)
+    case class Markdown(markdown: String)
+    case class Uri(uri: String)
+    val emailShorthand = Shorthand[Email, String]
+    val markdownShorthand = Shorthand[Markdown, String]
+    val uriShorthand = Shorthand[Uri, String]
+    implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+
+    case class UserProfile(
+      tagline: String,
+      imageUri: Uri,
+      description: Markdown)
+    extends Entity
+
+    object UserProfile extends EntityType[UserProfile]
+
+    case class User(
+      username: String,
+      email: Email,
+      profile: Option[UserProfile])
+    extends RootEntity
+
+    object User extends RootEntityType[User]
+
+    val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
+  }
+
+  // duplicated at https://gist.github.com/sullivan-/95ad8f72bcb4050ccfc3
+  // used in http://sullivan-.github.io/longevity/manual/subdomain/value-objects.html
+  object valueObjects1 {
+    import longevity.subdomain._
+
+    case class Email(email: String)
+    case class StateCode(stateCode: String)
+    case class ZipCode(zipCode: String)
+    val emailShorthand = Shorthand[Email, String]
+    val stateCodeShorthand = Shorthand[StateCode, String]
+    val zipCodeShorthand = Shorthand[ZipCode, String]
+    implicit val shorthandPool = ShorthandPool(emailShorthand, stateCodeShorthand, zipCodeShorthand)
+
+    case class Address(
+      street: String,
+      city: String,
+      state: StateCode,
+      zip: ZipCode)
+    extends ValueObject
+
+    object Address extends ValueType[Address]
+
+    case class User(
+      username: String,
+      email: Email,
+      address: Address)
+    extends RootEntity
+
+    object User extends RootEntityType[User]
+
+    val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
+  }
+
+  // duplicated at https://gist.github.com/sullivan-/f882ca0f2e4ca103d792
+  // used in http://sullivan-.github.io/longevity/manual/subdomain/value-objects.html
+  object valueObjects2 {
+    import longevity.subdomain._
+
+    case class Email(email: String)
+    case class StateCode(stateCode: String)
+    case class ZipCode(zipCode: String)
+    val emailShorthand = Shorthand[Email, String]
+    val stateCodeShorthand = Shorthand[StateCode, String]
+    val zipCodeShorthand = Shorthand[ZipCode, String]
+    implicit val shorthandPool = ShorthandPool(emailShorthand, stateCodeShorthand, zipCodeShorthand)
+
+    case class Address(
+      street: String,
+      city: String,
+      state: StateCode,
+      zip: ZipCode)
+    extends Entity
+
+    object Address extends EntityType[Address]
+
+    case class User(
+      username: String,
+      email: Email,
+      address: Address)
+    extends RootEntity
+
+    object User extends RootEntityType[User]
+
+    val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
+  }
+
 }
 
 /** exercises code samples found in the subdomain section of the user manual. the samples themselves are
@@ -173,13 +316,16 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       roots.subdomain.entityTypePool.values.head should equal (roots.User)
       roots.subdomain.shorthandPool should be ('empty)
       roots.subdomain.rootEntityTypePool.size should equal (1)
+      roots.subdomain.rootEntityTypePool.values.head should equal (roots.User)
       roots.User.natKeys should be ('empty)
     }
 
     {
       keys1.subdomain.name should equal ("blogging")
-      keys1.subdomain.rootEntityTypePool.size should equal (1)
+      keys1.subdomain.entityTypePool.size should equal (1)
       keys1.subdomain.entityTypePool.values.head should equal (keys1.User)
+      keys1.subdomain.rootEntityTypePool.size should equal (1)
+      keys1.subdomain.rootEntityTypePool.values.head should equal (keys1.User)
       keys1.User.natKeys.size should equal (1)
       keys1.User.natKeys.head should equal (keys1.User.usernameKey)
       keys1.User.usernameKey.props.size should equal (1)
@@ -190,8 +336,10 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     {
       keys2.subdomain.name should equal ("blogging")
-      keys2.subdomain.rootEntityTypePool.size should equal (1)
+      keys2.subdomain.entityTypePool.size should equal (1)
       keys2.subdomain.entityTypePool.values.head should equal (keys2.User)
+      keys2.subdomain.rootEntityTypePool.size should equal (1)
+      keys2.subdomain.rootEntityTypePool.values.head should equal (keys2.User)
       keys2.User.natKeys.size should equal (2)
       keys2.User.natKeys.find(_.props.size == 1).value should equal (keys2.User.usernameKey)
       keys2.User.usernameKey.props.size should equal (1)
@@ -213,8 +361,9 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       basics.subdomain.name should equal ("blogging")
       basics.subdomain.entityTypePool.size should equal (1)
       basics.subdomain.entityTypePool.values.head should equal (basics.User)
-      basics.subdomain.shorthandPool should be ('empty)
       basics.subdomain.rootEntityTypePool.size should equal (1)
+      basics.subdomain.rootEntityTypePool.values.head should equal (basics.User)
+      basics.subdomain.shorthandPool should be ('empty)
       basics.User.natKeys should be ('empty)
     }
 
@@ -224,6 +373,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       collections.subdomain.entityTypePool.values.head should equal (collections.User)
       collections.subdomain.shorthandPool should be ('empty)
       collections.subdomain.rootEntityTypePool.size should equal (1)
+      collections.subdomain.rootEntityTypePool.values.head should equal (collections.User)
       collections.User.natKeys should be ('empty)
     }
 
@@ -234,7 +384,50 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands.subdomain.shorthandPool.size should equal (1)
       shorthands.subdomain.shorthandPool.values.head should equal (shorthands.emailShorthand)
       shorthands.subdomain.rootEntityTypePool.size should equal (1)
+      shorthands.subdomain.rootEntityTypePool.values.head should equal (shorthands.User)
       shorthands.User.natKeys should be ('empty)
+    }
+
+    {
+      entities.subdomain.name should equal ("blogging")
+      entities.subdomain.entityTypePool.size should equal (2)
+      entities.subdomain.entityTypePool.values should contain (entities.User)
+      entities.subdomain.entityTypePool.values should contain (entities.UserProfile)
+      entities.subdomain.shorthandPool.size should equal (3)
+      entities.subdomain.shorthandPool.values should contain (entities.emailShorthand)
+      entities.subdomain.shorthandPool.values should contain (entities.markdownShorthand)
+      entities.subdomain.shorthandPool.values should contain (entities.uriShorthand)
+      entities.subdomain.rootEntityTypePool.size should equal (1)
+      entities.subdomain.rootEntityTypePool.values.head should equal (entities.User)
+      entities.User.natKeys should be ('empty)
+    }
+
+    {
+      valueObjects1.subdomain.name should equal ("blogging")
+      valueObjects1.subdomain.entityTypePool.size should equal (2)
+      valueObjects1.subdomain.entityTypePool.values should contain (valueObjects1.User)
+      valueObjects1.subdomain.entityTypePool.values should contain (valueObjects1.Address)
+      valueObjects1.subdomain.shorthandPool.size should equal (3)
+      valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.emailShorthand)
+      valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.stateCodeShorthand)
+      valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.zipCodeShorthand)
+      valueObjects1.subdomain.rootEntityTypePool.size should equal (1)
+      valueObjects1.subdomain.rootEntityTypePool.values.head should equal (valueObjects1.User)
+      valueObjects1.User.natKeys should be ('empty)
+    }
+
+    {
+      valueObjects2.subdomain.name should equal ("blogging")
+      valueObjects2.subdomain.entityTypePool.size should equal (2)
+      valueObjects2.subdomain.entityTypePool.values should contain (valueObjects2.User)
+      valueObjects2.subdomain.entityTypePool.values should contain (valueObjects2.Address)
+      valueObjects2.subdomain.shorthandPool.size should equal (3)
+      valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.emailShorthand)
+      valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.stateCodeShorthand)
+      valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.zipCodeShorthand)
+      valueObjects2.subdomain.rootEntityTypePool.size should equal (1)
+      valueObjects2.subdomain.rootEntityTypePool.values.head should equal (valueObjects2.User)
+      valueObjects2.User.natKeys should be ('empty)
     }
 
   }

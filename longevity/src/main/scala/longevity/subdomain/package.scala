@@ -47,4 +47,10 @@ package object subdomain {
   /** a generic subdomain. functionally equivalent to a [[Subdomain]] */
   type GenericSubdomain = Subdomain
 
+  /** a value object. functionally equivalent to an [[Entity]] */
+  type ValueObject = Entity
+
+  /** a value type. functionally equivalent to an [[EntityType]] */
+  type ValueType[A <: ValueObject] = EntityType[A]
+
 }
