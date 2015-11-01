@@ -32,10 +32,13 @@ Than this:
     }
 
 Longevity will serialize your user to the simpler BSON format if you
-use _shorthands_. Collect all your shorthands into a `ShorthandPool`,
-and make the shorthand pool implicitly available to your
-`RootEntityTypes`, as they will need to know about them. Here's an
-example:
+use _shorthands_. A shorthand provides translations between your
+domain type and an abbreviated type (`Email` and `String`, in this
+example). The abbreviated type should be a [basic type](basics.html).
+
+Collect all your shorthands into a `ShorthandPool`, and make the
+shorthand pool implicitly available to your `RootEntityTypes`, as they
+will need to know about them. Here's an example:
 
 {% gist sullivan-/d1a59a70bbfbcc1e0f78 %}
 

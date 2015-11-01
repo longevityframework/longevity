@@ -41,7 +41,7 @@ will put in links as I write the chapters.
   - [Entities](subdomain/entities.html)
   - [Entities and Value Objects](subdomain/value-objects.html)
   - [Limitations on Entities and Shorthands](subdomain/limitations.html)
-  - Associations
+  - [Associations](subdomain/associations.html)
   - Where Not to Construct Your Subdomain
 - The Longevity Context
   - Using Your Repositories
