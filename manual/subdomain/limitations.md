@@ -13,19 +13,21 @@ classes you can use for your [entites](entities.html) and
 - The primary constructor for a shorthand must have a single parameter
   of a [basic type](basics.html)
 
-We plan to relax these limitations in the future. If you find these
-limitations to be too cumbersome for you, please let us know! Just
-keep in mind that, whatever possibilities we allow for, longevity must
-be able to perform the following operations:
+We would like to relax these limitations in the future. If you find
+these limitations to be too cumbersome for you, please let us know
+what you are trying to do, and we will see what we can to do help.
+Just keep in mind that, whatever possibilities we allow for, longevity
+has the following requirements:
 
-- Retrieve a property value from an entity instance
-- Retrieve an abbreviated value from a shorthand instance
-- Construct a new entity instance from a complete set of property values
-- Construct a new shorthand instance from an abbreviated value.
+- The set of properties that an entity contains must be clearly defined
+- We must be able to retrieve a property value from an entity instance
+- We must be able to construct a new entity instance from a complete set of property values
+- We must be able to retrieve an abbreviated value from a shorthand instance
+- We must be able to construct a new shorthand instance from an abbreviated value.
 
 Case classes are quite convenient things for fulfilling the
-requirements we have. They also seem quite natural for modeling out a
-domain. We chose to start with them for these reasons.
+requirements we have. They also seem a natural choice for modeling out
+a domain. We chose to start with them for these reasons.
 
 TODO: link to discussions page for "please let us know" remarks
 throughout the user man
