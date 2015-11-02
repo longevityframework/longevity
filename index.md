@@ -25,8 +25,8 @@ TODO elevator pitch goes right here
 - [Longevity is Like Hibernate](like-hibernate.html)
 - Feature List TODO
 - Longevity and Emblem TODO
+- [Questions, Comments, Problems, and Discussions](discussions.html)
 - Contributing TODO
-- Reporting Problems TODO
 
 [![Build
 Status](https://travis-ci.org/sullivan-/longevity.svg?branch=master)](https://travis-ci.org/sullivan-/longevity.svg)
