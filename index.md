@@ -27,6 +27,7 @@ TODO elevator pitch goes right here
 - Longevity and Emblem TODO
 - [Questions, Comments, Problems, and Discussions](discussions.html)
 - Contributing TODO
+- License TODO
 
 [![Build
 Status](https://travis-ci.org/sullivan-/longevity.svg?branch=master)](https://travis-ci.org/sullivan-/longevity.svg)
