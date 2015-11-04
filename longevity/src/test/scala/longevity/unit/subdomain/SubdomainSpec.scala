@@ -280,6 +280,54 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
   }
 
+  // duplicated at https://gist.github.com/sullivan-/36cbd3871282cda7fe40
+  // used in http://sullivan-.github.io/longevity/manual/subdomain/associations.html
+  object associations1 {
+    import longevity.subdomain._
+
+    case class User(username: String) extends RootEntity
+    
+    object User extends RootEntityType[User]
+
+    case class Blog(uri: String, authors: Set[Assoc[User]])
+    extends RootEntity
+
+    object Blog extends RootEntityType[Blog]
+
+    case class BlogPost(uri: String, blog: Assoc[Blog], authors: Set[Assoc[Blog]])
+    extends RootEntity
+
+    object BlogPost extends RootEntityType[BlogPost]
+
+    val subdomain = Subdomain("blogging", EntityTypePool(User, Blog, BlogPost))
+  }
+
+  // duplicated at https://gist.github.com/sullivan-/2c6d949bed353aac39ca
+  // used in http://sullivan-.github.io/longevity/manual/subdomain/associations.html
+  object associations2 {
+    import longevity.subdomain._
+
+    case class User(username: String) extends RootEntity
+
+    object User extends RootEntityType[User]
+
+    case class UserProfile(
+      user: Assoc[User],
+      tagline: String,
+      imageUri: String,
+      description: String)
+    extends Entity
+
+    object UserProfile extends EntityType[UserProfile]
+
+    case class Blog(uri: String, authors: Set[UserProfile])
+    extends RootEntity
+
+    object Blog extends RootEntityType[Blog]
+
+    val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile, Blog))
+  }
+
 }
 
 /** exercises code samples found in the subdomain section of the user manual. the samples themselves are
