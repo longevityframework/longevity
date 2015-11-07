@@ -23,7 +23,7 @@ TODO elevator pitch goes right here
 
 - [User Manual](manual)
 - [Longevity is Like Hibernate](like-hibernate.html)
-- Feature List TODO
+- [Feature List](feature-list.html)
 - Longevity and Emblem TODO
 - [Questions, Comments, Problems, and Discussions](discussions.html)
 - [Contributing](contributing.html)
