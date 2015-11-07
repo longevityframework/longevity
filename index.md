@@ -26,7 +26,7 @@ TODO elevator pitch goes right here
 - Feature List TODO
 - Longevity and Emblem TODO
 - [Questions, Comments, Problems, and Discussions](discussions.html)
-- Contributing TODO
+- [Contributing](contributing.html)
 - License TODO
 
 [![Build
