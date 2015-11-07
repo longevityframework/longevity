@@ -36,7 +36,7 @@ I use the term "we" in this document - after all, it is really just me
 - not out of pretension or arrogance, but in the humble hope that
 someday I will not be the only contributor to this project.
 {% endcapture %}
-{% include longevity-meta.html title="not the royal we" content=content%}
+{% include longevity-meta.html content=content%}
 
 {% assign prevTitle = "user manual" %}
 {% assign prevLink = "./" %}

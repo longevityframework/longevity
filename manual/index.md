@@ -9,16 +9,6 @@ once, and then come back to it as a reference. If you are new to
 Domain Driven Design, or feel that you might need a refresher, please
 don't overlook the chapters on [the basics of DDD](./ddd-basics/).
 
-{% capture content %}
-
-From time to time in this manual, we introduce "longevity meta" notes
-like this one, where we discuss the reasoning behind some of the
-choices we made, rather than how to use longevity. We hope these notes
-will help you to better understand why longevity is the way it is.
-
-{% endcapture %}
-{% include longevity-meta.html content=content %}
-
 ## Table of Contents
 
 This is a rough outline of planned chapters, and subject to change. I
