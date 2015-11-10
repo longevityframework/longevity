@@ -4,7 +4,7 @@ Status](https://travis-ci.org/sullivan-/longevity.svg?branch=master)](https://tr
 
 #longevity
 
-A Domain Driven Design persistence framework for Scala and MongoDB.
+A Domain Driven Design persistence framework for Scala and NoSQL.
 
 This project is still in early development. A [minimum marketable
 product
@@ -16,7 +16,7 @@ writing the initial user doc. I can't make any promises about timing, but you ca
 longevity currently contains three subprojects:
 
 - **emblem** - a metaprogramming library for managing types and reflecting case classes
-- **longevity** - a DDD persistence framework for Scala and MongoDB
+- **longevity** - a DDD persistence framework for Scala and NoSQL
 - **musette** - a content resource management system
 
 emblem is a utility library used by longevity, and you can think of
