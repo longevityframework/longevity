@@ -6,8 +6,9 @@ layout: page
 Longevity is a [Scala](http://www.scala-lang.org/) framework designed
 to assist you to do [Domain Driven Design](http://dddcommunity.org/)
 well. Its main focus is on the persistence layer, targetting NoSQL
-document databases. For the moment,
-[MongoDB](https://www.mongodb.org/) is the only database supported.
+document databases. We currently support
+[MongoDB](https://www.mongodb.org/) and
+[Cassandra](http://cassandra.apache.org/).
 
 One of the core goals of longevity is to encapsulate persistence
 concerns within the persistence layer, so details such as database IDs
