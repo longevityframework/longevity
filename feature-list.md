@@ -32,3 +32,4 @@ MMP](https://www.pivotaltracker.com/epic/show/1769462):
 - soft deletes
 - schema generation
 - logging
+- JSON serialization for Cassandra

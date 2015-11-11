@@ -16,13 +16,15 @@ suite of integration tests to exercise your repositories against a
 real database, as well as in-memory repositories for other tests.
 
 - [Feature List](feature-list.html)
+- [Quick Start Guide](quick-start.html)
 - [User Manual](manual)
-- [Quick Start](quick-start.html)
-- [Longevity is Like Hibernate](like-hibernate.html)
-- Longevity and Emblem TODO
+
 - [Questions, Comments, Problems, and Discussions](discussions.html)
 - [Contributing](contributing.html)
 - [License](license.html)
+
+- [Longevity is Like Hibernate](like-hibernate.html)
+- Longevity and Emblem TODO
 - [What's Happening](whats-happening.html)
 
 [![Build

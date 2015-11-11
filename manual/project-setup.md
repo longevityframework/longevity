@@ -17,12 +17,7 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 
     resolvers += Resolver.sonatypeRepo("releases")
 
-    libraryDependencies += "net.jsmscs" %% "longevity" % "0.1.3"
-
-NOTE: some of the code samples in the doc do not currently work in the
-latest release. I will remedy that before the doc is complete. If you
-want to follow along, I recommend you check out the latest from master
-and build yourself.
+    libraryDependencies += "net.jsmscs" %% "longevity" % "0.2.0"
 
 ## Building the Artifacts Yourself
 
