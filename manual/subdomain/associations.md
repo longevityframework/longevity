@@ -46,6 +46,6 @@ association.
 {% assign prevLink = "limitations.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "where not to construct your subdomain" %}
-{% assign nextLink = "todo.html" %}
+{% assign nextTitle = "using associations" %}
+{% assign nextLink = "using-associations.html" %}
 {% include navigate.html %}

@@ -15,7 +15,7 @@ This is a rough outline of planned chapters, and subject to change. I
 will put in links as I write the chapters.
 
 - [What Is Longevity?](what-is-longevity.html)
-- [The Basics of Domain Driven Design](ddd-basics/)
+- [The Basics of Domain Driven Design](ddd-basics)
   - [Ubiquitous Language](ddd-basics/ubiquitous-language.html)
   - [Subdomains and Bounded Contexts](ddd-basics/subdomains-and-bounded-contexts.html)
   - [Aggregates and Entities](ddd-basics/aggregates-and-entities.html)
@@ -32,8 +32,9 @@ will put in links as I write the chapters.
   - [Entities and Value Objects](subdomain/value-objects.html)
   - [Limitations on Entities and Shorthands](subdomain/limitations.html)
   - [Associations](subdomain/associations.html)
-  - Where Not to Construct Your Subdomain
-- The Longevity Context
+  - [Using Associations](subdomain/using-associations.html) TODO
+  - [Where Not to Construct Your Subdomain](subdomain/where-not.html) TODO
+- [The Longevity Context](context) TODO
   - Using Your Repositories
     - Persistent State with `map` and `get`
     - CRUD Operations
@@ -43,7 +44,7 @@ will put in links as I write the chapters.
   - Something about Unpersisted Assocs
   - Testing Your Subdomain
   - Enforcing Constraints
-- Configuring your LongevityContext
+  - Configuring your LongevityContext
 - Querying MongoDB Outside of Longevity
   - Translation of Aggregates into BSON
   - Translation of Persistent State into BSON
