@@ -20,3 +20,24 @@ p.longevity-meta-header
     padding-bottom: 0px;
     margin-bottom: 0px;
 }
+
+div.tagline
+{
+    text-align: center;
+    font-style: italic;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/* http://stackoverflow.com/a/20809090/2186890 */
+a.nostyle:link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+a.nostyle:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}

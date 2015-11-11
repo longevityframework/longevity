@@ -3,31 +3,27 @@ title: welcome to longevity
 layout: page
 ---
 
-Longevity is gearing up for an MMP release!
+<div class = "tagline">You do your domain, we do your persistence.</div>
 
-I've been working on the [user manual](manual), and I think it's
-looking really nice. I want to get an initial version of that out
-before I go to release. I also have one more feature to include -
-[optimistic
-locking](https://www.pivotaltracker.com/story/show/84759552). I figure
-it's an easy win for the effort I'll put in. The critical feature
-after that is [ad-hoc aggregate
-queries](https://www.pivotaltracker.com/story/show/100264584). I have
-a [lot of stuff
-after](https://www.pivotaltracker.com/epic/show/1769462) that that I
-want to get in a 1.0 release, but the criticality of those features
-tapers off, so people will actually be able to start using it real
-soon.
+Model your domain in the language and style of Domain Driven
+Design. Implement it using Scala case classes and companion
+objects. Pass us your subdomain, and we provide the
+persistence. Persistence concerns, operations and data are abstracted
+behind an elegant persistence API. We provide you with fully featured
+[sic] repositories for [MongoDB](https://www.mongodb.org/) and
+[Cassandra](http://cassandra.apache.org/) back ends. We provide a
+suite of integration tests to exercise your repositories against a
+real database, as well as in-memory repositories for other tests.
 
-TODO elevator pitch goes right here
-
-- [User Manual](manual)
-- [Longevity is Like Hibernate](like-hibernate.html)
 - [Feature List](feature-list.html)
+- [User Manual](manual)
+- [Quick Start](quick-start.html)
+- [Longevity is Like Hibernate](like-hibernate.html)
 - Longevity and Emblem TODO
 - [Questions, Comments, Problems, and Discussions](discussions.html)
 - [Contributing](contributing.html)
 - [License](license.html)
+- [What's Happening](whats-happening.html)
 
 [![Build
 Status](https://travis-ci.org/sullivan-/longevity.svg?branch=master)](https://travis-ci.org/sullivan-/longevity.svg)

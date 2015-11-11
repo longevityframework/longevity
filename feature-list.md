@@ -17,8 +17,8 @@ manual](manual). They include:
 - integration tests that will cover the full API of your repositories
   against a real database
 - fully featured in-memory repositories for use in other integration testing
-- clean, elegant, and transparent translation of your aggregates into
-  BSON documents
+- inspecting the database is easy, due to the intuitive mapping
+  between your domain and your NoSQL data.
 
 ## Features planned for 1.0 release
 
