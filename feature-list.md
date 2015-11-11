@@ -12,7 +12,7 @@ manual](manual). They include:
 - allows you to design your aggregate and entity classes so they are
   easy to use, and reflect your design
 - encapsulates persistence concerns within the persistence layer
-- full support for Mongo and in-memory back ends
+- support for Cassandra, Mongo, and in-memory back ends
 - repositories with simple, reactive APIs for all your aggregates
 - integration tests that will cover the full API of your repositories
   against a real database
