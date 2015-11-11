@@ -3,6 +3,8 @@ title: shorthands
 layout: page
 ---
 
+// TODO: mention implicit conversion thingy
+
 Sometimes, using raw [basic types](basics.html) such as `String` is
 unsatisfactory. We'd like a little more specificity in our types, to
 help our code self-document, and so that we don't, say, overwrite a
