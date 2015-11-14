@@ -58,8 +58,13 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     private val entityName = repo.entityType.emblem.name
     private val representativeNatKeyOption = repo.entityType.natKeys.headOption
 
+    object Create extends Tag("Create")
+    object Retrieve extends Tag("Retrieve")
+    object Update extends Tag("Update")
+    object Delete extends Tag("Delete")
+
     feature(s"${entityName}Repo.create") {
-      scenario(s"should produce a persisted $entityName") {
+      scenario(s"should produce a persisted $entityName", Create) {
 
         representativeNatKeyOption should be ('nonEmpty)
 
@@ -76,7 +81,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         // i cant figure out if this and clause is a sensible part of this test or not. opinions?
         And(s"further retrieval operations should retrieve the same $entityName")
         representativeNatKeyOption.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(entity)
+          val natKeyVal = natKey.natKeyVal(created.get)
           val retrieved: Persisted[E] = repo.retrieve(natKey)(natKeyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, entity)
         }
@@ -85,7 +90,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     }
 
     feature(s"${entityName}Repo.retrieve") {
-      scenario(s"should produce the same persisted $entityName") {
+      scenario(s"should produce the same persisted $entityName", Retrieve) {
 
         Given(s"a persisted $entityName")
         val entity: E = testDataGenerator.generate[E]
@@ -102,7 +107,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     }
 
     feature(s"${entityName}Repo.update") {
-      scenario(s"should produce an updated persisted $entityName") {
+      scenario(s"should produce an updated persisted $entityName", Update) {
 
         Given(s"a persisted $entityName")
         val originalEntity: E = testDataGenerator.generate[E]
@@ -118,14 +123,14 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
 
         And(s"further retrieval operations should retrieve the updated copy")
         representativeNatKeyOption.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(modifiedEntity)
+          val natKeyVal = natKey.natKeyVal(updated.get)
           val retrieved: Persisted[E] = repo.retrieve(natKey)(natKeyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, modifiedEntity)
         }
 
         And(s"further retrieval operations based on the original version should retrieve nothing")
         representativeNatKeyOption.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(originalEntity)
+          val natKeyVal = natKey.natKeyVal(created.get)
           repo.retrieve(natKey)(natKeyVal).futureValue should be (None)
         }
 
@@ -133,7 +138,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     }
 
     feature(s"${entityName}Repo.delete") {
-      scenario(s"should delete a persisted $entityName") {
+      scenario(s"should delete a persisted $entityName", Delete) {
         Given(s"a persisted $entityName")
         val entity: E = testDataGenerator.generate[E]
         val created: Persisted[E] = repo.create(entity).futureValue
@@ -146,7 +151,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
 
         And(s"we should no longer be able to retrieve the $entityName")
         representativeNatKeyOption.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(entity)
+          val natKeyVal = natKey.natKeyVal(created.get)
           val retrieved: Option[Persisted[E]] = repo.retrieve(natKey)(natKeyVal).futureValue
           retrieved.isEmpty should be (true)
         }

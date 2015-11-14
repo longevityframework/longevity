@@ -68,13 +68,15 @@ case class NatKey[E <: RootEntity] private [subdomain] (
     private var propVals = Map[NatKeyProp[E], Any]()
 
     /** sets the property to the value */
-    def setProp[A : TypeKey](propPath: String, propVal: A): Unit = setProp(propPathToProp(propPath), propVal)
+    def setProp[A : TypeKey](propPath: String, propVal: A): ValBuilder =
+      setProp(propPathToProp(propPath), propVal)
 
     /** sets the property to the value */
-    def setProp[A : TypeKey](prop: NatKeyProp[E], propVal: A): Unit = {
+    def setProp[A : TypeKey](prop: NatKeyProp[E], propVal: A): ValBuilder = {
       if (!props.contains(prop)) throw new NatKeyDoesNotContainPropException(NatKey.this, prop)
       if (! (typeKey[A] <:< prop.typeKey)) throw new NatKeyPropValTypeMismatchException(prop, propVal)
       propVals += prop -> propVal
+      this
     }
 
     private[NatKey] def setPropRaw(prop: NatKeyProp[E], propVal: Any): Unit = {

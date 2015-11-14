@@ -1,0 +1,5 @@
+package longevity.integration.subdomain.natKeyWithMultipleProperties
+
+import org.scalatest.Suites
+
+class InMemNatKeyWithMultiplePropertiesSpec extends Suites(context.mongoContext.inMemRepoPoolSpec)

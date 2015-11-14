@@ -1,6 +1,0 @@
-package longevity.integration.withComponentWithShorthands
-
-
-import org.scalatest.Suites
-
-class InMemWithComponentWithShorthandsSpec extends Suites(context.longevityContext.inMemRepoPoolSpec)

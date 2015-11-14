@@ -5,6 +5,7 @@ import com.typesafe.config.Config
 import emblem.imports._
 import emblem.TypeBoundPair
 import longevity.context._
+import longevity.persistence.mongo.MongoRepo
 import longevity.subdomain._
 
 /** manages entity persistence operations */
@@ -20,14 +21,7 @@ package object persistence {
   : RepoPool =
     persistenceStrategy match {
       case InMem => inMemRepoPool(subdomain)
-      case Mongo =>
-        val mongoClient = MongoClient(config.getString("mongodb.uri"))
-        val mongoDb = mongoClient.getDB(config.getString("mongodb.db"))
-
-        import com.mongodb.casbah.commons.conversions.scala._
-        RegisterJodaTimeConversionHelpers()
-
-        mongoRepoPool(subdomain, mongoDb)
+      case Mongo => mongoRepoPool(subdomain, mongoDb(config))
     }
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
@@ -36,6 +30,16 @@ package object persistence {
         new InMemRepo(entityType, subdomain)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
+  }
+
+  private def mongoDb(config: Config): MongoDB = {
+    val mongoClient = MongoClient(config.getString("mongodb.uri"))
+    val mongoDb = mongoClient.getDB(config.getString("mongodb.db"))
+
+    import com.mongodb.casbah.commons.conversions.scala._
+    RegisterJodaTimeConversionHelpers()
+
+    mongoDb
   }
 
   private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {

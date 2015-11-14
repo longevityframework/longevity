@@ -53,7 +53,7 @@ case class TypeKey[A](val tag: TypeTag[A]) {
   def =:=(that: TypeKey[_]) = this.tpe =:= that.tpe
 
   /** the full type name for the type represented by this key */
-  def fullname(tpe: Type) = typeFullname(tpe)
+  def fullname = typeFullname(tpe)
 
   /** the simple type name for the type represented by this key */
   def name = typeName(tpe)

@@ -21,7 +21,7 @@ extends Repo[E](entityType, subdomain) {
   private case class IntId(i: Int) extends PersistedAssoc[E] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
-    def retrieve = repo.retrieve(this).map(_.get.get)
+    def retrieve = repo.retrieve(this).map(_.get)
   }
 
   private var nextId = 0

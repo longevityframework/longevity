@@ -56,10 +56,11 @@ trait BuildSettings {
 
     // dependencies
     resolvers += Resolver.typesafeRepo("releases"),
-    libraryDependencies += ("org.scala-lang" % "scala-reflect" % scalaVersion.value),
-    libraryDependencies += ("org.scala-lang.modules" %% "scala-async" % "0.9.2"),
-    libraryDependencies += ("com.github.nscala-time" %% "nscala-time" % "1.0.0"),
-    libraryDependencies += ("org.scalatest" %% "scalatest" % "2.2.1" % "test"),
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+    libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.2",
+    libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "1.0.0",
+    // TODO update to scalatest 2.2.4
+    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % Test,
 
     // publish
     publishMavenStyle := true,
@@ -113,8 +114,12 @@ object LongevityBuild extends Build with BuildSettings {
     base = file("longevity"),
     settings = buildSettings ++ Seq(
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
-      libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % Optional,
+
+      // for mongo:
+      libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0" % Optional,
+      libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0" % Test,
+
       homepage := Some(url("http://sullivan-.github.io/longevity/")),
       pomExtra := (
         <scm>
@@ -135,7 +140,9 @@ object LongevityBuild extends Build with BuildSettings {
   lazy val musette = Project(
     id = "musette",
     base = file("musette"),
-    settings = buildSettings
+    settings = buildSettings ++ Seq(
+      libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0"
+    )
   ) dependsOn (emblem, longevity)
   // in the future, this dependsOn emblem may go away
 

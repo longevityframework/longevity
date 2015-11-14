@@ -12,95 +12,95 @@ class NatKeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "RootEntityType.NatKeyProp.apply(String)"
 
   it should "throw exception when the specified prop path is empty" in {
-    import longevity.integration.allAttributes._
+    import longevity.integration.subdomain.allAttributes._
     intercept[EmptyNatKeyPropPathException] {
       AllAttributes.natKeyProp("")
     }
   }
 
   it should "throw exception when the specified prop path does not map to an actual prop path" in {
-    import longevity.integration.allAttributes._
+    import longevity.integration.subdomain.allAttributes._
     intercept[NoSuchNatKeyPropPathSegmentException] {
       AllAttributes.natKeyProp("invalidPropPath")
     }
 
-    import longevity.integration.withComponent._
+    import longevity.integration.subdomain.withComponent._
     intercept[NoSuchNatKeyPropPathSegmentException] {
       WithComponent.natKeyProp("component.noSuchPathSegment")
     }
   }
 
   it should "throw exception when the specified prop path passes through a collection" in {
-    import longevity.integration.withComponentList._
+    import longevity.integration.subdomain.withComponentList._
     intercept[NonEntityNatKeyPropPathSegmentException] {
       WithComponentList.natKeyProp("components.uri")
     }
 
-    import longevity.integration.withComponentOption._
+    import longevity.integration.subdomain.withComponentOption._
     intercept[NonEntityNatKeyPropPathSegmentException] {
       WithComponentOption.natKeyProp("component.uri")
     }
 
-    import longevity.integration.withComponentSet._
+    import longevity.integration.subdomain.withComponentSet._
     intercept[NonEntityNatKeyPropPathSegmentException] {
       WithComponentSet.natKeyProp("components.uri")
     }
   }
 
   it should "throw exception when the specified prop path terminates with a collection" in {
-    import longevity.integration.attributeLists._
+    import longevity.integration.subdomain.attributeLists._
     intercept[InvalidNatKeyPropPathLeafException] {
       AttributeLists.natKeyProp("boolean")
     }
 
-    import longevity.integration.attributeOptions._
+    import longevity.integration.subdomain.attributeOptions._
     intercept[InvalidNatKeyPropPathLeafException] {
       AttributeOptions.natKeyProp("boolean")
     }
  
-    import longevity.integration.attributeSets._
+    import longevity.integration.subdomain.attributeSets._
     intercept[InvalidNatKeyPropPathLeafException] {
       AttributeSets.natKeyProp("boolean")
     }
 
-    import longevity.integration.withAssocList._
+    import longevity.integration.subdomain.withAssocList._
     intercept[InvalidNatKeyPropPathLeafException] {
       WithAssocList.natKeyProp("associated")
     }
 
-    import longevity.integration.withAssocOption._
+    import longevity.integration.subdomain.withAssocOption._
     intercept[InvalidNatKeyPropPathLeafException] {
       WithAssocOption.natKeyProp("associated")
     }
 
-    import longevity.integration.withAssocSet._
+    import longevity.integration.subdomain.withAssocSet._
     intercept[InvalidNatKeyPropPathLeafException] {
       WithAssocSet.natKeyProp("associated")
     }
 
-    import longevity.integration.withComponentList._
+    import longevity.integration.subdomain.withComponentList._
     intercept[InvalidNatKeyPropPathLeafException] {
       WithComponentList.natKeyProp("components")
     }
 
-    import longevity.integration.withComponentOption._
+    import longevity.integration.subdomain.withComponentOption._
     intercept[InvalidNatKeyPropPathLeafException] {
       WithComponentOption.natKeyProp("component")
     }
 
-    import longevity.integration.withComponentSet._
+    import longevity.integration.subdomain.withComponentSet._
     intercept[InvalidNatKeyPropPathLeafException] {
       WithComponentSet.natKeyProp("components")
     }
 
-    import longevity.integration.withComponent._
+    import longevity.integration.subdomain.withComponent._
     intercept[InvalidNatKeyPropPathLeafException] {
       WithComponent.natKeyProp("component.tags")
     }
   }
 
   it should "produce a valid nat key prop for basic types" in {
-    import longevity.integration.allAttributes._
+    import longevity.integration.subdomain.allAttributes._
 
     var prop: NatKeyProp[AllAttributes] = null
 
@@ -138,7 +138,7 @@ class NatKeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce a valid nat key prop for shorthand types" in {
-    import longevity.integration.allShorthands._
+    import longevity.integration.subdomain.allShorthands._
 
     var prop: NatKeyProp[AllShorthands] = null
 
@@ -176,21 +176,21 @@ class NatKeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce a valid nat key prop for an assoc" in {
-    import longevity.integration.withAssoc._
+    import longevity.integration.subdomain.withAssoc._
     val prop = WithAssoc.natKeyProp("associated")
     prop.path should equal ("associated")
     prop.typeKey should equal (typeKey[Assoc[Associated]])
   }
 
   it should "produce a valid nat key prop for a nested basic type" in {
-    import longevity.integration.withComponent._
+    import longevity.integration.subdomain.withComponent._
     val prop = WithComponent.natKeyProp("component.uri")
     prop.path should equal ("component.uri")
     prop.typeKey should equal (typeKey[String])
   }
 
   it should "produce a valid nat key prop for shorthand types in nested components" in {
-    import longevity.integration.withComponentWithShorthands._
+    import longevity.integration.subdomain.withComponentWithShorthands._
     var prop: NatKeyProp[WithComponentWithShorthands] = null
 
     prop = WithComponentWithShorthands.natKeyProp("component.boolean")
@@ -227,7 +227,7 @@ class NatKeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce a valid nat key prop for a nested assoc" in {
-    import longevity.integration.withComponentWithAssoc._
+    import longevity.integration.subdomain.withComponentWithAssoc._
     val prop = WithComponentWithAssoc.natKeyProp("component.associated")
     prop.path should equal ("component.associated")
     prop.typeKey should equal (typeKey[Assoc[Associated]])

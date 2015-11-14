@@ -13,6 +13,7 @@ object LongevityContext {
    * @param persistenceStrategy the persistence strategy for this longevity context. defaults to [[Mongo]]
    * @param customGeneratorPool a collection of custom generators to use when generating test data. defaults to
    * empty
+   * @param config the configuration
    */
   def apply(
     subdomain: Subdomain,

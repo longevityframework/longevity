@@ -4,6 +4,9 @@ import org.scalatest._
 import org.scalatest.OptionValues._
 import emblem.imports._
 import longevity.persistence._
+import longevity.persistence.mongo.MongoRepo
+
+// TODO unit tests for cassandra here
 
 /** unit tests for the proper construction of [[LongevityContext.repoPool]] and
  * [[LongevityContext.inMemRepoPool]]

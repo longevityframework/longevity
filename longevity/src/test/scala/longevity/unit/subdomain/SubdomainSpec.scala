@@ -178,8 +178,6 @@ object SubdomainSpec {
 
   }
 
-  // TODO: tests for all below:
-
   // duplicated at https://gist.github.com/sullivan-/62a216ece7a16bec63c9
   // duplicated at https://gist.github.com/sullivan-/ca7bb9e6911ff93b4743
   // duplicated at https://gist.github.com/sullivan-/5b350f2f51ee61efcf8e

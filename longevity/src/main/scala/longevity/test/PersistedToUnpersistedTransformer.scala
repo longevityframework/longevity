@@ -35,7 +35,7 @@ extends Transformer {
           case unpersistedAssoc: UnpersistedAssoc[_] =>
             throw new AssocIsUnpersistedException(unpersistedAssoc)
           case persistedAssoc: PersistedAssoc[_] => {
-            val futurePersistedEntity = b.retrieve
+            val futurePersistedEntity = b.retrieve.map(_.get)
             val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
             val unpersistedEntity = transform(futurePersistedEntity)(entityTypeKey)
             unpersistedEntity.map(Assoc(_).asInstanceOf[B])

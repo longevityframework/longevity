@@ -12,8 +12,8 @@ import emblem.WideningTypeBoundFunction
  */
 class Subdomain(
   val name: String,
-  val entityTypePool: EntityTypePool,
-  val shorthandPool: ShorthandPool) {
+  val entityTypePool: EntityTypePool)(
+  implicit val shorthandPool: ShorthandPool = ShorthandPool()) {
 
   val rootEntityTypePool = RootEntityTypePool(entityTypePool)
 
@@ -57,6 +57,6 @@ object Subdomain {
     name: String,
     entityTypePool: EntityTypePool)(
     implicit shorthandPool: ShorthandPool = ShorthandPool()): Subdomain =
-    new Subdomain(name, entityTypePool, shorthandPool)
+    new Subdomain(name, entityTypePool)(shorthandPool)
 
 }
