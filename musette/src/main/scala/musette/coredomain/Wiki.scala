@@ -12,6 +12,6 @@ case class Wiki(
 extends SiteSection with RootEntity
 
 object WikiType extends RootEntityType[Wiki] {
-  natKey("uri")
+  key("uri")
 }
 

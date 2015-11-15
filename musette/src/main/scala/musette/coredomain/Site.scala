@@ -10,6 +10,6 @@ case class Site(
 extends RootEntity
 
 object SiteType extends RootEntityType[Site] {
-  natKey("uri")
+  key("uri")
 }
 

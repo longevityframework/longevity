@@ -18,9 +18,11 @@ extends EntityType[E] {
     registered = true
   }
 
+  // TODO we will probably have to constraint props in a similar way
   private var keyBuffer = Set[Key[E]]()
+  private var indexBuffer = Set[Index[E]]()
 
-  /** the natural keys for this root entity type. you populate this set by repeatedly calling either of the
+  /** the keys for this root entity type. you populate this set by repeatedly calling either of the
    * `RootEntityType.key` methods in your class initializer. you should only attempt to access this set
    * after your `RootEntityType` is fully initialized.
    * @throws longevity.exceptions.SubdomainException on attempt to access this set before the `RootEntityType`
@@ -32,44 +34,88 @@ extends EntityType[E] {
     keyBuffer
   }
 
-  /** constructs a [[KeyProp]] from a path
-   * @throws longevity.exceptions.InvalidKeyPropPathException if any step along the path does not exist, or
+  /** the indexes for this root entity type. you populate this set by repeatedly calling either of the
+   * `RootEntityType.index` methods in your class initializer. you should only attempt to access this set
+   * after your `RootEntityType` is fully initialized.
+   * @throws longevity.exceptions.SubdomainException on attempt to access this set before the `RootEntityType`
+   * is fully initialized
+   */
+  lazy val indexes: Set[Index[E]] = {
+    if (!registered) throw new SubdomainException(
+      s"cannot access RootEntityType.indexes for $this until after the subdomain has been initialized")
+    indexBuffer
+  }
+
+  /** constructs a [[Prop]] from a path
+   * @throws longevity.exceptions.InvalidPropPathException if any step along the path does not exist, or
    * any non-final step along the path is not an entity, or the final step along the path is not an [[Assoc]] or
    * a basic type
    * @see `emblem.basicTypes`
    */
-  def keyProp(path: String): KeyProp[E] = KeyProp(path, emblem, entityTypeKey, shorthandPool)
+  def prop[A : TypeKey](path: String): Prop[E, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
 
-  /** constructs a natural key for this root entity type based on the supplied set of property paths.
-   * @param propPathHead one of the property paths for the properties that define this nat key
-   * @param propPathTail any remaining property paths for the properties that define this nat key
-   * @throws longevity.exceptions.InvalidKeyPropPathException if any of the supplied property paths are
+  /** constructs a key for this root entity type based on the supplied set of property paths
+   * @param propPathHead one of the property paths for the properties that define this key
+   * @param propPathTail any remaining property paths for the properties that define this key
+   * @throws longevity.exceptions.InvalidPropPathException if any of the supplied property paths are
    * invalid
-   * @throws longevity.exceptions.SubdomainException on attempt to create a new nat key after the
+   * @throws longevity.exceptions.SubdomainException on attempt to create a new nat after the
    * `RootEntityType` is fully initialized
-   * @see KeyProp.apply
+   * @see Prop.apply
    */
   def key(propPathHead: String, propPathTail: String*): Key[E] = {
     if (registered)
-      throw new SubdomainException("cannot create new natural keys after the subdomain has been initialized")
-    val propPaths = propPathTail.toSet + propPathHead
-    val key = Key(propPaths.map(keyProp(_)))
+      throw new SubdomainException("cannot create new keys after the subdomain has been initialized")
+    val propPaths = propPathHead :: propPathTail.toList
+    val key = Key(propPaths.map(Prop.unbounded(_, emblem, entityTypeKey, shorthandPool)))
     keyBuffer += key
     key
   }
 
-  /** constructs a natural key for this root entity type based on the supplied set of nat key props.
-   * @param propsHead one of the properties that define this nat key
-   * @param propsTail any remaining properties that define this nat key
-   * @throws longevity.exceptions.SubdomainException on attempt to create a new nat key after the `RootEntityType`
+  /** constructs a key for this root entity type based on the supplied set of key props
+   * @param propsHead one of the properties that define this key
+   * @param propsTail any remaining properties that define this key
+   * @throws longevity.exceptions.SubdomainException on attempt to create a new key after the `RootEntityType`
    * is fully initialized
    */
-  def key(propsHead: KeyProp[E], propsTail: KeyProp[E]*): Key[E] = {
+  def key(propsHead: Prop[E, _], propsTail: Prop[E, _]*): Key[E] = {
     if (registered)
-      throw new SubdomainException("cannot create new natural keys after the subdomain has been initialized")
-    val key = Key(propsTail.toSet + propsHead)
+      throw new SubdomainException("cannot create new keys after the subdomain has been initialized")
+    val key = Key(propsHead :: propsTail.toList)
     keyBuffer += key
     key
+  }
+
+  /** constructs an index for this root entity type based on the supplied set of property paths
+   * @param propPathHead one of the property paths for the properties that define this index
+   * @param propPathTail any remaining property paths for the properties that define this index
+   * @throws longevity.exceptions.InvalidPropPathException if any of the supplied property paths are
+   * invalid
+   * @throws longevity.exceptions.SubdomainException on attempt to create a new index after the
+   * `RootEntityType` is fully initialized
+   * @see Prop.apply
+   */
+  def index(propPathHead: String, propPathTail: String*): Index[E] = {
+    if (registered)
+      throw new SubdomainException("cannot create new indexes after the subdomain has been initialized")
+    val propPaths = propPathHead :: propPathTail.toList
+    val index = Index(propPaths.map(prop(_)))
+    indexBuffer += index
+    index
+  }
+
+  /** constructs a index for this root entity type based on the supplied set of index props
+   * @param propsHead one of the properties that define this index
+   * @param propsTail any remaining properties that define this index
+   * @throws longevity.exceptions.SubdomainException on attempt to create a new index after the `RootEntityType`
+   * is fully initialized
+   */
+  def index(propsHead: Prop[E, _], propsTail: Prop[E, _]*): Index[E] = {
+    if (registered)
+      throw new SubdomainException("cannot create new indexes after the subdomain has been initialized")
+    val index = Index(propsHead :: propsTail.toList)
+    indexBuffer += index
+    index
   }
 
 }

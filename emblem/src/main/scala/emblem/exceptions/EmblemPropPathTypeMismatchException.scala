@@ -12,4 +12,5 @@ class EmblemPropPathTypeMismatchException(
   val requestedType: TypeKey[_],
   val actualType: TypeKey[_])
 extends EmblemPropPathException(
-  "property path $fullPath for emblem $emblem has type $actualType, but type $requestedType was requested")
+  s"property path $fullPath for emblem $emblem has type ${actualType.name}, " +
+  s"but type ${requestedType.name} was requested")

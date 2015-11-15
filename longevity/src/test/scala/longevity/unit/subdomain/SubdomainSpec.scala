@@ -389,18 +389,18 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys2.User.keys.size should equal (2)
       keys2.User.keys.find(_.props.size == 1).value should equal (keys2.User.usernameKey)
       keys2.User.usernameKey.props.size should equal (1)
-      val usernameKeyProp = keys2.User.usernameKey.props.head
-      usernameKeyProp.path should equal ("username")
-      usernameKeyProp.typeKey should equal (typeKey[String])
+      val usernameProp = keys2.User.usernameKey.props.head
+      usernameProp.path should equal ("username")
+      usernameProp.typeKey should equal (typeKey[String])
 
       keys2.User.keys.find(_.props.size == 2).value should equal (keys2.User.fullnameKey)
       keys2.User.fullnameKey.props.size should equal (2)
-      val firstNameKeyProp = keys2.User.fullnameKey.props.find(_.path == "firstName").value
-      firstNameKeyProp.path should equal ("firstName")
-      firstNameKeyProp.typeKey should equal (typeKey[String])
-      val lastNameKeyProp = keys2.User.fullnameKey.props.find(_.path == "lastName").value
-      lastNameKeyProp.path should equal ("lastName")
-      lastNameKeyProp.typeKey should equal (typeKey[String])
+      val firstNameProp = keys2.User.fullnameKey.props.find(_.path == "firstName").value
+      firstNameProp.path should equal ("firstName")
+      firstNameProp.typeKey should equal (typeKey[String])
+      val lastNameProp = keys2.User.fullnameKey.props.find(_.path == "lastName").value
+      lastNameProp.path should equal ("lastName")
+      lastNameProp.typeKey should equal (typeKey[String])
     }
 
     {

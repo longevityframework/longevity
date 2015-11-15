@@ -60,7 +60,7 @@ extends Repo[E](entityType, subdomain) {
     idEntityOption map { case (id, e) => new Persisted[E](MongoId(id), e) }
   }
 
-  private def resolvePropVal(prop: KeyProp[E], raw: Any): Any = {
+  private def resolvePropVal(prop: Prop[E, _], raw: Any): Any = {
     if (subdomain.shorthandPool.contains(prop.typeKey)) {
       def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
       abbreviate(prop.typeKey)

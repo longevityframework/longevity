@@ -6,133 +6,135 @@ import longevity.exceptions.subdomain._
 import org.scalatest._
 import longevity.subdomain._
 
-/** unit tests for the proper construction of [[RootEntityType#KeyProp nat key props]] */
-class KeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
+/** unit tests for the proper construction of [[RootEntityType#Prop nat key props]] */
+class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "RootEntityType.KeyProp.apply(String)"
+  behavior of "RootEntityType.Prop.apply(String)"
 
   it should "throw exception when the specified prop path is empty" in {
     import longevity.integration.subdomain.allAttributes._
-    intercept[EmptyKeyPropPathException] {
-      AllAttributes.keyProp("")
+    intercept[EmptyPropPathException] {
+      AllAttributes.prop[Int]("")
     }
   }
 
   it should "throw exception when the specified prop path does not map to an actual prop path" in {
     import longevity.integration.subdomain.allAttributes._
-    intercept[NoSuchKeyPropPathSegmentException] {
-      AllAttributes.keyProp("invalidPropPath")
+    intercept[NoSuchPropPathSegmentException] {
+      AllAttributes.prop[Int]("invalidPropPath")
     }
 
     import longevity.integration.subdomain.withComponent._
-    intercept[NoSuchKeyPropPathSegmentException] {
-      WithComponent.keyProp("component.noSuchPathSegment")
+    intercept[NoSuchPropPathSegmentException] {
+      WithComponent.prop[Int]("component.noSuchPathSegment")
     }
   }
 
   it should "throw exception when the specified prop path passes through a collection" in {
     import longevity.integration.subdomain.withComponentList._
-    intercept[NonEntityKeyPropPathSegmentException] {
-      WithComponentList.keyProp("components.uri")
+    intercept[NonEntityPropPathSegmentException] {
+      WithComponentList.prop[Int]("components.uri")
     }
 
     import longevity.integration.subdomain.withComponentOption._
-    intercept[NonEntityKeyPropPathSegmentException] {
-      WithComponentOption.keyProp("component.uri")
+    intercept[NonEntityPropPathSegmentException] {
+      WithComponentOption.prop[Int]("component.uri")
     }
 
     import longevity.integration.subdomain.withComponentSet._
-    intercept[NonEntityKeyPropPathSegmentException] {
-      WithComponentSet.keyProp("components.uri")
+    intercept[NonEntityPropPathSegmentException] {
+      WithComponentSet.prop[Int]("components.uri")
     }
   }
 
   it should "throw exception when the specified prop path terminates with a collection" in {
     import longevity.integration.subdomain.attributeLists._
-    intercept[InvalidKeyPropPathLeafException] {
-      AttributeLists.keyProp("boolean")
+    intercept[InvalidPropPathLeafException] {
+      AttributeLists.prop[Int]("boolean")
     }
 
     import longevity.integration.subdomain.attributeOptions._
-    intercept[InvalidKeyPropPathLeafException] {
-      AttributeOptions.keyProp("boolean")
+    intercept[InvalidPropPathLeafException] {
+      AttributeOptions.prop[Int]("boolean")
     }
  
     import longevity.integration.subdomain.attributeSets._
-    intercept[InvalidKeyPropPathLeafException] {
-      AttributeSets.keyProp("boolean")
+    intercept[InvalidPropPathLeafException] {
+      AttributeSets.prop[Int]("boolean")
     }
 
     import longevity.integration.subdomain.withAssocList._
-    intercept[InvalidKeyPropPathLeafException] {
-      WithAssocList.keyProp("associated")
+    intercept[InvalidPropPathLeafException] {
+      WithAssocList.prop[Int]("associated")
     }
 
     import longevity.integration.subdomain.withAssocOption._
-    intercept[InvalidKeyPropPathLeafException] {
-      WithAssocOption.keyProp("associated")
+    intercept[InvalidPropPathLeafException] {
+      WithAssocOption.prop[Int]("associated")
     }
 
     import longevity.integration.subdomain.withAssocSet._
-    intercept[InvalidKeyPropPathLeafException] {
-      WithAssocSet.keyProp("associated")
+    intercept[InvalidPropPathLeafException] {
+      WithAssocSet.prop[Int]("associated")
     }
 
     import longevity.integration.subdomain.withComponentList._
-    intercept[InvalidKeyPropPathLeafException] {
-      WithComponentList.keyProp("components")
+    intercept[InvalidPropPathLeafException] {
+      WithComponentList.prop[Int]("components")
     }
 
     import longevity.integration.subdomain.withComponentOption._
-    intercept[InvalidKeyPropPathLeafException] {
-      WithComponentOption.keyProp("component")
+    intercept[InvalidPropPathLeafException] {
+      WithComponentOption.prop[Int]("component")
     }
 
     import longevity.integration.subdomain.withComponentSet._
-    intercept[InvalidKeyPropPathLeafException] {
-      WithComponentSet.keyProp("components")
+    intercept[InvalidPropPathLeafException] {
+      WithComponentSet.prop[Int]("components")
     }
 
     import longevity.integration.subdomain.withComponent._
-    intercept[InvalidKeyPropPathLeafException] {
-      WithComponent.keyProp("component.tags")
+    intercept[InvalidPropPathLeafException] {
+      WithComponent.prop[Int]("component.tags")
     }
   }
+
+  // TODO test for type mismatch
 
   it should "produce a valid nat key prop for basic types" in {
     import longevity.integration.subdomain.allAttributes._
 
-    var prop: KeyProp[AllAttributes] = null
+    var prop: Prop[AllAttributes, _] = null
 
-    prop = AllAttributes.keyProp("boolean")
+    prop = AllAttributes.prop[Boolean]("boolean")
     prop.path should equal ("boolean")
     prop.typeKey should equal (typeKey[Boolean])
 
-    prop = AllAttributes.keyProp("char")
+    prop = AllAttributes.prop[Char]("char")
     prop.path should equal ("char")
     prop.typeKey should equal (typeKey[Char])
 
-    prop = AllAttributes.keyProp("double")
+    prop = AllAttributes.prop[Double]("double")
     prop.path should equal ("double")
     prop.typeKey should equal (typeKey[Double])
 
-    prop = AllAttributes.keyProp("float")
+    prop = AllAttributes.prop[Float]("float")
     prop.path should equal ("float")
     prop.typeKey should equal (typeKey[Float])
 
-    prop = AllAttributes.keyProp("int")
+    prop = AllAttributes.prop[Int]("int")
     prop.path should equal ("int")
     prop.typeKey should equal (typeKey[Int])
 
-    prop = AllAttributes.keyProp("long")
+    prop = AllAttributes.prop[Long]("long")
     prop.path should equal ("long")
     prop.typeKey should equal (typeKey[Long])
 
-    prop = AllAttributes.keyProp("string")
+    prop = AllAttributes.prop[String]("string")
     prop.path should equal ("string")
     prop.typeKey should equal (typeKey[String])
 
-    prop = AllAttributes.keyProp("dateTime")
+    prop = AllAttributes.prop[DateTime]("dateTime")
     prop.path should equal ("dateTime")
     prop.typeKey should equal (typeKey[DateTime])
   }
@@ -140,95 +142,95 @@ class KeyPropSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "produce a valid nat key prop for shorthand types" in {
     import longevity.integration.subdomain.allShorthands._
 
-    var prop: KeyProp[AllShorthands] = null
+    var prop: Prop[AllShorthands, _] = null
 
-    prop = AllShorthands.keyProp("boolean")
+    prop = AllShorthands.prop[BooleanShorthand]("boolean")
     prop.path should equal ("boolean")
     prop.typeKey should equal (typeKey[BooleanShorthand])
 
-    prop = AllShorthands.keyProp("char")
+    prop = AllShorthands.prop[CharShorthand]("char")
     prop.path should equal ("char")
     prop.typeKey should equal (typeKey[CharShorthand])
 
-    prop = AllShorthands.keyProp("double")
+    prop = AllShorthands.prop[DoubleShorthand]("double")
     prop.path should equal ("double")
     prop.typeKey should equal (typeKey[DoubleShorthand])
 
-    prop = AllShorthands.keyProp("float")
+    prop = AllShorthands.prop[FloatShorthand]("float")
     prop.path should equal ("float")
     prop.typeKey should equal (typeKey[FloatShorthand])
 
-    prop = AllShorthands.keyProp("int")
+    prop = AllShorthands.prop[IntShorthand]("int")
     prop.path should equal ("int")
     prop.typeKey should equal (typeKey[IntShorthand])
 
-    prop = AllShorthands.keyProp("long")
+    prop = AllShorthands.prop[LongShorthand]("long")
     prop.path should equal ("long")
     prop.typeKey should equal (typeKey[LongShorthand])
 
-    prop = AllShorthands.keyProp("string")
+    prop = AllShorthands.prop[StringShorthand]("string")
     prop.path should equal ("string")
     prop.typeKey should equal (typeKey[StringShorthand])
 
-    prop = AllShorthands.keyProp("dateTime")
+    prop = AllShorthands.prop[DateTimeShorthand]("dateTime")
     prop.path should equal ("dateTime")
     prop.typeKey should equal (typeKey[DateTimeShorthand])
   }
 
   it should "produce a valid nat key prop for an assoc" in {
     import longevity.integration.subdomain.withAssoc._
-    val prop = WithAssoc.keyProp("associated")
+    val prop = WithAssoc.prop[Assoc[Associated]]("associated")
     prop.path should equal ("associated")
     prop.typeKey should equal (typeKey[Assoc[Associated]])
   }
 
   it should "produce a valid nat key prop for a nested basic type" in {
     import longevity.integration.subdomain.withComponent._
-    val prop = WithComponent.keyProp("component.uri")
+    val prop = WithComponent.prop[String]("component.uri")
     prop.path should equal ("component.uri")
     prop.typeKey should equal (typeKey[String])
   }
 
   it should "produce a valid nat key prop for shorthand types in nested components" in {
     import longevity.integration.subdomain.withComponentWithShorthands._
-    var prop: KeyProp[WithComponentWithShorthands] = null
+    var prop: Prop[WithComponentWithShorthands, _] = null
 
-    prop = WithComponentWithShorthands.keyProp("component.boolean")
+    prop = WithComponentWithShorthands.prop[BooleanShorthand]("component.boolean")
     prop.path should equal ("component.boolean")
     prop.typeKey should equal (typeKey[BooleanShorthand])
 
-    prop = WithComponentWithShorthands.keyProp("component.char")
+    prop = WithComponentWithShorthands.prop[CharShorthand]("component.char")
     prop.path should equal ("component.char")
     prop.typeKey should equal (typeKey[CharShorthand])
 
-    prop = WithComponentWithShorthands.keyProp("component.double")
+    prop = WithComponentWithShorthands.prop[DoubleShorthand]("component.double")
     prop.path should equal ("component.double")
     prop.typeKey should equal (typeKey[DoubleShorthand])
 
-    prop = WithComponentWithShorthands.keyProp("component.float")
+    prop = WithComponentWithShorthands.prop[FloatShorthand]("component.float")
     prop.path should equal ("component.float")
     prop.typeKey should equal (typeKey[FloatShorthand])
 
-    prop = WithComponentWithShorthands.keyProp("component.int")
+    prop = WithComponentWithShorthands.prop[IntShorthand]("component.int")
     prop.path should equal ("component.int")
     prop.typeKey should equal (typeKey[IntShorthand])
 
-    prop = WithComponentWithShorthands.keyProp("component.long")
+    prop = WithComponentWithShorthands.prop[LongShorthand]("component.long")
     prop.path should equal ("component.long")
     prop.typeKey should equal (typeKey[LongShorthand])
 
-    prop = WithComponentWithShorthands.keyProp("component.string")
+    prop = WithComponentWithShorthands.prop[StringShorthand]("component.string")
     prop.path should equal ("component.string")
     prop.typeKey should equal (typeKey[StringShorthand])
 
-    prop = WithComponentWithShorthands.keyProp("component.dateTime")
+    prop = WithComponentWithShorthands.prop[DateTimeShorthand]("component.dateTime")
     prop.path should equal ("component.dateTime")
     prop.typeKey should equal (typeKey[DateTimeShorthand])
   }
 
   it should "produce a valid nat key prop for a nested assoc" in {
     import longevity.integration.subdomain.withComponentWithAssoc._
-    val prop = WithComponentWithAssoc.keyProp("component.associated")
+    val prop = WithComponentWithAssoc.prop[Assoc[Associated]]("component.associated")
     prop.path should equal ("component.associated")
     prop.typeKey should equal (typeKey[Assoc[Associated]])
   }

@@ -13,6 +13,6 @@ extends Content with RootEntity {
 }
 
 object CommentType extends RootEntityType[Comment] {
-  natKey("uri")
+  key("uri")
 }
 

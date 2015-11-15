@@ -2,9 +2,9 @@ package longevity.unit.subdomain
 
 import emblem.imports._
 import longevity.exceptions.subdomain.KeyDoesNotContainPropException
-import longevity.exceptions.subdomain.KeyPropValTypeMismatchException
+import longevity.exceptions.subdomain.PropValTypeMismatchException
 import longevity.exceptions.subdomain.SubdomainException
-import longevity.exceptions.subdomain.UnsetKeyPropException
+import longevity.exceptions.subdomain.UnsetPropException
 import org.scalatest._
 import longevity.subdomain._
 
@@ -22,15 +22,12 @@ object KeySpec {
   extends RootEntity
 
   object KeySampler extends RootEntityType[KeySampler] {
-    val booleanProp = KeySampler.keyProp("boolean")
-    val charProp = KeySampler.keyProp("char")
-    val doubleProp = KeySampler.keyProp("double")
+    val booleanProp = KeySampler.prop[Boolean]("boolean")
+    val charProp = KeySampler.prop[Char]("char")
+    val doubleProp = KeySampler.prop[Double]("double")
 
     val keyFromPropPaths = KeySampler.key("boolean", "char")
     val keyFromProps = KeySampler.key(booleanProp, charProp)
-
-    val keyFromPropPathsReversed = KeySampler.key("char", "boolean")
-    val keyFromPropsReversed = KeySampler.key(charProp, booleanProp)
 
     val tripleKey = KeySampler.key(booleanProp, charProp, doubleProp)
   }
@@ -42,7 +39,7 @@ object KeySpec {
 
 }
 
-/** unit tests for the proper construction of [[RootEntityType#KeyProp nat key props]] */
+/** unit tests for the proper construction of [[RootEntityType#Prop nat key props]] */
 class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import KeySpec.KeySampler
@@ -63,8 +60,6 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   they should "produce equivalent keys for equivalent inputs" in {
     keyFromPropPaths should equal (keyFromProps)
-    keyFromPropPaths should equal (keyFromPropPathsReversed)
-    keyFromPropPaths should equal (keyFromPropsReversed)
   }
 
   behavior of "RootEntityType.Key.Builder.setProp"
@@ -78,7 +73,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the propVal does not match the type of the prop" in {
     val builder = keyFromProps.builder
-    intercept[KeyPropValTypeMismatchException[_]] {
+    intercept[PropValTypeMismatchException[_]] {
       builder.setProp(booleanProp, 6.6d)
     }
   }
@@ -87,15 +82,15 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when not all the props in the nat key have been set" in {
     val builder = tripleKey.builder
-    intercept[UnsetKeyPropException[_]] {
+    intercept[UnsetPropException[_]] {
       builder.build
     }
     builder.setProp(booleanProp, true)
-    intercept[UnsetKeyPropException[_]] {
+    intercept[UnsetPropException[_]] {
       builder.build
     }
     builder.setProp(charProp, 'c')
-    intercept[UnsetKeyPropException[_]] {
+    intercept[UnsetPropException[_]] {
       builder.build
     }
   }
@@ -128,7 +123,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
     val keyval = builder.build
 
-    keyval(KeySampler.keyProp("boolean")) should equal (booleanVal)
+    keyval(KeySampler.prop[Boolean]("boolean")) should equal (booleanVal)
     keyval("boolean") should equal (booleanVal)
   }
 

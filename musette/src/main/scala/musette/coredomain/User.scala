@@ -12,6 +12,6 @@ case class User(
 extends RootEntity
 
 object UserType extends RootEntityType[User] {
-  natKey("uri")
+  key("uri")
 }
 

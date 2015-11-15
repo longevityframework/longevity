@@ -1,7 +1,7 @@
 package longevity.exceptions.subdomain
 
 import longevity.subdomain.Key
-import longevity.subdomain.KeyProp
+import longevity.subdomain.Prop
 import longevity.subdomain.RootEntity
 
 /** an exception indicating that
@@ -11,6 +11,6 @@ import longevity.subdomain.RootEntity
  * @param key the nat key
  * @param props the nat key props that haven't been set
  */
-class UnsetKeyPropException[E <: RootEntity](val key: Key[E], val props: Set[KeyProp[E]])
+class UnsetPropException[E <: RootEntity](val key: Key[E], val props: Seq[Prop[E, _]])
 extends KeyValBuilderException(
   s"Key.ValBuilder.build was called for key $key with unset properties $props")
