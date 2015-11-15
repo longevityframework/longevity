@@ -1,4 +1,4 @@
-package longevity.exceptions
+package longevity.exceptions.subdomain
 
 /** an exception involving building natural key values
  * @see RootEntityType#NatKey#ValBuilder

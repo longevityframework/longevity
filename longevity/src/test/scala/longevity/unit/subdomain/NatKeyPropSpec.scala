@@ -2,7 +2,7 @@ package longevity.unit.subdomain
 
 import com.github.nscala_time.time.Imports._
 import emblem.imports._
-import longevity.exceptions._
+import longevity.exceptions.subdomain._
 import org.scalatest._
 import longevity.subdomain._
 

@@ -7,8 +7,8 @@ import emblem.imports._
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.sync.Traversor
-import longevity.exceptions.CouldNotTranslateException
-import longevity.exceptions.ShorthandUnabbreviationException
+import longevity.exceptions.persistence.BsonTranslationException
+import longevity.exceptions.persistence.ShorthandUnabbreviationException
 import longevity.persistence.RepoPool
 import longevity.subdomain._
 import scala.reflect.runtime.universe.typeOf
@@ -29,7 +29,7 @@ private[persistence] class CasbahToEntityTranslator(
   def translate[E <: Entity : TypeKey](casbah: MongoDBObject): E = try {
     traversor.traverse[E](casbah)
   } catch {
-    case e: CouldNotTraverseException => throw new CouldNotTranslateException(typeKey[E], e)
+    case e: CouldNotTraverseException => throw new BsonTranslationException(typeKey[E], e)
   }
 
   private val optionAnyType = typeOf[scala.Option[_]]

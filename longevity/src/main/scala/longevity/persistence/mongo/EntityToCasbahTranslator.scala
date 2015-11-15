@@ -6,7 +6,7 @@ import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import emblem.imports._
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.sync.Traversor
-import longevity.exceptions.CouldNotTranslateException
+import longevity.exceptions.persistence.BsonTranslationException
 import longevity.persistence.RepoPool
 import longevity.subdomain._
 
@@ -26,7 +26,7 @@ private[persistence] class EntityToCasbahTranslator(
   def translate[E <: Entity : TypeKey](e: E): MongoDBObject = try {
     traversor.traverse[E](e).asInstanceOf[BasicDBObject]
   } catch {
-    case e: CouldNotTraverseException => throw new CouldNotTranslateException(e.typeKey, e)
+    case e: CouldNotTraverseException => throw new BsonTranslationException(e.typeKey, e)
   }
 
   private val traversor = new Traversor {

@@ -1,8 +1,8 @@
 package longevity.subdomain
 
 import emblem.imports._
-import longevity.exceptions.AssocIsPersistedException
-import longevity.exceptions.AssocIsUnpersistedException
+import longevity.exceptions.subdomain.AssocIsPersistedException
+import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.persistence.PersistentState
 import scala.concurrent.Future
 

@@ -3,7 +3,7 @@ package longevity.persistence.mongo
 import com.mongodb.casbah.Imports._
 import emblem.imports._
 import emblem.stringUtil._
-import longevity.exceptions.AssocIsUnpersistedException
+import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.persistence._
 import longevity.subdomain._
 import org.bson.types.ObjectId

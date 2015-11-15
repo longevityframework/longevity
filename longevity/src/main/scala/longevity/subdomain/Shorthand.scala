@@ -2,7 +2,7 @@ package longevity.subdomain
 
 import emblem.basicTypes.isBasicType
 import emblem.imports._
-import longevity.exceptions.ShorthandCreationException
+import longevity.exceptions.subdomain.ShorthandCreationException
 
 /** describes a relation (one-to-one mapping) between two types, `Actual` and `Abbreviated`. The "actual" type is
  * typically a richer type, such as a case class with a single parameter, and an abbreviated value for the
@@ -36,7 +36,7 @@ object Shorthand {
 
   /** creates and returns a [[Shorthand]] for the specified types `Actual` and `Abbreviated`. `Actual` must be
    * a stable case class with single a parameter list. `Abbreviated` must be a basic type.
-   * @throws longevity.exceptions.ShorthandCreationException when `Abbreviated` is not a basic type, or when
+   * @throws longevity.exceptions.subdomain.ShorthandCreationException when `Abbreviated` is not a basic type, or when
    * `Actual` is not a stable case class with a single parameter list
    * @see `emblem.basicTypes`
    */

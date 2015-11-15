@@ -10,7 +10,7 @@ import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.RootEntity
 import longevity.subdomain.UnpersistedAssoc
-import longevity.exceptions.AssocIsUnpersistedException
+import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.persistence.PersistedAssoc
 
 /** traverses an entity graph, replacing every [[longevity.persistence.PersistedAssoc persisted assoc]] with an

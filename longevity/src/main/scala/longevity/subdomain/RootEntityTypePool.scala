@@ -1,7 +1,7 @@
 package longevity.subdomain
 
 import emblem.TypeKeyMap
-import longevity.exceptions.DuplicateEntityTypesException
+import longevity.exceptions.subdomain.DuplicateEntityTypesException
 
 /** houses methods for constructing root entity type pools */
 object RootEntityTypePool {

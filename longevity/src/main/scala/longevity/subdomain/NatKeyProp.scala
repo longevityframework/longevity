@@ -6,10 +6,10 @@ import emblem.exceptions.EmptyPropPathException
 import emblem.basicTypes.isBasicType
 import emblem.EmblemPropPath
 import emblem.imports._
-import longevity.exceptions.EmptyNatKeyPropPathException
-import longevity.exceptions.NoSuchNatKeyPropPathSegmentException
-import longevity.exceptions.NonEntityNatKeyPropPathSegmentException
-import longevity.exceptions.InvalidNatKeyPropPathLeafException
+import longevity.exceptions.subdomain.EmptyNatKeyPropPathException
+import longevity.exceptions.subdomain.NoSuchNatKeyPropPathSegmentException
+import longevity.exceptions.subdomain.NonEntityNatKeyPropPathSegmentException
+import longevity.exceptions.subdomain.InvalidNatKeyPropPathLeafException
 
 /** a property of the root that can be used as part of a natural key. the property can belong to a
  * contained entity of the root at any depth of containment, so long as every containment step along the

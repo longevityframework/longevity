@@ -1,4 +1,4 @@
-package longevity.exceptions
+package longevity.exceptions.subdomain
 
 /** an exception indicating the a path to a
  * [[longevity.subdomain.NatKeyProp natural key property]] did

@@ -1,4 +1,4 @@
-package longevity.exceptions
+package longevity.exceptions.subdomain
 
 import longevity.subdomain.NatKey
 import longevity.subdomain.NatKeyProp

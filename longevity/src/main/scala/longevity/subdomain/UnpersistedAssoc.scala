@@ -2,7 +2,7 @@ package longevity.subdomain
 
 import emblem.TypeKey
 import emblem.typeKey
-import longevity.exceptions.AssocIsUnpersistedException
+import longevity.exceptions.subdomain.AssocIsUnpersistedException
 
 /** an [[Assoc]] to a root entity that has not been persisted */
 case class UnpersistedAssoc[E <: RootEntity : TypeKey](unpersisted: E) extends Assoc[E] {

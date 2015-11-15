@@ -1,10 +1,10 @@
 package longevity.unit.subdomain
 
 import emblem.imports._
-import longevity.exceptions.NatKeyDoesNotContainPropException
-import longevity.exceptions.NatKeyPropValTypeMismatchException
-import longevity.exceptions.SubdomainException
-import longevity.exceptions.UnsetNatKeyPropException
+import longevity.exceptions.subdomain.NatKeyDoesNotContainPropException
+import longevity.exceptions.subdomain.NatKeyPropValTypeMismatchException
+import longevity.exceptions.subdomain.SubdomainException
+import longevity.exceptions.subdomain.UnsetNatKeyPropException
 import org.scalatest._
 import longevity.subdomain._
 

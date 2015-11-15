@@ -1,7 +1,7 @@
 package longevity.persistence
 
 import longevity.subdomain._
-import longevity.exceptions.AssocIsPersistedException
+import longevity.exceptions.subdomain.AssocIsPersistedException
 
 /** an [[longevity.subdomain.Assoc Assoc]] to a root entity that has been persisted.
  *

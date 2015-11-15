@@ -1,13 +1,13 @@
 package longevity.subdomain
 
 import emblem.imports._
-import longevity.exceptions.DuplicateShorthandsException
+import longevity.exceptions.subdomain.DuplicateShorthandsException
 
 object ShorthandPool {
 
   /** Collects a sequence of [[Shorthand shorthands]] into a [[ShorthandPool]].
    * @param shorthands the sequence of shorthands stored in the pool
-   * @throws longevity.exceptions.DuplicateShorthandsException when two or more of the shorthands have the
+   * @throws longevity.exceptions.subdomain.DuplicateShorthandsException when two or more of the shorthands have the
    * same Actual type
    */
   def apply(shorthands: Shorthand[_, _]*): ShorthandPool = {
