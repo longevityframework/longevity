@@ -64,8 +64,8 @@ object QuickStartSpec {
   extends RootEntity
 
   object User extends RootEntityType[User] {
-    val usernameKey = natKey("username")
-    val emailKey = natKey("email")
+    val usernameKey = key("username")
+    val emailKey = key("email")
   }
 
   case class UserProfile(
@@ -84,7 +84,7 @@ object QuickStartSpec {
   extends RootEntity
 
   object Blog extends RootEntityType[Blog] {
-    val key = natKey("uri")
+    val natKey = key("uri")
   }
 
   case class BlogPost(
@@ -98,7 +98,7 @@ object QuickStartSpec {
   extends RootEntity
 
   object BlogPost extends RootEntityType[BlogPost] {
-    val key = natKey("blog", "uriPathSuffix")
+    val natKey = key("blog", "uriPathSuffix")
   }
 
   // build the subdomain:
@@ -201,9 +201,9 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
 
     val newUserState = repos[User].create(
       User("jerry", "Jerry Jones", "jerry@john-smith.ninja")).futureValue
-    val blogKeyVal: Blog.key.Val = Blog.key.builder.setProp("uri", blog.uri).build
+    val blogKeyVal: Blog.natKey.Val = Blog.natKey.builder.setProp("uri", blog.uri).build
     val blogState: Persisted[Blog] =
-      repos[Blog].retrieve(Blog.key)(blogKeyVal).futureValue.value
+      repos[Blog].retrieve(Blog.natKey)(blogKeyVal).futureValue.value
     val modifiedBlogState = blogState.map { blog =>
       blog.copy(authors = blog.authors + updatedUserState.assoc)
     }

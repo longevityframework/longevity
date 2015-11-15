@@ -26,7 +26,7 @@ abstract class Repo[E <: RootEntity : TypeKey](
   def create(e: E): Future[Persisted[E]] = create(new Unpersisted(e))
 
   /** retrieves the aggregate by a natural key value */
-  def retrieve(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]]
+  def retrieve(key: Key[E])(keyVal: key.Val): Future[Option[Persisted[E]]]
 
   /** updates the aggregate */
   def update(p: Persisted[E]): Future[Persisted[E]]

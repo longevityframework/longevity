@@ -47,7 +47,7 @@ object SubdomainSpec {
     extends RootEntity
 
     object User extends RootEntityType[User] {
-      val usernameKey = natKey("username")
+      val usernameKey = key("username")
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -65,8 +65,8 @@ object SubdomainSpec {
     extends RootEntity
 
     object User extends RootEntityType[User] {
-      val usernameKey = natKey("username")
-      val fullnameKey = natKey("firstName", "lastName")
+      val usernameKey = key("username")
+      val fullnameKey = key("firstName", "lastName")
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -363,7 +363,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       roots.subdomain.shorthandPool should be ('empty)
       roots.subdomain.rootEntityTypePool.size should equal (1)
       roots.subdomain.rootEntityTypePool.values.head should equal (roots.User)
-      roots.User.natKeys should be ('empty)
+      roots.User.keys should be ('empty)
     }
 
     {
@@ -372,8 +372,8 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys1.subdomain.entityTypePool.values.head should equal (keys1.User)
       keys1.subdomain.rootEntityTypePool.size should equal (1)
       keys1.subdomain.rootEntityTypePool.values.head should equal (keys1.User)
-      keys1.User.natKeys.size should equal (1)
-      keys1.User.natKeys.head should equal (keys1.User.usernameKey)
+      keys1.User.keys.size should equal (1)
+      keys1.User.keys.head should equal (keys1.User.usernameKey)
       keys1.User.usernameKey.props.size should equal (1)
       val prop = keys1.User.usernameKey.props.head
       prop.path should equal ("username")
@@ -386,14 +386,14 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys2.subdomain.entityTypePool.values.head should equal (keys2.User)
       keys2.subdomain.rootEntityTypePool.size should equal (1)
       keys2.subdomain.rootEntityTypePool.values.head should equal (keys2.User)
-      keys2.User.natKeys.size should equal (2)
-      keys2.User.natKeys.find(_.props.size == 1).value should equal (keys2.User.usernameKey)
+      keys2.User.keys.size should equal (2)
+      keys2.User.keys.find(_.props.size == 1).value should equal (keys2.User.usernameKey)
       keys2.User.usernameKey.props.size should equal (1)
       val usernameKeyProp = keys2.User.usernameKey.props.head
       usernameKeyProp.path should equal ("username")
       usernameKeyProp.typeKey should equal (typeKey[String])
 
-      keys2.User.natKeys.find(_.props.size == 2).value should equal (keys2.User.fullnameKey)
+      keys2.User.keys.find(_.props.size == 2).value should equal (keys2.User.fullnameKey)
       keys2.User.fullnameKey.props.size should equal (2)
       val firstNameKeyProp = keys2.User.fullnameKey.props.find(_.path == "firstName").value
       firstNameKeyProp.path should equal ("firstName")
@@ -410,7 +410,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       basics.subdomain.rootEntityTypePool.size should equal (1)
       basics.subdomain.rootEntityTypePool.values.head should equal (basics.User)
       basics.subdomain.shorthandPool should be ('empty)
-      basics.User.natKeys should be ('empty)
+      basics.User.keys should be ('empty)
     }
 
     {
@@ -420,7 +420,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       collections.subdomain.shorthandPool should be ('empty)
       collections.subdomain.rootEntityTypePool.size should equal (1)
       collections.subdomain.rootEntityTypePool.values.head should equal (collections.User)
-      collections.User.natKeys should be ('empty)
+      collections.User.keys should be ('empty)
     }
 
     {
@@ -431,7 +431,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands.subdomain.shorthandPool.values.head should equal (shorthands.emailShorthand)
       shorthands.subdomain.rootEntityTypePool.size should equal (1)
       shorthands.subdomain.rootEntityTypePool.values.head should equal (shorthands.User)
-      shorthands.User.natKeys should be ('empty)
+      shorthands.User.keys should be ('empty)
     }
 
     {
@@ -445,7 +445,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       entities.subdomain.shorthandPool.values should contain (entities.uriShorthand)
       entities.subdomain.rootEntityTypePool.size should equal (1)
       entities.subdomain.rootEntityTypePool.values.head should equal (entities.User)
-      entities.User.natKeys should be ('empty)
+      entities.User.keys should be ('empty)
     }
 
     {
@@ -459,7 +459,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.zipCodeShorthand)
       valueObjects1.subdomain.rootEntityTypePool.size should equal (1)
       valueObjects1.subdomain.rootEntityTypePool.values.head should equal (valueObjects1.User)
-      valueObjects1.User.natKeys should be ('empty)
+      valueObjects1.User.keys should be ('empty)
     }
 
     {
@@ -473,7 +473,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.zipCodeShorthand)
       valueObjects2.subdomain.rootEntityTypePool.size should equal (1)
       valueObjects2.subdomain.rootEntityTypePool.values.head should equal (valueObjects2.User)
-      valueObjects2.User.natKeys should be ('empty)
+      valueObjects2.User.keys should be ('empty)
     }
 
   }

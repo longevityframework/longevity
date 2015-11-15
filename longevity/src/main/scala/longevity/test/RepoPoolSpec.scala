@@ -56,7 +56,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
   private class RepoSpec[E <: RootEntity : TypeKey](private val repo: Repo[E]) {
 
     private val entityName = repo.entityType.emblem.name
-    private val representativeNatKeyOption = repo.entityType.natKeys.headOption
+    private val representativeKeyOption = repo.entityType.keys.headOption
 
     object Create extends Tag("Create")
     object Retrieve extends Tag("Retrieve")
@@ -66,7 +66,7 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
     feature(s"${entityName}Repo.create") {
       scenario(s"should produce a persisted $entityName", Create) {
 
-        representativeNatKeyOption should be ('nonEmpty)
+        representativeKeyOption should be ('nonEmpty)
 
         Given(s"an unpersisted $entityName")
         val entity: E = testDataGenerator.generate[E]
@@ -80,9 +80,9 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
 
         // i cant figure out if this and clause is a sensible part of this test or not. opinions?
         And(s"further retrieval operations should retrieve the same $entityName")
-        representativeNatKeyOption.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(created.get)
-          val retrieved: Persisted[E] = repo.retrieve(natKey)(natKeyVal).futureValue.value
+        representativeKeyOption.foreach { key =>
+          val keyVal = key.keyVal(created.get)
+          val retrieved: Persisted[E] = repo.retrieve(key)(keyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, entity)
         }
 
@@ -98,9 +98,9 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
 
         When(s"we retrieve the $entityName by any of its natural keys")
         Then(s"we get back the same $entityName persistent state")
-        repo.entityType.natKeys.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(created.get)
-          val retrieved: Persisted[E] = repo.retrieve(natKey)(natKeyVal).futureValue.value
+        repo.entityType.keys.foreach { key =>
+          val keyVal = key.keyVal(created.get)
+          val retrieved: Persisted[E] = repo.retrieve(key)(keyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, entity)
         }
       }
@@ -122,16 +122,16 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         persistedShouldMatchUnpersisted(updated.get, modifiedEntity)
 
         And(s"further retrieval operations should retrieve the updated copy")
-        representativeNatKeyOption.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(updated.get)
-          val retrieved: Persisted[E] = repo.retrieve(natKey)(natKeyVal).futureValue.value
+        representativeKeyOption.foreach { key =>
+          val keyVal = key.keyVal(updated.get)
+          val retrieved: Persisted[E] = repo.retrieve(key)(keyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, modifiedEntity)
         }
 
         And(s"further retrieval operations based on the original version should retrieve nothing")
-        representativeNatKeyOption.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(created.get)
-          repo.retrieve(natKey)(natKeyVal).futureValue should be (None)
+        representativeKeyOption.foreach { key =>
+          val keyVal = key.keyVal(created.get)
+          repo.retrieve(key)(keyVal).futureValue should be (None)
         }
 
       }
@@ -150,9 +150,9 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
         persistedShouldMatchUnpersisted(deleted.get, entity)
 
         And(s"we should no longer be able to retrieve the $entityName")
-        representativeNatKeyOption.foreach { natKey =>
-          val natKeyVal = natKey.natKeyVal(created.get)
-          val retrieved: Option[Persisted[E]] = repo.retrieve(natKey)(natKeyVal).futureValue
+        representativeKeyOption.foreach { key =>
+          val keyVal = key.keyVal(created.get)
+          val retrieved: Option[Persisted[E]] = repo.retrieve(key)(keyVal).futureValue
           retrieved.isEmpty should be (true)
         }
       }

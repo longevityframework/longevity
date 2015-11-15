@@ -16,5 +16,5 @@ case class AttributeOptions(
 extends RootEntity
 
 object AttributeOptions extends RootEntityType[AttributeOptions] {
-  natKey("uri")
+  key("uri")
 }

@@ -1,0 +1,98 @@
+package longevity.subdomain
+
+import emblem.basicTypes.isBasicType
+import emblem.imports._
+import longevity.exceptions.subdomain.KeyPropValTypeMismatchException
+import longevity.exceptions.subdomain.KeyDoesNotContainPropException
+import longevity.exceptions.subdomain.UnsetKeyPropException
+
+/** a natural key for this root entity type
+ * @param props the set of nat key properties that make up this natural key
+ */
+case class Key[E <: RootEntity] private [subdomain] (
+  val props: Set[KeyProp[E]])(
+  private implicit val shorthandPool: ShorthandPool) {
+
+  private lazy val propPathToProp = props.map(p => p.path -> p).toMap
+
+  /** returns a builder for nat key vals */
+  def builder = new ValBuilder
+
+  /** returns the nat key val for the supplied root entity
+   * @param e the root entity
+   */
+  def keyVal(e: E): Val = {
+    val b = builder
+    props.foreach { prop => b.setPropRaw(prop, prop.keyPropVal(e)) }
+    b.build
+  }
+
+  /** a value of this natural key */
+  case class Val private[Key] (val propVals: Map[KeyProp[E], Any]) {
+
+    /** gets the value of the nat key val for the specified prop.
+     * 
+     * throws java.util.NoSuchElementException if the prop is not part of the key
+     * @param the prop to look up a value for
+     */
+    def apply(prop: KeyProp[E]): Any = propVals(prop)
+
+    /** gets the value of the nat key val for the specified prop path.
+     * 
+     * throws java.util.NoSuchElementException if the prop indicated by the prop path is not part of the key
+     * @param the prop to look up a value for
+     */
+    def apply(propPath: String): Any = propVals(propPathToProp(propPath))
+
+    /** gets the shorthanded value of the nat key val for the specified prop. if there is a shorthand in
+     * the shorthand pool that applies, it is applied to the raw value before it is returned.
+     * 
+     * throws java.util.NoSuchElementException if the prop is not part of the key
+     * @param the prop to look up a value for
+     */
+    def shorthand(prop: KeyProp[E]): Any = {
+      val raw = propVals(prop)
+      if (shorthandPool.contains(prop.typeKey)) {
+        def abbreviate[PV : TypeKey] = shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
+        abbreviate(prop.typeKey)
+      } else {
+        raw
+      }
+    }
+
+  }
+
+  /** a builder of values for this natural key */
+  class ValBuilder {
+
+    private var propVals = Map[KeyProp[E], Any]()
+
+    /** sets the property to the value */
+    def setProp[A : TypeKey](propPath: String, propVal: A): ValBuilder =
+      setProp(propPathToProp(propPath), propVal)
+
+    /** sets the property to the value */
+    def setProp[A : TypeKey](prop: KeyProp[E], propVal: A): ValBuilder = {
+      if (!props.contains(prop)) throw new KeyDoesNotContainPropException(Key.this, prop)
+      if (! (typeKey[A] <:< prop.typeKey)) throw new KeyPropValTypeMismatchException(prop, propVal)
+      propVals += prop -> propVal
+      this
+    }
+
+    private[Key] def setPropRaw(prop: KeyProp[E], propVal: Any): Unit = {
+      propVals += prop -> propVal
+    }
+
+    /** builds the nat key value
+     * @throws longevity.exceptions.UnsetKeyPropException if any of the properties of the nat key were not set
+     * in this builder
+     */
+    def build: Val = {
+      if (propVals.size < props.size) {
+        throw new UnsetKeyPropException(Key.this, props -- propVals.keys)
+      }
+      Val(propVals)
+    }
+  }
+
+}

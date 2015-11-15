@@ -12,6 +12,6 @@ extends RootEntity {
 }
 
 object WithComplexConstraint extends RootEntityType[WithComplexConstraint] {
-  natKey("id")
+  key("id")
 }
 

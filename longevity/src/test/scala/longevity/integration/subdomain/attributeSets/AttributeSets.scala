@@ -16,5 +16,5 @@ case class AttributeSets(
 extends RootEntity
 
 object AttributeSets extends RootEntityType[AttributeSets] {
-  natKey("uri")
+  key("uri")
 }

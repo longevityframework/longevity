@@ -48,9 +48,9 @@ extends Repo[E](entityType, subdomain) {
     }
   })
 
-  def retrieve(natKey: NatKey[E])(natKeyVal: natKey.Val): Future[Option[Persisted[E]]] = Future {
+  def retrieve(key: Key[E])(keyVal: key.Val): Future[Option[Persisted[E]]] = Future {
     val builder = MongoDBObject.newBuilder
-    natKey.props.foreach { prop => builder += (prop.path -> resolvePropVal(prop, natKeyVal(prop))) }
+    key.props.foreach { prop => builder += (prop.path -> resolvePropVal(prop, keyVal(prop))) }
     val query = builder.result
     val resultOption = mongoCollection.findOne(query)
     val idEntityOption = resultOption map { result =>
@@ -60,7 +60,7 @@ extends Repo[E](entityType, subdomain) {
     idEntityOption map { case (id, e) => new Persisted[E](MongoId(id), e) }
   }
 
-  private def resolvePropVal(prop: NatKeyProp[E], raw: Any): Any = {
+  private def resolvePropVal(prop: KeyProp[E], raw: Any): Any = {
     if (subdomain.shorthandPool.contains(prop.typeKey)) {
       def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
       abbreviate(prop.typeKey)

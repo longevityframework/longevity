@@ -15,6 +15,6 @@ case class AllShorthands(
 extends RootEntity
 
 object AllShorthands extends RootEntityType[AllShorthands] {
-  natKey("uri")
+  key("uri")
 }
 

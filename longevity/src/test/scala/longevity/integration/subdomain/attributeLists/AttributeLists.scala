@@ -16,6 +16,6 @@ case class AttributeLists(
 extends RootEntity
 
 object AttributeLists extends RootEntityType[AttributeLists] {
-  natKey("uri")
+  key("uri")
 }
 

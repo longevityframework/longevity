@@ -16,5 +16,5 @@ case class AllAttributes(
 extends RootEntity
 
 object AllAttributes extends RootEntityType[AllAttributes] {
-  natKey("uri")
+  key("uri")
 }

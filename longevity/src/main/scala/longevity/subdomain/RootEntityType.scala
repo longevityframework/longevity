@@ -18,43 +18,43 @@ extends EntityType[E] {
     registered = true
   }
 
-  private var natKeyBuffer = Set[NatKey[E]]()
+  private var keyBuffer = Set[Key[E]]()
 
   /** the natural keys for this root entity type. you populate this set by repeatedly calling either of the
-   * `RootEntityType.natKey` methods in your class initializer. you should only attempt to access this set
+   * `RootEntityType.key` methods in your class initializer. you should only attempt to access this set
    * after your `RootEntityType` is fully initialized.
    * @throws longevity.exceptions.SubdomainException on attempt to access this set before the `RootEntityType`
    * is fully initialized
    */
-  lazy val natKeys: Set[NatKey[E]] = {
+  lazy val keys: Set[Key[E]] = {
     if (!registered) throw new SubdomainException(
-      s"cannot access RootEntityType.natKeys for $this until after the subdomain has been initialized")
-    natKeyBuffer
+      s"cannot access RootEntityType.keys for $this until after the subdomain has been initialized")
+    keyBuffer
   }
 
-  /** constructs a [[NatKeyProp]] from a path
-   * @throws longevity.exceptions.InvalidNatKeyPropPathException if any step along the path does not exist, or
+  /** constructs a [[KeyProp]] from a path
+   * @throws longevity.exceptions.InvalidKeyPropPathException if any step along the path does not exist, or
    * any non-final step along the path is not an entity, or the final step along the path is not an [[Assoc]] or
    * a basic type
    * @see `emblem.basicTypes`
    */
-  def natKeyProp(path: String): NatKeyProp[E] = NatKeyProp(path, emblem, entityTypeKey, shorthandPool)
+  def keyProp(path: String): KeyProp[E] = KeyProp(path, emblem, entityTypeKey, shorthandPool)
 
   /** constructs a natural key for this root entity type based on the supplied set of property paths.
    * @param propPathHead one of the property paths for the properties that define this nat key
    * @param propPathTail any remaining property paths for the properties that define this nat key
-   * @throws longevity.exceptions.InvalidNatKeyPropPathException if any of the supplied property paths are
+   * @throws longevity.exceptions.InvalidKeyPropPathException if any of the supplied property paths are
    * invalid
    * @throws longevity.exceptions.SubdomainException on attempt to create a new nat key after the
    * `RootEntityType` is fully initialized
-   * @see NatKeyProp.apply
+   * @see KeyProp.apply
    */
-  def natKey(propPathHead: String, propPathTail: String*): NatKey[E] = {
+  def key(propPathHead: String, propPathTail: String*): Key[E] = {
     if (registered)
       throw new SubdomainException("cannot create new natural keys after the subdomain has been initialized")
     val propPaths = propPathTail.toSet + propPathHead
-    val key = NatKey(propPaths.map(natKeyProp(_)))
-    natKeyBuffer += key
+    val key = Key(propPaths.map(keyProp(_)))
+    keyBuffer += key
     key
   }
 
@@ -64,11 +64,11 @@ extends EntityType[E] {
    * @throws longevity.exceptions.SubdomainException on attempt to create a new nat key after the `RootEntityType`
    * is fully initialized
    */
-  def natKey(propsHead: NatKeyProp[E], propsTail: NatKeyProp[E]*): NatKey[E] = {
+  def key(propsHead: KeyProp[E], propsTail: KeyProp[E]*): Key[E] = {
     if (registered)
       throw new SubdomainException("cannot create new natural keys after the subdomain has been initialized")
-    val key = NatKey(propsTail.toSet + propsHead)
-    natKeyBuffer += key
+    val key = Key(propsTail.toSet + propsHead)
+    keyBuffer += key
     key
   }
 

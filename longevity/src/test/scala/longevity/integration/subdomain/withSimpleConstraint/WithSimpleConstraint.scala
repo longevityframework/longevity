@@ -9,6 +9,6 @@ case class WithSimpleConstraint(
 extends RootEntity
 
 object WithSimpleConstraint extends RootEntityType[WithSimpleConstraint] {
-  natKey("id")
+  key("id")
 }
 

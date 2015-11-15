@@ -8,6 +8,6 @@ case class WithComponentWithShorthands(
 extends RootEntity
 
 object WithComponentWithShorthands extends RootEntityType[WithComponentWithShorthands] {
-  natKey("uri")
+  key("uri")
 }
 

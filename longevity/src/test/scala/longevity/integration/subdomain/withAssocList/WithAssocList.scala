@@ -8,6 +8,6 @@ case class WithAssocList(
 extends RootEntity
 
 object WithAssocList extends RootEntityType[WithAssocList] {
-  natKey("uri")
+  key("uri")
 }
 
