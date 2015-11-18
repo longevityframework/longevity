@@ -18,40 +18,41 @@ object Query {
   case object AndOp extends LogicalOp
   case object OrOp extends LogicalOp
 
-}
+  // TODO: vanilla API and DSL for SRelationalQuery
 
-// so then KeyVal could be
-// case class KeyVal[E <: RootEntity](query: EqQuery[E])
+  def eqs[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, EqOp, value)
+  def neq[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, NeqOp, value)
+  def lt[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, LtOp, value)
+  def gt[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, GtOp, value)
+  def lte[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, LteOp, value)
+  def gte[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, GteOp, value)
+
+  def and[E <: RootEntity](lhs: Query[E], rhs: Query[E]) = ConditionalQuery[E](lhs, AndOp, rhs)
+  def or[E <: RootEntity](lhs: Query[E], rhs: Query[E]) = ConditionalQuery[E](lhs, OrOp, rhs)
+
+}
 
 sealed trait Query[E <: RootEntity]
 
-sealed trait EqQuery[E <: RootEntity] extends Query[E]
-
-sealed trait BaseRelationalQuery[E <: RootEntity, V] extends Query[E] {
-  val prop: Prop[E, V]
+sealed trait RelationalQuery[E <: RootEntity] extends Query[E] {
   val op: RelationalOp
-  val value: V
+  val value: Any
 }
 
-case class RelationalQuery[E <: RootEntity, V](prop: Prop[E, V], op: RelationalOp, value: V)
-extends BaseRelationalQuery[E, V]
+sealed case class SRelationalQuery[E <: RootEntity, A](
+  val prop: Prop[E, A],
+  op: RelationalOp,
+  value: A)
+extends RelationalQuery[E]
 
-case class EqRelationalQuery[E <: RootEntity, V](prop: Prop[E, V], value: V)
-extends BaseRelationalQuery[E, V]
-with EqQuery[E] {
-  override val op = EqOp
-}
+sealed case class DRelationalQuery[E <: RootEntity](
+  val path: String,
+  op: RelationalOp,
+  value: Any)
+extends RelationalQuery[E]
 
-sealed trait BaseCompoundQuery[E <: RootEntity] extends Query[E]
-
-case class CompoundQuery[E <: RootEntity](
+sealed case class ConditionalQuery[E <: RootEntity](
   lhs: Query[E],
   op: LogicalOp,
   rhs: Query[E])
-extends BaseCompoundQuery[E]
-
-case class EqCompoundQuery[E <: RootEntity](
-  lhs: EqQuery[E],
-  op: LogicalOp,
-  rhs: EqQuery[E])
-extends BaseCompoundQuery[E]
+extends Query[E]

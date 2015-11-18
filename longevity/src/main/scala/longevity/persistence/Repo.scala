@@ -28,6 +28,12 @@ abstract class Repo[E <: RootEntity : TypeKey](
   /** retrieves the aggregate by a natural key value */
   def retrieve(key: Key[E])(keyVal: key.Val): Future[Option[Persisted[E]]]
 
+  lazy val queryDsl = new QueryDsl[E]
+
+  def retrieveQ(query: Query[E]): Unit = {
+    println(s"retrieveQ $query")
+  }
+
   /** updates the aggregate */
   def update(p: Persisted[E]): Future[Persisted[E]]
 
