@@ -84,8 +84,8 @@ case class Key[E <: RootEntity] private [subdomain] (
     }
 
     /** builds the nat key value
-     * @throws longevity.exceptions.UnsetPropException if any of the properties of the nat key were not set
-     * in this builder
+     * @throws longevity.exceptions.subdomain.UnsetKeyPropException if any of the properties of the key
+     * were not set in this builder
      */
     def build: Val = {
       if (propVals.size < props.size) {

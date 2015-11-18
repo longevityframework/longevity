@@ -87,7 +87,7 @@ object LongevityBuild extends Build with BuildSettings {
     id = "root",
     base = file("."),
     settings = buildSettings
-  ) aggregate (emblem, longevity, musette)
+  ) aggregate (emblem, longevity)
 
   lazy val emblem = Project(
     id = "emblem",
@@ -136,14 +136,5 @@ object LongevityBuild extends Build with BuildSettings {
     )
   )
   .dependsOn(emblem)
-
-  lazy val musette = Project(
-    id = "musette",
-    base = file("musette"),
-    settings = buildSettings ++ Seq(
-      libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0"
-    )
-  ) dependsOn (emblem, longevity)
-  // in the future, this dependsOn emblem may go away
 
 }

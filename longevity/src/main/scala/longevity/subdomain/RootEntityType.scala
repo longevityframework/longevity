@@ -25,8 +25,8 @@ extends EntityType[E] {
   /** the keys for this root entity type. you populate this set by repeatedly calling either of the
    * `RootEntityType.key` methods in your class initializer. you should only attempt to access this set
    * after your `RootEntityType` is fully initialized.
-   * @throws longevity.exceptions.SubdomainException on attempt to access this set before the `RootEntityType`
-   * is fully initialized
+   * @throws longevity.exceptions.subdomain.SubdomainException on attempt to access this set before the
+   * `RootEntityType` is fully initialized
    */
   lazy val keys: Set[Key[E]] = {
     if (!registered) throw new SubdomainException(
@@ -57,9 +57,9 @@ extends EntityType[E] {
   /** constructs a key for this root entity type based on the supplied set of property paths
    * @param propPathHead one of the property paths for the properties that define this key
    * @param propPathTail any remaining property paths for the properties that define this key
-   * @throws longevity.exceptions.InvalidPropPathException if any of the supplied property paths are
+   * @throws longevity.exceptions.subdomain.InvalidKeyPropPathException if any of the supplied property paths are
    * invalid
-   * @throws longevity.exceptions.SubdomainException on attempt to create a new nat after the
+   * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new nat key after the
    * `RootEntityType` is fully initialized
    * @see Prop.apply
    */
@@ -75,8 +75,8 @@ extends EntityType[E] {
   /** constructs a key for this root entity type based on the supplied set of key props
    * @param propsHead one of the properties that define this key
    * @param propsTail any remaining properties that define this key
-   * @throws longevity.exceptions.SubdomainException on attempt to create a new key after the `RootEntityType`
-   * is fully initialized
+   * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new key after the
+   * `RootEntityType` is fully initialized
    */
   def key(propsHead: Prop[E, _], propsTail: Prop[E, _]*): Key[E] = {
     if (registered)
