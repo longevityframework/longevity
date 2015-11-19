@@ -27,8 +27,15 @@ object Query {
   def lte[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, LteOp, value)
   def gte[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, GteOp, value)
 
-  def and[E <: RootEntity](lhs: Query[E], rhs: Query[E]) = ConditionalQuery[E](lhs, AndOp, rhs)
-  def or[E <: RootEntity](lhs: Query[E], rhs: Query[E]) = ConditionalQuery[E](lhs, OrOp, rhs)
+  def and[E <: RootEntity](lhs: Query[E], rhs: Query[E], extras: Query[E]*) =
+    extras.foldLeft(ConditionalQuery[E](lhs, AndOp, rhs)) {
+      case (aggregate, extra) => ConditionalQuery[E](aggregate, AndOp, extra)
+    }
+
+  def or[E <: RootEntity](lhs: Query[E], rhs: Query[E], extras: Query[E]*) =
+    extras.foldLeft(ConditionalQuery[E](lhs, OrOp, rhs)) {
+      case (aggregate, extra) => ConditionalQuery[E](aggregate, OrOp, extra)
+    }
 
 }
 

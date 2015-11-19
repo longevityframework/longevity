@@ -6,7 +6,8 @@ import Query._
 
 class QueryDsl[E <: RootEntity] {
 
-  implicit def select(path: String): GatherRelational = new GatherRelational(path)
+  implicit def where(path: String) = new GatherRelational(path)
+  //implicit def where2(query: Query[E]) = new GatherLogical(query)
 
   private[QueryDsl] case class CondPrefix(lhs: Query[E], op: LogicalOp)
 
@@ -52,12 +53,13 @@ class QueryDsl[E <: RootEntity] {
 
   }
 
-  class GatherLogical private[QueryDsl] (private val prefix: Query[E]) {
+  class GatherLogical private[QueryDsl] (private[QueryDsl] val prefix: Query[E]) {
     def and(path: String) = new GatherRelational(path, Some(CondPrefix(prefix, AndOp)))
+    def and(query: Query[E]) = new GatherLogical(ConditionalQuery(prefix, AndOp, query))
     def or(path: String) = new GatherRelational(path, Some(CondPrefix(prefix, OrOp)))
+    def or(query: Query[E]) = new GatherLogical(ConditionalQuery(prefix, OrOp, query))
   }
 
-  implicit def query[E <: RootEntity](gather: GatherLogical): Query[E] =
-    ???
+  implicit def query(gather: GatherLogical): Query[E] = gather.prefix
 
 }

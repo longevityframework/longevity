@@ -240,8 +240,8 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
     import longevity.integration.subdomain.allAttributes._
     val repo: Repo[AllAttributes] = context.mongoContext.repoPool[AllAttributes]
 
-    //import repo.queryDsl._
-    //repo.retrieveQ("uri" eqs "foo" and "boolean" eqs true)
+    import repo.queryDsl._
+    repo.retrieveQ("uri" eqs "foo" and "boolean" eqs true)
 
   }
 
