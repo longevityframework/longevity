@@ -21,11 +21,17 @@ object Query {
   // TODO: vanilla API and DSL for SRelationalQuery
 
   def eqs[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, EqOp, value)
+  def eqs[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, EqOp, value)
   def neq[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, NeqOp, value)
+  def neq[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, NeqOp, value)
   def lt[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, LtOp, value)
+  def lt[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, LtOp, value)
   def gt[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, GtOp, value)
+  def gt[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, GtOp, value)
   def lte[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, LteOp, value)
+  def lte[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, LteOp, value)
   def gte[E <: RootEntity](path: String, value: Any) = DRelationalQuery[E](path, GteOp, value)
+  def gte[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, GteOp, value)
 
   def and[E <: RootEntity](lhs: Query[E], rhs: Query[E], extras: Query[E]*) =
     extras.foldLeft(ConditionalQuery[E](lhs, AndOp, rhs)) {
