@@ -31,20 +31,11 @@ case class Prop[E <: RootEntity, A] private (
    */
   def propVal(e: E): Any = emblemPropPath.get(e)
 
-  // TODO scaladocs
-
-  // import Query._
-  // def eq(a: A) = EqRelationalQuery(this, a)
-  // def neq(a: A) = RelationalQuery(this, NeqOp, a)
-  // def lt(a: A) = RelationalQuery(this, LtOp, a)
-  // def lte(a: A) = RelationalQuery(this, LteOp, a)
-  // def gt(a: A) = RelationalQuery(this, GtOp, a)
-  // def gte(a: A) = RelationalQuery(this, GteOp, a)
-
 }
 
 object Prop {
 
+  // TODO scaladoc
   private[subdomain] def apply[E <: RootEntity, A : TypeKey](
     path: String,
     emblem: Emblem[E],

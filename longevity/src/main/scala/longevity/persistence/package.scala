@@ -7,12 +7,33 @@ import emblem.TypeBoundPair
 import longevity.context._
 import longevity.persistence.mongo.MongoRepo
 import longevity.subdomain._
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /** manages entity persistence operations */
 package object persistence {
 
   /** a `TypeKeyMap` of [[longevity.subdomain.RootEntity RootEntity]] to [[Repo]] */
   type RepoPool = TypeKeyMap[RootEntity, Repo]
+
+  /** the persistent state of the entity. functionally equivalent to [[PersistentState]] */
+  type PState[E <: RootEntity] = PersistentState[E]
+
+  /** a future persistent state */
+  type FPState[E <: RootEntity] = Future[PState[E]]
+
+  /** extension methods for an [[FPState]] */
+  implicit class LiftFPState[E <: RootEntity](fpState: FPState[E]) {
+
+    /** map the future PState by mapping the root inside the PState */
+    def mapRoot(f: E => E): FPState[E] =
+      fpState.map { pState => pState.map { root => f(root) } }
+
+    /** flatMap the future PState by mapping the root inside the PState into a `Future[Root]` */
+    def flatMapRoot(f: E => Future[E]): FPState[E] =
+      fpState.flatMap { pState => f(pState.get) map { root => pState.set(root) } }
+
+  }
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,

@@ -1,5 +1,6 @@
 package longevity.subdomain
 
+import emblem.imports._
 import Query._
 
 // TODO scaladocs
@@ -15,38 +16,38 @@ class QueryDsl[E <: RootEntity] {
     private val path: String,
     private val prefix: Option[CondPrefix] = None) {
 
-    def eqs[A](a: A) = {
-      val rhs = DRelationalQuery[E](path, EqOp, a)
+    def eqs[A : TypeKey](a: A) = {
+      val rhs = DRelationalQuery[E, A](path, EqOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def lt[A](a: A) = {
-      val rhs = DRelationalQuery[E](path, LtOp, a)
+    def lt[A : TypeKey](a: A) = {
+      val rhs = DRelationalQuery[E, A](path, LtOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def gt[A](a: A) = {
-      val rhs = DRelationalQuery[E](path, GtOp, a)
+    def gt[A : TypeKey](a: A) = {
+      val rhs = DRelationalQuery[E, A](path, GtOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def neq[A](a: A) = {
-      val rhs = DRelationalQuery[E](path, NeqOp, a)
+    def neq[A : TypeKey](a: A) = {
+      val rhs = DRelationalQuery[E, A](path, NeqOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def lte[A](a: A) = {
-      val rhs = DRelationalQuery[E](path, LteOp, a)
+    def lte[A : TypeKey](a: A) = {
+      val rhs = DRelationalQuery[E, A](path, LteOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def gte[A](a: A) = {
-      val rhs = DRelationalQuery[E](path, GteOp, a)    
+    def gte[A : TypeKey](a: A) = {
+      val rhs = DRelationalQuery[E, A](path, GteOp, a)    
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }

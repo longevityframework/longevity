@@ -16,6 +16,9 @@ abstract class Repo[E <: RootEntity : TypeKey](
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
 
+  /** contains implicit imports to make the query DSL work */
+  lazy val queryDsl = new QueryDsl[E]
+
   /** the type key for the aggregate roots this repository handles */
   val entityTypeKey: TypeKey[E] = typeKey[E]
 
@@ -25,14 +28,19 @@ abstract class Repo[E <: RootEntity : TypeKey](
   /** convenience method for creating the aggregate */
   def create(e: E): Future[Persisted[E]] = create(new Unpersisted(e))
 
-  /** retrieves the aggregate by a natural key value */
+  /** retrieves the aggregate by a key value */
   def retrieve(key: Key[E])(keyVal: key.Val): Future[Option[Persisted[E]]]
 
-  lazy val queryDsl = new QueryDsl[E]
-
-  def retrieveQ(query: Query[E]): Unit = {
+  /** retrieves the aggregate by a query */
+  def retrieveByQuery(query: Query[E]): Future[Seq[Persisted[E]]] = {
     println(s"retrieveQ $query")
+    entityType.validateQuery(query)
+    retrieveByValidQuery(query)
   }
+
+  protected def retrieveByValidQuery(query: Query[E]): Future[Seq[Persisted[E]]]
+
+  // TODO: streamByQuery
 
   /** updates the aggregate */
   def update(p: Persisted[E]): Future[Persisted[E]]

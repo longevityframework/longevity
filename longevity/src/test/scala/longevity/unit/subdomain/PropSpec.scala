@@ -235,14 +235,4 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
     prop.typeKey should equal (typeKey[Assoc[Associated]])
   }
 
-  it should "testing testing" in {
-    import longevity.persistence._
-    import longevity.integration.subdomain.allAttributes._
-    val repo: Repo[AllAttributes] = context.mongoContext.repoPool[AllAttributes]
-
-    import repo.queryDsl._
-    repo.retrieveQ("uri" eqs "foo" and "boolean" eqs true)
-
-  }
-
 }

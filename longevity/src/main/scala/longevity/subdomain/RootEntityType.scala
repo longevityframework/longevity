@@ -118,4 +118,27 @@ extends EntityType[E] {
     index
   }
 
+  // TODO unit tests
+  // TODO fix up scaladoc
+  /** validates the query. throws exception if not valid. translates DRelationalQuery into SRelationalQuery
+   * @throws longevity.exceptions.subdomain.PropTypeMismatchException if a dynamic part of the query is mistyped
+   */
+  def validateQuery(query: Query[E]): Query[E] = {
+    query match {
+      case q: SRelationalQuery[E, _] =>
+        q
+      case q: DRelationalQuery[E, _] =>
+        def static[A : TypeKey](qq: DRelationalQuery[E, A]) = {
+          val prop = Prop[E, A](qq.path, emblem, entityTypeKey, shorthandPool)
+          SRelationalQuery[E, A](prop, qq.op, qq.value)
+        }
+        static(q)(q.valTypeKey)
+      case q: ConditionalQuery[E] =>
+        ConditionalQuery(
+          validateQuery(q.lhs),
+          q.op,
+          validateQuery(q.rhs))
+    }
+  }
+  
 }

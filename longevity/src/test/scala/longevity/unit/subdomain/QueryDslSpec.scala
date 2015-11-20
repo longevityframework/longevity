@@ -23,12 +23,24 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "QueryDsl"
 
+  it should "test" in {
+    import longevity.persistence._
+    import longevity.integration.subdomain.allAttributes._
+    val repo: Repo[AllAttributes] = context.mongoContext.repoPool[AllAttributes]
+
+    import repo.queryDsl._
+    intercept [longevity.exceptions.subdomain.PropTypeMismatchException[_]] {
+      repo.retrieveByQuery("uri" eqs "foo" and "boolean" eqs 77)
+    }
+  }
+
   it should "build dynamic relational queries that match the results of Query object methods" in {
     val path = "foo"
     val value = 7
 
+    // the type help will come naturally when calling repo method
     var expected = Query.eqs(path, value)
-    var actual: Query[Root] = path eqs value // the type help will come naturally when calling repo method
+    var actual: Query[Root] = path eqs value
     actual should equal (expected)
 
     expected = Query.neq(path, value)
@@ -156,11 +168,11 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   }
 
-  it should "build static relational queries that match the results of Query object methods" in {
+  it should "build : TypeKey static relational queries that match the results of Query object methods" in {
     import Root._
     val value = 7
 
-    var expected = Query.eqs(path1, value)
+    var expected: Query[Root] = Query.eqs(path1, value)
     var actual: Query[Root] = path1 eqs value
     actual should equal (expected)
 

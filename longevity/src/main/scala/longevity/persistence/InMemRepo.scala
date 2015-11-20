@@ -52,6 +52,7 @@ extends Repo[E](entityType, subdomain) {
     Promise.successful(optionE).future
   }
 
+
   def update(persisted: Persisted[E]) = {
     dumpKeys(persisted.orig)
     patchUnpersistedAssocs(persisted.get) map {
@@ -64,6 +65,10 @@ extends Repo[E](entityType, subdomain) {
     dumpKeys(persisted.orig)
     val deleted = new Deleted(persisted)
     Promise.successful(deleted).future
+  }
+
+  protected def retrieveByValidQuery(query: Query[E]): Future[Seq[Persisted[E]]] = {
+    ???
   }
 
   private def retrieve(assoc: PersistedAssoc[E]) = {

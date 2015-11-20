@@ -88,6 +88,10 @@ extends Repo[E](entityType, subdomain) {
     new Deleted(persisted)
   }
 
+  protected def retrieveByValidQuery(query: Query[E]): Future[Seq[Persisted[E]]] = {
+    ???
+  }
+
   private def retrieve(assoc: PersistedAssoc[E]) = Future {
     val objectId = assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)

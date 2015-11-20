@@ -11,6 +11,9 @@ sealed trait PersistentState[E <: RootEntity] {
   /** returns the aggregate */
   def get: E = e
 
+  /** returns the persistent state of an updated entity */
+  def set(e: E): PersistentState[E] = map(_ => e)
+
   /** returns the persistent state of an entity modified according to function `f` */
   def map(f: E => E): PersistentState[E]
 
