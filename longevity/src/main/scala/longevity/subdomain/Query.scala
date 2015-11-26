@@ -55,7 +55,9 @@ object Query {
 
 }
 
-sealed trait Query[E <: RootEntity]
+sealed trait Query[E <: RootEntity] {
+  val validated: Boolean
+}
 
 sealed trait RelationalQuery[E <: RootEntity] extends Query[E] {
   val op: RelationalOp
@@ -66,7 +68,9 @@ sealed case class SRelationalQuery[E <: RootEntity, A](
   val prop: Prop[E, A],
   op: RelationalOp,
   value: A)
-extends RelationalQuery[E]
+extends RelationalQuery[E] {
+  val validated = true
+}
 
 sealed case class DRelationalQuery[E <: RootEntity, A : TypeKey](
   val path: String,
@@ -74,10 +78,13 @@ sealed case class DRelationalQuery[E <: RootEntity, A : TypeKey](
   value: A)
 extends RelationalQuery[E] {
   val valTypeKey = typeKey[A]
+  val validated = false  
 }
 
 sealed case class ConditionalQuery[E <: RootEntity](
   lhs: Query[E],
   op: LogicalOp,
   rhs: Query[E])
-extends Query[E]
+extends Query[E] {
+  val validated = lhs.validated && rhs.validated
+}

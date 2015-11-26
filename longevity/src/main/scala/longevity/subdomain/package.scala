@@ -54,6 +54,10 @@ package object subdomain {
   /** an aggregate root. functionally equivalent to a [[RootEntity]] */
   type Root = RootEntity
 
+  /** a type class for a domain entity that serves as an aggregate root. functionally equivalent to a
+   * [[RootEntityType]] */
+  type RootType[R <: RootEntity] = RootEntityType[R]
+
   /** a value object. functionally equivalent to an [[Entity]] */
   type ValueObject = Entity
 

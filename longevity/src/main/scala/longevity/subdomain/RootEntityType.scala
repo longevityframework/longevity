@@ -118,8 +118,6 @@ extends EntityType[E] {
     index
   }
 
-  // TODO unit tests
-  // TODO fix up scaladoc
   /** validates the query. throws exception if not valid. translates DRelationalQuery into SRelationalQuery
    * @throws longevity.exceptions.subdomain.PropTypeMismatchException if a dynamic part of the query is mistyped
    */
