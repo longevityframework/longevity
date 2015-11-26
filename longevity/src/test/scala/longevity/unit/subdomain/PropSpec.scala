@@ -32,17 +32,17 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the specified prop path passes through a collection" in {
     import longevity.integration.subdomain.withComponentList._
-    intercept[NonEntityPropPathSegmentException] {
+    intercept[CollectionPropPathSegmentException] {
       WithComponentList.prop[Int]("components.uri")
     }
 
     import longevity.integration.subdomain.withComponentOption._
-    intercept[NonEntityPropPathSegmentException] {
+    intercept[CollectionPropPathSegmentException] {
       WithComponentOption.prop[Int]("component.uri")
     }
 
     import longevity.integration.subdomain.withComponentSet._
-    intercept[NonEntityPropPathSegmentException] {
+    intercept[CollectionPropPathSegmentException] {
       WithComponentSet.prop[Int]("components.uri")
     }
   }

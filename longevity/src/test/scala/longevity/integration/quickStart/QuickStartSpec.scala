@@ -161,11 +161,11 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
 
     // persist the entities:
 
-    repos[User].create(john)
-    repos[User].create(frank)
-    repos[Blog].create(blog)
-    repos[BlogPost].create(johnsPost)
-    repos[BlogPost].create(franksPost)
+    repos[User].create(john).futureValue
+    repos[User].create(frank).futureValue
+    repos[Blog].create(blog).futureValue
+    repos[BlogPost].create(johnsPost).futureValue
+    repos[BlogPost].create(franksPost).futureValue
 
     // you can create these entities in any order. you also don't need
     // to explicitly create the blog, as it will be handled

@@ -2,11 +2,13 @@ package longevity.subdomain
 
 import emblem.EmblemPropPath
 import emblem.basicTypes.isBasicType
+import emblem.exceptions.CollectionInPropPathException
 import emblem.exceptions.EmblemPropPathTypeMismatchException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblemInPropPathException
 import emblem.exceptions.{ EmptyPropPathException => EmblemEmptyPropPathException }
 import emblem.imports._
+import longevity.exceptions.subdomain.CollectionPropPathSegmentException
 import longevity.exceptions.subdomain.EmptyPropPathException
 import longevity.exceptions.subdomain.InvalidPropPathLeafException
 import longevity.exceptions.subdomain.NoSuchPropPathSegmentException
@@ -63,6 +65,8 @@ object Prop {
           throw new EmptyPropPathException(e)
         case e: NoSuchPropertyException =>
           throw new NoSuchPropPathSegmentException(e.propName, path, rootTypeKey, e)
+        case e: CollectionInPropPathException =>
+          throw new CollectionPropPathSegmentException(e.collectionPathSegment, path, rootTypeKey, e)
         case e: NonEmblemInPropPathException =>
           throw new NonEntityPropPathSegmentException(e.nonEmblemPathSegment, path, rootTypeKey, e)
       }

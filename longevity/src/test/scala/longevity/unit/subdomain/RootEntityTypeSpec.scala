@@ -120,4 +120,10 @@ class RootEntityTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   }
 
+  it should "belch on any collection properties, including option properties" in {
+    intercept[longevity.exceptions.subdomain.CollectionPropPathSegmentException] {
+      User.validateQuery(Query.eqs("profile.title", "title"))
+    }
+  }
+
 }

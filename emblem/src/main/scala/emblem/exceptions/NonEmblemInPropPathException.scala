@@ -10,4 +10,4 @@ class NonEmblemInPropPathException(
   val fullPath: String,
   val nonEmblemPathSegment: String)
 extends EmblemPropPathException(
-  "property path $fullPath for emblem $emblem specifies a non-emblem in the middle of the path")
+  s"property path $fullPath for emblem $emblem specifies a non-emblem in the middle of the path")

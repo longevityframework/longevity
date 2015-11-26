@@ -1,0 +1,14 @@
+package emblem.exceptions
+
+import emblem.Emblem
+
+/** an exception thrown when the user attempts to build an [[EmblemPropPath]] where one of the
+ * steps in the specified path is a collection type
+ */
+class CollectionInPropPathException(
+  val emblem: Emblem[_],
+  val fullPath: String,
+  val collectionPathSegment: String)
+extends EmblemPropPathException(
+  s"property path $fullPath for emblem $emblem specifies collection $collectionPathSegment. " +
+  s"collections are not currently supported in emblem prop paths.")
