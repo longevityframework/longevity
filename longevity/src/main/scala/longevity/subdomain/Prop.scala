@@ -45,8 +45,7 @@ object Prop {
     shorthandPool: ShorthandPool)
   : Prop[E, A] = {
     val prop = unbounded(path, emblem, rootTypeKey, shorthandPool)
-    if (!(prop.typeKey <:< typeKey[A]))
-      throw new PropTypeMismatchException(path, rootTypeKey)
+    if (!(prop.typeKey <:< typeKey[A])) throw new PropTypeMismatchException(path, rootTypeKey)
     prop.asInstanceOf[Prop[E, A]]
   }
 

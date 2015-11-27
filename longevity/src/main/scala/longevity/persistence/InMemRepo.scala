@@ -67,26 +67,27 @@ extends Repo[E](entityType, subdomain) {
     Promise.successful(deleted).future
   }
 
-  protected def retrieveByValidQuery(query: Query[E]): Future[Seq[Persisted[E]]] = {
-    
-    ???
+  protected def retrieveByValidQuery(query: Query[E]): Future[Seq[Persisted[E]]] = Future {
+    idToEntityMap.values.view.toSeq.filter { pstate => queryMatches(query, pstate.get) }
   }
 
   private def queryMatches(query: Query[E], e: E): Boolean = {
     import Query._
     query match {
-      case SRelationalQuery(prop, EqOp, value) => prop.propVal(e) == value
-      case SRelationalQuery(prop, NeqOp, value) => prop.propVal(e) != value
-      case SRelationalQuery(prop, LtOp, value) => prop.propVal(e) == value // TODO
-      case SRelationalQuery(prop, LteOp, value) => prop.propVal(e) == value // TODO
-      case SRelationalQuery(prop, GtOp, value) => prop.propVal(e) == value // TODO
-      case SRelationalQuery(prop, GteOp, value) => prop.propVal(e) == value // TODO
+      case SEqualityQuery(prop, EqOp, value) => prop.propVal(e) == value
+      case SEqualityQuery(prop, NeqOp, value) => prop.propVal(e) != value
+      case q @ SOrderingQuery(prop, LtOp, value) => q.ordering.lt(q.prop.propVal(e), q.value)
+      case q @ SOrderingQuery(prop, LteOp, value) => q.ordering.lteq(q.prop.propVal(e), q.value)
+      case q @ SOrderingQuery(prop, GtOp, value) => q.ordering.gt(q.prop.propVal(e), q.value)
+      case q @ SOrderingQuery(prop, GteOp, value) => q.ordering.gteq(q.prop.propVal(e), q.value)
       case ConditionalQuery(lhs, AndOp, rhs) => queryMatches(lhs, e) && queryMatches(rhs, e)
       case ConditionalQuery(lhs, OrOp, rhs) => queryMatches(lhs, e) || queryMatches(rhs, e)
-      case ConditionalQuery(_,_,_) => 
-        throw new IllegalStateException("") // TODO why does the compiler demand this??
-      case DRelationalQuery(_, _, _) =>
-        throw new IllegalStateException("DRelationalQuery in a validated query") // TODO this should be typeable
+      case DOrderingQuery(_, _, _) =>
+        throw new IllegalStateException("DOrderingQuery in a validated query") // TODO this should be typeable
+      case DEqualityQuery(_, _, _) =>
+        throw new IllegalStateException("DEqualityQuery in a validated query") // TODO this should be typeable
+      case ConditionalQuery(_,_,_) => throw new MatchError(query) // not sure why the compiler needs this..
+      case SOrderingQuery(_,_,_) => throw new MatchError(query) // not sure why the compiler needs this..
     }
   }
 

@@ -7,41 +7,55 @@ import Query._
 
 object Query {
 
-  sealed trait RelationalOp
-  case object EqOp extends RelationalOp
-  case object NeqOp extends RelationalOp
-  case object LtOp extends RelationalOp
-  case object LteOp extends RelationalOp
-  case object GtOp extends RelationalOp
-  case object GteOp extends RelationalOp
+  sealed trait EqualityOp
+  case object EqOp extends EqualityOp
+  case object NeqOp extends EqualityOp
+
+  sealed trait OrderingOp
+  case object LtOp extends OrderingOp
+  case object LteOp extends OrderingOp
+  case object GtOp extends OrderingOp
+  case object GteOp extends OrderingOp
 
   sealed trait LogicalOp
   case object AndOp extends LogicalOp
   case object OrOp extends LogicalOp
 
-  def eqs[E <: RootEntity, A : TypeKey](path: String, value: A) = DRelationalQuery[E, A](path, EqOp, value)
+  def eqs[E <: RootEntity, A : TypeKey](path: String, value: A) =
+    DEqualityQuery[E, A](path, EqOp, value)
 
-  def eqs[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, EqOp, value)
+  def eqs[E <: RootEntity, A](prop: Prop[E, A], value: A) =
+    SEqualityQuery[E, A](prop, EqOp, value)
 
-  def neq[E <: RootEntity, A : TypeKey](path: String, value: A) = DRelationalQuery[E, A](path, NeqOp, value)
+  def neq[E <: RootEntity, A : TypeKey](path: String, value: A) =
+    DEqualityQuery[E, A](path, NeqOp, value)
 
-  def neq[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, NeqOp, value)
+  def neq[E <: RootEntity, A](prop: Prop[E, A], value: A) =
+    SEqualityQuery[E, A](prop, NeqOp, value)
 
-  def lt[E <: RootEntity, A : TypeKey](path: String, value: A) = DRelationalQuery[E, A](path, LtOp, value)
+  def lt[E <: RootEntity, A : TypeKey](path: String, value: A)(implicit ordering: Ordering[A]) =
+    DOrderingQuery[E, A](path, LtOp, value)(ordering)
 
-  def lt[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, LtOp, value)
+  def lt[E <: RootEntity, A](prop: Prop[E, A], value: A)(implicit ordering: Ordering[A]) =
+    SOrderingQuery[E, A](prop, LtOp, value)(ordering)
 
-  def gt[E <: RootEntity, A : TypeKey](path: String, value: A) = DRelationalQuery[E, A](path, GtOp, value)
+  def gt[E <: RootEntity, A : TypeKey](path: String, value: A)(implicit ordering: Ordering[A]) =
+    DOrderingQuery[E, A](path, GtOp, value)(ordering)
 
-  def gt[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, GtOp, value)
+  def gt[E <: RootEntity, A](prop: Prop[E, A], value: A)(implicit ordering: Ordering[A]) =
+    SOrderingQuery[E, A](prop, GtOp, value)(ordering)
 
-  def lte[E <: RootEntity, A : TypeKey](path: String, value: A) = DRelationalQuery[E, A](path, LteOp, value)
+  def lte[E <: RootEntity, A : TypeKey](path: String, value: A)(implicit ordering: Ordering[A]) =
+    DOrderingQuery[E, A](path, LteOp, value)(ordering)
 
-  def lte[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, LteOp, value)
+  def lte[E <: RootEntity, A](prop: Prop[E, A], value: A)(implicit ordering: Ordering[A]) =
+    SOrderingQuery[E, A](prop, LteOp, value)(ordering)
 
-  def gte[E <: RootEntity, A : TypeKey](path: String, value: A) = DRelationalQuery[E, A](path, GteOp, value)
+  def gte[E <: RootEntity, A : TypeKey](path: String, value: A)(implicit ordering: Ordering[A]) =
+    DOrderingQuery[E, A](path, GteOp, value)(ordering)
 
-  def gte[E <: RootEntity, A](prop: Prop[E, A], value: A) = SRelationalQuery[E, A](prop, GteOp, value)
+  def gte[E <: RootEntity, A](prop: Prop[E, A], value: A)(implicit ordering: Ordering[A]) =
+    SOrderingQuery[E, A](prop, GteOp, value)(ordering)
 
   def and[E <: RootEntity](lhs: Query[E], rhs: Query[E], extras: Query[E]*) =
     extras.foldLeft(ConditionalQuery[E](lhs, AndOp, rhs)) {
@@ -59,24 +73,49 @@ sealed trait Query[E <: RootEntity] {
   val validated: Boolean
 }
 
-sealed trait RelationalQuery[E <: RootEntity] extends Query[E] {
-  val op: RelationalOp
+sealed trait EqualityQuery[E <: RootEntity] extends Query[E] {
+  val op: EqualityOp
   val value: Any
 }
 
-sealed case class SRelationalQuery[E <: RootEntity, A](
+sealed case class SEqualityQuery[E <: RootEntity, A](
   val prop: Prop[E, A],
-  op: RelationalOp,
+  op: EqualityOp,
   value: A)
-extends RelationalQuery[E] {
+extends EqualityQuery[E] {
   val validated = true
 }
 
-sealed case class DRelationalQuery[E <: RootEntity, A : TypeKey](
+sealed case class DEqualityQuery[E <: RootEntity, A : TypeKey](
   val path: String,
-  op: RelationalOp,
+  op: EqualityOp,
   value: A)
-extends RelationalQuery[E] {
+extends EqualityQuery[E] {
+  val valTypeKey = typeKey[A]
+  val validated = false  
+}
+
+sealed trait OrderingQuery[E <: RootEntity, A] extends Query[E] {
+  val op: OrderingOp
+  val value: A
+  val ordering: Ordering[A]
+}
+
+sealed case class SOrderingQuery[E <: RootEntity, A](
+  val prop: Prop[E, A],
+  op: OrderingOp,
+  value: A)(
+  val ordering: Ordering[A])
+extends OrderingQuery[E, A] {
+  val validated = true
+}
+
+sealed case class DOrderingQuery[E <: RootEntity, A : TypeKey](
+  val path: String,
+  op: OrderingOp,
+  value: A)(
+  val ordering: Ordering[A])
+extends OrderingQuery[E, A] {
   val valTypeKey = typeKey[A]
   val validated = false  
 }

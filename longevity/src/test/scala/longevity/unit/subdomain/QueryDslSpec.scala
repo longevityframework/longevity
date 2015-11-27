@@ -5,13 +5,18 @@ import longevity.subdomain._
 
 object QueryDslSpec {
 
-  private case class Root(path1: Int, path2: Double, path3: String) extends RootEntity
+  private case class Root(path1: Int, path2: Double, path3: String, path4: Assoc[Associated]) extends RootEntity
 
   private object Root extends RootEntityType[Root] {
     val path1 = prop[Int]("path1")
     val path2 = prop[Double]("path2")
     val path3 = prop[String]("path3")
+    val path4 = prop[Assoc[Associated]]("path4")
   }
+
+  private case class Associated() extends RootEntity
+
+  private object Associated extends RootEntityType[Associated]
 
 }
 
@@ -23,23 +28,12 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "QueryDsl"
 
-  it should "test" in {
-    import longevity.persistence._
-    import longevity.integration.subdomain.allAttributes._
-    val repo: Repo[AllAttributes] = context.mongoContext.repoPool[AllAttributes]
-
-    import repo.queryDsl._
-    intercept [longevity.exceptions.subdomain.PropTypeMismatchException[_]] {
-      repo.retrieveByQuery("uri" eqs "foo" and "boolean" eqs 77)
-    }
-  }
-
   it should "build dynamic relational queries that match the results of Query object methods" in {
     val path = "foo"
     val value = 7
 
     // the type help will come naturally when calling repo method
-    var expected = Query.eqs(path, value)
+    var expected: Query[Root] = Query.eqs(path, value)
     var actual: Query[Root] = path eqs value
     actual should equal (expected)
 
@@ -168,7 +162,19 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   }
 
-  it should "build : TypeKey static relational queries that match the results of Query object methods" in {
+  it should "refuse to build a static ordering query on a non-ordered prop" in {
+    import Root._
+    val assoc = Assoc(new Associated())
+
+    "(path4 eqs assoc): Query[Root]" should compile
+    "(path4 neq assoc): Query[Root]" should compile
+    "(path4 lt assoc): Query[Root]" shouldNot compile
+    "(path4 lte assoc): Query[Root]" shouldNot compile
+    "(path4 gt assoc): Query[Root]" shouldNot compile
+    "(path4 gte assoc): Query[Root]" shouldNot compile
+  }
+
+  it should "build static relational queries that match the results of Query object methods" in {
     import Root._
     val value = 7
 
