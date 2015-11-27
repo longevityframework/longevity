@@ -68,7 +68,26 @@ extends Repo[E](entityType, subdomain) {
   }
 
   protected def retrieveByValidQuery(query: Query[E]): Future[Seq[Persisted[E]]] = {
+    
     ???
+  }
+
+  private def queryMatches(query: Query[E], e: E): Boolean = {
+    import Query._
+    query match {
+      case SRelationalQuery(prop, EqOp, value) => prop.propVal(e) == value
+      case SRelationalQuery(prop, NeqOp, value) => prop.propVal(e) != value
+      case SRelationalQuery(prop, LtOp, value) => prop.propVal(e) == value // TODO
+      case SRelationalQuery(prop, LteOp, value) => prop.propVal(e) == value // TODO
+      case SRelationalQuery(prop, GtOp, value) => prop.propVal(e) == value // TODO
+      case SRelationalQuery(prop, GteOp, value) => prop.propVal(e) == value // TODO
+      case ConditionalQuery(lhs, AndOp, rhs) => queryMatches(lhs, e) && queryMatches(rhs, e)
+      case ConditionalQuery(lhs, OrOp, rhs) => queryMatches(lhs, e) || queryMatches(rhs, e)
+      case ConditionalQuery(_,_,_) => 
+        throw new IllegalStateException("") // TODO why does the compiler demand this??
+      case DRelationalQuery(_, _, _) =>
+        throw new IllegalStateException("DRelationalQuery in a validated query") // TODO this should be typeable
+    }
   }
 
   private def retrieve(assoc: PersistedAssoc[E]) = {

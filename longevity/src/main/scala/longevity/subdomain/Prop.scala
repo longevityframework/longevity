@@ -26,12 +26,12 @@ import longevity.exceptions.subdomain.PropTypeMismatchException
 case class Prop[E <: RootEntity, A] private (
   val path: String,
   val typeKey: TypeKey[_])(
-  private val emblemPropPath: EmblemPropPath[E, _]) {
+  private val emblemPropPath: EmblemPropPath[E, A]) {
 
   /** the value of this property for a specific root entity
    * @param e the root entity we are looking up the value of the property for
    */
-  def propVal(e: E): Any = emblemPropPath.get(e)
+  def propVal(e: E): A = emblemPropPath.get(e)
 
 }
 
