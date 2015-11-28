@@ -2,6 +2,7 @@ package longevity.integration.subdomain.allAttributes
 
 import com.github.nscala_time.time.Imports._
 import longevity.subdomain._
+import shorthands._
 
 case class AllAttributes(
   uri: String,

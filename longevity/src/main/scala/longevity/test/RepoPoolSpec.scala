@@ -9,6 +9,7 @@ import emblem.traversors.sync.CustomGenerator
 import emblem.traversors.sync.Differ
 import emblem.traversors.sync.Generator
 import emblem.traversors.sync.TestDataGenerator
+import longevity.context.LongevityContext
 import longevity.subdomain._
 import longevity.persistence._
 import org.scalatest.OptionValues._
@@ -31,17 +32,24 @@ import org.scalatest.time.SpanSugar._
  * longevity contexts with the same name, when reading scalatest output
  */
 private[longevity] class RepoPoolSpec(
-  subdomain: Subdomain,
-  customGeneratorPool: CustomGeneratorPool,
+  context: LongevityContext,
   repoPool: RepoPool,
   suiteNameSuffix: Option[String] = None)
-extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
+extends {
+  protected val longevityContext = context
+}
+with FeatureSpec
+with GivenWhenThen
+with Matchers
+with ScalaFutures
+with ScaledTimeSpans
+with TestDataGeneration {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000 millis),
     interval = scaled(50 millis))
 
-  override val suiteName = s"RepoPoolSpec for ${subdomain.name}${suiteNameSuffix match {
+  override val suiteName = s"RepoPoolSpec for ${longevityContext.subdomain.name}${suiteNameSuffix match {
     case Some(suffix) => s" $suffix"
     case None => ""
   }}"
@@ -160,21 +168,9 @@ extends FeatureSpec with GivenWhenThen with Matchers with ScalaFutures with Scal
 
   }
 
-  private val assocGenerator: CustomGenerator[Assoc[_ <: RootEntity]] =
-    new CustomGenerator[Assoc[_ <: RootEntity]] {
-      def apply[B <: Assoc[_ <: RootEntity] : TypeKey](generator: Generator): B = {
-        val entityTypeKey: TypeKey[_ <: RootEntity] =
-          typeKey[B].typeArgs.head.castToUpperBound[RootEntity].get
-        def genAssoc[Associatee <: RootEntity : TypeKey] =
-            Assoc[Associatee](generator.generate[Associatee])
-        genAssoc(entityTypeKey).asInstanceOf[B]
-      }
-    }
-
+  private val subdomain = longevityContext.subdomain
   private val emblemPool = subdomain.entityEmblemPool
   private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
-  private val generators = customGeneratorPool + assocGenerator
-  private val testDataGenerator = new TestDataGenerator(emblemPool, extractorPool, generators)
   private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool)
   private val differ = new Differ(emblemPool, extractorPool)
 
