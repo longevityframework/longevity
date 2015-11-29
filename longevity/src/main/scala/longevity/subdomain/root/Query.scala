@@ -1,7 +1,8 @@
-package longevity.subdomain
+package longevity.subdomain.root
 
-import emblem.imports._
 import Query._
+import emblem.imports._
+import longevity.subdomain._
 
 // TODO scaladocs
 

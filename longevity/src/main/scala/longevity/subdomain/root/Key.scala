@@ -1,10 +1,11 @@
-package longevity.subdomain
+package longevity.subdomain.root
 
 import emblem.basicTypes.isBasicType
 import emblem.imports._
 import longevity.exceptions.subdomain.PropValTypeMismatchException
 import longevity.exceptions.subdomain.KeyDoesNotContainPropException
 import longevity.exceptions.subdomain.UnsetPropException
+import longevity.subdomain._
 
 /** a natural key for this root entity type
  * @param props the set of nat key properties that make up this natural key

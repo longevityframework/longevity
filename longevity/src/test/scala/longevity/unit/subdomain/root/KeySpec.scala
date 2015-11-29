@@ -1,4 +1,4 @@
-package longevity.unit.subdomain
+package longevity.unit.subdomain.root
 
 import emblem.imports._
 import longevity.exceptions.subdomain.KeyDoesNotContainPropException

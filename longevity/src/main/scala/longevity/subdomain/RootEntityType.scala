@@ -2,8 +2,8 @@ package longevity.subdomain
 
 import emblem.basicTypes.isBasicType
 import emblem.imports._
-import longevity.exceptions.subdomain.PropNotOrderedException
 import longevity.exceptions.subdomain.SubdomainException
+import longevity.subdomain.root._
 
 /** a type class for a domain entity that serves as an aggregate root */
 abstract class RootEntityType[

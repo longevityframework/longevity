@@ -78,7 +78,7 @@ object RootEntityTypeSpec {
 class RootEntityTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import RootEntityTypeSpec._
-  import longevity.subdomain._
+  import longevity.subdomain.root._
 
   behavior of "RootEntityType.validateQuery"
 

@@ -5,6 +5,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import emblem.imports._
 import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.subdomain._
+import longevity.subdomain.root._
 import longevity.context.LongevityContext
 
 /** an in-memory repository for aggregate roots of type `E`

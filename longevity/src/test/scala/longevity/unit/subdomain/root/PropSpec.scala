@@ -1,10 +1,11 @@
-package longevity.unit.subdomain
+package longevity.unit.subdomain.root
 
 import com.github.nscala_time.time.Imports._
 import emblem.imports._
 import longevity.exceptions.subdomain._
 import org.scalatest._
 import longevity.subdomain._
+import longevity.subdomain.root._
 
 /** unit tests for the proper construction of [[RootEntityType#Prop nat key props]] */
 class PropSpec extends FlatSpec with GivenWhenThen with Matchers {

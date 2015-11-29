@@ -1,4 +1,4 @@
-package longevity.subdomain
+package longevity.subdomain.root
 
 import emblem.EmblemPropPath
 import emblem.basicTypes.basicTypeOrderings
@@ -16,6 +16,7 @@ import longevity.exceptions.subdomain.NoSuchPropPathSegmentException
 import longevity.exceptions.subdomain.NonEntityPropPathSegmentException
 import longevity.exceptions.subdomain.PropNotOrderedException
 import longevity.exceptions.subdomain.PropTypeMismatchException
+import longevity.subdomain._
 
 /** a property of the root that can be used as part of a natural key. the property can belong to a
  * contained entity of the root at any depth of containment, so long as every containment step along the

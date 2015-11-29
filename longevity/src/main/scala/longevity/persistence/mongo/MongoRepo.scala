@@ -6,6 +6,7 @@ import emblem.stringUtil._
 import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.persistence._
 import longevity.subdomain._
+import longevity.subdomain.root._
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

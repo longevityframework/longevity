@@ -1,7 +1,7 @@
 package longevity.exceptions.subdomain
 
-import longevity.subdomain.Prop
 import longevity.subdomain.RootEntity
+import longevity.subdomain.root.Prop
 
 /** an exception indicating that the property value passed to either of the `setProp` methods in
  * [[longevity.subdomain.Key#ValBuilder]] does not match the type of the

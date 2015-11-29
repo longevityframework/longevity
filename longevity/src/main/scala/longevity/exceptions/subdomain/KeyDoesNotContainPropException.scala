@@ -1,8 +1,8 @@
 package longevity.exceptions.subdomain
 
-import longevity.subdomain.Key
-import longevity.subdomain.Prop
 import longevity.subdomain.RootEntity
+import longevity.subdomain.root.Key
+import longevity.subdomain.root.Prop
 
 /** an exception indicating that the [[longevity.subdomain.Prop property]] passed to
  * either of the `setProp` methods in [[longevity.subdomain.Key#ValBuilder]] is not a part of the natural key

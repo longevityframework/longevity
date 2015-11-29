@@ -1,7 +1,7 @@
 package longevity.exceptions.subdomain
 
-import longevity.subdomain.Key
-import longevity.subdomain.Prop
+import longevity.subdomain.root.Key
+import longevity.subdomain.root.Prop
 import longevity.subdomain.RootEntity
 
 /** an exception indicating that
