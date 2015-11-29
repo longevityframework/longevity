@@ -88,7 +88,7 @@ extends Repo[E](entityType, subdomain) {
     new Deleted(persisted)
   }
 
-  protected def retrieveByValidQuery(query: Query[E]): Future[Seq[Persisted[E]]] = {
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[E]): Future[Seq[Persisted[E]]] = {
     ???
   }
 

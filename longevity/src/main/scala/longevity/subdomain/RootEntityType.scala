@@ -2,14 +2,15 @@ package longevity.subdomain
 
 import emblem.basicTypes.isBasicType
 import emblem.imports._
+import longevity.exceptions.subdomain.PropNotOrderedException
 import longevity.exceptions.subdomain.SubdomainException
 
 /** a type class for a domain entity that serves as an aggregate root */
 abstract class RootEntityType[
-  E <: RootEntity](
-  implicit private val rootTypeKey: TypeKey[E],
+  R <: RootEntity](
+  implicit private val rootTypeKey: TypeKey[R],
   implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty)
-extends EntityType[E] {
+extends EntityType[R] {
 
   private var registered = false
 
@@ -19,8 +20,8 @@ extends EntityType[E] {
   }
 
   // TODO we will probably have to constraint props in a similar way
-  private var keyBuffer = Set[Key[E]]()
-  private var indexBuffer = Set[Index[E]]()
+  private var keyBuffer = Set[Key[R]]()
+  private var indexBuffer = Set[Index[R]]()
 
   /** the keys for this root entity type. you populate this set by repeatedly calling either of the
    * `RootEntityType.key` methods in your class initializer. you should only attempt to access this set
@@ -28,7 +29,7 @@ extends EntityType[E] {
    * @throws longevity.exceptions.subdomain.SubdomainException on attempt to access this set before the
    * `RootEntityType` is fully initialized
    */
-  lazy val keys: Set[Key[E]] = {
+  lazy val keys: Set[Key[R]] = {
     if (!registered) throw new SubdomainException(
       s"cannot access RootEntityType.keys for $this until after the subdomain has been initialized")
     keyBuffer
@@ -40,19 +41,20 @@ extends EntityType[E] {
    * @throws longevity.exceptions.SubdomainException on attempt to access this set before the `RootEntityType`
    * is fully initialized
    */
-  lazy val indexes: Set[Index[E]] = {
+  lazy val indexes: Set[Index[R]] = {
     if (!registered) throw new SubdomainException(
       s"cannot access RootEntityType.indexes for $this until after the subdomain has been initialized")
     indexBuffer
   }
 
+  // TODO: should be mention of shorthands in this comment
   /** constructs a [[Prop]] from a path
    * @throws longevity.exceptions.InvalidPropPathException if any step along the path does not exist, or
    * any non-final step along the path is not an entity, or the final step along the path is not an [[Assoc]] or
    * a basic type
    * @see `emblem.basicTypes`
    */
-  def prop[A : TypeKey](path: String): Prop[E, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
+  def prop[A : TypeKey](path: String): Prop[R, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
 
   /** constructs a key for this root entity type based on the supplied set of property paths
    * @param propPathHead one of the property paths for the properties that define this key
@@ -63,7 +65,7 @@ extends EntityType[E] {
    * `RootEntityType` is fully initialized
    * @see Prop.apply
    */
-  def key(propPathHead: String, propPathTail: String*): Key[E] = {
+  def key(propPathHead: String, propPathTail: String*): Key[R] = {
     if (registered)
       throw new SubdomainException("cannot create new keys after the subdomain has been initialized")
     val propPaths = propPathHead :: propPathTail.toList
@@ -78,7 +80,7 @@ extends EntityType[E] {
    * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new key after the
    * `RootEntityType` is fully initialized
    */
-  def key(propsHead: Prop[E, _], propsTail: Prop[E, _]*): Key[E] = {
+  def key(propsHead: Prop[R, _], propsTail: Prop[R, _]*): Key[R] = {
     if (registered)
       throw new SubdomainException("cannot create new keys after the subdomain has been initialized")
     val key = Key(propsHead :: propsTail.toList)
@@ -95,7 +97,7 @@ extends EntityType[E] {
    * `RootEntityType` is fully initialized
    * @see Prop.apply
    */
-  def index(propPathHead: String, propPathTail: String*): Index[E] = {
+  def index(propPathHead: String, propPathTail: String*): Index[R] = {
     if (registered)
       throw new SubdomainException("cannot create new indexes after the subdomain has been initialized")
     val propPaths = propPathHead :: propPathTail.toList
@@ -110,7 +112,7 @@ extends EntityType[E] {
    * @throws longevity.exceptions.SubdomainException on attempt to create a new index after the `RootEntityType`
    * is fully initialized
    */
-  def index(propsHead: Prop[E, _], propsTail: Prop[E, _]*): Index[E] = {
+  def index(propsHead: Prop[R, _], propsTail: Prop[R, _]*): Index[R] = {
     if (registered)
       throw new SubdomainException("cannot create new indexes after the subdomain has been initialized")
     val index = Index(propsHead :: propsTail.toList)
@@ -122,24 +124,23 @@ extends EntityType[E] {
   /** validates the query. throws exception if not valid. translates DRelationalQuery into SRelationalQuery
    * @throws longevity.exceptions.subdomain.PropTypeMismatchException if a dynamic part of the query is mistyped
    */
-  def validateQuery(query: Query[E]): Query[E] = {
+  def validateQuery(query: Query[R]): ValidatedQuery[R] = {
     query match {
-      case q: SEqualityQuery[E, _] => q
-      case q: SOrderingQuery[E, _] => q
-      case q: DEqualityQuery[E, _] =>
-        def static[A : TypeKey](qq: DEqualityQuery[E, A]) = {
-          val prop = Prop[E, A](qq.path, emblem, entityTypeKey, shorthandPool)
-          SEqualityQuery[E, A](prop, qq.op, qq.value)
+      case q: ValidatedQuery[R] => q
+      case q: DEqualityQuery[R, _] =>
+        def static[A : TypeKey](qq: DEqualityQuery[R, A]) = {
+          val prop = Prop[R, A](qq.path, emblem, entityTypeKey, shorthandPool)
+          SEqualityQuery[R, A](prop, qq.op, qq.value)
         }
         static(q)(q.valTypeKey)
-      case q: DOrderingQuery[E, _] =>
-        def static[A : TypeKey](qq: DOrderingQuery[E, A]) = {
-          val prop = Prop[E, A](qq.path, emblem, entityTypeKey, shorthandPool)
-          SOrderingQuery[E, A](prop, qq.op, qq.value)
+      case q: DOrderingQuery[R, _] =>
+        def static[A : TypeKey](qq: DOrderingQuery[R, A]) = {
+          val prop = Prop[R, A](qq.path, emblem, entityTypeKey, shorthandPool)
+          SOrderingQuery[R, A](prop, qq.op, qq.value)
         }
         static(q)(q.valTypeKey)
-      case q: ConditionalQuery[E] =>
-        ConditionalQuery(
+      case q: ConditionalQuery[R] =>
+        VConditionalQuery(
           validateQuery(q.lhs),
           q.op,
           validateQuery(q.rhs))

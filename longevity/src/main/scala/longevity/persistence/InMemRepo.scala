@@ -67,11 +67,11 @@ extends Repo[E](entityType, subdomain) {
     Promise.successful(deleted).future
   }
 
-  protected def retrieveByValidQuery(query: Query[E]): Future[Seq[Persisted[E]]] = Future {
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[E]): Future[Seq[Persisted[E]]] = Future {
     idToEntityMap.values.view.toSeq.filter { pstate => queryMatches(query, pstate.get) }
   }
 
-  private def queryMatches(query: Query[E], e: E): Boolean = {
+  private def queryMatches(query: ValidatedQuery[E], e: E): Boolean = {
     import Query._
     query match {
       case SEqualityQuery(prop, op, value) => op match {
@@ -84,14 +84,10 @@ extends Repo[E](entityType, subdomain) {
         case GtOp => prop.ordering.gt(prop.propVal(e), value)
         case GteOp => prop.ordering.gteq(prop.propVal(e), value)
       }
-      case ConditionalQuery(lhs, op, rhs) => op match {
+      case VConditionalQuery(lhs, op, rhs) => op match {
         case AndOp => queryMatches(lhs, e) && queryMatches(rhs, e)
         case OrOp => queryMatches(lhs, e) || queryMatches(rhs, e)
       }
-      case DOrderingQuery(_, _, _) =>
-        throw new IllegalStateException("DOrderingQuery in a validated query") // TODO this should be typeable
-      case DEqualityQuery(_, _, _) =>
-        throw new IllegalStateException("DEqualityQuery in a validated query") // TODO this should be typeable
     }
   }
 

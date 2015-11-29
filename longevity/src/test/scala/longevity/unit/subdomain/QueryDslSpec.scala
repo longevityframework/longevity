@@ -102,7 +102,11 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     val value3 = "string"
 
     var expected: Query[Root] =
-      Query.and(Query.eqs(path1, value1), Query.eqs(path2, value2), Query.eqs(path3, value3))
+      Query.and(
+        Query.and(
+          Query.eqs(path1, value1),
+          Query.eqs(path2, value2)),
+        Query.eqs(path3, value3))
     var actual: Query[Root] = path1 eqs value1 and path2 eqs value2 and path3 eqs value3
     actual should equal (expected)
 
@@ -127,7 +131,12 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     actual = path1 eqs value1 and path2 eqs value2 and (path3 eqs value3)
     actual should equal (expected)
 
-    expected = Query.or(Query.eqs(path1, value1), Query.eqs(path2, value2), Query.eqs(path3, value3))
+    expected =
+      Query.or(
+        Query.or(
+          Query.eqs(path1, value1),
+          Query.eqs(path2, value2)),
+        Query.eqs(path3, value3))
     actual = path1 eqs value1 or path2 eqs value2 or path3 eqs value3
     actual should equal (expected)
 
@@ -254,7 +263,11 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     val value3 = "string"
 
     var expected: Query[Root] =
-      Query.and(Query.eqs(path1, value1), Query.eqs(path2, value2), Query.eqs(path3, value3))
+      Query.and(
+        Query.and(
+          Query.eqs(path1, value1),
+          Query.eqs(path2, value2)),
+        Query.eqs(path3, value3))
     var actual: Query[Root] = path1 eqs value1 and path2 eqs value2 and path3 eqs value3
     actual should equal (expected)
 
@@ -279,7 +292,12 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     actual = path1 eqs value1 and path2 eqs value2 and (path3 eqs value3)
     actual should equal (expected)
 
-    expected = Query.or(Query.eqs(path1, value1), Query.eqs(path2, value2), Query.eqs(path3, value3))
+    expected =
+      Query.or(
+        Query.or(
+          Query.eqs(path1, value1),
+          Query.eqs(path2, value2)),
+        Query.eqs(path3, value3))
     actual = path1 eqs value1 or path2 eqs value2 or path3 eqs value3
     actual should equal (expected)
 

@@ -33,9 +33,9 @@ abstract class Repo[E <: RootEntity : TypeKey](
 
   /** retrieves the aggregate by a query */
   def retrieveByQuery(query: Query[E]): Future[Seq[Persisted[E]]] =
-    retrieveByValidQuery(if (query.validated) query else entityType.validateQuery(query))
+    retrieveByValidatedQuery(entityType.validateQuery(query))
 
-  protected def retrieveByValidQuery(query: Query[E]): Future[Seq[Persisted[E]]]
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[E]): Future[Seq[Persisted[E]]]
 
   // TODO: streamByQuery
 

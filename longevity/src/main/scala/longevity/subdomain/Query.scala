@@ -57,21 +57,21 @@ object Query {
   def gte[R <: RootEntity, A](prop: Prop[R, A], value: A) =
     SOrderingQuery[R, A](prop, GteOp, value)
 
-  def and[R <: RootEntity](lhs: Query[R], rhs: Query[R], extras: Query[R]*) =
-    extras.foldLeft(ConditionalQuery[R](lhs, AndOp, rhs)) {
-      case (aggregate, extra) => ConditionalQuery[R](aggregate, AndOp, extra)
-    }
+  def cond[R <: RootEntity](lhs: Query[R], op: LogicalOp, rhs: Query[R]) = (lhs, rhs) match {
+    case (lhs: ValidatedQuery[R], rhs: ValidatedQuery[R]) => VConditionalQuery[R](lhs, op, rhs)
+    case _ => ConditionalQuery[R](lhs, op, rhs)
+  }
 
-  def or[R <: RootEntity](lhs: Query[R], rhs: Query[R], extras: Query[R]*) =
-    extras.foldLeft(ConditionalQuery[R](lhs, OrOp, rhs)) {
-      case (aggregate, extra) => ConditionalQuery[R](aggregate, OrOp, extra)
-    }
+  def and[R <: RootEntity](lhs: Query[R], rhs: Query[R]) = cond(lhs, AndOp, rhs)
+
+  def or[R <: RootEntity](lhs: Query[R], rhs: Query[R]) = cond(lhs, OrOp, rhs)
 
 }
 
-sealed trait Query[R <: RootEntity] {
-  val validated: Boolean
-}
+sealed trait Query[R <: RootEntity]
+
+// TODO alias VQuery
+sealed trait ValidatedQuery[R <: RootEntity] extends Query[R]
 
 sealed trait EqualityQuery[R <: RootEntity] extends Query[R] {
   val op: EqualityOp
@@ -82,9 +82,7 @@ sealed case class SEqualityQuery[R <: RootEntity, A](
   val prop: Prop[R, A],
   op: EqualityOp,
   value: A)
-extends EqualityQuery[R] {
-  val validated = true
-}
+extends EqualityQuery[R] with ValidatedQuery[R]
 
 sealed case class DEqualityQuery[R <: RootEntity, A : TypeKey](
   val path: String,
@@ -92,36 +90,32 @@ sealed case class DEqualityQuery[R <: RootEntity, A : TypeKey](
   value: A)
 extends EqualityQuery[R] {
   val valTypeKey = typeKey[A]
-  val validated = false  
-}
-
-sealed trait OrderingQuery[R <: RootEntity, A] extends Query[R] {
-  val op: OrderingOp
-  val value: A
 }
 
 sealed case class SOrderingQuery[R <: RootEntity, A](
   val prop: Prop[R, A],
   op: OrderingOp,
   value: A)
-extends OrderingQuery[R, A] {
+extends ValidatedQuery[R] {
   prop.ordering // force exception if prop is not ordered
-  val validated = true
 }
 
 sealed case class DOrderingQuery[R <: RootEntity, A : TypeKey](
   val path: String,
   op: OrderingOp,
   value: A)
-extends OrderingQuery[R, A] {
+extends Query[R] {
   val valTypeKey = typeKey[A]
-  val validated = false  
 }
+
+sealed case class VConditionalQuery[R <: RootEntity](
+  lhs: ValidatedQuery[R],
+  op: LogicalOp,
+  rhs: ValidatedQuery[R])
+extends ValidatedQuery[R]
 
 sealed case class ConditionalQuery[R <: RootEntity](
   lhs: Query[R],
   op: LogicalOp,
   rhs: Query[R])
-extends Query[R] {
-  val validated = lhs.validated && rhs.validated
-}
+extends Query[R]
