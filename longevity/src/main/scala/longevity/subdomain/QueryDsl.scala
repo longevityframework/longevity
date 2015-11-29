@@ -28,26 +28,26 @@ class QueryDsl[E <: RootEntity] {
       new GatherLogical(query)
     }
 
-    def lt[A : TypeKey](a: A)(implicit ordering: Ordering[A]) = {
-      val rhs = DOrderingQuery[E, A](path, LtOp, a)(ordering)
+    def lt[A : TypeKey](a: A) = {
+      val rhs = DOrderingQuery[E, A](path, LtOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def lte[A : TypeKey](a: A)(implicit ordering: Ordering[A]) = {
-      val rhs = DOrderingQuery[E, A](path, LteOp, a)(ordering)
+    def lte[A : TypeKey](a: A) = {
+      val rhs = DOrderingQuery[E, A](path, LteOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def gt[A : TypeKey](a: A)(implicit ordering: Ordering[A]) = {
-      val rhs = DOrderingQuery[E, A](path, GtOp, a)(ordering)
+    def gt[A : TypeKey](a: A) = {
+      val rhs = DOrderingQuery[E, A](path, GtOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def gte[A : TypeKey](a: A)(implicit ordering: Ordering[A]) = {
-      val rhs = DOrderingQuery[E, A](path, GteOp, a)(ordering)
+    def gte[A : TypeKey](a: A) = {
+      val rhs = DOrderingQuery[E, A](path, GteOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
@@ -70,26 +70,26 @@ class QueryDsl[E <: RootEntity] {
       new GatherLogical(query)
     }
 
-    def lt(a: A)(implicit ordering: Ordering[A]) = {
-      val rhs = SOrderingQuery[E, A](prop, LtOp, a)(ordering)
+    def lt(a: A) = {
+      val rhs = SOrderingQuery[E, A](prop, LtOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def lte(a: A)(implicit ordering: Ordering[A]) = {
-      val rhs = SOrderingQuery[E, A](prop, LteOp, a)(ordering)
+    def lte(a: A) = {
+      val rhs = SOrderingQuery[E, A](prop, LteOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def gt(a: A)(implicit ordering: Ordering[A]) = {
-      val rhs = SOrderingQuery[E, A](prop, GtOp, a)(ordering)
+    def gt(a: A) = {
+      val rhs = SOrderingQuery[E, A](prop, GtOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
-    def gte(a: A)(implicit ordering: Ordering[A]) = {
-      val rhs = SOrderingQuery[E, A](prop, GteOp, a)(ordering)
+    def gte(a: A) = {
+      val rhs = SOrderingQuery[E, A](prop, GteOp, a)
       val query = prefix.map(p => ConditionalQuery(p.lhs, p.op, rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }

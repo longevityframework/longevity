@@ -1,22 +1,22 @@
 package longevity.test
 
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-import emblem.imports._
 import emblem.TypeBoundPair
-import emblem.traversors.sync.CustomGeneratorPool
+import emblem.imports._
 import emblem.traversors.sync.CustomGenerator
+import emblem.traversors.sync.CustomGeneratorPool
 import emblem.traversors.sync.Differ
 import emblem.traversors.sync.Generator
 import emblem.traversors.sync.TestDataGenerator
 import longevity.context.LongevityContext
-import longevity.subdomain._
 import longevity.persistence._
+import longevity.subdomain._
 import org.scalatest.OptionValues._
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /** a simple fixture to test a [[longevity.persistence.RepoPool]]. all you have to do is extend this class and
  * provide the necessary inputs to the constructor.
@@ -79,7 +79,7 @@ with TestDataGeneration {
         Given(s"an unpersisted $entityName")
         val entity: E = testDataGenerator.generate[E]
 
-        When(s"we create the $entityName") 
+        When(s"we create the $entityName")
         Then(s"we get back the $entityName persistent state")
         val created: Persisted[E] = repo.create(entity).futureValue
 

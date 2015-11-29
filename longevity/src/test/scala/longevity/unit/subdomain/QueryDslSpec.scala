@@ -1,6 +1,7 @@
 package longevity.unit.subdomain
 
 import org.scalatest._
+import longevity.exceptions.subdomain.PropNotOrderedException
 import longevity.subdomain._
 
 object QueryDslSpec {
@@ -166,12 +167,21 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     import Root._
     val assoc = Assoc(new Associated())
 
-    "(path4 eqs assoc): Query[Root]" should compile
-    "(path4 neq assoc): Query[Root]" should compile
-    "(path4 lt assoc): Query[Root]" shouldNot compile
-    "(path4 lte assoc): Query[Root]" shouldNot compile
-    "(path4 gt assoc): Query[Root]" shouldNot compile
-    "(path4 gte assoc): Query[Root]" shouldNot compile
+    (path4 eqs assoc): Query[Root]
+    (path4 neq assoc): Query[Root]
+
+    intercept[PropNotOrderedException] {
+      (path4 lt assoc): Query[Root]
+    }
+    intercept[PropNotOrderedException] {
+      (path4 lte assoc): Query[Root]
+    }
+    intercept[PropNotOrderedException] {
+      (path4 gt assoc): Query[Root]
+    }
+    intercept[PropNotOrderedException] {
+      (path4 gte assoc): Query[Root]
+    }
   }
 
   it should "build static relational queries that match the results of Query object methods" in {

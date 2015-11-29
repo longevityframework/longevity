@@ -74,20 +74,24 @@ extends Repo[E](entityType, subdomain) {
   private def queryMatches(query: Query[E], e: E): Boolean = {
     import Query._
     query match {
-      case SEqualityQuery(prop, EqOp, value) => prop.propVal(e) == value
-      case SEqualityQuery(prop, NeqOp, value) => prop.propVal(e) != value
-      case q @ SOrderingQuery(prop, LtOp, value) => q.ordering.lt(q.prop.propVal(e), q.value)
-      case q @ SOrderingQuery(prop, LteOp, value) => q.ordering.lteq(q.prop.propVal(e), q.value)
-      case q @ SOrderingQuery(prop, GtOp, value) => q.ordering.gt(q.prop.propVal(e), q.value)
-      case q @ SOrderingQuery(prop, GteOp, value) => q.ordering.gteq(q.prop.propVal(e), q.value)
-      case ConditionalQuery(lhs, AndOp, rhs) => queryMatches(lhs, e) && queryMatches(rhs, e)
-      case ConditionalQuery(lhs, OrOp, rhs) => queryMatches(lhs, e) || queryMatches(rhs, e)
+      case SEqualityQuery(prop, op, value) => op match {
+        case EqOp => prop.propVal(e) == value
+        case NeqOp => prop.propVal(e) != value
+      }
+      case SOrderingQuery(prop, op, value) => op match {
+        case LtOp => prop.ordering.lt(prop.propVal(e), value)
+        case LteOp => prop.ordering.lteq(prop.propVal(e), value)
+        case GtOp => prop.ordering.gt(prop.propVal(e), value)
+        case GteOp => prop.ordering.gteq(prop.propVal(e), value)
+      }
+      case ConditionalQuery(lhs, op, rhs) => op match {
+        case AndOp => queryMatches(lhs, e) && queryMatches(rhs, e)
+        case OrOp => queryMatches(lhs, e) || queryMatches(rhs, e)
+      }
       case DOrderingQuery(_, _, _) =>
         throw new IllegalStateException("DOrderingQuery in a validated query") // TODO this should be typeable
       case DEqualityQuery(_, _, _) =>
         throw new IllegalStateException("DEqualityQuery in a validated query") // TODO this should be typeable
-      case ConditionalQuery(_,_,_) => throw new MatchError(query) // not sure why the compiler needs this..
-      case SOrderingQuery(_,_,_) => throw new MatchError(query) // not sure why the compiler needs this..
     }
   }
 

@@ -135,7 +135,7 @@ extends EntityType[E] {
       case q: DOrderingQuery[E, _] =>
         def static[A : TypeKey](qq: DOrderingQuery[E, A]) = {
           val prop = Prop[E, A](qq.path, emblem, entityTypeKey, shorthandPool)
-          SOrderingQuery[E, A](prop, qq.op, qq.value)(qq.ordering)
+          SOrderingQuery[E, A](prop, qq.op, qq.value)
         }
         static(q)(q.valTypeKey)
       case q: ConditionalQuery[E] =>
