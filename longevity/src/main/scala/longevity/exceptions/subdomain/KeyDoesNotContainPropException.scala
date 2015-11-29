@@ -11,5 +11,5 @@ import longevity.subdomain.root.Prop
  * @param key the nat key
  * @param prop the nat key prop
  */
-class KeyDoesNotContainPropException[E <: RootEntity](key: Key[E], prop: Prop[E, _])
+class KeyDoesNotContainPropException[R <: RootEntity](key: Key[R], prop: Prop[R, _])
 extends KeyValBuilderException(s"nat key prop $prop is not a part of natural key $key")

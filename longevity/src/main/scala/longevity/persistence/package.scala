@@ -17,20 +17,20 @@ package object persistence {
   type RepoPool = TypeKeyMap[RootEntity, Repo]
 
   /** the persistent state of the entity. functionally equivalent to [[PersistentState]] */
-  type PState[E <: RootEntity] = PersistentState[E]
+  type PState[R <: RootEntity] = PersistentState[R]
 
   /** a future persistent state */
-  type FPState[E <: RootEntity] = Future[PState[E]]
+  type FPState[R <: RootEntity] = Future[PState[R]]
 
   /** extension methods for an [[FPState]] */
-  implicit class LiftFPState[E <: RootEntity](fpState: FPState[E]) {
+  implicit class LiftFPState[R <: RootEntity](fpState: FPState[R]) {
 
     /** map the future PState by mapping the root inside the PState */
-    def mapRoot(f: E => E): FPState[E] =
+    def mapRoot(f: R => R): FPState[R] =
       fpState.map { pState => pState.map { root => f(root) } }
 
     /** flatMap the future PState by mapping the root inside the PState into a `Future[Root]` */
-    def flatMapRoot(f: E => Future[E]): FPState[E] =
+    def flatMapRoot(f: R => Future[R]): FPState[R] =
       fpState.flatMap { pState => f(pState.get) map { root => pState.set(root) } }
 
   }
@@ -47,7 +47,7 @@ package object persistence {
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
+      def build[R <: RootEntity](entityType: RootEntityType[R], entityKey: TypeKey[R]): Repo[R] =
         new InMemRepo(entityType, subdomain)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
@@ -65,14 +65,14 @@ package object persistence {
 
   private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E] =
+      def build[R <: RootEntity](entityType: RootEntityType[R], entityKey: TypeKey[R]): Repo[R] =
         new MongoRepo(entityType, subdomain, mongoDB)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
 
   private trait StockRepoFactory {
-    def build[E <: RootEntity](entityType: RootEntityType[E], entityKey: TypeKey[E]): Repo[E]
+    def build[R <: RootEntity](entityType: RootEntityType[R], entityKey: TypeKey[R]): Repo[R]
   }
 
   private def buildRepoPool(

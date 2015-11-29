@@ -8,7 +8,7 @@ import longevity.exceptions.subdomain.AssocIsPersistedException
  * right now, this is exposed in [[Persisted]] and [[Repo]] APIs. this will be fixed with pt-87652430,
  * at which point, we should be able to make this trait `private[persistence]`.
  */
-trait PersistedAssoc[E <: RootEntity] extends Assoc[E] {
+trait PersistedAssoc[R <: RootEntity] extends Assoc[R] {
   def isPersisted = true
   def unpersisted = throw new AssocIsPersistedException(this)
 }

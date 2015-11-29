@@ -10,6 +10,6 @@ import longevity.subdomain.root.Prop
  * @param prop the nat key prop
  * @param propVal the nat key prop value
  */
-class PropValTypeMismatchException[E <: RootEntity](prop: Prop[E, _], propVal: Any)
+class PropValTypeMismatchException[R <: RootEntity](prop: Prop[R, _], propVal: Any)
 extends KeyValBuilderException(
   s"prop val $propVal does not match type of nat key prop $prop")

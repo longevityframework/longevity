@@ -10,11 +10,11 @@ import longevity.subdomain._
 /** a natural key for this root entity type
  * @param props the set of nat key properties that make up this natural key
  */
-case class Key[E <: RootEntity] private [subdomain] (
-  val props: Seq[Prop[E, _]])(
+case class Key[R <: RootEntity] private [subdomain] (
+  val props: Seq[Prop[R, _]])(
   private implicit val shorthandPool: ShorthandPool) {
 
-  private lazy val propPathToProp: Map[String, Prop[E, _]] = props.map(p => p.path -> p).toMap
+  private lazy val propPathToProp: Map[String, Prop[R, _]] = props.map(p => p.path -> p).toMap
 
   /** returns a builder for nat key vals */
   def builder = new ValBuilder
@@ -22,21 +22,21 @@ case class Key[E <: RootEntity] private [subdomain] (
   /** returns the nat key val for the supplied root entity
    * @param e the root entity
    */
-  def keyVal(e: E): Val = {
+  def keyVal(root: R): Val = {
     val b = builder
-    props.foreach { prop => b.setPropRaw(prop, prop.propVal(e)) }
+    props.foreach { prop => b.setPropRaw(prop, prop.propVal(root)) }
     b.build
   }
 
   /** a value of this natural key */
-  case class Val private[Key] (val propVals: Map[Prop[E, _], Any]) {
+  case class Val private[Key] (val propVals: Map[Prop[R, _], Any]) {
 
     /** gets the value of the nat key val for the specified prop.
      * 
      * throws java.util.NoSuchElementException if the prop is not part of the key
      * @param the prop to look up a value for
      */
-    def apply(prop: Prop[E, _]): Any = propVals(prop)
+    def apply(prop: Prop[R, _]): Any = propVals(prop)
 
     /** gets the value of the nat key val for the specified prop path.
      * 
@@ -51,7 +51,7 @@ case class Key[E <: RootEntity] private [subdomain] (
      * throws java.util.NoSuchElementException if the prop is not part of the key
      * @param the prop to look up a value for
      */
-    def shorthand(prop: Prop[E, _]): Any = {
+    def shorthand(prop: Prop[R, _]): Any = {
       val raw = propVals(prop)
       if (shorthandPool.contains(prop.typeKey)) {
         def abbreviate[PV : TypeKey] = shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
@@ -66,21 +66,21 @@ case class Key[E <: RootEntity] private [subdomain] (
   /** a builder of values for this natural key */
   class ValBuilder {
 
-    private var propVals = Map[Prop[E, _], Any]()
+    private var propVals = Map[Prop[R, _], Any]()
 
     /** sets the property to the value */
     def setProp[A : TypeKey](propPath: String, propVal: A): ValBuilder =
       setProp(propPathToProp(propPath), propVal)
 
     /** sets the property to the value */
-    def setProp[A : TypeKey](prop: Prop[E, _], propVal: A): ValBuilder = {
+    def setProp[A : TypeKey](prop: Prop[R, _], propVal: A): ValBuilder = {
       if (!props.contains(prop)) throw new KeyDoesNotContainPropException(Key.this, prop)
       if (! (typeKey[A] <:< prop.typeKey)) throw new PropValTypeMismatchException(prop, propVal)
       propVals += prop -> propVal
       this
     }
 
-    private[Key] def setPropRaw(prop: Prop[E, _], propVal: Any): Unit = {
+    private[Key] def setPropRaw(prop: Prop[R, _], propVal: Any): Unit = {
       propVals += prop -> propVal
     }
 

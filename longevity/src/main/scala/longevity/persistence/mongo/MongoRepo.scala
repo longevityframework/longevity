@@ -13,20 +13,20 @@ import scala.concurrent.Future
 import scala.util.Failure
 import scala.util.Success
 
-/** a MongoDB repository for aggregate roots of type `E`.
+/** a MongoDB repository for aggregate roots of type `R`.
  *
  * @param entityType the entity type for the aggregate roots this repository handles
  * @param subdomain the subdomain containing the root that this repo persists
  * @param mongoDb the connection to the mongo database
  */
-class MongoRepo[E <: RootEntity : TypeKey] protected[persistence] (
-  entityType: RootEntityType[E],
+class MongoRepo[R <: RootEntity : TypeKey] protected[persistence] (
+  entityType: RootEntityType[R],
   subdomain: Subdomain,
   mongoDb: MongoDB)
-extends Repo[E](entityType, subdomain) {
+extends Repo[R](entityType, subdomain) {
   repo =>
 
-  private[persistence] case class MongoId(objectId: ObjectId) extends PersistedAssoc[E] {
+  private[persistence] case class MongoId(objectId: ObjectId) extends PersistedAssoc[R] {
     val associateeTypeKey = repo.entityTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this).map(_.get)
@@ -40,16 +40,16 @@ extends Repo[E](entityType, subdomain) {
   private lazy val entityToCasbahTranslator = new EntityToCasbahTranslator(emblemPool, extractorPool, repoPool)
   private lazy val casbahToEntityTranslator = new CasbahToEntityTranslator(emblemPool, extractorPool, repoPool)
 
-  def create(unpersisted: Unpersisted[E]) = getSessionCreationOrElse(unpersisted, {
+  def create(unpersisted: Unpersisted[R]) = getSessionCreationOrElse(unpersisted, {
     patchUnpersistedAssocs(unpersisted.get) map { patched =>
       val objectId = new ObjectId()
       val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
       val writeResult = mongoCollection.insert(casbah)
-      new Persisted[E](MongoId(objectId), patched)
+      new Persisted[R](MongoId(objectId), patched)
     }
   })
 
-  def retrieve(key: Key[E])(keyVal: key.Val): Future[Option[Persisted[E]]] = Future {
+  def retrieve(key: Key[R])(keyVal: key.Val): Future[Option[Persisted[R]]] = Future {
     val builder = MongoDBObject.newBuilder
     key.props.foreach { prop => builder += (prop.path -> resolvePropVal(prop, keyVal(prop))) }
     val query = builder.result
@@ -58,10 +58,10 @@ extends Repo[E](entityType, subdomain) {
       val id = result.getAs[ObjectId]("_id").get
       id -> casbahToEntityTranslator.translate(result)
     }
-    idEntityOption map { case (id, e) => new Persisted[E](MongoId(id), e) }
+    idEntityOption map { case (id, e) => new Persisted[R](MongoId(id), e) }
   }
 
-  private def resolvePropVal(prop: Prop[E, _], raw: Any): Any = {
+  private def resolvePropVal(prop: Prop[R, _], raw: Any): Any = {
     if (subdomain.shorthandPool.contains(prop.typeKey)) {
       def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
       abbreviate(prop.typeKey)
@@ -74,31 +74,31 @@ extends Repo[E](entityType, subdomain) {
     }
   }
 
-  def update(persisted: Persisted[E]) = patchUnpersistedAssocs(persisted.get) map { patched =>
+  def update(persisted: Persisted[R]) = patchUnpersistedAssocs(persisted.get) map { patched =>
     val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
     val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.update(query, casbah)
-    new Persisted[E](persisted.assoc, patched)
+    new Persisted[R](persisted.assoc, patched)
   }
 
-  def delete(persisted: Persisted[E]) = Future {
+  def delete(persisted: Persisted[R]) = Future {
     val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
     new Deleted(persisted)
   }
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[E]): Future[Seq[Persisted[E]]] = {
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]] = {
     ???
   }
 
-  private def retrieve(assoc: PersistedAssoc[E]) = Future {
+  private def retrieve(assoc: PersistedAssoc[R]) = Future {
     val objectId = assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
     val resultOption = mongoCollection.findOne(query)
     val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
-    entityOption map { e => new Persisted[E](assoc, e) }
+    entityOption map { e => new Persisted[R](assoc, e) }
   }
 
 }
