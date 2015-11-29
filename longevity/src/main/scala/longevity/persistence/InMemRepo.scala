@@ -74,11 +74,11 @@ extends Repo[E](entityType, subdomain) {
   private def queryMatches(query: ValidatedQuery[E], e: E): Boolean = {
     import Query._
     query match {
-      case SEqualityQuery(prop, op, value) => op match {
+      case VEqualityQuery(prop, op, value) => op match {
         case EqOp => prop.propVal(e) == value
         case NeqOp => prop.propVal(e) != value
       }
-      case SOrderingQuery(prop, op, value) => op match {
+      case VOrderingQuery(prop, op, value) => op match {
         case LtOp => prop.ordering.lt(prop.propVal(e), value)
         case LteOp => prop.ordering.lteq(prop.propVal(e), value)
         case GtOp => prop.ordering.gt(prop.propVal(e), value)

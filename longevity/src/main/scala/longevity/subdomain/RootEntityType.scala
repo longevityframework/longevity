@@ -127,16 +127,16 @@ extends EntityType[R] {
   def validateQuery(query: Query[R]): ValidatedQuery[R] = {
     query match {
       case q: ValidatedQuery[R] => q
-      case q: DEqualityQuery[R, _] =>
-        def static[A : TypeKey](qq: DEqualityQuery[R, A]) = {
+      case q: EqualityQuery[R, _] =>
+        def static[A : TypeKey](qq: EqualityQuery[R, A]) = {
           val prop = Prop[R, A](qq.path, emblem, entityTypeKey, shorthandPool)
-          SEqualityQuery[R, A](prop, qq.op, qq.value)
+          VEqualityQuery[R, A](prop, qq.op, qq.value)
         }
         static(q)(q.valTypeKey)
-      case q: DOrderingQuery[R, _] =>
-        def static[A : TypeKey](qq: DOrderingQuery[R, A]) = {
+      case q: OrderingQuery[R, _] =>
+        def static[A : TypeKey](qq: OrderingQuery[R, A]) = {
           val prop = Prop[R, A](qq.path, emblem, entityTypeKey, shorthandPool)
-          SOrderingQuery[R, A](prop, qq.op, qq.value)
+          VOrderingQuery[R, A](prop, qq.op, qq.value)
         }
         static(q)(q.valTypeKey)
       case q: ConditionalQuery[R] =>

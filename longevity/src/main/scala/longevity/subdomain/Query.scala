@@ -22,40 +22,40 @@ object Query {
   case object OrOp extends LogicalOp
 
   def eqs[R <: RootEntity, A : TypeKey](path: String, value: A) =
-    DEqualityQuery[R, A](path, EqOp, value)
+    EqualityQuery[R, A](path, EqOp, value)
 
   def eqs[R <: RootEntity, A](prop: Prop[R, A], value: A) =
-    SEqualityQuery[R, A](prop, EqOp, value)
+    VEqualityQuery[R, A](prop, EqOp, value)
 
   def neq[R <: RootEntity, A : TypeKey](path: String, value: A) =
-    DEqualityQuery[R, A](path, NeqOp, value)
+    EqualityQuery[R, A](path, NeqOp, value)
 
   def neq[R <: RootEntity, A](prop: Prop[R, A], value: A) =
-    SEqualityQuery[R, A](prop, NeqOp, value)
+    VEqualityQuery[R, A](prop, NeqOp, value)
 
   def lt[R <: RootEntity, A : TypeKey](path: String, value: A) =
-    DOrderingQuery[R, A](path, LtOp, value)
+    OrderingQuery[R, A](path, LtOp, value)
 
   def lt[R <: RootEntity, A](prop: Prop[R, A], value: A) =
-    SOrderingQuery[R, A](prop, LtOp, value)
+    VOrderingQuery[R, A](prop, LtOp, value)
 
   def gt[R <: RootEntity, A : TypeKey](path: String, value: A) =
-    DOrderingQuery[R, A](path, GtOp, value)
+    OrderingQuery[R, A](path, GtOp, value)
 
   def gt[R <: RootEntity, A](prop: Prop[R, A], value: A) =
-    SOrderingQuery[R, A](prop, GtOp, value)
+    VOrderingQuery[R, A](prop, GtOp, value)
 
   def lte[R <: RootEntity, A : TypeKey](path: String, value: A) =
-    DOrderingQuery[R, A](path, LteOp, value)
+    OrderingQuery[R, A](path, LteOp, value)
 
   def lte[R <: RootEntity, A](prop: Prop[R, A], value: A) =
-    SOrderingQuery[R, A](prop, LteOp, value)
+    VOrderingQuery[R, A](prop, LteOp, value)
 
   def gte[R <: RootEntity, A : TypeKey](path: String, value: A) =
-    DOrderingQuery[R, A](path, GteOp, value)
+    OrderingQuery[R, A](path, GteOp, value)
 
   def gte[R <: RootEntity, A](prop: Prop[R, A], value: A) =
-    SOrderingQuery[R, A](prop, GteOp, value)
+    VOrderingQuery[R, A](prop, GteOp, value)
 
   def cond[R <: RootEntity](lhs: Query[R], op: LogicalOp, rhs: Query[R]) = (lhs, rhs) match {
     case (lhs: ValidatedQuery[R], rhs: ValidatedQuery[R]) => VConditionalQuery[R](lhs, op, rhs)
@@ -73,34 +73,21 @@ sealed trait Query[R <: RootEntity]
 // TODO alias VQuery
 sealed trait ValidatedQuery[R <: RootEntity] extends Query[R]
 
-sealed trait EqualityQuery[R <: RootEntity] extends Query[R] {
-  val op: EqualityOp
-  val value: Any
-}
-
-sealed case class SEqualityQuery[R <: RootEntity, A](
-  val prop: Prop[R, A],
-  op: EqualityOp,
-  value: A)
-extends EqualityQuery[R] with ValidatedQuery[R]
-
-sealed case class DEqualityQuery[R <: RootEntity, A : TypeKey](
+sealed case class EqualityQuery[R <: RootEntity, A : TypeKey](
   val path: String,
   op: EqualityOp,
   value: A)
-extends EqualityQuery[R] {
+extends Query[R] {
   val valTypeKey = typeKey[A]
 }
 
-sealed case class SOrderingQuery[R <: RootEntity, A](
+sealed case class VEqualityQuery[R <: RootEntity, A](
   val prop: Prop[R, A],
-  op: OrderingOp,
+  op: EqualityOp,
   value: A)
-extends ValidatedQuery[R] {
-  prop.ordering // force exception if prop is not ordered
-}
+extends ValidatedQuery[R]
 
-sealed case class DOrderingQuery[R <: RootEntity, A : TypeKey](
+sealed case class OrderingQuery[R <: RootEntity, A : TypeKey](
   val path: String,
   op: OrderingOp,
   value: A)
@@ -108,14 +95,22 @@ extends Query[R] {
   val valTypeKey = typeKey[A]
 }
 
-sealed case class VConditionalQuery[R <: RootEntity](
-  lhs: ValidatedQuery[R],
-  op: LogicalOp,
-  rhs: ValidatedQuery[R])
-extends ValidatedQuery[R]
+sealed case class VOrderingQuery[R <: RootEntity, A](
+  val prop: Prop[R, A],
+  op: OrderingOp,
+  value: A)
+extends ValidatedQuery[R] {
+  prop.ordering // force exception if prop is not ordered
+}
 
 sealed case class ConditionalQuery[R <: RootEntity](
   lhs: Query[R],
   op: LogicalOp,
   rhs: Query[R])
 extends Query[R]
+
+sealed case class VConditionalQuery[R <: RootEntity](
+  lhs: ValidatedQuery[R],
+  op: LogicalOp,
+  rhs: ValidatedQuery[R])
+extends ValidatedQuery[R]

@@ -19,37 +19,37 @@ class QueryDsl[R <: RootEntity] {
     private val prefix: Option[CondPrefix] = None) {
 
     def eqs[A : TypeKey](a: A) = {
-      val rhs = DEqualityQuery[R, A](path, EqOp, a)
+      val rhs = EqualityQuery[R, A](path, EqOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def neq[A : TypeKey](a: A) = {
-      val rhs = DEqualityQuery[R, A](path, NeqOp, a)
+      val rhs = EqualityQuery[R, A](path, NeqOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def lt[A : TypeKey](a: A) = {
-      val rhs = DOrderingQuery[R, A](path, LtOp, a)
+      val rhs = OrderingQuery[R, A](path, LtOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def lte[A : TypeKey](a: A) = {
-      val rhs = DOrderingQuery[R, A](path, LteOp, a)
+      val rhs = OrderingQuery[R, A](path, LteOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def gt[A : TypeKey](a: A) = {
-      val rhs = DOrderingQuery[R, A](path, GtOp, a)
+      val rhs = OrderingQuery[R, A](path, GtOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def gte[A : TypeKey](a: A) = {
-      val rhs = DOrderingQuery[R, A](path, GteOp, a)
+      val rhs = OrderingQuery[R, A](path, GteOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
@@ -61,37 +61,37 @@ class QueryDsl[R <: RootEntity] {
     private val prefix: Option[CondPrefix] = None) {
 
     def eqs(a: A) = {
-      val rhs = SEqualityQuery[R, A](prop, EqOp, a)
+      val rhs = VEqualityQuery[R, A](prop, EqOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def neq(a: A) = {
-      val rhs = SEqualityQuery[R, A](prop, NeqOp, a)
+      val rhs = VEqualityQuery[R, A](prop, NeqOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def lt(a: A) = {
-      val rhs = SOrderingQuery[R, A](prop, LtOp, a)
+      val rhs = VOrderingQuery[R, A](prop, LtOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def lte(a: A) = {
-      val rhs = SOrderingQuery[R, A](prop, LteOp, a)
+      val rhs = VOrderingQuery[R, A](prop, LteOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def gt(a: A) = {
-      val rhs = SOrderingQuery[R, A](prop, GtOp, a)
+      val rhs = VOrderingQuery[R, A](prop, GtOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     def gte(a: A) = {
-      val rhs = SOrderingQuery[R, A](prop, GteOp, a)
+      val rhs = VOrderingQuery[R, A](prop, GteOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
