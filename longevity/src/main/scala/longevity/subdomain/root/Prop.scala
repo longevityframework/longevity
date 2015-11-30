@@ -43,6 +43,8 @@ case class Prop[R <: RootEntity, A] private (
     else
       throw new PropNotOrderedException(this)
 
+  override def toString: String = path
+
 }
 
 object Prop {

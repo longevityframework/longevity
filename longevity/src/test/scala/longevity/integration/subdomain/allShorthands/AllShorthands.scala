@@ -2,6 +2,8 @@ package longevity.integration.subdomain.allShorthands
 
 import longevity.subdomain._
 
+import shorthands._
+
 case class AllShorthands(
   uri: String,
   boolean: BooleanShorthand,

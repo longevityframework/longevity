@@ -36,15 +36,13 @@ abstract class Repo[R <: RootEntity : TypeKey](
   def retrieveByQuery(query: Query[R]): Future[Seq[Persisted[R]]] =
     retrieveByValidatedQuery(entityType.validateQuery(query))
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]]
-
-  // TODO: streamByQuery
-
   /** updates the aggregate */
   def update(p: Persisted[R]): Future[Persisted[R]]
 
   /** deletes the aggregate */
   def delete(p: Persisted[R]): Future[Deleted[R]]
+
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]]
 
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repoPool: RepoPool = _repoPoolOption.get

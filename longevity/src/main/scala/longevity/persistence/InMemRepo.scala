@@ -50,7 +50,7 @@ extends Repo[R](entityType, subdomain) {
       }
     }
     val optionR = nkvToEntityMap.get(NKV(key, keyVal))
-    Promise.successful(optionR).future
+    Future.successful(optionR)
   }
 
 
@@ -65,7 +65,7 @@ extends Repo[R](entityType, subdomain) {
     repo.synchronized { idToEntityMap -= persisted.assoc }
     dumpKeys(persisted.orig)
     val deleted = new Deleted(persisted)
-    Promise.successful(deleted).future
+    Future.successful(deleted)
   }
 
   protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]] = Future {
@@ -94,7 +94,7 @@ extends Repo[R](entityType, subdomain) {
 
   private def retrieve(assoc: PersistedAssoc[R]) = {
     val optionR = idToEntityMap.get(assoc)
-    Promise.successful(optionR).future
+    Future.successful(optionR)
   }
 
   private def persist(assoc: PersistedAssoc[R], root: R): Persisted[R] = {
