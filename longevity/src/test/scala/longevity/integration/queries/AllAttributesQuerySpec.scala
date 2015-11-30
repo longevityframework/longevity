@@ -4,8 +4,6 @@ import com.github.nscala_time.time.Imports._
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.allAttributes._
 
-// TODO: test queries with Assoc
-
 class AllAttributesQuerySpec extends QuerySpec(mongoContext, mongoContext.inMemTestRepoPool) {
 
   val repo = repoPool[AllAttributes]
