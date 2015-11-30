@@ -35,7 +35,7 @@ trait BuildSettings {
     scalacOptions in (Test, console) ~= (_ filterNot (nonConsoleScalacOptions.contains(_))),
 
     // scaladoc
-    scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-encoding", "UTF-8"),
+    scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-encoding", "UTF-8", "-diagrams"),
     scalacOptions in (Compile, doc) ++= {
       val projectName = (name in (Compile, doc)).value
       val projectVersion = (version in (Compile, doc)).value

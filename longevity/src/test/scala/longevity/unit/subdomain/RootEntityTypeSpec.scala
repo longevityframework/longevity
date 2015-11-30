@@ -1,5 +1,7 @@
 package longevity.unit.subdomain
 
+import longevity.exceptions.subdomain.CollectionPropPathSegmentException
+import longevity.exceptions.subdomain.PropTypeException
 import org.scalatest._
 
 object RootEntityTypeSpec {
@@ -104,14 +106,14 @@ class RootEntityTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     val usernameVal = "usernameVal"
     val emailVal: Email = "emailVal"
 
-    intercept[longevity.exceptions.subdomain.PropTypeMismatchException[_]] {
+    intercept[PropTypeException] {
       val dquery = Query.or[User](
         Query.eqs("username", emailVal), // oops! user error
         Query.eqs("email", emailVal))
       User.validateQuery(dquery)
     }
 
-    intercept[longevity.exceptions.subdomain.PropTypeMismatchException[_]] {
+    intercept[PropTypeException] {
       val dquery = Query.or[User](
         Query.eqs("username", usernameVal),
         Query.eqs("email", usernameVal)) // oops! user error
@@ -121,7 +123,7 @@ class RootEntityTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "belch on any collection properties, including option properties" in {
-    intercept[longevity.exceptions.subdomain.CollectionPropPathSegmentException] {
+    intercept[CollectionPropPathSegmentException] {
       User.validateQuery(Query.eqs("profile.title", "title"))
     }
   }

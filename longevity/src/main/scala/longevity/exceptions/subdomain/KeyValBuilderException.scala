@@ -1,6 +1,4 @@
 package longevity.exceptions.subdomain
 
-/** an exception involving building natural key values
- * @see RootEntityType#Key#ValBuilder
- */
+/** an exception while building a key value */
 class KeyValBuilderException(message: String) extends SubdomainException(message)

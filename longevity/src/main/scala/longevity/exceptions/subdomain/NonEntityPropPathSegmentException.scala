@@ -8,7 +8,7 @@ class NonEntityPropPathSegmentException(
   val path: String,
   val rootTypeKey: TypeKey[_],
   cause: NonEmblemInPropPathException)
-extends InvalidPropPathException(
+extends PropException(
   s"non-leaf path segment $pathSegment is not an entity in path $path for root ${rootTypeKey.name}",
   cause) {
 

@@ -13,7 +13,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Random
 
-/** contains common code for testing [[Query queries]].
+/** contains common code for testing different [[longevity.subdomain.root.Query]] instances against
+ * [[longevity.persistence.Repo#retrieveByQuery]]
  *
  * @param context the longevity context under test
  * @param repoPool the repo pool under test. this may be different than the `context.repoPool`, as

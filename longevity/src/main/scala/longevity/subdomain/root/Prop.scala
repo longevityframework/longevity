@@ -15,12 +15,13 @@ import longevity.exceptions.subdomain.InvalidPropPathLeafException
 import longevity.exceptions.subdomain.NoSuchPropPathSegmentException
 import longevity.exceptions.subdomain.NonEntityPropPathSegmentException
 import longevity.exceptions.subdomain.PropNotOrderedException
-import longevity.exceptions.subdomain.PropTypeMismatchException
+import longevity.exceptions.subdomain.PropTypeException
 import longevity.subdomain._
 
-/** a property of the root that can be used as part of a natural key. the property can belong to a
- * contained entity of the root at any depth of containment, so long as every containment step along the
- * path is exactly-one. the type of the property must be a [[Assoc]], a [[Shorthand]], or a basic type.
+/** a property for this root entity type. properties can be used to define [[Key keys]] and [[Index indexes]],
+ * as well as for building [[Query queries]]. a property can descend from the root into child entities at any
+ * depth. at present, a property cannot pass through any collections. at present, the type of the property must
+ * be an [[Assoc]], a [[Shorthand]], or a basic type.
  * 
  * @param path a dot-separated path of the property descending from the root entity
  * @param typeKey the `TypeKey` for the property value type
@@ -57,7 +58,7 @@ object Prop {
     shorthandPool: ShorthandPool)
   : Prop[R, A] = {
     val prop = unbounded(path, emblem, rootTypeKey, shorthandPool)
-    if (!(prop.typeKey <:< typeKey[A])) throw new PropTypeMismatchException(path, rootTypeKey)
+    if (!(prop.typeKey <:< typeKey[A])) throw new PropTypeException(path, rootTypeKey, typeKey[A])
     prop.asInstanceOf[Prop[R, A]]
   }
 

@@ -1,8 +1,8 @@
 package longevity.unit.subdomain.root
 
 import emblem.imports._
-import longevity.exceptions.subdomain.KeyDoesNotContainPropException
-import longevity.exceptions.subdomain.PropValTypeMismatchException
+import longevity.exceptions.subdomain.KeyHasNoSuchPropException
+import longevity.exceptions.subdomain.PropValTypeException
 import longevity.exceptions.subdomain.SubdomainException
 import longevity.exceptions.subdomain.UnsetPropException
 import org.scalatest._
@@ -34,12 +34,12 @@ object KeySpec {
 
   object context {
     val entityTypes = EntityTypePool(KeySampler)
-    val subdomain = Subdomain("Nat Key Spec", entityTypes)(shorthandPool)
+    val subdomain = Subdomain("Key Spec", entityTypes)(shorthandPool)
   }
 
 }
 
-/** unit tests for the proper construction of [[RootEntityType#Prop nat key props]] */
+/** unit tests for the proper construction of [[Key keys]] */
 class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import KeySpec.KeySampler
@@ -64,23 +64,23 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "RootEntityType.Key.Builder.setProp"
 
-  it should "throw exception when the prop is not part of the nat key being built" in {
+  it should "throw exception when the prop is not part of the key being built" in {
     val builder = keyFromProps.builder
-    intercept[KeyDoesNotContainPropException[_]] {
+    intercept[KeyHasNoSuchPropException[_]] {
       builder.setProp(doubleProp, 6.6d)
     }
   }
 
   it should "throw exception when the propVal does not match the type of the prop" in {
     val builder = keyFromProps.builder
-    intercept[PropValTypeMismatchException[_]] {
+    intercept[PropValTypeException[_]] {
       builder.setProp(booleanProp, 6.6d)
     }
   }
 
   behavior of "RootEntityType.Key.Builder.build"
 
-  it should "throw exception when not all the props in the nat key have been set" in {
+  it should "throw exception when not all the props in the key have been set" in {
     val builder = tripleKey.builder
     intercept[UnsetPropException[_]] {
       builder.build
@@ -95,7 +95,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  it should "produce a valid nat key val when used appropriately" in {
+  it should "produce a valid val when used appropriately" in {
     val booleanVal = true
     val charVal = 'c'
     val doubleVal = 6.667d
@@ -129,7 +129,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "RootEntityType.Key.keyVal"
 
-  it should "return nat key vals for the supplied instances" in {
+  it should "return key vals for the supplied instances" in {
     val booleanVal = true
     val charVal = 'c'
     val doubleVal = 6.667d

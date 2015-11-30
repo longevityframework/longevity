@@ -178,7 +178,7 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
         User.usernameKey)(
         User.usernameKey.builder.setProp("username", john.username).build)
 
-    // in time, we'll develop a DSL for creating nat key values more easily
+    // in time, we'll develop a DSL for creating key values more easily
 
     // unwrap the future and option:
 

@@ -38,8 +38,8 @@ extends EntityType[R] {
   /** the indexes for this root entity type. you populate this set by repeatedly calling either of the
    * `RootEntityType.index` methods in your class initializer. you should only attempt to access this set
    * after your `RootEntityType` is fully initialized.
-   * @throws longevity.exceptions.SubdomainException on attempt to access this set before the `RootEntityType`
-   * is fully initialized
+   * @throws longevity.exceptions.subdomain.SubdomainException on attempt to access this set before the
+   * `RootEntityType` is fully initialized
    */
   lazy val indexes: Set[Index[R]] = {
     if (!registered) throw new SubdomainException(
@@ -48,8 +48,8 @@ extends EntityType[R] {
   }
 
   // TODO: should be mention of shorthands in this comment
-  /** constructs a [[Prop]] from a path
-   * @throws longevity.exceptions.InvalidPropPathException if any step along the path does not exist, or
+  /** constructs a [[longevity.subdomain.root.Prop]] from a path
+   * @throws longevity.exceptions.subdomain.PropException if any step along the path does not exist, or
    * any non-final step along the path is not an entity, or the final step along the path is not an [[Assoc]] or
    * a basic type
    * @see `emblem.basicTypes`
@@ -59,14 +59,15 @@ extends EntityType[R] {
   /** constructs a key for this root entity type based on the supplied set of property paths
    * @param propPathHead one of the property paths for the properties that define this key
    * @param propPathTail any remaining property paths for the properties that define this key
-   * @throws longevity.exceptions.subdomain.InvalidKeyPropPathException if any of the supplied property paths are
+   * @throws longevity.exceptions.subdomain.PropException if any of the supplied property paths are
    * invalid
-   * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new nat key after the
+   * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new key after the
    * `RootEntityType` is fully initialized
    * @see Prop.apply
    */
   def key(propPathHead: String, propPathTail: String*): Key[R] = {
     if (registered)
+      // TODO more specific e type
       throw new SubdomainException("cannot create new keys after the subdomain has been initialized")
     val propPaths = propPathHead :: propPathTail.toList
     val key = Key(propPaths.map(Prop.unbounded(_, emblem, entityTypeKey, shorthandPool)))
@@ -91,9 +92,9 @@ extends EntityType[R] {
   /** constructs an index for this root entity type based on the supplied set of property paths
    * @param propPathHead one of the property paths for the properties that define this index
    * @param propPathTail any remaining property paths for the properties that define this index
-   * @throws longevity.exceptions.InvalidPropPathException if any of the supplied property paths are
+   * @throws longevity.exceptions.subdomain.PropException if any of the supplied property paths are
    * invalid
-   * @throws longevity.exceptions.SubdomainException on attempt to create a new index after the
+   * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new index after the
    * `RootEntityType` is fully initialized
    * @see Prop.apply
    */
@@ -107,10 +108,11 @@ extends EntityType[R] {
   }
 
   /** constructs a index for this root entity type based on the supplied set of index props
+   * 
    * @param propsHead one of the properties that define this index
    * @param propsTail any remaining properties that define this index
-   * @throws longevity.exceptions.SubdomainException on attempt to create a new index after the `RootEntityType`
-   * is fully initialized
+   * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new index after the
+   * `RootEntityType` is fully initialized
    */
   def index(propsHead: Prop[R, _], propsTail: Prop[R, _]*): Index[R] = {
     if (registered)
@@ -120,9 +122,10 @@ extends EntityType[R] {
     index
   }
 
-  // TODO update scaladoc
-  /** validates the query. throws exception if not valid. translates DRelationalQuery into SRelationalQuery
-   * @throws longevity.exceptions.subdomain.PropTypeMismatchException if a dynamic part of the query is mistyped
+  /** translates the query into a validated query by resolving all the property paths to properties.
+   * throws exception if the property value supplied does not match the property type.
+   * 
+   * @throws longevity.exceptions.subdomain.PropValTypeException if a dynamic part of the query is mistyped
    */
   def validateQuery(query: Query[R]): ValidatedQuery[R] = {
     query match {

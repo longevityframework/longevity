@@ -104,7 +104,7 @@ with TestDataGeneration {
         val root: R = testDataGenerator.generate[R]
         val created = repo.create(root).futureValue
 
-        When(s"we retrieve the $rootName by any of its natural keys")
+        When(s"we retrieve the $rootName by any of its keys")
         Then(s"we get back the same $rootName persistent state")
         repo.entityType.keys.foreach { key =>
           val keyVal = key.keyVal(created.get)

@@ -2,13 +2,16 @@ package longevity.subdomain.root
 
 import emblem.basicTypes.isBasicType
 import emblem.imports._
-import longevity.exceptions.subdomain.PropValTypeMismatchException
-import longevity.exceptions.subdomain.KeyDoesNotContainPropException
+import longevity.exceptions.subdomain.PropValTypeException
+import longevity.exceptions.subdomain.KeyHasNoSuchPropException
 import longevity.exceptions.subdomain.UnsetPropException
 import longevity.subdomain._
 
-/** a natural key for this root entity type
- * @param props the set of nat key properties that make up this natural key
+/** a natural key for this root entity type. a set of properties for which, given specific
+ * property values for each of the properties, will match no more than one root instance.
+ * 
+ * @tparam R the root entity type
+ * @param props the set of properties that make up this key
  */
 case class Key[R <: RootEntity] private [subdomain] (
   val props: Seq[Prop[R, _]])(
@@ -16,10 +19,10 @@ case class Key[R <: RootEntity] private [subdomain] (
 
   private lazy val propPathToProp: Map[String, Prop[R, _]] = props.map(p => p.path -> p).toMap
 
-  /** returns a builder for nat key vals */
+  /** returns a builder for key vals */
   def builder = new ValBuilder
 
-  /** returns the nat key val for the supplied root entity
+  /** returns the key val for the supplied root entity
    * @param e the root entity
    */
   def keyVal(root: R): Val = {
@@ -28,24 +31,24 @@ case class Key[R <: RootEntity] private [subdomain] (
     b.build
   }
 
-  /** a value of this natural key */
+  /** a value of this key */
   case class Val private[Key] (val propVals: Map[Prop[R, _], Any]) {
 
-    /** gets the value of the nat key val for the specified prop.
+    /** gets the value of the key val for the specified prop.
      * 
      * throws java.util.NoSuchElementException if the prop is not part of the key
      * @param the prop to look up a value for
      */
     def apply(prop: Prop[R, _]): Any = propVals(prop)
 
-    /** gets the value of the nat key val for the specified prop path.
+    /** gets the value of the key val for the specified prop path.
      * 
      * throws java.util.NoSuchElementException if the prop indicated by the prop path is not part of the key
      * @param the prop to look up a value for
      */
     def apply(propPath: String): Any = propVals(propPathToProp(propPath))
 
-    /** gets the shorthanded value of the nat key val for the specified prop. if there is a shorthand in
+    /** gets the shorthanded value of the key val for the specified prop. if there is a shorthand in
      * the shorthand pool that applies, it is applied to the raw value before it is returned.
      * 
      * throws java.util.NoSuchElementException if the prop is not part of the key
@@ -63,7 +66,7 @@ case class Key[R <: RootEntity] private [subdomain] (
 
   }
 
-  /** a builder of values for this natural key */
+  /** a builder of values for this key */
   class ValBuilder {
 
     private var propVals = Map[Prop[R, _], Any]()
@@ -74,8 +77,8 @@ case class Key[R <: RootEntity] private [subdomain] (
 
     /** sets the property to the value */
     def setProp[A : TypeKey](prop: Prop[R, _], propVal: A): ValBuilder = {
-      if (!props.contains(prop)) throw new KeyDoesNotContainPropException(Key.this, prop)
-      if (! (typeKey[A] <:< prop.typeKey)) throw new PropValTypeMismatchException(prop, propVal)
+      if (!props.contains(prop)) throw new KeyHasNoSuchPropException(Key.this, prop)
+      if (! (typeKey[A] <:< prop.typeKey)) throw new PropValTypeException(prop, propVal)
       propVals += prop -> propVal
       this
     }
@@ -84,8 +87,8 @@ case class Key[R <: RootEntity] private [subdomain] (
       propVals += prop -> propVal
     }
 
-    /** builds the nat key value
-     * @throws longevity.exceptions.subdomain.UnsetKeyPropException if any of the properties of the key
+    /** builds the key value
+     * @throws longevity.exceptions.subdomain.UnsetPropException if any of the properties of the key
      * were not set in this builder
      */
     def build: Val = {

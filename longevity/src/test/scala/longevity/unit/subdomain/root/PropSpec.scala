@@ -7,7 +7,7 @@ import org.scalatest._
 import longevity.subdomain._
 import longevity.subdomain.root._
 
-/** unit tests for the proper construction of [[RootEntityType#Prop nat key props]] */
+/** unit tests for the proper construction of [[Prop properties]] */
 class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "RootEntityType.Prop.apply(String)"
@@ -102,7 +102,7 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   // TODO test for type mismatch
 
-  it should "produce a valid nat key prop for basic types" in {
+  it should "produce a valid prop for basic types" in {
     import longevity.integration.subdomain.allAttributes._
 
     var prop: Prop[AllAttributes, _] = null
@@ -140,7 +140,7 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
     prop.typeKey should equal (typeKey[DateTime])
   }
 
-  it should "produce a valid nat key prop for shorthand types" in {
+  it should "produce a valid prop for shorthand types" in {
     import longevity.integration.subdomain.allShorthands._
 
     var prop: Prop[AllShorthands, _] = null
@@ -178,21 +178,21 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
     prop.typeKey should equal (typeKey[DateTimeShorthand])
   }
 
-  it should "produce a valid nat key prop for an assoc" in {
+  it should "produce a valid prop for an assoc" in {
     import longevity.integration.subdomain.withAssoc._
     val prop = WithAssoc.prop[Assoc[Associated]]("associated")
     prop.path should equal ("associated")
     prop.typeKey should equal (typeKey[Assoc[Associated]])
   }
 
-  it should "produce a valid nat key prop for a nested basic type" in {
+  it should "produce a valid prop for a nested basic type" in {
     import longevity.integration.subdomain.withComponent._
     val prop = WithComponent.prop[String]("component.uri")
     prop.path should equal ("component.uri")
     prop.typeKey should equal (typeKey[String])
   }
 
-  it should "produce a valid nat key prop for shorthand types in nested components" in {
+  it should "produce a valid prop for shorthand types in nested components" in {
     import longevity.integration.subdomain.withComponentWithShorthands._
     var prop: Prop[WithComponentWithShorthands, _] = null
 
@@ -229,7 +229,7 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
     prop.typeKey should equal (typeKey[DateTimeShorthand])
   }
 
-  it should "produce a valid nat key prop for a nested assoc" in {
+  it should "produce a valid prop for a nested assoc" in {
     import longevity.integration.subdomain.withComponentWithAssoc._
     val prop = WithComponentWithAssoc.prop[Assoc[Associated]]("component.associated")
     prop.path should equal ("component.associated")

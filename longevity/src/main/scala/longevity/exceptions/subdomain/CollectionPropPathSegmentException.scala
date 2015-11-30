@@ -8,7 +8,7 @@ class CollectionPropPathSegmentException(
   val path: String,
   val rootTypeKey: TypeKey[_],
   cause: CollectionInPropPathException)
-extends InvalidPropPathException(
+extends PropException(
   s"property path '$path' for root '${rootTypeKey.name}' specifies collection '$pathSegment'. " +
   s"collections are not currently supported in prop paths.",
   cause)

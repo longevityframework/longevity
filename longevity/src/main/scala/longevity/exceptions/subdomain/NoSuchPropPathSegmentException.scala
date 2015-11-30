@@ -10,7 +10,7 @@ class NoSuchPropPathSegmentException(
   val path: String,
   val rootTypeKey: TypeKey[_],
   cause: NoSuchPropertyException)
-extends InvalidPropPathException(
+extends PropException(
   s"path segment $propName does not specify a property in path $path for root ${rootTypeKey.name}",
   cause)
 

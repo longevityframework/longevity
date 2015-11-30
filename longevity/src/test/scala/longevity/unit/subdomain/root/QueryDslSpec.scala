@@ -5,6 +5,7 @@ import longevity.exceptions.subdomain.PropNotOrderedException
 import longevity.subdomain._
 import longevity.subdomain.root._
 
+/** sample domain for the QueryDslSpec */
 object QueryDslSpec {
 
   private case class Root(path1: Int, path2: Double, path3: String, path4: Assoc[Associated]) extends RootEntity
@@ -22,7 +23,7 @@ object QueryDslSpec {
 
 }
 
-/** unit tests for the proper construction of [[RootEntityType#Prop nat key props]] */
+/** unit tests for the proper construction of [[Query Queries]] using the [[QueryDsl]] */
 class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
   import QueryDslSpec._
   private val dsl = new QueryDsl[Root]
