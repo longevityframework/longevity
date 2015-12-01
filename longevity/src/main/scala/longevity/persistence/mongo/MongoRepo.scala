@@ -49,9 +49,11 @@ extends Repo[R](entityType, subdomain) {
     }
   })
 
-  def retrieve(key: Key[R])(keyVal: key.Val): Future[Option[Persisted[R]]] = Future {
+  def retrieve(keyVal: KeyVal[R]): Future[Option[Persisted[R]]] = Future {
     val builder = MongoDBObject.newBuilder
-    key.props.foreach { prop => builder += (prop.path -> resolvePropVal(prop, keyVal(prop))) }
+    keyVal.propVals.foreach {
+      case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
+    }
     val query = builder.result
     val resultOption = mongoCollection.findOne(query)
     val idEntityOption = resultOption map { result =>

@@ -28,8 +28,7 @@ extends Repo[R](entityType, subdomain) {
   private var nextId = 0
   private var idToEntityMap = Map[PersistedAssoc[R], Persisted[R]]()
   
-  case class NKV(val key: Key[R], val keyVal: Key[R]#Val)
-  private var nkvToEntityMap = Map[NKV, Persisted[R]]()
+  private var keyValToEntityMap = Map[KeyVal[R], Persisted[R]]()
 
   def create(unpersisted: Unpersisted[R]) = getSessionCreationOrElse(unpersisted, {
     patchUnpersistedAssocs(unpersisted.get).map { e =>
@@ -42,14 +41,14 @@ extends Repo[R](entityType, subdomain) {
     }
   })
 
-  def retrieve(key: Key[R])(keyVal: key.Val): Future[Option[Persisted[R]]] = {
-    key.props.foreach { prop =>
+  def retrieve(keyVal: KeyVal[R]): Future[Option[Persisted[R]]] = {
+    keyVal.propVals.foreach { case (prop, value) =>
       if (prop.typeKey <:< typeKey[Assoc[_]]) {
-        val assoc = keyVal(prop).asInstanceOf[Assoc[_ <: RootEntity]]
+        val assoc = value.asInstanceOf[Assoc[_ <: RootEntity]]
         if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
       }
     }
-    val optionR = nkvToEntityMap.get(NKV(key, keyVal))
+    val optionR = keyValToEntityMap.get(keyVal)
     Future.successful(optionR)
   }
 
@@ -103,7 +102,7 @@ extends Repo[R](entityType, subdomain) {
       idToEntityMap += (assoc -> persisted)
       entityType.keys.foreach { key =>
         val keyVal = key.keyVal(root)
-        nkvToEntityMap += (NKV(key, keyVal) -> persisted)
+        keyValToEntityMap += keyVal -> persisted
       }
     }
     persisted
@@ -112,7 +111,7 @@ extends Repo[R](entityType, subdomain) {
   private def dumpKeys(root: R) = repo.synchronized {
     entityType.keys.foreach { key =>
       val keyVal = key.keyVal(root)
-      nkvToEntityMap -= NKV(key, keyVal)
+      keyValToEntityMap -= keyVal
     }
   }
 

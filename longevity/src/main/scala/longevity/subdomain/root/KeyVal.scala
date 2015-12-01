@@ -1,0 +1,21 @@
+package longevity.subdomain.root
+
+import longevity.subdomain._
+
+/** a key value
+ *
+ * @param key the key that this is a value for
+ * @param propVals a map from the properties in the key to the values
+ */
+case class KeyVal[R <: RootEntity] private[root] (
+  val key: Key[R],
+  val propVals: Map[Prop[R, _], Any]) {
+
+  /** gets the value for the specified prop
+   * 
+   * throws java.util.NoSuchElementException if the prop is not part of the key
+   * @param the prop to look up a value for
+   */
+  def apply(prop: Prop[R, _]): Any = propVals(prop)
+
+}

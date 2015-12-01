@@ -30,7 +30,7 @@ abstract class Repo[R <: RootEntity : TypeKey](
   def create(root: R): Future[Persisted[R]] = create(new Unpersisted(root))
 
   /** retrieves the aggregate by a key value */
-  def retrieve(key: Key[R])(keyVal: key.Val): Future[Option[Persisted[R]]]
+  def retrieve(keyVal: KeyVal[R]): Future[Option[Persisted[R]]]
 
   /** retrieves the aggregate by a query */
   def retrieveByQuery(query: Query[R]): Future[Seq[Persisted[R]]] =
