@@ -1,4 +1,4 @@
-package longevity.exceptions.subdomain
+package longevity.exceptions.subdomain.root
 
 import emblem.TypeKey
 import emblem.exceptions.NonEmblemInPropPathException

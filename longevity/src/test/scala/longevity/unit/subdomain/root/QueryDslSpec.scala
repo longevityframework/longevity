@@ -1,7 +1,7 @@
 package longevity.unit.subdomain.root
 
 import org.scalatest._
-import longevity.exceptions.subdomain.PropNotOrderedException
+import longevity.exceptions.subdomain.root.PropNotOrderedException
 import longevity.subdomain._
 import longevity.subdomain.root._
 

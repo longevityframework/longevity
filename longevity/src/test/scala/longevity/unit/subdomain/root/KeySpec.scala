@@ -1,8 +1,8 @@
 package longevity.unit.subdomain.root
 
 import emblem.imports._
-import longevity.exceptions.subdomain.NumPropValsException
-import longevity.exceptions.subdomain.PropValTypeException
+import longevity.exceptions.subdomain.root.NumPropValsException
+import longevity.exceptions.subdomain.root.PropValTypeException
 import longevity.exceptions.subdomain.SubdomainException
 import longevity.subdomain._
 import longevity.subdomain.root._

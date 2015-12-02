@@ -9,13 +9,13 @@ import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblemInPropPathException
 import emblem.exceptions.{ EmptyPropPathException => EmblemEmptyPropPathException }
 import emblem.imports._
-import longevity.exceptions.subdomain.CollectionPropPathSegmentException
-import longevity.exceptions.subdomain.EmptyPropPathException
-import longevity.exceptions.subdomain.InvalidPropPathLeafException
-import longevity.exceptions.subdomain.NoSuchPropPathSegmentException
-import longevity.exceptions.subdomain.NonEntityPropPathSegmentException
-import longevity.exceptions.subdomain.PropNotOrderedException
-import longevity.exceptions.subdomain.PropTypeException
+import longevity.exceptions.subdomain.root.CollectionPropPathSegmentException
+import longevity.exceptions.subdomain.root.EmptyPropPathException
+import longevity.exceptions.subdomain.root.InvalidPropPathLeafException
+import longevity.exceptions.subdomain.root.NoSuchPropPathSegmentException
+import longevity.exceptions.subdomain.root.NonEntityPropPathSegmentException
+import longevity.exceptions.subdomain.root.PropNotOrderedException
+import longevity.exceptions.subdomain.root.PropTypeException
 import longevity.subdomain._
 
 /** a property for this root entity type. properties can be used to define [[Key keys]] and [[Index indexes]],

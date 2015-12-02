@@ -2,8 +2,8 @@ package longevity.subdomain.root
 
 import emblem.basicTypes.isBasicType
 import emblem.imports._
-import longevity.exceptions.subdomain.NumPropValsException
-import longevity.exceptions.subdomain.PropValTypeException
+import longevity.exceptions.subdomain.root.NumPropValsException
+import longevity.exceptions.subdomain.root.PropValTypeException
 import longevity.subdomain._
 
 /** a natural key for this root entity type. a set of properties for which, given specific

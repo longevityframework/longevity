@@ -1,7 +1,7 @@
 package longevity.unit.subdomain
 
-import longevity.exceptions.subdomain.CollectionPropPathSegmentException
-import longevity.exceptions.subdomain.PropTypeException
+import longevity.exceptions.subdomain.root.CollectionPropPathSegmentException
+import longevity.exceptions.subdomain.root.PropTypeException
 import org.scalatest._
 
 object RootEntityTypeSpec {

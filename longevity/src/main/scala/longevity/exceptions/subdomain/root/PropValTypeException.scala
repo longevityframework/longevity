@@ -1,4 +1,4 @@
-package longevity.exceptions.subdomain
+package longevity.exceptions.subdomain.root
 
 import longevity.subdomain.RootEntity
 import longevity.subdomain.root.Prop
