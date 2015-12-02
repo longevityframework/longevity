@@ -50,13 +50,12 @@ with TestDataGeneration {
   case class ConditionalQTemplate[R <: RootEntity](lhs: QTemplate[R], rhs: QTemplate[R])
   extends QTemplate[R]
 
-  // TODO speed up these tests. figure out where they are so slow
   protected def exerciseQTemplate[R <: RootEntity : TypeKey](
     template: QTemplate[R],
     maxQueries: Int = 10)
   : Unit = {
     val rootStates = generateRoots(100)
-    val roots = rootStates.map(_.get)
+    val roots = rootStates.map(_.get).toSet
     try {
       val expectations = queryExpectationsFromQTemplate(template, roots)
       val expectationsSubset = expectations.take(maxQueries)
@@ -72,11 +71,11 @@ with TestDataGeneration {
     Future.sequence(fpStates).futureValue
   }
 
-  private case class QueryExpectations[R <: RootEntity](query: Query[R], expected: Seq[R])
+  private case class QueryExpectations[R <: RootEntity](query: Query[R], expected: Set[R])
 
   private def queryExpectationsFromQTemplate[R <: RootEntity](
     template: QTemplate[R],
-    roots: Seq[R])
+    roots: Set[R])
   : Set[QueryExpectations[R]] = {
     template match {
       case t: EqualityQTemplate[R, _] => queryExpectationsFromEqualityQTemplate(t, roots)(t.prop.typeKey)
@@ -87,7 +86,7 @@ with TestDataGeneration {
 
   private def queryExpectationsFromEqualityQTemplate[R <: RootEntity, A : TypeKey](
     template: EqualityQTemplate[R, A],
-    roots: Seq[R])
+    roots: Set[R])
   : Set[QueryExpectations[R]] = {
     val randomMatchingRoot = randomRoot(roots)
     val matchingPropVal = template.prop.propVal(randomMatchingRoot)
@@ -104,11 +103,12 @@ with TestDataGeneration {
     Set(eqsWithMatch, neqWithMatch, eqsNoMatch, neqNoMatch)
   }
 
-  private def randomRoot[R <: RootEntity](roots: Seq[R]): R = roots(math.abs(random.nextInt) % roots.size)
+  private def randomRoot[R <: RootEntity](roots: Set[R]): R = roots.head
+  // roots(math.abs(random.nextInt) % roots.size)
 
   private def queryExpectationsFromOrderingQTemplate[R <: RootEntity, A : TypeKey](
     template: OrderingQTemplate[R, A],
-    roots: Seq[R])
+    roots: Set[R])
   : Set[QueryExpectations[R]] = {
     val prop = template.prop
     val median = medianPropVal(roots, prop)
@@ -134,7 +134,7 @@ with TestDataGeneration {
 
   private def queryExpectationsFromConditionalQTemplate[R <: RootEntity, A](
     template: ConditionalQTemplate[R],
-    roots: Seq[R])
+    roots: Set[R])
   : Set[QueryExpectations[R]] = {
     val setSetExpects = for {
       lhsExpect <- queryExpectationsFromQTemplate(template.lhs, roots)
@@ -151,21 +151,21 @@ with TestDataGeneration {
     setSetExpects.flatten
   }
 
-  private def medianPropVal[R <: RootEntity, A](roots: Seq[R], prop: Prop[R, A]): A =
+  private def medianPropVal[R <: RootEntity, A](roots: Set[R], prop: Prop[R, A]): A =
     orderStatPropVal(roots, prop, roots.size / 2)
 
-  private def orderStatPropVal[R <: RootEntity, A](roots: Seq[R], prop: Prop[R, A], k: Int): A = {
+  private def orderStatPropVal[R <: RootEntity, A](roots: Set[R], prop: Prop[R, A], k: Int): A = {
     implicit val ordering = prop.ordering
-    roots.map(root => prop.propVal(root)).sorted.apply(k)
+    roots.view.map(root => prop.propVal(root)).toSeq.sorted.apply(k)
   }
 
   private def exerciseQueryExpectations[R <: RootEntity : TypeKey](
     expectations: QueryExpectations[R],
-    roots: Seq[R]): Unit = {
-    val results = repoPool[R].retrieveByQuery(expectations.query).futureValue.map(_.get)
+    roots: Set[R]): Unit = {
+    val results = repoPool[R].retrieveByQuery(expectations.query).futureValue.map(_.get).toSet
     val actual = roots intersect results // remove any roots not put in by this test
-    actual.size should equal (expectations.expected.toSet.size)
-    actual.toSet should equal (expectations.expected.toSet)
+    actual.size should equal (expectations.expected.size)
+    actual should equal (expectations.expected)
   }
 
   private def deleteRoots[R <: RootEntity : TypeKey](rootStates: Seq[PState[R]]): Unit = {
