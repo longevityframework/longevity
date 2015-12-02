@@ -1,6 +1,6 @@
 package longevity.unit.subdomain
 
-import longevity.exceptions.subdomain.root.CollectionPropPathSegmentException
+import longevity.exceptions.subdomain.root.UnsupportedPropTypeException
 import longevity.exceptions.subdomain.root.PropTypeException
 import org.scalatest._
 
@@ -122,8 +122,8 @@ class RootEntityTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   }
 
-  it should "belch on any collection properties, including option properties" in {
-    intercept[CollectionPropPathSegmentException] {
+  it should "balk on any collection properties, including option properties" in {
+    intercept[UnsupportedPropTypeException[_, _]] {
       User.validateQuery(Query.eqs("profile.title", "title"))
     }
   }

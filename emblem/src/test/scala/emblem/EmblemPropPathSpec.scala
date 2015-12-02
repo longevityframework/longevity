@@ -22,7 +22,7 @@ class EmblemPropPathSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
   it should "fail when a non-leaf member of the path does not have an emblem" in {
-    intercept[NonEmblemInPropPathException] {
+    intercept[NonEmblemInPropPathException[_]] {
       EmblemPropPath.unbounded[Computer]("cpu.mhz.mps")
     }
   }
@@ -45,7 +45,7 @@ class EmblemPropPathSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
   it should "fail when a non-leaf member of the path does not have an emblem" in {
-    intercept[NonEmblemInPropPathException] {
+    intercept[NonEmblemInPropPathException[_]] {
       EmblemPropPath.unbounded(computerEmblem, "cpu.mhz.mps")
     }
   }
@@ -68,7 +68,7 @@ class EmblemPropPathSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
   it should "fail when a non-leaf member of the path does not have an emblem" in {
-    intercept[NonEmblemInPropPathException] {
+    intercept[NonEmblemInPropPathException[_]] {
       EmblemPropPath[Computer, Nothing]("cpu.mhz.mps")
     }
   }
@@ -102,7 +102,7 @@ class EmblemPropPathSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
   it should "fail when a non-leaf member of the path does not have an emblem" in {
-    intercept[NonEmblemInPropPathException] {
+    intercept[NonEmblemInPropPathException[_]] {
       EmblemPropPath[Computer, Nothing](computerEmblem, "cpu.mhz.mps")
     }
   }

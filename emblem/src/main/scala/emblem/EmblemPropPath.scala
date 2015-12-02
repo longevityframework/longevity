@@ -95,10 +95,10 @@ object EmblemPropPath {
             // the following contortion is because Set is invariant. could/should we support this kind of thing
             // in TypeKey?
             prop.typeKey.tpe.erasure <:< typeKey[Set[Any]].tpe.erasure) {
-          throw new CollectionInPropPathException(emblem, path, prop.name)
+          throw new CollectionInPropPathException(emblem, path, prop.name)(prop.typeKey)
         }
         if (!(prop.typeKey <:< typeKey[HasEmblem])) {
-          throw new NonEmblemInPropPathException(emblem, path, prop.name)
+          throw new NonEmblemInPropPathException(emblem, path, prop.name)(prop.typeKey)
         }
         introB(prop.asInstanceOf[EmblemProp[A, _ <: HasEmblem]])
       }

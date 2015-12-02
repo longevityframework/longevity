@@ -7,13 +7,10 @@ import emblem.exceptions.CollectionInPropPathException
 import emblem.exceptions.EmblemPropPathTypeMismatchException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblemInPropPathException
-import emblem.exceptions.{ EmptyPropPathException => EmblemEmptyPropPathException }
+import emblem.exceptions.EmptyPropPathException
 import emblem.imports._
-import longevity.exceptions.subdomain.root.CollectionPropPathSegmentException
-import longevity.exceptions.subdomain.root.EmptyPropPathException
-import longevity.exceptions.subdomain.root.InvalidPropPathLeafException
-import longevity.exceptions.subdomain.root.NoSuchPropPathSegmentException
-import longevity.exceptions.subdomain.root.NonEntityPropPathSegmentException
+import longevity.exceptions.subdomain.root.UnsupportedPropTypeException
+import longevity.exceptions.subdomain.root.NoSuchPropException
 import longevity.exceptions.subdomain.root.PropNotOrderedException
 import longevity.exceptions.subdomain.root.PropTypeException
 import longevity.subdomain._
@@ -73,26 +70,26 @@ object Prop {
       try {
         EmblemPropPath.unbounded(emblem, path)
       } catch {
-        case e: EmblemEmptyPropPathException =>
-          throw new EmptyPropPathException(e)
+        case e: EmptyPropPathException =>
+          throw new NoSuchPropException(path, rootTypeKey)
         case e: NoSuchPropertyException =>
-          throw new NoSuchPropPathSegmentException(e.propName, path, rootTypeKey, e)
-        case e: CollectionInPropPathException =>
-          throw new CollectionPropPathSegmentException(e.collectionPathSegment, path, rootTypeKey, e)
-        case e: NonEmblemInPropPathException =>
-          throw new NonEntityPropPathSegmentException(e.nonEmblemPathSegment, path, rootTypeKey, e)
+          throw new NoSuchPropException(path, rootTypeKey)
+        case e: CollectionInPropPathException[_] =>
+          throw new UnsupportedPropTypeException(path)(rootTypeKey, e.typeKey)
+        case e: NonEmblemInPropPathException[_] =>
+          throw new UnsupportedPropTypeException(path)(rootTypeKey, e.typeKey)
       }
 
     def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[EmblemProp[_ <: HasEmblem, _]]): Unit =
       nonLeafEmblemProps foreach { nonLeafEmblemProp =>
         if (!(nonLeafEmblemProp.typeKey <:< typeKey[Entity]))
-          throw new NonEntityPropPathSegmentException(nonLeafEmblemProp.name, path, rootTypeKey)
+          throw new UnsupportedPropTypeException(path)(rootTypeKey, nonLeafEmblemProp.typeKey)
       }
 
     def validateLeafEmblemProp(leafEmblemProp: EmblemProp[_ <: HasEmblem, _]): TypeKey[_] = {
       val key = leafEmblemProp.typeKey
       if (!(isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)))
-        throw new InvalidPropPathLeafException(path, rootTypeKey)
+        throw new UnsupportedPropTypeException(path)(rootTypeKey, key)
       key
     }
 

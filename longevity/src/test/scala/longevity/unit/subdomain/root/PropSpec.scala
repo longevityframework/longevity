@@ -14,88 +14,88 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the specified prop path is empty" in {
     import longevity.integration.subdomain.allAttributes._
-    intercept[EmptyPropPathException] {
+    intercept[NoSuchPropException] {
       AllAttributes.prop[Int]("")
     }
   }
 
   it should "throw exception when the specified prop path does not map to an actual prop path" in {
     import longevity.integration.subdomain.allAttributes._
-    intercept[NoSuchPropPathSegmentException] {
+    intercept[NoSuchPropException] {
       AllAttributes.prop[Int]("invalidPropPath")
     }
 
     import longevity.integration.subdomain.withComponent._
-    intercept[NoSuchPropPathSegmentException] {
+    intercept[NoSuchPropException] {
       WithComponent.prop[Int]("component.noSuchPathSegment")
     }
   }
 
   it should "throw exception when the specified prop path passes through a collection" in {
     import longevity.integration.subdomain.withComponentList._
-    intercept[CollectionPropPathSegmentException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithComponentList.prop[Int]("components.uri")
     }
 
     import longevity.integration.subdomain.withComponentOption._
-    intercept[CollectionPropPathSegmentException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithComponentOption.prop[Int]("component.uri")
     }
 
     import longevity.integration.subdomain.withComponentSet._
-    intercept[CollectionPropPathSegmentException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithComponentSet.prop[Int]("components.uri")
     }
   }
 
   it should "throw exception when the specified prop path terminates with a collection" in {
     import longevity.integration.subdomain.attributeLists._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       AttributeLists.prop[Int]("boolean")
     }
 
     import longevity.integration.subdomain.attributeOptions._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       AttributeOptions.prop[Int]("boolean")
     }
  
     import longevity.integration.subdomain.attributeSets._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       AttributeSets.prop[Int]("boolean")
     }
 
     import longevity.integration.subdomain.withAssocList._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithAssocList.prop[Int]("associated")
     }
 
     import longevity.integration.subdomain.withAssocOption._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithAssocOption.prop[Int]("associated")
     }
 
     import longevity.integration.subdomain.withAssocSet._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithAssocSet.prop[Int]("associated")
     }
 
     import longevity.integration.subdomain.withComponentList._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithComponentList.prop[Int]("components")
     }
 
     import longevity.integration.subdomain.withComponentOption._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithComponentOption.prop[Int]("component")
     }
 
     import longevity.integration.subdomain.withComponentSet._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithComponentSet.prop[Int]("components")
     }
 
     import longevity.integration.subdomain.withComponent._
-    intercept[InvalidPropPathLeafException] {
+    intercept[UnsupportedPropTypeException[_, _]] {
       WithComponent.prop[Int]("component.tags")
     }
   }
