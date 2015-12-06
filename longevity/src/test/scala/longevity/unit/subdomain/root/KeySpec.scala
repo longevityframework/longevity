@@ -69,19 +69,13 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when number of values does not match the number of properties in the key" in {
     intercept[NumPropValsException[_]] {
-      // type ascription will be implied when calling Repo.retrieve
-      keyFromProps(true): KeyVal[KeySampler]
+      keyFromProps(true)
     }
   }
 
   it should "throw exception when the propVal does not match the type of the prop" in {
-    // TODO spec out alt syntaxes
     intercept[PropValTypeException[_]] {
-      val keyVal: KeyVal[KeySampler] = keyFromProps withValues 6.6d and 'c'
-    }
-
-    intercept[PropValTypeException[_]] {
-      val keyVal: KeyVal[KeySampler] = keyFromProps ~ 6.6d ~ 'c'
+      val keyVal = keyFromProps(6.6d, 'c')
     }
   }
 
@@ -90,7 +84,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val charVal = 'c'
     val doubleVal = 6.667d
 
-    val keyVal: KeyVal[KeySampler] = tripleKey ~ booleanVal ~ charVal ~ doubleVal
+    val keyVal: KeyVal[KeySampler] = tripleKey(booleanVal, charVal, doubleVal)
 
     keyVal(booleanProp) should equal (booleanVal)
     keyVal(charProp) should equal (charVal)

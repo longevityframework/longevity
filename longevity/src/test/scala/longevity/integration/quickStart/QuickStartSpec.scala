@@ -199,7 +199,7 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
 
     val newUserState = repos[User].create(
       User("jerry", "Jerry Jones", "jerry@john-smith.ninja")).futureValue
-    val blogKeyVal: root.KeyVal[Blog] = Blog.natKey ~ blog.uri
+    val blogKeyVal: root.KeyVal[Blog] = Blog.natKey(blog.uri)
     val blogState: Persisted[Blog] =
       repos[Blog].retrieve(blogKeyVal).futureValue.value
     val modifiedBlogState = blogState.map { blog =>

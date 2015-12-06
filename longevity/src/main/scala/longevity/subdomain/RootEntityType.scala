@@ -19,7 +19,6 @@ extends EntityType[R] {
     registered = true
   }
 
-  // TODO we will probably have to constraint props in a similar way
   private var keyBuffer = Set[Key[R]]()
   private var indexBuffer = Set[Index[R]]()
 
