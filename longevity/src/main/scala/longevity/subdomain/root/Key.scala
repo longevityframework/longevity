@@ -10,11 +10,18 @@ import longevity.subdomain._
  */
 case class Key[R <: RootEntity] private [subdomain] (val props: Seq[Prop[R, _]]) {
 
-  // TODO scaladocs
+  /** builds a [[KeyVal]] for this key from a series of [[KeyValArg key val args]]
+   * 
+   * @throws longevity.exceptions.subdomain.root.NumPropValsException if the number of key val args does not
+   * match the number of properties in the key
+   * 
+   * @throws longevity.exceptions.subdomain.root.PropValTypeException if the type of the key val arg does not
+   * not match the type of the corresponding property in the key
+   */
   def apply(keyValArgs: KeyValArg[_]*): KeyVal[R] = KeyVal(this, keyValArgs: _*)
 
-  /** returns the key val for the supplied root entity
-   * @param e the root entity
+  /** returns the [[KeyVal]] for the supplied root entity
+   * @param root the root entity
    */
   def keyVal(root: R): KeyVal[R] = {
     val propVals = props.map { prop => prop -> prop.propVal(root) }

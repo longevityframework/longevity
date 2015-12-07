@@ -24,6 +24,14 @@ case class KeyVal[R <: RootEntity] private[root] (
 
 object KeyVal {
 
+  /** builds a [[KeyVal]] from a [[Key]] and a series of [[KeyValArg key val args]]
+   * 
+   * @throws longevity.exceptions.subdomain.root.NumPropValsException if the number of key val args does not
+   * match the number of properties in the key
+   * 
+   * @throws longevity.exceptions.subdomain.root.PropValTypeException if the type of the key val arg does not
+   * not match the type of the corresponding property in the key
+   */
   def apply[R <: RootEntity](key: Key[R], keyValArgs: KeyValArg[_]*): KeyVal[R] = {
     if (key.props.size != keyValArgs.size) throw new NumPropValsException(key, key.props.size, keyValArgs.size)
     val propVals = key.props.zip(keyValArgs).map {
