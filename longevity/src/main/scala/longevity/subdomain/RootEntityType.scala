@@ -2,7 +2,10 @@ package longevity.subdomain
 
 import emblem.basicTypes.isBasicType
 import emblem.imports._
-import longevity.exceptions.subdomain.SubdomainException
+import longevity.exceptions.subdomain.root.EarlyIndexAccessException
+import longevity.exceptions.subdomain.root.EarlyKeyAccessException
+import longevity.exceptions.subdomain.root.LateIndexDefException
+import longevity.exceptions.subdomain.root.LateKeyDefException
 import longevity.subdomain.root._
 
 /** a type class for a domain entity that serves as an aggregate root */
@@ -29,8 +32,7 @@ extends EntityType[R] {
    * `RootEntityType` is fully initialized
    */
   lazy val keys: Set[Key[R]] = {
-    if (!registered) throw new SubdomainException(
-      s"cannot access RootEntityType.keys for $this until after the subdomain has been initialized")
+    if (!registered) throw new EarlyKeyAccessException
     keyBuffer
   }
 
@@ -41,16 +43,14 @@ extends EntityType[R] {
    * `RootEntityType` is fully initialized
    */
   lazy val indexes: Set[Index[R]] = {
-    if (!registered) throw new SubdomainException(
-      s"cannot access RootEntityType.indexes for $this until after the subdomain has been initialized")
+    if (!registered) throw new EarlyIndexAccessException
     indexBuffer
   }
 
-  // TODO: should be mention of shorthands in this comment
   /** constructs a [[longevity.subdomain.root.Prop]] from a path
    * @throws longevity.exceptions.subdomain.root.PropException if any step along the path does not exist, or
-   * any non-final step along the path is not an entity, or the final step along the path is not an [[Assoc]] or
-   * a basic type
+   * any non-final step along the path is not an entity, or the final step along the path is not a
+   * [[Shorthand]], an [[Assoc]] or a basic type
    * @see `emblem.basicTypes`
    */
   def prop[A : TypeKey](path: String): Prop[R, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
@@ -65,9 +65,7 @@ extends EntityType[R] {
    * @see Prop.apply
    */
   def key(propPathHead: String, propPathTail: String*): Key[R] = {
-    if (registered)
-      // TODO more specific e type
-      throw new SubdomainException("cannot create new keys after the subdomain has been initialized")
+    if (registered) throw new LateKeyDefException
     val propPaths = propPathHead :: propPathTail.toList
     val key = Key(propPaths.map(Prop.unbounded(_, emblem, entityTypeKey, shorthandPool)))
     keyBuffer += key
@@ -81,8 +79,7 @@ extends EntityType[R] {
    * `RootEntityType` is fully initialized
    */
   def key(propsHead: Prop[R, _], propsTail: Prop[R, _]*): Key[R] = {
-    if (registered)
-      throw new SubdomainException("cannot create new keys after the subdomain has been initialized")
+    if (registered) throw new LateKeyDefException
     val key = Key(propsHead :: propsTail.toList)
     keyBuffer += key
     key
@@ -98,8 +95,7 @@ extends EntityType[R] {
    * @see Prop.apply
    */
   def index(propPathHead: String, propPathTail: String*): Index[R] = {
-    if (registered)
-      throw new SubdomainException("cannot create new indexes after the subdomain has been initialized")
+    if (registered) throw new LateIndexDefException
     val propPaths = propPathHead :: propPathTail.toList
     val index = Index(propPaths.map(prop(_)))
     indexBuffer += index
@@ -114,8 +110,7 @@ extends EntityType[R] {
    * `RootEntityType` is fully initialized
    */
   def index(propsHead: Prop[R, _], propsTail: Prop[R, _]*): Index[R] = {
-    if (registered)
-      throw new SubdomainException("cannot create new indexes after the subdomain has been initialized")
+    if (registered) throw new LateIndexDefException
     val index = Index(propsHead :: propsTail.toList)
     indexBuffer += index
     index

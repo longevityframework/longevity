@@ -34,7 +34,10 @@ case class Prop[R <: RootEntity, A] private (
    */
   def propVal(r: R): A = emblemPropPath.get(r)
 
-  // TODO scaladoc, including documenting the exception
+  /** an ordering for property values
+   * @throws PropNotOrderedException if the ordering is accessed, and the property value type is not a type
+   * for which orderings are supported. right now, we only support orderings for basic types
+   */
   lazy val ordering: Ordering[A] =
     if (isBasicType(typeKey))
       basicTypeOrderings(typeKey)
@@ -47,7 +50,6 @@ case class Prop[R <: RootEntity, A] private (
 
 object Prop {
 
-  // TODO scaladoc
   private[subdomain] def apply[R <: RootEntity, A : TypeKey](
     path: String,
     emblem: Emblem[R],

@@ -38,9 +38,10 @@ object TestContext {
      * class StorefrontRepoPoolSpec extends Suites(storefrontContext.repoPoolSpec)
      * }}}
      */
-    // TODO this hardcoded "Mongo" here is erroneous
-    val repoPoolSpec =
-      new RepoPoolSpec(longevityContext, longevityContext.testRepoPool, Some(" - Mongo"))
+    val repoPoolSpec = new RepoPoolSpec(
+      longevityContext,
+      longevityContext.testRepoPool,
+      Some(s" - ${longevityContext.persistenceStrategy}"))
 
     /** a simple [[http://www.scalatest.org/ ScalaTest]] spec to test your
      * [[longevity.context.LongevityContext.inMemTestRepoPool in-memory repo pool]]. all you have to do is

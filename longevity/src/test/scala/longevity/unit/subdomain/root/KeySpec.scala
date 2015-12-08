@@ -1,6 +1,7 @@
 package longevity.unit.subdomain.root
 
 import emblem.imports._
+import longevity.exceptions.subdomain.root.LateKeyDefException
 import longevity.exceptions.subdomain.root.NumPropValsException
 import longevity.exceptions.subdomain.root.PropValTypeException
 import longevity.exceptions.subdomain.SubdomainException
@@ -55,8 +56,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     import longevity.context._
     val longevityContext = LongevityContext(KeySpec.context.subdomain, Mongo)
 
-    // TODO tighten this exception type 
-    intercept[SubdomainException] {
+    intercept[LateKeyDefException] {
       KeySampler.key("boolean", "char")
     }
   }
