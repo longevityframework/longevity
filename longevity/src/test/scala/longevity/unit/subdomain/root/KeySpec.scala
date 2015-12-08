@@ -1,6 +1,7 @@
 package longevity.unit.subdomain.root
 
 import emblem.imports._
+import longevity.exceptions.subdomain.root.EarlyKeyAccessException
 import longevity.exceptions.subdomain.root.LateKeyDefException
 import longevity.exceptions.subdomain.root.NumPropValsException
 import longevity.exceptions.subdomain.root.PropValTypeException
@@ -9,9 +10,21 @@ import longevity.subdomain._
 import longevity.subdomain.root._
 import org.scalatest._
 
+/** sample domain for the KeySpec tests */
 object KeySpec {
 
-  implicit val shorthandPool = ShorthandPool.empty
+  object earlyKeyAccess {
+    case class Early() extends Root
+    object Early extends RootType[Early]
+    Early.keys.foreach { k => println(k) }
+    val entityTypes = EntityTypePool(Early)
+    val subdomain = Subdomain("early key access", entityTypes)
+  }
+
+  object shorthands {
+    implicit val shorthandPool = ShorthandPool.empty
+  }
+  import shorthands._
 
   case class KeySampler(
     boolean: Boolean,
@@ -33,20 +46,25 @@ object KeySpec {
     val tripleKey = KeySampler.key(booleanProp, charProp, doubleProp)
   }
 
-  object context {
-    val entityTypes = EntityTypePool(KeySampler)
-    val subdomain = Subdomain("Key Spec", entityTypes)(shorthandPool)
-  }
+  val entityTypes = EntityTypePool(KeySampler)
+  val subdomain = Subdomain("Key Spec", entityTypes)(shorthandPool)
 
 }
 
 /** unit tests for the proper construction of [[Key keys]] */
 class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  // TODO revisit these tests
-
-  import KeySpec.KeySampler
+  import KeySpec._
   import KeySpec.KeySampler._
+
+  behavior of "RootEntityType.keys"
+  it should "throw exception when called before subdomain initialization" in {
+    // this is an artifact of the un-artful way i constructed the test
+    val e = intercept[ExceptionInInitializerError] {
+      val x = earlyKeyAccess.subdomain
+    }
+    e.getCause shouldBe a [EarlyKeyAccessException]
+  }
 
   behavior of "RootEntityType.key factory methods"
 
@@ -54,10 +72,14 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
     // trigger subdomain initialization
     import longevity.context._
-    val longevityContext = LongevityContext(KeySpec.context.subdomain, Mongo)
+    val longevityContext = LongevityContext(KeySpec.subdomain, Mongo)
 
     intercept[LateKeyDefException] {
       KeySampler.key("boolean", "char")
+    }
+
+    intercept[LateKeyDefException] {
+      KeySampler.key(booleanProp, charProp)
     }
   }
 
@@ -84,7 +106,22 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val charVal = 'c'
     val doubleVal = 6.667d
 
-    val keyVal: KeyVal[KeySampler] = tripleKey(booleanVal, charVal, doubleVal)
+    val keyVal = tripleKey(booleanVal, charVal, doubleVal)
+
+    keyVal(booleanProp) should equal (booleanVal)
+    keyVal(charProp) should equal (charVal)
+    keyVal(doubleProp) should equal (doubleVal)
+  }
+
+  behavior of "Key.keyVal"
+
+  it should "produce a key value from a root" in {
+    val booleanVal = true
+    val charVal = 'c'
+    val doubleVal = 6.667d
+    val sampler = KeySampler(booleanVal, charVal, doubleVal, 7.7F, 7, 77L)
+
+    val keyVal: KeyVal[KeySampler] = tripleKey.keyVal(sampler)
 
     keyVal(booleanProp) should equal (booleanVal)
     keyVal(charProp) should equal (charVal)
