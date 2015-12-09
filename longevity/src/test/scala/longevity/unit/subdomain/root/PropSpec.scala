@@ -100,7 +100,12 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  // TODO test for type mismatch
+  it should "throw exception when the specified prop type does not match the actual type" in {
+    import longevity.integration.subdomain.allAttributes._
+    intercept[PropTypeException] {
+      AllAttributes.prop[String]("boolean")
+    }
+  }
 
   it should "produce a valid prop for basic types" in {
     import longevity.integration.subdomain.allAttributes._

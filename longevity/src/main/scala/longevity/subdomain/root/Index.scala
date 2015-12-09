@@ -8,5 +8,4 @@ import longevity.subdomain._
 case class Index[R <: RootEntity] private [subdomain] (
   val props: Seq[Prop[R, _]])(
   private implicit val shorthandPool: ShorthandPool) {
-  private lazy val propPathToProp: Map[String, Prop[R, _]] = props.map(p => p.path -> p).toMap
 }

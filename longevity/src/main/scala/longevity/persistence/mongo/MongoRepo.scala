@@ -7,6 +7,7 @@ import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.persistence._
 import longevity.subdomain._
 import longevity.subdomain.root._
+import longevity.subdomain.root.Query._
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -34,7 +35,7 @@ extends Repo[R](entityType, subdomain) {
 
   private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
   private val mongoCollection = mongoDb(collectionName)
-
+  private val shorthandPool = subdomain.shorthandPool
   private val emblemPool = subdomain.entityEmblemPool
   private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
   private lazy val entityToCasbahTranslator = new EntityToCasbahTranslator(emblemPool, extractorPool, repoPool)
@@ -91,8 +92,42 @@ extends Repo[R](entityType, subdomain) {
     new Deleted(persisted)
   }
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]] = {
-    ???
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]] = Future {
+    val cursor: MongoCursor = mongoCollection.find(mongoQuery(query))
+    val dbObjs: Seq[DBObject] = cursor.toSeq
+    dbObjs.map { result =>
+      val id = result.getAs[ObjectId]("_id").get
+      val root = casbahToEntityTranslator.translate(result)
+      new Persisted[R](MongoId(id), root)
+    }
+  }
+
+  private def mongoQuery(query: ValidatedQuery[R]): MongoDBObject = {
+    query match {
+      case VEqualityQuery(prop, op, value) => op match {
+        case EqOp => MongoDBObject(prop.path -> touchupValue(value)(prop.typeKey))
+        case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> touchupValue(value)(prop.typeKey)))
+      }
+      case VOrderingQuery(prop, op, value) => op match {
+        case LtOp => MongoDBObject(prop.path -> MongoDBObject("$lt" -> touchupValue(value)(prop.typeKey)))
+        case LteOp => MongoDBObject(prop.path -> MongoDBObject("$lte" -> touchupValue(value)(prop.typeKey)))
+        case GtOp => MongoDBObject(prop.path -> MongoDBObject("$gt" -> touchupValue(value)(prop.typeKey)))
+        case GteOp => MongoDBObject(prop.path -> MongoDBObject("$gte" -> touchupValue(value)(prop.typeKey)))
+      }
+      case VConditionalQuery(lhs, op, rhs) => op match {
+        case AndOp => MongoDBObject("$and" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
+        case OrOp => MongoDBObject("$or" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
+      }
+    }
+  }
+
+  private def touchupValue[A : TypeKey](value: A): Any = {
+    value match {
+      case id: MongoRepo[_]#MongoId => id.objectId
+      case char: Char => char.toString
+      case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
+      case _ => value
+    }
   }
 
   private def retrieve(assoc: PersistedAssoc[R]) = Future {

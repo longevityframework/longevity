@@ -87,7 +87,6 @@ class IndexSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   behavior of "Index.props"
-
   it should "produce the same sequence of properties that was used to create the index" in {
     IndexSampler.tripleIndex.props should equal (Seq(booleanProp, charProp, doubleProp))
   }

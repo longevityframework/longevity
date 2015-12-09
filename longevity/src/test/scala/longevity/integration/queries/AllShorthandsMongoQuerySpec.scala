@@ -3,7 +3,7 @@ package longevity.integration.queries
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.allShorthands._
 
-class AllShorthandsQuerySpec extends QuerySpec(mongoContext, mongoContext.inMemTestRepoPool) {
+class AllShorthandsMongoQuerySpec extends QuerySpec[AllShorthands](mongoContext, mongoContext.testRepoPool) {
 
   val repo = repoPool[AllShorthands]
 
@@ -16,18 +16,18 @@ class AllShorthandsQuerySpec extends QuerySpec(mongoContext, mongoContext.inMemT
   val stringProp = AllShorthands.prop[StringShorthand]("string")
   val dateTimeProp = AllShorthands.prop[DateTimeShorthand]("dateTime")
 
-  behavior of "InMemRepo.retrieveByQuery"
+  behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for shorthand equality queries" in {
     exerciseQTemplate(EqualityQTemplate(stringProp))
     exerciseQTemplate(EqualityQTemplate(dateTimeProp))
   }
 
-  behavior of "InMemRepo.retrieveByQuery"
+  behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
     exerciseQTemplate(ConditionalQTemplate(EqualityQTemplate(floatProp), EqualityQTemplate(longProp)))
   }
 
-  behavior of "InMemRepo.retrieveByQuery"
+  behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for nested conditional queries" in {
     exerciseQTemplate(
       ConditionalQTemplate(
