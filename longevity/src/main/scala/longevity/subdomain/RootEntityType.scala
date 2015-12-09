@@ -97,7 +97,7 @@ extends EntityType[R] {
   def index(propPathHead: String, propPathTail: String*): Index[R] = {
     if (registered) throw new LateIndexDefException
     val propPaths = propPathHead :: propPathTail.toList
-    val index = Index(propPaths.map(prop(_)))
+    val index = Index(propPaths.map(Prop.unbounded(_, emblem, entityTypeKey, shorthandPool)))
     indexBuffer += index
     index
   }
