@@ -2,6 +2,8 @@ package longevity.exceptions.subdomain.root
 
 import longevity.exceptions.subdomain.SubdomainException
 
-/** an exception involving an attempt to create an index after [[Subdomain]] initilization */
+/** an exception involving an attempt to create an index after
+ * [[longevity.subdomain.Subdomain]] initilization
+ */
 class LateIndexDefException extends SubdomainException(
   "cannot create new indexes after the subdomain has been initialized")
