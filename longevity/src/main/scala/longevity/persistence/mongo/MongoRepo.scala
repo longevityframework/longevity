@@ -41,6 +41,8 @@ extends Repo[R](entityType, subdomain) {
   private lazy val entityToCasbahTranslator = new EntityToCasbahTranslator(emblemPool, extractorPool, repoPool)
   private lazy val casbahToEntityTranslator = new CasbahToEntityTranslator(emblemPool, extractorPool, repoPool)
 
+  createSchema()
+
   def create(unpersisted: Unpersisted[R]) = getSessionCreationOrElse(unpersisted, {
     patchUnpersistedAssocs(unpersisted.get) map { patched =>
       val objectId = new ObjectId()
@@ -136,6 +138,33 @@ extends Repo[R](entityType, subdomain) {
     val resultOption = mongoCollection.findOne(query)
     val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
     entityOption map { e => new Persisted[R](assoc, e) }
+  }
+
+  // this will find a better home in pt #106611128
+  private def createSchema(): Unit = {
+
+    entityType.keys.foreach { key =>
+      val paths = key.props.map(_.path)
+      createMongoIndex(paths, true)
+    }
+
+    entityType.indexes.foreach { index =>
+      val paths = index.props.map(_.path)
+      createMongoIndex(paths, false)
+    }
+
+    def createMongoIndex(paths: Seq[String], unique: Boolean): Unit = {
+      val mongoPaths = paths map (_ -> 1)
+      mongoCollection.createIndex(MongoDBObject(mongoPaths.toList), indexName(paths), unique)
+    }
+
+    def indexName(paths: Seq[String]): String = {
+      val cappedSegments: Seq[String] = paths.map {
+        path => path.split('.').map(_.capitalize).mkString("")
+      }
+      s"index${cappedSegments.mkString}"
+    }
+
   }
 
 }
