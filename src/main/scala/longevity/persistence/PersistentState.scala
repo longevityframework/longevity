@@ -57,7 +57,7 @@ sealed trait PersistentState[R <: RootEntity] {
 }
 
 /** the persistent state of an entity that hasn't been persisted yet. */
-class Unpersisted[R <: RootEntity : TypeKey] private[persistence] (override protected val root: R)
+case class Unpersisted[R <: RootEntity : TypeKey] private[persistence] (override protected val root: R)
 extends PersistentState[R] {
 
   def map(f: R => R) = new Unpersisted(f(root))
@@ -71,7 +71,7 @@ extends PersistentState[R] {
 }
 
 /** the persistent state of a persisted entity */
-class Persisted[R <: RootEntity] private[persistence] (
+case class Persisted[R <: RootEntity] private[persistence] (
   val assoc: PersistedAssoc[R],
   private[persistence] val orig: R,
   protected val root: R)
@@ -91,7 +91,7 @@ extends PersistentState[R] {
 }
 
 /** the persistent state of a deleted entity */
-class Deleted[R <: RootEntity] private[persistence] (
+case class Deleted[R <: RootEntity] private[persistence] (
   override val assoc: PersistedAssoc[R],
   override protected val root: R)
 extends PersistentState[R] {

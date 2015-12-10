@@ -160,7 +160,7 @@ extends Repo[R](entityType, subdomain) {
 
     def indexName(paths: Seq[String]): String = {
       val cappedSegments: Seq[String] = paths.map {
-        path => path.split('.').map(_.capitalize).mkString("")
+        path => path.split('.').map(_.capitalize).mkString
       }
       s"index${cappedSegments.mkString}"
     }

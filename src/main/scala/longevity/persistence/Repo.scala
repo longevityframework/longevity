@@ -27,7 +27,7 @@ abstract class Repo[R <: RootEntity : TypeKey](
   def create(state: Unpersisted[R]): Future[Persisted[R]]
 
   /** convenience method for creating the aggregate */
-  def create(root: R): Future[Persisted[R]] = create(new Unpersisted(root))
+  def create(root: R): Future[Persisted[R]] = create(Unpersisted(root))
 
   /** convenience method for creating the aggregate
    * 
