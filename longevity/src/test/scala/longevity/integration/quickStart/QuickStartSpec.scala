@@ -161,11 +161,11 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
 
     // persist the entities:
 
-    repos[User].create(john)
-    repos[User].create(frank)
-    repos[Blog].create(blog)
-    repos[BlogPost].create(johnsPost)
-    repos[BlogPost].create(franksPost)
+    repos[User].create(john).futureValue
+    repos[User].create(frank).futureValue
+    repos[Blog].create(blog).futureValue
+    repos[BlogPost].create(johnsPost).futureValue
+    repos[BlogPost].create(franksPost).futureValue
 
     // you can create these entities in any order. you also don't need
     // to explicitly create the blog, as it will be handled
@@ -174,11 +174,9 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
     // retrieve an entity:
 
     val retrieveResult: Future[Option[Persisted[User]]] =
-      repos[User].retrieve(
-        User.usernameKey)(
-        User.usernameKey.builder.setProp("username", john.username).build)
+      repos[User].retrieve(User.usernameKey(john.username))
 
-    // in time, we'll develop a DSL for creating nat key values more easily
+    // in time, we'll develop a DSL for creating key values more easily
 
     // unwrap the future and option:
 
@@ -201,9 +199,9 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
 
     val newUserState = repos[User].create(
       User("jerry", "Jerry Jones", "jerry@john-smith.ninja")).futureValue
-    val blogKeyVal: Blog.natKey.Val = Blog.natKey.builder.setProp("uri", blog.uri).build
+    val blogKeyVal: root.KeyVal[Blog] = Blog.natKey(blog.uri)
     val blogState: Persisted[Blog] =
-      repos[Blog].retrieve(Blog.natKey)(blogKeyVal).futureValue.value
+      repos[Blog].retrieve(blogKeyVal).futureValue.value
     val modifiedBlogState = blogState.map { blog =>
       blog.copy(authors = blog.authors + updatedUserState.assoc)
     }

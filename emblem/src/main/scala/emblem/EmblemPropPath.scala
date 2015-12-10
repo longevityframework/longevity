@@ -1,5 +1,6 @@
 package emblem
 
+import emblem.exceptions.CollectionInPropPathException
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NonEmblemInPropPathException
 import emblem.exceptions.EmblemPropPathTypeMismatchException
@@ -89,8 +90,15 @@ object EmblemPropPath {
           val nextProp = Emblem(prop.typeKey).apply(pathSegments.head)
           ::(prop, propPath0(nextProp, pathSegments.tail))
         }
+        if (prop.typeKey <:< typeKey[List[Any]] ||
+            prop.typeKey <:< typeKey[Option[Any]] ||
+            // the following contortion is because Set is invariant. could/should we support this kind of thing
+            // in TypeKey?
+            prop.typeKey.tpe.erasure <:< typeKey[Set[Any]].tpe.erasure) {
+          throw new CollectionInPropPathException(emblem, path, prop.name)(prop.typeKey)
+        }
         if (!(prop.typeKey <:< typeKey[HasEmblem])) {
-          throw new NonEmblemInPropPathException(emblem, path, prop.name)
+          throw new NonEmblemInPropPathException(emblem, path, prop.name)(prop.typeKey)
         }
         introB(prop.asInstanceOf[EmblemProp[A, _ <: HasEmblem]])
       }

@@ -17,7 +17,7 @@ class Subdomain(
 
   val rootEntityTypePool = RootEntityTypePool(entityTypePool)
 
-  // prohibit further creation of natural keys
+  // prohibit further creation of keys and indexs
   rootEntityTypePool.values.foreach(_.register)
 
   /** a pool of emblems for the entities within the subdomain */

@@ -35,13 +35,13 @@ trait BuildSettings {
     scalacOptions in (Test, console) ~= (_ filterNot (nonConsoleScalacOptions.contains(_))),
 
     // scaladoc
-    scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-encoding", "UTF-8"),
+    scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-encoding", "UTF-8", "-diagrams"),
     scalacOptions in (Compile, doc) ++= {
       val projectName = (name in (Compile, doc)).value
       val projectVersion = (version in (Compile, doc)).value
       Seq("-doc-title", s"$projectName $projectVersion API")
     },
-    scalacOptions in (Compile, doc) <++= (baseDirectory in LocalProject("root"), version) map { (bd, v) =>
+    scalacOptions in (Compile, doc) <++= (baseDirectory in LocalProject("longevity"), version) map { (bd, v) =>
       val tagOrBranch = if (v endsWith "SNAPSHOT") gitHash else ("v" + v)
       Seq("-sourcepath", bd.getAbsolutePath,
           "-doc-source-url", s"$githubUrl/tree/$tagOrBranch€{FILE_PATH}.scala")
@@ -87,27 +87,8 @@ object LongevityBuild extends Build with BuildSettings {
     id = "root",
     base = file("."),
     settings = buildSettings
-  ) aggregate (emblem, longevity)
-
-  lazy val emblem = Project(
-    id = "emblem",
-    base = file("emblem"),
-    settings = buildSettings ++ Seq(
-      homepage := Some(url("https://github.com/sullivan-/emblem")),
-      pomExtra := (
-        <scm>
-          <url>git@github.com:sullivan-/emblem.git</url>
-          <connection>scm:git:git@github.com:sullivan-/emblem.git</connection>
-        </scm>
-        <developers>
-          <developer>
-            <id>sullivan-</id>
-            <name>John Sullivan</name>
-            <url>https://github.com/sullivan-</url>
-          </developer>
-        </developers>)
-    )
   )
+  .aggregate(emblem, longevity)
 
   lazy val longevity = Project(
     id = "longevity",
@@ -135,6 +116,27 @@ object LongevityBuild extends Build with BuildSettings {
         </developers>)
     )
   )
+  .aggregate(emblem)
   .dependsOn(emblem)
+
+  lazy val emblem = Project(
+    id = "emblem",
+    base = file("emblem"),
+    settings = buildSettings ++ Seq(
+      homepage := Some(url("https://github.com/sullivan-/emblem")),
+      pomExtra := (
+        <scm>
+          <url>git@github.com:sullivan-/emblem.git</url>
+          <connection>scm:git:git@github.com:sullivan-/emblem.git</connection>
+        </scm>
+        <developers>
+          <developer>
+            <id>sullivan-</id>
+            <name>John Sullivan</name>
+            <url>https://github.com/sullivan-</url>
+          </developer>
+        </developers>)
+    )
+  )
 
 }

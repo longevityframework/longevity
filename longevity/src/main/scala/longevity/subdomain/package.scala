@@ -7,6 +7,8 @@ import emblem.TypeBoundFunction
 /** provides support for constructing your subdomain */
 package object subdomain {
 
+  // pools:
+
   /** a shorthand with the abbreviated type unspecified. this type is equivalent to `Shorthand[Actual, _]`,
    * except with a single type parameter `Actual`. this allows it to be used as a key or value in a
    * `TypeBoundMap` or `TypeKeyMap`.
@@ -38,6 +40,8 @@ package object subdomain {
    */
   private[longevity] type AssocAny = Assoc[_ <: RootEntity]
 
+  // synonyms:
+
   /** a core domain. functionally equivalent to a [[Subdomain]] */
   type CoreDomain = Subdomain
 
@@ -46,6 +50,13 @@ package object subdomain {
 
   /** a generic subdomain. functionally equivalent to a [[Subdomain]] */
   type GenericSubdomain = Subdomain
+
+  /** an aggregate root. functionally equivalent to a [[RootEntity]] */
+  type Root = RootEntity
+
+  /** a type class for a domain entity that serves as an aggregate root. functionally equivalent to a
+   * [[RootEntityType]] */
+  type RootType[R <: RootEntity] = RootEntityType[R]
 
   /** a value object. functionally equivalent to an [[Entity]] */
   type ValueObject = Entity

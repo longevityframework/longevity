@@ -30,4 +30,15 @@ object basicTypes {
    */
   def isBasicType[A : TypeKey]: Boolean = basicTypeKeys.contains(typeKey[A])
 
+  /** `scala.math.Ordering` objects for all the basic types */
+  val basicTypeOrderings = TypeKeyMap[Any, Ordering]() +
+    Ordering.Boolean +
+    Ordering.Char +
+    com.github.nscala_time.time.OrderingImplicits.DateTimeOrdering +
+    Ordering.Double +
+    Ordering.Float +
+    Ordering.Int +
+    Ordering.Long +
+    Ordering.String
+  
 }

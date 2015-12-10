@@ -34,8 +34,8 @@ import scala.reflect.runtime.universe.typeOf
 class TestDataGenerator (
   override protected val emblemPool: EmblemPool = EmblemPool.empty,
   override protected val extractorPool: ExtractorPool = ExtractorPool.empty,
-  override protected val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty
-) extends Generator {
+  override protected val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
+extends Generator {
 
   private val random = new util.Random
 

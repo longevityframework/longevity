@@ -39,10 +39,9 @@ object TestContext {
      * }}}
      */
     val repoPoolSpec = new RepoPoolSpec(
-      longevityContext.subdomain,
-      longevityContext.customGeneratorPool,
+      longevityContext,
       longevityContext.testRepoPool,
-      Some(" - Mongo"))
+      Some(s" - ${longevityContext.persistenceStrategy}"))
 
     /** a simple [[http://www.scalatest.org/ ScalaTest]] spec to test your
      * [[longevity.context.LongevityContext.inMemTestRepoPool in-memory repo pool]]. all you have to do is
@@ -53,11 +52,8 @@ object TestContext {
      * class StorefrontRepoPoolSpec extends Suites(storefrontContext.inMemTestRepoPoolSpec)
      * }}}
      */
-    val inMemRepoPoolSpec = new RepoPoolSpec(
-      longevityContext.subdomain,
-      longevityContext.customGeneratorPool,
-      longevityContext.inMemTestRepoPool,
-      Some(" - InMem"))    
+    val inMemRepoPoolSpec =
+      new RepoPoolSpec(longevityContext, longevityContext.inMemTestRepoPool, Some(" - InMem"))    
 
   }
 
