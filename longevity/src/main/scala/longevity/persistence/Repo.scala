@@ -29,6 +29,13 @@ abstract class Repo[R <: RootEntity : TypeKey](
   /** convenience method for creating the aggregate */
   def create(root: R): Future[Persisted[R]] = create(new Unpersisted(root))
 
+  /** convenience method for creating the aggregate
+   * 
+   * @throws longevity.exceptions.persistence.InvalidPersistentStateException
+   * if the persistent state is not unpersisted
+   */
+  def create(state: PersistentState[R]): Future[Persisted[R]] = create(state.asUnpersisted)
+
   /** retrieves the aggregate by a key value */
   def retrieve(keyVal: KeyVal[R]): Future[Option[Persisted[R]]]
 
@@ -37,10 +44,24 @@ abstract class Repo[R <: RootEntity : TypeKey](
     retrieveByValidatedQuery(entityType.validateQuery(query))
 
   /** updates the aggregate */
-  def update(p: Persisted[R]): Future[Persisted[R]]
+  def update(state: Persisted[R]): Future[Persisted[R]]
+
+  /** convenience method for updating the aggregate
+   *
+   * @throws longevity.exceptions.persistence.InvalidPersistentStateException
+   * if the persistent state is not persisted
+   */
+  def update(state: PersistentState[R]): Future[Persisted[R]] = update(state.asPersisted)
 
   /** deletes the aggregate */
-  def delete(p: Persisted[R]): Future[Deleted[R]]
+  def delete(state: Persisted[R]): Future[Deleted[R]]
+
+  /** convenience method for deleting the aggregate
+   *
+   * @throws longevity.exceptions.persistence.InvalidPersistentStateException
+   * if the persistent state is not persisted
+   */
+  def delete(state: PersistentState[R]): Future[Deleted[R]] = delete(state.asPersisted)
 
   protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]]
 

@@ -65,7 +65,7 @@ with TestDataGeneration {
 
   override def afterAll(): Unit = {
     val repo = repoPool[R]
-    Future.traverse(rootStates)(rootState => repo.delete(rootState.asInstanceOf[Persisted[R]])).futureValue
+    Future.traverse(rootStates)(rootState => repo.delete(rootState)).futureValue
   }
 
   private case class QueryExpectations(query: Query[R], expected: Set[R])
