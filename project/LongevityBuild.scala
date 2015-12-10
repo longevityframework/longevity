@@ -83,16 +83,9 @@ trait BuildSettings {
 
 object LongevityBuild extends Build with BuildSettings {
 
-  lazy val root = Project(
-    id = "root",
-    base = file("."),
-    settings = buildSettings
-  )
-  .aggregate(emblem, longevity)
-
   lazy val longevity = Project(
     id = "longevity",
-    base = file("longevity"),
+    base = file("."),
     settings = buildSettings ++ Seq(
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % Optional,
