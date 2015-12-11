@@ -1,9 +1,10 @@
 package emblem
 
-import scala.reflect.runtime.universe._
 import emblem.reflectionUtil.makeTypeTag
 import emblem.stringUtil.typeFullname
 import emblem.stringUtil.typeName
+import scala.collection.mutable.WeakHashMap
+import scala.reflect.runtime.universe._
 
 /** behaves much like a `scala.reflect.runtime.universe.TypeTag`, except that it can also be safely used
  * as a key in a hash or a set. Two type keys will be equal if and only if their underlying types are equivalent
@@ -37,26 +38,37 @@ import emblem.stringUtil.typeName
  */
 case class TypeKey[A](val tag: TypeTag[A]) {
 
+  private val memoize_<:< = WeakHashMap[Type, Boolean]()
+  private val memoize_=:= = WeakHashMap[Type, Boolean]()
+
   /** the scala-reflect `Type` for type `A` */
   def tpe: Type = tag.tpe
 
   /** shorthand for `this.tpe.<:<` */
-  def <:<(that: Type) = this.tpe <:< that
+  def <:<(that: Type): Boolean = memoize_<:< getOrElse(that, {
+    val result = this.tpe <:< that
+    memoize_<:< += that -> result
+    result
+  })
 
   /** shorthand for `this.tpe.<:<` */
-  def <:<(that: TypeKey[_]) = this.tpe <:< that.tpe
+  def <:<(that: TypeKey[_]): Boolean = this <:< that.tpe
 
   /** shorthand for `this.tpe.=:=` */
-  def =:=(that: Type) = this.tpe =:= that
+  def =:=(that: Type): Boolean = memoize_=:= getOrElse(that, {
+    val result = this.tpe =:= that
+    memoize_=:= += that -> result
+    result
+  })
 
   /** shorthand for `this.tpe.=:=` */
-  def =:=(that: TypeKey[_]) = this.tpe =:= that.tpe
+  def =:=(that: TypeKey[_]): Boolean = this =:= that.tpe
 
   /** the full type name for the type represented by this key */
-  def fullname = typeFullname(tpe)
+  lazy val fullname = typeFullname(tpe)
 
   /** the simple type name for the type represented by this key */
-  def name = typeName(tpe)
+  lazy val name = typeName(tpe)
 
   /** a list of type keys for the type arguments of this type */
   lazy val typeArgs: List[TypeKey[_]] = tpe.typeArgs map { tpe => TypeKey(makeTypeTag(tpe)) }
