@@ -5,6 +5,7 @@ import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 /** demonstrates how to get started quickly with longevity. please
@@ -116,9 +117,41 @@ object QuickStartSpec {
 
   val context = LongevityContext(BlogCore, Mongo)
 
+  // create some entities:
+
+  val john = User("smithy", "John Smith", "smithy@john-smith.ninja")
+  val frank = User("franky", "Francis Nickerson", "franky@john-smith.ninja")
+  val jerry = User("jerry", "Jerry Jones", "jerry@john-smith.ninja")
+
+  val blog = Blog(
+    uri = "http://blog.john-smith.ninja/",
+    title = "The Blogging Ninjas",
+    description = "We try to keep things interesting blogging about ninjas.",
+    authors = Set(Assoc(john), Assoc(frank)))
+
+  val johnsPost = BlogPost(
+    uriPathSuffix = "johns_first_post",
+    title = "John's first post",
+    content = "_work in progress_",
+    blog = blog,
+    authors = Set(Assoc(john)))
+
+  val franksPost = BlogPost(
+    uriPathSuffix = "franks_first_post",
+    title = "Frank's first post",
+    content = "_work in progress_",
+    blog = blog,
+    authors = Set(Assoc(frank)))
+
 }
 
-class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
+class QuickStartSpec
+extends FlatSpec
+with BeforeAndAfterAll
+with GivenWhenThen
+with Matchers
+with ScalaFutures
+with ScaledTimeSpans {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000 millis),
@@ -128,36 +161,11 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
   import longevity.subdomain._
   import longevity.persistence._
 
+  // get the repo pool:
+
+  val repos = context.repoPool
+
   "QuickStartSpec" should "exercise basic longevity functionality" in {
-
-    // create some entities:
-
-    val john = User("smithy", "John Smith", "smithy@john-smith.ninja")
-    val frank = User("franky", "Francis Nickerson", "franky@john-smith.ninja")
-
-    val blog = Blog(
-      uri = "http://blog.john-smith.ninja/",
-      title = "The Blogging Ninjas",
-      description = "We try to keep things interesting blogging about ninjas.",
-      authors = Set(Assoc(john), Assoc(frank)))
-
-    val johnsPost = BlogPost(
-      uriPathSuffix = "johns_first_post",
-      title = "John's first post",
-      content = "_work in progress_",
-      blog = blog,
-      authors = Set(Assoc(john)))
-
-    val franksPost = BlogPost(
-      uriPathSuffix = "franks_first_post",
-      title = "Frank's first post",
-      content = "_work in progress_",
-      blog = blog,
-      authors = Set(Assoc(frank)))
-
-    // get the repo pool:
-
-    val repos = context.repoPool
 
     // persist the entities:
 
@@ -197,8 +205,7 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
 
     // add a new author to a blog:
 
-    val newUserState = repos[User].create(
-      User("jerry", "Jerry Jones", "jerry@john-smith.ninja")).futureValue
+    val newUserState = repos[User].create(jerry).futureValue
     val blogKeyVal: root.KeyVal[Blog] = Blog.natKey(blog.uri)
     val blogState: Persisted[Blog] =
       repos[Blog].retrieve(blogKeyVal).futureValue.value
@@ -208,6 +215,25 @@ class QuickStartSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
     repos[Blog].update(modifiedBlogState)
 
     // TODO example using an assoc
+  }
+
+  override def afterAll = {
+    repos[User].retrieve(User.usernameKey.keyVal(john)).map(_.get).flatMap(repos[User].delete _).futureValue
+    repos[User].retrieve(User.usernameKey.keyVal(frank)).map(_.get).flatMap(repos[User].delete _).futureValue
+    repos[User].retrieve(User.usernameKey.keyVal(jerry)).map(_.get).flatMap(repos[User].delete _).futureValue
+    deletePost(johnsPost)
+    deletePost(franksPost)    
+    repos[Blog].retrieve(Blog.natKey.keyVal(blog)).map(_.get).flatMap(repos[Blog].delete _).futureValue
+  }
+
+  private def deletePost(post: BlogPost): Unit = {
+    val deleted = for {
+      blog <- repos[Blog].retrieve(Blog.natKey.keyVal(blog)).map(_.get)
+      keyVal = BlogPost.natKey.keyVal(post.copy(blog = blog.assoc))
+      post <- repos[BlogPost].retrieve(keyVal).map(_.get)
+      deleted <- repos[BlogPost].delete(post)
+    } yield deleted
+    deleted.futureValue
   }
 
 }
