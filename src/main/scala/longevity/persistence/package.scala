@@ -35,6 +35,40 @@ package object persistence {
 
   }
 
+  /** a future option persistent state */
+  type FOPState[R <: RootEntity] = Future[Option[PState[R]]]
+
+  /** extension methods for an [[FOPState]] */
+  implicit class LiftFOPState[R <: RootEntity](fopState: FOPState[R]) {
+
+    /** map the `FOPState` by mapping the root inside the PState */
+    def mapRoot(f: R => R): FOPState[R] =
+      fopState.map { opState =>
+        opState.map { pState => pState.map { root => f(root) } }
+      }
+
+    /** flatMap the `FOPState` by mapping the root inside the PState into a `Future[Root]` */
+    def flatMapRoot(f: R => Future[R]): FOPState[R] =
+      fopState.flatMap { opState =>
+        opState match {
+          case Some(pState) => f(pState.get) map { root => Some(pState.set(root)) }
+          case None => Future.successful(None)
+        }
+      }
+
+    def mapState(f: PState[R] => PState[R]): FOPState[R] =
+      fopState.map { opState => opState.map(f(_)) }
+
+    def flatMapState(f: PState[R] => FPState[R]): FOPState[R] =
+      fopState.flatMap { opState =>
+        opState match {
+          case Some(pState) => f(pState).map(Some(_))
+          case None => Future.successful(None)
+        }
+      }
+
+  }
+
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
     persistenceStrategy: PersistenceStrategy,
