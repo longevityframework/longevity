@@ -3,9 +3,10 @@ package longevity.unit.subdomain.root
 import com.github.nscala_time.time.Imports._
 import emblem.imports._
 import longevity.exceptions.subdomain.root._
-import org.scalatest._
+import longevity.persistence.PersistedAssoc
 import longevity.subdomain._
 import longevity.subdomain.root._
+import org.scalatest._
 
 /** unit tests for the proper construction of [[Prop properties]] */
 class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -102,8 +103,16 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the specified prop type does not match the actual type" in {
     import longevity.integration.subdomain.allAttributes._
+
+    // two entirely incompatible types
     intercept[PropTypeException] {
       AllAttributes.prop[String]("boolean")
+    }
+
+    // Double <:< AnyVal, but we need requested type to be subtype of the actual type, not
+    // the other way around:
+    intercept[PropTypeException] {
+      AllAttributes.prop[AnyVal]("double")
     }
   }
 
@@ -188,6 +197,11 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
     val prop = WithAssoc.prop[Assoc[Associated]]("associated")
     prop.path should equal ("associated")
     prop.typeKey should equal (typeKey[Assoc[Associated]])
+
+    // the query DSL will sometimes provide an overly tight type
+    val overlyTypedProp = WithAssoc.prop[PersistedAssoc[Associated]]("associated")
+    overlyTypedProp.path should equal ("associated")
+    overlyTypedProp.typeKey should equal (typeKey[Assoc[Associated]])
   }
 
   it should "produce a valid prop for a nested basic type" in {
