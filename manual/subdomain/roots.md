@@ -45,7 +45,7 @@ makes the typing work out a lot more cleanly. It's not terribly
 harmful either, as both <code>Entity</code> and
 <code>RootEntity</code> are simply empty-bodied marker traits (as you
 can see from the <a
-href="http://sullivan-.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.RootEntity">scaladocs</a>).
+href="http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.RootEntity">scaladocs</a>).
 
 {% endcapture %}
 {% include longevity-meta.html content=content %}
