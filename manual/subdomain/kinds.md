@@ -5,7 +5,7 @@ layout: page
 
 Domain Driven Design describes a few [different kinds of
 subdomains](http://blog.jonathanoliver.com/ddd-strategic-design-core-supporting-and-generic-subdomains/),
-such as core, supporting, and generic. In longevity, these are all
+such as _core_, _supporting_, and _generic_. In longevity, these are all
 the same thing, but you can call them as you please. You can also make
 use of multiple longevity `Subdomains` in a single application.
 

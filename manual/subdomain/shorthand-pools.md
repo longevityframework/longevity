@@ -20,7 +20,7 @@ And you can build them with the `+` operator as well:
 
     val pool = ShorthandPool() + emailShorthand + markdownShorthand + uriShorthand
 
-Shorthand pools are needed to construct your `RootEntityTypes`, as
+Shorthand pools are needed to construct your `RootTypes`, as
 well as your `Subdomains`. We normally provide the pool implicitly,
 like so:
 
@@ -36,7 +36,7 @@ won't find out until some time after your `Subdomain` is
 constructed. [We plan to remedy
 things](https://www.pivotaltracker.com/story/show/99755864) so that
 these kinds of errors get reported on construction of your `Subdomain`
-or your `RootEntityType`. In the meantime, longevity provides test
+or your `RootType`. In the meantime, longevity provides test
 support to exercise persistence operations on your `Subdomain`, and
 this kind of error will be exposed by these tests.
 
@@ -46,7 +46,7 @@ TODO: link to LongevityRepoSpec on "provides test support"
 {% assign prevLink = "shorthands.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "entities" %}
-{% assign nextLink = "entities.html" %}
+{% assign nextTitle = "where not to construct your shorthand pools" %}
+{% assign nextLink = "where-not.html" %}
 {% include navigate.html %}
 

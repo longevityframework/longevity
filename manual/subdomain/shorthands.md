@@ -3,8 +3,6 @@ title: shorthands
 layout: page
 ---
 
-// TODO: mention implicit conversion thingy
-
 Sometimes, using raw [basic types](basics.html) such as `String` is
 unsatisfactory. We'd like a little more specificity in our types, to
 help our code self-document, and so that we don't, say, overwrite a
@@ -46,6 +44,11 @@ will need to know about them. Here's an example:
 
 Note that you can nest shorthands inside of collections, as the above
 example shows.
+
+It can be useful to define implicit defs as well to convert from the
+abbreviated to the actual, as used to construct a user here:
+
+{% gist sullivan-/b862b65da47d112d10ee %}
 
 Shorthands like `Email` are a natural place to put constraint
 validations, such as the well-formedness of an email address. Please

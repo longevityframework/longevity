@@ -59,11 +59,11 @@ implement.
 {% endcapture %}
 {% include longevity-meta.html content=content %}
 
-{% assign prevTitle = "aggregate roots" %}
-{% assign prevLink = "roots.html" %}
-{% assign upTitle = "building your subdomain" %}
+{% assign prevTitle = "properties" %}
+{% assign prevLink = "properties.html" %}
+{% assign upTitle = "the root type" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "basic properties" %}
-{% assign nextLink = "basics.html" %}
+{% assign nextTitle = "indexes" %}
+{% assign nextLink = "indexes.html" %}
 {% include navigate.html %}
 

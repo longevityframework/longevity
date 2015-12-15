@@ -28,8 +28,8 @@ collections into entities, use shorthands freely, etc. For example:
 
 {% gist sullivan-/497fb4aa4393b2f1b0c3 %}
 
-{% assign prevTitle = "shorthand pools" %}
-{% assign prevLink = "shorthand-pools.html" %}
+{% assign prevTitle = "where not to construct your shorthand pools" %}
+{% assign prevLink = "where-not.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "entities and value objects" %}

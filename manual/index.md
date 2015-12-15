@@ -23,18 +23,22 @@ will put in links as I write the chapters.
 - [Building Your Subdomain](subdomain)
   - [Kinds of Subdomains](subdomain/kinds.html)
   - [Aggregate Roots](subdomain/roots.html)
-  - [Natural Keys](subdomain/keys.html)
   - [Basic Properties](subdomain/basics.html)
   - [Collections](subdomain/collections.html)
   - [Shorthands](subdomain/shorthands.html)
   - [Shorthand Pools](subdomain/shorthand-pools.html)
+  - [Where Not to Construct Your Shorthand Pools](subdomain/where-not.html)
   - [Entities](subdomain/entities.html)
   - [Entities and Value Objects](subdomain/value-objects.html)
   - [Limitations on Entities and Shorthands](subdomain/limitations.html)
   - [Associations](subdomain/associations.html)
-  - [Using Associations](subdomain/using-associations.html) TODO
-  - [Where Not to Construct Your Subdomain](subdomain/where-not.html) TODO
-- [The Longevity Context](context) TODO
+  - [Using Associations](subdomain/using-associations.html)
+- [The Root Type](root-type)
+  - [Properties](root-type/properties.html)
+  - [Keys](root-type/keys.html)
+  - [Indexes](root-type/indexes.html)
+- [The Longevity Context](context)
+  - [Repo Pools](context/repo-pools.html)
   - Using Your Repositories
     - Persistent State with `map` and `get`
     - CRUD Operations
