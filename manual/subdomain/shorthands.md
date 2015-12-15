@@ -25,7 +25,7 @@ little awkward. We would rather see this:
       "email": "sullivan@foo.com"
     }
 
-Than this:
+than this:
 
     { "username": "sullivan",
       "email": {
@@ -60,4 +60,3 @@ TODO: provide line to enforcing constraints chapter
 {% assign nextTitle = "shorthand pools" %}
 {% assign nextLink = "shorthand-pools.html" %}
 {% include navigate.html %}
-

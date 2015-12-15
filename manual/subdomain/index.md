@@ -21,17 +21,16 @@ Our discussion on building subdomains breaks down as follows:
 
 - [Kinds of Subdomains](kinds.html)
 - [Aggregate Roots](roots.html)
-- [Natural Keys](keys.html)
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
 - [Shorthands](shorthands.html)
 - [Shorthand Pools](shorthand-pools.html)
+- [Where Not to Construct Your Shorthand Pools](where-not.html)
 - [Entities](entities.html)
 - [Entities and Value Objects](value-objects.html)
 - [Limitations on Entities and Shorthands](limitations.html)
 - [Associations](associations.html)
 - [Using Associations](using-associations.html)
-- [Where Not to Construct Your Subdomain](where-not.html)
 
 {% assign prevTitle = "project setup" %}
 {% assign prevLink = "../project-setup.html" %}

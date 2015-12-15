@@ -8,11 +8,11 @@ to implement revolve around creating and setting up user accounts. The
 first part of our domain that we want to flesh out is the User
 aggregate. We start out by giving the user three basic fields:
 `username`, `firstName`, and `lastName`. When we create our aggregate
-root, we need to mark it as a `RootEntity`:
+root, we need to mark it as a `Root`:
 
 {% gist sullivan-/db1226b4d31a0526ac8c %}
 
-Every root entity class needs a corresponding `RootEntityType`
+Every root entity class needs a corresponding `RootType`
 instance. By convention, we designate the companion object as the root
 entity type. We put all your entity types into an `EntityTypePool`,
 and pass it to the subdomain:
@@ -27,25 +27,13 @@ TODO: link to chapter on building LongevityContext
 
 {% capture content %}
 
-Perhaps <code>AggregateRoot</code>, or even just <code>Root</code>,
-would have been a better name than <code>RootEntity</code>. We chose
-to call it a <code>RootEntity</code> to emphasize that this is a
-specialization of <code>Entity</code>, which we introduce later.
-
-{% endcapture %}
-{% include longevity-meta.html content=content %}
-
-TODO: link to entity chapter
-
-{% capture content %}
-
 You may find it onerous to have to extend a longevity class in your
 domain. In theory, we could remove this requirement entirely, but it
 makes the typing work out a lot more cleanly. It's not terribly
 harmful either, as both <code>Entity</code> and
-<code>RootEntity</code> are simply empty-bodied marker traits (as you
+<code>Root</code> are simply empty-bodied marker traits (as you
 can see from the <a
-href="http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.RootEntity">scaladocs</a>).
+href="http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.Root">scaladocs</a>).
 
 {% endcapture %}
 {% include longevity-meta.html content=content %}
@@ -54,7 +42,7 @@ href="http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#
 {% assign prevLink = "kinds.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "natural keys" %}
-{% assign nextLink = "keys.html" %}
+{% assign nextTitle = "basic properties" %}
+{% assign nextLink = "basics.html" %}
 {% include navigate.html %}
 
