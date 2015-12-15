@@ -15,22 +15,22 @@ import longevity.exceptions.subdomain.root.PropNotOrderedException
 import longevity.exceptions.subdomain.root.PropTypeException
 import longevity.subdomain._
 
-/** a property for this root entity type. properties can be used to define [[Key keys]] and [[Index indexes]],
+/** a property for this root type. properties can be used to define [[Key keys]] and [[Index indexes]],
  * as well as for building [[Query queries]]. a property can descend from the root into child entities at any
  * depth. at present, a property cannot pass through any collections. at present, the type of the property must
  * be an [[Assoc]], a [[Shorthand]], or a basic type.
  * 
- * @param path a dot-separated path of the property descending from the root entity
+ * @param path a dot-separated path of the property descending from the root
  * @param typeKey the `TypeKey` for the property value type
  * @see `emblem.basicTypes`
  */
-case class Prop[R <: RootEntity, A] private (
+case class Prop[R <: Root, A] private (
   val path: String,
   val typeKey: TypeKey[A])(
   private val emblemPropPath: EmblemPropPath[R, A]) {
 
-  /** the value of this property for a specific root entity
-   * @param e the root entity we are looking up the value of the property for
+  /** the value of this property for a specific root
+   * @param e the root we are looking up the value of the property for
    */
   def propVal(r: R): A = emblemPropPath.get(r)
 
@@ -53,7 +53,7 @@ case class Prop[R <: RootEntity, A] private (
 
 object Prop {
 
-  private[subdomain] def apply[R <: RootEntity, A : TypeKey](
+  private[subdomain] def apply[R <: Root, A : TypeKey](
     path: String,
     emblem: Emblem[R],
     rootTypeKey: TypeKey[R],
@@ -64,7 +64,7 @@ object Prop {
     prop.asInstanceOf[Prop[R, A]]
   }
 
-  private[subdomain] def unbounded[R <: RootEntity](
+  private[subdomain] def unbounded[R <: Root](
     path: String,
     emblem: Emblem[R],
     rootTypeKey: TypeKey[R],

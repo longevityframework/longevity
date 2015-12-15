@@ -29,16 +29,16 @@ package object subdomain {
    * @see emblem.TypeKeyMap */
   type EntityTypePool = TypeKeyMap[Entity, EntityType]
 
-  /** a type key map of [[RootEntity]] to [[RootEntityType]]
+  /** a type key map of [[Root]] to [[RootType]]
    * @see emblem.TypeKeyMap */
-  type RootEntityTypePool = TypeKeyMap[RootEntity, RootEntityType]
+  type RootTypePool = TypeKeyMap[Root, RootType]
 
-  /** an [[Assoc association]] to an unspecified type of [[RootEntity root]]. this is useful for building
+  /** an [[Assoc association]] to an unspecified type of [[Root root]]. this is useful for building
    * stuff from `emblem.traversors` for traversing entities.
    * 
    * leaving this `private[longevity]` for now, but if any user-facing use-case comes up, we can expose it.
    */
-  private[longevity] type AssocAny = Assoc[_ <: RootEntity]
+  private[longevity] type AssocAny = Assoc[_ <: Root]
 
   // synonyms:
 
@@ -50,13 +50,6 @@ package object subdomain {
 
   /** a generic subdomain. functionally equivalent to a [[Subdomain]] */
   type GenericSubdomain = Subdomain
-
-  /** an aggregate root. functionally equivalent to a [[RootEntity]] */
-  type Root = RootEntity
-
-  /** a type class for a domain entity that serves as an aggregate root. functionally equivalent to a
-   * [[RootEntityType]] */
-  type RootType[R <: RootEntity] = RootEntityType[R]
 
   /** a value object. functionally equivalent to an [[Entity]] */
   type ValueObject = Entity

@@ -14,8 +14,8 @@ case class AllAttributes(
   long: Long,
   string: String,
   dateTime: DateTime)
-extends RootEntity
+extends Root
 
-object AllAttributes extends RootEntityType[AllAttributes] {
+object AllAttributes extends RootType[AllAttributes] {
   key("uri")
 }

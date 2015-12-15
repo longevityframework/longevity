@@ -6,12 +6,12 @@ case class WithComplexConstraint(
   id: String,
   primaryEmail: Email,
   emails: Set[Email])
-extends RootEntity {
+extends Root {
 
   if (!emails.contains(primaryEmail)) throw new ConstraintValidationException("primary email is not in emails")
 }
 
-object WithComplexConstraint extends RootEntityType[WithComplexConstraint] {
+object WithComplexConstraint extends RootType[WithComplexConstraint] {
   key("id")
 }
 

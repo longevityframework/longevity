@@ -33,9 +33,9 @@ object KeySpec {
     float: Float,
     int: Int,
     long: Long)
-  extends RootEntity
+  extends Root
 
-  object KeySampler extends RootEntityType[KeySampler] {
+  object KeySampler extends RootType[KeySampler] {
     val booleanProp = KeySampler.prop[Boolean]("boolean")
     val charProp = KeySampler.prop[Char]("char")
     val doubleProp = KeySampler.prop[Double]("double")
@@ -57,7 +57,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
   import KeySpec._
   import KeySpec.KeySampler._
 
-  behavior of "RootEntityType.keys"
+  behavior of "RootType.keys"
   it should "throw exception when called before subdomain initialization" in {
     // this is an artifact of the un-artful way i constructed the test
     val e = intercept[ExceptionInInitializerError] {
@@ -66,7 +66,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     e.getCause shouldBe a [EarlyKeyAccessException]
   }
 
-  behavior of "RootEntityType.key factory methods"
+  behavior of "RootType.key factory methods"
 
   they should "throw exception when called after subdomain initialization" in {
 

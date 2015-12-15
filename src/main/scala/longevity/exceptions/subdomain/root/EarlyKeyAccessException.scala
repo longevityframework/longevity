@@ -6,4 +6,4 @@ import longevity.exceptions.subdomain.SubdomainException
  * [[longevity.subdomain.Subdomain]] initilization
  */
 class EarlyKeyAccessException extends SubdomainException(
-  "cannot access RootEntityType.keys until after the subdomain has been initialized")
+  "cannot access RootType.keys until after the subdomain has been initialized")

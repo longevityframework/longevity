@@ -32,9 +32,9 @@ object IndexSpec {
     float: Float,
     int: Int,
     long: Long)
-  extends RootEntity
+  extends Root
 
-  object IndexSampler extends RootEntityType[IndexSampler] {
+  object IndexSampler extends RootType[IndexSampler] {
     val booleanProp = IndexSampler.prop[Boolean]("boolean")
     val charProp = IndexSampler.prop[Char]("char")
     val doubleProp = IndexSampler.prop[Double]("double")
@@ -56,7 +56,7 @@ class IndexSpec extends FlatSpec with GivenWhenThen with Matchers {
   import IndexSpec._
   import IndexSpec.IndexSampler._
 
-  behavior of "RootEntityType.indexes"
+  behavior of "RootType.indexes"
   it should "throw exception when called before subdomain initialization" in {
     // this is an artifact of the un-artful way i constructed the test
     val e = intercept[ExceptionInInitializerError] {
@@ -65,7 +65,7 @@ class IndexSpec extends FlatSpec with GivenWhenThen with Matchers {
     e.getCause shouldBe a [EarlyIndexAccessException]
   }
 
-  behavior of "RootEntityType.index factory methods"
+  behavior of "RootType.index factory methods"
 
   they should "throw exception when called after subdomain initialization" in {
 

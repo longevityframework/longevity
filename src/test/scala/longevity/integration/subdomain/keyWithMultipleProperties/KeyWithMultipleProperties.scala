@@ -5,9 +5,9 @@ import longevity.subdomain._
 case class KeyWithMultipleProperties(
   realm: String,
   name: String)
-extends RootEntity
+extends Root
 
-object KeyWithMultipleProperties extends RootEntityType[KeyWithMultipleProperties] {
+object KeyWithMultipleProperties extends RootType[KeyWithMultipleProperties] {
   key("realm", "name")
 }
 

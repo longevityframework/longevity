@@ -11,7 +11,7 @@ import org.scalatest._
 /** unit tests for the proper construction of [[Prop properties]] */
 class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "RootEntityType.Prop.apply(String)"
+  behavior of "RootType.Prop.apply(String)"
 
   it should "throw exception when the specified prop path is empty" in {
     import longevity.integration.subdomain.allAttributes._

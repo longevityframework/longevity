@@ -3,9 +3,9 @@ package longevity.integration.subdomain.withAssoc
 import longevity.subdomain._
 import shorthands._
 
-case class Associated(uri: String) extends RootEntity
+case class Associated(uri: String) extends Root
 
-object Associated extends RootEntityType[Associated] {
+object Associated extends RootType[Associated] {
   key("uri")
 }
 

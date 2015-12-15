@@ -3,7 +3,7 @@ package longevity.integration.subdomain
 import longevity.context._
 import longevity.subdomain._
 
-/** covers a root entity with a set of component entities */
+/** covers a root with a set of component entities */
 package object withComponentSet {
 
   implicit val shorthandPool = ShorthandPool.empty

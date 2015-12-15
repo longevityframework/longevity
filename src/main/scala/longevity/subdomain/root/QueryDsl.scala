@@ -6,7 +6,7 @@ import longevity.subdomain._
 
 
 /** a DSL for creating [[Query queries]]. you can find it in your local repository at `Repo.queryDsl` */
-class QueryDsl[R <: RootEntity] {
+class QueryDsl[R <: Root] {
 
   /** start building a query with a path */
   implicit def where(path: String) = new GatherDRelational(path)

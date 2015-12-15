@@ -39,8 +39,8 @@ private[persistence] class EntityToCasbahTranslator(
     override protected val customTraversors: CustomTraversorPool = CustomTraversorPool.empty + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
-      def apply[B <: Assoc[_ <: RootEntity] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
-        val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: RootEntity]]
+      def apply[B <: Assoc[_ <: Root] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
+        val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: Root]]
  
         // TODO pt-91220826: get rid of asInstanceOf by tightening type on repo pools and repo layers
         val associateeRepo = repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]

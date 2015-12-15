@@ -20,8 +20,8 @@ import scala.util.Success
  * @param subdomain the subdomain containing the root that this repo persists
  * @param mongoDb the connection to the mongo database
  */
-class MongoRepo[R <: RootEntity : TypeKey] protected[persistence] (
-  entityType: RootEntityType[R],
+class MongoRepo[R <: Root : TypeKey] protected[persistence] (
+  entityType: RootType[R],
   subdomain: Subdomain,
   mongoDb: MongoDB)
 extends Repo[R](entityType, subdomain) {
@@ -71,9 +71,9 @@ extends Repo[R](entityType, subdomain) {
       def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
       abbreviate(prop.typeKey)
     } else if (prop.typeKey <:< typeKey[Assoc[_]]) {
-      val assoc = raw.asInstanceOf[Assoc[_ <: RootEntity]]
+      val assoc = raw.asInstanceOf[Assoc[_ <: Root]]
       if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
-      raw.asInstanceOf[MongoRepo[T]#MongoId forSome { type T <: RootEntity }].objectId
+      raw.asInstanceOf[MongoRepo[T]#MongoId forSome { type T <: Root }].objectId
     } else {
       raw
     }

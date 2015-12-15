@@ -13,17 +13,17 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** manages entity persistence operations */
 package object persistence {
 
-  /** a `TypeKeyMap` of [[longevity.subdomain.RootEntity RootEntity]] to [[Repo]] */
-  type RepoPool = TypeKeyMap[RootEntity, Repo]
+  /** a `TypeKeyMap` of [[longevity.subdomain.Root Root]] to [[Repo]] */
+  type RepoPool = TypeKeyMap[Root, Repo]
 
   /** the persistent state of the entity. functionally equivalent to [[PersistentState]] */
-  type PState[R <: RootEntity] = PersistentState[R]
+  type PState[R <: Root] = PersistentState[R]
 
   /** a future persistent state */
-  type FPState[R <: RootEntity] = Future[PState[R]]
+  type FPState[R <: Root] = Future[PState[R]]
 
   /** extension methods for an [[FPState]] */
-  implicit class LiftFPState[R <: RootEntity](fpState: FPState[R]) {
+  implicit class LiftFPState[R <: Root](fpState: FPState[R]) {
 
     /** map the future PState by mapping the root inside the PState */
     def mapRoot(f: R => R): FPState[R] =
@@ -36,10 +36,10 @@ package object persistence {
   }
 
   /** a future option persistent state */
-  type FOPState[R <: RootEntity] = Future[Option[PState[R]]]
+  type FOPState[R <: Root] = Future[Option[PState[R]]]
 
   /** extension methods for an [[FOPState]] */
-  implicit class LiftFOPState[R <: RootEntity](fopState: FOPState[R]) {
+  implicit class LiftFOPState[R <: Root](fopState: FOPState[R]) {
 
     /** map the `FOPState` by mapping the root inside the PState */
     def mapRoot(f: R => R): FOPState[R] =
@@ -81,7 +81,7 @@ package object persistence {
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[R <: RootEntity](entityType: RootEntityType[R], entityKey: TypeKey[R]): Repo[R] =
+      def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): Repo[R] =
         new InMemRepo(entityType, subdomain)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
@@ -99,14 +99,14 @@ package object persistence {
 
   private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[R <: RootEntity](entityType: RootEntityType[R], entityKey: TypeKey[R]): Repo[R] =
+      def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): Repo[R] =
         new MongoRepo(entityType, subdomain, mongoDB)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
 
   private trait StockRepoFactory {
-    def build[R <: RootEntity](entityType: RootEntityType[R], entityKey: TypeKey[R]): Repo[R]
+    def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): Repo[R]
   }
 
   private def buildRepoPool(
@@ -114,19 +114,19 @@ package object persistence {
     stockRepoFactory: StockRepoFactory)
   : RepoPool = {
     var repoPool = emptyRepoPool
-    type Pair[RE <: RootEntity] = TypeBoundPair[RootEntity, TypeKey, RootEntityType, RE]
-    def createRepoFromPair[RE <: RootEntity](pair: Pair[RE]): Unit = {
+    type Pair[RE <: Root] = TypeBoundPair[Root, TypeKey, RootType, RE]
+    def createRepoFromPair[RE <: Root](pair: Pair[RE]): Unit = {
       val entityKey = pair._1
       val entityType = pair._2
       val repo = stockRepoFactory.build(entityType, entityKey)
       repoPool += (entityKey -> repo)
     }
-    subdomain.rootEntityTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    subdomain.rootTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
     finishRepoInitialization(repoPool)
     repoPool
   }
 
-  private val emptyRepoPool = TypeKeyMap[RootEntity, Repo]
+  private val emptyRepoPool = TypeKeyMap[Root, Repo]
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
     repoPool.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }

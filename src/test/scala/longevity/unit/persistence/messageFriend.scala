@@ -7,13 +7,13 @@ object messageFriend {
 
   implicit val shorthandPool = ShorthandPool.empty
 
-  case class Friend(name: String) extends RootEntity
+  case class Friend(name: String) extends Root
 
-  object FriendType extends RootEntityType[Friend]
+  object FriendType extends RootType[Friend]
 
-  case class Message(author: Assoc[Friend], content: String) extends RootEntity
+  case class Message(author: Assoc[Friend], content: String) extends Root
 
-  object MessageType extends RootEntityType[Message]
+  object MessageType extends RootType[Message]
 
   object context {
     val entityTypes = EntityTypePool() + FriendType + MessageType

@@ -3,7 +3,7 @@ package longevity.integration.subdomain
 import longevity.context._
 import longevity.subdomain._
 
-/** covers a root entity with a set of associations to another root entity */
+/** covers a root with a set of associations to another root */
 package object withAssocSet {
 
   implicit val shorthandPool = ShorthandPool.empty

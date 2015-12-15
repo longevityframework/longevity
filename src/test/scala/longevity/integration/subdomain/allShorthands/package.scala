@@ -4,7 +4,7 @@ import com.github.nscala_time.time.Imports._
 import longevity.context._
 import longevity.subdomain._
 
-/** covers a root entity with shorthands for every supported basic type */
+/** covers a root with shorthands for every supported basic type */
 package object allShorthands {
 
   object shorthands {

@@ -44,60 +44,60 @@ object Query {
   case object OrOp extends LogicalOp
 
   /** a factory method for producing an [[EqualityQuery]] with an [[EqOp]] */
-  def eqs[R <: RootEntity, A : TypeKey](path: String, value: A) =
+  def eqs[R <: Root, A : TypeKey](path: String, value: A) =
     EqualityQuery[R, A](path, EqOp, value)
 
   /** a factory method for producing a [[VEqualityQuery]] with an [[EqOp]] */
-  def eqs[R <: RootEntity, A](prop: Prop[R, A], value: A) =
+  def eqs[R <: Root, A](prop: Prop[R, A], value: A) =
     VEqualityQuery[R, A](prop, EqOp, value)
 
   /** a factory method for producing an [[EqualityQuery]] with an [[NeqOp]] */
-  def neq[R <: RootEntity, A : TypeKey](path: String, value: A) =
+  def neq[R <: Root, A : TypeKey](path: String, value: A) =
     EqualityQuery[R, A](path, NeqOp, value)
 
   /** a factory method for producing a [[VEqualityQuery]] with an [[NeqOp]] */
-  def neq[R <: RootEntity, A](prop: Prop[R, A], value: A) =
+  def neq[R <: Root, A](prop: Prop[R, A], value: A) =
     VEqualityQuery[R, A](prop, NeqOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[LtOp]] */
-  def lt[R <: RootEntity, A : TypeKey](path: String, value: A) =
+  def lt[R <: Root, A : TypeKey](path: String, value: A) =
     OrderingQuery[R, A](path, LtOp, value)
 
   /** a factory method for producing a [[VOrderingQuery]] with a [[LtOp]] */
-  def lt[R <: RootEntity, A](prop: Prop[R, A], value: A) =
+  def lt[R <: Root, A](prop: Prop[R, A], value: A) =
     VOrderingQuery[R, A](prop, LtOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[LteOp]] */
-  def lte[R <: RootEntity, A : TypeKey](path: String, value: A) =
+  def lte[R <: Root, A : TypeKey](path: String, value: A) =
     OrderingQuery[R, A](path, LteOp, value)
 
   /** a factory method for producing a [[VOrderingQuery]] with a [[LteOp]] */
-  def lte[R <: RootEntity, A](prop: Prop[R, A], value: A) =
+  def lte[R <: Root, A](prop: Prop[R, A], value: A) =
     VOrderingQuery[R, A](prop, LteOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[GtOp]] */
-  def gt[R <: RootEntity, A : TypeKey](path: String, value: A) =
+  def gt[R <: Root, A : TypeKey](path: String, value: A) =
     OrderingQuery[R, A](path, GtOp, value)
 
   /** a factory method for producing a [[VOrderingQuery]] with a [[GtOp]] */
-  def gt[R <: RootEntity, A](prop: Prop[R, A], value: A) =
+  def gt[R <: Root, A](prop: Prop[R, A], value: A) =
     VOrderingQuery[R, A](prop, GtOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[GteOp]] */
-  def gte[R <: RootEntity, A : TypeKey](path: String, value: A) =
+  def gte[R <: Root, A : TypeKey](path: String, value: A) =
     OrderingQuery[R, A](path, GteOp, value)
 
   /** a factory method for producing a [[VOrderingQuery]] with a [[LteOp]] */
-  def gte[R <: RootEntity, A](prop: Prop[R, A], value: A) =
+  def gte[R <: Root, A](prop: Prop[R, A], value: A) =
     VOrderingQuery[R, A](prop, GteOp, value)
 
   /** a factory method for producing a conditional [[Query]] with an [[AndOp]] */
-  def and[R <: RootEntity](lhs: Query[R], rhs: Query[R]) = cond(lhs, AndOp, rhs)
+  def and[R <: Root](lhs: Query[R], rhs: Query[R]) = cond(lhs, AndOp, rhs)
 
   /** a factory method for producing a conditional [[Query]] with an [[OrOp]] */
-  def or[R <: RootEntity](lhs: Query[R], rhs: Query[R]) = cond(lhs, OrOp, rhs)
+  def or[R <: Root](lhs: Query[R], rhs: Query[R]) = cond(lhs, OrOp, rhs)
 
-  private[root] def cond[R <: RootEntity](lhs: Query[R], op: LogicalOp, rhs: Query[R]) = (lhs, rhs) match {
+  private[root] def cond[R <: Root](lhs: Query[R], op: LogicalOp, rhs: Query[R]) = (lhs, rhs) match {
     case (lhs: ValidatedQuery[R], rhs: ValidatedQuery[R]) => VConditionalQuery[R](lhs, op, rhs)
     case _ => ConditionalQuery[R](lhs, op, rhs)
   }
@@ -105,13 +105,13 @@ object Query {
 }
 
 /** a query for looking up aggregates of type `R` */
-sealed trait Query[R <: RootEntity]
+sealed trait Query[R <: Root]
 
 /** a query where all the types check out */
-sealed trait ValidatedQuery[R <: RootEntity] extends Query[R]
+sealed trait ValidatedQuery[R <: Root] extends Query[R]
 
 /** an equality query where the left-hand side is a property path */
-sealed case class EqualityQuery[R <: RootEntity, A : TypeKey](
+sealed case class EqualityQuery[R <: Root, A : TypeKey](
   val path: String,
   op: EqualityOp,
   value: A)
@@ -120,14 +120,14 @@ extends Query[R] {
 }
 
 /** an equality query where the left-hand side is a property */
-sealed case class VEqualityQuery[R <: RootEntity, A](
+sealed case class VEqualityQuery[R <: Root, A](
   val prop: Prop[R, A],
   op: EqualityOp,
   value: A)
 extends ValidatedQuery[R]
 
 /** an ordering query where the left-hand side is a property path */
-sealed case class OrderingQuery[R <: RootEntity, A : TypeKey](
+sealed case class OrderingQuery[R <: Root, A : TypeKey](
   val path: String,
   op: OrderingOp,
   value: A)
@@ -136,7 +136,7 @@ extends Query[R] {
 }
 
 /** an ordering query where the left-hand side is a property */
-sealed case class VOrderingQuery[R <: RootEntity, A](
+sealed case class VOrderingQuery[R <: Root, A](
   val prop: Prop[R, A],
   op: OrderingOp,
   value: A)
@@ -145,14 +145,14 @@ extends ValidatedQuery[R] {
 }
 
 /** a conditional query where one or both of the operands are non-validated queries */
-sealed case class ConditionalQuery[R <: RootEntity](
+sealed case class ConditionalQuery[R <: Root](
   lhs: Query[R],
   op: LogicalOp,
   rhs: Query[R])
 extends Query[R]
 
 /** a conditional query where both of the operands are validated queries */
-sealed case class VConditionalQuery[R <: RootEntity](
+sealed case class VConditionalQuery[R <: Root](
   lhs: ValidatedQuery[R],
   op: LogicalOp,
   rhs: ValidatedQuery[R])

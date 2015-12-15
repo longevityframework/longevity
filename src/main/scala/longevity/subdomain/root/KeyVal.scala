@@ -9,7 +9,7 @@ import longevity.subdomain._
  * @param key the key that this is a value for
  * @param propVals a map from the properties in the key to the values
  */
-case class KeyVal[R <: RootEntity] private[root] (
+case class KeyVal[R <: Root] private[root] (
   val key: Key[R],
   val propVals: Map[Prop[R, _], Any]) {
 
@@ -32,7 +32,7 @@ object KeyVal {
    * @throws longevity.exceptions.subdomain.root.PropValTypeException if the type of the key val arg does not
    * not match the type of the corresponding property in the key
    */
-  def apply[R <: RootEntity](key: Key[R], keyValArgs: KeyValArg[_]*): KeyVal[R] = {
+  def apply[R <: Root](key: Key[R], keyValArgs: KeyValArg[_]*): KeyVal[R] = {
     if (key.props.size != keyValArgs.size) throw new NumPropValsException(key, key.props.size, keyValArgs.size)
     val propVals = key.props.zip(keyValArgs).map {
       case (prop, keyValArg) =>

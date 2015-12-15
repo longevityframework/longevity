@@ -69,9 +69,9 @@ object QuickStartSpec {
     fullname: String,
     email: Email,
     profile: Option[UserProfile] = None)
-  extends RootEntity
+  extends Root
 
-  object User extends RootEntityType[User] {
+  object User extends RootType[User] {
     val usernameKey = key("username")
     val emailKey = key("email")
   }
@@ -89,9 +89,9 @@ object QuickStartSpec {
     title: String,
     description: Markdown,
     authors: Set[Assoc[User]])
-  extends RootEntity
+  extends Root
 
-  object Blog extends RootEntityType[Blog] {
+  object Blog extends RootType[Blog] {
     val uriKey = key("uri")
   }
 
@@ -104,9 +104,9 @@ object QuickStartSpec {
     postDate: DateTime,
     blog: Assoc[Blog],
     authors: Set[Assoc[User]])
-  extends RootEntity
+  extends Root
 
-  object BlogPost extends RootEntityType[BlogPost] {
+  object BlogPost extends RootType[BlogPost] {
     val uriKey = key("blog", "uriPathSuffix")
   }
 

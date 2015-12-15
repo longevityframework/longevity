@@ -2,13 +2,13 @@ package longevity.subdomain.root
 
 import longevity.subdomain._
 
-/** a natural key for this root entity type. a set of properties for which, given specific
+/** a natural key for this root type. a set of properties for which, given specific
  * property values for each of the properties, will match no more than one root instance.
  * 
- * @tparam R the root entity type
+ * @tparam R the root type
  * @param props the set of properties that make up this key
  */
-case class Key[R <: RootEntity] private [subdomain] (val props: Seq[Prop[R, _]]) {
+case class Key[R <: Root] private [subdomain] (val props: Seq[Prop[R, _]]) {
 
   /** builds a [[KeyVal]] for this key from a series of [[KeyValArg key val args]]
    * 
@@ -20,8 +20,8 @@ case class Key[R <: RootEntity] private [subdomain] (val props: Seq[Prop[R, _]])
    */
   def apply(keyValArgs: KeyValArg[_]*): KeyVal[R] = KeyVal(this, keyValArgs: _*)
 
-  /** returns the [[KeyVal]] for the supplied root entity
-   * @param root the root entity
+  /** returns the [[KeyVal]] for the supplied root
+   * @param root the root
    */
   def keyVal(root: R): KeyVal[R] = {
     val propVals = props.map { prop => prop -> prop.propVal(root) }

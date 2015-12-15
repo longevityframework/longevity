@@ -9,8 +9,8 @@ import longevity.exceptions.subdomain.root.LateKeyDefException
 import longevity.subdomain.root._
 
 /** a type class for a domain entity that serves as an aggregate root */
-abstract class RootEntityType[
-  R <: RootEntity](
+abstract class RootType[
+  R <: Root](
   implicit private val rootTypeKey: TypeKey[R],
   implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty)
 extends EntityType[R] {
@@ -25,22 +25,22 @@ extends EntityType[R] {
   private var keyBuffer = Set[Key[R]]()
   private var indexBuffer = Set[Index[R]]()
 
-  /** the keys for this root entity type. you populate this set by repeatedly calling either of the
-   * `RootEntityType.key` methods in your class initializer. you should only attempt to access this set
-   * after your `RootEntityType` is fully initialized.
+  /** the keys for this root type. you populate this set by repeatedly calling either of the
+   * `RootType.key` methods in your class initializer. you should only attempt to access this set
+   * after your `RootType` is fully initialized.
    * @throws longevity.exceptions.subdomain.SubdomainException on attempt to access this set before the
-   * `RootEntityType` is fully initialized
+   * `RootType` is fully initialized
    */
   lazy val keys: Set[Key[R]] = {
     if (!registered) throw new EarlyKeyAccessException
     keyBuffer
   }
 
-  /** the indexes for this root entity type. you populate this set by repeatedly calling either of the
-   * `RootEntityType.index` methods in your class initializer. you should only attempt to access this set
-   * after your `RootEntityType` is fully initialized.
+  /** the indexes for this root type. you populate this set by repeatedly calling either of the
+   * `RootType.index` methods in your class initializer. you should only attempt to access this set
+   * after your `RootType` is fully initialized.
    * @throws longevity.exceptions.subdomain.SubdomainException on attempt to access this set before the
-   * `RootEntityType` is fully initialized
+   * `RootType` is fully initialized
    */
   lazy val indexes: Set[Index[R]] = {
     if (!registered) throw new EarlyIndexAccessException
@@ -55,13 +55,13 @@ extends EntityType[R] {
    */
   def prop[A : TypeKey](path: String): Prop[R, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
 
-  /** constructs a key for this root entity type based on the supplied set of property paths
+  /** constructs a key for this root type based on the supplied set of property paths
    * @param propPathHead one of the property paths for the properties that define this key
    * @param propPathTail any remaining property paths for the properties that define this key
    * @throws longevity.exceptions.subdomain.root.PropException if any of the supplied property paths are
    * invalid
    * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new key after the
-   * `RootEntityType` is fully initialized
+   * `RootType` is fully initialized
    * @see Prop.apply
    */
   def key(propPathHead: String, propPathTail: String*): Key[R] = {
@@ -72,11 +72,11 @@ extends EntityType[R] {
     key
   }
 
-  /** constructs a key for this root entity type based on the supplied set of key props
+  /** constructs a key for this root type based on the supplied set of key props
    * @param propsHead one of the properties that define this key
    * @param propsTail any remaining properties that define this key
    * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new key after the
-   * `RootEntityType` is fully initialized
+   * `RootType` is fully initialized
    */
   def key(propsHead: Prop[R, _], propsTail: Prop[R, _]*): Key[R] = {
     if (registered) throw new LateKeyDefException
@@ -85,13 +85,13 @@ extends EntityType[R] {
     key
   }
 
-  /** constructs an index for this root entity type based on the supplied set of property paths
+  /** constructs an index for this root type based on the supplied set of property paths
    * @param propPathHead one of the property paths for the properties that define this index
    * @param propPathTail any remaining property paths for the properties that define this index
    * @throws longevity.exceptions.subdomain.root.PropException if any of the supplied property paths are
    * invalid
    * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new index after the
-   * `RootEntityType` is fully initialized
+   * `RootType` is fully initialized
    * @see Prop.apply
    */
   def index(propPathHead: String, propPathTail: String*): Index[R] = {
@@ -102,12 +102,12 @@ extends EntityType[R] {
     index
   }
 
-  /** constructs a index for this root entity type based on the supplied set of index props
+  /** constructs a index for this root type based on the supplied set of index props
    * 
    * @param propsHead one of the properties that define this index
    * @param propsTail any remaining properties that define this index
    * @throws longevity.exceptions.subdomain.SubdomainException on attempt to create a new index after the
-   * `RootEntityType` is fully initialized
+   * `RootType` is fully initialized
    */
   def index(propsHead: Prop[R, _], propsTail: Prop[R, _]*): Index[R] = {
     if (registered) throw new LateIndexDefException

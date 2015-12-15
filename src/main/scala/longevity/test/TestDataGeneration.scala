@@ -21,12 +21,12 @@ private[longevity] trait TestDataGeneration {
     shorthandPoolToExtractorPool(longevityContext.subdomain.shorthandPool),
     longevityContext.customGeneratorPool + assocGenerator)
 
-  private def assocGenerator: CustomGenerator[Assoc[_ <: RootEntity]] =
-    new CustomGenerator[Assoc[_ <: RootEntity]] {
-      def apply[B <: Assoc[_ <: RootEntity] : TypeKey](generator: Generator): B = {
-        val entityTypeKey: TypeKey[_ <: RootEntity] =
-          typeKey[B].typeArgs.head.castToUpperBound[RootEntity].get
-        def genAssoc[Associatee <: RootEntity : TypeKey] =
+  private def assocGenerator: CustomGenerator[Assoc[_ <: Root]] =
+    new CustomGenerator[Assoc[_ <: Root]] {
+      def apply[B <: Assoc[_ <: Root] : TypeKey](generator: Generator): B = {
+        val entityTypeKey: TypeKey[_ <: Root] =
+          typeKey[B].typeArgs.head.castToUpperBound[Root].get
+        def genAssoc[Associatee <: Root : TypeKey] =
             Assoc[Associatee](generator.generate[Associatee])
         genAssoc(entityTypeKey).asInstanceOf[B]
       }

@@ -15,10 +15,10 @@ class Subdomain(
   val entityTypePool: EntityTypePool)(
   implicit val shorthandPool: ShorthandPool = ShorthandPool()) {
 
-  val rootEntityTypePool = RootEntityTypePool(entityTypePool)
+  val rootTypePool = RootTypePool(entityTypePool)
 
   // prohibit further creation of keys and indexs
-  rootEntityTypePool.values.foreach(_.register)
+  rootTypePool.values.foreach(_.register)
 
   /** a pool of emblems for the entities within the subdomain */
   private[longevity] val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] =

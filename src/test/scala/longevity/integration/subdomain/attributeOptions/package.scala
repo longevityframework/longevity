@@ -3,7 +3,7 @@ package longevity.integration.subdomain
 import longevity.context._
 import longevity.subdomain._
 
-/** covers a root entity with option attributes for every supported basic type */
+/** covers a root with option attributes for every supported basic type */
 package object attributeOptions {
 
   implicit val shorthandPool = ShorthandPool.empty

@@ -21,7 +21,7 @@ import scala.util.Random
  * users may want to test against other repo pools. (for instance, they may want a spec for in-memory repo
  * pools if other parts of their test suite rely on them.)
  */
-abstract class QuerySpec[R <: RootEntity : TypeKey](context: LongevityContext, pool: RepoPool)
+abstract class QuerySpec[R <: Root : TypeKey](context: LongevityContext, pool: RepoPool)
 extends {
   protected val longevityContext = context
   protected val repoPool = pool

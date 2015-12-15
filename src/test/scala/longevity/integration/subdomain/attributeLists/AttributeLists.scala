@@ -13,9 +13,9 @@ case class AttributeLists(
   long: List[Long],
   string: List[String],
   dateTime: List[DateTime])
-extends RootEntity
+extends Root
 
-object AttributeLists extends RootEntityType[AttributeLists] {
+object AttributeLists extends RootType[AttributeLists] {
   key("uri")
 }
 

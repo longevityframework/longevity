@@ -5,6 +5,6 @@ import longevity.subdomain._
 case class WithNoTranslationLonghand(
   uri: String,
   noTranslationLonghand: NoTranslationLonghand)
-extends RootEntity
+extends Root
 
-object WithNoTranslationLonghand extends RootEntityType[WithNoTranslationLonghand]
+object WithNoTranslationLonghand extends RootType[WithNoTranslationLonghand]

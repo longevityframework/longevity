@@ -6,9 +6,9 @@ case class WithSimpleConstraint(
   id: String,
   primaryEmail: Email,
   emails: Set[Email])
-extends RootEntity
+extends Root
 
-object WithSimpleConstraint extends RootEntityType[WithSimpleConstraint] {
+object WithSimpleConstraint extends RootType[WithSimpleConstraint] {
   key("id")
 }
 

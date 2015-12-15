@@ -5,7 +5,7 @@ import longevity.subdomain._
 import emblem.traversors.sync.CustomGeneratorPool
 import emblem.traversors.sync.CustomGenerator
 
-/** covers a root entity with a simple shorthand constraint */
+/** covers a root with a simple shorthand constraint */
 package object withSimpleConstraint {
 
   val emailShorthand = Shorthand[Email, String]

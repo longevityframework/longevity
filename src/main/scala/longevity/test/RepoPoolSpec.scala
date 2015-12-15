@@ -55,13 +55,13 @@ with TestDataGeneration {
   }}"
 
   repoPool.foreach { pair =>
-    def repoSpec[R <: RootEntity](pair: TypeBoundPair[RootEntity, TypeKey, Repo, R]): Unit = {
+    def repoSpec[R <: Root](pair: TypeBoundPair[Root, TypeKey, Repo, R]): Unit = {
       new RepoSpec(pair._2)(pair._1)
     }
     repoSpec(pair)
   }
 
-  private class RepoSpec[R <: RootEntity : TypeKey](private val repo: Repo[R]) {
+  private class RepoSpec[R <: Root : TypeKey](private val repo: Repo[R]) {
 
     private val rootName = repo.entityType.emblem.name
     private val representativeKeyOption = repo.entityType.keys.headOption
@@ -174,7 +174,7 @@ with TestDataGeneration {
   private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool)
   private val differ = new Differ(emblemPool, extractorPool)
 
-  private def persistedShouldMatchUnpersisted[R <: RootEntity : TypeKey](persisted: R, unpersisted: R): Unit = {
+  private def persistedShouldMatchUnpersisted[R <: Root : TypeKey](persisted: R, unpersisted: R): Unit = {
     val unpersistorated = unpersistor.transform(Future(persisted))
     if (unpersistorated.futureValue != unpersisted) {
       val diffs = differ.diff(unpersistorated, unpersisted)

@@ -11,8 +11,8 @@ import scala.concurrent._
  * @param entityType the entity type for the aggregate roots this repository handles
  * @param subdomain the subdomain containing the root that this repo persists
  */
-abstract class Repo[R <: RootEntity : TypeKey](
-  val entityType: RootEntityType[R],
+abstract class Repo[R <: Root : TypeKey](
+  val entityType: RootType[R],
   val subdomain: Subdomain) {
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None

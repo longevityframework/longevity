@@ -13,8 +13,8 @@ import longevity.context.LongevityContext
  * @param entityType the entity type for the aggregate roots this repository handles
  * @param subdomain the subdomain containing the root that this repo persists
  */
-class InMemRepo[R <: RootEntity : TypeKey](
-  entityType: RootEntityType[R],
+class InMemRepo[R <: Root : TypeKey](
+  entityType: RootType[R],
   subdomain: Subdomain)
 extends Repo[R](entityType, subdomain) {
   repo =>
@@ -44,7 +44,7 @@ extends Repo[R](entityType, subdomain) {
   def retrieve(keyVal: KeyVal[R]): Future[Option[Persisted[R]]] = {
     keyVal.propVals.foreach { case (prop, value) =>
       if (prop.typeKey <:< typeKey[Assoc[_]]) {
-        val assoc = value.asInstanceOf[Assoc[_ <: RootEntity]]
+        val assoc = value.asInstanceOf[Assoc[_ <: Root]]
         if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
       }
     }

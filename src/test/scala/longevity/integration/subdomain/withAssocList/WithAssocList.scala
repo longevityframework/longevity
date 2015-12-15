@@ -5,9 +5,9 @@ import longevity.subdomain._
 case class WithAssocList(
   uri: String,
   associated: List[Assoc[Associated]])
-extends RootEntity
+extends Root
 
-object WithAssocList extends RootEntityType[WithAssocList] {
+object WithAssocList extends RootType[WithAssocList] {
   key("uri")
 }
 

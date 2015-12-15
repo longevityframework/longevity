@@ -13,8 +13,8 @@ case class AttributeOptions(
   long: Option[Long],
   string: Option[String],
   dateTime: Option[DateTime])
-extends RootEntity
+extends Root
 
-object AttributeOptions extends RootEntityType[AttributeOptions] {
+object AttributeOptions extends RootType[AttributeOptions] {
   key("uri")
 }

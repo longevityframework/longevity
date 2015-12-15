@@ -6,4 +6,4 @@ import longevity.exceptions.subdomain.SubdomainException
  * [[longevity.subdomain.Subdomain]] initilization
  */
 class EarlyIndexAccessException extends SubdomainException(
-  "cannot access RootEntityType.indexes until after the subdomain has been initialized")
+  "cannot access RootType.indexes until after the subdomain has been initialized")

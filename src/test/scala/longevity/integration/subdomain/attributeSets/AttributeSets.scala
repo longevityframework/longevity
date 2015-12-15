@@ -13,8 +13,8 @@ case class AttributeSets(
   long: Set[Long],
   string: Set[String],
   dateTime: Set[DateTime])
-extends RootEntity
+extends Root
 
-object AttributeSets extends RootEntityType[AttributeSets] {
+object AttributeSets extends RootType[AttributeSets] {
   key("uri")
 }

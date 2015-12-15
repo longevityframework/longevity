@@ -14,9 +14,9 @@ case class AllShorthands(
   long: LongShorthand,
   string: StringShorthand,
   dateTime: DateTimeShorthand)
-extends RootEntity
+extends Root
 
-object AllShorthands extends RootEntityType[AllShorthands] {
+object AllShorthands extends RootType[AllShorthands] {
   key("uri")
 }
 

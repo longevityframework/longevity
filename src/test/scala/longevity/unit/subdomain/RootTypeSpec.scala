@@ -4,7 +4,7 @@ import longevity.exceptions.subdomain.root.UnsupportedPropTypeException
 import longevity.exceptions.subdomain.root.PropTypeException
 import org.scalatest._
 
-object RootEntityTypeSpec {
+object RootTypeSpec {
 
   import longevity.subdomain._
 
@@ -26,9 +26,9 @@ object RootEntityTypeSpec {
     fullname: String,
     email: Email,
     profile: Option[UserProfile] = None)
-  extends RootEntity
+  extends Root
 
-  object User extends RootEntityType[User] {
+  object User extends RootType[User] {
     val usernameKey = key("username")
     val emailKey = key("email")
   }
@@ -46,9 +46,9 @@ object RootEntityTypeSpec {
     title: String,
     description: Markdown,
     authors: Set[Assoc[User]])
-  extends RootEntity
+  extends Root
 
-  object Blog extends RootEntityType[Blog] {
+  object Blog extends RootType[Blog] {
     val natKey = key("uri")
   }
 
@@ -60,9 +60,9 @@ object RootEntityTypeSpec {
     labels: Set[String] = Set(),
     blog: Assoc[Blog],
     authors: Set[Assoc[User]])
-  extends RootEntity
+  extends Root
 
-  object BlogPost extends RootEntityType[BlogPost] {
+  object BlogPost extends RootType[BlogPost] {
     val natKey = key("blog", "uriPathSuffix")
   }
 
@@ -70,19 +70,19 @@ object RootEntityTypeSpec {
 
 }
 
-/** test bed for [[RootEntityType]] functionality.
+/** test bed for [[RootType]] functionality.
  *
- * this test class was established for the purpose of testing method `RootEntityType.validateQuery`.
- * various flavors of `RootEntityType` methods `keys`, `indexes`, `prop`, `key`, and `index`, are more or less
- * tested via RootEntityType/LongevityContext creation, and these should not need explicit tests. (although it
+ * this test class was established for the purpose of testing method `RootType.validateQuery`.
+ * various flavors of `RootType` methods `keys`, `indexes`, `prop`, `key`, and `index`, are more or less
+ * tested via RootType/LongevityContext creation, and these should not need explicit tests. (although it
  * would be worth checking how well these methods are currently covered by unit tests.)
  */
-class RootEntityTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
+class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  import RootEntityTypeSpec._
+  import RootTypeSpec._
   import longevity.subdomain.root._
 
-  behavior of "RootEntityType.validateQuery"
+  behavior of "RootType.validateQuery"
 
   it should "convert simple dynamic queries into static queries" in {
     val usernameVal = "usernameVal"

@@ -3,7 +3,7 @@ package longevity.integration.subdomain
 import longevity.context._
 import longevity.subdomain._
 
-/** covers a root entity with a single shorthand */
+/** covers a root with a single shorthand */
 package object oneShorthand {
 
   val uriShorthand = Shorthand[Uri, String]

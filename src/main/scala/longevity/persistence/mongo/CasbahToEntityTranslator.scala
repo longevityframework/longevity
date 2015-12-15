@@ -44,13 +44,13 @@ private[persistence] class CasbahToEntityTranslator(
     override protected val customTraversors: CustomTraversorPool = CustomTraversorPool.empty + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
-      def apply[B <: Assoc[_ <: RootEntity] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
+      def apply[B <: Assoc[_ <: Root] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
 
         // this asInstanceOf is because of emblem shortfall
-        val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: RootEntity]]
+        val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: Root]]
  
         // this asInstanceOf is because we dont type param our RepoPool with PersistenceStrategy
-        def associateeRepo[Associatee <: RootEntity : TypeKey] =
+        def associateeRepo[Associatee <: Root : TypeKey] =
           repoPool(typeKey[Associatee]).asInstanceOf[MongoRepo[Associatee]]
 
         // first asInstanceOf because casbah gives us Any
@@ -89,7 +89,7 @@ private[persistence] class CasbahToEntityTranslator(
     : Iterable[PropInput[A, _]] = {
       val mongoDBObject: MongoDBObject = {
         val key = typeKey[A]
-        if (key <:< typeOf[RootEntity]) {
+        if (key <:< typeOf[Root]) {
           input.asInstanceOf[MongoDBObject]
         } else if (key <:< typeOf[Entity]) {
           input.asInstanceOf[BasicDBObject]

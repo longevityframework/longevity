@@ -5,9 +5,9 @@ import longevity.subdomain._
 case class WithComponentList(
   uri: String,
   components: List[Component])
-extends RootEntity
+extends Root
 
-object WithComponentList extends RootEntityType[WithComponentList] {
+object WithComponentList extends RootType[WithComponentList] {
   key("uri")
 }
 

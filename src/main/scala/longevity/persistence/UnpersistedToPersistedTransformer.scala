@@ -8,7 +8,7 @@ import emblem.traversors.async.Transformer.CustomTransformerPool
 import longevity.exceptions.persistence.BsonTranslationException
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
-import longevity.subdomain.RootEntity
+import longevity.subdomain.Root
 import longevity.subdomain.UnpersistedAssoc
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -44,7 +44,7 @@ extends Transformer {
         case persistedAssoc: PersistedAssoc[_] => promise.success(assoc)
         case unpersistedAssoc: UnpersistedAssoc[_] =>
           val unpersistedEntity = assoc.unpersisted
-          val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
+          val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Root]]
           val repo = repoPool(entityTypeKey)
           val futurePersistedEntity = repo.create(unpersistedEntity).map(_.assoc).asInstanceOf[Future[B]]
           promise.completeWith(futurePersistedEntity)

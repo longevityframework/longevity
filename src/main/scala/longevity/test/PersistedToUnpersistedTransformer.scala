@@ -8,7 +8,7 @@ import emblem.traversors.async.Transformer.CustomTransformer
 import emblem.traversors.async.Transformer.CustomTransformerPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
-import longevity.subdomain.RootEntity
+import longevity.subdomain.Root
 import longevity.subdomain.UnpersistedAssoc
 import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.persistence.PersistedAssoc
@@ -36,7 +36,7 @@ extends Transformer {
             throw new AssocIsUnpersistedException(unpersistedAssoc)
           case persistedAssoc: PersistedAssoc[_] => {
             val futurePersistedEntity = b.retrieve.map(_.get)
-            val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[RootEntity]]
+            val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Root]]
             val unpersistedEntity = transform(futurePersistedEntity)(entityTypeKey)
             unpersistedEntity.map(Assoc(_).asInstanceOf[B])
           }
