@@ -114,15 +114,50 @@ object SubdomainSpec {
 
   // duplicated at https://gist.github.com/sullivan-/d1a59a70bbfbcc1e0f78
   // used in http://sullivan-.github.io/longevity/manual/subdomain/shorthands.html
-  object shorthands {
+  object shorthands1 {
 
     import longevity.subdomain._
 
-    case class Email(email: String)
+    object shorthands {
+      case class Email(email: String)
+      val emailShorthand = Shorthand[Email, String]
+      implicit val shorthandPool = ShorthandPool(emailShorthand)
+    }
+    import shorthands._
 
-    val emailShorthand = Shorthand[Email, String]
+    case class User(
+      username: String,
+      firstName: String,
+      lastName: String,
+      primaryEmail: Email,
+      emails: Set[Email])
+    extends Root
 
-    implicit val shorthandPool = ShorthandPool(emailShorthand)
+    object User extends RootType[User]
+
+    val subdomain = Subdomain("blogging", EntityTypePool(User))
+  }
+
+  // duplicated at https://gist.github.com/sullivan-/b862b65da47d112d10ee
+  // used in http://sullivan-.github.io/longevity/manual/subdomain/shorthands.html
+  object shorthands2 {
+
+    import longevity.subdomain._
+
+    object shorthands {
+      case class Email(email: String)
+      implicit def toEmail(email: String) = Email(email)
+      val emailShorthand = Shorthand[Email, String]
+      implicit val shorthandPool = ShorthandPool(emailShorthand)
+    }
+    import shorthands._
+
+    val user = User(
+      "bolt",
+      "Jeremy",
+      "Linden",
+      "bolt26@info.com",
+      Set("bolt26@info.com", "bolt65766@gmail.com"))
 
     case class User(
       username: String,
@@ -176,6 +211,29 @@ object SubdomainSpec {
       val subdomain = Subdomain("blogging", EntityTypePool(User))(shorthandPool)
     }
 
+  }
+
+  // duplicated at https://gist.github.com/sullivan-/9ea266deae833e61bf52
+  // used in http://sullivan-.github.io/longevity/manual/subdomain/where-not.html
+  object shorthandsInitIssues {
+
+    import longevity.subdomain._
+
+    case class Email(email: String)
+    val emailShorthand = Shorthand[Email, String]
+    implicit val shorthandPool = ShorthandPool(emailShorthand)
+
+    case class User(
+      username: String,
+      firstName: String,
+      lastName: String,
+      primaryEmail: Email,
+      emails: Set[Email])
+    extends Root
+
+    object User extends RootType[User]
+
+    val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
   // duplicated at https://gist.github.com/sullivan-/62a216ece7a16bec63c9
@@ -424,14 +482,20 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      shorthands.subdomain.name should equal ("blogging")
-      shorthands.subdomain.entityTypePool.size should equal (1)
-      shorthands.subdomain.entityTypePool.values.head should equal (shorthands.User)
-      shorthands.subdomain.shorthandPool.size should equal (1)
-      shorthands.subdomain.shorthandPool.values.head should equal (shorthands.emailShorthand)
-      shorthands.subdomain.rootTypePool.size should equal (1)
-      shorthands.subdomain.rootTypePool.values.head should equal (shorthands.User)
-      shorthands.User.keys should be ('empty)
+      shorthands1.subdomain.name should equal ("blogging")
+      shorthands1.subdomain.entityTypePool.size should equal (1)
+      shorthands1.subdomain.entityTypePool.values.head should equal (shorthands1.User)
+      shorthands1.subdomain.shorthandPool.size should equal (1)
+      shorthands1.subdomain.shorthandPool.values.head should equal (shorthands1.shorthands.emailShorthand)
+      shorthands1.subdomain.rootTypePool.size should equal (1)
+      shorthands1.subdomain.rootTypePool.values.head should equal (shorthands1.User)
+      shorthands1.User.keys should be ('empty)
+    }
+
+    {
+      intercept[java.lang.ExceptionInInitializerError] {
+        shorthandsInitIssues.User.keys should be ('empty)
+      }
     }
 
     {
