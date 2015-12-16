@@ -9,13 +9,12 @@ subdomain classes are the core of you application(s). The other
 layers perform their individual functions while using the domain
 classes fluidly.
 
-{% capture content %}
+<div class="longevity-meta">
 
 As we mentioned earlier, we hope to cover more than just persistence
 in the future. But we want to get the persistence part right, first.
 
-{% endcapture %}
-{% include longevity-meta.html content=content%}
+</div>
 
 Our discussion on building subdomains breaks down as follows:
 

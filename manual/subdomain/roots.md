@@ -25,7 +25,7 @@ will see in a later chapter.
 
 TODO: link to chapter on building LongevityContext
 
-{% capture content %}
+<div class="longevity-meta">
 
 You may find it onerous to have to extend a longevity class in your
 domain. In theory, we could remove this requirement entirely, but it
@@ -35,8 +35,7 @@ harmful either, as both <code>Entity</code> and
 can see from the <a
 href="http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.Root">scaladocs</a>).
 
-{% endcapture %}
-{% include longevity-meta.html content=content %}
+</div>
 
 {% assign prevTitle = "kinds of subdomains" %}
 {% assign prevLink = "kinds.html" %}

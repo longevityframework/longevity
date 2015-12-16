@@ -22,15 +22,14 @@ For example, we might add a few fields to our `User` like so:
 
 {% gist sullivan-/58f8ae308d9ca96dbd63 %}
 
-{% capture content %}
+<div class="longevity-meta">
 
 We recommend using <a href =
 "https://github.com/nscala-time/nscala-time">nscala-time</a> to wrap
 your <a href = "http://www.joda.org/joda-time/">Joda-Time</a> dates in
 a Scala-friendly wrapper.
 
-{% endcapture %}
-{% include longevity-meta.html title = "nscala-time" content = content %}
+</div>
 
 {% assign prevTitle = "natural keys" %}
 {% assign prevLink = "keys.html" %}

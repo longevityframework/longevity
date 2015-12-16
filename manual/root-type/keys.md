@@ -44,7 +44,7 @@ soon. All the same, if you are itching to use this feature, please let
 us know! You can track the status of the feature on the [longevity
 story board](https://www.pivotaltracker.com/story/show/100264584).
 
-{% capture content %}
+<div class="longevity-meta">
 
 As you can see from the example, natural keys are built from
 string-valued property names, and as such, an erroneous natural key
@@ -56,8 +56,7 @@ this time for a number of reasons, but mainly because, the current API
 is "good enough" for now, and there are higher priority features to
 implement.
 
-{% endcapture %}
-{% include longevity-meta.html content=content %}
+</div>
 
 {% assign prevTitle = "properties" %}
 {% assign prevLink = "properties.html" %}
