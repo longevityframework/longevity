@@ -25,11 +25,6 @@ Our discussion on building subdomains breaks down as follows:
 - [Shorthands](shorthands.html)
 - [Shorthand Pools](shorthand-pools.html)
 - [Where Not to Construct Your Shorthand Pools](where-not.html)
-- [Entities](entities.html)
-- [Entities and Value Objects](value-objects.html)
-- [Limitations on Entities and Shorthands](limitations.html)
-- [Associations](associations.html)
-- [Using Associations](using-associations.html)
 
 {% assign prevTitle = "project setup" %}
 {% assign prevLink = "../project-setup.html" %}

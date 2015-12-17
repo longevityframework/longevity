@@ -32,6 +32,5 @@ TODO: link to appropriate section on `PersistentState`.
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "shorthands" %}
-{% assign nextLink = "shorthands.html" %}
+{% assign nextLink = "../shorthands" %}
 {% include navigate.html %}
-

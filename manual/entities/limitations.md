@@ -34,8 +34,8 @@ throughout the user man
 
 {% assign prevTitle = "entities and value objects" %}
 {% assign prevLink = "value-objects.html" %}
-{% assign upTitle = "building your subdomain" %}
+{% assign upTitle = "entities" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "assocations" %}
-{% assign nextLink = "associations.html" %}
+{% assign nextLink = "../associations" %}
 {% include navigate.html %}

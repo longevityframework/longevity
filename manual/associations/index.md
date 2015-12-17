@@ -42,9 +42,9 @@ association.
 </div>
 
 {% assign prevTitle = "limitations" %}
-{% assign prevLink = "limitations.html" %}
-{% assign upTitle = "building your subdomain" %}
-{% assign upLink = "." %}
+{% assign prevLink = "../subdomain/limitations.html" %}
+{% assign upTitle = "user manual" %}
+{% assign upLink = ".." %}
 {% assign nextTitle = "using associations" %}
 {% assign nextLink = "using-associations.html" %}
 {% include navigate.html %}

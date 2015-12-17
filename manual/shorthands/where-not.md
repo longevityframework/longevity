@@ -35,7 +35,7 @@ where you define your roots, your can provide an import like this:
 
 {% assign prevTitle = "shorthand pools" %}
 {% assign prevLink = "shorthand-pools.html" %}
-{% assign upTitle = "building your subdomain" %}
+{% assign upTitle = "shorthands" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "entities" %}
 {% assign nextLink = "../entities" %}

@@ -42,8 +42,8 @@ been persisted yet, it is recursively persisted.
 Information on persisting new entities is here TODO.
 
 {% assign prevTitle = "associations" %}
-{% assign prevLink = "associations.html" %}
-{% assign upTitle = "building your subdomain" %}
+{% assign prevLink = "." %}
+{% assign upTitle = "associations" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "the root type" %}
 {% assign nextLink = "../root-type" %}
