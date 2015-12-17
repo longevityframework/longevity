@@ -25,7 +25,7 @@ will see in a later chapter.
 
 TODO: link to chapter on building LongevityContext
 
-<div class="longevity-meta">
+<div class="blue-side-bar">
 
 You may find it onerous to have to extend a longevity class in your
 domain. In theory, we could remove this requirement entirely, but it

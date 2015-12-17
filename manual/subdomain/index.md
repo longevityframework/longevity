@@ -9,7 +9,7 @@ subdomain classes are the core of you application(s). The other
 layers perform their individual functions while using the domain
 classes fluidly.
 
-<div class="longevity-meta">
+<div class="blue-side-bar">
 
 As we mentioned earlier, we hope to cover more than just persistence
 in the future. But we want to get the persistence part right, first.

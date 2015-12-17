@@ -27,7 +27,7 @@ association to `User` there:
 
 {% gist sullivan-/2c6d949bed353aac39ca %}
 
-<div class="longevity-meta">
+<div class="blue-side-bar">
 
 Having <a href =
 "http://aviadezra.blogspot.com/2009/05/uml-association-aggregation-composition.html">reviewed

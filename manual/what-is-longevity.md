@@ -32,7 +32,7 @@ Longevity will do for you what an ORM would, and more. It puts your
 focus back on your domain, instead of on mapping your objects to and
 from the database.
 
-<div class="longevity-meta">
+<div class="blue-side-bar">
 
 I use the term "we" in this document - after all, at this point it is
 really just me - not out of pretension or arrogance, but in the humble

@@ -19,7 +19,7 @@ will translate these things into database indexes and keys, and it
 does so in a consistent and predictable way, but that does not mean
 that the uniqueness of a set of properties is not part of the
 domain. The key question to ask ourselves in making such a
-determination is, "would a business expert care about such things"?
+determination is, "would a domain expert care about such things"?
 They would clearly care that an account number is unique, but they
 _should not_ care about how that maps into a database schema.
 

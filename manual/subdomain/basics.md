@@ -22,7 +22,7 @@ For example, we might add a few fields to our `User` like so:
 
 {% gist sullivan-/58f8ae308d9ca96dbd63 %}
 
-<div class="longevity-meta">
+<div class="blue-side-bar">
 
 We recommend using <a href =
 "https://github.com/nscala-time/nscala-time">nscala-time</a> to wrap
