@@ -1,7 +1,6 @@
-package longevity.unit.subdomain
+package longevity.unit.manual
 
 import org.scalatest._
-import org.scalatest.OptionValues._
 
 object SubdomainSpec {
 
@@ -31,43 +30,6 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User]
-
-    val subdomain = Subdomain("blogging", EntityTypePool(User))
-  }
-
-  // duplicated at https://gist.github.com/sullivan-/e2ef663857157a03a301
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/keys.html
-  object keys1 {
-    import longevity.subdomain._
-
-    case class User(
-      username: String,
-      firstName: String,
-      lastName: String)
-    extends Root
-
-    object User extends RootType[User] {
-      val usernameKey = key("username")
-    }
-
-    val subdomain = Subdomain("blogging", EntityTypePool(User))
-  }
-
-  // duplicated at https://gist.github.com/sullivan-/b72900a6882b557e6728
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/keys.html
-  object keys2 {
-    import longevity.subdomain._
-
-    case class User(
-      username: String,
-      firstName: String,
-      lastName: String)
-    extends Root
-
-    object User extends RootType[User] {
-      val usernameKey = key("username")
-      val fullnameKey = key("firstName", "lastName")
-    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
@@ -395,7 +357,6 @@ object SubdomainSpec {
 class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import SubdomainSpec._
-  import emblem.imports._
   import longevity.subdomain._
 
   "user manual example code" should "produce correct subdomains" in {
@@ -422,43 +383,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       roots.subdomain.rootTypePool.size should equal (1)
       roots.subdomain.rootTypePool.values.head should equal (roots.User)
       roots.User.keys should be ('empty)
-    }
-
-    {
-      keys1.subdomain.name should equal ("blogging")
-      keys1.subdomain.entityTypePool.size should equal (1)
-      keys1.subdomain.entityTypePool.values.head should equal (keys1.User)
-      keys1.subdomain.rootTypePool.size should equal (1)
-      keys1.subdomain.rootTypePool.values.head should equal (keys1.User)
-      keys1.User.keys.size should equal (1)
-      keys1.User.keys.head should equal (keys1.User.usernameKey)
-      keys1.User.usernameKey.props.size should equal (1)
-      val prop = keys1.User.usernameKey.props.head
-      prop.path should equal ("username")
-      prop.typeKey should equal (typeKey[String])
-    }
-
-    {
-      keys2.subdomain.name should equal ("blogging")
-      keys2.subdomain.entityTypePool.size should equal (1)
-      keys2.subdomain.entityTypePool.values.head should equal (keys2.User)
-      keys2.subdomain.rootTypePool.size should equal (1)
-      keys2.subdomain.rootTypePool.values.head should equal (keys2.User)
-      keys2.User.keys.size should equal (2)
-      keys2.User.keys.find(_.props.size == 1).value should equal (keys2.User.usernameKey)
-      keys2.User.usernameKey.props.size should equal (1)
-      val usernameProp = keys2.User.usernameKey.props.head
-      usernameProp.path should equal ("username")
-      usernameProp.typeKey should equal (typeKey[String])
-
-      keys2.User.keys.find(_.props.size == 2).value should equal (keys2.User.fullnameKey)
-      keys2.User.fullnameKey.props.size should equal (2)
-      val firstNameProp = keys2.User.fullnameKey.props.find(_.path == "firstName").value
-      firstNameProp.path should equal ("firstName")
-      firstNameProp.typeKey should equal (typeKey[String])
-      val lastNameProp = keys2.User.fullnameKey.props.find(_.path == "lastName").value
-      lastNameProp.path should equal ("lastName")
-      lastNameProp.typeKey should equal (typeKey[String])
     }
 
     {
