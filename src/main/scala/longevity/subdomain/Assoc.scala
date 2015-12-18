@@ -3,7 +3,7 @@ package longevity.subdomain
 import emblem.imports._
 import longevity.exceptions.subdomain.AssocIsPersistedException
 import longevity.exceptions.subdomain.AssocIsUnpersistedException
-import longevity.persistence.PersistentState
+import longevity.persistence.PState
 import scala.concurrent.Future
 
 object Assoc {
@@ -43,7 +43,7 @@ trait Assoc[R <: Root] {
    * will result in a database lookup
    */
   @throws[AssocIsUnpersistedException[R]]("whenever the assoc is not persisted")
-  def retrieve: Future[PersistentState[R]]
+  def retrieve: Future[PState[R]]
 
   /** retrieves an unpersisted associatee from the assoc */
   @throws[AssocIsPersistedException[R]]("whenever the assoc is persisted")

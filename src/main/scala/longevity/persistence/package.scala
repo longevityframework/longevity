@@ -16,9 +16,6 @@ package object persistence {
   /** a `TypeKeyMap` of [[longevity.subdomain.Root Root]] to [[Repo]] */
   type RepoPool = TypeKeyMap[Root, Repo]
 
-  /** the persistent state of the entity. functionally equivalent to [[PersistentState]] */
-  type PState[R <: Root] = PersistentState[R]
-
   /** a future persistent state */
   type FPState[R <: Root] = Future[PState[R]]
 

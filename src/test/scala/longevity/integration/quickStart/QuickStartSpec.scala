@@ -180,7 +180,7 @@ with ScaledTimeSpans {
 
     // persist the entities:
 
-    // `Repo[User].create` returns a `Future[PersistentState[User]]`,
+    // `Repo[User].create` returns a `Future[PState[User]]`,
     // aka `FPState[User]`
     val johnFPS: FPState[User] = userRepo.create(john)
 
@@ -199,7 +199,7 @@ with ScaledTimeSpans {
 
     // retrieve an entity:
 
-    // `Repo[User].retrieve` returns a `Future[Option[PersistentState[User]]]`,
+    // `Repo[User].retrieve` returns a `Future[Option[PState[User]]]`,
     // aka `FOPState[User]`
     val retrieveResult: FOPState[User] =
       userRepo.retrieve(User.usernameKey(john.username))

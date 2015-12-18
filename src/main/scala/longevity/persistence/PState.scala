@@ -1,11 +1,11 @@
 package longevity.persistence
 
 import emblem.TypeKey
-import longevity.exceptions.persistence.InvalidPersistentStateException
+import longevity.exceptions.persistence.InvalidPStateException
 import longevity.subdomain._
 
 /** the persistent state of an aggregate */
-sealed trait PersistentState[R <: Root] {
+sealed trait PState[R <: Root] {
 
   protected val root: R
 
@@ -13,16 +13,16 @@ sealed trait PersistentState[R <: Root] {
   def get: R = root
 
   /** returns the persistent state of an updated entity */
-  def set(root: R): PersistentState[R] = map(_ => root)
+  def set(root: R): PState[R] = map(_ => root)
 
   /** returns the persistent state of an entity modified according to function `f` */
-  def map(f: R => R): PersistentState[R]
+  def map(f: R => R): PState[R]
 
   /** returns an association to the aggregate */
   def assoc: Assoc[R]
 
   /** the state name. one of "Unpersisted", "Persisted", and "Deleted" */
-  def stateName: String
+  protected def stateName: String
 
   /** returns `true` whenever this is unpersisted */
   def isUnpersisted: Boolean = false
@@ -35,30 +35,30 @@ sealed trait PersistentState[R <: Root] {
 
   /** casts this persistent state to an [[Unpersisted]]
    *
-   * @throws longevity.exceptions.persistence.InvalidPersistentStateException
+   * @throws longevity.exceptions.persistence.InvalidPStateException
    * if the persistent state is not unpersisted
    */
-  def asUnpersisted: Unpersisted[R] = throw new InvalidPersistentStateException("Unpersisted", stateName)
+  def asUnpersisted: Unpersisted[R] = throw new InvalidPStateException("Unpersisted", stateName)
 
   /** casts this persistent state to an [[Persisted]]
    *
-   * @throws longevity.exceptions.persistence.InvalidPersistentStateException
+   * @throws longevity.exceptions.persistence.InvalidPStateException
    * if the persistent state is not persisted
    */
-  def asPersisted: Persisted[R] = throw new InvalidPersistentStateException("Persisted", stateName)
+  def asPersisted: Persisted[R] = throw new InvalidPStateException("Persisted", stateName)
 
   /** casts this persistent state to an [[Deleted]]
    *
-   * @throws longevity.exceptions.persistence.InvalidPersistentStateException
+   * @throws longevity.exceptions.persistence.InvalidPStateException
    * if the persistent state is not deleted
    */
-  def asDeleted: Deleted[R] = throw new InvalidPersistentStateException("Deleted", stateName)
+  def asDeleted: Deleted[R] = throw new InvalidPStateException("Deleted", stateName)
 
 }
 
 /** the persistent state of an entity that hasn't been persisted yet. */
 case class Unpersisted[R <: Root : TypeKey] private[persistence] (override protected val root: R)
-extends PersistentState[R] {
+extends PState[R] {
 
   def map(f: R => R) = new Unpersisted(f(root))
 
@@ -75,7 +75,7 @@ case class Persisted[R <: Root] private[persistence] (
   val assoc: PersistedAssoc[R],
   private[persistence] val orig: R,
   protected val root: R)
-extends PersistentState[R] {
+extends PState[R] {
 
   private[persistence] def this(assoc: PersistedAssoc[R], root: R) = this(assoc, root, root)
 
@@ -94,7 +94,7 @@ extends PersistentState[R] {
 case class Deleted[R <: Root] private[persistence] (
   override val assoc: PersistedAssoc[R],
   override protected val root: R)
-extends PersistentState[R] {
+extends PState[R] {
 
   def this(p: Persisted[R]) = this(p.assoc, p.orig)
 
