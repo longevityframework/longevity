@@ -10,12 +10,13 @@ for each aggregate with all the basic persistence operations you need
 to maintain your back-end store.
 
 - [Repo Pools](repo-pools.html)
+- [Persistent State](persistent-state.html)
 - Using Your Repositories
-  - Persistent State with `map` and `get`
   - CRUD Operations
   - Reactive with Futures
-  - `Assoc.retrieve`
-  - Optimistic Locking
+  - FPState
+- `Assoc.retrieve`
+- Optimistic Locking
 - Something about Unpersisted Assocs
 - Testing Your Subdomain
 - Enforcing Constraints
