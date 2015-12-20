@@ -43,8 +43,8 @@ extends Repo[R](entityType, subdomain) {
 
   createSchema()
 
-  def create(unpersisted: Unpersisted[R]) = getSessionCreationOrElse(unpersisted, {
-    patchUnpersistedAssocs(unpersisted.get) map { patched =>
+  def create(unpersisted: R) = getSessionCreationOrElse(unpersisted, {
+    patchUnpersistedAssocs(unpersisted) map { patched =>
       val objectId = new ObjectId()
       val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
       val writeResult = mongoCollection.insert(casbah)

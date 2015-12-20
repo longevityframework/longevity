@@ -30,8 +30,8 @@ extends Repo[R](entityType, subdomain) {
   
   private var keyValToEntityMap = Map[KeyVal[R], Persisted[R]]()
 
-  def create(unpersisted: Unpersisted[R]) = getSessionCreationOrElse(unpersisted, {
-    patchUnpersistedAssocs(unpersisted.get).map { e =>
+  def create(unpersisted: R) = getSessionCreationOrElse(unpersisted, {
+    patchUnpersistedAssocs(unpersisted).map { e =>
       val id = repo.synchronized {
         val id = IntId(nextId)
         nextId += 1

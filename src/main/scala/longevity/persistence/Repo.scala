@@ -24,17 +24,7 @@ abstract class Repo[R <: Root : TypeKey](
   val entityTypeKey: TypeKey[R] = typeKey[R]
 
   /** creates the aggregate */
-  def create(state: Unpersisted[R]): Future[Persisted[R]]
-
-  /** convenience method for creating the aggregate */
-  def create(root: R): Future[Persisted[R]] = create(Unpersisted(root))
-
-  /** convenience method for creating the aggregate
-   * 
-   * @throws longevity.exceptions.persistence.InvalidPStateException
-   * if the persistent state is not unpersisted
-   */
-  def create(state: PState[R]): Future[Persisted[R]] = create(state.asUnpersisted)
+  def create(unpersisted: R): Future[Persisted[R]]
 
   /** retrieves the aggregate by a key value */
   def retrieve(keyVal: KeyVal[R]): Future[Option[Persisted[R]]]
@@ -76,11 +66,11 @@ abstract class Repo[R <: Root : TypeKey](
    * note that this cache does not stay current with any updates or deletes to these entities! this cache
    * is not intended for use with interleaving create/update/delete, but rather for a series of create calls.
    */
-  protected var sessionCreations = Map[Unpersisted[R], Persisted[R]]()
+  protected var sessionCreations = Map[R, Persisted[R]]()
 
   /** pull a create result out of the cache for the given unpersisted. if it's not there, then create it,
    * cache it, and return it */
-  protected def getSessionCreationOrElse(unpersisted: Unpersisted[R], create: => Future[Persisted[R]])
+  protected def getSessionCreationOrElse(unpersisted: R, create: => Future[Persisted[R]])
   : Future[Persisted[R]] = {
     sessionCreations.get(unpersisted).map(Promise.successful(_).future).getOrElse {
       create.map { persisted =>
