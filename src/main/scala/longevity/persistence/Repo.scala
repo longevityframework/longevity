@@ -8,12 +8,12 @@ import scala.concurrent._
 
 /** a repository for aggregate roots of type `R`.
  * 
- * @param entityType the entity type for the aggregate roots this repository handles
+ * @param rootType the entity type for the aggregate roots this repository handles
  * @param subdomain the subdomain containing the root that this repo persists
  */
-abstract class Repo[R <: Root : TypeKey](
-  val entityType: RootType[R],
-  val subdomain: Subdomain) {
+abstract class Repo[R <: Root : TypeKey] private[persistence] (
+  protected[longevity] val rootType: RootType[R],
+  protected[longevity] val subdomain: Subdomain) {
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
 
@@ -21,7 +21,7 @@ abstract class Repo[R <: Root : TypeKey](
   lazy val queryDsl = new QueryDsl[R]
 
   /** the type key for the aggregate roots this repository handles */
-  val entityTypeKey: TypeKey[R] = typeKey[R]
+  protected val rootTypeKey: TypeKey[R] = typeKey[R]
 
   /** creates the aggregate */
   def create(unpersisted: R): Future[PState[R]]
@@ -31,7 +31,7 @@ abstract class Repo[R <: Root : TypeKey](
 
   /** retrieves the aggregate by a query */
   def retrieveByQuery(query: Query[R]): Future[Seq[PState[R]]] =
-    retrieveByValidatedQuery(entityType.validateQuery(query))
+    retrieveByValidatedQuery(rootType.validateQuery(query))
 
   /** updates the aggregate */
   def update(state: PState[R]): Future[PState[R]]

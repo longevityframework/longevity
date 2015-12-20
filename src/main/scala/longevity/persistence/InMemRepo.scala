@@ -10,17 +10,17 @@ import longevity.context.LongevityContext
 
 /** an in-memory repository for aggregate roots of type `R`
  * 
- * @param entityType the entity type for the aggregate roots this repository handles
+ * @param rootType the entity type for the aggregate roots this repository handles
  * @param subdomain the subdomain containing the root that this repo persists
  */
-class InMemRepo[R <: Root : TypeKey](
-  entityType: RootType[R],
+class InMemRepo[R <: Root : TypeKey] private[persistence] (
+  rootType: RootType[R],
   subdomain: Subdomain)
-extends Repo[R](entityType, subdomain) {
+extends Repo[R](rootType, subdomain) {
   repo =>
 
   private case class IntId(i: Int) extends PersistedAssoc[R] {
-    val associateeTypeKey = repo.entityTypeKey
+    val associateeTypeKey = repo.rootTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this).map(_.get)
   }
@@ -100,7 +100,7 @@ extends Repo[R](entityType, subdomain) {
     val persisted = new PState[R](assoc, root)
     repo.synchronized {
       idToEntityMap += (assoc -> persisted)
-      entityType.keys.foreach { key =>
+      rootType.keys.foreach { key =>
         val keyVal = key.keyVal(root)
         keyValToEntityMap += keyVal -> persisted
       }
@@ -109,7 +109,7 @@ extends Repo[R](entityType, subdomain) {
   }
 
   private def dumpKeys(root: R) = repo.synchronized {
-    entityType.keys.foreach { key =>
+    rootType.keys.foreach { key =>
       val keyVal = key.keyVal(root)
       keyValToEntityMap -= keyVal
     }

@@ -1,6 +1,6 @@
 language: scala
 script:
-  - sbt -J-Xmx2048M clean coverage test
+  - sbt -J-Xmx2048M clean test
 scala:
   - 2.11.7
 jdk:

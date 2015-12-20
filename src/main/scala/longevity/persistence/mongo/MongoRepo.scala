@@ -16,24 +16,24 @@ import scala.util.Success
 
 /** a MongoDB repository for aggregate roots of type `R`.
  *
- * @param entityType the entity type for the aggregate roots this repository handles
+ * @param rootType the entity type for the aggregate roots this repository handles
  * @param subdomain the subdomain containing the root that this repo persists
  * @param mongoDb the connection to the mongo database
  */
-class MongoRepo[R <: Root : TypeKey] protected[persistence] (
-  entityType: RootType[R],
+class MongoRepo[R <: Root : TypeKey] private[persistence] (
+  rootType: RootType[R],
   subdomain: Subdomain,
   mongoDb: MongoDB)
-extends Repo[R](entityType, subdomain) {
+extends Repo[R](rootType, subdomain) {
   repo =>
 
   private[persistence] case class MongoId(objectId: ObjectId) extends PersistedAssoc[R] {
-    val associateeTypeKey = repo.entityTypeKey
+    val associateeTypeKey = repo.rootTypeKey
     private[longevity] val _lock = 0
     def retrieve = repo.retrieve(this).map(_.get)
   }
 
-  private val collectionName = camelToUnderscore(typeName(entityTypeKey.tpe))
+  private val collectionName = camelToUnderscore(typeName(rootTypeKey.tpe))
   private val mongoCollection = mongoDb(collectionName)
   private val shorthandPool = subdomain.shorthandPool
   private val emblemPool = subdomain.entityEmblemPool
@@ -143,12 +143,12 @@ extends Repo[R](entityType, subdomain) {
   // this will find a better home in pt #106611128
   private def createSchema(): Unit = {
 
-    entityType.keys.foreach { key =>
+    rootType.keys.foreach { key =>
       val paths = key.props.map(_.path)
       createMongoIndex(paths, true)
     }
 
-    entityType.indexes.foreach { index =>
+    rootType.indexes.foreach { index =>
       val paths = index.props.map(_.path)
       createMongoIndex(paths, false)
     }

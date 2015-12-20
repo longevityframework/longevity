@@ -20,9 +20,9 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     val repoPool = inMemLongevityContext.repoPool
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe an [InMemRepo[_]]
-    repoPool.get[Friend].value.entityType should equal (FriendType)
+    repoPool.get[Friend].value.rootType should equal (FriendType)
     repoPool.get[Message].value shouldBe an [InMemRepo[_]]
-    repoPool.get[Message].value.entityType should equal (MessageType)
+    repoPool.get[Message].value.rootType should equal (MessageType)
   }
 
   behavior of "LongevityContext.repoPool of a mongo longevity context"
@@ -31,9 +31,9 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     val repoPool = longevityContext.repoPool
     repoPool.size should equal (2)
     repoPool.get[Friend].value shouldBe a [MongoRepo[_]]
-    repoPool.get[Friend].value.entityType should equal (FriendType)
+    repoPool.get[Friend].value.rootType should equal (FriendType)
     repoPool.get[Message].value shouldBe a [MongoRepo[_]]
-    repoPool.get[Message].value.entityType should equal (MessageType)
+    repoPool.get[Message].value.rootType should equal (MessageType)
   }
 
   behavior of "LongevityContext.testRepoPool of an in-memory longevity context"
@@ -42,9 +42,9 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     val testRepoPool = inMemLongevityContext.testRepoPool
     testRepoPool.size should equal (2)
     testRepoPool.get[Friend].value shouldBe an [InMemRepo[_]]
-    testRepoPool.get[Friend].value.entityType should equal (FriendType)
+    testRepoPool.get[Friend].value.rootType should equal (FriendType)
     testRepoPool.get[Message].value shouldBe an [InMemRepo[_]]
-    testRepoPool.get[Message].value.entityType should equal (MessageType)
+    testRepoPool.get[Message].value.rootType should equal (MessageType)
   }
 
   behavior of "LongevityContext.testRepoPool of a mongo longevity context"
@@ -53,9 +53,9 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     val testRepoPool = longevityContext.testRepoPool
     testRepoPool.size should equal (2)
     testRepoPool.get[Friend].value shouldBe a [MongoRepo[_]]
-    testRepoPool.get[Friend].value.entityType should equal (FriendType)
+    testRepoPool.get[Friend].value.rootType should equal (FriendType)
     testRepoPool.get[Message].value shouldBe a [MongoRepo[_]]
-    testRepoPool.get[Message].value.entityType should equal (MessageType)
+    testRepoPool.get[Message].value.rootType should equal (MessageType)
   }
 
   behavior of "LongevityContext.inMemTestRepoPool"
@@ -67,9 +67,9 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     ) foreach { repoPool =>
       repoPool.size should equal (2)
       repoPool.get[Friend].value shouldBe an [InMemRepo[_]]
-      repoPool.get[Friend].value.entityType should equal (FriendType)
+      repoPool.get[Friend].value.rootType should equal (FriendType)
       repoPool.get[Message].value shouldBe an [InMemRepo[_]]
-      repoPool.get[Message].value.entityType should equal (MessageType)
+      repoPool.get[Message].value.rootType should equal (MessageType)
     }
   }
 
