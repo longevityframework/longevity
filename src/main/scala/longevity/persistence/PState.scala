@@ -7,7 +7,7 @@ import longevity.subdomain._
  * @param assoc an association to the aggregate
  */
 case class PState[R <: Root] private[persistence] (
-  val assoc: PersistedAssoc[R],
+  private[persistence] val passoc: PersistedAssoc[R],
   private[persistence] val orig: R,
   private val root: R) {
 
@@ -20,7 +20,9 @@ case class PState[R <: Root] private[persistence] (
   def set(root: R): PState[R] = map(_ => root)
 
   /** returns the persistent state of an entity modified according to function `f` */
-  def map(f: R => R): PState[R] = new PState(assoc, orig, f(root))
+  def map(f: R => R): PState[R] = new PState(passoc, orig, f(root))
+
+  def assoc: Assoc[R] = passoc
 
   /** returns true iff there are unpersisted changes to the aggregate */
   // we may want to consider === here if we allow for non-case class entities

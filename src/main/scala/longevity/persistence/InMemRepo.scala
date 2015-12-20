@@ -56,12 +56,12 @@ extends Repo[R](entityType, subdomain) {
   def update(persisted: PState[R]) = {
     dumpKeys(persisted.orig)
     patchUnpersistedAssocs(persisted.get) map {
-      persist(persisted.assoc, _)
+      persist(persisted.passoc, _)
     }
   }
 
   def delete(persisted: PState[R]) = {
-    repo.synchronized { idToEntityMap -= persisted.assoc }
+    repo.synchronized { idToEntityMap -= persisted.passoc }
     dumpKeys(persisted.orig)
     val deleted = new Deleted(persisted.get)
     Future.successful(deleted)

@@ -84,7 +84,7 @@ extends Repo[R](entityType, subdomain) {
     val query = MongoDBObject("_id" -> objectId)
     val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.update(query, casbah)
-    new PState[R](persisted.assoc, patched)
+    new PState[R](persisted.passoc, patched)
   }
 
   def delete(persisted: PState[R]) = Future {
