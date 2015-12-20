@@ -22,7 +22,8 @@ case class PState[R <: Root] private[persistence] (
   /** returns the persistent state of an entity modified according to function `f` */
   def map(f: R => R): PState[R] = new PState(assoc, orig, f(root))
 
+  /** returns true iff there are unpersisted changes to the aggregate */
   // we may want to consider === here if we allow for non-case class entities
-  protected def dirty = orig == root
+  def dirty = orig == root
 
 }
