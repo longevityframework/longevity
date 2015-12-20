@@ -48,11 +48,11 @@ extends Repo[R](entityType, subdomain) {
       val objectId = new ObjectId()
       val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
       val writeResult = mongoCollection.insert(casbah)
-      new Persisted[R](MongoId(objectId), patched)
+      new PState[R](MongoId(objectId), patched)
     }
   })
 
-  def retrieve(keyVal: KeyVal[R]): Future[Option[Persisted[R]]] = Future {
+  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = Future {
     val builder = MongoDBObject.newBuilder
     keyVal.propVals.foreach {
       case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
@@ -63,7 +63,7 @@ extends Repo[R](entityType, subdomain) {
       val id = result.getAs[ObjectId]("_id").get
       id -> casbahToEntityTranslator.translate(result)
     }
-    idEntityOption map { case (id, e) => new Persisted[R](MongoId(id), e) }
+    idEntityOption map { case (id, e) => new PState[R](MongoId(id), e) }
   }
 
   private def resolvePropVal(prop: Prop[R, _], raw: Any): Any = {
@@ -79,28 +79,28 @@ extends Repo[R](entityType, subdomain) {
     }
   }
 
-  def update(persisted: Persisted[R]) = patchUnpersistedAssocs(persisted.get) map { patched =>
+  def update(persisted: PState[R]) = patchUnpersistedAssocs(persisted.get) map { patched =>
     val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
     val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.update(query, casbah)
-    new Persisted[R](persisted.assoc, patched)
+    new PState[R](persisted.assoc, patched)
   }
 
-  def delete(persisted: Persisted[R]) = Future {
+  def delete(persisted: PState[R]) = Future {
     val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
-    new Deleted(persisted)
+    new Deleted(persisted.get)
   }
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]] = Future {
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = Future {
     val cursor: MongoCursor = mongoCollection.find(mongoQuery(query))
     val dbObjs: Seq[DBObject] = cursor.toSeq
     dbObjs.map { result =>
       val id = result.getAs[ObjectId]("_id").get
       val root = casbahToEntityTranslator.translate(result)
-      new Persisted[R](MongoId(id), root)
+      new PState[R](MongoId(id), root)
     }
   }
 
@@ -137,7 +137,7 @@ extends Repo[R](entityType, subdomain) {
     val query = MongoDBObject("_id" -> objectId)
     val resultOption = mongoCollection.findOne(query)
     val entityOption = resultOption map { casbahToEntityTranslator.translate(_) }
-    entityOption map { e => new Persisted[R](assoc, e) }
+    entityOption map { e => new PState[R](assoc, e) }
   }
 
   // this will find a better home in pt #106611128

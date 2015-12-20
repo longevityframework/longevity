@@ -24,36 +24,22 @@ abstract class Repo[R <: Root : TypeKey](
   val entityTypeKey: TypeKey[R] = typeKey[R]
 
   /** creates the aggregate */
-  def create(unpersisted: R): Future[Persisted[R]]
+  def create(unpersisted: R): Future[PState[R]]
 
   /** retrieves the aggregate by a key value */
-  def retrieve(keyVal: KeyVal[R]): Future[Option[Persisted[R]]]
+  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]]
 
   /** retrieves the aggregate by a query */
-  def retrieveByQuery(query: Query[R]): Future[Seq[Persisted[R]]] =
+  def retrieveByQuery(query: Query[R]): Future[Seq[PState[R]]] =
     retrieveByValidatedQuery(entityType.validateQuery(query))
 
   /** updates the aggregate */
-  def update(state: Persisted[R]): Future[Persisted[R]]
-
-  /** convenience method for updating the aggregate
-   *
-   * @throws longevity.exceptions.persistence.InvalidPStateException
-   * if the persistent state is not persisted
-   */
-  def update(state: PState[R]): Future[Persisted[R]] = update(state.asPersisted)
+  def update(state: PState[R]): Future[PState[R]]
 
   /** deletes the aggregate */
-  def delete(state: Persisted[R]): Future[Deleted[R]]
+  def delete(state: PState[R]): Future[Deleted[R]]
 
-  /** convenience method for deleting the aggregate
-   *
-   * @throws longevity.exceptions.persistence.InvalidPStateException
-   * if the persistent state is not persisted
-   */
-  def delete(state: PState[R]): Future[Deleted[R]] = delete(state.asPersisted)
-
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]]
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]]
 
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repoPool: RepoPool = _repoPoolOption.get
@@ -66,12 +52,12 @@ abstract class Repo[R <: Root : TypeKey](
    * note that this cache does not stay current with any updates or deletes to these entities! this cache
    * is not intended for use with interleaving create/update/delete, but rather for a series of create calls.
    */
-  protected var sessionCreations = Map[R, Persisted[R]]()
+  protected var sessionCreations = Map[R, PState[R]]()
 
   /** pull a create result out of the cache for the given unpersisted. if it's not there, then create it,
    * cache it, and return it */
-  protected def getSessionCreationOrElse(unpersisted: R, create: => Future[Persisted[R]])
-  : Future[Persisted[R]] = {
+  protected def getSessionCreationOrElse(unpersisted: R, create: => Future[PState[R]])
+  : Future[PState[R]] = {
     sessionCreations.get(unpersisted).map(Promise.successful(_).future).getOrElse {
       create.map { persisted =>
         sessionCreations += (unpersisted -> persisted)

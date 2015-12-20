@@ -227,7 +227,7 @@ with ScaledTimeSpans {
 
     val newUserState = userRepo.create(jerry).futureValue
     val blogKeyVal: root.KeyVal[Blog] = Blog.uriKey(blog.uri)
-    val blogState: Persisted[Blog] =
+    val blogState: PState[Blog] =
       blogRepo.retrieve(blogKeyVal).futureValue.value
     val modifiedBlogState = blogState.map { blog =>
       blog.copy(authors = blog.authors + updatedUserState.assoc)

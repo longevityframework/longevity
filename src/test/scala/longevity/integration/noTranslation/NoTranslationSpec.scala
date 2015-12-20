@@ -39,7 +39,7 @@ class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with S
   it should "not fail for an empty list of untranslatable objects" in {
     val ps = repoPool[WithNoTranslationList].create(
       WithNoTranslationList("uri", Nil))
-    ps.futureValue shouldBe a [longevity.persistence.Persisted[_]]
+    ps.futureValue
   }
 
   it should "fail with BsonTranslationException for option of untranslatable objects" in {
@@ -50,7 +50,7 @@ class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with S
 
   it should "not fail for an empty option of untranslatable objects" in {
     val ps = repoPool[WithNoTranslationOption].create(WithNoTranslationOption("uri", None))
-    ps.futureValue shouldBe a [longevity.persistence.Persisted[_]]
+    ps.futureValue
   }
 
   it should "fail with BsonTranslationException for set of untranslatable objects" in {
@@ -61,7 +61,7 @@ class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with S
 
   it should "not fail for an empty set of untranslatable objects" in {
     val ps = repoPool[WithNoTranslationSet].create(WithNoTranslationSet("uri", Set()))
-    ps.futureValue shouldBe a [longevity.persistence.Persisted[_]]
+    ps.futureValue
   }
 
   it should "fail with BsonTranslationException for longhand of untranslatable objects" in {

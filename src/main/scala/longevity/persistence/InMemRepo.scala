@@ -26,9 +26,9 @@ extends Repo[R](entityType, subdomain) {
   }
 
   private var nextId = 0
-  private var idToEntityMap = Map[PersistedAssoc[R], Persisted[R]]()
+  private var idToEntityMap = Map[PersistedAssoc[R], PState[R]]()
   
-  private var keyValToEntityMap = Map[KeyVal[R], Persisted[R]]()
+  private var keyValToEntityMap = Map[KeyVal[R], PState[R]]()
 
   def create(unpersisted: R) = getSessionCreationOrElse(unpersisted, {
     patchUnpersistedAssocs(unpersisted).map { e =>
@@ -41,7 +41,7 @@ extends Repo[R](entityType, subdomain) {
     }
   })
 
-  def retrieve(keyVal: KeyVal[R]): Future[Option[Persisted[R]]] = {
+  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = {
     keyVal.propVals.foreach { case (prop, value) =>
       if (prop.typeKey <:< typeKey[Assoc[_]]) {
         val assoc = value.asInstanceOf[Assoc[_ <: Root]]
@@ -53,21 +53,21 @@ extends Repo[R](entityType, subdomain) {
   }
 
 
-  def update(persisted: Persisted[R]) = {
+  def update(persisted: PState[R]) = {
     dumpKeys(persisted.orig)
     patchUnpersistedAssocs(persisted.get) map {
       persist(persisted.assoc, _)
     }
   }
 
-  def delete(persisted: Persisted[R]) = {
+  def delete(persisted: PState[R]) = {
     repo.synchronized { idToEntityMap -= persisted.assoc }
     dumpKeys(persisted.orig)
-    val deleted = new Deleted(persisted)
+    val deleted = new Deleted(persisted.get)
     Future.successful(deleted)
   }
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[Persisted[R]]] = Future {
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = Future {
     idToEntityMap.values.view.toSeq.filter { pstate => queryMatches(query, pstate.get) }
   }
 
@@ -96,8 +96,8 @@ extends Repo[R](entityType, subdomain) {
     Future.successful(optionR)
   }
 
-  private def persist(assoc: PersistedAssoc[R], root: R): Persisted[R] = {
-    val persisted = new Persisted[R](assoc, root)
+  private def persist(assoc: PersistedAssoc[R], root: R): PState[R] = {
+    val persisted = new PState[R](assoc, root)
     repo.synchronized {
       idToEntityMap += (assoc -> persisted)
       entityType.keys.foreach { key =>

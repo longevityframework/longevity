@@ -81,7 +81,7 @@ with TestDataGeneration {
 
         When(s"we create the $rootName")
         Then(s"we get back the $rootName persistent state")
-        val created: Persisted[R] = repo.create(root).futureValue
+        val created: PState[R] = repo.create(root).futureValue
 
         And(s"the persisted $rootName should should match the original, unpersisted $rootName")
         persistedShouldMatchUnpersisted(created.get, root)
@@ -90,7 +90,7 @@ with TestDataGeneration {
         And(s"further retrieval operations should retrieve the same $rootName")
         representativeKeyOption.foreach { key =>
           val keyVal = key.keyVal(created.get)
-          val retrieved: Persisted[R] = repo.retrieve(keyVal).futureValue.value
+          val retrieved: PState[R] = repo.retrieve(keyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, root)
         }
 
@@ -108,7 +108,7 @@ with TestDataGeneration {
         Then(s"we get back the same $rootName persistent state")
         repo.entityType.keys.foreach { key =>
           val keyVal = key.keyVal(created.get)
-          val retrieved: Persisted[R] = repo.retrieve(keyVal).futureValue.value
+          val retrieved: PState[R] = repo.retrieve(keyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, root)
         }
       }
@@ -120,11 +120,11 @@ with TestDataGeneration {
         Given(s"a persisted $rootName")
         val originalRoot: R = testDataGenerator.generate[R]
         val modifiedRoot: R = testDataGenerator.generate[R]
-        val created: Persisted[R] = repo.create(originalRoot).futureValue
+        val created: PState[R] = repo.create(originalRoot).futureValue
 
         When(s"we update the persisted $rootName")
-        val modified: Persisted[R] = created.map(e => modifiedRoot)
-        val updated: Persisted[R] = repo.update(modified).futureValue
+        val modified: PState[R] = created.map(e => modifiedRoot)
+        val updated: PState[R] = repo.update(modified).futureValue
 
         Then(s"we get back the updated $rootName persistent state")
         persistedShouldMatchUnpersisted(updated.get, modifiedRoot)
@@ -132,7 +132,7 @@ with TestDataGeneration {
         And(s"further retrieval operations should retrieve the updated copy")
         representativeKeyOption.foreach { key =>
           val keyVal = key.keyVal(updated.get)
-          val retrieved: Persisted[R] = repo.retrieve(keyVal).futureValue.value
+          val retrieved: PState[R] = repo.retrieve(keyVal).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, modifiedRoot)
         }
 
@@ -149,7 +149,7 @@ with TestDataGeneration {
       scenario(s"should delete a persisted $rootName", Delete) {
         Given(s"a persisted $rootName")
         val root: R = testDataGenerator.generate[R]
-        val created: Persisted[R] = repo.create(root).futureValue
+        val created: PState[R] = repo.create(root).futureValue
 
         When(s"we delete the persisted $rootName")
         val deleted: Deleted[R] = repo.delete(created).futureValue
@@ -160,7 +160,7 @@ with TestDataGeneration {
         And(s"we should no longer be able to retrieve the $rootName")
         representativeKeyOption.foreach { key =>
           val keyVal = key.keyVal(created.get)
-          val retrieved: Option[Persisted[R]] = repo.retrieve(keyVal).futureValue
+          val retrieved: Option[PState[R]] = repo.retrieve(keyVal).futureValue
           retrieved.isEmpty should be (true)
         }
       }
