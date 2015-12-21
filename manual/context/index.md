@@ -11,10 +11,14 @@ to maintain your back-end store.
 
 - [Repo Pools](repo-pools.html)
 - [Persistent State](persistent-state.html)
-- Using Your Repositories
-  - CRUD Operations
-  - Reactive with Futures
-  - FPState
+- [Repositories](repositories.html)
+- [Repo.create](repo-create.html)
+- [Repo.retrieve](repo-retrieve.html)
+- [Repo.retrieveByQuery](repo-query.html)
+- [Repo.update](repo-update.html)
+- [Repo.delete](repo-delete.html)
+- Reactive with Futures
+- FPState
 - `Assoc.retrieve`
 - Optimistic Locking
 - Something about Unpersisted Assocs

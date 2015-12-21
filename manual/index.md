@@ -39,19 +39,26 @@ will put in links as I write the chapters.
   - [Indexes](root-type/indexes.html)
 - [The Longevity Context](context)
   - [Repo Pools](context/repo-pools.html)
-  - Using Your Repositories
-    - Persistent State with `map` and `get`
-    - CRUD Operations
-    - Reactive with Futures
-    - `Assoc.retrieve`
-    - Optimistic Locking
+  - [Persistent State](context/persistent-state.html)
+  - [Repositories](context/repositories.html)
+  - [Repo.create](context/repo-create.html)
+  - [Repo.retrieve](context/repo-retrieve.html)
+  - [Repo.retrieveByQuery](context/repo-query.html)
+  - [Repo.update](context/repo-update.html)
+  - [Repo.delete](context/repo-delete.html)
+  - Reactive with Futures
+  - FPState
+  - `Assoc.retrieve`
+  - Optimistic Locking
   - Something about Unpersisted Assocs
   - Testing Your Subdomain
   - Enforcing Constraints
   - Configuring your LongevityContext
-- Querying MongoDB Outside of Longevity
+- Translation into MongoDB
   - Translation of Aggregates into BSON
   - Translation of Persistent State into BSON
+  - Keys and Indexes
+- Translation into Cassandra
 
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}
