@@ -137,7 +137,7 @@ object QuickStartSpec {
     title = "John's first post",
     content = "_work in progress_",
     postDate = DateTime.now,
-    blog = blog,
+    blog = Assoc(blog),
     authors = Set(Assoc(john)))
 
   val franksPost = BlogPost(
@@ -145,7 +145,7 @@ object QuickStartSpec {
     title = "Frank's first post",
     content = "_work in progress_",
     postDate = DateTime.now,
-    blog = blog,
+    blog = Assoc(blog),
     authors = Set(Assoc(frank)))
 
 }
@@ -223,12 +223,31 @@ with ScaledTimeSpans {
     val updateResult: FPState[User] = userRepo.update(modified)
     val updatedUserState: PState[User] = updateResult.futureValue
 
-    // add a new author to a blog:
+    // create a new blog post:
 
-    val newUserState = userRepo.create(jerry).futureValue
     val blogKeyVal: root.KeyVal[Blog] = Blog.uriKey(blog.uri)
     val blogState: PState[Blog] =
       blogRepo.retrieve(blogKeyVal).futureValue.value
+
+    val newPost = BlogPost(
+      uriPathSuffix = "new_post",
+      title = "New post",
+      content = "_work in progress_",
+      postDate = DateTime.now,
+      blog = blogState.assoc,
+      authors = Set(userState.assoc))
+
+    val futurePostState: Future[PState[BlogPost]] =
+      blogPostRepo.create(newPost)
+
+    // clean up the new post:
+
+    val postState = futurePostState.futureValue
+    blogPostRepo.delete(postState).futureValue
+
+    // add a new author to a blog:
+
+    val newUserState = userRepo.create(jerry).futureValue
     val modifiedBlogState = blogState.map { blog =>
       blog.copy(authors = blog.authors + updatedUserState.assoc)
     }
