@@ -52,9 +52,9 @@ extends Repo[R](rootType, subdomain) {
     }
   })
 
-  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = Future {
+  def retrieve(keyValForRoot: KeyVal[R]): Future[Option[PState[R]]] = Future {
     val builder = MongoDBObject.newBuilder
-    keyVal.propVals.foreach {
+    keyValForRoot.propVals.foreach {
       case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
     }
     val query = builder.result

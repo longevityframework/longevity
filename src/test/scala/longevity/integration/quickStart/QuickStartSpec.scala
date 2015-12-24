@@ -315,21 +315,21 @@ with ScaledTimeSpans {
   }
 
   private def deleteUser(user: User): Unit = {
-    userRepo.retrieve(User.usernameKey.keyVal(user)).map(_.get).flatMap(userRepo.delete _).futureValue
+    userRepo.retrieve(User.usernameKey.keyValForRoot(user)).map(_.get).flatMap(userRepo.delete _).futureValue
   }
 
   private def deletePost(post: BlogPost): Unit = {
     val deleted = for {
-      blog <- blogRepo.retrieve(Blog.uriKey.keyVal(blog)).map(_.get)
-      keyVal = BlogPost.uriKey.keyVal(post.copy(blog = blog.assoc))
-      post <- blogPostRepo.retrieve(keyVal).map(_.get)
+      blog <- blogRepo.retrieve(Blog.uriKey.keyValForRoot(blog)).map(_.get)
+      keyValForRoot = BlogPost.uriKey.keyValForRoot(post.copy(blog = blog.assoc))
+      post <- blogPostRepo.retrieve(keyValForRoot).map(_.get)
       deleted <- blogPostRepo.delete(post)
     } yield deleted
     deleted.futureValue
   }
 
   private def deleteBlog(blog: Blog): Unit = {
-    blogRepo.retrieve(Blog.uriKey.keyVal(blog)).map(_.get).flatMap(blogRepo.delete _).futureValue
+    blogRepo.retrieve(Blog.uriKey.keyValForRoot(blog)).map(_.get).flatMap(blogRepo.delete _).futureValue
   }
 
 }

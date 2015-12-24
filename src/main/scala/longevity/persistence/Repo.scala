@@ -27,7 +27,7 @@ abstract class Repo[R <: Root : TypeKey] private[persistence] (
   def create(unpersisted: R): Future[PState[R]]
 
   /** retrieves the aggregate by a key value */
-  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]]
+  def retrieve(keyValForRoot: KeyVal[R]): Future[Option[PState[R]]]
 
   /** retrieves the aggregate by a query */
   def retrieveByQuery(query: Query[R]): Future[Seq[PState[R]]] =

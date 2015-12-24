@@ -23,7 +23,7 @@ case class Key[R <: Root] private [subdomain] (val props: Seq[Prop[R, _]]) {
   /** returns the [[KeyVal]] for the supplied root
    * @param root the root
    */
-  def keyVal(root: R): KeyVal[R] = {
+  def keyValForRoot(root: R): KeyVal[R] = {
     val propVals = props.map { prop => prop -> prop.propVal(root) }
     KeyVal(this, propVals.toMap[Prop[R, _], Any])
   }

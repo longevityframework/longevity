@@ -89,8 +89,8 @@ with TestDataGeneration {
         // i cant figure out if this and clause is a sensible part of this test or not. opinions?
         And(s"further retrieval operations should retrieve the same $rootName")
         representativeKeyOption.foreach { key =>
-          val keyVal = key.keyVal(created.get)
-          val retrieved: PState[R] = repo.retrieve(keyVal).futureValue.value
+          val keyValForRoot = key.keyValForRoot(created.get)
+          val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, root)
         }
 
@@ -107,8 +107,8 @@ with TestDataGeneration {
         When(s"we retrieve the $rootName by any of its keys")
         Then(s"we get back the same $rootName persistent state")
         repo.rootType.keys.foreach { key =>
-          val keyVal = key.keyVal(created.get)
-          val retrieved: PState[R] = repo.retrieve(keyVal).futureValue.value
+          val keyValForRoot = key.keyValForRoot(created.get)
+          val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, root)
         }
       }
@@ -131,15 +131,15 @@ with TestDataGeneration {
 
         And(s"further retrieval operations should retrieve the updated copy")
         representativeKeyOption.foreach { key =>
-          val keyVal = key.keyVal(updated.get)
-          val retrieved: PState[R] = repo.retrieve(keyVal).futureValue.value
+          val keyValForRoot = key.keyValForRoot(updated.get)
+          val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
           persistedShouldMatchUnpersisted(retrieved.get, modifiedRoot)
         }
 
         And(s"further retrieval operations based on the original version should retrieve nothing")
         representativeKeyOption.foreach { key =>
-          val keyVal = key.keyVal(created.get)
-          repo.retrieve(keyVal).futureValue should be (None)
+          val keyValForRoot = key.keyValForRoot(created.get)
+          repo.retrieve(keyValForRoot).futureValue should be (None)
         }
 
       }
@@ -159,8 +159,8 @@ with TestDataGeneration {
 
         And(s"we should no longer be able to retrieve the $rootName")
         representativeKeyOption.foreach { key =>
-          val keyVal = key.keyVal(created.get)
-          val retrieved: Option[PState[R]] = repo.retrieve(keyVal).futureValue
+          val keyValForRoot = key.keyValForRoot(created.get)
+          val retrieved: Option[PState[R]] = repo.retrieve(keyValForRoot).futureValue
           retrieved.isEmpty should be (true)
         }
       }

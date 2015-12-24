@@ -97,7 +97,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the propVal does not match the type of the prop" in {
     intercept[PropValTypeException[_]] {
-      val keyVal = keyFromProps(6.6d, 'c')
+      val keyValForRoot = keyFromProps(6.6d, 'c')
     }
   }
 
@@ -106,14 +106,14 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val charVal = 'c'
     val doubleVal = 6.667d
 
-    val keyVal = tripleKey(booleanVal, charVal, doubleVal)
+    val keyValForRoot = tripleKey(booleanVal, charVal, doubleVal)
 
-    keyVal(booleanProp) should equal (booleanVal)
-    keyVal(charProp) should equal (charVal)
-    keyVal(doubleProp) should equal (doubleVal)
+    keyValForRoot(booleanProp) should equal (booleanVal)
+    keyValForRoot(charProp) should equal (charVal)
+    keyValForRoot(doubleProp) should equal (doubleVal)
   }
 
-  behavior of "Key.keyVal"
+  behavior of "Key.keyValForRoot"
 
   it should "produce a key value from a root" in {
     val booleanVal = true
@@ -121,11 +121,11 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val doubleVal = 6.667d
     val sampler = KeySampler(booleanVal, charVal, doubleVal, 7.7F, 7, 77L)
 
-    val keyVal: KeyVal[KeySampler] = tripleKey.keyVal(sampler)
+    val keyValForRoot: KeyVal[KeySampler] = tripleKey.keyValForRoot(sampler)
 
-    keyVal(booleanProp) should equal (booleanVal)
-    keyVal(charProp) should equal (charVal)
-    keyVal(doubleProp) should equal (doubleVal)
+    keyValForRoot(booleanProp) should equal (booleanVal)
+    keyValForRoot(charProp) should equal (charVal)
+    keyValForRoot(doubleProp) should equal (doubleVal)
   }
 
 }

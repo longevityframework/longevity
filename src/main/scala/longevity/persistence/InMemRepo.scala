@@ -41,14 +41,14 @@ extends Repo[R](rootType, subdomain) {
     }
   })
 
-  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = {
-    keyVal.propVals.foreach { case (prop, value) =>
+  def retrieve(keyValForRoot: KeyVal[R]): Future[Option[PState[R]]] = {
+    keyValForRoot.propVals.foreach { case (prop, value) =>
       if (prop.typeKey <:< typeKey[Assoc[_]]) {
         val assoc = value.asInstanceOf[Assoc[_ <: Root]]
         if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
       }
     }
-    val optionR = keyValToEntityMap.get(keyVal)
+    val optionR = keyValToEntityMap.get(keyValForRoot)
     Future.successful(optionR)
   }
 
@@ -101,8 +101,8 @@ extends Repo[R](rootType, subdomain) {
     repo.synchronized {
       idToEntityMap += (assoc -> persisted)
       rootType.keys.foreach { key =>
-        val keyVal = key.keyVal(root)
-        keyValToEntityMap += keyVal -> persisted
+        val keyValForRoot = key.keyValForRoot(root)
+        keyValToEntityMap += keyValForRoot -> persisted
       }
     }
     persisted
@@ -110,8 +110,8 @@ extends Repo[R](rootType, subdomain) {
 
   private def dumpKeys(root: R) = repo.synchronized {
     rootType.keys.foreach { key =>
-      val keyVal = key.keyVal(root)
-      keyValToEntityMap -= keyVal
+      val keyValForRoot = key.keyValForRoot(root)
+      keyValToEntityMap -= keyValForRoot
     }
   }
 
