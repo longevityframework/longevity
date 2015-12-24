@@ -2,4 +2,4 @@ package longevity.integration.subdomain.keyWithMultipleProperties
 
 import org.scalatest.Suites
 
-class InMemKeyWithMultiplePropertiesSpec extends Suites(context.mongoContext.inMemRepoPoolSpec)
+class InMemKeyWithMultiplePropertiesSpec extends Suites(context.mongoContext.inMemRepoCrudSpec)

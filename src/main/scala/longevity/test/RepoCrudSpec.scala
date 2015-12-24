@@ -21,7 +21,7 @@ import scala.concurrent.Future
 /** a simple fixture to test a [[longevity.persistence.RepoPool]]. all you have to do is extend this class and
  * provide the necessary inputs to the constructor.
  *
- * the repo pool spec exercises create/retrieve/update/delete for all the repos in your repo pool.
+ * the repo CRUD spec exercises create/retrieve/update/delete for all the repos in your repo pool.
  *
  * @param subdomain the subdomain
  * @param customGeneratorPool a collection of custom generators to use when generating test data
@@ -31,7 +31,7 @@ import scala.concurrent.Future
  * @param suiteNameSuffix a short string to add to the suite name, to help differentiate between suites for
  * longevity contexts with the same name, when reading scalatest output
  */
-private[longevity] class RepoPoolSpec(
+private[longevity] class RepoCrudSpec(
   context: LongevityContext,
   repoPool: RepoPool,
   suiteNameSuffix: Option[String] = None)
@@ -49,7 +49,7 @@ with TestDataGeneration {
     timeout = scaled(4000 millis),
     interval = scaled(50 millis))
 
-  override val suiteName = s"RepoPoolSpec for ${longevityContext.subdomain.name}${suiteNameSuffix match {
+  override val suiteName = s"RepoCrudSpec for ${longevityContext.subdomain.name}${suiteNameSuffix match {
     case Some(suffix) => s" $suffix"
     case None => ""
   }}"

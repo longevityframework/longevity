@@ -2,4 +2,4 @@ package longevity.integration.subdomain.withComponentWithAssoc
 
 import org.scalatest.Suites
 
-class MongoWithComponentWithAssocSpec extends Suites(context.mongoContext.repoPoolSpec)
+class MongoWithComponentWithAssocSpec extends Suites(context.mongoContext.repoCrudSpec)

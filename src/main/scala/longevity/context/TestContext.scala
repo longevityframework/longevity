@@ -2,7 +2,7 @@ package longevity.context
 
 import emblem.traversors.sync.CustomGeneratorPool
 import longevity.persistence.RepoPool
-import longevity.test.RepoPoolSpec
+import longevity.test.RepoCrudSpec
 
 /** the portion of a [[LongevityContext]] that deals with testing */
 trait TestContext {
@@ -35,10 +35,10 @@ object TestContext {
      *
      * {{{
      * val storefrontContext: LongevityContext = ???
-     * class StorefrontRepoPoolSpec extends Suites(storefrontContext.repoPoolSpec)
+     * class StorefrontRepoCrudSpec extends Suites(storefrontContext.repoCrudSpec)
      * }}}
      */
-    val repoPoolSpec = new RepoPoolSpec(
+    val repoCrudSpec = new RepoCrudSpec(
       longevityContext,
       longevityContext.testRepoPool,
       Some(s" - ${longevityContext.persistenceStrategy}"))
@@ -49,11 +49,11 @@ object TestContext {
      *
      * {{{
      * val storefrontContext: LongevityContext = ???
-     * class StorefrontRepoPoolSpec extends Suites(storefrontContext.inMemTestRepoPoolSpec)
+     * class StorefrontRepoCrudSpec extends Suites(storefrontContext.inMemTestRepoCrudSpec)
      * }}}
      */
-    val inMemRepoPoolSpec =
-      new RepoPoolSpec(longevityContext, longevityContext.inMemTestRepoPool, Some(" - InMem"))    
+    val inMemRepoCrudSpec =
+      new RepoCrudSpec(longevityContext, longevityContext.inMemTestRepoPool, Some(" - InMem"))    
 
   }
 
