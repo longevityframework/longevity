@@ -139,6 +139,13 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, NewVal] = 
     new TypeKeyMap[TypeBound, NewVal](mapValuesUnderlying[TypeBound, NewVal](f))
 
+  /** returns the same `TypeKeyMap`, but with the value type as a wider type than the original
+   * value type
+   * @tparam Val2 the new value type
+   */
+  def widen[Val2[TypeParam <: TypeBound] >: Val[TypeParam]]: TypeKeyMap[TypeBound, Val2] =
+    this.asInstanceOf[TypeKeyMap[TypeBound, Val2]]
+
   /** transforms this type key map into a type key map with a wider type bound by applying a function to every
    * retrieved value.
    *

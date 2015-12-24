@@ -13,6 +13,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** manages entity persistence operations */
 package object persistence {
 
+  // TODO scaladoc
+  implicit def rootWithTypeKey[R <: Root : TypeKey](root: R) =
+    RootWithTypeKey(root, typeKey[R])
+
   /** a future persistent state */
   type FPState[R <: Root] = Future[PState[R]]
 

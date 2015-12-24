@@ -18,6 +18,7 @@ import org.scalatest.time.SpanSugar._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+// TODO params in the doc are off
 /** a simple fixture to test a [[longevity.persistence.RepoPool]]. all you have to do is extend this class and
  * provide the necessary inputs to the constructor.
  *
@@ -43,7 +44,8 @@ with GivenWhenThen
 with Matchers
 with ScalaFutures
 with ScaledTimeSpans
-with TestDataGeneration {
+with TestDataGeneration
+with PersistedToUnpersistedMatcher {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000 millis),
@@ -166,20 +168,6 @@ with TestDataGeneration {
       }
     }
 
-  }
-
-  private val subdomain = longevityContext.subdomain
-  private val emblemPool = subdomain.entityEmblemPool
-  private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
-  private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool)
-  private val differ = new Differ(emblemPool, extractorPool)
-
-  private def persistedShouldMatchUnpersisted[R <: Root : TypeKey](persisted: R, unpersisted: R): Unit = {
-    val unpersistorated = unpersistor.transform(Future(persisted))
-    if (unpersistorated.futureValue != unpersisted) {
-      val diffs = differ.diff(unpersistorated, unpersisted)
-      fail (Differ.explainDiffs(diffs, true))
-    }
   }
  
 }
