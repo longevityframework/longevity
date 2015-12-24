@@ -13,9 +13,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** manages entity persistence operations */
 package object persistence {
 
-  /** a `TypeKeyMap` of [[longevity.subdomain.Root Root]] to [[Repo]] */
-  type RepoPool = TypeKeyMap[Root, Repo]
-
   /** a future persistent state */
   type FPState[R <: Root] = Future[PState[R]]
 
@@ -110,20 +107,21 @@ package object persistence {
     subdomain: Subdomain,
     stockRepoFactory: StockRepoFactory)
   : RepoPool = {
-    var repoPool = emptyRepoPool
+    var typeKeyMap = emptyTypeKeyMap
     type Pair[RE <: Root] = TypeBoundPair[Root, TypeKey, RootType, RE]
     def createRepoFromPair[RE <: Root](pair: Pair[RE]): Unit = {
       val entityKey = pair._1
       val entityType = pair._2
       val repo = stockRepoFactory.build(entityType, entityKey)
-      repoPool += (entityKey -> repo)
+      typeKeyMap += (entityKey -> repo)
     }
     subdomain.rootTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    val repoPool = new RepoPool(typeKeyMap)
     finishRepoInitialization(repoPool)
     repoPool
   }
 
-  private val emptyRepoPool = TypeKeyMap[Root, Repo]
+  private val emptyTypeKeyMap = TypeKeyMap[Root, Repo]
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
     repoPool.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }

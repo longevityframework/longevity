@@ -54,7 +54,7 @@ with TestDataGeneration {
     case None => ""
   }}"
 
-  repoPool.foreach { pair =>
+  repoPool.typeKeyMap.foreach { pair =>
     def repoSpec[R <: Root](pair: TypeBoundPair[Root, TypeKey, Repo, R]): Unit = {
       new RepoSpec(pair._2)(pair._1)
     }

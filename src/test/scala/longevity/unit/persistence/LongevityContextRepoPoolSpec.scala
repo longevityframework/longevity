@@ -18,44 +18,44 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
 
   it should "be full of InMemRepos" in {
     val repoPool = inMemLongevityContext.repoPool
-    repoPool.size should equal (2)
-    repoPool.get[Friend].value shouldBe an [InMemRepo[_]]
-    repoPool.get[Friend].value.rootType should equal (FriendType)
-    repoPool.get[Message].value shouldBe an [InMemRepo[_]]
-    repoPool.get[Message].value.rootType should equal (MessageType)
+    repoPool.typeKeyMap.size should equal (2)
+    repoPool.typeKeyMap.get[Friend].value shouldBe an [InMemRepo[_]]
+    repoPool.typeKeyMap.get[Friend].value.rootType should equal (FriendType)
+    repoPool.typeKeyMap.get[Message].value shouldBe an [InMemRepo[_]]
+    repoPool.typeKeyMap.get[Message].value.rootType should equal (MessageType)
   }
 
   behavior of "LongevityContext.repoPool of a mongo longevity context"
 
   it should "be full of MongoRepos" in {
     val repoPool = longevityContext.repoPool
-    repoPool.size should equal (2)
-    repoPool.get[Friend].value shouldBe a [MongoRepo[_]]
-    repoPool.get[Friend].value.rootType should equal (FriendType)
-    repoPool.get[Message].value shouldBe a [MongoRepo[_]]
-    repoPool.get[Message].value.rootType should equal (MessageType)
+    repoPool.typeKeyMap.size should equal (2)
+    repoPool.typeKeyMap.get[Friend].value shouldBe a [MongoRepo[_]]
+    repoPool.typeKeyMap.get[Friend].value.rootType should equal (FriendType)
+    repoPool.typeKeyMap.get[Message].value shouldBe a [MongoRepo[_]]
+    repoPool.typeKeyMap.get[Message].value.rootType should equal (MessageType)
   }
 
   behavior of "LongevityContext.testRepoPool of an in-memory longevity context"
 
   it should "be full of InMemRepos" in {
     val testRepoPool = inMemLongevityContext.testRepoPool
-    testRepoPool.size should equal (2)
-    testRepoPool.get[Friend].value shouldBe an [InMemRepo[_]]
-    testRepoPool.get[Friend].value.rootType should equal (FriendType)
-    testRepoPool.get[Message].value shouldBe an [InMemRepo[_]]
-    testRepoPool.get[Message].value.rootType should equal (MessageType)
+    testRepoPool.typeKeyMap.size should equal (2)
+    testRepoPool.typeKeyMap.get[Friend].value shouldBe an [InMemRepo[_]]
+    testRepoPool.typeKeyMap.get[Friend].value.rootType should equal (FriendType)
+    testRepoPool.typeKeyMap.get[Message].value shouldBe an [InMemRepo[_]]
+    testRepoPool.typeKeyMap.get[Message].value.rootType should equal (MessageType)
   }
 
   behavior of "LongevityContext.testRepoPool of a mongo longevity context"
 
   it should "be full of MongoRepos" in {
     val testRepoPool = longevityContext.testRepoPool
-    testRepoPool.size should equal (2)
-    testRepoPool.get[Friend].value shouldBe a [MongoRepo[_]]
-    testRepoPool.get[Friend].value.rootType should equal (FriendType)
-    testRepoPool.get[Message].value shouldBe a [MongoRepo[_]]
-    testRepoPool.get[Message].value.rootType should equal (MessageType)
+    testRepoPool.typeKeyMap.size should equal (2)
+    testRepoPool.typeKeyMap.get[Friend].value shouldBe a [MongoRepo[_]]
+    testRepoPool.typeKeyMap.get[Friend].value.rootType should equal (FriendType)
+    testRepoPool.typeKeyMap.get[Message].value shouldBe a [MongoRepo[_]]
+    testRepoPool.typeKeyMap.get[Message].value.rootType should equal (MessageType)
   }
 
   behavior of "LongevityContext.inMemTestRepoPool"
@@ -65,11 +65,11 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
       longevityContext.inMemTestRepoPool,
       inMemLongevityContext.inMemTestRepoPool
     ) foreach { repoPool =>
-      repoPool.size should equal (2)
-      repoPool.get[Friend].value shouldBe an [InMemRepo[_]]
-      repoPool.get[Friend].value.rootType should equal (FriendType)
-      repoPool.get[Message].value shouldBe an [InMemRepo[_]]
-      repoPool.get[Message].value.rootType should equal (MessageType)
+      repoPool.typeKeyMap.size should equal (2)
+      repoPool.typeKeyMap.get[Friend].value shouldBe an [InMemRepo[_]]
+      repoPool.typeKeyMap.get[Friend].value.rootType should equal (FriendType)
+      repoPool.typeKeyMap.get[Message].value shouldBe an [InMemRepo[_]]
+      repoPool.typeKeyMap.get[Message].value.rootType should equal (MessageType)
     }
   }
 
