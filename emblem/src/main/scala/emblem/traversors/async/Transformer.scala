@@ -28,8 +28,10 @@ trait Transformer {
    * @throws emblem.exceptions.CouldNotTransformException when it encounters a type it doesn't know how to
    * transform
    */
-  def transform[A : TypeKey](input: Future[A]): Future[A] = traversor.traverse[A](input) recoverWith {
-    case e: CouldNotTraverseException => Future.failed(new CouldNotTransformException(e.typeKey, e))
+  def transform[A : TypeKey](input: Future[A]): Future[A] = {
+    traversor.traverse[A](input) recoverWith {
+      case e: CouldNotTraverseException => Future.failed(new CouldNotTransformException(e.typeKey, e))
+    }
   }
 
   /** the emblems to use in the recursive transformation */
@@ -133,7 +135,7 @@ trait Transformer {
         try {
           extractor.inverse(r)
         } catch {
-          case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
+          case e: Exception => throw new ExtractorInverseException(r, typeKey[Domain], e)
         }
       }
 

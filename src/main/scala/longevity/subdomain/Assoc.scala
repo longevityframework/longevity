@@ -42,11 +42,12 @@ trait Assoc[R <: Root] {
   /** retrieves a persisted assoc. if the associatee has not been loaded into memory, calling this method
    * will result in a database lookup
    */
-  @throws[AssocIsUnpersistedException[R]]("whenever the assoc is not persisted")
+  // TODO change style of throws doc
+  @throws[AssocIsUnpersistedException]("whenever the assoc is not persisted")
   def retrieve: Future[PState[R]]
 
   /** retrieves an unpersisted associatee from the assoc */
-  @throws[AssocIsPersistedException[R]]("whenever the assoc is persisted")
+  @throws[AssocIsPersistedException]("whenever the assoc is persisted")
   def unpersisted: R
 
 }

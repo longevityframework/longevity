@@ -131,4 +131,14 @@ package object persistence {
     repoPool.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
   }
 
+  // stuff for {Repo,RepoPool}.createMany. also used by RepoCrudSpec.randomRoot
+
+  private[longevity] type RootIdentity[R <: Root] = Root
+
+  private[longevity] type CreatedCache = TypeBoundMap[Root, RootIdentity, PState]
+
+  private[longevity] object CreatedCache {
+    def apply() = TypeBoundMap[Root, RootIdentity, PState]()
+  }
+
 }

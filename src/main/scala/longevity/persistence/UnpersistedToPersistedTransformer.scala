@@ -28,8 +28,11 @@ import scala.util.Success
 private[persistence] class UnpersistedToPersistedTransformer(
   private val repoPool: RepoPool,
   override protected val emblemPool: EmblemPool,
-  override protected val extractorPool: ExtractorPool)
+  override protected val extractorPool: ExtractorPool,
+  cacheIn: CreatedCache)
 extends Transformer {
+
+  var createdCache = cacheIn
 
   override def transform[A : TypeKey](input: Future[A]): Future[A] = super.transform[A](input) recoverWith {
     case e: CouldNotTransformException => Future.failed(new BsonTranslationException(e.typeKey, e))
@@ -39,19 +42,20 @@ extends Transformer {
 
   private lazy val transformFutureAssoc = new CustomTransformer[AssocAny] {
     def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: Future[B]): Future[B] = {
-      val promise = Promise[B]()
-      def transformAssoc(assoc: B): Unit = assoc match {
-        case persistedAssoc: PersistedAssoc[_] => promise.success(assoc)
+      def transformAssoc(assoc: B): Future[B] = assoc match {
+        case persistedAssoc: PersistedAssoc[_] => Future.successful(assoc)
         case unpersistedAssoc: UnpersistedAssoc[_] =>
-          val unpersistedEntity = assoc.unpersisted
-          val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Root]]
-          val repo = repoPool(entityTypeKey)
-          val futurePersistedEntity = repo.create(unpersistedEntity).map(_.assoc).asInstanceOf[Future[B]]
-          promise.completeWith(futurePersistedEntity)
+          val unpersistedRoot = assoc.unpersisted
+          val rootTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Root]]
+          val repo = repoPool(rootTypeKey)
+          val createWithCacheResult = repo.createWithCache(unpersistedRoot, createdCache)
+          createWithCacheResult.map {
+            case (pstate, updatedCache) =>
+              createdCache = updatedCache
+              pstate.assoc.asInstanceOf[B]
+          }
       }
-      input onSuccess { case assoc => transformAssoc(assoc) }
-      input onFailure { case e => promise.failure(e) }
-      promise.future
+      input.flatMap(transformAssoc _)
     }
   }
 

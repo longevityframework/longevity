@@ -30,16 +30,14 @@ extends Repo[R](rootType, subdomain) {
   
   private var keyValToEntityMap = Map[KeyVal[R], PState[R]]()
 
-  def create(unpersisted: R) = getSessionCreationOrElse(unpersisted, {
-    patchUnpersistedAssocs(unpersisted).map { e =>
-      val id = repo.synchronized {
-        val id = IntId(nextId)
-        nextId += 1
-        id
-      }
-      persist(id, e)
+  def create(unpersisted: R) = Future {
+    val id = repo.synchronized {
+      val id = IntId(nextId)
+      nextId += 1
+      id
     }
-  })
+    persist(id, unpersisted)
+  }
 
   def retrieve(keyValForRoot: KeyVal[R]): Future[Option[PState[R]]] = {
     keyValForRoot.propVals.foreach { case (prop, value) =>
@@ -52,12 +50,9 @@ extends Repo[R](rootType, subdomain) {
     Future.successful(optionR)
   }
 
-
-  def update(persisted: PState[R]) = {
+  def update(persisted: PState[R]) = Future {
     dumpKeys(persisted.orig)
-    patchUnpersistedAssocs(persisted.get) map {
-      persist(persisted.passoc, _)
-    }
+    persist(persisted.passoc, persisted.get)
   }
 
   def delete(persisted: PState[R]) = {

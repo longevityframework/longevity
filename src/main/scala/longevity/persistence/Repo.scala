@@ -44,37 +44,28 @@ abstract class Repo[R <: Root : TypeKey] private[persistence] (
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repoPool: RepoPool = _repoPoolOption.get
 
-  /** a cache of create results for those unpersisted entities of type E that have already been created.
-   * because entities are just value objects, we expect some duplication in the unpersisted data that gets
-   * passed into `Repo.create`, via the associations of created obects. we keep a session
-   * level cache of these guys to prevent multiple creation attempts on the same aggregate.
-   *
-   * note that this cache does not stay current with any updates or deletes to these entities! this cache
-   * is not intended for use with interleaving create/update/delete, but rather for a series of create calls.
-   */
-  protected var sessionCreations = Map[R, PState[R]]()
-
-  /** pull a create result out of the cache for the given unpersisted. if it's not there, then create it,
-   * cache it, and return it */
-  protected def getSessionCreationOrElse(unpersisted: R, create: => Future[PState[R]])
-  : Future[PState[R]] = {
-    sessionCreations.get(unpersisted).map(Promise.successful(_).future).getOrElse {
-      create.map { persisted =>
-        sessionCreations += (unpersisted -> persisted)
-        persisted
+  private[persistence] def createWithCache(unpersisted: R, cache: CreatedCache)
+  : Future[(PState[R], CreatedCache)] = {
+    cache.get[R](unpersisted) match {
+      case Some(pstate) => Future.successful((pstate, cache))
+      case None => patchUnpersistedAssocs(unpersisted, cache).flatMap {
+        case (patched, cache) => create(patched).map {
+          pstate => (pstate, cache + (unpersisted -> pstate))
+        }
       }
     }
   }
 
   private lazy val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
 
-  private lazy val unpersistedToPersistedTransformer =
-    new UnpersistedToPersistedTransformer(repoPool, subdomain.entityEmblemPool, extractorPool)
-
-  /** returns a version of the aggregate where all unpersisted associations are persisted */
-  protected def patchUnpersistedAssocs(root: R): Future[R] = {
-    val futureRoot = Promise.successful[R](root).future
-    unpersistedToPersistedTransformer.transform(futureRoot)
+  // this is also used by RepoCrudSpec for making pretty test data
+  private[longevity] def patchUnpersistedAssocs(root: R, cache: CreatedCache): Future[(R, CreatedCache)] = {
+    val unpersistedToPersistedTransformer =
+      new UnpersistedToPersistedTransformer(repoPool, subdomain.entityEmblemPool, extractorPool, cache)
+    implicit val rootTypeTag = rootTypeKey.tag
+    val futureRoot = Future.successful(root)
+    val futurePatched = unpersistedToPersistedTransformer.transform(futureRoot)
+    futurePatched.map((_, unpersistedToPersistedTransformer.createdCache))
   }
-  
+
 }

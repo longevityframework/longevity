@@ -44,8 +44,7 @@ with GivenWhenThen
 with Matchers
 with ScalaFutures
 with ScaledTimeSpans
-with TestDataGeneration
-with PersistedToUnpersistedMatcher {
+with TestDataGeneration {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000 millis),
@@ -79,21 +78,21 @@ with PersistedToUnpersistedMatcher {
         representativeKeyOption should be ('nonEmpty)
 
         Given(s"an unpersisted $rootName")
-        val root: R = testDataGenerator.generate[R]
+        val root: R = randomRoot()
 
         When(s"we create the $rootName")
         Then(s"we get back the $rootName persistent state")
         val created: PState[R] = repo.create(root).futureValue
 
         And(s"the persisted $rootName should should match the original, unpersisted $rootName")
-        persistedShouldMatchUnpersisted(created.get, root)
+        created.get should equal (root)
 
         // i cant figure out if this and clause is a sensible part of this test or not. opinions?
         And(s"further retrieval operations should retrieve the same $rootName")
         representativeKeyOption.foreach { key =>
           val keyValForRoot = key.keyValForRoot(created.get)
           val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
-          persistedShouldMatchUnpersisted(retrieved.get, root)
+          retrieved.get should equal (root)
         }
 
       }
@@ -103,7 +102,7 @@ with PersistedToUnpersistedMatcher {
       scenario(s"should produce the same persisted $rootName", Retrieve) {
 
         Given(s"a persisted $rootName")
-        val root: R = testDataGenerator.generate[R]
+        val root: R = randomRoot()
         val created = repo.create(root).futureValue
 
         When(s"we retrieve the $rootName by any of its keys")
@@ -111,7 +110,7 @@ with PersistedToUnpersistedMatcher {
         repo.rootType.keys.foreach { key =>
           val keyValForRoot = key.keyValForRoot(created.get)
           val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
-          persistedShouldMatchUnpersisted(retrieved.get, root)
+          retrieved.get should equal (root)
         }
       }
     }
@@ -120,8 +119,8 @@ with PersistedToUnpersistedMatcher {
       scenario(s"should produce an updated persisted $rootName", Update) {
 
         Given(s"a persisted $rootName")
-        val originalRoot: R = testDataGenerator.generate[R]
-        val modifiedRoot: R = testDataGenerator.generate[R]
+        val originalRoot: R = randomRoot()
+        val modifiedRoot: R = randomRoot()
         val created: PState[R] = repo.create(originalRoot).futureValue
 
         When(s"we update the persisted $rootName")
@@ -129,13 +128,13 @@ with PersistedToUnpersistedMatcher {
         val updated: PState[R] = repo.update(modified).futureValue
 
         Then(s"we get back the updated $rootName persistent state")
-        persistedShouldMatchUnpersisted(updated.get, modifiedRoot)
+        updated.get should equal (modifiedRoot)
 
         And(s"further retrieval operations should retrieve the updated copy")
         representativeKeyOption.foreach { key =>
           val keyValForRoot = key.keyValForRoot(updated.get)
           val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
-          persistedShouldMatchUnpersisted(retrieved.get, modifiedRoot)
+          retrieved.get should equal (modifiedRoot)
         }
 
         And(s"further retrieval operations based on the original version should retrieve nothing")
@@ -150,14 +149,14 @@ with PersistedToUnpersistedMatcher {
     feature(s"${rootName}Repo.delete") {
       scenario(s"should delete a persisted $rootName", Delete) {
         Given(s"a persisted $rootName")
-        val root: R = testDataGenerator.generate[R]
+        val root: R = randomRoot()
         val created: PState[R] = repo.create(root).futureValue
 
         When(s"we delete the persisted $rootName")
         val deleted: Deleted[R] = repo.delete(created).futureValue
 
         Then(s"we get back a Deleted persistent state")
-        persistedShouldMatchUnpersisted(deleted.get, root)
+        deleted.get should equal (root)
 
         And(s"we should no longer be able to retrieve the $rootName")
         representativeKeyOption.foreach { key =>
@@ -166,6 +165,11 @@ with PersistedToUnpersistedMatcher {
           retrieved.isEmpty should be (true)
         }
       }
+    }
+
+    private def randomRoot(): R = {
+      val root: R = testDataGenerator.generate[R]
+      repo.patchUnpersistedAssocs(root, CreatedCache()).futureValue._1
     }
 
   }

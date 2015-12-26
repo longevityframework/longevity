@@ -17,17 +17,32 @@ class RepoPool (val typeKeyMap: TypeKeyMap[Root, Repo]) {
   /** iterate over the repositories */
   def values: collection.Iterable[Repo[_ <: Root]] = typeKeyMap.values
 
+  private type KeyedRoot = RootWithTypeKey[_ <: Root]
+  private type PStateSeq = Seq[PState[_ <: Root]]
+  private case class CreateManyState(cache: CreatedCache, pstates: PStateSeq)
+
   // TODO scaladoc
   def createMany(keyedRoots: RootWithTypeKey[_ <: Root]*): Future[Seq[PState[_ <: Root]]] = {
+    val empty = Future.successful(CreateManyState(CreatedCache(), Seq[PState[_ <: Root]]()))
+    val foldResult = keyedRoots.foldLeft(empty)(createOne _)
+    foldResult.map(_.pstates)
+  }
 
-    def create[R <: Root](keyedRoot: RootWithTypeKey[R]): Future[PState[R]] =
-      apply(keyedRoot.typeKey).create(keyedRoot.root)
+  private def createOne(acc: Future[CreateManyState], keyedRoot: KeyedRoot): Future[CreateManyState] = {
 
-    def create0(keyedRoot: RootWithTypeKey[_ <: Root]) = create(keyedRoot)
+    def create[R <: Root](
+      keyedRoot: RootWithTypeKey[R],
+      cache: CreatedCache)
+    : Future[(PState[R], CreatedCache)] = {
+      apply(keyedRoot.typeKey).createWithCache(keyedRoot.root, cache)
+    }
 
-    val many: Seq[Future[PState[_ <: Root]]] = keyedRoots.map(create0 _)
+    acc.flatMap { state =>
+      create(keyedRoot, state.cache).map {
+        case (pstate, cache) => CreateManyState(cache, state.pstates :+ pstate)
+      }
+    }
 
-    Future.sequence(many)
   }
 
 }

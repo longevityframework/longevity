@@ -228,7 +228,12 @@ trait Traversor {
 
   private def traverseCustomOption[A : TypeKey](input: Future[TraverseInput[A]])
   : Option[Future[TraverseResult[A]]] = {
-    val keyOpt: Option[TypeKey[_ >: A]] = customTraversors.keys.map(_.castToLowerBound[A]).flatten.headOption
+    val keyOpt: Option[TypeKey[_ >: A]] = {
+      val matchingTraversorKeys =
+        customTraversors.keys.filter(_.castToLowerBound[A].nonEmpty).toSeq.asInstanceOf[Seq[TypeKey[_ >: A]]]
+      val tightestToLoosest = matchingTraversorKeys.sortWith(_ <:< _)
+      tightestToLoosest.headOption
+    }
     def getCustomTraversor[B >: A : TypeKey]: CustomTraversor[B] = customTraversors(typeKey[B])
     keyOpt map { key => getCustomTraversor(key).apply[A](input) }
   }

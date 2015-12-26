@@ -6,13 +6,13 @@ import emblem.exceptions.GeneratorException
 /** thrown when the input types supplied when attempting to create a shorthand are not legal */
 class ShorthandCreationException private(
   message: String,
-  cause: GeneratorException,
+  cause: Exception,
   val actualTypeKey: TypeKey[_],
   val abbreviatedTypeKey: TypeKey[_])
 extends ShorthandException(message, cause) {
 
   def this(
-    cause: GeneratorException,
+    cause: Exception,
     actualTypeKey: TypeKey[_],
     abbreviatedTypeKey: TypeKey[_]) {
     this(

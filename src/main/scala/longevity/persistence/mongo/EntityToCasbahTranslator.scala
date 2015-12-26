@@ -7,6 +7,7 @@ import emblem.imports._
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.sync.Traversor
 import longevity.exceptions.persistence.BsonTranslationException
+import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.persistence.RepoPool
 import longevity.subdomain._
 
@@ -40,6 +41,9 @@ private[persistence] class EntityToCasbahTranslator(
 
     def assocTraversor = new CustomTraversor[AssocAny] {
       def apply[B <: Assoc[_ <: Root] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
+        if (!input.isPersisted) {
+          throw new AssocIsUnpersistedException(input)
+        }
         val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: Root]]
  
         // TODO pt-91220826: get rid of asInstanceOf by tightening type on repo pools and repo layers

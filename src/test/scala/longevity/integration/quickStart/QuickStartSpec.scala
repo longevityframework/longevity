@@ -178,24 +178,15 @@ with ScaledTimeSpans {
 
   "QuickStartSpec" should "exercise basic longevity functionality" in {
 
-    // persist the entities:
-
-    // `Repo[User].create` returns a `Future[PState[User]]`,
-    // aka `FPState[User]`
-    val johnFPS: FPState[User] = userRepo.create(john)
+    // persist the aggregates all at once. it doesn't matter what
+    // order you pass them in, this method will assure that associated
+    // aggregates always get persisted first.
+    val createManyResult: Future[Seq[PState[_ <: Root]]] =
+      repos.createMany(john, frank, blog, johnsPost, franksPost)
 
     // `futureValue` is a ScalaTest way of saying "wait for the future to
     // complete and assert success"
-    johnFPS.futureValue
-
-    userRepo.create(frank).futureValue
-    blogRepo.create(blog).futureValue
-    blogPostRepo.create(johnsPost).futureValue
-    blogPostRepo.create(franksPost).futureValue
-
-    // you can create these entities in any order. you also don't need to
-    // explicitly create the blog, as it will be handled recursively when
-    // creating one of the blog posts
+    createManyResult.futureValue
 
     // retrieve an entity:
 
@@ -315,7 +306,9 @@ with ScaledTimeSpans {
   }
 
   private def deleteUser(user: User): Unit = {
-    userRepo.retrieve(User.usernameKey.keyValForRoot(user)).map(_.get).flatMap(userRepo.delete _).futureValue
+    def deleteOptUserState(optUserState: Option[PState[User]]): Unit =
+      optUserState.foreach { userState => userRepo.delete(userState).futureValue }
+    deleteOptUserState(userRepo.retrieve(User.usernameKey.keyValForRoot(user)).futureValue)
   }
 
   private def deletePost(post: BlogPost): Unit = {

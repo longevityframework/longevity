@@ -43,14 +43,12 @@ extends Repo[R](rootType, subdomain) {
 
   createSchema()
 
-  def create(unpersisted: R) = getSessionCreationOrElse(unpersisted, {
-    patchUnpersistedAssocs(unpersisted) map { patched =>
-      val objectId = new ObjectId()
-      val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
-      val writeResult = mongoCollection.insert(casbah)
-      new PState[R](MongoId(objectId), patched)
-    }
-  })
+  def create(unpersisted: R) = Future {
+    val objectId = new ObjectId()
+    val casbah = entityToCasbahTranslator.translate(unpersisted) ++ MongoDBObject("_id" -> objectId)
+    val writeResult = mongoCollection.insert(casbah)
+    new PState[R](MongoId(objectId), unpersisted)
+  }
 
   def retrieve(keyValForRoot: KeyVal[R]): Future[Option[PState[R]]] = Future {
     val builder = MongoDBObject.newBuilder
@@ -79,12 +77,13 @@ extends Repo[R](rootType, subdomain) {
     }
   }
 
-  def update(persisted: PState[R]) = patchUnpersistedAssocs(persisted.get) map { patched =>
+  def update(persisted: PState[R]) = Future {
+    val root = persisted.get
     val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
-    val casbah = entityToCasbahTranslator.translate(patched) ++ MongoDBObject("_id" -> objectId)
+    val casbah = entityToCasbahTranslator.translate(root) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.update(query, casbah)
-    new PState[R](persisted.passoc, patched)
+    new PState[R](persisted.passoc, root)
   }
 
   def delete(persisted: PState[R]) = Future {

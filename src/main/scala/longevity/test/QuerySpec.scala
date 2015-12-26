@@ -53,18 +53,22 @@ with TestDataGeneration {
     expectationsSubset.foreach(e => exerciseQueryExpectations(e))
   }
 
+  private val repo = repoPool[R]
   private var roots: Set[R] = _
   private var rootStates: Seq[PState[R]] = _
 
   override def beforeAll(): Unit = {
-    val repo = repoPool[R]
-    val rootStateSeq = for (i <- 0.until(100)) yield repo.create(testDataGenerator.generate[R])
+    val rootStateSeq = for (i <- 0.until(100)) yield repo.create(randomRoot())
     rootStates = Future.sequence(rootStateSeq).futureValue
     roots = rootStates.map(_.get).toSet
   }
 
+  private def randomRoot(): R = {
+    val root: R = testDataGenerator.generate[R]
+    repo.patchUnpersistedAssocs(root, CreatedCache()).futureValue._1
+  }
+
   override def afterAll(): Unit = {
-    val repo = repoPool[R]
     Future.traverse(rootStates)(rootState => repo.delete(rootState)).futureValue
   }
 
@@ -146,7 +150,7 @@ with TestDataGeneration {
   }
 
   private def exerciseQueryExpectations(expectations: QueryExpectations): Unit = {
-    val results = repoPool[R].retrieveByQuery(expectations.query).futureValue.map(_.get).toSet
+    val results = repo.retrieveByQuery(expectations.query).futureValue.map(_.get).toSet
     val actual = roots intersect results // remove any roots not put in by this test
     
     if (actual.size != expectations.expected.size) {

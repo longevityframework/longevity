@@ -100,6 +100,10 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
   : TypeBoundMap[TypeBound, Key, Val] =
     new TypeBoundMap[TypeBound, Key, Val](underlying + pair)
 
+  // TODO scaladoc
+  def ++(that: TypeBoundMap[TypeBound, Key, Val]): TypeBoundMap[TypeBound, Key, Val] =
+    new TypeBoundMap[TypeBound, Key, Val](underlying ++ that.underlying)
+
   override def hashCode = underlying.hashCode
 
   /** transforms this map by applying a function to every retrieved value.
