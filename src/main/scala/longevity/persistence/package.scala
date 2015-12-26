@@ -14,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 package object persistence {
 
   /** packages a [Root] with a `TypeKey` for the root's type. used
-   * by [[RepoPool.createMany].
+   * by [[RepoPool.createMany]].
    */
   implicit class RootWithTypeKey[R <: Root : TypeKey](val root: R) {
     val rootTypeKey = typeKey[R]

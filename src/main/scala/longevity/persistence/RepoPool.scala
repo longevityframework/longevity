@@ -21,11 +21,13 @@ class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Root, BaseRepo]) 
   private type PStateSeq = Seq[PState[_ <: Root]]
   private case class CreateManyState(cache: CreatedCache, pstates: PStateSeq)
 
-  /** creates many aggregates at once. this method is the only way to persist aggregates with
-   * embedded [[UnpersistedAssoc]]. any embedded [[UnpersistedAssoc]] must be present in the
-   * argument list `keyedRoots`. because [RootWithTypeKey] is an implicit class, you can call
-   * this method using just aggregate roots, and the roots will be converted to `RootWithTypeKey`
-   * implicitly:
+  /** creates many aggregates at once. this method is the only way to persist
+   * aggregates with embedded unpersisted associations. any aggregates embedded
+   * this way must be present in the argument list `keyedRoots`.
+   *
+   * because [RootWithTypeKey] is an implicit class, you can call this method
+   * using just aggregate roots, and the roots will be converted to
+   * `RootWithTypeKey` implicitly:
    *
    * {{{
    * repoPool.createMany(user1, user2, user2, blogPost1, blogPost2, blog)
