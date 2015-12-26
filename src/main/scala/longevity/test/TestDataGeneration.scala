@@ -12,6 +12,8 @@ import emblem.traversors.sync.Generator
 import emblem.traversors.sync.TestDataGenerator
 import longevity.subdomain._
 
+// TODO pt #110726688 produce roots with PersistedAssoc instead of UnpersistedAssoc
+
 /** mixin trait for test data generation */
 private[longevity] trait TestDataGeneration {
 
@@ -24,11 +26,11 @@ private[longevity] trait TestDataGeneration {
   private def assocGenerator: CustomGenerator[Assoc[_ <: Root]] =
     new CustomGenerator[Assoc[_ <: Root]] {
       def apply[B <: Assoc[_ <: Root] : TypeKey](generator: Generator): B = {
-        val entityTypeKey: TypeKey[_ <: Root] =
+        val rootTypeKey: TypeKey[_ <: Root] =
           typeKey[B].typeArgs.head.castToUpperBound[Root].get
         def genAssoc[Associatee <: Root : TypeKey] =
             Assoc[Associatee](generator.generate[Associatee])
-        genAssoc(entityTypeKey).asInstanceOf[B]
+        genAssoc(rootTypeKey).asInstanceOf[B]
       }
     }
 

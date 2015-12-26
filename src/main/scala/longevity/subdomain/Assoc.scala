@@ -11,7 +11,8 @@ object Assoc {
   /** wraps a root in an unpersisted assoc. this is useful for building out domain data
    * that has not been persisted. it is made implicit so your code isn't littered with `Assoc(_)` calls
    * everywhere. this ought not to be confusing, as there is no other sensible way to embed a root into
-   * another entity. */
+   * another entity.
+   */
   implicit def apply[R <: Root : TypeKey](root: R): Assoc[R] = UnpersistedAssoc(root)
 
 }
@@ -41,13 +42,14 @@ trait Assoc[R <: Root] {
 
   /** retrieves a persisted assoc. if the associatee has not been loaded into memory, calling this method
    * will result in a database lookup
+   * 
+   * @throws AssocIsUnpersistedException whenever the assoc is not persisted
    */
-  // TODO change style of throws doc
-  @throws[AssocIsUnpersistedException]("whenever the assoc is not persisted")
   def retrieve: Future[PState[R]]
 
-  /** retrieves an unpersisted associatee from the assoc */
-  @throws[AssocIsPersistedException]("whenever the assoc is persisted")
+  /** retrieves an unpersisted associatee from the assoc
+   * @throws AssocIsPersistedException whenever the assoc is persisted
+   */
   def unpersisted: R
 
 }

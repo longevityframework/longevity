@@ -100,7 +100,10 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
   : TypeBoundMap[TypeBound, Key, Val] =
     new TypeBoundMap[TypeBound, Key, Val](underlying + pair)
 
-  // TODO scaladoc
+  /** takes the union of two type bound maps with the same type params
+   * @param that the type bound map to union with this type bound map
+   * @return a new type bound map with the bindings of this map and that map
+   */
   def ++(that: TypeBoundMap[TypeBound, Key, Val]): TypeBoundMap[TypeBound, Key, Val] =
     new TypeBoundMap[TypeBound, Key, Val](underlying ++ that.underlying)
 

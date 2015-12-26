@@ -13,9 +13,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** manages entity persistence operations */
 package object persistence {
 
-  // TODO scaladoc
-  implicit def rootWithTypeKey[R <: Root : TypeKey](root: R) =
-    RootWithTypeKey(root, typeKey[R])
+  /** packages a [Root] with a `TypeKey` for the root's type. used
+   * by [[RepoPool.createMany].
+   */
+  implicit class RootWithTypeKey[R <: Root : TypeKey](val root: R) {
+    val rootTypeKey = typeKey[R]
+  }
 
   /** a future persistent state */
   type FPState[R <: Root] = Future[PState[R]]

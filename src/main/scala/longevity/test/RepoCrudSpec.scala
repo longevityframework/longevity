@@ -18,19 +18,19 @@ import org.scalatest.time.SpanSugar._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-// TODO params in the doc are off
-/** a simple fixture to test a [[longevity.persistence.RepoPool]]. all you have to do is extend this class and
- * provide the necessary inputs to the constructor.
+/** a simple fixture to test a [[longevity.persistence.RepoPool]]. all you have to do is extend this
+ * class and provide the necessary inputs to the constructor.
  *
  * the repo CRUD spec exercises create/retrieve/update/delete for all the repos in your repo pool.
  *
- * @param subdomain the subdomain
- * @param customGeneratorPool a collection of custom generators to use when generating test data
- * @param repoPool the repo pool under test. this may be different than the `longevityContext.repoPool`, as
- * users may want to test against other repo pools. (for instance, they may want a spec for in-memory repo
- * pools if other parts of their test suite rely on them.)
- * @param suiteNameSuffix a short string to add to the suite name, to help differentiate between suites for
- * longevity contexts with the same name, when reading scalatest output
+ * @param context the longevity context
+ * 
+ * @param repoPool the repo pool under test. this may be different than the `longevityContext.repoPool`,
+ * as users may want to test against other repo pools. (for instance, they may want a spec for in-memory
+ * repo pools if other parts of their test suite rely on them.)
+ * 
+ * @param suiteNameSuffix a short string to add to the suite name, to help differentiate between suites
+ * for longevity contexts with the same name, when reading scalatest output
  */
 private[longevity] class RepoCrudSpec(
   context: LongevityContext,

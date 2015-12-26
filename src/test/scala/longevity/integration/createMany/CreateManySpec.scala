@@ -13,8 +13,6 @@ class CreateManySpec extends BaseCreateManySpec(withAssoc.mongoContext) {
 
   behavior of "RepoPool.createMany"
 
-  // TODO need more tests that show out the cache actually does get updated appropraitely
-
   it should "persist networks with unpersisted associations" in {
     val associated1 = withAssoc.Associated(uri)
     val withAssoc1 = withAssoc.WithAssoc(uri, associated1)
@@ -22,7 +20,6 @@ class CreateManySpec extends BaseCreateManySpec(withAssoc.mongoContext) {
     val withAssoc2 = withAssoc.WithAssoc(uri, associated2)
 
     val repoPool = withAssoc.mongoContext.testRepoPool
-    import longevity.persistence.rootWithTypeKey
     val result = repoPool.createMany(associated1, withAssoc1, associated2, withAssoc2)
     val pstates = result.futureValue
     pstates.size should equal(4)

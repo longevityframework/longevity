@@ -21,7 +21,20 @@ class RepoPool (val typeKeyMap: TypeKeyMap[Root, Repo]) {
   private type PStateSeq = Seq[PState[_ <: Root]]
   private case class CreateManyState(cache: CreatedCache, pstates: PStateSeq)
 
-  // TODO scaladoc
+  /** creates many aggregates at once. this method is the only way to persist aggregates with
+   * embedded [[UnpersistedAssoc]]. any embedded [[UnpersistedAssoc]] must be present in the
+   * argument list `keyedRoots`. because [RootWithTypeKey] is an implicit class, you can call
+   * this method using just aggregate roots, and the roots will be converted to `RootWithTypeKey`
+   * implicitly:
+   *
+   * {{{
+   * repoPool.createMany(user1, user2, user2, blogPost1, blogPost2, blog)
+   * }}}
+   *
+   * @param keyedRoots the roots of the aggregates to persist, wrapped with their `TypeKeys`.
+   * 
+   * @see [Assoc.apply]
+   */
   def createMany(keyedRoots: RootWithTypeKey[_ <: Root]*): Future[Seq[PState[_ <: Root]]] = {
     val empty = Future.successful(CreateManyState(CreatedCache(), Seq[PState[_ <: Root]]()))
     val foldResult = keyedRoots.foldLeft(empty)(createOne _)
@@ -34,7 +47,7 @@ class RepoPool (val typeKeyMap: TypeKeyMap[Root, Repo]) {
       keyedRoot: RootWithTypeKey[R],
       cache: CreatedCache)
     : Future[(PState[R], CreatedCache)] = {
-      apply(keyedRoot.typeKey).createWithCache(keyedRoot.root, cache)
+      apply(keyedRoot.rootTypeKey).createWithCache(keyedRoot.root, cache)
     }
 
     acc.flatMap { state =>
