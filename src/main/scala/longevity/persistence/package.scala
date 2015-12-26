@@ -82,7 +82,7 @@ package object persistence {
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): Repo[R] =
+      def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): BaseRepo[R] =
         new InMemRepo(entityType, subdomain)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
@@ -100,14 +100,14 @@ package object persistence {
 
   private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): Repo[R] =
+      def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): BaseRepo[R] =
         new MongoRepo(entityType, subdomain, mongoDB)(entityKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
 
   private trait StockRepoFactory {
-    def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): Repo[R]
+    def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): BaseRepo[R]
   }
 
   private def buildRepoPool(
@@ -128,10 +128,10 @@ package object persistence {
     repoPool
   }
 
-  private val emptyTypeKeyMap = TypeKeyMap[Root, Repo]
+  private val emptyTypeKeyMap = TypeKeyMap[Root, BaseRepo]
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
-    repoPool.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
+    repoPool.baseRepoMap.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
   }
 
   // stuff for {Repo,RepoPool}.createMany. also used by RepoCrudSpec.randomRoot

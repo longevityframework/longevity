@@ -55,14 +55,14 @@ with TestDataGeneration {
     case None => ""
   }}"
 
-  repoPool.typeKeyMap.foreach { pair =>
-    def repoSpec[R <: Root](pair: TypeBoundPair[Root, TypeKey, Repo, R]): Unit = {
+  repoPool.baseRepoMap.foreach { pair =>
+    def repoSpec[R <: Root](pair: TypeBoundPair[Root, TypeKey, BaseRepo, R]): Unit = {
       new RepoSpec(pair._2)(pair._1)
     }
     repoSpec(pair)
   }
 
-  private class RepoSpec[R <: Root : TypeKey](private val repo: Repo[R]) {
+  private class RepoSpec[R <: Root : TypeKey](private val repo: BaseRepo[R]) {
 
     private val rootName = repo.rootType.emblem.name
     private val representativeKeyOption = repo.rootType.keys.headOption

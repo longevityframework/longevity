@@ -53,7 +53,7 @@ with TestDataGeneration {
     expectationsSubset.foreach(e => exerciseQueryExpectations(e))
   }
 
-  private val repo = repoPool[R]
+  private val repo = repoPool.baseRepoMap[R]
   private var roots: Set[R] = _
   private var rootStates: Seq[PState[R]] = _
 

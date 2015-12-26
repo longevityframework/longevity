@@ -16,7 +16,7 @@ import longevity.context.LongevityContext
 class InMemRepo[R <: Root : TypeKey] private[persistence] (
   rootType: RootType[R],
   subdomain: Subdomain)
-extends Repo[R](rootType, subdomain) {
+extends BaseRepo[R](rootType, subdomain) {
   repo =>
 
   private case class IntId(i: Int) extends PersistedAssoc[R] {

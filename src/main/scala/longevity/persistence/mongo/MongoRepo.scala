@@ -24,7 +24,7 @@ class MongoRepo[R <: Root : TypeKey] private[persistence] (
   rootType: RootType[R],
   subdomain: Subdomain,
   mongoDb: MongoDB)
-extends Repo[R](rootType, subdomain) {
+extends BaseRepo[R](rootType, subdomain) {
   repo =>
 
   private[persistence] case class MongoId(objectId: ObjectId) extends PersistedAssoc[R] {

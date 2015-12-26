@@ -5,11 +5,11 @@ import longevity.subdomain.Root
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/** a collection of repositories
- * 
- * @param typeKeyMap a `TypeKeyMap` of [[longevity.subdomain.Root Root]] to [[Repo]]
- */
-class RepoPool (val typeKeyMap: TypeKeyMap[Root, Repo]) {
+/** a collection of repositories */
+class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Root, BaseRepo]) {
+
+  /** a `TypeKeyMap` of [[longevity.subdomain.Root Root]] to [[Repo]] */
+  val typeKeyMap: TypeKeyMap[Root, Repo] = baseRepoMap.widen
 
   /** select a repository by root type */
   def apply[R <: Root : TypeKey]: Repo[R] = typeKeyMap[R]
@@ -47,7 +47,7 @@ class RepoPool (val typeKeyMap: TypeKeyMap[Root, Repo]) {
       keyedRoot: RootWithTypeKey[R],
       cache: CreatedCache)
     : Future[(PState[R], CreatedCache)] = {
-      apply(keyedRoot.rootTypeKey).createWithCache(keyedRoot.root, cache)
+      baseRepoMap(keyedRoot.rootTypeKey).createWithCache(keyedRoot.root, cache)
     }
 
     acc.flatMap { state =>

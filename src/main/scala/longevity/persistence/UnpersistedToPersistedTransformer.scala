@@ -47,7 +47,7 @@ extends Transformer {
         case unpersistedAssoc: UnpersistedAssoc[_] =>
           val unpersistedRoot = assoc.unpersisted
           val rootTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Root]]
-          val repo = repoPool(rootTypeKey)
+          val repo = repoPool.baseRepoMap(rootTypeKey)
           val createWithCacheResult = repo.createWithCache(unpersistedRoot, createdCache)
           createWithCacheResult.map {
             case (pstate, updatedCache) =>
