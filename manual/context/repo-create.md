@@ -8,45 +8,50 @@ and returns the persistent state:
 
     def create(unpersisted: R): Future[PState[R]]
 
-When creating networks of aggregates together, you can use
-`Assoc.apply` to build associations between them:
+For example, let's say we want to persist a user:
 
-{% gist sullivan-/c2d126c9d2a83e76cfbc %}
+    val user = User("smithy", "John Smith", "smithy@john-smith.ninja")
+    val futureUserState: Future[PState[User]] = userRepo.create(user)
 
-In this situation, so long as you locate your activity to a single
-thread, you do not need to worry about which one gets persisted
-first. The `Repo` will work out which of the aggregates have already
-been persisted, and recursively create any associated aggregate that
-has not yet been persisted. So the order you call create on your
-aggregates does not matter:
+We have to wait for the `Future` to complete before we can know that
+the user has been persisted. For example:
 
-{% gist sullivan-/6264b96753b439108389 %}
+    val userState: PState[User] = Await.result(futureUserState, 100 millis)
 
-Of course, this comes at a cost: the `Repo` is building up a cache of
-newly created aggregates over time. This cache is kept thread-local,
-so if you know your thread is going to terminate, you needn't worry
-about it. But if the thread is going to be long-lived, you will want
-to call `Repo.flush` from time to time. For instance, loading data
-from a file:
+If we want to persist an aggregate that has an association to another
+aggregate, we need to retrieve an association from the `PState`:
 
-{% gist sullivan-/3025144a5184e21c5992 %}
+    val userAssoc: Assoc[User] = userState.assoc
+    val blog = Blog(
+      uri = "http://blog.john-smith.ninja/",
+      title = "The Blogging Ninjas",
+      description = "We try to keep things interesting blogging about ninjas.",
+      authors = Set(userAssoc))
 
-You can also freely associate with persisted entities when creating
-new aggregates:
+Now we can persist the blog in the same manner:
 
-{% gist sullivan-/53384c60c432919b8776 %}
+    val futureBlogState = blogRepo.create(blog)
+
+If we want to persist many aggregates at once, it can be cumbersome to
+construct associations this way. In the next chapter, we will look at
+a convenient way to persist many inter-related aggregates at once.
 
 `Repo.create` gives back a `PState`, which you can in turn manipulate
-and pass to `Repo.update` and `Repo.delete`.
+and pass to [`Repo.update`](repo-update.html) and
+[`Repo.delete`](repo-delete.html).
 
-TODO links here
-
-TODO make this stuff actually work as advertised
+When you attempt to create an aggregate that has matching values to an
+existing aggregate for a key defined in the `RootEntity`, the results
+are currently backend-specific. MongoDB on a single node will throw a
+duplicate key exception. On multiple nodes, it may or may not. On
+Cassandra, no such check is made. We
+[plan](https://www.pivotaltracker.com/story/show/107958610) to give
+the user finer control over this behavior in the future.
 
 {% assign prevTitle = "repositories" %}
 {% assign prevLink = "repositories.html" %}
 {% assign upTitle = "the longevity context" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "repo.retrieve" %}
-{% assign nextLink = "repo-retrieve.html" %}
+{% assign nextTitle = "creating many aggregates at once" %}
+{% assign nextLink = "create-many.html" %}
 {% include navigate.html %}
