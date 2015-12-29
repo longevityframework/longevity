@@ -3,7 +3,7 @@ import Keys._
 
 trait BuildSettings {
 
-  val githubUrl = "https://github.com/sullivan-/longevity"
+  val githubUrl = "https://github.com/longevityframework/longevity"
 
   val nonConsoleScalacOptions = Seq(
     "-Xfatal-warnings",
@@ -23,8 +23,8 @@ trait BuildSettings {
     "-unchecked")
 
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
-    organization := "net.jsmscs",
-    version := "0.3-SNAPSHOT",
+    organization := "org.longevityframework",
+    version := "0.3",
     scalaVersion := "2.11.7",
 
     // compile
@@ -93,11 +93,11 @@ object LongevityBuild extends Build with BuildSettings {
       libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0" % Optional,
       libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0" % Test,
 
-      homepage := Some(url("http://sullivan-.github.io/longevity/")),
+      homepage := Some(url("http://longevityframework.github.io/longevity/")),
       pomExtra := (
         <scm>
-          <url>git@github.com:sullivan-/longevity.git</url>
-          <connection>scm:git:git@github.com:sullivan-/longevity.git</connection>
+          <url>git@github.com:longevityframework/longevity.git</url>
+          <connection>scm:git:git@github.com:longevityframework/longevity.git</connection>
         </scm>
         <developers>
           <developer>
@@ -115,11 +115,11 @@ object LongevityBuild extends Build with BuildSettings {
     id = "emblem",
     base = file("emblem"),
     settings = buildSettings ++ Seq(
-      homepage := Some(url("https://github.com/sullivan-/emblem")),
+      homepage := Some(url("https://github.com/longevityframework/emblem")),
       pomExtra := (
         <scm>
-          <url>git@github.com:sullivan-/emblem.git</url>
-          <connection>scm:git:git@github.com:sullivan-/emblem.git</connection>
+          <url>git@github.com:longevityframework/emblem.git</url>
+          <connection>scm:git:git@github.com:longevityframework/emblem.git</connection>
         </scm>
         <developers>
           <developer>
