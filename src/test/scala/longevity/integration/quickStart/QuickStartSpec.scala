@@ -72,8 +72,12 @@ object QuickStartSpec {
   extends Root
 
   object User extends RootType[User] {
-    val usernameKey = key("username")
-    val emailKey = key("email")
+    object props {
+      val username = prop[String]("username")
+      val email = prop[Email]("email")
+    }
+    val usernameKey = key(props.username)
+    val emailKey = key(props.email)
   }
 
   case class UserProfile(
@@ -92,7 +96,10 @@ object QuickStartSpec {
   extends Root
 
   object Blog extends RootType[Blog] {
-    val uriKey = key("uri")
+    object props {
+      val uri = prop[Uri]("uri")
+    }
+    val uriKey = key(props.uri)
   }
 
   case class BlogPost(
@@ -107,7 +114,12 @@ object QuickStartSpec {
   extends Root
 
   object BlogPost extends RootType[BlogPost] {
-    val uriKey = key("blog", "uriPathSuffix")
+    object props {
+      val blog = prop[Assoc[Blog]]("blog")
+      val uriPathSuffix = prop[String]("uriPathSuffix")
+      val postDate = prop[DateTime]("postDate")
+    }
+    val uriKey = key(props.blog, props.uriPathSuffix)
   }
 
   // build the subdomain:
@@ -288,8 +300,8 @@ with ScaledTimeSpans {
 
     import blogPostRepo.queryDsl._
     val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
-      "blog" eqs blogState.assoc and
-      "postDate" gt DateTime.now - 1.week)
+      BlogPost.props.blog eqs blogState.assoc and
+      BlogPost.props.postDate gt DateTime.now - 1.week)
     recentPosts.futureValue.size should equal (2)
 
     // same thing without the DSL:
@@ -297,8 +309,8 @@ with ScaledTimeSpans {
     import longevity.subdomain.root.Query
     val noDsl: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
       Query.and(
-        Query.eqs("blog", blogState.assoc),
-        Query.gt("postDate", DateTime.now - 1.week)))
+        Query.eqs(BlogPost.props.blog, blogState.assoc),
+        Query.gt(BlogPost.props.postDate, DateTime.now - 1.week)))
     noDsl.futureValue.size should equal (2)
 
   }
