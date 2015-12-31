@@ -5,7 +5,7 @@ import org.scalatest._
 object SubdomainSpec {
 
   // duplicated at https://gist.github.com/sullivan-/1bf6e826ce266588ecde
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/kinds.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/kinds.html
   object kinds {
     import longevity.subdomain._
     val subdomain = Subdomain("blogging", EntityTypePool.empty)
@@ -18,7 +18,7 @@ object SubdomainSpec {
 
   // duplicated at https://gist.github.com/sullivan-/db1226b4d31a0526ac8c
   // duplicated at https://gist.github.com/sullivan-/6a68ac5f6f6331274e21
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/roots.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/roots.html
   object roots {
 
     import longevity.subdomain._
@@ -35,7 +35,7 @@ object SubdomainSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/58f8ae308d9ca96dbd63
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/basics.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/basics.html
   object basics {
 
     import longevity.subdomain._
@@ -56,7 +56,7 @@ object SubdomainSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/bfe3bb8ea95f6b7a4834
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/collections.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/collections.html
   object collections {
 
     import longevity.subdomain._
@@ -75,7 +75,7 @@ object SubdomainSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/d1a59a70bbfbcc1e0f78
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/shorthands.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthands1 {
 
     import longevity.subdomain._
@@ -101,7 +101,7 @@ object SubdomainSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/b862b65da47d112d10ee
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/shorthands.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthands2 {
 
     import longevity.subdomain._
@@ -134,7 +134,7 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/shorthands.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthandPools {
     import longevity.subdomain._
 
@@ -176,7 +176,7 @@ object SubdomainSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/9ea266deae833e61bf52
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/where-not.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/where-not.html
   object shorthandsInitIssues {
 
     import longevity.subdomain._
@@ -201,7 +201,7 @@ object SubdomainSpec {
   // duplicated at https://gist.github.com/sullivan-/62a216ece7a16bec63c9
   // duplicated at https://gist.github.com/sullivan-/ca7bb9e6911ff93b4743
   // duplicated at https://gist.github.com/sullivan-/5b350f2f51ee61efcf8e
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/entities.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/entities.html
   object entities {
     import longevity.subdomain._
 
@@ -233,7 +233,7 @@ object SubdomainSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/95ad8f72bcb4050ccfc3
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/value-objects.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects1 {
     import longevity.subdomain._
 
@@ -266,7 +266,7 @@ object SubdomainSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/f882ca0f2e4ca103d792
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/value-objects.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects2 {
     import longevity.subdomain._
 
@@ -299,7 +299,7 @@ object SubdomainSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/36cbd3871282cda7fe40
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/associations.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/associations.html
   object associations1 {
     import longevity.subdomain._
 
@@ -321,7 +321,7 @@ object SubdomainSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/2c6d949bed353aac39ca
-  // used in http://sullivan-.github.io/longevity/manual/subdomain/associations.html
+  // used in http://longevityframework.github.io/longevity/manual/subdomain/associations.html
   object associations2 {
     import longevity.subdomain._
 
@@ -352,7 +352,7 @@ object SubdomainSpec {
  * in [[SubdomainSpec]] companion object. we include them in the tests here to force the initialization of the
  * subdomains, and to perform some basic sanity checks on the results.
  *
- * @see http://sullivan-.github.io/longevity/manual/subdomain/
+ * @see http://longevityframework.github.io/longevity/manual/subdomain/
  */
 class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
 

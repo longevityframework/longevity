@@ -12,15 +12,15 @@ import scala.concurrent.Future
 /** demonstrates how to get started quickly with longevity. please
  * read the manual when you get the chance  :)
  * 
- * @see http://sullivan-.github.io/longevity/quick-start.html
- * @see http://sullivan-.github.io/longevity/manual
+ * @see http://longevityframework.github.io/longevity/quick-start.html
+ * @see http://longevityframework.github.io/longevity/manual
  */
 object QuickStartSpec {
 
   // set up your library dependencies in sbt:
 
   // resolvers += Resolver.sonatypeRepo("releases")
-  // libraryDependencies += "net.jsmscs" %% "longevity" % "0.3.0-SNAPSHOT"
+  // libraryDependencies += "org.longevityframework" %% "longevity" % "0.4-SNAPSHOT"
 
   // if you are using mongo, get the mongo driver:
 
@@ -291,6 +291,15 @@ with ScaledTimeSpans {
       "blog" eqs blogState.assoc and
       "postDate" gt DateTime.now - 1.week)
     recentPosts.futureValue.size should equal (2)
+
+    // same thing without the DSL:
+
+    import longevity.subdomain.root.Query
+    val noDsl: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
+      Query.and(
+        Query.eqs("blog", blogState.assoc),
+        Query.gt("postDate", DateTime.now - 1.week)))
+    noDsl.futureValue.size should equal (2)
 
   }
 

@@ -6,7 +6,7 @@ import org.scalatest.OptionValues._
 object RootTypeSpec {
 
   // duplicated at https://gist.github.com/sullivan-/e2151a996350786c0e27
-  // used in http://sullivan-.github.io/longevity/manual/root-type/properties.html
+  // used in http://longevityframework.github.io/longevity/manual/root-type/properties.html
   object properties1 {
     import longevity.subdomain._
 
@@ -46,7 +46,7 @@ object RootTypeSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/b08a7e729227c8e1abdf
-  // used in http://sullivan-.github.io/longevity/manual/root-type/properties.html
+  // used in http://longevityframework.github.io/longevity/manual/root-type/properties.html
   object properties2 {
 
     import longevity.subdomain._
@@ -72,7 +72,7 @@ object RootTypeSpec {
 
 
   // duplicated at https://gist.github.com/sullivan-/e2ef663857157a03a301
-  // used in http://sullivan-.github.io/longevity/manual/root-type/keys.html
+  // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
   object keys1 {
     import longevity.subdomain._
 
@@ -95,7 +95,7 @@ object RootTypeSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/b72900a6882b557e6728
-  // used in http://sullivan-.github.io/longevity/manual/root-type/keys.html
+  // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
   object keys2 {
     import longevity.subdomain._
 
@@ -119,7 +119,7 @@ object RootTypeSpec {
   }
 
   // duplicated at https://gist.github.com/sullivan-/eaa0f96308d6f16a36c3
-  // used in http://sullivan-.github.io/longevity/manual/root-type/indexes.html
+  // used in http://longevityframework.github.io/longevity/manual/root-type/indexes.html
   object indexes1 {
     import longevity.subdomain._
 
@@ -148,7 +148,7 @@ object RootTypeSpec {
  * in [[RootTypeSpec]] companion object. we include them in the tests here to force the initialization of the
  * subdomains, and to perform some basic sanity checks on the results.
  *
- * @see http://sullivan-.github.io/longevity/manual/root-type
+ * @see http://longevityframework.github.io/longevity/manual/root-type
  */
 class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 

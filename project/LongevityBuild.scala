@@ -22,9 +22,14 @@ trait BuildSettings {
     "-language:implicitConversions",
     "-unchecked")
 
+  // please update these references that contain version number if you up the version:
+  //   - https://github.com/longevityframework/emblem/wiki/Setting-up-a-Library-Dependency-on-emblem
+  //   - manual/project-setup.md on longevity branch gh-pages
+  //   - src/test/scala/longevity/integration/quickStart/QuickStartSpec.scala on longevity master branch
+
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
-    version := "0.3",
+    version := "0.3.0",
     scalaVersion := "2.11.7",
 
     // compile
