@@ -17,11 +17,8 @@ to maintain your back-end store.
 - [Repo.retrieveByQuery](repo-query.html)
 - [Repo.update](repo-update.html)
 - [Repo.delete](repo-delete.html)
-- Reactive with Futures
-- FPState
-- `Assoc.retrieve`
-- Optimistic Locking
-- Something about Unpersisted Assocs
+- Assoc.retrieve
+- FPState and FOPState
 - Testing Your Subdomain
 - Enforcing Constraints
 - Configuring your LongevityContext

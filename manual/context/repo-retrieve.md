@@ -38,6 +38,14 @@ the aggregate itself with `PState.get`. You can modify it with
 [`Repo.update`](repo-update.html) or
 [`Repo.delete`](repo-delete.html).
 
+`Repo.retrieve` will always result in a database call. Longevity will
+not cache versions for you and pull them from the cache. Not caching
+provides a guarrantee that the retrieved aggregate is up to date with
+the latest state of the database, and reduces the chances of a write
+collision. We may revisit this in the future, but we do not consider
+it an excessive burden on the longevity user to employ their own
+cache, if need be.
+
 {% assign prevTitle = "creating many aggregates at once" %}
 {% assign prevLink = "create-many.html" %}
 {% assign upTitle = "the longevity context" %}

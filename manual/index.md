@@ -46,11 +46,8 @@ will put in links as I write the chapters.
   - [Repo.retrieveByQuery](context/repo-query.html)
   - [Repo.update](context/repo-update.html)
   - [Repo.delete](context/repo-delete.html)
-  - Reactive with Futures
-  - FPState
-  - `Assoc.retrieve`
-  - Optimistic Locking
-  - Something about Unpersisted Assocs
+  - Assoc.retrieve
+  - FPState and FOPState (minimum manual progress for MMP)
   - Testing Your Subdomain
   - Enforcing Constraints
   - Configuring your LongevityContext
