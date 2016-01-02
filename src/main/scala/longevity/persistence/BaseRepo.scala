@@ -18,9 +18,6 @@ extends Repo[R] {
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
 
-  /** contains implicit imports to make the query DSL work */
-  lazy val queryDsl = new QueryDsl[R]
-
   /** the type key for the aggregate roots this repository handles */
   protected val rootTypeKey: TypeKey[R] = typeKey[R]
 
@@ -28,7 +25,7 @@ extends Repo[R] {
   def create(unpersisted: R): Future[PState[R]]
 
   /** retrieves the aggregate by a key value */
-  def retrieve(keyValForRoot: KeyVal[R]): Future[Option[PState[R]]]
+  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]]
 
   /** retrieves the aggregate by a query */
   def retrieveByQuery(query: Query[R]): Future[Seq[PState[R]]] =

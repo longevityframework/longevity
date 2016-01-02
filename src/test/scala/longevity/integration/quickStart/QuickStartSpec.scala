@@ -298,7 +298,7 @@ with ScaledTimeSpans {
 
     // find posts for a given blog published in the last week:
 
-    import blogPostRepo.queryDsl._
+    import BlogPost.queryDsl._
     val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
       BlogPost.props.blog eqs blogState.assoc and
       BlogPost.props.postDate gt DateTime.now - 1.week)

@@ -116,6 +116,9 @@ extends EntityType[R] {
     index
   }
 
+  /** contains implicit imports to make the query DSL work */
+  lazy val queryDsl = new QueryDsl[R]
+
   /** translates the query into a validated query by resolving all the property paths to properties.
    * throws exception if the property value supplied does not match the property type.
    * 
