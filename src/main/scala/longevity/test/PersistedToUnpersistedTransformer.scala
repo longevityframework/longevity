@@ -9,9 +9,7 @@ import emblem.traversors.async.Transformer.CustomTransformerPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.Root
-import longevity.subdomain.UnpersistedAssoc
-import longevity.exceptions.subdomain.AssocIsUnpersistedException
-import longevity.persistence.PersistedAssoc
+import longevity.persistence.RepoPool
 
 /** traverses an entity graph, replacing every [[longevity.persistence.PersistedAssoc persisted assoc]] with an
  * [[longevity.subdomain.UnpersistedAssoc unpersisted assoc]].
@@ -20,10 +18,12 @@ import longevity.persistence.PersistedAssoc
  *
  * @param emblemPool a pool of emblems for the entities to be transformed
  * @param extractorPool a complete set of the extractors used by the bounded context
+ * @param repoPool the repo pool to look up associations with
  */
 private[test] class PersistedToUnpersistedTransformer(
   override protected val emblemPool: EmblemPool,
-  override protected val extractorPool: ExtractorPool)
+  override protected val extractorPool: ExtractorPool,
+  private val repoPool: RepoPool)
 extends Transformer {
 
   override protected val customTransformers = CustomTransformerPool.empty + transformAssoc
@@ -31,16 +31,14 @@ extends Transformer {
   private lazy val transformAssoc = new CustomTransformer[AssocAny] {
     def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: Future[B]): Future[B] =
       input.flatMap { b =>
-        b match {
-          case unpersistedAssoc: UnpersistedAssoc[_] =>
-            throw new AssocIsUnpersistedException(unpersistedAssoc)
-          case persistedAssoc: PersistedAssoc[_] => {
-            val futurePersistedEntity = b.retrieve.map(_.get)
-            val entityTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Root]]
-            val unpersistedEntity = transform(futurePersistedEntity)(entityTypeKey)
-            unpersistedEntity.map(Assoc(_).asInstanceOf[B])
-          }
+        def unpersistedRoot[R <: Root : TypeKey]: Future[R] = {
+          println(s"unpersistedRoot $b ${typeKey[R]}")
+          val assoc = b.asInstanceOf[Assoc[R]]
+          val futurePersistedRoot = repoPool(typeKey[R]).retrieveOne(assoc).map(_.get)
+          transform(futurePersistedRoot)(typeKey[R])
         }
+        val rootTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Root]]
+        unpersistedRoot(rootTypeKey).map(Assoc(_).asInstanceOf[B])
       }
   }
 

@@ -1,6 +1,7 @@
 package longevity.persistence
 
 import emblem.imports._
+import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.subdomain._
 import longevity.subdomain.root._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -24,8 +25,19 @@ extends Repo[R] {
   /** creates the aggregate */
   def create(unpersisted: R): Future[PState[R]]
 
+  def retrieve(assoc: Assoc[R]): Future[Option[PState[R]]] = assoc match {
+    case unpersistedAssoc: UnpersistedAssoc[_] =>
+      throw new AssocIsUnpersistedException(unpersistedAssoc)
+    case persistedAssoc: PersistedAssoc[_] =>
+      retrievePersistedAssoc(persistedAssoc)
+  }
+
+  def retrieveOne(assoc: Assoc[R]): Future[PState[R]] = retrieve(assoc).map(_.get)
+
   /** retrieves the aggregate by a key value */
   def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]]
+
+  def retrieveOne(keyVal: KeyVal[R]): Future[PState[R]] = retrieve(keyVal).map(_.get)
 
   /** retrieves the aggregate by a query */
   def retrieveByQuery(query: Query[R]): Future[Seq[PState[R]]] =
@@ -36,6 +48,8 @@ extends Repo[R] {
 
   /** deletes the aggregate */
   def delete(state: PState[R]): Future[Deleted[R]]
+
+  protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]]
 
   protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]]
 

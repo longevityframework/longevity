@@ -8,6 +8,7 @@ import emblem.traversors.sync.Differ
 import emblem.traversors.sync.Generator
 import emblem.traversors.sync.TestDataGenerator
 import longevity.context.LongevityContext
+import longevity.persistence.RepoPool
 import longevity.subdomain._
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
@@ -20,6 +21,7 @@ import scala.concurrent.Future
 trait PersistedToUnpersistedMatcher extends Suite with ScalaFutures {
 
   protected val longevityContext: LongevityContext
+  protected val repoPool: RepoPool
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000 millis),
@@ -28,7 +30,7 @@ trait PersistedToUnpersistedMatcher extends Suite with ScalaFutures {
   private val subdomain = longevityContext.subdomain
   private val emblemPool = subdomain.entityEmblemPool
   private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
-  private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool)
+  private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool, repoPool)
   private val differ = new Differ(emblemPool, extractorPool)
 
   protected def persistedShouldMatchUnpersisted[R <: Root : TypeKey](persisted: R, unpersisted: R): Unit = {

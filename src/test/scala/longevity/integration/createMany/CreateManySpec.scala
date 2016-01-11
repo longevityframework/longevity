@@ -7,7 +7,9 @@ import longevity.persistence.RepoPool
 import longevity.subdomain.Root
 
 /** unit tests for the [[RepoPoolSpec.createMany]] method */
-class CreateManySpec extends BaseCreateManySpec(withAssoc.mongoContext) {
+class CreateManySpec extends BaseCreateManySpec(
+  withAssoc.mongoContext,
+  withAssoc.mongoContext.testRepoPool) {
 
   def uri = testDataGenerator.generate[String]
 

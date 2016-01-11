@@ -288,13 +288,31 @@ with ScaledTimeSpans {
       )
     updatedReactive.futureValue
 
+    // equivalent to above, but without mapRoot and flatMapRoot
+
+    val updatedNoMapRoot: FPState[User] = {
+      userRepo retrieve User.usernameKey(john.username) flatMap { optUserState =>
+        val userState = optUserState getOrElse { throw new RuntimeException }
+        val updatedState = userState map userService.updateUser
+        userRepo update updatedState
+      }
+    }
+
+    def applyEvent(username: String): FPState[User] = {
+      userRepo retrieve User.usernameKey(username) flatMap { optUserState =>
+        val userState = optUserState getOrElse { throw new RuntimeException }
+        val updatedState = userState map userService.updateUser
+        userRepo update updatedState
+      }
+    }
+
     // use an `Assoc` to retrieve an author from a blog post:
 
     val post: BlogPost = blogPostRepo.retrieve(
       BlogPost.uriKey(blogState.assoc, johnsPost.uriPathSuffix)
     ).futureValue.value.get
     val authorAssoc: Assoc[User] = post.authors.head
-    val author: FPState[User] = authorAssoc.retrieve
+    val author: FPState[User] = userRepo.retrieveOne(authorAssoc)
 
     // find posts for a given blog published in the last week:
 
@@ -321,29 +339,35 @@ with ScaledTimeSpans {
     deleteUser(john)
     deleteUser(frank)
     deleteUser(jerry)
-    deletePost(johnsPost)
-    deletePost(franksPost)
+    deletePost(johnsPost, blog)
+    deletePost(franksPost, blog)
     deleteBlog(blog)
   }
 
   private def deleteUser(user: User): Unit = {
-    def deleteOptUserState(optUserState: Option[PState[User]]): Unit =
-      optUserState.foreach { userState => userRepo.delete(userState).futureValue }
-    deleteOptUserState(userRepo.retrieve(User.usernameKey.keyValForRoot(user)).futureValue)
+    val futureDeleted = for {
+      optUserState <- userRepo retrieve User.usernameKey(user.username)
+      deleted <- optUserState map userRepo.delete getOrElse Future.successful(())
+    } yield deleted
+    futureDeleted.futureValue
   }
 
-  private def deletePost(post: BlogPost): Unit = {
+  private def deletePost(post: BlogPost, blog: Blog): Unit = {
     val deleted = for {
-      blog <- blogRepo.retrieve(Blog.uriKey.keyValForRoot(blog)).map(_.get)
-      keyValForRoot = BlogPost.uriKey.keyValForRoot(post.copy(blog = blog.assoc))
-      post <- blogPostRepo.retrieve(keyValForRoot).map(_.get)
-      deleted <- blogPostRepo.delete(post)
+      optBlogState <- blogRepo retrieve Blog.uriKey(blog.uri)
+      optKeyVal = optBlogState map { blogState => BlogPost.uriKey(blogState.assoc, post.uriPathSuffix) }
+      optPostState <- optKeyVal map blogPostRepo.retrieve getOrElse Future.successful(None)
+      deleted <- optPostState map blogPostRepo.delete getOrElse Future.successful(())
     } yield deleted
     deleted.futureValue
   }
 
   private def deleteBlog(blog: Blog): Unit = {
-    blogRepo.retrieve(Blog.uriKey.keyValForRoot(blog)).map(_.get).flatMap(blogRepo.delete _).futureValue
+    val deleted = for {
+      optBlogState <- blogRepo retrieve Blog.uriKey(blog.uri)
+      deleted <- optBlogState map blogRepo.delete getOrElse Future.successful(())
+    } yield deleted
+    deleted.futureValue
   }
 
 }

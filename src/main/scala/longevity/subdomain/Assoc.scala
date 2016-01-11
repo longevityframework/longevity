@@ -19,13 +19,13 @@ object Assoc {
  * association - that is, the holder of the `Assoc` instance - is known as the associator. the right side of
  * the association is the associatee.
  *
- * there are basically two kinds of associations that you have to understand. an unpersisted assoc is one in
- * which the associatee has not been persisted. in this case, an attempt to persist the associator will cascade
- * persist the associatee.
+ * there are basically two kinds of associations that you have to understand. the main kind is a
+ * "persisted assoc", which means an association to an aggregate that has already been persisted.
+ * the associated aggregate can be retrieved using [[longevity.persistence.Repo.retrieve(Assoc)]].
  *
- * a persisted assoc is one in which the associatee has already been persisted. it may or may not have already
- * been loaded in to program memory, and calling `retrieve` or `persisted` or `get` may well trigger a database
- * lookup.
+ * the second kind of association is an "unpersisted assoc", which you can use when creating multiple
+ * aggregates at once with [[longevity.persistence.RepoPool.createMany]]. unpersisted assocs are
+ * intended to support this single use-case. in general we work with persisted assocs.
  */
 trait Assoc[R <: Root] {
 
@@ -37,13 +37,6 @@ trait Assoc[R <: Root] {
 
   /** true whenever the assoc is with a persisted entity */
   def isPersisted: Boolean
-
-  /** retrieves a persisted assoc. if the associatee has not been loaded into memory, calling this method
-   * will result in a database lookup
-   * 
-   * @throws longevity.exceptions.subdomain.AssocIsUnpersistedException whenever the assoc is not persisted
-   */
-  def retrieve: Future[PState[R]]
 
   /** retrieves an unpersisted associatee from the assoc
    * @throws longevity.exceptions.subdomain.AssocIsPersistedException whenever the assoc is persisted

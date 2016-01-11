@@ -1,5 +1,6 @@
 package longevity.persistence
 
+import longevity.subdomain.Assoc
 import longevity.subdomain.Root
 import longevity.subdomain.root.KeyVal
 import longevity.subdomain.root.Query
@@ -11,8 +12,25 @@ trait Repo[R <: Root] {
   /** creates the aggregate */
   def create(unpersisted: R): Future[PState[R]]
 
-  /** retrieves the aggregate by a key value */
+  /** retrieves an optional persisted assoc
+   * @throws longevity.exceptions.subdomain.AssocIsUnpersistedException whenever the assoc is not persisted
+   */
+  def retrieve(assoc: Assoc[R]): Future[Option[PState[R]]]
+
+  /** retrieves a non-optional persisted assoc
+   * @throws longevity.exceptions.subdomain.AssocIsUnpersistedException whenever the assoc is not persisted
+   * @throws NoSuchElementException whenever the assoc does not refer to an aggregate in the repository.
+   * most likely it was deleted.
+   */
+  def retrieveOne(assoc: Assoc[R]): Future[PState[R]]
+
+  /** retrieves an optional aggregate by a key value */
   def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]]
+
+  /** retrieves a non-optional aggregate by a key value
+   * @throws NoSuchElementException whenever the key value does not refer to an aggregate in the repository
+   */
+  def retrieveOne(keyVal: KeyVal[R]): Future[PState[R]]
 
   /** retrieves the aggregate by a query */
   def retrieveByQuery(query: Query[R]): Future[Seq[PState[R]]]
