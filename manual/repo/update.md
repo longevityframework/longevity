@@ -3,20 +3,39 @@ title: repo.update
 layout: page
 ---
 
-placeholder
+Once we get our hands on a persistent state, we can use `PState.map`
+to modify the aggregate:
 
-- example
-- may not call the database if the state is clean
-  - only Repo method that does not guarrantee a database call
-- we can continue to manipulate the result and pass to update or
-  delete
-- it is possible to update a keyval. so it is possible to create a dup
-  key. see bottom or repo-create.html
-- the pstate result may be different from the input, as the
-  aggregate's revision counter may have been updated.
-  - re-using (or continuing to use) the input pstate could result in an
-    optimistic locking failure
-  - link to the appropriate issue
+    val retrieved: FPState[User] = userRepo.retrieveOne(User.usernameKey(username))
+    val modified: FPState[User] = retrieved map { userState =>
+      userState.map(_.copy(fullname = "John Smith Jr."))
+    }
+
+We can now persist our changes with `Repo.update`:
+
+    val updated: FPState[User] = modified.map { userState =>
+      userRepo.update(userState)
+    }
+
+Calling `Repo.update` may not result in a database call if the
+persistent state is clean, and there are no changes that need to be
+persisted. This is the only example of a repository API method that
+does not necessarily result in a database call.
+
+We can continue to manipulate the persistent state returned by
+`Repo.update`, and pass it on to further calls to `update` or `delete`.
+
+At present, there is nothing preventing you from modifying the
+contents of a key value for an aggregate. Consequently, it is possible
+for `update` to fail by attempting to put in a duplicate key
+value. See the note at the bottom of the [page on
+repo.create](create.html) for more information on duplicate keys.
+
+The resulting `PState` result may well be different from the `PState`
+taken as input. For example, the aggregate's revision counter may have
+been updated. In this case, re-using (or continuing to use) the input
+`PState` could result in an optimistic locking failure. In general,
+you should consider a `PState` passed to `Repo.update` as no longer valid.
 
 {% assign prevTitle = "retrieval by query" %}
 {% assign prevLink = "repo-query.html" %}

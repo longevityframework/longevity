@@ -1,5 +1,5 @@
 ---
-title: retrieval by KeyVal
+title: retrieval by key value
 layout: page
 ---
 
