@@ -17,7 +17,7 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 
     resolvers += Resolver.sonatypeRepo("releases")
 
-    libraryDependencies += "org.longevityframework" %% "longevity" % "0.2.0"
+    libraryDependencies += "org.longevityframework" %% "longevity" % "0.3.0"
 
 ## Building the Artifacts Yourself
 
@@ -62,7 +62,7 @@ instead just `publishLocal` once in the `root` project.
 In the projects where you want to use longevity, include a library
 dependency. If you are on the `master` branch, use:
 
-    libraryDependencies += "org.longevityframework" %% "longevity" % "0.3-SNAPSHOT"
+    libraryDependencies += "org.longevityframework" %% "longevity" % "0.4-SNAPSHOT"
 
 {% assign prevTitle = "aggregates and entities" %}
 {% assign prevLink = "ddd-basics/aggregates-and-entities.html" %}

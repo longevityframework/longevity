@@ -11,17 +11,6 @@ to maintain your back-end store.
 
 - [Repo Pools](repo-pools.html)
 - [Persistent State](persistent-state.html)
-- [Repositories](repositories.html)
-- [Repo.create](repo-create.html)
-- [Repo.retrieve](repo-retrieve.html)
-- [Repo.retrieveByQuery](repo-query.html)
-- [Repo.update](repo-update.html)
-- [Repo.delete](repo-delete.html)
-- Assoc.retrieve
-- FPState and FOPState
-- Testing Your Subdomain
-- Enforcing Constraints
-- Configuring your LongevityContext
 
 {% assign prevTitle = "where not to construct your subdomain" %}
 {% assign prevLink = "../subdomain/where-not.html" %}

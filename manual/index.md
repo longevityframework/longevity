@@ -40,17 +40,19 @@ will put in links as I write the chapters.
 - [The Longevity Context](context)
   - [Repo Pools](context/repo-pools.html)
   - [Persistent State](context/persistent-state.html)
-  - [Repositories](context/repositories.html)
-  - [Repo.create](context/repo-create.html)
-  - [Repo.retrieve](context/repo-retrieve.html)
-  - [Repo.retrieveByQuery](context/repo-query.html)
-  - [Repo.update](context/repo-update.html)
-  - [Repo.delete](context/repo-delete.html)
-  - Assoc.retrieve
-  - FPState and FOPState (minimum manual progress for MMP)
-  - Testing Your Subdomain
-  - Enforcing Constraints
-  - Configuring your LongevityContext
+- [Repositories](repo/index.html)
+  - [The Repo API](repo/repo-api.html)
+  - [Repo.create](repo/create.html)
+  - [Creating Many Aggregates at Once](repo/create-many.html)
+  - [Retrieval by Assoc](repo/retrieve-assoc.html)
+  - [Retrieval by Key Value](repo/retrieve-keyval.html)
+  - [Retrieval by Query](repo/query.html)
+  - [Repo.update](repo/update.html)
+  - [Repo.delete](repo/delete.html)
+- FPState and FOPState (minimum manual progress for MMP)
+- Testing Your Subdomain
+- Enforcing Constraints
+- Configuring your LongevityContext (kinda needed for MMP)
 - Translation into MongoDB
   - Translation of Aggregates into BSON
   - Translation of Persistent State into BSON

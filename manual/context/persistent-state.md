@@ -10,7 +10,7 @@ in there. While you will be able to see these things when querying
 your database by hand, in your application, the persistent state is a
 black box. But you can always get at your aggregate with method `get`:
 
-    val userState: PState[User] = ???
+    val userState: PState[User] = getUserState()
     val user: User = userState.get
 
 Your aggregate is immutable and so is the `PState`. You "update" an
@@ -41,7 +41,7 @@ You can easily wrap a service call into `PState.map`:
       userService.updateScoreCard(user, event)
     }
 
-We have just provided a guarrantee - at virtually no cost - that
+We have just provided a guarantee - at virtually no cost - that
 persistence concerns can not leak into the `UserService`
 implementation.
 
@@ -50,5 +50,5 @@ implementation.
 {% assign upTitle = "the longevity context" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "repositories" %}
-{% assign nextLink = "repositories.html" %}
+{% assign nextLink = "../repo" %}
 {% include navigate.html %}
