@@ -89,7 +89,7 @@ extends BaseRepo[R](rootType, subdomain) {
     val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
-    new Deleted(persisted.get)
+    new Deleted(persisted.get, persisted.assoc)
   }
 
   override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] = Future {

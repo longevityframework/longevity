@@ -57,7 +57,7 @@ extends BaseRepo[R](rootType, subdomain) {
   def delete(persisted: PState[R]) = {
     repo.synchronized { idToEntityMap -= persisted.passoc }
     dumpKeys(persisted.orig)
-    val deleted = new Deleted(persisted.get)
+    val deleted = new Deleted(persisted.get, persisted.assoc)
     Future.successful(deleted)
   }
 

@@ -156,7 +156,7 @@ with TestDataGeneration {
         val deleted: Deleted[R] = repo.delete(created).futureValue
 
         Then(s"we get back a Deleted persistent state")
-        deleted.get should equal (root)
+        deleted.root should equal (root)
 
         And(s"we should no longer be able to retrieve the $rootName")
         representativeKeyOption.foreach { key =>
