@@ -20,4 +20,9 @@ For more information, please see the [longevity
 website](http://longevityframework.github.io/longevity/).
 
 [Emblem](https://github.com/longevityframework/emblem) source code is
-currently also housed under this repository.
+also currently housed under this repository.
+
+(We've been having some trouble with our [Travis CI
+build](https://travis-ci.org/longevityframework/longevity)
+recently. you can rest assured that the build succeeds on our local
+development machines.)
