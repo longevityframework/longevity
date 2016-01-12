@@ -23,9 +23,11 @@ wrapped in its _persistent state_, which in turn is wrapped in a
 operation:
 
     // blogPost.blog is an Assoc[Blog]
-    val blog: Future[PState[Blog]] = blogPost.blog.retrieve
+    // blogRepo is a Repo[Blog]
+    val blog: Future[PState[Blog]] = blogRepo.retrieveOne(blogPost.blog)
 
-More information on retrieving an association can be found TODO.
+More information on retrieving an association can be found
+[here](../repo/retrieve-assoc.html).
 
 When you are building up new, unpersisted entities, you can initialize
 the associations directly:
@@ -35,11 +37,10 @@ the associations directly:
       blog = Assoc(blog),
       authors = Set(Assoc(author1), Assoc(author2)))
 
-When using your repositories to persist the new entities, you need not
-worry about the order that you persist them in. If something hasn't
-been persisted yet, it is recursively persisted.
-
-Information on persisting new entities is here TODO.
+However, these kinds of associations, referred to as "unpersisted
+assocs", will be rejected by methods in the [repository
+API](../repo/repo-api.html). They can only be used for [creating
+multiple aggregates at once](../repo/create-many.html).
 
 {% assign prevTitle = "associations" %}
 {% assign prevLink = "." %}

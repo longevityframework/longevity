@@ -16,15 +16,12 @@ in the future. But we want to get the persistence part right, first.
 
 </div>
 
-Our discussion on building subdomains breaks down as follows:
+Our discussion on the basics of building subdomains breaks down as follows:
 
 - [Kinds of Subdomains](kinds.html)
 - [Aggregate Roots](roots.html)
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
-- [Shorthands](shorthands.html)
-- [Shorthand Pools](shorthand-pools.html)
-- [Where Not to Construct Your Shorthand Pools](where-not.html)
 
 {% assign prevTitle = "project setup" %}
 {% assign prevLink = "../project-setup.html" %}

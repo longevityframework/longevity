@@ -14,7 +14,7 @@ not exactly clear what affect this has on an implementation. In a
 relational database, we would be inclined to give an entity a primary
 key, and not do so with a value object. But with a document database,
 entities and value objects both attain their identity from their
-position within an aggregate, or document.
+position within the aggregate, or document.
 
 Consequently, longevity does not distinguish between entities and
 value objects. But we happily support the terminology by providing

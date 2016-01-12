@@ -6,14 +6,13 @@ layout: page
 Longevity uses [Typesafe
 Config](https://github.com/typesafehub/config) to help you configure
 your `LongevityContext`. The default configuration settings are found
-in the `reference.conf` file included in the longevity jar. (Here's
-the [latest version on
+in the `reference.conf` file included in the longevity jar.  This file
+contains settings for all the available context
+configurations. (Here's the [latest version on
 GitHub](https://github.com/longevityframework/longevity/blob/master/src/main/resources/reference.conf).)
-This file contains settings for all the available context
-configurations.
 
-The typical way to supply configuration to you application is to
-override these defaults in your `application.conf` file, located in
+The typical way to supply configuration to your application is to
+override these defaults in your `application.conf` file, located on
 your classpath.
 
 If you have multiple `LongevityContexts` living in the same
@@ -28,11 +27,11 @@ documentation](https://github.com/typesafehub/config#overview) for
 more information on the different ways you can manage your
 configuration.
 
-{% assign prevTitle = "todo" %}
-{% assign prevLink = "todo.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = "./" %}
-{% assign nextTitle="todo" %}
-{% assign nextLink="todo.html" %}
+{% assign prevTitle = "the longevity context" %}
+{% assign prevLink = "." %}
+{% assign upTitle = "the longevity context" %}
+{% assign upLink = "." %}
+{% assign nextTitle = "repo pools" %}
+{% assign nextLink = "repo-pools.html" %}
 {% include navigate.html %}
 

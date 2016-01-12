@@ -43,19 +43,10 @@ case:
 
 ### Publish Local
 
-Now use SBT to publish the emblem artifact locally:
+Now use SBT to publish the `emblem` and `longevity` artifacts
+locally. From the command line:
 
-    sbt
-
-Within SBT, issue the following commands:
-
-    project emblem
-    publishLocal
-    project longevity
-    publishLocal
-
-If you don't mind generating a couple of extraneous artifacts, you can
-instead just `publishLocal` once in the `root` project.
+    sbt publishLocal
 
 ### Include as a Library Dependency
 

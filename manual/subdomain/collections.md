@@ -20,12 +20,12 @@ It's on our TODO list to [handle a wider variety of collection
 types](https://www.pivotaltracker.com/story/show/88571474), including
 `Maps`. But this basic set of collections should satisfy your
 needs. If you are itching to use another collection type in your
-subdomain, please let us know! But please note that we will only ever
-support immutable collections. It is important for the aggregates to
-be entirely immutable, so that longevity can keep track of any
-changes.
-
-TODO: link to appropriate section on `PersistentState`.
+subdomain, please [let us
+know](http://longevityframework.github.io/longevity/discussions.html)!
+But please note that we will only ever support immutable
+collections. It is important for the aggregates to be entirely
+immutable, so that longevity can [keep track of any
+changes](../context/persistent-state.html).
 
 {% assign prevTitle = "basic properties" %}
 {% assign prevLink = "basics.html" %}

@@ -23,8 +23,8 @@ determination is, "would a domain expert care about such things"?
 They would clearly care that an account number is unique, but they
 _should not_ care about how that maps into a database schema.
 
-As we build our keys and indexes up out of properties, we discuss
-properties first.
+Because we build our keys and indexes up out of properties, we will
+discuss properties first.
 
 - [Properties](properties.html)
 - [Keys](keys.html)

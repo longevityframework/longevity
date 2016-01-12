@@ -10,13 +10,13 @@ should perform quickly, then we need to define an index, like so:
 
 {% gist sullivan-/eaa0f96308d6f16a36c3 %}
 
-An index like `lastFirstIndex` above will assure fast performance for
-queries that filter on `lastName`, as well as for queries where
-`lastName` is fixed and `firstName` is filtered. It will not assure
-performance for a search on `firstName` alone.
+An index like `User.indexes.fullname` above will assure fast
+performance for queries that filter on `lastName`, as well as for
+queries where `lastName` is fixed and `firstName` is filtered. It will
+not assure performance for a search on `firstName` alone.
 
-Indexes are used by `Repo.findByQuery`, which is described in a [later
-section](TODO.html).
+Indexes are used by `Repo.retrieveByQuery`, which is described in a [later
+section](../repo/query.html).
 
 {% assign prevTitle = "keys" %}
 {% assign prevLink = "keys.html" %}

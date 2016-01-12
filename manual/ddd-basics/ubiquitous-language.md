@@ -18,7 +18,7 @@ to use the language of the domain in all contexts of the
 project. Discussions with domain experts, among developers, the
 language used in documents, and especially in the code itself, should
 all conform to the same vocabulary. Thus, the language of our domain
-becomes ubiquitous, or used everywhere.
+becomes ubiquitous, or "used everywhere".
 
 Ideally, the coding elements that model our domain would be a direct
 translation of the elements we might include in a UML modelling

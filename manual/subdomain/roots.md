@@ -19,11 +19,9 @@ and pass it to the subdomain:
 
 {% gist sullivan-/6a68ac5f6f6331274e21 %}
 
-All we need to do now is to slap our `Subdomain` into a
-`LongevityContext`, and we are ready to start persisting users, as we
+All we need to do now is to [slap our `Subdomain` into a
+`LongevityContext`](../context), and we are ready to start persisting users, as we
 will see in a later chapter.
-
-TODO: link to chapter on building LongevityContext
 
 <div class="blue-side-bar">
 

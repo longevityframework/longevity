@@ -38,6 +38,7 @@ will put in links as I write the chapters.
   - [Keys](root-type/keys.html)
   - [Indexes](root-type/indexes.html)
 - [The Longevity Context](context)
+  - [Configuring your Longevity Context](context/config.html)
   - [Repo Pools](context/repo-pools.html)
   - [Persistent State](context/persistent-state.html)
 - [Repositories](repo/index.html)
@@ -50,14 +51,13 @@ will put in links as I write the chapters.
   - [Repo.update](repo/update.html)
   - [Repo.delete](repo/delete.html)
 - FPState and FOPState (TODO)
-- Testing Your Subdomain (TODO)
-- Enforcing Constraints (TODO)
-- [Configuring your Longevity Context](config.html)
-- Translation into MongoDB (TODO)
+- [Testing Your Subdomain](testing.html) (TODO)
+- [Enforcing Constraints](constraints.html) (TODO)
+- [Translation into MongoDB](mongo) (TODO)
   - Translation of Aggregates into BSON (TODO)
   - Translation of Persistent State into BSON (TODO)
   - Keys and Indexes (TODO)
-- Translation into Cassandra (TODO)
+- [Translation into Cassandra](cassandra) (TODO)
 
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}

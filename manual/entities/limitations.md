@@ -14,7 +14,8 @@ classes you can use for your [entites](entities.html) and
   of a [basic type](basics.html).
 
 We would like to relax these limitations in the future. If you find
-these limitations to be too cumbersome for you, please let us know
+these limitations to be too cumbersome for you, please [let us
+know](http://longevityframework.github.io/longevity/discussions.html)
 what you are trying to do, and we will see what we can to do help.
 Just keep in mind that, whatever possibilities we allow for, longevity
 has the following requirements:
@@ -28,9 +29,6 @@ has the following requirements:
 Case classes are quite convenient things for fulfilling the
 requirements we have. They also seem a natural choice for modeling out
 a domain. We chose to start with them for these reasons.
-
-TODO: link to discussions page for "please let us know" remarks
-throughout the user man
 
 {% assign prevTitle = "entities and value objects" %}
 {% assign prevLink = "value-objects.html" %}

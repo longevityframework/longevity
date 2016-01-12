@@ -27,6 +27,8 @@ label [longevity 1.0 post
 MMP](https://www.pivotaltracker.com/epic/show/1769462):
 
 - Cassandra back end
+- enhanced query support
+- finer control over keys and indexes
 - optimistic locking
 - soft deletes
 - schema generation

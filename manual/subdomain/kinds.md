@@ -7,9 +7,9 @@ Domain Driven Design describes a few [different kinds of
 subdomains](http://blog.jonathanoliver.com/ddd-strategic-design-core-supporting-and-generic-subdomains/),
 such as _core_, _supporting_, and _generic_. In longevity, these are all
 the same thing, but you can call them as you please. You can also make
-use of multiple longevity `Subdomains` in a single application.
-
-TODO: link here to longevity config chapter on multiple contexts.
+use of multiple longevity `Subdomains` in a single application. (See
+the [chapter on configuration](../context/config.html) for providing separate
+configuration for each subdomain.)
 
 Longevity `Subdomains` are quite easy to construct, and in this
 section, we will review all the tools at your disposal to build

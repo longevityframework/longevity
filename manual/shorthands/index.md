@@ -37,7 +37,7 @@ domain type and an abbreviated type (`Email` and `String`, in this
 example). The abbreviated type should be a [basic type](basics.html).
 
 Collect all your shorthands into a `ShorthandPool`, and make the
-shorthand pool implicitly available to your `RootEntityTypes`, as they
+shorthand pool implicitly available to your `RootTypes`, as they
 will need to know about them. Here's an example:
 
 {% gist sullivan-/d1a59a70bbfbcc1e0f78 %}
@@ -52,9 +52,8 @@ abbreviated to the actual, as used to construct a user here:
 
 Shorthands like `Email` are a natural place to put constraint
 validations, such as the well-formedness of an email address. Please
-see the chapter on enforcing constraints for more information.
-
-TODO: provide line to enforcing constraints chapter
+see the [chapter on enforcing constraints](../constraints.html) for
+more information.
 
 {% assign prevTitle = "collections" %}
 {% assign prevLink = "../subdomain/collections.html" %}
