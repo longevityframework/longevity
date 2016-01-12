@@ -49,15 +49,15 @@ will put in links as I write the chapters.
   - [Retrieval by Query](repo/query.html)
   - [Repo.update](repo/update.html)
   - [Repo.delete](repo/delete.html)
-- FPState and FOPState (minimum manual progress for MMP)
-- Testing Your Subdomain
-- Enforcing Constraints
-- Configuring your LongevityContext (kinda needed for MMP)
-- Translation into MongoDB
-  - Translation of Aggregates into BSON
-  - Translation of Persistent State into BSON
-  - Keys and Indexes
-- Translation into Cassandra
+- FPState and FOPState (TODO)
+- Testing Your Subdomain (TODO)
+- Enforcing Constraints (TODO)
+- [Configuring your Longevity Context](config.html)
+- Translation into MongoDB (TODO)
+  - Translation of Aggregates into BSON (TODO)
+  - Translation of Persistent State into BSON (TODO)
+  - Keys and Indexes (TODO)
+- Translation into Cassandra (TODO)
 
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}
