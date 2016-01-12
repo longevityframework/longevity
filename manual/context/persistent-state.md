@@ -6,9 +6,10 @@ layout: page
 The persistent state is a container for your roots where the
 persistence information is stored. You might find database IDs,
 optimistic locking counters, dirty flags, and created/modified columns
-in there. While you will be able to see these things when querying
-your database by hand, in your application, the persistent state is a
-black box. But you can always get at your aggregate with method `get`:
+in there. While you will be able to see some of these things when
+querying your database by hand, in your application, the persistent
+state is a black box. But you can always get at your aggregate with
+method `get`:
 
     val userState: PState[User] = getUserState()
     val user: User = userState.get

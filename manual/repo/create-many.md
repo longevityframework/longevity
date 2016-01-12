@@ -31,7 +31,7 @@ error:
     userRepo.create(john)
     repoPool.createMany(frank, blog, johnsPost, franksPost)
 
-Here, `createMany` with find an unpersisted assoc to `john` from both
+Here, `createMany` will find an unpersisted assoc to `john` from both
 `blog` and `johnsPost`, and will attempt to persist `john` a second
 time. It always treats unpersisted assocs as aggregates to create. But
 feel free to mix in persisted assocs as well. For example, if for

@@ -21,7 +21,7 @@ You can also pull a `KeyVal` out of an existing `Root` if you so
 desire:
 
     val user: User = parseUserFromJson(json)
-    val userKeyVal: KeyVal[User] = User.usernameKey.keyValForRoot(user)
+    val userKeyVal: KeyVal[User] = User.keys.username.keyValForRoot(user)
 
 (The name of this method is intentionally long, as it doesn't seem
 a very useful method.)

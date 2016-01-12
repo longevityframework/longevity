@@ -47,9 +47,7 @@ strict](http://www.datastax.com/dev/blog/a-deep-look-to-the-cql-where-clause).
 [indexes](../root-type/indexes.html) will aid query performance in an
 intuitive manner. For finer details on just how your query will run,
 please see the chapters on how your subdomain is translated to your
-NoSQL backend.
-
-TODO: links to the translation chapters
+NoSQL backend ([Mongo](../mongo) and [Cassandra](../cassandra)).
 
 {% assign prevTitle = "retrieval by key value" %}
 {% assign prevLink = "retrieve-keyval.html" %}
