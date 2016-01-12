@@ -19,6 +19,7 @@ tests.
 - [Feature List](feature-list.html)
 - [Quick Start Guide](quick-start.html)
 - [User Manual](manual)
+- [Scaladocs](scaladocs)
 
 - [Questions, Comments, Problems, and Discussions](discussions.html)
 - [Contributing](contributing.html)

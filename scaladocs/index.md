@@ -3,20 +3,10 @@ title: scaladocs
 layout: page
 ---
 
-Here are the Scaladocs for the
-[emblem](https://github.com/sullivan-/emblem/wiki)
-[longevity](http://sullivan-.github.io/longevity/) projects. I'm only
-publishing released versions at this point. If you want something from
-`HEAD`, you can generate them yourself pretty easily: run `sbt
-"project emblem" doc` or `sbt "project longevity" doc`.
+Here are the Scaladocs for the latest released version of the
+[emblem](https://github.com/sullivan-/emblem/wiki) and
+[longevity](http://sullivan-.github.io/longevity/) projects:
 
-Scaladocs for the latest release can be found here:
-
-- [longevity API](longevity-latest)
-- [emblem API](emblem-latest)
-
-Scaladocs per release:
-
-- [longevity 0.2.0 API](longevity-0.2.0)
-- [emblem 0.2.0 API](emblem-0.2.0)
+- [longevity 0.4.0 API](longevity-latest)
+- [emblem 0.4.0 API](emblem-latest)
 
