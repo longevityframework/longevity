@@ -28,8 +28,9 @@ trait BuildSettings {
   //   - src/test/scala/longevity/integration/quickStart/QuickStartSpec.scala on longevity master branch
 
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
+
     organization := "org.longevityframework",
-    version := "0.4.0",
+    version := "0.5-SNAPSHOT",
     scalaVersion := "2.11.7",
 
     // compile
