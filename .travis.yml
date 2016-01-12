@@ -1,6 +1,6 @@
 language: scala
 script:
-  - sbt -J-Xmx2048M clean test
+  - sbt -J-Xmx4096M clean test doc
 scala:
   - 2.11.7
 jdk:

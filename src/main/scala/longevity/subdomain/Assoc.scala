@@ -21,7 +21,8 @@ object Assoc {
  *
  * there are basically two kinds of associations that you have to understand. the main kind is a
  * "persisted assoc", which means an association to an aggregate that has already been persisted.
- * the associated aggregate can be retrieved using [[longevity.persistence.Repo.retrieve(Assoc)]].
+ * the associated aggregate can be retrieved using [[longevity.persistence.Repo repository method]]
+ * `retrieve(Assoc[R])`.
  *
  * the second kind of association is an "unpersisted assoc", which you can use when creating multiple
  * aggregates at once with [[longevity.persistence.RepoPool.createMany]]. unpersisted assocs are

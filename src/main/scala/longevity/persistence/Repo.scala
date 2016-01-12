@@ -18,9 +18,11 @@ trait Repo[R <: Root] {
   def retrieve(assoc: Assoc[R]): Future[Option[PState[R]]]
 
   /** retrieves a non-optional persisted assoc
-   * @throws longevity.exceptions.subdomain.AssocIsUnpersistedException whenever the assoc is not persisted
-   * @throws NoSuchElementException whenever the assoc does not refer to an aggregate in the repository.
+   * 
+   * throws NoSuchElementException whenever the assoc does not refer to an aggregate in the repository.
    * most likely it was deleted.
+   * 
+   * @throws longevity.exceptions.subdomain.AssocIsUnpersistedException whenever the assoc is not persisted
    */
   def retrieveOne(assoc: Assoc[R]): Future[PState[R]]
 
@@ -28,7 +30,8 @@ trait Repo[R <: Root] {
   def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]]
 
   /** retrieves a non-optional aggregate by a key value
-   * @throws NoSuchElementException whenever the key value does not refer to an aggregate in the repository
+   * 
+   * throws NoSuchElementException whenever the key value does not refer to an aggregate in the repository
    */
   def retrieveOne(keyVal: KeyVal[R]): Future[PState[R]]
 
