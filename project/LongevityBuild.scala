@@ -29,7 +29,7 @@ trait BuildSettings {
 
   val buildSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
-    version := "0.4-SNAPSHOT",
+    version := "0.4.0",
     scalaVersion := "2.11.7",
 
     // compile
