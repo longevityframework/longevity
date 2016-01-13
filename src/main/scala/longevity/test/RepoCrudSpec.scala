@@ -65,7 +65,7 @@ with TestDataGeneration {
   private class RepoSpec[R <: Root : TypeKey](private val repo: BaseRepo[R]) {
 
     private val rootName = repo.rootType.emblem.name
-    private val representativeKeyOption = repo.rootType.keys.headOption
+    private val representativeKeyOption = repo.rootType.keySet.headOption
 
     object Create extends Tag("Create")
     object Retrieve extends Tag("Retrieve")
@@ -107,7 +107,7 @@ with TestDataGeneration {
 
         When(s"we retrieve the $rootName by any of its keys")
         Then(s"we get back the same $rootName persistent state")
-        repo.rootType.keys.foreach { key =>
+        repo.rootType.keySet.foreach { key =>
           val keyValForRoot = key.keyValForRoot(created.get)
           val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
           retrieved.get should equal (root)

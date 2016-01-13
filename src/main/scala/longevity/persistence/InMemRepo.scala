@@ -93,7 +93,7 @@ extends BaseRepo[R](rootType, subdomain) {
     val persisted = new PState[R](assoc, root)
     repo.synchronized {
       idToEntityMap += (assoc -> persisted)
-      rootType.keys.foreach { key =>
+      rootType.keySet.foreach { key =>
         val keyVal = key.keyValForRoot(root)
         keyValToEntityMap += keyVal -> persisted
       }
@@ -102,7 +102,7 @@ extends BaseRepo[R](rootType, subdomain) {
   }
 
   private def dumpKeys(root: R) = repo.synchronized {
-    rootType.keys.foreach { key =>
+    rootType.keySet.foreach { key =>
       val keyVal = key.keyValForRoot(root)
       keyValToEntityMap -= keyVal
     }

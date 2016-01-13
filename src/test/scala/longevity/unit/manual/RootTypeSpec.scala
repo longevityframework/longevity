@@ -167,8 +167,8 @@ class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys1.subdomain.entityTypePool.values.head should equal (keys1.User)
       keys1.subdomain.rootTypePool.size should equal (1)
       keys1.subdomain.rootTypePool.values.head should equal (keys1.User)
-      keys1.User.keys.size should equal (1)
-      keys1.User.keys.head should equal (keys1.User.usernameKey)
+      keys1.User.keySet.size should equal (1)
+      keys1.User.keySet.head should equal (keys1.User.usernameKey)
       keys1.User.usernameKey.props.size should equal (1)
       val prop = keys1.User.usernameKey.props.head
       prop.path should equal ("username")
@@ -181,14 +181,14 @@ class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys2.subdomain.entityTypePool.values.head should equal (keys2.User)
       keys2.subdomain.rootTypePool.size should equal (1)
       keys2.subdomain.rootTypePool.values.head should equal (keys2.User)
-      keys2.User.keys.size should equal (2)
-      keys2.User.keys.find(_.props.size == 1).value should equal (keys2.User.usernameKey)
+      keys2.User.keySet.size should equal (2)
+      keys2.User.keySet.find(_.props.size == 1).value should equal (keys2.User.usernameKey)
       keys2.User.usernameKey.props.size should equal (1)
       val usernameProp = keys2.User.usernameKey.props.head
       usernameProp.path should equal ("username")
       usernameProp.typeKey should equal (typeKey[String])
 
-      keys2.User.keys.find(_.props.size == 2).value should equal (keys2.User.fullnameKey)
+      keys2.User.keySet.find(_.props.size == 2).value should equal (keys2.User.fullnameKey)
       keys2.User.fullnameKey.props.size should equal (2)
       val firstNameProp = keys2.User.fullnameKey.props.find(_.path == "firstName").value
       firstNameProp.path should equal ("firstName")

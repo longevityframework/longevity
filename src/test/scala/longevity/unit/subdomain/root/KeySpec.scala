@@ -16,7 +16,7 @@ object KeySpec {
   object earlyKeyAccess {
     case class Early() extends Root
     object Early extends RootType[Early]
-    Early.keys.foreach { k => println(k) }
+    Early.keySet.foreach { k => println(k) }
     val entityTypes = EntityTypePool(Early)
     val subdomain = Subdomain("early key access", entityTypes)
   }

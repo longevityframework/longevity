@@ -15,7 +15,7 @@ object IndexSpec {
   object earlyIndexAccess {
     case class Early() extends Root
     object Early extends RootType[Early]
-    Early.indexes.foreach { k => println(k) }
+    Early.indexSet.foreach { k => println(k) }
     val entityTypes = EntityTypePool(Early)
     val subdomain = Subdomain("early index access", entityTypes)
   }

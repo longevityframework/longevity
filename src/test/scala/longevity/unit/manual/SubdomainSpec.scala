@@ -382,7 +382,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       roots.subdomain.shorthandPool should be ('empty)
       roots.subdomain.rootTypePool.size should equal (1)
       roots.subdomain.rootTypePool.values.head should equal (roots.User)
-      roots.User.keys should be ('empty)
+      roots.User.keySet should be ('empty)
     }
 
     {
@@ -392,7 +392,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       basics.subdomain.rootTypePool.size should equal (1)
       basics.subdomain.rootTypePool.values.head should equal (basics.User)
       basics.subdomain.shorthandPool should be ('empty)
-      basics.User.keys should be ('empty)
+      basics.User.keySet should be ('empty)
     }
 
     {
@@ -402,7 +402,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       collections.subdomain.shorthandPool should be ('empty)
       collections.subdomain.rootTypePool.size should equal (1)
       collections.subdomain.rootTypePool.values.head should equal (collections.User)
-      collections.User.keys should be ('empty)
+      collections.User.keySet should be ('empty)
     }
 
     {
@@ -413,12 +413,12 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands1.subdomain.shorthandPool.values.head should equal (shorthands1.shorthands.emailShorthand)
       shorthands1.subdomain.rootTypePool.size should equal (1)
       shorthands1.subdomain.rootTypePool.values.head should equal (shorthands1.User)
-      shorthands1.User.keys should be ('empty)
+      shorthands1.User.keySet should be ('empty)
     }
 
     {
       intercept[java.lang.ExceptionInInitializerError] {
-        shorthandsInitIssues.User.keys should be ('empty)
+        shorthandsInitIssues.User.keySet should be ('empty)
       }
     }
 
@@ -433,7 +433,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       entities.subdomain.shorthandPool.values should contain (entities.uriShorthand)
       entities.subdomain.rootTypePool.size should equal (1)
       entities.subdomain.rootTypePool.values.head should equal (entities.User)
-      entities.User.keys should be ('empty)
+      entities.User.keySet should be ('empty)
     }
 
     {
@@ -447,7 +447,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.zipCodeShorthand)
       valueObjects1.subdomain.rootTypePool.size should equal (1)
       valueObjects1.subdomain.rootTypePool.values.head should equal (valueObjects1.User)
-      valueObjects1.User.keys should be ('empty)
+      valueObjects1.User.keySet should be ('empty)
     }
 
     {
@@ -461,7 +461,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.zipCodeShorthand)
       valueObjects2.subdomain.rootTypePool.size should equal (1)
       valueObjects2.subdomain.rootTypePool.values.head should equal (valueObjects2.User)
-      valueObjects2.User.keys should be ('empty)
+      valueObjects2.User.keySet should be ('empty)
     }
 
   }
