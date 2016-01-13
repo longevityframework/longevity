@@ -23,9 +23,6 @@ desire:
     val user: User = parseUserFromJson(json)
     val userKeyVal: KeyVal[User] = User.usernameKey.keyValForRoot(user)
 
-(The name of this method is intentionally long, as it doesn't seem
-a very useful method.)
-
 Once you have your `KeyVal`, you can look up the aggregate in the
 database. You get an `Option` back, as the `KeyVal` does not
 necessarily match an existing aggregate.
