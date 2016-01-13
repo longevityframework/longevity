@@ -3,7 +3,15 @@ title: what's happening
 layout: page
 ---
 
-2015.10.27
+## 2016.01.13
+
+Longevity 0.4.1 MMP has been released!
+
+Please see the [release
+announcement](http://scabl.blogspot.com/2016/01/longevity-mmp-release.html)
+on the scabl blog.
+
+## 2015.10.27
 
 Longevity is gearing up for an MMP release!
 
