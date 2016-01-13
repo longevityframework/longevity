@@ -20,7 +20,7 @@ object QuickStartSpec {
   // set up your library dependencies in sbt:
 
   // resolvers += Resolver.sonatypeRepo("releases")
-  // libraryDependencies += "org.longevityframework" %% "longevity" % "0.4.0"
+  // libraryDependencies += "org.longevityframework" %% "longevity" % "0.4.1"
 
   // if you are using mongo, get the mongo driver:
 
