@@ -17,7 +17,7 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 
     resolvers += Resolver.sonatypeRepo("releases")
 
-    libraryDependencies += "org.longevityframework" %% "longevity" % "0.4.0"
+    libraryDependencies += "org.longevityframework" %% "longevity" % "0.4.1"
 
 ## Building the Artifacts Yourself
 
