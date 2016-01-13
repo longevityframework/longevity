@@ -94,10 +94,8 @@ extends BaseRepo[R](rootType, subdomain) {
 
   override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] = Future {
     val objectId = assoc.asInstanceOf[MongoId].objectId
-    println(s"retrievePersistedAssoc $objectId $rootTypeKey")
     val query = MongoDBObject("_id" -> objectId)
     val resultOption = mongoCollection.findOne(query)
-    println(s"retrievePersistedAssoc $resultOption")
     val rootOption = resultOption map { casbahToEntityTranslator.translate(_) }
     rootOption map { e => new PState[R](assoc, e) }
   }

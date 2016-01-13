@@ -32,7 +32,6 @@ extends Transformer {
     def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: Future[B]): Future[B] =
       input.flatMap { b =>
         def unpersistedRoot[R <: Root : TypeKey]: Future[R] = {
-          println(s"unpersistedRoot $b ${typeKey[R]}")
           val assoc = b.asInstanceOf[Assoc[R]]
           val futurePersistedRoot = repoPool(typeKey[R]).retrieveOne(assoc).map(_.get)
           transform(futurePersistedRoot)(typeKey[R])
