@@ -1,6 +1,7 @@
 package longevity.integration.subdomain.withComponentWithShorthands
 
 import longevity.subdomain._
+import shorthands._
 
 case class WithComponentWithShorthands(
   uri: String,

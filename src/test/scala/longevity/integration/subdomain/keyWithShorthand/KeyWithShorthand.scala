@@ -1,6 +1,7 @@
 package longevity.integration.subdomain.keyWithShorthand
 
 import longevity.subdomain._
+import shorthands._
 
 case class KeyWithShorthand(id: String, uri: Uri) extends Root
 

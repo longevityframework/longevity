@@ -1,14 +1,17 @@
 package longevity
 
+import com.datastax.driver.core.Cluster
+import com.datastax.driver.core.Session
 import com.mongodb.casbah.Imports._
 import com.typesafe.config.Config
-import emblem.imports._
 import emblem.TypeBoundPair
+import emblem.imports._
 import longevity.context._
+import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.subdomain._
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /** manages entity persistence operations */
 package object persistence {
@@ -78,6 +81,7 @@ package object persistence {
     persistenceStrategy match {
       case InMem => inMemRepoPool(subdomain)
       case Mongo => mongoRepoPool(subdomain, mongoDb(config))
+      case Cassandra => cassandraRepoPool(subdomain, session(config))
     }
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
@@ -102,6 +106,37 @@ package object persistence {
     object repoFactory extends StockRepoFactory {
       def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): BaseRepo[R] =
         new MongoRepo(entityType, subdomain, mongoDB)(entityKey)
+    }
+    buildRepoPool(subdomain, repoFactory)
+  }
+
+  // TODO rename to cassandraSession
+  private def session(config: Config): Session = {
+    val builder = Cluster.builder.addContactPoint(config.getString("cassandra.address"))
+    if (config.getBoolean("cassandra.useCredentials")) {
+      builder.withCredentials(
+        config.getString("cassandra.username"),
+        config.getString("cassandra.password"))
+    }
+    val cluster = builder.build
+    val session = cluster.connect();
+    val keyspace = config.getString("cassandra.keyspace")
+    val replicationFactor = config.getInt("cassandra.replicationFactor")
+    session.execute(s"""|CREATE KEYSPACE IF NOT EXISTS $keyspace
+                    |WITH replication = {
+                    |  'class': 'SimpleStrategy',
+                    |  'replication_factor': $replicationFactor
+                    |};
+                    |""".stripMargin)
+    session.execute(s"use $keyspace")
+    session
+  }
+  
+  private def cassandraRepoPool(subdomain: Subdomain, session: Session)
+  : RepoPool = {
+    object repoFactory extends StockRepoFactory {
+      def build[R <: Root](rootType: RootType[R], rootTypeKey: TypeKey[R]): BaseRepo[R] =
+        new CassandraRepo(rootType, subdomain, session)(rootTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }

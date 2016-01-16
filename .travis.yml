@@ -1,9 +1,10 @@
 language: scala
 script:
-  - sbt -J-Xmx4096M clean test doc
+  - sbt -J-Xmx4096M clean coverage test doc
 scala:
   - 2.11.7
 jdk:
   - oraclejdk8
 services:
   - mongodb
+  - cassandra

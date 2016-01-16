@@ -6,6 +6,8 @@ import emblem.imports._
 import longevity.persistence._
 import longevity.persistence.mongo.MongoRepo
 
+// TODO unit tests for cassandra here
+
 /** unit tests for the proper construction of [[LongevityContext.repoPool]] and
  * [[LongevityContext.inMemRepoPool]]
  */

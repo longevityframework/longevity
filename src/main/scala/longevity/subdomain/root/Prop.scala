@@ -3,7 +3,6 @@ package longevity.subdomain.root
 import emblem.EmblemPropPath
 import emblem.basicTypes.basicTypeOrderings
 import emblem.basicTypes.isBasicType
-import emblem.exceptions.CollectionInPropPathException
 import emblem.exceptions.EmblemPropPathTypeMismatchException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblemInPropPathException
@@ -79,8 +78,6 @@ object Prop {
           throw new NoSuchPropException(path, rootTypeKey)
         case e: NoSuchPropertyException =>
           throw new NoSuchPropException(path, rootTypeKey)
-        case e: CollectionInPropPathException[_] =>
-          throw new UnsupportedPropTypeException(path)(rootTypeKey, e.typeKey)
         case e: NonEmblemInPropPathException[_] =>
           throw new UnsupportedPropTypeException(path)(rootTypeKey, e.typeKey)
       }

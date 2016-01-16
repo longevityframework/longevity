@@ -3,7 +3,7 @@ package longevity.integration.queries
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.allShorthands._
 
-class AllShorthandsMongoQuerySpec extends QuerySpec[AllShorthands](mongoContext, mongoContext.testRepoPool) {
+class AllShorthandsMongoQuerySpec extends QuerySpec[AllShorthands](context.mongoContext, context.mongoContext.testRepoPool) {
 
   val repo = repoPool[AllShorthands]
 

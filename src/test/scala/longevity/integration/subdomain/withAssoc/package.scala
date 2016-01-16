@@ -3,17 +3,20 @@ package longevity.integration.subdomain
 import longevity.context._
 import longevity.subdomain._
 
-/** covers a root with a single association to another root */
+/** covers a root entity with a single association to another root entity */
 package object withAssoc {
 
   object shorthands {
-    implicit val shorthandPool = ShorthandPool.empty
+    implicit val pool = ShorthandPool.empty
   }
 
   import shorthands._
 
-  val entityTypes = EntityTypePool() + WithAssoc + Associated
-  val subdomain = Subdomain("With Assoc", entityTypes)
-  val mongoContext = LongevityContext(subdomain, Mongo)
+  object context {
+    val entityTypes = EntityTypePool() + WithAssoc + Associated
+    val subdomain = Subdomain("With Assoc", entityTypes)
+    val mongoContext = LongevityContext(subdomain, Mongo)
+    val cassandraContext = LongevityContext(subdomain, Cassandra)
+  }
 
 }

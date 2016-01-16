@@ -2,4 +2,4 @@ package longevity.integration.subdomain.allShorthands
 
 import org.scalatest.Suites
 
-class MongoAllShorthandsSpec extends Suites(mongoContext.repoCrudSpec)
+class MongoAllShorthandsSpec extends Suites(context.mongoContext.repoCrudSpec)

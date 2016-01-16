@@ -3,7 +3,7 @@ package longevity.integration.subdomain
 import longevity.context._
 import longevity.subdomain._
 
-/** covers a root with attributes of every supported basic type */
+/** covers a root entity with attributes of every supported basic type */
 package object allAttributes {
 
   object shorthands {
@@ -12,8 +12,11 @@ package object allAttributes {
 
   import shorthands._
 
-  val entityTypes = EntityTypePool() + AllAttributes
-  val subdomain = Subdomain("All Attributes", entityTypes)
-  val mongoContext = LongevityContext(subdomain, Mongo)
+  object context {
+    val entityTypes = EntityTypePool() + AllAttributes
+    val subdomain = Subdomain("All Attributes", entityTypes)
+    val mongoContext = LongevityContext(subdomain, Mongo)
+    val cassandraContext = LongevityContext(subdomain, Cassandra)
+  }
 
 }

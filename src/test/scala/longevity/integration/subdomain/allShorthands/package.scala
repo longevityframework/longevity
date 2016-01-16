@@ -4,7 +4,7 @@ import com.github.nscala_time.time.Imports._
 import longevity.context._
 import longevity.subdomain._
 
-/** covers a root with shorthands for every supported basic type */
+/** covers a root entity with shorthands for every supported basic type */
 package object allShorthands {
 
   object shorthands {
@@ -19,20 +19,24 @@ package object allShorthands {
     val stringShorthand = Shorthand[StringShorthand, String]
 
     implicit val shorthandPool = ShorthandPool.empty +
-    booleanShorthand +
-    charShorthand +
-    dateTimeShorthand +
-    doubleShorthand +
-    floatShorthand +
-    intShorthand +
-    longShorthand +
-    stringShorthand
+      booleanShorthand +
+      charShorthand +
+      dateTimeShorthand +
+      doubleShorthand +
+      floatShorthand +
+      intShorthand +
+      longShorthand +
+      stringShorthand
+
   }
 
   import shorthands._
 
-  val entityTypes = EntityTypePool() + AllShorthands
-  val subdomain = Subdomain("All Shorthands", entityTypes)
-  val mongoContext = LongevityContext(subdomain, Mongo)
+  object context {
+    val entityTypes = EntityTypePool() + AllShorthands
+    val subdomain = Subdomain("All Shorthands", entityTypes)
+    val mongoContext = LongevityContext(subdomain, Mongo)
+    val cassandraContext = LongevityContext(subdomain, Cassandra)
+  }
 
 }

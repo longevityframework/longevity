@@ -2,4 +2,4 @@ package longevity.integration.subdomain.withAssoc
 
 import org.scalatest.Suites
 
-class MongoWithAssocSpec extends Suites(mongoContext.repoCrudSpec)
+class MongoWithAssocSpec extends Suites(context.mongoContext.repoCrudSpec)

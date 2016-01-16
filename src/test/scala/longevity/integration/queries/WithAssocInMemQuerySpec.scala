@@ -4,7 +4,7 @@ import longevity.subdomain.Assoc
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.withAssoc._
 
-class WithAssocInMemQuerySpec extends QuerySpec[WithAssoc](mongoContext, mongoContext.inMemTestRepoPool) {
+class WithAssocInMemQuerySpec extends QuerySpec[WithAssoc](context.mongoContext, context.mongoContext.inMemTestRepoPool) {
 
   val repo = repoPool[WithAssoc]
 

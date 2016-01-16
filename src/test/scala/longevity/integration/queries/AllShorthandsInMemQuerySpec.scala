@@ -4,7 +4,7 @@ import longevity.test.QuerySpec
 import longevity.integration.subdomain.allShorthands._
 
 class AllShorthandsInMemQuerySpec
-extends QuerySpec[AllShorthands](mongoContext, mongoContext.inMemTestRepoPool) {
+extends QuerySpec[AllShorthands](context.mongoContext, context.mongoContext.inMemTestRepoPool) {
 
   val repo = repoPool[AllShorthands]
 

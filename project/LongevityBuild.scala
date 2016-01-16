@@ -95,9 +95,14 @@ object LongevityBuild extends Build with BuildSettings {
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % Optional,
 
+      // TODO up db driver versions
+
       // for mongo:
       libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0" % Optional,
       libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0" % Test,
+
+      // for cassandra:
+      libraryDependencies += "com.datastax.cassandra" % "cassandra-driver-core" % "2.2.0-rc3" % Optional,
 
       homepage := Some(url("http://longevityframework.github.io/longevity/")),
       pomExtra := (

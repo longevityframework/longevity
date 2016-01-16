@@ -5,7 +5,7 @@ import longevity.test.QuerySpec
 import longevity.integration.subdomain.allAttributes._
 
 class AllAttributesInMemQuerySpec
-extends QuerySpec[AllAttributes](mongoContext, mongoContext.inMemTestRepoPool) {
+extends QuerySpec[AllAttributes](context.mongoContext, context.mongoContext.inMemTestRepoPool) {
 
   val repo = repoPool[AllAttributes]
 
