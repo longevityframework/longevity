@@ -4,6 +4,7 @@ import org.scalatest._
 import org.scalatest.OptionValues._
 import emblem.imports._
 import longevity.persistence._
+import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.mongo.MongoRepo
 
 // TODO unit tests for cassandra here
@@ -16,7 +17,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
   import longevity.unit.persistence.messageFriend._
   import longevity.unit.persistence.messageFriend.context._
 
-  behavior of "LongevityContext.repoPool of an in-memory longevity context"
+  behavior of "LongevityContext.repoPool for an in-memory longevity context"
 
   it should "be full of InMemRepos" in {
     val repoPool = inMemLongevityContext.repoPool
@@ -27,14 +28,25 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     repoPool.baseRepoMap.get[Message].value.rootType should equal (MessageType)
   }
 
-  behavior of "LongevityContext.repoPool of a mongo longevity context"
+  behavior of "LongevityContext.repoPool for a mongo longevity context"
 
   it should "be full of MongoRepos" in {
-    val repoPool = longevityContext.repoPool
+    val repoPool = mongoLongevityContext.repoPool
     repoPool.typeKeyMap.size should equal (2)
     repoPool.typeKeyMap.get[Friend].value shouldBe a [MongoRepo[_]]
     repoPool.baseRepoMap.get[Friend].value.rootType should equal (FriendType)
     repoPool.typeKeyMap.get[Message].value shouldBe a [MongoRepo[_]]
+    repoPool.baseRepoMap.get[Message].value.rootType should equal (MessageType)
+  }
+
+  behavior of "LongevityContext.repoPool for a cassandra longevity context"
+
+  it should "be full of CassandraRepos" in {
+    val repoPool = cassandraLongevityContext.repoPool
+    repoPool.typeKeyMap.size should equal (2)
+    repoPool.typeKeyMap.get[Friend].value shouldBe a [CassandraRepo[_]]
+    repoPool.baseRepoMap.get[Friend].value.rootType should equal (FriendType)
+    repoPool.typeKeyMap.get[Message].value shouldBe a [CassandraRepo[_]]
     repoPool.baseRepoMap.get[Message].value.rootType should equal (MessageType)
   }
 
@@ -52,7 +64,7 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
   behavior of "LongevityContext.testRepoPool of a mongo longevity context"
 
   it should "be full of MongoRepos" in {
-    val testRepoPool = longevityContext.testRepoPool
+    val testRepoPool = mongoLongevityContext.testRepoPool
     testRepoPool.typeKeyMap.size should equal (2)
     testRepoPool.typeKeyMap.get[Friend].value shouldBe a [MongoRepo[_]]
     testRepoPool.baseRepoMap.get[Friend].value.rootType should equal (FriendType)
@@ -60,12 +72,24 @@ class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matc
     testRepoPool.baseRepoMap.get[Message].value.rootType should equal (MessageType)
   }
 
+  behavior of "LongevityContext.repoPool of a cassandra longevity context"
+
+  it should "be full of CassandraRepos" in {
+    val repoPool = cassandraLongevityContext.testRepoPool
+    repoPool.typeKeyMap.size should equal (2)
+    repoPool.typeKeyMap.get[Friend].value shouldBe a [CassandraRepo[_]]
+    repoPool.baseRepoMap.get[Friend].value.rootType should equal (FriendType)
+    repoPool.typeKeyMap.get[Message].value shouldBe a [CassandraRepo[_]]
+    repoPool.baseRepoMap.get[Message].value.rootType should equal (MessageType)
+  }
+
   behavior of "LongevityContext.inMemTestRepoPool"
 
   it should "be full of InMemRepos" in {
     Seq(
-      longevityContext.inMemTestRepoPool,
-      inMemLongevityContext.inMemTestRepoPool
+      inMemLongevityContext.inMemTestRepoPool,
+      mongoLongevityContext.inMemTestRepoPool,
+      cassandraLongevityContext.inMemTestRepoPool
     ) foreach { repoPool =>
       repoPool.typeKeyMap.size should equal (2)
       repoPool.typeKeyMap.get[Friend].value shouldBe an [InMemRepo[_]]
