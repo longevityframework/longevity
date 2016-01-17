@@ -167,7 +167,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   /** compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
    * the other map, and vice versa.
    * @param that the other type key map
-   * @return true if both maps contain exactly the same mappings, false otherwise.
+   * @return true iff both are type key maps and contain exactly the same mappings
    */
   override def equals(that: Any) = {
     that.isInstanceOf[TypeKeyMap[TypeBound, Val]] &&

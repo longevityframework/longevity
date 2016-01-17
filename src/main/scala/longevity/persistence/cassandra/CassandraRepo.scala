@@ -4,12 +4,12 @@ import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Session
 import emblem.imports._
-//import emblem.stringUtil._
+import emblem.stringUtil._
 //import longevity.exceptions.subdomain.SubdomainException
 import longevity.persistence._
 import longevity.subdomain._
 import longevity.subdomain.root._
-//import org.joda.time.DateTime
+import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -19,12 +19,16 @@ import scala.concurrent.Future
  * @param subdomain the subdomain containing the root that this repo persists
  * @param session the connection to the cassandra database
  */
-class CassandraRepo[R <: Root : TypeKey] protected[persistence] (
+private[longevity] class CassandraRepo[R <: Root : TypeKey] protected[persistence] (
   rootType: RootType[R],
   subdomain: Subdomain,
   session: Session)
 extends BaseRepo[R](rootType, subdomain) {
   repo =>
+
+  private val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
+
+  createSchema()
 
   override def create(unpersisted: R): Future[PState[R]] = ???
 
@@ -42,14 +46,9 @@ extends BaseRepo[R](rootType, subdomain) {
     ???
   }
 
-  // validateEntityType()
-
-  // private val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
   // private[persistence] val key = rootType.keys.head
   // private val keyProps = key.props.toSeq.sortBy(_.path)
   // private val keyColumns = keyProps.map(columnName(_))
-
-  // initializeSchema()
 
   // private lazy val typeNameToTypeKeyMap: Map[String, TypeKey[_ <: Root]] =
   //   repoPool.values.map(_.rootType.rootTypeKey).map(key => key.fullname -> key).toMap
@@ -90,42 +89,49 @@ extends BaseRepo[R](rootType, subdomain) {
   //   new Deleted(persisted)
   // }
 
-  // private def validateEntityType(): Unit =
-  //   if (rootType.keySet.size != 1)
-  //     throw new SubdomainException(
-  //       """|longevity currently only supports root entity types with exactly one natural key for cassandra
-  //          |persistence strategy. we hope to rememedy this limitation shortly.
-  //          |""".stripMargin)
+  private def createSchema(): Unit = {
+    createTable()
+    createIndexes()
+  }
 
-  // private def initializeSchema(): Unit = {
-  //   val keyPropColumns = keyProps.map(prop =>
-  //     s"  ${columnName(prop)} ${cassandraTypeForBasic(prop.typeKey)},"
-  //   ).mkString("\n")
-  //   val keyDefinition = keyColumns.mkString(", ")
-  //   val createTable =
-  //     s"""|CREATE TABLE IF NOT EXISTS $tableName (
-  //         |$keyPropColumns
-  //         |  instance blob,
-  //         |  PRIMARY KEY (($keyDefinition))
-  //         |)
-  //         |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
-  //         |""".stripMargin
-  //   println(createTable)
-  //   session.execute(createTable)
-  // }
+  private def createTable(): Unit = {
+    val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
+    val realizedPropColumns = realizedProps.map(prop =>
+      s"  ${columnName(prop)} ${CassandraRepo.basicToCassandraType(prop.typeKey)},"
+    ).mkString("\n")
+    val createTable =
+      s"""|CREATE TABLE IF NOT EXISTS $tableName (
+          |  id uuid,
+          |  root text,
+          |$realizedPropColumns
+          |  PRIMARY KEY (id)
+          |)
+          |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
+          |""".stripMargin
+    println(createTable)
+    session.execute(createTable)
+  }
 
-  // private def columnName(prop: KeyProp[R]) = prop.path.replace('.', '_')
+  private def columnName(prop: Prop[R, _]) = "prop_" + scoredPath(prop)
 
-  // private def cassandraTypeForBasic[B : TypeKey]: String = typeKey[B] match {
-  //   case b if b == typeKey[Boolean] => "boolean"
-  //   case b if b == typeKey[Char] => "text"
-  //   case b if b == typeKey[DateTime] => "timestamp"
-  //   case b if b == typeKey[Double] => "double"
-  //   case b if b == typeKey[Float] => "float"
-  //   case b if b == typeKey[Int] => "int"
-  //   case b if b == typeKey[Long] => "bigint"
-  //   case b if b == typeKey[String] => "text"
-  // }
+  private def scoredPath(prop: Prop[R, _]) = prop.path.replace('.', '_')
+
+  private def createIndexes(): Unit = {
+    rootType.keySet.foreach { key => createIndex(key.props) }
+    rootType.indexSet.foreach { index => createIndex(index.props) }
+  }
+
+  private def createIndex(props: Seq[Prop[R, _]]): Unit = {
+    val name = indexName(props)
+    val columnList = props.map(columnName).mkString(", ")
+    val createIndex = s"CREATE INDEX IF NOT EXISTS $name ON $tableName ($columnList);"
+    session.execute(createIndex)
+  }
+
+  private def indexName(props: Seq[Prop[R, _]]): String = {
+    val scoredPaths: Seq[String] = props.map(scoredPath)
+    s"""${tableName}_${scoredPaths.mkString("_")}"""
+  }
 
   // private val insertStatement: PreparedStatement = {
   //   val substitutions = keyColumns.map(c => s":$c").mkString(", ")
@@ -238,5 +244,19 @@ extends BaseRepo[R](rootType, subdomain) {
   //   }
   //   boundStatement
   // }
+
+}
+
+private[longevity] object CassandraRepo {
+
+  private val basicToCassandraType = Map[TypeKey[_], String](
+    typeKey[Boolean] -> "boolean",
+    typeKey[Char] -> "text",
+    typeKey[DateTime] -> "timestamp",
+    typeKey[Double] -> "double",
+    typeKey[Float] -> "float",
+    typeKey[Int] -> "int",
+    typeKey[Long] -> "bigint",
+    typeKey[String] -> "text")
 
 }
