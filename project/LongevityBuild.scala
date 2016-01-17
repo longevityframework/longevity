@@ -59,6 +59,8 @@ trait BuildSettings {
     // test
     logLevel in test := Level.Info, // switch to warn to get less output from scalatest
     testOptions in Test += Tests.Argument("-oF"),
+    // to run a single tag in sbt:
+    // test-only longevity.integration.subdomain.allAttributes.AllAttributesSpec -- -n Create
 
     // dependencies
     resolvers += Resolver.typesafeRepo("releases"),

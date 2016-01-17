@@ -48,7 +48,18 @@ extends BaseRepo[R](rootType, subdomain) {
     new PState[R](CassandraId(uuid), unpersisted)
   }
 
-  override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = ???
+  override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = Future {
+    val resultSet = session.execute(bindSelectStatement(keyVal))
+    val rowOption = Option(resultSet.one)
+    val idRootPairOption = rowOption.map { row =>
+      val id = CassandraId(row.getUUID("id"))
+      implicit val formats = CassandraRepo.formats
+      implicit val manifest = rootTypeKey.manifest
+      val root = Serialization.read[R](row.getString("root"))
+      id -> root
+    }
+    idRootPairOption.map { case (id, r) => new PState[R](id, r) }
+  }
 
   override def update(state: PState[R]): Future[PState[R]] = ???
 
@@ -64,18 +75,6 @@ extends BaseRepo[R](rootType, subdomain) {
 
   // private lazy val typeNameToTypeKeyMap: Map[String, TypeKey[_ <: Root]] =
   //   repoPool.values.map(_.rootType.rootTypeKey).map(key => key.fullname -> key).toMap
-
-  // def retrieve(key: Key[R])(keyVal: key.Val): Future[Option[Persisted[R]]] = Future {
-  //   val resultSet = session.execute(bindSelectStatement(key)(keyVal))
-  //   val rowOption = Option(resultSet.one)
-  //   val eOption = rowOption.map { row =>
-  //     // TODO deserialize[R](row.getBytes("instance"))
-  //     ???.asInstanceOf[R]
-  //   }
-  //   eOption.map { e =>
-  //     new Persisted[R](CassandraId(repo.key.keyVal(e)), e)
-  //   }
-  // }
 
   // def update(persisted: Persisted[R]) = patchUnpersistedAssocs(persisted.get) map { patched =>
   //   session.execute(bindDeleteStatement(key)(key.keyVal(persisted.orig)))
@@ -131,18 +130,24 @@ extends BaseRepo[R](rootType, subdomain) {
   }
 
   private val insertStatement: PreparedStatement = {
-    val realizedPropColumnNames = realizedProps.map(columnName)
-    val realizedPropColumns = realizedPropColumnNames.mkString(",\n  ")
-    val realizedSubstitutions = realizedPropColumnNames.map(c => s":$c").mkString(",\n  ")
-    val cql = s"""|INSERT INTO $tableName (
-                  |  id,
-                  |  root,
-                  |  $realizedPropColumns
-                  |) VALUES (
-                  |  :id,
-                  |  :root,
-                  |  $realizedSubstitutions
-                  |)""".stripMargin
+    val cql = if (realizedProps.isEmpty) {
+      s"INSERT INTO $tableName (id, root) VALUES (:id, :root)"
+    } else {
+      val realizedPropColumnNames = realizedProps.map(columnName)
+      val realizedPropColumns = realizedPropColumnNames.mkString(",\n  ")
+      val realizedSubstitutions = realizedPropColumnNames.map(c => s":$c").mkString(",\n  ")
+      s"""|
+      |INSERT INTO $tableName (
+      |  id,
+      |  root,
+      |  $realizedPropColumns
+      |) VALUES (
+      |  :id,
+      |  :root,
+      |  $realizedSubstitutions
+      |)
+      |""".stripMargin
+    }
     session.prepare(cql)
   }
 
@@ -158,41 +163,21 @@ extends BaseRepo[R](rootType, subdomain) {
     Serialization.write(root)
   }
 
-  // private val selectStatement: PreparedStatement = {
-  //   val relations = keyColumns.map(c => s"$c = :$c").mkString("\nAND\n  ")
-  //   val cql = s"""|SELECT * FROM $tableName
-  //                 |WHERE
-  //                 |  $relations
-  //                 |""".stripMargin
-  //   session.prepare(cql)
-  // }
+  // TODO memoize this
+  private def selectStatement(key: Key[R]): PreparedStatement = {
+    val relations = key.props.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
+    val cql = s"""|SELECT * FROM $tableName
+                  |WHERE
+                  |  $relations
+                  |""".stripMargin
+    session.prepare(cql)
+  }
 
-  // // TODO please, clean this up
-  // private def bindSelectStatement(key: Key[R])(keyVal: key.Val): BoundStatement = {
-  //   val boundStatement = selectStatement.bind
-  //   keyProps.foreach { prop =>
-  //     prop.typeKey match {
-  //       case b if b == typeKey[Boolean] =>
-  //         boundStatement.setBool(columnName(prop), keyVal(prop).asInstanceOf[Boolean])
-  //       case b if b == typeKey[Char] =>
-  //         boundStatement.setString(columnName(prop), keyVal(prop).toString)
-  //       case b if b == typeKey[org.joda.time.DateTime] =>
-  //         val javaDate = keyVal(prop).asInstanceOf[DateTime].toDate
-  //         boundStatement.setTimestamp(columnName(prop), javaDate)
-  //       case b if b == typeKey[Double] =>
-  //         boundStatement.setDouble(columnName(prop), keyVal(prop).asInstanceOf[Double])
-  //       case b if b == typeKey[Float] =>
-  //         boundStatement.setFloat(columnName(prop), keyVal(prop).asInstanceOf[Float])          
-  //       case b if b == typeKey[Int] =>
-  //         boundStatement.setInt(columnName(prop), keyVal(prop).asInstanceOf[Int])
-  //       case b if b == typeKey[Long] =>
-  //         boundStatement.setLong(columnName(prop), keyVal(prop).asInstanceOf[Long])
-  //       case b if b == typeKey[String] =>
-  //         boundStatement.setString(columnName(prop), keyVal(prop).asInstanceOf[String])          
-  //     }
-  //   }
-  //   boundStatement
-  // }
+  private def bindSelectStatement(keyVal: KeyVal[R]): BoundStatement = {
+    val preparedStatement = selectStatement(keyVal.key)
+    val boundStatement = preparedStatement.bind(keyVal.propValSeq: _*)
+    boundStatement
+  }
 
   // private val deleteStatement: PreparedStatement = {
   //   val relations = keyColumns.map(c => s"$c = :$c").mkString("\nAND\n  ")

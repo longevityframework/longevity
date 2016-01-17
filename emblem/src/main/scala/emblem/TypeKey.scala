@@ -4,6 +4,8 @@ import emblem.reflectionUtil.makeTypeTag
 import emblem.stringUtil.typeFullname
 import emblem.stringUtil.typeName
 import scala.collection.mutable.WeakHashMap
+import scala.reflect.Manifest
+import scala.reflect.ManifestFactory
 import scala.reflect.runtime.universe._
 
 /** behaves much like a `scala.reflect.runtime.universe.TypeTag`, except that it can also be safely used
@@ -42,7 +44,12 @@ case class TypeKey[A](val tag: TypeTag[A]) {
   private val memoize_=:= = WeakHashMap[Type, Boolean]()
 
   /** the scala-reflect `Type` for type `A` */
-  def tpe: Type = tag.tpe
+  lazy val tpe: Type = tag.tpe
+
+  lazy val manifest: Manifest[A] = {
+    val c: Class[_] = tag.mirror.runtimeClass(tag.tpe.typeSymbol.asClass)
+    ManifestFactory.classType[A](c)
+  }
 
   /** shorthand for `this.tpe.<:<` */
   def <:<(that: Type): Boolean = memoize_<:< getOrElse(that, {

@@ -13,6 +13,9 @@ case class KeyVal[R <: Root] private[root] (
   val key: Key[R],
   val propVals: Map[Prop[R, _], Any]) {
 
+  /** the property values in the same order as the properties in the key */
+  lazy val propValSeq = key.props.map(propVals(_).asInstanceOf[AnyRef])
+
   /** gets the value for the specified prop
    * 
    * throws java.util.NoSuchElementException if the prop is not part of the key
