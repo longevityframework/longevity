@@ -5,11 +5,17 @@ import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Session
 import emblem.imports._
 import emblem.stringUtil._
-//import longevity.exceptions.subdomain.SubdomainException
+import java.util.UUID
 import longevity.persistence._
 import longevity.subdomain._
 import longevity.subdomain.root._
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
+import org.json4s.CustomSerializer
+import org.json4s.JNull
+import org.json4s.JString
+import org.json4s.NoTypeHints
+import org.json4s.native.Serialization
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -26,11 +32,21 @@ private[longevity] class CassandraRepo[R <: Root : TypeKey] protected[persistenc
 extends BaseRepo[R](rootType, subdomain) {
   repo =>
 
+  private[persistence] case class CassandraId(uuid: UUID) extends PersistedAssoc[R] {
+    val associateeTypeKey = repo.rootTypeKey
+    private[longevity] val _lock = 0
+  }
+
   private val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
+  private val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
 
   createSchema()
 
-  override def create(unpersisted: R): Future[PState[R]] = ???
+  override def create(unpersisted: R) = Future {
+    val uuid = UUID.randomUUID
+    session.execute(bindInsertStatement(uuid, unpersisted))
+    new PState[R](CassandraId(uuid), unpersisted)
+  }
 
   override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = ???
 
@@ -46,25 +62,8 @@ extends BaseRepo[R](rootType, subdomain) {
     ???
   }
 
-  // private[persistence] val key = rootType.keys.head
-  // private val keyProps = key.props.toSeq.sortBy(_.path)
-  // private val keyColumns = keyProps.map(columnName(_))
-
   // private lazy val typeNameToTypeKeyMap: Map[String, TypeKey[_ <: Root]] =
   //   repoPool.values.map(_.rootType.rootTypeKey).map(key => key.fullname -> key).toMap
-
-  // private[persistence] case class CassandraId(keyVal: key.Val) extends PersistedAssoc[R] {
-  //   val associateeTypeKey = repo.rootTypeKey
-  //   private[longevity] val _lock = 0
-  //   def retrieve = repo.retrieve(key)(keyVal).map(_.get)
-  // }
-
-  // def create(unpersisted: Unpersisted[R]) = getSessionCreationOrElse(unpersisted, {
-  //   patchUnpersistedAssocs(unpersisted.get) map { patched =>
-  //     session.execute(bindInsertStatement(patched))
-  //     new Persisted[R](CassandraId(key.keyVal(patched)), patched)
-  //   }
-  // })
 
   // def retrieve(key: Key[R])(keyVal: key.Val): Future[Option[Persisted[R]]] = Future {
   //   val resultSet = session.execute(bindSelectStatement(key)(keyVal))
@@ -95,7 +94,6 @@ extends BaseRepo[R](rootType, subdomain) {
   }
 
   private def createTable(): Unit = {
-    val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
     val realizedPropColumns = realizedProps.map(prop =>
       s"  ${columnName(prop)} ${CassandraRepo.basicToCassandraType(prop.typeKey)},"
     ).mkString("\n")
@@ -108,7 +106,6 @@ extends BaseRepo[R](rootType, subdomain) {
           |)
           |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
           |""".stripMargin
-    println(createTable)
     session.execute(createTable)
   }
 
@@ -133,45 +130,33 @@ extends BaseRepo[R](rootType, subdomain) {
     s"""${tableName}_${scoredPaths.mkString("_")}"""
   }
 
-  // private val insertStatement: PreparedStatement = {
-  //   val substitutions = keyColumns.map(c => s":$c").mkString(", ")
-  //   val cql = s"""|INSERT INTO $tableName (
-  //                 |  ${keyColumns.mkString(", ")},
-  //                 |  instance
-  //                 |) VALUES (
-  //                 |  $substitutions,
-  //                 |  :instance
-  //                 |)""".stripMargin
-  //   session.prepare(cql)
-  // }
+  private val insertStatement: PreparedStatement = {
+    val realizedPropColumnNames = realizedProps.map(columnName)
+    val realizedPropColumns = realizedPropColumnNames.mkString(",\n  ")
+    val realizedSubstitutions = realizedPropColumnNames.map(c => s":$c").mkString(",\n  ")
+    val cql = s"""|INSERT INTO $tableName (
+                  |  id,
+                  |  root,
+                  |  $realizedPropColumns
+                  |) VALUES (
+                  |  :id,
+                  |  :root,
+                  |  $realizedSubstitutions
+                  |)""".stripMargin
+    session.prepare(cql)
+  }
 
-  // // TODO please, clean this up
-  // private def bindInsertStatement(e: R): BoundStatement = {
-  //   val boundStatement = insertStatement.bind
-  //   keyProps.foreach { prop =>
-  //     prop.typeKey match {
-  //       case b if b == typeKey[Boolean] =>
-  //         boundStatement.setBool(columnName(prop), prop.keyPropVal(e).asInstanceOf[Boolean])
-  //       case b if b == typeKey[Char] =>
-  //         boundStatement.setString(columnName(prop), prop.keyPropVal(e).toString)
-  //       case b if b == typeKey[org.joda.time.DateTime] =>
-  //         val javaDate = prop.keyPropVal(e).asInstanceOf[DateTime].toDate
-  //         boundStatement.setTimestamp(columnName(prop), javaDate)
-  //       case b if b == typeKey[Double] =>
-  //         boundStatement.setDouble(columnName(prop), prop.keyPropVal(e).asInstanceOf[Double])
-  //       case b if b == typeKey[Float] =>
-  //         boundStatement.setFloat(columnName(prop), prop.keyPropVal(e).asInstanceOf[Float])          
-  //       case b if b == typeKey[Int] =>
-  //         boundStatement.setInt(columnName(prop), prop.keyPropVal(e).asInstanceOf[Int])
-  //       case b if b == typeKey[Long] =>
-  //         boundStatement.setLong(columnName(prop), prop.keyPropVal(e).asInstanceOf[Long])
-  //       case b if b == typeKey[String] =>
-  //         boundStatement.setString(columnName(prop), prop.keyPropVal(e).asInstanceOf[String])          
-  //     }
-  //   }
-  //   boundStatement.setBytes("instance", ???) // TODO TODO
-  //   boundStatement
-  // }
+  private def bindInsertStatement(uuid: UUID, root: R): BoundStatement = {
+    val nonPropValues = Array(uuid, jsonStringForRoot(root))
+    val realizedPropValues = realizedProps.map(_.propVal(root).asInstanceOf[AnyRef])
+    val values = (nonPropValues ++ realizedPropValues)
+    insertStatement.bind(values: _*)
+  }
+
+  private def jsonStringForRoot(root: R): String = {
+    implicit val formats = CassandraRepo.formats
+    Serialization.write(root)
+  }
 
   // private val selectStatement: PreparedStatement = {
   //   val relations = keyColumns.map(c => s"$c = :$c").mkString("\nAND\n  ")
@@ -258,5 +243,28 @@ private[longevity] object CassandraRepo {
     typeKey[Int] -> "int",
     typeKey[Long] -> "bigint",
     typeKey[String] -> "text")
+
+  private case object CharSerializer extends CustomSerializer[Char](format => (
+    {
+      case JString(s) => s.head
+    },
+    {
+      case c: Char => JString(s"$c")
+    }
+  ))
+
+  private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+
+  private case object DateTimeSerializer extends CustomSerializer[DateTime](format => (
+    {
+      case JString(s) => formatter.parseDateTime(s)
+      case JNull => null
+    },
+    {
+      case d: DateTime => JString(formatter.print(d))
+    }
+  ))
+
+  private val formats = Serialization.formats(NoTypeHints) + CharSerializer + DateTimeSerializer
 
 }
