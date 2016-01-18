@@ -32,6 +32,7 @@ private[longevity] class CassandraRepo[R <: Root : TypeKey] protected[persistenc
 extends BaseRepo[R](rootType, subdomain) {
   repo =>
 
+  // TODO raise this into its own class
   private[persistence] case class CassandraId(uuid: UUID) extends PersistedAssoc[R] {
     val associateeTypeKey = repo.rootTypeKey
     private[longevity] val _lock = 0
@@ -49,19 +50,21 @@ extends BaseRepo[R](rootType, subdomain) {
   }
 
   override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = Future {
-    val resultSet = session.execute(bindSelectStatement(keyVal))
+    val resultSet = session.execute(bindKeyValSelectStatement(keyVal))
     val rowOption = Option(resultSet.one)
-    val idRootPairOption = rowOption.map { row =>
+    rowOption.map { row =>
       val id = CassandraId(row.getUUID("id"))
       implicit val formats = CassandraRepo.formats
       implicit val manifest = rootTypeKey.manifest
       val root = Serialization.read[R](row.getString("root"))
-      id -> root
+      new PState[R](id, root)
     }
-    idRootPairOption.map { case (id, r) => new PState[R](id, r) }
   }
 
-  override def update(state: PState[R]): Future[PState[R]] = ???
+  override def update(state: PState[R]): Future[PState[R]] = Future {
+    session.execute(bindUpdateStatement(state))
+    new PState[R](state.passoc, state.get)
+  }
 
   override def delete(state: PState[R]): Future[Deleted[R]] = ???
 
@@ -75,12 +78,6 @@ extends BaseRepo[R](rootType, subdomain) {
 
   // private lazy val typeNameToTypeKeyMap: Map[String, TypeKey[_ <: Root]] =
   //   repoPool.values.map(_.rootType.rootTypeKey).map(key => key.fullname -> key).toMap
-
-  // def update(persisted: Persisted[R]) = patchUnpersistedAssocs(persisted.get) map { patched =>
-  //   session.execute(bindDeleteStatement(key)(key.keyVal(persisted.orig)))
-  //   session.execute(bindInsertStatement(patched))
-  //   new Persisted[R](CassandraId(key.keyVal(patched)), patched)
-  // }
 
   // def delete(persisted: Persisted[R]) = Future {
   //   session.execute(bindDeleteStatement(key)(key.keyVal(persisted.orig)))
@@ -96,15 +93,15 @@ extends BaseRepo[R](rootType, subdomain) {
     val realizedPropColumns = realizedProps.map(prop =>
       s"  ${columnName(prop)} ${CassandraRepo.basicToCassandraType(prop.typeKey)},"
     ).mkString("\n")
-    val createTable =
-      s"""|CREATE TABLE IF NOT EXISTS $tableName (
-          |  id uuid,
-          |  root text,
-          |$realizedPropColumns
-          |  PRIMARY KEY (id)
-          |)
-          |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
-          |""".stripMargin
+    val createTable = s"""|
+    |CREATE TABLE IF NOT EXISTS $tableName (
+    |  id uuid,
+    |  root text,
+    |$realizedPropColumns
+    |  PRIMARY KEY (id)
+    |)
+    |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
+    |""".stripMargin
     session.execute(createTable)
   }
 
@@ -163,20 +160,47 @@ extends BaseRepo[R](rootType, subdomain) {
     Serialization.write(root)
   }
 
-  // TODO memoize this
-  private def selectStatement(key: Key[R]): PreparedStatement = {
+  private val keyValSelectStatement: Map[Key[R], PreparedStatement] = Map().withDefault { key =>
     val relations = key.props.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
-    val cql = s"""|SELECT * FROM $tableName
-                  |WHERE
-                  |  $relations
-                  |""".stripMargin
+    val cql = s"""|
+    |SELECT * FROM $tableName
+    |WHERE
+    |  $relations
+    |""".stripMargin
     session.prepare(cql)
   }
 
-  private def bindSelectStatement(keyVal: KeyVal[R]): BoundStatement = {
-    val preparedStatement = selectStatement(keyVal.key)
+  private def bindKeyValSelectStatement(keyVal: KeyVal[R]): BoundStatement = {
+    val preparedStatement = keyValSelectStatement(keyVal.key)
     val boundStatement = preparedStatement.bind(keyVal.propValSeq: _*)
     boundStatement
+  }
+
+  private val updateStatement: PreparedStatement = {
+    val cql = if (realizedProps.isEmpty) {
+      s"UPDATE $tableName SET root = :root WHERE id = :id"
+    } else {
+      val realizedPropColumnNames = realizedProps.map(columnName)
+      val realizedAssignments = realizedPropColumnNames.map(c => s"$c = :$c").mkString(",\n  ")
+      s"""|
+      |UPDATE $tableName
+      |SET
+      |  root = :root,
+      |  $realizedAssignments
+      |WHERE
+      |  id = :id
+      |""".stripMargin
+    }
+    session.prepare(cql)
+  }
+
+  private def bindUpdateStatement(state: PState[R]): BoundStatement = {
+    val root = state.get
+    val json = jsonStringForRoot(root)
+    val realizedPropVals = realizedProps.view.toArray.map(_.propVal(root).asInstanceOf[AnyRef])
+    val uuid = state.assoc.asInstanceOf[CassandraId].uuid
+    val values = (json +: realizedPropVals :+ uuid)
+    updateStatement.bind(values: _*)
   }
 
   // private val deleteStatement: PreparedStatement = {
