@@ -2,7 +2,7 @@ package emblem.traversors.sync
 
 import emblem.imports._
 import emblem.reflectionUtil.makeTypeTag
-import org.joda.time.DateTime
+import com.github.nscala_time.time.Imports._
 import scala.reflect.runtime.universe.typeOf
 
 /** generates test data for a pool of extractors, a pool of emblems, and some custom generators. you can
@@ -52,7 +52,7 @@ extends Generator {
   }
 
   /** generates a date-time */
-  def dateTime = new DateTime(long)
+  def dateTime = DateTime.now
 
   /** generates a double */
   def double: Double = random.nextDouble() 

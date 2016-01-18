@@ -66,7 +66,10 @@ extends BaseRepo[R](rootType, subdomain) {
     new PState[R](state.passoc, state.get)
   }
 
-  override def delete(state: PState[R]): Future[Deleted[R]] = ???
+  override def delete(state: PState[R]): Future[Deleted[R]] = Future {
+    session.execute(bindDeleteStatement(state))
+    new Deleted(state.get, state.assoc)
+  }
 
   override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] = {
     ???
@@ -75,14 +78,6 @@ extends BaseRepo[R](rootType, subdomain) {
   override protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = {
     ???
   }
-
-  // private lazy val typeNameToTypeKeyMap: Map[String, TypeKey[_ <: Root]] =
-  //   repoPool.values.map(_.rootType.rootTypeKey).map(key => key.fullname -> key).toMap
-
-  // def delete(persisted: Persisted[R]) = Future {
-  //   session.execute(bindDeleteStatement(key)(key.keyVal(persisted.orig)))
-  //   new Deleted(persisted)
-  // }
 
   private def createSchema(): Unit = {
     createTable()
@@ -203,41 +198,16 @@ extends BaseRepo[R](rootType, subdomain) {
     updateStatement.bind(values: _*)
   }
 
-  // private val deleteStatement: PreparedStatement = {
-  //   val relations = keyColumns.map(c => s"$c = :$c").mkString("\nAND\n  ")
-  //   val cql = s"""|DELETE FROM $tableName
-  //                 |WHERE
-  //                 |  $relations
-  //                 |""".stripMargin
-  //   session.prepare(cql)
-  // }
+  private val deleteStatement: PreparedStatement = {
+    val cql = s"DELETE FROM $tableName WHERE id = :id"
+    session.prepare(cql)
+  }
 
-  // // TODO please, clean this up
-  // private def bindDeleteStatement(key: Key[R])(keyVal: key.Val): BoundStatement = {
-  //   val boundStatement = deleteStatement.bind
-  //   keyProps.foreach { prop =>
-  //     prop.typeKey match {
-  //       case b if b == typeKey[Boolean] =>
-  //         boundStatement.setBool(columnName(prop), keyVal(prop).asInstanceOf[Boolean])
-  //       case b if b == typeKey[Char] =>
-  //         boundStatement.setString(columnName(prop), keyVal(prop).toString)
-  //       case b if b == typeKey[org.joda.time.DateTime] =>
-  //         val javaDate = keyVal(prop).asInstanceOf[DateTime].toDate
-  //         boundStatement.setTimestamp(columnName(prop), javaDate)
-  //       case b if b == typeKey[Double] =>
-  //         boundStatement.setDouble(columnName(prop), keyVal(prop).asInstanceOf[Double])
-  //       case b if b == typeKey[Float] =>
-  //         boundStatement.setFloat(columnName(prop), keyVal(prop).asInstanceOf[Float])          
-  //       case b if b == typeKey[Int] =>
-  //         boundStatement.setInt(columnName(prop), keyVal(prop).asInstanceOf[Int])
-  //       case b if b == typeKey[Long] =>
-  //         boundStatement.setLong(columnName(prop), keyVal(prop).asInstanceOf[Long])
-  //       case b if b == typeKey[String] =>
-  //         boundStatement.setString(columnName(prop), keyVal(prop).asInstanceOf[String])          
-  //     }
-  //   }
-  //   boundStatement
-  // }
+  private def bindDeleteStatement(state: PState[R]): BoundStatement = {
+    val boundStatement = deleteStatement.bind
+    val uuid = state.assoc.asInstanceOf[CassandraId].uuid
+    boundStatement.bind(uuid)
+  }
 
 }
 
