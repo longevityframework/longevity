@@ -16,7 +16,7 @@ The "object" in ORM is the domain entity instances in an
 Object-Oriented programming language, such as Java. In Scala, our
 entity instances are still objects, but they are immutable objects. In
 OO, objects are mutable by default. So the "O" in ORM is talking about
-mutable objects. Indeed, in Hibernate, you cannot create a entity with
+mutable objects. Indeed, in Hibernate, you cannot create an entity with
 immutable set or list properties. In contrast, in a Functional/OO
 hybrid such as Scala, we always prefer to use immutable objects,
 because of the elegance of programming with them in a functional
