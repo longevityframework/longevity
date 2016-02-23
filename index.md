@@ -25,7 +25,7 @@ tests.
 - [Contributing](contributing.html)
 - [License](license.html)
 
-- [Longevity is Like Hibernate](like-hibernate.html)
+- [Longevity is Like Hibernate ... Except that it's Not](like-hibernate.html)
 - Longevity and Emblem TODO
 - [What's Happening](whats-happening.html)
 
