@@ -141,7 +141,8 @@ object LongevityBuild extends Build with BuildSettings {
             <name>John Sullivan</name>
             <url>https://github.com/sullivan-</url>
           </developer>
-        </developers>)
+        </developers>),
+      libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0" % Optional
     )
   )
 

@@ -15,12 +15,13 @@ import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
 
-/** synchronously traverses a recursive data structure. the inputs and the outputs of the traversal are abstract
- * here, and specified by the implementing class. this forms a generic pattern for [[Visitor visiting]],
+/** synchronously traverses a recursive data structure. the inputs and the
+ * outputs of the traversal are abstract here, and specified by the implementing
+ * class. this forms a generic pattern for [[Visitor visiting]],
  * [[Generator generating]], and [[Transformer transforming]] data.
  * 
- * you can traverse arbritrary data to your liking by implementing the protected vals and defs in this
- * interface.
+ * you can traverse arbritrary data to your liking by implementing the
+ * protected vals and defs in this interface.
  */
 trait Traversor {
 

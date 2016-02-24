@@ -8,21 +8,22 @@ import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.sync.Transformer._
 import org.joda.time.DateTime
 
-/** synchronously tranforms a recursive data structure. the input and the output of the transformation
- * have the same type.
+/** synchronously tranforms a recursive data structure. the input and the
+ * output of the transformation have the same type.
  *
- * you can transform arbritrary data to your liking by implementing the protected vals and defs in this
- * interface.
+ * you can transform arbritrary data to your liking by implementing the
+ * protected vals and defs in this interface.
  *
- * the only usage example as of now, `longevity.testUtil.PersistedToUnpersistedTransformer`, lives outside of
- * emblem project, in sibling project longevity. it might give you some ideas in how to use, but then so will
- * other traversors in this directory.
+ * the only usage example as of now,
+ * `longevity.testUtil.PersistedToUnpersistedTransformer`, lives outside of
+ * emblem project, in sibling project longevity. it might give you some ideas
+ * in how to use, but then so will other traversors in this directory.
  */
 trait Transformer {
 
   /** transforms an element of type `A`
-   * @throws emblem.exceptions.CouldNotTransformException when it encounters a type it doesn't know how to
-   * transform
+   * @throws emblem.exceptions.CouldNotTransformException when it encounters
+   * a type it doesn't know how to transform
    */
   def transform[A : TypeKey](input: A): A = try {
     traversor.traverse[A](input)
