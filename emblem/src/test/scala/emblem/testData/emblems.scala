@@ -7,7 +7,7 @@ import emblem.testData.extractors._
 object emblems {
 
   lazy val emblemPool =
-    TypeKeyMap[HasEmblem, Emblem]() + friendEmblem + pointEmblem + withBarPropEmblem + withNoExtractorPropEmblem
+    EmblemPool() + friendEmblem + pointEmblem + withBarPropEmblem + withNoExtractorPropEmblem
 
   case class Friend(uri: Uri, email: Email) extends HasEmblem
   lazy val friendEmblem = Emblem[Friend]

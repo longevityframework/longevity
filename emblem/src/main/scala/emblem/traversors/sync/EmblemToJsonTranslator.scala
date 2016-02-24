@@ -1,6 +1,5 @@
 package emblem.traversors.sync
 
-import emblem.exceptions.CouldNotTraverseException
 import emblem.imports._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat

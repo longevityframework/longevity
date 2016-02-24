@@ -19,7 +19,6 @@ object geometry {
   lazy val xPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("x")
   lazy val yPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("y")
 
-  lazy val emblemPool =
-    TypeKeyMap[HasEmblem, Emblem]() + pointEmblem + polygonEmblem + pointWithDefaultsEmblem
+  lazy val emblemPool = EmblemPool() + pointEmblem + polygonEmblem + pointWithDefaultsEmblem
 
 }
