@@ -52,7 +52,7 @@ extends Generator {
   }
 
   /** generates a date-time */
-  def dateTime = DateTime.now
+  def dateTime = DateTime.now + (random.nextInt % 10000).millis
 
   /** generates a double */
   def double: Double = random.nextDouble() 

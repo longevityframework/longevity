@@ -32,12 +32,6 @@ private[longevity] class CassandraRepo[R <: Root : TypeKey] protected[persistenc
 extends BaseRepo[R](rootType, subdomain) {
   repo =>
 
-  // TODO raise this into its own class
-  private[persistence] case class CassandraId(uuid: UUID) extends PersistedAssoc[R] {
-    val associateeTypeKey = repo.rootTypeKey
-    private[longevity] val _lock = 0
-  }
-
   private val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
   private val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
 
@@ -46,15 +40,15 @@ extends BaseRepo[R](rootType, subdomain) {
   override def create(unpersisted: R) = Future {
     val uuid = UUID.randomUUID
     session.execute(bindInsertStatement(uuid, unpersisted))
-    new PState[R](CassandraId(uuid), unpersisted)
+    new PState[R](CassandraId(uuid, repo.rootTypeKey), unpersisted)
   }
 
   override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = Future {
     val resultSet = session.execute(bindKeyValSelectStatement(keyVal))
     val rowOption = Option(resultSet.one)
     rowOption.map { row =>
-      val id = CassandraId(row.getUUID("id"))
-      implicit val formats = CassandraRepo.formats
+      val id = CassandraId(row.getUUID("id"), repo.rootTypeKey)
+      implicit val formats = repo.formats
       implicit val manifest = rootTypeKey.manifest
       val root = Serialization.read[R](row.getString("root"))
       new PState[R](id, root)
@@ -151,7 +145,7 @@ extends BaseRepo[R](rootType, subdomain) {
   }
 
   private def jsonStringForRoot(root: R): String = {
-    implicit val formats = CassandraRepo.formats
+    implicit val formats = repo.formats
     Serialization.write(root)
   }
 
@@ -193,7 +187,7 @@ extends BaseRepo[R](rootType, subdomain) {
     val root = state.get
     val json = jsonStringForRoot(root)
     val realizedPropVals = realizedProps.view.toArray.map(_.propVal(root).asInstanceOf[AnyRef])
-    val uuid = state.assoc.asInstanceOf[CassandraId].uuid
+    val uuid = state.assoc.asInstanceOf[CassandraId[R]].uuid
     val values = (json +: realizedPropVals :+ uuid)
     updateStatement.bind(values: _*)
   }
@@ -205,9 +199,36 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def bindDeleteStatement(state: PState[R]): BoundStatement = {
     val boundStatement = deleteStatement.bind
-    val uuid = state.assoc.asInstanceOf[CassandraId].uuid
+    val uuid = state.assoc.asInstanceOf[CassandraId[R]].uuid
     boundStatement.bind(uuid)
   }
+
+  private case object CharSerializer extends CustomSerializer[Char](format => (
+    { case JString(s) => s.head
+    },
+    { case c: Char => JString(s"$c")
+    }))
+
+  private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+
+  private case object DateTimeSerializer extends CustomSerializer[DateTime](format => (
+    { case JString(s) => formatter.parseDateTime(s)
+      case JNull => null
+    },
+    { case d: DateTime => JString(formatter.print(d))
+    }
+  ))
+
+  private case object ShorthandSerializer extends CustomSerializer[Any](format => (
+    { case JString(s) => s.head
+    },
+    { case c: Char => JString(s"$c")
+    })) {
+    
+  }
+
+  implicit private val formats =
+    Serialization.formats(NoTypeHints) + CharSerializer + DateTimeSerializer + ShorthandSerializer
 
 }
 
@@ -222,28 +243,5 @@ private[longevity] object CassandraRepo {
     typeKey[Int] -> "int",
     typeKey[Long] -> "bigint",
     typeKey[String] -> "text")
-
-  private case object CharSerializer extends CustomSerializer[Char](format => (
-    {
-      case JString(s) => s.head
-    },
-    {
-      case c: Char => JString(s"$c")
-    }
-  ))
-
-  private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-
-  private case object DateTimeSerializer extends CustomSerializer[DateTime](format => (
-    {
-      case JString(s) => formatter.parseDateTime(s)
-      case JNull => null
-    },
-    {
-      case d: DateTime => JString(formatter.print(d))
-    }
-  ))
-
-  private val formats = Serialization.formats(NoTypeHints) + CharSerializer + DateTimeSerializer
 
 }

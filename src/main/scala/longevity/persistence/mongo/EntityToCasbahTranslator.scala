@@ -12,7 +12,8 @@ import longevity.persistence.RepoPool
 import longevity.subdomain._
 
 /** translates [[Entity entities]] into
- * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList casbah MongoDBObjects]].
+ * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
+ * casbah MongoDBObjects]].
  *
  * @param emblemPool a pool of emblems for the entities within the subdomain
  * @param extractorPool a complete set of the extractors used by the bounded context
