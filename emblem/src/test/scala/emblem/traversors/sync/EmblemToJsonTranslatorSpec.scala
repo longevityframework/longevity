@@ -3,8 +3,8 @@ package emblem.traversors.sync
 import com.github.nscala_time.time.Imports._
 import emblem.imports._
 import emblem.testData.geometry
-import org.scalatest._
 import org.json4s.JsonAST._
+import org.scalatest._
 
 /** specs for [[EmblemToJsonTranslator]] */
 class EmblemToJsonTranslatorSpec extends FlatSpec with GivenWhenThen with Matchers {

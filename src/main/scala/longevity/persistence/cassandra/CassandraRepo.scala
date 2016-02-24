@@ -34,6 +34,9 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
   private val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
+  private val emblemPool = subdomain.entityEmblemPool
+  private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
+  private val rootToJsonTranslator = new RootToJsonTranslator(emblemPool, extractorPool)
 
   createSchema()
 
@@ -48,9 +51,13 @@ extends BaseRepo[R](rootType, subdomain) {
     val rowOption = Option(resultSet.one)
     rowOption.map { row =>
       val id = CassandraId(row.getUUID("id"), repo.rootTypeKey)
+
+
       implicit val formats = repo.formats
       implicit val manifest = rootTypeKey.manifest
       val root = Serialization.read[R](row.getString("root"))
+
+
       new PState[R](id, root)
     }
   }
@@ -145,8 +152,8 @@ extends BaseRepo[R](rootType, subdomain) {
   }
 
   private def jsonStringForRoot(root: R): String = {
-    implicit val formats = repo.formats
-    Serialization.write(root)
+    import org.json4s.native.JsonMethods._    
+    compact(render(rootToJsonTranslator.traverse(root)))
   }
 
   private val keyValSelectStatement: Map[Key[R], PreparedStatement] = Map().withDefault { key =>
