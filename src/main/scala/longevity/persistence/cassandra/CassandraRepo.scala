@@ -48,17 +48,8 @@ extends BaseRepo[R](rootType, subdomain) {
     new PState[R](CassandraId(uuid, repo.rootTypeKey), unpersisted)
   }
 
-  override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = Future {
-    val resultSet = session.execute(bindKeyValSelectStatement(keyVal))
-    val rowOption = Option(resultSet.one)
-    rowOption.map { row =>
-      val id = CassandraId(row.getUUID("id"), repo.rootTypeKey)
-      import org.json4s.native.JsonMethods._    
-      val json = parse(row.getString("root"))
-      val root = jsonToRootTranslator.traverse[R](json)
-      new PState[R](id, root)
-    }
-  }
+  override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] =
+    retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
 
   override def update(state: PState[R]): Future[PState[R]] = Future {
     session.execute(bindUpdateStatement(state))
@@ -70,9 +61,8 @@ extends BaseRepo[R](rootType, subdomain) {
     new Deleted(state.get, state.assoc)
   }
 
-  override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] = {
-    ???
-  }
+  override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] =
+    retrieveFromBoundStatement(bindIdSelectStatement(assoc.asInstanceOf[CassandraId[R]]))
 
   override protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = {
     ???
@@ -115,11 +105,7 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def scoredPath(prop: Prop[R, _]) = prop.path.replace('.', '_')
 
-  private def createIndexes(): Unit = {
-    val keyProps = rootType.keySet.map(_.props).flatten
-    val indexProps = rootType.indexSet.map(_.props).flatten
-    (keyProps union indexProps).foreach { prop => createIndex(prop) }
-  }
+  private def createIndexes(): Unit = realizedProps.foreach(createIndex)
 
   private def createIndex(prop: Prop[R, _]): Unit = {
     val name = s"""${tableName}_${scoredPath(prop)}"""
@@ -170,7 +156,6 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def jsonStringForRoot(root: R): String = {
     import org.json4s.native.JsonMethods._    
-    //println(compact(render(rootToJsonTranslator.traverse(root))))
     compact(render(rootToJsonTranslator.traverse(root)))
   }
 
@@ -203,6 +188,19 @@ extends BaseRepo[R](rootType, subdomain) {
     val boundStatement = preparedStatement.bind(propVals: _*)
     boundStatement
   }
+
+  private def retrieveFromBoundStatement(statement: BoundStatement): Future[Option[PState[R]]] =
+    Future {
+      val resultSet = session.execute(statement)
+      val rowOption = Option(resultSet.one)
+      rowOption.map { row =>
+        val id = CassandraId(row.getUUID("id"), repo.rootTypeKey)
+        import org.json4s.native.JsonMethods._    
+        val json = parse(row.getString("root"))
+        val root = jsonToRootTranslator.traverse[R](json)
+        new PState[R](id, root)
+      }
+    }
 
   private val updateStatement: PreparedStatement = {
     val cql = if (realizedProps.isEmpty) {
@@ -240,6 +238,15 @@ extends BaseRepo[R](rootType, subdomain) {
     val boundStatement = deleteStatement.bind
     val uuid = state.assoc.asInstanceOf[CassandraId[R]].uuid
     boundStatement.bind(uuid)
+  }
+
+  private val idSelectStatement = {
+    val cql = s"SELECT * FROM $tableName WHERE id = :id"
+    session.prepare(cql)
+  }
+
+  private def bindIdSelectStatement(assoc: CassandraId[R]): BoundStatement = {
+    idSelectStatement.bind(assoc.uuid)
   }
 
 }
