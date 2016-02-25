@@ -49,6 +49,7 @@ class JsonToEmblemTranslator extends Traversor {
   }
 
   protected def traverseLong(input: JValue): Long = input match {
+    case JInt(i) => i.toLong
     case JLong(l) => l
     case _ => throw new CouldNotTraverseException(typeKey[Long])
   }

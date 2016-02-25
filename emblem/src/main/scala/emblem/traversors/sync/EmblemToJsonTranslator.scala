@@ -90,7 +90,7 @@ class EmblemToJsonTranslator extends Traversor {
     input: List[A],
     result: Iterable[JValue])
   : JValue =
-    result.foldLeft(JNothing: JValue) { case (acc, value) => acc ++ value }
+    JArray(result.toList)
 
 }
 
