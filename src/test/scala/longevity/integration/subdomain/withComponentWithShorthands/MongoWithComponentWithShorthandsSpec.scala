@@ -1,5 +1,0 @@
-package longevity.integration.subdomain.withComponentWithShorthands
-
-import org.scalatest.Suites
-
-class MongoWithComponentWithShorthandsSpec extends Suites(context.mongoContext.repoCrudSpec)
