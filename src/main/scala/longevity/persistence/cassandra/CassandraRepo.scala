@@ -103,20 +103,15 @@ extends BaseRepo[R](rootType, subdomain) {
   private def scoredPath(prop: Prop[R, _]) = prop.path.replace('.', '_')
 
   private def createIndexes(): Unit = {
-    rootType.keySet.foreach { key => createIndex(key.props) }
-    rootType.indexSet.foreach { index => createIndex(index.props) }
+    val keyProps = rootType.keySet.map(_.props).flatten
+    val indexProps = rootType.indexSet.map(_.props).flatten
+    (keyProps union indexProps).foreach { prop => createIndex(prop) }
   }
 
-  private def createIndex(props: Seq[Prop[R, _]]): Unit = {
-    val name = indexName(props)
-    val columnList = props.map(columnName).mkString(", ")
-    val createIndex = s"CREATE INDEX IF NOT EXISTS $name ON $tableName ($columnList);"
+  private def createIndex(prop: Prop[R, _]): Unit = {
+    val name = s"""${tableName}_${scoredPath(prop)}"""
+    val createIndex = s"CREATE INDEX IF NOT EXISTS $name ON $tableName (${columnName(prop)});"
     session.execute(createIndex)
-  }
-
-  private def indexName(props: Seq[Prop[R, _]]): String = {
-    val scoredPaths: Seq[String] = props.map(scoredPath)
-    s"""${tableName}_${scoredPaths.mkString("_")}"""
   }
 
   private val insertStatement: PreparedStatement = {
@@ -168,6 +163,7 @@ extends BaseRepo[R](rootType, subdomain) {
     |SELECT * FROM $tableName
     |WHERE
     |  $relations
+    |ALLOW FILTERING
     |""".stripMargin
     session.prepare(cql)
   }
