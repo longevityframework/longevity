@@ -84,7 +84,7 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def createTable(): Unit = {
     val realizedPropColumns = realizedProps.map(prop =>
-      s"  ${columnName(prop)} ${CassandraRepo.basicToCassandraType(prop.typeKey)},"
+      s"  ${columnName(prop)} ${CassandraRepo.typeKeyToCassandraType(prop.typeKey)},"
     ).mkString("\n")
     val createTable = s"""|
     |CREATE TABLE IF NOT EXISTS $tableName (
@@ -143,13 +143,22 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def bindInsertStatement(uuid: UUID, root: R): BoundStatement = {
     val nonPropValues = Array(uuid, jsonStringForRoot(root))
-    val realizedPropValues = realizedProps.map(_.propVal(root).asInstanceOf[AnyRef])
+    val realizedPropValues = realizedProps.map(propValBinding(_, root))
     val values = (nonPropValues ++ realizedPropValues)
     insertStatement.bind(values: _*)
   }
 
+  private def propValBinding(prop: Prop[R, _], root: R): AnyRef = {
+    if (prop.typeKey <:< typeKey[Assoc[_ <: Root]]) {
+      prop.propVal(root).asInstanceOf[CassandraId[R]].uuid
+    } else {
+      prop.propVal(root).asInstanceOf[AnyRef]
+    }
+  }
+
   private def jsonStringForRoot(root: R): String = {
     import org.json4s.native.JsonMethods._    
+    //println(compact(render(rootToJsonTranslator.traverse(root))))
     compact(render(rootToJsonTranslator.traverse(root)))
   }
 
@@ -165,7 +174,12 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def bindKeyValSelectStatement(keyVal: KeyVal[R]): BoundStatement = {
     val preparedStatement = keyValSelectStatement(keyVal.key)
-    val boundStatement = preparedStatement.bind(keyVal.propValSeq: _*)
+    val assocKey = typeKey[Assoc[_ <: Root]]
+    val propVals = keyVal.key.props.collect {
+      case p if p.typeKey <:< assocKey => keyVal(p).asInstanceOf[CassandraId[R]].uuid
+      case p => keyVal(p).asInstanceOf[AnyRef]
+    }
+    val boundStatement = preparedStatement.bind(propVals: _*)
     boundStatement
   }
 
@@ -190,7 +204,7 @@ extends BaseRepo[R](rootType, subdomain) {
   private def bindUpdateStatement(state: PState[R]): BoundStatement = {
     val root = state.get
     val json = jsonStringForRoot(root)
-    val realizedPropVals = realizedProps.view.toArray.map(_.propVal(root).asInstanceOf[AnyRef])
+    val realizedPropVals = realizedProps.view.toArray.map(propValBinding(_, root))
     val uuid = state.assoc.asInstanceOf[CassandraId[R]].uuid
     val values = (json +: realizedPropVals :+ uuid)
     updateStatement.bind(values: _*)
@@ -207,36 +221,20 @@ extends BaseRepo[R](rootType, subdomain) {
     boundStatement.bind(uuid)
   }
 
-  private case object CharSerializer extends CustomSerializer[Char](format => (
-    { case JString(s) => s.head
-    },
-    { case c: Char => JString(s"$c")
-    }))
-
-  private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-
-  private case object DateTimeSerializer extends CustomSerializer[DateTime](format => (
-    { case JString(s) => formatter.parseDateTime(s)
-      case JNull => null
-    },
-    { case d: DateTime => JString(formatter.print(d))
-    }
-  ))
-
-  private case object ShorthandSerializer extends CustomSerializer[Any](format => (
-    { case JString(s) => s.head
-    },
-    { case c: Char => JString(s"$c")
-    })) {
-    
-  }
-
-  implicit private val formats =
-    Serialization.formats(NoTypeHints) + CharSerializer + DateTimeSerializer + ShorthandSerializer
-
 }
 
 private[longevity] object CassandraRepo {
+
+  private def typeKeyToCassandraType[A](key: TypeKey[A]): String = {
+    if (key <:< typeKey[Assoc[_ <: Root]]) {
+      "uuid"
+    } else if (basicToCassandraType.contains(key)) {
+      basicToCassandraType(key)
+    }
+    else {
+      throw new RuntimeException(s"unexpected prop type ${key.tpe}")
+    }
+  }
 
   private val basicToCassandraType = Map[TypeKey[_], String](
     typeKey[Boolean] -> "boolean",

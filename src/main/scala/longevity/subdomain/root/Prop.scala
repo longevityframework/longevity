@@ -14,10 +14,11 @@ import longevity.exceptions.subdomain.root.PropNotOrderedException
 import longevity.exceptions.subdomain.root.PropTypeException
 import longevity.subdomain._
 
-/** a property for this root type. properties can be used to define [[Key keys]] and [[Index indexes]],
- * as well as for building [[Query queries]]. a property can descend from the root into child entities at any
- * depth. at present, a property cannot pass through any collections. at present, the type of the property must
- * be an [[Assoc]], a [[Shorthand]], or a basic type.
+/** a property for this root type. properties can be used to define [[Key keys]]
+ * and [[Index indexes]], as well as for building [[Query queries]]. a property
+ * can descend from the root into child entities at any depth. at present, a
+ * property cannot pass through any collections. at present, the type of the
+ * property must be an [[Assoc]], a [[Shorthand]], or a basic type.
  * 
  * @param path a dot-separated path of the property descending from the root
  * @param typeKey the `TypeKey` for the property value type
