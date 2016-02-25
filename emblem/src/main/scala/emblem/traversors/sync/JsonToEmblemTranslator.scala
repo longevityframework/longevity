@@ -65,7 +65,7 @@ class JsonToEmblemTranslator extends Traversor {
   : Iterable[PropInput[A, _]] = {
     input match {
       case JObject(fields) =>
-        def fieldValue(name: String): JValue = fields.find(_._1 == name).get._2
+        def fieldValue(name: String) = fields.find(_._1 == name).map(_._2).getOrElse(JNothing)
         def propInput[B](prop: EmblemProp[A, B]) = prop -> fieldValue(prop.name)
         emblem.props.map(propInput(_))
       case _ => throw new CouldNotTraverseException(typeKey[A])

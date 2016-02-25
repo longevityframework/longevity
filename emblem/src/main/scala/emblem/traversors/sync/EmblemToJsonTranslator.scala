@@ -82,7 +82,7 @@ class EmblemToJsonTranslator extends Traversor {
     input: TraverseInput[Set[A]],
     result: Iterable[JValue])
   : JValue =
-    result.foldLeft(JNothing: JValue) { case (acc, value) => acc ++ value }
+    JArray(result.toList)
 
   protected def stageListElements[A : TypeKey](input: List[A]): Iterable[A] = input
 
