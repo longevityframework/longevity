@@ -35,7 +35,8 @@ extends BaseRepo[R](rootType, subdomain) {
   private val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
   private val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
   private val emblemPool = subdomain.entityEmblemPool
-  private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
+  private val shorthandPool = subdomain.shorthandPool
+  private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
   private val rootToJsonTranslator = new RootToJsonTranslator(emblemPool, extractorPool)
   private val jsonToRootTranslator = new JsonToRootTranslator(emblemPool, extractorPool)
 
@@ -84,7 +85,7 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def createTable(): Unit = {
     val realizedPropColumns = realizedProps.map(prop =>
-      s"  ${columnName(prop)} ${CassandraRepo.typeKeyToCassandraType(prop.typeKey)},"
+      s"  ${columnName(prop)} ${typeKeyToCassandraType(prop.typeKey)},"
     ).mkString("\n")
     val createTable = s"""|
     |CREATE TABLE IF NOT EXISTS $tableName (
@@ -96,6 +97,18 @@ extends BaseRepo[R](rootType, subdomain) {
     |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
     |""".stripMargin
     session.execute(createTable)
+  }
+
+  private def typeKeyToCassandraType[A](key: TypeKey[A]): String = {
+    if (key <:< typeKey[Assoc[_ <: Root]]) {
+      "uuid"
+    } else if (CassandraRepo.basicToCassandraType.contains(key)) {
+      CassandraRepo.basicToCassandraType(key)
+    } else if (shorthandPool.contains(key)) {
+      CassandraRepo.basicToCassandraType(shorthandPool(key).abbreviatedTypeKey)
+    } else {
+      throw new RuntimeException(s"unexpected prop type ${key.tpe}")
+    }
   }
 
   private def columnName(prop: Prop[R, _]) = "prop_" + scoredPath(prop)
@@ -146,6 +159,10 @@ extends BaseRepo[R](rootType, subdomain) {
   private def propValBinding(prop: Prop[R, _], root: R): AnyRef = {
     if (prop.typeKey <:< typeKey[Assoc[_ <: Root]]) {
       prop.propVal(root).asInstanceOf[CassandraId[R]].uuid
+    } else if (shorthandPool.contains(prop.typeKey)) {
+      def abbrevValue[A : TypeKey](value: A) = shorthandPool(typeKey[A]).abbreviate(value)
+      def abbrevProp[A : TypeKey](prop: Prop[R, A]) = abbrevValue(prop.propVal(root))(prop.typeKey)
+      abbrevProp(prop).asInstanceOf[AnyRef]
     } else {
       prop.propVal(root).asInstanceOf[AnyRef]
     }
@@ -171,9 +188,17 @@ extends BaseRepo[R](rootType, subdomain) {
   private def bindKeyValSelectStatement(keyVal: KeyVal[R]): BoundStatement = {
     val preparedStatement = keyValSelectStatement(keyVal.key)
     val assocKey = typeKey[Assoc[_ <: Root]]
+    // TODO: we have this weird kind of switch on Prop all over the place. encapsulate in prop.
+    // the prop can have the shorthand pool
     val propVals = keyVal.key.props.collect {
-      case p if p.typeKey <:< assocKey => keyVal(p).asInstanceOf[CassandraId[R]].uuid
-      case p => keyVal(p).asInstanceOf[AnyRef]
+      case p if p.typeKey <:< assocKey =>
+        keyVal(p).asInstanceOf[CassandraId[R]].uuid
+      case p if shorthandPool.contains(p.typeKey) =>
+        def abbrev[A : TypeKey](prop: Prop[R, A]) =
+          shorthandPool(typeKey[A]).abbreviate(keyVal[A](prop))
+        abbrev(p)(p.typeKey).asInstanceOf[AnyRef]
+      case p =>
+        keyVal(p).asInstanceOf[AnyRef]
     }
     val boundStatement = preparedStatement.bind(propVals: _*)
     boundStatement
@@ -220,17 +245,6 @@ extends BaseRepo[R](rootType, subdomain) {
 }
 
 private[longevity] object CassandraRepo {
-
-  private def typeKeyToCassandraType[A](key: TypeKey[A]): String = {
-    if (key <:< typeKey[Assoc[_ <: Root]]) {
-      "uuid"
-    } else if (basicToCassandraType.contains(key)) {
-      basicToCassandraType(key)
-    }
-    else {
-      throw new RuntimeException(s"unexpected prop type ${key.tpe}")
-    }
-  }
 
   private val basicToCassandraType = Map[TypeKey[_], String](
     typeKey[Boolean] -> "boolean",

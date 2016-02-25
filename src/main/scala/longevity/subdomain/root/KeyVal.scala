@@ -21,7 +21,7 @@ case class KeyVal[R <: Root] private[root] (
    * throws java.util.NoSuchElementException if the prop is not part of the key
    * @param the prop to look up a value for
    */
-  def apply(prop: Prop[R, _]): Any = propVals(prop)
+  def apply[A](prop: Prop[R, A]): A = propVals(prop).asInstanceOf[A]
 
 }
 
