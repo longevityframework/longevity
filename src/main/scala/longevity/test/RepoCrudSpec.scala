@@ -50,7 +50,8 @@ with TestDataGeneration {
     timeout = scaled(4000 millis),
     interval = scaled(50 millis))
 
-  override val suiteName = s"RepoCrudSpec for ${longevityContext.subdomain.name}${suiteNameSuffix match {
+  private def subdomainName = longevityContext.subdomain.name
+  override val suiteName = s"RepoCrudSpec for ${subdomainName}${suiteNameSuffix match {
     case Some(suffix) => s" $suffix"
     case None => ""
   }}"
@@ -68,14 +69,13 @@ with TestDataGeneration {
     private val representativeKeyOption = repo.rootType.keySet.headOption
 
     object Create extends Tag("Create")
-    object Retrieve extends Tag("Retrieve")
+    object RetrieveAssoc extends Tag("RetrieveAssoc")
+    object RetrieveNatKey extends Tag("RetrieveNatKey")
     object Update extends Tag("Update")
     object Delete extends Tag("Delete")
 
     feature(s"${rootName}Repo.create") {
       scenario(s"should produce a persisted $rootName", Create) {
-
-        representativeKeyOption should be ('nonEmpty)
 
         Given(s"an unpersisted $rootName")
         val root: R = randomRoot()
@@ -87,19 +87,33 @@ with TestDataGeneration {
         And(s"the persisted $rootName should should match the original, unpersisted $rootName")
         created.get should equal (root)
 
-        // i cant figure out if this and clause is a sensible part of this test or not. opinions?
         And(s"further retrieval operations should retrieve the same $rootName")
         representativeKeyOption.foreach { key =>
-          val keyValForRoot = key.keyValForRoot(created.get)
-          val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
+          val retrieved: PState[R] = repo.retrieveOne(created.assoc).futureValue
           retrieved.get should equal (root)
         }
 
       }
     }
 
-    feature(s"${rootName}Repo.retrieve") {
-      scenario(s"should produce the same persisted $rootName", Retrieve) {
+    feature(s"${rootName}Repo.retrieve(Assoc)") {
+      scenario(s"should produce the same persisted $rootName", RetrieveAssoc) {
+
+        Given(s"a persisted $rootName")
+        val root: R = randomRoot()
+        val created = repo.create(root).futureValue
+
+        When(s"we retrieve the $rootName by its Assoc")
+        Then(s"we get back the same $rootName persistent state")
+        repo.rootType.keySet.foreach { key =>
+          val retrieved: PState[R] = repo.retrieve(created.assoc).futureValue.value
+          retrieved.get should equal (root)
+        }
+      }
+    }
+
+    feature(s"${rootName}Repo.retrieve(NatKey)") {
+      scenario(s"should produce the same persisted $rootName", RetrieveNatKey) {
 
         Given(s"a persisted $rootName")
         val root: R = randomRoot()
@@ -131,18 +145,8 @@ with TestDataGeneration {
         updated.get should equal (modifiedRoot)
 
         And(s"further retrieval operations should retrieve the updated copy")
-        representativeKeyOption.foreach { key =>
-          val keyValForRoot = key.keyValForRoot(updated.get)
-          val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
-          retrieved.get should equal (modifiedRoot)
-        }
-
-        And(s"further retrieval operations based on the original version should retrieve nothing")
-        representativeKeyOption.foreach { key =>
-          val keyValForRoot = key.keyValForRoot(created.get)
-          repo.retrieve(keyValForRoot).futureValue should be (None)
-        }
-
+        val retrieved: PState[R] = repo.retrieveOne(updated.assoc).futureValue
+        retrieved.get should equal (modifiedRoot)
       }
     }
 
@@ -159,11 +163,8 @@ with TestDataGeneration {
         deleted.root should equal (root)
 
         And(s"we should no longer be able to retrieve the $rootName")
-        representativeKeyOption.foreach { key =>
-          val keyValForRoot = key.keyValForRoot(created.get)
-          val retrieved: Option[PState[R]] = repo.retrieve(keyValForRoot).futureValue
-          retrieved.isEmpty should be (true)
-        }
+        val retrieved: Option[PState[R]] = repo.retrieve(deleted.assoc).futureValue
+        retrieved.isEmpty should be (true)
       }
     }
 
