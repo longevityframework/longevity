@@ -1,10 +1,13 @@
 package longevity.integration.queries
 
 import longevity.subdomain.Assoc
+import longevity.subdomain.root.Query._
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.withAssoc._
 
-class WithAssocInMemQuerySpec extends QuerySpec[WithAssoc](context.mongoContext, context.mongoContext.inMemTestRepoPool) {
+class WithAssocInMemQuerySpec extends QuerySpec[WithAssoc](
+  context.mongoContext,
+  context.mongoContext.inMemTestRepoPool) {
 
   val repo = repoPool[WithAssoc]
 
@@ -13,13 +16,20 @@ class WithAssocInMemQuerySpec extends QuerySpec[WithAssoc](context.mongoContext,
 
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries with associations" in {
-    exerciseQTemplate(EqualityQTemplate(associatedProp))
+    exerciseQTemplate(EqualityQTemplate(associatedProp, EqOp))
+    exerciseQTemplate(EqualityQTemplate(associatedProp, NeqOp))
   }
 
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
-    exerciseQTemplate(ConditionalQTemplate(EqualityQTemplate(uriProp), EqualityQTemplate(associatedProp)))
-    exerciseQTemplate(ConditionalQTemplate(OrderingQTemplate(uriProp), EqualityQTemplate(associatedProp)))
+    exerciseQTemplate(ConditionalQTemplate(
+      EqualityQTemplate(uriProp, EqOp),
+      OrOp,
+      EqualityQTemplate(associatedProp, EqOp)))
+    exerciseQTemplate(ConditionalQTemplate(
+      OrderingQTemplate(uriProp, LtOp),
+      AndOp,
+      EqualityQTemplate(associatedProp, EqOp)))
   }
 
 }

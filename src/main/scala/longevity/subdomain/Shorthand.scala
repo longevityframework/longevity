@@ -1,5 +1,6 @@
 package longevity.subdomain
 
+import emblem.basicTypes.basicTypeOrderings
 import emblem.basicTypes.isBasicType
 import emblem.imports._
 import longevity.exceptions.subdomain.ShorthandCreationException
@@ -14,8 +15,7 @@ import longevity.exceptions.subdomain.ShorthandCreationException
  * @tparam Abbreviated the abbreviated type
  */
 class Shorthand[Actual, Abbreviated] private[longevity] (
-  private[longevity] val extractor: Extractor[Actual, Abbreviated]
-) {
+  private[longevity] val extractor: Extractor[Actual, Abbreviated]) {
 
   /** a type key for the actual type */
   private[longevity] lazy val actualTypeKey: TypeKey[Actual] = extractor.domainTypeKey
@@ -28,6 +28,11 @@ class Shorthand[Actual, Abbreviated] private[longevity] (
 
   /** converts from abbreviate to actual */
   def unabbreviate(abbreviated: Abbreviated): Actual = extractor.inverse(abbreviated)
+
+  /** an ordering for shorthand actual values */
+  val actualOrdering: Ordering[Actual] = {
+    Ordering.by(abbreviate)(basicTypeOrderings(abbreviatedTypeKey))
+  }
 
   override def toString = s"Shorthand[${actualTypeKey.tpe}, ${abbreviatedTypeKey.tpe}]"
 

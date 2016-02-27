@@ -2,20 +2,20 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
+import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import emblem.imports._
 import emblem.stringUtil._
 import java.util.UUID
+import longevity.exceptions.persistence.cassandra.NeqInQueryException
+import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence._
 import longevity.subdomain._
 import longevity.subdomain.root._
+import longevity.subdomain.root.Query._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import org.json4s.CustomSerializer
-import org.json4s.JNull
-import org.json4s.JString
-import org.json4s.NoTypeHints
-import org.json4s.native.Serialization
+import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -28,17 +28,23 @@ import scala.concurrent.Future
 private[longevity] class CassandraRepo[R <: Root : TypeKey] protected[persistence] (
   rootType: RootType[R],
   subdomain: Subdomain,
-  session: Session)
-extends BaseRepo[R](rootType, subdomain) {
+  protected val session: Session)
+extends BaseRepo[R](rootType, subdomain) with CassandraSchema[R] {
   repo =>
 
-  private val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
-  private val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
-  private val emblemPool = subdomain.entityEmblemPool
-  private val shorthandPool = subdomain.shorthandPool
+  // TODO DRY this is in EmblemToJsonTranslator and JsonToEmblemTranslator too
+  private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+
+  protected val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
+  protected val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
+  protected val emblemPool = subdomain.entityEmblemPool
+  protected val shorthandPool = subdomain.shorthandPool
   private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
   private val rootToJsonTranslator = new RootToJsonTranslator(emblemPool, extractorPool)
   private val jsonToRootTranslator = new JsonToRootTranslator(emblemPool, extractorPool)
+
+  protected def columnName(prop: Prop[R, _]) = "prop_" + scoredPath(prop)
+  protected def scoredPath(prop: Prop[R, _]) = prop.path.replace('.', '_')
 
   createSchema()
 
@@ -64,60 +70,64 @@ extends BaseRepo[R](rootType, subdomain) {
   override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] =
     retrieveFromBoundStatement(bindIdSelectStatement(assoc.asInstanceOf[CassandraId[R]]))
 
-  override protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = {
-    ???
-  }
+  private case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
 
-  private def createSchema(): Unit = {
-    createTable()
-    createIndexes()
-  }
+  override protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] =
+    Future {
+      val info = queryInfo(query)
+      val cql = s"SELECT * FROM $tableName WHERE ${info.whereClause} ALLOW FILTERING"
+      val preparedStatement = session.prepare(cql)
+      val boundStatement = preparedStatement.bind(info.bindValues: _*)
+      val resultSet = session.execute(boundStatement)
+      resultSet.all.toList.map(retrieveFromRow)
+    }
 
-  private def createTable(): Unit = {
-    val realizedPropColumns = realizedProps.map(prop =>
-      s"  ${columnName(prop)} ${typeKeyToCassandraType(prop.typeKey)},"
-    ).mkString("\n")
-    val createTable = s"""|
-    |CREATE TABLE IF NOT EXISTS $tableName (
-    |  id uuid,
-    |  root text,
-    |$realizedPropColumns
-    |  PRIMARY KEY (id)
-    |)
-    |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
-    |""".stripMargin
-    session.execute(createTable)
-  }
-
-  private def typeKeyToCassandraType[A](key: TypeKey[A]): String = {
-    if (key <:< typeKey[Assoc[_ <: Root]]) {
-      "uuid"
-    } else if (CassandraRepo.basicToCassandraType.contains(key)) {
-      CassandraRepo.basicToCassandraType(key)
-    } else if (shorthandPool.contains(key)) {
-      CassandraRepo.basicToCassandraType(shorthandPool(key).abbreviatedTypeKey)
-    } else {
-      throw new RuntimeException(s"unexpected prop type ${key.tpe}")
+  private def queryInfo(query: ValidatedQuery[R]): QueryInfo = {
+    query match {
+      case VEqualityQuery(prop, op, value) => op match {
+        case EqOp => QueryInfo(s"${columnName(prop)} = :${columnName(prop)}",
+                               Seq(cassandraValue(value)(prop.typeKey)))
+        case NeqOp => throw new NeqInQueryException
+      }
+      case VOrderingQuery(prop, op, value) => op match {
+        case LtOp => QueryInfo(s"${columnName(prop)} < :${columnName(prop)}",
+                               Seq(cassandraValue(value)(prop.typeKey)))
+        case LteOp => QueryInfo(s"${columnName(prop)} <= :${columnName(prop)}",
+                                Seq(cassandraValue(value)(prop.typeKey)))
+        case GtOp => QueryInfo(s"${columnName(prop)} > :${columnName(prop)}",
+                               Seq(cassandraValue(value)(prop.typeKey)))
+        case GteOp => QueryInfo(s"${columnName(prop)} >= :${columnName(prop)}",
+                                Seq(cassandraValue(value)(prop.typeKey)))
+      }
+      case VConditionalQuery(lhs, op, rhs) => op match {
+        case AndOp =>
+          val lhsQueryInfo = queryInfo(lhs)
+          val rhsQueryInfo = queryInfo(rhs)
+          QueryInfo(s"${lhsQueryInfo.whereClause} AND ${rhsQueryInfo.whereClause}",
+                    lhsQueryInfo.bindValues ++ rhsQueryInfo.bindValues)
+        case OrOp => throw new OrInQueryException
+      }
     }
   }
 
-  private def columnName(prop: Prop[R, _]) = "prop_" + scoredPath(prop)
-
-  private def scoredPath(prop: Prop[R, _]) = prop.path.replace('.', '_')
-
-  private def createIndexes(): Unit = realizedProps.foreach(createIndex)
-
-  private def createIndex(prop: Prop[R, _]): Unit = {
-    val name = s"""${tableName}_${scoredPath(prop)}"""
-    val createIndex = s"CREATE INDEX IF NOT EXISTS $name ON $tableName (${columnName(prop)});"
-    session.execute(createIndex)
+  private def cassandraValue[A : TypeKey](value: A): AnyRef = {
+    val abbreviated = value match {
+      case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
+      case a => a
+    }
+    abbreviated match {
+      case id: CassandraId[_] => id.uuid
+      case char: Char => char.toString
+      case d: DateTime => formatter.print(d)
+      case _ => value.asInstanceOf[AnyRef]
+    }
   }
 
   private val insertStatement: PreparedStatement = {
     val cql = if (realizedProps.isEmpty) {
       s"INSERT INTO $tableName (id, root) VALUES (:id, :root)"
     } else {
-      val realizedPropColumnNames = realizedProps.map(columnName)
+      val realizedPropColumnNames = realizedProps.map(columnName).toSeq.sorted
       val realizedPropColumns = realizedPropColumnNames.mkString(",\n  ")
       val realizedSubstitutions = realizedPropColumnNames.map(c => s":$c").mkString(",\n  ")
       s"""|
@@ -137,20 +147,26 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def bindInsertStatement(uuid: UUID, root: R): BoundStatement = {
     val nonPropValues = Array(uuid, jsonStringForRoot(root))
-    val realizedPropValues = realizedProps.map(propValBinding(_, root))
+    val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map(propValBinding(_, root))
     val values = (nonPropValues ++ realizedPropValues)
     insertStatement.bind(values: _*)
   }
 
   private def propValBinding(prop: Prop[R, _], root: R): AnyRef = {
-    if (prop.typeKey <:< typeKey[Assoc[_ <: Root]]) {
-      prop.propVal(root).asInstanceOf[CassandraId[R]].uuid
-    } else if (shorthandPool.contains(prop.typeKey)) {
+    def rawValue[A](prop: Prop[R, A]) = prop.propVal(root)
+    val abbreviated = if (shorthandPool.contains(prop.typeKey)) {
       def abbrevValue[A : TypeKey](value: A) = shorthandPool(typeKey[A]).abbreviate(value)
-      def abbrevProp[A : TypeKey](prop: Prop[R, A]) = abbrevValue(prop.propVal(root))(prop.typeKey)
-      abbrevProp(prop).asInstanceOf[AnyRef]
+      def abbrevProp[A : TypeKey](prop: Prop[R, A]) = abbrevValue(rawValue(prop))(prop.typeKey)
+      abbrevProp(prop)
     } else {
-      prop.propVal(root).asInstanceOf[AnyRef]
+      rawValue(prop)
+    }
+    // TODO use cassandraValue here
+    abbreviated match {
+      case CassandraId(uuid, _) => uuid
+      case c: Char => c.toString
+      case d: DateTime => formatter.print(d)
+      case x => x.asInstanceOf[AnyRef]
     }
   }
 
@@ -193,20 +209,22 @@ extends BaseRepo[R](rootType, subdomain) {
     Future {
       val resultSet = session.execute(statement)
       val rowOption = Option(resultSet.one)
-      rowOption.map { row =>
-        val id = CassandraId(row.getUUID("id"), repo.rootTypeKey)
-        import org.json4s.native.JsonMethods._    
-        val json = parse(row.getString("root"))
-        val root = jsonToRootTranslator.traverse[R](json)
-        new PState[R](id, root)
-      }
+      rowOption.map(retrieveFromRow)
     }
+
+  private def retrieveFromRow(row: Row): PState[R] = {
+    val id = CassandraId(row.getUUID("id"), repo.rootTypeKey)
+    import org.json4s.native.JsonMethods._    
+    val json = parse(row.getString("root"))
+    val root = jsonToRootTranslator.traverse[R](json)
+    new PState[R](id, root)
+  }
 
   private val updateStatement: PreparedStatement = {
     val cql = if (realizedProps.isEmpty) {
       s"UPDATE $tableName SET root = :root WHERE id = :id"
     } else {
-      val realizedPropColumnNames = realizedProps.map(columnName)
+      val realizedPropColumnNames = realizedProps.toSeq.map(columnName).sorted
       val realizedAssignments = realizedPropColumnNames.map(c => s"$c = :$c").mkString(",\n  ")
       s"""|
       |UPDATE $tableName
@@ -223,7 +241,7 @@ extends BaseRepo[R](rootType, subdomain) {
   private def bindUpdateStatement(state: PState[R]): BoundStatement = {
     val root = state.get
     val json = jsonStringForRoot(root)
-    val realizedPropVals = realizedProps.view.toArray.map(propValBinding(_, root))
+    val realizedPropVals = realizedProps.toArray.sortBy(columnName).map(propValBinding(_, root))
     val uuid = state.assoc.asInstanceOf[CassandraId[R]].uuid
     val values = (json +: realizedPropVals :+ uuid)
     updateStatement.bind(values: _*)
@@ -251,12 +269,12 @@ extends BaseRepo[R](rootType, subdomain) {
 
 }
 
-private[longevity] object CassandraRepo {
+private[cassandra] object CassandraRepo {
 
-  private val basicToCassandraType = Map[TypeKey[_], String](
+  private[cassandra] val basicToCassandraType = Map[TypeKey[_], String](
     typeKey[Boolean] -> "boolean",
     typeKey[Char] -> "text",
-    typeKey[DateTime] -> "timestamp",
+    typeKey[DateTime] -> "text",
     typeKey[Double] -> "double",
     typeKey[Float] -> "float",
     typeKey[Int] -> "int",

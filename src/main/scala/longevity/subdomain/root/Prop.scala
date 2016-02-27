@@ -25,9 +25,10 @@ import longevity.subdomain._
  * @see `emblem.basicTypes`
  */
 case class Prop[R <: Root, A] private (
-  val path: String,
-  val typeKey: TypeKey[A])(
-  private val emblemPropPath: EmblemPropPath[R, A]) {
+  path: String,
+  typeKey: TypeKey[A])(
+  private val emblemPropPath: EmblemPropPath[R, A],
+  private val shorthandPool: ShorthandPool) {
 
   /** the value of this property for a specific root
    * @param e the root we are looking up the value of the property for
@@ -42,10 +43,13 @@ case class Prop[R <: Root, A] private (
    * for basic types
    */
   lazy val ordering: Ordering[A] =
-    if (isBasicType(typeKey))
+    if (isBasicType(typeKey)) {
       basicTypeOrderings(typeKey)
-    else
+    } else if (shorthandPool.contains(typeKey)) {
+      shorthandPool(typeKey).actualOrdering
+    } else {
       throw new PropNotOrderedException(this)
+    }
 
   override def toString: String = path
 
@@ -105,8 +109,15 @@ object Prop {
     val leafEmblemProp = emblemProps.last
     val propTypeKey = validateLeafEmblemProp(leafEmblemProp)
 
-    def newProp[A : TypeKey](path: String, propTypeKey: TypeKey[A], emblemPropPath: EmblemPropPath[R, _]) =
-      new Prop(path, propTypeKey)(emblemPropPath.asInstanceOf[EmblemPropPath[R, A]])
+    def newProp[A : TypeKey](
+      path: String,
+      propTypeKey: TypeKey[A],
+      emblemPropPath: EmblemPropPath[R, _]) =
+      new Prop(
+        path,
+        propTypeKey)(
+        emblemPropPath.asInstanceOf[EmblemPropPath[R, A]],
+        shorthandPool)
 
     newProp(path, propTypeKey, emblemPropPath)
   }

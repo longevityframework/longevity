@@ -5,6 +5,7 @@ import longevity.context.LongevityContext
 import longevity.persistence._
 import longevity.subdomain._
 import longevity.subdomain.root._
+import longevity.subdomain.root.Query._
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
@@ -13,13 +14,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Random
 
-/** contains common code for testing different [[longevity.subdomain.root.Query]] instances against
- * [[longevity.persistence.Repo#retrieveByQuery]]
+/** contains common code for testing different [[longevity.subdomain.root.Query]]
+ * instances against [[longevity.persistence.Repo#retrieveByQuery]]
  *
  * @param context the longevity context under test
- * @param repoPool the repo pool under test. this may be different than the `context.repoPool`, as
- * users may want to test against other repo pools. (for instance, they may want a spec for in-memory repo
- * pools if other parts of their test suite rely on them.)
+ * @param repoPool the repo pool under test. this may be different than the
+ * `context.repoPool`, as users may want to test against other repo pools. (for
+ * instance, they may want a spec for in-memory repo pools if other parts of
+ * their test suite rely on them.)
  */
 abstract class QuerySpec[R <: Root : TypeKey](context: LongevityContext, pool: RepoPool)
 extends {
@@ -34,7 +36,6 @@ with ScalaFutures
 with ScaledTimeSpans
 with TestDataGeneration {
 
-  // by default, things should be repeatable. but it would be nice if there were an easy way to tweak the seed
   val seed = 117
   val random = new Random(seed)
 
@@ -43,14 +44,14 @@ with TestDataGeneration {
     interval = scaled(50 millis))
 
   protected sealed trait QTemplate
-  protected case class EqualityQTemplate[A](prop: Prop[R, A]) extends QTemplate
-  protected case class OrderingQTemplate[A](prop: Prop[R, A]) extends QTemplate
-  protected case class ConditionalQTemplate(lhs: QTemplate, rhs: QTemplate) extends QTemplate
+  protected case class EqualityQTemplate[A](prop: Prop[R, A], op: EqualityOp) extends QTemplate
+  protected case class OrderingQTemplate[A](prop: Prop[R, A], op: OrderingOp) extends QTemplate
+  protected case class ConditionalQTemplate(lhs: QTemplate, op: LogicalOp, rhs: QTemplate)
+    extends QTemplate
 
   protected def exerciseQTemplate(template: QTemplate, maxQueries: Int = 10): Unit = {
     val expectations = queryExpectationsFromQTemplate(template, roots)
-    val expectationsSubset = expectations.take(maxQueries)
-    expectationsSubset.foreach(e => exerciseQueryExpectations(e))
+    exerciseQueryExpectations(expectations)
   }
 
   private val repo = repoPool.baseRepoMap[R]
@@ -74,7 +75,8 @@ with TestDataGeneration {
 
   private case class QueryExpectations(query: Query[R], expected: Set[R])
 
-  private def queryExpectationsFromQTemplate(template: QTemplate, roots: Set[R]): Set[QueryExpectations] = {
+  private def queryExpectationsFromQTemplate(template: QTemplate, roots: Set[R])
+  : QueryExpectations = {
     template match {
       case t: EqualityQTemplate[_] => queryExpectationsFromEqualityQTemplate(t, roots)(t.prop.typeKey)
       case t: OrderingQTemplate[_] => queryExpectationsFromOrderingQTemplate(t, roots)(t.prop.typeKey)
@@ -85,61 +87,57 @@ with TestDataGeneration {
   private def queryExpectationsFromEqualityQTemplate[A : TypeKey](
     template: EqualityQTemplate[A],
     roots: Set[R])
-  : Set[QueryExpectations] = {
+  : QueryExpectations = {
     val randomMatchingRoot = randomRoot(roots)
     val matchingPropVal = template.prop.propVal(randomMatchingRoot)
     val matchingRoots = roots.filter(r => template.prop.propVal(r) == matchingPropVal)
-    val eqsWithMatch = QueryExpectations(Query.eqs(template.prop, matchingPropVal), matchingRoots)
-    val neqWithMatch = QueryExpectations(Query.neq(template.prop, matchingPropVal), roots diff matchingRoots)
-    Set(eqsWithMatch, neqWithMatch)
+    template.op match {
+      case EqOp => QueryExpectations(Query.eqs(template.prop, matchingPropVal), matchingRoots)
+      case NeqOp => QueryExpectations(Query.neq(template.prop, matchingPropVal), roots diff matchingRoots)
+    }
   }
-
-  private def randomRoot(roots: Set[R]): R = roots.head
 
   private def queryExpectationsFromOrderingQTemplate[A : TypeKey](
     template: OrderingQTemplate[A],
     roots: Set[R])
-  : Set[QueryExpectations] = {
+  : QueryExpectations = {
     val prop = template.prop
     val median = medianPropVal(roots, prop)
-
-    val ltQuery = Query.lt(prop, median)
-    val ltRoots = roots.filter(r => prop.ordering.lt(prop.propVal(r), median))
-    
-    val lteQuery = Query.lte(prop, median)
-    val lteRoots = roots.filter(r => prop.ordering.lteq(prop.propVal(r), median))
-
-    val gtQuery = Query.gt(prop, median)
-    val gtRoots = roots.filter(r => prop.ordering.gt(prop.propVal(r), median))
-
-    val gteQuery = Query.gte(prop, median)
-    val gteRoots = roots.filter(r => prop.ordering.gteq(prop.propVal(r), median))
-
-    Set(
-      QueryExpectations(ltQuery, ltRoots),
-      QueryExpectations(lteQuery, lteRoots),
-      QueryExpectations(gtQuery, gtRoots),
-      QueryExpectations(gteQuery, gteRoots))
+    template.op match {
+      case LtOp => QueryExpectations(
+        Query.lt(prop, median),
+        roots.filter(r => prop.ordering.lt(prop.propVal(r), median)))
+      case LteOp => QueryExpectations(
+        Query.lte(prop, median),
+        roots.filter(r => prop.ordering.lteq(prop.propVal(r), median)))
+      case GtOp => QueryExpectations(
+        Query.gt(prop, median),
+        roots.filter(r => prop.ordering.gt(prop.propVal(r), median)))
+      case GteOp => QueryExpectations(
+        Query.gte(prop, median),
+        roots.filter(r => prop.ordering.gteq(prop.propVal(r), median)))
+    }
   }
 
   private def queryExpectationsFromConditionalQTemplate[A](
     template: ConditionalQTemplate,
     roots: Set[R])
-  : Set[QueryExpectations] = {
-    val setSetExpects = for {
-      lhsExpect <- queryExpectationsFromQTemplate(template.lhs, roots)
-      rhsExpect <- queryExpectationsFromQTemplate(template.rhs, roots)
-    } yield {
-      Set(
+  : QueryExpectations = {
+    val lhsExpect = queryExpectationsFromQTemplate(template.lhs, roots)
+    val rhsExpect = queryExpectationsFromQTemplate(template.rhs, roots)
+    template.op match {
+      case AndOp =>
         QueryExpectations(
           Query.and(lhsExpect.query, rhsExpect.query),
-          lhsExpect.expected intersect rhsExpect.expected),
+          lhsExpect.expected intersect rhsExpect.expected)
+      case OrOp =>
         QueryExpectations(
           Query.or(lhsExpect.query, rhsExpect.query),
-          lhsExpect.expected union rhsExpect.expected))
+          lhsExpect.expected union rhsExpect.expected)
     }
-    setSetExpects.flatten
   }
+
+  private def randomRoot(roots: Set[R]): R = roots.head
 
   private def medianPropVal[A](roots: Set[R], prop: Prop[R, A]): A =
     orderStatPropVal(roots, prop, roots.size / 2)

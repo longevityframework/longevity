@@ -68,13 +68,14 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   def get[TypeParam <: TypeBound : TypeKey]: Option[Val[TypeParam]] =
     underlying.get(typeKey[TypeParam]).asInstanceOf[Option[Val[TypeParam]]]
 
-  /** returns the value associated with a type key, or a default value if the type key is not contained in the
-   * map.
+  /** returns the value associated with a type key, or a default value if the
+   * type key is not contained in the map.
    *
-   * @param default a computation that yields a default value in case no binding for the type key is found in
-   * the map
+   * @param default a computation that yields a default value in case no binding
+   * for the type key is found in the map
    * @tparam TypeParam the type param bounding both the type key and the value
-   * @return the value associated with type key if it exists, otherwise the result of the `default` computation.
+   * @return the value associated with type key if it exists, otherwise the
+   * result of the `default` computation.
    */
   def getOrElse[TypeParam <: TypeBound : TypeKey](default: => Val[TypeParam]): Val[TypeParam] =
     underlying.getOrElse(typeKey[TypeParam], default).asInstanceOf[Val[TypeParam]]
@@ -94,15 +95,18 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](underlying + pair)
 
-  /** adds a typekey/value pair to this map, returning a new map. the type key is inferred from the type of
-   * the supplied value.
+  /** adds a typekey/value pair to this map, returning a new map. the type key
+   * is inferred from the type of the supplied value.
    *
-   * PLEASE NOTE: using this method when your `Val` type is contravariant in its type parameter will not
-   * do what you might expect! when the compiler infers type parameter `[TypeParam <: TypeBound]` from an
-   * argument of type `Contra[TypeParam]`, where type `Contra` is defined as, e.g., `trait Contra[+T]`,
-   * it's always going to infer `TypeBound` as the `TypeParam`. there seems to be nothing I can do within
-   * `TypeKeyMap` to circumvent this. the easiest way to work around this problem is to specify the type key
-   * yourself with [[TypeKeyMap.+[TypeParam<:TypeBound,ValTypeParam<:TypeBound]* the alternate method +]].
+   * PLEASE NOTE: using this method when your `Val` type is contravariant in its
+   * type parameter will not do what you might expect! when the compiler infers
+   * type parameter `[TypeParam <: TypeBound]` from an argument of type
+   * `Contra[TypeParam]`, where type `Contra` is defined as, e.g.,
+   * `trait Contra[+T]`, it's always going to infer `TypeBound` as the
+   * `TypeParam`. there seems to be nothing I can do within `TypeKeyMap` to
+   * circumvent this. the easiest way to work around this problem is to specify
+   * the type key yourself with
+   * [[TypeKeyMap.+[TypeParam<:TypeBound,ValTypeParam<:TypeBound]* the alternate method +]].
    *
    * @param value the value to add to the map
    * @param key the type key, which is inferred from the type of value
@@ -111,8 +115,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   def +[
     TypeParam <: TypeBound](
     value: Val[TypeParam])(
-    implicit
-    key: TypeKey[TypeParam])
+    implicit key: TypeKey[TypeParam])
   : TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](underlying + (key -> value))
 

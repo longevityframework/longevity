@@ -18,4 +18,12 @@ extends Root
 
 object AllAttributes extends RootType[AllAttributes] {
   key("uri")
+  index("boolean")
+  index("char")
+  index("double")
+  index("float")
+  index("int")
+  index("long")
+  index("string")
+  index("dateTime")
 }

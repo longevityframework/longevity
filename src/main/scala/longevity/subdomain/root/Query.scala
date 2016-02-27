@@ -7,9 +7,10 @@ import longevity.subdomain._
 /** query operators and factory methods */
 object Query {
 
-  /** those relational operators - namely, _equals_ and _not equals_ - that apply, regardless of the types
-   * of the operands. this is in contrast to relational operators such _greater than_, which only apply to
-   * types that have a ordering
+  /** those relational operators - namely, _equals_ and _not equals_ - that
+   * apply, regardless of the types of the operands. this is in contrast to
+   * relational operators such _greater than_, which only apply to types that
+   * have a ordering.
    */
   sealed trait EqualityOp
 

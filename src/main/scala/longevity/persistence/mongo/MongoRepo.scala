@@ -20,7 +20,7 @@ import scala.util.Success
  * @param subdomain the subdomain containing the root that this repo persists
  * @param mongoDb the connection to the mongo database
  */
-class MongoRepo[R <: Root : TypeKey] private[persistence] (
+private[longevity] class MongoRepo[R <: Root : TypeKey] private[persistence] (
   rootType: RootType[R],
   subdomain: Subdomain,
   mongoDb: MongoDB)

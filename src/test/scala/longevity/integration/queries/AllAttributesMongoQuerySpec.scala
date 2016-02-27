@@ -1,10 +1,12 @@
 package longevity.integration.queries
 
 import com.github.nscala_time.time.Imports._
+import longevity.subdomain.root.Query._
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.allAttributes._
 
-class AllAttributesMongoQuerySpec extends QuerySpec[AllAttributes](context.mongoContext, context.mongoContext.testRepoPool) {
+class AllAttributesMongoQuerySpec
+extends QuerySpec[AllAttributes](context.mongoContext, context.mongoContext.testRepoPool) {
 
   val repo = repoPool[AllAttributes]
 
@@ -19,50 +21,75 @@ class AllAttributesMongoQuerySpec extends QuerySpec[AllAttributes](context.mongo
 
   behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries" in {
-    exerciseQTemplate(EqualityQTemplate(booleanProp))
-    exerciseQTemplate(EqualityQTemplate(charProp))
-    exerciseQTemplate(EqualityQTemplate(doubleProp))
-    exerciseQTemplate(EqualityQTemplate(floatProp))
-    exerciseQTemplate(EqualityQTemplate(intProp))
-    exerciseQTemplate(EqualityQTemplate(longProp))
-    exerciseQTemplate(EqualityQTemplate(stringProp))
-    exerciseQTemplate(EqualityQTemplate(dateTimeProp))
+    exerciseQTemplate(EqualityQTemplate(booleanProp, EqOp))
+    exerciseQTemplate(EqualityQTemplate(booleanProp, NeqOp))
+    exerciseQTemplate(EqualityQTemplate(charProp, EqOp))
+    exerciseQTemplate(EqualityQTemplate(doubleProp, NeqOp))
+    exerciseQTemplate(EqualityQTemplate(floatProp, EqOp))
+    exerciseQTemplate(EqualityQTemplate(intProp, NeqOp))
+    exerciseQTemplate(EqualityQTemplate(longProp, EqOp))
+    exerciseQTemplate(EqualityQTemplate(stringProp, NeqOp))
+    exerciseQTemplate(EqualityQTemplate(dateTimeProp, EqOp))
   }
 
   behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for simple ordering queries" in {
-    exerciseQTemplate(OrderingQTemplate(booleanProp))
-    exerciseQTemplate(OrderingQTemplate(charProp))
-    exerciseQTemplate(OrderingQTemplate(doubleProp))
-    exerciseQTemplate(OrderingQTemplate(floatProp))
-    exerciseQTemplate(OrderingQTemplate(intProp))
-    exerciseQTemplate(OrderingQTemplate(longProp))
-    exerciseQTemplate(OrderingQTemplate(stringProp))
-    exerciseQTemplate(OrderingQTemplate(dateTimeProp))
+    exerciseQTemplate(OrderingQTemplate(booleanProp, LtOp))
+    exerciseQTemplate(OrderingQTemplate(charProp, LteOp))
+    exerciseQTemplate(OrderingQTemplate(doubleProp, GtOp))
+    exerciseQTemplate(OrderingQTemplate(floatProp, GteOp))
+    exerciseQTemplate(OrderingQTemplate(intProp, LtOp))
+    exerciseQTemplate(OrderingQTemplate(longProp, LteOp))
+    exerciseQTemplate(OrderingQTemplate(stringProp, GtOp))
+    exerciseQTemplate(OrderingQTemplate(dateTimeProp, GteOp))
   }
 
   behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
-    exerciseQTemplate(ConditionalQTemplate(EqualityQTemplate(floatProp), EqualityQTemplate(longProp)))
-    exerciseQTemplate(ConditionalQTemplate(EqualityQTemplate(floatProp), OrderingQTemplate(longProp)))
-    exerciseQTemplate(ConditionalQTemplate(OrderingQTemplate(floatProp), EqualityQTemplate(longProp)))
-    exerciseQTemplate(ConditionalQTemplate(OrderingQTemplate(floatProp), OrderingQTemplate(longProp)))
+    exerciseQTemplate(ConditionalQTemplate(
+      EqualityQTemplate(floatProp, EqOp),
+      AndOp,
+      EqualityQTemplate(longProp, NeqOp)))
+    exerciseQTemplate(ConditionalQTemplate(
+      EqualityQTemplate(floatProp, EqOp),
+      AndOp,
+      OrderingQTemplate(longProp, LtOp)))
+    exerciseQTemplate(ConditionalQTemplate(
+      OrderingQTemplate(floatProp, GteOp),
+      OrOp,
+      EqualityQTemplate(longProp, EqOp)))
+    exerciseQTemplate(ConditionalQTemplate(
+      OrderingQTemplate(floatProp, LteOp),
+      OrOp,
+      OrderingQTemplate(longProp, GtOp)))
   }
 
   behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for nested conditional queries" in {
     exerciseQTemplate(
       ConditionalQTemplate(
-        ConditionalQTemplate(EqualityQTemplate(floatProp), EqualityQTemplate(longProp)),
-        EqualityQTemplate(dateTimeProp)))
+        ConditionalQTemplate(
+          EqualityQTemplate(floatProp, EqOp),
+          AndOp,
+          EqualityQTemplate(longProp, EqOp)),
+        AndOp,
+        EqualityQTemplate(dateTimeProp, NeqOp)))
     exerciseQTemplate(
       ConditionalQTemplate(
-        ConditionalQTemplate(OrderingQTemplate(floatProp), OrderingQTemplate(longProp)),
-        OrderingQTemplate(dateTimeProp)))
+        ConditionalQTemplate(
+          OrderingQTemplate(floatProp, GtOp),
+          OrOp,
+          OrderingQTemplate(longProp, LtOp)),
+        OrOp,
+        OrderingQTemplate(dateTimeProp, LtOp)))
     exerciseQTemplate(
       ConditionalQTemplate(
-        EqualityQTemplate(dateTimeProp),
-        ConditionalQTemplate(EqualityQTemplate(floatProp), EqualityQTemplate(longProp))))
+        EqualityQTemplate(dateTimeProp, EqOp),
+        OrOp,
+        ConditionalQTemplate(
+          EqualityQTemplate(floatProp, EqOp),
+          OrOp,
+          EqualityQTemplate(longProp, EqOp))))
   }
 
 }
