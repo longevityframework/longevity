@@ -119,7 +119,7 @@ extends BaseRepo[R](rootType, subdomain) with CassandraSchema[R] {
       case id: CassandraId[_] => id.uuid
       case char: Char => char.toString
       case d: DateTime => formatter.print(d)
-      case _ => value.asInstanceOf[AnyRef]
+      case _ => abbreviated.asInstanceOf[AnyRef]
     }
   }
 
@@ -152,22 +152,9 @@ extends BaseRepo[R](rootType, subdomain) with CassandraSchema[R] {
     insertStatement.bind(values: _*)
   }
 
-  private def propValBinding(prop: Prop[R, _], root: R): AnyRef = {
-    def rawValue[A](prop: Prop[R, A]) = prop.propVal(root)
-    val abbreviated = if (shorthandPool.contains(prop.typeKey)) {
-      def abbrevValue[A : TypeKey](value: A) = shorthandPool(typeKey[A]).abbreviate(value)
-      def abbrevProp[A : TypeKey](prop: Prop[R, A]) = abbrevValue(rawValue(prop))(prop.typeKey)
-      abbrevProp(prop)
-    } else {
-      rawValue(prop)
-    }
-    // TODO use cassandraValue here
-    abbreviated match {
-      case CassandraId(uuid, _) => uuid
-      case c: Char => c.toString
-      case d: DateTime => formatter.print(d)
-      case x => x.asInstanceOf[AnyRef]
-    }
+  private def propValBinding[A](prop: Prop[R, A], root: R): AnyRef = {
+    def bind[B : TypeKey](prop: Prop[R, B]) = cassandraValue(prop.propVal(root))
+    bind(prop)(prop.typeKey)
   }
 
   private def jsonStringForRoot(root: R): String = {
@@ -188,21 +175,11 @@ extends BaseRepo[R](rootType, subdomain) with CassandraSchema[R] {
 
   private def bindKeyValSelectStatement(keyVal: KeyVal[R]): BoundStatement = {
     val preparedStatement = keyValSelectStatement(keyVal.key)
-    val assocKey = typeKey[Assoc[_ <: Root]]
-    // TODO: we have this weird kind of switch on Prop all over the place. encapsulate in prop.
-    // the prop can have the shorthand pool
-    val propVals = keyVal.key.props.collect {
-      case p if p.typeKey <:< assocKey =>
-        keyVal(p).asInstanceOf[CassandraId[R]].uuid
-      case p if shorthandPool.contains(p.typeKey) =>
-        def abbrev[A : TypeKey](prop: Prop[R, A]) =
-          shorthandPool(typeKey[A]).abbreviate(keyVal[A](prop))
-        abbrev(p)(p.typeKey).asInstanceOf[AnyRef]
-      case p =>
-        keyVal(p).asInstanceOf[AnyRef]
+    val propVals = keyVal.key.props.map { prop =>
+      def bind[A](prop: Prop[R, A]) = cassandraValue(keyVal(prop))(prop.typeKey)
+      bind(prop)
     }
-    val boundStatement = preparedStatement.bind(propVals: _*)
-    boundStatement
+    preparedStatement.bind(propVals: _*)
   }
 
   private def retrieveFromBoundStatement(statement: BoundStatement): Future[Option[PState[R]]] =
