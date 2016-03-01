@@ -1,25 +1,24 @@
 package longevity.integration.queries
 
-import com.github.nscala_time.time.Imports._
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.allAttributes._
+import longevity.integration.subdomain.allShorthands._
 
-class AllAttributesCassandraQuerySpec
-extends QuerySpec[AllAttributes](context.cassandraContext, context.cassandraContext.testRepoPool) {
+class AllShorthandsCassandraQuerySpec
+extends QuerySpec[AllShorthands](context.cassandraContext, context.cassandraContext.testRepoPool) {
 
-  val repo = repoPool[AllAttributes]
+  val repo = repoPool[AllShorthands]
   lazy val sample = randomRoot
 
-  val booleanProp = AllAttributes.prop[Boolean]("boolean")
-  val charProp = AllAttributes.prop[Char]("char")
-  val doubleProp = AllAttributes.prop[Double]("double")
-  val floatProp = AllAttributes.prop[Float]("float")
-  val intProp = AllAttributes.prop[Int]("int")
-  val longProp = AllAttributes.prop[Long]("long")
-  val stringProp = AllAttributes.prop[String]("string")
-  val dateTimeProp = AllAttributes.prop[DateTime]("dateTime")
+  val booleanProp = AllShorthands.prop[BooleanShorthand]("boolean")
+  val charProp = AllShorthands.prop[CharShorthand]("char")
+  val doubleProp = AllShorthands.prop[DoubleShorthand]("double")
+  val floatProp = AllShorthands.prop[FloatShorthand]("float")
+  val intProp = AllShorthands.prop[IntShorthand]("int")
+  val longProp = AllShorthands.prop[LongShorthand]("long")
+  val stringProp = AllShorthands.prop[StringShorthand]("string")
+  val dateTimeProp = AllShorthands.prop[DateTimeShorthand]("dateTime")
 
-  import AllAttributes.queryDsl._
+  import AllShorthands.queryDsl._
 
   behavior of "CassandraRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries" in {

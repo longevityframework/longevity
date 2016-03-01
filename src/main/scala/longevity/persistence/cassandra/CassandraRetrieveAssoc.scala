@@ -12,7 +12,7 @@ private[cassandra] trait CassandraRetrieveAssoc[R <: Root] {
   override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] =
     retrieveFromBoundStatement(bindIdSelectStatement(assoc.asInstanceOf[CassandraId[R]]))
 
-  private val idSelectStatement = {
+  private lazy val idSelectStatement = {
     val cql = s"SELECT * FROM $tableName WHERE id = :id"
     session.prepare(cql)
   }

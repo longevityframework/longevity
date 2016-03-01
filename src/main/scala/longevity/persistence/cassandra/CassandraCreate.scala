@@ -22,7 +22,7 @@ private[cassandra] trait CassandraCreate[R <: Root] {
     new PState[R](CassandraId(uuid, repo.rootTypeKey), unpersisted)
   }
   
-  private val insertStatement: PreparedStatement = {
+  private lazy val insertStatement: PreparedStatement = {
     val cql = if (realizedProps.isEmpty) {
       s"INSERT INTO $tableName (id, root) VALUES (:id, :root)"
     } else {

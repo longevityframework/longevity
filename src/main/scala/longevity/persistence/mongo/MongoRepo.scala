@@ -140,29 +140,31 @@ extends BaseRepo[R](rootType, subdomain) {
 
   // this will find a better home in pt #106611128
   private def createSchema(): Unit = {
-
     rootType.keySet.foreach { key =>
       val paths = key.props.map(_.path)
       createMongoIndex(paths, true)
     }
 
+    val keyProps = rootType.keySet.map(_.props)
     rootType.indexSet.foreach { index =>
-      val paths = index.props.map(_.path)
-      createMongoIndex(paths, false)
-    }
-
-    def createMongoIndex(paths: Seq[String], unique: Boolean): Unit = {
-      val mongoPaths = paths map (_ -> 1)
-      mongoCollection.createIndex(MongoDBObject(mongoPaths.toList), indexName(paths), unique)
-    }
-
-    def indexName(paths: Seq[String]): String = {
-      val cappedSegments: Seq[String] = paths.map {
-        path => path.split('.').map(_.capitalize).mkString
+      if (!keyProps.contains(index.props)) {
+        val paths = index.props.map(_.path)
+        createMongoIndex(paths, false)
       }
-      s"index${cappedSegments.mkString}"
     }
+  }
 
+  private def createMongoIndex(paths: Seq[String], unique: Boolean): Unit = {
+    val mongoPaths = paths map (_ -> 1)
+    mongoCollection.createIndex(MongoDBObject(mongoPaths.toList), indexName(paths, unique), unique)
+  }
+
+  private def indexName(paths: Seq[String], unique: Boolean): String = {
+    val cappedSegments: Seq[String] = paths.map {
+      path => path.split('.').map(_.capitalize).mkString
+    }
+    val prefix = if (unique) "key" else "index"
+    s"${prefix}_${cappedSegments.mkString}"
   }
 
 }

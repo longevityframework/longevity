@@ -21,7 +21,7 @@ private[cassandra] trait CassandraDelete[R <: Root] {
     new Deleted(state.get, state.assoc)
   }
 
-  private val deleteStatement: PreparedStatement = {
+  private lazy val deleteStatement: PreparedStatement = {
     val cql = s"DELETE FROM $tableName WHERE id = :id"
     session.prepare(cql)
   }

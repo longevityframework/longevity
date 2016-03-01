@@ -20,7 +20,7 @@ private[cassandra] trait CassandraRetrieveKeyVal[R <: Root] {
   override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] =
     retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
 
-  private val keyValSelectStatement: Map[Key[R], PreparedStatement] = Map().withDefault { key =>
+  private lazy val keyValSelectStatement: Map[Key[R], PreparedStatement] = Map().withDefault { key =>
     val relations = key.props.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
     val cql = s"""|
     |SELECT * FROM $tableName

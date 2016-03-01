@@ -66,27 +66,7 @@ extends BaseRepo[R](rootType, subdomain) {
   }
 
   protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = Future {
-    idToEntityMap.values.view.toSeq.filter { pstate => queryMatches(query, pstate.get) }
-  }
-
-  private def queryMatches(query: ValidatedQuery[R], root: R): Boolean = {
-    import Query._
-    query match {
-      case VEqualityQuery(prop, op, value) => op match {
-        case EqOp => prop.propVal(root) == value
-        case NeqOp => prop.propVal(root) != value
-      }
-      case VOrderingQuery(prop, op, value) => op match {
-        case LtOp => prop.ordering.lt(prop.propVal(root), value)
-        case LteOp => prop.ordering.lteq(prop.propVal(root), value)
-        case GtOp => prop.ordering.gt(prop.propVal(root), value)
-        case GteOp => prop.ordering.gteq(prop.propVal(root), value)
-      }
-      case VConditionalQuery(lhs, op, rhs) => op match {
-        case AndOp => queryMatches(lhs, root) && queryMatches(rhs, root)
-        case OrOp => queryMatches(lhs, root) || queryMatches(rhs, root)
-      }
-    }
+    idToEntityMap.values.view.toSeq.filter { s => InMemRepo.queryMatches(query, s.get) }
   }
 
   private def persist(assoc: PersistedAssoc[R], root: R): PState[R] = {
@@ -105,6 +85,30 @@ extends BaseRepo[R](rootType, subdomain) {
     rootType.keySet.foreach { key =>
       val keyVal = key.keyValForRoot(root)
       keyValToEntityMap -= keyVal
+    }
+  }
+
+}
+
+object InMemRepo {
+
+  private[longevity] def queryMatches[R <: Root](query: ValidatedQuery[R], root: R): Boolean = {
+    import Query._
+    query match {
+      case VEqualityQuery(prop, op, value) => op match {
+        case EqOp => prop.propVal(root) == value
+        case NeqOp => prop.propVal(root) != value
+      }
+      case VOrderingQuery(prop, op, value) => op match {
+        case LtOp => prop.ordering.lt(prop.propVal(root), value)
+        case LteOp => prop.ordering.lteq(prop.propVal(root), value)
+        case GtOp => prop.ordering.gt(prop.propVal(root), value)
+        case GteOp => prop.ordering.gteq(prop.propVal(root), value)
+      }
+      case VConditionalQuery(lhs, op, rhs) => op match {
+        case AndOp => queryMatches(lhs, root) && queryMatches(rhs, root)
+        case OrOp => queryMatches(lhs, root) || queryMatches(rhs, root)
+      }
     }
   }
 

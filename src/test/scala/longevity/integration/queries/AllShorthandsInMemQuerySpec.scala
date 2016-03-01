@@ -1,6 +1,5 @@
 package longevity.integration.queries
 
-import longevity.subdomain.root.Query._
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.allShorthands._
 
@@ -8,6 +7,7 @@ class AllShorthandsInMemQuerySpec
 extends QuerySpec[AllShorthands](context.mongoContext, context.mongoContext.inMemTestRepoPool) {
 
   val repo = repoPool[AllShorthands]
+  lazy val sample = randomRoot
 
   val booleanProp = AllShorthands.prop[BooleanShorthand]("boolean")
   val charProp = AllShorthands.prop[CharShorthand]("char")
@@ -18,64 +18,60 @@ extends QuerySpec[AllShorthands](context.mongoContext, context.mongoContext.inMe
   val stringProp = AllShorthands.prop[StringShorthand]("string")
   val dateTimeProp = AllShorthands.prop[DateTimeShorthand]("dateTime")
 
-  behavior of "InMemRepo.retrieveByQuery"
-  it should "produce expected results for shorthand equality queries" in {
-    exerciseQTemplate(EqualityQTemplate(stringProp, EqOp))
-    exerciseQTemplate(EqualityQTemplate(stringProp, NeqOp))
-    exerciseQTemplate(EqualityQTemplate(dateTimeProp, EqOp))
-    exerciseQTemplate(EqualityQTemplate(dateTimeProp, NeqOp))
-  }
+  import AllShorthands.queryDsl._
 
   behavior of "InMemRepo.retrieveByQuery"
-  it should "produce expected results for simple ordering queries" in {
-    exerciseQTemplate(OrderingQTemplate(booleanProp, LtOp))
-    exerciseQTemplate(OrderingQTemplate(charProp, LteOp))
-    exerciseQTemplate(OrderingQTemplate(doubleProp, GtOp))
-    exerciseQTemplate(OrderingQTemplate(floatProp, GteOp))
-    exerciseQTemplate(OrderingQTemplate(intProp, LtOp))
-    exerciseQTemplate(OrderingQTemplate(longProp, LteOp))
-    exerciseQTemplate(OrderingQTemplate(stringProp, GtOp))
-    exerciseQTemplate(OrderingQTemplate(dateTimeProp, GteOp))
+  it should "produce expected results for simple equality queries" in {
+    exerciseQuery(booleanProp eqs sample.boolean)
+    exerciseQuery(charProp neq sample.char)
+    exerciseQuery(dateTimeProp eqs sample.dateTime)
+    exerciseQuery(doubleProp neq sample.double)
   }
+
+  // behavior of "InMemRepo.retrieveByQuery"
+  // it should "produce expected results for simple ordering queries" in {
+  //   exerciseQuery(booleanProp lt sample.boolean)
+  //   exerciseQuery(charProp lte sample.char)
+  //   exerciseQuery(dateTimeProp gt sample.dateTime)
+  //   exerciseQuery(doubleProp gte sample.double)
+  //   exerciseQuery(floatProp lt sample.float)
+  //   exerciseQuery(intProp lte sample.int)
+  //   exerciseQuery(longProp gt sample.long)
+  //   exerciseQuery(stringProp gte sample.string)
+  // }
 
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
-    exerciseQTemplate(ConditionalQTemplate(
-      EqualityQTemplate(floatProp, EqOp),
-      OrOp,
-      EqualityQTemplate(longProp, EqOp)))
-    exerciseQTemplate(ConditionalQTemplate(
-      EqualityQTemplate(floatProp, EqOp),
-      AndOp,
-      EqualityQTemplate(longProp, EqOp)))
+    exerciseQuery(floatProp eqs sample.float or intProp neq sample.int)
+    exerciseQuery(longProp eqs sample.long or stringProp neq sample.string)
   }
+
+  // behavior of "InMemRepo.retrieveByQuery"
+  // it should "produce expected results for simple conditional queries" in {
+  //   exerciseQuery(floatProp lt sample.float or intProp lte sample.int)
+  //   exerciseQuery(longProp gt sample.long or stringProp gte sample.string)
+  // }
 
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for nested conditional queries" in {
-    exerciseQTemplate(
-      ConditionalQTemplate(
-        ConditionalQTemplate(
-          EqualityQTemplate(floatProp, EqOp),
-          AndOp,
-          EqualityQTemplate(longProp, EqOp)),
-        AndOp,
-        EqualityQTemplate(dateTimeProp, NeqOp)))
-    exerciseQTemplate(
-      ConditionalQTemplate(
-        ConditionalQTemplate(
-          OrderingQTemplate(floatProp, GtOp),
-          OrOp,
-          OrderingQTemplate(longProp, LtOp)),
-        OrOp,
-        OrderingQTemplate(dateTimeProp, LtOp)))
-    exerciseQTemplate(
-      ConditionalQTemplate(
-        EqualityQTemplate(dateTimeProp, EqOp),
-        OrOp,
-        ConditionalQTemplate(
-          EqualityQTemplate(floatProp, EqOp),
-          OrOp,
-          EqualityQTemplate(longProp, EqOp))))
+    exerciseQuery(
+      booleanProp eqs sample.boolean and
+      charProp eqs sample.char and
+      dateTimeProp neq sample.dateTime)
+    exerciseQuery(
+      dateTimeProp eqs sample.dateTime or (
+        doubleProp eqs sample.double or floatProp neq sample.float))
   }
+
+  // behavior of "InMemRepo.retrieveByQuery"
+  // it should "produce expected results for nested conditional queries" in {
+  //   exerciseQuery(
+  //     booleanProp lt sample.boolean and
+  //     charProp lte sample.char and
+  //     dateTimeProp neq sample.dateTime)
+  //   exerciseQuery(
+  //     dateTimeProp gt sample.dateTime or (
+  //       doubleProp gte sample.double or floatProp lt sample.float))
+  // }
 
 }

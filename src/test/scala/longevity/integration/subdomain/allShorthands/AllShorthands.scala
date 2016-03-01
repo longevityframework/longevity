@@ -18,5 +18,12 @@ extends Root
 
 object AllShorthands extends RootType[AllShorthands] {
   key("uri")
+  index("boolean")
+  index("char")
+  index("double")
+  index("float")
+  index("int")
+  index("long")
+  index("string")
+  index("dateTime")
 }
-

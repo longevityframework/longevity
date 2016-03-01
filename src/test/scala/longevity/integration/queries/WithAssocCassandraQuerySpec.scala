@@ -4,9 +4,9 @@ import longevity.subdomain.Assoc
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.withAssoc._
 
-class WithAssocMongoQuerySpec extends QuerySpec[WithAssoc](
-  context.mongoContext,
-  context.mongoContext.testRepoPool) {
+class WithAssocCassandraQuerySpec extends QuerySpec[WithAssoc](
+  context.cassandraContext,
+  context.cassandraContext.testRepoPool) {
 
   val repo = repoPool[WithAssoc]
   lazy val sample = randomRoot
@@ -19,13 +19,11 @@ class WithAssocMongoQuerySpec extends QuerySpec[WithAssoc](
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries with associations" in {
     exerciseQuery(associatedProp eqs sample.associated)
-    exerciseQuery(associatedProp neq sample.associated)
   }
 
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
-    exerciseQuery(uriProp eqs sample.uri or associatedProp eqs sample.associated)
-    exerciseQuery(uriProp lt sample.uri and associatedProp neq sample.associated)
+    exerciseQuery(uriProp eqs sample.uri and associatedProp eqs sample.associated)
   }
 
 }

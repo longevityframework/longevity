@@ -5,7 +5,7 @@ import longevity.context.LongevityContext
 import longevity.persistence._
 import longevity.subdomain._
 import longevity.subdomain.root._
-import longevity.subdomain.root.Query._
+//import longevity.subdomain.root.Query._
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
@@ -36,35 +36,26 @@ with ScalaFutures
 with ScaledTimeSpans
 with TestDataGeneration {
 
-  val seed = 117
-  val random = new Random(seed)
-
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000 millis),
     interval = scaled(50 millis))
 
-  protected sealed trait QTemplate
-  protected case class EqualityQTemplate[A](prop: Prop[R, A], op: EqualityOp) extends QTemplate
-  protected case class OrderingQTemplate[A](prop: Prop[R, A], op: OrderingOp) extends QTemplate
-  protected case class ConditionalQTemplate(lhs: QTemplate, op: LogicalOp, rhs: QTemplate)
-    extends QTemplate
+  private val numRoots = 10
+  private val seed = 117
+  private val random = new Random(seed)
 
-  protected def exerciseQTemplate(template: QTemplate, maxQueries: Int = 10): Unit = {
-    val expectations = queryExpectationsFromQTemplate(template, roots)
-    exerciseQueryExpectations(expectations)
-  }
-
+  private val rootType = longevityContext.subdomain.rootTypePool[R]
   private val repo = repoPool.baseRepoMap[R]
-  private var roots: Set[R] = _
+  protected var roots: Set[R] = _
   private var rootStates: Seq[PState[R]] = _
 
   override def beforeAll(): Unit = {
-    val rootStateSeq = for (i <- 0.until(100)) yield repo.create(randomRoot())
+    val rootStateSeq = for (i <- 0.until(numRoots)) yield repo.create(generateRoot())
     rootStates = Future.sequence(rootStateSeq).futureValue
     roots = rootStates.map(_.get).toSet
   }
 
-  private def randomRoot(): R = {
+  private def generateRoot(): R = {
     val root: R = testDataGenerator.generate[R]
     repo.patchUnpersistedAssocs(root, CreatedCache()).futureValue._1
   }
@@ -73,90 +64,30 @@ with TestDataGeneration {
     Future.traverse(rootStates)(rootState => repo.delete(rootState)).futureValue
   }
 
-  private case class QueryExpectations(query: Query[R], expected: Set[R])
+  protected def randomRoot: R = roots.head
 
-  private def queryExpectationsFromQTemplate(template: QTemplate, roots: Set[R])
-  : QueryExpectations = {
-    template match {
-      case t: EqualityQTemplate[_] => queryExpectationsFromEqualityQTemplate(t, roots)(t.prop.typeKey)
-      case t: OrderingQTemplate[_] => queryExpectationsFromOrderingQTemplate(t, roots)(t.prop.typeKey)
-      case t: ConditionalQTemplate => queryExpectationsFromConditionalQTemplate(t, roots)
-    }
-  }
+  protected def medianPropVal[A](prop: Prop[R, A]): A = orderStatPropVal(prop, roots.size / 2)
 
-  private def queryExpectationsFromEqualityQTemplate[A : TypeKey](
-    template: EqualityQTemplate[A],
-    roots: Set[R])
-  : QueryExpectations = {
-    val randomMatchingRoot = randomRoot(roots)
-    val matchingPropVal = template.prop.propVal(randomMatchingRoot)
-    val matchingRoots = roots.filter(r => template.prop.propVal(r) == matchingPropVal)
-    template.op match {
-      case EqOp => QueryExpectations(Query.eqs(template.prop, matchingPropVal), matchingRoots)
-      case NeqOp => QueryExpectations(Query.neq(template.prop, matchingPropVal), roots diff matchingRoots)
-    }
-  }
-
-  private def queryExpectationsFromOrderingQTemplate[A : TypeKey](
-    template: OrderingQTemplate[A],
-    roots: Set[R])
-  : QueryExpectations = {
-    val prop = template.prop
-    val median = medianPropVal(roots, prop)
-    template.op match {
-      case LtOp => QueryExpectations(
-        Query.lt(prop, median),
-        roots.filter(r => prop.ordering.lt(prop.propVal(r), median)))
-      case LteOp => QueryExpectations(
-        Query.lte(prop, median),
-        roots.filter(r => prop.ordering.lteq(prop.propVal(r), median)))
-      case GtOp => QueryExpectations(
-        Query.gt(prop, median),
-        roots.filter(r => prop.ordering.gt(prop.propVal(r), median)))
-      case GteOp => QueryExpectations(
-        Query.gte(prop, median),
-        roots.filter(r => prop.ordering.gteq(prop.propVal(r), median)))
-    }
-  }
-
-  private def queryExpectationsFromConditionalQTemplate[A](
-    template: ConditionalQTemplate,
-    roots: Set[R])
-  : QueryExpectations = {
-    val lhsExpect = queryExpectationsFromQTemplate(template.lhs, roots)
-    val rhsExpect = queryExpectationsFromQTemplate(template.rhs, roots)
-    template.op match {
-      case AndOp =>
-        QueryExpectations(
-          Query.and(lhsExpect.query, rhsExpect.query),
-          lhsExpect.expected intersect rhsExpect.expected)
-      case OrOp =>
-        QueryExpectations(
-          Query.or(lhsExpect.query, rhsExpect.query),
-          lhsExpect.expected union rhsExpect.expected)
-    }
-  }
-
-  private def randomRoot(roots: Set[R]): R = roots.head
-
-  private def medianPropVal[A](roots: Set[R], prop: Prop[R, A]): A =
-    orderStatPropVal(roots, prop, roots.size / 2)
-
-  private def orderStatPropVal[A](roots: Set[R], prop: Prop[R, A], k: Int): A = {
+  protected def orderStatPropVal[A](prop: Prop[R, A], k: Int): A = {
     implicit val ordering = prop.ordering
     roots.view.map(root => prop.propVal(root)).toSeq.sorted.apply(k)
   }
 
-  private def exerciseQueryExpectations(expectations: QueryExpectations): Unit = {
-    val results = repo.retrieveByQuery(expectations.query).futureValue.map(_.get).toSet
+  protected def exerciseQuery(query: Query[R]): Unit = {
+    val results = repo.retrieveByQuery(query).futureValue.map(_.get).toSet
     val actual = roots intersect results // remove any roots not put in by this test
-    
-    if (actual.size != expectations.expected.size) {
-      println(s"failure for query ${expectations.query}")
-      println(s"  expected ${expectations.expected}")
+    val expected = rootsMatchingQuery(query, roots)
+
+    if (actual != expected) {
+      println(s"failure for query ${query}")
     }
-    actual.size should equal (expectations.expected.size)
-    actual should equal (expectations.expected)
+    actual.size should equal (expected.size)
+    actual should equal (expected)
+  }
+
+  private def rootsMatchingQuery(query: Query[R], roots: Set[R]): Set[R] = {
+    val validatedQuery = rootType.validateQuery(query)
+    roots.filter(InMemRepo.queryMatches(validatedQuery, _))
   }
 
 }

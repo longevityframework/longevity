@@ -21,7 +21,7 @@ private[cassandra] trait CassandraUpdate[R <: Root] {
     new PState[R](state.passoc, state.get)
   }
 
-  private val updateStatement: PreparedStatement = {
+  private lazy val updateStatement: PreparedStatement = {
     val cql = if (realizedProps.isEmpty) {
       s"UPDATE $tableName SET root = :root WHERE id = :id"
     } else {

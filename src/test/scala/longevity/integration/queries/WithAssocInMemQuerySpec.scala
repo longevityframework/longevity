@@ -1,7 +1,6 @@
 package longevity.integration.queries
 
 import longevity.subdomain.Assoc
-import longevity.subdomain.root.Query._
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.withAssoc._
 
@@ -10,26 +9,23 @@ class WithAssocInMemQuerySpec extends QuerySpec[WithAssoc](
   context.mongoContext.inMemTestRepoPool) {
 
   val repo = repoPool[WithAssoc]
+  lazy val sample = randomRoot
 
   val uriProp = WithAssoc.prop[String]("uri")
   val associatedProp = WithAssoc.prop[Assoc[Associated]]("associated")
 
+  import WithAssoc.queryDsl._
+
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries with associations" in {
-    exerciseQTemplate(EqualityQTemplate(associatedProp, EqOp))
-    exerciseQTemplate(EqualityQTemplate(associatedProp, NeqOp))
+    exerciseQuery(associatedProp eqs sample.associated)
+    exerciseQuery(associatedProp neq sample.associated)
   }
 
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
-    exerciseQTemplate(ConditionalQTemplate(
-      EqualityQTemplate(uriProp, EqOp),
-      OrOp,
-      EqualityQTemplate(associatedProp, EqOp)))
-    exerciseQTemplate(ConditionalQTemplate(
-      OrderingQTemplate(uriProp, LtOp),
-      AndOp,
-      EqualityQTemplate(associatedProp, EqOp)))
+    exerciseQuery(uriProp eqs sample.uri or associatedProp eqs sample.associated)
+    exerciseQuery(uriProp lt sample.uri and associatedProp neq sample.associated)
   }
 
 }

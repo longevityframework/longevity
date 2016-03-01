@@ -46,8 +46,6 @@ with CassandraDelete[R] {
   private val rootToJsonTranslator = new RootToJsonTranslator(emblemPool, extractorPool)
   private val jsonToRootTranslator = new JsonToRootTranslator(emblemPool, extractorPool)
 
-  createSchema()
-
   protected def columnName(prop: Prop[R, _]) = "prop_" + scoredPath(prop)
 
   protected def scoredPath(prop: Prop[R, _]) = prop.path.replace('.', '_')
@@ -89,6 +87,8 @@ with CassandraDelete[R] {
     val root = jsonToRootTranslator.traverse[R](json)
     new PState[R](id, root)
   }
+
+  createSchema()
 
 }
 

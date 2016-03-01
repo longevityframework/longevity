@@ -10,5 +10,7 @@ extends Root
 
 object WithAssoc extends RootType[WithAssoc] {
   key("uri")
+  index("uri")
+  index("associated")
 }
 
