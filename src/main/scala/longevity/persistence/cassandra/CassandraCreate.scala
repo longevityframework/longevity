@@ -19,7 +19,7 @@ private[cassandra] trait CassandraCreate[R <: Root] {
   override def create(unpersisted: R) = Future {
     val uuid = UUID.randomUUID
     session.execute(bindInsertStatement(uuid, unpersisted))
-    new PState[R](CassandraId(uuid, repo.rootTypeKey), unpersisted)
+    new PState[R](CassandraId(uuid), unpersisted)
   }
   
   private lazy val insertStatement: PreparedStatement = {

@@ -7,8 +7,6 @@ import longevity.persistence._
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.mongo.MongoRepo
 
-// TODO unit tests for cassandra here
-
 /** unit tests for the proper construction of [[LongevityContext.repoPool]] and
  * [[LongevityContext.inMemRepoPool]]
  */

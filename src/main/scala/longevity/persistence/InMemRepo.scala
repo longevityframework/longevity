@@ -20,7 +20,6 @@ extends BaseRepo[R](rootType, subdomain) {
   repo =>
 
   private case class IntId(i: Int) extends PersistedAssoc[R] {
-    val associateeTypeKey = repo.rootTypeKey
     private[longevity] val _lock = 0
   }
 

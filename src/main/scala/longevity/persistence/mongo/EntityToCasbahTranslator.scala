@@ -45,12 +45,7 @@ private[persistence] class EntityToCasbahTranslator(
         if (!input.isPersisted) {
           throw new AssocIsUnpersistedException(input)
         }
-        val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: Root]]
- 
-        // TODO pt-91220826: get rid of asInstanceOf by tightening type on repo pools and repo layers
-        val associateeRepo = repoPool(associateeTypeKey).asInstanceOf[MongoRepo[_]]
-
-        input.asInstanceOf[associateeRepo.MongoId].objectId
+        input.asInstanceOf[MongoId[_ <: Root]].objectId
       }
     }
 

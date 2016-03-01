@@ -27,18 +27,16 @@ private[longevity] class MongoRepo[R <: Root : TypeKey] private[persistence] (
 extends BaseRepo[R](rootType, subdomain) {
   repo =>
 
-  private[persistence] case class MongoId(objectId: ObjectId) extends PersistedAssoc[R] {
-    val associateeTypeKey = repo.rootTypeKey
-    private[longevity] val _lock = 0
-  }
-
   private val collectionName = camelToUnderscore(typeName(rootTypeKey.tpe))
   private val mongoCollection = mongoDb(collectionName)
   private val shorthandPool = subdomain.shorthandPool
   private val emblemPool = subdomain.entityEmblemPool
   private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
-  private lazy val entityToCasbahTranslator = new EntityToCasbahTranslator(emblemPool, extractorPool, repoPool)
-  private lazy val casbahToEntityTranslator = new CasbahToEntityTranslator(emblemPool, extractorPool, repoPool)
+
+  private lazy val entityToCasbahTranslator =
+    new EntityToCasbahTranslator(emblemPool, extractorPool, repoPool)
+  private lazy val casbahToEntityTranslator =
+      new CasbahToEntityTranslator(emblemPool, extractorPool, repoPool)
 
   createSchema()
 
@@ -70,7 +68,7 @@ extends BaseRepo[R](rootType, subdomain) {
     } else if (prop.typeKey <:< typeKey[Assoc[_]]) {
       val assoc = raw.asInstanceOf[Assoc[_ <: Root]]
       if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
-      raw.asInstanceOf[MongoRepo[T]#MongoId forSome { type T <: Root }].objectId
+      raw.asInstanceOf[MongoId[_ <: Root]].objectId
     } else {
       raw
     }
@@ -78,7 +76,7 @@ extends BaseRepo[R](rootType, subdomain) {
 
   def update(persisted: PState[R]) = Future {
     val root = persisted.get
-    val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
+    val objectId = persisted.assoc.asInstanceOf[MongoId[R]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val casbah = entityToCasbahTranslator.translate(root) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.update(query, casbah)
@@ -86,14 +84,15 @@ extends BaseRepo[R](rootType, subdomain) {
   }
 
   def delete(persisted: PState[R]) = Future {
-    val objectId = persisted.assoc.asInstanceOf[MongoId].objectId
+    val objectId = persisted.assoc.asInstanceOf[MongoId[R]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
     new Deleted(persisted.get, persisted.assoc)
   }
 
-  override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] = Future {
-    val objectId = assoc.asInstanceOf[MongoId].objectId
+  override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R])
+  : Future[Option[PState[R]]] = Future {
+    val objectId = assoc.asInstanceOf[MongoId[R]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val resultOption = mongoCollection.findOne(query)
     val rootOption = resultOption map { casbahToEntityTranslator.translate(_) }
@@ -131,7 +130,7 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def touchupValue[A : TypeKey](value: A): Any = {
     value match {
-      case id: MongoRepo[_]#MongoId => id.objectId
+      case id: MongoId[_] => id.objectId
       case char: Char => char.toString
       case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
       case _ => value

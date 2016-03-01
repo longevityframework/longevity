@@ -81,7 +81,7 @@ package object persistence {
     persistenceStrategy match {
       case InMem => inMemRepoPool(subdomain)
       case Mongo => mongoRepoPool(subdomain, mongoDb(config))
-      case Cassandra => cassandraRepoPool(subdomain, session(config))
+      case Cassandra => cassandraRepoPool(subdomain, cassandraSession(config))
     }
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
@@ -110,8 +110,7 @@ package object persistence {
     buildRepoPool(subdomain, repoFactory)
   }
 
-  // TODO rename to cassandraSession
-  private def session(config: Config): Session = {
+  private def cassandraSession(config: Config): Session = {
     val builder = Cluster.builder.addContactPoint(config.getString("cassandra.address"))
     if (config.getBoolean("cassandra.useCredentials")) {
       builder.withCredentials(

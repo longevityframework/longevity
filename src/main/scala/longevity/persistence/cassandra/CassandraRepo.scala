@@ -81,7 +81,7 @@ with CassandraDelete[R] {
     }
 
   protected def retrieveFromRow(row: Row): PState[R] = {
-    val id = CassandraId(row.getUUID("id"), rootTypeKey)
+    val id = CassandraId[R](row.getUUID("id"))
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("root"))
     val root = jsonToRootTranslator.traverse[R](json)
