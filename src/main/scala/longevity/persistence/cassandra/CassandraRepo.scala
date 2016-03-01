@@ -7,15 +7,11 @@ import com.datastax.driver.core.Session
 import emblem.imports._
 import emblem.stringUtil._
 import java.util.UUID
-import longevity.exceptions.persistence.cassandra.NeqInQueryException
-import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence._
 import longevity.subdomain._
 import longevity.subdomain.root._
-import longevity.subdomain.root.Query._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -29,8 +25,14 @@ private[longevity] class CassandraRepo[R <: Root : TypeKey] protected[persistenc
   rootType: RootType[R],
   subdomain: Subdomain,
   protected val session: Session)
-extends BaseRepo[R](rootType, subdomain) with CassandraSchema[R] {
-  repo =>
+extends BaseRepo[R](rootType, subdomain)
+with CassandraSchema[R]
+with CassandraCreate[R]
+with CassandraRetrieveAssoc[R]
+with CassandraRetrieveKeyVal[R]
+with CassandraRetrieveQuery[R]
+with CassandraUpdate[R]
+with CassandraDelete[R] {
 
   // TODO DRY this is in EmblemToJsonTranslator and JsonToEmblemTranslator too
   private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
@@ -39,78 +41,28 @@ extends BaseRepo[R](rootType, subdomain) with CassandraSchema[R] {
   protected val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
   protected val emblemPool = subdomain.entityEmblemPool
   protected val shorthandPool = subdomain.shorthandPool
+
   private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
   private val rootToJsonTranslator = new RootToJsonTranslator(emblemPool, extractorPool)
   private val jsonToRootTranslator = new JsonToRootTranslator(emblemPool, extractorPool)
 
-  protected def columnName(prop: Prop[R, _]) = "prop_" + scoredPath(prop)
-  protected def scoredPath(prop: Prop[R, _]) = prop.path.replace('.', '_')
-
   createSchema()
 
-  override def create(unpersisted: R) = Future {
-    val uuid = UUID.randomUUID
-    session.execute(bindInsertStatement(uuid, unpersisted))
-    new PState[R](CassandraId(uuid, repo.rootTypeKey), unpersisted)
+  protected def columnName(prop: Prop[R, _]) = "prop_" + scoredPath(prop)
+
+  protected def scoredPath(prop: Prop[R, _]) = prop.path.replace('.', '_')
+
+  protected def jsonStringForRoot(root: R): String = {
+    import org.json4s.native.JsonMethods._    
+    compact(render(rootToJsonTranslator.traverse(root)))
   }
 
-  override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] =
-    retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
-
-  override def update(state: PState[R]): Future[PState[R]] = Future {
-    session.execute(bindUpdateStatement(state))
-    new PState[R](state.passoc, state.get)
+  protected def propValBinding[A](prop: Prop[R, A], root: R): AnyRef = {
+    def bind[B : TypeKey](prop: Prop[R, B]) = cassandraValue(prop.propVal(root))
+    bind(prop)(prop.typeKey)
   }
 
-  override def delete(state: PState[R]): Future[Deleted[R]] = Future {
-    session.execute(bindDeleteStatement(state))
-    new Deleted(state.get, state.assoc)
-  }
-
-  override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] =
-    retrieveFromBoundStatement(bindIdSelectStatement(assoc.asInstanceOf[CassandraId[R]]))
-
-  private case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
-
-  override protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] =
-    Future {
-      val info = queryInfo(query)
-      val cql = s"SELECT * FROM $tableName WHERE ${info.whereClause} ALLOW FILTERING"
-      val preparedStatement = session.prepare(cql)
-      val boundStatement = preparedStatement.bind(info.bindValues: _*)
-      val resultSet = session.execute(boundStatement)
-      resultSet.all.toList.map(retrieveFromRow)
-    }
-
-  private def queryInfo(query: ValidatedQuery[R]): QueryInfo = {
-    query match {
-      case VEqualityQuery(prop, op, value) => op match {
-        case EqOp => QueryInfo(s"${columnName(prop)} = :${columnName(prop)}",
-                               Seq(cassandraValue(value)(prop.typeKey)))
-        case NeqOp => throw new NeqInQueryException
-      }
-      case VOrderingQuery(prop, op, value) => op match {
-        case LtOp => QueryInfo(s"${columnName(prop)} < :${columnName(prop)}",
-                               Seq(cassandraValue(value)(prop.typeKey)))
-        case LteOp => QueryInfo(s"${columnName(prop)} <= :${columnName(prop)}",
-                                Seq(cassandraValue(value)(prop.typeKey)))
-        case GtOp => QueryInfo(s"${columnName(prop)} > :${columnName(prop)}",
-                               Seq(cassandraValue(value)(prop.typeKey)))
-        case GteOp => QueryInfo(s"${columnName(prop)} >= :${columnName(prop)}",
-                                Seq(cassandraValue(value)(prop.typeKey)))
-      }
-      case VConditionalQuery(lhs, op, rhs) => op match {
-        case AndOp =>
-          val lhsQueryInfo = queryInfo(lhs)
-          val rhsQueryInfo = queryInfo(rhs)
-          QueryInfo(s"${lhsQueryInfo.whereClause} AND ${rhsQueryInfo.whereClause}",
-                    lhsQueryInfo.bindValues ++ rhsQueryInfo.bindValues)
-        case OrOp => throw new OrInQueryException
-      }
-    }
-  }
-
-  private def cassandraValue[A : TypeKey](value: A): AnyRef = {
+  protected def cassandraValue[A : TypeKey](value: A): AnyRef = {
     val abbreviated = value match {
       case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
       case a => a
@@ -123,125 +75,19 @@ extends BaseRepo[R](rootType, subdomain) with CassandraSchema[R] {
     }
   }
 
-  private val insertStatement: PreparedStatement = {
-    val cql = if (realizedProps.isEmpty) {
-      s"INSERT INTO $tableName (id, root) VALUES (:id, :root)"
-    } else {
-      val realizedPropColumnNames = realizedProps.map(columnName).toSeq.sorted
-      val realizedPropColumns = realizedPropColumnNames.mkString(",\n  ")
-      val realizedSubstitutions = realizedPropColumnNames.map(c => s":$c").mkString(",\n  ")
-      s"""|
-      |INSERT INTO $tableName (
-      |  id,
-      |  root,
-      |  $realizedPropColumns
-      |) VALUES (
-      |  :id,
-      |  :root,
-      |  $realizedSubstitutions
-      |)
-      |""".stripMargin
-    }
-    session.prepare(cql)
-  }
-
-  private def bindInsertStatement(uuid: UUID, root: R): BoundStatement = {
-    val nonPropValues = Array(uuid, jsonStringForRoot(root))
-    val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map(propValBinding(_, root))
-    val values = (nonPropValues ++ realizedPropValues)
-    insertStatement.bind(values: _*)
-  }
-
-  private def propValBinding[A](prop: Prop[R, A], root: R): AnyRef = {
-    def bind[B : TypeKey](prop: Prop[R, B]) = cassandraValue(prop.propVal(root))
-    bind(prop)(prop.typeKey)
-  }
-
-  private def jsonStringForRoot(root: R): String = {
-    import org.json4s.native.JsonMethods._    
-    compact(render(rootToJsonTranslator.traverse(root)))
-  }
-
-  private val keyValSelectStatement: Map[Key[R], PreparedStatement] = Map().withDefault { key =>
-    val relations = key.props.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
-    val cql = s"""|
-    |SELECT * FROM $tableName
-    |WHERE
-    |  $relations
-    |ALLOW FILTERING
-    |""".stripMargin
-    session.prepare(cql)
-  }
-
-  private def bindKeyValSelectStatement(keyVal: KeyVal[R]): BoundStatement = {
-    val preparedStatement = keyValSelectStatement(keyVal.key)
-    val propVals = keyVal.key.props.map { prop =>
-      def bind[A](prop: Prop[R, A]) = cassandraValue(keyVal(prop))(prop.typeKey)
-      bind(prop)
-    }
-    preparedStatement.bind(propVals: _*)
-  }
-
-  private def retrieveFromBoundStatement(statement: BoundStatement): Future[Option[PState[R]]] =
+  protected def retrieveFromBoundStatement(statement: BoundStatement): Future[Option[PState[R]]] =
     Future {
       val resultSet = session.execute(statement)
       val rowOption = Option(resultSet.one)
       rowOption.map(retrieveFromRow)
     }
 
-  private def retrieveFromRow(row: Row): PState[R] = {
-    val id = CassandraId(row.getUUID("id"), repo.rootTypeKey)
+  protected def retrieveFromRow(row: Row): PState[R] = {
+    val id = CassandraId(row.getUUID("id"), rootTypeKey)
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("root"))
     val root = jsonToRootTranslator.traverse[R](json)
     new PState[R](id, root)
-  }
-
-  private val updateStatement: PreparedStatement = {
-    val cql = if (realizedProps.isEmpty) {
-      s"UPDATE $tableName SET root = :root WHERE id = :id"
-    } else {
-      val realizedPropColumnNames = realizedProps.toSeq.map(columnName).sorted
-      val realizedAssignments = realizedPropColumnNames.map(c => s"$c = :$c").mkString(",\n  ")
-      s"""|
-      |UPDATE $tableName
-      |SET
-      |  root = :root,
-      |  $realizedAssignments
-      |WHERE
-      |  id = :id
-      |""".stripMargin
-    }
-    session.prepare(cql)
-  }
-
-  private def bindUpdateStatement(state: PState[R]): BoundStatement = {
-    val root = state.get
-    val json = jsonStringForRoot(root)
-    val realizedPropVals = realizedProps.toArray.sortBy(columnName).map(propValBinding(_, root))
-    val uuid = state.assoc.asInstanceOf[CassandraId[R]].uuid
-    val values = (json +: realizedPropVals :+ uuid)
-    updateStatement.bind(values: _*)
-  }
-
-  private val deleteStatement: PreparedStatement = {
-    val cql = s"DELETE FROM $tableName WHERE id = :id"
-    session.prepare(cql)
-  }
-
-  private def bindDeleteStatement(state: PState[R]): BoundStatement = {
-    val boundStatement = deleteStatement.bind
-    val uuid = state.assoc.asInstanceOf[CassandraId[R]].uuid
-    boundStatement.bind(uuid)
-  }
-
-  private val idSelectStatement = {
-    val cql = s"SELECT * FROM $tableName WHERE id = :id"
-    session.prepare(cql)
-  }
-
-  private def bindIdSelectStatement(assoc: CassandraId[R]): BoundStatement = {
-    idSelectStatement.bind(assoc.uuid)
   }
 
 }

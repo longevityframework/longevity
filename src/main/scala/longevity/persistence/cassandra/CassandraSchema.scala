@@ -4,6 +4,7 @@ import emblem.imports._
 import longevity.subdomain._
 import longevity.subdomain.root.Prop
 
+/** implementation of CassandraRepo.createSchema */
 private[cassandra] trait CassandraSchema[R <: Root] {
   repo: CassandraRepo[R] =>
 
