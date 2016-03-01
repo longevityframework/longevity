@@ -29,7 +29,7 @@ object QuickStartSpec {
   // for cassandra, you need a driver and json4s:
 
   // libraryDependencies += "com.datastax.cassandra" % "cassandra-driver-core" % "2.2.0-rc3"
-  // TODO pt #107891556 add json4s lib deps
+  // libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0"
 
   // start building our subdomain:
 
