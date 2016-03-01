@@ -1,6 +1,7 @@
 package emblem.traversors.sync
 
 import emblem.imports._
+import emblem.jsonUtil.dateTimeFormatter
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import org.json4s.JsonAST._
@@ -16,8 +17,6 @@ import org.json4s.JsonAST._
  */
 class EmblemToJsonTranslator extends Traversor {
 
-  private[sync] val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-
   type TraverseInput[A] = A
   type TraverseResult[A] = JValue
 
@@ -25,7 +24,7 @@ class EmblemToJsonTranslator extends Traversor {
 
   protected def traverseChar(input: Char): JValue = JString(input.toString)
 
-  protected def traverseDateTime(input: DateTime): JValue = JString(formatter.print(input))
+  protected def traverseDateTime(input: DateTime): JValue = JString(dateTimeFormatter.print(input))
 
   protected def traverseDouble(input: Double): JValue = JDouble(input)
 

@@ -2,8 +2,8 @@ package emblem.traversors.sync
 
 import emblem.exceptions.CouldNotTraverseException
 import emblem.imports._
+import emblem.jsonUtil.dateTimeFormatter
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import org.json4s.JsonAST._
 
 /** translates json4s AST into emblematic types.
@@ -12,8 +12,6 @@ import org.json4s.JsonAST._
  * @param extractorPool a complete set of the extractors to use
  */
 class JsonToEmblemTranslator extends Traversor {
-
-  private[sync] val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
 
   type TraverseInput[A] = JValue
   type TraverseResult[A] = A
@@ -29,7 +27,7 @@ class JsonToEmblemTranslator extends Traversor {
   }
 
   protected def traverseDateTime(input: JValue): DateTime = input match {
-    case JString(s) => formatter.parseDateTime(s)
+    case JString(s) => dateTimeFormatter.parseDateTime(s)
     case _ => throw new CouldNotTraverseException(typeKey[DateTime])
   }
 

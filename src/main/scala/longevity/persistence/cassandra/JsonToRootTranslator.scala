@@ -16,7 +16,6 @@ extends JsonToEmblemTranslator {
 
   def assocTraversor = new CustomTraversor[AssocAny] {
     def apply[B <: Assoc[_ <: Root] : TypeKey](input: JValue): B = {
-      // TODO fix emblem to get rid of the asInstanceOf shortfalls
       def assocFromString(s: String) = {
         val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: Root]]
         CassandraId(UUID.fromString(s))

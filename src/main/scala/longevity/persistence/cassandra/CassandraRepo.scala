@@ -5,6 +5,7 @@ import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import emblem.imports._
+import emblem.jsonUtil.dateTimeFormatter
 import emblem.stringUtil._
 import java.util.UUID
 import longevity.persistence._
@@ -33,9 +34,6 @@ with CassandraRetrieveKeyVal[R]
 with CassandraRetrieveQuery[R]
 with CassandraUpdate[R]
 with CassandraDelete[R] {
-
-  // TODO DRY this is in EmblemToJsonTranslator and JsonToEmblemTranslator too
-  private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
 
   protected val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
   protected val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
@@ -68,7 +66,7 @@ with CassandraDelete[R] {
     abbreviated match {
       case id: CassandraId[_] => id.uuid
       case char: Char => char.toString
-      case d: DateTime => formatter.print(d)
+      case d: DateTime => dateTimeFormatter.print(d)
       case _ => abbreviated.asInstanceOf[AnyRef]
     }
   }

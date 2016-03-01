@@ -2,6 +2,7 @@ package emblem.traversors.sync
 
 import com.github.nscala_time.time.Imports._
 import emblem.imports._
+import emblem.jsonUtil.dateTimeFormatter
 import emblem.testData.geometry
 import org.json4s.JsonAST._
 import org.scalatest._
@@ -20,7 +21,7 @@ class JsonToEmblemTranslatorSpec extends FlatSpec with GivenWhenThen with Matche
     translator.traverse[Boolean](JBool(false)) should equal (false)
     translator.traverse[Char](JString("q")) should equal ('q')
     val dt = DateTime.now
-    translator.traverse[DateTime](JString(translator.formatter.print(dt))) should equal (dt)
+    translator.traverse[DateTime](JString(dateTimeFormatter.print(dt))) should equal (dt)
     translator.traverse[Double](JDouble(0.7d)) should equal (0.7d)
     translator.traverse[Float](JDouble(0.7f)) should equal (0.7f)
     translator.traverse[Int](JInt(9)) should equal (9)
