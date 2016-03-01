@@ -1,7 +1,7 @@
 package longevity.persistence
 
 import emblem.imports._
-import longevity.exceptions.subdomain.AssocIsUnpersistedException
+import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.subdomain._
 import longevity.subdomain.root._
 import scala.concurrent.ExecutionContext.Implicits.global

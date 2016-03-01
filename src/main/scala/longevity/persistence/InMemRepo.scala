@@ -1,12 +1,12 @@
 package longevity.persistence
 
-import scala.concurrent._
-import scala.concurrent.ExecutionContext.Implicits.global
 import emblem.imports._
-import longevity.exceptions.subdomain.AssocIsUnpersistedException
+import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.subdomain._
 import longevity.subdomain.root._
 import longevity.context.LongevityContext
+import scala.concurrent._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /** an in-memory repository for aggregate roots of type `R`
  * 

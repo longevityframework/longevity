@@ -6,8 +6,8 @@ import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import emblem.imports._
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.sync.Traversor
+import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.exceptions.persistence.BsonTranslationException
-import longevity.exceptions.subdomain.AssocIsUnpersistedException
 import longevity.persistence.RepoPool
 import longevity.subdomain._
 
@@ -36,9 +36,9 @@ private[persistence] class EntityToCasbahTranslator(
     type TraverseInput[A] = A
     type TraverseResult[A] = Any
 
-    override protected val emblemPool: EmblemPool = EntityToCasbahTranslator.this.emblemPool
-    override protected val extractorPool: ExtractorPool = EntityToCasbahTranslator.this.extractorPool
-    override protected val customTraversors: CustomTraversorPool = CustomTraversorPool.empty + assocTraversor
+    override protected val emblemPool = EntityToCasbahTranslator.this.emblemPool
+    override protected val extractorPool = EntityToCasbahTranslator.this.extractorPool
+    override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
       def apply[B <: Assoc[_ <: Root] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {

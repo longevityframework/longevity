@@ -1,7 +1,7 @@
 package longevity.integration.createMany
 
 import longevity.context.LongevityContext
-import longevity.exceptions.subdomain.AssocIsUnpersistedException
+import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.integration.subdomain.withAssoc
 import longevity.persistence.RepoPool
 import longevity.subdomain.Root

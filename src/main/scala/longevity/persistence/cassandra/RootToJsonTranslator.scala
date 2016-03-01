@@ -2,7 +2,7 @@ package longevity.persistence.cassandra
 
 import emblem.imports._
 import emblem.traversors.sync.EmblemToJsonTranslator
-import longevity.exceptions.subdomain.AssocIsUnpersistedException
+import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.subdomain._
 import org.json4s.JsonAST._
 
