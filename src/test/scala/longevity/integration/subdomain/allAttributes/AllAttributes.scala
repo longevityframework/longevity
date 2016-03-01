@@ -17,13 +17,13 @@ case class AllAttributes(
 extends Root
 
 object AllAttributes extends RootType[AllAttributes] {
-  key("uri")
-  index("boolean")
-  index("char")
-  index("double")
-  index("float")
-  index("int")
-  index("long")
-  index("string")
-  index("dateTime")
+  key(prop[String]("uri"))
+  index(prop[Boolean]("boolean"))
+  index(prop[Char]("char"))
+  index(prop[Double]("double"))
+  index(prop[Float]("float"))
+  index(prop[Int]("int"))
+  index(prop[Long]("long"))
+  index(prop[String]("string"))
+  index(prop[DateTime]("dateTime"))
 }

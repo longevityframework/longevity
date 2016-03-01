@@ -36,14 +36,12 @@ object KeySpec {
   extends Root
 
   object KeySampler extends RootType[KeySampler] {
-    val booleanProp = KeySampler.prop[Boolean]("boolean")
-    val charProp = KeySampler.prop[Char]("char")
-    val doubleProp = KeySampler.prop[Double]("double")
+    val booleanProp = prop[Boolean]("boolean")
+    val charProp = prop[Char]("char")
+    val doubleProp = prop[Double]("double")
 
-    val keyFromPropPaths = KeySampler.key("boolean", "char")
-    val keyFromProps = KeySampler.key(booleanProp, charProp)
-
-    val tripleKey = KeySampler.key(booleanProp, charProp, doubleProp)
+    val doubleKey = key(booleanProp, charProp)
+    val tripleKey = key(booleanProp, charProp, doubleProp)
   }
 
   val entityTypes = EntityTypePool(KeySampler)
@@ -75,29 +73,21 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val longevityContext = LongevityContext(KeySpec.subdomain, Mongo)
 
     intercept[LateKeyDefException] {
-      KeySampler.key("boolean", "char")
-    }
-
-    intercept[LateKeyDefException] {
       KeySampler.key(booleanProp, charProp)
     }
-  }
-
-  they should "produce equivalent keys for equivalent inputs" in {
-    keyFromPropPaths should equal (keyFromProps)
   }
 
   behavior of "Key.apply"
 
   it should "throw exception when number of values does not match the number of properties in the key" in {
     intercept[NumPropValsException[_]] {
-      keyFromProps(true)
+      doubleKey(true)
     }
   }
 
   it should "throw exception when the propVal does not match the type of the prop" in {
     intercept[PropValTypeException[_]] {
-      val keyValForRoot = keyFromProps(6.6d, 'c')
+      val keyValForRoot = doubleKey(6.6d, 'c')
     }
   }
 

@@ -8,6 +8,6 @@ case class WithComponentOption(
 extends Root
 
 object WithComponentOption extends RootType[WithComponentOption] {
-  key("uri")
+  key(prop[String]("uri"))
 }
 

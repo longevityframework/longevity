@@ -16,5 +16,5 @@ case class AttributeSets(
 extends Root
 
 object AttributeSets extends RootType[AttributeSets] {
-  key("uri")
+  key(prop[String]("uri"))
 }

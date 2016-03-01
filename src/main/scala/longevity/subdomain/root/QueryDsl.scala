@@ -9,6 +9,7 @@ import longevity.subdomain._
 class QueryDsl[R <: Root] {
 
   /** start building a query with a path */
+  @deprecated("use the alternative method that takes a prop", "0.5")
   implicit def where(path: String) = new GatherDRelational(path)
 
   /** start building a query with a [[Prop]] */
@@ -21,6 +22,7 @@ class QueryDsl[R <: Root] {
   /** gathering the rest of a relational expression on a property path, such as
    * `"account.number" eqs "D85330"`
    */
+  @deprecated("use GatherSRelational instead", "0.5")
   class GatherDRelational private[QueryDsl] (
     private val path: String,
     private val prefix: Option[CondPrefix] = None) {
@@ -130,6 +132,7 @@ class QueryDsl[R <: Root] {
   class GatherLogical private[QueryDsl] (private[QueryDsl] val prefix: Query[R]) {
 
     /** gather an `and` token and the next path, and prepare for a relational operator */
+    @deprecated("use the alternative method that takes a prop", "0.5")
     def and(path: String) = new GatherDRelational(path, Some(CondPrefix(prefix, AndOp)))
 
     /** gather an `and` token and the next property, and prepare for a relational operator */
@@ -139,6 +142,7 @@ class QueryDsl[R <: Root] {
     def and(query: Query[R]) = new GatherLogical(Query.cond(prefix, AndOp, query))
 
     /** gather an `or` token and the next path, and prepare for a relational operator */
+    @deprecated("use the alternative method that takes a prop", "0.5")
     def or(path: String) = new GatherDRelational(path, Some(CondPrefix(prefix, OrOp)))
 
     /** gather an `or` token and the next property, and prepare for a relational operator */

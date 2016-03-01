@@ -39,9 +39,7 @@ object IndexSpec {
     val charProp = IndexSampler.prop[Char]("char")
     val doubleProp = IndexSampler.prop[Double]("double")
 
-    val indexFromPropPaths = IndexSampler.index("boolean", "char")
-    val indexFromProps = IndexSampler.index(booleanProp, charProp)
-
+    val doubleIndex = IndexSampler.index(booleanProp, charProp)
     val tripleIndex = IndexSampler.index(booleanProp, charProp, doubleProp)
   }
 
@@ -74,16 +72,8 @@ class IndexSpec extends FlatSpec with GivenWhenThen with Matchers {
     val longevityContext = LongevityContext(IndexSpec.subdomain, Mongo)
 
     intercept[LateIndexDefException] {
-      IndexSampler.index("boolean", "char")
-    }
-
-    intercept[LateIndexDefException] {
       IndexSampler.index(booleanProp, charProp)
     }
-  }
-
-  they should "produce equivalent indexs for equivalent inputs" in {
-    indexFromPropPaths should equal (indexFromProps)
   }
 
   behavior of "Index.props"

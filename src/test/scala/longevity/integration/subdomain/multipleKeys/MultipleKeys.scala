@@ -8,7 +8,6 @@ case class MultipleKeys(
 extends Root
 
 object MultipleKeys extends RootType[MultipleKeys] {
-  key("uri")
-  key("username")
+  key(prop[String]("uri"))
+  key(prop[String]("username"))
 }
-

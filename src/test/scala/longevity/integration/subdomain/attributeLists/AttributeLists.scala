@@ -16,6 +16,6 @@ case class AttributeLists(
 extends Root
 
 object AttributeLists extends RootType[AttributeLists] {
-  key("uri")
+  key(prop[String]("uri"))
 }
 

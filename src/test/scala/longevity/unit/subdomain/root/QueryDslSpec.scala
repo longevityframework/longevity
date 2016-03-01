@@ -8,7 +8,8 @@ import longevity.subdomain.root._
 /** sample domain for the QueryDslSpec */
 object QueryDslSpec {
 
-  private case class DslRoot(path1: Int, path2: Double, path3: String, path4: Assoc[Associated]) extends Root
+  private case class DslRoot(path1: Int, path2: Double, path3: String, path4: Assoc[Associated])
+  extends Root
 
   private object DslRoot extends RootType[DslRoot] {
     val path1 = prop[Int]("path1")
@@ -30,149 +31,6 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
   import dsl._
 
   behavior of "QueryDsl"
-
-  it should "build dynamic relational queries that match the results of Query object methods" in {
-    val path = "foo"
-    val value = 7
-
-    // the type help will come naturally when calling repo method
-    var expected: Query[DslRoot] = Query.eqs(path, value)
-    var actual: Query[DslRoot] = path eqs value
-    actual should equal (expected)
-
-    expected = Query.neq(path, value)
-    actual = path neq value
-    actual should equal (expected)
-
-    expected = Query.lt(path, value)
-    actual = path lt value
-    actual should equal (expected)
-
-    expected = Query.lte(path, value)
-    actual = path lte value
-    actual should equal (expected)
-
-    expected = Query.gt(path, value)
-    actual = path gt value
-    actual should equal (expected)
-
-    expected = Query.gte(path, value)
-    actual = path gte value
-    actual should equal (expected)
-  }
-
-  it should "combine two dynamic relational queries with logical operators" in {
-    val path1 = "foo"
-    val value1 = 7
-    val path2 = "bar"
-    val value2 = 1.2
-
-    var expected: Query[DslRoot] = Query.and(Query.eqs(path1, value1), Query.eqs(path2, value2))
-    var actual: Query[DslRoot] = path1 eqs value1 and path2 eqs value2
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) and path2 eqs value2
-    actual should equal (expected)
-
-    actual = path1 eqs value1 and (path2 eqs value2)
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) and (path2 eqs value2)
-    actual should equal (expected)
-
-    expected = Query.or(Query.eqs(path1, value1), Query.eqs(path2, value2))
-    actual = path1 eqs value1 or path2 eqs value2
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) or path2 eqs value2
-    actual should equal (expected)
-
-    actual = path1 eqs value1 or (path2 eqs value2)
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) or (path2 eqs value2)
-    actual should equal (expected)
-
-  }
-
-  it should "combine three or more dynamic relational queries with logical operators" in {
-    val path1 = "foo"
-    val value1 = 7
-    val path2 = "bar"
-    val value2 = 1.2
-    val path3 = "baz"
-    val value3 = "string"
-
-    var expected: Query[DslRoot] =
-      Query.and(
-        Query.and(
-          Query.eqs(path1, value1),
-          Query.eqs(path2, value2)),
-        Query.eqs(path3, value3))
-    var actual: Query[DslRoot] = path1 eqs value1 and path2 eqs value2 and path3 eqs value3
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) and path2 eqs value2 and path3 eqs value3
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) and (path2 eqs value2) and path3 eqs value3
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) and (path2 eqs value2) and (path3 eqs value3)
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) and path2 eqs value2 and (path3 eqs value3)
-    actual should equal (expected)
-
-    actual = path1 eqs value1 and (path2 eqs value2) and path3 eqs value3
-    actual should equal (expected)
-
-    actual = path1 eqs value1 and (path2 eqs value2) and (path3 eqs value3)
-    actual should equal (expected)
-
-    actual = path1 eqs value1 and path2 eqs value2 and (path3 eqs value3)
-    actual should equal (expected)
-
-    expected =
-      Query.or(
-        Query.or(
-          Query.eqs(path1, value1),
-          Query.eqs(path2, value2)),
-        Query.eqs(path3, value3))
-    actual = path1 eqs value1 or path2 eqs value2 or path3 eqs value3
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) or path2 eqs value2 or path3 eqs value3
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) or (path2 eqs value2) or path3 eqs value3
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) or (path2 eqs value2) or (path3 eqs value3)
-    actual should equal (expected)
-
-    actual = (path1 eqs value1) or path2 eqs value2 or (path3 eqs value3)
-    actual should equal (expected)
-
-    actual = path1 eqs value1 or (path2 eqs value2) or path3 eqs value3
-    actual should equal (expected)
-
-    actual = path1 eqs value1 or (path2 eqs value2) or (path3 eqs value3)
-    actual should equal (expected)
-
-    actual = path1 eqs value1 or path2 eqs value2 or (path3 eqs value3)
-    actual should equal (expected)
-
-    expected =
-      Query.and(
-        Query.eqs(path1, value1),
-        Query.or(
-          Query.eqs(path2, value2),
-          Query.eqs(path3, value3)))
-    actual = path1 eqs value1 and (path2 eqs value2 or path3 eqs value3)
-    actual should equal (expected)
-
-  }
 
   it should "refuse to build a static ordering query on a non-ordered prop" in {
     import DslRoot._

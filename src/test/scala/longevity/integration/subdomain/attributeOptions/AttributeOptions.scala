@@ -16,5 +16,5 @@ case class AttributeOptions(
 extends Root
 
 object AttributeOptions extends RootType[AttributeOptions] {
-  key("uri")
+  key(prop[String]("uri"))
 }

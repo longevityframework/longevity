@@ -9,6 +9,7 @@ case class WithSimpleConstraint(
 extends Root
 
 object WithSimpleConstraint extends RootType[WithSimpleConstraint] {
-  key("id")
+  val idProp = prop[String]("id")
+  key(idProp)
 }
 

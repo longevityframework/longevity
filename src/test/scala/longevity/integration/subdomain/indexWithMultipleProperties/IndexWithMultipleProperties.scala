@@ -8,6 +8,6 @@ case class IndexWithMultipleProperties(
 extends Root
 
 object IndexWithMultipleProperties extends RootType[IndexWithMultipleProperties] {
-  index("realm", "name")
+  index(prop[String]("realm"), prop[String]("name"))
 }
 

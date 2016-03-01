@@ -29,8 +29,10 @@ object RootTypeSpec {
   extends Root
 
   object User extends RootType[User] {
-    val usernameKey = key("username")
-    val emailKey = key("email")
+    val usernameProp = prop[String]("username")
+    val emailProp = prop[Email]("email")
+    val usernameKey = key(usernameProp)
+    val emailKey = key(emailProp)
   }
 
   case class UserProfile(
@@ -49,7 +51,8 @@ object RootTypeSpec {
   extends Root
 
   object Blog extends RootType[Blog] {
-    val natKey = key("uri")
+    val uriProp = prop[Uri]("uri")
+    val natKey = key(uriProp)
   }
 
   case class BlogPost(
@@ -63,7 +66,9 @@ object RootTypeSpec {
   extends Root
 
   object BlogPost extends RootType[BlogPost] {
-    val natKey = key("blog", "uriPathSuffix")
+    val blogProp = prop[Assoc[Blog]]("blog")
+    val suffixProp = prop[String]("uriPathSuffix")
+    val natKey = key(blogProp, suffixProp)
   }
 
   object BlogCore extends Subdomain("blogging", EntityTypePool(User, UserProfile, Blog, BlogPost))
@@ -72,10 +77,12 @@ object RootTypeSpec {
 
 /** test bed for [[RootType]] functionality.
  *
- * this test class was established for the purpose of testing method `RootType.validateQuery`.
- * various flavors of `RootType` methods `keys`, `indexes`, `prop`, `key`, and `index`, are more or less
- * tested via RootType/LongevityContext creation, and these should not need explicit tests. (although it
- * would be worth checking how well these methods are currently covered by unit tests.)
+ * this test class was established for the purpose of testing method
+ * `RootType.validateQuery`. various flavors of `RootType` methods `keys`,
+ * `indexes`, `prop`, `key`, and `index`, are more or less tested via
+ * RootType/LongevityContext creation, and these should not need explicit
+ * tests. (although it would be worth checking how well these methods are
+ * currently covered by unit tests.)
  */
 class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
@@ -84,48 +91,15 @@ class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "RootType.validateQuery"
 
-  it should "convert simple dynamic queries into static queries" in {
+  it should "leave static queries as-is" in {
     val usernameVal = "usernameVal"
     val emailVal: Email = "emailVal"
 
     val squery = Query.or(
-      Query.eqs(User.prop[String]("username"), usernameVal),
-      Query.eqs(User.prop[Email]("email"), emailVal))
+      Query.eqs(User.usernameProp, usernameVal),
+      Query.eqs(User.emailProp, emailVal))
 
     User.validateQuery(squery) should equal (squery)
-
-    val dquery = Query.or[User](
-      Query.eqs("username", usernameVal),
-      Query.eqs("email", emailVal))
-
-    dquery should not equal (squery)
-    User.validateQuery(dquery) should equal (squery)
-  }
-
-  it should "throw exception when the dynamic query is not valid" in {
-    val usernameVal = "usernameVal"
-    val emailVal: Email = "emailVal"
-
-    intercept[PropTypeException] {
-      val dquery = Query.or[User](
-        Query.eqs("username", emailVal), // oops! user error
-        Query.eqs("email", emailVal))
-      User.validateQuery(dquery)
-    }
-
-    intercept[PropTypeException] {
-      val dquery = Query.or[User](
-        Query.eqs("username", usernameVal),
-        Query.eqs("email", usernameVal)) // oops! user error
-      User.validateQuery(dquery)
-    }
-
-  }
-
-  it should "balk on any collection properties, including option properties" in {
-    intercept[UnsupportedPropTypeException[_, _]] {
-      User.validateQuery(Query.eqs("profile.title", "title"))
-    }
   }
 
 }

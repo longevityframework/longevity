@@ -8,6 +8,6 @@ case class WithAssocList(
 extends Root
 
 object WithAssocList extends RootType[WithAssocList] {
-  key("uri")
+  key(prop[String]("uri"))
 }
 

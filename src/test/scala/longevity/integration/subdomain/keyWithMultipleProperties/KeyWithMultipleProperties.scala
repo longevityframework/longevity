@@ -8,6 +8,6 @@ case class KeyWithMultipleProperties(
 extends Root
 
 object KeyWithMultipleProperties extends RootType[KeyWithMultipleProperties] {
-  key("realm", "name")
+  key(prop[String]("realm"), prop[String]("name"))
 }
 

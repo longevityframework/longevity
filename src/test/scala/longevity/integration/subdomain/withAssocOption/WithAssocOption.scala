@@ -8,6 +8,6 @@ case class WithAssocOption(
 extends Root
 
 object WithAssocOption extends RootType[WithAssocOption] {
-  key("uri")
+  key(prop[String]("uri"))
 }
 

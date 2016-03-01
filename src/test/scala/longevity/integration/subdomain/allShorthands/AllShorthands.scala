@@ -17,13 +17,13 @@ case class AllShorthands(
 extends Root
 
 object AllShorthands extends RootType[AllShorthands] {
-  key("uri")
-  index("boolean")
-  index("char")
-  index("double")
-  index("float")
-  index("int")
-  index("long")
-  index("string")
-  index("dateTime")
+  key(prop[String]("uri"))
+  index(prop[BooleanShorthand]("boolean"))
+  index(prop[CharShorthand]("char"))
+  index(prop[DoubleShorthand]("double"))
+  index(prop[FloatShorthand]("float"))
+  index(prop[IntShorthand]("int"))
+  index(prop[LongShorthand]("long"))
+  index(prop[StringShorthand]("string"))
+  index(prop[DateTimeShorthand]("dateTime"))
 }

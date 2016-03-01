@@ -45,6 +45,7 @@ object Query {
   case object OrOp extends LogicalOp
 
   /** a factory method for producing an [[EqualityQuery]] with an [[EqOp]] */
+  @deprecated("use the alternative method that takes a prop", "0.5")
   def eqs[R <: Root, A : TypeKey](path: String, value: A) =
     EqualityQuery[R, A](path, EqOp, value)
 
@@ -53,6 +54,7 @@ object Query {
     VEqualityQuery[R, A](prop, EqOp, value)
 
   /** a factory method for producing an [[EqualityQuery]] with an [[NeqOp]] */
+  @deprecated("use the alternative method that takes a prop", "0.5")
   def neq[R <: Root, A : TypeKey](path: String, value: A) =
     EqualityQuery[R, A](path, NeqOp, value)
 
@@ -61,6 +63,7 @@ object Query {
     VEqualityQuery[R, A](prop, NeqOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[LtOp]] */
+  @deprecated("use the alternative method that takes a prop", "0.5")
   def lt[R <: Root, A : TypeKey](path: String, value: A) =
     OrderingQuery[R, A](path, LtOp, value)
 
@@ -69,6 +72,7 @@ object Query {
     VOrderingQuery[R, A](prop, LtOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[LteOp]] */
+  @deprecated("use the alternative method that takes a prop", "0.5")
   def lte[R <: Root, A : TypeKey](path: String, value: A) =
     OrderingQuery[R, A](path, LteOp, value)
 
@@ -77,6 +81,7 @@ object Query {
     VOrderingQuery[R, A](prop, LteOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[GtOp]] */
+  @deprecated("use the alternative method that takes a prop", "0.5")
   def gt[R <: Root, A : TypeKey](path: String, value: A) =
     OrderingQuery[R, A](path, GtOp, value)
 
@@ -85,6 +90,7 @@ object Query {
     VOrderingQuery[R, A](prop, GtOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[GteOp]] */
+  @deprecated("use the alternative method that takes a prop", "0.5")
   def gte[R <: Root, A : TypeKey](path: String, value: A) =
     OrderingQuery[R, A](path, GteOp, value)
 

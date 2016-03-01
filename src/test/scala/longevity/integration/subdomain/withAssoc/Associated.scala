@@ -6,6 +6,6 @@ import shorthands._
 case class Associated(uri: String) extends Root
 
 object Associated extends RootType[Associated] {
-  key("uri")
+  key(prop[String]("uri"))
 }
 

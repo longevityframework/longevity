@@ -9,8 +9,8 @@ case class WithAssoc(
 extends Root
 
 object WithAssoc extends RootType[WithAssoc] {
-  key("uri")
-  index("uri")
-  index("associated")
+  key(prop[String]("uri"))
+  index(prop[String]("uri"))
+  index(prop[Assoc[Associated]]("associated"))
 }
 

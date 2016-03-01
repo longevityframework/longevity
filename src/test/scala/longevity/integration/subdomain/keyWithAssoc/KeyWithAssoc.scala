@@ -8,6 +8,6 @@ case class KeyWithAssoc(
 extends Root
 
 object KeyWithAssoc extends RootType[KeyWithAssoc] {
-  key("associated")
+  key(prop[Assoc[Associated]]("associated"))
 }
 

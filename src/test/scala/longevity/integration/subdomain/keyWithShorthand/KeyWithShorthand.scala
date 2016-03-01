@@ -6,7 +6,6 @@ import shorthands._
 case class KeyWithShorthand(id: String, uri: Uri) extends Root
 
 object KeyWithShorthand extends RootType[KeyWithShorthand] {
-  key("id")
-  key("uri")
+  key(prop[String]("id"))
+  key(prop[Uri]("uri"))
 }
-

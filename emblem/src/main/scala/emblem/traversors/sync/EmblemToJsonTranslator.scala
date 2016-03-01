@@ -6,10 +6,6 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import org.json4s.JsonAST._
 
-// TODO: we really have to extract emblemPool/extractorPool combination
-// TODO: type aliases for Events & Views
-// TODO: deprecate stuff (string props, query test stuff)
-
 /** translates emblematic types into json4s AST.
  *
  * @param emblemPool a pool of emblems

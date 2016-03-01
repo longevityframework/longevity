@@ -9,6 +9,6 @@ case class WithComponentWithShorthands(
 extends Root
 
 object WithComponentWithShorthands extends RootType[WithComponentWithShorthands] {
-  key("uri")
+  key(prop[String]("uri"))
 }
 

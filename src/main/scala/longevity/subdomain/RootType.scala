@@ -48,22 +48,25 @@ extends EntityType[R] {
   }
 
   /** constructs a [[longevity.subdomain.root.Prop]] from a path
-   * @throws longevity.exceptions.subdomain.root.PropException if any step along the path does not exist, or
-   * any non-final step along the path is not an entity, or the final step along the path is not a
-   * [[Shorthand]], an [[Assoc]] or a basic type
+   * @throws longevity.exceptions.subdomain.root.PropException if any step along
+   * the path does not exist, or any non-final step along the path is not an
+   * entity, or the final step along the path is not a [[Shorthand]], an
+   * [[Assoc]] or a basic type
    * @see `emblem.basicTypes`
    */
   def prop[A : TypeKey](path: String): Prop[R, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
 
   /** constructs a key for this root type based on the supplied set of property paths
    * @param propPathHead one of the property paths for the properties that define this key
-   * @param propPathTail any remaining property paths for the properties that define this key
-   * @throws longevity.exceptions.subdomain.root.PropException if any of the supplied property paths are
-   * invalid
-   * @throws longevity.exceptions.subdomain.root.LateKeyDefException on attempt to create a new key after the
-   * `RootType` is fully initialized
+   * @param propPathTail any remaining property paths for the properties that
+   * define this key
+   * @throws longevity.exceptions.subdomain.root.PropException if any of the
+   * supplied property paths are invalid
+   * @throws longevity.exceptions.subdomain.root.LateKeyDefException on attempt
+   * to create a new key after the `RootType` is fully initialized
    * @see Prop.apply
    */
+  @deprecated("use non-string method key instead", "0.5.0")
   def key(propPathHead: String, propPathTail: String*): Key[R] = {
     if (registered) throw new LateKeyDefException
     val propPaths = propPathHead :: propPathTail.toList
@@ -75,8 +78,8 @@ extends EntityType[R] {
   /** constructs a key for this root type based on the supplied set of key props
    * @param propsHead one of the properties that define this key
    * @param propsTail any remaining properties that define this key
-   * @throws longevity.exceptions.subdomain.root.LateKeyDefException on attempt to create a new key after the
-   * `RootType` is fully initialized
+   * @throws longevity.exceptions.subdomain.root.LateKeyDefException on attempt
+   * to create a new key after the `RootType` is fully initialized
    */
   def key(propsHead: Prop[R, _], propsTail: Prop[R, _]*): Key[R] = {
     if (registered) throw new LateKeyDefException
@@ -94,6 +97,7 @@ extends EntityType[R] {
    * a new index after the `RootType` is fully initialized
    * @see Prop.apply
    */
+  @deprecated("use non-string method index instead", "0.5.0")
   def index(propPathHead: String, propPathTail: String*): Index[R] = {
     if (registered) throw new LateIndexDefException
     val propPaths = propPathHead :: propPathTail.toList
@@ -106,8 +110,8 @@ extends EntityType[R] {
    * 
    * @param propsHead one of the properties that define this index
    * @param propsTail any remaining properties that define this index
-   * @throws longevity.exceptions.subdomain.root.LateIndexDefException on attempt to create
-   * a new index after the `RootType` is fully initialized
+   * @throws longevity.exceptions.subdomain.root.LateIndexDefException on
+   * attempt to create a new index after the `RootType` is fully initialized
    */
   def index(propsHead: Prop[R, _], propsTail: Prop[R, _]*): Index[R] = {
     if (registered) throw new LateIndexDefException

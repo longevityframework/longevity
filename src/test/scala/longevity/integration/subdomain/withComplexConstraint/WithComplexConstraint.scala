@@ -7,11 +7,11 @@ case class WithComplexConstraint(
   primaryEmail: Email,
   emails: Set[Email])
 extends Root {
-
-  if (!emails.contains(primaryEmail)) throw new ConstraintValidationException("primary email is not in emails")
+  if (!emails.contains(primaryEmail))
+    throw new ConstraintValidationException("primary email is not in emails")
 }
 
 object WithComplexConstraint extends RootType[WithComplexConstraint] {
-  key("id")
+  key(prop[String]("id"))
 }
 
