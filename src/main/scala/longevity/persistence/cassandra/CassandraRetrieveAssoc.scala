@@ -9,16 +9,19 @@ import scala.concurrent.Future
 private[cassandra] trait CassandraRetrieveAssoc[R <: Root] {
   repo: CassandraRepo[R] =>
 
-  override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] =
-    retrieveFromBoundStatement(bindIdSelectStatement(assoc.asInstanceOf[CassandraId[R]]))
+  override protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[R])
+  : Future[Option[PState[R]]] = {
+    val id = assoc.asInstanceOf[CassandraId[R]]
+    retrieveFromBoundStatement(bindIdSelectStatement(id))
+  }
 
   private lazy val idSelectStatement = {
     val cql = s"SELECT * FROM $tableName WHERE id = :id"
     session.prepare(cql)
   }
 
-  private def bindIdSelectStatement(assoc: CassandraId[R]): BoundStatement = {
-    idSelectStatement.bind(assoc.uuid)
+  private def bindIdSelectStatement(id: CassandraId[R]): BoundStatement = {
+    idSelectStatement.bind(id.uuid)
   }
 
 }

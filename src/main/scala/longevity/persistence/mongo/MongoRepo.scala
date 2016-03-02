@@ -47,33 +47,6 @@ extends BaseRepo[R](rootType, subdomain) {
     new PState[R](MongoId(objectId), unpersisted)
   }
 
-  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = Future {
-    val builder = MongoDBObject.newBuilder
-    keyVal.propVals.foreach {
-      case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
-    }
-    val query = builder.result
-    val resultOption = mongoCollection.findOne(query)
-    val idRootOption = resultOption map { result =>
-      val id = result.getAs[ObjectId]("_id").get
-      id -> casbahToEntityTranslator.translate(result)
-    }
-    idRootOption map { case (id, e) => new PState[R](MongoId(id), e) }
-  }
-
-  private def resolvePropVal(prop: Prop[R, _], raw: Any): Any = {
-    if (subdomain.shorthandPool.contains(prop.typeKey)) {
-      def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
-      abbreviate(prop.typeKey)
-    } else if (prop.typeKey <:< typeKey[Assoc[_]]) {
-      val assoc = raw.asInstanceOf[Assoc[_ <: Root]]
-      if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
-      raw.asInstanceOf[MongoId[_ <: Root]].objectId
-    } else {
-      raw
-    }
-  }
-
   def update(persisted: PState[R]) = Future {
     val root = persisted.get
     val objectId = persisted.assoc.asInstanceOf[MongoId[R]].objectId
@@ -90,13 +63,27 @@ extends BaseRepo[R](rootType, subdomain) {
     new Deleted(persisted.get, persisted.assoc)
   }
 
-  override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R])
+  override protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[R])
   : Future[Option[PState[R]]] = Future {
     val objectId = assoc.asInstanceOf[MongoId[R]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val resultOption = mongoCollection.findOne(query)
     val rootOption = resultOption map { casbahToEntityTranslator.translate(_) }
     rootOption map { e => new PState[R](assoc, e) }
+  }
+
+  override protected def retrieveByKeyVal(keyVal: KeyVal[R]): Future[Option[PState[R]]] = Future {
+    val builder = MongoDBObject.newBuilder
+    keyVal.propVals.foreach {
+      case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
+    }
+    val query = builder.result
+    val resultOption = mongoCollection.findOne(query)
+    val idRootOption = resultOption map { result =>
+      val id = result.getAs[ObjectId]("_id").get
+      id -> casbahToEntityTranslator.translate(result)
+    }
+    idRootOption map { case (id, e) => new PState[R](MongoId(id), e) }
   }
 
   protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = Future {
@@ -106,6 +93,19 @@ extends BaseRepo[R](rootType, subdomain) {
       val id = result.getAs[ObjectId]("_id").get
       val root = casbahToEntityTranslator.translate(result)
       new PState[R](MongoId(id), root)
+    }
+  }
+
+  private def resolvePropVal(prop: Prop[R, _], raw: Any): Any = {
+    if (subdomain.shorthandPool.contains(prop.typeKey)) {
+      def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
+      abbreviate(prop.typeKey)
+    } else if (prop.typeKey <:< typeKey[Assoc[_]]) {
+      val assoc = raw.asInstanceOf[Assoc[_ <: Root]]
+      if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
+      raw.asInstanceOf[MongoId[_ <: Root]].objectId
+    } else {
+      raw
     }
   }
 

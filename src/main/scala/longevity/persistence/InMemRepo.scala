@@ -37,17 +37,6 @@ extends BaseRepo[R](rootType, subdomain) {
     persist(id, unpersisted)
   }
 
-  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] = {
-    keyVal.propVals.foreach { case (prop, value) =>
-      if (prop.typeKey <:< typeKey[Assoc[_]]) {
-        val assoc = value.asInstanceOf[Assoc[_ <: Root]]
-        if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
-      }
-    }
-    val optionR = keyValToEntityMap.get(keyVal)
-    Future.successful(optionR)
-  }
-
   def update(persisted: PState[R]) = Future {
     dumpKeys(persisted.orig)
     persist(persisted.passoc, persisted.get)
@@ -60,8 +49,20 @@ extends BaseRepo[R](rootType, subdomain) {
     Future.successful(deleted)
   }
 
-  override protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]] = {
+  override protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[R])
+  : Future[Option[PState[R]]] = {
     Future.successful(idToEntityMap.get(assoc))
+  }
+
+  override protected def retrieveByKeyVal(keyVal: KeyVal[R]): Future[Option[PState[R]]] = {
+    keyVal.propVals.foreach { case (prop, value) =>
+      if (prop.typeKey <:< typeKey[Assoc[_]]) {
+        val assoc = value.asInstanceOf[Assoc[_ <: Root]]
+        if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
+      }
+    }
+    val optionR = keyValToEntityMap.get(keyVal)
+    Future.successful(optionR)
   }
 
   protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = Future {

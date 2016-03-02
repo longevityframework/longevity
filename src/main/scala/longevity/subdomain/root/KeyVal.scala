@@ -11,7 +11,9 @@ import longevity.subdomain._
  */
 case class KeyVal[R <: Root] private[root] (
   val key: Key[R],
-  val propVals: Map[Prop[R, _], Any]) {
+  val propVals: Map[Prop[R, _], Any])
+extends PRef[R] {
+  private[longevity] val _lock = 0
 
   /** the property values in the same order as the properties in the key */
   lazy val propValSeq = key.props.map(propVals(_).asInstanceOf[AnyRef])

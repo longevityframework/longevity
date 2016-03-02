@@ -33,11 +33,9 @@ object Assoc {
  * intended to support this single use-case. in general we work with persisted
  * assocs.
  */
-trait Assoc[R <: Root] {
+trait Assoc[R <: Root] extends PRef[R] {
 
-  /** prevent subtyping outside of longevity library */
-  private[longevity] val _lock: Int
-
+  // TODO: remove this
   /** true whenever the assoc is with a persisted entity */
   def isPersisted: Boolean
 

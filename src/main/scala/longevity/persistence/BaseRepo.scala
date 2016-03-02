@@ -22,34 +22,26 @@ extends Repo[R] {
   /** the type key for the aggregate roots this repository handles */
   protected val rootTypeKey: TypeKey[R] = typeKey[R]
 
-  /** creates the aggregate */
   def create(unpersisted: R): Future[PState[R]]
 
-  def retrieve(assoc: Assoc[R]): Future[Option[PState[R]]] = assoc match {
-    case unpersistedAssoc: UnpersistedAssoc[_] =>
-      throw new AssocIsUnpersistedException(unpersistedAssoc)
-    case persistedAssoc: PersistedAssoc[_] =>
-      retrievePersistedAssoc(persistedAssoc)
+  def retrieve(ref: PRef[R]): Future[Option[PState[R]]] = ref.pattern match {
+    case PRef.UAssocPattern(assoc) => throw new AssocIsUnpersistedException(assoc)
+    case PRef.PAssocPattern(assoc) => retrieveByPersistedAssoc(assoc)
+    case PRef.KeyValPattern(keyVal) => retrieveByKeyVal(keyVal)
   }
 
-  def retrieveOne(assoc: Assoc[R]): Future[PState[R]] = retrieve(assoc).map(_.get)
+  def retrieveOne(ref: PRef[R]): Future[PState[R]] = retrieve(ref).map(_.get)
 
-  /** retrieves the aggregate by a key value */
-  def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]]
-
-  def retrieveOne(keyVal: KeyVal[R]): Future[PState[R]] = retrieve(keyVal).map(_.get)
-
-  /** retrieves the aggregate by a query */
   def retrieveByQuery(query: Query[R]): Future[Seq[PState[R]]] =
     retrieveByValidatedQuery(rootType.validateQuery(query))
 
-  /** updates the aggregate */
   def update(state: PState[R]): Future[PState[R]]
 
-  /** deletes the aggregate */
   def delete(state: PState[R]): Future[Deleted[R]]
 
-  protected def retrievePersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]]
+  protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]]
+
+  protected def retrieveByKeyVal(keyVal: KeyVal[R]): Future[Option[PState[R]]]
 
   protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]]
 

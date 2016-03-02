@@ -17,7 +17,7 @@ import scala.concurrent.Future
 private[cassandra] trait CassandraRetrieveKeyVal[R <: Root] {
   repo: CassandraRepo[R] =>
 
-  override def retrieve(keyVal: KeyVal[R]): Future[Option[PState[R]]] =
+  override protected def retrieveByKeyVal(keyVal: KeyVal[R]): Future[Option[PState[R]]] =
     retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
 
   private lazy val keyValSelectStatement: Map[Key[R], PreparedStatement] = Map().withDefault { key =>
