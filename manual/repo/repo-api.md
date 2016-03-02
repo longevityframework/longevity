@@ -12,18 +12,21 @@ Because all of the methods in `Repo` are potentially blocking, they
 all return a [Scala
 `Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future). 
 
-While we will discuss the three major `retrieve` methods in turn, note
-that the two `retrieveOne` methods are just a shorthand for calling
-the corresponding `retrieve` method, and unpacking the `Option` with a `get`.
+We will will discuss the three major `retrieve` methods in turn, but
+it's helpful to cover a couple of points up front. First off, the
+`PRef` is a super trait for both `Assoc` and `KeyVal`, so you can use
+the `retrieve` and `retrieveOne` methods with both. Secondly, the
+`retrieveOne` method is a simple wrapper method for `retrieve`, that
+opens up the `Option[PState[R]]` for you. If the option is a `None`,
+this will result in a `NoSuchElementException`.
 
 <div class = "blue-side-bar">
 
-We would like to find a way to combine the concepts of <a href =
-"../associations">associations</a> and <a href =
-"../root-type/keys.html">keys</a>, in order to simplify this API a
-bit. We are considering making <code>KeyVal</code> extend
-<code>Assoc</code>, but we'd like to mull over the ramifications of
-that a bit more.
+There are two kinds of persistent refs: [[Assoc associations]] and
+[[longevity.subdomain.root.KeyVal key values]]. we plan to integrate
+these two types more in the future. In particular, it should be easier
+to embed a key value of another aggregate in an entity, in place of
+embedding an association.
 
 </div>
 
