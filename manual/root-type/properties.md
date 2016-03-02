@@ -31,8 +31,8 @@ supported properties types in the future.
 Properties are used to build [keys](keys.html),
 [indexes](indexes.html), and [queries](../repo/query.html). Presently,
 you can use raw string paths anywhere you can use a `Prop`, but we
-encourage you to use `Props` instead, as the string-based API will
-probably go away in the future. The `Prop` allows us for expressive
+encourage you to use `Props` instead, as the string-based API is now
+deprecated, and will be removed soon. The `Prop` allows us for expressive
 typing while building [key values](../repo/retrieve-keyval.html) and
 [queries](../repo/query.html), and we're looking to improve the type
 safety of these features. We're also looking at a more fluent API for

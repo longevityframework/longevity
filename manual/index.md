@@ -48,6 +48,7 @@ will put in links as I write the chapters.
   - [Retrieval by Assoc](repo/retrieve-assoc.html)
   - [Retrieval by Key Value](repo/retrieve-keyval.html)
   - [Retrieval by Query](repo/query.html)
+  - [Limitations on Cassandra Queries](repo/cassandra-query-limits.html)
   - [Repo.update](repo/update.html)
   - [Repo.delete](repo/delete.html)
 - FPState and FOPState (TODO)

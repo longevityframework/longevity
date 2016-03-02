@@ -38,11 +38,6 @@ The six comparator operators all take a
 [property](../root-type/properties.html) on the left-hand side, and a
 value on the right-hand side.
 
-It is up to you to make sure your query is performant, if need be. It
-is quite possible to build queries that will fail to run entirely on
-Cassandra, as the [restrictions on Cassandra queries are quite
-strict](http://www.datastax.com/dev/blog/a-deep-look-to-the-cql-where-clause).
-
 [Keys](../root-type/keys.html) and
 [indexes](../root-type/indexes.html) will aid query performance in an
 intuitive manner. For finer details on just how your query will run,
@@ -53,6 +48,6 @@ NoSQL backend ([Mongo](../mongo) and [Cassandra](../cassandra)).
 {% assign prevLink = "retrieve-keyval.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "repo.update" %}
-{% assign nextLink = "update.html" %}
+{% assign nextTitle = "cassandra query limitations" %}
+{% assign nextLink = "cassandra-query-limits.html" %}
 {% include navigate.html %}
