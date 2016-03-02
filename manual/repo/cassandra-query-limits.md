@@ -16,6 +16,8 @@ Queries using the _not-equals_ operator are not supported by Cassandra.
 
 Queries using the _or_ operator are not supported by Cassandra.
 
+Queries must contain at least one _equals_ clause.
+
 {% assign prevTitle = "retrieval by query" %}
 {% assign prevLink = "query.html" %}
 {% assign upTitle = "repositories" %}
