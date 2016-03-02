@@ -13,8 +13,8 @@ trait Repo[R <: Root] {
 
   /** retrieves an optional aggregate from a persistent ref
    * 
-   * @throws longevity.exceptions.subdomain.AssocIsUnpersistedException whenever
-   * the persistent ref is an unpersisted assoc
+   * @throws longevity.exceptions.persistence.AssocIsUnpersistedException
+   * whenever the persistent ref is an unpersisted assoc
    */
   def retrieve(ref: PRef[R]): Future[Option[PState[R]]]
 
@@ -23,12 +23,12 @@ trait Repo[R <: Root] {
    * throws NoSuchElementException whenever the persistent ref does not refer
    * to an aggregate in the repository
    * 
-   * @throws longevity.exceptions.subdomain.AssocIsUnpersistedException whenever
-   * the persistent ref is an unpersisted assoc
+   * @throws longevity.exceptions.persistence.AssocIsUnpersistedException
+   * whenever the persistent ref is an unpersisted assoc
    */
   def retrieveOne(ref: PRef[R]): Future[PState[R]]
 
-  /** retrieves the aggregate by a query */
+  /** retrieves multiple aggregates by a query */
   def retrieveByQuery(query: Query[R]): Future[Seq[PState[R]]]
 
   /** updates the aggregate */
