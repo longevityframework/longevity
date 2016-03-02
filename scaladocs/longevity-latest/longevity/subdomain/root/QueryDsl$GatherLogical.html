@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>GatherLogical - longevity 0.4.0 API - longevity.subdomain.root.QueryDsl.GatherLogical</title>
-          <meta name="description" content="GatherLogical - longevity 0.4.0 API - longevity.subdomain.root.QueryDsl.GatherLogical" />
-          <meta name="keywords" content="GatherLogical longevity 0.4.0 API longevity.subdomain.root.QueryDsl.GatherLogical" />
+          <title>GatherLogical - longevity 0.5-SNAPSHOT API - longevity.subdomain.root.QueryDsl.GatherLogical</title>
+          <meta name="description" content="GatherLogical - longevity 0.5 - SNAPSHOT API - longevity.subdomain.root.QueryDsl.GatherLogical" />
+          <meta name="keywords" content="GatherLogical longevity 0.5 SNAPSHOT API longevity.subdomain.root.QueryDsl.GatherLogical" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>gathering the rest of a logical expression, combining two expressions with and <code>and</code> or an <code>or</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/src/main/scala/longevity/subdomain/root/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>gathering the rest of a logical expression, combining two expressions with and <code>and</code> or an <code>or</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/src/main/scala/longevity/subdomain/root/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -233,23 +233,6 @@
       </a>
     </span>
       <p class="shortcomment cmt">gather an <code>and</code> token and the next property, and prepare for a relational operator</p>
-    </li><li name="longevity.subdomain.root.QueryDsl.GatherLogical#and" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="and(path:String):QueryDsl.this.GatherDRelational"></a>
-      <a id="and(String):GatherDRelational"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">and</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="QueryDsl$GatherDRelational.html" class="extype" name="longevity.subdomain.root.QueryDsl.GatherDRelational">GatherDRelational</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.QueryDsl$GatherLogical@and(path:String):QueryDsl.this.GatherDRelational" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">gather an <code>and</code> token and the next path, and prepare for a relational operator</p>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -591,23 +574,6 @@
       </a>
     </span>
       <p class="shortcomment cmt">gather an <code>or</code> token and the next property, and prepare for a relational operator</p>
-    </li><li name="longevity.subdomain.root.QueryDsl.GatherLogical#or" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="or(path:String):QueryDsl.this.GatherDRelational"></a>
-      <a id="or(String):GatherDRelational"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">or</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="QueryDsl$GatherDRelational.html" class="extype" name="longevity.subdomain.root.QueryDsl.GatherDRelational">GatherDRelational</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.QueryDsl$GatherLogical@or(path:String):QueryDsl.this.GatherDRelational" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">gather an <code>or</code> token and the next path, and prepare for a relational operator</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -737,7 +703,50 @@
 
         
 
-        
+        <div id="values" class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="longevity.subdomain.root.QueryDsl.GatherLogical#and" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="and(path:String):QueryDsl.this.GatherDRelational"></a>
+      <a id="and(String):GatherDRelational"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5) use the alternative method that takes a prop">and</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="QueryDsl$GatherDRelational.html" class="extype" name="longevity.subdomain.root.QueryDsl.GatherDRelational">GatherDRelational</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.QueryDsl$GatherLogical@and(path:String):QueryDsl.this.GatherDRelational" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">gather an <code>and</code> token and the next path, and prepare for a relational operator</p><div class="fullcomment"><div class="comment cmt"><p>gather an <code>and</code> token and the next path, and prepare for a relational operator</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use the alternative method that takes a prop</p></dd></dl></div>
+    </li><li name="longevity.subdomain.root.QueryDsl.GatherLogical#or" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="or(path:String):QueryDsl.this.GatherDRelational"></a>
+      <a id="or(String):GatherDRelational"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5) use the alternative method that takes a prop">or</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="QueryDsl$GatherDRelational.html" class="extype" name="longevity.subdomain.root.QueryDsl.GatherDRelational">GatherDRelational</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.QueryDsl$GatherLogical@or(path:String):QueryDsl.this.GatherDRelational" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">gather an <code>or</code> token and the next path, and prepare for a relational operator</p><div class="fullcomment"><div class="comment cmt"><p>gather an <code>or</code> token and the next path, and prepare for a relational operator</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use the alternative method that takes a prop</p></dd></dl></div>
+    </li></ol>
+            </div>
         </div>
 
         <div id="inheritedMembers">

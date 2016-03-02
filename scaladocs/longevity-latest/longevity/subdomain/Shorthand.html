@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Shorthand - longevity 0.4.0 API - longevity.subdomain.Shorthand</title>
-          <meta name="description" content="Shorthand - longevity 0.4.0 API - longevity.subdomain.Shorthand" />
-          <meta name="keywords" content="Shorthand longevity 0.4.0 API longevity.subdomain.Shorthand" />
+          <title>Shorthand - longevity 0.5-SNAPSHOT API - longevity.subdomain.Shorthand</title>
+          <meta name="description" content="Shorthand - longevity 0.5 - SNAPSHOT API - longevity.subdomain.Shorthand" />
+          <meta name="keywords" content="Shorthand longevity 0.5 SNAPSHOT API longevity.subdomain.Shorthand" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,11 +51,12 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>describes a relation (one-to-one mapping) between two types, <code>Actual</code> and <code>Abbreviated</code>. The &quot;actual&quot; type is
-typically a richer type, such as a case class with a single parameter, and an abbreviated value for the
-type, such as a string. Provides functions for mapping between the actual and abbreviated types, as well as
-an <code>emblem.TypeKey</code> for both types.
-</p></div><dl class="paramcmts block"><dt class="tparam">Actual</dt><dd class="cmt"><p>the actual type</p></dd><dt class="tparam">Abbreviated</dt><dd class="cmt"><p>the abbreviated type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/src/main/scala/longevity/subdomain/Shorthand.scala" target="_blank">Shorthand.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>describes a relation (one-to-one mapping) between two types, <code>Actual</code> and
+<code>Abbreviated</code>. The &quot;actual&quot; type is typically a richer type, such as a case
+class with a single parameter, and an abbreviated value for the type, such
+as a string. Provides functions for mapping between the actual and
+abbreviated types, as well as an <code>emblem.TypeKey</code> for both types.
+</p></div><dl class="paramcmts block"><dt class="tparam">Actual</dt><dd class="cmt"><p>the actual type</p></dd><dt class="tparam">Abbreviated</dt><dd class="cmt"><p>the abbreviated type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/src/main/scala/longevity/subdomain/Shorthand.scala" target="_blank">Shorthand.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -222,6 +223,23 @@ an <code>emblem.TypeKey</code> for both types.
       </a>
     </span>
       <p class="shortcomment cmt">converts from actual to abbreviated</p>
+    </li><li name="longevity.subdomain.Shorthand#actualOrdering" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="actualOrdering:Ordering[Actual]"></a>
+      <a id="actualOrdering:Ordering[Actual]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">actualOrdering</span><span class="result">: <span class="extype" name="scala.Ordering">Ordering</span>[<span class="extype" name="longevity.subdomain.Shorthand.Actual">Actual</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.subdomain.Shorthand@actualOrdering:Ordering[Actual]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">an ordering for shorthand actual values</p>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>

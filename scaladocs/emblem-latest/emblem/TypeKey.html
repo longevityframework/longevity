@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TypeKey - emblem 0.4.0 API - emblem.TypeKey</title>
-          <meta name="description" content="TypeKey - emblem 0.4.0 API - emblem.TypeKey" />
-          <meta name="keywords" content="TypeKey emblem 0.4.0 API emblem.TypeKey" />
+          <title>TypeKey - emblem 0.5-SNAPSHOT API - emblem.TypeKey</title>
+          <meta name="description" content="TypeKey - emblem 0.5 - SNAPSHOT API - emblem.TypeKey" />
+          <meta name="keywords" content="TypeKey emblem 0.5 SNAPSHOT API emblem.TypeKey" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -56,7 +56,7 @@ produce unique hash values, and always produces values compatible with <a href="
 like so:</p><pre><span class="kw">def</span> foo[A : TypeKey]() = {
   <span class="kw">val</span> key = implicitly[TypeKey[A]]
 }</pre><p>or you can get one explicitly like so:</p><pre><span class="kw">val</span> key = emblem.typeKey[<span class="std">List</span>[<span class="std">String</span>]]</pre><p>or if you already have a <code>TypeTag</code> at hand:</p><pre><span class="kw">val</span> tag: <span class="std">TypeTag</span>[A] = ???
-<span class="kw">val</span> key = TypeKey(tag)</pre></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type that we are keying one</p></dd><dt class="param">tag</dt><dd class="cmt"><p>the scala-reflect <code>TypeTag</code> for type <code>A</code></p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/emblem/src/main/scala/emblem/TypeKey.scala" target="_blank">TypeKey.scala</a></dd></dl><div class="toggleContainer block">
+<span class="kw">val</span> key = TypeKey(tag)</pre></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type that we are keying one</p></dd><dt class="param">tag</dt><dd class="cmt"><p>the scala-reflect <code>TypeTag</code> for type <code>A</code></p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/emblem/src/main/scala/emblem/TypeKey.scala" target="_blank">TypeKey.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -649,6 +649,23 @@ keys.map(_.castToUpperBound[<span class="std">List</span>[_]]) should equal (<sp
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="emblem.TypeKey#manifest" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="manifest:scala.reflect.Manifest[A]"></a>
+      <a id="manifest:Manifest[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">manifest</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.reflect.Manifest" class="extype" target="_top">Manifest</a>[<span class="extype" name="emblem.TypeKey.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#emblem.TypeKey@manifest:scala.reflect.Manifest[A]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="emblem.TypeKey#name" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="name:String"></a>
       <a id="name:String"></a>
@@ -774,7 +791,7 @@ keys.map(_.castToUpperBound[<span class="std">List</span>[_]]) should equal (<sp
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">lazy val</span>
       </span>
       <span class="symbol">
         <span class="name">tpe</span><span class="result">: <span class="extype" name="scala.reflect.api.Types.Type">scala.reflect.api.JavaUniverse.Type</span></span>

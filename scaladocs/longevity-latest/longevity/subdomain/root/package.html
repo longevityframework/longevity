@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>root - longevity 0.4.0 API - longevity.subdomain.root</title>
-          <meta name="description" content="root - longevity 0.4.0 API - longevity.subdomain.root" />
-          <meta name="keywords" content="root longevity 0.4.0 API longevity.subdomain.root" />
+          <title>root - longevity 0.5-SNAPSHOT API - longevity.subdomain.root</title>
+          <meta name="description" content="root - longevity 0.5 - SNAPSHOT API - longevity.subdomain.root" />
+          <meta name="keywords" content="root longevity 0.5 SNAPSHOT API longevity.subdomain.root" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -141,7 +141,7 @@
 property values for each of the properties, will match no more than one root instance.
 </p></div><dl class="paramcmts block"><dt class="tparam">R</dt><dd class="cmt"><p>the root type</p></dd></dl></div>
     </li><li name="longevity.subdomain.root.KeyVal" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="KeyVal[R&lt;:longevity.subdomain.Root]extendsProductwithSerializable"></a>
+      <a id="KeyVal[R&lt;:longevity.subdomain.Root]extendsPRef[R]withProductwithSerializable"></a>
       <a id="KeyVal[R&lt;:Root]:KeyVal[R]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -149,10 +149,10 @@ property values for each of the properties, will match no more than one root ins
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="KeyVal.html"><span class="name">KeyVal</span></a><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+        <a href="KeyVal.html"><span class="name">KeyVal</span></a><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>]</span><span class="result"> extends <a href="../PRef.html" class="extype" name="longevity.subdomain.PRef">PRef</a>[<span class="extype" name="longevity.subdomain.root.KeyVal.R">R</span>] with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.package@KeyVal[R&lt;:longevity.subdomain.Root]extendsProductwithSerializable" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.root.package@KeyVal[R&lt;:longevity.subdomain.Root]extendsPRef[R]withProductwithSerializable" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -210,10 +210,11 @@ the value matches the type of the corresponding <a href="Prop.html" class="extyp
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a property for this root type.</p><div class="fullcomment"><div class="comment cmt"><p>a property for this root type. properties can be used to define <a href="Key.html" class="extype" name="longevity.subdomain.root.Key">keys</a> and <a href="Index.html" class="extype" name="longevity.subdomain.root.Index">indexes</a>,
-as well as for building <a href="Query.html" class="extype" name="longevity.subdomain.root.Query">queries</a>. a property can descend from the root into child entities at any
-depth. at present, a property cannot pass through any collections. at present, the type of the property must
-be an <a href="../Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a>, a <a href="../Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a>, or a basic type.
+      <p class="shortcomment cmt">a property for this root type.</p><div class="fullcomment"><div class="comment cmt"><p>a property for this root type. properties can be used to define <a href="Key.html" class="extype" name="longevity.subdomain.root.Key">keys</a>
+and <a href="Index.html" class="extype" name="longevity.subdomain.root.Index">indexes</a>, as well as for building <a href="Query.html" class="extype" name="longevity.subdomain.root.Query">queries</a>. a property
+can descend from the root into child entities at any depth. at present, a
+property cannot pass through any collections. at present, the type of the
+property must be an <a href="../Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a>, a <a href="../Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a>, or a basic type.
 </p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><code>emblem.basicTypes</code></p></span></dd></dl></div>
     </li><li name="longevity.subdomain.root.Query" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="Query[R&lt;:longevity.subdomain.Root]extendsAnyRef"></a>

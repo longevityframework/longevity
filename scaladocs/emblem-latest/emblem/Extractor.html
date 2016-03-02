@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Extractor - emblem 0.4.0 API - emblem.Extractor</title>
-          <meta name="description" content="Extractor - emblem 0.4.0 API - emblem.Extractor" />
-          <meta name="keywords" content="Extractor emblem 0.4.0 API emblem.Extractor" />
+          <title>Extractor - emblem 0.5-SNAPSHOT API - emblem.Extractor</title>
+          <meta name="description" content="Extractor - emblem 0.5 - SNAPSHOT API - emblem.Extractor" />
+          <meta name="keywords" content="Extractor emblem 0.5 SNAPSHOT API emblem.Extractor" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,16 +51,17 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>describes an injective relation between two types, <code>Domain</code> and <code>Range</code>. every value in the domain maps
-to a unique value in the range. however, not all values in the range map back onto the domain.
-the <code>Range</code> type is typically a richer type, such as a case class with a single parameter, and the <code>Domain</code>
-type is the type wrapped by the case class.</p><p>provides functions for mapping between the range and domain types, as well as
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>describes an injective relation between two types, <code>Domain</code> and <code>Range</code>.
+every value in the domain maps to a unique value in the range. however, not
+all values in the range map back onto the domain. the <code>Range</code> type is
+typically a richer type, such as a case class with a single parameter, and
+the <code>Domain</code> type is the type wrapped by the case class.</p><p>provides functions for mapping between the range and domain types, as well as
 <a href="TypeKey.html" class="extype" name="emblem.TypeKey">type keys</a> for the two types. for example:</p><pre><span class="kw">case</span> <span class="kw">class</span> Uri(uri: <span class="std">String</span>)
 <span class="kw">val</span> extractor = Extractor[Uri, <span class="std">String</span>]
 extractor.domainTypeKey should equal (typeKey[Uri])
 extractor.rangeTypeKey should equal (typeKey[<span class="std">String</span>])
 extractor.apply(Uri(<span class="lit">"someUri"</span>)) should equal (<span class="lit">"someUri"</span>)
-extractor.unapply(<span class="lit">"someUri"</span>) should equal (<span class="std">Some</span>(Uri(<span class="lit">"someUri"</span>)))</pre></div><dl class="paramcmts block"><dt class="tparam">Domain</dt><dd class="cmt"><p>the domain type</p></dd><dt class="tparam">Range</dt><dd class="cmt"><p>the range type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/emblem/src/main/scala/emblem/Extractor.scala" target="_blank">Extractor.scala</a></dd></dl><div class="toggleContainer block">
+extractor.unapply(<span class="lit">"someUri"</span>) should equal (<span class="std">Some</span>(Uri(<span class="lit">"someUri"</span>)))</pre></div><dl class="paramcmts block"><dt class="tparam">Domain</dt><dd class="cmt"><p>the domain type</p></dd><dt class="tparam">Range</dt><dd class="cmt"><p>the range type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/emblem/src/main/scala/emblem/Extractor.scala" target="_blank">Extractor.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -465,8 +466,9 @@ extractor.unapply(<span class="lit">"someUri"</span>) should equal (<span class=
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a function to convert from range to domain.</p><div class="fullcomment"><div class="comment cmt"><p>a function to convert from range to domain. throws exception if
-there is no element in the domain that corresponds to the element in the range</p></div></div>
+      <p class="shortcomment cmt">a function to convert from range to domain.</p><div class="fullcomment"><div class="comment cmt"><p>a function to convert from range to domain. throws exception
+if there is no element in the domain that corresponds to the element in the
+range</p></div></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -602,8 +604,8 @@ there is no element in the domain that corresponds to the element in the range</
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a function to convert from range to domain.</p><div class="fullcomment"><div class="comment cmt"><p>a function to convert from range to domain. returns <code>None</code> if there is no element in the domain that
-corresponds to the element in the range
+      <p class="shortcomment cmt">a function to convert from range to domain.</p><div class="fullcomment"><div class="comment cmt"><p>a function to convert from range to domain. returns <code>None</code> if there is no
+element in the domain that corresponds to the element in the range
 </p></div></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>

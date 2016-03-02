@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>QueryDsl - longevity 0.4.0 API - longevity.subdomain.root.QueryDsl</title>
-          <meta name="description" content="QueryDsl - longevity 0.4.0 API - longevity.subdomain.root.QueryDsl" />
-          <meta name="keywords" content="QueryDsl longevity 0.4.0 API longevity.subdomain.root.QueryDsl" />
+          <title>QueryDsl - longevity 0.5-SNAPSHOT API - longevity.subdomain.root.QueryDsl</title>
+          <meta name="description" content="QueryDsl - longevity 0.5 - SNAPSHOT API - longevity.subdomain.root.QueryDsl" />
+          <meta name="keywords" content="QueryDsl longevity 0.5 SNAPSHOT API longevity.subdomain.root.QueryDsl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a DSL for creating <a href="Query.html" class="extype" name="longevity.subdomain.root.Query">queries</a>. you can find it in your local repository at <code>Repo.queryDsl</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/src/main/scala/longevity/subdomain/root/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a DSL for creating <a href="Query.html" class="extype" name="longevity.subdomain.root.Query">queries</a>. you can find it in your local repository at <code>Repo.queryDsl</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/src/main/scala/longevity/subdomain/root/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -119,26 +119,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="longevity.subdomain.root.QueryDsl.GatherDRelational" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="GatherDRelationalextendsAnyRef"></a>
-      <a id="GatherDRelational:GatherDRelational"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a href="QueryDsl$GatherDRelational.html"><span class="name">GatherDRelational</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.QueryDsl@GatherDRelationalextendsAnyRef" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">gathering the rest of a relational expression on a property path, such as
-<code>&quot;account.number&quot; eqs &quot;D85330&quot;</code>
-</p>
-    </li><li name="longevity.subdomain.root.QueryDsl.GatherLogical" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="longevity.subdomain.root.QueryDsl.GatherLogical" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="GatherLogicalextendsAnyRef"></a>
       <a id="GatherLogical:GatherLogical"></a>
       <h4 class="signature">
@@ -178,6 +159,30 @@ object User extends RootType[User] {
 User.accountNoProp eqs &quot;D85330&quot;</code>
 <code><code><code>
 </code></code></code></code></code></p></div></div>
+    </li><li name="longevity.subdomain.root.QueryDsl.GatherDRelational" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="GatherDRelationalextendsAnyRef"></a>
+      <a id="GatherDRelational:GatherDRelational"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="QueryDsl$GatherDRelational.html"><span class="name deprecated" title="Deprecated: (Since version 0.5) use GatherSRelational instead">GatherDRelational</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.QueryDsl@GatherDRelationalextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">gathering the rest of a relational expression on a property path, such as
+<code>&quot;account.number&quot; eqs &quot;D85330&quot;</code>
+</p><div class="fullcomment"><div class="comment cmt"><p>gathering the rest of a relational expression on a property path, such as
+<code>&quot;account.number&quot; eqs &quot;D85330&quot;</code>
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use GatherSRelational instead</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -725,23 +730,6 @@ User.accountNoProp eqs &quot;D85330&quot;</code>
       </a>
     </span>
       <p class="shortcomment cmt">start building a query with a <a href="Prop.html" class="extype" name="longevity.subdomain.root.Prop">Prop</a></p>
-    </li><li name="longevity.subdomain.root.QueryDsl#where" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="where(path:String):QueryDsl.this.GatherDRelational"></a>
-      <a id="where(String):GatherDRelational"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">where</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="QueryDsl$GatherDRelational.html" class="extype" name="longevity.subdomain.root.QueryDsl.GatherDRelational">GatherDRelational</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.QueryDsl@where(path:String):QueryDsl.this.GatherDRelational" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">start building a query with a path</p>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
       <a id="→[B](B):(QueryDsl[R],B)"></a>
@@ -768,7 +756,30 @@ User.accountNoProp eqs &quot;D85330&quot;</code>
 
         
 
-        
+        <div id="values" class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="longevity.subdomain.root.QueryDsl#where" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="where(path:String):QueryDsl.this.GatherDRelational"></a>
+      <a id="where(String):GatherDRelational"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5) use the alternative method that takes a prop">where</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="QueryDsl$GatherDRelational.html" class="extype" name="longevity.subdomain.root.QueryDsl.GatherDRelational">GatherDRelational</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.QueryDsl@where(path:String):QueryDsl.this.GatherDRelational" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">start building a query with a path</p><div class="fullcomment"><div class="comment cmt"><p>start building a query with a path</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use the alternative method that takes a prop</p></dd></dl></div>
+    </li></ol>
+            </div>
         </div>
 
         <div id="inheritedMembers">

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Assoc - longevity 0.4.0 API - longevity.subdomain.Assoc</title>
-          <meta name="description" content="Assoc - longevity 0.4.0 API - longevity.subdomain.Assoc" />
-          <meta name="keywords" content="Assoc longevity 0.4.0 API longevity.subdomain.Assoc" />
+          <title>Assoc - longevity 0.5-SNAPSHOT API - longevity.subdomain.Assoc</title>
+          <meta name="description" content="Assoc - longevity 0.5 - SNAPSHOT API - longevity.subdomain.Assoc" />
+          <meta name="keywords" content="Assoc longevity 0.5 SNAPSHOT API longevity.subdomain.Assoc" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,25 +47,29 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">Assoc</span><span class="tparams">[<span name="R">R &lt;: <a href="Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">Assoc</span><span class="tparams">[<span name="R">R &lt;: <a href="Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>]</span><span class="result"> extends <a href="PRef.html" class="extype" name="longevity.subdomain.PRef">PRef</a>[<span class="extype" name="longevity.subdomain.Assoc.R">R</span>]</span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a unidirectional association, or &quot;assoc&quot;, between an entity and an aggregate root. the left side of the
-association - that is, the holder of the <code>Assoc</code> instance - is known as the associator. the right side of
-the association is the associatee.</p><p>there are basically two kinds of associations that you have to understand. the main kind is a
-&quot;persisted assoc&quot;, which means an association to an aggregate that has already been persisted.
-the associated aggregate can be retrieved using <a href="../persistence/Repo.html" class="extype" name="longevity.persistence.Repo">repository method</a>
-<code>retrieve(Assoc[R])</code>.</p><p>the second kind of association is an &quot;unpersisted assoc&quot;, which you can use when creating multiple
-aggregates at once with <a href="../persistence/RepoPool.html#createMany(keyedRoots:longevity.persistence.RootWithTypeKey[_&lt;:longevity.subdomain.Root]*):scala.concurrent.Future[Seq[longevity.persistence.PState[_&lt;:longevity.subdomain.Root]]]" class="extmbr" name="longevity.persistence.RepoPool#createMany">longevity.persistence.RepoPool.createMany</a>. unpersisted assocs are
-intended to support this single use-case. in general we work with persisted assocs.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/src/main/scala/longevity/subdomain/Assoc.scala" target="_blank">Assoc.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a unidirectional association, or &quot;assoc&quot;, between an entity and an
+aggregate root. the left side of the association - that is, the holder of the
+<code>Assoc</code> instance - is known as the associator. the right side of
+the association is the associatee.</p><p>there are basically two kinds of associations that you have to understand.
+the main kind is a &quot;persisted assoc&quot;, which means an association to an
+aggregate that has already been persisted. the associated aggregate can be
+retrieved using <a href="../persistence/Repo.html" class="extype" name="longevity.persistence.Repo">repository method</a>
+<code>retrieve(Assoc[R])</code>.</p><p>the second kind of association is an &quot;unpersisted assoc&quot;, which you can use
+when creating multiple aggregates at once with
+<a href="../persistence/RepoPool.html#createMany(keyedRoots:longevity.persistence.RootWithTypeKey[_&lt;:longevity.subdomain.Root]*):scala.concurrent.Future[Seq[longevity.persistence.PState[_&lt;:longevity.subdomain.Root]]]" class="extmbr" name="longevity.persistence.RepoPool#createMany">longevity.persistence.RepoPool.createMany</a>. unpersisted assocs are
+intended to support this single use-case. in general we work with persisted
+assocs.
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/src/main/scala/longevity/subdomain/Assoc.scala" target="_blank">Assoc.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="PRef.html" class="extype" name="longevity.subdomain.PRef">PRef</a>[<span class="extype" name="longevity.subdomain.Assoc.R">R</span>], <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
                 <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 140.00 118.00" height="118pt" width="140pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 136,-114 136,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.subdomain.Assoc (this trait)" xlink:href="#inheritance-diagram"><polygon points="107.5,-49 24.5,-49 24.5,-24 107.5,-24 107.5,-49" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.606" text-anchor="start">Assoc[R]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><polygon points="104,-110 28,-110 28,-85 104,-85 104,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-104.5" x="38" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="58.7144" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="Assoc[R] is a subtype of AnyRef"><path d="M66,-79.6874C66,-69.9173 66,-57.8534 66,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="64.2501,-79.8435 66,-84.8435 67.7501,-79.8435 64.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 140.00 118.00" height="118pt" width="140pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 136,-114 136,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.subdomain.Assoc (this trait)" xlink:href="#inheritance-diagram"><polygon points="107.5,-49 24.5,-49 24.5,-24 107.5,-24 107.5,-49" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.606" text-anchor="start">Assoc[R]</text></a></g></g><!-- node1 --><g class="node trait" id="graph1_1"><g id="a_trait|graph1_1"><a xlink:title="longevity.subdomain.PRef" xlink:href="PRef.html#inheritance-diagram"><polygon points="105,-110 27,-110 27,-85 105,-85 105,-110" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-104.5" x="37" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="57.606" text-anchor="start">PRef[R]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="Assoc[R] is a subtype of PRef[R]"><path d="M66,-79.6874C66,-69.9173 66,-57.8534 66,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="64.2501,-79.8435 66,-84.8435 67.7501,-79.8435 64.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -83,7 +87,7 @@ intended to support this single use-case. in general we work with persisted asso
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.subdomain.Assoc"><span>Assoc</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.subdomain.Assoc"><span>Assoc</span></li><li class="in" name="longevity.subdomain.PRef"><span>PRef</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -111,24 +115,7 @@ intended to support this single use-case. in general we work with persisted asso
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="longevity.subdomain.Assoc#associateeTypeKey" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="associateeTypeKey:emblem.imports.TypeKey[R]"></a>
-      <a id="associateeTypeKey:TypeKey[R]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">associateeTypeKey</span><span class="result">: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.Assoc.R">R</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.Assoc@associateeTypeKey:emblem.imports.TypeKey[R]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">a type key for the associatee</p>
-    </li><li name="longevity.subdomain.Assoc#isPersisted" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+              <ol><li name="longevity.subdomain.Assoc#isPersisted" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="isPersisted:Boolean"></a>
       <a id="isPersisted:Boolean"></a>
       <h4 class="signature">
@@ -703,7 +690,9 @@ intended to support this single use-case. in general we work with persisted asso
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="longevity.subdomain.PRef">
+              <h3>Inherited from <a href="PRef.html" class="extype" name="longevity.subdomain.PRef">PRef</a>[<span class="extype" name="longevity.subdomain.Assoc.R">R</span>]</h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></h3>

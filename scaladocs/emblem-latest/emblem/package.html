@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>emblem - emblem 0.4.0 API - emblem</title>
-          <meta name="description" content="emblem - emblem 0.4.0 API - emblem" />
-          <meta name="keywords" content="emblem emblem 0.4.0 API emblem" />
+          <title>emblem - emblem 0.5-SNAPSHOT API - emblem</title>
+          <meta name="description" content="emblem - emblem 0.5 - SNAPSHOT API - emblem" />
+          <meta name="keywords" content="emblem emblem 0.5 SNAPSHOT API emblem" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a collection of utilities for reflecting on types</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/emblem/src/main/scala/emblem/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a collection of utilities for reflecting on types</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/emblem/src/main/scala/emblem/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="content-diagram-container">
@@ -182,10 +182,11 @@ because the emblem is treated as an immutable object, the setter returns a new i
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">describes an injective relation between two types, <code>Domain</code> and <code>Range</code>.</p><div class="fullcomment"><div class="comment cmt"><p>describes an injective relation between two types, <code>Domain</code> and <code>Range</code>. every value in the domain maps
-to a unique value in the range. however, not all values in the range map back onto the domain.
-the <code>Range</code> type is typically a richer type, such as a case class with a single parameter, and the <code>Domain</code>
-type is the type wrapped by the case class.</p><p>provides functions for mapping between the range and domain types, as well as
+      <p class="shortcomment cmt">describes an injective relation between two types, <code>Domain</code> and <code>Range</code>.</p><div class="fullcomment"><div class="comment cmt"><p>describes an injective relation between two types, <code>Domain</code> and <code>Range</code>.
+every value in the domain maps to a unique value in the range. however, not
+all values in the range map back onto the domain. the <code>Range</code> type is
+typically a richer type, such as a case class with a single parameter, and
+the <code>Domain</code> type is the type wrapped by the case class.</p><p>provides functions for mapping between the range and domain types, as well as
 <a href="TypeKey.html" class="extype" name="emblem.TypeKey">type keys</a> for the two types. for example:</p><pre><span class="kw">case</span> <span class="kw">class</span> Uri(uri: <span class="std">String</span>)
 <span class="kw">val</span> extractor = Extractor[Uri, <span class="std">String</span>]
 extractor.domainTypeKey should equal (typeKey[Uri])
@@ -629,6 +630,23 @@ basic type are supported:</p><ul><li><code>Boolean</code></li><li><code>Char</co
       <p class="shortcomment cmt">a standard set of imports for emblem.</p><div class="fullcomment"><div class="comment cmt"><p>a standard set of imports for emblem. this will bring in all you need for basic emblem usage, and won't
 pollute your namespace the way that <code>import emblem._</code> will
 </p></div></div>
+    </li><li name="emblem.jsonUtil" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="jsonUtil"></a>
+      <a id="jsonUtil:jsonUtil"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="jsonUtil$.html"><span class="name">jsonUtil</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#emblem.package@jsonUtil" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">general purpose functions for working with JSON</p>
     </li><li name="emblem.stringUtil" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="stringUtil"></a>
       <a id="stringUtil:stringUtil"></a>

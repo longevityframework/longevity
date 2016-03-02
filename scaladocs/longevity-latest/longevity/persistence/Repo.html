@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Repo - longevity 0.4.0 API - longevity.persistence.Repo</title>
-          <meta name="description" content="Repo - longevity 0.4.0 API - longevity.persistence.Repo" />
-          <meta name="keywords" content="Repo longevity 0.4.0 API longevity.persistence.Repo" />
+          <title>Repo - longevity 0.5-SNAPSHOT API - longevity.persistence.Repo</title>
+          <meta name="description" content="Repo - longevity 0.5 - SNAPSHOT API - longevity.persistence.Repo" />
+          <meta name="keywords" content="Repo longevity 0.5 SNAPSHOT API longevity.persistence.Repo" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a repository for aggregate roots of type <code>R</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/src/main/scala/longevity/persistence/Repo.scala" target="_blank">Repo.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a repository for aggregate roots of type <code>R</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/src/main/scala/longevity/persistence/Repo.scala" target="_blank">Repo.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -135,40 +135,26 @@
       </a>
     </span>
       <p class="shortcomment cmt">deletes the aggregate</p>
-    </li><li name="longevity.persistence.Repo#retrieve" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="retrieve(keyVal:longevity.subdomain.root.KeyVal[R]):scala.concurrent.Future[Option[longevity.persistence.PState[R]]]"></a>
-      <a id="retrieve(KeyVal[R]):Future[Option[PState[R]]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">retrieve</span><span class="params">(<span name="keyVal">keyVal: <a href="../subdomain/root/KeyVal.html" class="extype" name="longevity.subdomain.root.KeyVal">KeyVal</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.Repo@retrieve(keyVal:longevity.subdomain.root.KeyVal[R]):scala.concurrent.Future[Option[longevity.persistence.PState[R]]]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">retrieves an optional aggregate by a key value</p>
     </li><li name="longevity.persistence.Repo#retrieve" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="retrieve(assoc:longevity.subdomain.Assoc[R]):scala.concurrent.Future[Option[longevity.persistence.PState[R]]]"></a>
-      <a id="retrieve(Assoc[R]):Future[Option[PState[R]]]"></a>
+      <a id="retrieve(ref:longevity.subdomain.PRef[R]):scala.concurrent.Future[Option[longevity.persistence.PState[R]]]"></a>
+      <a id="retrieve(PRef[R]):Future[Option[PState[R]]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">retrieve</span><span class="params">(<span name="assoc">assoc: <a href="../subdomain/Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]]]</span>
+        <span class="name">retrieve</span><span class="params">(<span name="ref">ref: <a href="../subdomain/PRef.html" class="extype" name="longevity.subdomain.PRef">PRef</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.Repo@retrieve(assoc:longevity.subdomain.Assoc[R]):scala.concurrent.Future[Option[longevity.persistence.PState[R]]]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.Repo@retrieve(ref:longevity.subdomain.PRef[R]):scala.concurrent.Future[Option[longevity.persistence.PState[R]]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">retrieves an optional persisted assoc</p><div class="fullcomment"><div class="comment cmt"><p>retrieves an optional persisted assoc</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/AssocIsUnpersistedException.html" class="extype" name="longevity.exceptions.subdomain.AssocIsUnpersistedException"><code>longevity.exceptions.subdomain.AssocIsUnpersistedException</code></a> whenever the assoc is not persisted</p></span></dd></dl></div>
+      <p class="shortcomment cmt">retrieves an optional aggregate from a persistent ref
+</p><div class="fullcomment"><div class="comment cmt"><p>retrieves an optional aggregate from a persistent ref
+</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/persistence/AssocIsUnpersistedException.html" class="extype" name="longevity.exceptions.persistence.AssocIsUnpersistedException"><code>longevity.exceptions.persistence.AssocIsUnpersistedException</code></a> 
+whenever the persistent ref is an unpersisted assoc</p></span></dd></dl></div>
     </li><li name="longevity.persistence.Repo#retrieveByQuery" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="retrieveByQuery(query:longevity.subdomain.root.Query[R]):scala.concurrent.Future[Seq[longevity.persistence.PState[R]]]"></a>
       <a id="retrieveByQuery(Query[R]):Future[Seq[PState[R]]]"></a>
@@ -187,42 +173,25 @@
     </span>
       <p class="shortcomment cmt">retrieves the aggregate by a query</p>
     </li><li name="longevity.persistence.Repo#retrieveOne" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="retrieveOne(keyVal:longevity.subdomain.root.KeyVal[R]):scala.concurrent.Future[longevity.persistence.PState[R]]"></a>
-      <a id="retrieveOne(KeyVal[R]):Future[PState[R]]"></a>
+      <a id="retrieveOne(ref:longevity.subdomain.PRef[R]):scala.concurrent.Future[longevity.persistence.PState[R]]"></a>
+      <a id="retrieveOne(PRef[R]):Future[PState[R]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">retrieveOne</span><span class="params">(<span name="keyVal">keyVal: <a href="../subdomain/root/KeyVal.html" class="extype" name="longevity.subdomain.root.KeyVal">KeyVal</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]]</span>
+        <span class="name">retrieveOne</span><span class="params">(<span name="ref">ref: <a href="../subdomain/PRef.html" class="extype" name="longevity.subdomain.PRef">PRef</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.Repo@retrieveOne(keyVal:longevity.subdomain.root.KeyVal[R]):scala.concurrent.Future[longevity.persistence.PState[R]]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.Repo@retrieveOne(ref:longevity.subdomain.PRef[R]):scala.concurrent.Future[longevity.persistence.PState[R]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">retrieves a non-optional aggregate by a key value</p><div class="fullcomment"><div class="comment cmt"><p>retrieves a non-optional aggregate by a key value</p><p>throws NoSuchElementException whenever the key value does not refer to an aggregate in the repository
-</p></div></div>
-    </li><li name="longevity.persistence.Repo#retrieveOne" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="retrieveOne(assoc:longevity.subdomain.Assoc[R]):scala.concurrent.Future[longevity.persistence.PState[R]]"></a>
-      <a id="retrieveOne(Assoc[R]):Future[PState[R]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">retrieveOne</span><span class="params">(<span name="assoc">assoc: <a href="../subdomain/Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.R">R</span>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.Repo@retrieveOne(assoc:longevity.subdomain.Assoc[R]):scala.concurrent.Future[longevity.persistence.PState[R]]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">retrieves a non-optional persisted assoc</p><div class="fullcomment"><div class="comment cmt"><p>retrieves a non-optional persisted assoc</p><p>throws NoSuchElementException whenever the assoc does not refer to an aggregate in the repository.
-most likely it was deleted.
-</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/AssocIsUnpersistedException.html" class="extype" name="longevity.exceptions.subdomain.AssocIsUnpersistedException"><code>longevity.exceptions.subdomain.AssocIsUnpersistedException</code></a> whenever the assoc is not persisted</p></span></dd></dl></div>
+      <p class="shortcomment cmt">retrieves a non-optional aggregate from a persistent ref</p><div class="fullcomment"><div class="comment cmt"><p>retrieves a non-optional aggregate from a persistent ref</p><p>throws NoSuchElementException whenever the persistent ref does not refer
+to an aggregate in the repository
+</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/persistence/AssocIsUnpersistedException.html" class="extype" name="longevity.exceptions.persistence.AssocIsUnpersistedException"><code>longevity.exceptions.persistence.AssocIsUnpersistedException</code></a> 
+whenever the persistent ref is an unpersisted assoc</p></span></dd></dl></div>
     </li><li name="longevity.persistence.Repo#update" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="update(state:longevity.persistence.PState[R]):scala.concurrent.Future[longevity.persistence.PState[R]]"></a>
       <a id="update(PState[R]):Future[PState[R]]"></a>

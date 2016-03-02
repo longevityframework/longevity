@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Query - longevity 0.4.0 API - longevity.subdomain.root.Query</title>
-          <meta name="description" content="Query - longevity 0.4.0 API - longevity.subdomain.root.Query" />
-          <meta name="keywords" content="Query longevity 0.4.0 API longevity.subdomain.root.Query" />
+          <title>Query - longevity 0.5-SNAPSHOT API - longevity.subdomain.root.Query</title>
+          <meta name="description" content="Query - longevity 0.5 - SNAPSHOT API - longevity.subdomain.root.Query" />
+          <meta name="keywords" content="Query longevity 0.5 SNAPSHOT API longevity.subdomain.root.Query" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>query operators and factory methods</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/src/main/scala/longevity/subdomain/root/Query.scala" target="_blank">Query.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>query operators and factory methods</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/src/main/scala/longevity/subdomain/root/Query.scala" target="_blank">Query.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="content-diagram-container">
@@ -112,10 +112,11 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">those relational operators - namely, _equals_ and _not equals_ - that apply, regardless of the types
-of the operands.</p><div class="fullcomment"><div class="comment cmt"><p>those relational operators - namely, _equals_ and _not equals_ - that apply, regardless of the types
-of the operands. this is in contrast to relational operators such _greater than_, which only apply to
-types that have a ordering
+      <p class="shortcomment cmt">those relational operators - namely, _equals_ and _not equals_ - that
+apply, regardless of the types of the operands.</p><div class="fullcomment"><div class="comment cmt"><p>those relational operators - namely, _equals_ and _not equals_ - that
+apply, regardless of the types of the operands. this is in contrast to
+relational operators such _greater than_, which only apply to types that
+have a ordering.
 </p></div></div>
     </li><li name="longevity.subdomain.root.Query.LogicalOp" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="LogicalOpextendsAnyRef"></a>
@@ -436,23 +437,6 @@ types that have a ordering
       </a>
     </span>
       <p class="shortcomment cmt">a factory method for producing a <a href="VEqualityQuery.html" class="extype" name="longevity.subdomain.root.VEqualityQuery">VEqualityQuery</a> with an <a href="Query$$EqOp$.html" class="extype" name="longevity.subdomain.root.Query.EqOp">EqOp</a></p>
-    </li><li name="longevity.subdomain.root.Query#eqs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="eqs[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$1:emblem.imports.TypeKey[A]):longevity.subdomain.root.EqualityQuery[R,A]"></a>
-      <a id="eqs[R&lt;:Root,A](String,A)(TypeKey[A]):EqualityQuery[R,A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">eqs</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.eqs.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.eqs.A">A</span>]</span>)</span><span class="result">: <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.eqs.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.eqs.A">A</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.Query$@eqs[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$1:emblem.imports.TypeKey[A]):longevity.subdomain.root.EqualityQuery[R,A]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">a factory method for producing an <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a> with an <a href="Query$$EqOp$.html" class="extype" name="longevity.subdomain.root.Query.EqOp">EqOp</a></p>
     </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="equals(x$1:Any):Boolean"></a>
       <a id="equals(Any):Boolean"></a>
@@ -527,23 +511,6 @@ types that have a ordering
       </a>
     </span>
       <p class="shortcomment cmt">a factory method for producing a <a href="VOrderingQuery.html" class="extype" name="longevity.subdomain.root.VOrderingQuery">VOrderingQuery</a> with a <a href="Query$$GtOp$.html" class="extype" name="longevity.subdomain.root.Query.GtOp">GtOp</a></p>
-    </li><li name="longevity.subdomain.root.Query#gt" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="gt[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$5:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]"></a>
-      <a id="gt[R&lt;:Root,A](String,A)(TypeKey[A]):OrderingQuery[R,A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">gt</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.gt.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.gt.A">A</span>]</span>)</span><span class="result">: <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.gt.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.gt.A">A</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.Query$@gt[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$5:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$GtOp$.html" class="extype" name="longevity.subdomain.root.Query.GtOp">GtOp</a></p>
     </li><li name="longevity.subdomain.root.Query#gte" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="gte[R&lt;:longevity.subdomain.Root,A](prop:longevity.subdomain.root.Prop[R,A],value:A):longevity.subdomain.root.VOrderingQuery[R,A]"></a>
       <a id="gte[R&lt;:Root,A](Prop[R,A],A):VOrderingQuery[R,A]"></a>
@@ -561,23 +528,6 @@ types that have a ordering
       </a>
     </span>
       <p class="shortcomment cmt">a factory method for producing a <a href="VOrderingQuery.html" class="extype" name="longevity.subdomain.root.VOrderingQuery">VOrderingQuery</a> with a <a href="Query$$LteOp$.html" class="extype" name="longevity.subdomain.root.Query.LteOp">LteOp</a></p>
-    </li><li name="longevity.subdomain.root.Query#gte" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="gte[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$6:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]"></a>
-      <a id="gte[R&lt;:Root,A](String,A)(TypeKey[A]):OrderingQuery[R,A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">gte</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.gte.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.gte.A">A</span>]</span>)</span><span class="result">: <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.gte.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.gte.A">A</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.Query$@gte[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$6:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$GteOp$.html" class="extype" name="longevity.subdomain.root.Query.GteOp">GteOp</a></p>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -629,23 +579,6 @@ types that have a ordering
       </a>
     </span>
       <p class="shortcomment cmt">a factory method for producing a <a href="VOrderingQuery.html" class="extype" name="longevity.subdomain.root.VOrderingQuery">VOrderingQuery</a> with a <a href="Query$$LtOp$.html" class="extype" name="longevity.subdomain.root.Query.LtOp">LtOp</a></p>
-    </li><li name="longevity.subdomain.root.Query#lt" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lt[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$3:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]"></a>
-      <a id="lt[R&lt;:Root,A](String,A)(TypeKey[A]):OrderingQuery[R,A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">lt</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.lt.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.lt.A">A</span>]</span>)</span><span class="result">: <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.lt.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.lt.A">A</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.Query$@lt[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$3:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$LtOp$.html" class="extype" name="longevity.subdomain.root.Query.LtOp">LtOp</a></p>
     </li><li name="longevity.subdomain.root.Query#lte" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="lte[R&lt;:longevity.subdomain.Root,A](prop:longevity.subdomain.root.Prop[R,A],value:A):longevity.subdomain.root.VOrderingQuery[R,A]"></a>
       <a id="lte[R&lt;:Root,A](Prop[R,A],A):VOrderingQuery[R,A]"></a>
@@ -663,23 +596,6 @@ types that have a ordering
       </a>
     </span>
       <p class="shortcomment cmt">a factory method for producing a <a href="VOrderingQuery.html" class="extype" name="longevity.subdomain.root.VOrderingQuery">VOrderingQuery</a> with a <a href="Query$$LteOp$.html" class="extype" name="longevity.subdomain.root.Query.LteOp">LteOp</a></p>
-    </li><li name="longevity.subdomain.root.Query#lte" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lte[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$4:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]"></a>
-      <a id="lte[R&lt;:Root,A](String,A)(TypeKey[A]):OrderingQuery[R,A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">lte</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.lte.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.lte.A">A</span>]</span>)</span><span class="result">: <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.lte.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.lte.A">A</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.Query$@lte[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$4:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$LteOp$.html" class="extype" name="longevity.subdomain.root.Query.LteOp">LteOp</a></p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -714,23 +630,6 @@ types that have a ordering
       </a>
     </span>
       <p class="shortcomment cmt">a factory method for producing a <a href="VEqualityQuery.html" class="extype" name="longevity.subdomain.root.VEqualityQuery">VEqualityQuery</a> with an <a href="Query$$NeqOp$.html" class="extype" name="longevity.subdomain.root.Query.NeqOp">NeqOp</a></p>
-    </li><li name="longevity.subdomain.root.Query#neq" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="neq[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$2:emblem.imports.TypeKey[A]):longevity.subdomain.root.EqualityQuery[R,A]"></a>
-      <a id="neq[R&lt;:Root,A](String,A)(TypeKey[A]):EqualityQuery[R,A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">neq</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.neq.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.neq.A">A</span>]</span>)</span><span class="result">: <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.neq.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.neq.A">A</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.root.Query$@neq[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$2:emblem.imports.TypeKey[A]):longevity.subdomain.root.EqualityQuery[R,A]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">a factory method for producing an <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a> with an <a href="Query$$NeqOp$.html" class="extype" name="longevity.subdomain.root.Query.NeqOp">NeqOp</a></p>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -890,7 +789,130 @@ types that have a ordering
 
         
 
-        
+        <div id="values" class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="longevity.subdomain.root.Query#eqs" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eqs[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$1:emblem.imports.TypeKey[A]):longevity.subdomain.root.EqualityQuery[R,A]"></a>
+      <a id="eqs[R&lt;:Root,A](String,A)(TypeKey[A]):EqualityQuery[R,A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5) use the alternative method that takes a prop">eqs</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.eqs.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.eqs.A">A</span>]</span>)</span><span class="result">: <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.eqs.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.eqs.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.Query$@eqs[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$1:emblem.imports.TypeKey[A]):longevity.subdomain.root.EqualityQuery[R,A]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">a factory method for producing an <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a> with an <a href="Query$$EqOp$.html" class="extype" name="longevity.subdomain.root.Query.EqOp">EqOp</a></p><div class="fullcomment"><div class="comment cmt"><p>a factory method for producing an <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a> with an <a href="Query$$EqOp$.html" class="extype" name="longevity.subdomain.root.Query.EqOp">EqOp</a></p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use the alternative method that takes a prop</p></dd></dl></div>
+    </li><li name="longevity.subdomain.root.Query#gt" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="gt[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$5:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]"></a>
+      <a id="gt[R&lt;:Root,A](String,A)(TypeKey[A]):OrderingQuery[R,A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5) use the alternative method that takes a prop">gt</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.gt.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.gt.A">A</span>]</span>)</span><span class="result">: <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.gt.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.gt.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.Query$@gt[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$5:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$GtOp$.html" class="extype" name="longevity.subdomain.root.Query.GtOp">GtOp</a></p><div class="fullcomment"><div class="comment cmt"><p>a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$GtOp$.html" class="extype" name="longevity.subdomain.root.Query.GtOp">GtOp</a></p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use the alternative method that takes a prop</p></dd></dl></div>
+    </li><li name="longevity.subdomain.root.Query#gte" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="gte[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$6:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]"></a>
+      <a id="gte[R&lt;:Root,A](String,A)(TypeKey[A]):OrderingQuery[R,A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5) use the alternative method that takes a prop">gte</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.gte.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.gte.A">A</span>]</span>)</span><span class="result">: <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.gte.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.gte.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.Query$@gte[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$6:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$GteOp$.html" class="extype" name="longevity.subdomain.root.Query.GteOp">GteOp</a></p><div class="fullcomment"><div class="comment cmt"><p>a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$GteOp$.html" class="extype" name="longevity.subdomain.root.Query.GteOp">GteOp</a></p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use the alternative method that takes a prop</p></dd></dl></div>
+    </li><li name="longevity.subdomain.root.Query#lt" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lt[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$3:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]"></a>
+      <a id="lt[R&lt;:Root,A](String,A)(TypeKey[A]):OrderingQuery[R,A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5) use the alternative method that takes a prop">lt</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.lt.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.lt.A">A</span>]</span>)</span><span class="result">: <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.lt.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.lt.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.Query$@lt[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$3:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$LtOp$.html" class="extype" name="longevity.subdomain.root.Query.LtOp">LtOp</a></p><div class="fullcomment"><div class="comment cmt"><p>a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$LtOp$.html" class="extype" name="longevity.subdomain.root.Query.LtOp">LtOp</a></p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use the alternative method that takes a prop</p></dd></dl></div>
+    </li><li name="longevity.subdomain.root.Query#lte" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lte[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$4:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]"></a>
+      <a id="lte[R&lt;:Root,A](String,A)(TypeKey[A]):OrderingQuery[R,A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5) use the alternative method that takes a prop">lte</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.lte.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.lte.A">A</span>]</span>)</span><span class="result">: <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.lte.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.lte.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.Query$@lte[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$4:emblem.imports.TypeKey[A]):longevity.subdomain.root.OrderingQuery[R,A]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$LteOp$.html" class="extype" name="longevity.subdomain.root.Query.LteOp">LteOp</a></p><div class="fullcomment"><div class="comment cmt"><p>a factory method for producing an <a href="OrderingQuery.html" class="extype" name="longevity.subdomain.root.OrderingQuery">OrderingQuery</a> with a <a href="Query$$LteOp$.html" class="extype" name="longevity.subdomain.root.Query.LteOp">LteOp</a></p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use the alternative method that takes a prop</p></dd></dl></div>
+    </li><li name="longevity.subdomain.root.Query#neq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="neq[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$2:emblem.imports.TypeKey[A]):longevity.subdomain.root.EqualityQuery[R,A]"></a>
+      <a id="neq[R&lt;:Root,A](String,A)(TypeKey[A]):EqualityQuery[R,A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5) use the alternative method that takes a prop">neq</span><span class="tparams">[<span name="R">R &lt;: <a href="../Root.html" class="extype" name="longevity.subdomain.Root">Root</a></span>, <span name="A">A</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="longevity.subdomain.root.Query.neq.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.root.Query.neq.A">A</span>]</span>)</span><span class="result">: <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a>[<span class="extype" name="longevity.subdomain.root.Query.neq.R">R</span>, <span class="extype" name="longevity.subdomain.root.Query.neq.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.root.Query$@neq[R&lt;:longevity.subdomain.Root,A](path:String,value:A)(implicitevidence$2:emblem.imports.TypeKey[A]):longevity.subdomain.root.EqualityQuery[R,A]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">a factory method for producing an <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a> with an <a href="Query$$NeqOp$.html" class="extype" name="longevity.subdomain.root.Query.NeqOp">NeqOp</a></p><div class="fullcomment"><div class="comment cmt"><p>a factory method for producing an <a href="EqualityQuery.html" class="extype" name="longevity.subdomain.root.EqualityQuery">EqualityQuery</a> with an <a href="Query$$NeqOp$.html" class="extype" name="longevity.subdomain.root.Query.NeqOp">NeqOp</a></p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5)</i> use the alternative method that takes a prop</p></dd></dl></div>
+    </li></ol>
+            </div>
         </div>
 
         <div id="inheritedMembers">

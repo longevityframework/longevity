@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>RootType - longevity 0.4.0 API - longevity.subdomain.RootType</title>
-          <meta name="description" content="RootType - longevity 0.4.0 API - longevity.subdomain.RootType" />
-          <meta name="keywords" content="RootType longevity 0.4.0 API longevity.subdomain.RootType" />
+          <title>RootType - longevity 0.5-SNAPSHOT API - longevity.subdomain.RootType</title>
+          <meta name="description" content="RootType - longevity 0.5 - SNAPSHOT API - longevity.subdomain.RootType" />
+          <meta name="keywords" content="RootType longevity 0.5 SNAPSHOT API longevity.subdomain.RootType" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a type class for a domain entity that serves as an aggregate root</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/src/main/scala/longevity/subdomain/RootType.scala" target="_blank">RootType.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a type class for a domain entity that serves as an aggregate root</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/src/main/scala/longevity/subdomain/RootType.scala" target="_blank">RootType.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="EntityType.html" class="extype" name="longevity.subdomain.EntityType">EntityType</a>[<span class="extype" name="longevity.subdomain.RootType.R">R</span>], <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -510,47 +510,28 @@
     </span>
       <p class="shortcomment cmt">constructs a index for this root type based on the supplied set of index props
 </p><div class="fullcomment"><div class="comment cmt"><p>constructs a index for this root type based on the supplied set of index props
-</p></div><dl class="paramcmts block"><dt class="param">propsHead</dt><dd class="cmt"><p>one of the properties that define this index</p></dd><dt class="param">propsTail</dt><dd class="cmt"><p>any remaining properties that define this index</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException"><code>longevity.exceptions.subdomain.SubdomainException</code></a> on attempt to create a new index after the
-<code>RootType</code> is fully initialized</p></span></dd></dl></div>
-    </li><li name="longevity.subdomain.RootType#index" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="index(propPathHead:String,propPathTail:String*):longevity.subdomain.root.Index[R]"></a>
-      <a id="index(String,String*):Index[R]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">index</span><span class="params">(<span name="propPathHead">propPathHead: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="propPathTail">propPathTail: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <a href="root/Index.html" class="extype" name="longevity.subdomain.root.Index">Index</a>[<span class="extype" name="longevity.subdomain.RootType.R">R</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.RootType@index(propPathHead:String,propPathTail:String*):longevity.subdomain.root.Index[R]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">constructs an index for this root type based on the supplied set of property paths</p><div class="fullcomment"><div class="comment cmt"><p>constructs an index for this root type based on the supplied set of property paths</p></div><dl class="paramcmts block"><dt class="param">propPathHead</dt><dd class="cmt"><p>one of the property paths for the properties that define this index</p></dd><dt class="param">propPathTail</dt><dd class="cmt"><p>any remaining property paths for the properties that define this index</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException"><code>longevity.exceptions.subdomain.SubdomainException</code></a> on attempt to create a new index after the
-<code>RootType</code> is fully initialized</p></span><span class="cmt"><p><a href="../exceptions/subdomain/root/PropException.html" class="extype" name="longevity.exceptions.subdomain.root.PropException"><code>longevity.exceptions.subdomain.root.PropException</code></a> if any of the supplied property paths are
-invalid</p></span></dd><dt>See also</dt><dd><span class="cmt"><p>Prop.apply</p></span></dd></dl></div>
-    </li><li name="longevity.subdomain.RootType#indexes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="indexes:Set[longevity.subdomain.root.Index[R]]"></a>
-      <a id="indexes:Set[Index[R]]"></a>
+</p></div><dl class="paramcmts block"><dt class="param">propsHead</dt><dd class="cmt"><p>one of the properties that define this index</p></dd><dt class="param">propsTail</dt><dd class="cmt"><p>any remaining properties that define this index</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/root/LateIndexDefException.html" class="extype" name="longevity.exceptions.subdomain.root.LateIndexDefException"><code>longevity.exceptions.subdomain.root.LateIndexDefException</code></a> on
+attempt to create a new index after the <code>RootType</code> is fully initialized</p></span></dd></dl></div>
+    </li><li name="longevity.subdomain.RootType#indexSet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="indexSet:Set[longevity.subdomain.root.Index[R]]"></a>
+      <a id="indexSet:Set[Index[R]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">lazy val</span>
       </span>
       <span class="symbol">
-        <span class="name">indexes</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="root/Index.html" class="extype" name="longevity.subdomain.root.Index">Index</a>[<span class="extype" name="longevity.subdomain.RootType.R">R</span>]]</span>
+        <span class="name">indexSet</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="root/Index.html" class="extype" name="longevity.subdomain.root.Index">Index</a>[<span class="extype" name="longevity.subdomain.RootType.R">R</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.RootType@indexes:Set[longevity.subdomain.root.Index[R]]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.subdomain.RootType@indexSet:Set[longevity.subdomain.root.Index[R]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">the indexes for this root type.</p><div class="fullcomment"><div class="comment cmt"><p>the indexes for this root type. you populate this set by repeatedly calling either of the
 <code>RootType.index</code> methods in your class initializer. you should only attempt to access this set
-after your <code>RootType</code> is fully initialized.</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException"><code>longevity.exceptions.subdomain.SubdomainException</code></a> on attempt to access this set before the
-<code>RootType</code> is fully initialized</p></span></dd></dl></div>
+after your <code>RootType</code> is fully initialized.</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/root/EarlyIndexAccessException.html" class="extype" name="longevity.exceptions.subdomain.root.EarlyIndexAccessException"><code>longevity.exceptions.subdomain.root.EarlyIndexAccessException</code></a> on attempt to access
+this set before the <code>RootType</code> is fully initialized</p></span></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -584,47 +565,28 @@ after your <code>RootType</code> is fully initialized.</p></div><dl class="attri
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">constructs a key for this root type based on the supplied set of key props</p><div class="fullcomment"><div class="comment cmt"><p>constructs a key for this root type based on the supplied set of key props</p></div><dl class="paramcmts block"><dt class="param">propsHead</dt><dd class="cmt"><p>one of the properties that define this key</p></dd><dt class="param">propsTail</dt><dd class="cmt"><p>any remaining properties that define this key</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException"><code>longevity.exceptions.subdomain.SubdomainException</code></a> on attempt to create a new key after the
-<code>RootType</code> is fully initialized</p></span></dd></dl></div>
-    </li><li name="longevity.subdomain.RootType#key" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="key(propPathHead:String,propPathTail:String*):longevity.subdomain.root.Key[R]"></a>
-      <a id="key(String,String*):Key[R]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">key</span><span class="params">(<span name="propPathHead">propPathHead: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="propPathTail">propPathTail: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <a href="root/Key.html" class="extype" name="longevity.subdomain.root.Key">Key</a>[<span class="extype" name="longevity.subdomain.RootType.R">R</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.RootType@key(propPathHead:String,propPathTail:String*):longevity.subdomain.root.Key[R]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">constructs a key for this root type based on the supplied set of property paths</p><div class="fullcomment"><div class="comment cmt"><p>constructs a key for this root type based on the supplied set of property paths</p></div><dl class="paramcmts block"><dt class="param">propPathHead</dt><dd class="cmt"><p>one of the property paths for the properties that define this key</p></dd><dt class="param">propPathTail</dt><dd class="cmt"><p>any remaining property paths for the properties that define this key</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException"><code>longevity.exceptions.subdomain.SubdomainException</code></a> on attempt to create a new key after the
-<code>RootType</code> is fully initialized</p></span><span class="cmt"><p><a href="../exceptions/subdomain/root/PropException.html" class="extype" name="longevity.exceptions.subdomain.root.PropException"><code>longevity.exceptions.subdomain.root.PropException</code></a> if any of the supplied property paths are
-invalid</p></span></dd><dt>See also</dt><dd><span class="cmt"><p>Prop.apply</p></span></dd></dl></div>
-    </li><li name="longevity.subdomain.RootType#keys" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="keys:Set[longevity.subdomain.root.Key[R]]"></a>
-      <a id="keys:Set[Key[R]]"></a>
+      <p class="shortcomment cmt">constructs a key for this root type based on the supplied set of key props</p><div class="fullcomment"><div class="comment cmt"><p>constructs a key for this root type based on the supplied set of key props</p></div><dl class="paramcmts block"><dt class="param">propsHead</dt><dd class="cmt"><p>one of the properties that define this key</p></dd><dt class="param">propsTail</dt><dd class="cmt"><p>any remaining properties that define this key</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/root/LateKeyDefException.html" class="extype" name="longevity.exceptions.subdomain.root.LateKeyDefException"><code>longevity.exceptions.subdomain.root.LateKeyDefException</code></a> on attempt
+to create a new key after the <code>RootType</code> is fully initialized</p></span></dd></dl></div>
+    </li><li name="longevity.subdomain.RootType#keySet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="keySet:Set[longevity.subdomain.root.Key[R]]"></a>
+      <a id="keySet:Set[Key[R]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">lazy val</span>
       </span>
       <span class="symbol">
-        <span class="name">keys</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="root/Key.html" class="extype" name="longevity.subdomain.root.Key">Key</a>[<span class="extype" name="longevity.subdomain.RootType.R">R</span>]]</span>
+        <span class="name">keySet</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="root/Key.html" class="extype" name="longevity.subdomain.root.Key">Key</a>[<span class="extype" name="longevity.subdomain.RootType.R">R</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.RootType@keys:Set[longevity.subdomain.root.Key[R]]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.subdomain.RootType@keySet:Set[longevity.subdomain.root.Key[R]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">the keys for this root type.</p><div class="fullcomment"><div class="comment cmt"><p>the keys for this root type. you populate this set by repeatedly calling either of the
 <code>RootType.key</code> methods in your class initializer. you should only attempt to access this set
-after your <code>RootType</code> is fully initialized.</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException"><code>longevity.exceptions.subdomain.SubdomainException</code></a> on attempt to access this set before the
-<code>RootType</code> is fully initialized</p></span></dd></dl></div>
+after your <code>RootType</code> is fully initialized.</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/root/EarlyKeyAccessException.html" class="extype" name="longevity.exceptions.subdomain.root.EarlyKeyAccessException"><code>longevity.exceptions.subdomain.root.EarlyKeyAccessException</code></a> on attempt to access
+this set before the <code>RootType</code> is fully initialized</p></span></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -692,9 +654,10 @@ after your <code>RootType</code> is fully initialized.</p></div><dl class="attri
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">constructs a <a href="root/Prop.html" class="extype" name="longevity.subdomain.root.Prop">longevity.subdomain.root.Prop</a> from a path</p><div class="fullcomment"><div class="comment cmt"><p>constructs a <a href="root/Prop.html" class="extype" name="longevity.subdomain.root.Prop">longevity.subdomain.root.Prop</a> from a path</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/root/PropException.html" class="extype" name="longevity.exceptions.subdomain.root.PropException"><code>longevity.exceptions.subdomain.root.PropException</code></a> if any step along the path does not exist, or
-any non-final step along the path is not an entity, or the final step along the path is not a
-<a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a>, an <a href="Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a> or a basic type</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><code>emblem.basicTypes</code></p></span></dd></dl></div>
+      <p class="shortcomment cmt">constructs a <a href="root/Prop.html" class="extype" name="longevity.subdomain.root.Prop">longevity.subdomain.root.Prop</a> from a path</p><div class="fullcomment"><div class="comment cmt"><p>constructs a <a href="root/Prop.html" class="extype" name="longevity.subdomain.root.Prop">longevity.subdomain.root.Prop</a> from a path</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/root/PropException.html" class="extype" name="longevity.exceptions.subdomain.root.PropException"><code>longevity.exceptions.subdomain.root.PropException</code></a> if any step along
+the path does not exist, or any non-final step along the path is not an
+entity, or the final step along the path is not a <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a>, an
+<a href="Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a> or a basic type</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><code>emblem.basicTypes</code></p></span></dd></dl></div>
     </li><li name="longevity.subdomain.RootType#queryDsl" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="queryDsl:longevity.subdomain.root.QueryDsl[R]"></a>
       <a id="queryDsl:QueryDsl[R]"></a>
@@ -860,7 +823,55 @@ throws exception if the property value supplied does not match the property type
 
         
 
-        
+        <div id="values" class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="longevity.subdomain.RootType#index" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="index(propPathHead:String,propPathTail:String*):longevity.subdomain.root.Index[R]"></a>
+      <a id="index(String,String*):Index[R]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5.0) use non-string method index instead">index</span><span class="params">(<span name="propPathHead">propPathHead: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="propPathTail">propPathTail: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <a href="root/Index.html" class="extype" name="longevity.subdomain.root.Index">Index</a>[<span class="extype" name="longevity.subdomain.RootType.R">R</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.subdomain.RootType@index(propPathHead:String,propPathTail:String*):longevity.subdomain.root.Index[R]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">constructs an index for this root type based on the supplied set of property paths</p><div class="fullcomment"><div class="comment cmt"><p>constructs an index for this root type based on the supplied set of property paths</p></div><dl class="paramcmts block"><dt class="param">propPathHead</dt><dd class="cmt"><p>one of the property paths for the properties that define this index</p></dd><dt class="param">propPathTail</dt><dd class="cmt"><p>any remaining property paths for the properties that define this index</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5.0)</i> use non-string method index instead</p></dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/root/LateIndexDefException.html" class="extype" name="longevity.exceptions.subdomain.root.LateIndexDefException"><code>longevity.exceptions.subdomain.root.LateIndexDefException</code></a> on attempt to create
+a new index after the <code>RootType</code> is fully initialized</p></span><span class="cmt"><p><a href="../exceptions/subdomain/root/PropException.html" class="extype" name="longevity.exceptions.subdomain.root.PropException"><code>longevity.exceptions.subdomain.root.PropException</code></a> if any of the supplied property paths are
+invalid</p></span></dd><dt>See also</dt><dd><span class="cmt"><p>Prop.apply</p></span></dd></dl></div>
+    </li><li name="longevity.subdomain.RootType#key" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="key(propPathHead:String,propPathTail:String*):longevity.subdomain.root.Key[R]"></a>
+      <a id="key(String,String*):Key[R]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 0.5.0) use non-string method key instead">key</span><span class="params">(<span name="propPathHead">propPathHead: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="propPathTail">propPathTail: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <a href="root/Key.html" class="extype" name="longevity.subdomain.root.Key">Key</a>[<span class="extype" name="longevity.subdomain.RootType.R">R</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.subdomain.RootType@key(propPathHead:String,propPathTail:String*):longevity.subdomain.root.Key[R]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">constructs a key for this root type based on the supplied set of property paths</p><div class="fullcomment"><div class="comment cmt"><p>constructs a key for this root type based on the supplied set of property paths</p></div><dl class="paramcmts block"><dt class="param">propPathHead</dt><dd class="cmt"><p>one of the property paths for the properties that define this key</p></dd><dt class="param">propPathTail</dt><dd class="cmt"><p>any remaining property paths for the properties that
+define this key</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 0.5.0)</i> use non-string method key instead</p></dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/root/LateKeyDefException.html" class="extype" name="longevity.exceptions.subdomain.root.LateKeyDefException"><code>longevity.exceptions.subdomain.root.LateKeyDefException</code></a> on attempt
+to create a new key after the <code>RootType</code> is fully initialized</p></span><span class="cmt"><p><a href="../exceptions/subdomain/root/PropException.html" class="extype" name="longevity.exceptions.subdomain.root.PropException"><code>longevity.exceptions.subdomain.root.PropException</code></a> if any of the
+supplied property paths are invalid</p></span></dd><dt>See also</dt><dd><span class="cmt"><p>Prop.apply</p></span></dd></dl></div>
+    </li></ol>
+            </div>
         </div>
 
         <div id="inheritedMembers">

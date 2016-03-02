@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Transformer - emblem 0.4.0 API - emblem.traversors.sync.Transformer</title>
-          <meta name="description" content="Transformer - emblem 0.4.0 API - emblem.traversors.sync.Transformer" />
-          <meta name="keywords" content="Transformer emblem 0.4.0 API emblem.traversors.sync.Transformer" />
+          <title>Transformer - emblem 0.5-SNAPSHOT API - emblem.traversors.sync.Transformer</title>
+          <meta name="description" content="Transformer - emblem 0.5 - SNAPSHOT API - emblem.traversors.sync.Transformer" />
+          <meta name="keywords" content="Transformer emblem 0.5 SNAPSHOT API emblem.traversors.sync.Transformer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,12 +51,13 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>synchronously tranforms a recursive data structure. the input and the output of the transformation
-have the same type.</p><p>you can transform arbritrary data to your liking by implementing the protected vals and defs in this
-interface.</p><p>the only usage example as of now, <code>longevity.testUtil.PersistedToUnpersistedTransformer</code>, lives outside of
-emblem project, in sibling project longevity. it might give you some ideas in how to use, but then so will
-other traversors in this directory.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/emblem/src/main/scala/emblem/traversors/sync/Transformer.scala" target="_blank">Transformer.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>synchronously tranforms a recursive data structure. the input and the
+output of the transformation have the same type.</p><p>you can transform arbritrary data to your liking by implementing the
+protected vals and defs in this interface.</p><p>the only usage example as of now,
+<code>longevity.testUtil.PersistedToUnpersistedTransformer</code>, lives outside of
+emblem project, in sibling project longevity. it might give you some ideas
+in how to use, but then so will other traversors in this directory.
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/emblem/src/main/scala/emblem/traversors/sync/Transformer.scala" target="_blank">Transformer.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -614,8 +615,8 @@ other traversors in this directory.
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">transforms an element of type <code>A</code></p><div class="fullcomment"><div class="comment cmt"><p>transforms an element of type <code>A</code></p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../../exceptions/CouldNotTransformException.html" class="extype" name="emblem.exceptions.CouldNotTransformException"><code>emblem.exceptions.CouldNotTransformException</code></a> when it encounters a type it doesn't know how to
-transform</p></span></dd></dl></div>
+      <p class="shortcomment cmt">transforms an element of type <code>A</code></p><div class="fullcomment"><div class="comment cmt"><p>transforms an element of type <code>A</code></p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../../exceptions/CouldNotTransformException.html" class="extype" name="emblem.exceptions.CouldNotTransformException"><code>emblem.exceptions.CouldNotTransformException</code></a> when it encounters
+a type it doesn't know how to transform</p></span></dd></dl></div>
     </li><li name="emblem.traversors.sync.Transformer#transformBoolean" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transformBoolean(input:Boolean):Boolean"></a>
       <a id="transformBoolean(Boolean):Boolean"></a>

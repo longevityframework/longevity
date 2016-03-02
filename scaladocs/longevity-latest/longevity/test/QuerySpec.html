@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>QuerySpec - longevity 0.4.0 API - longevity.test.QuerySpec</title>
-          <meta name="description" content="QuerySpec - longevity 0.4.0 API - longevity.test.QuerySpec" />
-          <meta name="keywords" content="QuerySpec longevity 0.4.0 API longevity.test.QuerySpec" />
+          <title>QuerySpec - longevity 0.5-SNAPSHOT API - longevity.test.QuerySpec</title>
+          <meta name="description" content="QuerySpec - longevity 0.5 - SNAPSHOT API - longevity.test.QuerySpec" />
+          <meta name="keywords" content="QuerySpec longevity 0.5 SNAPSHOT API longevity.test.QuerySpec" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,9 +49,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains common code for testing different <a href="../subdomain/root/Query.html" class="extype" name="longevity.subdomain.root.Query">longevity.subdomain.root.Query</a> instances against
-<a href="../persistence/Repo.html#retrieveByQuery(query:longevity.subdomain.root.Query[R]):scala.concurrent.Future[Seq[longevity.persistence.PState[R]]]" class="extmbr" name="longevity.persistence.Repo#retrieveByQuery">longevity.persistence.Repo#retrieveByQuery</a>
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/src/main/scala/longevity/test/QuerySpec.scala" target="_blank">QuerySpec.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains common code for testing different <a href="../subdomain/root/Query.html" class="extype" name="longevity.subdomain.root.Query">longevity.subdomain.root.Query</a>
+instances against <a href="../persistence/Repo.html#retrieveByQuery(query:longevity.subdomain.root.Query[R]):scala.concurrent.Future[Seq[longevity.persistence.PState[R]]]" class="extmbr" name="longevity.persistence.Repo#retrieveByQuery">longevity.persistence.Repo#retrieveByQuery</a>
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/src/main/scala/longevity/test/QuerySpec.scala" target="_blank">QuerySpec.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="longevity.test.TestDataGeneration">TestDataGeneration</span>, <span class="extype" name="org.scalatest.concurrent.ScalaFutures">ScalaFutures</span>, <span class="extype" name="org.scalatest.concurrent.Futures">Futures</span>, <span class="extype" name="org.scalatest.concurrent.PatienceConfiguration">PatienceConfiguration</span>, <span class="extype" name="org.scalatest.concurrent.AbstractPatienceConfiguration">AbstractPatienceConfiguration</span>, <span class="extype" name="org.scalatest.concurrent.ScaledTimeSpans">ScaledTimeSpans</span>, <span class="extype" name="org.scalatest.Matchers">Matchers</span>, <span class="extype" name="org.scalactic.Explicitly">Explicitly</span>, <span class="extype" name="org.scalatest.words.MatcherWords">MatcherWords</span>, <span class="extype" name="org.scalactic.Tolerance">Tolerance</span>, <span class="extype" name="org.scalatest.GivenWhenThen">GivenWhenThen</span>, <span class="extype" name="org.scalatest.BeforeAndAfterAll">BeforeAndAfterAll</span>, <span class="extype" name="org.scalatest.SuiteMixin">SuiteMixin</span>, <span class="extype" name="org.scalatest.FlatSpec">FlatSpec</span>, <span class="extype" name="org.scalatest.FlatSpecLike">FlatSpecLike</span>, <span class="extype" name="org.scalatest.Documenting">Documenting</span>, <span class="extype" name="org.scalatest.Alerting">Alerting</span>, <span class="extype" name="org.scalatest.Notifying">Notifying</span>, <span class="extype" name="org.scalatest.Informing">Informing</span>, <span class="extype" name="org.scalatest.words.CanVerb">CanVerb</span>, <span class="extype" name="org.scalatest.words.MustVerb">MustVerb</span>, <span class="extype" name="org.scalatest.words.ShouldVerb">ShouldVerb</span>, <span class="extype" name="org.scalatest.TestRegistration">TestRegistration</span>, <span class="extype" name="org.scalatest.Suite">Suite</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.scalatest.AbstractSuite">AbstractSuite</span>, <span class="extype" name="org.scalatest.Assertions">Assertions</span>, <span class="extype" name="org.scalactic.TripleEquals">TripleEquals</span>, <span class="extype" name="org.scalactic.TripleEqualsSupport">TripleEqualsSupport</span>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -223,23 +223,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>TripleEqualsSupport</dd></dl></div>
-    </li><li name="longevity.test.QuerySpec.ConditionalQTemplate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ConditionalQTemplateextendsQuerySpec.this.QTemplatewithProductwithSerializable"></a>
-      <a id="ConditionalQTemplate:ConditionalQTemplate"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">case class</span>
-      </span>
-      <span class="symbol">
-        <a href="QuerySpec$ConditionalQTemplate.html"><span class="name">ConditionalQTemplate</span></a><span class="params">(<span name="lhs">lhs: <a href="QuerySpec$QTemplate.html" class="extype" name="longevity.test.QuerySpec.QTemplate">QTemplate</a></span>, <span name="rhs">rhs: <a href="QuerySpec$QTemplate.html" class="extype" name="longevity.test.QuerySpec.QTemplate">QTemplate</a></span>)</span><span class="result"> extends <a href="QuerySpec$QTemplate.html" class="extype" name="longevity.test.QuerySpec.QTemplate">QTemplate</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.QuerySpec@ConditionalQTemplateextendsQuerySpec.this.QTemplatewithProductwithSerializable" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.scalactic.Explicitly.DecidedByEquality" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DecidedByEquality[A&lt;:&lt;?&gt;]extendsEquality[A]"></a>
       <a id="DecidedByEquality[A]:DecidedByEquality[A]"></a>
@@ -308,23 +291,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Explicitly</dd></dl></div>
-    </li><li name="longevity.test.QuerySpec.EqualityQTemplate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="EqualityQTemplate[A]extendsQuerySpec.this.QTemplatewithProductwithSerializable"></a>
-      <a id="EqualityQTemplate[A]:EqualityQTemplate[A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">case class</span>
-      </span>
-      <span class="symbol">
-        <a href="QuerySpec$EqualityQTemplate.html"><span class="name">EqualityQTemplate</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="../subdomain/root/Prop.html" class="extype" name="longevity.subdomain.root.Prop">Prop</a>[<span class="extype" name="longevity.test.QuerySpec.R">R</span>, <span class="extype" name="longevity.test.QuerySpec.EqualityQTemplate.A">A</span>]</span>)</span><span class="result"> extends <a href="QuerySpec$QTemplate.html" class="extype" name="longevity.test.QuerySpec.QTemplate">QTemplate</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.QuerySpec@EqualityQTemplate[A]extendsQuerySpec.this.QTemplatewithProductwithSerializable" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.scalactic.TripleEqualsSupport.Equalizer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Equalizer[L&lt;:&lt;?&gt;]extendsAnyRef"></a>
       <a id="Equalizer[L]:Equalizer[L]"></a>
@@ -580,23 +546,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Suite</dd></dl></div>
-    </li><li name="longevity.test.QuerySpec.OrderingQTemplate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="OrderingQTemplate[A]extendsQuerySpec.this.QTemplatewithProductwithSerializable"></a>
-      <a id="OrderingQTemplate[A]:OrderingQTemplate[A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">case class</span>
-      </span>
-      <span class="symbol">
-        <a href="QuerySpec$OrderingQTemplate.html"><span class="name">OrderingQTemplate</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="../subdomain/root/Prop.html" class="extype" name="longevity.subdomain.root.Prop">Prop</a>[<span class="extype" name="longevity.test.QuerySpec.R">R</span>, <span class="extype" name="longevity.test.QuerySpec.OrderingQTemplate.A">A</span>]</span>)</span><span class="result"> extends <a href="QuerySpec$QTemplate.html" class="extype" name="longevity.test.QuerySpec.QTemplate">QTemplate</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.QuerySpec@OrderingQTemplate[A]extendsQuerySpec.this.QTemplatewithProductwithSerializable" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.scalatest.concurrent.AbstractPatienceConfiguration.PatienceConfig" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="PatienceConfigextendsProductwithSerializable"></a>
       <a id="PatienceConfig:PatienceConfig"></a>
@@ -631,23 +580,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Tolerance</dd></dl></div>
-    </li><li name="longevity.test.QuerySpec.QTemplate" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="QTemplateextendsAnyRef"></a>
-      <a id="QTemplate:QTemplate"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">sealed </span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="QuerySpec$QTemplate.html"><span class="name">QTemplate</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.QuerySpec@QTemplateextendsAnyRef" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.scalatest.Matchers.RegexWord" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="RegexWordextendsAnyRef"></a>
       <a id="RegexWord:RegexWord"></a>
@@ -3000,19 +2932,19 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Suite</dd></dl></div>
-    </li><li name="longevity.test.QuerySpec#exerciseQTemplate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="exerciseQTemplate(template:QuerySpec.this.QTemplate,maxQueries:Int):Unit"></a>
-      <a id="exerciseQTemplate(QTemplate,Int):Unit"></a>
+    </li><li name="longevity.test.QuerySpec#exerciseQuery" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="exerciseQuery(query:longevity.subdomain.root.Query[R]):Unit"></a>
+      <a id="exerciseQuery(Query[R]):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">exerciseQTemplate</span><span class="params">(<span name="template">template: <a href="QuerySpec$QTemplate.html" class="extype" name="longevity.test.QuerySpec.QTemplate">QTemplate</a></span>, <span name="maxQueries">maxQueries: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a> = <span class="symbol">10</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">exerciseQuery</span><span class="params">(<span name="query">query: <a href="../subdomain/root/Query.html" class="extype" name="longevity.subdomain.root.Query">Query</a>[<span class="extype" name="longevity.test.QuerySpec.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.QuerySpec@exerciseQTemplate(template:QuerySpec.this.QTemplate,maxQueries:Int):Unit" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.QuerySpec@exerciseQuery(query:longevity.subdomain.root.Query[R]):Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -3544,6 +3476,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>MatcherWords</dd></dl></div>
+    </li><li name="longevity.test.QuerySpec#medianPropVal" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="medianPropVal[A](prop:longevity.subdomain.root.Prop[R,A]):A"></a>
+      <a id="medianPropVal[A](Prop[R,A]):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">medianPropVal</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="../subdomain/root/Prop.html" class="extype" name="longevity.subdomain.root.Prop">Prop</a>[<span class="extype" name="longevity.test.QuerySpec.R">R</span>, <span class="extype" name="longevity.test.QuerySpec.medianPropVal.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="longevity.test.QuerySpec.medianPropVal.A">A</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.QuerySpec@medianPropVal[A](prop:longevity.subdomain.root.Prop[R,A]):A" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.scalatest.Matchers#message" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="message(expectedMessage:&lt;?&gt;):org.scalatest.words.ResultOfMessageWordApplication"></a>
       <a id="message(String):ResultOfMessageWordApplication"></a>
@@ -3799,6 +3748,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Matchers</dd></dl></div>
+    </li><li name="longevity.test.QuerySpec#orderStatPropVal" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="orderStatPropVal[A](prop:longevity.subdomain.root.Prop[R,A],k:Int):A"></a>
+      <a id="orderStatPropVal[A](Prop[R,A],Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">orderStatPropVal</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="../subdomain/root/Prop.html" class="extype" name="longevity.subdomain.root.Prop">Prop</a>[<span class="extype" name="longevity.test.QuerySpec.R">R</span>, <span class="extype" name="longevity.test.QuerySpec.orderStatPropVal.A">A</span>]</span>, <span name="k">k: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <span class="extype" name="longevity.test.QuerySpec.orderStatPropVal.A">A</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.QuerySpec@orderStatPropVal[A](prop:longevity.subdomain.root.Prop[R,A],k:Int):A" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="longevity.test.QuerySpec#patienceConfig" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="patienceConfig:QuerySpec.this.PatienceConfig"></a>
       <a id="patienceConfig:PatienceConfig"></a>
@@ -3867,23 +3833,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Matchers</dd></dl></div>
-    </li><li name="longevity.test.QuerySpec#random" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="random:scala.util.Random"></a>
-      <a id="random:Random"></a>
+    </li><li name="longevity.test.QuerySpec#randomRoot" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="randomRoot:R"></a>
+      <a id="randomRoot:R"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">random</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.util.Random" class="extype" target="_top">Random</a></span>
+        <span class="name">randomRoot</span><span class="result">: <span class="extype" name="longevity.test.QuerySpec.R">R</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.QuerySpec@random:scala.util.Random" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.QuerySpec@randomRoot:R" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.scalatest.words.MatcherWords#readable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="readable:org.scalatest.words.ReadableWord"></a>
       <a id="readable:ReadableWord"></a>
@@ -3986,6 +3952,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Suite → AbstractSuite</dd></dl></div>
+    </li><li name="longevity.test.QuerySpec#roots" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="roots:Set[R]"></a>
+      <a id="roots:Set[R]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">roots</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="longevity.test.QuerySpec.R">R</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.QuerySpec@roots:Set[R]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.scalatest.BeforeAndAfterAll#run" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="run(testName:Option[String],args:org.scalatest.Args):org.scalatest.Status"></a>
       <a id="run(Option[String],Args):Status"></a>
@@ -4088,23 +4071,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ScaledTimeSpans</dd></dl></div>
-    </li><li name="longevity.test.QuerySpec#seed" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="seed:Int"></a>
-      <a id="seed:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">seed</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.QuerySpec@seed:Int" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="org.scalatest.FlatSpecLike#shorthandSharedTestRegistrationFunction" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="shorthandSharedTestRegistrationFunction:String=&gt;org.scalatest.words.BehaveWord"></a>
       <a id="shorthandSharedTestRegistrationFunction:(String)⇒BehaveWord"></a>

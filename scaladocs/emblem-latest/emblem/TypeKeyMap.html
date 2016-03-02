@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TypeKeyMap - emblem 0.4.0 API - emblem.TypeKeyMap</title>
-          <meta name="description" content="TypeKeyMap - emblem 0.4.0 API - emblem.TypeKeyMap" />
-          <meta name="keywords" content="TypeKeyMap emblem 0.4.0 API emblem.TypeKeyMap" />
+          <title>TypeKeyMap - emblem 0.5-SNAPSHOT API - emblem.TypeKeyMap</title>
+          <meta name="description" content="TypeKeyMap - emblem 0.5 - SNAPSHOT API - emblem.TypeKeyMap" />
+          <meta name="keywords" content="TypeKeyMap emblem 0.5 SNAPSHOT API emblem.TypeKeyMap" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -71,7 +71,7 @@ cpu should equal (CPU(<span class="num">2.2</span>))
 <span class="kw">val</span> display: Display = partLists[Display].tail.head
 display should equal (Display(<span class="num">1080</span>))</pre><p>note that the API does not provide <code>++</code> or similar methods to add multiple key/value pairs at a time, as
 each pair needs to be type-checked separately.</p><p>(code presented here is in TypeKeyMapSpec.scala, up at the top)
-</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the TypeKey and Val types</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.4.0/emblem/src/main/scala/emblem/TypeKeyMap.scala" target="_blank">TypeKeyMap.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p>TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples</p></span><span class="cmt"><p><a href="package.html#ExtractorPool=emblem.TypeKeyMap[Any,emblem.package.ExtractorFor]" class="extmbr" name="emblem.ExtractorPool">ExtractorPool</a> for an example of how to use type key maps when the value type is more
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the TypeKey and Val types</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/48cb8a656435bfdb936c6f75b653d7ea4410a6a2/emblem/src/main/scala/emblem/TypeKeyMap.scala" target="_blank">TypeKeyMap.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p>TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples</p></span><span class="cmt"><p><a href="package.html#ExtractorPool=emblem.TypeKeyMap[Any,emblem.package.ExtractorFor]" class="extmbr" name="emblem.ExtractorPool">ExtractorPool</a> for an example of how to use type key maps when the value type is more
 sophisticated than just type with a single type parameter.</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="emblem.BaseTypeBoundMap">BaseTypeBoundMap</span>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>], <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
@@ -176,13 +176,16 @@ sophisticated than just type with a single type parameter.</p></span></dd></dl><
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">adds a typekey/value pair to this map, returning a new map.</p><div class="fullcomment"><div class="comment cmt"><p>adds a typekey/value pair to this map, returning a new map. the type key is inferred from the type of
-the supplied value.</p><p>PLEASE NOTE: using this method when your <code>Val</code> type is contravariant in its type parameter will not
-do what you might expect! when the compiler infers type parameter <code>[TypeParam &lt;: TypeBound]</code> from an
-argument of type <code>Contra[TypeParam]</code>, where type <code>Contra</code> is defined as, e.g., <code>trait Contra[+T]</code>,
-it's always going to infer <code>TypeBound</code> as the <code>TypeParam</code>. there seems to be nothing I can do within
-<code>TypeKeyMap</code> to circumvent this. the easiest way to work around this problem is to specify the type key
-yourself with <a href="#+[TypeParam&lt;:TypeBound,ValTypeParam&lt;:TypeBound](pair:(emblem.TypeKey[TypeParam],Val[ValTypeParam]))(implicitvalConforms:&lt;:&lt;[Val[ValTypeParam],Val[TypeParam]]):emblem.TypeKeyMap[TypeBound,Val]" class="extmbr" name="emblem.TypeKeyMap#+">the alternate method +</a>.
+      <p class="shortcomment cmt">adds a typekey/value pair to this map, returning a new map.</p><div class="fullcomment"><div class="comment cmt"><p>adds a typekey/value pair to this map, returning a new map. the type key
+is inferred from the type of the supplied value.</p><p>PLEASE NOTE: using this method when your <code>Val</code> type is contravariant in its
+type parameter will not do what you might expect! when the compiler infers
+type parameter <code>[TypeParam &lt;: TypeBound]</code> from an argument of type
+<code>Contra[TypeParam]</code>, where type <code>Contra</code> is defined as, e.g.,
+<code>trait Contra[+T]</code>, it's always going to infer <code>TypeBound</code> as the
+<code>TypeParam</code>. there seems to be nothing I can do within <code>TypeKeyMap</code> to
+circumvent this. the easiest way to work around this problem is to specify
+the type key yourself with
+<a href="#+[TypeParam&lt;:TypeBound,ValTypeParam&lt;:TypeBound](pair:(emblem.TypeKey[TypeParam],Val[ValTypeParam]))(implicitvalConforms:&lt;:&lt;[Val[ValTypeParam],Val[TypeParam]]):emblem.TypeKeyMap[TypeBound,Val]" class="extmbr" name="emblem.TypeKeyMap#+">the alternate method +</a>.
 </p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value to add to the map</p></dd><dt class="param">key</dt><dd class="cmt"><p>the type key, which is inferred from the type of value</p></dd></dl></div>
     </li><li name="emblem.TypeKeyMap#+" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="+[TypeParam&lt;:TypeBound,ValTypeParam&lt;:TypeBound](pair:(emblem.TypeKey[TypeParam],Val[ValTypeParam]))(implicitvalConforms:&lt;:&lt;[Val[ValTypeParam],Val[TypeParam]]):emblem.TypeKeyMap[TypeBound,Val]"></a>
@@ -470,7 +473,7 @@ yourself with <a href="#+[TypeParam&lt;:TypeBound,ValTypeParam&lt;:TypeBound](pa
     </span>
       <p class="shortcomment cmt">compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
 the other map, and vice versa.</p><div class="fullcomment"><div class="comment cmt"><p>compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
-the other map, and vice versa.</p></div><dl class="paramcmts block"><dt class="param">that</dt><dd class="cmt"><p>the other type key map</p></dd><dt>returns</dt><dd class="cmt"><p>true if both maps contain exactly the same mappings, false otherwise.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a> → AnyRef → Any</dd></dl></div>
+the other map, and vice versa.</p></div><dl class="paramcmts block"><dt class="param">that</dt><dd class="cmt"><p>the other type key map</p></dd><dt>returns</dt><dd class="cmt"><p>true iff both are type key maps and contain exactly the same mappings</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a> → AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -598,11 +601,12 @@ exists.</p></dd></dl></div>
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">returns the value associated with a type key, or a default value if the type key is not contained in the
-map.</p><div class="fullcomment"><div class="comment cmt"><p>returns the value associated with a type key, or a default value if the type key is not contained in the
-map.
-</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param bounding both the type key and the value</p></dd><dt class="param">default</dt><dd class="cmt"><p>a computation that yields a default value in case no binding for the type key is found in
-the map</p></dd><dt>returns</dt><dd class="cmt"><p>the value associated with type key if it exists, otherwise the result of the <code>default</code> computation.</p></dd></dl></div>
+      <p class="shortcomment cmt">returns the value associated with a type key, or a default value if the
+type key is not contained in the map.</p><div class="fullcomment"><div class="comment cmt"><p>returns the value associated with a type key, or a default value if the
+type key is not contained in the map.
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param bounding both the type key and the value</p></dd><dt class="param">default</dt><dd class="cmt"><p>a computation that yields a default value in case no binding
+for the type key is found in the map</p></dd><dt>returns</dt><dd class="cmt"><p>the value associated with type key if it exists, otherwise the
+result of the <code>default</code> computation.</p></dd></dl></div>
     </li><li name="emblem.TypeKeyMap#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
