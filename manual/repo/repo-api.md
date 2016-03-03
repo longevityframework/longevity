@@ -22,11 +22,10 @@ this will result in a `NoSuchElementException`.
 
 <div class = "blue-side-bar">
 
-There are two kinds of persistent refs: [[Assoc associations]] and
-[[longevity.subdomain.root.KeyVal key values]]. we plan to integrate
-these two types more in the future. In particular, it should be easier
-to embed a key value of another aggregate in an entity, in place of
-embedding an association.
+There are two kinds of persistent refs: associations and key
+values. we plan to integrate these two types more in the future. In
+particular, it should be easier to embed a key value of another
+aggregate in an entity, in place of embedding an association.
 
 </div>
 
