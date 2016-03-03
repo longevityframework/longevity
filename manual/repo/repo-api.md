@@ -10,7 +10,12 @@ operations for your aggregates, as follows:
 
 Because all of the methods in `Repo` are potentially blocking, they
 all return a [Scala
-`Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future). 
+`Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future). Although
+it's not currently shown in the code above, all of the repo methods
+require an implicit execution context argument. The easiest way to
+provide this is to include `import
+scala.concurrent.ExecutionContext.Implicits.global` at the top of the
+file.
 
 We will will discuss the three major `retrieve` methods in turn, but
 it's helpful to cover a couple of points up front. First off, the
@@ -22,11 +27,10 @@ this will result in a `NoSuchElementException`.
 
 <div class = "blue-side-bar">
 
-There are two kinds of persistent refs: [[Assoc associations]] and
-[[longevity.subdomain.root.KeyVal key values]]. we plan to integrate
-these two types more in the future. In particular, it should be easier
-to embed a key value of another aggregate in an entity, in place of
-embedding an association.
+There are two kinds of persistent refs: associations and key
+values. we plan to integrate these two types more in the future. In
+particular, it should be easier to embed a key value of another
+aggregate in an entity, in place of embedding an association.
 
 </div>
 

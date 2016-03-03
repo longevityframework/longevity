@@ -25,6 +25,11 @@ All the unpersisted associations will be recursively persisted. It
 doesn't matter what order you pass them in; longevity will assure that
 associated aggregates always get persisted first.
 
+Like the `Repo` methods, `RepoPoo.createMany` takes an implicit
+execution context argument. The easiest way to provide this is to
+include `import scala.concurrent.ExecutionContext.Implicits.global` at
+the top of the file.
+
 Be careful, something like this is likely to fail with a duplicate key
 error:
 
