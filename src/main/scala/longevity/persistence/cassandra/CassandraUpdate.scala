@@ -9,17 +9,18 @@ import longevity.persistence._
 import longevity.subdomain._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.update */
 private[cassandra] trait CassandraUpdate[R <: Root] {
   repo: CassandraRepo[R] =>
 
-  override def update(state: PState[R]): Future[PState[R]] = Future {
-    session.execute(bindUpdateStatement(state))
-    new PState[R](state.passoc, state.get)
-  }
+  override def update(state: PState[R])(implicit context: ExecutionContext): Future[PState[R]] =
+    Future {
+      session.execute(bindUpdateStatement(state))
+      new PState[R](state.passoc, state.get)
+    }
 
   private lazy val updateStatement: PreparedStatement = {
     val cql = if (realizedProps.isEmpty) {

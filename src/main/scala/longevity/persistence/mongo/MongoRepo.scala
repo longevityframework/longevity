@@ -9,7 +9,7 @@ import longevity.subdomain._
 import longevity.subdomain.root._
 import longevity.subdomain.root.Query._
 import org.bson.types.ObjectId
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.util.Failure
 import scala.util.Success
@@ -40,14 +40,14 @@ extends BaseRepo[R](rootType, subdomain) {
 
   createSchema()
 
-  def create(unpersisted: R) = Future {
+  def create(unpersisted: R)(implicit context: ExecutionContext) = Future {
     val objectId = new ObjectId()
     val casbah = entityToCasbahTranslator.translate(unpersisted) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.insert(casbah)
     new PState[R](MongoId(objectId), unpersisted)
   }
 
-  def update(persisted: PState[R]) = Future {
+  def update(persisted: PState[R])(implicit context: ExecutionContext) = Future {
     val root = persisted.get
     val objectId = persisted.assoc.asInstanceOf[MongoId[R]].objectId
     val query = MongoDBObject("_id" -> objectId)
@@ -56,14 +56,16 @@ extends BaseRepo[R](rootType, subdomain) {
     new PState[R](persisted.passoc, root)
   }
 
-  def delete(persisted: PState[R]) = Future {
+  def delete(persisted: PState[R])(implicit context: ExecutionContext) = Future {
     val objectId = persisted.assoc.asInstanceOf[MongoId[R]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
     new Deleted(persisted.get, persisted.assoc)
   }
 
-  override protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[R])
+  override protected def retrieveByPersistedAssoc(
+    assoc: PersistedAssoc[R])(
+    implicit context: ExecutionContext)
   : Future[Option[PState[R]]] = Future {
     val objectId = assoc.asInstanceOf[MongoId[R]].objectId
     val query = MongoDBObject("_id" -> objectId)
@@ -72,7 +74,8 @@ extends BaseRepo[R](rootType, subdomain) {
     rootOption map { e => new PState[R](assoc, e) }
   }
 
-  override protected def retrieveByKeyVal(keyVal: KeyVal[R]): Future[Option[PState[R]]] = Future {
+  override protected def retrieveByKeyVal(keyVal: KeyVal[R])(implicit context: ExecutionContext)
+  : Future[Option[PState[R]]] = Future {
     val builder = MongoDBObject.newBuilder
     keyVal.propVals.foreach {
       case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
@@ -86,7 +89,8 @@ extends BaseRepo[R](rootType, subdomain) {
     idRootOption map { case (id, e) => new PState[R](MongoId(id), e) }
   }
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = Future {
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[R])(implicit context: ExecutionContext)
+  : Future[Seq[PState[R]]] = Future {
     val cursor: MongoCursor = mongoCollection.find(mongoQuery(query))
     val dbObjs: Seq[DBObject] = cursor.toSeq
     dbObjs.map { result =>

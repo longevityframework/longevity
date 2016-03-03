@@ -9,17 +9,18 @@ import longevity.persistence._
 import longevity.subdomain._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.delete */
 private[cassandra] trait CassandraDelete[R <: Root] {
   repo: CassandraRepo[R] =>
 
-  override def delete(state: PState[R]): Future[Deleted[R]] = Future {
-    session.execute(bindDeleteStatement(state))
-    new Deleted(state.get, state.assoc)
-  }
+  override def delete(state: PState[R])(implicit context: ExecutionContext): Future[Deleted[R]] =
+    Future {
+      session.execute(bindDeleteStatement(state))
+      new Deleted(state.get, state.assoc)
+    }
 
   private lazy val deleteStatement: PreparedStatement = {
     val cql = s"DELETE FROM $tableName WHERE id = :id"

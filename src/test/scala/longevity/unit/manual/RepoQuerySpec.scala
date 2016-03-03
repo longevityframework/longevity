@@ -1,10 +1,7 @@
 package longevity.unit.manual
 
 import org.scalatest._
-
-object RepoQuerySpec {
-
-}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /** exercises code samples found in the repo.retrieveByQuery section
  * of the user manual. the samples themselves are in [[RootTypeSpec]]
@@ -18,10 +15,10 @@ class RepoQuerySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import longevity.integration.quickStart.QuickStartSpec._
 
-  val repos = context.testRepoPool
-  val userRepo = repos[User]
-  val blogRepo = repos[Blog]
-  val blogPostRepo = repos[BlogPost]
+  protected val repos = context.testRepoPool
+  protected val userRepo = repos[User]
+  protected val blogRepo = repos[Blog]
+  protected val blogPostRepo = repos[BlogPost]
 
   "user manual example code" should "produce correct queries" in {
 

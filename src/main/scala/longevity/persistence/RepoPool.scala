@@ -2,7 +2,7 @@ package longevity.persistence
 
 import emblem.imports._
 import longevity.subdomain.Root
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a collection of repositories */
@@ -34,16 +34,23 @@ class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Root, BaseRepo]) 
    * }}}
    *
    * @param keyedRoots the roots of the aggregates to persist, wrapped with their `TypeKeys`.
+   *
+   * @param executionContext the execution context
    * 
    * @see [Assoc.apply]
    */
-  def createMany(keyedRoots: RootWithTypeKey[_ <: Root]*): Future[Seq[PState[_ <: Root]]] = {
+  def createMany(keyedRoots: RootWithTypeKey[_ <: Root]*)(implicit executionContext: ExecutionContext)
+  : Future[Seq[PState[_ <: Root]]] = {
     val empty = Future.successful(CreateManyState(CreatedCache(), Seq[PState[_ <: Root]]()))
     val foldResult = keyedRoots.foldLeft(empty)(createOne _)
     foldResult.map(_.pstates)
   }
 
-  private def createOne(acc: Future[CreateManyState], keyedRoot: KeyedRoot): Future[CreateManyState] = {
+  private def createOne(
+    acc: Future[CreateManyState],
+    keyedRoot: KeyedRoot)(
+    implicit context: ExecutionContext)
+  : Future[CreateManyState] = {
 
     def create[R <: Root](
       keyedRoot: RootWithTypeKey[R],

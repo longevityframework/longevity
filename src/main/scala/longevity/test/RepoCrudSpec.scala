@@ -15,7 +15,7 @@ import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a fixture to test a [[longevity.persistence.RepoPool]]. all you have
@@ -35,11 +35,14 @@ import scala.concurrent.Future
  * @param suiteNameSuffix a short string to add to the suite name, to help
  * differentiate between suites for longevity contexts with the same name, when
  * reading scalatest output
+ *
+ * @param executionContext the execution context
  */
 private[longevity] class RepoCrudSpec(
   context: LongevityContext,
   repoPool: RepoPool,
-  suiteNameSuffix: Option[String] = None)
+  suiteNameSuffix: Option[String] = None)(
+  implicit executionContext: ExecutionContext)
 extends {
   protected val longevityContext = context
 }

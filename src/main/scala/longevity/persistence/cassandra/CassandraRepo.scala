@@ -13,7 +13,7 @@ import longevity.subdomain._
 import longevity.subdomain.root._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a Cassandra repository for aggregate roots of type `R`.
@@ -71,7 +71,10 @@ with CassandraDelete[R] {
     }
   }
 
-  protected def retrieveFromBoundStatement(statement: BoundStatement): Future[Option[PState[R]]] =
+  protected def retrieveFromBoundStatement(
+    statement: BoundStatement)(
+    implicit context: ExecutionContext)
+  : Future[Option[PState[R]]] =
     Future {
       val resultSet = session.execute(statement)
       val rowOption = Option(resultSet.one)

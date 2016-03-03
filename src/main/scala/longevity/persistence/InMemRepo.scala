@@ -6,7 +6,6 @@ import longevity.subdomain._
 import longevity.subdomain.root._
 import longevity.context.LongevityContext
 import scala.concurrent._
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /** an in-memory repository for aggregate roots of type `R`
  * 
@@ -28,7 +27,7 @@ extends BaseRepo[R](rootType, subdomain) {
   
   private var keyValToEntityMap = Map[KeyVal[R], PState[R]]()
 
-  def create(unpersisted: R) = Future {
+  def create(unpersisted: R)(implicit context: ExecutionContext) = Future {
     val id = repo.synchronized {
       val id = IntId(nextId)
       nextId += 1
@@ -37,24 +36,29 @@ extends BaseRepo[R](rootType, subdomain) {
     persist(id, unpersisted)
   }
 
-  def update(persisted: PState[R]) = Future {
+  def update(persisted: PState[R])(implicit context: ExecutionContext) = Future {
     dumpKeys(persisted.orig)
     persist(persisted.passoc, persisted.get)
   }
 
-  def delete(persisted: PState[R]) = {
+  def delete(persisted: PState[R])(implicit context: ExecutionContext) = {
     repo.synchronized { idToEntityMap -= persisted.passoc }
     dumpKeys(persisted.orig)
     val deleted = new Deleted(persisted.get, persisted.assoc)
     Future.successful(deleted)
   }
 
-  override protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[R])
+  override protected def retrieveByPersistedAssoc(
+    assoc: PersistedAssoc[R])(
+    implicit context: ExecutionContext)
   : Future[Option[PState[R]]] = {
     Future.successful(idToEntityMap.get(assoc))
   }
 
-  override protected def retrieveByKeyVal(keyVal: KeyVal[R]): Future[Option[PState[R]]] = {
+  override protected def retrieveByKeyVal(
+    keyVal: KeyVal[R])(
+    implicit context: ExecutionContext)
+  : Future[Option[PState[R]]] = {
     keyVal.propVals.foreach { case (prop, value) =>
       if (prop.typeKey <:< typeKey[Assoc[_]]) {
         val assoc = value.asInstanceOf[Assoc[_ <: Root]]
@@ -65,7 +69,8 @@ extends BaseRepo[R](rootType, subdomain) {
     Future.successful(optionR)
   }
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] = Future {
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[R])(implicit context: ExecutionContext)
+  : Future[Seq[PState[R]]] = Future {
     idToEntityMap.values.view.toSeq.filter { s => InMemRepo.queryMatches(query, s.get) }
   }
 

@@ -14,7 +14,7 @@ import longevity.subdomain.root.Query._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.collection.JavaConversions._
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.retrieveByQuery */
@@ -23,7 +23,10 @@ private[cassandra] trait CassandraRetrieveQuery[R <: Root] {
 
   private case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
 
-  override protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]] =
+  override protected def retrieveByValidatedQuery(
+    query: ValidatedQuery[R])(
+    implicit context: ExecutionContext)
+  : Future[Seq[PState[R]]] =
     Future {
       val info = queryInfo(query)
       val cql = s"SELECT * FROM $tableName WHERE ${info.whereClause} ALLOW FILTERING"

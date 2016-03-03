@@ -5,13 +5,19 @@ import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /** integration tests for things in the subdomain that don't have mongo transations.
  * this indicates a "bug" in the subdomain - some kind of shorthand or entity is missing.
  * this should really be tested for you on subdomain construction.
  * @see https://www.pivotaltracker.com/story/show/99755864
  */
-class NoTranslationSpec extends FlatSpec with GivenWhenThen with Matchers with ScalaFutures with ScaledTimeSpans {
+class NoTranslationSpec
+extends FlatSpec
+with GivenWhenThen
+with Matchers
+with ScalaFutures
+with ScaledTimeSpans {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(2000 millis),

@@ -10,14 +10,15 @@ import longevity.subdomain._
 import longevity.subdomain.root._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.retrieve(KeyVal) */
 private[cassandra] trait CassandraRetrieveKeyVal[R <: Root] {
   repo: CassandraRepo[R] =>
 
-  override protected def retrieveByKeyVal(keyVal: KeyVal[R]): Future[Option[PState[R]]] =
+  override protected def retrieveByKeyVal(keyVal: KeyVal[R])(implicit context: ExecutionContext)
+  : Future[Option[PState[R]]] =
     retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
 
   private lazy val keyValSelectStatement: Map[Key[R], PreparedStatement] = Map().withDefault { key =>

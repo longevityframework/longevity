@@ -1,6 +1,7 @@
 package longevity.integration.subdomain.withComponentOption
 
 import org.scalatest.Suites
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class WithComponentOptionSpec extends Suites(
   context.mongoContext.inMemRepoCrudSpec,

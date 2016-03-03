@@ -9,14 +9,14 @@ import longevity.persistence._
 import longevity.subdomain._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.create */
 private[cassandra] trait CassandraCreate[R <: Root] {
   repo: CassandraRepo[R] =>
 
-  override def create(unpersisted: R) = Future {
+  override def create(unpersisted: R)(implicit context: ExecutionContext) = Future {
     val uuid = UUID.randomUUID
     session.execute(bindInsertStatement(uuid, unpersisted))
     new PState[R](CassandraId(uuid), unpersisted)

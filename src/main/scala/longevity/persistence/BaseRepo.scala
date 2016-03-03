@@ -22,28 +22,33 @@ extends Repo[R] {
   /** the type key for the aggregate roots this repository handles */
   protected val rootTypeKey: TypeKey[R] = typeKey[R]
 
-  def create(unpersisted: R): Future[PState[R]]
+  def create(unpersisted: R)(implicit context: ExecutionContext): Future[PState[R]]
 
-  def retrieve(ref: PRef[R]): Future[Option[PState[R]]] = ref.pattern match {
-    case PRef.UAssocPattern(assoc) => throw new AssocIsUnpersistedException(assoc)
-    case PRef.PAssocPattern(assoc) => retrieveByPersistedAssoc(assoc)
-    case PRef.KeyValPattern(keyVal) => retrieveByKeyVal(keyVal)
-  }
+  def retrieve(ref: PRef[R])(implicit context: ExecutionContext): Future[Option[PState[R]]] =
+    ref.pattern match {
+      case PRef.UAssocPattern(assoc) => throw new AssocIsUnpersistedException(assoc)
+      case PRef.PAssocPattern(assoc) => retrieveByPersistedAssoc(assoc)
+      case PRef.KeyValPattern(keyVal) => retrieveByKeyVal(keyVal)
+    }
 
-  def retrieveOne(ref: PRef[R]): Future[PState[R]] = retrieve(ref).map(_.get)
+  def retrieveOne(ref: PRef[R])(implicit context: ExecutionContext): Future[PState[R]] =
+    retrieve(ref).map(_.get)
 
-  def retrieveByQuery(query: Query[R]): Future[Seq[PState[R]]] =
+  def retrieveByQuery(query: Query[R])(implicit context: ExecutionContext): Future[Seq[PState[R]]] =
     retrieveByValidatedQuery(rootType.validateQuery(query))
 
-  def update(state: PState[R]): Future[PState[R]]
+  def update(state: PState[R])(implicit context: ExecutionContext): Future[PState[R]]
 
-  def delete(state: PState[R]): Future[Deleted[R]]
+  def delete(state: PState[R])(implicit context: ExecutionContext): Future[Deleted[R]]
 
-  protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[R]): Future[Option[PState[R]]]
+  protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[R])(implicit context: ExecutionContext)
+  : Future[Option[PState[R]]]
 
-  protected def retrieveByKeyVal(keyVal: KeyVal[R]): Future[Option[PState[R]]]
+  protected def retrieveByKeyVal(keyVal: KeyVal[R])(implicit context: ExecutionContext)
+  : Future[Option[PState[R]]]
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R]): Future[Seq[PState[R]]]
+  protected def retrieveByValidatedQuery(query: ValidatedQuery[R])(implicit context: ExecutionContext)
+  : Future[Seq[PState[R]]]
 
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repoPool: RepoPool = _repoPoolOption.get
