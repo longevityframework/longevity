@@ -3,6 +3,7 @@ package longevity.integration.queries
 import longevity.subdomain.Assoc
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.withAssoc._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class WithAssocInMemQuerySpec extends QuerySpec[WithAssoc](
   context.mongoContext,

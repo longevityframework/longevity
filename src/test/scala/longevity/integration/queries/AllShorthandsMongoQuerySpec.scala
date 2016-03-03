@@ -2,6 +2,7 @@ package longevity.integration.queries
 
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.allShorthands._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class AllShorthandsMongoQuerySpec extends QuerySpec[AllShorthands](
   context.mongoContext,

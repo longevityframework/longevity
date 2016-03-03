@@ -3,6 +3,7 @@ package longevity.integration.queries
 import com.github.nscala_time.time.Imports._
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.allAttributes._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class AllAttributesCassandraQuerySpec
 extends QuerySpec[AllAttributes](context.cassandraContext, context.cassandraContext.testRepoPool) {

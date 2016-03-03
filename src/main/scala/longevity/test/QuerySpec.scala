@@ -5,12 +5,11 @@ import longevity.context.LongevityContext
 import longevity.persistence._
 import longevity.subdomain._
 import longevity.subdomain.root._
-//import longevity.subdomain.root.Query._
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.util.Random
 
@@ -18,12 +17,18 @@ import scala.util.Random
  * instances against [[longevity.persistence.Repo#retrieveByQuery]]
  *
  * @param context the longevity context under test
+ * 
  * @param repoPool the repo pool under test. this may be different than the
  * `context.repoPool`, as users may want to test against other repo pools. (for
  * instance, they may want a spec for in-memory repo pools if other parts of
  * their test suite rely on them.)
+ * 
+ * @param executionContext the execution context
  */
-abstract class QuerySpec[R <: Root : TypeKey](context: LongevityContext, pool: RepoPool)
+abstract class QuerySpec[R <: Root : TypeKey](
+  context: LongevityContext,
+  pool: RepoPool)(
+  implicit executionContext: ExecutionContext)
 extends {
   protected val longevityContext = context
   protected val repoPool = pool
