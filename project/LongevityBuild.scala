@@ -67,7 +67,7 @@ trait BuildSettings {
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.2",
     libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "1.0.0",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % Test,
+    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test,
 
     // publish
     publishMavenStyle := true,
@@ -95,7 +95,7 @@ object LongevityBuild extends Build with BuildSettings {
     base = file("."),
     settings = buildSettings ++ Seq(
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
-      libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % Optional,
+      libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
 
       // TODO up dbs & db driver versions
 
