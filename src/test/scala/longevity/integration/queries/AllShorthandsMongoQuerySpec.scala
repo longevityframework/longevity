@@ -8,7 +8,6 @@ class AllShorthandsMongoQuerySpec extends QuerySpec[AllShorthands](
   context.mongoContext,
   context.mongoContext.testRepoPool) {
 
-  val repo = repoPool[AllShorthands]
   lazy val sample = randomRoot
 
   val booleanProp = AllShorthands.prop[BooleanShorthand]("boolean")

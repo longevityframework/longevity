@@ -7,7 +7,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class AllShorthandsCassandraQuerySpec
 extends QuerySpec[AllShorthands](context.cassandraContext, context.cassandraContext.testRepoPool) {
 
-  val repo = repoPool[AllShorthands]
   lazy val sample = randomRoot
 
   val booleanProp = AllShorthands.prop[BooleanShorthand]("boolean")

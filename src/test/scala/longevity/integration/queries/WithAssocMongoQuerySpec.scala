@@ -9,7 +9,6 @@ class WithAssocMongoQuerySpec extends QuerySpec[WithAssoc](
   context.mongoContext,
   context.mongoContext.testRepoPool) {
 
-  val repo = repoPool[WithAssoc]
   lazy val sample = randomRoot
 
   val uriProp = WithAssoc.prop[String]("uri")

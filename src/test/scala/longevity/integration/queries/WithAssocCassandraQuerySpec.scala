@@ -9,7 +9,6 @@ class WithAssocCassandraQuerySpec extends QuerySpec[WithAssoc](
   context.cassandraContext,
   context.cassandraContext.testRepoPool) {
 
-  val repo = repoPool[WithAssoc]
   lazy val sample = randomRoot
 
   val uriProp = WithAssoc.prop[String]("uri")

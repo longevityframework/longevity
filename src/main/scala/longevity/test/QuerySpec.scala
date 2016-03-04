@@ -45,14 +45,20 @@ with TestDataGeneration {
     timeout = scaled(4000 millis),
     interval = scaled(50 millis))
 
-  private val numRoots = 10
-  private val seed = 117
-  private val random = new Random(seed)
+  /** the number of roots to run queries against */
+  protected val numRoots = 10
 
-  private val rootType = longevityContext.subdomain.rootTypePool[R]
-  private val repo = repoPool.baseRepoMap[R]
-  protected var roots: Set[R] = _
-  private var rootStates: Seq[PState[R]] = _
+  /** the root type */
+  protected final val rootType = longevityContext.subdomain.rootTypePool[R]
+
+  /** the repository under test */
+  protected final val repo = repoPool.baseRepoMap[R]
+
+  /** the roots we are querying against */
+  protected final var roots: Set[R] = _
+
+  /** the persistent state of the roots we are querying against */
+  protected final var rootStates: Seq[PState[R]] = _
 
   override def beforeAll(): Unit = {
     val rootStateSeq = for (i <- 0.until(numRoots)) yield repo.create(generateRoot())
@@ -69,15 +75,29 @@ with TestDataGeneration {
     Future.traverse(rootStates)(rootState => repo.delete(rootState)).futureValue
   }
 
+  /** pick a root from the test set "at random". actually uses `Set.head` */
   protected def randomRoot: R = roots.head
 
+  /** pick the root with the median value for the provided property
+   * @param prop the property to select the median value for
+   */
   protected def medianPropVal[A](prop: Prop[R, A]): A = orderStatPropVal(prop, roots.size / 2)
 
+  /** pick the root with the specified order statistic for the provided
+   * property. an order statistic `k` is the element indexed by `k` if the set
+   * of roots were sorted by the supplied property.
+   * 
+   * @param prop the property to select the order statistic for
+   * @param k the order statistic to select
+   */
   protected def orderStatPropVal[A](prop: Prop[R, A], k: Int): A = {
     implicit val ordering = prop.ordering
     roots.view.map(root => prop.propVal(root)).toSeq.sorted.apply(k)
   }
 
+  /** runs the query against the test data, and checks if the results are correct.
+   * generates a test failure if they are not.
+   */
   protected def exerciseQuery(query: Query[R]): Unit = {
     val results = repo.retrieveByQuery(query).futureValue.map(_.get).toSet
     val actual = roots intersect results // remove any roots not put in by this test
