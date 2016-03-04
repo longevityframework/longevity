@@ -38,6 +38,7 @@ will put in links as I write the chapters.
   - [Keys](root-type/keys.html)
   - [Indexes](root-type/indexes.html)
 - [The Longevity Context](context)
+  - [Persistence Strategy](context/pstrat.html)
   - [Configuring your Longevity Context](context/config.html)
   - [Repo Pools](context/repo-pools.html)
   - [Persistent State](context/persistent-state.html)

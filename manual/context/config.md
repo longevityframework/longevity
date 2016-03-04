@@ -27,8 +27,8 @@ documentation](https://github.com/typesafehub/config#overview) for
 more information on the different ways you can manage your
 configuration.
 
-{% assign prevTitle = "the longevity context" %}
-{% assign prevLink = "." %}
+{% assign prevTitle = "persistence strategy" %}
+{% assign prevLink = "pstrat.html" %}
 {% assign upTitle = "the longevity context" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "repo pools" %}
