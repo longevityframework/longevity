@@ -35,6 +35,6 @@ with something like <code>Repo.deleteByQuery</code>.
 {% assign prevLink = "repo-update.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "todo" %}
-{% assign nextLink = "todo.html" %}
+{% assign nextTitle = "testing your subdomain" %}
+{% assign nextLink = "../testing" %}
 {% include navigate.html %}
