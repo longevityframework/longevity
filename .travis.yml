@@ -1,6 +1,6 @@
 language: scala
 script:
-  - sbt -J-Xmx4G clean synctest doc
+  - sbt -J-Xmx4G clean synctest:test doc
 scala:
   - 2.11.7
 jdk:
