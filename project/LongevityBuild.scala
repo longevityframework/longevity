@@ -22,6 +22,8 @@ trait BuildSettings {
     "-language:implicitConversions",
     "-unchecked")
 
+  val SyncTest = config("synctest") extend(Test)
+
   // please update these references that contain version number if you up the version:
   //   - https://github.com/longevityframework/emblem/wiki/Setting-up-a-Library-Dependency-on-emblem
   //   - manual/project-setup.md on longevity branch gh-pages
@@ -47,7 +49,8 @@ trait BuildSettings {
       val projectVersion = (version in (Compile, doc)).value
       Seq("-doc-title", s"$projectName $projectVersion API")
     },
-    scalacOptions in (Compile, doc) <++= (baseDirectory in LocalProject("longevity"), version) map { (bd, v) =>
+    scalacOptions in (Compile, doc) <++= (baseDirectory in LocalProject("longevity"), version) map {
+      (bd, v) =>
       val tagOrBranch = if (v endsWith "SNAPSHOT") gitHash else ("v" + v)
       Seq("-sourcepath", bd.getAbsolutePath,
           "-doc-source-url", s"$githubUrl/tree/$tagOrBranch€{FILE_PATH}.scala")
@@ -55,6 +58,8 @@ trait BuildSettings {
     autoAPIMappings := true,
     apiMappings += (scalaInstance.value.libraryJar ->
                     url(s"http://www.scala-lang.org/api/${scalaVersion.value}/")),
+
+    parallelExecution in SyncTest := false,
 
     // test
     logLevel in test := Level.Info, // switch to warn to get less output from scalatest
@@ -122,6 +127,7 @@ object LongevityBuild extends Build with BuildSettings {
         </developers>)
     )
   )
+  .configs(SyncTest)
   .aggregate(emblem)
   .dependsOn(emblem)
 
@@ -145,5 +151,6 @@ object LongevityBuild extends Build with BuildSettings {
       libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0" % Optional
     )
   )
+  .configs(SyncTest)
 
 }
