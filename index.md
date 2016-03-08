@@ -23,7 +23,4 @@ database, as well as in-memory repositories for other tests.
 - [Questions, Comments, Problems, and Discussions](discussions.html)
 - [Contributing](contributing.html)
 - [License](license.html)
-
-- [Longevity is Like Hibernate ... Except that it's Not](like-hibernate.html)
-- Longevity and Emblem TODO
 - [What's Happening](whats-happening.html)
