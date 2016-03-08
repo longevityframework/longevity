@@ -59,7 +59,10 @@ trait BuildSettings {
     apiMappings += (scalaInstance.value.libraryJar ->
                     url(s"http://www.scala-lang.org/api/${scalaVersion.value}/")),
 
+    // some stuff for troubleshooting travis build. i tried running sync. now i am going to
+    // unbuffer test output to get a better idea where the problem occurs
     parallelExecution in SyncTest := false,
+    logBuffered in Test := false,
 
     // test
     logLevel in test := Level.Info, // switch to warn to get less output from scalatest
