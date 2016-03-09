@@ -3,7 +3,7 @@ before_script:
   - sudo service mongodb start
   - sudo service cassandra start
 script:
-  - sbt -J-Xmx4G clean "project emblem" synctest:test doc "project longevity" synctest:test doc
+  - sbt -J-Xmx4G clean test doc
 scala:
   - 2.11.7
 jdk:
