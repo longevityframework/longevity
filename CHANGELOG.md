@@ -8,6 +8,10 @@
   to use all these methods. the easiest way to do this is to include
   `import scala.concurrent.ExecutionContext.Implicits.global` at the
   top of the file
+- 2016.03.08 - update to latest version of library dependencies
+  casbah (3.1.1) and cassandra (3.0.0)
+- 2016.03.08 - add sub-projects longevity-cassandra-deps and
+  longevity-mongo-deps
 
 ## [0.5.0] - 2016.03.02 - Cassandra Back End
 

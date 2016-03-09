@@ -22,16 +22,25 @@ trait BuildSettings {
     "-language:implicitConversions",
     "-unchecked")
 
-  // please update these references that contain version number if you up the version:
-  //   - https://github.com/longevityframework/emblem/wiki/Setting-up-a-Library-Dependency-on-emblem
-  //   - manual/project-setup.md on longevity branch gh-pages
-  //   - src/test/scala/longevity/integration/quickStart/QuickStartSpec.scala on longevity master branch
-
-  val buildSettings = Defaults.coreDefaultSettings ++ Seq(
-
+  val publishSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
     version := "0.6-SNAPSHOT",
     scalaVersion := "2.11.7",
+
+    publishMavenStyle := true,
+    pomIncludeRepository := { _ => false },
+    publishTo := {
+      val nexus = "https://oss.sonatype.org/"
+      if (isSnapshot.value)
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    },
+    licenses := Seq("Apache License, Version 2.0" ->
+                    url("http://www.apache.org/licenses/LICENSE-2.0"))
+  )
+
+  val buildSettings = publishSettings ++ Seq(
 
     // compile
     scalacOptions ++= nonConsoleScalacOptions ++ otherScalacOptions,
@@ -67,21 +76,8 @@ trait BuildSettings {
     resolvers += Resolver.typesafeRepo("releases"),
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.2",
-    libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "1.0.0",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test,
-
-    // publish
-    publishMavenStyle := true,
-    pomIncludeRepository := { _ => false },
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-      if (isSnapshot.value)
-        Some("snapshots" at nexus + "content/repositories/snapshots")
-      else
-        Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-    },
-    licenses := Seq("Apache License, Version 2.0" ->
-                    url("http://www.apache.org/licenses/LICENSE-2.0"))
+    libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.10.0",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test
     
   )
 
@@ -91,6 +87,10 @@ trait BuildSettings {
 
 object LongevityBuild extends Build with BuildSettings {
 
+  val casbahDep: ModuleID = "org.mongodb" %% "casbah" % "3.1.1"
+  val cassandraDep: ModuleID = "com.datastax.cassandra" % "cassandra-driver-core" % "3.0.0"
+  val json4sDep: ModuleID = "org.json4s" %% "json4s-native" % "3.3.0"
+
   lazy val longevity = Project(
     id = "longevity",
     base = file("."),
@@ -98,15 +98,17 @@ object LongevityBuild extends Build with BuildSettings {
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
 
-      // TODO up dbs & db driver versions
-
       // for mongo:
-      libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0" % Optional,
-      libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0" % Test,
+
+      libraryDependencies += casbahDep % Optional,
+      libraryDependencies += casbahDep % Test,
 
       // for cassandra:
-      libraryDependencies += "com.datastax.cassandra" % "cassandra-driver-core" % "2.2.0-rc3" % Optional,
-      libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0" % Optional,
+
+      libraryDependencies += cassandraDep % Optional,
+      libraryDependencies += cassandraDep % Test,
+      libraryDependencies += json4sDep % Optional,
+      libraryDependencies += json4sDep % Test,
 
       homepage := Some(url("http://longevityframework.github.io/longevity/")),
       pomExtra := (
@@ -123,7 +125,7 @@ object LongevityBuild extends Build with BuildSettings {
         </developers>)
     )
   )
-  .aggregate(emblem)
+  .aggregate(emblem, longevityMongoDeps, longevityCassandraDeps)
   .dependsOn(emblem)
 
   lazy val emblem = Project(
@@ -131,6 +133,7 @@ object LongevityBuild extends Build with BuildSettings {
     base = file("emblem"),
     settings = buildSettings ++ Seq(
       homepage := Some(url("https://github.com/longevityframework/emblem")),
+      libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0" % Optional,
       pomExtra := (
         <scm>
           <url>git@github.com:longevityframework/emblem.git</url>
@@ -146,5 +149,18 @@ object LongevityBuild extends Build with BuildSettings {
       libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0" % Optional
     )
   )
+
+  lazy val longevityMongoDeps = Project(
+    id = "longevity-mongo-deps",
+    base = file("longevity/mongo-deps"),
+    settings = publishSettings ++ Seq(
+      libraryDependencies += casbahDep))
+
+  lazy val longevityCassandraDeps = Project(
+    id = "longevity-cassandra-deps",
+    base = file("longevity/cassandra-deps"),
+    settings = publishSettings ++ Seq(
+      libraryDependencies += cassandraDep,
+      libraryDependencies += json4sDep))
 
 }

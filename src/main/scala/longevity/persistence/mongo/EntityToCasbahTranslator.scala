@@ -10,6 +10,7 @@ import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.exceptions.persistence.BsonTranslationException
 import longevity.persistence.RepoPool
 import longevity.subdomain._
+import scala.reflect.runtime.universe.typeOf
 
 /** translates [[Entity entities]] into
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
@@ -30,6 +31,8 @@ private[persistence] class EntityToCasbahTranslator(
   } catch {
     case e: CouldNotTraverseException => throw new BsonTranslationException(e.typeKey, e)
   }
+
+  private val optionAnyType = typeOf[scala.Option[_]]
 
   private val traversor = new Traversor {
 
@@ -79,7 +82,10 @@ private[persistence] class EntityToCasbahTranslator(
     : TraverseResult[A] = {
       val builder = new MongoDBObjectBuilder()
       result.foreach {
-        case (prop, propResult) => builder += prop.name -> propResult
+        case (prop, propResult) =>
+          if (!(prop.typeKey <:< optionAnyType) || propResult != None) {
+            builder += prop.name -> propResult
+          }
       }
       builder.result()
     }

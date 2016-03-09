@@ -20,16 +20,12 @@ object QuickStartSpec {
   // set up your library dependencies in sbt:
 
   // resolvers += Resolver.sonatypeRepo("releases")
-  // libraryDependencies += "org.longevityframework" %% "longevity" % "0.4.1"
+  // libraryDependencies += "org.longevityframework" %% "longevity" % "0.6.0"
 
-  // if you are using mongo, get the mongo driver:
+  // bring in library dependencies for either mongo or cassandra:
 
-  // libraryDependencies += "org.mongodb" %% "casbah" % "3.0.0"
-
-  // for cassandra, you need a driver and json4s:
-
-  // libraryDependencies += "com.datastax.cassandra" % "cassandra-driver-core" % "2.2.0-rc3"
-  // libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0"
+  // libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.6.0"
+  // libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.6.0"
 
   // start building our subdomain:
 
