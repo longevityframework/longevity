@@ -17,7 +17,14 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 
     resolvers += Resolver.sonatypeRepo("releases")
 
-    libraryDependencies += "org.longevityframework" %% "longevity" % "0.4.1"
+    libraryDependencies += "org.longevityframework" %% "longevity" % "0.6.0"
+
+Include one of the following lines to bring in the library
+dependencies for the back end of your choice:
+
+    libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.6.0"
+
+    libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.6.0"
 
 ## Building the Artifacts Yourself
 
@@ -53,7 +60,7 @@ locally. From the command line:
 In the projects where you want to use longevity, include a library
 dependency. If you are on the `master` branch, use:
 
-    libraryDependencies += "org.longevityframework" %% "longevity" % "0.5-SNAPSHOT"
+    libraryDependencies += "org.longevityframework" %% "longevity" % "0.7-SNAPSHOT"
 
 {% assign prevTitle = "aggregates and entities" %}
 {% assign prevLink = "ddd-basics/aggregates-and-entities.html" %}
