@@ -8,5 +8,5 @@ scala:
 jdk:
   - oraclejdk8
 services:
-  - mongodb
   - cassandra
+  - mongodb
