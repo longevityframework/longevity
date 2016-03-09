@@ -1,4 +1,6 @@
 language: scala
+before_script:
+  - sleep 60
 script:
   - sbt -J-Xmx4G clean "project emblem" synctest:test doc "project longevity" synctest:test doc
 scala:
