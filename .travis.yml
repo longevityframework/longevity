@@ -1,12 +1,10 @@
 language: scala
 before_script:
-  - sleep 60
+  - sudo service mongodb start
+  - sudo service cassandra start
 script:
   - sbt -J-Xmx4G clean "project emblem" synctest:test doc "project longevity" synctest:test doc
 scala:
   - 2.11.7
 jdk:
   - oraclejdk8
-services:
-  - cassandra
-  - mongodb
