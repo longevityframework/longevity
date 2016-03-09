@@ -22,8 +22,6 @@ trait BuildSettings {
     "-language:implicitConversions",
     "-unchecked")
 
-  val SyncTest = config("synctest") extend(Test)
-
   // please update these references that contain version number if you up the version:
   //   - https://github.com/longevityframework/emblem/wiki/Setting-up-a-Library-Dependency-on-emblem
   //   - manual/project-setup.md on longevity branch gh-pages
@@ -58,11 +56,6 @@ trait BuildSettings {
     autoAPIMappings := true,
     apiMappings += (scalaInstance.value.libraryJar ->
                     url(s"http://www.scala-lang.org/api/${scalaVersion.value}/")),
-
-    // some stuff for troubleshooting travis build. i tried running sync. now i am going to
-    // unbuffer test output to get a better idea where the problem occurs
-    parallelExecution in SyncTest := false,
-    logBuffered in Test := false,
 
     // test
     logLevel in test := Level.Info, // switch to warn to get less output from scalatest
@@ -130,7 +123,6 @@ object LongevityBuild extends Build with BuildSettings {
         </developers>)
     )
   )
-  .configs(SyncTest)
   .aggregate(emblem)
   .dependsOn(emblem)
 
@@ -154,6 +146,5 @@ object LongevityBuild extends Build with BuildSettings {
       libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0" % Optional
     )
   )
-  .configs(SyncTest)
 
 }
