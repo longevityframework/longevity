@@ -152,13 +152,13 @@ object LongevityBuild extends Build with BuildSettings {
 
   lazy val longevityMongoDeps = Project(
     id = "longevity-mongo-deps",
-    base = file("longevity/mongo-deps"),
+    base = file("longevity-mongo-deps"),
     settings = publishSettings ++ Seq(
       libraryDependencies += casbahDep))
 
   lazy val longevityCassandraDeps = Project(
     id = "longevity-cassandra-deps",
-    base = file("longevity/cassandra-deps"),
+    base = file("longevity-cassandra-deps"),
     settings = publishSettings ++ Seq(
       libraryDependencies += cassandraDep,
       libraryDependencies += json4sDep))
