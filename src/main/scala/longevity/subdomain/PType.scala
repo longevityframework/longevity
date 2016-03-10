@@ -59,27 +59,6 @@ extends EntityType[P] {
    */
   def prop[A : TypeKey](path: String): Prop[P, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
 
-  // TODO remove deprecated
-
-  /** constructs a key for this persistent type based on the supplied set of property paths
-   * @param propPathHead one of the property paths for the properties that define this key
-   * @param propPathTail any remaining property paths for the properties that
-   * define this key
-   * @throws longevity.exceptions.subdomain.root.PropException if any of the
-   * supplied property paths are invalid
-   * @throws longevity.exceptions.subdomain.root.LateKeyDefException on attempt
-   * to create a new key after the `PType` is fully initialized
-   * @see Prop.apply
-   */
-  @deprecated("use non-string method key instead", "0.5.0")
-  def key(propPathHead: String, propPathTail: String*): Key[P] = {
-    if (registered) throw new LateKeyDefException
-    val propPaths = propPathHead :: propPathTail.toList
-    val key = Key(propPaths.map(Prop.unbounded(_, emblem, entityTypeKey, shorthandPool)))
-    keyBuffer += key
-    key
-  }
-
   /** constructs a key for this persistent type based on the supplied set of key props
    * @param propsHead one of the properties that define this key
    * @param propsTail any remaining properties that define this key
@@ -91,24 +70,6 @@ extends EntityType[P] {
     val key = Key(propsHead :: propsTail.toList)
     keyBuffer += key
     key
-  }
-
-  /** constructs an index for this persistent type based on the supplied set of property paths
-   * @param propPathHead one of the property paths for the properties that define this index
-   * @param propPathTail any remaining property paths for the properties that define this index
-   * @throws longevity.exceptions.subdomain.root.PropException if any of the supplied property paths are
-   * invalid
-   * @throws longevity.exceptions.subdomain.root.LateIndexDefException on attempt to create
-   * a new index after the `PType` is fully initialized
-   * @see Prop.apply
-   */
-  @deprecated("use non-string method index instead", "0.5.0")
-  def index(propPathHead: String, propPathTail: String*): Index[P] = {
-    if (registered) throw new LateIndexDefException
-    val propPaths = propPathHead :: propPathTail.toList
-    val index = Index(propPaths.map(Prop.unbounded(_, emblem, entityTypeKey, shorthandPool)))
-    indexBuffer += index
-    index
   }
 
   /** constructs a index for this persistent type based on the supplied set of index props
