@@ -45,10 +45,10 @@ extends Transformer {
       def transformAssoc(assoc: B): Future[B] = assoc match {
         case persistedAssoc: PersistedAssoc[_] => Future.successful(assoc)
         case unpersistedAssoc: UnpersistedAssoc[_] =>
-          val unpersistedRoot = assoc.unpersisted
+          val unpersistedP = unpersistedAssoc.unpersisted
           val rootTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Root]]
           val repo = repoPool.baseRepoMap(rootTypeKey)
-          val createWithCacheResult = repo.createWithCache(unpersistedRoot, createdCache)
+          val createWithCacheResult = repo.createWithCache(unpersistedP, createdCache)
           createWithCacheResult.map {
             case (pstate, updatedCache) =>
               createdCache = updatedCache

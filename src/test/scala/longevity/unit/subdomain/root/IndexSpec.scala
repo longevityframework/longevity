@@ -4,7 +4,6 @@ import emblem.imports._
 import longevity.exceptions.subdomain.root.EarlyIndexAccessException
 import longevity.exceptions.subdomain.root.LateIndexDefException
 import longevity.exceptions.subdomain.root.NumPropValsException
-import longevity.exceptions.subdomain.root.PropValTypeException
 import longevity.exceptions.subdomain.SubdomainException
 import longevity.subdomain._
 import org.scalatest._

@@ -35,15 +35,7 @@ object Assoc {
  */
 trait Assoc[P <: Persistent] extends PRef[P] {
 
-  // TODO: remove this
   /** true whenever the assoc is with a persisted entity */
   def isPersisted: Boolean
-
-  // TODO: move this to UnpersistendAssoc. delete the exception type
-  /** retrieves an unpersisted associatee from the assoc
-   * @throws longevity.exceptions.subdomain.AssocIsPersistedException whenever
-   * the assoc is persisted
-   */
-  def unpersisted: P
 
 }
