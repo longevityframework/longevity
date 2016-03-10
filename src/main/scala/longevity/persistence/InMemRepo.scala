@@ -79,7 +79,7 @@ extends BaseRepo[R](rootType, subdomain) {
     repo.synchronized {
       idToEntityMap += (assoc -> persisted)
       rootType.keySet.foreach { key =>
-        val keyVal = key.keyValForRoot(root)
+        val keyVal = key.keyValForP(root)
         keyValToEntityMap += keyVal -> persisted
       }
     }
@@ -88,7 +88,7 @@ extends BaseRepo[R](rootType, subdomain) {
 
   private def dumpKeys(root: R) = repo.synchronized {
     rootType.keySet.foreach { key =>
-      val keyVal = key.keyValForRoot(root)
+      val keyVal = key.keyValForP(root)
       keyValToEntityMap -= keyVal
     }
   }

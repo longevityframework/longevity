@@ -9,9 +9,10 @@ package object subdomain {
 
   // pools:
 
-  /** a shorthand with the abbreviated type unspecified. this type is equivalent to `Shorthand[Actual, _]`,
-   * except with a single type parameter `Actual`. this allows it to be used as a key or value in a
-   * `TypeBoundMap` or `TypeKeyMap`.
+  /** a shorthand with the abbreviated type unspecified. this type is equivalent
+   * to `Shorthand[Actual, _]`, except with a single type parameter `Actual`.
+   * this allows it to be used as a key or value in a `TypeBoundMap` or
+   * `TypeKeyMap`.
    */
   type ShorthandFor[Actual] = Shorthand[Actual, _]
 
@@ -20,7 +21,8 @@ package object subdomain {
 
   private[longevity] def shorthandPoolToExtractorPool(shorthandPool: ShorthandPool): ExtractorPool = {
     val shorthandToExtractor = new TypeBoundFunction[Any, ShorthandFor, ExtractorFor] {
-      def apply[TypeParam](shorthand: ShorthandFor[TypeParam]): ExtractorFor[TypeParam] = shorthand.extractor
+      def apply[TypeParam](shorthand: ShorthandFor[TypeParam]): ExtractorFor[TypeParam] =
+        shorthand.extractor
     }
     shorthandPool.mapValues(shorthandToExtractor)
   }
@@ -50,11 +52,5 @@ package object subdomain {
 
   /** a generic subdomain. functionally equivalent to a [[Subdomain]] */
   type GenericSubdomain = Subdomain
-
-  /** a value object. functionally equivalent to an [[Entity]] */
-  type ValueObject = Entity
-
-  /** a value type. functionally equivalent to an [[EntityType]] */
-  type ValueType[A <: ValueObject] = EntityType[A]
 
 }

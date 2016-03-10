@@ -129,8 +129,8 @@ with TestDataGeneration {
         When(s"we retrieve the $rootName by any of its keys")
         Then(s"we get back the same $rootName persistent state")
         repo.rootType.keySet.foreach { key =>
-          val keyValForRoot = key.keyValForRoot(created.get)
-          val retrieved: PState[R] = repo.retrieve(keyValForRoot).futureValue.value
+          val keyValForP = key.keyValForP(created.get)
+          val retrieved: PState[R] = repo.retrieve(keyValForP).futureValue.value
           retrieved.get should equal (root)
         }
       }

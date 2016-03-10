@@ -14,7 +14,7 @@ import longevity.exceptions.subdomain.root.PropNotOrderedException
 import longevity.exceptions.subdomain.root.PropTypeException
 import longevity.subdomain._
 
-/** a property for this root type. properties can be used to define [[Key keys]]
+/** a property for this persistent type. properties can be used to define [[Key keys]]
  * and [[Index indexes]], as well as for building [[Query queries]]. a property
  * can descend from the root into child entities at any depth. at present, a
  * property cannot pass through any collections. at present, the type of the
@@ -24,16 +24,16 @@ import longevity.subdomain._
  * @param typeKey the `TypeKey` for the property value type
  * @see `emblem.basicTypes`
  */
-case class Prop[R <: Root, A] private (
+case class Prop[P <: Persistent, A] private (
   path: String,
   typeKey: TypeKey[A])(
-  private val emblemPropPath: EmblemPropPath[R, A],
+  private val emblemPropPath: EmblemPropPath[P, A],
   private val shorthandPool: ShorthandPool) {
 
-  /** the value of this property for a specific root
-   * @param e the root we are looking up the value of the property for
+  /** the value of this property for a persistent
+   * @param p the persistent we are looking up the value of the property for
    */
-  def propVal(r: R): A = emblemPropPath.get(r)
+  def propVal(p: P): A = emblemPropPath.get(p)
 
   /** an ordering for property values
    * 
@@ -57,46 +57,46 @@ case class Prop[R <: Root, A] private (
 
 object Prop {
 
-  private[subdomain] def apply[R <: Root, A : TypeKey](
+  private[subdomain] def apply[P <: Persistent, A : TypeKey](
     path: String,
-    emblem: Emblem[R],
-    rootTypeKey: TypeKey[R],
+    emblem: Emblem[P],
+    pTypeKey: TypeKey[P],
     shorthandPool: ShorthandPool)
-  : Prop[R, A] = {
-    val prop = unbounded(path, emblem, rootTypeKey, shorthandPool)
-    if (!(typeKey[A] <:< prop.typeKey)) throw new PropTypeException(path, rootTypeKey, typeKey[A])
-    prop.asInstanceOf[Prop[R, A]]
+  : Prop[P, A] = {
+    val prop = unbounded(path, emblem, pTypeKey, shorthandPool)
+    if (!(typeKey[A] <:< prop.typeKey)) throw new PropTypeException(path, pTypeKey, typeKey[A])
+    prop.asInstanceOf[Prop[P, A]]
   }
 
-  private[subdomain] def unbounded[R <: Root](
+  private[subdomain] def unbounded[P <: Persistent](
     path: String,
-    emblem: Emblem[R],
-    rootTypeKey: TypeKey[R],
+    emblem: Emblem[P],
+    pTypeKey: TypeKey[P],
     shorthandPool: ShorthandPool)
-  : Prop[R, _] = {
+  : Prop[P, _] = {
 
-    def validatePath(): EmblemPropPath[R, _] =
+    def validatePath(): EmblemPropPath[P, _] =
       try {
         EmblemPropPath.unbounded(emblem, path)
       } catch {
         case e: EmptyPropPathException =>
-          throw new NoSuchPropException(path, rootTypeKey)
+          throw new NoSuchPropException(path, pTypeKey)
         case e: NoSuchPropertyException =>
-          throw new NoSuchPropException(path, rootTypeKey)
+          throw new NoSuchPropException(path, pTypeKey)
         case e: NonEmblemInPropPathException[_] =>
-          throw new UnsupportedPropTypeException(path)(rootTypeKey, e.typeKey)
+          throw new UnsupportedPropTypeException(path)(pTypeKey, e.typeKey)
       }
 
     def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[EmblemProp[_ <: HasEmblem, _]]): Unit =
       nonLeafEmblemProps foreach { nonLeafEmblemProp =>
         if (!(nonLeafEmblemProp.typeKey <:< typeKey[Entity]))
-          throw new UnsupportedPropTypeException(path)(rootTypeKey, nonLeafEmblemProp.typeKey)
+          throw new UnsupportedPropTypeException(path)(pTypeKey, nonLeafEmblemProp.typeKey)
       }
 
     def validateLeafEmblemProp(leafEmblemProp: EmblemProp[_ <: HasEmblem, _]): TypeKey[_] = {
       val key = leafEmblemProp.typeKey
       if (!(isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)))
-        throw new UnsupportedPropTypeException(path)(rootTypeKey, key)
+        throw new UnsupportedPropTypeException(path)(pTypeKey, key)
       key
     }
 
@@ -112,11 +112,11 @@ object Prop {
     def newProp[A : TypeKey](
       path: String,
       propTypeKey: TypeKey[A],
-      emblemPropPath: EmblemPropPath[R, _]) =
+      emblemPropPath: EmblemPropPath[P, _]) =
       new Prop(
         path,
         propTypeKey)(
-        emblemPropPath.asInstanceOf[EmblemPropPath[R, A]],
+        emblemPropPath.asInstanceOf[EmblemPropPath[P, A]],
         shorthandPool)
 
     newProp(path, propTypeKey, emblemPropPath)

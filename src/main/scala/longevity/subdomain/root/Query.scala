@@ -44,123 +44,125 @@ object Query {
   /** the or operator */
   case object OrOp extends LogicalOp
 
+  // TODO remove deprecated
+
   /** a factory method for producing an [[EqualityQuery]] with an [[EqOp]] */
   @deprecated("use the alternative method that takes a prop", "0.5")
-  def eqs[R <: Root, A : TypeKey](path: String, value: A) =
-    EqualityQuery[R, A](path, EqOp, value)
+  def eqs[P <: Persistent, A : TypeKey](path: String, value: A) =
+    EqualityQuery[P, A](path, EqOp, value)
 
   /** a factory method for producing a [[VEqualityQuery]] with an [[EqOp]] */
-  def eqs[R <: Root, A](prop: Prop[R, A], value: A) =
-    VEqualityQuery[R, A](prop, EqOp, value)
+  def eqs[P <: Persistent, A](prop: Prop[P, A], value: A) =
+    VEqualityQuery[P, A](prop, EqOp, value)
 
   /** a factory method for producing an [[EqualityQuery]] with an [[NeqOp]] */
   @deprecated("use the alternative method that takes a prop", "0.5")
-  def neq[R <: Root, A : TypeKey](path: String, value: A) =
-    EqualityQuery[R, A](path, NeqOp, value)
+  def neq[P <: Persistent, A : TypeKey](path: String, value: A) =
+    EqualityQuery[P, A](path, NeqOp, value)
 
   /** a factory method for producing a [[VEqualityQuery]] with an [[NeqOp]] */
-  def neq[R <: Root, A](prop: Prop[R, A], value: A) =
-    VEqualityQuery[R, A](prop, NeqOp, value)
+  def neq[P <: Persistent, A](prop: Prop[P, A], value: A) =
+    VEqualityQuery[P, A](prop, NeqOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[LtOp]] */
   @deprecated("use the alternative method that takes a prop", "0.5")
-  def lt[R <: Root, A : TypeKey](path: String, value: A) =
-    OrderingQuery[R, A](path, LtOp, value)
+  def lt[P <: Persistent, A : TypeKey](path: String, value: A) =
+    OrderingQuery[P, A](path, LtOp, value)
 
   /** a factory method for producing a [[VOrderingQuery]] with a [[LtOp]] */
-  def lt[R <: Root, A](prop: Prop[R, A], value: A) =
-    VOrderingQuery[R, A](prop, LtOp, value)
+  def lt[P <: Persistent, A](prop: Prop[P, A], value: A) =
+    VOrderingQuery[P, A](prop, LtOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[LteOp]] */
   @deprecated("use the alternative method that takes a prop", "0.5")
-  def lte[R <: Root, A : TypeKey](path: String, value: A) =
-    OrderingQuery[R, A](path, LteOp, value)
+  def lte[P <: Persistent, A : TypeKey](path: String, value: A) =
+    OrderingQuery[P, A](path, LteOp, value)
 
   /** a factory method for producing a [[VOrderingQuery]] with a [[LteOp]] */
-  def lte[R <: Root, A](prop: Prop[R, A], value: A) =
-    VOrderingQuery[R, A](prop, LteOp, value)
+  def lte[P <: Persistent, A](prop: Prop[P, A], value: A) =
+    VOrderingQuery[P, A](prop, LteOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[GtOp]] */
   @deprecated("use the alternative method that takes a prop", "0.5")
-  def gt[R <: Root, A : TypeKey](path: String, value: A) =
-    OrderingQuery[R, A](path, GtOp, value)
+  def gt[P <: Persistent, A : TypeKey](path: String, value: A) =
+    OrderingQuery[P, A](path, GtOp, value)
 
   /** a factory method for producing a [[VOrderingQuery]] with a [[GtOp]] */
-  def gt[R <: Root, A](prop: Prop[R, A], value: A) =
-    VOrderingQuery[R, A](prop, GtOp, value)
+  def gt[P <: Persistent, A](prop: Prop[P, A], value: A) =
+    VOrderingQuery[P, A](prop, GtOp, value)
 
   /** a factory method for producing an [[OrderingQuery]] with a [[GteOp]] */
   @deprecated("use the alternative method that takes a prop", "0.5")
-  def gte[R <: Root, A : TypeKey](path: String, value: A) =
-    OrderingQuery[R, A](path, GteOp, value)
+  def gte[P <: Persistent, A : TypeKey](path: String, value: A) =
+    OrderingQuery[P, A](path, GteOp, value)
 
   /** a factory method for producing a [[VOrderingQuery]] with a [[LteOp]] */
-  def gte[R <: Root, A](prop: Prop[R, A], value: A) =
-    VOrderingQuery[R, A](prop, GteOp, value)
+  def gte[P <: Persistent, A](prop: Prop[P, A], value: A) =
+    VOrderingQuery[P, A](prop, GteOp, value)
 
   /** a factory method for producing a conditional [[Query]] with an [[AndOp]] */
-  def and[R <: Root](lhs: Query[R], rhs: Query[R]) = cond(lhs, AndOp, rhs)
+  def and[P <: Persistent](lhs: Query[P], rhs: Query[P]) = cond(lhs, AndOp, rhs)
 
   /** a factory method for producing a conditional [[Query]] with an [[OrOp]] */
-  def or[R <: Root](lhs: Query[R], rhs: Query[R]) = cond(lhs, OrOp, rhs)
+  def or[P <: Persistent](lhs: Query[P], rhs: Query[P]) = cond(lhs, OrOp, rhs)
 
-  private[root] def cond[R <: Root](lhs: Query[R], op: LogicalOp, rhs: Query[R]) = (lhs, rhs) match {
-    case (lhs: ValidatedQuery[R], rhs: ValidatedQuery[R]) => VConditionalQuery[R](lhs, op, rhs)
-    case _ => ConditionalQuery[R](lhs, op, rhs)
+  private[root] def cond[P <: Persistent](lhs: Query[P], op: LogicalOp, rhs: Query[P]) = (lhs, rhs) match {
+    case (lhs: ValidatedQuery[P], rhs: ValidatedQuery[P]) => VConditionalQuery[P](lhs, op, rhs)
+    case _ => ConditionalQuery[P](lhs, op, rhs)
   }
 
 }
 
 /** a query for looking up aggregates of type `R` */
-sealed trait Query[R <: Root]
+sealed trait Query[P <: Persistent]
 
 /** a query where all the types check out */
-sealed trait ValidatedQuery[R <: Root] extends Query[R]
+sealed trait ValidatedQuery[P <: Persistent] extends Query[P]
 
 /** an equality query where the left-hand side is a property path */
-sealed case class EqualityQuery[R <: Root, A : TypeKey](
+sealed case class EqualityQuery[P <: Persistent, A : TypeKey](
   val path: String,
   op: EqualityOp,
   value: A)
-extends Query[R] {
+extends Query[P] {
   val valTypeKey = typeKey[A]
 }
 
 /** an equality query where the left-hand side is a property */
-sealed case class VEqualityQuery[R <: Root, A](
-  val prop: Prop[R, A],
+sealed case class VEqualityQuery[P <: Persistent, A](
+  val prop: Prop[P, A],
   op: EqualityOp,
   value: A)
-extends ValidatedQuery[R]
+extends ValidatedQuery[P]
 
 /** an ordering query where the left-hand side is a property path */
-sealed case class OrderingQuery[R <: Root, A : TypeKey](
+sealed case class OrderingQuery[P <: Persistent, A : TypeKey](
   val path: String,
   op: OrderingOp,
   value: A)
-extends Query[R] {
+extends Query[P] {
   val valTypeKey = typeKey[A]
 }
 
 /** an ordering query where the left-hand side is a property */
-sealed case class VOrderingQuery[R <: Root, A](
-  val prop: Prop[R, A],
+sealed case class VOrderingQuery[P <: Persistent, A](
+  val prop: Prop[P, A],
   op: OrderingOp,
   value: A)
-extends ValidatedQuery[R] {
+extends ValidatedQuery[P] {
   prop.ordering // force exception if prop is not ordered
 }
 
 /** a conditional query where one or both of the operands are non-validated queries */
-sealed case class ConditionalQuery[R <: Root](
-  lhs: Query[R],
+sealed case class ConditionalQuery[P <: Persistent](
+  lhs: Query[P],
   op: LogicalOp,
-  rhs: Query[R])
-extends Query[R]
+  rhs: Query[P])
+extends Query[P]
 
 /** a conditional query where both of the operands are validated queries */
-sealed case class VConditionalQuery[R <: Root](
-  lhs: ValidatedQuery[R],
+sealed case class VConditionalQuery[P <: Persistent](
+  lhs: ValidatedQuery[P],
   op: LogicalOp,
-  rhs: ValidatedQuery[R])
-extends ValidatedQuery[R]
+  rhs: ValidatedQuery[P])
+extends ValidatedQuery[P]

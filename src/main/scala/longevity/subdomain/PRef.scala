@@ -12,19 +12,19 @@ import longevity.subdomain.root.KeyVal
  * key value of another aggregate in an entity, in place of embedding an
  * association.
  */
-trait PRef[R <: Root] {
+trait PRef[P <: Persistent] {
 
   /** prevent subtyping outside of longevity library */
   private[longevity] val _lock: Int
 
   // this will never ClassCastException because there are only these three kinds
-  private[longevity] def pattern: PRef.Pattern[R] =
-    if (this.isInstanceOf[UnpersistedAssoc[R]]) {
-      PRef.UAssocPattern(this.asInstanceOf[UnpersistedAssoc[R]])
-    } else if (this.isInstanceOf[PersistedAssoc[R]]) {
-      PRef.PAssocPattern(this.asInstanceOf[PersistedAssoc[R]])
+  private[longevity] def pattern: PRef.Pattern[P] =
+    if (this.isInstanceOf[UnpersistedAssoc[P]]) {
+      PRef.UAssocPattern(this.asInstanceOf[UnpersistedAssoc[P]])
+    } else if (this.isInstanceOf[PersistedAssoc[P]]) {
+      PRef.PAssocPattern(this.asInstanceOf[PersistedAssoc[P]])
     } else {
-      PRef.KeyValPattern(this.asInstanceOf[KeyVal[R]])
+      PRef.KeyValPattern(this.asInstanceOf[KeyVal[P]])
     }
 
 }
@@ -32,9 +32,9 @@ trait PRef[R <: Root] {
 /** match pattern support for persistent refs */
 private[longevity] object PRef {
 
-  sealed trait Pattern[R <: Root]
-  case class UAssocPattern[R <: Root](assoc: UnpersistedAssoc[R]) extends Pattern[R]
-  case class PAssocPattern[R <: Root](assoc: PersistedAssoc[R]) extends Pattern[R]
-  case class KeyValPattern[R <: Root](keyVal: KeyVal[R]) extends Pattern[R]
+  sealed trait Pattern[P <: Persistent]
+  case class UAssocPattern[P <: Persistent](assoc: UnpersistedAssoc[P]) extends Pattern[P]
+  case class PAssocPattern[P <: Persistent](assoc: PersistedAssoc[P]) extends Pattern[P]
+  case class KeyValPattern[P <: Persistent](keyVal: KeyVal[P]) extends Pattern[P]
 
 }
