@@ -14,6 +14,8 @@ import scala.concurrent.Future
 import scala.util.Failure
 import scala.util.Success
 
+// TODO this class needs refactor
+
 /** a MongoDB repository for aggregate roots of type `R`.
  *
  * @param rootType the entity type for the aggregate roots this repository handles
@@ -45,6 +47,17 @@ extends BaseRepo[R](rootType, subdomain) {
     val casbah = entityToCasbahTranslator.translate(unpersisted) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.insert(casbah)
     new PState[R](MongoId(objectId), unpersisted)
+  }
+
+  def retrieveByQuery(query: Query[R])(implicit context: ExecutionContext)
+  : Future[Seq[PState[R]]] = Future {
+    val cursor: MongoCursor = mongoCollection.find(mongoQuery(query))
+    val dbObjs: Seq[DBObject] = cursor.toSeq
+    dbObjs.map { result =>
+      val id = result.getAs[ObjectId]("_id").get
+      val root = casbahToEntityTranslator.translate(result)
+      new PState[R](MongoId(id), root)
+    }
   }
 
   def update(persisted: PState[R])(implicit context: ExecutionContext) = Future {
@@ -89,17 +102,6 @@ extends BaseRepo[R](rootType, subdomain) {
     idRootOption map { case (id, e) => new PState[R](MongoId(id), e) }
   }
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R])(implicit context: ExecutionContext)
-  : Future[Seq[PState[R]]] = Future {
-    val cursor: MongoCursor = mongoCollection.find(mongoQuery(query))
-    val dbObjs: Seq[DBObject] = cursor.toSeq
-    dbObjs.map { result =>
-      val id = result.getAs[ObjectId]("_id").get
-      val root = casbahToEntityTranslator.translate(result)
-      new PState[R](MongoId(id), root)
-    }
-  }
-
   private def resolvePropVal(prop: Prop[R, _], raw: Any): Any = {
     if (subdomain.shorthandPool.contains(prop.typeKey)) {
       def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
@@ -113,19 +115,19 @@ extends BaseRepo[R](rootType, subdomain) {
     }
   }
 
-  private def mongoQuery(query: ValidatedQuery[R]): MongoDBObject = {
+  private def mongoQuery(query: Query[R]): MongoDBObject = {
     query match {
-      case VEqualityQuery(prop, op, value) => op match {
+      case EqualityQuery(prop, op, value) => op match {
         case EqOp => MongoDBObject(prop.path -> touchupValue(value)(prop.typeKey))
         case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> touchupValue(value)(prop.typeKey)))
       }
-      case VOrderingQuery(prop, op, value) => op match {
+      case OrderingQuery(prop, op, value) => op match {
         case LtOp => MongoDBObject(prop.path -> MongoDBObject("$lt" -> touchupValue(value)(prop.typeKey)))
         case LteOp => MongoDBObject(prop.path -> MongoDBObject("$lte" -> touchupValue(value)(prop.typeKey)))
         case GtOp => MongoDBObject(prop.path -> MongoDBObject("$gt" -> touchupValue(value)(prop.typeKey)))
         case GteOp => MongoDBObject(prop.path -> MongoDBObject("$gte" -> touchupValue(value)(prop.typeKey)))
       }
-      case VConditionalQuery(lhs, op, rhs) => op match {
+      case ConditionalQuery(lhs, op, rhs) => op match {
         case AndOp => MongoDBObject("$and" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
         case OrOp => MongoDBObject("$or" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
       }

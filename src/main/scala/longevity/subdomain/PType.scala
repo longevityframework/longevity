@@ -59,6 +59,8 @@ extends EntityType[P] {
    */
   def prop[A : TypeKey](path: String): Prop[P, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
 
+  // TODO remove deprecated
+
   /** constructs a key for this persistent type based on the supplied set of property paths
    * @param propPathHead one of the property paths for the properties that define this key
    * @param propPathTail any remaining property paths for the properties that
@@ -125,35 +127,5 @@ extends EntityType[P] {
 
   /** contains implicit imports to make the query DSL work */
   lazy val queryDsl = new QueryDsl[P]
-
-  /** translates the query into a validated query by resolving all the property
-   * paths to properties. throws exception if the property value supplied does
-   * not match the property type.
-   * 
-   * @throws longevity.exceptions.subdomain.root.PropValTypeException if a
-   * dynamic part of the query is mistyped
-   */
-  def validateQuery(query: Query[P]): ValidatedQuery[P] = {
-    query match {
-      case q: ValidatedQuery[P] => q
-      case q: EqualityQuery[P, _] =>
-        def static[A : TypeKey](qq: EqualityQuery[P, A]) = {
-          val prop = Prop[P, A](qq.path, emblem, entityTypeKey, shorthandPool)
-          VEqualityQuery[P, A](prop, qq.op, qq.value)
-        }
-        static(q)(q.valTypeKey)
-      case q: OrderingQuery[P, _] =>
-        def static[A : TypeKey](qq: OrderingQuery[P, A]) = {
-          val prop = Prop[P, A](qq.path, emblem, entityTypeKey, shorthandPool)
-          VOrderingQuery[P, A](prop, qq.op, qq.value)
-        }
-        static(q)(q.valTypeKey)
-      case q: ConditionalQuery[P] =>
-        VConditionalQuery(
-          validateQuery(q.lhs),
-          q.op,
-          validateQuery(q.rhs))
-    }
-  }
   
 }

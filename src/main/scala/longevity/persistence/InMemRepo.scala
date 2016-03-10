@@ -36,6 +36,11 @@ extends BaseRepo[R](rootType, subdomain) {
     persist(id, unpersisted)
   }
 
+  def retrieveByQuery(query: Query[R])(implicit context: ExecutionContext)
+  : Future[Seq[PState[R]]] = Future {
+    idToEntityMap.values.view.toSeq.filter { s => InMemRepo.queryMatches(query, s.get) }
+  }
+
   def update(persisted: PState[R])(implicit context: ExecutionContext) = Future {
     dumpKeys(persisted.orig)
     persist(persisted.passoc, persisted.get)
@@ -69,11 +74,6 @@ extends BaseRepo[R](rootType, subdomain) {
     Future.successful(optionR)
   }
 
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R])(implicit context: ExecutionContext)
-  : Future[Seq[PState[R]]] = Future {
-    idToEntityMap.values.view.toSeq.filter { s => InMemRepo.queryMatches(query, s.get) }
-  }
-
   private def persist(assoc: PersistedAssoc[R], root: R): PState[R] = {
     val persisted = new PState[R](assoc, root)
     repo.synchronized {
@@ -97,20 +97,20 @@ extends BaseRepo[R](rootType, subdomain) {
 
 object InMemRepo {
 
-  private[longevity] def queryMatches[R <: Root](query: ValidatedQuery[R], root: R): Boolean = {
+  private[longevity] def queryMatches[R <: Root](query: Query[R], root: R): Boolean = {
     import Query._
     query match {
-      case VEqualityQuery(prop, op, value) => op match {
+      case EqualityQuery(prop, op, value) => op match {
         case EqOp => prop.propVal(root) == value
         case NeqOp => prop.propVal(root) != value
       }
-      case VOrderingQuery(prop, op, value) => op match {
+      case OrderingQuery(prop, op, value) => op match {
         case LtOp => prop.ordering.lt(prop.propVal(root), value)
         case LteOp => prop.ordering.lteq(prop.propVal(root), value)
         case GtOp => prop.ordering.gt(prop.propVal(root), value)
         case GteOp => prop.ordering.gteq(prop.propVal(root), value)
       }
-      case VConditionalQuery(lhs, op, rhs) => op match {
+      case ConditionalQuery(lhs, op, rhs) => op match {
         case AndOp => queryMatches(lhs, root) && queryMatches(rhs, root)
         case OrOp => queryMatches(lhs, root) || queryMatches(rhs, root)
       }

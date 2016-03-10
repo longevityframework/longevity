@@ -21,12 +21,7 @@ import scala.concurrent.Future
 private[cassandra] trait CassandraRetrieveQuery[R <: Root] {
   repo: CassandraRepo[R] =>
 
-  private case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
-
-  override protected def retrieveByValidatedQuery(
-    query: ValidatedQuery[R])(
-    implicit context: ExecutionContext)
-  : Future[Seq[PState[R]]] =
+  def retrieveByQuery(query: Query[R])(implicit context: ExecutionContext): Future[Seq[PState[R]]] =
     Future {
       val info = queryInfo(query)
       val cql = s"SELECT * FROM $tableName WHERE ${info.whereClause} ALLOW FILTERING"
@@ -36,14 +31,16 @@ private[cassandra] trait CassandraRetrieveQuery[R <: Root] {
       resultSet.all.toList.map(retrieveFromRow)
     }
 
-  private def queryInfo(query: ValidatedQuery[R]): QueryInfo = {
+  private case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
+
+  private def queryInfo(query: Query[R]): QueryInfo = {
     query match {
-      case VEqualityQuery(prop, op, value) => op match {
+      case EqualityQuery(prop, op, value) => op match {
         case EqOp => QueryInfo(s"${columnName(prop)} = :${columnName(prop)}",
                                Seq(cassandraValue(value)(prop.typeKey)))
         case NeqOp => throw new NeqInQueryException
       }
-      case VOrderingQuery(prop, op, value) => op match {
+      case OrderingQuery(prop, op, value) => op match {
         case LtOp => QueryInfo(s"${columnName(prop)} < :${columnName(prop)}",
                                Seq(cassandraValue(value)(prop.typeKey)))
         case LteOp => QueryInfo(s"${columnName(prop)} <= :${columnName(prop)}",
@@ -53,7 +50,7 @@ private[cassandra] trait CassandraRetrieveQuery[R <: Root] {
         case GteOp => QueryInfo(s"${columnName(prop)} >= :${columnName(prop)}",
                                 Seq(cassandraValue(value)(prop.typeKey)))
       }
-      case VConditionalQuery(lhs, op, rhs) => op match {
+      case ConditionalQuery(lhs, op, rhs) => op match {
         case AndOp =>
           val lhsQueryInfo = queryInfo(lhs)
           val rhsQueryInfo = queryInfo(rhs)

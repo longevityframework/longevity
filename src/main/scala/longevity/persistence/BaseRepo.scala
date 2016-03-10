@@ -34,9 +34,6 @@ extends Repo[R] {
   def retrieveOne(ref: PRef[R])(implicit context: ExecutionContext): Future[PState[R]] =
     retrieve(ref).map(_.get)
 
-  def retrieveByQuery(query: Query[R])(implicit context: ExecutionContext): Future[Seq[PState[R]]] =
-    retrieveByValidatedQuery(rootType.validateQuery(query))
-
   def update(state: PState[R])(implicit context: ExecutionContext): Future[PState[R]]
 
   def delete(state: PState[R])(implicit context: ExecutionContext): Future[Deleted[R]]
@@ -46,9 +43,6 @@ extends Repo[R] {
 
   protected def retrieveByKeyVal(keyVal: KeyVal[R])(implicit context: ExecutionContext)
   : Future[Option[PState[R]]]
-
-  protected def retrieveByValidatedQuery(query: ValidatedQuery[R])(implicit context: ExecutionContext)
-  : Future[Seq[PState[R]]]
 
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repoPool: RepoPool = _repoPoolOption.get

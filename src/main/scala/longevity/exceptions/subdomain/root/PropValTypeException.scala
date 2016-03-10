@@ -3,6 +3,8 @@ package longevity.exceptions.subdomain.root
 import longevity.subdomain.Persistent
 import longevity.subdomain.root.Prop
 
+// TODO: check if this is still used
+
 /** an exception indicating an attempt to set a property with a value of the
  * wrong type.
  *

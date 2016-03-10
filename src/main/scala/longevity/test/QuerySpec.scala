@@ -111,8 +111,7 @@ with TestDataGeneration {
   }
 
   private def rootsMatchingQuery(query: Query[R], roots: Set[R]): Set[R] = {
-    val validatedQuery = rootType.validateQuery(query)
-    roots.filter(InMemRepo.queryMatches(validatedQuery, _))
+    roots.filter(InMemRepo.queryMatches(query, _))
   }
 
 }

@@ -1,10 +1,6 @@
-package longevity.unit.subdomain
+package longevity.unit
 
-import longevity.exceptions.subdomain.root.UnsupportedPropTypeException
-import longevity.exceptions.subdomain.root.PropTypeException
-import org.scalatest._
-
-object RootTypeSpec {
+package object blogCore {
 
   import longevity.subdomain._
 
@@ -26,7 +22,7 @@ object RootTypeSpec {
     fullname: String,
     email: Email,
     profile: Option[UserProfile] = None)
-  extends Root
+       extends Root
 
   object User extends RootType[User] {
     val usernameProp = prop[String]("username")
@@ -39,7 +35,7 @@ object RootTypeSpec {
     tagline: String,
     imageUri: Uri,
     description: Markdown)
-  extends Entity
+       extends Entity
 
   object UserProfile extends EntityType[UserProfile]
 
@@ -48,7 +44,7 @@ object RootTypeSpec {
     title: String,
     description: Markdown,
     authors: Set[Assoc[User]])
-  extends Root
+       extends Root
 
   object Blog extends RootType[Blog] {
     val uriProp = prop[Uri]("uri")
@@ -63,7 +59,7 @@ object RootTypeSpec {
     labels: Set[String] = Set(),
     blog: Assoc[Blog],
     authors: Set[Assoc[User]])
-  extends Root
+       extends Root
 
   object BlogPost extends RootType[BlogPost] {
     val blogProp = prop[Assoc[Blog]]("blog")
@@ -72,34 +68,5 @@ object RootTypeSpec {
   }
 
   object BlogCore extends Subdomain("blogging", EntityTypePool(User, UserProfile, Blog, BlogPost))
-
-}
-
-/** test bed for [[RootType]] functionality.
- *
- * this test class was established for the purpose of testing method
- * `RootType.validateQuery`. various flavors of `RootType` methods `keys`,
- * `indexes`, `prop`, `key`, and `index`, are more or less tested via
- * RootType/LongevityContext creation, and these should not need explicit
- * tests. (although it would be worth checking how well these methods are
- * currently covered by unit tests.)
- */
-class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
-
-  import RootTypeSpec._
-  import longevity.subdomain.root._
-
-  behavior of "RootType.validateQuery"
-
-  it should "leave static queries as-is" in {
-    val usernameVal = "usernameVal"
-    val emailVal: Email = "emailVal"
-
-    val squery = Query.or(
-      Query.eqs(User.usernameProp, usernameVal),
-      Query.eqs(User.emailProp, emailVal))
-
-    User.validateQuery(squery) should equal (squery)
-  }
 
 }
