@@ -1,4 +1,4 @@
-package longevity.subdomain.root
+package longevity.subdomain.ptype
 
 import longevity.subdomain._
 
@@ -13,10 +13,10 @@ case class Key[P <: Persistent] private [subdomain] (val props: Seq[Prop[P, _]])
 
   /** builds a [[KeyVal]] for this key from a series of [[KeyValArg key val args]]
    * 
-   * @throws longevity.exceptions.subdomain.root.NumPropValsException if the
+   * @throws longevity.exceptions.subdomain.ptype.NumPropValsException if the
    * number of key val args does not match the number of properties in the key
    * 
-   * @throws longevity.exceptions.subdomain.root.PropValTypeException if the
+   * @throws longevity.exceptions.subdomain.ptype.PropValTypeException if the
    * type of the key val arg does not not match the type of the corresponding
    * property in the key
    */

@@ -4,7 +4,7 @@ import emblem.imports._
 import longevity.context.LongevityContext
 import longevity.persistence._
 import longevity.subdomain._
-import longevity.subdomain.root._
+import longevity.subdomain.ptype._
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.util.Random
 
-/** contains common code for testing different [[longevity.subdomain.root.Query]]
+/** contains common code for testing different [[longevity.subdomain.ptype.Query]]
  * instances against [[longevity.persistence.Repo#retrieveByQuery]]
  *
  * @param context the longevity context under test

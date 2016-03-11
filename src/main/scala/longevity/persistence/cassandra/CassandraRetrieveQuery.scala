@@ -9,8 +9,8 @@ import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence._
 import longevity.subdomain._
-import longevity.subdomain.root._
-import longevity.subdomain.root.Query._
+import longevity.subdomain.ptype._
+import longevity.subdomain.ptype.Query._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.collection.JavaConversions._

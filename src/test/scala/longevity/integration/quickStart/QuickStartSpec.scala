@@ -172,6 +172,7 @@ with ScaledTimeSpans {
 
   import QuickStartSpec._
   import longevity.subdomain._
+  import longevity.subdomain.ptype.KeyVal
   import longevity.persistence._
 
   // get the repo pool:
@@ -224,7 +225,7 @@ with ScaledTimeSpans {
 
     // create a new blog post:
 
-    val blogKeyVal: root.KeyVal[Blog] = Blog.uriKey(blog.uri)
+    val blogKeyVal: KeyVal[Blog] = Blog.uriKey(blog.uri)
     val blogState: PState[Blog] =
       blogRepo.retrieve(blogKeyVal).futureValue.value
 
@@ -320,7 +321,7 @@ with ScaledTimeSpans {
 
     // same thing without the DSL:
 
-    import longevity.subdomain.root.Query
+    import longevity.subdomain.ptype.Query
     val noDsl: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
       Query.and(
         Query.eqs(BlogPost.props.blog, blogState.assoc),

@@ -1,7 +1,7 @@
-package longevity.subdomain.root
+package longevity.subdomain.ptype
 
-import longevity.exceptions.subdomain.root.NumPropValsException
-import longevity.exceptions.subdomain.root.PropValTypeException
+import longevity.exceptions.subdomain.ptype.NumPropValsException
+import longevity.exceptions.subdomain.ptype.PropValTypeException
 import longevity.subdomain._
 
 /** a key value
@@ -9,7 +9,7 @@ import longevity.subdomain._
  * @param key the key that this is a value for
  * @param propVals a map from the properties in the key to the values
  */
-case class KeyVal[P <: Persistent] private[root] (
+case class KeyVal[P <: Persistent] private[ptype] (
   val key: Key[P],
   val propVals: Map[Prop[P, _], Any])
 extends PRef[P] {
@@ -31,10 +31,10 @@ object KeyVal {
 
   /** builds a [[KeyVal]] from a [[Key]] and a series of [[KeyValArg key val args]]
    * 
-   * @throws longevity.exceptions.subdomain.root.NumPropValsException if the
+   * @throws longevity.exceptions.subdomain.ptype.NumPropValsException if the
    * number of key val args does not match the number of properties in the key
    * 
-   * @throws longevity.exceptions.subdomain.root.PropValTypeException if the
+   * @throws longevity.exceptions.subdomain.ptype.PropValTypeException if the
    * type of the key val arg does not not match the type of the corresponding
    * property in the key
    */

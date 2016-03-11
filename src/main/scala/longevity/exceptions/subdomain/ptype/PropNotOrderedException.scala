@@ -1,6 +1,6 @@
-package longevity.exceptions.subdomain.root
+package longevity.exceptions.subdomain.ptype
 
-import longevity.subdomain.root.Prop
+import longevity.subdomain.ptype.Prop
 
 /** an exception that occurs when a user attempts to use an ordered query operator with an unordered prop */
 class PropNotOrderedException(prop: Prop[_, _])

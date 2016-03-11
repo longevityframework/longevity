@@ -2,10 +2,10 @@ package longevity.unit.subdomain.root
 
 import com.github.nscala_time.time.Imports._
 import emblem.imports._
-import longevity.exceptions.subdomain.root._
+import longevity.exceptions.subdomain.ptype._
 import longevity.persistence.PersistedAssoc
 import longevity.subdomain._
-import longevity.subdomain.root._
+import longevity.subdomain.ptype._
 import org.scalatest._
 
 /** unit tests for the proper construction of [[Prop properties]] */

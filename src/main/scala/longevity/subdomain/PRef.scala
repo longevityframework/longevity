@@ -1,13 +1,13 @@
 package longevity.subdomain
 
 import longevity.persistence.PersistedAssoc
-import longevity.subdomain.root.KeyVal
+import longevity.subdomain.ptype.KeyVal
 
 /** an indirect reference to a persistent object. they can typically only be
  * dereferenced via the [[longevity.persistence persistence layer]].
  *
  * there are two kinds of persistent refs: [[Assoc associations]] and
- * [[longevity.subdomain.root.KeyVal key values]]. we hope to integrate these
+ * [[longevity.subdomain.ptype.KeyVal key values]]. we hope to integrate these
  * two types more in the future. in particular, it should be easier to embed a
  * key value of another aggregate in an entity, in place of embedding an
  * association.

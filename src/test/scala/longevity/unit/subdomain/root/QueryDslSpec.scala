@@ -1,9 +1,9 @@
 package longevity.unit.subdomain.root
 
 import org.scalatest._
-import longevity.exceptions.subdomain.root.PropNotOrderedException
+import longevity.exceptions.subdomain.ptype.PropNotOrderedException
 import longevity.subdomain._
-import longevity.subdomain.root._
+import longevity.subdomain.ptype._
 
 /** sample domain for the QueryDslSpec */
 object QueryDslSpec {

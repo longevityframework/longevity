@@ -1,4 +1,4 @@
-package longevity.exceptions.subdomain.root
+package longevity.exceptions.subdomain.ptype
 
 import longevity.exceptions.subdomain.SubdomainException
 

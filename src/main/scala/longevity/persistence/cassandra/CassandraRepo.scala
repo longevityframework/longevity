@@ -10,7 +10,7 @@ import emblem.stringUtil._
 import java.util.UUID
 import longevity.persistence._
 import longevity.subdomain._
-import longevity.subdomain.root._
+import longevity.subdomain.ptype._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.concurrent.ExecutionContext

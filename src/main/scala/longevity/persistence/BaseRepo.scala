@@ -3,7 +3,7 @@ package longevity.persistence
 import emblem.imports._
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.subdomain._
-import longevity.subdomain.root._
+import longevity.subdomain.ptype._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 

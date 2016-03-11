@@ -6,8 +6,8 @@ import emblem.stringUtil._
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.persistence._
 import longevity.subdomain._
-import longevity.subdomain.root._
-import longevity.subdomain.root.Query._
+import longevity.subdomain.ptype._
+import longevity.subdomain.ptype.Query._
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

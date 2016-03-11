@@ -1,4 +1,4 @@
-package longevity.subdomain.root
+package longevity.subdomain.ptype
 
 import emblem.EmblemPropPath
 import emblem.basicTypes.basicTypeOrderings
@@ -8,10 +8,10 @@ import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblemInPropPathException
 import emblem.exceptions.EmptyPropPathException
 import emblem.imports._
-import longevity.exceptions.subdomain.root.UnsupportedPropTypeException
-import longevity.exceptions.subdomain.root.NoSuchPropException
-import longevity.exceptions.subdomain.root.PropNotOrderedException
-import longevity.exceptions.subdomain.root.PropTypeException
+import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
+import longevity.exceptions.subdomain.ptype.NoSuchPropException
+import longevity.exceptions.subdomain.ptype.PropNotOrderedException
+import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.subdomain._
 
 /** a property for this persistent type. properties can be used to define [[Key keys]]
@@ -37,7 +37,7 @@ case class Prop[P <: Persistent, A] private (
 
   /** an ordering for property values
    * 
-   * @throws longevity.exceptions.subdomain.root.PropNotOrderedException
+   * @throws longevity.exceptions.subdomain.ptype.PropNotOrderedException
    * if the ordering is accessed, and the property value type is not a type
    * for which orderings are supported. right now, we only support orderings
    * for basic types

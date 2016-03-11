@@ -1,7 +1,7 @@
-package longevity.exceptions.subdomain.root
+package longevity.exceptions.subdomain.ptype
 
 import longevity.subdomain.Persistent
-import longevity.subdomain.root.Key
+import longevity.subdomain.ptype.Key
 
 /** an exception indicating an attempt to create a key value using the wrong
  * number of property values

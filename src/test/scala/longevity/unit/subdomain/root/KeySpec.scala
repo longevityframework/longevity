@@ -1,13 +1,13 @@
 package longevity.unit.subdomain.root
 
 import emblem.imports._
-import longevity.exceptions.subdomain.root.EarlyKeyAccessException
-import longevity.exceptions.subdomain.root.LateKeyDefException
-import longevity.exceptions.subdomain.root.NumPropValsException
-import longevity.exceptions.subdomain.root.PropValTypeException
+import longevity.exceptions.subdomain.ptype.EarlyKeyAccessException
+import longevity.exceptions.subdomain.ptype.LateKeyDefException
+import longevity.exceptions.subdomain.ptype.NumPropValsException
+import longevity.exceptions.subdomain.ptype.PropValTypeException
 import longevity.exceptions.subdomain.SubdomainException
 import longevity.subdomain._
-import longevity.subdomain.root._
+import longevity.subdomain.ptype._
 import org.scalatest._
 
 /** sample domain for the KeySpec tests */

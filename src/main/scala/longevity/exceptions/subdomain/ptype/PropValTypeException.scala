@@ -1,7 +1,7 @@
-package longevity.exceptions.subdomain.root
+package longevity.exceptions.subdomain.ptype
 
 import longevity.subdomain.Persistent
-import longevity.subdomain.root.Prop
+import longevity.subdomain.ptype.Prop
 
 /** an exception indicating an attempt to set a property with a value of the
  * wrong type.

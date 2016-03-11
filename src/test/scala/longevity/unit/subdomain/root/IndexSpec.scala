@@ -1,10 +1,10 @@
 package longevity.unit.subdomain.root
 
 import emblem.imports._
-import longevity.exceptions.subdomain.root.EarlyIndexAccessException
-import longevity.exceptions.subdomain.root.LateIndexDefException
-import longevity.exceptions.subdomain.root.NumPropValsException
-import longevity.exceptions.subdomain.root.PropValTypeException
+import longevity.exceptions.subdomain.ptype.EarlyIndexAccessException
+import longevity.exceptions.subdomain.ptype.LateIndexDefException
+import longevity.exceptions.subdomain.ptype.NumPropValsException
+import longevity.exceptions.subdomain.ptype.PropValTypeException
 import longevity.exceptions.subdomain.SubdomainException
 import longevity.subdomain._
 import org.scalatest._

@@ -1,4 +1,4 @@
-package longevity.subdomain.root
+package longevity.subdomain.ptype
 
 import Query._
 import longevity.subdomain._

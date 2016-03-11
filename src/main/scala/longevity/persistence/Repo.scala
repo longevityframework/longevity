@@ -2,7 +2,7 @@ package longevity.persistence
 
 import longevity.subdomain.PRef
 import longevity.subdomain.Persistent
-import longevity.subdomain.root.Query
+import longevity.subdomain.ptype.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -22,7 +22,7 @@ trait Repo[P <: Persistent] {
   /** retrieves an optional entity from a persistent ref
    * 
    * @param ref the reference to use to look up the entity. this could be a
-   * [[longevity.subdomain.root.KeyVal KeyVal]] or an
+   * [[longevity.subdomain.ptype.KeyVal KeyVal]] or an
    * [[longevity.subdomain.Assoc Assoc]]
    * 
    * @param executionContext the execution context
@@ -38,7 +38,7 @@ trait Repo[P <: Persistent] {
    * to an entity in the repository
    * 
    * @param ref the reference to use to look up the entity. this could be a
-   * [[longevity.subdomain.root.KeyVal KeyVal]] or an
+   * [[longevity.subdomain.ptype.KeyVal KeyVal]] or an
    * [[longevity.subdomain.Assoc Assoc]]
    *
    * @param executionContext the execution context

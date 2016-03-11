@@ -35,7 +35,7 @@ object RootTypeSpec {
     object User extends RootType[User] {
 
       // fully typed:
-      val profileDescription: longevity.subdomain.root.Prop[User, Markdown] =
+      val profileDescription: longevity.subdomain.ptype.Prop[User, Markdown] =
         prop[Markdown]("profile.description")
 
       // brief:

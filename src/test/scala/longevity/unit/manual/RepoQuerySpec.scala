@@ -27,7 +27,7 @@ class RepoQuerySpec extends FlatSpec with GivenWhenThen with Matchers {
 
       import com.github.nscala_time.time.Imports._
       import longevity.persistence.PState
-      import longevity.subdomain.root.Query
+      import longevity.subdomain.ptype.Query
       import scala.concurrent.Future
 
       def getBlogState(): PState[Blog] = ???

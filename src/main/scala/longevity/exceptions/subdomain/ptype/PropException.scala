@@ -1,8 +1,8 @@
-package longevity.exceptions.subdomain.root
+package longevity.exceptions.subdomain.ptype
 
 import longevity.exceptions.subdomain.SubdomainException
 
-/** an exception while building a [[longevity.subdomain.root.Prop property]] */
+/** an exception while building a [[longevity.subdomain.ptype.Prop property]] */
 class PropException(message: String, cause: Exception)
 extends SubdomainException(message, cause) {
 

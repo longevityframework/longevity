@@ -1,4 +1,4 @@
-package longevity.subdomain.root
+package longevity.subdomain.ptype
 
 import emblem.imports._
 

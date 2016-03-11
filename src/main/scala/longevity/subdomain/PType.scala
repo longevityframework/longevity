@@ -2,11 +2,11 @@ package longevity.subdomain
 
 import emblem.basicTypes.isBasicType
 import emblem.imports._
-import longevity.exceptions.subdomain.root.EarlyIndexAccessException
-import longevity.exceptions.subdomain.root.EarlyKeyAccessException
-import longevity.exceptions.subdomain.root.LateIndexDefException
-import longevity.exceptions.subdomain.root.LateKeyDefException
-import longevity.subdomain.root._
+import longevity.exceptions.subdomain.ptype.EarlyIndexAccessException
+import longevity.exceptions.subdomain.ptype.EarlyKeyAccessException
+import longevity.exceptions.subdomain.ptype.LateIndexDefException
+import longevity.exceptions.subdomain.ptype.LateKeyDefException
+import longevity.subdomain.ptype._
 
 /** a type class for a domain entity that is stored in a persistent collection */
 abstract class PType[
@@ -31,7 +31,7 @@ extends EntityType[P] {
    * calling either of the `PType.key` methods in your class initializer. you
    * should only attempt to access this set after your `PType` is fully initialized.
    * 
-   * @throws longevity.exceptions.subdomain.root.EarlyKeyAccessException on
+   * @throws longevity.exceptions.subdomain.ptype.EarlyKeyAccessException on
    * attempt to access this set before the `PType` is fully initialized
    */
   lazy val keySet: Set[Key[P]] = {
@@ -44,7 +44,7 @@ extends EntityType[P] {
    * should only attempt to access this set after your `PType` is fully
    * initialized.
    * 
-   * @throws longevity.exceptions.subdomain.root.EarlyIndexAccessException on
+   * @throws longevity.exceptions.subdomain.ptype.EarlyIndexAccessException on
    * attempt to access this set before the `PType` is fully initialized
    */
   lazy val indexSet: Set[Index[P]] = {
@@ -52,9 +52,9 @@ extends EntityType[P] {
     indexBuffer
   }
 
-  /** constructs a [[longevity.subdomain.root.Prop]] from a path
+  /** constructs a [[longevity.subdomain.ptype.Prop]] from a path
    * 
-   * @throws longevity.exceptions.subdomain.root.PropException if any step along
+   * @throws longevity.exceptions.subdomain.ptype.PropException if any step along
    * the path does not exist, or any non-final step along the path is not an
    * entity, or the final step along the path is not a [[Shorthand]], an
    * [[Assoc]] or a basic type.
@@ -68,7 +68,7 @@ extends EntityType[P] {
    * @param propsHead one of the properties that define this key
    * @param propsTail any remaining properties that define this key
    *
-   * @throws longevity.exceptions.subdomain.root.LateKeyDefException on attempt
+   * @throws longevity.exceptions.subdomain.ptype.LateKeyDefException on attempt
    * to create a new key after the `PType` is fully initialized
    */
   def key(propsHead: Prop[P, _], propsTail: Prop[P, _]*): Key[P] = {
@@ -82,7 +82,7 @@ extends EntityType[P] {
    * 
    * @param propsHead one of the properties that define this index
    * @param propsTail any remaining properties that define this index
-   * @throws longevity.exceptions.subdomain.root.LateIndexDefException on
+   * @throws longevity.exceptions.subdomain.ptype.LateIndexDefException on
    * attempt to create a new index after the `PType` is fully initialized
    */
   def index(propsHead: Prop[P, _], propsTail: Prop[P, _]*): Index[P] = {

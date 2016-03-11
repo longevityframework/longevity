@@ -2,7 +2,7 @@ package longevity.persistence.cassandra
 
 import emblem.imports._
 import longevity.subdomain._
-import longevity.subdomain.root.Prop
+import longevity.subdomain.ptype.Prop
 
 /** implementation of CassandraRepo.createSchema */
 private[cassandra] trait CassandraSchema[P <: Persistent] {
