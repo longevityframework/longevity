@@ -16,6 +16,9 @@ import scala.util.Random
 /** contains common code for testing different [[longevity.subdomain.ptype.Query]]
  * instances against [[longevity.persistence.Repo#retrieveByQuery]]
  *
+ * pardon the nasty ScalaDocs for this class. we haven't figured out how to
+ * remove the methods inherited from ScalaTest classes yet.
+ *
  * @param context the longevity context under test
  * 
  * @param repoPool the repo pool under test. this may be different than the

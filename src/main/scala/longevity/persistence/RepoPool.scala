@@ -25,9 +25,9 @@ class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseR
    * aggregates with embedded unpersisted associations. any aggregates embedded
    * this way must be present in the argument list `keyedPs`.
    *
-   * because [PWithTypeKey] is an implicit class, you can call this method
+   * because [[PWithTypeKey]] is an implicit class, you can call this method
    * using just aggregate roots, and the roots will be converted to
-   * `RootWithTypeKey` implicitly:
+   * `PWithTypeKey` implicitly:
    *
    * {{{
    * repoPool.createMany(user1, user2, user2, blogPost1, blogPost2, blog)

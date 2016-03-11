@@ -16,8 +16,8 @@ import scala.concurrent.Future
 /** manages entity persistence operations */
 package object persistence {
 
-  /** packages a [Persistent persistent entity] with a `TypeKey` for the
-   * entity's type. used by [[RepoPool.createMany]].
+  /** packages a [[longevity.subdomain.Persistent persistent entity]] with a
+   * `TypeKey` for the entity's type. used by [[RepoPool.createMany]].
    */
   implicit class PWithTypeKey[P <: Persistent : TypeKey](val p: P) {
     val pTypeKey = typeKey[P]

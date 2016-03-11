@@ -5,8 +5,14 @@ import emblem.imports._
 /** a type class for a domain entity */
 abstract class EntityType[E <: Entity : TypeKey] {
 
+  /** a `TypeKey` for the domain entity
+   * @see `emblem.TypeKey`
+   */
   val entityTypeKey: TypeKey[E] = typeKey[E]
 
+  /** an `Emblem` for the domain entity
+   * @see `emblem.Emblem`
+   */
   val emblem: Emblem[E] = Emblem[E]
 
 }

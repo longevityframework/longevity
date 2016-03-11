@@ -25,6 +25,9 @@ import scala.concurrent.Future
  * the repo CRUD spec exercises create/retrieve/update/delete for all the repos
  * in your repo pool.
  *
+ * pardon the nasty ScalaDocs for this class. we haven't figured out how to
+ * remove the methods inherited from ScalaTest classes yet.
+ * 
  * @param context the longevity context
  * 
  * @param repoPool the repo pool under test. this may be different than the
@@ -38,7 +41,7 @@ import scala.concurrent.Future
  *
  * @param executionContext the execution context
  */
-private[longevity] class RepoCrudSpec(
+class RepoCrudSpec private[longevity] (
   context: LongevityContext,
   repoPool: RepoPool,
   suiteNameSuffix: Option[String] = None)(

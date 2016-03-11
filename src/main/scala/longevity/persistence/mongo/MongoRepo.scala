@@ -14,8 +14,6 @@ import scala.concurrent.Future
 import scala.util.Failure
 import scala.util.Success
 
-// TODO this class needs refactor
-
 /** a MongoDB repository for persistent entities of type `P`.
  *
  * @param pType the persistent type of the entities this repository handles

@@ -28,7 +28,7 @@ extends EntityType[P] {
   private var indexBuffer = Set[Index[P]]()
 
   /** the keys for this persistent type. you populate this set by repeatedly
-   * calling either of the `PType.key` methods in your class initializer. you
+   * calling the `PType.key` method in your class initializer. you
    * should only attempt to access this set after your `PType` is fully initialized.
    * 
    * @throws longevity.exceptions.subdomain.ptype.EarlyKeyAccessException on
@@ -40,7 +40,7 @@ extends EntityType[P] {
   }
 
   /** the indexes for this persistent type. you populate this set by repeatedly
-   * calling either of the `PType.index` methods in your class initializer. you
+   * calling the `PType.index` method in your class initializer. you
    * should only attempt to access this set after your `PType` is fully
    * initialized.
    * 
@@ -52,7 +52,7 @@ extends EntityType[P] {
     indexBuffer
   }
 
-  /** constructs a [[longevity.subdomain.ptype.Prop]] from a path
+  /** constructs a [[longevity.subdomain.ptype.Prop Prop]] from a path
    * 
    * @throws longevity.exceptions.subdomain.ptype.PropException if any step along
    * the path does not exist, or any non-final step along the path is not an
@@ -65,7 +65,7 @@ extends EntityType[P] {
 
   /** constructs a key for this persistent type based on the supplied set of key props
    * 
-   * @param propsHead one of the properties that define this key
+   * @param propsHead the first of the properties that define this key
    * @param propsTail any remaining properties that define this key
    *
    * @throws longevity.exceptions.subdomain.ptype.LateKeyDefException on attempt
@@ -78,9 +78,9 @@ extends EntityType[P] {
     key
   }
 
-  /** constructs a index for this persistent type based on the supplied set of index props
+  /** constructs an index for this persistent type based on the supplied set of index props
    * 
-   * @param propsHead one of the properties that define this index
+   * @param propsHead the first of the properties that define this index
    * @param propsTail any remaining properties that define this index
    * @throws longevity.exceptions.subdomain.ptype.LateIndexDefException on
    * attempt to create a new index after the `PType` is fully initialized
