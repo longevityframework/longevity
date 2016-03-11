@@ -6,9 +6,6 @@ import longevity.subdomain.ptype.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-// TODO: check over code for dangling roots and aggregates
-// TODO: once over scaladoc, check for dangling roots and aggregates
-
 /** a repository for persistent entities of type `P` */
 trait Repo[P <: Persistent] {
 
