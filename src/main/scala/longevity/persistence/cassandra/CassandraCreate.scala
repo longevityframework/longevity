@@ -16,10 +16,10 @@ import scala.concurrent.Future
 private[cassandra] trait CassandraCreate[P <: Persistent] {
   repo: CassandraRepo[P] =>
 
-  override def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
+  override def create(p: P)(implicit context: ExecutionContext) = Future {
     val uuid = UUID.randomUUID
-    session.execute(bindInsertStatement(uuid, unpersisted))
-    new PState[P](CassandraId(uuid), unpersisted)
+    session.execute(bindInsertStatement(uuid, p))
+    new PState[P](CassandraId(uuid), p)
   }
   
   private lazy val insertStatement: PreparedStatement = {

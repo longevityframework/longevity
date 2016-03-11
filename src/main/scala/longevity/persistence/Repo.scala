@@ -6,19 +6,22 @@ import longevity.subdomain.root.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** a repository for aggregate roots of type `R` */
+// TODO: check over code for dangling roots and aggregates
+// TODO: once over scaladoc, check for dangling roots and aggregates
+
+/** a repository for persistent entities of type `P` */
 trait Repo[P <: Persistent] {
 
   /** creates the aggregate
    * 
-   * @param unpersisted the root of the aggregate to create
+   * @param unpersisted the persistent entity to create
    * @param executionContext the execution context
    */
   def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** retrieves an optional aggregate from a persistent ref
+  /** retrieves an optional entity from a persistent ref
    * 
-   * @param ref the reference to use to look up the aggregate. this could be a
+   * @param ref the reference to use to look up the entity. this could be a
    * [[longevity.subdomain.root.KeyVal KeyVal]] or an
    * [[longevity.subdomain.Assoc Assoc]]
    * 
@@ -29,12 +32,12 @@ trait Repo[P <: Persistent] {
    */
   def retrieve(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[Option[PState[P]]]
 
-  /** retrieves a non-optional aggregate from a persistent ref
+  /** retrieves a non-optional entity from a persistent ref
    * 
    * throws NoSuchElementException whenever the persistent ref does not refer
-   * to an aggregate in the repository
+   * to an entity in the repository
    * 
-   * @param ref the reference to use to look up the aggregate. this could be a
+   * @param ref the reference to use to look up the entity. this could be a
    * [[longevity.subdomain.root.KeyVal KeyVal]] or an
    * [[longevity.subdomain.Assoc Assoc]]
    *
@@ -45,7 +48,7 @@ trait Repo[P <: Persistent] {
    */
   def retrieveOne(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** retrieves multiple aggregates by a query
+  /** retrieves multiple persistent entities by a query
    * 
    * @param query the query to execute
    * @param executionContext the execution context
@@ -53,16 +56,16 @@ trait Repo[P <: Persistent] {
   def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext)
   : Future[Seq[PState[P]]]
 
-  /** updates the aggregate
+  /** updates the persistent entity
    * 
-   * @param state the persistent state of the aggregate to update
+   * @param state the persistent state of the entity to update
    * @param executionContext the execution context
    */
   def update(state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** deletes the aggregate
+  /** deletes the persistent entity
    * 
-   * @param state the persistent state of the aggregate to delete
+   * @param state the persistent state of the entity to delete
    * @param executionContext the execution context
    */
   def delete(state: PState[P])(implicit executionContext: ExecutionContext): Future[Deleted[P]]

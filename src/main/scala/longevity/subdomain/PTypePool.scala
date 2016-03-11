@@ -6,8 +6,9 @@ import longevity.exceptions.subdomain.DuplicateEntityTypesException
 /** houses methods for constructing persistent type pools */
 object PTypePool {
 
-  /** extracts all the [[RootType root types]] out of the [[EntityTypePool]], collects them
-   * into a [[PTypePool]], and returns that */
+  /** extracts all the [[PType persistent types]] out of an [[EntityTypePool]],
+   * collects them into a [[PTypePool]], and returns that
+   */
   def apply(entityTypePool: EntityTypePool): PTypePool = {
     val pTypes = entityTypePool.values.collect {
       case pType: PType[_] => pType

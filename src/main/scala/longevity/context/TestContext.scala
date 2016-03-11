@@ -9,11 +9,13 @@ import scala.concurrent.ExecutionContext
 trait TestContext {
 
   /** a collection of custom generators to use when generating test data.
-   * defaults to an empty collection */
+   * defaults to an empty collection
+   */
   val customGeneratorPool: CustomGeneratorPool
 
   /** a set of repositories used for testing, targeting the same persistence
-   * strategy as your main repo pool */
+   * strategy as your main repo pool
+   */
   val testRepoPool: RepoPool
 
   /** an in-memory set of repositories for this longevity context, for use in testing */

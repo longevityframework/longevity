@@ -7,7 +7,7 @@ import java.util.UUID
 import longevity.subdomain._
 import org.json4s.JsonAST._
 
-private[cassandra] class JsonToRootTranslator(
+private[cassandra] class JsonToPersistentTranslator(
   override protected val emblemPool: EmblemPool,
   override protected val extractorPool: ExtractorPool)
 extends JsonToEmblemTranslator {
@@ -15,9 +15,9 @@ extends JsonToEmblemTranslator {
   override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
 
   def assocTraversor = new CustomTraversor[AssocAny] {
-    def apply[B <: Assoc[_ <: Root] : TypeKey](input: JValue): B = {
+    def apply[B <: Assoc[_ <: Persistent] : TypeKey](input: JValue): B = {
       def assocFromString(s: String) = {
-        val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: Root]]
+        val associateeTypeKey = typeKey[B].typeArgs(0).asInstanceOf[TypeKey[_ <: Persistent]]
         CassandraId(UUID.fromString(s))
       }
       input match {

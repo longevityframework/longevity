@@ -78,12 +78,12 @@ with TestDataGeneration {
   /** pick an entity from the test set "at random". actually uses `Set.head` */
   protected def randomP: P = entities.head
 
-  /** pick the root with the median value for the provided property
+  /** pick the entity with the median value for the provided property
    * @param prop the property to select the median value for
    */
   protected def medianPropVal[A](prop: Prop[P, A]): A = orderStatPropVal(prop, entities.size / 2)
 
-  /** pick the root with the specified order statistic for the provided
+  /** pick the entity with the specified order statistic for the provided
    * property. an order statistic `k` is the element indexed by `k` if the set
    * of entities were sorted by the supplied property.
    * 

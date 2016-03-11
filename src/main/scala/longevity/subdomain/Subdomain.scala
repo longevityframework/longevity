@@ -3,8 +3,9 @@ package longevity.subdomain
 import emblem.imports._
 import emblem.WideningTypeBoundFunction
 
-/** a specification of a subdomain of a project's domain. contains a pool of all the [[EntityType entity types]]
- * in the subdomain, as well as all the shorthands used by the entities.
+/** a specification of a subdomain of a project's domain. contains a pool of
+ * all the [[EntityType entity types]] in the subdomain, as well as all the
+ * shorthands used by the entities.
  *
  * @param name the name of the subdomain
  * @param entityTypePool a complete set of the entity types within the subdomain
@@ -15,6 +16,7 @@ class Subdomain(
   val entityTypePool: EntityTypePool)(
   implicit val shorthandPool: ShorthandPool = ShorthandPool()) {
 
+  /** a pool of the persistent types in the subdomain */
   val pTypePool = PTypePool(entityTypePool)
 
   // prohibit further creation of keys and indexs

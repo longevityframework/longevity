@@ -12,20 +12,20 @@ import longevity.persistence.RepoPool
 import longevity.subdomain._
 import scala.reflect.runtime.universe.typeOf
 
-/** translates [[Entity entities]] into
- * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
+/** translates [[Persistent persistent entities]] into
+ * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBObject
  * casbah MongoDBObjects]].
  *
  * @param emblemPool a pool of emblems for the entities within the subdomain
  * @param extractorPool a complete set of the extractors used by the bounded context
  * @param repoPool a pool of the repositories for this persistence context
  */
-private[persistence] class EntityToCasbahTranslator(
+private[persistence] class PersistentToCasbahTranslator(
   emblemPool: EmblemPool,
   extractorPool: ExtractorPool,
   private val repoPool: RepoPool) {
 
-  /** translates an [[Entity]] into a `MongoDBList` */
+  /** translates an [[Entity]] into a `MongoDBObjects` */
   def translate[E <: Entity : TypeKey](e: E): MongoDBObject = try {
     traversor.traverse[E](e).asInstanceOf[BasicDBObject]
   } catch {
@@ -39,16 +39,16 @@ private[persistence] class EntityToCasbahTranslator(
     type TraverseInput[A] = A
     type TraverseResult[A] = Any
 
-    override protected val emblemPool = EntityToCasbahTranslator.this.emblemPool
-    override protected val extractorPool = EntityToCasbahTranslator.this.extractorPool
+    override protected val emblemPool = PersistentToCasbahTranslator.this.emblemPool
+    override protected val extractorPool = PersistentToCasbahTranslator.this.extractorPool
     override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
-      def apply[B <: Assoc[_ <: Root] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
+      def apply[B <: Assoc[_ <: Persistent] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
         if (!input.isPersisted) {
           throw new AssocIsUnpersistedException(input)
         }
-        input.asInstanceOf[MongoId[_ <: Root]].objectId
+        input.asInstanceOf[MongoId[_ <: Persistent]].objectId
       }
     }
 

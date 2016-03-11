@@ -27,11 +27,12 @@ extends EntityType[P] {
   private var keyBuffer = Set[Key[P]]()
   private var indexBuffer = Set[Index[P]]()
 
-  /** the keys for this root type. you populate this set by repeatedly calling either of the
-   * `PType.key` methods in your class initializer. you should only attempt to access this set
-   * after your `PType` is fully initialized.
-   * @throws longevity.exceptions.subdomain.root.EarlyKeyAccessException on attempt to access
-   * this set before the `PType` is fully initialized
+  /** the keys for this persistent type. you populate this set by repeatedly
+   * calling either of the `PType.key` methods in your class initializer. you
+   * should only attempt to access this set after your `PType` is fully initialized.
+   * 
+   * @throws longevity.exceptions.subdomain.root.EarlyKeyAccessException on
+   * attempt to access this set before the `PType` is fully initialized
    */
   lazy val keySet: Set[Key[P]] = {
     if (!registered) throw new EarlyKeyAccessException
@@ -42,6 +43,7 @@ extends EntityType[P] {
    * calling either of the `PType.index` methods in your class initializer. you
    * should only attempt to access this set after your `PType` is fully
    * initialized.
+   * 
    * @throws longevity.exceptions.subdomain.root.EarlyIndexAccessException on
    * attempt to access this set before the `PType` is fully initialized
    */
@@ -51,17 +53,21 @@ extends EntityType[P] {
   }
 
   /** constructs a [[longevity.subdomain.root.Prop]] from a path
+   * 
    * @throws longevity.exceptions.subdomain.root.PropException if any step along
    * the path does not exist, or any non-final step along the path is not an
    * entity, or the final step along the path is not a [[Shorthand]], an
-   * [[Assoc]] or a basic type
+   * [[Assoc]] or a basic type.
+   * 
    * @see `emblem.basicTypes`
    */
   def prop[A : TypeKey](path: String): Prop[P, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
 
   /** constructs a key for this persistent type based on the supplied set of key props
+   * 
    * @param propsHead one of the properties that define this key
    * @param propsTail any remaining properties that define this key
+   *
    * @throws longevity.exceptions.subdomain.root.LateKeyDefException on attempt
    * to create a new key after the `PType` is fully initialized
    */

@@ -13,23 +13,24 @@ import longevity.persistence.RepoPool
 import longevity.subdomain._
 import scala.reflect.runtime.universe.typeOf
 
-/** translates [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
- * casbah MongoDBObjects]] into [[Entity entities]].
+/** translates
+ * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
+ * casbah MongoDBObjects]] into [[Persistent persistent entities]].
  *
  * @param emblemPool a pool of emblems for the entities within the subdomain
  * @param extractorPool a complete set of the extractors used by the bounded context
  * @param repoPool a pool of the repositories for this persistence context
  */
-private[persistence] class CasbahToEntityTranslator(
+private[persistence] class CasbahToPersistentTranslator(
   emblemPool: EmblemPool,
   extractorPool: ExtractorPool,
   private val repoPool: RepoPool) {
 
-  /** translates a `MongoDBList` into an [[Entity]] */
-  def translate[E <: Entity : TypeKey](casbah: MongoDBObject): E = try {
-    traversor.traverse[E](casbah)
+  /** translates a `MongoDBObject` into a [[Persistent persistent entity]] */
+  def translate[P <: Persistent : TypeKey](casbah: MongoDBObject): P = try {
+    traversor.traverse[P](casbah)
   } catch {
-    case e: CouldNotTraverseException => throw new BsonTranslationException(typeKey[E], e)
+    case e: CouldNotTraverseException => throw new BsonTranslationException(typeKey[P], e)
   }
 
   private val optionAnyType = typeOf[scala.Option[_]]
@@ -39,12 +40,12 @@ private[persistence] class CasbahToEntityTranslator(
     type TraverseInput[A] = Any
     type TraverseResult[A] = A
 
-    override protected val emblemPool = CasbahToEntityTranslator.this.emblemPool
-    override protected val extractorPool = CasbahToEntityTranslator.this.extractorPool
+    override protected val emblemPool = CasbahToPersistentTranslator.this.emblemPool
+    override protected val extractorPool = CasbahToPersistentTranslator.this.extractorPool
     override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
-      def apply[B <: Assoc[_ <: Root] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
+      def apply[B <: Assoc[_ <: Persistent] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
 
         // first asInstanceOf is because of emblem shortfall
         // second asInstanceOf is basically the same emblem shortfall as before

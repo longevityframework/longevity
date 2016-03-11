@@ -16,10 +16,10 @@ import scala.util.Success
 
 // TODO this class needs refactor
 
-/** a MongoDB repository for aggregate roots of type `R`.
+/** a MongoDB repository for persistent entities of type `P`.
  *
- * @param pType the entity type for the aggregate roots this repository handles
- * @param subdomain the subdomain containing the root that this repo persists
+ * @param pType the persistent type of the entities this repository handles
+ * @param subdomain the subdomain containing the entities that this repo persists
  * @param mongoDb the connection to the mongo database
  */
 private[longevity] class MongoRepo[P <: Persistent : TypeKey] private[persistence] (
@@ -36,17 +36,17 @@ extends BaseRepo[P](pType, subdomain) {
   private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
 
   private lazy val entityToCasbahTranslator =
-    new EntityToCasbahTranslator(emblemPool, extractorPool, repoPool)
+    new PersistentToCasbahTranslator(emblemPool, extractorPool, repoPool)
   private lazy val casbahToEntityTranslator =
-      new CasbahToEntityTranslator(emblemPool, extractorPool, repoPool)
+      new CasbahToPersistentTranslator(emblemPool, extractorPool, repoPool)
 
   createSchema()
 
-  def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
+  def create(p: P)(implicit context: ExecutionContext) = Future {
     val objectId = new ObjectId()
-    val casbah = entityToCasbahTranslator.translate(unpersisted) ++ MongoDBObject("_id" -> objectId)
+    val casbah = entityToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.insert(casbah)
-    new PState[P](MongoId(objectId), unpersisted)
+    new PState[P](MongoId(objectId), p)
   }
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
@@ -55,25 +55,25 @@ extends BaseRepo[P](pType, subdomain) {
     val dbObjs: Seq[DBObject] = cursor.toSeq
     dbObjs.map { result =>
       val id = result.getAs[ObjectId]("_id").get
-      val root = casbahToEntityTranslator.translate(result)
-      new PState[P](MongoId(id), root)
+      val p = casbahToEntityTranslator.translate(result)
+      new PState[P](MongoId(id), p)
     }
   }
 
-  def update(persisted: PState[P])(implicit context: ExecutionContext) = Future {
-    val root = persisted.get
-    val objectId = persisted.assoc.asInstanceOf[MongoId[P]].objectId
+  def update(state: PState[P])(implicit context: ExecutionContext) = Future {
+    val p = state.get
+    val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
-    val casbah = entityToCasbahTranslator.translate(root) ++ MongoDBObject("_id" -> objectId)
+    val casbah = entityToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.update(query, casbah)
-    new PState[P](persisted.passoc, root)
+    new PState[P](state.passoc, p)
   }
 
-  def delete(persisted: PState[P])(implicit context: ExecutionContext) = Future {
-    val objectId = persisted.assoc.asInstanceOf[MongoId[P]].objectId
+  def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
+    val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
-    new Deleted(persisted.get, persisted.assoc)
+    new Deleted(state.get, state.assoc)
   }
 
   override protected def retrieveByPersistedAssoc(
@@ -83,8 +83,8 @@ extends BaseRepo[P](pType, subdomain) {
     val objectId = assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val resultOption = mongoCollection.findOne(query)
-    val rootOption = resultOption map { casbahToEntityTranslator.translate(_) }
-    rootOption map { e => new PState[P](assoc, e) }
+    val pOption = resultOption map { casbahToEntityTranslator.translate(_) }
+    pOption map { p => new PState[P](assoc, p) }
   }
 
   override protected def retrieveByKeyVal(keyVal: KeyVal[P])(implicit context: ExecutionContext)
@@ -95,11 +95,11 @@ extends BaseRepo[P](pType, subdomain) {
     }
     val query = builder.result
     val resultOption = mongoCollection.findOne(query)
-    val idRootOption = resultOption map { result =>
+    val idPOption = resultOption map { result =>
       val id = result.getAs[ObjectId]("_id").get
       id -> casbahToEntityTranslator.translate(result)
     }
-    idRootOption map { case (id, e) => new PState[P](MongoId(id), e) }
+    idPOption map { case (id, p) => new PState[P](MongoId(id), p) }
   }
 
   private def resolvePropVal(prop: Prop[P, _], raw: Any): Any = {
@@ -135,6 +135,7 @@ extends BaseRepo[P](pType, subdomain) {
   }
 
   private def touchupValue[A : TypeKey](value: A): Any = {
+    // TODO seems liek this would fail for a char shorthand. see cassandraRepo
     value match {
       case id: MongoId[_] => id.objectId
       case char: Char => char.toString

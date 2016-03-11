@@ -6,11 +6,11 @@ import scala.concurrent.Future
 
 object Assoc {
 
-  /** wraps a persistent in an unpersisted assoc. this is useful for building out
-   * domain data that has not been persisted. it is made implicit so your code
-   * isn't littered with `Assoc(_)` calls everywhere. this ought not to be
-   * confusing, as there is no other sensible way to embed a root into
-   * another entity.
+  /** wraps a persistent entity in an unpersisted assoc. this is useful for
+   * building out domain data that has not been persisted. it is made implicit
+   * so your code isn't littered with `Assoc(_)` calls everywhere. this ought
+   * not to be confusing, as it normally does not make sense to embed one
+   * persistent entity within another persistent entity.
    */
   implicit def apply[P <: Persistent : TypeKey](p: P): Assoc[P] = UnpersistedAssoc(p)
 

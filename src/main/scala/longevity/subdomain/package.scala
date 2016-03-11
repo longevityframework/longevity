@@ -28,20 +28,23 @@ package object subdomain {
   }
 
   /** a type key map of [[Entity]] to [[EntityType]]
-   * @see emblem.TypeKeyMap */
+   * @see emblem.TypeKeyMap
+   */
   type EntityTypePool = TypeKeyMap[Entity, EntityType]
 
   /** a type key map of [[Persistent]] to [[PType]]
-   * @see emblem.TypeKeyMap */
+   * @see emblem.TypeKeyMap
+   */
   type PTypePool = TypeKeyMap[Persistent, PType]
 
-  /** an [[Assoc association]] to an unspecified type of [[Root root]]. this is useful for building
-   * stuff from `emblem.traversors` for traversing entities.
+  /** an [[Assoc association]] to an unspecified type of [[Persistent persistent
+   * entity]]. this is useful for building stuff from `emblem.traversors` for
+   * traversing entities.
    * 
    * leaving this `private[longevity]` for now, but if any user-facing use-case
    * comes up, we can expose it.
    */
-  private[longevity] type AssocAny = Assoc[_ <: Root]
+  private[longevity] type AssocAny = Assoc[_ <: Persistent]
 
   // synonyms:
 

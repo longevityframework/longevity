@@ -16,8 +16,8 @@ import scala.concurrent.Future
 /** manages entity persistence operations */
 package object persistence {
 
-  /** packages a [Persistent] with a `TypeKey` for the entity's type. used
-   * by [[RepoPool.createMany]].
+  /** packages a [Persistent persistent entity] with a `TypeKey` for the
+   * entity's type. used by [[RepoPool.createMany]].
    */
   implicit class PWithTypeKey[P <: Persistent : TypeKey](val p: P) {
     val pTypeKey = typeKey[P]
@@ -86,8 +86,8 @@ package object persistence {
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[P <: Persistent](pType: PType[P], pKey: TypeKey[P]): BaseRepo[P] =
-        new InMemRepo(pType, subdomain)(pKey)
+      def build[P <: Persistent](pType: PType[P], pTypeKey: TypeKey[P]): BaseRepo[P] =
+        new InMemRepo(pType, subdomain)(pTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -104,8 +104,8 @@ package object persistence {
 
   private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[P <: Persistent](pType: PType[P], pKey: TypeKey[P]): BaseRepo[P] =
-        new MongoRepo(pType, subdomain, mongoDB)(pKey)
+      def build[P <: Persistent](pType: PType[P], pTypeKey: TypeKey[P]): BaseRepo[P] =
+        new MongoRepo(pType, subdomain, mongoDB)(pTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -141,7 +141,7 @@ package object persistence {
   }
 
   private trait StockRepoFactory {
-    def build[P <: Persistent](pType: PType[P], entityKey: TypeKey[P]): BaseRepo[P]
+    def build[P <: Persistent](pType: PType[P], pTypeKey: TypeKey[P]): BaseRepo[P]
   }
 
   private def buildRepoPool(
@@ -149,12 +149,12 @@ package object persistence {
     stockRepoFactory: StockRepoFactory)
   : RepoPool = {
     var typeKeyMap = emptyTypeKeyMap
-    type Pair[RE <: Persistent] = TypeBoundPair[Persistent, TypeKey, PType, RE]
-    def createRepoFromPair[RE <: Persistent](pair: Pair[RE]): Unit = {
-      val entityKey = pair._1
+    type Pair[P <: Persistent] = TypeBoundPair[Persistent, TypeKey, PType, P]
+    def createRepoFromPair[P <: Persistent](pair: Pair[P]): Unit = {
+      val pTypeKey = pair._1
       val pType = pair._2
-      val repo = stockRepoFactory.build(pType, entityKey)
-      typeKeyMap += (entityKey -> repo)
+      val repo = stockRepoFactory.build(pType, pTypeKey)
+      typeKeyMap += (pTypeKey -> repo)
     }
     subdomain.pTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
     val repoPool = new RepoPool(typeKeyMap)

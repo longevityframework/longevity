@@ -33,13 +33,13 @@ extends Transformer {
   private lazy val transformAssoc = new CustomTransformer[AssocAny] {
     def apply[B <: AssocAny : TypeKey](transformer: Transformer, input: Future[B]): Future[B] =
       input.flatMap { b =>
-        def unpersistedRoot[P <: Persistent : TypeKey]: Future[P] = {
+        def unpersistedP[P <: Persistent : TypeKey]: Future[P] = {
           val assoc = b.asInstanceOf[Assoc[P]]
           val futurePersistedRoot = repoPool(typeKey[P]).retrieveOne(assoc).map(_.get)
           transform(futurePersistedRoot)(typeKey[P])
         }
         val pTypeKey = typeKey[B].typeArgs.head.asInstanceOf[TypeKey[Persistent]]
-        unpersistedRoot(pTypeKey).map(Assoc(_).asInstanceOf[B])
+        unpersistedP(pTypeKey).map(Assoc(_).asInstanceOf[B])
       }
   }
 

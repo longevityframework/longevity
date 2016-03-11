@@ -16,17 +16,17 @@ import org.joda.time.format.DateTimeFormat
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** a Cassandra repository for aggregate roots of type `P`.
+/** a Cassandra repository for persistent entities of type `P`.
  *
- * @param rootType the entity type for the aggregate roots this repository handles
+ * @param pType the type of the persistent entities this repository handles
  * @param subdomain the subdomain containing the root that this repo persists
  * @param session the connection to the cassandra database
  */
 private[longevity] class CassandraRepo[P <: Persistent : TypeKey] protected[persistence] (
-  rootType: PType[P],
+  pType: PType[P],
   subdomain: Subdomain,
   protected val session: Session)
-extends BaseRepo[P](rootType, subdomain)
+extends BaseRepo[P](pType, subdomain)
 with CassandraSchema[P]
 with CassandraCreate[P]
 with CassandraRetrieveAssoc[P]
@@ -36,20 +36,20 @@ with CassandraUpdate[P]
 with CassandraDelete[P] {
 
   protected val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
-  protected val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
+  protected val realizedProps = pType.keySet.flatMap(_.props) ++ pType.indexSet.flatMap(_.props)
   protected val emblemPool = subdomain.entityEmblemPool
   protected val shorthandPool = subdomain.shorthandPool
 
   private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
-  private val rootToJsonTranslator = new RootToJsonTranslator(emblemPool, extractorPool)
-  private val jsonToRootTranslator = new JsonToRootTranslator(emblemPool, extractorPool)
+  private val rootToJsonTranslator = new PersistentToJsonTranslator(emblemPool, extractorPool)
+  private val jsonToRootTranslator = new JsonToPersistentTranslator(emblemPool, extractorPool)
 
   protected def columnName(prop: Prop[P, _]) = "prop_" + scoredPath(prop)
 
   protected def scoredPath(prop: Prop[P, _]) = prop.path.replace('.', '_')
 
   protected def jsonStringForRoot(p: P): String = {
-    import org.json4s.native.JsonMethods._    
+    import org.json4s.native.JsonMethods._
     compact(render(rootToJsonTranslator.traverse(p)))
   }
 
@@ -85,8 +85,8 @@ with CassandraDelete[P] {
     val id = CassandraId[P](row.getUUID("id"))
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("root"))
-    val root = jsonToRootTranslator.traverse[P](json)
-    new PState[P](id, root)
+    val p = jsonToRootTranslator.traverse[P](json)
+    new PState[P](id, p)
   }
 
   createSchema()

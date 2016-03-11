@@ -41,15 +41,15 @@ extends BaseRepo[P](pType, subdomain) {
     idToEntityMap.values.view.toSeq.filter { s => InMemRepo.queryMatches(query, s.get) }
   }
 
-  def update(persisted: PState[P])(implicit context: ExecutionContext) = Future {
-    dumpKeys(persisted.orig)
-    persist(persisted.passoc, persisted.get)
+  def update(pState: PState[P])(implicit context: ExecutionContext) = Future {
+    dumpKeys(pState.orig)
+    persist(pState.passoc, pState.get)
   }
 
-  def delete(persisted: PState[P])(implicit context: ExecutionContext) = {
-    repo.synchronized { idToEntityMap -= persisted.passoc }
-    dumpKeys(persisted.orig)
-    val deleted = new Deleted(persisted.get, persisted.assoc)
+  def delete(pState: PState[P])(implicit context: ExecutionContext) = {
+    repo.synchronized { idToEntityMap -= pState.passoc }
+    dumpKeys(pState.orig)
+    val deleted = new Deleted(pState.get, pState.assoc)
     Future.successful(deleted)
   }
 
@@ -75,15 +75,15 @@ extends BaseRepo[P](pType, subdomain) {
   }
 
   private def persist(assoc: PersistedAssoc[P], p: P): PState[P] = {
-    val persisted = new PState[P](assoc, p)
+    val pState = new PState[P](assoc, p)
     repo.synchronized {
-      idToEntityMap += (assoc -> persisted)
+      idToEntityMap += (assoc -> pState)
       pType.keySet.foreach { key =>
         val keyVal = key.keyValForP(p)
-        keyValToEntityMap += keyVal -> persisted
+        keyValToEntityMap += keyVal -> pState
       }
     }
-    persisted
+    pState
   }
 
   private def dumpKeys(p: P) = repo.synchronized {
