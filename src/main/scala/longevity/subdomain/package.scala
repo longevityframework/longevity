@@ -31,14 +31,15 @@ package object subdomain {
    * @see emblem.TypeKeyMap */
   type EntityTypePool = TypeKeyMap[Entity, EntityType]
 
-  /** a type key map of [[Root]] to [[RootType]]
+  /** a type key map of [[Persistent]] to [[PType]]
    * @see emblem.TypeKeyMap */
-  type RootTypePool = TypeKeyMap[Root, RootType]
+  type PTypePool = TypeKeyMap[Persistent, PType]
 
   /** an [[Assoc association]] to an unspecified type of [[Root root]]. this is useful for building
    * stuff from `emblem.traversors` for traversing entities.
    * 
-   * leaving this `private[longevity]` for now, but if any user-facing use-case comes up, we can expose it.
+   * leaving this `private[longevity]` for now, but if any user-facing use-case
+   * comes up, we can expose it.
    */
   private[longevity] type AssocAny = Assoc[_ <: Root]
 

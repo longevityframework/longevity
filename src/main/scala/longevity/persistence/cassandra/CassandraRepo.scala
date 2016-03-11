@@ -16,26 +16,26 @@ import org.joda.time.format.DateTimeFormat
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** a Cassandra repository for aggregate roots of type `R`.
+/** a Cassandra repository for aggregate roots of type `P`.
  *
  * @param rootType the entity type for the aggregate roots this repository handles
  * @param subdomain the subdomain containing the root that this repo persists
  * @param session the connection to the cassandra database
  */
-private[longevity] class CassandraRepo[R <: Root : TypeKey] protected[persistence] (
-  rootType: RootType[R],
+private[longevity] class CassandraRepo[P <: Persistent : TypeKey] protected[persistence] (
+  rootType: PType[P],
   subdomain: Subdomain,
   protected val session: Session)
-extends BaseRepo[R](rootType, subdomain)
-with CassandraSchema[R]
-with CassandraCreate[R]
-with CassandraRetrieveAssoc[R]
-with CassandraRetrieveKeyVal[R]
-with CassandraRetrieveQuery[R]
-with CassandraUpdate[R]
-with CassandraDelete[R] {
+extends BaseRepo[P](rootType, subdomain)
+with CassandraSchema[P]
+with CassandraCreate[P]
+with CassandraRetrieveAssoc[P]
+with CassandraRetrieveKeyVal[P]
+with CassandraRetrieveQuery[P]
+with CassandraUpdate[P]
+with CassandraDelete[P] {
 
-  protected val tableName = camelToUnderscore(typeName(rootTypeKey.tpe))
+  protected val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
   protected val realizedProps = rootType.keySet.flatMap(_.props) ++ rootType.indexSet.flatMap(_.props)
   protected val emblemPool = subdomain.entityEmblemPool
   protected val shorthandPool = subdomain.shorthandPool
@@ -44,17 +44,17 @@ with CassandraDelete[R] {
   private val rootToJsonTranslator = new RootToJsonTranslator(emblemPool, extractorPool)
   private val jsonToRootTranslator = new JsonToRootTranslator(emblemPool, extractorPool)
 
-  protected def columnName(prop: Prop[R, _]) = "prop_" + scoredPath(prop)
+  protected def columnName(prop: Prop[P, _]) = "prop_" + scoredPath(prop)
 
-  protected def scoredPath(prop: Prop[R, _]) = prop.path.replace('.', '_')
+  protected def scoredPath(prop: Prop[P, _]) = prop.path.replace('.', '_')
 
-  protected def jsonStringForRoot(root: R): String = {
+  protected def jsonStringForRoot(p: P): String = {
     import org.json4s.native.JsonMethods._    
-    compact(render(rootToJsonTranslator.traverse(root)))
+    compact(render(rootToJsonTranslator.traverse(p)))
   }
 
-  protected def propValBinding[A](prop: Prop[R, A], root: R): AnyRef = {
-    def bind[B : TypeKey](prop: Prop[R, B]) = cassandraValue(prop.propVal(root))
+  protected def propValBinding[A](prop: Prop[P, A], p: P): AnyRef = {
+    def bind[B : TypeKey](prop: Prop[P, B]) = cassandraValue(prop.propVal(p))
     bind(prop)(prop.typeKey)
   }
 
@@ -74,19 +74,19 @@ with CassandraDelete[R] {
   protected def retrieveFromBoundStatement(
     statement: BoundStatement)(
     implicit context: ExecutionContext)
-  : Future[Option[PState[R]]] =
+  : Future[Option[PState[P]]] =
     Future {
       val resultSet = session.execute(statement)
       val rowOption = Option(resultSet.one)
       rowOption.map(retrieveFromRow)
     }
 
-  protected def retrieveFromRow(row: Row): PState[R] = {
-    val id = CassandraId[R](row.getUUID("id"))
+  protected def retrieveFromRow(row: Row): PState[P] = {
+    val id = CassandraId[P](row.getUUID("id"))
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("root"))
-    val root = jsonToRootTranslator.traverse[R](json)
-    new PState[R](id, root)
+    val root = jsonToRootTranslator.traverse[P](json)
+    new PState[P](id, root)
   }
 
   createSchema()

@@ -2,28 +2,28 @@ package longevity.persistence
 
 import longevity.subdomain._
 
-/** the persistent state of an aggregate of type R */
-case class PState[R <: Root] private[persistence] (
-  private[persistence] val passoc: PersistedAssoc[R],
-  private[persistence] val orig: R,
-  private val root: R) {
+/** the persistent state of an entity of type `P` */
+case class PState[P <: Persistent] private[persistence] (
+  private[persistence] val passoc: PersistedAssoc[P],
+  private[persistence] val orig: P,
+  private val p: P) {
 
-  private[persistence] def this(assoc: PersistedAssoc[R], root: R) = this(assoc, root, root)
+  private[persistence] def this(assoc: PersistedAssoc[P], p: P) = this(assoc, p, p)
 
-  /** returns the aggregate */
-  def get: R = root
+  /** returns the entity */
+  def get: P = p
 
-  /** returns the persistent state of an updated aggregate */
-  def set(root: R): PState[R] = map(_ => root)
+  /** returns the persistent state of an updated entity */
+  def set(p: P): PState[P] = map(_ => p)
 
-  /** returns the persistent state of the aggregate modified according to function `f` */
-  def map(f: R => R): PState[R] = new PState(passoc, orig, f(root))
+  /** returns the persistent state of the entity modified according to function `f` */
+  def map(f: P => P): PState[P] = new PState(passoc, orig, f(p))
 
-  /** returns an association to the aggregate */
-  def assoc: Assoc[R] = passoc
+  /** returns an association to the persistent entity */
+  def assoc: Assoc[P] = passoc
 
-  /** returns true iff there are unpersisted changes to the aggregate */
+  /** returns true iff there are unpersisted changes to the entity */
   // we may want to consider === here if we allow for non-case class entities
-  def dirty = orig == root
+  def dirty = orig == p
 
 }

@@ -16,54 +16,54 @@ import scala.concurrent.Future
 /** manages entity persistence operations */
 package object persistence {
 
-  /** packages a [Root] with a `TypeKey` for the root's type. used
+  /** packages a [Persistent] with a `TypeKey` for the entity's type. used
    * by [[RepoPool.createMany]].
    */
-  implicit class RootWithTypeKey[R <: Root : TypeKey](val root: R) {
-    val rootTypeKey = typeKey[R]
+  implicit class PWithTypeKey[P <: Persistent : TypeKey](val p: P) {
+    val pTypeKey = typeKey[P]
   }
 
   /** a future persistent state */
-  type FPState[R <: Root] = Future[PState[R]]
+  type FPState[P <: Persistent] = Future[PState[P]]
 
   /** extension methods for an [[FPState]] */
-  implicit class LiftFPState[R <: Root](fpState: FPState[R]) {
+  implicit class LiftFPState[P <: Persistent](fpState: FPState[P]) {
 
-    /** map the future PState by mapping the root inside the PState */
-    def mapRoot(f: R => R): FPState[R] =
-      fpState.map { pState => pState.map { root => f(root) } }
+    /** map the future PState by mapping the entity inside the PState */
+    def mapRoot(f: P => P): FPState[P] =
+      fpState.map { pState => pState.map { p => f(p) } }
 
-    /** flatMap the future PState by mapping the root inside the PState into a `Future[Root]` */
-    def flatMapRoot(f: R => Future[R]): FPState[R] =
-      fpState.flatMap { pState => f(pState.get) map { root => pState.set(root) } }
+    /** flatMap the future PState by mapping the entity inside the PState into a `Future[P]` */
+    def flatMapRoot(f: P => Future[P]): FPState[P] =
+      fpState.flatMap { pState => f(pState.get) map { p => pState.set(p) } }
 
   }
 
   /** a future option persistent state */
-  type FOPState[R <: Root] = Future[Option[PState[R]]]
+  type FOPState[P <: Persistent] = Future[Option[PState[P]]]
 
   /** extension methods for an [[FOPState]] */
-  implicit class LiftFOPState[R <: Root](fopState: FOPState[R]) {
+  implicit class LiftFOPState[P <: Persistent](fopState: FOPState[P]) {
 
-    /** map the `FOPState` by mapping the root inside the PState */
-    def mapRoot(f: R => R): FOPState[R] =
+    /** map the `FOPState` by mapping the entity inside the PState */
+    def mapRoot(f: P => P): FOPState[P] =
       fopState.map { opState =>
-        opState.map { pState => pState.map { root => f(root) } }
+        opState.map { pState => pState.map { p => f(p) } }
       }
 
-    /** flatMap the `FOPState` by mapping the root inside the PState into a `Future[Root]` */
-    def flatMapRoot(f: R => Future[R]): FOPState[R] =
+    /** flatMap the `FOPState` by mapping the entity inside the PState into a `Future[P]` */
+    def flatMapRoot(f: P => Future[P]): FOPState[P] =
       fopState.flatMap { opState =>
         opState match {
-          case Some(pState) => f(pState.get) map { root => Some(pState.set(root)) }
+          case Some(pState) => f(pState.get) map { p => Some(pState.set(p)) }
           case None => Future.successful(None)
         }
       }
 
-    def mapState(f: PState[R] => PState[R]): FOPState[R] =
+    def mapState(f: PState[P] => PState[P]): FOPState[P] =
       fopState.map { opState => opState.map(f(_)) }
 
-    def flatMapState(f: PState[R] => FPState[R]): FOPState[R] =
+    def flatMapState(f: PState[P] => FPState[P]): FOPState[P] =
       fopState.flatMap { opState =>
         opState match {
           case Some(pState) => f(pState).map(Some(_))
@@ -86,8 +86,8 @@ package object persistence {
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): BaseRepo[R] =
-        new InMemRepo(entityType, subdomain)(entityKey)
+      def build[P <: Persistent](pType: PType[P], pKey: TypeKey[P]): BaseRepo[P] =
+        new InMemRepo(pType, subdomain)(pKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -104,8 +104,8 @@ package object persistence {
 
   private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): BaseRepo[R] =
-        new MongoRepo(entityType, subdomain, mongoDB)(entityKey)
+      def build[P <: Persistent](pType: PType[P], pKey: TypeKey[P]): BaseRepo[P] =
+        new MongoRepo(pType, subdomain, mongoDB)(pKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -134,14 +134,14 @@ package object persistence {
   private def cassandraRepoPool(subdomain: Subdomain, session: Session)
   : RepoPool = {
     object repoFactory extends StockRepoFactory {
-      def build[R <: Root](rootType: RootType[R], rootTypeKey: TypeKey[R]): BaseRepo[R] =
-        new CassandraRepo(rootType, subdomain, session)(rootTypeKey)
+      def build[P <: Persistent](pType: PType[P], pTypeKey: TypeKey[P]): BaseRepo[P] =
+        new CassandraRepo(pType, subdomain, session)(pTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
 
   private trait StockRepoFactory {
-    def build[R <: Root](entityType: RootType[R], entityKey: TypeKey[R]): BaseRepo[R]
+    def build[P <: Persistent](pType: PType[P], entityKey: TypeKey[P]): BaseRepo[P]
   }
 
   private def buildRepoPool(
@@ -149,33 +149,33 @@ package object persistence {
     stockRepoFactory: StockRepoFactory)
   : RepoPool = {
     var typeKeyMap = emptyTypeKeyMap
-    type Pair[RE <: Root] = TypeBoundPair[Root, TypeKey, RootType, RE]
-    def createRepoFromPair[RE <: Root](pair: Pair[RE]): Unit = {
+    type Pair[RE <: Persistent] = TypeBoundPair[Persistent, TypeKey, PType, RE]
+    def createRepoFromPair[RE <: Persistent](pair: Pair[RE]): Unit = {
       val entityKey = pair._1
-      val entityType = pair._2
-      val repo = stockRepoFactory.build(entityType, entityKey)
+      val pType = pair._2
+      val repo = stockRepoFactory.build(pType, entityKey)
       typeKeyMap += (entityKey -> repo)
     }
-    subdomain.rootTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
+    subdomain.pTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
     val repoPool = new RepoPool(typeKeyMap)
     finishRepoInitialization(repoPool)
     repoPool
   }
 
-  private val emptyTypeKeyMap = TypeKeyMap[Root, BaseRepo]
+  private val emptyTypeKeyMap = TypeKeyMap[Persistent, BaseRepo]
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
     repoPool.baseRepoMap.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
   }
 
-  // stuff for {Repo,RepoPool}.createMany. also used by RepoCrudSpec.randomRoot
+  // stuff for {Repo,RepoPool}.createMany. also used by RepoCrudSpec.randomP
 
-  private[longevity] type RootIdentity[R <: Root] = Root
+  private[longevity] type PIdentity[P <: Persistent] = P
 
-  private[longevity] type CreatedCache = TypeBoundMap[Root, RootIdentity, PState]
+  private[longevity] type CreatedCache = TypeBoundMap[Persistent, PIdentity, PState]
 
   private[longevity] object CreatedCache {
-    def apply() = TypeBoundMap[Root, RootIdentity, PState]()
+    def apply() = TypeBoundMap[Persistent, PIdentity, PState]()
   }
 
 }

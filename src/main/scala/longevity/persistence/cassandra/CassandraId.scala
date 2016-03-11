@@ -1,9 +1,9 @@
 package longevity.persistence.cassandra
 
 import java.util.UUID
-import longevity.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.persistence.PersistedAssoc
 
-private[cassandra] case class CassandraId[R <: Root](uuid: UUID) extends PersistedAssoc[R] {
+private[cassandra] case class CassandraId[P <: Persistent](uuid: UUID) extends PersistedAssoc[P] {
   private[longevity] val _lock = 0
 }

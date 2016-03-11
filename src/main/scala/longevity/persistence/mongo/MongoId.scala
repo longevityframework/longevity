@@ -2,8 +2,9 @@ package longevity.persistence.mongo
 
 import com.mongodb.casbah.Imports.ObjectId
 import longevity.persistence.PersistedAssoc
-import longevity.subdomain.Root
+import longevity.subdomain.Persistent
 
-private[persistence] case class MongoId[R <: Root](objectId: ObjectId) extends PersistedAssoc[R] {
+private[persistence] case class MongoId[P <: Persistent](objectId: ObjectId)
+extends PersistedAssoc[P] {
   private[longevity] val _lock = 0
 }

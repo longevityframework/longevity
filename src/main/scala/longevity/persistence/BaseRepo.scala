@@ -9,47 +9,47 @@ import scala.concurrent._
 
 /** an abstract base class for [[Repo]] implementations.
  * 
- * @param rootType the entity type for the aggregate roots this repository handles
- * @param subdomain the subdomain containing the root that this repo persists
+ * @param pType the entity type for the persistent entities this repository handles
+ * @param subdomain the subdomain containing the persistent entities that this repo persists
  */
-private[longevity] abstract class BaseRepo[R <: Root : TypeKey] private[persistence] (
-  protected[longevity] val rootType: RootType[R],
+private[longevity] abstract class BaseRepo[P <: Persistent : TypeKey] private[persistence] (
+  protected[longevity] val pType: PType[P],
   protected[longevity] val subdomain: Subdomain)
-extends Repo[R] {
+extends Repo[P] {
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
 
-  /** the type key for the aggregate roots this repository handles */
-  protected val rootTypeKey: TypeKey[R] = typeKey[R]
+  /** the type key for the persistent entities this repository handles */
+  protected val pTypeKey: TypeKey[P] = typeKey[P]
 
-  def create(unpersisted: R)(implicit context: ExecutionContext): Future[PState[R]]
+  def create(unpersisted: P)(implicit context: ExecutionContext): Future[PState[P]]
 
-  def retrieve(ref: PRef[R])(implicit context: ExecutionContext): Future[Option[PState[R]]] =
+  def retrieve(ref: PRef[P])(implicit context: ExecutionContext): Future[Option[PState[P]]] =
     ref.pattern match {
       case PRef.UAssocPattern(assoc) => throw new AssocIsUnpersistedException(assoc)
       case PRef.PAssocPattern(assoc) => retrieveByPersistedAssoc(assoc)
       case PRef.KeyValPattern(keyVal) => retrieveByKeyVal(keyVal)
     }
 
-  def retrieveOne(ref: PRef[R])(implicit context: ExecutionContext): Future[PState[R]] =
+  def retrieveOne(ref: PRef[P])(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(ref).map(_.get)
 
-  def update(state: PState[R])(implicit context: ExecutionContext): Future[PState[R]]
+  def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]]
 
-  def delete(state: PState[R])(implicit context: ExecutionContext): Future[Deleted[R]]
+  def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]]
 
-  protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[R])(implicit context: ExecutionContext)
-  : Future[Option[PState[R]]]
+  protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[P])(implicit context: ExecutionContext)
+  : Future[Option[PState[P]]]
 
-  protected def retrieveByKeyVal(keyVal: KeyVal[R])(implicit context: ExecutionContext)
-  : Future[Option[PState[R]]]
+  protected def retrieveByKeyVal(keyVal: KeyVal[P])(implicit context: ExecutionContext)
+  : Future[Option[PState[P]]]
 
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repoPool: RepoPool = _repoPoolOption.get
 
-  private[persistence] def createWithCache(unpersisted: R, cache: CreatedCache)
-  : Future[(PState[R], CreatedCache)] = {
-    cache.get[R](unpersisted) match {
+  private[persistence] def createWithCache(unpersisted: P, cache: CreatedCache)
+  : Future[(PState[P], CreatedCache)] = {
+    cache.get[P](unpersisted) match {
       case Some(pstate) => Future.successful((pstate, cache))
       case None => patchUnpersistedAssocs(unpersisted, cache).flatMap {
         case (patched, cache) => create(patched).map {
@@ -62,12 +62,13 @@ extends Repo[R] {
   private lazy val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
 
   // this is also used by RepoCrudSpec for making pretty test data
-  private[longevity] def patchUnpersistedAssocs(root: R, cache: CreatedCache): Future[(R, CreatedCache)] = {
+  private[longevity] def patchUnpersistedAssocs(p: P, cache: CreatedCache)
+  : Future[(P, CreatedCache)] = {
     val unpersistedToPersistedTransformer =
       new UnpersistedToPersistedTransformer(repoPool, subdomain.entityEmblemPool, extractorPool, cache)
-    implicit val rootTypeTag = rootTypeKey.tag
-    val futureRoot = Future.successful(root)
-    val futurePatched = unpersistedToPersistedTransformer.transform(futureRoot)
+    implicit val pTypeTag = pTypeKey.tag
+    val futureP = Future.successful(p)
+    val futurePatched = unpersistedToPersistedTransformer.transform(futureP)
     futurePatched.map((_, unpersistedToPersistedTransformer.createdCache))
   }
 

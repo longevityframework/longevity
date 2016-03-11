@@ -2,21 +2,16 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
-import com.datastax.driver.core.Row
-import com.datastax.driver.core.Session
-import java.util.UUID
 import longevity.persistence._
 import longevity.subdomain._
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.delete */
-private[cassandra] trait CassandraDelete[R <: Root] {
-  repo: CassandraRepo[R] =>
+private[cassandra] trait CassandraDelete[P <: Persistent] {
+  repo: CassandraRepo[P] =>
 
-  override def delete(state: PState[R])(implicit context: ExecutionContext): Future[Deleted[R]] =
+  override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] =
     Future {
       session.execute(bindDeleteStatement(state))
       new Deleted(state.get, state.assoc)
@@ -27,9 +22,9 @@ private[cassandra] trait CassandraDelete[R <: Root] {
     session.prepare(cql)
   }
 
-  private def bindDeleteStatement(state: PState[R]): BoundStatement = {
+  private def bindDeleteStatement(state: PState[P]): BoundStatement = {
     val boundStatement = deleteStatement.bind
-    val uuid = state.assoc.asInstanceOf[CassandraId[R]].uuid
+    val uuid = state.assoc.asInstanceOf[CassandraId[P]].uuid
     boundStatement.bind(uuid)
   }
 

@@ -13,13 +13,13 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.update */
-private[cassandra] trait CassandraUpdate[R <: Root] {
-  repo: CassandraRepo[R] =>
+private[cassandra] trait CassandraUpdate[P <: Persistent] {
+  repo: CassandraRepo[P] =>
 
-  override def update(state: PState[R])(implicit context: ExecutionContext): Future[PState[R]] =
+  override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
       session.execute(bindUpdateStatement(state))
-      new PState[R](state.passoc, state.get)
+      new PState[P](state.passoc, state.get)
     }
 
   private lazy val updateStatement: PreparedStatement = {
@@ -40,11 +40,11 @@ private[cassandra] trait CassandraUpdate[R <: Root] {
     session.prepare(cql)
   }
 
-  private def bindUpdateStatement(state: PState[R]): BoundStatement = {
-    val root = state.get
-    val json = jsonStringForRoot(root)
-    val realizedPropVals = realizedProps.toArray.sortBy(columnName).map(propValBinding(_, root))
-    val uuid = state.assoc.asInstanceOf[CassandraId[R]].uuid
+  private def bindUpdateStatement(state: PState[P]): BoundStatement = {
+    val p = state.get
+    val json = jsonStringForRoot(p)
+    val realizedPropVals = realizedProps.toArray.sortBy(columnName).map(propValBinding(_, p))
+    val uuid = state.assoc.asInstanceOf[CassandraId[P]].uuid
     val values = (json +: realizedPropVals :+ uuid)
     updateStatement.bind(values: _*)
   }

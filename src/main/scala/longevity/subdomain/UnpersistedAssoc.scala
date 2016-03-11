@@ -1,7 +1,7 @@
 package longevity.subdomain
 
-/** an [[Assoc]] to a persistent entity that has not yet been persisted. for
- * use with [[longevity.persistence.RepoPool.createMany]]
+/** an [[Assoc]] to a persistent that has not yet been persisted. for use with
+ * [[longevity.persistence.RepoPool.createMany]]
  *
  * @param unpersisted the unpersisted associatee
  */

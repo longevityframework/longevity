@@ -7,7 +7,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class AllShorthandsInMemQuerySpec
 extends QuerySpec[AllShorthands](context.mongoContext, context.mongoContext.inMemTestRepoPool) {
 
-  lazy val sample = randomRoot
+  lazy val sample = randomP
 
   val booleanProp = AllShorthands.prop[BooleanShorthand]("boolean")
   val charProp = AllShorthands.prop[CharShorthand]("char")

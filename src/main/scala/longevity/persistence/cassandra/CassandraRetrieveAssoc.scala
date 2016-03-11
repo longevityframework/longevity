@@ -7,14 +7,14 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.retrievePersistedAssoc */
-private[cassandra] trait CassandraRetrieveAssoc[R <: Root] {
-  repo: CassandraRepo[R] =>
+private[cassandra] trait CassandraRetrieveAssoc[P <: Persistent] {
+  repo: CassandraRepo[P] =>
 
   override protected def retrieveByPersistedAssoc(
-    assoc: PersistedAssoc[R])(
+    assoc: PersistedAssoc[P])(
     implicit context: ExecutionContext)
-  : Future[Option[PState[R]]] = {
-    val id = assoc.asInstanceOf[CassandraId[R]]
+  : Future[Option[PState[P]]] = {
+    val id = assoc.asInstanceOf[CassandraId[P]]
     retrieveFromBoundStatement(bindIdSelectStatement(id))
   }
 
@@ -23,7 +23,7 @@ private[cassandra] trait CassandraRetrieveAssoc[R <: Root] {
     session.prepare(cql)
   }
 
-  private def bindIdSelectStatement(id: CassandraId[R]): BoundStatement = {
+  private def bindIdSelectStatement(id: CassandraId[P]): BoundStatement = {
     idSelectStatement.bind(id.uuid)
   }
 

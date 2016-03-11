@@ -18,18 +18,18 @@ import scala.util.Success
 
 /** a MongoDB repository for aggregate roots of type `R`.
  *
- * @param rootType the entity type for the aggregate roots this repository handles
+ * @param pType the entity type for the aggregate roots this repository handles
  * @param subdomain the subdomain containing the root that this repo persists
  * @param mongoDb the connection to the mongo database
  */
-private[longevity] class MongoRepo[R <: Root : TypeKey] private[persistence] (
-  rootType: RootType[R],
+private[longevity] class MongoRepo[P <: Persistent : TypeKey] private[persistence] (
+  pType: PType[P],
   subdomain: Subdomain,
   mongoDb: MongoDB)
-extends BaseRepo[R](rootType, subdomain) {
+extends BaseRepo[P](pType, subdomain) {
   repo =>
 
-  private val collectionName = camelToUnderscore(typeName(rootTypeKey.tpe))
+  private val collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
   private val mongoCollection = mongoDb(collectionName)
   private val shorthandPool = subdomain.shorthandPool
   private val emblemPool = subdomain.entityEmblemPool
@@ -42,53 +42,53 @@ extends BaseRepo[R](rootType, subdomain) {
 
   createSchema()
 
-  def create(unpersisted: R)(implicit context: ExecutionContext) = Future {
+  def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
     val objectId = new ObjectId()
     val casbah = entityToCasbahTranslator.translate(unpersisted) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.insert(casbah)
-    new PState[R](MongoId(objectId), unpersisted)
+    new PState[P](MongoId(objectId), unpersisted)
   }
 
-  def retrieveByQuery(query: Query[R])(implicit context: ExecutionContext)
-  : Future[Seq[PState[R]]] = Future {
+  def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
+  : Future[Seq[PState[P]]] = Future {
     val cursor: MongoCursor = mongoCollection.find(mongoQuery(query))
     val dbObjs: Seq[DBObject] = cursor.toSeq
     dbObjs.map { result =>
       val id = result.getAs[ObjectId]("_id").get
       val root = casbahToEntityTranslator.translate(result)
-      new PState[R](MongoId(id), root)
+      new PState[P](MongoId(id), root)
     }
   }
 
-  def update(persisted: PState[R])(implicit context: ExecutionContext) = Future {
+  def update(persisted: PState[P])(implicit context: ExecutionContext) = Future {
     val root = persisted.get
-    val objectId = persisted.assoc.asInstanceOf[MongoId[R]].objectId
+    val objectId = persisted.assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val casbah = entityToCasbahTranslator.translate(root) ++ MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.update(query, casbah)
-    new PState[R](persisted.passoc, root)
+    new PState[P](persisted.passoc, root)
   }
 
-  def delete(persisted: PState[R])(implicit context: ExecutionContext) = Future {
-    val objectId = persisted.assoc.asInstanceOf[MongoId[R]].objectId
+  def delete(persisted: PState[P])(implicit context: ExecutionContext) = Future {
+    val objectId = persisted.assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val writeResult = mongoCollection.remove(query)
     new Deleted(persisted.get, persisted.assoc)
   }
 
   override protected def retrieveByPersistedAssoc(
-    assoc: PersistedAssoc[R])(
+    assoc: PersistedAssoc[P])(
     implicit context: ExecutionContext)
-  : Future[Option[PState[R]]] = Future {
-    val objectId = assoc.asInstanceOf[MongoId[R]].objectId
+  : Future[Option[PState[P]]] = Future {
+    val objectId = assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val resultOption = mongoCollection.findOne(query)
     val rootOption = resultOption map { casbahToEntityTranslator.translate(_) }
-    rootOption map { e => new PState[R](assoc, e) }
+    rootOption map { e => new PState[P](assoc, e) }
   }
 
-  override protected def retrieveByKeyVal(keyVal: KeyVal[R])(implicit context: ExecutionContext)
-  : Future[Option[PState[R]]] = Future {
+  override protected def retrieveByKeyVal(keyVal: KeyVal[P])(implicit context: ExecutionContext)
+  : Future[Option[PState[P]]] = Future {
     val builder = MongoDBObject.newBuilder
     keyVal.propVals.foreach {
       case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
@@ -99,10 +99,10 @@ extends BaseRepo[R](rootType, subdomain) {
       val id = result.getAs[ObjectId]("_id").get
       id -> casbahToEntityTranslator.translate(result)
     }
-    idRootOption map { case (id, e) => new PState[R](MongoId(id), e) }
+    idRootOption map { case (id, e) => new PState[P](MongoId(id), e) }
   }
 
-  private def resolvePropVal(prop: Prop[R, _], raw: Any): Any = {
+  private def resolvePropVal(prop: Prop[P, _], raw: Any): Any = {
     if (subdomain.shorthandPool.contains(prop.typeKey)) {
       def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
       abbreviate(prop.typeKey)
@@ -115,7 +115,7 @@ extends BaseRepo[R](rootType, subdomain) {
     }
   }
 
-  private def mongoQuery(query: Query[R]): MongoDBObject = {
+  private def mongoQuery(query: Query[P]): MongoDBObject = {
     query match {
       case EqualityQuery(prop, op, value) => op match {
         case EqOp => MongoDBObject(prop.path -> touchupValue(value)(prop.typeKey))
@@ -145,13 +145,13 @@ extends BaseRepo[R](rootType, subdomain) {
 
   // this will find a better home in pt #106611128
   private def createSchema(): Unit = {
-    rootType.keySet.foreach { key =>
+    pType.keySet.foreach { key =>
       val paths = key.props.map(_.path)
       createMongoIndex(paths, true)
     }
 
-    val keyProps = rootType.keySet.map(_.props)
-    rootType.indexSet.foreach { index =>
+    val keyProps = pType.keySet.map(_.props)
+    pType.indexSet.foreach { index =>
       if (!keyProps.contains(index.props)) {
         val paths = index.props.map(_.path)
         createMongoIndex(paths, false)

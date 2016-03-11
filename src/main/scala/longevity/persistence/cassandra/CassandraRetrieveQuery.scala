@@ -18,10 +18,10 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.retrieveByQuery */
-private[cassandra] trait CassandraRetrieveQuery[R <: Root] {
-  repo: CassandraRepo[R] =>
+private[cassandra] trait CassandraRetrieveQuery[P <: Persistent] {
+  repo: CassandraRepo[P] =>
 
-  def retrieveByQuery(query: Query[R])(implicit context: ExecutionContext): Future[Seq[PState[R]]] =
+  def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext): Future[Seq[PState[P]]] =
     Future {
       val info = queryInfo(query)
       val cql = s"SELECT * FROM $tableName WHERE ${info.whereClause} ALLOW FILTERING"
@@ -33,7 +33,7 @@ private[cassandra] trait CassandraRetrieveQuery[R <: Root] {
 
   private case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
 
-  private def queryInfo(query: Query[R]): QueryInfo = {
+  private def queryInfo(query: Query[P]): QueryInfo = {
     query match {
       case EqualityQuery(prop, op, value) => op match {
         case EqOp => QueryInfo(s"${columnName(prop)} = :${columnName(prop)}",

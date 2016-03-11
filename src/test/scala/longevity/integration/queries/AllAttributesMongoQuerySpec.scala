@@ -8,7 +8,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class AllAttributesMongoQuerySpec
 extends QuerySpec[AllAttributes](context.mongoContext, context.mongoContext.testRepoPool) {
 
-  lazy val sample = randomRoot
+  lazy val sample = randomP
 
   val booleanProp = AllAttributes.prop[Boolean]("boolean")
   val charProp = AllAttributes.prop[Char]("char")

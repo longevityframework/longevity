@@ -33,7 +33,9 @@ trait PersistedToUnpersistedMatcher extends Suite with ScalaFutures {
   private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool, repoPool)
   private val differ = new Differ(emblemPool, extractorPool)
 
-  protected def persistedShouldMatchUnpersisted[R <: Root : TypeKey](persisted: R, unpersisted: R): Unit = {
+  protected def persistedShouldMatchUnpersisted[P <: Persistent : TypeKey](
+    persisted: P, unpersisted: P)
+  : Unit = {
     val unpersistorated = unpersistor.transform(Future(persisted))
     if (unpersistorated.futureValue != unpersisted) {
       val diffs = differ.diff(unpersistorated, unpersisted)

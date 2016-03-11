@@ -15,10 +15,10 @@ class Subdomain(
   val entityTypePool: EntityTypePool)(
   implicit val shorthandPool: ShorthandPool = ShorthandPool()) {
 
-  val rootTypePool = RootTypePool(entityTypePool)
+  val pTypePool = PTypePool(entityTypePool)
 
   // prohibit further creation of keys and indexs
-  rootTypePool.values.foreach(_.register)
+  pTypePool.values.foreach(_.register)
 
   /** a pool of emblems for the entities within the subdomain */
   private[longevity] val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] =
@@ -29,7 +29,7 @@ class Subdomain(
       }
     }
 
-  // TODO pt-87441928: some way to express domain constraints, particularly those that span multiple entities
+  // TODO pt-#115456079: some way to express domain constraints that span multiple entities
   // - figure a way for TestDataGenerator/RepoSpec to respect these
   // - figure a way to check constraints in entityMatchers/RepoSpec
   // - user-callable checkConstraint{,s} somewhere

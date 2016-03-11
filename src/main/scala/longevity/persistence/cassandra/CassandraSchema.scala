@@ -5,8 +5,8 @@ import longevity.subdomain._
 import longevity.subdomain.root.Prop
 
 /** implementation of CassandraRepo.createSchema */
-private[cassandra] trait CassandraSchema[R <: Root] {
-  repo: CassandraRepo[R] =>
+private[cassandra] trait CassandraSchema[P <: Persistent] {
+  repo: CassandraRepo[P] =>
 
   protected def createSchema(): Unit = {
     createTable()
@@ -43,7 +43,7 @@ private[cassandra] trait CassandraSchema[R <: Root] {
 
   private def createIndexes(): Unit = realizedProps.foreach(createIndex)
 
-  private def createIndex(prop: Prop[R, _]): Unit = {
+  private def createIndex(prop: Prop[P, _]): Unit = {
     val name = s"""${tableName}_${scoredPath(prop)}"""
     val createIndex = s"CREATE INDEX IF NOT EXISTS $name ON $tableName (${columnName(prop)});"
     session.execute(createIndex)

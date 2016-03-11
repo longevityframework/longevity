@@ -1,20 +1,20 @@
 package longevity.persistence
 
 import longevity.subdomain.PRef
-import longevity.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.root.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a repository for aggregate roots of type `R` */
-trait Repo[R <: Root] {
+trait Repo[P <: Persistent] {
 
   /** creates the aggregate
    * 
    * @param unpersisted the root of the aggregate to create
    * @param executionContext the execution context
    */
-  def create(unpersisted: R)(implicit executionContext: ExecutionContext): Future[PState[R]]
+  def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
   /** retrieves an optional aggregate from a persistent ref
    * 
@@ -27,7 +27,7 @@ trait Repo[R <: Root] {
    * @throws longevity.exceptions.persistence.AssocIsUnpersistedException
    * whenever the persistent ref is an unpersisted assoc
    */
-  def retrieve(ref: PRef[R])(implicit executionContext: ExecutionContext): Future[Option[PState[R]]]
+  def retrieve(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[Option[PState[P]]]
 
   /** retrieves a non-optional aggregate from a persistent ref
    * 
@@ -43,28 +43,28 @@ trait Repo[R <: Root] {
    * @throws longevity.exceptions.persistence.AssocIsUnpersistedException
    * whenever the persistent ref is an unpersisted assoc
    */
-  def retrieveOne(ref: PRef[R])(implicit executionContext: ExecutionContext): Future[PState[R]]
+  def retrieveOne(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
 
   /** retrieves multiple aggregates by a query
    * 
    * @param query the query to execute
    * @param executionContext the execution context
    */
-  def retrieveByQuery(query: Query[R])(implicit executionContext: ExecutionContext)
-  : Future[Seq[PState[R]]]
+  def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext)
+  : Future[Seq[PState[P]]]
 
   /** updates the aggregate
    * 
    * @param state the persistent state of the aggregate to update
    * @param executionContext the execution context
    */
-  def update(state: PState[R])(implicit executionContext: ExecutionContext): Future[PState[R]]
+  def update(state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
 
   /** deletes the aggregate
    * 
    * @param state the persistent state of the aggregate to delete
    * @param executionContext the execution context
    */
-  def delete(state: PState[R])(implicit executionContext: ExecutionContext): Future[Deleted[R]]
+  def delete(state: PState[P])(implicit executionContext: ExecutionContext): Future[Deleted[P]]
 
 }

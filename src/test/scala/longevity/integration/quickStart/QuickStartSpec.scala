@@ -189,7 +189,7 @@ with ScaledTimeSpans {
     // persist the aggregates all at once. it doesn't matter what
     // order you pass them in, this method will assure that associated
     // aggregates always get persisted first.
-    val createManyResult: Future[Seq[PState[_ <: Root]]] =
+    val createManyResult: Future[Seq[PState[_ <: Persistent]]] =
       repos.createMany(john, frank, blog, johnsPost, franksPost)
 
     // `futureValue` is a ScalaTest way of saying "wait for the future to

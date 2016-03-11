@@ -13,13 +13,13 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.create */
-private[cassandra] trait CassandraCreate[R <: Root] {
-  repo: CassandraRepo[R] =>
+private[cassandra] trait CassandraCreate[P <: Persistent] {
+  repo: CassandraRepo[P] =>
 
-  override def create(unpersisted: R)(implicit context: ExecutionContext) = Future {
+  override def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
     val uuid = UUID.randomUUID
     session.execute(bindInsertStatement(uuid, unpersisted))
-    new PState[R](CassandraId(uuid), unpersisted)
+    new PState[P](CassandraId(uuid), unpersisted)
   }
   
   private lazy val insertStatement: PreparedStatement = {
@@ -44,9 +44,9 @@ private[cassandra] trait CassandraCreate[R <: Root] {
     session.prepare(cql)
   }
 
-  private def bindInsertStatement(uuid: UUID, root: R): BoundStatement = {
-    val nonPropValues = Array(uuid, jsonStringForRoot(root))
-    val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map(propValBinding(_, root))
+  private def bindInsertStatement(uuid: UUID, p: P): BoundStatement = {
+    val nonPropValues = Array(uuid, jsonStringForRoot(p))
+    val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map(propValBinding(_, p))
     val values = (nonPropValues ++ realizedPropValues)
     insertStatement.bind(values: _*)
   }

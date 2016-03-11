@@ -64,16 +64,16 @@ with TestDataGeneration {
   }}"
 
   repoPool.baseRepoMap.foreach { pair =>
-    def repoSpec[R <: Root](pair: TypeBoundPair[Root, TypeKey, BaseRepo, R]): Unit = {
+    def repoSpec[P <: Persistent](pair: TypeBoundPair[Persistent, TypeKey, BaseRepo, P]): Unit = {
       new RepoSpec(pair._2)(pair._1)
     }
     repoSpec(pair)
   }
 
-  private class RepoSpec[R <: Root : TypeKey](private val repo: BaseRepo[R]) {
+  private class RepoSpec[P <: Persistent : TypeKey](private val repo: BaseRepo[P]) {
 
-    private val rootName = repo.rootType.emblem.name
-    private val representativeKeyOption = repo.rootType.keySet.headOption
+    private val pName = repo.pType.emblem.name
+    private val representativeKeyOption = repo.pType.keySet.headOption
 
     object Create extends Tag("Create")
     object RetrieveAssoc extends Tag("RetrieveAssoc")
@@ -81,103 +81,103 @@ with TestDataGeneration {
     object Update extends Tag("Update")
     object Delete extends Tag("Delete")
 
-    feature(s"${rootName}Repo.create") {
-      scenario(s"should produce a persisted $rootName", Create) {
+    feature(s"${pName}Repo.create") {
+      scenario(s"should produce a persisted $pName", Create) {
 
-        Given(s"an unpersisted $rootName")
-        val root: R = randomRoot()
+        Given(s"an unpersisted $pName")
+        val p = randomP()
 
-        When(s"we create the $rootName")
-        Then(s"we get back the $rootName persistent state")
-        val created: PState[R] = repo.create(root).futureValue
+        When(s"we create the $pName")
+        Then(s"we get back the $pName persistent state")
+        val created: PState[P] = repo.create(p).futureValue
 
-        And(s"the persisted $rootName should should match the original, unpersisted $rootName")
-        created.get should equal (root)
+        And(s"the persisted $pName should should match the original, unpersisted $pName")
+        created.get should equal (p)
 
-        And(s"further retrieval operations should retrieve the same $rootName")
+        And(s"further retrieval operations should retrieve the same $pName")
         representativeKeyOption.foreach { key =>
-          val retrieved: PState[R] = repo.retrieveOne(created.assoc).futureValue
-          retrieved.get should equal (root)
+          val retrieved: PState[P] = repo.retrieveOne(created.assoc).futureValue
+          retrieved.get should equal (p)
         }
 
       }
     }
 
-    feature(s"${rootName}Repo.retrieve(Assoc)") {
-      scenario(s"should produce the same persisted $rootName", RetrieveAssoc) {
+    feature(s"${pName}Repo.retrieve(Assoc)") {
+      scenario(s"should produce the same persisted $pName", RetrieveAssoc) {
 
-        Given(s"a persisted $rootName")
-        val root: R = randomRoot()
-        val created = repo.create(root).futureValue
+        Given(s"a persisted $pName")
+        val p = randomP()
+        val created = repo.create(p).futureValue
 
-        When(s"we retrieve the $rootName by its Assoc")
-        Then(s"we get back the same $rootName persistent state")
-        repo.rootType.keySet.foreach { key =>
-          val retrieved: PState[R] = repo.retrieve(created.assoc).futureValue.value
-          retrieved.get should equal (root)
+        When(s"we retrieve the $pName by its Assoc")
+        Then(s"we get back the same $pName persistent state")
+        repo.pType.keySet.foreach { key =>
+          val retrieved: PState[P] = repo.retrieve(created.assoc).futureValue.value
+          retrieved.get should equal (p)
         }
       }
     }
 
-    feature(s"${rootName}Repo.retrieve(NatKey)") {
-      scenario(s"should produce the same persisted $rootName", RetrieveNatKey) {
+    feature(s"${pName}Repo.retrieve(NatKey)") {
+      scenario(s"should produce the same persisted $pName", RetrieveNatKey) {
 
-        Given(s"a persisted $rootName")
-        val root: R = randomRoot()
-        val created = repo.create(root).futureValue
+        Given(s"a persisted $pName")
+        val p = randomP()
+        val created = repo.create(p).futureValue
 
-        When(s"we retrieve the $rootName by any of its keys")
-        Then(s"we get back the same $rootName persistent state")
-        repo.rootType.keySet.foreach { key =>
+        When(s"we retrieve the $pName by any of its keys")
+        Then(s"we get back the same $pName persistent state")
+        repo.pType.keySet.foreach { key =>
           val keyValForP = key.keyValForP(created.get)
-          val retrieved: PState[R] = repo.retrieve(keyValForP).futureValue.value
-          retrieved.get should equal (root)
+          val retrieved: PState[P] = repo.retrieve(keyValForP).futureValue.value
+          retrieved.get should equal (p)
         }
       }
     }
 
-    feature(s"${rootName}Repo.update") {
-      scenario(s"should produce an updated persisted $rootName", Update) {
+    feature(s"${pName}Repo.update") {
+      scenario(s"should produce an updated persisted $pName", Update) {
 
-        Given(s"a persisted $rootName")
-        val originalRoot: R = randomRoot()
-        val modifiedRoot: R = randomRoot()
-        val created: PState[R] = repo.create(originalRoot).futureValue
+        Given(s"a persisted $pName")
+        val originalP = randomP()
+        val modifiedP = randomP()
+        val created: PState[P] = repo.create(originalP).futureValue
 
-        When(s"we update the persisted $rootName")
-        val modified: PState[R] = created.map(e => modifiedRoot)
-        val updated: PState[R] = repo.update(modified).futureValue
+        When(s"we update the persisted $pName")
+        val modified: PState[P] = created.map(e => modifiedP)
+        val updated: PState[P] = repo.update(modified).futureValue
 
-        Then(s"we get back the updated $rootName persistent state")
-        updated.get should equal (modifiedRoot)
+        Then(s"we get back the updated $pName persistent state")
+        updated.get should equal (modifiedP)
 
         And(s"further retrieval operations should retrieve the updated copy")
-        val retrieved: PState[R] = repo.retrieveOne(updated.assoc).futureValue
-        retrieved.get should equal (modifiedRoot)
+        val retrieved: PState[P] = repo.retrieveOne(updated.assoc).futureValue
+        retrieved.get should equal (modifiedP)
       }
     }
 
-    feature(s"${rootName}Repo.delete") {
-      scenario(s"should delete a persisted $rootName", Delete) {
-        Given(s"a persisted $rootName")
-        val root: R = randomRoot()
-        val created: PState[R] = repo.create(root).futureValue
+    feature(s"${pName}Repo.delete") {
+      scenario(s"should delete a persisted $pName", Delete) {
+        Given(s"a persisted $pName")
+        val p = randomP()
+        val created: PState[P] = repo.create(p).futureValue
 
-        When(s"we delete the persisted $rootName")
-        val deleted: Deleted[R] = repo.delete(created).futureValue
+        When(s"we delete the persisted $pName")
+        val deleted: Deleted[P] = repo.delete(created).futureValue
 
         Then(s"we get back a Deleted persistent state")
-        deleted.root should equal (root)
+        deleted.p should equal (p)
 
-        And(s"we should no longer be able to retrieve the $rootName")
-        val retrieved: Option[PState[R]] = repo.retrieve(deleted.assoc).futureValue
+        And(s"we should no longer be able to retrieve the $pName")
+        val retrieved: Option[PState[P]] = repo.retrieve(deleted.assoc).futureValue
         retrieved.isEmpty should be (true)
       }
     }
 
-    private def randomRoot(): R = {
-      val root: R = testDataGenerator.generate[R]
-      repo.patchUnpersistedAssocs(root, CreatedCache()).futureValue._1
+    private def randomP(): P = {
+      val p = testDataGenerator.generate[P]
+      repo.patchUnpersistedAssocs(p, CreatedCache()).futureValue._1
     }
 
   }

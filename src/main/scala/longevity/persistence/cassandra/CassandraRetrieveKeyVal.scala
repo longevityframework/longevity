@@ -14,14 +14,14 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.retrieve(KeyVal) */
-private[cassandra] trait CassandraRetrieveKeyVal[R <: Root] {
-  repo: CassandraRepo[R] =>
+private[cassandra] trait CassandraRetrieveKeyVal[P <: Persistent] {
+  repo: CassandraRepo[P] =>
 
-  override protected def retrieveByKeyVal(keyVal: KeyVal[R])(implicit context: ExecutionContext)
-  : Future[Option[PState[R]]] =
+  override protected def retrieveByKeyVal(keyVal: KeyVal[P])(implicit context: ExecutionContext)
+  : Future[Option[PState[P]]] =
     retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
 
-  private lazy val keyValSelectStatement: Map[Key[R], PreparedStatement] = Map().withDefault { key =>
+  private lazy val keyValSelectStatement: Map[Key[P], PreparedStatement] = Map().withDefault { key =>
     val relations = key.props.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
     val cql = s"""|
     |SELECT * FROM $tableName
@@ -32,10 +32,10 @@ private[cassandra] trait CassandraRetrieveKeyVal[R <: Root] {
     session.prepare(cql)
   }
 
-  private def bindKeyValSelectStatement(keyVal: KeyVal[R]): BoundStatement = {
+  private def bindKeyValSelectStatement(keyVal: KeyVal[P]): BoundStatement = {
     val preparedStatement = keyValSelectStatement(keyVal.key)
     val propVals = keyVal.key.props.map { prop =>
-      def bind[A](prop: Prop[R, A]) = cassandraValue(keyVal(prop))(prop.typeKey)
+      def bind[A](prop: Prop[P, A]) = cassandraValue(keyVal(prop))(prop.typeKey)
       bind(prop)
     }
     preparedStatement.bind(propVals: _*)

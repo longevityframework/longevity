@@ -1,29 +1,29 @@
 package longevity.persistence
 
 import emblem.imports._
-import longevity.subdomain.Root
+import longevity.subdomain._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a collection of repositories */
-class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Root, BaseRepo]) {
+class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseRepo]) {
 
-  /** a `TypeKeyMap` of [[longevity.subdomain.Root Root]] to [[Repo]] */
-  val typeKeyMap: TypeKeyMap[Root, Repo] = baseRepoMap.widen
+  /** a `TypeKeyMap` of [[Persistent]] to [[Repo]] */
+  val typeKeyMap: TypeKeyMap[Persistent, Repo] = baseRepoMap.widen
 
-  /** select a repository by root type */
-  def apply[R <: Root : TypeKey]: Repo[R] = typeKeyMap[R]
+  /** select a repository by [[PType]] */
+  def apply[P <: Persistent : TypeKey]: Repo[P] = typeKeyMap[P]
 
   /** iterate over the repositories */
-  def values: collection.Iterable[Repo[_ <: Root]] = typeKeyMap.values
+  def values: collection.Iterable[Repo[_ <: Persistent]] = typeKeyMap.values
 
-  private type KeyedRoot = RootWithTypeKey[_ <: Root]
-  private type PStateSeq = Seq[PState[_ <: Root]]
+  private type KeyedP = PWithTypeKey[_ <: Persistent]
+  private type PStateSeq = Seq[PState[_ <: Persistent]]
   private case class CreateManyState(cache: CreatedCache, pstates: PStateSeq)
 
   /** creates many aggregates at once. this method is the only way to persist
    * aggregates with embedded unpersisted associations. any aggregates embedded
-   * this way must be present in the argument list `keyedRoots`.
+   * this way must be present in the argument list `keyedPs`.
    *
    * because [RootWithTypeKey] is an implicit class, you can call this method
    * using just aggregate roots, and the roots will be converted to
@@ -33,34 +33,36 @@ class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Root, BaseRepo]) 
    * repoPool.createMany(user1, user2, user2, blogPost1, blogPost2, blog)
    * }}}
    *
-   * @param keyedRoots the roots of the aggregates to persist, wrapped with their `TypeKeys`.
+   * @param keyedPs the persistent entities to persist, wrapped with their `TypeKeys`.
    *
    * @param executionContext the execution context
    * 
    * @see [Assoc.apply]
    */
-  def createMany(keyedRoots: RootWithTypeKey[_ <: Root]*)(implicit executionContext: ExecutionContext)
-  : Future[Seq[PState[_ <: Root]]] = {
-    val empty = Future.successful(CreateManyState(CreatedCache(), Seq[PState[_ <: Root]]()))
-    val foldResult = keyedRoots.foldLeft(empty)(createOne _)
+  def createMany(
+    keyedPs: PWithTypeKey[_ <: Persistent]*)(
+    implicit executionContext: ExecutionContext)
+  : Future[Seq[PState[_ <: Persistent]]] = {
+    val empty = Future.successful(CreateManyState(CreatedCache(), Seq[PState[_ <: Persistent]]()))
+    val foldResult = keyedPs.foldLeft(empty)(createOne _)
     foldResult.map(_.pstates)
   }
 
   private def createOne(
     acc: Future[CreateManyState],
-    keyedRoot: KeyedRoot)(
+    keyedP: KeyedP)(
     implicit context: ExecutionContext)
   : Future[CreateManyState] = {
 
-    def create[R <: Root](
-      keyedRoot: RootWithTypeKey[R],
+    def create[P <: Persistent](
+      keyedP: PWithTypeKey[P],
       cache: CreatedCache)
-    : Future[(PState[R], CreatedCache)] = {
-      baseRepoMap(keyedRoot.rootTypeKey).createWithCache(keyedRoot.root, cache)
+    : Future[(PState[P], CreatedCache)] = {
+      baseRepoMap(keyedP.pTypeKey).createWithCache(keyedP.p, cache)
     }
 
     acc.flatMap { state =>
-      create(keyedRoot, state.cache).map {
+      create(keyedP, state.cache).map {
         case (pstate, cache) => CreateManyState(cache, state.pstates :+ pstate)
       }
     }

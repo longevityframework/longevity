@@ -7,27 +7,27 @@ import longevity.subdomain.root._
 import longevity.context.LongevityContext
 import scala.concurrent._
 
-/** an in-memory repository for aggregate roots of type `R`
+/** an in-memory repository for persistent entities of type `P`
  * 
- * @param rootType the entity type for the aggregate roots this repository handles
- * @param subdomain the subdomain containing the root that this repo persists
+ * @param pType the persistent type for the entities this repository handles
+ * @param subdomain the subdomain containing the entities that this repo persists
  */
-class InMemRepo[R <: Root : TypeKey] private[persistence] (
-  rootType: RootType[R],
+class InMemRepo[P <: Persistent : TypeKey] private[persistence] (
+  pType: PType[P],
   subdomain: Subdomain)
-extends BaseRepo[R](rootType, subdomain) {
+extends BaseRepo[P](pType, subdomain) {
   repo =>
 
-  private case class IntId(i: Int) extends PersistedAssoc[R] {
+  private case class IntId(i: Int) extends PersistedAssoc[P] {
     private[longevity] val _lock = 0
   }
 
   private var nextId = 0
-  private var idToEntityMap = Map[PersistedAssoc[R], PState[R]]()
+  private var idToEntityMap = Map[PersistedAssoc[P], PState[P]]()
   
-  private var keyValToEntityMap = Map[KeyVal[R], PState[R]]()
+  private var keyValToEntityMap = Map[KeyVal[P], PState[P]]()
 
-  def create(unpersisted: R)(implicit context: ExecutionContext) = Future {
+  def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
     val id = repo.synchronized {
       val id = IntId(nextId)
       nextId += 1
@@ -36,17 +36,17 @@ extends BaseRepo[R](rootType, subdomain) {
     persist(id, unpersisted)
   }
 
-  def retrieveByQuery(query: Query[R])(implicit context: ExecutionContext)
-  : Future[Seq[PState[R]]] = Future {
+  def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
+  : Future[Seq[PState[P]]] = Future {
     idToEntityMap.values.view.toSeq.filter { s => InMemRepo.queryMatches(query, s.get) }
   }
 
-  def update(persisted: PState[R])(implicit context: ExecutionContext) = Future {
+  def update(persisted: PState[P])(implicit context: ExecutionContext) = Future {
     dumpKeys(persisted.orig)
     persist(persisted.passoc, persisted.get)
   }
 
-  def delete(persisted: PState[R])(implicit context: ExecutionContext) = {
+  def delete(persisted: PState[P])(implicit context: ExecutionContext) = {
     repo.synchronized { idToEntityMap -= persisted.passoc }
     dumpKeys(persisted.orig)
     val deleted = new Deleted(persisted.get, persisted.assoc)
@@ -54,19 +54,19 @@ extends BaseRepo[R](rootType, subdomain) {
   }
 
   override protected def retrieveByPersistedAssoc(
-    assoc: PersistedAssoc[R])(
+    assoc: PersistedAssoc[P])(
     implicit context: ExecutionContext)
-  : Future[Option[PState[R]]] = {
+  : Future[Option[PState[P]]] = {
     Future.successful(idToEntityMap.get(assoc))
   }
 
   override protected def retrieveByKeyVal(
-    keyVal: KeyVal[R])(
+    keyVal: KeyVal[P])(
     implicit context: ExecutionContext)
-  : Future[Option[PState[R]]] = {
+  : Future[Option[PState[P]]] = {
     keyVal.propVals.foreach { case (prop, value) =>
       if (prop.typeKey <:< typeKey[Assoc[_]]) {
-        val assoc = value.asInstanceOf[Assoc[_ <: Root]]
+        val assoc = value.asInstanceOf[Assoc[_ <: Persistent]]
         if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
       }
     }
@@ -74,21 +74,21 @@ extends BaseRepo[R](rootType, subdomain) {
     Future.successful(optionR)
   }
 
-  private def persist(assoc: PersistedAssoc[R], root: R): PState[R] = {
-    val persisted = new PState[R](assoc, root)
+  private def persist(assoc: PersistedAssoc[P], p: P): PState[P] = {
+    val persisted = new PState[P](assoc, p)
     repo.synchronized {
       idToEntityMap += (assoc -> persisted)
-      rootType.keySet.foreach { key =>
-        val keyVal = key.keyValForP(root)
+      pType.keySet.foreach { key =>
+        val keyVal = key.keyValForP(p)
         keyValToEntityMap += keyVal -> persisted
       }
     }
     persisted
   }
 
-  private def dumpKeys(root: R) = repo.synchronized {
-    rootType.keySet.foreach { key =>
-      val keyVal = key.keyValForP(root)
+  private def dumpKeys(p: P) = repo.synchronized {
+    pType.keySet.foreach { key =>
+      val keyVal = key.keyValForP(p)
       keyValToEntityMap -= keyVal
     }
   }
@@ -97,22 +97,22 @@ extends BaseRepo[R](rootType, subdomain) {
 
 object InMemRepo {
 
-  private[longevity] def queryMatches[R <: Root](query: Query[R], root: R): Boolean = {
+  private[longevity] def queryMatches[P <: Persistent](query: Query[P], p: P): Boolean = {
     import Query._
     query match {
       case EqualityQuery(prop, op, value) => op match {
-        case EqOp => prop.propVal(root) == value
-        case NeqOp => prop.propVal(root) != value
+        case EqOp => prop.propVal(p) == value
+        case NeqOp => prop.propVal(p) != value
       }
       case OrderingQuery(prop, op, value) => op match {
-        case LtOp => prop.ordering.lt(prop.propVal(root), value)
-        case LteOp => prop.ordering.lteq(prop.propVal(root), value)
-        case GtOp => prop.ordering.gt(prop.propVal(root), value)
-        case GteOp => prop.ordering.gteq(prop.propVal(root), value)
+        case LtOp => prop.ordering.lt(prop.propVal(p), value)
+        case LteOp => prop.ordering.lteq(prop.propVal(p), value)
+        case GtOp => prop.ordering.gt(prop.propVal(p), value)
+        case GteOp => prop.ordering.gteq(prop.propVal(p), value)
       }
       case ConditionalQuery(lhs, op, rhs) => op match {
-        case AndOp => queryMatches(lhs, root) && queryMatches(rhs, root)
-        case OrOp => queryMatches(lhs, root) || queryMatches(rhs, root)
+        case AndOp => queryMatches(lhs, p) && queryMatches(rhs, p)
+        case OrOp => queryMatches(lhs, p) || queryMatches(rhs, p)
       }
     }
   }
