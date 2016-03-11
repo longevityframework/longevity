@@ -8,7 +8,7 @@ import scala.concurrent.Future
 /** a collection of repositories */
 class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseRepo]) {
 
-  /** a `TypeKeyMap` of [[Persistent]] to [[Repo]] */
+  /** a `TypeKeyMap` of [[longevity.subdomain.Persistent]] to [[Repo]] */
   val typeKeyMap: TypeKeyMap[Persistent, Repo] = baseRepoMap.widen
 
   /** select a repository by the type of persistent entity */
