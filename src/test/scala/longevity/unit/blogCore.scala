@@ -22,20 +22,22 @@ package object blogCore {
     fullname: String,
     email: Email,
     profile: Option[UserProfile] = None)
-       extends Root
+  extends Root
 
   object User extends RootType[User] {
     val usernameProp = prop[String]("username")
     val emailProp = prop[Email]("email")
     val usernameKey = key(usernameProp)
     val emailKey = key(emailProp)
+    val keySet = kscan(this)
+    val indexSet = iscan(this)
   }
 
   case class UserProfile(
     tagline: String,
     imageUri: Uri,
     description: Markdown)
-       extends Entity
+  extends Entity
 
   object UserProfile extends EntityType[UserProfile]
 
@@ -44,11 +46,13 @@ package object blogCore {
     title: String,
     description: Markdown,
     authors: Set[Assoc[User]])
-       extends Root
+  extends Root
 
   object Blog extends RootType[Blog] {
     val uriProp = prop[Uri]("uri")
     val natKey = key(uriProp)
+    val keySet = kscan(this)
+    val indexSet = iscan(this)
   }
 
   case class BlogPost(
@@ -59,12 +63,14 @@ package object blogCore {
     labels: Set[String] = Set(),
     blog: Assoc[Blog],
     authors: Set[Assoc[User]])
-       extends Root
+  extends Root
 
   object BlogPost extends RootType[BlogPost] {
     val blogProp = prop[Assoc[Blog]]("blog")
     val suffixProp = prop[String]("uriPathSuffix")
     val natKey = key(blogProp, suffixProp)
+    val keySet = kscan(this)
+    val indexSet = iscan(this)
   }
 
   object BlogCore extends Subdomain("blogging", EntityTypePool(User, UserProfile, Blog, BlogPost))

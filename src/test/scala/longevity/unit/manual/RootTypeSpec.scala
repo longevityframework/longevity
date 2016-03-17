@@ -40,6 +40,9 @@ object RootTypeSpec {
 
       // brief:
       val usernameProp = prop[String]("username")
+
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
@@ -65,6 +68,8 @@ object RootTypeSpec {
         val lastName = prop[String]("lastName")
         val email = prop[String]("email")
       }
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -89,6 +94,8 @@ object RootTypeSpec {
         val lastName = prop[String]("lastName")
       }
       val usernameKey = key(props.username)
+      val keySet = kscan(this)
+      val indexSet = emptyIndexSet
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -113,6 +120,8 @@ object RootTypeSpec {
       }
       val usernameKey = key(props.username)
       val fullnameKey = key(props.firstName, props.lastName)
+      val keySet = kscan(this)
+      val indexSet = emptyIndexSet
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -137,6 +146,8 @@ object RootTypeSpec {
       }
       val usernameKey = key(props.username)
       val lastFirstIndex = index(props.lastName, props.firstName)
+      val keySet = kscan(this)
+      val indexSet = iscan(this)
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -144,9 +155,10 @@ object RootTypeSpec {
 
 }
 
-/** exercises code samples found in the root type section of the user manual. the samples themselves are
- * in [[RootTypeSpec]] companion object. we include them in the tests here to force the initialization of the
- * subdomains, and to perform some basic sanity checks on the results.
+/** exercises code samples found in the root type section of the user manual.
+ * the samples themselves are in [[RootTypeSpec]] companion object. we include
+ * them in the tests here to force the initialization of the subdomains, and to
+ * perform some basic sanity checks on the results.
  *
  * @see http://longevityframework.github.io/longevity/manual/root-type
  */
@@ -154,7 +166,6 @@ class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import RootTypeSpec._
   import emblem.imports._
-  // import longevity.subdomain._
 
   "user manual example code" should "produce correct subdomains" in {
 

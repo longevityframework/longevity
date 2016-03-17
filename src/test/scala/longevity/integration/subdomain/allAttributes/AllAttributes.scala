@@ -26,4 +26,6 @@ object AllAttributes extends RootType[AllAttributes] {
   index(prop[Long]("long"))
   index(prop[String]("string"))
   index(prop[DateTime]("dateTime"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }

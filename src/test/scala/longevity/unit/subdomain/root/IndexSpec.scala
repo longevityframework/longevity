@@ -1,29 +1,11 @@
 package longevity.unit.subdomain.root
 
 import emblem.imports._
-import longevity.exceptions.subdomain.ptype.EarlyIndexAccessException
-import longevity.exceptions.subdomain.ptype.LateIndexDefException
-import longevity.exceptions.subdomain.ptype.NumPropValsException
-import longevity.exceptions.subdomain.ptype.PropValTypeException
-import longevity.exceptions.subdomain.SubdomainException
 import longevity.subdomain._
 import org.scalatest._
 
 /** sample domain for the IndexSpec tests */
 object IndexSpec {
-
-  object earlyIndexAccess {
-    case class Early() extends Root
-    object Early extends RootType[Early]
-    Early.indexSet.foreach { k => println(k) }
-    val entityTypes = EntityTypePool(Early)
-    val subdomain = Subdomain("early index access", entityTypes)
-  }
-
-  object shorthands {
-    implicit val shorthandPool = ShorthandPool.empty
-  }
-  import shorthands._
 
   case class IndexSampler(
     boolean: Boolean,
@@ -41,10 +23,10 @@ object IndexSpec {
 
     val doubleIndex = IndexSampler.index(booleanProp, charProp)
     val tripleIndex = IndexSampler.index(booleanProp, charProp, doubleProp)
-  }
 
-  val entityTypes = EntityTypePool(IndexSampler)
-  val subdomain = Subdomain("Index Spec", entityTypes)(shorthandPool)
+    val keySet = emptyKeySet
+    val indexSet = iscan(this)
+  }
 
 }
 
@@ -54,30 +36,9 @@ class IndexSpec extends FlatSpec with GivenWhenThen with Matchers {
   import IndexSpec._
   import IndexSpec.IndexSampler._
 
-  behavior of "RootType.indexes"
-  it should "throw exception when called before subdomain initialization" in {
-    // this is an artifact of the un-artful way i constructed the test
-    val e = intercept[ExceptionInInitializerError] {
-      val x = earlyIndexAccess.subdomain
-    }
-    e.getCause shouldBe a [EarlyIndexAccessException]
-  }
-
-  behavior of "RootType.index factory methods"
-
-  they should "throw exception when called after subdomain initialization" in {
-
-    // trigger subdomain initialization
-    import longevity.context._
-    val longevityContext = LongevityContext(IndexSpec.subdomain, Mongo)
-
-    intercept[LateIndexDefException] {
-      IndexSampler.index(booleanProp, charProp)
-    }
-  }
-
   behavior of "Index.props"
   it should "produce the same sequence of properties that was used to create the index" in {
+    IndexSampler.doubleIndex.props should equal (Seq(booleanProp, charProp))
     IndexSampler.tripleIndex.props should equal (Seq(booleanProp, charProp, doubleProp))
   }
 

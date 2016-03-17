@@ -9,5 +9,6 @@ extends Root
 
 object WithAssocList extends RootType[WithAssocList] {
   key(prop[String]("uri"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }
-

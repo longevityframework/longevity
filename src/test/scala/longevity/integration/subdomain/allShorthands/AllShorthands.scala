@@ -26,4 +26,6 @@ object AllShorthands extends RootType[AllShorthands] {
   index(prop[LongShorthand]("long"))
   index(prop[StringShorthand]("string"))
   index(prop[DateTimeShorthand]("dateTime"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }

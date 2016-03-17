@@ -16,11 +16,16 @@ object QueryDslSpec {
     val path2 = prop[Double]("path2")
     val path3 = prop[String]("path3")
     val path4 = prop[Assoc[Associated]]("path4")
+    val keySet = emptyKeySet
+    val indexSet = emptyIndexSet
   }
 
   private case class Associated() extends Root
 
-  private object Associated extends RootType[Associated]
+  private object Associated extends RootType[Associated] {
+    val keySet = emptyKeySet
+    val indexSet = emptyIndexSet
+  }
 
 }
 

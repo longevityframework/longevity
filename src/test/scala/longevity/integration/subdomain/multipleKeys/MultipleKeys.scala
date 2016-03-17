@@ -10,4 +10,6 @@ extends Root
 object MultipleKeys extends RootType[MultipleKeys] {
   key(prop[String]("uri"))
   key(prop[String]("username"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }

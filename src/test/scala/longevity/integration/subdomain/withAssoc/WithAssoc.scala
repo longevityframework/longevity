@@ -12,5 +12,6 @@ object WithAssoc extends RootType[WithAssoc] {
   key(prop[String]("uri"))
   index(prop[String]("uri"))
   index(prop[Assoc[Associated]]("associated"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }
-

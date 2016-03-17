@@ -7,4 +7,7 @@ case class WithNoTranslationOption(
   noTranslationOption: Option[NoTranslation])
 extends Root
 
-object WithNoTranslationOption extends RootType[WithNoTranslationOption]
+object WithNoTranslationOption extends RootType[WithNoTranslationOption] {
+  val keySet = emptyKeySet
+  val indexSet = emptyIndexSet
+}

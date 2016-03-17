@@ -1,30 +1,14 @@
 package longevity.unit.subdomain.root
 
 import emblem.imports._
-import longevity.exceptions.subdomain.ptype.EarlyKeyAccessException
-import longevity.exceptions.subdomain.ptype.LateKeyDefException
 import longevity.exceptions.subdomain.ptype.NumPropValsException
 import longevity.exceptions.subdomain.ptype.PropValTypeException
-import longevity.exceptions.subdomain.SubdomainException
 import longevity.subdomain._
 import longevity.subdomain.ptype._
 import org.scalatest._
 
 /** sample domain for the KeySpec tests */
 object KeySpec {
-
-  object earlyKeyAccess {
-    case class Early() extends Root
-    object Early extends RootType[Early]
-    Early.keySet.foreach { k => println(k) }
-    val entityTypes = EntityTypePool(Early)
-    val subdomain = Subdomain("early key access", entityTypes)
-  }
-
-  object shorthands {
-    implicit val shorthandPool = ShorthandPool.empty
-  }
-  import shorthands._
 
   case class KeySampler(
     boolean: Boolean,
@@ -42,10 +26,10 @@ object KeySpec {
 
     val doubleKey = key(booleanProp, charProp)
     val tripleKey = key(booleanProp, charProp, doubleProp)
-  }
 
-  val entityTypes = EntityTypePool(KeySampler)
-  val subdomain = Subdomain("Key Spec", entityTypes)(shorthandPool)
+    val keySet = kscan(this)
+    val indexSet = emptyIndexSet
+  }
 
 }
 
@@ -54,28 +38,6 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import KeySpec._
   import KeySpec.KeySampler._
-
-  behavior of "RootType.keys"
-  it should "throw exception when called before subdomain initialization" in {
-    // this is an artifact of the un-artful way i constructed the test
-    val e = intercept[ExceptionInInitializerError] {
-      val x = earlyKeyAccess.subdomain
-    }
-    e.getCause shouldBe a [EarlyKeyAccessException]
-  }
-
-  behavior of "RootType.key factory methods"
-
-  they should "throw exception when called after subdomain initialization" in {
-
-    // trigger subdomain initialization
-    import longevity.context._
-    val longevityContext = LongevityContext(KeySpec.subdomain, Mongo)
-
-    intercept[LateKeyDefException] {
-      KeySampler.key(booleanProp, charProp)
-    }
-  }
 
   behavior of "Key.apply"
 

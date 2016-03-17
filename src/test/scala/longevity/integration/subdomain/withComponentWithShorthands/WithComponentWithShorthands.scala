@@ -10,5 +10,6 @@ extends Root
 
 object WithComponentWithShorthands extends RootType[WithComponentWithShorthands] {
   key(prop[String]("uri"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }
-

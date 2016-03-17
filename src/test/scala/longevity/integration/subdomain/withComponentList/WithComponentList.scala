@@ -9,5 +9,6 @@ extends Root
 
 object WithComponentList extends RootType[WithComponentList] {
   key(prop[String]("uri"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }
-

@@ -9,11 +9,17 @@ object messageFriend {
 
   case class Friend(name: String) extends Root
 
-  object FriendType extends RootType[Friend]
+  object FriendType extends RootType[Friend] {
+    val keySet = emptyKeySet
+    val indexSet = emptyIndexSet
+  }
 
   case class Message(author: Assoc[Friend], content: String) extends Root
 
-  object MessageType extends RootType[Message]
+  object MessageType extends RootType[Message] {
+    val keySet = emptyKeySet
+    val indexSet = emptyIndexSet
+  }
 
   object context {
     val entityTypes = EntityTypePool() + FriendType + MessageType

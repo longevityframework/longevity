@@ -74,6 +74,8 @@ object QuickStartSpec {
     }
     val usernameKey = key(props.username)
     val emailKey = key(props.email)
+    val keySet = kscan(this)
+    val indexSet = iscan(this)
   }
 
   case class UserProfile(
@@ -96,6 +98,8 @@ object QuickStartSpec {
       val uri = prop[Uri]("uri")
     }
     val uriKey = key(props.uri)
+    val keySet = kscan(this)
+    val indexSet = iscan(this)
   }
 
   case class BlogPost(
@@ -116,6 +120,8 @@ object QuickStartSpec {
       val postDate = prop[DateTime]("postDate")
     }
     val uriKey = key(props.blog, props.uriPathSuffix)
+    val keySet = kscan(this)
+    val indexSet = iscan(this)
   }
 
   // build the subdomain:

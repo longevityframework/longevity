@@ -9,5 +9,6 @@ extends Root
 
 object KeyWithAssoc extends RootType[KeyWithAssoc] {
   key(prop[Assoc[Associated]]("associated"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }
-

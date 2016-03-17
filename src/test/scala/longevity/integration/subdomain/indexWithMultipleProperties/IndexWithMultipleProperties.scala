@@ -9,5 +9,6 @@ extends Root
 
 object IndexWithMultipleProperties extends RootType[IndexWithMultipleProperties] {
   index(prop[String]("realm"), prop[String]("name"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }
-

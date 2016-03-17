@@ -17,4 +17,6 @@ extends Root
 
 object AttributeOptions extends RootType[AttributeOptions] {
   key(prop[String]("uri"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }

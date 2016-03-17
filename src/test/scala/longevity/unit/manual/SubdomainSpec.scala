@@ -29,7 +29,10 @@ object SubdomainSpec {
       lastName: String)
     extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
@@ -50,7 +53,10 @@ object SubdomainSpec {
       isSuspended: Boolean = false)
     extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
@@ -69,7 +75,10 @@ object SubdomainSpec {
       emails: Set[String])
     extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
@@ -95,7 +104,10 @@ object SubdomainSpec {
       emails: Set[Email])
     extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
@@ -129,7 +141,10 @@ object SubdomainSpec {
       emails: Set[Email])
     extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
@@ -161,7 +176,10 @@ object SubdomainSpec {
     // duplicated at https://gist.github.com/sullivan-/5bd434d757dc64b6caac
     object e4 {
       implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
-      object User extends RootType[User]
+      object User extends RootType[User] {
+        val keySet = emptyKeySet
+        val indexSet = emptyIndexSet
+      }
       val subdomain = Subdomain("blogging", EntityTypePool(User))
     }
 
@@ -169,7 +187,10 @@ object SubdomainSpec {
     object e5 {
       import emblem.imports._
       val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
-      object User extends RootType()(typeKey[User], shorthandPool)
+      object User extends RootType()(typeKey[User], shorthandPool) {
+        val keySet = emptyKeySet
+        val indexSet = emptyIndexSet
+      }
       val subdomain = Subdomain("blogging", EntityTypePool(User))(shorthandPool)
     }
 
@@ -193,7 +214,10 @@ object SubdomainSpec {
       emails: Set[Email])
     extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
@@ -227,7 +251,10 @@ object SubdomainSpec {
       profile: Option[UserProfile])
     extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
   }
@@ -260,7 +287,10 @@ object SubdomainSpec {
       address: Address)
     extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
   }
@@ -293,7 +323,10 @@ object SubdomainSpec {
       address: Address)
     extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
   }
@@ -305,17 +338,26 @@ object SubdomainSpec {
 
     case class User(username: String) extends Root
     
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     case class Blog(uri: String, authors: Set[Assoc[User]])
     extends Root
 
-    object Blog extends RootType[Blog]
+    object Blog extends RootType[Blog] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     case class BlogPost(uri: String, blog: Assoc[Blog], authors: Set[Assoc[Blog]])
     extends Root
 
-    object BlogPost extends RootType[BlogPost]
+    object BlogPost extends RootType[BlogPost] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, Blog, BlogPost))
   }
@@ -327,7 +369,10 @@ object SubdomainSpec {
 
     case class User(username: String) extends Root
 
-    object User extends RootType[User]
+    object User extends RootType[User] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     case class UserProfile(
       user: Assoc[User],
@@ -341,16 +386,20 @@ object SubdomainSpec {
     case class Blog(uri: String, authors: Set[UserProfile])
     extends Root
 
-    object Blog extends RootType[Blog]
+    object Blog extends RootType[Blog] {
+      val keySet = emptyKeySet
+      val indexSet = emptyIndexSet
+    }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile, Blog))
   }
 
 }
 
-/** exercises code samples found in the subdomain section of the user manual. the samples themselves are
- * in [[SubdomainSpec]] companion object. we include them in the tests here to force the initialization of the
- * subdomains, and to perform some basic sanity checks on the results.
+/** exercises code samples found in the subdomain section of the user manual.
+ * the samples themselves are in [[SubdomainSpec]] companion object. we include
+ * them in the tests here to force the initialization of the subdomains, and to
+ * perform some basic sanity checks on the results.
  *
  * @see http://longevityframework.github.io/longevity/manual/subdomain/
  */

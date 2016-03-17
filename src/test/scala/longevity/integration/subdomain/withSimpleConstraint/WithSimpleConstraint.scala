@@ -10,6 +10,7 @@ extends Root
 
 object WithSimpleConstraint extends RootType[WithSimpleConstraint] {
   val idProp = prop[String]("id")
-  key(idProp)
+  val idKey = key(idProp)
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }
-

@@ -9,5 +9,6 @@ extends Root
 
 object WithAssocOption extends RootType[WithAssocOption] {
   key(prop[String]("uri"))
+  val keySet = kscan(this)
+  val indexSet = iscan(this)
 }
-
