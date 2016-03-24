@@ -30,8 +30,10 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -54,8 +56,10 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -76,8 +80,10 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -105,8 +111,10 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -142,8 +150,10 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -177,8 +187,10 @@ object SubdomainSpec {
     object e4 {
       implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
       object User extends RootType[User] {
-        val keySet = emptyKeySet
-        val indexSet = emptyIndexSet
+        object keys {
+        }
+        object indexes {
+        }
       }
       val subdomain = Subdomain("blogging", EntityTypePool(User))
     }
@@ -188,8 +200,10 @@ object SubdomainSpec {
       import emblem.imports._
       val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
       object User extends RootType()(typeKey[User], shorthandPool) {
-        val keySet = emptyKeySet
-        val indexSet = emptyIndexSet
+        object keys {
+        }
+        object indexes {
+        }
       }
       val subdomain = Subdomain("blogging", EntityTypePool(User))(shorthandPool)
     }
@@ -215,8 +229,10 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -252,8 +268,10 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
@@ -288,8 +306,10 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
@@ -324,8 +344,10 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
@@ -339,24 +361,30 @@ object SubdomainSpec {
     case class User(username: String) extends Root
     
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     case class Blog(uri: String, authors: Set[Assoc[User]])
     extends Root
 
     object Blog extends RootType[Blog] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     case class BlogPost(uri: String, blog: Assoc[Blog], authors: Set[Assoc[Blog]])
     extends Root
 
     object BlogPost extends RootType[BlogPost] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, Blog, BlogPost))
@@ -370,8 +398,10 @@ object SubdomainSpec {
     case class User(username: String) extends Root
 
     object User extends RootType[User] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     case class UserProfile(
@@ -387,8 +417,10 @@ object SubdomainSpec {
     extends Root
 
     object Blog extends RootType[Blog] {
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile, Blog))

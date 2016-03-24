@@ -1,4 +1,4 @@
-package longevity.unit.subdomain.root
+package longevity.unit.subdomain.ptype
 
 import com.github.nscala_time.time.Imports._
 import emblem.imports._

@@ -1,4 +1,4 @@
-package longevity.unit.subdomain.root
+package longevity.unit.subdomain.ptype
 
 import emblem.imports._
 import longevity.exceptions.subdomain.ptype.NumPropValsException
@@ -24,11 +24,12 @@ object KeySpec {
     val charProp = prop[Char]("char")
     val doubleProp = prop[Double]("double")
 
-    val doubleKey = key(booleanProp, charProp)
-    val tripleKey = key(booleanProp, charProp, doubleProp)
-
-    val keySet = kscan(this)
-    val indexSet = emptyIndexSet
+    object keys {
+      val double = key(booleanProp, charProp)
+      val triple = key(booleanProp, charProp, doubleProp)
+    }
+    object indexes {
+    }
   }
 
 }
@@ -43,13 +44,13 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when number of values does not match the number of properties in the key" in {
     intercept[NumPropValsException[_]] {
-      doubleKey(true)
+      keys.double(true)
     }
   }
 
   it should "throw exception when the propVal does not match the type of the prop" in {
     intercept[PropValTypeException[_]] {
-      val keyValForP = doubleKey(6.6d, 'c')
+      val keyValForP = keys.double(6.6d, 'c')
     }
   }
 
@@ -58,7 +59,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val charVal = 'c'
     val doubleVal = 6.667d
 
-    val keyValForP = tripleKey(booleanVal, charVal, doubleVal)
+    val keyValForP = keys.triple(booleanVal, charVal, doubleVal)
 
     keyValForP(booleanProp) should equal (booleanVal)
     keyValForP(charProp) should equal (charVal)
@@ -73,7 +74,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
     val doubleVal = 6.667d
     val sampler = KeySampler(booleanVal, charVal, doubleVal, 7.7F, 7, 77L)
 
-    val keyValForP: KeyVal[KeySampler] = tripleKey.keyValForP(sampler)
+    val keyValForP: KeyVal[KeySampler] = keys.triple.keyValForP(sampler)
 
     keyValForP(booleanProp) should equal (booleanVal)
     keyValForP(charProp) should equal (charVal)

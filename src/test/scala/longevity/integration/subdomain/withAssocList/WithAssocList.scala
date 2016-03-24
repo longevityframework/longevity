@@ -7,8 +7,13 @@ case class WithAssocList(
   associated: List[Assoc[Associated]])
 extends Root
 
-object WithAssocList extends RootType[WithAssocList] {
-  key(prop[String]("uri"))
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+object WithAssocList extends RootType[WithAssocList] { 
+  object props {
+    val uri = prop[String]("uri")
+  }
+  object keys {
+    val uri = key(props.uri)
+  }
+  object indexes {
+  }
 }

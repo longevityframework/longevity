@@ -17,15 +17,28 @@ case class AllAttributes(
 extends Root
 
 object AllAttributes extends RootType[AllAttributes] {
-  key(prop[String]("uri"))
-  index(prop[Boolean]("boolean"))
-  index(prop[Char]("char"))
-  index(prop[Double]("double"))
-  index(prop[Float]("float"))
-  index(prop[Int]("int"))
-  index(prop[Long]("long"))
-  index(prop[String]("string"))
-  index(prop[DateTime]("dateTime"))
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+  object props {
+    val uri = prop[String]("uri")
+    val boolean = prop[Boolean]("boolean")
+    val char = prop[Char]("char")
+    val double = prop[Double]("double")
+    val float = prop[Float]("float")
+    val int = prop[Int]("int")
+    val long = prop[Long]("long")
+    val string = prop[String]("string")
+    val dateTime = prop[DateTime]("dateTime")
+  }
+  object keys {
+    val uri = key(props.uri)
+  }
+  object indexes {
+    val boolean = index(props.boolean)
+    val char = index(props.char)
+    val double = index(props.double)
+    val float = index(props.float)
+    val int = index(props.int)
+    val long = index(props.long)
+    val string = index(props.string)
+    val dateTime = index(props.dateTime)
+  }
 }

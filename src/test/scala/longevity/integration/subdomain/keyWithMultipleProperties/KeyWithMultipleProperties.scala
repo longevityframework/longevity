@@ -8,7 +8,13 @@ case class KeyWithMultipleProperties(
 extends Root
 
 object KeyWithMultipleProperties extends RootType[KeyWithMultipleProperties] {
-  key(prop[String]("realm"), prop[String]("name"))
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+  object props {
+    val realm = prop[String]("realm")
+    val name = prop[String]("name")
+  }
+  object keys {
+    val realmName = key(props.realm, props.name)
+  }
+  object indexes {
+  }
 }

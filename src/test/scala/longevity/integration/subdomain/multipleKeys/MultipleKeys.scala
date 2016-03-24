@@ -8,8 +8,14 @@ case class MultipleKeys(
 extends Root
 
 object MultipleKeys extends RootType[MultipleKeys] {
-  key(prop[String]("uri"))
-  key(prop[String]("username"))
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+  object props {
+    val uri = prop[String]("uri")
+    val username = prop[String]("username")
+  }
+  object keys {
+    val uri = key(props.uri)
+    val username = key(props.username)
+  }
+  object indexes {
+  }
 }

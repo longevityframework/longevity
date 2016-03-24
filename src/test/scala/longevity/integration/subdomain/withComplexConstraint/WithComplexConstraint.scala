@@ -12,7 +12,12 @@ extends Root {
 }
 
 object WithComplexConstraint extends RootType[WithComplexConstraint] {
-  key(prop[String]("id"))
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+  object props {
+    val id = prop[String]("id")
+  }
+  object keys {
+    val id = key(props.id)
+  }
+  object indexes {
+  }
 }

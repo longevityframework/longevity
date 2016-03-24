@@ -10,15 +10,19 @@ object messageFriend {
   case class Friend(name: String) extends Root
 
   object FriendType extends RootType[Friend] {
-    val keySet = emptyKeySet
-    val indexSet = emptyIndexSet
+    object keys {
+    }
+    object indexes {
+    }
   }
 
   case class Message(author: Assoc[Friend], content: String) extends Root
 
   object MessageType extends RootType[Message] {
-    val keySet = emptyKeySet
-    val indexSet = emptyIndexSet
+    object keys {
+    }
+    object indexes {
+    }
   }
 
   object context {

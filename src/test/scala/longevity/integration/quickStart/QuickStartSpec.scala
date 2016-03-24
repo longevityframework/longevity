@@ -72,10 +72,12 @@ object QuickStartSpec {
       val username = prop[String]("username")
       val email = prop[Email]("email")
     }
-    val usernameKey = key(props.username)
-    val emailKey = key(props.email)
-    val keySet = kscan(this)
-    val indexSet = iscan(this)
+    object keys {
+      val username = key(props.username)
+      val email = key(props.email)
+    }
+    object indexes {
+    }
   }
 
   case class UserProfile(
@@ -97,9 +99,11 @@ object QuickStartSpec {
     object props {
       val uri = prop[Uri]("uri")
     }
-    val uriKey = key(props.uri)
-    val keySet = kscan(this)
-    val indexSet = iscan(this)
+    object keys {
+      val uri = key(props.uri)
+    }
+    object indexes {
+    }
   }
 
   case class BlogPost(
@@ -119,9 +123,11 @@ object QuickStartSpec {
       val uriPathSuffix = prop[String]("uriPathSuffix")
       val postDate = prop[DateTime]("postDate")
     }
-    val uriKey = key(props.blog, props.uriPathSuffix)
-    val keySet = kscan(this)
-    val indexSet = iscan(this)
+    object keys {
+      val uri = key(props.blog, props.uriPathSuffix)
+    }
+    object indexes {
+    }
   }
 
   // build the subdomain:
@@ -208,7 +214,7 @@ with ScaledTimeSpans {
     // `Repo[User].retrieve` returns a `Future[Option[PState[User]]]`,
     // aka `FOPState[User]`
     val retrieveResult: FOPState[User] =
-      userRepo.retrieve(User.usernameKey(john.username))
+      userRepo.retrieve(User.keys.username(john.username))
 
     // unwrap the future and option:
 
@@ -231,7 +237,7 @@ with ScaledTimeSpans {
 
     // create a new blog post:
 
-    val blogKeyVal: KeyVal[Blog] = Blog.uriKey(blog.uri)
+    val blogKeyVal: KeyVal[Blog] = Blog.keys.uri(blog.uri)
     val blogState: PState[Blog] =
       blogRepo.retrieve(blogKeyVal).futureValue.value
 
@@ -273,7 +279,7 @@ with ScaledTimeSpans {
 
     val updated: FOPState[User] =
       userRepo.retrieve(
-        User.usernameKey(john.username)
+        User.keys.username(john.username)
       ).mapRoot(
         userService.updateUser _
       ).flatMapState(
@@ -283,7 +289,7 @@ with ScaledTimeSpans {
 
     val updatedReactive: FOPState[User] =
       userRepo.retrieve(
-        User.usernameKey(john.username)
+        User.keys.username(john.username)
       ).flatMapRoot(
         userService.updateUserReactive _
       ).flatMapState(
@@ -294,7 +300,7 @@ with ScaledTimeSpans {
     // equivalent to above, but without mapRoot and flatMapRoot
 
     val updatedNoMapRoot: FPState[User] = {
-      userRepo retrieve User.usernameKey(john.username) flatMap { optUserState =>
+      userRepo retrieve User.keys.username(john.username) flatMap { optUserState =>
         val userState = optUserState getOrElse { throw new RuntimeException }
         val updatedState = userState map userService.updateUser
         userRepo update updatedState
@@ -302,7 +308,7 @@ with ScaledTimeSpans {
     }
 
     def applyEvent(username: String): FPState[User] = {
-      userRepo retrieve User.usernameKey(username) flatMap { optUserState =>
+      userRepo retrieve User.keys.username(username) flatMap { optUserState =>
         val userState = optUserState getOrElse { throw new RuntimeException }
         val updatedState = userState map userService.updateUser
         userRepo update updatedState
@@ -312,7 +318,7 @@ with ScaledTimeSpans {
     // use an `Assoc` to retrieve an author from a blog post:
 
     val post: BlogPost = blogPostRepo.retrieve(
-      BlogPost.uriKey(blogState.assoc, johnsPost.uriPathSuffix)
+      BlogPost.keys.uri(blogState.assoc, johnsPost.uriPathSuffix)
     ).futureValue.value.get
     val authorAssoc: Assoc[User] = post.authors.head
     val author: FPState[User] = userRepo.retrieveOne(authorAssoc)
@@ -349,7 +355,7 @@ with ScaledTimeSpans {
 
   private def deleteUser(user: User): Unit = {
     val futureDeleted = for {
-      optUserState <- userRepo retrieve User.usernameKey(user.username)
+      optUserState <- userRepo retrieve User.keys.username(user.username)
       deleted <- optUserState map userRepo.delete getOrElse Future.successful(())
     } yield deleted
     futureDeleted.futureValue
@@ -357,8 +363,8 @@ with ScaledTimeSpans {
 
   private def deletePost(post: BlogPost, blog: Blog): Unit = {
     val deleted = for {
-      optBlogState <- blogRepo retrieve Blog.uriKey(blog.uri)
-      optKeyVal = optBlogState map { blogState => BlogPost.uriKey(blogState.assoc, post.uriPathSuffix) }
+      optBlogState <- blogRepo retrieve Blog.keys.uri(blog.uri)
+      optKeyVal = optBlogState map { blogState => BlogPost.keys.uri(blogState.assoc, post.uriPathSuffix) }
       optPostState <- optKeyVal map blogPostRepo.retrieve getOrElse Future.successful(None)
       deleted <- optPostState map blogPostRepo.delete getOrElse Future.successful(())
     } yield deleted
@@ -367,7 +373,7 @@ with ScaledTimeSpans {
 
   private def deleteBlog(blog: Blog): Unit = {
     val deleted = for {
-      optBlogState <- blogRepo retrieve Blog.uriKey(blog.uri)
+      optBlogState <- blogRepo retrieve Blog.keys.uri(blog.uri)
       deleted <- optBlogState map blogRepo.delete getOrElse Future.successful(())
     } yield deleted
     deleted.futureValue

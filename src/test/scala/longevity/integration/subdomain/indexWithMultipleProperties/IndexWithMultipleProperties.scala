@@ -8,7 +8,13 @@ case class IndexWithMultipleProperties(
 extends Root
 
 object IndexWithMultipleProperties extends RootType[IndexWithMultipleProperties] {
-  index(prop[String]("realm"), prop[String]("name"))
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+  object props {
+    val realm = prop[String]("realm")
+    val name = prop[String]("name")
+  }
+  object keys {
+  }
+  object indexes {
+    val realmName = index(props.realm, props.name)
+  }
 }

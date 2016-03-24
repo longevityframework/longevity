@@ -41,8 +41,10 @@ object RootTypeSpec {
       // brief:
       val usernameProp = prop[String]("username")
 
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
@@ -68,8 +70,10 @@ object RootTypeSpec {
         val lastName = prop[String]("lastName")
         val email = prop[String]("email")
       }
-      val keySet = emptyKeySet
-      val indexSet = emptyIndexSet
+      object keys {
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -93,9 +97,11 @@ object RootTypeSpec {
         val firstName = prop[String]("firstName")
         val lastName = prop[String]("lastName")
       }
-      val usernameKey = key(props.username)
-      val keySet = kscan(this)
-      val indexSet = emptyIndexSet
+      object keys {
+        val username = key(props.username)  
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -118,10 +124,12 @@ object RootTypeSpec {
         val firstName = prop[String]("firstName")
         val lastName = prop[String]("lastName")
       }
-      val usernameKey = key(props.username)
-      val fullnameKey = key(props.firstName, props.lastName)
-      val keySet = kscan(this)
-      val indexSet = emptyIndexSet
+      object keys {
+        val username = key(props.username)
+        val fullname = key(props.firstName, props.lastName)
+      }
+      object indexes {
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -144,10 +152,12 @@ object RootTypeSpec {
         val firstName = prop[String]("firstName")
         val lastName = prop[String]("lastName")
       }
-      val usernameKey = key(props.username)
-      val lastFirstIndex = index(props.lastName, props.firstName)
-      val keySet = kscan(this)
-      val indexSet = iscan(this)
+      object keys {
+        val username = key(props.username)
+      }
+      object indexes {
+        val fullname = index(props.lastName, props.firstName)
+      }
     }
 
     val subdomain = Subdomain("blogging", EntityTypePool(User))
@@ -179,9 +189,9 @@ class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys1.subdomain.pTypePool.size should equal (1)
       keys1.subdomain.pTypePool.values.head should equal (keys1.User)
       keys1.User.keySet.size should equal (1)
-      keys1.User.keySet.head should equal (keys1.User.usernameKey)
-      keys1.User.usernameKey.props.size should equal (1)
-      val prop = keys1.User.usernameKey.props.head
+      keys1.User.keySet.head should equal (keys1.User.keys.username)
+      keys1.User.keys.username.props.size should equal (1)
+      val prop = keys1.User.keys.username.props.head
       prop.path should equal ("username")
       prop.typeKey should equal (typeKey[String])
     }
@@ -193,18 +203,18 @@ class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys2.subdomain.pTypePool.size should equal (1)
       keys2.subdomain.pTypePool.values.head should equal (keys2.User)
       keys2.User.keySet.size should equal (2)
-      keys2.User.keySet.find(_.props.size == 1).value should equal (keys2.User.usernameKey)
-      keys2.User.usernameKey.props.size should equal (1)
-      val usernameProp = keys2.User.usernameKey.props.head
+      keys2.User.keySet.find(_.props.size == 1).value should equal (keys2.User.keys.username)
+      keys2.User.keys.username.props.size should equal (1)
+      val usernameProp = keys2.User.keys.username.props.head
       usernameProp.path should equal ("username")
       usernameProp.typeKey should equal (typeKey[String])
 
-      keys2.User.keySet.find(_.props.size == 2).value should equal (keys2.User.fullnameKey)
-      keys2.User.fullnameKey.props.size should equal (2)
-      val firstNameProp = keys2.User.fullnameKey.props.find(_.path == "firstName").value
+      keys2.User.keySet.find(_.props.size == 2).value should equal (keys2.User.keys.fullname)
+      keys2.User.keys.fullname.props.size should equal (2)
+      val firstNameProp = keys2.User.keys.fullname.props.find(_.path == "firstName").value
       firstNameProp.path should equal ("firstName")
       firstNameProp.typeKey should equal (typeKey[String])
-      val lastNameProp = keys2.User.fullnameKey.props.find(_.path == "lastName").value
+      val lastNameProp = keys2.User.keys.fullname.props.find(_.path == "lastName").value
       lastNameProp.path should equal ("lastName")
       lastNameProp.typeKey should equal (typeKey[String])
     }

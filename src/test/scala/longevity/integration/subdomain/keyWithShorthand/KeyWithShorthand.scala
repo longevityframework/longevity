@@ -6,8 +6,14 @@ import shorthands._
 case class KeyWithShorthand(id: String, uri: Uri) extends Root
 
 object KeyWithShorthand extends RootType[KeyWithShorthand] {
-  key(prop[String]("id"))
-  key(prop[Uri]("uri"))
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+  object props {
+    val id = prop[String]("id")
+    val uri = prop[Uri]("uri")
+  }
+  object keys {
+    val id = key(props.id)
+    val uri = key(props.uri)
+  }
+  object indexes {
+  }
 }

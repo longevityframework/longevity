@@ -28,12 +28,12 @@ private[emblem] class EmblemFactory[A <: HasEmblem : TypeKey] extends Reflective
   private def makeEmblemProp[U](name: TermName)(implicit propKey: TypeKey[U]): EmblemProp[A, U] =
     EmblemProp[A, U](
       name.toString,
-      makeGetFunction[U](name),
-      makeSetFunction[U](name))(
+      getFunction[U](name),
+      setFunction[U](name))(
       key,
       propKey)
 
-  private def makeSetFunction[U : TypeKey](name: TermName): (A, U) => A = {
+  private def setFunction[U : TypeKey](name: TermName): (A, U) => A = {
     val setFunction = { (a: A, u: U) =>
       val args = params.map { param: TermSymbol =>
         if (param.name == name) {

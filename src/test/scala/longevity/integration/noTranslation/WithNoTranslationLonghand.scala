@@ -8,6 +8,8 @@ case class WithNoTranslationLonghand(
 extends Root
 
 object WithNoTranslationLonghand extends RootType[WithNoTranslationLonghand] {
-  val keySet = emptyKeySet
-  val indexSet = emptyIndexSet
+  object keys {
+  }
+  object indexes {
+  }
 }

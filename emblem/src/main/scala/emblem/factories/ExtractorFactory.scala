@@ -30,7 +30,7 @@ extends ReflectiveFactory[Domain] {
     }
   }
 
-  private def makeApply(): (Domain) => Range = makeGetFunction[Range](param.name)
+  private def makeApply(): (Domain) => Range = getFunction[Range](param.name)
 
   private def makeInverse(): (Range) => Domain = { range: Range =>
     module.applyMirror(range).asInstanceOf[Domain]

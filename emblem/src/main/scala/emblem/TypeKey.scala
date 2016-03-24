@@ -8,13 +8,15 @@ import scala.reflect.Manifest
 import scala.reflect.ManifestFactory
 import scala.reflect.runtime.universe._
 
-/** behaves much like a `scala.reflect.runtime.universe.TypeTag`, except that it can also be safely used
- * as a key in a hash or a set. Two type keys will be equal if and only if their underlying types are equivalent
- * according to method `=:=` in `scala.reflect.api.Types.Type`. The [[hashCode]] method does its best to
- * produce unique hash values, and always produces values compatible with [[equals]].
+/** behaves much like a `scala.reflect.runtime.universe.TypeTag`, except that it
+ * can also be safely used as a key in a hash or a set. Two type keys will be
+ * equal if and only if their underlying types are equivalent according to
+ * method `=:=` in `scala.reflect.api.Types.Type`. The [[hashCode]] method does
+ * its best to produce unique hash values, and always produces values compatible
+ * with [[equals]].
  *
- * type keys are provided by an implicit method in [[emblem package emblem]], so you can get one implicitly
- * like so:
+ * type keys are provided by an implicit method in [[emblem package emblem]], so
+ * you can get one implicitly like so:
  *
  * {{{
  * def foo[A : TypeKey]() = {

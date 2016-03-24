@@ -9,8 +9,12 @@ case class WithSimpleConstraint(
 extends Root
 
 object WithSimpleConstraint extends RootType[WithSimpleConstraint] {
-  val idProp = prop[String]("id")
-  val idKey = key(idProp)
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+  object props {
+    val id = prop[String]("id")    
+  }
+  object keys {
+    val id = key(props.id)
+  }
+  object indexes {
+  }
 }

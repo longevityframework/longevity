@@ -8,7 +8,12 @@ case class WithAssocSet(
 extends Root
 
 object WithAssocSet extends RootType[WithAssocSet] {
-  key(prop[String]("uri"))
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+  object props {
+    val uri = prop[String]("uri")
+  }
+  object keys {
+    val uri = key(props.uri)
+  }
+  object indexes {
+  }
 }

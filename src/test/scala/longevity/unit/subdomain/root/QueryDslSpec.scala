@@ -1,4 +1,4 @@
-package longevity.unit.subdomain.root
+package longevity.unit.subdomain.ptype
 
 import org.scalatest._
 import longevity.exceptions.subdomain.ptype.PropNotOrderedException
@@ -12,19 +12,25 @@ object QueryDslSpec {
   extends Root
 
   private object DslRoot extends RootType[DslRoot] {
-    val path1 = prop[Int]("path1")
-    val path2 = prop[Double]("path2")
-    val path3 = prop[String]("path3")
-    val path4 = prop[Assoc[Associated]]("path4")
-    val keySet = emptyKeySet
-    val indexSet = emptyIndexSet
+    object props {
+      val path1 = prop[Int]("path1")
+      val path2 = prop[Double]("path2")
+      val path3 = prop[String]("path3")
+      val path4 = prop[Assoc[Associated]]("path4")
+    }
+    object keys {
+    }
+    object indexes {
+    }
   }
 
   private case class Associated() extends Root
 
   private object Associated extends RootType[Associated] {
-    val keySet = emptyKeySet
-    val indexSet = emptyIndexSet
+    object keys {
+    }
+    object indexes {
+    }
   }
 
 }
@@ -41,20 +47,20 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     import DslRoot._
     val assoc = Assoc(new Associated())
 
-    (path4 eqs assoc): Query[DslRoot]
-    (path4 neq assoc): Query[DslRoot]
+    (props.path4 eqs assoc): Query[DslRoot]
+    (props.path4 neq assoc): Query[DslRoot]
 
     intercept[PropNotOrderedException] {
-      (path4 lt assoc): Query[DslRoot]
+      (props.path4 lt assoc): Query[DslRoot]
     }
     intercept[PropNotOrderedException] {
-      (path4 lte assoc): Query[DslRoot]
+      (props.path4 lte assoc): Query[DslRoot]
     }
     intercept[PropNotOrderedException] {
-      (path4 gt assoc): Query[DslRoot]
+      (props.path4 gt assoc): Query[DslRoot]
     }
     intercept[PropNotOrderedException] {
-      (path4 gte assoc): Query[DslRoot]
+      (props.path4 gte assoc): Query[DslRoot]
     }
   }
 
@@ -62,28 +68,28 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     import DslRoot._
     val value = 7
 
-    var expected: Query[DslRoot] = Query.eqs(path1, value)
-    var actual: Query[DslRoot] = path1 eqs value
+    var expected: Query[DslRoot] = Query.eqs(props.path1, value)
+    var actual: Query[DslRoot] = props.path1 eqs value
     actual should equal (expected)
 
-    expected = Query.neq(path1, value)
-    actual = path1 neq value
+    expected = Query.neq(props.path1, value)
+    actual = props.path1 neq value
     actual should equal (expected)
 
-    expected = Query.lt(path1, value)
-    actual = path1 lt value
+    expected = Query.lt(props.path1, value)
+    actual = props.path1 lt value
     actual should equal (expected)
 
-    expected = Query.lte(path1, value)
-    actual = path1 lte value
+    expected = Query.lte(props.path1, value)
+    actual = props.path1 lte value
     actual should equal (expected)
 
-    expected = Query.gt(path1, value)
-    actual = path1 gt value
+    expected = Query.gt(props.path1, value)
+    actual = props.path1 gt value
     actual should equal (expected)
 
-    expected = Query.gte(path1, value)
-    actual = path1 gte value
+    expected = Query.gte(props.path1, value)
+    actual = props.path1 gte value
     actual should equal (expected)
 
   }
@@ -93,30 +99,30 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     val value1 = 7
     val value2 = 1.2
 
-    var expected: Query[DslRoot] = Query.and(Query.eqs(path1, value1), Query.eqs(path2, value2))
-    var actual: Query[DslRoot] = path1 eqs value1 and path2 eqs value2
+    var expected: Query[DslRoot] = Query.and(Query.eqs(props.path1, value1), Query.eqs(props.path2, value2))
+    var actual: Query[DslRoot] = props.path1 eqs value1 and props.path2 eqs value2
     actual should equal (expected)
 
-    actual = (path1 eqs value1) and path2 eqs value2
+    actual = (props.path1 eqs value1) and props.path2 eqs value2
     actual should equal (expected)
 
-    actual = path1 eqs value1 and (path2 eqs value2)
+    actual = props.path1 eqs value1 and (props.path2 eqs value2)
     actual should equal (expected)
 
-    actual = (path1 eqs value1) and (path2 eqs value2)
+    actual = (props.path1 eqs value1) and (props.path2 eqs value2)
     actual should equal (expected)
 
-    expected = Query.or(Query.eqs(path1, value1), Query.eqs(path2, value2))
-    actual = path1 eqs value1 or path2 eqs value2
+    expected = Query.or(Query.eqs(props.path1, value1), Query.eqs(props.path2, value2))
+    actual = props.path1 eqs value1 or props.path2 eqs value2
     actual should equal (expected)
 
-    actual = (path1 eqs value1) or path2 eqs value2
+    actual = (props.path1 eqs value1) or props.path2 eqs value2
     actual should equal (expected)
 
-    actual = path1 eqs value1 or (path2 eqs value2)
+    actual = props.path1 eqs value1 or (props.path2 eqs value2)
     actual should equal (expected)
 
-    actual = (path1 eqs value1) or (path2 eqs value2)
+    actual = (props.path1 eqs value1) or (props.path2 eqs value2)
     actual should equal (expected)
 
   }
@@ -130,70 +136,70 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     var expected: Query[DslRoot] =
       Query.and(
         Query.and(
-          Query.eqs(path1, value1),
-          Query.eqs(path2, value2)),
-        Query.eqs(path3, value3))
-    var actual: Query[DslRoot] = path1 eqs value1 and path2 eqs value2 and path3 eqs value3
+          Query.eqs(props.path1, value1),
+          Query.eqs(props.path2, value2)),
+        Query.eqs(props.path3, value3))
+    var actual: Query[DslRoot] = props.path1 eqs value1 and props.path2 eqs value2 and props.path3 eqs value3
     actual should equal (expected)
 
-    actual = (path1 eqs value1) and path2 eqs value2 and path3 eqs value3
+    actual = (props.path1 eqs value1) and props.path2 eqs value2 and props.path3 eqs value3
     actual should equal (expected)
 
-    actual = (path1 eqs value1) and (path2 eqs value2) and path3 eqs value3
+    actual = (props.path1 eqs value1) and (props.path2 eqs value2) and props.path3 eqs value3
     actual should equal (expected)
 
-    actual = (path1 eqs value1) and (path2 eqs value2) and (path3 eqs value3)
+    actual = (props.path1 eqs value1) and (props.path2 eqs value2) and (props.path3 eqs value3)
     actual should equal (expected)
 
-    actual = (path1 eqs value1) and path2 eqs value2 and (path3 eqs value3)
+    actual = (props.path1 eqs value1) and props.path2 eqs value2 and (props.path3 eqs value3)
     actual should equal (expected)
 
-    actual = path1 eqs value1 and (path2 eqs value2) and path3 eqs value3
+    actual = props.path1 eqs value1 and (props.path2 eqs value2) and props.path3 eqs value3
     actual should equal (expected)
 
-    actual = path1 eqs value1 and (path2 eqs value2) and (path3 eqs value3)
+    actual = props.path1 eqs value1 and (props.path2 eqs value2) and (props.path3 eqs value3)
     actual should equal (expected)
 
-    actual = path1 eqs value1 and path2 eqs value2 and (path3 eqs value3)
+    actual = props.path1 eqs value1 and props.path2 eqs value2 and (props.path3 eqs value3)
     actual should equal (expected)
 
     expected =
       Query.or(
         Query.or(
-          Query.eqs(path1, value1),
-          Query.eqs(path2, value2)),
-        Query.eqs(path3, value3))
-    actual = path1 eqs value1 or path2 eqs value2 or path3 eqs value3
+          Query.eqs(props.path1, value1),
+          Query.eqs(props.path2, value2)),
+        Query.eqs(props.path3, value3))
+    actual = props.path1 eqs value1 or props.path2 eqs value2 or props.path3 eqs value3
     actual should equal (expected)
 
-    actual = (path1 eqs value1) or path2 eqs value2 or path3 eqs value3
+    actual = (props.path1 eqs value1) or props.path2 eqs value2 or props.path3 eqs value3
     actual should equal (expected)
 
-    actual = (path1 eqs value1) or (path2 eqs value2) or path3 eqs value3
+    actual = (props.path1 eqs value1) or (props.path2 eqs value2) or props.path3 eqs value3
     actual should equal (expected)
 
-    actual = (path1 eqs value1) or (path2 eqs value2) or (path3 eqs value3)
+    actual = (props.path1 eqs value1) or (props.path2 eqs value2) or (props.path3 eqs value3)
     actual should equal (expected)
 
-    actual = (path1 eqs value1) or path2 eqs value2 or (path3 eqs value3)
+    actual = (props.path1 eqs value1) or props.path2 eqs value2 or (props.path3 eqs value3)
     actual should equal (expected)
 
-    actual = path1 eqs value1 or (path2 eqs value2) or path3 eqs value3
+    actual = props.path1 eqs value1 or (props.path2 eqs value2) or props.path3 eqs value3
     actual should equal (expected)
 
-    actual = path1 eqs value1 or (path2 eqs value2) or (path3 eqs value3)
+    actual = props.path1 eqs value1 or (props.path2 eqs value2) or (props.path3 eqs value3)
     actual should equal (expected)
 
-    actual = path1 eqs value1 or path2 eqs value2 or (path3 eqs value3)
+    actual = props.path1 eqs value1 or props.path2 eqs value2 or (props.path3 eqs value3)
     actual should equal (expected)
 
     expected =
       Query.and(
-        Query.eqs(path1, value1),
+        Query.eqs(props.path1, value1),
         Query.or(
-          Query.eqs(path2, value2),
-          Query.eqs(path3, value3)))
-    actual = path1 eqs value1 and (path2 eqs value2 or path3 eqs value3)
+          Query.eqs(props.path2, value2),
+          Query.eqs(props.path3, value3)))
+    actual = props.path1 eqs value1 and (props.path2 eqs value2 or props.path3 eqs value3)
     actual should equal (expected)
 
   }

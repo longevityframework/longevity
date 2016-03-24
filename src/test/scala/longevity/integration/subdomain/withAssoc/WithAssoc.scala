@@ -9,9 +9,15 @@ case class WithAssoc(
 extends Root
 
 object WithAssoc extends RootType[WithAssoc] {
-  key(prop[String]("uri"))
-  index(prop[String]("uri"))
-  index(prop[Assoc[Associated]]("associated"))
-  val keySet = kscan(this)
-  val indexSet = iscan(this)
+  object props {
+    val uri = prop[String]("uri")
+    val associated = prop[Assoc[Associated]]("associated")
+  }
+  object keys {
+    val uri = key(props.uri)
+  }
+  object indexes {
+    val uri = index(props.uri)
+    val associated = index(props.associated)
+  }
 }
