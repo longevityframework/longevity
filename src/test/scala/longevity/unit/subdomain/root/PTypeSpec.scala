@@ -19,7 +19,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       object indexes {
       }
     }
-    intercept[NoKeysForPTypeException] {
+    intercept[NoKeysForPTypeException[_]] {
       User.keySet
     }
   }
@@ -85,7 +85,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       object keys {
       }
     }
-    intercept[NoIndexesForPTypeException] {
+    intercept[NoIndexesForPTypeException[_]] {
       User.indexSet
     }
   }

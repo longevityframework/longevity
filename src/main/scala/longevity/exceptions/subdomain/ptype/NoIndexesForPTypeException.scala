@@ -1,9 +1,10 @@
 package longevity.exceptions.subdomain.ptype
 
-// TODO: name the type in this and equivalent keys exception
+import emblem.imports._
+import longevity.subdomain.Persistent
 
 /** an exception thrown when [[PType persistent type]] neither overrides
  * `indexSet` nor defines an inner object `indexes`
  */
-class NoIndexesForPTypeException extends PTypeException(
-  "a PType must either override `indexSet`, or define an inner object `indexes`")
+class NoIndexesForPTypeException[P <: Persistent : TypeKey] extends PTypeException(
+  "PType ${typeKey[P].name} must either override `indexSet`, or define an inner object `indexes`")

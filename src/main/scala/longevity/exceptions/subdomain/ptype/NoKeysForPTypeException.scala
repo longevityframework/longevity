@@ -1,7 +1,10 @@
 package longevity.exceptions.subdomain.ptype
 
+import emblem.imports._
+import longevity.subdomain.Persistent
+
 /** an exception thrown when [[PType persistent type]] neither overrides `keySet`, nor defines
  * an inner object `keys`
  */
-class NoKeysForPTypeException extends PTypeException(
-  "a PType must either override `keySet`, or define an inner object `keys`")
+class NoKeysForPTypeException[P <: Persistent : TypeKey] extends PTypeException(
+  "PType ${typeKey[P].name} must either override `keySet`, or define an inner object `keys`")
