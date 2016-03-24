@@ -7,7 +7,6 @@ import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.subdomain.ptype._
 
 // TODO: packages persistent and ptype
-// TODO: unit tests s/root/ptype/
 
 /** a type class for a domain entity that is stored in a persistent collection */
 abstract class PType[
