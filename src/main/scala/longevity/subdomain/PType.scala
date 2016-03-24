@@ -1,7 +1,9 @@
 package longevity.subdomain
 
+import emblem.TypeKey
 import emblem.basicTypes.isBasicType
-import emblem.imports._
+import emblem.reflectionUtil.innerModule
+import emblem.reflectionUtil.termsWithType
 import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.subdomain.ptype._
@@ -67,63 +69,6 @@ extends EntityType[P] {
     }
     implicit val tag = pTypeKey.tag
     termsWithType[Index[P]](indexes)
-  }
-
-  // TODO: these go in a reflectionUtil
-
-  def innerModule(container: Any, moduleName: String): Option[Any] = {
-    import scala.ScalaReflectionException
-    import scala.reflect.runtime.currentMirror
-    import scala.reflect.runtime.universe.ModuleMirror
-    import scala.reflect.runtime.universe.ModuleSymbol
-    import scala.reflect.runtime.universe.InstanceMirror
-    import scala.reflect.runtime.universe.Symbol
-    import scala.reflect.runtime.universe.TermName
-    val instanceMirror: InstanceMirror = currentMirror.reflect(container)
-    if (instanceMirror.symbol.isStatic) {
-      try {
-        val symbol: ModuleSymbol = currentMirror.staticModule(s"${instanceMirror.symbol.fullName}.$moduleName")
-        val mirror: ModuleMirror = currentMirror.reflectModule(symbol)
-        Some(mirror.instance)
-      } catch {
-        case e: ScalaReflectionException => None
-      }
-    } else {
-      val symbol: Symbol = instanceMirror.symbol.selfType.decl(TermName(s"$moduleName$$"))
-      if (!symbol.isModule) {
-        None
-      }
-      else {
-        val mirror: ModuleMirror = instanceMirror.reflectModule(symbol.asModule)
-        Some(mirror.instance)
-      }
-    }
-  }
-
-  private def termsWithType[A : TypeKey](instance: Any): Set[A] = {
-    import scala.reflect.runtime.currentMirror
-    import scala.reflect.runtime.universe.typeTag
-    import scala.reflect.runtime.universe.InstanceMirror
-    import scala.reflect.runtime.universe.Symbol
-    import scala.reflect.runtime.universe.TermName
-    import scala.reflect.runtime.universe.TermSymbol
-    import scala.reflect.runtime.universe.Type
-    val instanceMirror: InstanceMirror = currentMirror.reflect(instance)
-    val symbols: Set[Symbol] = instanceMirror.symbol.selfType.decls.toSet
-    val termSymbols: Set[TermSymbol] = symbols.collect {
-      case s if s.isTerm => s.asTerm
-    }
-    val valOrVarSymbols: Set[TermSymbol] = termSymbols.filter {
-      s => s.isVal || s.isVar
-    }
-    val matchingSymbols: Set[TermSymbol] = valOrVarSymbols.filter { symbol =>
-      val tpe: Type = symbol.typeSignature
-      tpe <:< typeKey[A].tpe
-    }
-    matchingSymbols.map { symbol =>
-      val fieldMirror = instanceMirror.reflectField(symbol)
-      fieldMirror.get.asInstanceOf[A]
-    }
   }
 
 }

@@ -3,8 +3,6 @@ package longevity.subdomain
 import emblem.imports._
 import emblem.WideningTypeBoundFunction
 
-// TODO unit tests for kscan and iscan
-
 /** a specification of a subdomain of a project's domain. contains a pool of
  * all the [[EntityType entity types]] in the subdomain, as well as all the
  * [[Shorthand shorthands]] used by the entities.
