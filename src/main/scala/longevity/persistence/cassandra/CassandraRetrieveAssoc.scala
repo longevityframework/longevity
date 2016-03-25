@@ -2,7 +2,7 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
 import longevity.persistence._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

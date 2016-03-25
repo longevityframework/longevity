@@ -1,6 +1,6 @@
 package longevity.exceptions.subdomain.ptype
 
-import longevity.subdomain.Persistent
+import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Key
 
 /** an exception indicating an attempt to create a key value using the wrong

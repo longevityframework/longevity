@@ -3,7 +3,12 @@ package longevity.unit.subdomain.ptype
 import emblem.imports._
 import longevity.exceptions.subdomain.ptype.NumPropValsException
 import longevity.exceptions.subdomain.ptype.PropValTypeException
-import longevity.subdomain._
+import longevity.subdomain.Assoc
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
 import longevity.subdomain.ptype._
 import org.scalatest._
 

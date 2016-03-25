@@ -1,7 +1,7 @@
 package longevity.exceptions.subdomain.ptype
 
 import emblem.TypeKey
-import longevity.subdomain.Persistent
+import longevity.subdomain.persistent.Persistent
 
 /** an exception indicating an attempt to create a property with the wrong type.
  *

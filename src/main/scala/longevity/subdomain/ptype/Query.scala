@@ -1,7 +1,7 @@
 package longevity.subdomain.ptype
 
 import Query._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
 
 /** query operators and factory methods */
 object Query {

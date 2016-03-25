@@ -1,7 +1,12 @@
 package longevity.unit.subdomain.ptype
 
 import emblem.imports._
-import longevity.subdomain._
+import longevity.subdomain.Assoc
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
 import org.scalatest._
 
 /** sample domain for the IndexSpec tests */

@@ -1,6 +1,7 @@
 package longevity.integration.subdomain.oneAttribute
 
-import longevity.subdomain._
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
 
 case class OneAttribute(uri: String) extends Root
 

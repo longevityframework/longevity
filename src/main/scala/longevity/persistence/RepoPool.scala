@@ -1,7 +1,7 @@
 package longevity.persistence
 
 import emblem.imports._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

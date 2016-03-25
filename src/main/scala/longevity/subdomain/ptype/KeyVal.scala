@@ -2,7 +2,8 @@ package longevity.subdomain.ptype
 
 import longevity.exceptions.subdomain.ptype.NumPropValsException
 import longevity.exceptions.subdomain.ptype.PropValTypeException
-import longevity.subdomain._
+import longevity.subdomain.PRef
+import longevity.subdomain.persistent.Persistent
 
 /** a key value
  *

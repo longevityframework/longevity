@@ -8,7 +8,7 @@ import emblem.traversors.async.Transformer.CustomTransformerPool
 import longevity.exceptions.persistence.BsonTranslationException
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
-import longevity.subdomain.Persistent
+import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.UnpersistedAssoc
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

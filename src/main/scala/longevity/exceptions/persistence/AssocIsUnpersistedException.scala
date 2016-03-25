@@ -1,7 +1,7 @@
 package longevity.exceptions.persistence
 
 import longevity.subdomain.Assoc
-import longevity.subdomain.Persistent
+import longevity.subdomain.persistent.Persistent
 
 /** thrown on attempt to use an unpersisted assoc as a persisted assoc. for instance,
  * when calling [[longevity.persistence.Repo repository method]] `retrieve(Assoc[P])`,

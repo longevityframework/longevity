@@ -1,7 +1,7 @@
 package longevity.subdomain.ptype
 
 import Query._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
 
 /** a DSL for creating [[Query queries]]. you can find it in your persistent
  * type at `PType.queryDsl`

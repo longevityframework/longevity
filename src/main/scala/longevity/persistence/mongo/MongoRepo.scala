@@ -5,9 +5,18 @@ import emblem.imports._
 import emblem.stringUtil._
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.persistence._
-import longevity.subdomain._
-import longevity.subdomain.ptype._
+import longevity.subdomain.Assoc
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.ConditionalQuery
+import longevity.subdomain.ptype.EqualityQuery
+import longevity.subdomain.ptype.KeyVal
+import longevity.subdomain.ptype.OrderingQuery
+import longevity.subdomain.ptype.PType
+import longevity.subdomain.ptype.Prop
+import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.Query._
+import longevity.subdomain.shorthandPoolToExtractorPool
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -105,9 +114,9 @@ extends BaseRepo[P](pType, subdomain) {
       def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
       abbreviate(prop.typeKey)
     } else if (prop.typeKey <:< typeKey[Assoc[_]]) {
-      val assoc = raw.asInstanceOf[Assoc[_ <: Root]]
+      val assoc = raw.asInstanceOf[Assoc[_ <: Persistent]]
       if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
-      raw.asInstanceOf[MongoId[_ <: Root]].objectId
+      raw.asInstanceOf[MongoId[_ <: Persistent]].objectId
     } else {
       raw
     }
@@ -133,12 +142,14 @@ extends BaseRepo[P](pType, subdomain) {
   }
 
   private def touchupValue[A : TypeKey](value: A): Any = {
-    // TODO seems liek this would fail for a char shorthand. see cassandraRepo
-    value match {
+    val abbreviated = value match {
+      case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
+      case a => a
+    }
+    abbreviated match {
       case id: MongoId[_] => id.objectId
       case char: Char => char.toString
-      case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
-      case _ => value
+      case _ => abbreviated
     }
   }
 

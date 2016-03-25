@@ -1,6 +1,8 @@
-package longevity.subdomain
+package longevity.subdomain.ptype
 
-import emblem.imports._
+import emblem.TypeKey
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.persistent.Event
 
 /** a type class for events */
 abstract class EventType[

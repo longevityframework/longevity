@@ -9,7 +9,10 @@ import emblem.traversors.sync.Traversor
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.exceptions.persistence.BsonTranslationException
 import longevity.persistence.RepoPool
-import longevity.subdomain._
+import longevity.subdomain.Assoc
+import longevity.subdomain.AssocAny
+import longevity.subdomain.Entity
+import longevity.subdomain.persistent.Persistent
 import scala.reflect.runtime.universe.typeOf
 
 /** translates [[Persistent persistent entities]] into

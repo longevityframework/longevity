@@ -21,7 +21,10 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/roots.html
   object roots {
 
-    import longevity.subdomain._
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class User(
       username: String,
@@ -43,7 +46,10 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/basics.html
   object basics {
 
-    import longevity.subdomain._
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
     import org.joda.time.DateTime
 
     case class User(
@@ -69,7 +75,10 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/collections.html
   object collections {
 
-    import longevity.subdomain._
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class User(
       username: String,
@@ -93,7 +102,12 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthands1 {
 
-    import longevity.subdomain._
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     object shorthands {
       case class Email(email: String)
@@ -124,7 +138,12 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthands2 {
 
-    import longevity.subdomain._
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     object shorthands {
       case class Email(email: String)
@@ -161,7 +180,13 @@ object SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthandPools {
-    import longevity.subdomain._
+
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     object e1 {
       val pool = ShorthandPool()
@@ -214,7 +239,12 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/where-not.html
   object shorthandsInitIssues {
 
-    import longevity.subdomain._
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class Email(email: String)
     val emailShorthand = Shorthand[Email, String]
@@ -243,7 +273,15 @@ object SubdomainSpec {
   // duplicated at https://gist.github.com/sullivan-/5b350f2f51ee61efcf8e
   // used in http://longevityframework.github.io/longevity/manual/subdomain/entities.html
   object entities {
-    import longevity.subdomain._
+
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class Email(email: String)
     case class Markdown(markdown: String)
@@ -280,7 +318,15 @@ object SubdomainSpec {
   // duplicated at https://gist.github.com/sullivan-/95ad8f72bcb4050ccfc3
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects1 {
-    import longevity.subdomain._
+
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.ValueObject
+    import longevity.subdomain.ValueType
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class Email(email: String)
     case class StateCode(stateCode: String)
@@ -318,7 +364,15 @@ object SubdomainSpec {
   // duplicated at https://gist.github.com/sullivan-/f882ca0f2e4ca103d792
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects2 {
-    import longevity.subdomain._
+
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class Email(email: String)
     case class StateCode(stateCode: String)
@@ -356,7 +410,14 @@ object SubdomainSpec {
   // duplicated at https://gist.github.com/sullivan-/36cbd3871282cda7fe40
   // used in http://longevityframework.github.io/longevity/manual/subdomain/associations.html
   object associations1 {
-    import longevity.subdomain._
+
+    import longevity.subdomain.Assoc
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class User(username: String) extends Root
     
@@ -393,7 +454,16 @@ object SubdomainSpec {
   // duplicated at https://gist.github.com/sullivan-/2c6d949bed353aac39ca
   // used in http://longevityframework.github.io/longevity/manual/subdomain/associations.html
   object associations2 {
-    import longevity.subdomain._
+
+    import longevity.subdomain.Assoc
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class User(username: String) extends Root
 
@@ -438,7 +508,13 @@ object SubdomainSpec {
 class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import SubdomainSpec._
-  import longevity.subdomain._
+  import longevity.subdomain.Assoc
+  import longevity.subdomain.EntityTypePool
+  import longevity.subdomain.Shorthand
+  import longevity.subdomain.ShorthandPool
+  import longevity.subdomain.Subdomain
+  import longevity.subdomain.persistent.Root
+  import longevity.subdomain.ptype.RootType
 
   "user manual example code" should "produce correct subdomains" in {
 

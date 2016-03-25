@@ -1,7 +1,7 @@
 package longevity.exceptions.subdomain.ptype
 
 import emblem.imports._
-import longevity.subdomain.Persistent
+import longevity.subdomain.persistent.Persistent
 
 /** thrown on attempt to create a property with a type that longevity doesn't
  * support yet. these include and properties that are not exactly-one valued -

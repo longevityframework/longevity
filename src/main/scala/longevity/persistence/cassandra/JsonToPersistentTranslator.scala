@@ -4,7 +4,9 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.imports._
 import emblem.traversors.sync.JsonToEmblemTranslator
 import java.util.UUID
-import longevity.subdomain._
+import longevity.subdomain.Assoc
+import longevity.subdomain.AssocAny
+import longevity.subdomain.persistent.Persistent
 import org.json4s.JsonAST._
 
 private[cassandra] class JsonToPersistentTranslator(

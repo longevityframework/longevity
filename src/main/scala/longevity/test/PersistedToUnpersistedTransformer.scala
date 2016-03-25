@@ -8,7 +8,7 @@ import emblem.traversors.async.Transformer.CustomTransformer
 import emblem.traversors.async.Transformer.CustomTransformerPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
-import longevity.subdomain.Persistent
+import longevity.subdomain.persistent.Persistent
 import longevity.persistence.RepoPool
 
 /** traverses an entity graph, replacing every

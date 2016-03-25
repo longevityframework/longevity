@@ -2,7 +2,15 @@ package longevity.unit
 
 package object blogCore {
 
-  import longevity.subdomain._
+  import longevity.subdomain.Assoc
+  import longevity.subdomain.Entity
+  import longevity.subdomain.EntityType
+  import longevity.subdomain.EntityTypePool
+  import longevity.subdomain.Shorthand
+  import longevity.subdomain.ShorthandPool
+  import longevity.subdomain.Subdomain
+  import longevity.subdomain.persistent.Root
+  import longevity.subdomain.ptype.RootType
 
   case class Email(email: String)
   case class Markdown(markdown: String)

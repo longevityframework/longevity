@@ -1,6 +1,8 @@
-package longevity.subdomain
+package longevity.subdomain.ptype
 
 import emblem.imports._
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.persistent.Root
 
 /** a type class for a domain entity that serves as an aggregate root */
 abstract class RootType[

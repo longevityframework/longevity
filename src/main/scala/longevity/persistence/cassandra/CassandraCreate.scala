@@ -6,7 +6,7 @@ import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import java.util.UUID
 import longevity.persistence._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.concurrent.ExecutionContext
@@ -24,7 +24,7 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
   
   private lazy val insertStatement: PreparedStatement = {
     val cql = if (realizedProps.isEmpty) {
-      s"INSERT INTO $tableName (id, root) VALUES (:id, :root)"
+      s"INSERT INTO $tableName (id, p) VALUES (:id, :p)"
     } else {
       val realizedPropColumnNames = realizedProps.map(columnName).toSeq.sorted
       val realizedPropColumns = realizedPropColumnNames.mkString(",\n  ")
@@ -32,11 +32,11 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
       s"""|
       |INSERT INTO $tableName (
       |  id,
-      |  root,
+      |  p,
       |  $realizedPropColumns
       |) VALUES (
       |  :id,
-      |  :root,
+      |  :p,
       |  $realizedSubstitutions
       |)
       |""".stripMargin
@@ -45,7 +45,7 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
   }
 
   private def bindInsertStatement(uuid: UUID, p: P): BoundStatement = {
-    val nonPropValues = Array(uuid, jsonStringForRoot(p))
+    val nonPropValues = Array(uuid, jsonStringForP(p))
     val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map(propValBinding(_, p))
     val values = (nonPropValues ++ realizedPropValues)
     insertStatement.bind(values: _*)

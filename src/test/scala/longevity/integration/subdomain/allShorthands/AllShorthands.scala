@@ -1,6 +1,7 @@
 package longevity.integration.subdomain.allShorthands
 
-import longevity.subdomain._
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
 
 import shorthands._
 

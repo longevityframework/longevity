@@ -10,7 +10,10 @@ import emblem.traversors.sync.Traversor
 import longevity.exceptions.persistence.BsonTranslationException
 import longevity.exceptions.persistence.ShorthandUnabbreviationException
 import longevity.persistence.RepoPool
-import longevity.subdomain._
+import longevity.subdomain.Assoc
+import longevity.subdomain.AssocAny
+import longevity.subdomain.Entity
+import longevity.subdomain.persistent.Persistent
 import scala.reflect.runtime.universe.typeOf
 
 /** translates
@@ -83,7 +86,7 @@ private[persistence] class CasbahToPersistentTranslator(
     : Iterable[PropInput[A, _]] = {
       val mongoDBObject: MongoDBObject = {
         val key = typeKey[A]
-        if (key <:< typeOf[Root]) {
+        if (key <:< typeOf[Persistent]) {
           input.asInstanceOf[MongoDBObject]
         } else if (key <:< typeOf[Entity]) {
           input.asInstanceOf[BasicDBObject]

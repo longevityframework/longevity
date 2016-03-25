@@ -10,7 +10,9 @@ import emblem.traversors.sync.CustomGenerator
 import emblem.traversors.sync.Differ
 import emblem.traversors.sync.Generator
 import emblem.traversors.sync.TestDataGenerator
-import longevity.subdomain._
+import longevity.subdomain.Assoc
+import longevity.subdomain.shorthandPoolToExtractorPool
+import longevity.subdomain.persistent.Persistent
 
 // TODO pt #110726688 produce roots with PersistedAssoc instead of UnpersistedAssoc
 
@@ -23,14 +25,14 @@ private[longevity] trait TestDataGeneration {
     shorthandPoolToExtractorPool(longevityContext.subdomain.shorthandPool),
     longevityContext.customGeneratorPool + assocGenerator)
 
-  private def assocGenerator: CustomGenerator[Assoc[_ <: Root]] =
-    new CustomGenerator[Assoc[_ <: Root]] {
-      def apply[B <: Assoc[_ <: Root] : TypeKey](generator: Generator): B = {
-        val rootTypeKey: TypeKey[_ <: Root] =
-          typeKey[B].typeArgs.head.castToUpperBound[Root].get
-        def genAssoc[Associatee <: Root : TypeKey] =
-            Assoc[Associatee](generator.generate[Associatee])
-        genAssoc(rootTypeKey).asInstanceOf[B]
+  private def assocGenerator: CustomGenerator[Assoc[_ <: Persistent]] =
+    new CustomGenerator[Assoc[_ <: Persistent]] {
+      def apply[B <: Assoc[_ <: Persistent] : TypeKey](generator: Generator): B = {
+        val pTypeKey: TypeKey[_ <: Persistent] =
+          typeKey[B].typeArgs.head.castToUpperBound[Persistent].get
+        def genAssoc[Associatee <: Persistent : TypeKey] =
+          Assoc[Associatee](generator.generate[Associatee])
+        genAssoc(pTypeKey).asInstanceOf[B]
       }
     }
 

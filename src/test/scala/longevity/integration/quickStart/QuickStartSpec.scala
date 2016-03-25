@@ -29,7 +29,16 @@ object QuickStartSpec {
 
   // start building our subdomain:
 
-  import longevity.subdomain._
+  import longevity.subdomain.Assoc
+  import longevity.subdomain.Entity
+  import longevity.subdomain.EntityType
+  import longevity.subdomain.EntityTypePool
+  import longevity.subdomain.Shorthand
+  import longevity.subdomain.ShorthandPool
+  import longevity.subdomain.Subdomain
+  import longevity.subdomain.persistent.Persistent
+  import longevity.subdomain.persistent.Root
+  import longevity.subdomain.ptype.RootType
 
   // shorthands help you use typed wrapper classes instead of raw values:
 
@@ -183,7 +192,8 @@ with ScaledTimeSpans {
     interval = scaled(Span(50, Millis)))
 
   import QuickStartSpec._
-  import longevity.subdomain._
+  import longevity.subdomain.Assoc
+  import longevity.subdomain.persistent.Persistent
   import longevity.subdomain.ptype.KeyVal
   import longevity.persistence._
 

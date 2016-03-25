@@ -12,7 +12,10 @@ import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 import longevity.exceptions.subdomain.ptype.NoSuchPropException
 import longevity.exceptions.subdomain.ptype.PropNotOrderedException
 import longevity.exceptions.subdomain.ptype.PropTypeException
-import longevity.subdomain._
+import longevity.subdomain.Assoc
+import longevity.subdomain.Entity
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.persistent.Persistent
 
 /** a property for this persistent type. properties can be used to define [[Key keys]]
  * and [[Index indexes]], as well as for building [[Query queries]]. a property

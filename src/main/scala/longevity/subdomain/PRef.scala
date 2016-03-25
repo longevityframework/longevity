@@ -1,6 +1,7 @@
 package longevity.subdomain
 
 import longevity.persistence.PersistedAssoc
+import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.KeyVal
 
 /** an indirect reference to a persistent object. they can typically only be

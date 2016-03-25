@@ -1,5 +1,7 @@
 package longevity.subdomain
 
+import longevity.subdomain.persistent.Persistent
+
 /** an [[Assoc]] to a persistent that has not yet been persisted. for use with
  * [[longevity.persistence.RepoPool.createMany]]
  *

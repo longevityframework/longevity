@@ -1,7 +1,7 @@
 package longevity.persistence
 
 import longevity.subdomain.Assoc
-import longevity.subdomain.Persistent
+import longevity.subdomain.persistent.Persistent
 
 /** an [[longevity.subdomain.Assoc Assoc]] to a persistent entity that has been
  * persisted

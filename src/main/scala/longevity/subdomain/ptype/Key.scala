@@ -1,6 +1,7 @@
 package longevity.subdomain.ptype
 
-import longevity.subdomain._
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.persistent.Persistent
 
 /** a natural key for this persistent type. a set of properties for which,
  * given specific property values for each of the properties, will match no more

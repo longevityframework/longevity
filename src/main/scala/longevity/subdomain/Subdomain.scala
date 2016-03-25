@@ -2,6 +2,7 @@ package longevity.subdomain
 
 import emblem.imports._
 import emblem.WideningTypeBoundFunction
+import longevity.subdomain.ptype.PTypePool
 
 /** a specification of a subdomain of a project's domain. contains a pool of
  * all the [[EntityType entity types]] in the subdomain, as well as all the

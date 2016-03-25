@@ -3,6 +3,7 @@ package longevity
 import emblem.imports._
 import emblem.ExtractorFor
 import emblem.TypeBoundFunction
+import longevity.subdomain.persistent.Persistent
 
 /** provides support for constructing your subdomain */
 package object subdomain {
@@ -31,11 +32,6 @@ package object subdomain {
    * @see emblem.TypeKeyMap
    */
   type EntityTypePool = TypeKeyMap[Entity, EntityType]
-
-  /** a type key map of [[Persistent]] to [[PType]]
-   * @see emblem.TypeKeyMap
-   */
-  type PTypePool = TypeKeyMap[Persistent, PType]
 
   /** an [[Assoc association]] to an unspecified type of [[Persistent persistent
    * entity]]. this is useful for building stuff from `emblem.traversors` for

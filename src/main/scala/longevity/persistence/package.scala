@@ -9,7 +9,9 @@ import emblem.imports._
 import longevity.context._
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.mongo.MongoRepo
-import longevity.subdomain._
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.PType
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

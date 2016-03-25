@@ -6,7 +6,7 @@ import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import java.util.UUID
 import longevity.persistence._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.concurrent.ExecutionContext
@@ -24,14 +24,14 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
 
   private lazy val updateStatement: PreparedStatement = {
     val cql = if (realizedProps.isEmpty) {
-      s"UPDATE $tableName SET root = :root WHERE id = :id"
+      s"UPDATE $tableName SET p = :p WHERE id = :id"
     } else {
       val realizedPropColumnNames = realizedProps.toSeq.map(columnName).sorted
       val realizedAssignments = realizedPropColumnNames.map(c => s"$c = :$c").mkString(",\n  ")
       s"""|
       |UPDATE $tableName
       |SET
-      |  root = :root,
+      |  p = :p,
       |  $realizedAssignments
       |WHERE
       |  id = :id
@@ -42,7 +42,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
 
   private def bindUpdateStatement(state: PState[P]): BoundStatement = {
     val p = state.get
-    val json = jsonStringForRoot(p)
+    val json = jsonStringForP(p)
     val realizedPropVals = realizedProps.toArray.sortBy(columnName).map(propValBinding(_, p))
     val uuid = state.assoc.asInstanceOf[CassandraId[P]].uuid
     val values = (json +: realizedPropVals :+ uuid)

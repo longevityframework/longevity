@@ -8,7 +8,7 @@ import java.util.UUID
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype._
 import longevity.subdomain.ptype.Query._
 import org.joda.time.DateTime

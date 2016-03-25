@@ -1,7 +1,7 @@
 package longevity.exceptions.subdomain.ptype
 
 import emblem.imports._
-import longevity.subdomain.Persistent
+import longevity.subdomain.persistent.Persistent
 
 /** an exception thrown when [[PType persistent type]] neither overrides `keySet`, nor defines
  * an inner object `keys`

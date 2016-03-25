@@ -1,7 +1,8 @@
 package longevity.persistence.cassandra
 
 import emblem.imports._
-import longevity.subdomain._
+import longevity.subdomain.Assoc
+import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Prop
 
 /** implementation of CassandraRepo.createSchema */
@@ -20,7 +21,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
     val createTable = s"""|
     |CREATE TABLE IF NOT EXISTS $tableName (
     |  id uuid,
-    |  root text,
+    |  p text,
     |$realizedPropColumns
     |  PRIMARY KEY (id)
     |)
@@ -30,7 +31,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
   }
 
   private def typeKeyToCassandraType[A](key: TypeKey[A]): String = {
-    if (key <:< typeKey[Assoc[_ <: Root]]) {
+    if (key <:< typeKey[Assoc[_ <: Persistent]]) {
       "uuid"
     } else if (CassandraRepo.basicToCassandraType.contains(key)) {
       CassandraRepo.basicToCassandraType(key)

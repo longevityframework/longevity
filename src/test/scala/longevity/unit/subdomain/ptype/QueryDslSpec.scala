@@ -2,8 +2,15 @@ package longevity.unit.subdomain.ptype
 
 import org.scalatest._
 import longevity.exceptions.subdomain.ptype.PropNotOrderedException
-import longevity.subdomain._
-import longevity.subdomain.ptype._
+import longevity.subdomain.Assoc
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.Prop
+import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.Query
+import longevity.subdomain.ptype.QueryDsl
 
 /** sample domain for the QueryDslSpec */
 object QueryDslSpec {

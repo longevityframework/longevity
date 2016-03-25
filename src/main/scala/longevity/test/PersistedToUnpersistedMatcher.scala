@@ -9,7 +9,8 @@ import emblem.traversors.sync.Generator
 import emblem.traversors.sync.TestDataGenerator
 import longevity.context.LongevityContext
 import longevity.persistence.RepoPool
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.shorthandPoolToExtractorPool
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans

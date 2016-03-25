@@ -1,7 +1,7 @@
 package longevity.persistence
 
 import longevity.subdomain.Assoc
-import longevity.subdomain.Persistent
+import longevity.subdomain.persistent.Persistent
 
 /** the result of deleting a persistent entity
  * @param p the persistent entity

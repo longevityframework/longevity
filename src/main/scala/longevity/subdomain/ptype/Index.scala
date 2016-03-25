@@ -1,6 +1,7 @@
 package longevity.subdomain.ptype
 
-import longevity.subdomain._
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.persistent.Persistent
 
 /** an index for this persistent type
  * @param props the sequence of properties that make up this index

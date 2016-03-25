@@ -1,6 +1,7 @@
 package longevity.integration.subdomain.oneShorthand
 
-import longevity.subdomain._
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
 
 case class OneShorthand(id: String, uri: Uri) extends Root
 

@@ -1,7 +1,8 @@
 package longevity.integration.subdomain.attributeLists
 
 import com.github.nscala_time.time.Imports._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
 
 case class AttributeLists(
   uri: String,

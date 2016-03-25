@@ -2,7 +2,7 @@ package longevity.unit.subdomain.ptype
 
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException
-import longevity.subdomain.PType
+import longevity.subdomain.ptype.PType
 import org.scalatest._
 
 /** unit tests for the proper construction of a [[PType persistent type]] */

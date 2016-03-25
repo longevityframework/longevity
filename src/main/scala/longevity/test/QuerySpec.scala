@@ -3,7 +3,7 @@ package longevity.test
 import emblem.imports._
 import longevity.context.LongevityContext
 import longevity.persistence._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype._
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures

@@ -8,7 +8,15 @@ object RootTypeSpec {
   // duplicated at https://gist.github.com/sullivan-/e2151a996350786c0e27
   // used in http://longevityframework.github.io/longevity/manual/root-type/properties.html
   object properties1 {
-    import longevity.subdomain._
+
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class Email(email: String)
     case class Markdown(markdown: String)
@@ -54,7 +62,14 @@ object RootTypeSpec {
   // used in http://longevityframework.github.io/longevity/manual/root-type/properties.html
   object properties2 {
 
-    import longevity.subdomain._
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class User(
       username: String,
@@ -83,7 +98,15 @@ object RootTypeSpec {
   // duplicated at https://gist.github.com/sullivan-/e2ef663857157a03a301
   // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
   object keys1 {
-    import longevity.subdomain._
+
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class User(
       username: String,
@@ -110,7 +133,15 @@ object RootTypeSpec {
   // duplicated at https://gist.github.com/sullivan-/b72900a6882b557e6728
   // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
   object keys2 {
-    import longevity.subdomain._
+
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class User(
       username: String,
@@ -138,7 +169,15 @@ object RootTypeSpec {
   // duplicated at https://gist.github.com/sullivan-/eaa0f96308d6f16a36c3
   // used in http://longevityframework.github.io/longevity/manual/root-type/indexes.html
   object indexes1 {
-    import longevity.subdomain._
+
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Shorthand
+    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class User(
       username: String,

@@ -3,7 +3,9 @@ package longevity.persistence.cassandra
 import emblem.imports._
 import emblem.traversors.sync.EmblemToJsonTranslator
 import longevity.exceptions.persistence.AssocIsUnpersistedException
-import longevity.subdomain._
+import longevity.subdomain.Assoc
+import longevity.subdomain.AssocAny
+import longevity.subdomain.persistent.Persistent
 import org.json4s.JsonAST._
 
 private[cassandra] class PersistentToJsonTranslator(

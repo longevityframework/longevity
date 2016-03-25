@@ -9,7 +9,7 @@ import emblem.traversors.sync.Generator
 import emblem.traversors.sync.TestDataGenerator
 import longevity.context.LongevityContext
 import longevity.persistence._
-import longevity.subdomain._
+import longevity.subdomain.persistent.Persistent
 import org.scalatest.OptionValues._
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
