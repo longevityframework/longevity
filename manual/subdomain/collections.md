@@ -14,7 +14,24 @@ For example, we can add an optional title property to our user, to
 hold values like "Mr.", "Mrs.", "Sir", and "Brother". And we can allow
 the user to have multiple emails:
 
-{% gist sullivan-/bfe3bb8ea95f6b7a4834 %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class User(
+  username: String,
+  title: Option[String],
+  firstName: String,
+  lastName: String,
+  emails: Set[String])
+extends Root
+
+object User extends RootType[User]
+
+val subdomain = Subdomain("blogging", EntityTypePool(User))
+```
 
 It's on our TODO list to [handle a wider variety of collection
 types](https://www.pivotaltracker.com/story/show/88571474), including

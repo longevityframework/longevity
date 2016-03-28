@@ -8,28 +8,36 @@ unsatisfactory. We'd like a little more specificity in our types, to
 help our code self-document, and so that we don't, say, overwrite a
 username with an email:
 
-    user.copy(user.username = user.email) // can we make this illegal?
+```scala
+user.copy(user.username = user.email) // can we make this illegal?
+```
 
 One common approach is to write a simple case class wrapper for the
 underlying value, such as:
 
-    case class Email(email: String)
+```scala
+case class Email(email: String)
+```
 
 But we're concerned that this is going to make the
 [BSON](http://bsonspec.org/) serializations of our aggregates look a
 little awkward. We would rather see this:
 
-    { "username": "sullivan",
-      "email": "sullivan@foo.com"
-    }
+```json
+{ "username": "sullivan",
+  "email": "sullivan@foo.com"
+}
+```
 
 than this:
 
-    { "username": "sullivan",
-      "email": {
-        "email": "sullivan@foo.com"
-      }
-    }
+```json
+{ "username": "sullivan",
+  "email": {
+    "email": "sullivan@foo.com"
+  }
+}
+```
 
 Longevity will serialize your user to the simpler BSON format if you
 use _shorthands_. A shorthand provides translations between your

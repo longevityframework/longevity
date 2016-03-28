@@ -10,18 +10,34 @@ aggregate. We start out by giving the user three basic fields:
 `username`, `firstName`, and `lastName`. When we create our aggregate
 root, we need to mark it as a `Root`:
 
-{% gist sullivan-/db1226b4d31a0526ac8c %}
+```scala
+import longevity.subdomain.persistent.Root
+
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String)
+extends Root
+```
 
 Every root entity class needs a corresponding `RootType`
 instance. By convention, we designate the companion object as the root
 entity type. We put all your entity types into an `EntityTypePool`,
 and pass it to the subdomain:
 
-{% gist sullivan-/6a68ac5f6f6331274e21 %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.ptype.RootType
+
+object User extends RootType[User]
+
+val subdomain = Subdomain("blogging", EntityTypePool(User))
+```
 
 All we need to do now is to [slap our `Subdomain` into a
-`LongevityContext`](../context), and we are ready to start persisting users, as we
-will see in a later chapter. TODO
+`LongevityContext`](../context), and we are ready to start persisting
+users, as we will see in a [later chapter](../repo).
 
 {% assign prevTitle = "kinds of subdomains" %}
 {% assign prevLink = "kinds.html" %}

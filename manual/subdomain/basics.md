@@ -20,7 +20,26 @@ allowing you to put in properties with a number of simple types:
 
 For example, we might add a few fields to our `User` like so:
 
-{% gist sullivan-/58f8ae308d9ca96dbd63 %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+import org.joda.time.DateTime
+
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String,
+  dateJoined: DateTime,
+  numCats: Int,
+  accountSuspended: Boolean = false)
+extends Root
+
+object User extends RootType[User]
+
+val subdomain = Subdomain("blogging", EntityTypePool(User))
+```
 
 <div class="blue-side-bar">
 
