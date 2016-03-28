@@ -65,8 +65,8 @@ dependency. If you are on the `master` branch, use:
 {% assign prevTitle = "aggregates and entities" %}
 {% assign prevLink = "ddd-basics/aggregates-and-entities.html" %}
 {% assign upTitle = "user manual" %}
-{% assign upLink = "./" %}
-{% assign nextTitle="building your subdomain" %}
-{% assign nextLink="subdomain/" %}
+{% assign upLink = "." %}
+{% assign nextTitle="persistent entities" %}
+{% assign nextLink="persistent" %}
 {% include navigate.html %}
 

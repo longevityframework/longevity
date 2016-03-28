@@ -1,4 +1,5 @@
 markdown: redcarpet
 kramdown:
+  hard_wrap: false
   input: GFM
   syntax_highlighter: rouge

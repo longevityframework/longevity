@@ -21,19 +21,7 @@ and pass it to the subdomain:
 
 All we need to do now is to [slap our `Subdomain` into a
 `LongevityContext`](../context), and we are ready to start persisting users, as we
-will see in a later chapter.
-
-<div class="blue-side-bar">
-
-You may find it onerous to have to extend a longevity class in your
-domain. In theory, we could remove this requirement entirely, but it
-makes the typing work out a lot more cleanly. It's not terribly
-harmful either, as both <code>Entity</code> and
-<code>Root</code> are simply empty-bodied marker traits (as you
-can see from the <a
-href="http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.Root">scaladocs</a>).
-
-</div>
+will see in a later chapter. TODO
 
 {% assign prevTitle = "kinds of subdomains" %}
 {% assign prevLink = "kinds.html" %}

@@ -23,8 +23,8 @@ Our discussion on the basics of building subdomains breaks down as follows:
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
 
-{% assign prevTitle = "project setup" %}
-{% assign prevLink = "../project-setup.html" %}
+{% assign prevTitle = "persistent types" %}
+{% assign prevLink = "../persistent/ptypes.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "kinds of subdomains" %}
