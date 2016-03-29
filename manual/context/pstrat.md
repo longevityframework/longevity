@@ -14,10 +14,12 @@ select:
 You specify your persistence strategy when you construct your
 `LongevityContext`:
 
-    import longevity.context.LongevityContext
-    import longevity.context.Cassandra
+```scala
+import longevity.context.LongevityContext
+import longevity.context.Cassandra
     
-    val context = LongevityContext(subdomain, Cassandra)
+val context = LongevityContext(subdomain, Cassandra)
+```
 
 The persistence strategy currently defaults to `Mongo`. We should
 probably change that to not have a default.

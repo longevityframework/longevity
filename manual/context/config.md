@@ -20,7 +20,31 @@ application, and they have different configurations, you can supply
 separate `com.typesafe.config.Config` objects to the
 `LongevityContext` factory method:
 
-{% gist sullivan-/dc8f510232feb9819f08 %}
+```scala
+import com.typesafe.config.Config
+import longevity.context.Cassandra
+import longevity.context.LongevityContext
+import longevity.context.Mongo
+import longevity.subdomain.CoreDomain
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.SupportingSubdomain
+
+val bloggingDomain: CoreDomain =
+  CoreDomain("blogging", EntityTypePool.empty)
+val bloggingConfig: Config = loadBloggingConfig()
+val bloggingContext = LongevityContext(
+  bloggingDomain,
+  Mongo,
+  config = bloggingConfig)
+
+val accountsSubdomain: SupportingSubdomain =
+  SupportingSubdomain("accounts", EntityTypePool.empty)
+val accountsConfig: Config = loadAccountsConfig()
+val accountsContext = LongevityContext(
+  accountsSubdomain,
+  Cassandra,
+  config = accountsConfig)
+```
 
 Please see the [Typesafe Config
 documentation](https://github.com/typesafehub/config#overview) for

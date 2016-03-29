@@ -11,14 +11,31 @@ The longevity context provides three different _repo pools_:
 
 We can retrieve the repositories from the pool by type:
 
-    import longevity.persistence.Repo
-    val userRepo: Repo[User] = context.repoPool[User]
+```scala
+import longevity.persistence.Repo
+val userRepo: Repo[User] = context.repoPool[User]
+```
 
 You should easily be able to inject these repositories into whatever
 dependency injection approach you are using. For instance, with
 [Scaldi](http://scaldi.org/):
 
-{% gist sullivan-/8b582592a94b14b61c80 %}
+```scala
+import longevity.persistence.Repo
+import scaldi.Module
+
+class PersistenceModule extends Module {
+  bind[Repo[User]] to context.repoPool[User]
+  bind[Repo[Blog]] to context.repoPool[Blog]
+  bind[Repo[BlogPost]] to context.repoPool[BlogPost]
+}
+
+class TestPersistenceModule extends Module {
+  bind[Repo[User]] to context.testRepoPool[User]
+  bind[Repo[Blog]] to context.testRepoPool[Blog]
+  bind[Repo[BlogPost]] to context.testRepoPool[BlogPost]
+}
+```
 
 The `Repo` API makes heavy use of the persistent state, or `PState`,
 so we will take a look at that before moving on to repositories.
