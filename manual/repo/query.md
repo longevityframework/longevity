@@ -35,11 +35,11 @@ the following query keywords are supported:
   - `and`, `or`, `eqs`, `neq`, `lt`, `lte`, `gt`, `gte`
 
 The six comparator operators all take a
-[property](../root-type/properties.html) on the left-hand side, and a
+[property](../ptype/properties.html) on the left-hand side, and a
 value on the right-hand side.
 
-[Keys](../root-type/keys.html) and
-[indexes](../root-type/indexes.html) will aid query performance in an
+[Keys](../ptype/keys.html) and
+[indexes](../ptype/indexes.html) will aid query performance in an
 intuitive manner. For finer details on just how your query will run,
 please see the chapters on how your subdomain is translated to your
 NoSQL backend ([Mongo](../mongo) and [Cassandra](../cassandra)).

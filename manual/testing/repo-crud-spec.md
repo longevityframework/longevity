@@ -6,8 +6,8 @@ layout: page
 The `RepoCrudSpec` iterates over all of the repositories in your
 `LongevityContext`, and tests basic CRUD operations for each of
 them. This includes testing `Repo.retrieve` method against every
-[key](../root-type/keys.html) defined in your [root
-types](../root-type).
+[key](../ptype/keys.html) defined in your [root
+types](../ptype).
 
 Two `RepoCrudSpecs` are provided for you in the `LongevityContext`:
 `repoCrudSpec`, and `inMemRepoCrudSpec`. The latter uses an in-memory

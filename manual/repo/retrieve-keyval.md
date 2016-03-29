@@ -4,7 +4,7 @@ layout: page
 ---
 
 You can look up any aggregates from the database using the
-[keys](../root-type/keys.html) you defined in your `RootEntity`. You
+[keys](../ptype/keys.html) you defined in your `RootEntity`. You
 just have to get a `KeyVal` out of the `Key`, which you can do by
 supplying values for each of the properties of the key, in turn. For
 example:

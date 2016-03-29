@@ -8,7 +8,7 @@ queries that can be built that will not work on Cassandra. Here's
 the rundown.
 
 While a Mongo query on a column that is not mentioned in a
-[key](../root-type/keys.html) or an [index](../root-type/indexes.html)
+[key](../ptype/keys.html) or an [index](../ptype/indexes.html)
 may not perform well, it will still run. A Cassandra query on any
 column that is not mentioned in a key or index will fail to run.
 
