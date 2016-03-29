@@ -3,20 +3,85 @@ title: properties
 layout: page
 ---
 
-In our `RootEntity`, when we talk about the fields of the `Root` type,
-we talk about properties, or `Props`. Properties follow a path from
-the root, and take on the type of that field in the root. Here are some
-examples:
+In our `PType`, when we talk about the fields of the `Persistent`
+type, we talk about properties, or `Props`. Properties follow a path
+from the root, and take on the type of that field in the root. Here
+are some examples:
 
-{% gist sullivan-/e2151a996350786c0e27 %}
+```scala
+import longevity.subdomain.Entity
+import longevity.subdomain.EntityType
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class UserProfile(
+  tagline: String,
+  imageUri: Uri,
+  description: Markdown)
+extends Entity
+
+object UserProfile extends EntityType[UserProfile]
+
+case class User(
+  username: String,
+  email: Email,
+  profile: UserProfile)
+extends Root
+
+object User extends RootType[User] {
+
+  // fully typed:
+  val profileDescription: longevity.subdomain.ptype.Prop[User, Markdown] =
+    prop[Markdown]("profile.description")
+
+  // brief:
+  val usernameProp = prop[String]("username")
+
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
+```
 
 You need to specify the type of the property yourself, and longevity
 will check that the type is correct when the property is created.
 
-We recommend bundling them in an object within your root class, like
+We recommend bundling them in a `props` object within your root class, like
 so:
 
-{% gist sullivan-/b08a7e729227c8e1abdf %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String,
+  email: String)
+extends Root
+
+object User extends RootType[User] {
+  object props {
+    val username = prop[String]("username")
+    val firstName = prop[String]("firstName")
+    val lastName = prop[String]("lastName")
+    val email = prop[String]("email")
+  }
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User))
+```
 
 In principle, properties could map through any path from the root of
 your aggregate, and have a wide variety of types. In practice, we
@@ -29,21 +94,16 @@ such as `Option`, `Set`, and `List`. We plan to continue to expand the
 supported properties types in the future.
 
 Properties are used to build [keys](keys.html),
-[indexes](indexes.html), and [queries](../repo/query.html). Presently,
-you can use raw string paths anywhere you can use a `Prop`, but we
-encourage you to use `Props` instead, as the string-based API is now
-deprecated, and will be removed soon. The `Prop` allows us for expressive
-typing while building [key values](../repo/retrieve-keyval.html) and
-[queries](../repo/query.html), and we're looking to improve the type
-safety of these features. We're also looking at a more fluent API for
-referencing properties, possibly using
+[indexes](indexes.html), and [queries](../repo/query.html). We're
+interested in looking at a more fluent API for creating properties,
+possibly using
 [dynamics](http://www.scala-lang.org/api/current/index.html#scala.Dynamic)
 and/or
 [macros](http://docs.scala-lang.org/overviews/macros/overview.html).
 
-{% assign prevTitle = "the root type" %}
+{% assign prevTitle = "the persistent type" %}
 {% assign prevLink = "." %}
-{% assign upTitle = "the root type" %}
+{% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "keys" %}
 {% assign nextLink = "keys.html" %}

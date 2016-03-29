@@ -14,8 +14,8 @@ to maintain your back-end store.
 - [Repo Pools](repo-pools.html)
 - [Persistent State](persistent-state.html)
 
-{% assign prevTitle = "where not to construct your subdomain" %}
-{% assign prevLink = "../subdomain/where-not.html" %}
+{% assign prevTitle = "key sets and index sets" %}
+{% assign prevLink = "../ptype/key-sets-and-index-sets.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "persistence strategy" %}

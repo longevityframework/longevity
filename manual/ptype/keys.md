@@ -4,9 +4,35 @@ layout: page
 ---
 
 Keys are composed of a sequence of properties. We define them in our
-`RootType` like so:
+`PType` like so:
 
-{% gist sullivan-/e2ef663857157a03a301 %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String)
+extends Root
+
+object User extends RootType[User] {
+  object props {
+    val username = prop[String]("username")
+    val firstName = prop[String]("firstName")
+    val lastName = prop[String]("lastName")
+  }
+  object keys {
+    val username = key(props.username)  
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User))
+```
 
 The values of the properties in a key uniquely identify a row. So in
 the above example, no two users can have the same username.
@@ -15,7 +41,34 @@ We can declare multiple keys, and composite keys, just as
 easily. Here, for instance, we add an ill-advised composite key on a
 `firstName`/`lastName` combination:
 
-{% gist sullivan-/b72900a6882b557e6728 %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String)
+extends Root
+
+object User extends RootType[User] {
+  object props {
+    val username = prop[String]("username")
+    val firstName = prop[String]("firstName")
+    val lastName = prop[String]("lastName")
+  }
+  object keys {
+    val username = key(props.username)
+    val fullname = key(props.firstName, props.lastName)
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User))
+```
 
 Here, no two users can have the same first and last names.
 
@@ -37,7 +90,7 @@ MongoDB](../mongo) and [translation into Cassandra](../cassandra).
 
 {% assign prevTitle = "properties" %}
 {% assign prevLink = "properties.html" %}
-{% assign upTitle = "the root type" %}
+{% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "indexes" %}
 {% assign nextLink = "indexes.html" %}

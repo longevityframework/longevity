@@ -61,6 +61,6 @@ multiple aggregates at once](../repo/create-many.html).
 {% assign prevLink = "." %}
 {% assign upTitle = "associations" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "the root type" %}
+{% assign nextTitle = "the persistent type" %}
 {% assign nextLink = "../ptype" %}
 {% include navigate.html %}
