@@ -3,30 +3,74 @@ title: entities
 layout: page
 ---
 
-Let's add a couple non-root entities to our user aggregate. Let's say
-we want to give blog users the option to put up a profile page, where
-they can put up a picture, a tagline, and a description in
-[Markdown](https://en.wikipedia.org/wiki/Markdown). A lot of
-information is stored within the user aggregate, so we want to keep
-things organized and put the profile in a separate entity. We define
-it in longevity like so:
+Let's add a couple non-persistent entities to our user
+aggregate. Let's say we want to give blog users the option to put up a
+profile page, where they can put up a picture, a tagline, and a
+description in [Markdown](https://en.wikipedia.org/wiki/Markdown). A
+lot of information is stored within the user aggregate, so we want to
+keep things organized and put the profile in a separate entity. We
+define it in longevity like so:
 
-{% gist sullivan-/62a216ece7a16bec63c9 %}
+```scala
+import longevity.subdomain.Entity
+import longevity.subdomain.EntityType
+
+case class UserProfile(
+  tagline: String,
+  imageUri: Uri,
+  description: Markdown)
+extends Entity
+
+object UserProfile extends EntityType[UserProfile]
+```
 
 Let's add the profile to the user. They may not have created their
 profile yet, so it should be optional:
 
-{% gist sullivan-/ca7bb9e6911ff93b4743 %}
+```scala
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class User(
+  username: String,
+  email: Email,
+  profile: Option[UserProfile])
+extends Root
+
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+```
 
 You need to add all your new entities into the `EntityTypePool`:
 
-{% gist sullivan-/5b350f2f51ee61efcf8e %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+
+val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
+```
 
 You can put entities in entities, and entities into [supported
 collection types](collections.html) `Option`, `Set` and `List`,
 collections into entities, use shorthands freely, etc. For example:
 
-{% gist sullivan-/497fb4aa4393b2f1b0c3 %}
+```scala
+case class EmailPreferences(
+  primaryEmail: Email,
+  emails: Set[Email])
+extends Entity
+
+case class User(
+  username: String,
+  emails: EmailPreferences,
+  addresses: Set[Address],
+  profile: Option[UserProfile])
+extends Root
+```
 
 {% assign prevTitle = "where not to construct your shorthand pools" %}
 {% assign prevLink = "../subdomain/where-not.html" %}

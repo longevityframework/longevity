@@ -17,7 +17,44 @@ consider that we have expanded our domain model to include users,
 blogs, and blog posts. A blog post is on a blog, and blog posts and
 blogs both have authors:
 
-{% gist sullivan-/36cbd3871282cda7fe40 %}
+```scala
+import longevity.subdomain.Assoc
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class User(username: String) extends Root
+    
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+case class Blog(uri: String, authors: Set[Assoc[User]])
+extends Root
+
+object Blog extends RootType[Blog] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+case class BlogPost(uri: String, blog: Assoc[Blog], authors: Set[Assoc[Blog]])
+extends Root
+
+object BlogPost extends RootType[BlogPost] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User, Blog, BlogPost))
+```
 
 Non-root entities can associate with other aggregates as well. For
 instance, suppose we want to require every author to publish a
@@ -25,7 +62,45 @@ separate profile for every blog they are a member of. We can make the
 `UserProfile` a member of the `Blog` aggregate, and put the
 association to `User` there:
 
-{% gist sullivan-/2c6d949bed353aac39ca %}
+```scala
+import longevity.subdomain.Assoc
+import longevity.subdomain.Entity
+import longevity.subdomain.EntityType
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class User(username: String) extends Root
+
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+case class UserProfile(
+  user: Assoc[User],
+  tagline: String,
+  imageUri: String,
+  description: String)
+extends Entity
+
+object UserProfile extends EntityType[UserProfile]
+
+case class Blog(uri: String, authors: Set[UserProfile])
+extends Root
+
+object Blog extends RootType[Blog] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile, Blog))
+```
 
 <div class="blue-side-bar">
 

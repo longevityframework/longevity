@@ -21,11 +21,73 @@ value objects. But we happily support the terminology by providing
 `ValueObject` and `ValueType` as synonyms for `Entity` and
 `EntityType`, respectively. For example, we can write the following:
 
-{% gist sullivan-/95ad8f72bcb4050ccfc3 %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.ValueObject
+import longevity.subdomain.ValueType
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class Address(
+  street: String,
+  city: String,
+  state: StateCode,
+  zip: ZipCode)
+extends ValueObject
+
+object Address extends ValueType[Address]
+
+case class User(
+  username: String,
+  email: Email,
+  address: Address)
+extends Root
+
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
+```
 
 And it is entirely equivalent to this:
 
-{% gist sullivan-/f882ca0f2e4ca103d792 %}
+```scala
+import longevity.subdomain.Entity
+import longevity.subdomain.EntityType
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class Address(
+  street: String,
+  city: String,
+  state: StateCode,
+  zip: ZipCode)
+extends Entity
+
+object Address extends EntityType[Address]
+
+case class User(
+  username: String,
+  email: Email,
+  address: Address)
+extends Root
+
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
+```
 
 For a more extended discussion on value objects in an immutable
 context, please see this blog post on [entities, value objects, and
