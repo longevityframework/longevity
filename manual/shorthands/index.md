@@ -48,7 +48,39 @@ Collect all your shorthands into a `ShorthandPool`, and make the
 shorthand pool implicitly available to your `RootTypes`, as they
 will need to know about them. Here's an example:
 
-{% gist sullivan-/d1a59a70bbfbcc1e0f78 %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Shorthand
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+object shorthands {
+  case class Email(email: String)
+  val emailShorthand = Shorthand[Email, String]
+  implicit val shorthandPool = ShorthandPool(emailShorthand)
+}
+
+import shorthands._
+
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String,
+  primaryEmail: Email,
+  emails: Set[Email])
+extends Root
+
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User))
+```
 
 Note that you can nest shorthands inside of collections, as the above
 example shows.
@@ -56,7 +88,26 @@ example shows.
 It can be useful to define implicit defs as well to convert from the
 abbreviated to the actual, as used to construct a user here:
 
-{% gist sullivan-/b862b65da47d112d10ee %}
+```scala
+import longevity.subdomain.Shorthand
+import longevity.subdomain.ShorthandPool
+
+object shorthands {
+  case class Email(email: String)
+  implicit def toEmail(email: String) = Email(email)
+  val emailShorthand = Shorthand[Email, String]
+  implicit val shorthandPool = ShorthandPool(emailShorthand)
+}
+
+import shorthands._
+
+val user = User(
+  "bolt",
+  "Jeremy",
+  "Linden",
+  "bolt26@info.com",
+  Set("bolt26@info.com", "bolt65766@gmail.com"))
+```
 
 Shorthands like `Email` are a natural place to put constraint
 validations, such as the well-formedness of an email address. Please

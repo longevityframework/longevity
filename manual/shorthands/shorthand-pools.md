@@ -6,29 +6,56 @@ layout: page
 You can think of a `ShorthandPool` as an immutable set of
 `Shorthands`. You can create an empty one like this:
 
-    val pool = ShorthandPool()
+```scala
+val pool = ShorthandPool()
+```
 
 Or like this:
 
-    val pool = ShorthandPool.empty
+```scala
+val pool = ShorthandPool.empty
+```
 
 You can put a number of shorthands in a pool like so:
 
-    val pool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+```scala
+val pool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+```
 
 And you can build them with the `+` operator as well:
 
-    val pool = ShorthandPool() + emailShorthand + markdownShorthand + uriShorthand
+```scala
+val pool = ShorthandPool() + emailShorthand + markdownShorthand + uriShorthand
+```
 
 Shorthand pools are needed to construct your `RootTypes`, as
 well as your `Subdomains`. We normally provide the pool implicitly,
 like so:
 
-{% gist sullivan-/5bd434d757dc64b6caac %}
+```scala
+object shorthands {
+  implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+}
+import shorthands._
+object User extends RootEntityType[User]
+val subdomain = Subdomain("blogging", EntityTypePool(User))
+```
 
 If you want to be explicit about it, you can do it like so:
 
-{% gist sullivan-/76f4dbb5f99af7eaf090 %}
+```scala
+import emblem.imports.typeKey
+object shorthands {
+  val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+}
+object User extends RootEntityType()(typeKey[User], shorthands.shorthandPool) {
+  object keys {
+  }
+  object indexes {
+  }
+}
+val subdomain = Subdomain("blogging", EntityTypePool(User))(shorthands.shorthandPool)
+```
 
 If you don't supply a `ShorthandPool`, an empty one will be provided
 for you. If you make use of a shorthand that's not in the pool, you

@@ -28,7 +28,12 @@ case class User(
   emails: Set[String])
 extends Root
 
-object User extends RootType[User]
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
 
 val subdomain = Subdomain("blogging", EntityTypePool(User))
 ```

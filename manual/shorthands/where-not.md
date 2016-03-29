@@ -12,7 +12,35 @@ do this is that we don't want to define the shorthand pool in the same
 object that the `Subdomain` is built. If we do, we might run in to
 initialization problems. For instance, consider the following example:
 
-{% gist sullivan-/9ea266deae833e61bf52 %}
+```scala
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Shorthand
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.RootType
+
+case class Email(email: String)
+val emailShorthand = Shorthand[Email, String]
+implicit val shorthandPool = ShorthandPool(emailShorthand)
+
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String,
+  primaryEmail: Email,
+  emails: Set[Email])
+extends Root
+
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
+
+val subdomain = Subdomain("blogging", EntityTypePool(User))
+```
 
 Let's suppose we access the `User` before the `subdomain` in this
 example. Construction of the `User` companion object takes a
@@ -31,7 +59,9 @@ preferred approach is to define the subdomain in the package object,
 alongside an `object shorthands` in the same package object. Then
 where you define your roots, your can provide an import like this:
 
-    import spacetool.domain.shorthands._
+```scala
+import spacetool.domain.shorthands._
+```
 
 {% assign prevTitle = "shorthand pools" %}
 {% assign prevLink = "shorthand-pools.html" %}

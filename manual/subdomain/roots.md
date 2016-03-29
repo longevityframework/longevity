@@ -30,7 +30,12 @@ import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.ptype.RootType
 
-object User extends RootType[User]
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
 
 val subdomain = Subdomain("blogging", EntityTypePool(User))
 ```
@@ -46,4 +51,3 @@ users, as we will see in a [later chapter](../repo).
 {% assign nextTitle = "basic properties" %}
 {% assign nextLink = "basics.html" %}
 {% include navigate.html %}
-

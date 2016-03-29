@@ -36,7 +36,12 @@ case class User(
   accountSuspended: Boolean = false)
 extends Root
 
-object User extends RootType[User]
+object User extends RootType[User] {
+  object keys {
+  }
+  object indexes {
+  }
+}
 
 val subdomain = Subdomain("blogging", EntityTypePool(User))
 ```
@@ -50,8 +55,8 @@ a Scala-friendly wrapper.
 
 </div>
 
-{% assign prevTitle = "natural keys" %}
-{% assign prevLink = "keys.html" %}
+{% assign prevTitle = "aggregate roots" %}
+{% assign prevLink = "roots.html" %}
 {% assign upTitle = "building your subdomain" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "collections" %}
