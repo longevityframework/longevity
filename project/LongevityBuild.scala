@@ -24,7 +24,7 @@ trait BuildSettings {
 
   val publishSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
-    version := "0.6-SNAPSHOT",
+    version := "0.6.0",
     scalaVersion := "2.11.7",
 
     publishMavenStyle := true,
@@ -34,11 +34,26 @@ trait BuildSettings {
       if (isSnapshot.value)
         Some("snapshots" at nexus + "content/repositories/snapshots")
       else
-        Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+        Some("releases" at nexus + "service/local/staging/deploy/maven2")
     },
     licenses := Seq("Apache License, Version 2.0" ->
                     url("http://www.apache.org/licenses/LICENSE-2.0"))
   )
+
+  val longevityHomepage = Some(url("http://longevityframework.github.io/longevity/"))
+
+  val longevityPomExtra = (
+    <scm>
+      <url>git@github.com:longevityframework/emblem.git</url>
+      <connection>scm:git:git@github.com:longevityframework/emblem.git</connection>
+    </scm>
+    <developers>
+      <developer>
+        <id>sullivan-</id>
+        <name>John Sullivan</name>
+        <url>https://github.com/sullivan-</url>
+      </developer>
+    </developers>)
 
   val buildSettings = publishSettings ++ Seq(
 
@@ -110,19 +125,8 @@ object LongevityBuild extends Build with BuildSettings {
       libraryDependencies += json4sDep % Optional,
       libraryDependencies += json4sDep % Test,
 
-      homepage := Some(url("http://longevityframework.github.io/longevity/")),
-      pomExtra := (
-        <scm>
-          <url>git@github.com:longevityframework/longevity.git</url>
-          <connection>scm:git:git@github.com:longevityframework/longevity.git</connection>
-        </scm>
-        <developers>
-          <developer>
-            <id>sullivan-</id>
-            <name>John Sullivan</name>
-            <url>https://github.com/sullivan-</url>
-          </developer>
-        </developers>)
+      homepage := longevityHomepage,
+      pomExtra := longevityPomExtra
     )
   )
   .aggregate(emblem, longevityMongoDeps, longevityCassandraDeps)
@@ -132,8 +136,8 @@ object LongevityBuild extends Build with BuildSettings {
     id = "emblem",
     base = file("emblem"),
     settings = buildSettings ++ Seq(
-      homepage := Some(url("https://github.com/longevityframework/emblem")),
       libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0" % Optional,
+      homepage := Some(url("https://github.com/longevityframework/emblem")),
       pomExtra := (
         <scm>
           <url>git@github.com:longevityframework/emblem.git</url>
@@ -154,13 +158,17 @@ object LongevityBuild extends Build with BuildSettings {
     id = "longevity-mongo-deps",
     base = file("longevity-mongo-deps"),
     settings = publishSettings ++ Seq(
-      libraryDependencies += casbahDep))
+      libraryDependencies += casbahDep,
+      homepage := longevityHomepage,
+      pomExtra := longevityPomExtra))
 
   lazy val longevityCassandraDeps = Project(
     id = "longevity-cassandra-deps",
     base = file("longevity-cassandra-deps"),
     settings = publishSettings ++ Seq(
       libraryDependencies += cassandraDep,
-      libraryDependencies += json4sDep))
+      libraryDependencies += json4sDep,
+      homepage := longevityHomepage,
+      pomExtra := longevityPomExtra))
 
 }
