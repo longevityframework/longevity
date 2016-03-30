@@ -3,11 +3,24 @@ title: retrieval by query
 layout: page
 ---
 
-You can use queries to retrieve zero or more aggregates of a given
+You can use queries to retrieve zero or more entities of a given
 type. For instance, looking up all the blog posts for a blog published
 in the last week:
 
-{% gist sullivan-/fa2001b32ea19084a3d0 %}
+```scala
+import com.github.nscala_time.time.Imports._
+import longevity.persistence.PState
+import longevity.subdomain.ptype.Query
+import scala.concurrent.Future
+
+def getBlogState(): PState[Blog] = ???
+val blogState: PState[Blog] = getBlogState()
+
+val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
+  Query.and(
+    Query.eqs(BlogPost.props.blog, blogState.assoc),
+    Query.gt(BlogPost.props.postDate, DateTime.now - 1.week)))
+```
 
 <div class="blue-side-bar">
 
@@ -20,12 +33,37 @@ return a stream here</a>, rather than a sequence wrapped in a future.
 Anything you can do with the `Query` factory methods, as shown above,
 you can do using the Query DSL instead:
 
-{% gist sullivan-/42caecbb5b2096afd4a8 %}
+```scala
+import com.github.nscala_time.time.Imports._
+import longevity.persistence.PState
+import scala.concurrent.Future
+
+def getBlogState(): PState[Blog] = ???
+val blogState: PState[Blog] = getBlogState()
+
+import BlogPost.queryDsl._
+val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
+  BlogPost.props.blog eqs blogState.assoc and
+  BlogPost.props.postDate gt DateTime.now - 1.week)
+```
 
 If you don't want the DSL wildcard imports to infect other parts of
 your program, it is quite easy to localize them:
 
-{% gist sullivan-/ca39baf6637037529421 %}
+```scala
+import com.github.nscala_time.time.Imports._
+import longevity.persistence.PState
+import scala.concurrent.Future
+
+def getBlogState(): PState[Blog] = ???
+val blogState: PState[Blog] = getBlogState()
+
+val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
+  import BlogPost.queryDsl._
+  import BlogPost.props._
+  blog eqs blogState.assoc and postDate gt DateTime.now - 1.week
+}
+```
 
 The query syntax is currently quite limited, and is a [focal point of
 future

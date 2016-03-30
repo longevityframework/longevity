@@ -18,7 +18,9 @@ the longevity context's [persistence strategy](../context/pstrat.html).
 
 The repo crud specs are [ScalaTest](http://www.scalatest.org/) suites:
 
-    val spec: org.scalatest.Suite = longevityContext.repoCrudSpec
+```scala
+val spec: org.scalatest.Suite = longevityContext.repoCrudSpec
+```
 
 In a typical evocation of ScalaTest, for instance from within SBT, a
 classpath scan is performed, and only top-level `Suites` -
@@ -27,12 +29,14 @@ found. So to get one of these repo crud specs to run, you have to nest
 it in a top-level class. For example, to run both in-memory and
 against a real database:
 
-    import org.scalatest.Suites
-    import scala.concurrent.ExecutionContext.Implicits.global
+```scala
+import org.scalatest.Suites
+import scala.concurrent.ExecutionContext.Implicits.global
 
-    class BlogCrudSpec extends Suites(
-      longevityContext.repoCrudSpec,
-      longevityContext.inMemRepoCrudSpec)
+class BlogCrudSpec extends Suites(
+  longevityContext.repoCrudSpec,
+  longevityContext.inMemRepoCrudSpec)
+```
 
 ScalaTest is an optional dependency in longevity, so you'll need to
 declare a dependency on ScalaTest in your own project to use the repo
@@ -45,9 +49,9 @@ at the top of your file.
 
 Please note that the default test data generator will not work out of
 the box in the face of constraint violations causing exceptions to be
-thrown from your constructor. In this case, you need to provide custom
-generators for your types. This is described in the section on
-[enforcing constraints](../constraints.html).
+thrown from your entity constructors. In this case, you need to
+provide custom generators for your types. This is described in the
+section on [enforcing constraints](../constraints.html).
 
 {% assign prevTitle = "in memory repositories" %}
 {% assign prevLink = "in-mem-repos.html" %}

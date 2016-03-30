@@ -3,10 +3,12 @@ title: repo.delete
 layout: page
 ---
 
-Use `Repo.delete` to remove an aggregate from the database:
+Use `Repo.delete` to remove a persistent entity from the database:
 
-    val userState: PState[User] = getUserState()
-    val deleteResult: Future[Deleted[User]] = userRepo.delete(userState)
+```scala
+val userState: PState[User] = getUserState()
+val deleteResult: Future[Deleted[User]] = userRepo.delete(userState)
+```
 
 The delete is complete when the future completes successfully.
 For now, this is a hard delete, but see [PT
@@ -16,13 +18,15 @@ support for soft deletes.
 You cannot do much with the `Deleted`, but you can have at the
 aggregate or the `Assoc` for old times sake:
 
-    deleteResult map { deleted =>
-      val deletedAggregate: User = deleted.root
-      val deletedAssoc: Assoc[User] = deleted.assoc
-    }
+```scala
+deleteResult map { deleted =>
+  val deletedAggregate: User = deleted.root
+  val deletedAssoc: Assoc[User] = deleted.assoc
+}
+```
 
 Of course, neither of these values will be particularly useful, since
-the aggregate no longer exists.
+the entity no longer exists.
 
 <div class = "blue-side-bar">
 

@@ -3,13 +3,48 @@ title: retrieval by key value
 layout: page
 ---
 
-You can look up any aggregates from the database using the
-[keys](../ptype/keys.html) you defined in your `RootEntity`. You
-just have to get a `KeyVal` out of the `Key`, which you can do by
-supplying values for each of the properties of the key, in turn. For
-example:
+You can look up any persistent entities from the database using the
+[keys](../ptype/keys.html) you defined in your `PType`. You just have
+to get a `KeyVal` out of the `Key`, which you can do by supplying
+values for each of the properties of the key, in turn. For example:
 
-{% gist sullivan-/8c2a2cd6cfffaea8c59c %}
+```scala
+import longevity.subdomain.Assoc
+import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.Key
+import longevity.subdomain.ptype.KeyVal
+
+object User extends RootType[User] {
+  object props {
+    val username = prop[String]("username")
+  }
+  object keys {
+    val username = key(props.username)
+  }
+  object indexes {
+  }
+}
+
+val usernameKey: Key[User] = User.keys.username
+val username: String = "smithy"
+val usernameKeyVal: KeyVal[User] = usernameKey(username)
+
+object BlogPost extends RootType[BlogPost] {
+  object props {
+    val blog = prop[Assoc[Blog]]("blog")
+    val suffix = prop[String]("uriPathSuffix")
+  }
+  object keys {
+    val uri = key(props.blog, props.suffix)
+  }
+  object indexes {
+  }
+}
+
+val blogAssoc: Assoc[Blog] = blogState.assoc
+val uriPathSuffix: String = "suffix"
+val blogPostKeyVal: KeyVal[BlogPost] = BlogPost.keys.uri(blogAssoc, uriPathSuffix)
+```
 
 `Key.apply` with throw a `KeyValException` if the types of the
 supplied arguments do not match the types of the properties of the
@@ -17,20 +52,28 @@ key. Of course, we [would prefer this to be better
 typed](https://www.pivotaltracker.com/story/show/109682804), so as to
 fail here at compile time.
 
-You can also pull a `KeyVal` out of an existing `Root` if you so
+You can also pull a `KeyVal` out of an existing `Persistent` if you so
 desire:
 
-    val user: User = parseUserFromJson(json)
-    val userKeyVal: KeyVal[User] = User.usernameKey.keyValForRoot(user)
+```scala
+val user: User = parseUserFromJson(json)
+val userKeyVal: KeyVal[User] = User.keys.username.keyValForP(user)
+```
 
-Once you have your `KeyVal`, you can look up the aggregate in the
+Once you have your `KeyVal`, you can look up the persistent in the
 database. You get an `Option` back, as the `KeyVal` does not
-necessarily match an existing aggregate.
+necessarily match an existing entity.
 
-{% gist sullivan-/e6c10d7b17b4a16b1119 %}
+```scala
+val userRetrieveResult: Future[Option[PState[User]]] =
+  userRepo.retrieve(userKeyVal)
+
+val blogRetrieveResult: Future[Option[PState[Blog]]] =
+  blogRepo.retreieve(blogKeyVal)
+```
 
 Once you get back your `PState`, you can of course use it to examine
-the aggregate itself with `PState.get`. You can modify it with
+the persistent itself with `PState.get`. You can modify it with
 `PState.map`, and you can pass the state on to
 [`Repo.update`](repo-update.html) or
 [`Repo.delete`](repo-delete.html).

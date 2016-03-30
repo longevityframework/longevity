@@ -14,15 +14,21 @@ Setting up a test to use the in-memory repositories is easy
 enough. For instance, suppose you have a user service that uses
 constructor injection to get the user repository dependency:
 
-    class UserService(userRepo: Repo[User]) { // ...
+```scala
+class UserService(userRepo: Repo[User]) { // ...
+```
 
 And you typically initialize it like so:
 
-    val userService = new UserService(longevityContext.repoPool[User])
+```scala
+val userService = new UserService(longevityContext.repoPool[User])
+```
 
 In your tests, you can initialize your service like this instead:
 
-    val userService = new UserService(longevityContext.inMemRepoPool[User])
+```scala
+val userService = new UserService(longevityContext.inMemRepoPool[User])
+```
 
 {% assign prevTitle = "testing" %}
 {% assign prevLink = "." %}

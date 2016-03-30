@@ -6,16 +6,20 @@ layout: page
 Once we get our hands on a persistent state, we can use `PState.map`
 to modify the aggregate:
 
-    val retrieved: FPState[User] = userRepo.retrieveOne(User.usernameKey(username))
-    val modified: FPState[User] = retrieved map { userState =>
-      userState.map(_.copy(fullname = "John Smith Jr."))
-    }
+```scala
+val retrieved: FPState[User] = userRepo.retrieveOne(User.usernameKey(username))
+val modified: FPState[User] = retrieved map { userState =>
+  userState.map(_.copy(fullname = "John Smith Jr."))
+}
+```
 
 We can now persist our changes with `Repo.update`:
 
-    val updated: FPState[User] = modified.map { userState =>
-      userRepo.update(userState)
-    }
+```scala
+val updated: FPState[User] = modified.map { userState =>
+  userRepo.update(userState)
+}
+```
 
 Calling `Repo.update` may not result in a database call if the
 persistent state is clean, and there are no changes that need to be
