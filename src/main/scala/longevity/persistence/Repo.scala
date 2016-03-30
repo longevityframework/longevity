@@ -9,7 +9,7 @@ import scala.concurrent.Future
 /** a repository for persistent entities of type `P` */
 trait Repo[P <: Persistent] {
 
-  /** creates the aggregate
+  /** creates the persistent entity
    * 
    * @param unpersisted the persistent entity to create
    * @param executionContext the execution context

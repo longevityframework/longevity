@@ -3,20 +3,17 @@ package longevity.unit.manual
 import org.scalatest._
 import org.scalatest.OptionValues._
 
-object RootTypeSpec {
+/** code samples found in the persistent types section of the user manual
+ *
+ * @see http://longevityframework.github.io/longevity/manual/ptype
+ */
+object PTypeSpec {
 
-  // duplicated at https://gist.github.com/sullivan-/e2151a996350786c0e27
   // used in http://longevityframework.github.io/longevity/manual/root-type/properties.html
   object properties1 {
 
-    import longevity.subdomain.Entity
-    import longevity.subdomain.EntityType
-    import longevity.subdomain.EntityTypePool
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
-    import longevity.subdomain.Subdomain
-    import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.RootType
 
     case class Email(email: String)
     case class Markdown(markdown: String)
@@ -25,6 +22,13 @@ object RootTypeSpec {
     val markdownShorthand = Shorthand[Markdown, String]
     val uriShorthand = Shorthand[Uri, String]
     implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class UserProfile(
       tagline: String,
@@ -58,15 +62,10 @@ object RootTypeSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/b08a7e729227c8e1abdf
   // used in http://longevityframework.github.io/longevity/manual/root-type/properties.html
   object properties2 {
 
-    import longevity.subdomain.Entity
-    import longevity.subdomain.EntityType
     import longevity.subdomain.EntityTypePool
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -94,16 +93,10 @@ object RootTypeSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-
-  // duplicated at https://gist.github.com/sullivan-/e2ef663857157a03a301
   // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
   object keys1 {
 
-    import longevity.subdomain.Entity
-    import longevity.subdomain.EntityType
     import longevity.subdomain.EntityTypePool
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -130,15 +123,10 @@ object RootTypeSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/b72900a6882b557e6728
   // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
   object keys2 {
 
-    import longevity.subdomain.Entity
-    import longevity.subdomain.EntityType
     import longevity.subdomain.EntityTypePool
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -166,15 +154,10 @@ object RootTypeSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/eaa0f96308d6f16a36c3
   // used in http://longevityframework.github.io/longevity/manual/root-type/indexes.html
   object indexes1 {
 
-    import longevity.subdomain.Entity
-    import longevity.subdomain.EntityType
     import longevity.subdomain.EntityTypePool
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -202,18 +185,43 @@ object RootTypeSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
+  // used in http://longevityframework.github.io/longevity/manual/root-type/key-sets-and-index-sets.html
+  object sets {
+
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.Index
+    import longevity.subdomain.ptype.Key
+    import longevity.subdomain.ptype.RootType
+
+    case class User(
+      username: String,
+      firstName: String,
+      lastName: String)
+    extends Root
+
+    object User extends RootType[User] {
+      override lazy val keySet = Set.empty[Key[User]]
+      override lazy val indexSet = Set.empty[Index[User]]
+    }
+
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Subdomain
+
+    val subdomain = Subdomain("blogging", EntityTypePool(User))
+  }
+
 }
 
 /** exercises code samples found in the root type section of the user manual.
- * the samples themselves are in [[RootTypeSpec]] companion object. we include
+ * the samples themselves are in [[PTypeSpec]] companion object. we include
  * them in the tests here to force the initialization of the subdomains, and to
  * perform some basic sanity checks on the results.
  *
  * @see http://longevityframework.github.io/longevity/manual/root-type
  */
-class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
+class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  import RootTypeSpec._
+  import PTypeSpec._
   import emblem.imports._
 
   "user manual example code" should "produce correct subdomains" in {
@@ -259,6 +267,7 @@ class RootTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     indexes1.subdomain.name should equal ("blogging")
+    sets.subdomain.name should equal ("blogging")
 
   }
 

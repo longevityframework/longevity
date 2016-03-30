@@ -3,15 +3,64 @@ package longevity.unit.manual
 import org.scalatest._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-/** exercises code samples found in the repo.retrieveByQuery section
- * of the user manual. the samples themselves are in [[RootTypeSpec]]
- * companion object.
+/** code samples found in the repo chapter of the user manual */
+object RepoSpec {
+
+  // used in http://longevityframework.github.io/longevity/manual/repo/retrieve-keyval.html
+  object keyval {
+
+    import longevity.integration.quickStart.QuickStartSpec._
+    import longevity.persistence.PState
+
+    def blogState: PState[Blog] = ???
+
+    import longevity.subdomain.Assoc
+    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.Key
+    import longevity.subdomain.ptype.KeyVal
+
+    object User extends RootType[User] {
+      object props {
+        val username = prop[String]("username")
+      }
+      object keys {
+        val username = key(props.username)
+      }
+      object indexes {
+      }
+    }
+
+    val usernameKey: Key[User] = User.keys.username
+    val username: String = "smithy"
+    val usernameKeyVal: KeyVal[User] = usernameKey(username)
+
+    object BlogPost extends RootType[BlogPost] {
+      object props {
+        val blog = prop[Assoc[Blog]]("blog")
+        val suffix = prop[String]("uriPathSuffix")
+      }
+      object keys {
+        val uri = key(props.blog, props.suffix)
+      }
+      object indexes {
+      }
+    }
+
+    val blogAssoc: Assoc[Blog] = blogState.assoc
+    val uriPathSuffix: String = "suffix"
+    val blogPostKeyVal: KeyVal[BlogPost] = BlogPost.keys.uri(blogAssoc, uriPathSuffix)
+
+  }
+
+}
+
+/** exercises code samples found in the repo chapter of the user manual.
  *
  * a couple of these are also duplicated in QuickStartSpec.scala
  *
- * @see http://longevityframework.github.io/longevity/manual/context/repo-query.html
+ * @see http://longevityframework.github.io/longevity/manual/repo/
  */
-class RepoQuerySpec extends FlatSpec with GivenWhenThen with Matchers {
+class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import longevity.integration.quickStart.QuickStartSpec._
 
@@ -20,9 +69,8 @@ class RepoQuerySpec extends FlatSpec with GivenWhenThen with Matchers {
   protected val blogRepo = repos[Blog]
   protected val blogPostRepo = repos[BlogPost]
 
-  "user manual example code" should "produce correct queries" in {
+  "user manual example code" should "compile" in {
 
-    // duplicated at https://gist.github.com/sullivan-/fa2001b32ea19084a3d0
     if (false) { // don't run, just compile
 
       import com.github.nscala_time.time.Imports._
@@ -38,8 +86,7 @@ class RepoQuerySpec extends FlatSpec with GivenWhenThen with Matchers {
           Query.eqs(BlogPost.props.blog, blogState.assoc),
           Query.gt(BlogPost.props.postDate, DateTime.now - 1.week)))
     }
- 
-    // duplicated at https://gist.github.com/sullivan-/42caecbb5b2096afd4a8
+
     if (false) { // don't run, just compile
 
       import com.github.nscala_time.time.Imports._
@@ -54,7 +101,7 @@ class RepoQuerySpec extends FlatSpec with GivenWhenThen with Matchers {
         BlogPost.props.blog eqs blogState.assoc and
         BlogPost.props.postDate gt DateTime.now - 1.week)
     }
-    // duplicated at https://gist.github.com/sullivan-/ca39baf6637037529421
+
     if (false) { // don't run, just compile
 
       import com.github.nscala_time.time.Imports._

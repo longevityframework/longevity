@@ -4,7 +4,6 @@ import org.scalatest._
 
 object SubdomainSpec {
 
-  // duplicated at https://gist.github.com/sullivan-/1bf6e826ce266588ecde
   // used in http://longevityframework.github.io/longevity/manual/subdomain/kinds.html
   object kinds {
     import longevity.subdomain._
@@ -16,21 +15,20 @@ object SubdomainSpec {
     val genericSubdomain: GenericSubdomain = GenericSubdomain("searches", EntityTypePool.empty)
   }
 
-  // duplicated at https://gist.github.com/sullivan-/db1226b4d31a0526ac8c
-  // duplicated at https://gist.github.com/sullivan-/6a68ac5f6f6331274e21
   // used in http://longevityframework.github.io/longevity/manual/subdomain/roots.html
   object roots {
 
-    import longevity.subdomain.EntityTypePool
-    import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.RootType
 
     case class User(
       username: String,
       firstName: String,
       lastName: String)
     extends Root
+
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.ptype.RootType
 
     object User extends RootType[User] {
       object keys {
@@ -42,7 +40,6 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/58f8ae308d9ca96dbd63
   // used in http://longevityframework.github.io/longevity/manual/subdomain/basics.html
   object basics {
 
@@ -71,7 +68,6 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/bfe3bb8ea95f6b7a4834
   // used in http://longevityframework.github.io/longevity/manual/subdomain/collections.html
   object collections {
 
@@ -98,7 +94,6 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/d1a59a70bbfbcc1e0f78
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthands1 {
 
@@ -134,7 +129,6 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/b862b65da47d112d10ee
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthands2 {
 
@@ -208,7 +202,6 @@ object SubdomainSpec {
     val markdownShorthand = Shorthand[Markdown, String]
     val uriShorthand = Shorthand[Uri, String]
 
-    // duplicated at https://gist.github.com/sullivan-/5bd434d757dc64b6caac
     object e4 {
       implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
       object User extends RootType[User] {
@@ -220,9 +213,8 @@ object SubdomainSpec {
       val subdomain = Subdomain("blogging", EntityTypePool(User))
     }
 
-    // duplicated at https://gist.github.com/sullivan-/76f4dbb5f99af7eaf090
     object e5 {
-      import emblem.imports._
+      import emblem.imports.typeKey
       val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
       object User extends RootType()(typeKey[User], shorthandPool) {
         object keys {
@@ -235,7 +227,6 @@ object SubdomainSpec {
 
   }
 
-  // duplicated at https://gist.github.com/sullivan-/9ea266deae833e61bf52
   // used in http://longevityframework.github.io/longevity/manual/subdomain/where-not.html
   object shorthandsInitIssues {
 
@@ -268,20 +259,11 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/62a216ece7a16bec63c9
-  // duplicated at https://gist.github.com/sullivan-/ca7bb9e6911ff93b4743
-  // duplicated at https://gist.github.com/sullivan-/5b350f2f51ee61efcf8e
   // used in http://longevityframework.github.io/longevity/manual/subdomain/entities.html
   object entities {
 
-    import longevity.subdomain.Entity
-    import longevity.subdomain.EntityType
-    import longevity.subdomain.EntityTypePool
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
-    import longevity.subdomain.Subdomain
-    import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.RootType
 
     case class Email(email: String)
     case class Markdown(markdown: String)
@@ -291,6 +273,9 @@ object SubdomainSpec {
     val uriShorthand = Shorthand[Uri, String]
     implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
 
+    import longevity.subdomain.Entity
+    import longevity.subdomain.EntityType
+
     case class UserProfile(
       tagline: String,
       imageUri: Uri,
@@ -298,6 +283,9 @@ object SubdomainSpec {
     extends Entity
 
     object UserProfile extends EntityType[UserProfile]
+
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
 
     case class User(
       username: String,
@@ -312,10 +300,12 @@ object SubdomainSpec {
       }
     }
 
+    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.Subdomain
+
     val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/95ad8f72bcb4050ccfc3
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects1 {
 
@@ -361,7 +351,6 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/f882ca0f2e4ca103d792
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects2 {
 
@@ -407,14 +396,11 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/36cbd3871282cda7fe40
   // used in http://longevityframework.github.io/longevity/manual/subdomain/associations.html
   object associations1 {
 
     import longevity.subdomain.Assoc
     import longevity.subdomain.EntityTypePool
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -451,7 +437,6 @@ object SubdomainSpec {
     val subdomain = Subdomain("blogging", EntityTypePool(User, Blog, BlogPost))
   }
 
-  // duplicated at https://gist.github.com/sullivan-/2c6d949bed353aac39ca
   // used in http://longevityframework.github.io/longevity/manual/subdomain/associations.html
   object associations2 {
 
@@ -459,8 +444,6 @@ object SubdomainSpec {
     import longevity.subdomain.Entity
     import longevity.subdomain.EntityType
     import longevity.subdomain.EntityTypePool
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType

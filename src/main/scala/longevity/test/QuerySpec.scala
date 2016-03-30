@@ -69,11 +69,6 @@ with TestDataGeneration {
     entities = pStates.map(_.get).toSet
   }
 
-  private def generateP(): P = {
-    val p = testDataGenerator.generate[P]
-    repo.patchUnpersistedAssocs(p, CreatedCache()).futureValue._1
-  }
-
   override def afterAll(): Unit = {
     Future.traverse(pStates)(rootState => repo.delete(rootState)).futureValue
   }
@@ -111,6 +106,11 @@ with TestDataGeneration {
     }
     actual.size should equal (expected.size)
     actual should equal (expected)
+  }
+
+  private def generateP(): P = {
+    val p = testDataGenerator.generate[P]
+    repo.patchUnpersistedAssocs(p, CreatedCache()).futureValue._1
   }
 
   private def entitiesMatchingQuery(query: Query[P], entities: Set[P]): Set[P] = {
