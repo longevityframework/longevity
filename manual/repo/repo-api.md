@@ -81,9 +81,8 @@ trait Repo[P <: Persistent] {
 
 Because all of the methods in `Repo` are potentially blocking, they
 all return a [Scala
-`Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future). Although
-it's not currently shown in the code above, all of the repo methods
-require an implicit execution context argument. The easiest way to
+`Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future). They
+all require an implicit execution context argument. The easiest way to
 provide this is to include `import
 scala.concurrent.ExecutionContext.Implicits.global` at the top of the
 file.
