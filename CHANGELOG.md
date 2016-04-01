@@ -1,6 +1,6 @@
 # Longevity Change Log
 
-## [0.6-SNAPSHOT] - API Fixes
+## [0.6-0] - 2016.03.20 - API Improvements
 
 - 2016.03.02 - add implicit execution context parameter to: all Repo
   methods; RepoPool.createMany; and LongevityContext.repoCrudSpec and
@@ -15,7 +15,7 @@
 - 2016.03.10 - replace Root with Persistent. give Persistent three
   child traits: Root, ViewItem, and Event. these changes should not
   affect existing code that uses Root.
-- 2016.03.10 - replace RootType with PTYPE. give PType three child
+- 2016.03.10 - replace RootType with PType. give PType three child
   traits: RootType, View, and EventType. these changes should not
   affect existing code that uses RootType.
 - 2016.03.25 - rework PType API for keySet and indexSet. please see
