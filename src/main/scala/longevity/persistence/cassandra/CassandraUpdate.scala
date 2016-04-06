@@ -9,6 +9,7 @@ import longevity.persistence._
 import longevity.subdomain.persistent.Persistent
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -18,7 +19,9 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
 
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
-      session.execute(bindUpdateStatement(state))
+      blocking {
+        session.execute(bindUpdateStatement(state))
+      }
       new PState[P](state.passoc, state.get)
     }
 

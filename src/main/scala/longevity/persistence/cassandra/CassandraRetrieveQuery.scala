@@ -14,6 +14,7 @@ import longevity.subdomain.ptype.Query._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.collection.JavaConversions._
+import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -27,7 +28,9 @@ private[cassandra] trait CassandraRetrieveQuery[P <: Persistent] {
       val cql = s"SELECT * FROM $tableName WHERE ${info.whereClause} ALLOW FILTERING"
       val preparedStatement = session.prepare(cql)
       val boundStatement = preparedStatement.bind(info.bindValues: _*)
-      val resultSet = session.execute(boundStatement)
+      val resultSet = blocking {
+        session.execute(boundStatement)
+      }
       resultSet.all.toList.map(retrieveFromRow)
     }
 
