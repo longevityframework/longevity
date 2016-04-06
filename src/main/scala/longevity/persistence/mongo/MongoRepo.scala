@@ -18,6 +18,7 @@ import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.Query._
 import longevity.subdomain.shorthandPoolToExtractorPool
 import org.bson.types.ObjectId
+import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.util.Failure
@@ -52,13 +53,17 @@ extends BaseRepo[P](pType, subdomain) {
   def create(p: P)(implicit context: ExecutionContext) = Future {
     val objectId = new ObjectId()
     val casbah = entityToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
-    val writeResult = mongoCollection.insert(casbah)
+    val writeResult = blocking {
+      mongoCollection.insert(casbah)
+    }
     new PState[P](MongoId(objectId), p)
   }
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
   : Future[Seq[PState[P]]] = Future {
-    val cursor: MongoCursor = mongoCollection.find(mongoQuery(query))
+    val cursor: MongoCursor = blocking {
+      mongoCollection.find(mongoQuery(query))
+    }
     val dbObjs: Seq[DBObject] = cursor.toSeq
     dbObjs.map { result =>
       val id = result.getAs[ObjectId]("_id").get
@@ -72,14 +77,18 @@ extends BaseRepo[P](pType, subdomain) {
     val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val casbah = entityToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
-    val writeResult = mongoCollection.update(query, casbah)
+    val writeResult = blocking {
+      mongoCollection.update(query, casbah)
+    }
     new PState[P](state.passoc, p)
   }
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
     val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
-    val writeResult = mongoCollection.remove(query)
+    val writeResult = blocking {
+      mongoCollection.remove(query)
+    }
     new Deleted(state.get, state.assoc)
   }
 
@@ -89,7 +98,9 @@ extends BaseRepo[P](pType, subdomain) {
   : Future[Option[PState[P]]] = Future {
     val objectId = assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
-    val resultOption = mongoCollection.findOne(query)
+    val resultOption = blocking {
+      mongoCollection.findOne(query)
+    }
     val pOption = resultOption map { casbahToEntityTranslator.translate(_) }
     pOption map { p => new PState[P](assoc, p) }
   }
@@ -101,7 +112,9 @@ extends BaseRepo[P](pType, subdomain) {
       case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
     }
     val query = builder.result
-    val resultOption = mongoCollection.findOne(query)
+    val resultOption = blocking {
+      mongoCollection.findOne(query)
+    }
     val idPOption = resultOption map { result =>
       val id = result.getAs[ObjectId]("_id").get
       id -> casbahToEntityTranslator.translate(result)

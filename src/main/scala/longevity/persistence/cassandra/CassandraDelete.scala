@@ -4,6 +4,7 @@ import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import longevity.persistence._
 import longevity.subdomain.persistent.Persistent
+import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -13,7 +14,9 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
 
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] =
     Future {
-      session.execute(bindDeleteStatement(state))
+      blocking {
+        session.execute(bindDeleteStatement(state))
+      }
       new Deleted(state.get, state.assoc)
     }
 

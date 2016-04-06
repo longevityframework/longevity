@@ -9,6 +9,7 @@ import longevity.persistence._
 import longevity.subdomain.persistent.Persistent
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -18,7 +19,9 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
     val uuid = UUID.randomUUID
-    session.execute(bindInsertStatement(uuid, p))
+    blocking {
+      session.execute(bindInsertStatement(uuid, p))
+    }
     new PState[P](CassandraId(uuid), p)
   }
   
