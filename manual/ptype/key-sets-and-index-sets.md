@@ -36,17 +36,32 @@ object User extends RootType[User] {
 }
 ```
 
+If you would rather eschew the conventional practice of defining
+your keys and indexes in the inner objects, you can always do so like
+this:
+
+```scala
+object User extends PType[User] {
+  val usernameKey = key("username")
+  val emailKey = key("email")
+  val fullnameIndex = index("lastName", "firstName")
+
+  override val keySet = Set(usernameKey, emailKey)
+  override val indexSet = Set(fullnameIndex)
+}
+```
+
 If you do not override `keySet` or `indexSet`, and do not provide
 inner objects `keys` or `indexes`, you will get a
 `NoKeysForPTypeException` or `NoIndexesForPTypeException`,
 respectively. (It would not be hard to have a macro that turns this
-into a compile-time exception.)
+into a compile-time error.)
 
 Longevity needs access to these sets in order to initialize your
 database, among other things. But at the same time, you need to be
 able to access the keys easily yourself, in order to construct key
 values to perform lookups. So you don't want your keys in a set. You
-want each key to have a programmatic name.
+want each key to have its own name.
 
 We scan the inner objects for your convenience. We could ask you to
 just build the set yourself, but then you would end up repeating
