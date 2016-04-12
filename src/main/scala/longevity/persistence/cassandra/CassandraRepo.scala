@@ -14,6 +14,7 @@ import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -77,7 +78,9 @@ with CassandraDelete[P] {
     implicit context: ExecutionContext)
   : Future[Option[PState[P]]] =
     Future {
-      val resultSet = session.execute(statement)
+      val resultSet = blocking {
+        session.execute(statement)
+      }
       val rowOption = Option(resultSet.one)
       rowOption.map(retrieveFromRow)
     }
