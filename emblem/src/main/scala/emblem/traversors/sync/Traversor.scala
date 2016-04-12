@@ -230,28 +230,28 @@ trait Traversor {
       Traversor.this.customTraversors.mapValues(adaptCustomTraversor)
 
     protected def traverseBoolean(input: Future[TraverseInput[Boolean]]): Future[TraverseResult[Boolean]] =
-      input.map(Traversor.this.traverseBoolean(_))
+      input.map(Traversor.this.traverseBoolean)
 
     protected def traverseChar(input: Future[TraverseInput[Char]]): Future[TraverseResult[Char]] =
-      input.map(Traversor.this.traverseChar(_))
+      input.map(Traversor.this.traverseChar)
 
     protected def traverseDateTime(input: Future[TraverseInput[DateTime]]): Future[TraverseResult[DateTime]] =
-      input.map(Traversor.this.traverseDateTime(_))
+      input.map(Traversor.this.traverseDateTime)
 
     protected def traverseDouble(input: Future[TraverseInput[Double]]): Future[TraverseResult[Double]] =
-      input.map(Traversor.this.traverseDouble(_))
+      input.map(Traversor.this.traverseDouble)
 
     protected def traverseFloat(input: Future[TraverseInput[Float]]): Future[TraverseResult[Float]] =
-      input.map(Traversor.this.traverseFloat(_))
+      input.map(Traversor.this.traverseFloat)
 
     protected def traverseInt(input: Future[TraverseInput[Int]]): Future[TraverseResult[Int]] =
-      input.map(Traversor.this.traverseInt(_))
+      input.map(Traversor.this.traverseInt)
 
     protected def traverseLong(input: Future[TraverseInput[Long]]): Future[TraverseResult[Long]] =
-      input.map(Traversor.this.traverseLong(_))
+      input.map(Traversor.this.traverseLong)
 
     protected def traverseString(input: Future[TraverseInput[String]]): Future[TraverseResult[String]] =
-      input.map(Traversor.this.traverseString(_))
+      input.map(Traversor.this.traverseString)
 
     protected def stageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
