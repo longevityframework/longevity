@@ -1,6 +1,13 @@
 package emblem.traversors.sync
 
-import emblem.imports._
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.EmblemProp
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.typeKey
+import emblem.TypeKey
+import emblem.TypeKeyMap
 import emblem.reflectionUtil.makeTypeTag
 import com.github.nscala_time.time.Imports._
 import scala.reflect.runtime.universe.typeOf

@@ -1,6 +1,6 @@
 package emblem.traversors
 
-import emblem.imports._
+import emblem.TypeKeyMap
 
 /** holds types and zero values used by synchronous traversors */
 package object sync {

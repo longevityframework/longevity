@@ -1,10 +1,16 @@
 package emblem.traversors.sync
 
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.HasEmblem
 import emblem.TypeBoundFunction
+import emblem.TypeKey
 import emblem.exceptions.CouldNotGenerateException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
-import emblem.imports._
+import emblem.typeKey
 import org.joda.time.DateTime
 
 /** recursively generates a data structure by type.

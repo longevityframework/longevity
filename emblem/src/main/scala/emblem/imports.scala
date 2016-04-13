@@ -4,6 +4,8 @@ import scala.reflect.runtime.universe.TypeTag
 
 /** a standard set of imports for emblem. this will bring in all you need for basic emblem usage, and won't
  * pollute your namespace the way that `import emblem._` will
+ *
+ * @deprecated use direct imports instead
  */
 object imports {
 

@@ -1,9 +1,16 @@
 package emblem.traversors.sync
 
-import Differ._
-import emblem.imports._
-import scala.reflect.runtime.universe.typeOf
+import Differ.Diff
+import Differ.Diffs
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.EmblemProp
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.HasEmblem
+import emblem.TypeKey
 import org.joda.time.DateTime
+import scala.reflect.runtime.universe.typeOf
 
 /** recursively computes a sequence of [[Differ.Diff diffs]] between two different values of the same type.
  * 

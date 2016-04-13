@@ -1,7 +1,14 @@
 package emblem.traversors.sync
 
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.EmblemProp
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.HasEmblem
 import emblem.TypeBoundFunction
-import emblem.imports._
+import emblem.TypeKey
+import emblem.TypeKeyMap
 import emblem.reflectionUtil.makeTypeTag
 import emblem.traversors.async.{ Traversor => AsyncTraversor }
 import org.joda.time.DateTime

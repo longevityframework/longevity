@@ -1,11 +1,20 @@
 package emblem.traversors.sync
 
-import emblem.imports._
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.EmblemProp
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.HasEmblem
 import emblem.TypeBoundFunction
+import emblem.TypeKey
+import emblem.TypeKeyMap
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
-import emblem.traversors.sync.Transformer._
+import emblem.traversors.sync.Transformer.CustomTransformer
+import emblem.traversors.sync.Transformer.CustomTransformerPool
+import emblem.typeKey
 import org.joda.time.DateTime
 
 /** synchronously tranforms a recursive data structure. the input and the

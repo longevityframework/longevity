@@ -1,8 +1,15 @@
 package emblem.traversors.sync
 
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.EmblemProp
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.HasEmblem
+import emblem.TypeKey
 import emblem.exceptions.CouldNotTraverseException
-import emblem.imports._
 import emblem.jsonUtil.dateTimeFormatter
+import emblem.typeKey
 import org.joda.time.DateTime
 import org.json4s.JsonAST._
 

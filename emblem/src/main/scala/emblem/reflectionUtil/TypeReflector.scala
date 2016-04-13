@@ -1,9 +1,13 @@
 package emblem.reflectionUtil
 
-import emblem.exceptions._
-import emblem.imports._
+import emblem.TypeKey
+import emblem.exceptions.TypeIsNotCaseClassException
+import emblem.exceptions.CaseClassIsInnerClassException
 import scala.reflect.runtime.currentMirror
-import scala.reflect.runtime.universe._
+import scala.reflect.runtime.universe.ClassSymbol
+import scala.reflect.runtime.universe.ModuleMirror
+import scala.reflect.runtime.universe.ModuleSymbol
+import scala.reflect.runtime.universe.TermName
 
 /** utilities for reflecting on a type */
 private[emblem] abstract class TypeReflector[A : TypeKey] {

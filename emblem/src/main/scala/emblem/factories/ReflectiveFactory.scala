@@ -1,11 +1,11 @@
 package emblem.factories
 
-import emblem.exceptions._
-import emblem.imports._
+import emblem.TypeKey
+import emblem.exceptions.CaseClassHasMultipleParamListsException
 import emblem.reflectionUtil.TypeReflector
 import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
-import scala.reflect.runtime.universe._
+import scala.reflect.runtime.universe.TermSymbol
 
 /** a useful scope to hang on to various data to be shared across methods, so we
  * don't have to recompute them or pass them around in massive parameter lists

@@ -1,6 +1,7 @@
 package emblem.traversors.sync
 
-import emblem.imports._
+import emblem.TypeKey
+import emblem.typeKey
 import emblem.reflectionUtil.makeTypeTag
 import scala.reflect.runtime.universe.typeOf
 

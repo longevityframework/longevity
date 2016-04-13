@@ -1,9 +1,17 @@
 package emblem.traversors.async
 
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.EmblemProp
+import emblem.Extractor
 import emblem.ExtractorFor
+import emblem.ExtractorPool
+import emblem.HasEmblem
+import emblem.TypeKey
+import emblem.TypeKeyMap
 import emblem.exceptions.CouldNotTraverseException
-import emblem.imports._
 import emblem.reflectionUtil.makeTypeTag
+import emblem.typeKey
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -270,6 +278,8 @@ trait Traversor {
       input.asInstanceOf[Future[TraverseInput[B]]]
     ).asInstanceOf[Option[Future[TraverseResult[A]]]]
   }
+
+  // TODO: consider get rid of HasEmblem
 
   private def tryTraverseEmblem[A <: HasEmblem : TypeKey](input: Future[TraverseInput[A]])
   : Option[Future[TraverseResult[A]]] = {

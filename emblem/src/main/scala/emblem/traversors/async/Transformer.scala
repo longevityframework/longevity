@@ -1,32 +1,43 @@
 package emblem.traversors.async
 
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.EmblemProp
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.HasEmblem
 import emblem.TypeBoundFunction
+import emblem.TypeKey
+import emblem.TypeKeyMap
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
-import emblem.imports._
 import emblem.traversors.async.Transformer._
+import emblem.typeKey
+import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.Promise
 import scala.util.Failure
 import scala.util.Success
-import org.joda.time.DateTime
 
-/** asynchronously tranforms a recursive data structure. the input and the output of the transformation
- * have the same type.
+/** asynchronously tranforms a recursive data structure. the input and the
+ * output of the transformation have the same type.
  *
- * you can transform arbritrary data to your liking by implementing the protected vals and defs in this
- * interface.
+ * you can transform arbritrary data to your liking by implementing the
+ * protected vals and defs in this interface.
  *
- * the only usage example as of now, `longevity.persistence.UnpersistedToPersistedTransformer`, lives outside of
- * emblem project, in sibling project longevity. it might give you some ideas in how to use.
+ * the only usage example as of now,
+ * `longevity.persistence.UnpersistedToPersistedTransformer`, lives outside of
+ * emblem project, in sibling project longevity. it might give you some ideas in
+ * how to use.
  */
 trait Transformer {
 
   /** transforms an element of type `A`
-   * @throws emblem.exceptions.CouldNotTransformException when it encounters a type it doesn't know how to
-   * transform
+   * 
+   * @throws emblem.exceptions.CouldNotTransformException when it encounters a
+   * type it doesn't know how to transform
    */
   def transform[A : TypeKey](input: Future[A]): Future[A] = {
     traversor.traverse[A](input) recoverWith {

@@ -1,6 +1,14 @@
 package emblem.traversors.sync
 
-import emblem.imports._
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.EmblemProp
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.HasEmblem
+import emblem.typeKey
+import emblem.TypeKey
+import emblem.TypeKeyMap
 import emblem.jsonUtil.dateTimeFormatter
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat

@@ -12,13 +12,12 @@ import scala.concurrent.ExecutionContext
 abstract class BaseCreateManySpec(
   protected val longevityContext: LongevityContext,
   protected val repoPool: RepoPool)
-extends FlatSpec
+extends  {
+  protected implicit val executionContext = ExecutionContext.global
+}
+with FlatSpec
 with GivenWhenThen
 with Matchers
 with ScalaFutures
 with TestDataGeneration
-with PersistedToUnpersistedMatcher {
-
-  protected implicit val executionContext = ExecutionContext.global
-
-}
+with PersistedToUnpersistedMatcher

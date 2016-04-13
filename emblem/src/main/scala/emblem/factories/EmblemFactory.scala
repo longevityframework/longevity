@@ -1,12 +1,20 @@
 package emblem.factories
 
+import emblem.Emblem
+import emblem.EmblemProp
+import emblem.HasEmblem
+import emblem.TypeKey
+import emblem.exceptions.CaseClassHasMultipleParamListsException
+import emblem.exceptions.RequiredPropertyNotSetException
+import emblem.reflectionUtil.makeTypeTag
+import emblem.stringUtil.typeName
+import emblem.stringUtil.typeNamePrefix
 import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
-import scala.reflect.runtime.universe._
-import emblem.imports._
-import emblem.exceptions._
-import emblem.stringUtil._
-import emblem.reflectionUtil.makeTypeTag
+import scala.reflect.runtime.universe.MethodSymbol
+import scala.reflect.runtime.universe.NoSymbol
+import scala.reflect.runtime.universe.TermName
+import scala.reflect.runtime.universe.TermSymbol
 
 /** generates an [[Emblem]] from the corresponding [[TypeKey]] */
 private[emblem] class EmblemFactory[A <: HasEmblem : TypeKey] extends ReflectiveFactory[A] {
@@ -61,7 +69,7 @@ private[emblem] class EmblemFactory[A <: HasEmblem : TypeKey] extends Reflective
   private def makeCreator(): Map[String, Any] => A = {
     val creator = { map: Map[String, Any] =>
       val args = params.zipWithIndex.map {
-        case (param: TermSymbol, index: Int) =>
+        case (param, index) =>
         val paramName: String = param.name.toString          
         val value: Option[Any] = map.get(paramName)
         value match {

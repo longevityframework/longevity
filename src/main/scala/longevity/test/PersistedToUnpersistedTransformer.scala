@@ -18,9 +18,10 @@ import scala.concurrent.Future
  * this is useful for testing purposes, as it transforms a persisted entity into
  * its unpersisted equivalent.
  *
+ * @param repoPool the repo pool to look up associations with
+ * @param executionContext the execution context in which to run
  * @param emblemPool a pool of emblems for the entities to be transformed
  * @param extractorPool a complete set of the extractors used by the bounded context
- * @param repoPool the repo pool to look up associations with
  */
 private[test] class PersistedToUnpersistedTransformer(
   private val repoPool: RepoPool,
