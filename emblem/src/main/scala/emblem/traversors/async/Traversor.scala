@@ -97,6 +97,7 @@ trait Traversor {
   protected def traverseString(input: Future[TraverseInput[String]]): Future[TraverseResult[String]]
 
   /** stages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
+   * 
    * @tparam A the type of the [[HasEmblem]] object to traverse
    * @param emblem the emblem being traversed
    * @param input the input to the emblem traversal
@@ -106,6 +107,7 @@ trait Traversor {
   : Future[Iterable[PropInput[A, _]]]
 
   /** unstages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
+   * 
    * @tparam A the type of the [[HasEmblem]] object to traverse
    * @param emblem the emblem being traversed
    * @param result an iterable of the outputs for the emblem props
@@ -117,6 +119,7 @@ trait Traversor {
   : Future[TraverseResult[A]]
 
   /** stages the traversal of a [[Extractor extractor]]
+   * 
    * @tparam Range the range type for the extractor
    * @tparam Domain the domain type for the extractor
    * @param extractor the extractor being traversed
@@ -129,6 +132,7 @@ trait Traversor {
   : Future[TraverseInput[Range]]
 
   /** unstages the traversal of a [[Extractor extractor]]
+   * 
    * @tparam Range the range type for the extractor
    * @tparam Domain the domain type for the extractor
    * @param extractor the extractor being traversed
@@ -250,7 +254,7 @@ trait Traversor {
   private def tryTraverseEmblemFromAny[A : TypeKey](input: Future[TraverseInput[A]])
   : Option[Future[TraverseResult[A]]] = {
     val keyOption = hasEmblemTypeKeyOption(typeKey[A])
-    keyOption flatMap { key => introduceHasEmblemTraverseEmblemOption(input)(key) }
+    keyOption flatMap { key => introduceHasEmblemTryTraverseEmblem(input)(key) }
   }
 
   private def hasEmblemTypeKeyOption[A : TypeKey, B <: A with HasEmblem]: Option[TypeKey[B]] =
@@ -259,20 +263,20 @@ trait Traversor {
     else
       None
 
-  private def introduceHasEmblemTraverseEmblemOption[A, B <: A with HasEmblem : TypeKey](
+  private def introduceHasEmblemTryTraverseEmblem[A, B <: A with HasEmblem : TypeKey](
     input: Future[TraverseInput[A]])
   : Option[Future[TraverseResult[A]]] = {
-    traverseEmblemOption[B](
+    tryTraverseEmblem[B](
       input.asInstanceOf[Future[TraverseInput[B]]]
     ).asInstanceOf[Option[Future[TraverseResult[A]]]]
   }
 
-  private def traverseEmblemOption[A <: HasEmblem : TypeKey](input: Future[TraverseInput[A]])
+  private def tryTraverseEmblem[A <: HasEmblem : TypeKey](input: Future[TraverseInput[A]])
   : Option[Future[TraverseResult[A]]] = {
-    emblemPool.get(typeKey[A]) map { emblem => traverseFromEmblem(emblem, input) }
+    emblemPool.get(typeKey[A]) map { emblem => traverseEmblem(emblem, input) }
   }
 
-  private def traverseFromEmblem[A <: HasEmblem : TypeKey](
+  private def traverseEmblem[A <: HasEmblem : TypeKey](
     emblem: Emblem[A],
     hasEmblemInput: Future[TraverseInput[A]])
   : Future[TraverseResult[A]] = {
