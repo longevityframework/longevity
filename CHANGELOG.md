@@ -1,6 +1,10 @@
 # Longevity Change Log
 
-## [0.6-0] - 2016.03.20 - API Improvements
+## [0.7-SNAPSHOT] - Entity Polymorphism
+
+
+
+## [0.6.0] - 2016.03.20 - API Improvements
 
 - 2016.03.02 - add implicit execution context parameter to: all `Repo`
   methods; `RepoPool.createMany`; and `LongevityContext.repoCrudSpec`

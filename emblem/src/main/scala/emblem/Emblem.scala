@@ -5,32 +5,33 @@ import scala.util.Try
 import emblem.factories.EmblemFactory
 import scala.reflect.runtime.universe.TypeTag
 
-/** a reflective signature for a type. provides name information, [[EmblemProp properties]],
- * and a tool used to build new instances. the underlying type is treated as immutable, so each property
- * provides a setter that returns a new instance. new instances can be built using a [[HasEmblemBuilder]]
+/** a reflective signature for a type. provides name information, [[EmblemProp
+ * properties]], and a tool used to build new instances. the underlying type is
+ * treated as immutable, so each property provides a setter that returns a new
+ * instance. new instances can be built using a [[HasEmblemBuilder]]
  * returned by method [[builder]].
  *
- * @tparam T the type that this emblem reflects upon
+ * @tparam A the type that this emblem reflects upon
  * @param namePrefix a dot-separated identifier of the enclosing scope of the type
  * @param name the unqualified type name
  * @param props the [[EmblemProp emblem properties]]
  * @param propDefaults default property values used by the builder
  * @param creator a function used by the builder to instantiate the new object
  */
-case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
+case class Emblem[A <: HasEmblem : TypeKey] private[emblem] (
   val namePrefix: String,
   val name: String,
-  val props: Seq[EmblemProp[T, U] forSome { type U }],
-  val creator: Map[String, Any] => T) {
+  val props: Seq[EmblemProp[A, U] forSome { type U }],
+  val creator: Map[String, Any] => A) {
 
-  /** A [[TypeKey type key]] for the type that this emblem reflects upon */
-  lazy val typeKey: TypeKey[T] = emblem.typeKey[T]
+  /** a [[TypeKey type key]] for the type that this emblem reflects upon */
+  lazy val typeKey: TypeKey[A] = emblem.typeKey[A]
 
   /** the fully qualified type name */
   lazy val fullname = s"$namePrefix.$name"
 
   /** a map of the [[props]], keyed by name */
-  val propMap: Map[String, EmblemProp[T, _]] = props.view.map(prop => prop.name -> prop).toMap
+  val propMap: Map[String, EmblemProp[A, _]] = props.view.map(prop => prop.name -> prop).toMap
 
   /** retrieves an [[EmblemProp]] by name */
   def apply(name: String) =
@@ -48,11 +49,11 @@ case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
       throw new ClassCastException(
         s"requested property $name with type ${typeKey.tpe}, but this property has type ${prop.typeKey.tpe}")
     }
-    prop.asInstanceOf[EmblemProp[T, U]]
+    prop.asInstanceOf[EmblemProp[A, U]]
   }
 
   /** creates and returns a new builder for constructing new instances */
-  def builder(): HasEmblemBuilder[T] = new HasEmblemBuilder[T](creator)
+  def builder(): HasEmblemBuilder[A] = new HasEmblemBuilder[A](creator)
 
   /** a string describing the emblem in full detail */
   lazy val debugInfo = {
@@ -71,13 +72,34 @@ case class Emblem[T <: HasEmblem : TypeKey] private[emblem] (
 
 object Emblem {
 
-  /** creates and returns an [[Emblem]] for the specified type `A`. `A` must be a stable case class with a
-   * single parameter list.
+  /** creates and returns an [[Emblem]] for the specified type `A`. `A` must be
+   * a stable case class with a single parameter list.
    * 
    * @tparam A the type to create an emblem for
-   * @throws emblem.exceptions.GeneratorException when `A` is not a stable case class with a single
-   * parameter list.
+   * @throws emblem.exceptions.GeneratorException when `A` is not a stable case
+   * class with a single parameter list
    */
   def apply[A <: HasEmblem : TypeKey]: Emblem[A] = new EmblemFactory[A].generate
+
+  // what I need:
+  // - define a super and a sub
+  //   - sub needs to extend emblem
+  //   - sub needs to declare its super
+  // - i need to be able to pull up a Sub[_ <: A] given a Super and an instance
+  // - i need to be able to get the right Sub[_ <: A] given a Super and
+
+  trait Super[A] {
+    val typeKey: TypeKey[A]
+  }
+
+  object Super {
+
+  }
+
+  trait Sub[A <: HasEmblem] {
+    self: Emblem[A] =>
+    val sup: Super[_ >: A]
+    val descriminator: String
+  }
 
 }
