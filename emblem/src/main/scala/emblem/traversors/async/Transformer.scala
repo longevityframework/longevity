@@ -6,7 +6,7 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.imports._
 import emblem.traversors.async.Transformer._
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.Promise
 import scala.util.Failure
@@ -33,6 +33,9 @@ trait Transformer {
       case e: CouldNotTraverseException => Future.failed(new CouldNotTransformException(e.typeKey, e))
     }
   }
+
+  /** the execution context in which to run */
+  protected implicit val executionContext: ExecutionContext
 
   /** the emblems to use in the recursive transformation */
   protected val emblemPool: EmblemPool = EmblemPool.empty
@@ -88,6 +91,7 @@ trait Transformer {
 
     def traverseString(input: Future[String]): Future[String] = transformString(input)
 
+    override protected implicit val executionContext = Transformer.this.executionContext
     override protected val extractorPool = Transformer.this.extractorPool
     override protected val emblemPool = Transformer.this.emblemPool
 

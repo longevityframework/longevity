@@ -1,15 +1,15 @@
 package longevity.test
 
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 import emblem.imports._
 import emblem.traversors.async.Transformer
 import emblem.traversors.async.Transformer.CustomTransformer
 import emblem.traversors.async.Transformer.CustomTransformerPool
+import longevity.persistence.RepoPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.persistent.Persistent
-import longevity.persistence.RepoPool
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
 /** traverses an entity graph, replacing every
  * [[longevity.persistence.PersistedAssoc persisted assoc]] with an
@@ -23,9 +23,10 @@ import longevity.persistence.RepoPool
  * @param repoPool the repo pool to look up associations with
  */
 private[test] class PersistedToUnpersistedTransformer(
+  private val repoPool: RepoPool,
+  override protected implicit val executionContext: ExecutionContext,
   override protected val emblemPool: EmblemPool,
-  override protected val extractorPool: ExtractorPool,
-  private val repoPool: RepoPool)
+  override protected val extractorPool: ExtractorPool)
 extends Transformer {
 
   override protected val customTransformers = CustomTransformerPool.empty + transformAssoc

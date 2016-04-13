@@ -5,7 +5,7 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.imports._
 import emblem.reflectionUtil.makeTypeTag
 import org.joda.time.DateTime
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.Promise
 import scala.reflect.runtime.universe.typeOf
@@ -59,6 +59,9 @@ trait Traversor {
 
   /** an output for traversing an [[EmblemProp]] */
   protected type PropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
+
+  /** the execution context in which to run */
+  protected implicit val executionContext: ExecutionContext
 
   /** the emblems to use in the recursive traversal */
   protected val emblemPool: EmblemPool = EmblemPool.empty

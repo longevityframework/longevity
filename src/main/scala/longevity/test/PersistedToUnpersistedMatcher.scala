@@ -15,12 +15,13 @@ import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a mixin trait for comparing persisted and unpersisted variations of an aggregate */
 trait PersistedToUnpersistedMatcher extends Suite with ScalaFutures {
 
+  protected implicit val executionContext: ExecutionContext
   protected val longevityContext: LongevityContext
   protected val repoPool: RepoPool
 
@@ -31,7 +32,8 @@ trait PersistedToUnpersistedMatcher extends Suite with ScalaFutures {
   private val subdomain = longevityContext.subdomain
   private val emblemPool = subdomain.entityEmblemPool
   private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
-  private val unpersistor = new PersistedToUnpersistedTransformer(emblemPool, extractorPool, repoPool)
+  private val unpersistor =
+    new PersistedToUnpersistedTransformer(repoPool, executionContext, emblemPool, extractorPool)
   private val differ = new Differ(emblemPool, extractorPool)
 
   protected def persistedShouldMatchUnpersisted[P <: Persistent : TypeKey](

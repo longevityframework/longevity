@@ -10,7 +10,7 @@ import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.UnpersistedAssoc
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.Promise
 import scala.util.Failure
@@ -28,6 +28,7 @@ import scala.util.Success
  */
 private[persistence] class UnpersistedToPersistedTransformer(
   private val repoPool: RepoPool,
+  override protected implicit val executionContext: ExecutionContext,
   override protected val emblemPool: EmblemPool,
   override protected val extractorPool: ExtractorPool,
   cacheIn: CreatedCache)

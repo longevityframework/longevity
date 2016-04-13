@@ -6,9 +6,8 @@ import emblem.reflectionUtil.makeTypeTag
 import emblem.traversors.async.{ Traversor => AsyncTraversor }
 import org.joda.time.DateTime
 import scala.concurrent.Await
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import scala.concurrent.Promise
 import scala.concurrent.duration.Duration
 import scala.reflect.runtime.universe.typeOf
 import scala.util.Failure
@@ -52,7 +51,7 @@ trait Traversor {
    * traversal
    */
   def traverse[A : TypeKey](input: TraverseInput[A]): TraverseResult[A] = {
-    val futureInput = Promise.successful(input).future
+    val futureInput = Future.successful(input)
     val futureResult = asyncTraversor.traverse(futureInput)
     Await.result(futureResult, Duration.Inf)
   }
@@ -212,6 +211,7 @@ trait Traversor {
     type TraverseInput[A] = Traversor.this.TraverseInput[A]
     type TraverseResult[A] = Traversor.this.TraverseResult[A]
 
+    override protected implicit val executionContext = ExecutionContext.Implicits.global
     override protected val emblemPool: EmblemPool = Traversor.this.emblemPool
     override protected val extractorPool: ExtractorPool = Traversor.this.extractorPool
 

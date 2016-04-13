@@ -5,7 +5,6 @@ import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.integration.subdomain.withAssoc
 import longevity.persistence.RepoPool
 import longevity.subdomain.persistent.Root
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /** unit tests for the [[RepoPoolSpec.createMany]] method */
 class CreateManySpec extends BaseCreateManySpec(

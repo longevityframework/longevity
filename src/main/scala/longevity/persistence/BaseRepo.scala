@@ -5,7 +5,6 @@ import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.subdomain._
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype._
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 
 /** an abstract base class for [[Repo]] implementations.
@@ -48,7 +47,10 @@ extends Repo[P] {
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repoPool: RepoPool = _repoPoolOption.get
 
-  private[persistence] def createWithCache(unpersisted: P, cache: CreatedCache)
+  private[persistence] def createWithCache(
+    unpersisted: P,
+    cache: CreatedCache)(
+    implicit executionContext: ExecutionContext)
   : Future[(PState[P], CreatedCache)] = {
     cache.get[P](unpersisted) match {
       case Some(pstate) => Future.successful((pstate, cache))
@@ -63,14 +65,21 @@ extends Repo[P] {
   private lazy val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
 
   // this is also used by RepoCrudSpec for making pretty test data
-  private[longevity] def patchUnpersistedAssocs(p: P, cache: CreatedCache)
+  private[longevity] def patchUnpersistedAssocs(
+    p: P,
+    cache: CreatedCache)(
+    implicit executionContext: ExecutionContext)
   : Future[(P, CreatedCache)] = {
-    val unpersistedToPersistedTransformer =
-      new UnpersistedToPersistedTransformer(repoPool, subdomain.entityEmblemPool, extractorPool, cache)
+    val transformer = new UnpersistedToPersistedTransformer(
+      repoPool,
+      executionContext,
+      subdomain.entityEmblemPool,
+      extractorPool,
+      cache)
     implicit val pTypeTag = pTypeKey.tag
     val futureP = Future.successful(p)
-    val futurePatched = unpersistedToPersistedTransformer.transform(futureP)
-    futurePatched.map((_, unpersistedToPersistedTransformer.createdCache))
+    val futurePatched = transformer.transform(futureP)
+    futurePatched.map((_, transformer.createdCache))
   }
 
 }
