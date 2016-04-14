@@ -16,9 +16,11 @@ package object emblem {
   /** a [[TypeKeyMap]] of [[HasEmblem]] to [[Emblem]] */
   type EmblemPool = TypeKeyMap[HasEmblem, Emblem]  
 
-  /** an [[Extractor extractor]] with the domain type unspecified. this type is equivalent to
-   * `Extractor[Domain, _]`, except with a single type parameter `Domain`. this allows the extractor to be used
-   * as a key or value in a `TypeBoundMap` or `TypeKeyMap`
+  /** an [[Extractor extractor]] with the domain type unspecified. this type is
+   * equivalent to `Extractor[Domain, _]`, except with a single type parameter
+   * `Domain`. this allows the extractor to be used as a key or value in a
+   * `TypeBoundMap` or `TypeKeyMap`
+   * 
    * @see ExtractorPool
    */
   type ExtractorFor[Domain] = Extractor[Domain, _]
@@ -28,6 +30,9 @@ package object emblem {
 
   /** a no-arg function with return type `A` */
   type Function0[A] = () => A
+
+  /** A [[TypeKeyMap]] of `Any` to [[Union]] */
+  type UnionPool = TypeKeyMap[Any, Union]
 
   // TODO pt-86950564: an extension class for Map with a toTypeKeyMap[B,V] method
   // TODO pt-86950588: an extension class for Map with a toTypeBoundMap[B,K,V] method
