@@ -94,7 +94,7 @@ object blogs {
   lazy val zipcodeExtractor = Extractor[Zipcode, Int]
 
   val extractorPool = ExtractorPool(emailExtractor, markdownExtractor, uriExtractor, zipcodeExtractor)
-  val emblematic = Emblematic(emblemPool, extractorPool)
+  val emblematic = Emblematic(extractorPool, emblemPool)
 
   // entity types
 

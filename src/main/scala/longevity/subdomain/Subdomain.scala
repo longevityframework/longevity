@@ -26,17 +26,9 @@ class Subdomain(
   /** a pool of the persistent types in the subdomain */
   val pTypePool = PTypePool(entityTypePool)
 
-  // TODO rename to emblemPool. also, make these defs. just keep the emblematic around
-  /** a pool of emblems for the entities within the subdomain */
-  private[longevity] val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] =
-    entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
-      new WideningTypeBoundFunction[Entity, HasEmblem, EntityType, Emblem] {
-        def apply[TypeParam <: Entity](value1: EntityType[TypeParam]): Emblem[TypeParam] =
-          value1.emblem
-      }
-    }
+  private[longevity] val emblematic = Emblematic(extractorPool, emblemPool)
 
-  private[longevity] val extractorPool: ExtractorPool = {
+  private def extractorPool: ExtractorPool = {
     val shorthandToExtractor = new TypeBoundFunction[Any, ShorthandFor, ExtractorFor] {
       def apply[TypeParam](shorthand: ShorthandFor[TypeParam]): ExtractorFor[TypeParam] =
         shorthand.extractor
@@ -44,7 +36,13 @@ class Subdomain(
     shorthandPool.mapValues(shorthandToExtractor)
   }
 
-  private[longevity] val emblematic = Emblematic(entityEmblemPool, extractorPool)
+  private def emblemPool: TypeKeyMap[HasEmblem, Emblem] =
+    entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
+      new WideningTypeBoundFunction[Entity, HasEmblem, EntityType, Emblem] {
+        def apply[TypeParam <: Entity](value1: EntityType[TypeParam]): Emblem[TypeParam] =
+          value1.emblem
+      }
+    }
 
   // TODO pt-#115456079: some way to express domain constraints that span multiple entities
   // - figure a way for TestDataGenerator/RepoSpec to respect these

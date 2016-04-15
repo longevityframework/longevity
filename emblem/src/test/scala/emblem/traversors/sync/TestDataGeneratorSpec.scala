@@ -16,7 +16,7 @@ import org.scalatest.OptionValues._
 /** specs for [[TestDataGenerator]] */
 class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  private val emblematic = Emblematic(emblemPool, extractorPool)
+  private val emblematic = Emblematic(extractorPool, emblemPool)
 
   behavior of "TestDataGenerator.generate[A] with custom generator"
 

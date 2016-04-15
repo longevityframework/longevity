@@ -40,10 +40,14 @@ class Shorthand[Actual, Abbreviated] private[longevity] (
 
 object Shorthand {
 
-  /** creates and returns a [[Shorthand]] for the specified types `Actual` and `Abbreviated`. `Actual` must be
-   * a stable case class with single a parameter list. `Abbreviated` must be a basic type.
-   * @throws longevity.exceptions.subdomain.ShorthandCreationException when `Abbreviated` is not a basic type, or when
-   * `Actual` is not a stable case class with a single parameter list
+  /** creates and returns a [[Shorthand]] for the specified types `Actual` and
+   * `Abbreviated`. `Actual` must be a stable case class with single a parameter
+   * list. `Abbreviated` must be a basic type.
+   *
+   * * @throws longevity.exceptions.subdomain.ShorthandCreationException when
+   * `Abbreviated` is not a basic type, or when `Actual` is not a stable case
+   * class with a single parameter list
+   * 
    * @see `emblem.basicTypes`
    */
   def apply[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] = {

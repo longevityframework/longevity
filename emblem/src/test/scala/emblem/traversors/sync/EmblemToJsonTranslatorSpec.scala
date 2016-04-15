@@ -8,7 +8,10 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-/** specs for [[EmblemToJsonTranslator]] */
+/** some simple specs for [[EmblemToJsonTranslator]]. these only test a limited
+ * number of features. see [[JsonTranslationSpec]] for a more comprehensive
+ * suite.
+ */
 class EmblemToJsonTranslatorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   private val translator = new EmblemToJsonTranslator {

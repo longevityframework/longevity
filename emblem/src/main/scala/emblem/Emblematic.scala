@@ -9,13 +9,13 @@ package emblem
  * - case classes represented in the collection of [[Extractor extractors]]
  * - traits represented in the collection of [[Union unions]]
  *
- * @param emblems the emblems to use in the emblematic. defaults to empty
  * @param extractors the extractors to use in the emblematic. defaults to empty
+ * @param emblems the emblems to use in the emblematic. defaults to empty
  * @param unions the unions to use in the emblematic. defaults to empty
  */
 case class Emblematic(
-  emblems: EmblemPool = EmblemPool.empty,
   extractors: ExtractorPool = ExtractorPool.empty,
+  emblems: EmblemPool = EmblemPool.empty,
   unions: UnionPool = UnionPool.empty)
 
 object Emblematic {

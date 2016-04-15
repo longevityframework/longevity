@@ -23,6 +23,6 @@ object geometry {
   lazy val yPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("y")
 
   lazy val emblemPool = EmblemPool() + pointEmblem + polygonEmblem + pointWithDefaultsEmblem
-  lazy val emblematic = Emblematic(emblemPool)
+  lazy val emblematic = Emblematic(emblems = emblemPool)
 
 }
