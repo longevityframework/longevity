@@ -1,6 +1,6 @@
 package longevity.subdomain.ptype
 
-import emblem.imports._
+import emblem.TypeKey
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.persistent.Root
 

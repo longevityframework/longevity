@@ -1,6 +1,7 @@
 package longevity.subdomain.ptype
 
-import emblem.imports._
+import emblem.TypeKey
+import emblem.typeKey
 
 /** an argument used to construct a [[KeyVal]]. a value is wrapped up with its type, so we can check that
  * the value matches the type of the corresponding [[Prop]] when building the `KeyVal`.

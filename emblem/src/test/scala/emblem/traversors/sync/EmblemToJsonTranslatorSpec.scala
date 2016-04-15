@@ -4,7 +4,9 @@ import com.github.nscala_time.time.Imports._
 import emblem.jsonUtil.dateTimeFormatter
 import emblem.testData.geometry
 import org.json4s.JsonAST._
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 /** specs for [[EmblemToJsonTranslator]] */
 class EmblemToJsonTranslatorSpec extends FlatSpec with GivenWhenThen with Matchers {

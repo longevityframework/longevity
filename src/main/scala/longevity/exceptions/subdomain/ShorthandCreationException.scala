@@ -1,6 +1,6 @@
 package longevity.exceptions.subdomain
 
-import emblem.imports._
+import emblem.TypeKey
 import emblem.exceptions.GeneratorException
 
 /** thrown when the input types supplied when attempting to create a shorthand are not legal */

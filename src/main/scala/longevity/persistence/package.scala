@@ -4,9 +4,15 @@ import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.Session
 import com.mongodb.casbah.Imports._
 import com.typesafe.config.Config
+import emblem.TypeBoundMap
 import emblem.TypeBoundPair
-import emblem.imports._
-import longevity.context._
+import emblem.TypeKey
+import emblem.TypeKeyMap
+import emblem.typeKey
+import longevity.context.Cassandra
+import longevity.context.InMem
+import longevity.context.Mongo
+import longevity.context.PersistenceStrategy
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.subdomain.Subdomain

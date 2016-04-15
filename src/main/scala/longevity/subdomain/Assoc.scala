@@ -1,6 +1,6 @@
 package longevity.subdomain
 
-import emblem.imports._
+import emblem.TypeKey
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
 import scala.concurrent.Future

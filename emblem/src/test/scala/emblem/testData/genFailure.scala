@@ -1,6 +1,6 @@
 package emblem.testData
 
-import emblem.imports._
+import emblem.HasEmblem
 
 /** for emblem and extractor failure cases */
 object genFailure {

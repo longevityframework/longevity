@@ -1,6 +1,6 @@
 package longevity.exceptions.subdomain.ptype
 
-import emblem.imports._
+import emblem.TypeKey
 import longevity.subdomain.persistent.Persistent
 
 /** thrown on attempt to create a property with a type that longevity doesn't
@@ -10,6 +10,6 @@ import longevity.subdomain.persistent.Persistent
  */
 class UnsupportedPropTypeException[P <: Persistent : TypeKey, U : TypeKey](val path: String)
 extends PropException(
-  s"longevity doesn't currently support properties with type `${typeKey[U].name}`, such as " +
-  s"`$path` in `${typeKey[P]}")
+  s"longevity doesn't currently support properties with type `${implicitly[TypeKey[U]].name}`, such as " +
+  s"`$path` in `${implicitly[TypeKey[P]]}")
 

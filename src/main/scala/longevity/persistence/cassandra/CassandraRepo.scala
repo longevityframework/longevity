@@ -4,9 +4,11 @@ import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
-import emblem.imports._
+import emblem.TypeKey
 import emblem.jsonUtil.dateTimeFormatter
-import emblem.stringUtil._
+import emblem.stringUtil.camelToUnderscore
+import emblem.stringUtil.typeName
+import emblem.typeKey
 import java.util.UUID
 import longevity.persistence._
 import longevity.subdomain._
@@ -14,9 +16,9 @@ import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import scala.concurrent.blocking
 
 /** a Cassandra repository for persistent entities of type `P`.
  *

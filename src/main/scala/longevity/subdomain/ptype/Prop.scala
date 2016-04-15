@@ -1,17 +1,21 @@
 package longevity.subdomain.ptype
 
+import emblem.Emblem
+import emblem.EmblemProp
 import emblem.EmblemPropPath
+import emblem.HasEmblem
+import emblem.TypeKey
 import emblem.basicTypes.basicTypeOrderings
 import emblem.basicTypes.isBasicType
 import emblem.exceptions.EmblemPropPathTypeMismatchException
+import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblemInPropPathException
-import emblem.exceptions.EmptyPropPathException
-import emblem.imports._
-import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
+import emblem.typeKey
 import longevity.exceptions.subdomain.ptype.NoSuchPropException
 import longevity.exceptions.subdomain.ptype.PropNotOrderedException
 import longevity.exceptions.subdomain.ptype.PropTypeException
+import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 import longevity.subdomain.Assoc
 import longevity.subdomain.Entity
 import longevity.subdomain.ShorthandPool

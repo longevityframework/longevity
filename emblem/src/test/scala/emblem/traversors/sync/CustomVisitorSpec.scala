@@ -1,8 +1,11 @@
 package emblem.traversors.sync
 
-import emblem.imports._
+import emblem.TypeKey
+import emblem.typeKey
 import emblem.traversors.sync.Visitor._
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 /** specs for [[CustomVisitor]] */
 class CustomVisitorSpec extends FlatSpec with GivenWhenThen with Matchers {

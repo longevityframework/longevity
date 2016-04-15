@@ -1,6 +1,7 @@
 package longevity.persistence
 
-import emblem.imports._
+import emblem.TypeKey
+import emblem.typeKey
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.subdomain._
 import longevity.subdomain.persistent.Persistent

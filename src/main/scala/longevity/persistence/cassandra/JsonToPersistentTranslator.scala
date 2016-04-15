@@ -1,15 +1,16 @@
 package longevity.persistence.cassandra
 
-import emblem.exceptions.CouldNotTraverseException
 import emblem.Emblematic
 import emblem.TypeKey
-import emblem.typeKey
+import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.sync.JsonToEmblemTranslator
+import emblem.typeKey
 import java.util.UUID
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.persistent.Persistent
-import org.json4s.JsonAST._
+import org.json4s.JsonAST.JString
+import org.json4s.JsonAST.JValue
 
 private[cassandra] class JsonToPersistentTranslator(
   override protected val emblematic: Emblematic)

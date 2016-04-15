@@ -1,6 +1,8 @@
 package emblem.testData
 
-import emblem.imports._
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.HasEmblem
 import emblem.testData.extractors._
 
 /** a handful of emblems used for testing */
