@@ -7,7 +7,10 @@ import emblem.Emblematic
 import emblem.Extractor
 import emblem.ExtractorPool
 import emblem.HasEmblem
+import emblem.Union
+import emblem.UnionPool
 import emblem.traversors.sync.TestDataGenerator
+import emblem.typeKey
 import org.joda.time.DateTime
 
 /** an attempt at an exhaustive set of data to cover emblematic traversal logic */
@@ -46,12 +49,31 @@ object exhaustive {
     list: List[String])
   extends HasEmblem
 
+  trait WithSpecialization {
+    val common: String
+  }
+
+  case class Specialization1(
+    common: String,
+    special1: String)
+  extends WithSpecialization with HasEmblem
+
+  case class Specialization2(
+    common: String,
+    special2: String)
+  extends WithSpecialization with HasEmblem
+
   lazy val emblemPool = EmblemPool(
     Emblem[WithBasics],
     Emblem[WithExtractors],
-    Emblem[WithCollections])
+    Emblem[WithCollections],
+    Emblem[Specialization1],
+    Emblem[Specialization2])
 
-  lazy val emblematic = Emblematic(extractorPool, emblemPool)
+  lazy val unionPool = UnionPool(
+    Union[WithSpecialization](typeKey[Specialization1], typeKey[Specialization2]))
+
+  lazy val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
 
   lazy val generator = new TestDataGenerator(emblematic)
 
