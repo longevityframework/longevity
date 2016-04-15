@@ -3,10 +3,17 @@ package longevity.persistence.mongo
 import com.github.nscala_time.time.Imports._
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.MongoDBObjectBuilder
-import emblem.imports._
+import emblem.Emblem
+import emblem.EmblemProp
+import emblem.Emblematic
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.HasEmblem
+import emblem.TypeKey
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.sync.Traversor
+import emblem.typeKey
 import longevity.exceptions.persistence.BsonTranslationException
 import longevity.exceptions.persistence.ShorthandUnabbreviationException
 import longevity.persistence.RepoPool
@@ -20,13 +27,11 @@ import scala.reflect.runtime.universe.typeOf
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
  * casbah MongoDBObjects]] into [[Persistent persistent entities]].
  *
- * @param emblemPool a pool of emblems for the entities within the subdomain
- * @param extractorPool a complete set of the extractors used by the bounded context
+ * @param emblematic the emblematic types to use
  * @param repoPool a pool of the repositories for this persistence context
  */
 private[persistence] class CasbahToPersistentTranslator(
-  emblemPool: EmblemPool,
-  extractorPool: ExtractorPool,
+  private val emblematic: Emblematic,
   private val repoPool: RepoPool) {
 
   /** translates a `MongoDBObject` into a [[Persistent persistent entity]] */
@@ -43,8 +48,7 @@ private[persistence] class CasbahToPersistentTranslator(
     type TraverseInput[A] = Any
     type TraverseResult[A] = A
 
-    override protected val emblemPool = CasbahToPersistentTranslator.this.emblemPool
-    override protected val extractorPool = CasbahToPersistentTranslator.this.extractorPool
+    override protected val emblematic = CasbahToPersistentTranslator.this.emblematic
     override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {

@@ -1,16 +1,22 @@
 package emblem.traversors.sync
 
 import com.github.nscala_time.time.Imports._
+import emblem.Emblematic
+import emblem.TypeKey
 import emblem.exceptions.CouldNotGenerateException
-import emblem.imports._
 import emblem.testData.emblems._
 import emblem.testData.extractors._
 import emblem.traversors.sync.CustomGenerator.simpleGenerator
+import emblem.typeKey
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 import org.scalatest.OptionValues._
-import org.scalatest._
 
 /** specs for [[TestDataGenerator]] */
 class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
+
+  private val emblematic = Emblematic(emblemPool, extractorPool)
 
   behavior of "TestDataGenerator.generate[A] with custom generator"
 
@@ -41,7 +47,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     val customGeneratorPool = CustomGeneratorPool.empty + intHolderCustomGenerator + listCustomGenerator
-    val generator = new TestDataGenerator(emblemPool, extractorPool, customGeneratorPool)
+    val generator = new TestDataGenerator(emblematic, customGeneratorPool)
 
     List.fill(10) {
       val intList: List[Int] = generator.generate[List[Int]]
@@ -209,7 +215,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val customGeneratorPool = CustomGeneratorPool.empty +
       uriCustomGenerator + pointCustomGenerator + listCustomGenerator + intCustomGenerator
 
-    val generator = new TestDataGenerator(emblemPool, extractorPool, customGeneratorPool)
+    val generator = new TestDataGenerator(emblematic, customGeneratorPool)
 
     generator.generate[Uri] should equal (Uri("frenchy"))
     generator.generate[Point] should equal (Point(-1.0, -1.0))
@@ -225,8 +231,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
       (generator: Generator) => new IntHolder(generator.generate[Int]))
     val customGeneratorPool = CustomGeneratorPool.empty + intHolderCustomGenerator
     new TestDataGenerator(
-      emblemPool = emblemPool,
-      extractorPool = extractorPool,
+      emblematic = emblematic,
       customGeneratorPool = CustomGeneratorPool.empty + intHolderCustomGenerator)
   }
 

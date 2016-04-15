@@ -1,8 +1,6 @@
 package longevity
 
-import emblem.imports._
-import emblem.ExtractorFor
-import emblem.TypeBoundFunction
+import emblem.TypeKeyMap
 import longevity.subdomain.persistent.Persistent
 
 /** provides support for constructing your subdomain */
@@ -19,14 +17,6 @@ package object subdomain {
 
   /** an `emblem.TypeKeyMap` of [[Shorthand shorthands]], indexed by the `Actual` type */
   type ShorthandPool = TypeKeyMap[Any, ShorthandFor]
-
-  private[longevity] def shorthandPoolToExtractorPool(shorthandPool: ShorthandPool): ExtractorPool = {
-    val shorthandToExtractor = new TypeBoundFunction[Any, ShorthandFor, ExtractorFor] {
-      def apply[TypeParam](shorthand: ShorthandFor[TypeParam]): ExtractorFor[TypeParam] =
-        shorthand.extractor
-    }
-    shorthandPool.mapValues(shorthandToExtractor)
-  }
 
   /** a type key map of [[Entity]] to [[EntityType]]
    * @see emblem.TypeKeyMap

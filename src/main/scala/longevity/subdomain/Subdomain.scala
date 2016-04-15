@@ -1,6 +1,12 @@
 package longevity.subdomain
 
-import emblem.imports._
+import emblem.Emblem
+import emblem.Emblematic
+import emblem.ExtractorFor
+import emblem.ExtractorPool
+import emblem.HasEmblem
+import emblem.TypeBoundFunction
+import emblem.TypeKeyMap
 import emblem.WideningTypeBoundFunction
 import longevity.subdomain.ptype.PTypePool
 
@@ -20,6 +26,7 @@ class Subdomain(
   /** a pool of the persistent types in the subdomain */
   val pTypePool = PTypePool(entityTypePool)
 
+  // TODO rename to emblemPool. also, make these defs. just keep the emblematic around
   /** a pool of emblems for the entities within the subdomain */
   private[longevity] val entityEmblemPool: TypeKeyMap[HasEmblem, Emblem] =
     entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
@@ -28,6 +35,16 @@ class Subdomain(
           value1.emblem
       }
     }
+
+  private[longevity] val extractorPool: ExtractorPool = {
+    val shorthandToExtractor = new TypeBoundFunction[Any, ShorthandFor, ExtractorFor] {
+      def apply[TypeParam](shorthand: ShorthandFor[TypeParam]): ExtractorFor[TypeParam] =
+        shorthand.extractor
+    }
+    shorthandPool.mapValues(shorthandToExtractor)
+  }
+
+  private[longevity] val emblematic = Emblematic(entityEmblemPool, extractorPool)
 
   // TODO pt-#115456079: some way to express domain constraints that span multiple entities
   // - figure a way for TestDataGenerator/RepoSpec to respect these

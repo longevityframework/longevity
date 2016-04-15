@@ -1,6 +1,9 @@
 package emblem.testData
 
-import emblem.imports._
+import emblem.Emblem
+import emblem.Emblematic
+import emblem.EmblemPool
+import emblem.HasEmblem
 
 /** for testing emblem success cases */
 object geometry {
@@ -20,5 +23,6 @@ object geometry {
   lazy val yPropWithDefaults = pointWithDefaultsEmblem.prop[Double]("y")
 
   lazy val emblemPool = EmblemPool() + pointEmblem + polygonEmblem + pointWithDefaultsEmblem
+  lazy val emblematic = Emblematic(emblemPool)
 
 }

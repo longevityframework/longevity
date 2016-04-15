@@ -1,17 +1,18 @@
 package emblem.traversors.sync
 
 import com.github.nscala_time.time.Imports._
-import emblem.imports._
 import emblem.jsonUtil.dateTimeFormatter
 import emblem.testData.geometry
 import org.json4s.JsonAST._
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 /** specs for [[JsonToEmblemTranslator]] */
 class JsonToEmblemTranslatorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   private val translator = new JsonToEmblemTranslator {
-    override protected val emblemPool: EmblemPool = geometry.emblemPool
+    override protected val emblematic = geometry.emblematic
   }
 
   behavior of "JsonToEmblemTranslator.generate[A] for basic types"

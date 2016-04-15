@@ -4,12 +4,14 @@ import Differ._
 import com.github.nscala_time.time.Imports._
 import emblem.exceptions.CouldNotTraverseException
 import emblem.testData.blogs._
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 /** specs for [[Differ]] */
 class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  lazy val differ = new Differ(emblemPool, extractorPool)
+  lazy val differ = new Differ(emblematic)
 
   behavior of "Differ.diff for types not covered by the emblem and extractor pools"
 

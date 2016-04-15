@@ -1,10 +1,11 @@
 package emblem.traversors.sync
 
-import emblem.imports._
-import emblem.testData.emblems._
-import emblem.testData.extractors._
+import emblem.imports.TypeKey
+import emblem.imports.typeKey
 import emblem.traversors.sync.CustomGenerator.simpleGenerator
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 /** specs for [[CustomGenerator]] */
 class CustomGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -16,7 +17,8 @@ class CustomGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     val intHolderGen: CustomGenerator[IntHolder] =
       simpleGenerator((generator: Generator) => new IntHolder(generator.generate[Int]))
-    val generator = new TestDataGenerator(customGeneratorPool = CustomGeneratorPool.empty + intHolderGen)
+    val generator = new TestDataGenerator(
+      customGeneratorPool = CustomGeneratorPool.empty + intHolderGen)
 
   }
 
@@ -31,7 +33,8 @@ class CustomGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
         eltList.asInstanceOf[B]
       }
     }
-    val generator = new TestDataGenerator(customGeneratorPool = CustomGeneratorPool.empty + listCustomGenerator)
+    val generator = new TestDataGenerator(
+      customGeneratorPool = CustomGeneratorPool.empty + listCustomGenerator)
 
   }
 

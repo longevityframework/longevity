@@ -1,6 +1,7 @@
 package emblem.traversors.sync
 
 import emblem.Emblem
+import emblem.Emblematic
 import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
@@ -40,11 +41,8 @@ trait Transformer {
     case e: CouldNotTraverseException => throw new CouldNotTransformException(e.typeKey, e)
   }
 
-  /** the emblems to use in the recursive transformation */
-  protected val emblemPool: EmblemPool = EmblemPool.empty
-
-  /** the extractors to use in the recursive transformation */
-  protected val extractorPool: ExtractorPool = ExtractorPool.empty
+  /** the emblematic types to use in the recursive transformation */
+  protected val emblematic: Emblematic = Emblematic.empty
 
   /** the custom transformers to use in the recursive transformation */
   protected val customTransformers: CustomTransformerPool = CustomTransformerPool.empty
@@ -94,8 +92,7 @@ trait Transformer {
 
     def traverseString(input: String): String = transformString(input)
 
-    override protected val extractorPool = Transformer.this.extractorPool
-    override protected val emblemPool = Transformer.this.emblemPool
+    override protected val emblematic = Transformer.this.emblematic
 
     override protected val customTraversors = {
       class VisCustomTraversor[A](val customTransformer: CustomTransformer[A]) extends CustomTraversor[A] {

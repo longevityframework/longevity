@@ -17,3 +17,10 @@ case class Emblematic(
   emblems: EmblemPool = EmblemPool.empty,
   extractors: ExtractorPool = ExtractorPool.empty,
   unions: UnionPool = UnionPool.empty)
+
+object Emblematic {
+
+  /** an empty emblematic */
+  val empty = Emblematic()
+
+}

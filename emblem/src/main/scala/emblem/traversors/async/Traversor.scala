@@ -1,6 +1,7 @@
 package emblem.traversors.async
 
 import emblem.Emblem
+import emblem.Emblematic
 import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
@@ -71,11 +72,8 @@ trait Traversor {
   /** the execution context in which to run */
   protected implicit val executionContext: ExecutionContext
 
-  /** the emblems to use in the recursive traversal */
-  protected val emblemPool: EmblemPool = EmblemPool.empty
-
-  /** the extractors to use in the recursive traversal */
-  protected val extractorPool: ExtractorPool = ExtractorPool.empty
+  /** the emblematic types to use in the recursive traversal */
+  protected val emblematic: Emblematic = Emblematic()
 
   /** the custom traversors to use in the recursive traversal */
   protected val customTraversors: CustomTraversorPool = CustomTraversorPool.empty
@@ -283,7 +281,7 @@ trait Traversor {
 
   private def tryTraverseEmblem[A <: HasEmblem : TypeKey](input: Future[TraverseInput[A]])
   : Option[Future[TraverseResult[A]]] = {
-    emblemPool.get(typeKey[A]) map { emblem => traverseEmblem(emblem, input) }
+    emblematic.emblems.get(typeKey[A]) map { emblem => traverseEmblem(emblem, input) }
   }
 
   private def traverseEmblem[A <: HasEmblem : TypeKey](
@@ -319,7 +317,7 @@ trait Traversor {
 
   private def tryTraverseExtractor[Domain : TypeKey](input: Future[TraverseInput[Domain]])
   : Option[Future[TraverseResult[Domain]]] =
-    extractorPool.get[Domain] map { s => traverseFromExtractor[Domain](s, input) }
+    emblematic.extractors.get[Domain] map { s => traverseFromExtractor[Domain](s, input) }
 
   private def traverseFromExtractor[Domain : TypeKey](
     extractor: ExtractorFor[Domain],

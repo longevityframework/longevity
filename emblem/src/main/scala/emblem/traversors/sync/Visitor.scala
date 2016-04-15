@@ -1,7 +1,7 @@
 package emblem.traversors.sync
 
-
 import emblem.Emblem
+import emblem.Emblematic
 import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
@@ -21,17 +21,19 @@ import org.joda.time.DateTime
 
 /** recursively visits a data structure by type.
  *
- * you can visit arbritrary data to your liking by implementing the protected vals and defs in this
- * interface. as yet, i haven't been able to generate the scaladoc for those protected methods.
- * sorry about that.
+ * you can visit arbritrary data to your liking by implementing the protected
+ * vals and defs in this interface. as yet, i haven't been able to generate the
+ * scaladoc for those protected methods. sorry about that.
  *
- * WARNING: as of yet, this code is completely untested, and there is no example usage for you to follow.
+ * WARNING: as of yet, this code is completely untested, and there is no example
+ * usage for you to follow.
  */
 trait Visitor {
 
   /** visits an element of type `A`
-   * @throws emblem.exceptions.CouldNotVisitException when it encounters a type it doesn't know how to
-   * visit
+   * 
+   * @throws emblem.exceptions.CouldNotVisitException when it encounters a type
+   * it doesn't know how to visit
    */
   def visit[A : TypeKey](input: A): Unit = try {
     traversor.traverse[A](input)
@@ -39,11 +41,8 @@ trait Visitor {
     case e: CouldNotTraverseException => throw new CouldNotVisitException(e.typeKey, e)
   }
 
-  /** the emblems to use in the recursive visit */
-  protected val emblemPool: EmblemPool = EmblemPool.empty
-
-  /** the extractors to use in the recursive visit */
-  protected val extractorPool: ExtractorPool = ExtractorPool.empty
+  /** the emblematic types to use in the recursive visit */
+  protected val emblematic: Emblematic = Emblematic.empty
 
   /** the custom visitors to use in the recursive visit */
   protected val customVisitors: CustomVisitorPool = CustomVisitorPool.empty
@@ -93,8 +92,7 @@ trait Visitor {
 
     def traverseString(input: String): Unit = visitString(input)
 
-    override protected val extractorPool = Visitor.this.extractorPool
-    override protected val emblemPool = Visitor.this.emblemPool
+    override protected val emblematic = Visitor.this.emblematic
 
     override protected val customTraversors = {
       class VisCustomTraversor[A](val customVisitor: CustomVisitor[A]) extends CustomTraversor[A] {

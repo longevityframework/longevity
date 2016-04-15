@@ -3,6 +3,7 @@ package emblem.traversors.sync
 import Differ.Diff
 import Differ.Diffs
 import emblem.Emblem
+import emblem.Emblematic
 import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
@@ -18,12 +19,10 @@ import scala.reflect.runtime.universe.typeOf
  * of elements from the lhs and rhs sets. if the sets have differing sizes, then we report the difference in
  * size. if the sets are otherwise different, then we report the sets as different.
  *
- * @param extractorPool the extractors to use in the traversal
- * @param emblemPool the emblems to use in the traversal
+ * @param emblematic the emblematic types to use in the traversal
  */
 class Differ(
-  private val emblemPool: EmblemPool = EmblemPool.empty,
-  private val extractorPool: ExtractorPool = ExtractorPool.empty) {
+  private val emblematic: Emblematic = Emblematic.empty) {
 
   /** computes the diffs between the left- and right-hand sides
    * @param lhs the left-hand side
@@ -40,8 +39,7 @@ class Differ(
     type TraverseInput[A] = DifferInput[A]
     type TraverseResult[A] = Diffs
 
-    override protected val extractorPool: ExtractorPool = Differ.this.extractorPool
-    override protected val emblemPool: EmblemPool = Differ.this.emblemPool
+    override protected val emblematic = Differ.this.emblematic
 
     protected def traverseBoolean(input: DifferInput[Boolean]): Diffs = {
       if (input.lhs == input.rhs) Diffs() else Seq(Diff(input.path, input.lhs, input.rhs))

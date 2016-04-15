@@ -1,6 +1,7 @@
 package longevity.persistence
 
-import emblem.imports._
+import emblem.TypeKey
+import emblem.typeKey
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.subdomain._
 import longevity.subdomain.persistent.Persistent
@@ -62,8 +63,6 @@ extends Repo[P] {
     }
   }
 
-  private lazy val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
-
   // this is also used by RepoCrudSpec for making pretty test data
   private[longevity] def patchUnpersistedAssocs(
     p: P,
@@ -73,8 +72,7 @@ extends Repo[P] {
     val transformer = new UnpersistedToPersistedTransformer(
       repoPool,
       executionContext,
-      subdomain.entityEmblemPool,
-      extractorPool,
+      subdomain.emblematic,
       cache)
     implicit val pTypeTag = pTypeKey.tag
     val futureP = Future.successful(p)

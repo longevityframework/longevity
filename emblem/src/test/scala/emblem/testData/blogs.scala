@@ -1,6 +1,11 @@
 package emblem.testData
 
-import emblem.imports._
+import emblem.Emblem
+import emblem.EmblemPool
+import emblem.Emblematic
+import emblem.Extractor
+import emblem.ExtractorPool
+import emblem.HasEmblem
 
 /** for type map happy cases */
 object blogs {
@@ -89,6 +94,7 @@ object blogs {
   lazy val zipcodeExtractor = Extractor[Zipcode, Int]
 
   val extractorPool = ExtractorPool(emailExtractor, markdownExtractor, uriExtractor, zipcodeExtractor)
+  val emblematic = Emblematic(emblemPool, extractorPool)
 
   // entity types
 

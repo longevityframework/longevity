@@ -1,6 +1,7 @@
 package emblem.traversors.sync
 
 import emblem.Emblem
+import emblem.Emblematic
 import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
@@ -69,11 +70,8 @@ trait Traversor {
   /** an output for traversing an [[EmblemProp]] */
   protected type PropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
 
-  /** the emblems to use in the recursive traversal */
-  protected val emblemPool: EmblemPool = EmblemPool.empty
-
-  /** the extractors to use in the recursive traversal */
-  protected val extractorPool: ExtractorPool = ExtractorPool.empty
+  /** the emblematic types to use in the recursive traversal */
+  protected val emblematic: Emblematic = Emblematic()
 
   /** the custom traversors to use in the recursive traversal */
   protected val customTraversors: CustomTraversorPool = CustomTraversorPool.empty
@@ -219,8 +217,7 @@ trait Traversor {
     type TraverseResult[A] = Traversor.this.TraverseResult[A]
 
     override protected implicit val executionContext = ExecutionContext.Implicits.global
-    override protected val emblemPool: EmblemPool = Traversor.this.emblemPool
-    override protected val extractorPool: ExtractorPool = Traversor.this.extractorPool
+    override protected val emblematic = Traversor.this.emblematic
 
     private class CustomTraversorAdapter[A](val adaptee: Traversor.this.CustomTraversor[A])
     extends CustomTraversor[A] {

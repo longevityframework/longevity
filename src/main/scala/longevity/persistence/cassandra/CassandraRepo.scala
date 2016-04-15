@@ -39,12 +39,10 @@ with CassandraDelete[P] {
 
   protected val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
   protected val realizedProps = pType.keySet.flatMap(_.props) ++ pType.indexSet.flatMap(_.props)
-  protected val emblemPool = subdomain.entityEmblemPool
   protected val shorthandPool = subdomain.shorthandPool
 
-  private val extractorPool = shorthandPoolToExtractorPool(shorthandPool)
-  private val persistentToJsonTranslator = new PersistentToJsonTranslator(emblemPool, extractorPool)
-  private val jsonToPersistentTranslator = new JsonToPersistentTranslator(emblemPool, extractorPool)
+  private val persistentToJsonTranslator = new PersistentToJsonTranslator(subdomain.emblematic)
+  private val jsonToPersistentTranslator = new JsonToPersistentTranslator(subdomain.emblematic)
 
   protected def columnName(prop: Prop[P, _]) = "prop_" + scoredPath(prop)
 

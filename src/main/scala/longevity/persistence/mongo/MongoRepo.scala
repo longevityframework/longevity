@@ -1,8 +1,10 @@
 package longevity.persistence.mongo
 
 import com.mongodb.casbah.Imports._
-import emblem.imports._
-import emblem.stringUtil._
+import emblem.typeKey
+import emblem.TypeKey
+import emblem.stringUtil.camelToUnderscore
+import emblem.stringUtil.typeName
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.persistence._
 import longevity.subdomain.Assoc
@@ -16,7 +18,6 @@ import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.Query._
-import longevity.subdomain.shorthandPoolToExtractorPool
 import org.bson.types.ObjectId
 import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
@@ -40,13 +41,9 @@ extends BaseRepo[P](pType, subdomain) {
   private val collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
   private val mongoCollection = mongoDb(collectionName)
   private val shorthandPool = subdomain.shorthandPool
-  private val emblemPool = subdomain.entityEmblemPool
-  private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
 
-  private lazy val entityToCasbahTranslator =
-    new PersistentToCasbahTranslator(emblemPool, extractorPool, repoPool)
-  private lazy val casbahToEntityTranslator =
-      new CasbahToPersistentTranslator(emblemPool, extractorPool, repoPool)
+  private lazy val entityToCasbahTranslator = new PersistentToCasbahTranslator(subdomain.emblematic, repoPool)
+  private lazy val casbahToEntityTranslator = new CasbahToPersistentTranslator(subdomain.emblematic, repoPool)
 
   createSchema()
 

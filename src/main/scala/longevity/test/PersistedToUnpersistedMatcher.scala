@@ -1,7 +1,7 @@
 package longevity.test
 
 import emblem.TypeBoundPair
-import emblem.imports._
+import emblem.TypeKey
 import emblem.traversors.sync.CustomGenerator
 import emblem.traversors.sync.CustomGeneratorPool
 import emblem.traversors.sync.Differ
@@ -10,8 +10,7 @@ import emblem.traversors.sync.TestDataGenerator
 import longevity.context.LongevityContext
 import longevity.persistence.RepoPool
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.shorthandPoolToExtractorPool
-import org.scalatest._
+import org.scalatest.Suite
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
@@ -29,12 +28,9 @@ trait PersistedToUnpersistedMatcher extends Suite with ScalaFutures {
     timeout = scaled(4000 millis),
     interval = scaled(50 millis))
 
-  private val subdomain = longevityContext.subdomain
-  private val emblemPool = subdomain.entityEmblemPool
-  private val extractorPool = shorthandPoolToExtractorPool(subdomain.shorthandPool)
-  private val unpersistor =
-    new PersistedToUnpersistedTransformer(repoPool, executionContext, emblemPool, extractorPool)
-  private val differ = new Differ(emblemPool, extractorPool)
+  private val emblematic = longevityContext.subdomain.emblematic
+  private val unpersistor = new PersistedToUnpersistedTransformer(repoPool, executionContext, emblematic)
+  private val differ = new Differ(emblematic)
 
   protected def persistedShouldMatchUnpersisted[P <: Persistent : TypeKey](
     persisted: P,

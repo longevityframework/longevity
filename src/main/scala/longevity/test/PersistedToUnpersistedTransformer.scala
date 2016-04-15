@@ -1,9 +1,13 @@
 package longevity.test
 
-import emblem.imports._
+import emblem.Emblem
+import emblem.EmblemProp
+import emblem.Emblematic
+import emblem.TypeKey
 import emblem.traversors.async.Transformer
 import emblem.traversors.async.Transformer.CustomTransformer
 import emblem.traversors.async.Transformer.CustomTransformerPool
+import emblem.typeKey
 import longevity.persistence.RepoPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
@@ -26,8 +30,7 @@ import scala.concurrent.Future
 private[test] class PersistedToUnpersistedTransformer(
   private val repoPool: RepoPool,
   override protected implicit val executionContext: ExecutionContext,
-  override protected val emblemPool: EmblemPool,
-  override protected val extractorPool: ExtractorPool)
+  override protected val emblematic: Emblematic)
 extends Transformer {
 
   override protected val customTransformers = CustomTransformerPool.empty + transformAssoc

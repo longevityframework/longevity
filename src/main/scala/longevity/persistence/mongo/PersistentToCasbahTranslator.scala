@@ -3,9 +3,15 @@ package longevity.persistence.mongo
 import com.github.nscala_time.time.Imports._
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.MongoDBObjectBuilder
-import emblem.imports._
+import emblem.Emblem
+import emblem.EmblemProp
+import emblem.Emblematic
+import emblem.Extractor
+import emblem.HasEmblem
+import emblem.TypeKey
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.sync.Traversor
+import emblem.typeKey
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.exceptions.persistence.BsonTranslationException
 import longevity.persistence.RepoPool
@@ -19,13 +25,11 @@ import scala.reflect.runtime.universe.typeOf
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBObject
  * casbah MongoDBObjects]].
  *
- * @param emblemPool a pool of emblems for the entities within the subdomain
- * @param extractorPool a complete set of the extractors used by the bounded context
+ * @param emblematic the emblematic types to use
  * @param repoPool a pool of the repositories for this persistence context
  */
 private[persistence] class PersistentToCasbahTranslator(
-  emblemPool: EmblemPool,
-  extractorPool: ExtractorPool,
+  private val emblematic: Emblematic,
   private val repoPool: RepoPool) {
 
   /** translates an [[Entity]] into a `MongoDBObjects` */
@@ -42,8 +46,7 @@ private[persistence] class PersistentToCasbahTranslator(
     type TraverseInput[A] = A
     type TraverseResult[A] = Any
 
-    override protected val emblemPool = PersistentToCasbahTranslator.this.emblemPool
-    override protected val extractorPool = PersistentToCasbahTranslator.this.extractorPool
+    override protected val emblematic = PersistentToCasbahTranslator.this.emblematic
     override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {

@@ -1,15 +1,17 @@
 package longevity.persistence
 
+import emblem.Emblematic
+import emblem.TypeKey
 import emblem.exceptions.CouldNotTransformException
-import emblem.imports._
 import emblem.traversors.async.Transformer
 import emblem.traversors.async.Transformer.CustomTransformer
 import emblem.traversors.async.Transformer.CustomTransformerPool
+import emblem.typeKey
 import longevity.exceptions.persistence.BsonTranslationException
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
-import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.UnpersistedAssoc
+import longevity.subdomain.persistent.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.Promise
@@ -29,8 +31,7 @@ import scala.util.Success
 private[persistence] class UnpersistedToPersistedTransformer(
   private val repoPool: RepoPool,
   override protected implicit val executionContext: ExecutionContext,
-  override protected val emblemPool: EmblemPool,
-  override protected val extractorPool: ExtractorPool,
+  override protected val emblematic: Emblematic,
   cacheIn: CreatedCache)
 extends Transformer {
 

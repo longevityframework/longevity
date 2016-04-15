@@ -1,6 +1,7 @@
 package emblem.traversors.sync
 
 import emblem.Emblem
+import emblem.Emblematic
 import emblem.EmblemPool
 import emblem.Extractor
 import emblem.ExtractorPool
@@ -24,6 +25,7 @@ import org.joda.time.DateTime
 trait Generator {
 
   /** generates data for the specified type `A`
+   *
    * @tparam A the type of data to generate
    * @return the generated data
    * @throws emblem.exceptions.CouldNotGenerateException when we encounter a type in the recursive traversal
@@ -35,27 +37,30 @@ trait Generator {
     case e: CouldNotTraverseException => throw new CouldNotGenerateException(e.typeKey, e)
   }
 
-  /** the emblems to use in the recursive generation */
-  protected val emblemPool: EmblemPool = EmblemPool.empty
-
-  /** the extractors to use in the recursive generation */
-  protected val extractorPool: ExtractorPool = ExtractorPool.empty
+  /** the emblematic types to use in the recursive generation */
+  protected val emblematic: Emblematic = Emblematic.empty
 
   /** the custom generators to use in the recursive generation */
   protected val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty
 
-  /** returns the size of the option to be generated. a return value of `0` will generate a `None`, and a
-   * return value of `1` (or anything other than `0`) will generate a `Some`.
+  /** returns the size of the option to be generated. a return value of `0` will
+   * generate a `None`, and a return value of `1` (or anything other than `0`)
+   * will generate a `Some`.
+   * 
    * @tparam A the type of the optional value
    */
   protected def optionSize[A : TypeKey]: Int
 
-  /** returns the size of the set to be generated. a negative return value will result in an empty set.
+  /** returns the size of the set to be generated. a negative return value will
+   * result in an empty set.
+   * 
    * @tparam A the type of the set elements
    */
   protected def setSize[A : TypeKey]: Int
 
-  /** returns the size of the list to be generated. a negative return value will result in an empty list.
+  /** returns the size of the list to be generated. a negative return value will
+   * result in an empty list.
+   * 
    * @tparam A the type of the list elements
    */
   protected def listSize[A : TypeKey]: Int
@@ -105,8 +110,7 @@ trait Generator {
 
     def traverseString(input: Unit): String = string
 
-    override protected val extractorPool = Generator.this.extractorPool
-    override protected val emblemPool = Generator.this.emblemPool
+    override protected val emblematic = Generator.this.emblematic
 
     override protected val customTraversors = {
       class GenCustomTraversor[A](val customGenerator: CustomGenerator[A]) extends CustomTraversor[A] {
