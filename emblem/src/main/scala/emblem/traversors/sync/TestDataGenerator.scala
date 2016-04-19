@@ -9,6 +9,7 @@ import emblem.ExtractorPool
 import emblem.typeKey
 import emblem.TypeKey
 import emblem.TypeKeyMap
+import emblem.Union
 import emblem.reflectionUtil.makeTypeTag
 import com.github.nscala_time.time.Imports._
 import scala.reflect.runtime.universe.typeOf
@@ -52,6 +53,15 @@ extends Generator {
 
   private val random = new util.Random
 
+  override protected def constituentTypeKey[A : TypeKey](union: Union[A]): TypeKey[_ <: A] = {
+    val numConstituents = union.constituents.size
+    union.constituents.toSeq(math.abs(int % numConstituents))
+  } 
+
+  override protected def optionSize[A : TypeKey]: Int = math.abs(int % 2)
+  override protected def setSize[A : TypeKey]: Int = math.abs(int % 4)
+  override protected def listSize[A : TypeKey]: Int = math.abs(int % 4)
+
   /** generates a boolean that is true around half the time */
   def boolean: Boolean = random.nextBoolean()
 
@@ -84,9 +94,5 @@ extends Generator {
 
   /** generates a string of the specified length */
   def string(length: Int): String = new String((1 to length).map(i => char).toArray)
-
-  protected def optionSize[A : TypeKey]: Int = math.abs(int % 2)
-  protected def setSize[A : TypeKey]: Int = math.abs(int % 4)
-  protected def listSize[A : TypeKey]: Int = math.abs(int % 4)
 
 }

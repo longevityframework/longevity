@@ -10,6 +10,7 @@ import emblem.Extractor
 import emblem.ExtractorPool
 import emblem.HasEmblem
 import emblem.TypeKey
+import emblem.Union
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.traversors.sync.Traversor
@@ -60,29 +61,48 @@ private[persistence] class CasbahToPersistentTranslator(
       }
     }
 
-    protected def traverseBoolean(input: TraverseInput[Boolean]): TraverseResult[Boolean] =
-      input.asInstanceOf[Boolean]
+    override protected def traverseBoolean(input: Any): Boolean = input.asInstanceOf[Boolean]
 
-    protected def traverseChar(input: TraverseInput[Char]): TraverseResult[Char] =
-      input.asInstanceOf[String](0)
+    override protected def traverseChar(input: Any): Char = input.asInstanceOf[String](0)
 
-    protected def traverseDateTime(input: TraverseInput[DateTime]): TraverseResult[DateTime] =
-      input.asInstanceOf[DateTime]
+    override protected def traverseDateTime(input: Any): DateTime = input.asInstanceOf[DateTime]
 
-    protected def traverseDouble(input: TraverseInput[Double]): TraverseResult[Double] =
-      input.asInstanceOf[Double]
+    override protected def traverseDouble(input: Any): Double = input.asInstanceOf[Double]
 
-    protected def traverseFloat(input: TraverseInput[Float]): TraverseResult[Float] =
-      input.asInstanceOf[Double].toFloat
+    override protected def traverseFloat(input: Any): Float = input.asInstanceOf[Double].toFloat
 
-    protected def traverseInt(input: TraverseInput[Int]): TraverseResult[Int] =
-      input.asInstanceOf[Int]
+    override protected def traverseInt(input: Any): Int = input.asInstanceOf[Int]
 
-    protected def traverseLong(input: TraverseInput[Long]): TraverseResult[Long] =
-      input.asInstanceOf[Long]
+    override protected def traverseLong(input: Any): Long = input.asInstanceOf[Long]
 
-    protected def traverseString(input: TraverseInput[String]): TraverseResult[String] =
-      input.asInstanceOf[String]
+    override protected def traverseString(input: Any): String = input.asInstanceOf[String]
+
+    override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: Any): TypeKey[_ <: A] = {
+      val mongoDBObject: MongoDBObject = {
+        val key = typeKey[A]
+        if (key <:< typeOf[Persistent]) {
+          input.asInstanceOf[MongoDBObject]
+        } else if (key <:< typeOf[Entity]) {
+          input.asInstanceOf[BasicDBObject]
+        } else {
+          throw new CouldNotTraverseException(key)
+        }
+      }
+
+      val descriminator = mongoDBObject("descriminator").asInstanceOf[String]
+      union.typeKeyForName(descriminator).get
+    }
+
+    override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: Any)
+    : Iterable[Any] =
+      Seq(input)
+
+    override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: Any,
+      result: Iterable[B])
+    : A =
+      result.head
 
     protected def stageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],

@@ -6,7 +6,9 @@ import emblem.stringUtil.typeName
 import scala.collection.mutable.WeakHashMap
 import scala.reflect.Manifest
 import scala.reflect.ManifestFactory
-import scala.reflect.runtime.universe._
+import scala.reflect.runtime.universe.Symbol
+import scala.reflect.runtime.universe.Type
+import scala.reflect.runtime.universe.TypeTag
 
 /** behaves much like a `scala.reflect.runtime.universe.TypeTag`, except that it
  * can also be safely used as a key in a hash or a set. Two type keys will be

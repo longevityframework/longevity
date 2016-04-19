@@ -46,9 +46,18 @@ class JsonTranslationSpec extends FlatSpec with GivenWhenThen with Matchers {
     pipelineReproducesInput(exhaustive.emblems.withBasics)
     pipelineReproducesInput(exhaustive.emblems.withExtractors)
     pipelineReproducesInput(exhaustive.emblems.withCollections)
+    pipelineReproducesInput(exhaustive.emblems.specialization1)
+    pipelineReproducesInput(exhaustive.emblems.specialization2)
   }
 
-  // TODO: unions
+  it should "produce the original output for unions" in {
+
+    println(emblemTranslator.traverse(exhaustive.unions.withSpecialization))
+
+    pipelineReproducesInput(exhaustive.unions.withSpecialization)
+
+    // TODO: more
+  }
 
   it should "produce the original output for options" in {
     pipelineReproducesInput(exhaustive.options.boolean)

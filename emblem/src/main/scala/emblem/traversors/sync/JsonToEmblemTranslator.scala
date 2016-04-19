@@ -7,6 +7,7 @@ import emblem.Extractor
 import emblem.ExtractorPool
 import emblem.HasEmblem
 import emblem.TypeKey
+import emblem.Union
 import emblem.exceptions.CouldNotTraverseException
 import emblem.jsonUtil.dateTimeFormatter
 import emblem.typeKey
@@ -23,48 +24,64 @@ class JsonToEmblemTranslator extends Traversor {
   type TraverseInput[A] = JValue
   type TraverseResult[A] = A
 
-  protected def traverseBoolean(input: JValue): Boolean = input match {
+  override protected def traverseBoolean(input: JValue): Boolean = input match {
     case JBool(b) => b
     case _ => throw new CouldNotTraverseException(typeKey[Boolean])
   }
 
-  protected def traverseChar(input: JValue): Char = input match {
+  override protected def traverseChar(input: JValue): Char = input match {
     case JString(s) if s.length == 1 => s.head
     case _ => throw new CouldNotTraverseException(typeKey[Char])
   }
 
-  protected def traverseDateTime(input: JValue): DateTime = input match {
+  override protected def traverseDateTime(input: JValue): DateTime = input match {
     case JString(s) => dateTimeFormatter.parseDateTime(s)
     case _ => throw new CouldNotTraverseException(typeKey[DateTime])
   }
 
-  protected def traverseDouble(input: JValue): Double = input match {
+  override protected def traverseDouble(input: JValue): Double = input match {
     case JDouble(d) => d
     case _ => throw new CouldNotTraverseException(typeKey[Double])
   }
 
-  protected def traverseFloat(input: JValue): Float = input match {
+  override protected def traverseFloat(input: JValue): Float = input match {
     case JDouble(f) => f.toFloat
     case _ => throw new CouldNotTraverseException(typeKey[Float])
   }
 
-  protected def traverseInt(input: JValue): Int = input match {
+  override protected def traverseInt(input: JValue): Int = input match {
     case JInt(i) => i.toInt
     case _ => throw new CouldNotTraverseException(typeKey[Int])
   }
 
-  protected def traverseLong(input: JValue): Long = input match {
+  override protected def traverseLong(input: JValue): Long = input match {
     case JInt(i) => i.toLong
     case JLong(l) => l
     case _ => throw new CouldNotTraverseException(typeKey[Long])
   }
 
-  protected def traverseString(input: JValue): String = input match {
+  override protected def traverseString(input: JValue): String = input match {
     case JString(s) => s
     case _ => throw new CouldNotTraverseException(typeKey[String])
   }
 
-  protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+  override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: JValue): TypeKey[_ <: A] = {
+    val descriminator = input.asInstanceOf[JObject].values("descriminator").asInstanceOf[String]
+    union.typeKeyForName(descriminator).get
+  }
+
+  override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: JValue)
+  : Iterable[JValue] =
+    Seq(input)
+
+  override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+    union: Union[A],
+    input: JValue,
+    result: Iterable[B])
+  : A =
+    result.head
+
+  override protected def stageEmblemProps[A <: HasEmblem : TypeKey](
     emblem: Emblem[A],
     input: JValue)
   : Iterable[PropInput[A, _]] = {
@@ -77,7 +94,7 @@ class JsonToEmblemTranslator extends Traversor {
     }
   }
 
-  protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+  override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
     emblem: Emblem[A],
     result: Iterable[PropResult[A, _]])
   : A = {
@@ -86,19 +103,19 @@ class JsonToEmblemTranslator extends Traversor {
     builder.build()
   }
 
-  protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
+  override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
     input: TraverseInput[Domain])
   : TraverseInput[Range] =
     input
 
-  protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
+  override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
     rangeResult: TraverseResult[Range])
   : TraverseResult[Domain] =
     extractor.inverse(rangeResult)
 
-  protected def stageOptionValue[A : TypeKey](
+  override protected def stageOptionValue[A : TypeKey](
     input: JValue)
   : Iterable[JValue] =
     input match {
@@ -106,13 +123,13 @@ class JsonToEmblemTranslator extends Traversor {
       case _ => Seq(input)
     }
 
-  protected def unstageOptionValue[A : TypeKey](
+  override protected def unstageOptionValue[A : TypeKey](
     input: JValue,
     result: Iterable[A])
   : Option[A] =
     result.headOption
 
-  protected def stageSetElements[A : TypeKey](input: JValue): Iterable[JValue] = {
+  override protected def stageSetElements[A : TypeKey](input: JValue): Iterable[JValue] = {
     input match {
       case JArray(elts) => elts
       case _ =>
@@ -121,10 +138,10 @@ class JsonToEmblemTranslator extends Traversor {
     }
   }
 
-  protected def unstageSetElements[A : TypeKey](input: JValue, result: Iterable[A]) : Set[A] =
+  override protected def unstageSetElements[A : TypeKey](input: JValue, result: Iterable[A]) : Set[A] =
     result.toSet
 
-  protected def stageListElements[A : TypeKey](input: JValue): Iterable[JValue] =  {
+  override protected def stageListElements[A : TypeKey](input: JValue): Iterable[JValue] =  {
     input match {
       case JArray(elts) => elts
       case _ =>
@@ -133,7 +150,7 @@ class JsonToEmblemTranslator extends Traversor {
     }
   }
 
-  protected def unstageListElements[A : TypeKey](input: JValue, result: Iterable[A]): List[A] =
+  override protected def unstageListElements[A : TypeKey](input: JValue, result: Iterable[A]): List[A] =
     result.toList
 
 }

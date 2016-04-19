@@ -12,6 +12,7 @@ import emblem.typeKey
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.TypeBoundFunction
+import emblem.Union
 import emblem.exceptions.CouldNotVisitException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.sync.Visitor._
@@ -104,6 +105,20 @@ trait Visitor {
       }
       customVisitors.mapValues(visitorToTraversor)
     }
+
+    override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: A): TypeKey[_ <: A] =
+      union.typeKeyForInstance(input).get
+
+    override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: A)
+    : Iterable[B] =
+      Seq(input.asInstanceOf[B])
+
+    override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: A,
+      result: Iterable[Unit])
+    : Unit =
+      ()
 
     protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: A)
     : Iterable[PropInput[A, _]] = {

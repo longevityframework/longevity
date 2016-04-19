@@ -98,6 +98,12 @@ object exhaustive {
     def withBasics = generator.generate[WithBasics]
     def withExtractors = generator.generate[WithExtractors]
     def withCollections = generator.generate[WithCollections]
+    def specialization1 = generator.generate[Specialization1]
+    def specialization2 = generator.generate[Specialization2]
+  }
+
+  object unions {
+    def withSpecialization = generator.generate[WithSpecialization]
   }
 
   object options {

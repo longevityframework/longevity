@@ -10,6 +10,7 @@ import emblem.HasEmblem
 import emblem.TypeBoundFunction
 import emblem.TypeKey
 import emblem.TypeKeyMap
+import emblem.Union
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
@@ -105,13 +106,26 @@ trait Transformer {
       customTransformers.mapValues(transformerToTraversor)
     }
 
-    protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: A)
+    override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: A): TypeKey[_ <: A] =
+      union.typeKeyForInstance(input).get
+
+    override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: A): Iterable[B] =
+      Some(input.asInstanceOf[B])
+
+    override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: A,
+      result: Iterable[B])
+    : A =
+      result.head
+
+    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: A)
     : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(input))
       emblem.props.map(propInput(_))
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : A = {
@@ -120,13 +134,13 @@ trait Transformer {
       builder.build()
     }
 
-    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       domain: Domain)
     : Range =
       extractor.apply(domain)
 
-    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       range: Range)
     : Domain =
@@ -136,18 +150,23 @@ trait Transformer {
         case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
       }
 
-    protected def stageOptionValue[A : TypeKey](input: Option[A]): Iterable[A] = input.toIterable
+    override protected def stageOptionValue[A : TypeKey](input: Option[A]): Iterable[A] =
+      input.toIterable
 
-    protected def unstageOptionValue[A : TypeKey](input: Option[A], result: Iterable[A]): Option[A] =
+    override protected def unstageOptionValue[A : TypeKey](input: Option[A], result: Iterable[A]): Option[A] =
       result.headOption
 
-    protected def stageSetElements[A : TypeKey](input: Set[A]): Iterable[A] = input
+    override protected def stageSetElements[A : TypeKey](input: Set[A]): Iterable[A] =
+      input
 
-    protected def unstageSetElements[A : TypeKey](input: Set[A], result: Iterable[A]): Set[A] = result.toSet
+    override protected def unstageSetElements[A : TypeKey](input: Set[A], result: Iterable[A]): Set[A] =
+      result.toSet
 
-    protected def stageListElements[A : TypeKey](input: List[A]): Iterable[A] = input
+    override protected def stageListElements[A : TypeKey](input: List[A]): Iterable[A] =
+      input
 
-    protected def unstageListElements[A : TypeKey](input: List[A], result: Iterable[A]): List[A] = result.toList
+    override protected def unstageListElements[A : TypeKey](input: List[A], result: Iterable[A]): List[A] =
+      result.toList
 
   }
 

@@ -8,6 +8,7 @@ import emblem.ExtractorPool
 import emblem.HasEmblem
 import emblem.TypeBoundFunction
 import emblem.TypeKey
+import emblem.Union
 import emblem.exceptions.CouldNotGenerateException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
@@ -42,6 +43,14 @@ trait Generator {
 
   /** the custom generators to use in the recursive generation */
   protected val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty
+
+  /** generates a type key for the union constituent
+   *
+   * @tparam A the type of the [[Union]] object to traverse
+   * @param union the union
+   * @return the constituent type key
+   */
+  protected def constituentTypeKey[A : TypeKey](union: Union[A]): TypeKey[_ <: A]
 
   /** returns the size of the option to be generated. a return value of `0` will
    * generate a `None`, and a return value of `1` (or anything other than `0`)
@@ -122,11 +131,28 @@ trait Generator {
       customGeneratorPool.mapValues(generatorToTraversor)
     }
 
-    protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: Unit)
+    override protected def constituentTypeKey[A : TypeKey](
+      union: Union[A],
+      input: TraverseInput[A])
+    : TypeKey[_ <: A] =
+      Generator.this.constituentTypeKey(union)
+
+    override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: Unit)
+    : Iterable[TraverseInput[B]] =
+      Seq(())
+
+    override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: Unit,
+      result: Iterable[B])
+    : A =
+      result.head
+
+    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: Unit)
     : Iterable[PropInput[A, _]] =
       emblem.props.map((_, ()))
 
-    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : A = {
@@ -135,13 +161,13 @@ trait Generator {
       builder.build()
     }
 
-    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       input: Unit)
     : Unit =
       ()
 
-    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       range: Range)
     : Domain =
@@ -151,18 +177,22 @@ trait Generator {
         case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
       }
 
-    protected def stageOptionValue[A : TypeKey](input: Unit): Iterable[Unit] = List.fill(optionSize)(())
+    override protected def stageOptionValue[A : TypeKey](input: Unit): Iterable[Unit] =
+      List.fill(optionSize)(())
 
-    protected def unstageOptionValue[A : TypeKey](input: Unit, result: Iterable[A]): Option[A] = result.headOption
+    override protected def unstageOptionValue[A : TypeKey](input: Unit, result: Iterable[A]): Option[A] =
+      result.headOption
 
-    protected def stageSetElements[A : TypeKey](input: Unit): Iterable[Unit] = List.fill(listSize)(())
+    override protected def stageSetElements[A : TypeKey](input: Unit): Iterable[Unit] =
+      List.fill(listSize)(())
 
-    protected def unstageSetElements[A : TypeKey](input: Unit, result: Iterable[A]): Set[A] =
+    override protected def unstageSetElements[A : TypeKey](input: Unit, result: Iterable[A]): Set[A] =
       result.toSet
 
-    protected def stageListElements[A : TypeKey](input: Unit): Iterable[Unit] = List.fill(setSize)(())
+    override protected def stageListElements[A : TypeKey](input: Unit): Iterable[Unit] =
+      List.fill(setSize)(())
 
-    protected def unstageListElements[A : TypeKey](input: Unit, result: Iterable[A]): List[A] =
+    override protected def unstageListElements[A : TypeKey](input: Unit, result: Iterable[A]): List[A] =
       result.toList
 
   }

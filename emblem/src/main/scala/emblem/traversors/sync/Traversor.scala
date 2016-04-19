@@ -10,6 +10,7 @@ import emblem.HasEmblem
 import emblem.TypeBoundFunction
 import emblem.TypeKey
 import emblem.TypeKeyMap
+import emblem.Union
 import emblem.reflectionUtil.makeTypeTag
 import emblem.traversors.async.{ Traversor => AsyncTraversor }
 import org.joda.time.DateTime
@@ -21,6 +22,8 @@ import scala.reflect.runtime.universe.typeOf
 import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
+
+// TODO search for ???
 
 /** synchronously traverses a recursive data structure. the inputs and the
  * outputs of the traversal are abstract here, and specified by the implementing
@@ -99,6 +102,41 @@ trait Traversor {
 
   /** traverses a string */
   protected def traverseString(input: TraverseInput[String]): TraverseResult[String]
+
+  /** decodes and returns a type key for the union constituent from the input
+   *
+   * @tparam A the type of the [[Union]] object to traverse
+   * @param union the union
+   * @param input the input to decode
+   * @return the constituent type key
+   */
+  protected def constituentTypeKey[A : TypeKey](union: Union[A], input: TraverseInput[A]): TypeKey[_ <: A]
+
+  /** stages the traversal of a [[Union union]]
+   *
+   * TODO
+   * @tparam A the type of the option's value
+   * @param input the input to traversing the option
+   * @return an iterable of 0 or 1 inputs of the option's value. an empty
+   * iterable is returned to avoid traversal into the option.
+   */
+  protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: TraverseInput[A])
+  : Iterable[TraverseInput[B]]
+
+  /** unstages the traversal of a [[Union union]]
+   *
+   * TODO
+   * @tparam A the type of the option's value
+   * @param input the input to traversing the option
+   * @param result an iterable of 0 or 1 results of the option's value. an empty
+   * iterable indicates that traversal into the option has been avoided.
+   * @return the result of traversing the option
+   */
+  protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+    union: Union[A],
+    input: TraverseInput[A],
+    result: Iterable[TraverseResult[B]])
+  : TraverseResult[A]
 
   /** stages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
    * @tparam A the type of the [[HasEmblem]] object to traverse
@@ -233,81 +271,116 @@ trait Traversor {
     override protected val customTraversors: CustomTraversorPool =
       Traversor.this.customTraversors.mapValues(adaptCustomTraversor)
 
-    protected def traverseBoolean(input: Future[TraverseInput[Boolean]]): Future[TraverseResult[Boolean]] =
+    override protected def traverseBoolean(
+      input: Future[TraverseInput[Boolean]])
+    : Future[TraverseResult[Boolean]] =
       input.map(Traversor.this.traverseBoolean)
 
-    protected def traverseChar(input: Future[TraverseInput[Char]]): Future[TraverseResult[Char]] =
+    override protected def traverseChar(
+      input: Future[TraverseInput[Char]])
+    : Future[TraverseResult[Char]] =
       input.map(Traversor.this.traverseChar)
 
-    protected def traverseDateTime(input: Future[TraverseInput[DateTime]]): Future[TraverseResult[DateTime]] =
+    override protected def traverseDateTime(
+      input: Future[TraverseInput[DateTime]])
+    : Future[TraverseResult[DateTime]] =
       input.map(Traversor.this.traverseDateTime)
 
-    protected def traverseDouble(input: Future[TraverseInput[Double]]): Future[TraverseResult[Double]] =
+    override protected def traverseDouble(
+      input: Future[TraverseInput[Double]])
+    : Future[TraverseResult[Double]] =
       input.map(Traversor.this.traverseDouble)
 
-    protected def traverseFloat(input: Future[TraverseInput[Float]]): Future[TraverseResult[Float]] =
+    override protected def traverseFloat(
+      input: Future[TraverseInput[Float]])
+    : Future[TraverseResult[Float]] =
       input.map(Traversor.this.traverseFloat)
 
-    protected def traverseInt(input: Future[TraverseInput[Int]]): Future[TraverseResult[Int]] =
+    override protected def traverseInt(
+      input: Future[TraverseInput[Int]])
+    : Future[TraverseResult[Int]] =
       input.map(Traversor.this.traverseInt)
 
-    protected def traverseLong(input: Future[TraverseInput[Long]]): Future[TraverseResult[Long]] =
+    override protected def traverseLong(
+      input: Future[TraverseInput[Long]])
+    : Future[TraverseResult[Long]] =
       input.map(Traversor.this.traverseLong)
 
-    protected def traverseString(input: Future[TraverseInput[String]]): Future[TraverseResult[String]] =
+    override protected def traverseString(
+      input: Future[TraverseInput[String]])
+    : Future[TraverseResult[String]] =
       input.map(Traversor.this.traverseString)
 
-    protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def constituentTypeKey[A : TypeKey](
+      union: Union[A],
+      input: TraverseInput[A])
+    : TypeKey[_ <: A] =
+      Traversor.this.constituentTypeKey(union, input)
+
+    override protected def stageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: Future[TraverseInput[A]])
+    : Future[Iterable[TraverseInput[B]]] =
+      input map { i => Traversor.this.stageUnion(union, i) }
+
+    override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: Future[TraverseInput[A]],
+      result: Future[Iterable[TraverseResult[B]]])
+    : Future[TraverseResult[A]] =
+      for (i <- input; r <- result) yield Traversor.this.unstageUnion(union, i, r)
+
+    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       futureInputA: Future[TraverseInput[A]])
     : Future[Iterable[PropInput[A, _]]] =
       futureInputA map { inputA => Traversor.this.stageEmblemProps(emblem, inputA) }
 
-    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       asyncResult: Future[Iterable[PropResult[A, _]]])
     : Future[TraverseResult[A]] =
       asyncResult map { result => Traversor.this.unstageEmblemProps(emblem, result) }
 
-    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       input: Future[TraverseInput[Domain]])
     : Future[TraverseInput[Range]] =
       input.map(Traversor.this.stageExtractor(extractor, _))
 
-    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       rangeResult: Future[TraverseResult[Range]])
     : Future[TraverseResult[Domain]] =
       rangeResult.map(Traversor.this.unstageExtractor(extractor, _))
 
-    protected def stageOptionValue[A : TypeKey](
+    override protected def stageOptionValue[A : TypeKey](
       input: Future[TraverseInput[Option[A]]])
     : Future[Iterable[TraverseInput[A]]] =
       input.map(Traversor.this.stageOptionValue(_))
 
-    protected def unstageOptionValue[A : TypeKey](
+    override protected def unstageOptionValue[A : TypeKey](
       input: Future[TraverseInput[Option[A]]],
       result: Future[Iterable[TraverseResult[A]]])
     : Future[TraverseResult[Option[A]]] =
       for (i <- input; r <- result) yield Traversor.this.unstageOptionValue(i, r)
 
-    protected def stageSetElements[A : TypeKey](input: Future[TraverseInput[Set[A]]])
+    override protected def stageSetElements[A : TypeKey](input: Future[TraverseInput[Set[A]]])
     : Future[Iterable[TraverseInput[A]]] =
       input.map(Traversor.this.stageSetElements(_))
 
-    protected def unstageSetElements[A : TypeKey](
+    override protected def unstageSetElements[A : TypeKey](
       input: Future[TraverseInput[Set[A]]],
       result: Future[Iterable[TraverseResult[A]]])
     : Future[TraverseResult[Set[A]]] =
       for (i <- input; r <- result) yield Traversor.this.unstageSetElements(i, r)
 
-    protected def stageListElements[A : TypeKey](
+    override protected def stageListElements[A : TypeKey](
       input: Future[TraverseInput[List[A]]])
     : Future[Iterable[TraverseInput[A]]] =
       input.map(Traversor.this.stageListElements(_))
 
-    protected def unstageListElements[A : TypeKey](
+    override protected def unstageListElements[A : TypeKey](
       input: Future[TraverseInput[List[A]]],
       result: Future[Iterable[TraverseResult[A]]])
     : Future[TraverseResult[List[A]]] =

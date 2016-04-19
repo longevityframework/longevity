@@ -10,6 +10,7 @@ import emblem.HasEmblem
 import emblem.TypeBoundFunction
 import emblem.TypeKey
 import emblem.TypeKeyMap
+import emblem.Union
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
@@ -114,7 +115,23 @@ trait Transformer {
       customTransformers.mapValues(transformerToTraversor)
     }
 
-    protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], futureA: Future[A])
+    override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: A): TypeKey[_ <: A] =
+      union.typeKeyForInstance(input).get
+
+    override protected def stageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: Future[A])
+    : Future[Iterable[B]] =
+      input.map { a => Some(a.asInstanceOf[B]) }
+
+    override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: Future[A],
+      result: Future[Iterable[B]])
+    : Future[A] =
+      result.map { iterB => iterB.head }
+
+    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], futureA: Future[A])
     : Future[Iterable[PropInput[A, _]]] = {
       futureA map { a =>
         def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(a))
@@ -122,7 +139,7 @@ trait Transformer {
       }
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       result: Future[Iterable[PropResult[A, _]]])
     : Future[A] = {
@@ -133,13 +150,13 @@ trait Transformer {
       }
     }
 
-    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       domain: Future[Domain])
     : Future[Range] =
       domain map extractor.apply
 
-    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       range: Future[Range])
     : Future[Domain] =
@@ -151,24 +168,24 @@ trait Transformer {
         }
       }
 
-    protected def stageOptionValue[A : TypeKey](input: Future[Option[A]]): Future[Iterable[A]] =
+    override protected def stageOptionValue[A : TypeKey](input: Future[Option[A]]): Future[Iterable[A]] =
       input.map(_.toIterable)
 
-    protected def unstageOptionValue[A : TypeKey](input: Future[Option[A]], result: Future[Iterable[A]])
+    override protected def unstageOptionValue[A : TypeKey](input: Future[Option[A]], result: Future[Iterable[A]])
     : Future[Option[A]] =
       result.map(_.headOption)
 
-    protected def stageSetElements[A : TypeKey](input: Future[Set[A]]): Future[Iterable[A]] =
+    override protected def stageSetElements[A : TypeKey](input: Future[Set[A]]): Future[Iterable[A]] =
       input
 
-    protected def unstageSetElements[A : TypeKey](input: Future[Set[A]], result: Future[Iterable[A]])
+    override protected def unstageSetElements[A : TypeKey](input: Future[Set[A]], result: Future[Iterable[A]])
     : Future[Set[A]] =
       result.map(_.toSet)
 
-    protected def stageListElements[A : TypeKey](input: Future[List[A]]): Future[Iterable[A]] =
+    override protected def stageListElements[A : TypeKey](input: Future[List[A]]): Future[Iterable[A]] =
       input
 
-    protected def unstageListElements[A : TypeKey](input: Future[List[A]], result: Future[Iterable[A]])
+    override protected def unstageListElements[A : TypeKey](input: Future[List[A]], result: Future[Iterable[A]])
     : Future[List[A]] =
       result.map(_.toList)
 

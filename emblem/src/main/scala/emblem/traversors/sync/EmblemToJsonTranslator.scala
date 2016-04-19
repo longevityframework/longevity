@@ -9,6 +9,7 @@ import emblem.HasEmblem
 import emblem.typeKey
 import emblem.TypeKey
 import emblem.TypeKeyMap
+import emblem.Union
 import emblem.jsonUtil.dateTimeFormatter
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -24,23 +25,39 @@ class EmblemToJsonTranslator extends Traversor {
   type TraverseInput[A] = A
   type TraverseResult[A] = JValue
 
-  protected def traverseBoolean(input: Boolean): JValue = JBool(input)
+  override protected def traverseBoolean(input: Boolean): JValue = JBool(input)
 
-  protected def traverseChar(input: Char): JValue = JString(input.toString)
+  override protected def traverseChar(input: Char): JValue = JString(input.toString)
 
-  protected def traverseDateTime(input: DateTime): JValue = JString(dateTimeFormatter.print(input))
+  override protected def traverseDateTime(input: DateTime): JValue = JString(dateTimeFormatter.print(input))
 
-  protected def traverseDouble(input: Double): JValue = JDouble(input)
+  override protected def traverseDouble(input: Double): JValue = JDouble(input)
 
-  protected def traverseFloat(input: Float): JValue = JDouble(input.toDouble)
+  override protected def traverseFloat(input: Float): JValue = JDouble(input.toDouble)
 
-  protected def traverseInt(input: Int): JValue = JInt(input)
+  override protected def traverseInt(input: Int): JValue = JInt(input)
 
-  protected def traverseLong(input: Long): JValue = JLong(input)
+  override protected def traverseLong(input: Long): JValue = JLong(input)
 
-  protected def traverseString(input: String): JValue = JString(input)
+  override protected def traverseString(input: String): JValue = JString(input)
 
-  protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+  override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: A): TypeKey[_ <: A] =
+    union.typeKeyForInstance(input).get
+
+  override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: A)
+  : Iterable[B] =
+    Seq(input.asInstanceOf[B])
+
+  override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+    union: Union[A],
+    input: A,
+    result: Iterable[JValue])
+  : JValue = {
+    val fields = result.head.asInstanceOf[JObject].obj
+    JObject(("descriminator", JString(typeKey[B].name)) :: fields)
+  }
+
+  override protected def stageEmblemProps[A <: HasEmblem : TypeKey](
     emblem: Emblem[A],
     input: A)
   : Iterable[PropInput[A, _]] = {
@@ -48,7 +65,7 @@ class EmblemToJsonTranslator extends Traversor {
     emblem.props.map(propInput(_))
   }
 
-  protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+  override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
     emblem: Emblem[A],
     result: Iterable[PropResult[A, _]])
   : JValue = {
@@ -56,40 +73,40 @@ class EmblemToJsonTranslator extends Traversor {
     JObject(jFields)
   }
 
-  protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
+  override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
     input: TraverseInput[Domain])
   : TraverseInput[Range] =
     extractor.apply(input)
 
-  protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
+  override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
     rangeResult: TraverseResult[Range])
   : TraverseResult[Domain] =
     rangeResult
 
-  protected def stageOptionValue[A : TypeKey](
+  override protected def stageOptionValue[A : TypeKey](
     input: TraverseInput[Option[A]])
   : Iterable[TraverseInput[A]] =
     input.toIterable
 
-  protected def unstageOptionValue[A : TypeKey](
+  override protected def unstageOptionValue[A : TypeKey](
     input: Option[A],
     result: Iterable[JValue])
   : JValue =
     result.headOption.getOrElse(JNothing)
 
-  protected def stageSetElements[A : TypeKey](input: Set[A]): Iterable[A] = input
+  override protected def stageSetElements[A : TypeKey](input: Set[A]): Iterable[A] = input
 
-  protected def unstageSetElements[A : TypeKey](
+  override protected def unstageSetElements[A : TypeKey](
     input: TraverseInput[Set[A]],
     result: Iterable[JValue])
   : JValue =
     JArray(result.toList)
 
-  protected def stageListElements[A : TypeKey](input: List[A]): Iterable[A] = input
+  override protected def stageListElements[A : TypeKey](input: List[A]): Iterable[A] = input
 
-  protected def unstageListElements[A : TypeKey](
+  override protected def unstageListElements[A : TypeKey](
     input: List[A],
     result: Iterable[JValue])
   : JValue =

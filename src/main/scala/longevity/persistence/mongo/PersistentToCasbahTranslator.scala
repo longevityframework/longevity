@@ -9,6 +9,7 @@ import emblem.Emblematic
 import emblem.Extractor
 import emblem.HasEmblem
 import emblem.TypeKey
+import emblem.Union
 import emblem.exceptions.CouldNotTraverseException
 import emblem.traversors.sync.Traversor
 import emblem.typeKey
@@ -58,31 +59,50 @@ private[persistence] class PersistentToCasbahTranslator(
       }
     }
 
-    protected def traverseBoolean(input: TraverseInput[Boolean]): TraverseResult[Boolean] = input
+    override protected def traverseBoolean(input: Boolean): Any = input
 
-    protected def traverseChar(input: TraverseInput[Char]): TraverseResult[Char] = input
+    override protected def traverseChar(input: Char): Any = input
 
-    protected def traverseDateTime(input: TraverseInput[DateTime]): TraverseResult[DateTime] = input
+    override protected def traverseDateTime(input: DateTime): Any = input
 
-    protected def traverseDouble(input: TraverseInput[Double]): TraverseResult[Double] = input
+    override protected def traverseDouble(input: Double): Any = input
 
-    protected def traverseFloat(input: TraverseInput[Float]): TraverseResult[Float] = input
+    override protected def traverseFloat(input: Float): Any = input
 
-    protected def traverseInt(input: TraverseInput[Int]): TraverseResult[Int] = input
+    override protected def traverseInt(input: Int): Any = input
 
-    protected def traverseLong(input: TraverseInput[Long]): TraverseResult[Long] = input
+    override protected def traverseLong(input: Long): Any = input
 
-    protected def traverseString(input: TraverseInput[String]): TraverseResult[String] = input
+    override protected def traverseString(input: String): Any = input
 
-    protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def constituentTypeKey[A : TypeKey](
+      union: Union[A],
+      input: A)
+    : TypeKey[_ <: A] =
+      union.typeKeyForInstance(input).get
+
+    override protected def stageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: A)
+    : Iterable[B] =
+      Seq(input.asInstanceOf[B])
+
+    override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
+      union: Union[A],
+      input: A,
+      result: Iterable[Any])
+    : Any =
+      result.head.asInstanceOf[MongoDBObject] + ("descriminator" -> typeKey[B].name)
+
+    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
-      input: TraverseInput[A])
+      input: A)
     : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) = prop -> prop.get(input)
       emblem.props.map(propInput(_))
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : TraverseResult[A] = {
@@ -96,46 +116,46 @@ private[persistence] class PersistentToCasbahTranslator(
       builder.result()
     }
 
-    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       input: TraverseInput[Domain])
     : TraverseInput[Range] =
       extractor.apply(input)
 
-    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
+    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
       rangeResult: TraverseResult[Range])
     : TraverseResult[Domain] =
       rangeResult
 
-    protected def stageOptionValue[A : TypeKey](
+    override protected def stageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]])
     : Iterable[TraverseInput[A]] =
       input.toIterable
 
-    protected def unstageOptionValue[A : TypeKey](
+    override protected def unstageOptionValue[A : TypeKey](
       input: TraverseInput[Option[A]],
       result: Iterable[TraverseResult[A]])
     : TraverseResult[Option[A]] =
       result.headOption
 
-    protected def stageSetElements[A : TypeKey](
+    override protected def stageSetElements[A : TypeKey](
       input: TraverseInput[Set[A]])
     : Iterable[TraverseInput[A]] =
       input
 
-    protected def unstageSetElements[A : TypeKey](
+    override protected def unstageSetElements[A : TypeKey](
       input: TraverseInput[Set[A]],
       result: Iterable[TraverseResult[A]])
     : TraverseResult[Set[A]] =
       result.toSet
 
-    protected def stageListElements[A : TypeKey](
+    override protected def stageListElements[A : TypeKey](
       input: TraverseInput[List[A]])
     : Iterable[TraverseInput[A]] =
       input
 
-    protected def unstageListElements[A : TypeKey](
+    override protected def unstageListElements[A : TypeKey](
       input: TraverseInput[List[A]],
       result: Iterable[TraverseResult[A]])
     : TraverseResult[List[A]] =
