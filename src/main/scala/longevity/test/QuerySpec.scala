@@ -1,11 +1,14 @@
 package longevity.test
 
-import emblem.imports._
+import emblem.TypeKey
 import longevity.context.LongevityContext
 import longevity.persistence._
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype._
-import org.scalatest._
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._

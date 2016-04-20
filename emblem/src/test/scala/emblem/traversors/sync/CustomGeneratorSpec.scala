@@ -1,7 +1,7 @@
 package emblem.traversors.sync
 
-import emblem.imports.TypeKey
-import emblem.imports.typeKey
+import emblem.TypeKey
+import emblem.typeKey
 import emblem.traversors.sync.CustomGenerator.simpleGenerator
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen

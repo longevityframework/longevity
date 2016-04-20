@@ -1,6 +1,8 @@
 package longevity.unit.manual
 
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 object SubdomainSpec {
 
@@ -214,7 +216,7 @@ object SubdomainSpec {
     }
 
     object e5 {
-      import emblem.imports.typeKey
+      import emblem.typeKey
       val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
       object User extends RootType()(typeKey[User], shorthandPool) {
         object keys {

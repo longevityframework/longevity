@@ -1,6 +1,6 @@
 package longevity.subdomain
 
-import emblem.imports.TypeKeyMap
+import emblem.TypeKeyMap
 import longevity.subdomain.persistent.Persistent
 
 package object ptype {

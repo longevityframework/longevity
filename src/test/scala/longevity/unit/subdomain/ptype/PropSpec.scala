@@ -1,8 +1,10 @@
 package longevity.unit.subdomain.ptype
 
-import com.github.nscala_time.time.Imports._
-import emblem.imports._
-import longevity.exceptions.subdomain.ptype._
+import org.joda.time.DateTime
+import emblem.typeKey
+import longevity.exceptions.subdomain.ptype.PropTypeException
+import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
+import longevity.exceptions.subdomain.ptype.NoSuchPropException
 import longevity.persistence.PersistedAssoc
 import longevity.subdomain.Assoc
 import longevity.subdomain.EntityTypePool
@@ -11,7 +13,9 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.RootType
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 /** unit tests for the proper construction of [[Prop properties]] */
 class PropSpec extends FlatSpec with GivenWhenThen with Matchers {

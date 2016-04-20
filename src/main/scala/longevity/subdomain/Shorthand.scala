@@ -1,8 +1,10 @@
 package longevity.subdomain
 
+import emblem.Extractor
+import emblem.TypeKey
 import emblem.basicTypes.basicTypeOrderings
 import emblem.basicTypes.isBasicType
-import emblem.imports._
+import emblem.typeKey
 import longevity.exceptions.subdomain.ShorthandCreationException
 
 /** describes a relation (one-to-one mapping) between two types, `Actual` and

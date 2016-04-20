@@ -1,7 +1,9 @@
 package longevity.unit.manual
 
-import org.scalatest._
-import org.scalatest.OptionValues._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
+import org.scalatest.OptionValues.convertOptionToValuable
 
 /** code samples found in the persistent types section of the user manual
  *
@@ -222,7 +224,7 @@ object PTypeSpec {
 class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import PTypeSpec._
-  import emblem.imports._
+  import emblem.typeKey
 
   "user manual example code" should "produce correct subdomains" in {
 
