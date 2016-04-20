@@ -35,10 +35,8 @@ import scala.reflect.runtime.universe.typeOf
  *   - option
  *   - set
  *
- * TODO: review following text in this and similar comments
- * 
- * you can extend this behavior by supplying the generator with [[Extractor
- * extractors]], [[Emblem emblems]], and [[CustomGenerator custom generators]].
+ * you can extend this behavior by supplying the generator with an [[Emblematic
+ * emblematic]] and [[CustomGenerator custom generators]].
  *
  * @param emblematic the emblematic types to use to generate test data for.
  * defaults to empty

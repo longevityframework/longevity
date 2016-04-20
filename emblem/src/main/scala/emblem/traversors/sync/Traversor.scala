@@ -23,8 +23,6 @@ import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
 
-// TODO search for ???
-
 /** synchronously traverses a recursive data structure. the inputs and the
  * outputs of the traversal are abstract here, and specified by the implementing
  * class. this forms a generic pattern for [[Visitor visiting]],
@@ -114,23 +112,21 @@ trait Traversor {
 
   /** stages the traversal of a [[Union union]]
    *
-   * TODO
-   * @tparam A the type of the option's value
-   * @param input the input to traversing the option
-   * @return an iterable of 0 or 1 inputs of the option's value. an empty
-   * iterable is returned to avoid traversal into the option.
+   * @tparam A the type of the union
+   * @param input the input to traversing the union
+   * @return an iterable of 0 or 1 inputs of the union value. an empty
+   * iterable is returned to avoid traversal into the union.
    */
   protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: TraverseInput[A])
   : Iterable[TraverseInput[B]]
 
   /** unstages the traversal of a [[Union union]]
    *
-   * TODO
-   * @tparam A the type of the option's value
-   * @param input the input to traversing the option
-   * @param result an iterable of 0 or 1 results of the option's value. an empty
-   * iterable indicates that traversal into the option has been avoided.
-   * @return the result of traversing the option
+   * @tparam A the type of the union
+   * @param input the input to traversing the union
+   * @param result an iterable of 0 or 1 results of the union's value. an empty
+   * iterable indicates that traversal into the union has been avoided.
+   * @return the result of traversing the union
    */
   protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
     union: Union[A],

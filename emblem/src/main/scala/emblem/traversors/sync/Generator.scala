@@ -17,9 +17,9 @@ import org.joda.time.DateTime
 
 /** recursively generates a data structure by type.
  *
- * you can generate arbritrary data to your liking by implementing the protected vals and defs in this
- * interface. as of yet, i haven't been able to generate the scaladoc for those protected methods.
- * sorry about that.
+ * you can generate arbritrary data to your liking by implementing the protected
+ * vals and defs in this interface. as of yet, i haven't been able to generate
+ * the scaladoc for those protected methods. sorry about that.
  *
  * @see [[TestDataGenerator]] for an example usage
  */

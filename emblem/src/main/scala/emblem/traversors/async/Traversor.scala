@@ -33,7 +33,6 @@ import scala.util.Try
  */
 trait Traversor {
 
-  // TODO: add variances here?
   /** the input to a traversal step over type `A` */
   type TraverseInput[A]
 
@@ -194,11 +193,10 @@ trait Traversor {
 
   /** stages the traversal of a [[Union union]]
    *
-   * TODO
-   * @tparam A the type of the option's value
-   * @param input the input to traversing the option
-   * @return an iterable of 0 or 1 inputs of the option's value. an empty
-   * iterable is returned to avoid traversal into the option.
+   * @tparam A the type of the union
+   * @param input the input to traversing the union
+   * @return an iterable of 0 or 1 inputs of the union value. an empty
+   * iterable is returned to avoid traversal into the union.
    */
   protected def stageUnion[A : TypeKey, B <: A : TypeKey](
     union: Union[A],
@@ -207,12 +205,11 @@ trait Traversor {
 
   /** unstages the traversal of a [[Union union]]
    *
-   * TODO
-   * @tparam A the type of the option's value
-   * @param input the input to traversing the option
-   * @param result an iterable of 0 or 1 results of the option's value. an empty
-   * iterable indicates that traversal into the option has been avoided.
-   * @return the result of traversing the option
+   * @tparam A the type of the union
+   * @param input the input to traversing the union
+   * @param result an iterable of 0 or 1 results of the union's value. an empty
+   * iterable indicates that traversal into the union has been avoided.
+   * @return the result of traversing the union
    */
   protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
     union: Union[A],
@@ -239,8 +236,6 @@ trait Traversor {
       input.asInstanceOf[Future[TraverseInput[B]]]
     ).asInstanceOf[Option[Future[TraverseResult[A]]]]
   }
-
-  // TODO: consider get rid of HasEmblem
 
   private def tryTraverseEmblem[A <: HasEmblem : TypeKey](input: Future[TraverseInput[A]])
   : Option[Future[TraverseResult[A]]] = {

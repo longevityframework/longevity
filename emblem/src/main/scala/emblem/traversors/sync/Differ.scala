@@ -15,11 +15,17 @@ import emblem.typeKey
 import org.joda.time.DateTime
 import scala.reflect.runtime.universe.typeOf
 
-/** recursively computes a sequence of [[Differ.Diff diffs]] between two different values of the same type.
+/** recursively computes a sequence of [[Differ.Diff diffs]] between two
+ * different values of the same type.
  * 
- * we kind of have to bail on traversing sets, since there is no obvious way to pull out matching pairs
- * of elements from the lhs and rhs sets. if the sets have differing sizes, then we report the difference in
- * size. if the sets are otherwise different, then we report the sets as different.
+ * we kind of have to bail on traversing sets, since there is no obvious way to
+ * pull out matching pairs of elements from the lhs and rhs sets. if the sets
+ * have differing sizes, then we report the difference in size. if the sets are
+ * otherwise different, then we report the sets as different.
+ *
+ * we similarly do not attempt to differentiate between [[Union union]] values
+ * representing different constituent types. we just report that the type
+ * doesn't match.
  *
  * @param emblematic the emblematic types to use in the traversal
  */

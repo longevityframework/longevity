@@ -14,11 +14,7 @@ import emblem.typeKey
 import org.joda.time.DateTime
 import org.json4s.JsonAST._
 
-/** translates json4s AST into emblematic types.
- *
- * @param emblemPool a pool of emblems
- * @param extractorPool a complete set of the extractors to use
- */
+/** translates json4s AST into emblematic types */
 class JsonToEmblemTranslator extends Traversor {
 
   type TraverseInput[A] = JValue
