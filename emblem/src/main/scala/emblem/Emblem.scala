@@ -8,7 +8,7 @@ import scala.reflect.runtime.universe.TypeTag
 /** a reflective signature for a type. provides name information, [[EmblemProp
  * properties]], and a tool used to build new instances. the underlying type is
  * treated as immutable, so each property provides a setter that returns a new
- * instance. new instances can be built using a [[HasEmblemBuilder]]
+ * instance. new instances can be built using a [[InstanceBuilder]]
  * returned by method [[builder]].
  *
  * @tparam A the type that this emblem reflects upon
@@ -52,8 +52,21 @@ case class Emblem[A <: HasEmblem : TypeKey] private[emblem] (
     prop.asInstanceOf[EmblemProp[A, U]]
   }
 
+  /** a builder of instances of the type represented by this emblem */
+  class InstanceBuilder private[Emblem] () {
+
+    private var map = Map[String, Any]()
+
+    /** specifies the value to use for the given property */
+    def setProp[B](prop: EmblemProp[A, B], value: B): Unit = map += (prop.name -> value)
+
+    /** builds and returns the instance */
+    def build(): A = creator(map)
+
+  }
+
   /** creates and returns a new builder for constructing new instances */
-  def builder(): HasEmblemBuilder[A] = new HasEmblemBuilder[A](creator)
+  def builder(): InstanceBuilder = new InstanceBuilder()
 
   /** a string describing the emblem in full detail */
   lazy val debugInfo = {
