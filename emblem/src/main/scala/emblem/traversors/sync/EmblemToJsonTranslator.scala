@@ -50,7 +50,7 @@ class EmblemToJsonTranslator extends Traversor {
     result: Iterable[JValue])
   : JValue = {
     val fields = result.head.asInstanceOf[JObject].obj
-    JObject(("descriminator", JString(typeKey[B].name)) :: fields)
+    JObject(("discriminator", JString(typeKey[B].name)) :: fields)
   }
 
   override protected def stageEmblemProps[A <: HasEmblem : TypeKey](

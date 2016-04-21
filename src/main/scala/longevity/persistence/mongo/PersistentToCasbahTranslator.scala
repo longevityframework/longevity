@@ -92,7 +92,7 @@ private[persistence] class PersistentToCasbahTranslator(
       input: A,
       result: Iterable[Any])
     : Any =
-      result.head.asInstanceOf[MongoDBObject] + ("descriminator" -> typeKey[B].name)
+      result.head.asInstanceOf[MongoDBObject] + ("_discriminator" -> typeKey[B].name)
 
     override protected def stageEmblemProps[A <: HasEmblem : TypeKey](
       emblem: Emblem[A],

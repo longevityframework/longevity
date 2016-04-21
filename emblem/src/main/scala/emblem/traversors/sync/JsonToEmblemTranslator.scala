@@ -62,8 +62,8 @@ class JsonToEmblemTranslator extends Traversor {
   }
 
   override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: JValue): TypeKey[_ <: A] = {
-    val descriminator = input.asInstanceOf[JObject].values("descriminator").asInstanceOf[String]
-    union.typeKeyForName(descriminator).get
+    val discriminator = input.asInstanceOf[JObject].values("discriminator").asInstanceOf[String]
+    union.typeKeyForName(discriminator).get
   }
 
   override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: JValue)

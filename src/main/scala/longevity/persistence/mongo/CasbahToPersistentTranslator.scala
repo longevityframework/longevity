@@ -89,8 +89,8 @@ private[persistence] class CasbahToPersistentTranslator(
         }
       }
 
-      val descriminator = mongoDBObject("descriminator").asInstanceOf[String]
-      union.typeKeyForName(descriminator).get
+      val discriminator = mongoDBObject("_discriminator").asInstanceOf[String]
+      union.typeKeyForName(discriminator).get
     }
 
     override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: Any)
