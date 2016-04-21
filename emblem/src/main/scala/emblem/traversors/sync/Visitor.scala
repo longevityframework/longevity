@@ -6,7 +6,7 @@ import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
+
 import emblem.TypeBoundFunction
 import emblem.typeKey
 import emblem.TypeKey
@@ -120,13 +120,13 @@ trait Visitor {
     : Unit =
       ()
 
-    protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: A)
+    protected def stageEmblemProps[A : TypeKey](emblem: Emblem[A], input: A)
     : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(input))
       emblem.props.map(propInput(_))
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : Unit =

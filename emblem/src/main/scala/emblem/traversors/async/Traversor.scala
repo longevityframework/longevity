@@ -7,7 +7,6 @@ import emblem.EmblemProp
 import emblem.Extractor
 import emblem.ExtractorFor
 import emblem.ExtractorPool
-import emblem.HasEmblem
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.Union
@@ -65,10 +64,10 @@ trait Traversor {
     tryTraverseAny[A](input) getOrElse Future.failed(new CouldNotTraverseException(typeKey[A]))
 
   /** an input for traversing an [[EmblemProp]] */
-  protected type PropInput[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseInput[B])
+  protected type PropInput[A, B] = (EmblemProp[A, B], TraverseInput[B])
 
   /** an output for traversing an [[EmblemProp]] */
-  protected type PropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
+  protected type PropResult[A, B] = (EmblemProp[A, B], TraverseResult[B])
 
   /** the execution context in which to run */
   protected implicit val executionContext: ExecutionContext
@@ -120,7 +119,7 @@ trait Traversor {
   private def tryTraverseAny[A : TypeKey](input: Future[TraverseInput[A]]): Option[Future[TraverseResult[A]]] =
     tryTraverseCustom(input) orElse
     tryTraverseUnion(input) orElse
-    tryTraverseEmblemFromAny(input) orElse
+    tryTraverseEmblem(input) orElse
     tryTraverseExtractor(input) orElse
     tryTraverseOption(input) orElse
     tryTraverseSet(input) orElse
@@ -217,34 +216,14 @@ trait Traversor {
     result: Future[Iterable[TraverseResult[B]]])
   : Future[TraverseResult[A]]
 
-  private def tryTraverseEmblemFromAny[A : TypeKey](input: Future[TraverseInput[A]])
-  : Option[Future[TraverseResult[A]]] = {
-    val keyOption = hasEmblemTypeKeyOption(typeKey[A])
-    keyOption flatMap { key => introduceHasEmblemTryTraverseEmblem(input)(key) }
-  }
-
-  private def hasEmblemTypeKeyOption[A : TypeKey, B <: A with HasEmblem]: Option[TypeKey[B]] =
-    if (typeKey[A].tpe <:< typeOf[HasEmblem])
-      Some(typeKey[A].asInstanceOf[TypeKey[B]])
-    else
-      None
-
-  private def introduceHasEmblemTryTraverseEmblem[A, B <: A with HasEmblem : TypeKey](
-    input: Future[TraverseInput[A]])
-  : Option[Future[TraverseResult[A]]] = {
-    tryTraverseEmblem[B](
-      input.asInstanceOf[Future[TraverseInput[B]]]
-    ).asInstanceOf[Option[Future[TraverseResult[A]]]]
-  }
-
-  private def tryTraverseEmblem[A <: HasEmblem : TypeKey](input: Future[TraverseInput[A]])
+  private def tryTraverseEmblem[A : TypeKey](input: Future[TraverseInput[A]])
   : Option[Future[TraverseResult[A]]] = {
     emblematic.emblems.get(typeKey[A]) map { emblem => traverseEmblem(emblem, input) }
   }
 
-  private def traverseEmblem[A <: HasEmblem : TypeKey](
+  private def traverseEmblem[A : TypeKey](
     emblem: Emblem[A],
-    hasEmblemInput: Future[TraverseInput[A]])
+    input: Future[TraverseInput[A]])
   : Future[TraverseResult[A]] = {
     val promise = Promise[TraverseResult[A]]()
 
@@ -259,13 +238,13 @@ trait Traversor {
       promise.completeWith(futureTraverseResult)
     }
 
-    val futureIterablePropInput = stageEmblemProps(emblem, hasEmblemInput)
+    val futureIterablePropInput = stageEmblemProps(emblem, input)
     futureIterablePropInput onSuccess { case i => completeIterablePropInput(i) }
     futureIterablePropInput onFailure { case e => promise.failure(e) }
     promise.future
   }
 
-  private def traverseEmblemProp[A <: HasEmblem, B](
+  private def traverseEmblemProp[A, B](
     emblem: Emblem[A],
     prop: EmblemProp[A, B],
     input: Future[TraverseInput[B]])
@@ -275,22 +254,22 @@ trait Traversor {
 
   /** stages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
    * 
-   * @tparam A the type of the [[HasEmblem]] object to traverse
+   * @tparam A the type of the object to traverse
    * @param emblem the emblem being traversed
    * @param input the input to the emblem traversal
    * @return an iterable of inputs for the emblem props
    */
-  protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: Future[TraverseInput[A]])
+  protected def stageEmblemProps[A : TypeKey](emblem: Emblem[A], input: Future[TraverseInput[A]])
   : Future[Iterable[PropInput[A, _]]]
 
   /** unstages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
    * 
-   * @tparam A the type of the [[HasEmblem]] object to traverse
+   * @tparam A the type of the object to traverse
    * @param emblem the emblem being traversed
    * @param result an iterable of the outputs for the emblem props
    * @return the output for the emblem
    */
-  protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+  protected def unstageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
     result: Future[Iterable[PropResult[A, _]]])
   : Future[TraverseResult[A]]

@@ -8,7 +8,6 @@ import emblem.EmblemProp
 import emblem.Emblematic
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
 import emblem.TypeKey
 import emblem.Union
 import emblem.exceptions.CouldNotTraverseException
@@ -104,7 +103,7 @@ private[persistence] class CasbahToPersistentTranslator(
     : A =
       result.head
 
-    protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+    protected def stageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       input: TraverseInput[A])
     : Iterable[PropInput[A, _]] = {
@@ -130,7 +129,7 @@ private[persistence] class CasbahToPersistentTranslator(
       emblem.props.map(propInput(_))
     }
 
-    protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : TraverseResult[A] = {

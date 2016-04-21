@@ -5,10 +5,10 @@ import emblem.exceptions.RequiredPropertyNotSetException
 import emblem.testData.geometry._
 import emblem.testData.withImplicits._
 
-/** [[HasEmblemBuilder HasEmblem builder]] specifications */
-class HasEmblemBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
+/** [[Emblem.InstanceBuilder]] specifications */
+class EmblemInstanceBuilderSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "a HasEmblem builder"
+  behavior of "an Emblem.InstanceBuilder"
 
   it should "build new objects of the emblemized type" in {
     val builder = pointEmblem.builder()

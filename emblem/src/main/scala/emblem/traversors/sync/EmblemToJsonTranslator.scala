@@ -5,7 +5,7 @@ import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
+
 import emblem.typeKey
 import emblem.TypeKey
 import emblem.TypeKeyMap
@@ -53,7 +53,7 @@ class EmblemToJsonTranslator extends Traversor {
     JObject(("discriminator", JString(typeKey[B].name)) :: fields)
   }
 
-  override protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+  override protected def stageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
     input: A)
   : Iterable[PropInput[A, _]] = {
@@ -61,7 +61,7 @@ class EmblemToJsonTranslator extends Traversor {
     emblem.props.map(propInput(_))
   }
 
-  override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+  override protected def unstageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
     result: Iterable[PropResult[A, _]])
   : JValue = {

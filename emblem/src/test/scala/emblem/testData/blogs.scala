@@ -5,7 +5,7 @@ import emblem.EmblemPool
 import emblem.Emblematic
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
+
 
 /** for type map happy cases */
 object blogs {
@@ -28,7 +28,7 @@ object blogs {
 
   // entities
 
-  trait CrmEntity extends HasEmblem
+  trait CrmEntity
 
   case class CrmUser(
     uri: Uri,

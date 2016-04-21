@@ -12,7 +12,7 @@ import scala.reflect.runtime.universe.TypeTag
  * @param get a function that retrieves the property value from an instance
  * @param set a function that updates the property value to produce a new instance
  */
-case class EmblemProp[A <: HasEmblem : TypeKey, B : TypeKey] private[emblem] (
+case class EmblemProp[A : TypeKey, B : TypeKey] private[emblem] (
   val name: String,
   val get: (A) => B,
   val set: (A, B) => A)

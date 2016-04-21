@@ -6,7 +6,6 @@ import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
 import emblem.TypeBoundFunction
 import emblem.TypeKey
 import emblem.TypeKeyMap
@@ -66,10 +65,10 @@ trait Traversor {
   }
 
   /** an input for traversing an [[EmblemProp]] */
-  protected type PropInput[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseInput[B])
+  protected type PropInput[A, B] = (EmblemProp[A, B], TraverseInput[B])
 
   /** an output for traversing an [[EmblemProp]] */
-  protected type PropResult[A <: HasEmblem, B] = (EmblemProp[A, B], TraverseResult[B])
+  protected type PropResult[A, B] = (EmblemProp[A, B], TraverseResult[B])
 
   /** the emblematic types to use in the recursive traversal */
   protected val emblematic: Emblematic = Emblematic()
@@ -135,28 +134,31 @@ trait Traversor {
   : TraverseResult[A]
 
   /** stages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
-   * @tparam A the type of the [[HasEmblem]] object to traverse
+   * 
+   * @tparam A the type of the object to traverse
    * @param emblem the emblem being traversed
    * @param input the input to the emblem traversal
    * @return an iteratable of inputs for the emblem props
    */
-  protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+  protected def stageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
     input: TraverseInput[A])
   : Iterable[PropInput[A, _]]
 
   /** unstages the traversal of a [[Emblem emblem's]] [[EmblemProp props]]
-   * @tparam A the type of the [[HasEmblem]] object to traverse
+   * 
+   * @tparam A the type of the object to traverse
    * @param emblem the emblem being traversed
    * @param an iterable of the outputs for the emblem props
    * @return the output for the emblem
    */
-  protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+  protected def unstageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
     result: Iterable[PropResult[A, _]])
   : TraverseResult[A]
 
   /** stages the traversal of a [[Extractor extractor]]
+   * 
    * @tparam Range the range type for the extractor
    * @tparam Domain the domain type for the extractor
    * @param extractor the extractor being traversed
@@ -169,6 +171,7 @@ trait Traversor {
   : TraverseInput[Range]
 
   /** unstages the traversal of a [[Extractor extractor]]
+   * 
    * @tparam Range the range type for the extractor
    * @tparam Domain the domain type for the extractor
    * @param extractor the extractor being traversed
@@ -181,20 +184,22 @@ trait Traversor {
   : TraverseResult[Domain]
 
   /** stages the traversal of an option's value
+   * 
    * @tparam A the type of the option's value
    * @param input the input to traversing the option
-   * @return an iterable of 0 or 1 inputs of the option's value. an empty iterable is returned to avoid
-   * traversal into the option.
+   * @return an iterable of 0 or 1 inputs of the option's value. an empty
+   * iterable is returned to avoid traversal into the option.
    */
   protected def stageOptionValue[A : TypeKey](
     input: TraverseInput[Option[A]])
   : Iterable[TraverseInput[A]]
 
   /** unstages the traversal of an option's value
+   * 
    * @tparam A the type of the option's value
    * @param input the input to traversing the option
-   * @param result an iterable of 0 or 1 results of the option's value. an empty iterable indicates that
-   * traversal into the option has been avoided.
+   * @param result an iterable of 0 or 1 results of the option's value. an
+   * empty iterable indicates that traversal into the option has been avoided
    */
   protected def unstageOptionValue[A : TypeKey](
     input: TraverseInput[Option[A]],
@@ -202,20 +207,22 @@ trait Traversor {
   : TraverseResult[Option[A]]
 
   /** stages the traversal of an set's elements
+   * 
    * @tparam A the type of the set elements
    * @param input the input to traversing the set
-   * @return a iterable of inputs for the set's elements. an empty iterable is returned to avoid
-   * traversal into the set.
+   * @return a iterable of inputs for the set's elements. an empty iterable is
+   * returned to avoid traversal into the set.
    */
   protected def stageSetElements[A : TypeKey](
     input: TraverseInput[Set[A]])
   : Iterable[TraverseInput[A]]
 
   /** unstages the traversal of an set's elements
+   * 
    * @tparam A the type of the set elements
    * @param input the input to traversing the set
-   * @param result an iterable of results for the set's elements. an empty iterable indicates that traversal
-   * into the set has been avoided
+   * @param result an iterable of results for the set's elements. an empty
+   * iterable indicates that traversal into the set has been avoided
    * @return the result of traversing the set
    */
   protected def unstageSetElements[A : TypeKey](
@@ -224,20 +231,22 @@ trait Traversor {
   : TraverseResult[Set[A]]
 
   /** stages the traversal of an list's elements
+   * 
    * @tparam A the type of the list elements
    * @param input the input to traversing the list
-   * @return a iterable of inputs for the list's elements. an empty iterable is returned to avoid
-   * traversal into the list.
+   * @return a iterable of inputs for the list's elements. an empty iterable is
+   * returned to avoid traversal into the list.
    */
   protected def stageListElements[A : TypeKey](
     input: TraverseInput[List[A]])
   : Iterable[TraverseInput[A]]
 
   /** unstages the traversal of a list's elements
+   * 
    * @tparam A the type of the list elements
    * @param input the input to traversing the list
-   * @param result an iterable of results for the list's elements. an empty iterable indicates that traversal
-   * into the list has been avoided
+   * @param result an iterable of results for the list's elements. an empty
+   * iterable indicates that traversal into the list has been avoided
    * @return the result of travering the list
    */
   protected def unstageListElements[A : TypeKey](
@@ -326,13 +335,13 @@ trait Traversor {
     : Future[TraverseResult[A]] =
       for (i <- input; r <- result) yield Traversor.this.unstageUnion(union, i, r)
 
-    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def stageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       futureInputA: Future[TraverseInput[A]])
     : Future[Iterable[PropInput[A, _]]] =
       futureInputA map { inputA => Traversor.this.stageEmblemProps(emblem, inputA) }
 
-    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       asyncResult: Future[Iterable[PropResult[A, _]]])
     : Future[TraverseResult[A]] =

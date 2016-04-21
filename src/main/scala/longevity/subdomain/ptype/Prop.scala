@@ -3,7 +3,6 @@ package longevity.subdomain.ptype
 import emblem.Emblem
 import emblem.EmblemProp
 import emblem.EmblemPropPath
-import emblem.HasEmblem
 import emblem.TypeKey
 import emblem.basicTypes.basicTypeOrderings
 import emblem.basicTypes.isBasicType
@@ -94,13 +93,13 @@ object Prop {
           throw new UnsupportedPropTypeException(path)(pTypeKey, e.typeKey)
       }
 
-    def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[EmblemProp[_ <: HasEmblem, _]]): Unit =
+    def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[EmblemProp[_, _]]): Unit =
       nonLeafEmblemProps foreach { nonLeafEmblemProp =>
         if (!(nonLeafEmblemProp.typeKey <:< typeKey[Entity]))
           throw new UnsupportedPropTypeException(path)(pTypeKey, nonLeafEmblemProp.typeKey)
       }
 
-    def validateLeafEmblemProp(leafEmblemProp: EmblemProp[_ <: HasEmblem, _]): TypeKey[_] = {
+    def validateLeafEmblemProp(leafEmblemProp: EmblemProp[_, _]): TypeKey[_] = {
       val key = leafEmblemProp.typeKey
       if (!(isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)))
         throw new UnsupportedPropTypeException(path)(pTypeKey, key)

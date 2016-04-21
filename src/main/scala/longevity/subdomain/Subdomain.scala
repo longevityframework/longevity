@@ -4,7 +4,6 @@ import emblem.Emblem
 import emblem.Emblematic
 import emblem.ExtractorFor
 import emblem.ExtractorPool
-import emblem.HasEmblem
 import emblem.TypeBoundFunction
 import emblem.TypeKeyMap
 import emblem.WideningTypeBoundFunction
@@ -36,9 +35,9 @@ class Subdomain(
     shorthandPool.mapValues(shorthandToExtractor)
   }
 
-  private def emblemPool: TypeKeyMap[HasEmblem, Emblem] =
-    entityTypePool.mapValuesWiden[HasEmblem, Emblem] {
-      new WideningTypeBoundFunction[Entity, HasEmblem, EntityType, Emblem] {
+  private def emblemPool: TypeKeyMap[Any, Emblem] =
+    entityTypePool.mapValuesWiden[Any, Emblem] {
+      new WideningTypeBoundFunction[Entity, Any, EntityType, Emblem] {
         def apply[TypeParam <: Entity](value1: EntityType[TypeParam]): Emblem[TypeParam] =
           value1.emblem
       }

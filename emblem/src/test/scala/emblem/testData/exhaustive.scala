@@ -6,7 +6,7 @@ import emblem.EmblemPool
 import emblem.Emblematic
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
+
 import emblem.Union
 import emblem.UnionPool
 import emblem.traversors.sync.TestDataGenerator
@@ -35,19 +35,19 @@ object exhaustive {
     int: Int,
     long: Long,
     string: String)
-  extends HasEmblem
+ 
 
   case class WithExtractors(
     email: Email,
     markdown: Markdown,
     uri: Uri)
-  extends HasEmblem
+ 
 
   case class WithCollections(
     option: Option[String],
     set: Set[String],
     list: List[String])
-  extends HasEmblem
+ 
 
   trait WithSpecialization {
     val common: String
@@ -56,12 +56,12 @@ object exhaustive {
   case class Specialization1(
     common: String,
     special1: String)
-  extends WithSpecialization with HasEmblem
+  extends WithSpecialization
 
   case class Specialization2(
     common: String,
     special2: String)
-  extends WithSpecialization with HasEmblem
+  extends WithSpecialization
 
   lazy val emblemPool = EmblemPool(
     Emblem[WithBasics],

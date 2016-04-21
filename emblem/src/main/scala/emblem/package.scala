@@ -13,8 +13,8 @@ package object emblem {
    */
   implicit def typeKeyFromTag[A : TypeTag]: TypeKey[A] = TypeKey(implicitly[TypeTag[A]])
 
-  /** a [[TypeKeyMap]] of [[HasEmblem]] to [[Emblem]] */
-  type EmblemPool = TypeKeyMap[HasEmblem, Emblem]  
+  /** a [[TypeKeyMap]] of [[Emblem emblems]] */
+  type EmblemPool = TypeKeyMap[Any, Emblem]  
 
   /** an [[Extractor extractor]] with the domain type unspecified. this type is
    * equivalent to `Extractor[Domain, _]`, except with a single type parameter

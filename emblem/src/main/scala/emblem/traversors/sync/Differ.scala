@@ -8,7 +8,7 @@ import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
+
 import emblem.TypeKey
 import emblem.Union
 import emblem.typeKey
@@ -105,14 +105,14 @@ class Differ(
       result.headOption.getOrElse(Seq(
         Diff(s"${input.path}.type", typeKey[A].name, typeKey[B].name)))
 
-    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: DifferInput[A])
+    override protected def stageEmblemProps[A : TypeKey](emblem: Emblem[A], input: DifferInput[A])
     : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) =
         (prop, DifferInput(prop.get(input.lhs), prop.get(input.rhs), input.path + "." + prop.name))
       emblem.props.map(propInput(_))
     }
 
-    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : Diffs =

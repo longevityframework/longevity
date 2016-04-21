@@ -18,7 +18,7 @@ import scala.reflect.runtime.universe.TypeTag
  * @param propDefaults default property values used by the builder
  * @param creator a function used by the builder to instantiate the new object
  */
-case class Emblem[A <: HasEmblem : TypeKey] private[emblem] (
+case class Emblem[A : TypeKey] private[emblem] (
   val namePrefix: String,
   val name: String,
   val props: Seq[EmblemProp[A, U] forSome { type U }],
@@ -92,7 +92,7 @@ object Emblem {
    * @throws emblem.exceptions.GeneratorException when `A` is not a stable case
    * class with a single parameter list
    */
-  def apply[A <: HasEmblem : TypeKey]: Emblem[A] = new EmblemFactory[A].generate
+  def apply[A : TypeKey]: Emblem[A] = new EmblemFactory[A].generate
 
   // what I need:
   // - define a super and a sub
@@ -109,7 +109,7 @@ object Emblem {
 
   }
 
-  trait Sub[A <: HasEmblem] {
+  trait Sub[A] {
     self: Emblem[A] =>
     val sup: Super[_ >: A]
     val descriminator: String

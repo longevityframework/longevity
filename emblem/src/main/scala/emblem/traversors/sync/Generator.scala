@@ -5,7 +5,7 @@ import emblem.Emblematic
 import emblem.EmblemPool
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
+
 import emblem.TypeBoundFunction
 import emblem.TypeKey
 import emblem.Union
@@ -148,11 +148,11 @@ trait Generator {
     : A =
       result.head
 
-    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: Unit)
+    override protected def stageEmblemProps[A : TypeKey](emblem: Emblem[A], input: Unit)
     : Iterable[PropInput[A, _]] =
       emblem.props.map((_, ()))
 
-    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : A = {

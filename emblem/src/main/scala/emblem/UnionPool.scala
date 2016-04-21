@@ -8,7 +8,7 @@ object UnionPool {
    * 
    * @param unions the sequence of unions to store in the pool
    * @throws emblem.exceptions.DuplicateUnionsException when two or more of the
-   * `Unions` have the same `HasEmblem` type
+   * `Unions` have the same type
    */
   def apply(unions: Union[_]*): UnionPool = {
     val map: UnionPool = unions.foldLeft(TypeKeyMap[Any, Union]()) {

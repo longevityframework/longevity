@@ -1,16 +1,16 @@
 package emblem.testData
 
-import emblem.HasEmblem
+
 
 /** for emblem and extractor failure cases */
 object genFailure {
 
-  trait NotACaseClass extends HasEmblem
+  trait NotACaseClass
 
-  case class MultipleParamLists(i: Int)(j: Int) extends HasEmblem
+  case class MultipleParamLists(i: Int)(j: Int)
 
   class HasInnerClass {
-    case class IsInnerCaseClass(i: Int) extends HasEmblem
+    case class IsInnerCaseClass(i: Int)
   }
 
   case class MultipleParams(i: Int, j: Int)

@@ -6,7 +6,7 @@ import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
+
 import emblem.TypeBoundFunction
 import emblem.TypeKey
 import emblem.TypeKeyMap
@@ -119,13 +119,13 @@ trait Transformer {
     : A =
       result.head
 
-    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](emblem: Emblem[A], input: A)
+    override protected def stageEmblemProps[A : TypeKey](emblem: Emblem[A], input: A)
     : Iterable[PropInput[A, _]] = {
       def propInput[B](prop: EmblemProp[A, B]) = (prop, prop.get(input))
       emblem.props.map(propInput(_))
     }
 
-    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : A = {

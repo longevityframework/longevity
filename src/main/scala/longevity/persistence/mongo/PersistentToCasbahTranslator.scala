@@ -7,7 +7,6 @@ import emblem.Emblem
 import emblem.EmblemProp
 import emblem.Emblematic
 import emblem.Extractor
-import emblem.HasEmblem
 import emblem.TypeKey
 import emblem.Union
 import emblem.exceptions.CouldNotTraverseException
@@ -94,7 +93,7 @@ private[persistence] class PersistentToCasbahTranslator(
     : Any =
       result.head.asInstanceOf[MongoDBObject] + ("_discriminator" -> typeKey[B].name)
 
-    override protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def stageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       input: A)
     : Iterable[PropInput[A, _]] = {
@@ -102,7 +101,7 @@ private[persistence] class PersistentToCasbahTranslator(
       emblem.props.map(propInput(_))
     }
 
-    override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+    override protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
       result: Iterable[PropResult[A, _]])
     : TraverseResult[A] = {

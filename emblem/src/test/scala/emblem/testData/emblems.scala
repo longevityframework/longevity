@@ -2,7 +2,7 @@ package emblem.testData
 
 import emblem.Emblem
 import emblem.EmblemPool
-import emblem.HasEmblem
+
 import emblem.testData.extractors._
 
 /** a handful of emblems used for testing */
@@ -11,19 +11,19 @@ object emblems {
   lazy val emblemPool =
     EmblemPool() + friendEmblem + pointEmblem + withBarPropEmblem + withNoExtractorPropEmblem
 
-  case class Friend(uri: Uri, email: Email) extends HasEmblem
+  case class Friend(uri: Uri, email: Email)
   lazy val friendEmblem = Emblem[Friend]
 
-  case class Point(x: Double, y: Double) extends HasEmblem
+  case class Point(x: Double, y: Double)
   lazy val pointEmblem = Emblem[Point]
 
-  case class WithBarProp(i: Int, bar: Bar) extends HasEmblem
+  case class WithBarProp(i: Int, bar: Bar)
   lazy val withBarPropEmblem = Emblem[WithBarProp]
 
-  case class WithNoExtractorProp(i: Int, noExtractor: NoExtractor) extends HasEmblem
+  case class WithNoExtractorProp(i: Int, noExtractor: NoExtractor)
   lazy val withNoExtractorPropEmblem = Emblem[WithNoExtractorProp]
 
-  case class NotInPool() extends HasEmblem
+  case class NotInPool()
   lazy val notInPoolEmblem = Emblem[NotInPool]
 
 }

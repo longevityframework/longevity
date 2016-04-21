@@ -5,7 +5,7 @@ import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
 import emblem.ExtractorPool
-import emblem.HasEmblem
+
 import emblem.TypeKey
 import emblem.Union
 import emblem.exceptions.CouldNotTraverseException
@@ -77,7 +77,7 @@ class JsonToEmblemTranslator extends Traversor {
   : A =
     result.head
 
-  override protected def stageEmblemProps[A <: HasEmblem : TypeKey](
+  override protected def stageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
     input: JValue)
   : Iterable[PropInput[A, _]] = {
@@ -90,7 +90,7 @@ class JsonToEmblemTranslator extends Traversor {
     }
   }
 
-  override protected def unstageEmblemProps[A <: HasEmblem : TypeKey](
+  override protected def unstageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
     result: Iterable[PropResult[A, _]])
   : A = {

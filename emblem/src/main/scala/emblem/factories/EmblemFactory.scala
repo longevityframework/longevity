@@ -2,7 +2,7 @@ package emblem.factories
 
 import emblem.Emblem
 import emblem.EmblemProp
-import emblem.HasEmblem
+
 import emblem.TypeKey
 import emblem.exceptions.CaseClassHasMultipleParamListsException
 import emblem.exceptions.RequiredPropertyNotSetException
@@ -17,7 +17,7 @@ import scala.reflect.runtime.universe.TermName
 import scala.reflect.runtime.universe.TermSymbol
 
 /** generates an [[Emblem]] from the corresponding [[TypeKey]] */
-private[emblem] class EmblemFactory[A <: HasEmblem : TypeKey] extends ReflectiveFactory[A] {
+private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
 
   /** generates the emblem */
   def generate: Emblem[A] = Emblem[A](

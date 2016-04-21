@@ -1,11 +1,14 @@
 package emblem
 
+// TODO: more emblem subpackages
+
+import emblem.exceptions.TypeIsNotCaseClassException
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NonEmblemInPropPathException
 import emblem.exceptions.EmblemPropPathTypeMismatchException
 
 /** a property path that recurses through an emblem tree to a specific leaf */
-trait EmblemPropPath[A <: HasEmblem, B] {
+trait EmblemPropPath[A, B] {
 
   /** the full path name (dot-separated) */
   val name: String
@@ -20,7 +23,7 @@ trait EmblemPropPath[A <: HasEmblem, B] {
   val typeKey: TypeKey[B]
 
   /** a list of the [[EmblemProp emblem props]] that make up the path */
-  val props: List[EmblemProp[_ <: HasEmblem, _]]
+  val props: List[EmblemProp[_, _]]
 
   override def toString = s"EmblemPropPath($name)"
 
@@ -46,7 +49,7 @@ object EmblemPropPath {
    * @throws emblem.exceptions.EmblemPropPathException whenever there is a problem constructing the path. either
    * your path string is poorly formed, or you asked for an incorrect leaf type.
    */
-  def apply[A <: HasEmblem : TypeKey, B : TypeKey](path: String): EmblemPropPath[A, B] = apply(Emblem[A], path)
+  def apply[A : TypeKey, B : TypeKey](path: String): EmblemPropPath[A, B] = apply(Emblem[A], path)
 
   /** constructs an [[EmblemPropPath]]
    * 
@@ -57,7 +60,7 @@ object EmblemPropPath {
    * @throws emblem.exceptions.EmblemPropPathException whenever there is a problem constructing the path. either
    * your path string is poorly formed, or you asked for an incorrect leaf type.
    */
-  def apply[A <: HasEmblem, B : TypeKey](emblem: Emblem[A], path: String): EmblemPropPath[A, B] = {
+  def apply[A, B : TypeKey](emblem: Emblem[A], path: String): EmblemPropPath[A, B] = {
     val uepp = unbounded(emblem, path)
     val requestedType = typeKey[B]
     if (!(requestedType =:= uepp.typeKey))
@@ -71,7 +74,7 @@ object EmblemPropPath {
    * @param path a dot-separated string representation of the path
    * @throws emblem.exceptions.EmblemPropPathException on poorly formed path string
    */
-  def unbounded[A <: HasEmblem : TypeKey](path: String): EmblemPropPath[A, _] = unbounded(Emblem[A], path)
+  def unbounded[A : TypeKey](path: String): EmblemPropPath[A, _] = unbounded(Emblem[A], path)
 
   /** constructs an [[EmblemPropPath]]
    * 
@@ -80,30 +83,33 @@ object EmblemPropPath {
    * @param path a dot-separated string representation of the path
    * @throws emblem.exceptions.EmblemPropPathException on poorly formed path string
    */
-  def unbounded[A <: HasEmblem](emblem: Emblem[A], path: String): EmblemPropPath[A, _] = {
+  def unbounded[A](emblem: Emblem[A], path: String): EmblemPropPath[A, _] = {
     if (path.isEmpty) throw new EmptyPropPathException
     val pathSegments = path.split('.')
 
     // nope, not tail recursive!
-    def propPath0[A <: HasEmblem](prop: EmblemProp[A, _], pathSegments: Seq[String]): EmblemPropPath[A, _] = {
+    def propPath0[A](prop: EmblemProp[A, _], pathSegments: Seq[String]): EmblemPropPath[A, _] = {
       if (pathSegments.isEmpty)
         Leaf(prop)
       else {
-        def introB[B <: HasEmblem](prop: EmblemProp[A, B]): EmblemPropPath[A, _] = {
-          val nextProp = Emblem(prop.typeKey).apply(pathSegments.head)
-          ::(prop, propPath0(nextProp, pathSegments.tail))
+        // TODO: should be retrieving this Emblem from the emblematic, not generating it on the fly
+        def introB[B](prop: EmblemProp[A, B]): EmblemPropPath[A, _] = {
+          try {
+            val nextProp = Emblem(prop.typeKey).apply(pathSegments.head)
+            ::(prop, propPath0(nextProp, pathSegments.tail))
+          } catch {
+            case e: TypeIsNotCaseClassException =>
+              throw new NonEmblemInPropPathException(emblem, path, prop.name)(prop.typeKey)
+          }
         }
-        if (!(prop.typeKey <:< typeKey[HasEmblem])) {
-          throw new NonEmblemInPropPathException(emblem, path, prop.name)(prop.typeKey)
-        }
-        introB(prop.asInstanceOf[EmblemProp[A, _ <: HasEmblem]])
+        introB(prop.asInstanceOf[EmblemProp[A, _]])
       }
     }
 
     propPath0(emblem(pathSegments.head), pathSegments.tail)
   }
 
-  private case class Leaf[A <: HasEmblem, B](prop: EmblemProp[A, B])
+  private case class Leaf[A, B](prop: EmblemProp[A, B])
   extends EmblemPropPath[A, B] {
     val name = prop.name
     val get = prop.get
@@ -112,7 +118,7 @@ object EmblemPropPath {
     val props = prop :: Nil
   }
 
-  private case class ::[A <: HasEmblem, B <: HasEmblem, C](head: EmblemProp[A, B], tail: EmblemPropPath[B, C])
+  private case class ::[A, B, C](head: EmblemProp[A, B], tail: EmblemPropPath[B, C])
   extends EmblemPropPath[A, C] {
     val name = s"${head.name}.${tail.name}"
     val get = { a: A => tail.get(head.get(a)) }
@@ -122,4 +128,3 @@ object EmblemPropPath {
   }
 
 }
-
