@@ -21,7 +21,7 @@ import scala.reflect.runtime.universe.TypeTag
 case class Emblem[A : TypeKey] private[emblem] (
   val namePrefix: String,
   val name: String,
-  val props: Seq[EmblemProp[A, U] forSome { type U }],
+  val props: Seq[EmblemProp[A, _]],
   val creator: Map[String, Any] => A) {
 
   /** a [[TypeKey type key]] for the type that this emblem reflects upon */
@@ -93,26 +93,5 @@ object Emblem {
    * class with a single parameter list
    */
   def apply[A : TypeKey]: Emblem[A] = new EmblemFactory[A].generate
-
-  // what I need:
-  // - define a super and a sub
-  //   - sub needs to extend emblem
-  //   - sub needs to declare its super
-  // - i need to be able to pull up a Sub[_ <: A] given a Super and an instance
-  // - i need to be able to get the right Sub[_ <: A] given a Super and
-
-  trait Super[A] {
-    val typeKey: TypeKey[A]
-  }
-
-  object Super {
-
-  }
-
-  trait Sub[A] {
-    self: Emblem[A] =>
-    val sup: Super[_ >: A]
-    val descriminator: String
-  }
 
 }
