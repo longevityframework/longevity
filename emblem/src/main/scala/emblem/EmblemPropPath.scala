@@ -39,6 +39,7 @@ trait EmblemPropPath[A <: HasEmblem, B] {
 object EmblemPropPath {
 
   /** constructs an [[EmblemPropPath]]
+   * 
    * @tparam A the type of the starting point of the prop path
    * @tparam B the leaf property value type
    * @param path a dot-separated string representation of the path
@@ -48,6 +49,7 @@ object EmblemPropPath {
   def apply[A <: HasEmblem : TypeKey, B : TypeKey](path: String): EmblemPropPath[A, B] = apply(Emblem[A], path)
 
   /** constructs an [[EmblemPropPath]]
+   * 
    * @tparam A the type of the starting point of the prop path
    * @tparam B the leaf property value type
    * @param emblem the emblem for the starting point of the prop path
@@ -64,6 +66,7 @@ object EmblemPropPath {
   }
 
   /** constructs an [[EmblemPropPath]]
+   * 
    * @tparam A the type of the starting point of the prop path
    * @param path a dot-separated string representation of the path
    * @throws emblem.exceptions.EmblemPropPathException on poorly formed path string
@@ -71,6 +74,7 @@ object EmblemPropPath {
   def unbounded[A <: HasEmblem : TypeKey](path: String): EmblemPropPath[A, _] = unbounded(Emblem[A], path)
 
   /** constructs an [[EmblemPropPath]]
+   * 
    * @tparam A the type of the starting point of the prop path
    * @param emblem the emblem for the starting point of the prop path
    * @param path a dot-separated string representation of the path
