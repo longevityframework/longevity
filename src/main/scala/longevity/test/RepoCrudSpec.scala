@@ -82,7 +82,7 @@ with TestDataGeneration {
 
   private class RepoSpec[P <: Persistent : TypeKey](private val repo: BaseRepo[P]) {
 
-    private val pName = repo.pType.emblem.name
+    private val pName = repo.pType.entityTypeKey.name
     private val representativeKeyOption = repo.pType.keySet.headOption
 
     object Create extends Tag("Create")

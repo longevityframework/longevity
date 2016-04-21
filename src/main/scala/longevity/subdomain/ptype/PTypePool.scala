@@ -26,7 +26,7 @@ object PTypePool {
 
     val map: TypeKeyMap[Persistent, PType] =
       entityTypes.foldLeft(TypeKeyMap[Persistent, PType]()) {
-        case (map, entityType) => map + (entityType.emblem.typeKey -> entityType)
+        case (map, entityType) => map + (entityType.entityTypeKey -> entityType)
       }
 
     if (entityTypes.size != map.size) throw new DuplicateEntityTypesException
