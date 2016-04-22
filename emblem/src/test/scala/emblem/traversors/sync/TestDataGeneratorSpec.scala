@@ -15,12 +15,6 @@ import org.scalatest.OptionValues._
 
 // TODO: look into reworking/adding specs for traversors using exhaustive
 
-// TODO NEXT:
-// - Emblem & Union need common super
-// - UnionProp & UnionPropPath
-// - EntityType should have a common super instead of an emblem
-// - once you get there, pop that stash and see whats next
-
 /** specs for [[TestDataGenerator]] */
 class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 

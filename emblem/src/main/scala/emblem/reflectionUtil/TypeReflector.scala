@@ -1,13 +1,14 @@
 package emblem.reflectionUtil
 
 import emblem.TypeKey
-import emblem.exceptions.TypeIsNotCaseClassException
 import emblem.exceptions.CaseClassIsInnerClassException
+import emblem.exceptions.TypeIsNotCaseClassException
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe.ClassSymbol
 import scala.reflect.runtime.universe.ModuleMirror
 import scala.reflect.runtime.universe.ModuleSymbol
 import scala.reflect.runtime.universe.TermName
+import scala.reflect.runtime.universe.TermSymbol
 
 /** utilities for reflecting on a type */
 private[emblem] abstract class TypeReflector[A : TypeKey] {
@@ -49,6 +50,10 @@ private[emblem] abstract class TypeReflector[A : TypeKey] {
     }
 
   }
+
+  /** all the public val members of the type */
+  protected def publicVals: Seq[TermSymbol] =
+    tpe.members.filter(s => s.isTerm && s.isPublic).map(_.asTerm).filter(_.isVal).toSeq
 
   /** a function that acts like a getter for the supplied term name */
   protected def getFunction[U : TypeKey](name: TermName): (A) => U = {

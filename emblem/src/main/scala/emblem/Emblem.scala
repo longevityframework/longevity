@@ -1,7 +1,5 @@
 package emblem
 
-import emblem.exceptions.NoSuchPropertyException
-import scala.util.Try
 import emblem.factories.EmblemFactory
 import scala.reflect.runtime.universe.TypeTag
 
@@ -12,45 +10,15 @@ import scala.reflect.runtime.universe.TypeTag
  * returned by method [[builder]].
  *
  * @tparam A the type that this emblem reflects upon
- * @param namePrefix a dot-separated identifier of the enclosing scope of the type
- * @param name the unqualified type name
+ * @param typeKey a [[TypeKey type key]] for the type that this emblem reflects upon
  * @param props the [[EmblemProp emblem properties]]
- * @param propDefaults default property values used by the builder
  * @param creator a function used by the builder to instantiate the new object
  */
-case class Emblem[A : TypeKey] private[emblem] (
-  val namePrefix: String,
-  val name: String,
-  val props: Seq[EmblemProp[A, _]],
-  val creator: Map[String, Any] => A) {
-
-  /** a [[TypeKey type key]] for the type that this emblem reflects upon */
-  lazy val typeKey: TypeKey[A] = emblem.typeKey[A]
-
-  /** the fully qualified type name */
-  lazy val fullname = s"$namePrefix.$name"
-
-  /** a map of the [[props]], keyed by name */
-  val propMap: Map[String, EmblemProp[A, _]] = props.view.map(prop => prop.name -> prop).toMap
-
-  /** retrieves an [[EmblemProp]] by name */
-  def apply(name: String) =
-    try {
-      propMap(name)
-    } catch {
-      case e: NoSuchElementException => throw new NoSuchPropertyException(this, name)
-    }
-
-  /** retrieves an [[EmblemProp]] with the specified property type by name */
-  def prop[U : TypeKey](name: String) = {
-    val typeKey = implicitly[TypeKey[U]]
-    val prop = apply(name)
-    if (typeKey != prop.typeKey) {
-      throw new ClassCastException(
-        s"requested property $name with type ${typeKey.tpe}, but this property has type ${prop.typeKey.tpe}")
-    }
-    prop.asInstanceOf[EmblemProp[A, U]]
-  }
+case class Emblem[A] private[emblem] (
+  typeKey: TypeKey[A],
+  props: Seq[EmblemProp[A, _]],
+  creator: Map[String, Any] => A)
+extends Reflective[A, EmblemProp] {
 
   /** a builder of instances of the type represented by this emblem */
   class InstanceBuilder private[Emblem] () {
@@ -62,7 +30,6 @@ case class Emblem[A : TypeKey] private[emblem] (
 
     /** builds and returns the instance */
     def build(): A = creator(map)
-
   }
 
   /** creates and returns a new builder for constructing new instances */

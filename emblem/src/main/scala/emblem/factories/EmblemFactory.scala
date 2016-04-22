@@ -2,13 +2,10 @@ package emblem.factories
 
 import emblem.Emblem
 import emblem.EmblemProp
-
 import emblem.TypeKey
 import emblem.exceptions.CaseClassHasMultipleParamListsException
 import emblem.exceptions.RequiredPropertyNotSetException
 import emblem.reflectionUtil.makeTypeTag
-import emblem.stringUtil.typeName
-import emblem.stringUtil.typeNamePrefix
 import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe.MethodSymbol
@@ -21,8 +18,7 @@ private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
 
   /** generates the emblem */
   def generate: Emblem[A] = Emblem[A](
-    typeNamePrefix(tpe),
-    typeName(tpe),
+    key,
     params.map(_.name).map(emblemProp(_)),
     makeCreator())
 
@@ -33,19 +29,18 @@ private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
     makeEmblemProp(name)(propKey)
   }
 
-  private def makeEmblemProp[U](name: TermName)(implicit propKey: TypeKey[U]): EmblemProp[A, U] =
-    EmblemProp[A, U](
+  private def makeEmblemProp[B](name: TermName)(implicit propKey: TypeKey[B]): EmblemProp[A, B] =
+    EmblemProp[A, B](
       name.toString,
-      getFunction[U](name),
-      setFunction[U](name))(
-      key,
+      getFunction[B](name),
+      setFunction[B](name))(
       propKey)
 
-  private def setFunction[U : TypeKey](name: TermName): (A, U) => A = {
-    val setFunction = { (a: A, u: U) =>
+  private def setFunction[B : TypeKey](name: TermName): (A, B) => A = {
+    val setFunction = { (a: A, b: B) =>
       val args = params.map { param: TermSymbol =>
         if (param.name == name) {
-          u
+          b
         }
         else {
           val getter = tpe.decl(param.name).asMethod

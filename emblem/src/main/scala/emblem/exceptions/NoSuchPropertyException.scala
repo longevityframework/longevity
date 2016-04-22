@@ -1,7 +1,7 @@
 package emblem.exceptions
 
-import emblem.Emblem
+// TODO: rework super here
+// TODO: scaladoc
 
-
-class NoSuchPropertyException(val emblem: Emblem[_], val propName: String)
-extends EmblemException(s"no such property '$propName' in emblem $emblem")
+class NoSuchPropertyException(reflectiveName: String, propName: String)
+extends EmblemException(s"no such property '$propName' in $reflectiveName")

@@ -1,5 +1,16 @@
 package emblem
 
+import emblem.factories.UnionFactory
+
+// TODO NEXT:
+// - UnionProp & UnionFactory
+// - rework EmblemSpec against exhaustive
+// - reuse EmblemSpec to write UnionSpec
+
+// - UnionPropPath
+// - EntityType should have Reflective instead of Emblem
+// - once you get there, pop that stash and see whats next
+
 /** describes a supertype that can be resolved down in to other types found in
  * an [[Emblematic]].
  *
@@ -13,16 +24,19 @@ package emblem
  * @tparam A the supertype
  * @param typeKey the type key for the supertype
  * @param constituents the type keys for the constituent types
+ * @param props the [[UnionProp union properties]]
  */
 case class Union[A](
   typeKey: TypeKey[A],
-  constituents: Set[TypeKey[_ <: A]]) {
+  constituents: Set[TypeKey[_ <: A]],
+  props: Seq[UnionProp[A, _]])
+extends Reflective[A, UnionProp] {
 
   /** returns the type key for the constituent that the instance matches,
    * wrapped in a `Some`, if the instance matches one of the constituent types.
    * otherwise returns `None`.
    *
-   * @param a the instance to find the consituent type for
+   * @param a the instance to find the constituent type for
    * @return the type key for the constituent type
    */
   def typeKeyForInstance(a: A): Option[TypeKey[_ <: A]] = {
@@ -33,7 +47,7 @@ case class Union[A](
    * wrapped in a `Some`, if the name matches one of the constituent types.
    * otherwise returns `None`.
    *
-   * @param a the instance to find the consituent type for
+   * @param a the instance to find the constituent type for
    * @return the type key for the constituent type
    */
   def typeKeyForName(name: String): Option[TypeKey[_ <: A]] =
@@ -41,13 +55,13 @@ case class Union[A](
 
   private val constituentKeysByName: Map[String, TypeKey[_ <: A]] =
     constituents.map(c => (c.name, c)).toMap
-    
+
 }
 
 object Union {
 
   /** constructs a `Union` from the constituent types */
-  def apply[A : TypeKey](constituents: TypeKey[_ <: A]*): Union[A] =
-    Union[A](typeKey[A], constituents.toSet)
+  def apply[A : TypeKey](constituents: TypeKey[_ <: A] *): Union[A] =
+    new UnionFactory[A].generate(constituents.toSet)
 
 }
