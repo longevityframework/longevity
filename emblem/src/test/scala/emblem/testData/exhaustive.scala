@@ -36,42 +36,119 @@ object exhaustive {
     long: Long,
     string: String)
  
-
   case class WithExtractors(
     email: Email,
     markdown: Markdown,
-    uri: Uri)
- 
+    uri: Uri) 
 
   case class WithCollections(
     option: Option[String],
     set: Set[String],
-    list: List[String])
- 
+    list: List[String]) 
 
-  trait WithSpecialization {
+  trait TraitWithAbstractProp {
     val common: String
+
+    // the following should not be made into properties:
+    private val sheep = "sheep"
+    private[exhaustive] val dog = "dog"
+    protected val cow = "cow"
+    def method: String = "method man"
+    var variable = "var var"
   }
 
   case class Specialization1(
     common: String,
     special1: String)
-  extends WithSpecialization
+  extends TraitWithAbstractProp
 
   case class Specialization2(
     common: String,
     special2: String)
-  extends WithSpecialization
+  extends TraitWithAbstractProp
+
+  trait TraitWithConcreteProp {
+    val common: String = "common"
+  }
+
+  case class Specialization3(
+    special3: String)
+  extends TraitWithConcreteProp
+
+  case class Specialization4(
+    override val common: String,
+    special2: String)
+  extends TraitWithConcreteProp
+
+  abstract class ClassWithAbstractProp {
+    val common: String
+  }
+
+  case class Specialization5(
+    common: String,
+    special5: String)
+  extends ClassWithAbstractProp
+
+  case class Specialization6(
+    common: String,
+    special6: String)
+  extends ClassWithAbstractProp
+
+  class ClassWithConcreteProp {
+    val common: String = "common"
+  }
+
+  case class Specialization7(
+    special7: String)
+  extends ClassWithConcreteProp
+
+  case class Specialization8(
+    override val common: String,
+    special8: String)
+  extends ClassWithConcreteProp
+
+  lazy val withBasicsEmblem = Emblem[WithBasics]
+  lazy val withExtractorsEmblem = Emblem[WithExtractors]
+  lazy val withCollectionsEmblem = Emblem[WithCollections]
+  lazy val specialization1Emblem = Emblem[Specialization1]
+  lazy val specialization2Emblem = Emblem[Specialization2]
+  lazy val specialization3Emblem = Emblem[Specialization3]
+  lazy val specialization4Emblem = Emblem[Specialization4]
+  lazy val specialization5Emblem = Emblem[Specialization5]
+  lazy val specialization6Emblem = Emblem[Specialization6]
+  lazy val specialization7Emblem = Emblem[Specialization7]
+  lazy val specialization8Emblem = Emblem[Specialization8]
 
   lazy val emblemPool = EmblemPool(
-    Emblem[WithBasics],
-    Emblem[WithExtractors],
-    Emblem[WithCollections],
-    Emblem[Specialization1],
-    Emblem[Specialization2])
+    withBasicsEmblem,
+    withExtractorsEmblem,
+    withCollectionsEmblem,
+    specialization1Emblem,
+    specialization2Emblem,
+    specialization3Emblem,
+    specialization4Emblem,
+    specialization5Emblem,
+    specialization6Emblem,
+    specialization7Emblem,
+    specialization8Emblem)
+
+  lazy val traitWithAbstractPropUnion =
+    Union[TraitWithAbstractProp](typeKey[Specialization1], typeKey[Specialization2])
+
+  lazy val traitWithConcretePropUnion =
+    Union[TraitWithConcreteProp](typeKey[Specialization3], typeKey[Specialization4])
+
+  lazy val classWithAbstractPropUnion =
+    Union[ClassWithAbstractProp](typeKey[Specialization5], typeKey[Specialization6])
+
+  lazy val classWithConcretePropUnion =
+    Union[ClassWithConcreteProp](typeKey[Specialization7], typeKey[Specialization8])
 
   lazy val unionPool = UnionPool(
-    Union[WithSpecialization](typeKey[Specialization1], typeKey[Specialization2]))
+    traitWithAbstractPropUnion,
+    traitWithConcretePropUnion,
+    classWithAbstractPropUnion,
+    classWithConcretePropUnion)
 
   lazy val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
 
@@ -103,7 +180,10 @@ object exhaustive {
   }
 
   object unions {
-    def withSpecialization = generator.generate[WithSpecialization]
+    def traitWithAbstractProp = generator.generate[TraitWithAbstractProp]
+    def traitWithConcreteProp = generator.generate[TraitWithConcreteProp]
+    def classWithAbstractProp = generator.generate[ClassWithAbstractProp]
+    def classWithConcreteProp = generator.generate[ClassWithConcreteProp]
   }
 
   object options {

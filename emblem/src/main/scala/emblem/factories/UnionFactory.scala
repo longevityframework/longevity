@@ -8,8 +8,8 @@ import emblem.reflectionUtil.TypeReflector
 import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe.NoSymbol
+import scala.reflect.runtime.universe.Type
 import scala.reflect.runtime.universe.TermName
-import scala.reflect.runtime.universe.TermSymbol
 
 /** generates an [[Union]] from the corresponding [[TypeKey]] */
 private[emblem] class UnionFactory[A : TypeKey] extends TypeReflector[A] {
@@ -21,8 +21,8 @@ private[emblem] class UnionFactory[A : TypeKey] extends TypeReflector[A] {
     publicVals.map(_.name).map(unionProp(_)))
 
   private def unionProp(name: TermName): UnionProp[A, _] = {
-    val memberTerm: TermSymbol = tpe.member(name).asTerm.accessed.asTerm
-    val propTypeTag = makeTypeTag[Any](memberTerm) // the Any here is bogus. it comes back as something else
+    val propType: Type = tpe.member(name).asTerm.typeSignature.resultType
+    val propTypeTag = makeTypeTag[Any](propType) // the Any here is bogus. it comes back as something else
     val propKey = TypeKey(propTypeTag)
     makeUnionProp(name)(propKey)
   }

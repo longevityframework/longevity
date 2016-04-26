@@ -35,19 +35,6 @@ extends Reflective[A, EmblemProp] {
   /** creates and returns a new builder for constructing new instances */
   def builder(): InstanceBuilder = new InstanceBuilder()
 
-  /** a string describing the emblem in full detail */
-  lazy val debugInfo = {
-    val builder = new StringBuilder()
-    builder ++= s"$fullname {\n"
-    props.foreach {
-      prop => builder ++= s"  $prop\n"
-    }
-    builder ++= s"}"
-    builder.toString
-  }
-
-  override def toString = fullname
-
 }
 
 object Emblem {

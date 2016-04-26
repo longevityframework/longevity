@@ -7,6 +7,7 @@ import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe.ClassSymbol
 import scala.reflect.runtime.universe.ModuleMirror
 import scala.reflect.runtime.universe.ModuleSymbol
+import scala.reflect.runtime.universe.Symbol
 import scala.reflect.runtime.universe.TermName
 import scala.reflect.runtime.universe.TermSymbol
 
@@ -52,8 +53,11 @@ private[emblem] abstract class TypeReflector[A : TypeKey] {
   }
 
   /** all the public val members of the type */
-  protected def publicVals: Seq[TermSymbol] =
-    tpe.members.filter(s => s.isTerm && s.isPublic).map(_.asTerm).filter(_.isVal).toSeq
+  protected def publicVals: Seq[TermSymbol] = {
+    def publicTerm(s: Symbol) = s.isTerm && s.isPublic
+    def isValue(s: TermSymbol) = s.isGetter && s.isStable
+    tpe.members.filter(publicTerm).map(_.asTerm).filter(isValue).toSeq
+  }
 
   /** a function that acts like a getter for the supplied term name */
   protected def getFunction[U : TypeKey](name: TermName): (A) => U = {

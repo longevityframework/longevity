@@ -1,8 +1,17 @@
 package emblem
 
 import emblem.exceptions.NoSuchPropertyException
-import org.scalatest._
-import testData.geometry._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
+import testData.exhaustive.WithBasics
+import testData.exhaustive.WithCollections
+import testData.exhaustive.WithExtractors
+import testData.exhaustive.withBasicsEmblem
+import testData.exhaustive.withCollectionsEmblem
+import testData.exhaustive.withExtractorsEmblem
+import testData.geometry.Point
+import testData.geometry.pointEmblem
 
 /** [[Emblem emblem]] specifications */
 class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -13,6 +22,10 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
     pointEmblem.namePrefix should equal ("emblem.testData.geometry")
     pointEmblem.name should equal ("Point")
     pointEmblem.fullname should equal ("emblem.testData.geometry.Point")
+
+    withBasicsEmblem.namePrefix should equal ("emblem.testData.exhaustive")
+    withBasicsEmblem.name should equal ("WithBasics")
+    withBasicsEmblem.fullname should equal ("emblem.testData.exhaustive.WithBasics")
   }
 
   it should "retain type information" in {
@@ -25,6 +38,15 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
          |  x: scala.Double
          |  y: scala.Double
          |}""".stripMargin)
+  }
+
+  behavior of "Emblem.props"
+
+  it should "be the right size" in {
+    pointEmblem.props.size should equal (2)
+    withBasicsEmblem.props.size should equal (8)
+    withExtractorsEmblem.props.size should equal (3)
+    withCollectionsEmblem.props.size should equal (3)
   }
 
   behavior of "Emblem.apply(String)"

@@ -44,4 +44,17 @@ trait Reflective[A, P[B, C] <: ReflectiveProp[B, C]] {
     prop.asInstanceOf[P[A, B]]
   }
 
+  /** a string describing the reflective in full detail */
+  lazy val debugInfo = {
+    val builder = new StringBuilder()
+    builder ++= s"$fullname {\n"
+    props.foreach {
+      prop => builder ++= s"  $prop\n"
+    }
+    builder ++= s"}"
+    builder.toString
+  }
+
+  override def toString = fullname
+
 }

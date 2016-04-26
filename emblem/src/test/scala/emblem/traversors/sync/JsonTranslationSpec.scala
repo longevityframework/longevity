@@ -51,7 +51,7 @@ class JsonTranslationSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce the original output for unions" in {
-    pipelineReproducesInput(exhaustive.unions.withSpecialization)
+    pipelineReproducesInput(exhaustive.unions.traitWithAbstractProp)
   }
 
   it should "produce the original output for options" in {
