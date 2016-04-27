@@ -134,17 +134,6 @@ class EmblematicPropPathSpec extends FlatSpec with GivenWhenThen with Matchers {
     epp.get(computer) should equal (actualMhz)
   }
 
-  behavior of "EmblematicPropPath.set"
-
-  it should "produce a new object with the value along the path reset" in {
-    val epp = EmblematicPropPath[Computer, Double]("cpu.mhz")
-    val oldMhz = 3000000000.0D
-    val newMhz = 3200000000.0D
-    val oldComputer = Computer(Memory(16), CPU(oldMhz), Display(780))
-    val newComputer = epp.set(oldComputer, newMhz)
-    newComputer.cpu.mhz should equal (newMhz)
-  }
-
   behavior of "EmblematicPropPath.props"
 
   it should "produce a new object with the value along the path reset" in {

@@ -16,9 +16,6 @@ trait EmblematicPropPath[A, B] {
   /** a function that retrieves the property value from an instance */
   val get: (A) => B
 
-  /** a function that updates the property value to produce a new instance */
-  val set: (A, B) => A
-
   /** a [[TypeKey type key]] for the property path value type */
   val typeKey: TypeKey[B]
 
@@ -113,7 +110,6 @@ object EmblematicPropPath {
   extends EmblematicPropPath[A, B] {
     val name = prop.name
     val get = prop.get
-    val set = prop.set
     val typeKey = prop.typeKey
     val props = prop :: Nil
   }
@@ -122,7 +118,6 @@ object EmblematicPropPath {
   extends EmblematicPropPath[A, C] {
     val name = s"${head.name}.${tail.name}"
     val get = { a: A => tail.get(head.get(a)) }
-    val set = { (a: A, c: C) => head.set(a, tail.set(head.get(a), c)) }
     val typeKey = tail.typeKey
     val props = head :: tail.props
   }

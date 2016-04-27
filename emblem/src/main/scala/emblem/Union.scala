@@ -3,7 +3,6 @@ package emblem
 import emblem.factories.UnionFactory
 
 // TODO NEXT:
-// - remove setter from EmblematicPropPath
 // - fix EmblematicPropPath factory to take an Emblematic
 
 // - EntityType should have Reflective instead of Emblem
