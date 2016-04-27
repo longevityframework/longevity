@@ -23,7 +23,7 @@ import emblem.factories.UnionFactory
 
 // probably the best thing is to go for the path of least resistence right now, and leave behind a writeup somewhere of how to make UnionProps have setters, if it ever becomes desirable
 
-// - replace EmblemPropPath with EmblematicPropPath
+// - replace EmblematicPropPath with EmblematicPropPath
 // - EntityType should have Reflective instead of Emblem
 // - once you get there, pop that stash and see whats next
 

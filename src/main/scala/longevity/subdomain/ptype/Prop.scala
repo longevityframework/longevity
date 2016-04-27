@@ -2,11 +2,11 @@ package longevity.subdomain.ptype
 
 import emblem.Emblem
 import emblem.EmblemProp
-import emblem.EmblemPropPath
+import emblem.EmblematicPropPath
 import emblem.TypeKey
 import emblem.basicTypes.basicTypeOrderings
 import emblem.basicTypes.isBasicType
-import emblem.exceptions.EmblemPropPathTypeMismatchException
+import emblem.exceptions.EmblematicPropPathTypeMismatchException
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblemInPropPathException
@@ -33,7 +33,7 @@ import longevity.subdomain.persistent.Persistent
 case class Prop[P <: Persistent, A] private (
   path: String,
   typeKey: TypeKey[A])(
-  private val emblemPropPath: EmblemPropPath[P, A],
+  private val emblemPropPath: EmblematicPropPath[P, A],
   private val shorthandPool: ShorthandPool) {
 
   /** the value of this property for a persistent
@@ -81,9 +81,9 @@ object Prop {
     shorthandPool: ShorthandPool)
   : Prop[P, _] = {
 
-    def validatePath(): EmblemPropPath[P, _] =
+    def validatePath(): EmblematicPropPath[P, _] =
       try {
-        EmblemPropPath.unbounded(emblem, path)
+        EmblematicPropPath.unbounded(emblem, path)
       } catch {
         case e: EmptyPropPathException =>
           throw new NoSuchPropException(path, pTypeKey)
@@ -118,11 +118,11 @@ object Prop {
     def newProp[A : TypeKey](
       path: String,
       propTypeKey: TypeKey[A],
-      emblemPropPath: EmblemPropPath[P, _]) =
+      emblemPropPath: EmblematicPropPath[P, _]) =
       new Prop(
         path,
         propTypeKey)(
-        emblemPropPath.asInstanceOf[EmblemPropPath[P, A]],
+        emblemPropPath.asInstanceOf[EmblematicPropPath[P, A]],
         shorthandPool)
 
     newProp(path, propTypeKey, emblemPropPath)
