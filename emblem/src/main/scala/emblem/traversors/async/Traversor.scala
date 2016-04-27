@@ -176,7 +176,7 @@ trait Traversor {
       }
 
       val typeKeyB = constituentTypeKey(union, i)
-      if (! union.constituents.contains(typeKeyB)) throw new ClassCastException
+      if (! union.constituentKeys.contains(typeKeyB)) throw new ClassCastException
       traverseConstituent(typeKeyB).asInstanceOf[Future[TraverseResult[A]]]
     }
   }

@@ -133,16 +133,16 @@ object exhaustive {
     specialization8Emblem)
 
   lazy val traitWithAbstractPropUnion =
-    Union[TraitWithAbstractProp](typeKey[Specialization1], typeKey[Specialization2])
+    Union[TraitWithAbstractProp](specialization1Emblem, specialization2Emblem)
 
   lazy val traitWithConcretePropUnion =
-    Union[TraitWithConcreteProp](typeKey[Specialization3], typeKey[Specialization4])
+    Union[TraitWithConcreteProp](specialization3Emblem, specialization4Emblem)
 
   lazy val classWithAbstractPropUnion =
-    Union[ClassWithAbstractProp](typeKey[Specialization5], typeKey[Specialization6])
+    Union[ClassWithAbstractProp](specialization5Emblem, specialization6Emblem)
 
   lazy val classWithConcretePropUnion =
-    Union[ClassWithConcreteProp](typeKey[Specialization7], typeKey[Specialization8])
+    Union[ClassWithConcreteProp](specialization7Emblem, specialization8Emblem)
 
   lazy val unionPool = UnionPool(
     traitWithAbstractPropUnion,

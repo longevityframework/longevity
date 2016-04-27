@@ -1,5 +1,6 @@
 package emblem.factories
 
+import emblem.Emblem
 import emblem.Union
 import emblem.UnionProp
 import emblem.TypeKey
@@ -15,7 +16,7 @@ import scala.reflect.runtime.universe.TermName
 private[emblem] class UnionFactory[A : TypeKey] extends TypeReflector[A] {
 
   /** generates the union */
-  def generate(constituents: Set[TypeKey[_ <: A]]): Union[A] = Union[A](
+  def generate(constituents: Set[Emblem[_ <: A]]): Union[A] = Union[A](
     key,
     constituents,
     publicVals.map(_.name).map(unionProp(_)))

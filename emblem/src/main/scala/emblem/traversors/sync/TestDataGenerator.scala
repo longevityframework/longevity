@@ -53,7 +53,7 @@ extends Generator {
 
   override protected def constituentTypeKey[A : TypeKey](union: Union[A]): TypeKey[_ <: A] = {
     val numConstituents = union.constituents.size
-    union.constituents.toSeq(math.abs(int % numConstituents))
+    union.constituentKeys.toSeq(math.abs(int % numConstituents))
   } 
 
   override protected def optionSize[A : TypeKey]: Int = math.abs(int % 2)
