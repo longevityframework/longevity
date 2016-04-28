@@ -1,6 +1,8 @@
 package longevity.subdomain.ptype
 
+import emblem.Emblematic
 import emblem.TypeKey
+import emblem.typeKey
 import emblem.basicTypes.isBasicType
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
@@ -17,6 +19,12 @@ abstract class PType[
   implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty)
 extends EntityType[P] {
 
+  // TODO place these
+  private val propInit = new PropInit[P]
+  private[subdomain] def provideEmblematic(emblematic: Emblematic): Unit = {
+    propInit.provideEmblematic(emblematic)
+  }
+
   /** the keys for this persistent type */
   lazy val keySet: Set[Key[P]] = kscan("keys")
 
@@ -24,18 +32,18 @@ extends EntityType[P] {
   lazy val indexSet: Set[Index[P]] = iscan("indexes")
 
   /** constructs a [[longevity.subdomain.ptype.Prop Prop]] from a path
-   * 
+   *
    * @throws longevity.exceptions.subdomain.ptype.PropException if any step along
    * the path does not exist, or any non-final step along the path is not an
    * entity, or the final step along the path is not a [[Shorthand]], an
    * [[Assoc]] or a basic type.
-   * 
+   *
    * @see `emblem.basicTypes`
    */
-  def prop[A : TypeKey](path: String): Prop[P, A] = Prop(path, emblem, entityTypeKey, shorthandPool)
+  def prop[A : TypeKey](path: String): Prop[P, A] = Prop(path, pTypeKey, typeKey[A])(shorthandPool, propInit)
 
   /** constructs a key for this persistent type based on the supplied set of key props
-   * 
+   *
    * @param propsHead the first of the properties that define this key
    * @param propsTail any remaining properties that define this key
    */

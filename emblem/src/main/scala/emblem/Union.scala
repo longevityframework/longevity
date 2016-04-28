@@ -3,8 +3,7 @@ package emblem
 import emblem.factories.UnionFactory
 
 // TODO NEXT:
-// - fix EmblematicPropPath factory to take an Emblematic
-
+// - Prop factory methods need an emblematic
 // - EntityType should have Reflective instead of Emblem
 // - once you get there, pop that stash and see whats next
 
@@ -27,7 +26,9 @@ case class Union[A](
   typeKey: TypeKey[A],
   constituents: Set[Emblem[_ <: A]],
   props: Seq[UnionProp[A, _]])
-extends Reflective[A, UnionProp] {
+extends Reflective[A] {
+
+  type P[B, C] = UnionProp[B, C]
 
   /** type keys for the constituent types */
   val constituentKeys: Set[TypeKey[_ <: A]] = constituents.map(_.typeKey)

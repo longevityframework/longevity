@@ -27,13 +27,14 @@ object KeySpec {
   extends Root
 
   object KeySampler extends RootType[KeySampler] {
-    val booleanProp = prop[Boolean]("boolean")
-    val charProp = prop[Char]("char")
-    val doubleProp = prop[Double]("double")
-
+    object props {
+      val boolean = prop[Boolean]("boolean")
+      val char = prop[Char]("char")
+      val double = prop[Double]("double")
+    }
     object keys {
-      val double = key(booleanProp, charProp)
-      val triple = key(booleanProp, charProp, doubleProp)
+      val double = key(props.boolean, props.char)
+      val triple = key(props.boolean, props.char, props.double)
     }
     object indexes {
     }
@@ -44,8 +45,11 @@ object KeySpec {
 /** unit tests for the proper construction of [[Key keys]] */
 class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  import KeySpec._
-  import KeySpec.KeySampler._
+  import KeySpec.KeySampler
+  import KeySpec.KeySampler.keys
+  import KeySpec.KeySampler.props
+
+  val subdomain = Subdomain("key sampler", EntityTypePool(KeySampler))
 
   behavior of "Key.apply"
 
@@ -68,9 +72,9 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
     val keyValForP = keys.triple(booleanVal, charVal, doubleVal)
 
-    keyValForP(booleanProp) should equal (booleanVal)
-    keyValForP(charProp) should equal (charVal)
-    keyValForP(doubleProp) should equal (doubleVal)
+    keyValForP(props.boolean) should equal (booleanVal)
+    keyValForP(props.char) should equal (charVal)
+    keyValForP(props.double) should equal (doubleVal)
   }
 
   behavior of "Key.keyValForP"
@@ -83,9 +87,9 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
     val keyValForP: KeyVal[KeySampler] = keys.triple.keyValForP(sampler)
 
-    keyValForP(booleanProp) should equal (booleanVal)
-    keyValForP(charProp) should equal (charVal)
-    keyValForP(doubleProp) should equal (doubleVal)
+    keyValForP(props.boolean) should equal (booleanVal)
+    keyValForP(props.char) should equal (charVal)
+    keyValForP(props.double) should equal (doubleVal)
   }
 
 }

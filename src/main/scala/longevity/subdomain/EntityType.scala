@@ -15,6 +15,6 @@ abstract class EntityType[E <: Entity : TypeKey] {
   /** an `Emblem` for the domain entity
    * @see `emblem.Emblem`
    */
-  val emblem: Emblem[E] = Emblem[E]
+  lazy val emblem: Emblem[E] = Emblem[E]
 
 }

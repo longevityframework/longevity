@@ -1,12 +1,15 @@
 package longevity.persistence.mongo
 
 import com.mongodb.casbah.Imports._
-import emblem.typeKey
 import emblem.TypeKey
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
+import emblem.typeKey
 import longevity.exceptions.persistence.AssocIsUnpersistedException
-import longevity.persistence._
+import longevity.persistence.BaseRepo
+import longevity.persistence.Deleted
+import longevity.persistence.PState
+import longevity.persistence.PersistedAssoc
 import longevity.subdomain.Assoc
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
@@ -17,11 +20,18 @@ import longevity.subdomain.ptype.OrderingQuery
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.Query._
+import longevity.subdomain.ptype.Query.AndOp
+import longevity.subdomain.ptype.Query.EqOp
+import longevity.subdomain.ptype.Query.GtOp
+import longevity.subdomain.ptype.Query.GteOp
+import longevity.subdomain.ptype.Query.LtOp
+import longevity.subdomain.ptype.Query.LteOp
+import longevity.subdomain.ptype.Query.NeqOp
+import longevity.subdomain.ptype.Query.OrOp
 import org.bson.types.ObjectId
-import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import scala.concurrent.blocking
 import scala.util.Failure
 import scala.util.Success
 
@@ -120,10 +130,10 @@ extends BaseRepo[P](pType, subdomain) {
   }
 
   private def resolvePropVal(prop: Prop[P, _], raw: Any): Any = {
-    if (subdomain.shorthandPool.contains(prop.typeKey)) {
+    if (subdomain.shorthandPool.contains(prop.propTypeKey)) {
       def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
-      abbreviate(prop.typeKey)
-    } else if (prop.typeKey <:< typeKey[Assoc[_]]) {
+      abbreviate(prop.propTypeKey)
+    } else if (prop.propTypeKey <:< typeKey[Assoc[_]]) {
       val assoc = raw.asInstanceOf[Assoc[_ <: Persistent]]
       if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
       raw.asInstanceOf[MongoId[_ <: Persistent]].objectId
@@ -135,14 +145,14 @@ extends BaseRepo[P](pType, subdomain) {
   private def mongoQuery(query: Query[P]): MongoDBObject = {
     query match {
       case EqualityQuery(prop, op, value) => op match {
-        case EqOp => MongoDBObject(prop.path -> touchupValue(value)(prop.typeKey))
-        case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> touchupValue(value)(prop.typeKey)))
+        case EqOp => MongoDBObject(prop.path -> touchupValue(value)(prop.propTypeKey))
+        case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> touchupValue(value)(prop.propTypeKey)))
       }
       case OrderingQuery(prop, op, value) => op match {
-        case LtOp => MongoDBObject(prop.path -> MongoDBObject("$lt" -> touchupValue(value)(prop.typeKey)))
-        case LteOp => MongoDBObject(prop.path -> MongoDBObject("$lte" -> touchupValue(value)(prop.typeKey)))
-        case GtOp => MongoDBObject(prop.path -> MongoDBObject("$gt" -> touchupValue(value)(prop.typeKey)))
-        case GteOp => MongoDBObject(prop.path -> MongoDBObject("$gte" -> touchupValue(value)(prop.typeKey)))
+        case LtOp => MongoDBObject(prop.path -> MongoDBObject("$lt" -> touchupValue(value)(prop.propTypeKey)))
+        case LteOp => MongoDBObject(prop.path -> MongoDBObject("$lte" -> touchupValue(value)(prop.propTypeKey)))
+        case GtOp => MongoDBObject(prop.path -> MongoDBObject("$gt" -> touchupValue(value)(prop.propTypeKey)))
+        case GteOp => MongoDBObject(prop.path -> MongoDBObject("$gte" -> touchupValue(value)(prop.propTypeKey)))
       }
       case ConditionalQuery(lhs, op, rhs) => op match {
         case AndOp => MongoDBObject("$and" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))

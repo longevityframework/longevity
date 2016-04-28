@@ -18,7 +18,9 @@ case class Emblem[A] private[emblem] (
   typeKey: TypeKey[A],
   props: Seq[EmblemProp[A, _]],
   creator: Map[String, Any] => A)
-extends Reflective[A, EmblemProp] {
+extends Reflective[A] {
+
+  type P[B, C] = EmblemProp[B, C]
 
   /** a builder of instances of the type represented by this emblem */
   class InstanceBuilder private[Emblem] () {

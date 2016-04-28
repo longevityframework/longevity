@@ -1,17 +1,19 @@
 package longevity.subdomain.ptype
 
 import emblem.Emblem
-import emblem.EmblemProp
+import emblem.Emblematic
 import emblem.EmblematicPropPath
+import emblem.ReflectiveProp
 import emblem.TypeKey
 import emblem.basicTypes.basicTypeOrderings
 import emblem.basicTypes.isBasicType
 import emblem.exceptions.EmblematicPropPathTypeMismatchException
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
-import emblem.exceptions.NonEmblemInPropPathException
+import emblem.exceptions.NonEmblematicInPropPathException
 import emblem.typeKey
 import longevity.exceptions.subdomain.ptype.NoSuchPropException
+import longevity.exceptions.subdomain.ptype.PTypeHasNoSubdomainException
 import longevity.exceptions.subdomain.ptype.PropNotOrderedException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
@@ -27,19 +29,29 @@ import longevity.subdomain.persistent.Persistent
  * property must be an [[Assoc]], a [[Shorthand]], or a basic type.
  * 
  * @param path a dot-separated path of the property descending from the root
- * @param typeKey the `TypeKey` for the property value type
+ * @param pTypeKey the `TypeKey` for the enclosing [[PType persistent type]]
+ * @param propTypeKey the `TypeKey` for the property value type
  * @see `emblem.basicTypes`
  */
-case class Prop[P <: Persistent, A] private (
+case class Prop[P <: Persistent, A] private[ptype] (
   path: String,
-  typeKey: TypeKey[A])(
-  private val emblemPropPath: EmblematicPropPath[P, A],
-  private val shorthandPool: ShorthandPool) {
+  pTypeKey: TypeKey[P],
+  propTypeKey: TypeKey[A])(
+  private val shorthandPool: ShorthandPool,
+  private val propInit: PropInit[P]) {
+
+  private var emblematicPropPathOpt: Option[EmblematicPropPath[P, A]] = None
+
+  propInit.registerProp(this)
 
   /** the value of this property for a persistent
    * @param p the persistent we are looking up the value of the property for
    */
-  def propVal(p: P): A = emblemPropPath.get(p)
+  def propVal(p: P): A = emblematicPropPathOpt match {
+    case Some(epp) => epp.get(p)
+    case None => throw new PTypeHasNoSubdomainException(pTypeKey)(
+      "you cannot call Prop.propVal without a subdomain.")
+  }
 
   /** an ordering for property values
    * 
@@ -49,83 +61,55 @@ case class Prop[P <: Persistent, A] private (
    * for basic types
    */
   lazy val ordering: Ordering[A] =
-    if (isBasicType(typeKey)) {
-      basicTypeOrderings(typeKey)
-    } else if (shorthandPool.contains(typeKey)) {
-      shorthandPool(typeKey).actualOrdering
+    if (isBasicType(propTypeKey)) {
+      basicTypeOrderings(propTypeKey)
+    } else if (shorthandPool.contains(propTypeKey)) {
+      shorthandPool(propTypeKey).actualOrdering
     } else {
       throw new PropNotOrderedException(this)
     }
 
   override def toString: String = path
 
-}
-
-object Prop {
-
-  private[subdomain] def apply[P <: Persistent, A : TypeKey](
-    path: String,
-    emblem: Emblem[P],
-    pTypeKey: TypeKey[P],
-    shorthandPool: ShorthandPool)
-  : Prop[P, A] = {
-    val prop = unbounded(path, emblem, pTypeKey, shorthandPool)
-    if (!(typeKey[A] <:< prop.typeKey)) throw new PropTypeException(path, pTypeKey, typeKey[A])
-    prop.asInstanceOf[Prop[P, A]]
-  }
-
-  private[subdomain] def unbounded[P <: Persistent](
-    path: String,
-    emblem: Emblem[P],
-    pTypeKey: TypeKey[P],
-    shorthandPool: ShorthandPool)
-  : Prop[P, _] = {
+  private[ptype] def initializePropPath(emblematic: Emblematic): Unit = {
 
     def validatePath(): EmblematicPropPath[P, _] =
       try {
-        EmblematicPropPath.unbounded(emblem, path)
+        EmblematicPropPath.unbounded(emblematic, path)(pTypeKey)
       } catch {
         case e: EmptyPropPathException =>
           throw new NoSuchPropException(path, pTypeKey)
         case e: NoSuchPropertyException =>
           throw new NoSuchPropException(path, pTypeKey)
-        case e: NonEmblemInPropPathException[_] =>
+        case e: NonEmblematicInPropPathException[_] =>
           throw new UnsupportedPropTypeException(path)(pTypeKey, e.typeKey)
       }
 
-    def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[EmblemProp[_, _]]): Unit =
+    def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[ReflectiveProp[_, _]]): Unit =
       nonLeafEmblemProps foreach { nonLeafEmblemProp =>
-        if (!(nonLeafEmblemProp.typeKey <:< typeKey[Entity]))
+        if (! (nonLeafEmblemProp.typeKey <:< typeKey[Entity]))
           throw new UnsupportedPropTypeException(path)(pTypeKey, nonLeafEmblemProp.typeKey)
       }
 
-    def validateLeafEmblemProp(leafEmblemProp: EmblemProp[_, _]): TypeKey[_] = {
+    def validateLeafEmblemProp(leafEmblemProp: ReflectiveProp[_, _]): TypeKey[_] = {
       val key = leafEmblemProp.typeKey
       if (!(isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)))
         throw new UnsupportedPropTypeException(path)(pTypeKey, key)
       key
     }
 
-    val emblemPropPath = validatePath()
-    val emblemProps = emblemPropPath.props
+    val emblematicPropPath = validatePath()
+    val reflectiveProps = emblematicPropPath.props
 
-    val nonLeafEmblemProps = emblemProps.dropRight(1)
+    val nonLeafEmblemProps = reflectiveProps.dropRight(1)
     val () = validateNonLeafEmblemProps(nonLeafEmblemProps)
 
-    val leafEmblemProp = emblemProps.last
-    val propTypeKey = validateLeafEmblemProp(leafEmblemProp)
+    val leafEmblemProp = reflectiveProps.last
+    val propPathTypeKey = validateLeafEmblemProp(leafEmblemProp)
 
-    def newProp[A : TypeKey](
-      path: String,
-      propTypeKey: TypeKey[A],
-      emblemPropPath: EmblematicPropPath[P, _]) =
-      new Prop(
-        path,
-        propTypeKey)(
-        emblemPropPath.asInstanceOf[EmblematicPropPath[P, A]],
-        shorthandPool)
+    if (! (propTypeKey <:< propPathTypeKey)) throw new PropTypeException(path, pTypeKey, propTypeKey)
 
-    newProp(path, propTypeKey, emblemPropPath)
+    emblematicPropPathOpt = Some(emblematicPropPath.asInstanceOf[EmblematicPropPath[P, A]])
   }
 
 }

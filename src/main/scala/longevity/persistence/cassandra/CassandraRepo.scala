@@ -10,10 +10,12 @@ import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
 import java.util.UUID
-import longevity.persistence._
-import longevity.subdomain._
+import longevity.persistence.BaseRepo
+import longevity.persistence.PState
+import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.ptype._
+import longevity.subdomain.ptype.PType
+import longevity.subdomain.ptype.Prop
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.concurrent.ExecutionContext
@@ -57,7 +59,7 @@ with CassandraDelete[P] {
 
   protected def propValBinding[A](prop: Prop[P, A], p: P): AnyRef = {
     def bind[B : TypeKey](prop: Prop[P, B]) = cassandraValue(prop.propVal(p))
-    bind(prop)(prop.typeKey)
+    bind(prop)(prop.propTypeKey)
   }
 
   protected def cassandraValue[A : TypeKey](value: A): AnyRef = {

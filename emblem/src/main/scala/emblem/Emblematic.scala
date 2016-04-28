@@ -16,7 +16,13 @@ package emblem
 case class Emblematic(
   extractors: ExtractorPool = ExtractorPool.empty,
   emblems: EmblemPool = EmblemPool.empty,
-  unions: UnionPool = UnionPool.empty)
+  unions: UnionPool = UnionPool.empty) {
+
+  /** a collection of all the emblems and unions */
+  lazy val reflectives =
+    TypeKeyMap[Any, Reflective] ++ emblems.widen[Reflective] ++ unions.widen[Reflective]
+
+}
 
 object Emblematic {
 

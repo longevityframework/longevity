@@ -12,7 +12,7 @@ object EntityTypePool {
 
     val map: TypeKeyMap[Entity, EntityType] =
       entityTypes.foldLeft(TypeKeyMap[Entity, EntityType]()) {
-        case (map, entityType) => map + (entityType.emblem.typeKey -> entityType)
+        case (map, entityType) => map + (entityType.entityTypeKey -> entityType)
       }
 
     if (entityTypes.size != map.size) throw new DuplicateEntityTypesException

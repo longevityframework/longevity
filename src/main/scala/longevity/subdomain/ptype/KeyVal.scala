@@ -44,7 +44,7 @@ object KeyVal {
       throw new NumPropValsException(key, key.props.size, keyValArgs.size)
     val propVals = key.props.zip(keyValArgs).map {
       case (prop, keyValArg) =>
-        if (! (keyValArg.typeKey <:< prop.typeKey))
+        if (! (keyValArg.typeKey <:< prop.propTypeKey))
           throw new PropValTypeException(prop, keyValArg.value)
         prop -> keyValArg.value
     }

@@ -242,7 +242,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys1.User.keys.username.props.size should equal (1)
       val prop = keys1.User.keys.username.props.head
       prop.path should equal ("username")
-      prop.typeKey should equal (typeKey[String])
+      prop.propTypeKey should equal (typeKey[String])
     }
 
     {
@@ -256,16 +256,16 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys2.User.keys.username.props.size should equal (1)
       val usernameProp = keys2.User.keys.username.props.head
       usernameProp.path should equal ("username")
-      usernameProp.typeKey should equal (typeKey[String])
+      usernameProp.propTypeKey should equal (typeKey[String])
 
       keys2.User.keySet.find(_.props.size == 2).value should equal (keys2.User.keys.fullname)
       keys2.User.keys.fullname.props.size should equal (2)
       val firstNameProp = keys2.User.keys.fullname.props.find(_.path == "firstName").value
       firstNameProp.path should equal ("firstName")
-      firstNameProp.typeKey should equal (typeKey[String])
+      firstNameProp.propTypeKey should equal (typeKey[String])
       val lastNameProp = keys2.User.keys.fullname.props.find(_.path == "lastName").value
       lastNameProp.path should equal ("lastName")
-      lastNameProp.typeKey should equal (typeKey[String])
+      lastNameProp.propTypeKey should equal (typeKey[String])
     }
 
     indexes1.subdomain.name should equal ("blogging")

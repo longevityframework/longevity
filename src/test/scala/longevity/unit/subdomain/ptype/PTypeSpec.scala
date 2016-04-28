@@ -3,7 +3,9 @@ package longevity.unit.subdomain.ptype
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException
 import longevity.subdomain.ptype.PType
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 /** unit tests for the proper construction of a [[PType persistent type]] */
 class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {

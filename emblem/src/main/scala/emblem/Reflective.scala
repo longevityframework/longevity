@@ -3,7 +3,10 @@ package emblem
 import emblem.exceptions.NoSuchPropertyException
 
 /** a prototype for [[Emblem]] and [[Union]] */
-trait Reflective[A, P[B, C] <: ReflectiveProp[B, C]] {
+trait Reflective[A] {
+
+  /** TODO */
+  type P[B, C] <: ReflectiveProp[B, C]
 
   /** a [[TypeKey type key]] for the type that we reflect upon */
   val typeKey: TypeKey[A]

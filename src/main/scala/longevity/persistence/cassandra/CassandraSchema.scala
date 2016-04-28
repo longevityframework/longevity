@@ -17,7 +17,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
 
   private def createTable(): Unit = {
     val realizedPropColumns = realizedProps.map(prop =>
-      s"  ${columnName(prop)} ${typeKeyToCassandraType(prop.typeKey)},"
+      s"  ${columnName(prop)} ${typeKeyToCassandraType(prop.propTypeKey)},"
     ).mkString("\n")
     val createTable = s"""|
     |CREATE TABLE IF NOT EXISTS $tableName (

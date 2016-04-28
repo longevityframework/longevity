@@ -1,7 +1,12 @@
 package emblem
 
-import org.scalatest._
-import emblem.exceptions._
+import emblem.exceptions.EmblematicPropPathTypeMismatchException
+import emblem.exceptions.EmptyPropPathException
+import emblem.exceptions.NoSuchPropertyException
+import emblem.exceptions.NonEmblematicInPropPathException
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 /** [[EmblematicPropPath emblem property path]] specifications */
 class EmblematicPropPathSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -10,51 +15,30 @@ class EmblematicPropPathSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   val computerEmblem = Emblem[Computer]
 
-  behavior of "EmblematicPropPath.unbounded[A](String) factory method"
+  behavior of "EmblematicPropPath.unbounded factory method"
 
   it should "fail on an empty path" in {
     intercept[EmptyPropPathException] {
-      EmblematicPropPath.unbounded[Computer]("")
+      EmblematicPropPath.unbounded[Computer](emblematic, "")
     }
   }
 
   it should "fail when a segment of the path does is not an emblem prop" in {
     intercept[NoSuchPropertyException] {
-      EmblematicPropPath.unbounded[Computer]("cpu.gb")
+      EmblematicPropPath.unbounded[Computer](emblematic, "cpu.gb")
     }
   }
 
   it should "fail when a non-leaf member of the path does not have an emblem" in {
-    intercept[NonEmblemInPropPathException[_]] {
-      EmblematicPropPath.unbounded[Computer]("cpu.mhz.mps")
+    intercept[NonEmblematicInPropPathException[_]] {
+      EmblematicPropPath.unbounded[Computer](emblematic, "cpu.mhz.mps")
     }
   }
 
   it should "return an equivalent result as the fully specd EmblematicPropPath factory method" in {
-    { EmblematicPropPath.unbounded[Computer]("cpu.mhz")
+    { EmblematicPropPath.unbounded[Computer](emblematic, "cpu.mhz")
     } should equal {
-      EmblematicPropPath[Computer, Double](computerEmblem, "cpu.mhz")
-    }
-  }
-
-  behavior of "EmblematicPropPath.unbounded(Emblem,String) factory method"
-
-  it should "fail on an empty path" in {
-    intercept[EmptyPropPathException] {
-      EmblematicPropPath.unbounded(computerEmblem, "")
-    }
-  }
-
-  it should "fail when a segment of the path does is not an emblem prop" in {
-    intercept[NoSuchPropertyException] {
-      EmblematicPropPath.unbounded(computerEmblem, "cpu.gb")
-    }
-  }
-
-  it should "return an equivalent result as the fully specd EmblematicPropPath factory method" in {
-    { EmblematicPropPath.unbounded(computerEmblem, "cpu.mhz")
-    } should equal {
-      EmblematicPropPath[Computer, Double](computerEmblem, "cpu.mhz")
+      EmblematicPropPath[Computer, Double](emblematic, "cpu.mhz")
     }
   }
 
@@ -62,73 +46,46 @@ class EmblematicPropPathSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "fail on an empty path" in {
     intercept[EmptyPropPathException] {
-      EmblematicPropPath[Computer, Nothing]("")
+      EmblematicPropPath[Computer, Nothing](emblematic, "")
     }
   }
 
   it should "fail when a segment of the path does is not an emblem prop" in {
     intercept[NoSuchPropertyException] {
-      EmblematicPropPath[Computer, Nothing]("cpu.gb")
+      EmblematicPropPath[Computer, Nothing](emblematic, "cpu.gb")
     }
   }
 
   it should "fail when the specified type does not match the actual type" in {
     intercept[EmblematicPropPathTypeMismatchException] {
-      EmblematicPropPath[Computer, Nothing]("cpu.mhz")
+      EmblematicPropPath[Computer, Nothing](emblematic, "cpu.mhz")
     }
     intercept[EmblematicPropPathTypeMismatchException] {
-      EmblematicPropPath[Computer, Int]("cpu.mhz")
+      EmblematicPropPath[Computer, Int](emblematic, "cpu.mhz")
     }
     intercept[EmblematicPropPathTypeMismatchException] {
-      EmblematicPropPath[Computer, Any]("cpu.mhz")
-    }
-  }
-
-  it should "return an equivalent result as the fully specd EmblematicPropPath factory method" in {
-    { EmblematicPropPath[Computer, Double]("cpu.mhz")
-    } should equal {
-      EmblematicPropPath[Computer, Double](computerEmblem, "cpu.mhz")
-    }
-  }
-
-  behavior of "EmblematicPropPath.apply[A,B](Emblem,String) factory method"
-
-  it should "fail on an empty path" in {
-    intercept[EmptyPropPathException] {
-      EmblematicPropPath[Computer, Nothing](computerEmblem, "")
-    }
-  }
-
-  it should "fail when a segment of the path does is not an emblem prop" in {
-    intercept[NoSuchPropertyException] {
-      EmblematicPropPath[Computer, Nothing](computerEmblem, "cpu.gb")
-    }
-  }
-
-  it should "fail when the specified type does not match the actual type" in {
-    intercept[EmblematicPropPathTypeMismatchException] {
-      EmblematicPropPath[Computer, Nothing](computerEmblem, "cpu.mhz")
+      EmblematicPropPath[Computer, Any](emblematic, "cpu.mhz")
     }
   }
 
   behavior of "EmblematicPropPath.name"
 
   it should "match the (string) path provided when the path was constructed" in {
-    val epp = EmblematicPropPath[Computer, Double]("cpu.mhz")
+    val epp = EmblematicPropPath[Computer, Double](emblematic, "cpu.mhz")
     epp.name should equal ("cpu.mhz")
   }
 
   behavior of "EmblematicPropPath.typeKey"
 
   it should "match the type of the lead element of the path" in {
-    val epp = EmblematicPropPath[Computer, Double]("cpu.mhz")
+    val epp = EmblematicPropPath[Computer, Double](emblematic, "cpu.mhz")
     (epp.typeKey =:= typeKey[Double]) should be (true)
   }
 
   behavior of "EmblematicPropPath.get"
 
   it should "produce the right value for the instance and the path" in {
-    val epp = EmblematicPropPath[Computer, Double]("cpu.mhz")
+    val epp = EmblematicPropPath[Computer, Double](emblematic, "cpu.mhz")
     val actualMhz = 3000000000.0D
     val computer = Computer(Memory(16), CPU(actualMhz), Display(780))
     epp.get(computer) should equal (actualMhz)
@@ -137,7 +94,7 @@ class EmblematicPropPathSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "EmblematicPropPath.props"
 
   it should "produce a new object with the value along the path reset" in {
-    val epp = EmblematicPropPath[Computer, Double]("cpu.mhz")
+    val epp = EmblematicPropPath[Computer, Double](emblematic, "cpu.mhz")
     val props = epp.props
     props.size should equal (2)
     props.head.name should equal ("cpu")
