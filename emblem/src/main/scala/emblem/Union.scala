@@ -3,7 +3,6 @@ package emblem
 import emblem.factories.UnionFactory
 
 // TODO NEXT:
-// - Prop factory methods need an emblematic
 // - EntityType should have Reflective instead of Emblem
 // - once you get there, pop that stash and see whats next
 

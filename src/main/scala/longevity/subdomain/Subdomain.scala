@@ -27,7 +27,7 @@ class Subdomain(
 
   private[longevity] val emblematic = Emblematic(extractorPool, emblemPool)
 
-  pTypePool.values.foreach(_.provideEmblematic(emblematic))
+  pTypePool.values.foreach(_.registerEmblematic(emblematic))
 
   private def extractorPool: ExtractorPool = {
     val shorthandToExtractor = new TypeBoundFunction[Any, ShorthandFor, ExtractorFor] {

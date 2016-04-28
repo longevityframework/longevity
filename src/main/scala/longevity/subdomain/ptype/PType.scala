@@ -19,11 +19,7 @@ abstract class PType[
   implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty)
 extends EntityType[P] {
 
-  // TODO place these
-  private val propInit = new PropInit[P]
-  private[subdomain] def provideEmblematic(emblematic: Emblematic): Unit = {
-    propInit.provideEmblematic(emblematic)
-  }
+  private val propLateInitializer = new PropLateInitializer[P]
 
   /** the keys for this persistent type */
   lazy val keySet: Set[Key[P]] = kscan("keys")
@@ -40,7 +36,8 @@ extends EntityType[P] {
    *
    * @see `emblem.basicTypes`
    */
-  def prop[A : TypeKey](path: String): Prop[P, A] = Prop(path, pTypeKey, typeKey[A])(shorthandPool, propInit)
+  def prop[A : TypeKey](path: String): Prop[P, A] =
+    Prop(path, pTypeKey, typeKey[A])(shorthandPool, propLateInitializer)
 
   /** constructs a key for this persistent type based on the supplied set of key props
    *
@@ -50,7 +47,8 @@ extends EntityType[P] {
   def key(propsHead: Prop[P, _], propsTail: Prop[P, _]*): Key[P] =
     Key(propsHead :: propsTail.toList)
 
-  /** constructs an index for this persistent type based on the supplied set of index props
+  /** constructs an index for this persistent type based on the supplied set of
+   * index props
    * 
    * @param propsHead the first of the properties that define this index
    * @param propsTail any remaining properties that define this index
@@ -60,6 +58,11 @@ extends EntityType[P] {
 
   /** contains implicit imports to make the query DSL work */
   lazy val queryDsl = new QueryDsl[P]
+
+  // intended for use by the `Subdomain`. throws exception if called more than once
+  private[subdomain] def registerEmblematic(emblematic: Emblematic): Unit = {
+    propLateInitializer.registerEmblematic(emblematic)
+  }
 
   private def kscan(containerName: String): Set[Key[P]] = {
     val keys: Any = innerModule(this, "keys").getOrElse {

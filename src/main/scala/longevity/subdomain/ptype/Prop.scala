@@ -38,11 +38,11 @@ case class Prop[P <: Persistent, A] private[ptype] (
   pTypeKey: TypeKey[P],
   propTypeKey: TypeKey[A])(
   private val shorthandPool: ShorthandPool,
-  private val propInit: PropInit[P]) {
+  private val propLateInitializer: PropLateInitializer[P]) {
 
   private var emblematicPropPathOpt: Option[EmblematicPropPath[P, A]] = None
 
-  propInit.registerProp(this)
+  propLateInitializer.registerProp(this)
 
   /** the value of this property for a persistent
    * @param p the persistent we are looking up the value of the property for

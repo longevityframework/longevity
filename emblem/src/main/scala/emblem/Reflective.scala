@@ -5,7 +5,9 @@ import emblem.exceptions.NoSuchPropertyException
 /** a prototype for [[Emblem]] and [[Union]] */
 trait Reflective[A] {
 
-  /** TODO */
+  /** the kind of reflective property this reflective has. either an
+   * [[EmblemProp]] or a [[UnionProp]]
+   */
   type P[B, C] <: ReflectiveProp[B, C]
 
   /** a [[TypeKey type key]] for the type that we reflect upon */
