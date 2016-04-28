@@ -2,10 +2,6 @@ package emblem
 
 import emblem.factories.UnionFactory
 
-// TODO NEXT:
-// - EntityType should have Reflective instead of Emblem
-// - once you get there, pop that stash and see whats next
-
 /** describes a supertype that can be resolved down in to other types found in
  * an [[Emblematic]].
  *

@@ -81,6 +81,19 @@ package object persistence {
 
   }
 
+  // TODO NEXT:
+  // - repo behavior has to vary based on BaseType/DerivedType:
+  //   - DerivedType needs to use the table of the base type
+  //   - DerivedType schema gen mods
+  //   - DerivedType inserts/updates have to put in the descriminator
+  //   - DerivedType retrieveByAssoc has to include descriminator in query
+  //   - DerivedType retrieveByQuery has to include descriminator in query
+  //
+  //   - InMem
+  //   - Mongo
+  //   - Cassandra
+  // - specialized integration tests to test that the BaseType repo and DerivedType repos share a table
+
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
     persistenceStrategy: PersistenceStrategy,
@@ -138,9 +151,8 @@ package object persistence {
     session.execute(s"use $keyspace")
     session
   }
-  
-  private def cassandraRepoPool(subdomain: Subdomain, session: Session)
-  : RepoPool = {
+
+  private def cassandraRepoPool(subdomain: Subdomain, session: Session): RepoPool = {
     object repoFactory extends StockRepoFactory {
       def build[P <: Persistent](pType: PType[P], pTypeKey: TypeKey[P]): BaseRepo[P] =
         new CassandraRepo(pType, subdomain, session)(pTypeKey)

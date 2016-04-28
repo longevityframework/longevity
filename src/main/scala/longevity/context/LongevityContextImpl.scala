@@ -3,7 +3,7 @@ package longevity.context
 import com.typesafe.config.Config
 import emblem.traversors.sync.CustomGeneratorPool
 import longevity.persistence.buildRepoPool
-import longevity.subdomain._
+import longevity.subdomain.Subdomain
 
 private[context] final class LongevityContextImpl (
   val subdomain: Subdomain,

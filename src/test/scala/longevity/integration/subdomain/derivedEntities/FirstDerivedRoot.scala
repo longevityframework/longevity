@@ -6,7 +6,7 @@ import longevity.subdomain.ptype.RootType
 case class FirstDerivedRoot(
   uri: String,
   first: String,
-  component: FirstDerivedEntity)
+  component: BaseEntity)
 extends BaseRoot
 
 object FirstDerivedRoot extends RootType[FirstDerivedRoot] with DerivedType[BaseRoot, FirstDerivedRoot] {

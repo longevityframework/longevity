@@ -106,7 +106,8 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
    * `TypeParam`. there seems to be nothing I can do within `TypeKeyMap` to
    * circumvent this. the easiest way to work around this problem is to specify
    * the type key yourself with
-   * [[TypeKeyMap.+[TypeParam<:TypeBound,ValTypeParam<:TypeBound]* the alternate method +]].
+   * [[TypeKeyMap.+[TypeParam<:TypeBound,ValTypeParam<:TypeBound]* the alternate
+   * method +]].
    *
    * @param value the value to add to the map
    * @param key the type key, which is inferred from the type of value
@@ -120,6 +121,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
     new TypeKeyMap[TypeBound, Val](underlying + (key -> value))
 
   /** takes the union of two type key maps with the same type params
+   *
    * @param that the type key map to union with this type key map
    * @return a new type key map with the bindings of this map and that map
    */
@@ -127,10 +129,44 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
     new TypeKeyMap[TypeBound, Val](this.underlying ++ that.underlying)
 
   /** tests whether this TypeKeyMap contains a binding for a type param
+   *
    * @tparam TypeParam the type param binding both the type key and the value
    * @return `true` if there is a binding for type param in this map, `false` otherwise.
    */
   def contains[TypeParam <: TypeBound : TypeKey] = super.contains(typeKey[TypeParam])
+
+  // TODO copy this pattern to TypeBoundMap
+  // TODO unit test for TKM.filter & filterNot
+  // TODO update emblem documentation for filter & filterNot
+
+  /** selects all elements of this TypeKeyMap which satisfy a predicate
+   *
+   * @param p the predicate used to test elements
+   * @return a new TypeKeyMap consisting of all elements of this TypeKeyMap that
+   * satisfy the given predicate `p`. the order of the elements is preserved.
+   */
+  def filter(p: TypeBoundPair[TypeBound, TypeKey, Val, _ <: TypeBound] => Boolean)
+  : TypeKeyMap[TypeBound, Val] = {
+    val underlyingP: ((Any, Any)) => Boolean = { pair =>
+      type TypeParam = TP forSome { type TP <: TypeBound }
+      val tbp = TypeBoundPair[TypeBound, TypeKey, Val, TypeParam](
+        pair._1.asInstanceOf[TypeKey[TypeParam]],
+        pair._2.asInstanceOf[Val[TypeParam]])
+      p(tbp)
+    }
+    new TypeKeyMap[TypeBound, Val](underlying.filter(underlyingP))
+  }
+
+  /** selects all elements of this TypeKeyMap which do not satisfy a predicate
+   *
+   * @param p the predicate used to test elements
+   * @return a new TypeKeyMap consisting of all elements of this TypeKeyMap that
+   * do not satisfy the given predicate `p`. the order of the elements is
+   * preserved.
+   */
+  def filterNot(p: TypeBoundPair[TypeBound, TypeKey, Val, _ <: TypeBound] => Boolean)
+  : TypeKeyMap[TypeBound, Val] =
+    filter((pair) => !p(pair))
 
   /** transforms this type key map by applying a function to every retrieved value.
    *
@@ -142,15 +178,16 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   : TypeKeyMap[TypeBound, NewVal] = 
     new TypeKeyMap[TypeBound, NewVal](mapValuesUnderlying[TypeBound, NewVal](f))
 
-  /** returns the same `TypeKeyMap`, but with the value type as a wider type than the original
-   * value type
+  /** returns the same `TypeKeyMap`, but with the value type as a wider type
+   * than the original value type
+   *
    * @tparam Val2 the new value type
    */
   def widen[Val2[TypeParam <: TypeBound] >: Val[TypeParam]]: TypeKeyMap[TypeBound, Val2] =
     this.asInstanceOf[TypeKeyMap[TypeBound, Val2]]
 
-  /** transforms this type key map into a type key map with a wider type bound by applying a function to every
-   * retrieved value.
+  /** transforms this type key map into a type key map with a wider type bound
+   * by applying a function to every retrieved value
    *
    * @tparam WiderTypeBound the new type bound for the resulting map
    * @tparam NewVal the new value type for the resulting map
@@ -167,8 +204,9 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
 
   override def hashCode = underlying.hashCode
 
-  /** compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
-   * the other map, and vice versa.
+  /** compares two maps structurally; i.e., checks if all mappings contained in
+   * this map are also contained in the other map, and vice versa
+   * 
    * @param that the other type key map
    * @return true iff both are type key maps and contain exactly the same mappings
    */

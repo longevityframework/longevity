@@ -1,11 +1,16 @@
 package longevity.subdomain
 
 import emblem.Emblem
+import emblem.EmblemPool
 import emblem.Emblematic
 import emblem.ExtractorFor
 import emblem.ExtractorPool
 import emblem.TypeBoundFunction
+import emblem.TypeBoundPair
+import emblem.TypeKey
 import emblem.TypeKeyMap
+import emblem.Union
+import emblem.UnionPool
 import emblem.WideningTypeBoundFunction
 import longevity.subdomain.ptype.PTypePool
 
@@ -25,11 +30,11 @@ class Subdomain(
   /** a pool of the persistent types in the subdomain */
   val pTypePool = PTypePool(entityTypePool)
 
-  private[longevity] val emblematic = Emblematic(extractorPool, emblemPool)
+  private[longevity] val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
 
   pTypePool.values.foreach(_.registerEmblematic(emblematic))
 
-  private def extractorPool: ExtractorPool = {
+  private lazy val extractorPool: ExtractorPool = {
     val shorthandToExtractor = new TypeBoundFunction[Any, ShorthandFor, ExtractorFor] {
       def apply[TypeParam](shorthand: ShorthandFor[TypeParam]): ExtractorFor[TypeParam] =
         shorthand.extractor
@@ -37,15 +42,65 @@ class Subdomain(
     shorthandPool.mapValues(shorthandToExtractor)
   }
 
-  private def emblemPool: TypeKeyMap[Any, Emblem] =
-    entityTypePool.mapValuesWiden[Any, Emblem] {
+  private lazy val emblemPool: EmblemPool = {
+    val entityTypesWithEmblems = entityTypePool.filterNot(isValBaseType)
+    entityTypesWithEmblems.mapValuesWiden[Any, Emblem] {
       new WideningTypeBoundFunction[Entity, Any, EntityType, Emblem] {
-        def apply[TypeParam <: Entity](value1: EntityType[TypeParam]): Emblem[TypeParam] =
-          value1.emblem
+        def apply[TypeParam <: Entity](entityType: EntityType[TypeParam]): Emblem[TypeParam] =
+          Emblem(entityType.entityTypeKey)
       }
     }
+  }
 
-  // TODO pt-#115456079: some way to express domain constraints that span multiple entities
+  private lazy val unionPool: UnionPool =  {
+    val baseTypes = entityTypePool.filter(isValBaseType)
+
+    type DerivedT[D <: Entity] = DerivedType[B, D] forSome { type B >: D <: Entity }
+
+    val derivedTypes: TypeKeyMap[Entity, DerivedT] =
+      entityTypePool.filter(isValDerivedType).asInstanceOf[TypeKeyMap[Entity, DerivedT]]
+
+    type DerivedList[E <: Entity] = List[Emblem[_ <: E]]
+    val baseToDerivedsMap: TypeKeyMap[Entity, DerivedList] =
+      derivedTypes.values.foldLeft(TypeKeyMap[Entity, DerivedList]) { (map, derivedType) =>
+        def fromDerivedType[B <: Entity, D <: B](derivedType: DerivedType[B, D])
+        : TypeKeyMap[Entity, DerivedList] = {
+          val derivedTypeKey = derivedType.entityTypeKey
+          implicit val baseTypeKey = derivedType.baseType.entityTypeKey
+
+          if (!baseTypes.contains(baseTypeKey)) {
+            // TODO: new exception for derived type with base type not in subdomain
+            throw new RuntimeException
+          }
+
+          val emblem = emblemPool(derivedTypeKey)
+          val derivedList = map.getOrElse[B](List.empty)
+
+          map +[B] (emblem :: derivedList)
+        }
+
+        fromDerivedType(derivedType)
+      }
+
+    baseTypes.mapValuesWiden[Any, Union] {
+      new WideningTypeBoundFunction[Entity, Any, EntityType, Union] {
+        def apply[TypeParam <: Entity](entityType: EntityType[TypeParam]): Union[TypeParam] = {
+          val constituents = baseToDerivedsMap(entityType.entityTypeKey)
+          Union[TypeParam](constituents: _*)(entityType.entityTypeKey)
+        }
+      }
+    }
+  }
+
+  private def isValBaseType(pair: TypeBoundPair[Entity, TypeKey, EntityType, _ <: Entity]): Boolean = {
+    pair._2.isInstanceOf[BaseType[_ <: Entity]]
+  }
+
+  private def isValDerivedType(pair: TypeBoundPair[Entity, TypeKey, EntityType, _ <: Entity]): Boolean = {
+    pair._2.isInstanceOf[DerivedType[_, _]]
+  }
+
+  // TODO pt-#115456079: some way to express domain constraints that span multiple aggregates
   // - figure a way for TestDataGenerator/RepoSpec to respect these
   // - figure a way to check constraints in entityMatchers/RepoSpec
   // - user-callable checkConstraint{,s} somewhere

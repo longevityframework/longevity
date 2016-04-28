@@ -4,7 +4,6 @@ package longevity.subdomain
  * [[EntityType]] when it represents an abstract entity type with concrete
  * subtypes.
  */
-trait BaseType[Base <: Entity] {
-  self: EntityType[Base] =>
+trait BaseType[Base <: Entity] extends EntityType[Base] {
 
 }
