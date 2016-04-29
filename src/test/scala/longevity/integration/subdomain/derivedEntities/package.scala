@@ -5,7 +5,7 @@ import longevity.context.Cassandra
 import longevity.context.Mongo
 import longevity.subdomain._
 
-/** covers a root entity with a base type and multiple derived types */
+/** covers a root entity with a poly type and multiple derived types */
 package object derivedEntities {
 
   object context {

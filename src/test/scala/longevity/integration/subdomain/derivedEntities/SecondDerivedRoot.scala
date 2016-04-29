@@ -10,7 +10,7 @@ case class SecondDerivedRoot(
 extends BaseRoot
 
 object SecondDerivedRoot extends RootType[SecondDerivedRoot] with DerivedType[BaseRoot, SecondDerivedRoot] {
-  val baseType = BaseRoot
+  val polyType = BaseRoot
   object props {
     val second = prop[String]("second")
   }

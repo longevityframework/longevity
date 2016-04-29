@@ -30,11 +30,7 @@ class Subdomain(
   /** a pool of the persistent types in the subdomain */
   val pTypePool = PTypePool(entityTypePool)
 
-  private[longevity] val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
-
-  pTypePool.values.foreach(_.registerEmblematic(emblematic))
-
-  private lazy val extractorPool: ExtractorPool = {
+  private val extractorPool: ExtractorPool = {
     val shorthandToExtractor = new TypeBoundFunction[Any, ShorthandFor, ExtractorFor] {
       def apply[TypeParam](shorthand: ShorthandFor[TypeParam]): ExtractorFor[TypeParam] =
         shorthand.extractor
@@ -42,8 +38,8 @@ class Subdomain(
     shorthandPool.mapValues(shorthandToExtractor)
   }
 
-  private lazy val emblemPool: EmblemPool = {
-    val entityTypesWithEmblems = entityTypePool.filterNot(isValBaseType)
+  private val emblemPool: EmblemPool = {
+    val entityTypesWithEmblems = entityTypePool.filterNot(isValPolyType)
     entityTypesWithEmblems.mapValuesWiden[Any, Emblem] {
       new WideningTypeBoundFunction[Entity, Any, EntityType, Emblem] {
         def apply[TypeParam <: Entity](entityType: EntityType[TypeParam]): Emblem[TypeParam] =
@@ -52,8 +48,8 @@ class Subdomain(
     }
   }
 
-  private lazy val unionPool: UnionPool =  {
-    val baseTypes = entityTypePool.filter(isValBaseType)
+  private val unionPool: UnionPool =  {
+    val polyTypes = entityTypePool.filter(isValPolyType)
 
     type DerivedT[D <: Entity] = DerivedType[B, D] forSome { type B >: D <: Entity }
 
@@ -66,10 +62,10 @@ class Subdomain(
         def fromDerivedType[B <: Entity, D <: B](derivedType: DerivedType[B, D])
         : TypeKeyMap[Entity, DerivedList] = {
           val derivedTypeKey = derivedType.entityTypeKey
-          implicit val baseTypeKey = derivedType.baseType.entityTypeKey
+          implicit val polyTypeKey = derivedType.polyType.entityTypeKey
 
-          if (!baseTypes.contains(baseTypeKey)) {
-            // TODO: new exception for derived type with base type not in subdomain
+          if (!polyTypes.contains(polyTypeKey)) {
+            // TODO: new exception for derived type with poly type not in subdomain
             throw new RuntimeException
           }
 
@@ -82,7 +78,7 @@ class Subdomain(
         fromDerivedType(derivedType)
       }
 
-    baseTypes.mapValuesWiden[Any, Union] {
+    polyTypes.mapValuesWiden[Any, Union] {
       new WideningTypeBoundFunction[Entity, Any, EntityType, Union] {
         def apply[TypeParam <: Entity](entityType: EntityType[TypeParam]): Union[TypeParam] = {
           val constituents = baseToDerivedsMap(entityType.entityTypeKey)
@@ -92,13 +88,17 @@ class Subdomain(
     }
   }
 
-  private def isValBaseType(pair: TypeBoundPair[Entity, TypeKey, EntityType, _ <: Entity]): Boolean = {
-    pair._2.isInstanceOf[BaseType[_ <: Entity]]
+  private def isValPolyType(pair: TypeBoundPair[Entity, TypeKey, EntityType, _ <: Entity]): Boolean = {
+    pair._2.isInstanceOf[PolyType[_ <: Entity]]
   }
 
   private def isValDerivedType(pair: TypeBoundPair[Entity, TypeKey, EntityType, _ <: Entity]): Boolean = {
     pair._2.isInstanceOf[DerivedType[_, _]]
   }
+
+  private[longevity] val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
+
+  pTypePool.values.foreach(_.registerEmblematic(emblematic))
 
   // TODO pt-#115456079: some way to express domain constraints that span multiple aggregates
   // - figure a way for TestDataGenerator/RepoSpec to respect these

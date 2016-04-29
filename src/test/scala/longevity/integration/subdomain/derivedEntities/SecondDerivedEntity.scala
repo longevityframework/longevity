@@ -11,5 +11,5 @@ extends BaseEntity
 object SecondDerivedEntity
 extends EntityType[SecondDerivedEntity]
 with DerivedType[BaseEntity, SecondDerivedEntity] {
-  val baseType = BaseEntity
+  val polyType = BaseEntity
 }
