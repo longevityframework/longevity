@@ -4,12 +4,12 @@ import longevity.subdomain.PolyType
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.RootType
 
-trait BaseRoot extends Root {
+trait PolyRoot extends Root {
   val uri: String
-  val component: BaseEntity
+  val component: PolyEntity
 }
 
-object BaseRoot extends RootType[BaseRoot] with PolyType[BaseRoot] {
+object PolyRoot extends RootType[PolyRoot] with PolyType[PolyRoot] {
   object props {
     val uri = prop[String]("uri")
   }

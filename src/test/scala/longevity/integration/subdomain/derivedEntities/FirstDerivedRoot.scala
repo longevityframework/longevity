@@ -6,11 +6,11 @@ import longevity.subdomain.ptype.RootType
 case class FirstDerivedRoot(
   uri: String,
   first: String,
-  component: BaseEntity)
-extends BaseRoot
+  component: PolyEntity)
+extends PolyRoot
 
-object FirstDerivedRoot extends RootType[FirstDerivedRoot] with DerivedType[BaseRoot, FirstDerivedRoot] {
-  val polyType = BaseRoot
+object FirstDerivedRoot extends RootType[FirstDerivedRoot] with DerivedType[PolyRoot, FirstDerivedRoot] {
+  val polyType = PolyRoot
   object props {
     val first = prop[String]("first")
   }

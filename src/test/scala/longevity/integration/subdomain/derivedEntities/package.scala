@@ -10,8 +10,8 @@ package object derivedEntities {
 
   object context {
     val entityTypes = EntityTypePool(
-      BaseEntity,
-      BaseRoot,
+      PolyEntity,
+      PolyRoot,
       FirstDerivedEntity,
       FirstDerivedRoot,
       SecondDerivedEntity,

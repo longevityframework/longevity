@@ -6,11 +6,11 @@ import longevity.subdomain.EntityType
 case class FirstDerivedEntity(
   uri: String,
   first: String)
-extends BaseEntity
+extends PolyEntity
 
 object FirstDerivedEntity
 extends EntityType[FirstDerivedEntity]
-with DerivedType[BaseEntity, FirstDerivedEntity] {
-  val polyType = BaseEntity
+with DerivedType[PolyEntity, FirstDerivedEntity] {
+  val polyType = PolyEntity
 }
 
