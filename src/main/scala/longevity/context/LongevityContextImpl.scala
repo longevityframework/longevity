@@ -16,9 +16,7 @@ extends LongevityContext {
   private lazy val longevityTestConfig = config.getConfig("longevity.test")
 
   lazy val repoPool = buildRepoPool(subdomain, persistenceStrategy, longevityConfig)
-
   lazy val testRepoPool = buildRepoPool(subdomain, persistenceStrategy, longevityTestConfig)
-
   lazy val inMemTestRepoPool = buildRepoPool(subdomain, InMem, longevityTestConfig)
 
 }

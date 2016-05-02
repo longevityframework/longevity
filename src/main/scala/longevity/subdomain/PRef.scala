@@ -13,7 +13,7 @@ import longevity.subdomain.ptype.KeyVal
  * key value of another aggregate in an entity, in place of embedding an
  * association.
  */
-trait PRef[P <: Persistent] {
+trait PRef[+P <: Persistent] {
 
   /** prevent subtyping outside of longevity library */
   private[longevity] val _lock: Int
@@ -33,7 +33,7 @@ trait PRef[P <: Persistent] {
 /** match pattern support for persistent refs */
 private[longevity] object PRef {
 
-  sealed trait Pattern[P <: Persistent]
+  sealed trait Pattern[+P <: Persistent]
   case class UAssocPattern[P <: Persistent](assoc: UnpersistedAssoc[P]) extends Pattern[P]
   case class PAssocPattern[P <: Persistent](assoc: PersistedAssoc[P]) extends Pattern[P]
   case class KeyValPattern[P <: Persistent](keyVal: KeyVal[P]) extends Pattern[P]
