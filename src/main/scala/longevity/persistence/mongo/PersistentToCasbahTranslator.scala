@@ -17,11 +17,10 @@ import longevity.exceptions.persistence.BsonTranslationException
 import longevity.persistence.RepoPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
-import longevity.subdomain.Entity
 import longevity.subdomain.persistent.Persistent
 import scala.reflect.runtime.universe.typeOf
 
-/** translates [[Persistent persistent entities]] into
+/** translates [[Persistent persistents]] into
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBObject
  * casbah MongoDBObjects]].
  *
@@ -32,9 +31,9 @@ private[persistence] class PersistentToCasbahTranslator(
   private val emblematic: Emblematic,
   private val repoPool: RepoPool) {
 
-  /** translates an [[Entity]] into a `MongoDBObjects` */
-  def translate[E <: Entity : TypeKey](e: E): MongoDBObject = try {
-    traversor.traverse[E](e).asInstanceOf[BasicDBObject]
+  /** translates a [[Persistent]] into a `MongoDBObject` */
+  def translate[P <: Persistent : TypeKey](p: P): MongoDBObject = try {
+    traversor.traverse[P](p).asInstanceOf[BasicDBObject]
   } catch {
     case e: CouldNotTraverseException => throw new BsonTranslationException(e.typeKey, e)
   }

@@ -52,14 +52,14 @@ extends BaseRepo[P](pType, subdomain) {
   private val mongoCollection = mongoDb(collectionName)
   private val shorthandPool = subdomain.shorthandPool
 
-  private lazy val entityToCasbahTranslator = new PersistentToCasbahTranslator(subdomain.emblematic, repoPool)
-  private lazy val casbahToEntityTranslator = new CasbahToPersistentTranslator(subdomain.emblematic, repoPool)
+  private lazy val persistentToCasbahTranslator = new PersistentToCasbahTranslator(subdomain.emblematic, repoPool)
+  private lazy val casbahToPersistentTranslator = new CasbahToPersistentTranslator(subdomain.emblematic, repoPool)
 
   createSchema()
 
   def create(p: P)(implicit context: ExecutionContext) = Future {
     val objectId = new ObjectId()
-    val casbah = entityToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
+    val casbah = persistentToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
       mongoCollection.insert(casbah)
     }
@@ -74,7 +74,7 @@ extends BaseRepo[P](pType, subdomain) {
     val dbObjs: Seq[DBObject] = cursor.toSeq
     dbObjs.map { result =>
       val id = result.getAs[ObjectId]("_id").get
-      val p = casbahToEntityTranslator.translate(result)
+      val p = casbahToPersistentTranslator.translate(result)
       new PState[P](MongoId(id), p)
     }
   }
@@ -83,7 +83,7 @@ extends BaseRepo[P](pType, subdomain) {
     val p = state.get
     val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
-    val casbah = entityToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
+    val casbah = persistentToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
       mongoCollection.update(query, casbah)
     }
@@ -108,7 +108,7 @@ extends BaseRepo[P](pType, subdomain) {
     val resultOption = blocking {
       mongoCollection.findOne(query)
     }
-    val pOption = resultOption map { casbahToEntityTranslator.translate(_) }
+    val pOption = resultOption map { casbahToPersistentTranslator.translate(_) }
     pOption map { p => new PState[P](assoc, p) }
   }
 
@@ -124,7 +124,7 @@ extends BaseRepo[P](pType, subdomain) {
     }
     val idPOption = resultOption map { result =>
       val id = result.getAs[ObjectId]("_id").get
-      id -> casbahToEntityTranslator.translate(result)
+      id -> casbahToPersistentTranslator.translate(result)
     }
     idPOption map { case (id, p) => new PState[P](MongoId(id), p) }
   }

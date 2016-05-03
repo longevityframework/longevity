@@ -1,8 +1,14 @@
 package longevity.integration.subdomain
 
-import com.github.nscala_time.time.Imports._
-import longevity.context._
-import longevity.subdomain._
+import com.github.nscala_time.time.Imports.DateTime
+import longevity.context.Cassandra
+import longevity.context.LongevityContext
+import longevity.context.Mongo
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Shorthand
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.ptype.PTypePool
 
 /** covers a root entity with a single component entity with shorthands for every supported basic type */
 package object withComponentWithShorthands {
@@ -33,8 +39,10 @@ package object withComponentWithShorthands {
   import shorthands._
 
   object context {
-    val entityTypes = EntityTypePool() + WithComponentWithShorthands + ComponentWithShorthands
-    val subdomain = Subdomain("With Component With Shorthands", entityTypes)
+    val subdomain = Subdomain(
+      "With Component With Shorthands",
+      PTypePool(WithComponentWithShorthands),
+      EntityTypePool(ComponentWithShorthands))
     val mongoContext = LongevityContext(subdomain, Mongo)
     val cassandraContext = LongevityContext(subdomain, Cassandra)
   }

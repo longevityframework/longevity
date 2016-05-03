@@ -1,9 +1,13 @@
 package longevity.integration.subdomain
 
-import com.github.nscala_time.time.Imports._
-import longevity.context._
-import longevity.subdomain._
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.github.nscala_time.time.Imports.DateTime
+import longevity.context.LongevityContext
+import longevity.context.Cassandra
+import longevity.context.Mongo
+import longevity.subdomain.Shorthand
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.ptype.PTypePool
 
 package object allShorthands {
 
@@ -33,8 +37,7 @@ package object allShorthands {
   import shorthands._
 
   object context {
-    val entityTypes = EntityTypePool() + AllShorthands
-    val subdomain = Subdomain("All Shorthands", entityTypes)
+    val subdomain = Subdomain("All Shorthands", PTypePool(AllShorthands))
     val mongoContext = LongevityContext(subdomain, Mongo)
     val cassandraContext = LongevityContext(subdomain, Cassandra)
   }

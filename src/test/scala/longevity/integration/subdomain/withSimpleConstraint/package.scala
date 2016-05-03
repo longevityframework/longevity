@@ -1,9 +1,14 @@
 package longevity.integration.subdomain
 
-import longevity.context._
-import longevity.subdomain._
-import emblem.traversors.sync.CustomGeneratorPool
 import emblem.traversors.sync.CustomGenerator
+import emblem.traversors.sync.CustomGeneratorPool
+import longevity.context.Cassandra
+import longevity.context.LongevityContext
+import longevity.context.Mongo
+import longevity.subdomain.Shorthand
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.ptype.PTypePool
 
 /** covers a root entity with a simple shorthand constraint */
 package object withSimpleConstraint {
@@ -16,8 +21,7 @@ package object withSimpleConstraint {
   import shorthands._
 
   object context {
-    val entityTypes = EntityTypePool() + WithSimpleConstraint
-    val subdomain = Subdomain("With Simple Constraint", entityTypes)
+    val subdomain = Subdomain("With Simple Constraint", PTypePool(WithSimpleConstraint))
 
     val emailGenerator = CustomGenerator.simpleGenerator[Email] { generator =>
       Email(s"{generator.generate[String]}@{generate.generate[String]")

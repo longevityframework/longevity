@@ -1,7 +1,13 @@
 package longevity.integration.subdomain
 
-import longevity.context._
-import longevity.subdomain._
+import longevity.context.Cassandra
+import longevity.context.LongevityContext
+import longevity.context.Mongo
+import longevity.subdomain.EntityTypePool
+import longevity.subdomain.Shorthand
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.ptype.PTypePool
 
 /** covers a root entity with an optional component entity */
 package object withComponentOption {
@@ -13,8 +19,7 @@ package object withComponentOption {
   import shorthands._
 
   object context {
-    val entityTypes = EntityTypePool() + WithComponentOption + Component
-    val subdomain = Subdomain("With Component Option", entityTypes)
+    val subdomain = Subdomain("With Component Option", PTypePool(WithComponentOption), EntityTypePool(Component))
     val mongoContext = LongevityContext(subdomain, Mongo)
     val cassandraContext = LongevityContext(subdomain, Cassandra)
   }

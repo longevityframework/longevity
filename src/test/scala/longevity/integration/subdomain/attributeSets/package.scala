@@ -1,7 +1,11 @@
 package longevity.integration.subdomain
 
-import longevity.context._
-import longevity.subdomain._
+import longevity.context.LongevityContext
+import longevity.context.Cassandra
+import longevity.context.Mongo
+import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.ptype.PTypePool
 
 /** covers a root entity with set attributes for every supported basic type */
 package object attributeSets {
@@ -13,8 +17,7 @@ package object attributeSets {
   import shorthands._
 
   object context {
-    val entityTypes = EntityTypePool() + AttributeSets
-    val subdomain = Subdomain("Attribute Sets", entityTypes)
+    val subdomain = Subdomain("Attribute Sets", PTypePool(AttributeSets))
     val mongoContext = LongevityContext(subdomain, Mongo)
     val cassandraContext = LongevityContext(subdomain, Cassandra)
   }

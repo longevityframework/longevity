@@ -3,13 +3,13 @@ package longevity.unit.subdomain.ptype
 import longevity.exceptions.subdomain.ptype.NumPropValsException
 import longevity.exceptions.subdomain.ptype.PropValTypeException
 import longevity.subdomain.Assoc
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.RootType
 import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.KeyVal
+import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.ptype.RootType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -49,7 +49,7 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
   import KeySpec.KeySampler.keys
   import KeySpec.KeySampler.props
 
-  val subdomain = Subdomain("key sampler", EntityTypePool(KeySampler))
+  val subdomain = Subdomain("key sampler", PTypePool(KeySampler))
 
   behavior of "Key.apply"
 

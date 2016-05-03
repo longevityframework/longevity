@@ -10,6 +10,7 @@ package object blogCore {
   import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain
   import longevity.subdomain.persistent.Root
+  import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
 
   case class Email(email: String)
@@ -93,6 +94,9 @@ package object blogCore {
     }
   }
 
-  object BlogCore extends Subdomain("blogging", EntityTypePool(User, UserProfile, Blog, BlogPost))
+  object BlogCore extends Subdomain(
+    "blogging",
+    PTypePool(User, Blog, BlogPost),
+    EntityTypePool(UserProfile))
 
 }

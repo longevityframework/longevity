@@ -11,5 +11,5 @@ import longevity.subdomain.persistent.Persistent
 class UnsupportedPropTypeException[P <: Persistent : TypeKey, U : TypeKey](val path: String)
 extends PropException(
   s"longevity doesn't currently support properties with type `${implicitly[TypeKey[U]].name}`, such as " +
-  s"`$path` in `${implicitly[TypeKey[P]]}")
+  s"`$path` in `${implicitly[TypeKey[P]].name}`")
 

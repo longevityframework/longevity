@@ -5,8 +5,7 @@ import longevity.subdomain.ShorthandPool
 import longevity.subdomain.persistent.Event
 
 /** a type class for events */
-abstract class EventType[
-  E <: Event](
-  implicit private val eventTypeKey: TypeKey[E],
-  implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty)
-extends PType[E]
+abstract class EventType[E <: Event](
+  implicit eventTypeKey: TypeKey[E],
+  shorthandPool: ShorthandPool = ShorthandPool.empty)
+extends PType[E]()(eventTypeKey, shorthandPool)

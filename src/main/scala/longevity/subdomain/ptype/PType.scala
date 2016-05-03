@@ -8,16 +8,19 @@ import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
-import longevity.subdomain.EntityType
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.persistent.Persistent
 
-/** a type class for a domain entity that is stored in a persistent collection */
+/** a type class for a domain element that is stored in a persistent collection
+ *
+ * @tparam P the persistent type
+ */
 abstract class PType[
-  P <: Persistent](
-  implicit private val pTypeKey: TypeKey[P],
-  implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty)
-extends EntityType[P] {
+  P <: Persistent : TypeKey](
+  implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty) {
+
+  /** the type key for the persistent type */
+  val pTypeKey = typeKey[P]
 
   private val propLateInitializer = new PropLateInitializer[P]
 

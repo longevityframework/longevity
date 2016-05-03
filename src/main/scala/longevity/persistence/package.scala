@@ -94,6 +94,9 @@ package object persistence {
   //   - Cassandra
   // - test for when Prop.propVal is accessed too early
   // - specialized integration tests to test that the PolyType repo and DerivedType repos share a table
+  //
+  // - search for / clean up "persistent entity" language. use "persistent element" instead?
+  // - repackaging in longevity.subdomain
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,

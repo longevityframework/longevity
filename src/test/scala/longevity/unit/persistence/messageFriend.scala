@@ -1,11 +1,14 @@
 package longevity.unit.persistence
 
-import longevity.context._
+import longevity.context.Cassandra
+import longevity.context.InMem
+import longevity.context.LongevityContext
+import longevity.context.Mongo
 import longevity.subdomain.Assoc
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 object messageFriend {
@@ -31,8 +34,7 @@ object messageFriend {
   }
 
   object context {
-    val entityTypes = EntityTypePool() + FriendType + MessageType
-    val subdomain = Subdomain("blog", entityTypes)
+    val subdomain = Subdomain("blog", PTypePool() + FriendType + MessageType)
     val inMemLongevityContext = LongevityContext(subdomain, InMem)
     val mongoLongevityContext = LongevityContext(subdomain, Mongo)
     val cassandraLongevityContext = LongevityContext(subdomain, Cassandra)
