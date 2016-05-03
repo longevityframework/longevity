@@ -27,6 +27,7 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.ValueObject
 import longevity.subdomain.ValueType
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class Address(
@@ -51,7 +52,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
+val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address))
 ```
 
 And it is entirely equivalent to this:
@@ -62,6 +63,7 @@ import longevity.subdomain.EntityType
 import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class Address(
@@ -86,7 +88,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User, Address))
+val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address))
 ```
 
 For a more extended discussion on value objects in an immutable

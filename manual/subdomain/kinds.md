@@ -19,12 +19,16 @@ them. To get started, here are a few ways to build an empty
 ```scala
 import longevity.subdomain._
 
-val subdomain = Subdomain("blogging", EntityTypePool.empty)
+val subdomain = Subdomain("blogging")
 
 // you can also use these synonyms freely:
-val coreDomain: CoreDomain = CoreDomain("blogging", EntityTypePool.empty)
-val supportingSubdomain: SupportingSubdomain = SupportingSubdomain("accounts", EntityTypePool.empty)
-val genericSubdomain: GenericSubdomain = GenericSubdomain("search", EntityTypePool.empty)
+import longevity.subdomain.CoreDomain
+import longevity.subdomain.SupportingSubdomain
+import longevity.subdomain.GenericSubdomain
+
+val coreDomain: CoreDomain = CoreDomain("blogging")
+val supportingSubdomain: SupportingSubdomain = SupportingSubdomain("accounts")
+val genericSubdomain: GenericSubdomain = GenericSubdomain("search")
 ```
 
 {% assign prevTitle = "building your subdomain" %}

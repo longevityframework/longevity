@@ -14,6 +14,7 @@ import longevity.subdomain.EntityType
 import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class UserProfile(
@@ -45,7 +46,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
+val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(UserProfile))
 ```
 
 You need to specify the type of the property yourself, and longevity

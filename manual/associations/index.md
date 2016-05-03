@@ -19,9 +19,9 @@ blogs both have authors:
 
 ```scala
 import longevity.subdomain.Assoc
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class User(username: String) extends Root
@@ -53,7 +53,7 @@ object BlogPost extends RootType[BlogPost] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User, Blog, BlogPost))
+val subdomain = Subdomain("blogging", PTypePool(User, Blog, BlogPost))
 ```
 
 Non-root entities can associate with other aggregates as well. For
@@ -69,6 +69,7 @@ import longevity.subdomain.EntityType
 import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class User(username: String) extends Root
@@ -99,7 +100,7 @@ object Blog extends RootType[Blog] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile, Blog))
+val subdomain = Subdomain("blogging", PTypePool(User, Blog), EntityTypePool(UserProfile))
 ```
 
 <div class="blue-side-bar">

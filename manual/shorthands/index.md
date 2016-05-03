@@ -49,11 +49,11 @@ shorthand pool implicitly available to your `RootTypes`, as they
 will need to know about them. Here's an example:
 
 ```scala
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Shorthand
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 object shorthands {
@@ -79,7 +79,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 Note that you can nest shorthands inside of collections, as the above

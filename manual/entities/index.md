@@ -50,8 +50,9 @@ You need to add all your new entities into the `EntityTypePool`:
 ```scala
 import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
+import longevity.subdomain.ptype.PTypePool
 
-val subdomain = Subdomain("blogging", EntityTypePool(User, UserProfile))
+val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(UserProfile))
 ```
 
 You can put entities in entities, and entities into [supported

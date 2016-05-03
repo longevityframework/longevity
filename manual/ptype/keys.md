@@ -7,9 +7,9 @@ Keys are composed of a sequence of properties. We define them in our
 `PType` like so:
 
 ```scala
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class User(
@@ -31,7 +31,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 The values of the properties in a key uniquely identify a row. So in
@@ -42,9 +42,9 @@ easily. Here, for instance, we add an ill-advised composite key on a
 `firstName`/`lastName` combination:
 
 ```scala
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class User(
@@ -67,7 +67,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 Here, no two users can have the same first and last names.

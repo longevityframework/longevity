@@ -42,12 +42,17 @@ this:
 
 ```scala
 object User extends PType[User] {
-  val usernameKey = key("username")
-  val emailKey = key("email")
-  val fullnameIndex = index("lastName", "firstName")
+  val usernameProp = prop[String]("username")
+  val emailProp = prop[String]("email")
+  val firstNameProp = prop[String]("firstName")
+  val lastNameProp = prop[String]("lastName")
 
-  override val keySet = Set(usernameKey, emailKey)
-  override val indexSet = Set(fullnameIndex)
+  val usernameKey = key(usernameProp)
+  val emailKey = key(emailProp)
+  val fullnameIndex = index(lastNameProp, firstNameProp)
+
+  override lazy val keySet = Set(usernameKey, emailKey)
+  override lazy val indexSet = Set(fullnameIndex)
 }
 ```
 

@@ -9,9 +9,9 @@ there is an expectation that queries on `lastName` / `firstName`
 should perform quickly, then we need to define an index, like so:
 
 ```scala
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class User(
@@ -34,7 +34,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 An index like `User.indexes.fullname` above will assure fast

@@ -21,9 +21,9 @@ allowing you to put in properties with a number of simple types:
 For example, we might add a few fields to our `User` like so:
 
 ```scala
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 import org.joda.time.DateTime
 
@@ -43,7 +43,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 <div class="blue-side-bar">

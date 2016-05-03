@@ -38,7 +38,7 @@ object shorthands {
 }
 import shorthands._
 object User extends RootEntityType[User]
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 If you want to be explicit about it, you can do it like so:
@@ -54,7 +54,7 @@ object User extends RootEntityType()(typeKey[User], shorthands.shorthandPool) {
   object indexes {
   }
 }
-val subdomain = Subdomain("blogging", EntityTypePool(User))(shorthands.shorthandPool)
+val subdomain = Subdomain("blogging", PTypePool(User))(shorthands.shorthandPool)
 ```
 
 If you don't supply a `ShorthandPool`, an empty one will be provided

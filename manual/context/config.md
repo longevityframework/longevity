@@ -26,11 +26,11 @@ import longevity.context.Cassandra
 import longevity.context.LongevityContext
 import longevity.context.Mongo
 import longevity.subdomain.CoreDomain
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.SupportingSubdomain
+import longevity.subdomain.ptype.PTypePool
 
 val bloggingDomain: CoreDomain =
-  CoreDomain("blogging", EntityTypePool.empty)
+  CoreDomain("blogging", PTypePool.empty)
 val bloggingConfig: Config = loadBloggingConfig()
 val bloggingContext = LongevityContext(
   bloggingDomain,
@@ -38,7 +38,7 @@ val bloggingContext = LongevityContext(
   config = bloggingConfig)
 
 val accountsSubdomain: SupportingSubdomain =
-  SupportingSubdomain("accounts", EntityTypePool.empty)
+  SupportingSubdomain("accounts", PTypePool.empty)
 val accountsConfig: Config = loadAccountsConfig()
 val accountsContext = LongevityContext(
   accountsSubdomain,

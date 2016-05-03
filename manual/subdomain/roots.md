@@ -26,8 +26,14 @@ entity type. We put all your entity types into an `EntityTypePool`,
 and pass it to the subdomain:
 
 ```scala
-import longevity.subdomain.EntityTypePool
-import longevity.subdomain.Subdomain
+import longevity.subdomain.persistent.Root
+
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String)
+extends Root
+
 import longevity.subdomain.ptype.RootType
 
 object User extends RootType[User] {
@@ -37,7 +43,10 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+import longevity.subdomain.Subdomain
+import longevity.subdomain.ptype.PTypePool
+
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 All we need to do now is to [slap our `Subdomain` into a

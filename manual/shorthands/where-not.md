@@ -13,11 +13,11 @@ object that the `Subdomain` is built. If we do, we might run in to
 initialization problems. For instance, consider the following example:
 
 ```scala
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Shorthand
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class Email(email: String)
@@ -39,7 +39,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 Let's suppose we access the `User` before the `subdomain` in this

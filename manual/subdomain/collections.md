@@ -15,9 +15,9 @@ hold values like "Mr.", "Mrs.", "Sir", and "Brother". And we can allow
 the user to have multiple emails:
 
 ```scala
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class User(
@@ -35,7 +35,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 It's on our TODO list to [handle a wider variety of collection
