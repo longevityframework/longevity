@@ -135,20 +135,9 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
    */
   def contains[TypeParam <: TypeBound : TypeKey] = super.contains(typeKey[TypeParam])
 
-  // TODO sort filter methods
-  // TODO copy new filter methods to TypeBoundMap
-  // TODO unit test for TKM.filter & filterNot & filterKeys & filterValues
+  // TODO unit tests for {TKM,TBM}.{filter,filterKeys,filterNot,filterTypeBound,filterValues}
   // TODO update emblem documentation for new filter methods
-
-  // TODO write filterTypeBound[NewTB <: TypeBound : TypeKey]: TypeKeyMap[NewTB, Val]
-  // TODO write filterValType[NewVal[TB <: TypeBound] <: Val[TB]]: TypeKeyMap[TypeBound, NewVal]
-  // TODO consider removing TypeBound
   // TODO reprioritize TypeBoundMap type param variance
-
-  /** TODO NewVal[_] eliminated by type erasure */
-  // import scala.reflect.runtime.universe.TypeTag
-  // def filterValType[NewVal[TB <: TypeBound] <: Val[TB] : TypeTag]: TypeKeyMap[TypeBound, NewVal] =
-  //   filterValues(_.isInstanceOf[NewVal[_]]).asInstanceOf[TypeKeyMap[TypeBound, NewVal]]
 
   /** selects all elements of this TypeKeyMap which satisfy a predicate
    *
@@ -169,6 +158,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   }
 
   /** filters this map by retaining only keys satisfying a predicate
+   *
    * @param p the predicate used to test keys
    * @return an immutable map consisting only of those key value pairs of this
    * map where the key satisfies the predicate `p`
@@ -176,15 +166,6 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   def filterKeys(p: (TypeKey[_ <: TypeBound]) => Boolean): TypeKeyMap[TypeBound, Val] =
     new TypeKeyMap[TypeBound, Val](
       underlying.filterKeys { any => p(any.asInstanceOf[TypeKey[_ <: TypeBound]]) })
-
-  /** filters this map by retaining only values satisfying a predicate
-   * @param p the predicate used to test values
-   * @return an immutable map consisting only of those key value pairs of this
-   * map where the value satisfies the predicate `p`
-   */
-  def filterValues(p: (Val[_ <: TypeBound]) => Boolean): TypeKeyMap[TypeBound, Val] =
-    new TypeKeyMap[TypeBound, Val](
-      underlying.filter { case (k, v) => p(v.asInstanceOf[Val[_ <: TypeBound]]) })
 
   /** selects all elements of this TypeKeyMap which do not satisfy a predicate
    *
@@ -196,6 +177,25 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   def filterNot(p: TypeBoundPair[TypeBound, TypeKey, Val, _ <: TypeBound] => Boolean)
   : TypeKeyMap[TypeBound, Val] =
     filter((pair) => !p(pair))
+
+  /** filters this map by retaining only pairs that meet the stricter type
+   * bound `TypeBound2`. returns a `TypeKeyMap` with the tighter type bound
+   *
+   * @tparam TypeBound2 the new type bound
+   */
+  def filterTypeBound[TypeBound2 <: TypeBound : TypeKey]: TypeKeyMap[TypeBound2, Val] =
+    new TypeKeyMap[TypeBound2, Val](
+      underlying.filterKeys(_.asInstanceOf[TypeKey[_]] <:< typeKey[TypeBound2]))
+
+  /** filters this map by retaining only values satisfying a predicate
+   * 
+   * @param p the predicate used to test values
+   * @return an immutable map consisting only of those key value pairs of this
+   * map where the value satisfies the predicate `p`
+   */
+  def filterValues(p: (Val[_ <: TypeBound]) => Boolean): TypeKeyMap[TypeBound, Val] =
+    new TypeKeyMap[TypeBound, Val](
+      underlying.filter { case (k, v) => p(v.asInstanceOf[Val[_ <: TypeBound]]) })
 
   /** transforms this type key map by applying a function to every retrieved value.
    *

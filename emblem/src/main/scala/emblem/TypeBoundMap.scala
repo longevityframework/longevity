@@ -107,6 +107,56 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
   def ++(that: TypeBoundMap[TypeBound, Key, Val]): TypeBoundMap[TypeBound, Key, Val] =
     new TypeBoundMap[TypeBound, Key, Val](underlying ++ that.underlying)
 
+  /** selects all elements of this TypeBoundMap which satisfy a predicate
+   *
+   * @param p the predicate used to test elements
+   * @return a new TypeBoundMap consisting of all elements of this TypeBoundMap
+   * that satisfy the given predicate `p`. the order of the elements is
+   * preserved.
+   */
+  def filter(p: TypeBoundPair[TypeBound, Key, Val, _ <: TypeBound] => Boolean)
+  : TypeBoundMap[TypeBound, Key, Val] = {
+    val underlyingP: ((Any, Any)) => Boolean = { pair =>
+      type TypeParam = TP forSome { type TP <: TypeBound }
+      val tbp = TypeBoundPair[TypeBound, Key, Val, TypeParam](
+        pair._1.asInstanceOf[Key[TypeParam]],
+        pair._2.asInstanceOf[Val[TypeParam]])
+      p(tbp)
+    }
+    new TypeBoundMap[TypeBound, Key, Val](underlying.filter(underlyingP))
+  }
+
+  /** filters this map by retaining only keys satisfying a predicate
+   *
+   * @param p the predicate used to test keys
+   * @return an immutable map consisting only of those key value pairs of this
+   * map where the key satisfies the predicate `p`
+   */
+  def filterKeys(p: (Key[_ <: TypeBound]) => Boolean): TypeBoundMap[TypeBound, Key, Val] =
+    new TypeBoundMap[TypeBound, Key, Val](
+      underlying.filterKeys { any => p(any.asInstanceOf[Key[_ <: TypeBound]]) })
+
+  /** selects all elements of this TypeBoundMap which do not satisfy a predicate
+   *
+   * @param p the predicate used to test elements
+   * @return a new TypeBoundMap consisting of all elements of this TypeBoundMap
+   * that do not satisfy the given predicate `p`. the order of the elements is
+   * preserved.
+   */
+  def filterNot(p: TypeBoundPair[TypeBound, Key, Val, _ <: TypeBound] => Boolean)
+  : TypeBoundMap[TypeBound, Key, Val] =
+    filter((pair) => !p(pair))
+
+  /** filters this map by retaining only values satisfying a predicate
+   * 
+   * @param p the predicate used to test values
+   * @return an immutable map consisting only of those key value pairs of this
+   * map where the value satisfies the predicate `p`
+   */
+  def filterValues(p: (Val[_ <: TypeBound]) => Boolean): TypeBoundMap[TypeBound, Key, Val] =
+    new TypeBoundMap[TypeBound, Key, Val](
+      underlying.filter { case (k, v) => p(v.asInstanceOf[Val[_ <: TypeBound]]) })
+
   override def hashCode = underlying.hashCode
 
   /** transforms this map by applying a function to every retrieved value.
