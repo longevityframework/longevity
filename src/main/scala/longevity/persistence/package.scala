@@ -16,6 +16,8 @@ import longevity.context.Mongo
 import longevity.context.PersistenceStrategy
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.mongo.MongoRepo
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PType
@@ -111,8 +113,12 @@ package object persistence {
     }
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
-    object repoFactory extends StockRepoFactory {
-      def build[P <: Persistent](pType: PType[P], pTypeKey: TypeKey[P]): BaseRepo[P] =
+    object repoFactory extends StockRepoFactory[InMemRepo] {
+      def build[P <: Persistent](
+        pType: PType[P],
+        pTypeKey: TypeKey[P],
+        polyRepoOpt: Option[InMemRepo[_ >: P]])
+      : InMemRepo[P] =
         new InMemRepo(pType, subdomain)(pTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
@@ -129,8 +135,12 @@ package object persistence {
   }
 
   private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {
-    object repoFactory extends StockRepoFactory {
-      def build[P <: Persistent](pType: PType[P], pTypeKey: TypeKey[P]): BaseRepo[P] =
+    object repoFactory extends StockRepoFactory[MongoRepo] {
+      def build[P <: Persistent](
+        pType: PType[P],
+        pTypeKey: TypeKey[P],
+        polyRepoOpt: Option[MongoRepo[_ >: P]])
+      : MongoRepo[P] =
         new MongoRepo(pType, subdomain, mongoDB)(pTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
@@ -158,36 +168,55 @@ package object persistence {
   }
 
   private def cassandraRepoPool(subdomain: Subdomain, session: Session): RepoPool = {
-    object repoFactory extends StockRepoFactory {
-      def build[P <: Persistent](pType: PType[P], pTypeKey: TypeKey[P]): BaseRepo[P] =
+    object repoFactory extends StockRepoFactory[CassandraRepo] {
+      def build[P <: Persistent](
+        pType: PType[P],
+        pTypeKey: TypeKey[P],
+        polyRepoOpt: Option[CassandraRepo[_ >: P]])
+      : CassandraRepo[P] =
         new CassandraRepo(pType, subdomain, session)(pTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
 
-  private trait StockRepoFactory {
-    def build[P <: Persistent](pType: PType[P], pTypeKey: TypeKey[P]): BaseRepo[P]
+  private trait StockRepoFactory[R[P <: Persistent] <: BaseRepo[P]] {
+    def build[P <: Persistent](
+      pType: PType[P],
+      pTypeKey: TypeKey[P],
+      polyRepoOpt: Option[R[_ >: P]] = None)
+    : R[P]
   }
 
-  private def buildRepoPool(
+  private def buildRepoPool[R[P <: Persistent] <: BaseRepo[P]](
     subdomain: Subdomain,
-    stockRepoFactory: StockRepoFactory)
+    stockRepoFactory: StockRepoFactory[R])
   : RepoPool = {
-    var typeKeyMap = emptyTypeKeyMap
+    var keyToRepoMap = TypeKeyMap[Persistent, R]
     type Pair[P <: Persistent] = TypeBoundPair[Persistent, TypeKey, PType, P]
     def createRepoFromPair[P <: Persistent](pair: Pair[P]): Unit = {
       val pTypeKey = pair._1
       val pType = pair._2
-      val repo = stockRepoFactory.build(pType, pTypeKey)
-      typeKeyMap += (pTypeKey -> repo)
+
+      val polyKey: Option[TypeKey[_ >: P <: Persistent]] = pType match {
+        case dpt: DerivedPType[_, _] => Some(dpt.polyPType.pTypeKey)
+        case _ => None
+      }
+
+      // TODO have fun crashing the compiler by removing the "[P]" on the following line
+      val repo = stockRepoFactory.build[P](pType, pTypeKey, polyKey.map(keyToRepoMap(_)))
+      keyToRepoMap += (pTypeKey -> repo)
+
     }
-    subdomain.pTypePool.iterator.foreach { pair => createRepoFromPair(pair) }
-    val repoPool = new RepoPool(typeKeyMap)
+    subdomain.pTypePool.filter(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
+    subdomain.pTypePool.filterNot(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
+    val repoPool = new RepoPool(keyToRepoMap.widen[BaseRepo])
     finishRepoInitialization(repoPool)
     repoPool
   }
 
-  private val emptyTypeKeyMap = TypeKeyMap[Persistent, BaseRepo]
+  private def isPolyPType(pair: TypeBoundPair[Persistent, TypeKey, PType, _ <: Persistent]): Boolean = {
+    pair._2.isInstanceOf[PolyPType[_]]
+  }
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
     repoPool.baseRepoMap.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }

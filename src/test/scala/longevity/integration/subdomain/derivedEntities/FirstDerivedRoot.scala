@@ -9,7 +9,7 @@ case class FirstDerivedRoot(
   component: PolyEntity)
 extends PolyRoot
 
-object FirstDerivedRoot extends RootType[FirstDerivedRoot] with DerivedPType[PolyRoot, FirstDerivedRoot] {
+object FirstDerivedRoot extends DerivedPType[FirstDerivedRoot, PolyRoot] {
   val polyPType = PolyRoot
   object props {
     val first = prop[String]("first")

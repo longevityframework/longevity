@@ -7,7 +7,7 @@ import longevity.subdomain.ptype.PType
  * youe [[longevity.subdomain.ptype.PType persistent type]] when it represents
  * a concrete subtype of a [[PolyPType]].
  */
-trait DerivedPType[Poly <: Persistent, Derived <: Poly] extends PType[Derived] {
+trait DerivedPType[P <: Persistent, Poly >: P <: Persistent] extends PType[P] {
 
   /** the poly type that this type is derived from */
   val polyPType: PolyPType[Poly]

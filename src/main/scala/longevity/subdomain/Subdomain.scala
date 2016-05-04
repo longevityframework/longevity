@@ -12,6 +12,7 @@ import emblem.TypeKeyMap
 import emblem.Union
 import emblem.UnionPool
 import emblem.WideningTypeBoundFunction
+import emblem.typeKey
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PTypePool
@@ -42,7 +43,7 @@ class Subdomain(
   // TODO: emblemPool and unionPool need pTypes as well
 
   private val emblemPool: EmblemPool = {
-    val pTypesWithEmblems = pTypePool.filterNot(isPolyPType)
+    val pTypesWithEmblems = pTypePool.filterValues(!_.isInstanceOf[PolyPType[_]])
     val pEmblems = pTypesWithEmblems.mapValuesWiden[Any, Emblem] {
       new WideningTypeBoundFunction[Persistent, Any, PType, Emblem] {
         def apply[TypeParam <: Persistent](pType: PType[TypeParam]): Emblem[TypeParam] =
@@ -50,7 +51,7 @@ class Subdomain(
       }
     }
 
-    val entityTypesWithEmblems = entityTypePool.filterNot(isPolyEntityType)
+    val entityTypesWithEmblems = entityTypePool.filterValues(!_.isInstanceOf[PolyType[_]])
     val entityEmblems = entityTypesWithEmblems.mapValuesWiden[Any, Emblem] {
       new WideningTypeBoundFunction[Entity, Any, EntityType, Emblem] {
         def apply[TypeParam <: Entity](entityType: EntityType[TypeParam]): Emblem[TypeParam] =
@@ -63,39 +64,29 @@ class Subdomain(
 
   private val unionPool: UnionPool = entityUnions ++ pUnions
 
-  private def isPolyPType(pair: TypeBoundPair[Persistent, TypeKey, PType, _ <: Persistent]): Boolean = {
-    pair._2.isInstanceOf[PolyPType[_ <: Persistent]]
-  }
-
-  private def isPolyEntityType(pair: TypeBoundPair[Entity, TypeKey, EntityType, _ <: Entity]): Boolean = {
-    pair._2.isInstanceOf[PolyType[_ <: Entity]]
-  }
-
   private def entityUnions = {
-    val polyTypes = entityTypePool.filter(isPolyEntityType)
+    val polyTypes = entityTypePool.filterValues(_.isInstanceOf[PolyType[_]])
 
-    type DerivedT[D <: Entity] = DerivedType[P, D] forSome { type P >: D <: Entity }
+    type DerivedFrom[E <: Entity] = DerivedType[E, Poly] forSome { type Poly >: E <: Entity }
 
-    val derivedTypes: TypeKeyMap[Entity, DerivedT] =
-      entityTypePool.filter(isDerivedEntityType).asInstanceOf[TypeKeyMap[Entity, DerivedT]]
+    val derivedTypes: TypeKeyMap[Entity, DerivedFrom] =
+      entityTypePool.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Entity, DerivedFrom]]
 
     type DerivedList[E <: Entity] = List[Emblem[_ <: E]]
     val baseToDerivedsMap: TypeKeyMap[Entity, DerivedList] =
       derivedTypes.values.foldLeft(TypeKeyMap[Entity, DerivedList]) { (map, derivedType) =>
-        def fromDerivedType[P <: Entity, D <: P](derivedType: DerivedType[P, D])
-        : TypeKeyMap[Entity, DerivedList] = {
-          val derivedTypeKey = derivedType.entityTypeKey
-          implicit val polyTypeKey = derivedType.polyType.entityTypeKey
 
-          if (!polyTypes.contains(polyTypeKey)) {
+        def fromDerivedType[E <: Entity, Poly >: E <: Entity](derivedType: DerivedType[E, Poly])
+        : TypeKeyMap[Entity, DerivedList] = {
+          implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyType.entityTypeKey
+          if (!polyTypes.contains[Poly]) {
             // TODO: new exception for derived type with poly type not in subdomain
             throw new RuntimeException
           }
 
-          val emblem = emblemPool(derivedTypeKey)
-          val derivedList = map.getOrElse[P](List.empty)
-
-          map +[P] (emblem :: derivedList)
+          val emblem = emblemPool(derivedType.entityTypeKey)
+          val derivedList = map.getOrElse(List.empty)
+          map +[Poly] (emblem :: derivedList)
         }
 
         fromDerivedType(derivedType)
@@ -111,31 +102,32 @@ class Subdomain(
     }
   }
 
+  // TODO clean this up
+
   private def pUnions = {
-    val polyTypes = pTypePool.filter(isPolyPType)
+    val polyTypes = pTypePool.filterValues(_.isInstanceOf[PolyPType[_]])
 
-    type DerivedPT[D <: Persistent] = DerivedPType[P, D] forSome { type P >: D <: Persistent }
+    type DerivedFrom[P <: Persistent] = DerivedPType[P, Poly] forSome { type Poly >: P <: Persistent }
 
-    val derivedTypes: TypeKeyMap[Persistent, DerivedPT] =
-      pTypePool.filter(isDerivedPType).asInstanceOf[TypeKeyMap[Persistent, DerivedPT]]
+    val derivedTypes: TypeKeyMap[Persistent, DerivedFrom] =
+      pTypePool.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Persistent, DerivedFrom]]
 
     type DerivedList[P <: Persistent] = List[Emblem[_ <: P]]
     val baseToDerivedsMap: TypeKeyMap[Persistent, DerivedList] =
       derivedTypes.values.foldLeft(TypeKeyMap[Persistent, DerivedList]) { (map, derivedType) =>
-        def fromDerivedType[P <: Persistent, D <: P](derivedType: DerivedPType[P, D])
-        : TypeKeyMap[Persistent, DerivedList] = {
-          val derivedTypeKey = derivedType.pTypeKey
-          implicit val polyTypeKey = derivedType.polyPType.pTypeKey
 
-          if (!polyTypes.contains(polyTypeKey)) {
+        def fromDerivedType[P <: Persistent, Poly >: P <: Persistent](derivedPType: DerivedPType[P, Poly])
+        : TypeKeyMap[Persistent, DerivedList] = {
+          implicit val polyTypeKey: TypeKey[Poly] = derivedPType.polyPType.pTypeKey
+
+          if (!polyTypes.contains[Poly]) {
             // TODO: new exception for derived type with poly type not in subdomain
             throw new RuntimeException
           }
 
-          val emblem = emblemPool(derivedTypeKey)
-          val derivedList = map.getOrElse[P](List.empty)
-
-          map +[P] (emblem :: derivedList)
+          val emblem = emblemPool(derivedPType.pTypeKey)
+          val derivedList = map.getOrElse(List.empty)
+          map +[Poly] (emblem :: derivedList)
         }
 
         fromDerivedType(derivedType)
@@ -149,14 +141,6 @@ class Subdomain(
         }
       }
     }
-  }
-
-  private def isDerivedEntityType(pair: TypeBoundPair[Entity, TypeKey, EntityType, _ <: Entity]): Boolean = {
-    pair._2.isInstanceOf[DerivedType[_, _]]
-  }
-
-  private def isDerivedPType(pair: TypeBoundPair[Persistent, TypeKey, PType, _ <: Persistent]): Boolean = {
-    pair._2.isInstanceOf[DerivedPType[_, _]]
   }
 
   private[longevity] val emblematic = Emblematic(extractorPool, emblemPool, unionPool)

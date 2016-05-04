@@ -8,8 +8,6 @@ case class SecondDerivedEntity(
   second: String)
 extends PolyEntity
 
-object SecondDerivedEntity
-extends EntityType[SecondDerivedEntity]
-with DerivedType[PolyEntity, SecondDerivedEntity] {
+object SecondDerivedEntity extends DerivedType[SecondDerivedEntity, PolyEntity] {
   val polyType = PolyEntity
 }

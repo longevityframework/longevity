@@ -135,6 +135,7 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
    */
   def contains[TypeParam <: TypeBound : TypeKey] = super.contains(typeKey[TypeParam])
 
+  // TODO sort filter methods
   // TODO copy new filter methods to TypeBoundMap
   // TODO unit test for TKM.filter & filterNot & filterKeys & filterValues
   // TODO update emblem documentation for new filter methods
@@ -143,6 +144,11 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   // TODO write filterValType[NewVal[TB <: TypeBound] <: Val[TB]]: TypeKeyMap[TypeBound, NewVal]
   // TODO consider removing TypeBound
   // TODO reprioritize TypeBoundMap type param variance
+
+  /** TODO NewVal[_] eliminated by type erasure */
+  // import scala.reflect.runtime.universe.TypeTag
+  // def filterValType[NewVal[TB <: TypeBound] <: Val[TB] : TypeTag]: TypeKeyMap[TypeBound, NewVal] =
+  //   filterValues(_.isInstanceOf[NewVal[_]]).asInstanceOf[TypeKeyMap[TypeBound, NewVal]]
 
   /** selects all elements of this TypeKeyMap which satisfy a predicate
    *
