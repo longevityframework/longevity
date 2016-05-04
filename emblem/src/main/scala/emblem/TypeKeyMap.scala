@@ -135,9 +135,14 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
    */
   def contains[TypeParam <: TypeBound : TypeKey] = super.contains(typeKey[TypeParam])
 
-  // TODO copy this pattern to TypeBoundMap
-  // TODO unit test for TKM.filter & filterNot
-  // TODO update emblem documentation for filter & filterNot
+  // TODO copy new filter methods to TypeBoundMap
+  // TODO unit test for TKM.filter & filterNot & filterKeys & filterValues
+  // TODO update emblem documentation for new filter methods
+
+  // TODO write filterTypeBound[NewTB <: TypeBound : TypeKey]: TypeKeyMap[NewTB, Val]
+  // TODO write filterValType[NewVal[TB <: TypeBound] <: Val[TB]]: TypeKeyMap[TypeBound, NewVal]
+  // TODO consider removing TypeBound
+  // TODO reprioritize TypeBoundMap type param variance
 
   /** selects all elements of this TypeKeyMap which satisfy a predicate
    *
@@ -156,6 +161,24 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
     }
     new TypeKeyMap[TypeBound, Val](underlying.filter(underlyingP))
   }
+
+  /** filters this map by retaining only keys satisfying a predicate
+   * @param p the predicate used to test keys
+   * @return an immutable map consisting only of those key value pairs of this
+   * map where the key satisfies the predicate `p`
+   */
+  def filterKeys(p: (TypeKey[_ <: TypeBound]) => Boolean): TypeKeyMap[TypeBound, Val] =
+    new TypeKeyMap[TypeBound, Val](
+      underlying.filterKeys { any => p(any.asInstanceOf[TypeKey[_ <: TypeBound]]) })
+
+  /** filters this map by retaining only values satisfying a predicate
+   * @param p the predicate used to test values
+   * @return an immutable map consisting only of those key value pairs of this
+   * map where the value satisfies the predicate `p`
+   */
+  def filterValues(p: (Val[_ <: TypeBound]) => Boolean): TypeKeyMap[TypeBound, Val] =
+    new TypeKeyMap[TypeBound, Val](
+      underlying.filter { case (k, v) => p(v.asInstanceOf[Val[_ <: TypeBound]]) })
 
   /** selects all elements of this TypeKeyMap which do not satisfy a predicate
    *
