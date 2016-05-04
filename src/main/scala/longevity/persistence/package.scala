@@ -2,7 +2,8 @@ package longevity
 
 import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.Session
-import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.MongoClient
+import com.mongodb.casbah.MongoDB
 import com.typesafe.config.Config
 import emblem.TypeBoundMap
 import emblem.TypeBoundPair
