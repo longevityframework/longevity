@@ -1,9 +1,12 @@
 package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
+import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
+import com.datastax.driver.core.Session
+import com.typesafe.config.Config
 import emblem.TypeKey
 import emblem.jsonUtil.dateTimeFormatter
 import emblem.stringUtil.camelToUnderscore
@@ -99,7 +102,30 @@ with CassandraDelete[P] {
 
 }
 
-private[cassandra] object CassandraRepo {
+object CassandraRepo {
+
+  private[persistence] def sessionFromConfig(config: Config): Session = {
+    val builder = Cluster.builder.addContactPoint(config.getString("cassandra.address"))
+    if (config.getBoolean("cassandra.useCredentials")) {
+      builder.withCredentials(
+        config.getString("cassandra.username"),
+        config.getString("cassandra.password"))
+    }
+    val cluster = builder.build
+    val session = cluster.connect()
+    val keyspace = config.getString("cassandra.keyspace")
+    val replicationFactor = config.getInt("cassandra.replicationFactor")
+    session.execute(
+      s"""|
+      |CREATE KEYSPACE IF NOT EXISTS $keyspace
+      |WITH replication = {
+      |  'class': 'SimpleStrategy',
+      |  'replication_factor': $replicationFactor
+      |};
+      |""".stripMargin)
+    session.execute(s"use $keyspace")
+    session
+  }
 
   private[cassandra] val basicToCassandraType = Map[TypeKey[_], String](
     typeKey[Boolean] -> "boolean",

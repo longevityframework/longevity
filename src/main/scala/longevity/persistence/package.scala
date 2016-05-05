@@ -1,6 +1,5 @@
 package longevity
 
-import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.Session
 import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.MongoDB
@@ -109,7 +108,7 @@ package object persistence {
     persistenceStrategy match {
       case InMem => inMemRepoPool(subdomain)
       case Mongo => mongoRepoPool(subdomain, mongoDb(config))
-      case Cassandra => cassandraRepoPool(subdomain, cassandraSession(config))
+      case Cassandra => cassandraRepoPool(subdomain, CassandraRepo.sessionFromConfig(config))
     }
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
@@ -144,27 +143,6 @@ package object persistence {
         new MongoRepo(pType, subdomain, mongoDB)(pTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
-  }
-
-  private def cassandraSession(config: Config): Session = {
-    val builder = Cluster.builder.addContactPoint(config.getString("cassandra.address"))
-    if (config.getBoolean("cassandra.useCredentials")) {
-      builder.withCredentials(
-        config.getString("cassandra.username"),
-        config.getString("cassandra.password"))
-    }
-    val cluster = builder.build
-    val session = cluster.connect();
-    val keyspace = config.getString("cassandra.keyspace")
-    val replicationFactor = config.getInt("cassandra.replicationFactor")
-    session.execute(s"""|CREATE KEYSPACE IF NOT EXISTS $keyspace
-                    |WITH replication = {
-                    |  'class': 'SimpleStrategy',
-                    |  'replication_factor': $replicationFactor
-                    |};
-                    |""".stripMargin)
-    session.execute(s"use $keyspace")
-    session
   }
 
   private def cassandraRepoPool(subdomain: Subdomain, session: Session): RepoPool = {
