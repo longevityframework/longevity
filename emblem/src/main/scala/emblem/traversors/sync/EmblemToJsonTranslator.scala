@@ -16,6 +16,8 @@ import org.json4s.JsonAST._
  
 // TODO s/Emblem/Emblematic (also in JsonToEmblemTranslator)
 
+// TODO s/Emblem/Emblematic (also in JsonToEmblemTranslator)
+
 /** translates emblematic types into json4s AST */
 class EmblemToJsonTranslator extends Traversor {
 
