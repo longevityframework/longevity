@@ -1,7 +1,7 @@
 package emblem.exceptions
 
-// TODO: rework super here
-// TODO: scaladoc
-
+/** an exception thrown when attempting to retrieve a property by name from an
+ * [[emblem.Emblem Emblem]] or a [[emblem.Union Union]] that doesn't exist
+ */
 class NoSuchPropertyException(reflectiveName: String, propName: String)
-extends EmblemException(s"no such property '$propName' in $reflectiveName")
+extends ReflectiveException(s"no such property '$propName' in $reflectiveName")

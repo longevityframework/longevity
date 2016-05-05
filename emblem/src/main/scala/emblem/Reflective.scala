@@ -32,11 +32,7 @@ trait Reflective[A] {
 
   /** retrieves a [[ReflectiveProp reflective property]] by name */
   def apply(name: String): P[A, _] =
-    try {
-      propMap(name)
-    } catch {
-      case e: NoSuchElementException => throw new NoSuchPropertyException(this.toString, name)
-    }
+    propMap.getOrElse(name, throw new NoSuchPropertyException(this.toString, name))
 
   /** retrieves the reflective property with the specified property type by name */
   def prop[B : TypeKey](name: String): P[A, B] = {
