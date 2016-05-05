@@ -115,10 +115,9 @@ package object persistence {
     object repoFactory extends StockRepoFactory[InMemRepo] {
       def build[P <: Persistent](
         pType: PType[P],
-        pTypeKey: TypeKey[P],
         polyRepoOpt: Option[InMemRepo[_ >: P]])
       : InMemRepo[P] =
-        new InMemRepo(pType, subdomain)(pTypeKey)
+        new InMemRepo(pType, subdomain)(pType.pTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -137,10 +136,9 @@ package object persistence {
     object repoFactory extends StockRepoFactory[MongoRepo] {
       def build[P <: Persistent](
         pType: PType[P],
-        pTypeKey: TypeKey[P],
         polyRepoOpt: Option[MongoRepo[_ >: P]])
       : MongoRepo[P] =
-        new MongoRepo(pType, subdomain, mongoDB)(pTypeKey)
+        new MongoRepo(pType, subdomain, mongoDB)(pType.pTypeKey)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -149,10 +147,9 @@ package object persistence {
     object repoFactory extends StockRepoFactory[CassandraRepo] {
       def build[P <: Persistent](
         pType: PType[P],
-        pTypeKey: TypeKey[P],
         polyRepoOpt: Option[CassandraRepo[_ >: P]])
       : CassandraRepo[P] =
-        new CassandraRepo(pType, subdomain, session)(pTypeKey)
+        CassandraRepo(pType, subdomain, session)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -160,7 +157,6 @@ package object persistence {
   private trait StockRepoFactory[R[P <: Persistent] <: BaseRepo[P]] {
     def build[P <: Persistent](
       pType: PType[P],
-      pTypeKey: TypeKey[P],
       polyRepoOpt: Option[R[_ >: P]] = None)
     : R[P]
   }
@@ -181,7 +177,7 @@ package object persistence {
       }
 
       // TODO have fun crashing the compiler by removing the "[P]" on the following line
-      val repo = stockRepoFactory.build[P](pType, pTypeKey, polyKey.map(keyToRepoMap(_)))
+      val repo = stockRepoFactory.build[P](pType, polyKey.map(keyToRepoMap(_)))
       keyToRepoMap += (pTypeKey -> repo)
 
     }

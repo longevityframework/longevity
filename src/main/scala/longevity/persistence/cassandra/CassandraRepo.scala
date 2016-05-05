@@ -31,7 +31,7 @@ import scala.concurrent.blocking
  * @param subdomain the subdomain containing the persistent that this repo persists
  * @param session the connection to the cassandra database
  */
-private[longevity] class CassandraRepo[P <: Persistent : TypeKey] protected[persistence] (
+private[longevity] class CassandraRepo[P <: Persistent : TypeKey] private (
   pType: PType[P],
   subdomain: Subdomain,
   protected val session: Session)
@@ -125,6 +125,10 @@ object CassandraRepo {
       |""".stripMargin)
     session.execute(s"use $keyspace")
     session
+  }
+
+  def apply[P <: Persistent](pType: PType[P], subdomain: Subdomain, session: Session): CassandraRepo[P] = {
+    new CassandraRepo(pType, subdomain, session)(pType.pTypeKey)
   }
 
   private[cassandra] val basicToCassandraType = Map[TypeKey[_], String](
