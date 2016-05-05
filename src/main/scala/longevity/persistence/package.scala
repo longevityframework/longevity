@@ -115,7 +115,7 @@ package object persistence {
     object repoFactory extends StockRepoFactory[InMemRepo] {
       def build[P <: Persistent](
         pType: PType[P],
-        polyRepoOpt: Option[InMemRepo[_ >: P]])
+        polyRepoOpt: Option[InMemRepo[_ >: P <: Persistent]])
       : InMemRepo[P] =
         new InMemRepo(pType, subdomain)(pType.pTypeKey)
     }
@@ -136,7 +136,7 @@ package object persistence {
     object repoFactory extends StockRepoFactory[MongoRepo] {
       def build[P <: Persistent](
         pType: PType[P],
-        polyRepoOpt: Option[MongoRepo[_ >: P]])
+        polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
       : MongoRepo[P] =
         new MongoRepo(pType, subdomain, mongoDB)(pType.pTypeKey)
     }
@@ -147,7 +147,8 @@ package object persistence {
     object repoFactory extends StockRepoFactory[CassandraRepo] {
       def build[P <: Persistent](
         pType: PType[P],
-        polyRepoOpt: Option[CassandraRepo[_ >: P]])
+        // TODO have fun crashing compiler by removing <: Persistent here (and in children)
+        polyRepoOpt: Option[CassandraRepo[_ >: P <: Persistent]])
       : CassandraRepo[P] =
         CassandraRepo(pType, subdomain, session)
     }
@@ -157,7 +158,7 @@ package object persistence {
   private trait StockRepoFactory[R[P <: Persistent] <: BaseRepo[P]] {
     def build[P <: Persistent](
       pType: PType[P],
-      polyRepoOpt: Option[R[_ >: P]] = None)
+      polyRepoOpt: Option[R[_ >: P <: Persistent]] = None)
     : R[P]
   }
 
