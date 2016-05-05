@@ -40,8 +40,6 @@ class Subdomain(
     shorthandPool.mapValues(shorthandToExtractor)
   }
 
-  // TODO: emblemPool and unionPool need pTypes as well
-
   private val emblemPool: EmblemPool = {
     val pTypesWithEmblems = pTypePool.filterValues(!_.isInstanceOf[PolyPType[_]])
     val pEmblems = pTypesWithEmblems.mapValuesWiden[Any, Emblem] {
