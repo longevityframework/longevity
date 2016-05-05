@@ -27,6 +27,16 @@ with ScalaFutures
 with TestDataGeneration
 with PersistedToUnpersistedMatcher {
 
+  // TODO create Derived with Repo[Derived], look up with Repo[Poly]
+  // TODO create Derived with Repo[Poly], look up with Repo[Derived]
+  // TODO create Other with Repo[Poly], look up with Repo[Derived] should return None
+
+  // TODO create Derived with Repo[Derived], query look up with Repo[Poly]
+  // TODO create Derived with Repo[Poly], query look up with Repo[Derived]
+  // TODO create Other with Repo[Poly], query look up with Repo[Derived] should return None
+
+  // TODO test out a query with props from both Poly and Derived
+
   "setting up the test" should "trigger schema creation" in {
 
   }
