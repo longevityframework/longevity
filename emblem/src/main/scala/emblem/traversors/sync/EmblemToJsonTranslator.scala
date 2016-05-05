@@ -5,7 +5,6 @@ import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
 import emblem.ExtractorPool
-
 import emblem.typeKey
 import emblem.TypeKey
 import emblem.TypeKeyMap
@@ -14,6 +13,8 @@ import emblem.jsonUtil.dateTimeFormatter
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import org.json4s.JsonAST._
+ 
+// TODO s/Emblem/Emblematic (also in JsonToEmblemTranslator)
 
 /** translates emblematic types into json4s AST */
 class EmblemToJsonTranslator extends Traversor {

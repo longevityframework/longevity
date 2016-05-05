@@ -5,7 +5,6 @@ import emblem.EmblemPool
 import emblem.EmblemProp
 import emblem.Extractor
 import emblem.ExtractorPool
-
 import emblem.TypeKey
 import emblem.Union
 import emblem.exceptions.CouldNotTraverseException
