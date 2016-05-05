@@ -15,6 +15,8 @@ import emblem.typeKey
 import java.util.UUID
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PType
@@ -102,9 +104,9 @@ with CassandraDelete[P] {
 
 }
 
-object CassandraRepo {
+private[persistence] object CassandraRepo {
 
-  private[persistence] def sessionFromConfig(config: Config): Session = {
+  def sessionFromConfig(config: Config): Session = {
     val builder = Cluster.builder.addContactPoint(config.getString("cassandra.address"))
     if (config.getBoolean("cassandra.useCredentials")) {
       builder.withCredentials(
@@ -128,7 +130,14 @@ object CassandraRepo {
   }
 
   def apply[P <: Persistent](pType: PType[P], subdomain: Subdomain, session: Session): CassandraRepo[P] = {
-    new CassandraRepo(pType, subdomain, session)(pType.pTypeKey)
+    pType match {
+      case pt: PolyPType[_] =>
+        new CassandraRepo(pType, subdomain, session)(pType.pTypeKey) with PolyCassandraRepo[P]
+      case pt: DerivedPType[_, _] =>
+        new CassandraRepo(pType, subdomain, session)(pType.pTypeKey) with DerivedCassandraRepo[P]
+      case _ =>
+        new CassandraRepo(pType, subdomain, session)(pType.pTypeKey)
+    }
   }
 
   private[cassandra] val basicToCassandraType = Map[TypeKey[_], String](
