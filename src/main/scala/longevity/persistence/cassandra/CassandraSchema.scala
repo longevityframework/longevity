@@ -1,5 +1,6 @@
 package longevity.persistence.cassandra
 
+import com.datastax.driver.core.exceptions.InvalidQueryException
 import emblem.TypeKey
 import emblem.typeKey
 import longevity.subdomain.Assoc
@@ -12,18 +13,15 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
 
   protected def createSchema(): Unit = {
     createTable()
+    createRealizedPropColumns()
     createIndexes()
   }
 
-  private def createTable(): Unit = {
-    val realizedPropColumns = realizedProps.map(prop =>
-      s"  ${columnName(prop)} ${typeKeyToCassandraType(prop.propTypeKey)},"
-    ).mkString("\n")
+  protected def createTable(): Unit = {
     val createTable = s"""|
     |CREATE TABLE IF NOT EXISTS $tableName (
     |  id uuid,
     |  p text,
-    |$realizedPropColumns
     |  PRIMARY KEY (id)
     |)
     |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
@@ -31,7 +29,25 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
     session.execute(createTable)
   }
 
-  private def typeKeyToCassandraType[A](key: TypeKey[A]): String = {
+  protected def createRealizedPropColumns(): Unit = {
+    realizedProps.map { prop =>
+      addColumn(columnName(prop), typeKeyToCassandraType(prop.propTypeKey))
+    }
+  }
+
+  protected def addColumn(columnName: String, columnType: String): Unit = {
+    val cql = s"ALTER TABLE $tableName ADD $columnName $columnType"
+    try {
+      session.execute(cql)
+    } catch {
+      case e: InvalidQueryException
+        if e.getMessage.contains("because it conflicts with an existing column") =>
+        // ignoring this exception is recommended ALTER TABLE ADD IF NOT EXISTS
+        // http://stackoverflow.com/questions/25728944/cassandra-add-column-if-not-exists
+    }
+  }
+
+  protected def typeKeyToCassandraType[A](key: TypeKey[A]): String = {
     if (key <:< typeKey[Assoc[_ <: Persistent]]) {
       "uuid"
     } else if (CassandraRepo.basicToCassandraType.contains(key)) {
@@ -43,9 +59,9 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
     }
   }
 
-  private def createIndexes(): Unit = realizedProps.foreach(createIndex)
+  protected def createIndexes(): Unit = realizedProps.foreach(createIndex)
 
-  private def createIndex(prop: Prop[P, _]): Unit = {
+  protected def createIndex(prop: Prop[P, _]): Unit = {
     val name = s"""${tableName}_${scoredPath(prop)}"""
     val createIndex = s"CREATE INDEX IF NOT EXISTS $name ON $tableName (${columnName(prop)});"
     session.execute(createIndex)

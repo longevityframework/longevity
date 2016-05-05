@@ -13,8 +13,10 @@ object SecondDerivedRoot extends DerivedPType[SecondDerivedRoot, PolyRoot] {
   val polyPType = PolyRoot
   object props {
     val second = prop[String]("second")
+    val componentUri = prop[String]("component.uri")
   }
   object keys {
+    val componentUri = key(props.componentUri)
   }
   object indexes {
     val second = index(props.second)

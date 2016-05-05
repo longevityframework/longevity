@@ -117,7 +117,7 @@ package object persistence {
         pType: PType[P],
         polyRepoOpt: Option[InMemRepo[_ >: P <: Persistent]])
       : InMemRepo[P] =
-        new InMemRepo(pType, subdomain)(pType.pTypeKey)
+        new InMemRepo(pType, subdomain)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -138,7 +138,7 @@ package object persistence {
         pType: PType[P],
         polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
       : MongoRepo[P] =
-        new MongoRepo(pType, subdomain, mongoDB)(pType.pTypeKey)
+        new MongoRepo(pType, subdomain, mongoDB)
     }
     buildRepoPool(subdomain, repoFactory)
   }
@@ -150,7 +150,7 @@ package object persistence {
         // TODO have fun crashing compiler by removing <: Persistent here (and in children)
         polyRepoOpt: Option[CassandraRepo[_ >: P <: Persistent]])
       : CassandraRepo[P] =
-        CassandraRepo(pType, subdomain, session)
+        CassandraRepo[P](pType, subdomain, session, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory)
   }

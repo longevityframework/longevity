@@ -29,7 +29,7 @@ import scala.concurrent.Future
  * @param pType the persistent type for the entities this repository handles
  * @param subdomain the subdomain containing the entities that this repo persists
  */
-class InMemRepo[P <: Persistent : TypeKey] private[persistence] (
+class InMemRepo[P <: Persistent] private[persistence] (
   pType: PType[P],
   subdomain: Subdomain)
 extends BaseRepo[P](pType, subdomain) {

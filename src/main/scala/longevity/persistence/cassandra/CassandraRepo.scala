@@ -33,7 +33,7 @@ import scala.concurrent.blocking
  * @param subdomain the subdomain containing the persistent that this repo persists
  * @param session the connection to the cassandra database
  */
-private[longevity] class CassandraRepo[P <: Persistent : TypeKey] private (
+private[longevity] class CassandraRepo[P <: Persistent] private (
   pType: PType[P],
   subdomain: Subdomain,
   protected val session: Session)
@@ -46,7 +46,7 @@ with CassandraRetrieveQuery[P]
 with CassandraUpdate[P]
 with CassandraDelete[P] {
 
-  protected val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
+  protected[cassandra] def tableName = camelToUnderscore(typeName(pTypeKey.tpe))
   protected val realizedProps = pType.keySet.flatMap(_.props) ++ pType.indexSet.flatMap(_.props)
   protected val shorthandPool = subdomain.shorthandPool
 
@@ -100,8 +100,6 @@ with CassandraDelete[P] {
     new PState[P](id, p)
   }
 
-  createSchema()
-
 }
 
 private[persistence] object CassandraRepo {
@@ -129,15 +127,24 @@ private[persistence] object CassandraRepo {
     session
   }
 
-  def apply[P <: Persistent](pType: PType[P], subdomain: Subdomain, session: Session): CassandraRepo[P] = {
-    pType match {
+  def apply[P <: Persistent](
+    pType: PType[P],
+    subdomain: Subdomain,
+    session: Session,
+    polyRepoOpt: Option[CassandraRepo[_ >: P <: Persistent]])
+  : CassandraRepo[P] = {
+    val repo = pType match {
       case pt: PolyPType[_] =>
-        new CassandraRepo(pType, subdomain, session)(pType.pTypeKey) with PolyCassandraRepo[P]
+        new CassandraRepo(pType, subdomain, session) with PolyCassandraRepo[P]
       case pt: DerivedPType[_, _] =>
-        new CassandraRepo(pType, subdomain, session)(pType.pTypeKey) with DerivedCassandraRepo[P]
+        new CassandraRepo(pType, subdomain, session) with DerivedCassandraRepo[P] {
+          override val polyRepo: CassandraRepo[_ >: P <: Persistent] = polyRepoOpt.get
+        }
       case _ =>
-        new CassandraRepo(pType, subdomain, session)(pType.pTypeKey)
+        new CassandraRepo(pType, subdomain, session)
     }
+    repo.createSchema()
+    repo
   }
 
   private[cassandra] val basicToCassandraType = Map[TypeKey[_], String](
