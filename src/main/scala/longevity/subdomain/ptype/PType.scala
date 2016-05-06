@@ -15,8 +15,7 @@ import longevity.subdomain.persistent.Persistent
  *
  * @tparam P the persistent type
  */
-abstract class PType[
-  P <: Persistent : TypeKey](
+abstract class PType[P <: Persistent : TypeKey](
   implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty) {
 
   /** the type key for the persistent type */

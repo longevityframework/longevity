@@ -21,7 +21,7 @@ extends Repo[P] {
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
 
   /** the type key for the persistent entities this repository handles */
-  protected implicit val pTypeKey: TypeKey[P] = pType.pTypeKey
+  protected[persistence] val pTypeKey: TypeKey[P] = pType.pTypeKey
 
   def create(unpersisted: P)(implicit context: ExecutionContext): Future[PState[P]]
 

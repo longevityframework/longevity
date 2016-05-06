@@ -7,4 +7,4 @@ import longevity.subdomain.ptype.PType
  * [[longevity.subdomain.ptype.PType persistent type]] when it represents an
  * abstract persistent type with concrete subtypes.
  */
-trait PolyPType[Poly <: Persistent] extends PType[Poly]
+trait PolyPType[P <: Persistent] extends PType[P]

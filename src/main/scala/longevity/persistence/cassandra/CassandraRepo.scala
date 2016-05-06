@@ -47,23 +47,26 @@ with CassandraUpdate[P]
 with CassandraDelete[P] {
 
   protected[cassandra] def tableName = camelToUnderscore(typeName(pTypeKey.tpe))
-  protected val realizedProps = pType.keySet.flatMap(_.props) ++ pType.indexSet.flatMap(_.props)
+
+  protected[cassandra] def realizedProps: List[Prop[_ >: P <: Persistent, _]] =
+    (pType.keySet.flatMap(_.props) ++ pType.indexSet.flatMap(_.props)).toList
+
   protected val shorthandPool = subdomain.shorthandPool
 
-  private val persistentToJsonTranslator = new PersistentToJsonTranslator(subdomain.emblematic)
-  private val jsonToPersistentTranslator = new JsonToPersistentTranslator(subdomain.emblematic)
+  protected val persistentToJsonTranslator = new PersistentToJsonTranslator(subdomain.emblematic)
+  protected val jsonToPersistentTranslator = new JsonToPersistentTranslator(subdomain.emblematic)
 
-  protected def columnName(prop: Prop[P, _]) = "prop_" + scoredPath(prop)
+  protected def columnName(prop: Prop[_, _]) = "prop_" + scoredPath(prop)
 
-  protected def scoredPath(prop: Prop[P, _]) = prop.path.replace('.', '_')
+  protected def scoredPath(prop: Prop[_, _]) = prop.path.replace('.', '_')
 
   protected def jsonStringForP(p: P): String = {
     import org.json4s.native.JsonMethods._
-    compact(render(persistentToJsonTranslator.traverse(p)))
+    compact(render(persistentToJsonTranslator.traverse(p)(pTypeKey)))
   }
 
-  protected def propValBinding[A](prop: Prop[P, A], p: P): AnyRef = {
-    def bind[B : TypeKey](prop: Prop[P, B]) = cassandraValue(prop.propVal(p))
+  protected def propValBinding[PP >: P <: Persistent, A](prop: Prop[PP, A], p: P): AnyRef = {
+    def bind[B : TypeKey](prop: Prop[PP, B]) = cassandraValue(prop.propVal(p))
     bind(prop)(prop.propTypeKey)
   }
 
@@ -96,7 +99,7 @@ with CassandraDelete[P] {
     val id = CassandraId[P](row.getUUID("id"))
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("p"))
-    val p = jsonToPersistentTranslator.traverse[P](json)
+    val p = jsonToPersistentTranslator.traverse[P](json)(pTypeKey)
     new PState[P](id, p)
   }
 
@@ -137,9 +140,12 @@ private[persistence] object CassandraRepo {
       case pt: PolyPType[_] =>
         new CassandraRepo(pType, subdomain, session) with PolyCassandraRepo[P]
       case pt: DerivedPType[_, _] =>
-        new CassandraRepo(pType, subdomain, session) with DerivedCassandraRepo[P] {
-          override val polyRepo: CassandraRepo[_ >: P <: Persistent] = polyRepoOpt.get
+        def withPoly[Poly >: P <: Persistent](poly: CassandraRepo[Poly]) = {
+          new CassandraRepo(pType, subdomain, session) with DerivedCassandraRepo[P, Poly] {
+            override protected val polyRepo: CassandraRepo[Poly] = poly
+          }
         }
+        withPoly(polyRepoOpt.get)
       case _ =>
         new CassandraRepo(pType, subdomain, session)
     }

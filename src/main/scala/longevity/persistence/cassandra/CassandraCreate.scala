@@ -5,8 +5,9 @@ import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import java.util.UUID
-import longevity.persistence._
+import longevity.persistence._ // TODO
 import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.Prop
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.concurrent.blocking
@@ -26,32 +27,35 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
   }
   
   private lazy val insertStatement: PreparedStatement = {
-    val cql = if (realizedProps.isEmpty) {
-      s"INSERT INTO $tableName (id, p) VALUES (:id, :p)"
-    } else {
-      val realizedPropColumnNames = realizedProps.map(columnName).toSeq.sorted
-      val realizedPropColumns = realizedPropColumnNames.mkString(",\n  ")
-      val realizedSubstitutions = realizedPropColumnNames.map(c => s":$c").mkString(",\n  ")
-      s"""|
-      |INSERT INTO $tableName (
-      |  id,
-      |  p,
-      |  $realizedPropColumns
-      |) VALUES (
-      |  :id,
-      |  :p,
-      |  $realizedSubstitutions
-      |)
-      |""".stripMargin
-    }
+    val columns = insertColumnNames.mkString(",\n  ")
+    val substitutionPatterns = insertColumnNames.map(c => s":$c").mkString(",\n  ")
+
+    val cql = s"""|
+    |INSERT INTO $tableName (
+    |  $columns
+    |) VALUES (
+    |  $substitutionPatterns
+    |)
+    |""".stripMargin
+
     session.prepare(cql)
   }
 
+  protected def insertColumnNames: Seq[String] = {
+    val realizedPropColumnNames = realizedProps.map(columnName).toSeq.sorted
+    "id" +: "p" +: realizedPropColumnNames
+  }
+
   private def bindInsertStatement(uuid: UUID, p: P): BoundStatement = {
-    val nonPropValues = Array(uuid, jsonStringForP(p))
-    val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map(propValBinding(_, p))
-    val values = (nonPropValues ++ realizedPropValues)
-    insertStatement.bind(values: _*)
+    insertStatement.bind(insertColumnValues(uuid, p).toArray: _*)
+  }
+
+  protected def insertColumnValues(uuid: UUID, p: P): Seq[AnyRef] = {
+    val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map { prop =>
+      def bind[PP >: P <: Persistent](prop: Prop[PP, _]) = propValBinding(prop, p)
+      bind(prop)
+    }
+    uuid +: jsonStringForP(p) +: realizedPropValues
   }
 
 }

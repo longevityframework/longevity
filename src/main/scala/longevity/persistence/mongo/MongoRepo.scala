@@ -59,7 +59,8 @@ extends BaseRepo[P](pType, subdomain) {
 
   def create(p: P)(implicit context: ExecutionContext) = Future {
     val objectId = new ObjectId()
-    val casbah = persistentToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
+    val casbah =
+      persistentToCasbahTranslator.translate(p)(pTypeKey) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
       mongoCollection.insert(casbah)
     }
@@ -74,7 +75,7 @@ extends BaseRepo[P](pType, subdomain) {
     val dbObjs: Seq[DBObject] = cursor.toSeq
     dbObjs.map { result =>
       val id = result.getAs[ObjectId]("_id").get
-      val p = casbahToPersistentTranslator.translate(result)
+      val p = casbahToPersistentTranslator.translate(result)(pTypeKey)
       new PState[P](MongoId(id), p)
     }
   }
@@ -83,7 +84,7 @@ extends BaseRepo[P](pType, subdomain) {
     val p = state.get
     val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
-    val casbah = persistentToCasbahTranslator.translate(p) ++ MongoDBObject("_id" -> objectId)
+    val casbah = persistentToCasbahTranslator.translate(p)(pTypeKey) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
       mongoCollection.update(query, casbah)
     }
@@ -108,7 +109,7 @@ extends BaseRepo[P](pType, subdomain) {
     val resultOption = blocking {
       mongoCollection.findOne(query)
     }
-    val pOption = resultOption map { casbahToPersistentTranslator.translate(_) }
+    val pOption = resultOption map { casbahToPersistentTranslator.translate(_)(pTypeKey) }
     pOption map { p => new PState[P](assoc, p) }
   }
 
@@ -124,7 +125,7 @@ extends BaseRepo[P](pType, subdomain) {
     }
     val idPOption = resultOption map { result =>
       val id = result.getAs[ObjectId]("_id").get
-      id -> casbahToPersistentTranslator.translate(result)
+      id -> casbahToPersistentTranslator.translate(result)(pTypeKey)
     }
     idPOption map { case (id, p) => new PState[P](MongoId(id), p) }
   }

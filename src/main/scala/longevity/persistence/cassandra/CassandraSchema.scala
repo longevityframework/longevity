@@ -13,26 +13,23 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
 
   protected def createSchema(): Unit = {
     createTable()
-    createRealizedPropColumns()
     createIndexes()
   }
 
   protected def createTable(): Unit = {
+    def columnDef(prop: Prop[_, _]) =
+      s"${columnName(prop)} ${typeKeyToCassandraType(prop.propTypeKey)}"
+    val realizedPropColumnDefs = realizedProps.map(columnDef).mkString(",\n  ")
     val createTable = s"""|
     |CREATE TABLE IF NOT EXISTS $tableName (
     |  id uuid,
     |  p text,
+    |  $realizedPropColumnDefs,
     |  PRIMARY KEY (id)
     |)
     |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
     |""".stripMargin
     session.execute(createTable)
-  }
-
-  protected def createRealizedPropColumns(): Unit = {
-    realizedProps.map { prop =>
-      addColumn(columnName(prop), typeKeyToCassandraType(prop.propTypeKey))
-    }
   }
 
   protected def addColumn(columnName: String, columnType: String): Unit = {
@@ -61,7 +58,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
 
   protected def createIndexes(): Unit = realizedProps.foreach(createIndex)
 
-  protected def createIndex(prop: Prop[P, _]): Unit = {
+  protected def createIndex(prop: Prop[_ >: P <: Persistent, _]): Unit = {
     val name = s"""${tableName}_${scoredPath(prop)}"""
     val createIndex = s"CREATE INDEX IF NOT EXISTS $name ON $tableName (${columnName(prop)});"
     session.execute(createIndex)
