@@ -5,6 +5,7 @@ import emblem.Union
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
 import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
 private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRepo[P] {
 
@@ -15,6 +16,7 @@ private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRep
   override protected def createTable(): Unit = {
     super.createTable()
     addColumn("discriminator", "text")
+    createIndex(s"${tableName}_discriminator", "discriminator")
   }
 
   // Repo.create overrides:
@@ -32,10 +34,6 @@ private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRep
     new PState[P](passoc, pstate.orig, pstate.get)
   }
 
-  // Repo.retrieveByPersistedAssoc overrides:
-
-  // TODO
-
   // Repo.retrieveByKeyVal overrides:
 
   // TODO
@@ -46,6 +44,14 @@ private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRep
 
   // Repo.update overrides:
 
+  override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] = {
+    def updateDerived[D <: P : TypeKey] = repoPool[D].update(state.asInstanceOf[PState[D]])(context)
+    implicit val derivedTypeKey: TypeKey[_ <: P] = union.typeKeyForInstance(state.get).getOrElse {
+      throw new RuntimeException // TODO: exception type for attempting to create a non-derived poly
+    }
+    updateDerived.map(widenPState)
+  }
+
   // TODO
 
   // Repo.delete overrides:
@@ -54,6 +60,7 @@ private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRep
 
 }
 
+// TODO: either put this on the wiki or just delete it
 /*
 * - schema
 *   - poly:

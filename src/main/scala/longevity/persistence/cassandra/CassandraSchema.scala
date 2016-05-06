@@ -59,8 +59,12 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
   protected def createIndexes(): Unit = realizedProps.foreach(createIndex)
 
   protected def createIndex(prop: Prop[_ >: P <: Persistent, _]): Unit = {
-    val name = s"""${tableName}_${scoredPath(prop)}"""
-    val createIndex = s"CREATE INDEX IF NOT EXISTS $name ON $tableName (${columnName(prop)});"
+    val indexName = s"${tableName}_${scoredPath(prop)}"
+    createIndex(indexName, columnName(prop))
+  }
+
+  protected def createIndex(indexName: String, columnName: String): Unit = {
+    val createIndex = s"CREATE INDEX IF NOT EXISTS $indexName ON $tableName ($columnName);"
     session.execute(createIndex)
   }
 

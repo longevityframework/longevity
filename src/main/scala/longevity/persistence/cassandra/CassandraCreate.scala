@@ -27,8 +27,8 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
   }
   
   private lazy val insertStatement: PreparedStatement = {
-    val columns = insertColumnNames.mkString(",\n  ")
-    val substitutionPatterns = insertColumnNames.map(c => s":$c").mkString(",\n  ")
+    val columns = updateColumnNames(includeId = true).mkString(",\n  ")
+    val substitutionPatterns = updateColumnNames(includeId = true).map(c => s":$c").mkString(",\n  ")
 
     val cql = s"""|
     |INSERT INTO $tableName (
@@ -41,21 +41,9 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
     session.prepare(cql)
   }
 
-  protected def insertColumnNames: Seq[String] = {
-    val realizedPropColumnNames = realizedProps.map(columnName).toSeq.sorted
-    "id" +: "p" +: realizedPropColumnNames
-  }
-
   private def bindInsertStatement(uuid: UUID, p: P): BoundStatement = {
-    insertStatement.bind(insertColumnValues(uuid, p).toArray: _*)
-  }
-
-  protected def insertColumnValues(uuid: UUID, p: P): Seq[AnyRef] = {
-    val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map { prop =>
-      def bind[PP >: P <: Persistent](prop: Prop[PP, _]) = propValBinding(prop, p)
-      bind(prop)
-    }
-    uuid +: jsonStringForP(p) +: realizedPropValues
+    val bindings = updateColumnValues(uuid, p, includeId = true)
+    insertStatement.bind(bindings: _*)
   }
 
 }

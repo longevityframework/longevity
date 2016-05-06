@@ -18,13 +18,10 @@ private[cassandra] trait CassandraRetrieveAssoc[P <: Persistent] {
     retrieveFromBoundStatement(bindIdSelectStatement(id))
   }
 
-  private lazy val idSelectStatement = {
-    val cql = s"SELECT * FROM $tableName WHERE id = :id"
-    session.prepare(cql)
-  }
+  private lazy val idSelectStatement = session.prepare(retrieveByPersistedAssocCql)
 
-  private def bindIdSelectStatement(id: CassandraId[P]): BoundStatement = {
-    idSelectStatement.bind(id.uuid)
-  }
+  protected def retrieveByPersistedAssocCql = s"SELECT * FROM $tableName WHERE id = :id"
+
+  protected def bindIdSelectStatement(id: CassandraId[P]): BoundStatement = idSelectStatement.bind(id.uuid)
 
 }

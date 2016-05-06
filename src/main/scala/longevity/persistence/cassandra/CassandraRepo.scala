@@ -46,7 +46,9 @@ with CassandraRetrieveQuery[P]
 with CassandraUpdate[P]
 with CassandraDelete[P] {
 
-  protected[cassandra] def tableName = camelToUnderscore(typeName(pTypeKey.tpe))
+  protected[cassandra] def tableName = typeKeyToTableName(pTypeKey)
+
+  protected def typeKeyToTableName(key: TypeKey[_]) = camelToUnderscore(typeName(key.tpe))
 
   protected[cassandra] def realizedProps: List[Prop[_ >: P <: Persistent, _]] =
     (pType.keySet.flatMap(_.props) ++ pType.indexSet.flatMap(_.props)).toList
@@ -63,6 +65,25 @@ with CassandraDelete[P] {
   protected def jsonStringForP(p: P): String = {
     import org.json4s.native.JsonMethods._
     compact(render(persistentToJsonTranslator.traverse(p)(pTypeKey)))
+  }
+
+  protected def updateColumnNames(includeId: Boolean = true): Seq[String] = {
+    val realizedPropColumnNames = realizedProps.map(columnName).toSeq.sorted
+    if (includeId)
+      "id" +: "p" +: realizedPropColumnNames
+    else
+      "p" +: realizedPropColumnNames
+  }
+
+  protected def updateColumnValues(uuid: UUID, p: P, includeId: Boolean = true): Seq[AnyRef] = {
+    val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map { prop =>
+      def bind[PP >: P <: Persistent](prop: Prop[PP, _]) = propValBinding(prop, p)
+      bind(prop)
+    }
+    if (includeId)
+      uuid +: jsonStringForP(p) +: realizedPropValues
+    else
+      jsonStringForP(p) +: realizedPropValues
   }
 
   protected def propValBinding[PP >: P <: Persistent, A](prop: Prop[PP, A], p: P): AnyRef = {

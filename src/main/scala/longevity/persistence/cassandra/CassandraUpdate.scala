@@ -26,30 +26,24 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
     }
 
   private lazy val updateStatement: PreparedStatement = {
-    val cql = if (realizedProps.isEmpty) {
-      s"UPDATE $tableName SET p = :p WHERE id = :id"
-    } else {
-      val realizedPropColumnNames = realizedProps.toSeq.map(columnName).sorted
-      val realizedAssignments = realizedPropColumnNames.map(c => s"$c = :$c").mkString(",\n  ")
-      s"""|
-      |UPDATE $tableName
-      |SET
-      |  p = :p,
-      |  $realizedAssignments
-      |WHERE
-      |  id = :id
-      |""".stripMargin
-    }
+    val columnAssignments = updateColumnNames(includeId = false).map(c => s"$c = :$c").mkString(",\n  ")
+
+    val cql = s"""|
+    |UPDATE $tableName
+    |SET
+    |  $columnAssignments
+    |WHERE
+    |  id = :id
+    |""".stripMargin
+
     session.prepare(cql)
   }
 
   private def bindUpdateStatement(state: PState[P]): BoundStatement = {
-    val p = state.get
-    val json = jsonStringForP(p)
-    val realizedPropVals = realizedProps.toArray.sortBy(columnName).map(propValBinding(_, p))
     val uuid = state.assoc.asInstanceOf[CassandraId[P]].uuid
-    val values = (json +: realizedPropVals :+ uuid)
-    updateStatement.bind(values: _*)
+    val p = state.get
+    val columnBindings = updateColumnValues(uuid, p, includeId = false) :+ uuid
+    updateStatement.bind(columnBindings: _*)
   }
 
 }

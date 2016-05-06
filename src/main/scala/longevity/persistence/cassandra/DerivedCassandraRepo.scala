@@ -9,9 +9,7 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
 
   protected val polyRepo: CassandraRepo[Poly]
 
-  override protected[cassandra] def tableName: String = {
-    polyRepo.tableName
-  }
+  override protected[cassandra] def tableName: String = polyRepo.tableName
 
   override protected def jsonStringForP(p: P): String = {
     import org.json4s.native.JsonMethods._
@@ -37,30 +35,29 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     }
   }
 
-  // Repo.create overrides:
+  // Repo.create & Repo.update overrides:
 
-  override protected def insertColumnNames: Seq[String] = {
-    super.insertColumnNames :+ "discriminator"
+  override protected def updateColumnNames(includeId: Boolean = true): Seq[String] = {
+    super.updateColumnNames(includeId) :+ "discriminator"
   }
 
-  override protected def insertColumnValues(uuid: UUID, p: P): Seq[AnyRef] = {
+  override protected def updateColumnValues(uuid: UUID, p: P, includeId: Boolean = true): Seq[AnyRef] = {
     val discriminatorValue = p.getClass.getSimpleName
-    super.insertColumnValues(uuid, p) :+ discriminatorValue
+    super.updateColumnValues(uuid, p, includeId) :+ discriminatorValue
   }
 
   // Repo.retrieveByPersistedAssoc overrides:
 
-  // TODO
+  override protected def retrieveByPersistedAssocCql = {
+    val discriminator = pTypeKey.name
+    s"SELECT * FROM $tableName WHERE id = :id AND discriminator = '$discriminator'"
+  }
 
   // Repo.retrieveByKeyVal overrides:
 
   // TODO
 
   // Repo.retrieveByQuery overrides:
-
-  // TODO
-
-  // Repo.update overrides:
 
   // TODO
 
