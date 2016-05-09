@@ -14,7 +14,7 @@ import org.joda.time.DateTime
 import org.json4s.JsonAST._
 
 /** translates json4s AST into emblematic types */
-class JsonToEmblemTranslator extends Traversor {
+class JsonToEmblematicTranslator extends Traversor {
 
   type TraverseInput[A] = JValue
   type TraverseResult[A] = A

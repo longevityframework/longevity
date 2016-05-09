@@ -6,8 +6,8 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-/** exercises translations of [[JsonToEmblemTranslator]] and
- * [[EmblemToJsonTranslator]] by running data through both, and seeing if we
+/** exercises translations of [[JsonToEmblematicTranslator]] and
+ * [[EmblematicToJsonTranslator]] by running data through both, and seeing if we
  * get the original result. also exercises the [[TestDataGenerator]].
  *
  * this test attempts to be exhaustive of emblematic features using
@@ -15,11 +15,11 @@ import org.scalatest.Matchers
  */
 class JsonTranslationSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  private val emblemTranslator = new EmblemToJsonTranslator {
+  private val emblemTranslator = new EmblematicToJsonTranslator {
     override protected val emblematic = exhaustive.emblematic
   }
 
-  private val jsonTranslator = new JsonToEmblemTranslator {
+  private val jsonTranslator = new JsonToEmblematicTranslator {
     override protected val emblematic = exhaustive.emblematic
   }
 

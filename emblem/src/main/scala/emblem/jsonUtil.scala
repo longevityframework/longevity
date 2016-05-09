@@ -6,8 +6,8 @@ import org.joda.time.format.DateTimeFormat
 object jsonUtil {
 
   /** the json4s date-time formatter used by
-   * [[emblem.traversors.sync.JsonToEmblemTranslator]] and
-   * [[emblem.traversors.sync.EmblemToJsonTranslator]]. this format is entirely
+   * [[emblem.traversors.sync.JsonToEmblematicTranslator]] and
+   * [[emblem.traversors.sync.EmblematicToJsonTranslator]]. this format is entirely
    * lossless AFAIK, including with respect to time zones, and conforms to
    * ISO 8061.
    */

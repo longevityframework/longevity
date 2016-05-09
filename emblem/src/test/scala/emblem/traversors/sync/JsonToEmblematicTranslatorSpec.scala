@@ -8,17 +8,17 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-/** some simple specs for [[JsonToEmblemTranslator]]. these only test a limited
+/** some simple specs for [[JsonToEmblematicTranslator]]. these only test a limited
  * number of features. see [[JsonTranslationSpec]] for a more comprehensive
  * suite.
  */
-class JsonToEmblemTranslatorSpec extends FlatSpec with GivenWhenThen with Matchers {
+class JsonToEmblematicTranslatorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  private val translator = new JsonToEmblemTranslator {
+  private val translator = new JsonToEmblematicTranslator {
     override protected val emblematic = geometry.emblematic
   }
 
-  behavior of "JsonToEmblemTranslator.generate[A] for basic types"
+  behavior of "JsonToEmblematicTranslator.generate[A] for basic types"
 
   it should "produce the appropriate json4s values" in {
     translator.traverse[Boolean](JBool(true)) should equal (true)
@@ -33,7 +33,7 @@ class JsonToEmblemTranslatorSpec extends FlatSpec with GivenWhenThen with Matche
     translator.traverse[String](JString("string")) should equal ("string")
   }
 
-  behavior of "JsonToEmblemTranslator.generate[Point]"
+  behavior of "JsonToEmblematicTranslator.generate[Point]"
 
   it should "produce a Point from json4s" in {
     { translator.traverse[geometry.Point](
@@ -43,7 +43,7 @@ class JsonToEmblemTranslatorSpec extends FlatSpec with GivenWhenThen with Matche
     }
   }
 
-  behavior of "JsonToEmblemTranslator.generate[Polygon]"
+  behavior of "JsonToEmblematicTranslator.generate[Polygon]"
 
   it should "produce a Polygon from json4s" in {
     { translator.traverse[geometry.Polygon](

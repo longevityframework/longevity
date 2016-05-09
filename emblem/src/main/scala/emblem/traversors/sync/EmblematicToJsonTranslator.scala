@@ -14,12 +14,12 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import org.json4s.JsonAST._
  
-// TODO s/Emblem/Emblematic (also in JsonToEmblemTranslator)
+// TODO s/Emblem/Emblematic (also in JsonToEmblematicTranslator)
 
-// TODO s/Emblem/Emblematic (also in JsonToEmblemTranslator)
+// TODO s/Emblem/Emblematic (also in JsonToEmblematicTranslator)
 
 /** translates emblematic types into json4s AST */
-class EmblemToJsonTranslator extends Traversor {
+class EmblematicToJsonTranslator extends Traversor {
 
   type TraverseInput[A] = A
   type TraverseResult[A] = JValue

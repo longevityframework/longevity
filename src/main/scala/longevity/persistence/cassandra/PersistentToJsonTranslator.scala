@@ -2,7 +2,7 @@ package longevity.persistence.cassandra
 
 import emblem.Emblematic
 import emblem.TypeKey
-import emblem.traversors.sync.EmblemToJsonTranslator
+import emblem.traversors.sync.EmblematicToJsonTranslator
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
@@ -12,7 +12,7 @@ import org.json4s.JsonAST.JString
 
 private[cassandra] class PersistentToJsonTranslator(
   override protected val emblematic: Emblematic)
-extends EmblemToJsonTranslator {
+extends EmblematicToJsonTranslator {
 
   override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
 
