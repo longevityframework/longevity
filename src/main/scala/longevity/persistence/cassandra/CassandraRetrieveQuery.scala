@@ -35,7 +35,8 @@ private[cassandra] trait CassandraRetrieveQuery[P <: Persistent] {
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext): Future[Seq[PState[P]]] =
     Future {
       val info = queryInfo(query)
-      val cql = s"SELECT * FROM $tableName WHERE ${info.whereClause} ALLOW FILTERING"
+      val conjunction = retrieveByQueryConjunction(info)
+      val cql = s"SELECT * FROM $tableName WHERE $conjunction ALLOW FILTERING"
       val preparedStatement = session.prepare(cql)
       val boundStatement = preparedStatement.bind(info.bindValues: _*)
       val resultSet = blocking {
@@ -44,7 +45,9 @@ private[cassandra] trait CassandraRetrieveQuery[P <: Persistent] {
       resultSet.all.toList.map(retrieveFromRow)
     }
 
-  private case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
+  protected def retrieveByQueryConjunction(queryInfo: QueryInfo): String = queryInfo.whereClause
+
+  protected case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
 
   private def queryInfo(query: Query[P]): QueryInfo = {
     query match {

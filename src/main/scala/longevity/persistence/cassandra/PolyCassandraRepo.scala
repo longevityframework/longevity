@@ -11,15 +11,11 @@ private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRep
 
   private val union: Union[P] = subdomain.emblematic.unions(pTypeKey)
 
-  // Repo.createSchema overrides:
-
   override protected def createTable(): Unit = {
     super.createTable()
     addColumn("discriminator", "text")
     createIndex(s"${tableName}_discriminator", "discriminator")
   }
-
-  // Repo.create overrides:
 
   override def create(p: P)(implicit context: ExecutionContext) = {
     def createDerived[D <: P : TypeKey] = repoPool[D].create(p.asInstanceOf[D])(context)
@@ -34,29 +30,14 @@ private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRep
     new PState[P](passoc, pstate.orig, pstate.get)
   }
 
-  // Repo.retrieveByKeyVal overrides:
-
-  // TODO
-
-  // Repo.retrieveByQuery overrides:
-
-  // TODO
-
-  // Repo.update overrides:
-
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] = {
     def updateDerived[D <: P : TypeKey] = repoPool[D].update(state.asInstanceOf[PState[D]])(context)
     implicit val derivedTypeKey: TypeKey[_ <: P] = union.typeKeyForInstance(state.get).getOrElse {
       throw new RuntimeException // TODO: exception type for attempting to create a non-derived poly
+      // TODO non-derived poly thing is probably thrown by the PersistentToJsonTranslator etc as well
     }
     updateDerived.map(widenPState)
   }
-
-  // TODO
-
-  // Repo.delete overrides:
-
-  // TODO
 
 }
 
@@ -100,6 +81,7 @@ private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRep
 *     - same as super
 *   - derived:
 *     - same as super, but optionally filters on the discriminator as well
+*       - NOTE in cassandra not able to do this due to "Non PRIMARY KEY discriminator found in where clause"
 *
 * in those "optionally filters on the discriminator" cases, i say optional because
 * there is (presently) no chance that the assoc will match a non-intended persistent.

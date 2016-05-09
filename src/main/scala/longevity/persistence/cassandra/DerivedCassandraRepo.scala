@@ -2,6 +2,7 @@ package longevity.persistence.cassandra
 
 import emblem.TypeKey
 import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.Prop
 import java.util.UUID
 
@@ -22,8 +23,6 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     myRealizedProps ++ polyRepo.realizedProps
   }
 
-  // Repo.createSchema overrides:
-
   override protected def createSchema(): Unit = {
     createRealizedPropColumns()
     createIndexes()
@@ -35,8 +34,6 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     }
   }
 
-  // Repo.create & Repo.update overrides:
-
   override protected def updateColumnNames(includeId: Boolean = true): Seq[String] = {
     super.updateColumnNames(includeId) :+ "discriminator"
   }
@@ -46,23 +43,15 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     super.updateColumnValues(uuid, p, includeId) :+ discriminatorValue
   }
 
-  // Repo.retrieveByPersistedAssoc overrides:
+  override protected def retrieveByPersistedAssocCql: String =
+    s"SELECT * FROM $tableName WHERE id = :id AND discriminator = '$discriminatorValue'"
 
-  override protected def retrieveByPersistedAssocCql = {
-    val discriminator = pTypeKey.name
-    s"SELECT * FROM $tableName WHERE id = :id AND discriminator = '$discriminator'"
-  }
+  override protected def keyValSelectStatementConjunction(key: Key[P]): String =
+    super.keyValSelectStatementConjunction(key) + s"\nAND\n  discriminator = '$discriminatorValue'"
 
-  // Repo.retrieveByKeyVal overrides:
+  override protected def retrieveByQueryConjunction(queryInfo: QueryInfo): String =
+    super.retrieveByQueryConjunction(queryInfo) + s"\nAND\n  discriminator = '$discriminatorValue'"
 
-  // TODO
-
-  // Repo.retrieveByQuery overrides:
-
-  // TODO
-
-  // Repo.delete overrides:
-
-  // TODO
+  private def discriminatorValue = pTypeKey.name
 
 }

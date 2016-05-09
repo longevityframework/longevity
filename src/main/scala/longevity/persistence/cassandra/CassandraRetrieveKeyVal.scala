@@ -24,15 +24,18 @@ private[cassandra] trait CassandraRetrieveKeyVal[P <: Persistent] {
     retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
 
   private lazy val keyValSelectStatement: Map[Key[P], PreparedStatement] = Map().withDefault { key =>
-    val relations = key.props.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
+    val conjunction = keyValSelectStatementConjunction(key)
     val cql = s"""|
     |SELECT * FROM $tableName
     |WHERE
-    |  $relations
+    |  $conjunction
     |ALLOW FILTERING
     |""".stripMargin
     session.prepare(cql)
   }
+
+  protected def keyValSelectStatementConjunction(key: Key[P]): String =
+    key.props.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
 
   private def bindKeyValSelectStatement(keyVal: KeyVal[P]): BoundStatement = {
     val preparedStatement = keyValSelectStatement(keyVal.key)

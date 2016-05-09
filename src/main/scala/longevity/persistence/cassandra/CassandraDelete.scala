@@ -20,10 +20,9 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
       new Deleted(state.get, state.assoc)
     }
 
-  private lazy val deleteStatement: PreparedStatement = {
-    val cql = s"DELETE FROM $tableName WHERE id = :id"
-    session.prepare(cql)
-  }
+  private lazy val deleteStatement: PreparedStatement = session.prepare(deleteStatementCql)
+
+  protected def deleteStatementCql: String = s"DELETE FROM $tableName WHERE id = :id"
 
   private def bindDeleteStatement(state: PState[P]): BoundStatement = {
     val boundStatement = deleteStatement.bind
