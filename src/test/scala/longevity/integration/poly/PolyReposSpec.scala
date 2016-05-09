@@ -2,7 +2,9 @@ package longevity.integration.poly
 
 import longevity.context.LongevityContext
 import longevity.integration.subdomain.derivedEntities
+import longevity.persistence.PState
 import longevity.persistence.RepoPool
+import longevity.subdomain.ptype.Query
 import longevity.test.PersistedToUnpersistedMatcher
 import longevity.test.TestDataGeneration
 import org.scalatest.FlatSpec
@@ -27,28 +29,144 @@ with ScalaFutures
 with TestDataGeneration
 with PersistedToUnpersistedMatcher {
 
-  // TODO create Derived with Repo[Derived], look up with Repo[Poly]
-  // TODO create Derived with Repo[Poly], look up with Repo[Derived]
-  // TODO create Other with Repo[Poly], look up with Repo[Derived] should return None
+  behavior of "Repo[PolyRoot].retrieve(PRef)"
 
-  // TODO create Derived with Repo[Derived], query look up with Repo[Poly]
-  // TODO create Derived with Repo[Poly], query look up with Repo[Derived]
-  // TODO create Other with Repo[Poly], query look up with Repo[Derived] should return None
-
-  // TODO test out a query with props from both Poly and Derived
-
-  "setting up the test" should "trigger schema creation" in {
-
-  }
-
-  behavior of "Repo[PolyRoot].retrieve"
-
-  it should "pull up a DerivedRoot persisted by a different repository" ignore {
+  it should "retrieve by assoc a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
     val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
     val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
-    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(createdPState.assoc).futureValue
+    val assoc = createdPState.assoc
+
+    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(assoc).futureValue
     retrievedPStateOpt should be ('nonEmpty)
     retrievedPStateOpt.get.get should equal (firstDerivedRoot)
+  } 
+
+  it should "retrieve by poly keyval a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
+    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
+    val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
+    val uriKeyVal = derivedEntities.PolyRoot.keys.uri.keyValForP(createdPState.get)
+
+    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(uriKeyVal).futureValue
+    retrievedPStateOpt should be ('nonEmpty)
+    retrievedPStateOpt.get.get should equal (firstDerivedRoot)
+  } 
+
+  it should "retrieve by derived keyval a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
+    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
+    val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
+    val componentUriKeyVal = derivedEntities.FirstDerivedRoot.keys.componentUri.keyValForP(createdPState.get)
+
+    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(componentUriKeyVal).futureValue
+    retrievedPStateOpt should be ('nonEmpty)
+    retrievedPStateOpt.get.get should equal (firstDerivedRoot)
+  } 
+
+  it should "not retrieve a SecondDerivedRoot by KeyVal[FirstDerivedRoot]" in {
+    val secondDerivedRoot = testDataGenerator.generate[derivedEntities.SecondDerivedRoot]
+    val createdPState = repoPool[derivedEntities.SecondDerivedRoot].create(secondDerivedRoot).futureValue
+    val componentUriKeyVal = derivedEntities.FirstDerivedRoot.keys.componentUri(createdPState.get.component.uri)
+
+    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(componentUriKeyVal).futureValue
+    retrievedPStateOpt should be ('empty)
+    // this works for cassandra because the Repo[SecondDerivedRoot] did not populate the componentUri column.
+    // this will most likely be a problem when we get to MongoRepo
+  } 
+
+  behavior of "Repo[FirstDerivedRoot].retrieve(PRef)"
+
+  it should "retrieve by assoc a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
+    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
+    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+    val castPState = createdPState.asInstanceOf[PState[derivedEntities.FirstDerivedRoot]]
+    val assoc = castPState.assoc
+
+    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(assoc).futureValue
+    retrievedPStateOpt should be ('nonEmpty)
+    retrievedPStateOpt.get.get should equal (firstDerivedRoot)
+  } 
+
+  // NOTE we cannot look up a KeyVal[Poly] with a Repo[Derived], but the converse is OK. PRef is
+  // covariant, which makes sense with Assoc. its not clear what makes the most sense with KeyVal, but
+  // im going to roll with covariance here for now
+
+  it should "retrieve by derived keyval a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
+    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
+    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+    val castPState = createdPState.asInstanceOf[PState[derivedEntities.FirstDerivedRoot]]
+    val componentUriKeyVal = derivedEntities.FirstDerivedRoot.keys.componentUri.keyValForP(castPState.get)
+
+    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(componentUriKeyVal).futureValue
+    retrievedPStateOpt should be ('nonEmpty)
+    retrievedPStateOpt.get.get should equal (firstDerivedRoot)
+  } 
+
+  behavior of "Repo[PolyRoot].retrieveByQuery"
+
+  it should "retrieve a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
+    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
+    val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
+
+    val query: Query[derivedEntities.PolyRoot] =
+      Query.eqs(derivedEntities.PolyRoot.props.uri, firstDerivedRoot.uri)
+
+    val retrievedPStateSeq = repoPool[derivedEntities.PolyRoot].retrieveByQuery(query).futureValue
+    retrievedPStateSeq.size should equal (1)
+    retrievedPStateSeq(0).get should equal (firstDerivedRoot)
+  } 
+
+  behavior of "Repo[FirstDerivedRoot].retrieveByQuery"
+
+  it should "retrieve a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
+    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
+    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+
+    val query: Query[derivedEntities.FirstDerivedRoot] =
+      Query.eqs(derivedEntities.FirstDerivedRoot.props.componentUri, firstDerivedRoot.component.uri)
+
+    val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
+    retrievedPStateSeq.size should equal (1)
+    retrievedPStateSeq(0).get should equal (firstDerivedRoot)
+  } 
+
+  it should "not retrieve a SecondDerivedRoot" in {
+    val secondDerivedRoot = testDataGenerator.generate[derivedEntities.SecondDerivedRoot]
+    val createdPState = repoPool[derivedEntities.PolyRoot].create(secondDerivedRoot).futureValue
+
+    val query: Query[derivedEntities.FirstDerivedRoot] =
+      Query.eqs(derivedEntities.FirstDerivedRoot.props.componentUri, secondDerivedRoot.component.uri)
+
+    val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
+    retrievedPStateSeq.size should equal (0)
+  } 
+
+  it should "retrieve a FirstDerivedRoot by Query with mixed props" in {
+    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
+    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+
+    val query: Query[derivedEntities.FirstDerivedRoot] =
+      Query.and(
+        Query.eqs(derivedEntities.FirstDerivedRoot.props.componentUri, firstDerivedRoot.component.uri),
+        Query.eqs(derivedEntities.PolyRoot.props.uri, firstDerivedRoot.uri))
+
+    val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
+    retrievedPStateSeq.size should equal (1)
+    retrievedPStateSeq(0).get should equal (firstDerivedRoot)
+  } 
+
+  it should "retrieve a FirstDerivedRoot by Query DSL with mixed props" in {
+    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
+    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+
+    // TODO: consider moving this DSL test into QueryDslSpec
+
+    import derivedEntities.FirstDerivedRoot.queryDsl._
+    val query: Query[derivedEntities.FirstDerivedRoot] =
+      derivedEntities.FirstDerivedRoot.props.componentUri eqs firstDerivedRoot.component.uri and
+      derivedEntities.PolyRoot.props.uri eqs firstDerivedRoot.uri
+
+    val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
+    retrievedPStateSeq.size should equal (1)
+    retrievedPStateSeq(0).get should equal (firstDerivedRoot)
   } 
 
 }
