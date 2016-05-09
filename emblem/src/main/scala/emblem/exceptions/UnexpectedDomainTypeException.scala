@@ -2,8 +2,9 @@ package emblem.exceptions
 
 import emblem.TypeKey
 
-/** an exception thrown when the `Domain` type supplied to [[Extractor emblem.Extractor]] does not
- * match the type of the single parameter of the `Range` case class
+/** an exception thrown when the `Domain` type supplied to
+ * [[emblem.emblematic.Extractor Extractor]] does not match the type of the
+ * single parameter of the `Range` case class
  */
 class UnexpectedDomainTypeException(domainTypeKey: TypeKey[_], val rangeTypeKey: TypeKey[_])
 extends GeneratorException(

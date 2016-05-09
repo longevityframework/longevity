@@ -2,7 +2,7 @@ package emblem.exceptions
 
 import emblem.TypeKey
 
-/** this exception is thrown when a user tries to generate an [[emblem.Emblem Emblem]] or an [[emblem.Extractor
+/** this exception is thrown when a user tries to generate an [[emblem.emblematic.Emblem Emblem]] or an [[emblem.emblematic.Extractor
  * Extractor]] for a case class that has multiple parameter lists.
  *
  * `Emblem` and `Extractor` generation for non-case class types may be supported in the future. these types would

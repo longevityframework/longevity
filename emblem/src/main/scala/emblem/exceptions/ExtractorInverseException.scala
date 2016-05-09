@@ -2,9 +2,10 @@ package emblem.exceptions
 
 import emblem.TypeKey
 
-/** an exception thrown by a [[emblem.traversors.async.Traversor Traversor]], or one of its cousins in the
- * [[emblem.traversors emblem.traversors package]], when invoking [[emblem.Extractor.inverse]] throws
- * exception
+/** an exception thrown by a [[emblem.emblematic.traversors.async.Traversor
+ * Traversor]], or one of its cousins in the [[emblem.emblematic.traversors
+ * emblem.emblematic.traversors package]], when invoking
+ * [[emblem.emblematic.Extractor.inverse]] throws exception
  */
 class ExtractorInverseException(input: Any, domainTypeKey: TypeKey[_], cause: Exception)
 extends TraversorException(

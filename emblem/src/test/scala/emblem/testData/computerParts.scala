@@ -1,8 +1,8 @@
 package emblem.testData
 
-import emblem.Emblem
-import emblem.EmblemPool
-import emblem.Emblematic
+import emblem.emblematic.Emblem
+import emblem.emblematic.EmblemPool
+import emblem.emblematic.Emblematic
 
 /** for type map happy cases */
 object computerParts {

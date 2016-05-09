@@ -1,15 +1,15 @@
 package emblem.testData
 
 import com.github.nscala_time.time.Imports.richDateTime
-import emblem.Emblem
-import emblem.EmblemPool
-import emblem.Emblematic
-import emblem.Extractor
-import emblem.ExtractorPool
+import emblem.emblematic.Emblem
+import emblem.emblematic.EmblemPool
+import emblem.emblematic.Emblematic
+import emblem.emblematic.Extractor
+import emblem.emblematic.ExtractorPool
 
-import emblem.Union
-import emblem.UnionPool
-import emblem.traversors.sync.TestDataGenerator
+import emblem.emblematic.Union
+import emblem.emblematic.UnionPool
+import emblem.emblematic.traversors.sync.TestDataGenerator
 import emblem.typeKey
 import org.joda.time.DateTime
 

@@ -1,6 +1,6 @@
 package longevity.subdomain.ptype
 
-import emblem.Emblematic
+import emblem.emblematic.Emblematic
 import longevity.subdomain.persistent.Persistent
 
 /** coordinates between `Subdomain`, `PType` and `Prop` to initialize the prop

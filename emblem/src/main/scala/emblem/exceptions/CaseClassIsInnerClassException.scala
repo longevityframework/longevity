@@ -2,7 +2,7 @@ package emblem.exceptions
 
 import emblem.TypeKey
 
-/** this exception is thrown when a user tries to generate an [[emblem.Emblem Emblem]] or an [[emblem.Extractor
+/** this exception is thrown when a user tries to generate an [[emblem.emblematic.Emblem Emblem]] or an [[emblem.emblematic.Extractor
  * Extractor]] for an inner case class. an inner type is a type that belongs to an instance variable, such as
  * `B` in the following example:
  *

@@ -2,7 +2,7 @@ package longevity.context
 
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
-import emblem.traversors.sync.CustomGeneratorPool
+import emblem.emblematic.traversors.sync.CustomGeneratorPool
 import longevity.subdomain.Subdomain
 
 object LongevityContext {

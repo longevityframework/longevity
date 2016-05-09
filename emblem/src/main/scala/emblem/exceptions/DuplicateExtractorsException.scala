@@ -1,7 +1,8 @@
 package emblem.exceptions
 
-/** an exception that is thrown on attempt to construct a [[ExtractorPool]] with
- * more than one [[Extractor]] for the same `Domain` type.
+/** an exception that is thrown on attempt to construct a
+ * [[emblem.emblematic.ExtractorPool ExtractorPool]] with more than one
+ * [[emblem.emblematic.Extractor Extractor]] for the same `Domain` type
  */
 class DuplicateExtractorsException
 extends ExtractorPoolException(

@@ -1,12 +1,12 @@
 package longevity.test
 
-import emblem.TypeBoundPair
+import emblem.typeBound.TypeBoundPair
 import emblem.TypeKey
-import emblem.traversors.sync.CustomGenerator
-import emblem.traversors.sync.CustomGeneratorPool
-import emblem.traversors.sync.Differ
-import emblem.traversors.sync.Generator
-import emblem.traversors.sync.TestDataGenerator
+import emblem.emblematic.traversors.sync.CustomGenerator
+import emblem.emblematic.traversors.sync.CustomGeneratorPool
+import emblem.emblematic.traversors.sync.Differ
+import emblem.emblematic.traversors.sync.Generator
+import emblem.emblematic.traversors.sync.TestDataGenerator
 import emblem.typeKey
 import longevity.context.LongevityContext
 import longevity.subdomain.Assoc

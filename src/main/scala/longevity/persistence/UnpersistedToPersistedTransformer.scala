@@ -1,11 +1,11 @@
 package longevity.persistence
 
-import emblem.Emblematic
+import emblem.emblematic.Emblematic
 import emblem.TypeKey
 import emblem.exceptions.CouldNotTransformException
-import emblem.traversors.async.Transformer
-import emblem.traversors.async.Transformer.CustomTransformer
-import emblem.traversors.async.Transformer.CustomTransformerPool
+import emblem.emblematic.traversors.async.Transformer
+import emblem.emblematic.traversors.async.Transformer.CustomTransformer
+import emblem.emblematic.traversors.async.Transformer.CustomTransformerPool
 import emblem.typeKey
 import longevity.exceptions.persistence.BsonTranslationException
 import longevity.subdomain.Assoc

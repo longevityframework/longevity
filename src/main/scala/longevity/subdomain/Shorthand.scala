@@ -1,9 +1,9 @@
 package longevity.subdomain
 
-import emblem.Extractor
+import emblem.emblematic.Extractor
 import emblem.TypeKey
-import emblem.basicTypes.basicTypeOrderings
-import emblem.basicTypes.isBasicType
+import emblem.emblematic.basicTypes.basicTypeOrderings
+import emblem.emblematic.basicTypes.isBasicType
 import emblem.typeKey
 import longevity.exceptions.subdomain.ShorthandCreationException
 
@@ -50,7 +50,7 @@ object Shorthand {
    * `Abbreviated` is not a basic type, or when `Actual` is not a stable case
    * class with a single parameter list
    * 
-   * @see `emblem.basicTypes`
+   * @see `emblem.emblematic.basicTypes`
    */
   def apply[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] = {
     if (!isBasicType[Abbreviated]) {
@@ -58,7 +58,7 @@ object Shorthand {
         "abbreviated type is not a basic type", typeKey[Actual], typeKey[Abbreviated])
     }
     try {
-      new Shorthand(emblem.Extractor[Actual, Abbreviated])
+      new Shorthand(emblem.emblematic.Extractor[Actual, Abbreviated])
     } catch {
       case e: emblem.exceptions.GeneratorException =>
         throw new ShorthandCreationException(e, typeKey[Actual], typeKey[Abbreviated])

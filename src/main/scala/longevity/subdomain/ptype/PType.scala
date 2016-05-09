@@ -1,9 +1,9 @@
 package longevity.subdomain.ptype
 
-import emblem.Emblematic
+import emblem.emblematic.Emblematic
 import emblem.TypeKey
 import emblem.typeKey
-import emblem.basicTypes.isBasicType
+import emblem.emblematic.basicTypes.isBasicType
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException
@@ -36,7 +36,7 @@ abstract class PType[P <: Persistent : TypeKey](
    * entity, or the final step along the path is not a [[Shorthand]], an
    * [[Assoc]] or a basic type.
    *
-   * @see `emblem.basicTypes`
+   * @see `emblem.emblematic.basicTypes`
    */
   def prop[A : TypeKey](path: String): Prop[P, A] =
     Prop(path, pTypeKey, typeKey[A])(shorthandPool, propLateInitializer)

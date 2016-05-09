@@ -1,10 +1,10 @@
 package emblem.testData
 
-import emblem.Emblem
-import emblem.EmblemPool
-import emblem.Emblematic
-import emblem.Extractor
-import emblem.ExtractorPool
+import emblem.emblematic.Emblem
+import emblem.emblematic.EmblemPool
+import emblem.emblematic.Emblematic
+import emblem.emblematic.Extractor
+import emblem.emblematic.ExtractorPool
 
 
 /** for type map happy cases */

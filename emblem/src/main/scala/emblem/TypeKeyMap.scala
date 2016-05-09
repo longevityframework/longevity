@@ -1,5 +1,9 @@
 package emblem
 
+import emblem.typeBound.BaseTypeBoundMap
+import emblem.typeBound.TypeBoundFunction
+import emblem.typeBound.TypeBoundPair
+import emblem.typeBound.WideningTypeBoundFunction
 import scala.language.higherKinds
 
 /** a map where the keys are [[TypeKey type keys]] with an upper bound, and the values have a type parameter
@@ -46,8 +50,9 @@ import scala.language.higherKinds
  * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
  * @tparam Val the parameterized type of the values in the map
  *
- * @see [[ExtractorPool]] for an example of how to use type key maps when the value type is more
- * sophisticated than just type with a single type parameter.
+ * @see [[emblem.emblematic.ExtractorPool]] for an example of how to use type
+ * key maps when the value type is more sophisticated than just type with a
+ * single type parameter
  * @see TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples
  */
 class TypeKeyMap[TypeBound, Val[_ <: TypeBound]] private (underlying: Map[Any, Any])
@@ -136,8 +141,6 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
   def contains[TypeParam <: TypeBound : TypeKey] = super.contains(typeKey[TypeParam])
 
   // TODO unit tests for {TKM,TBM}.{filter,filterKeys,filterNot,filterTypeBound,filterValues}
-  // TODO update emblem documentation for new filter methods
-  // TODO reprioritize TypeBoundMap type param variance
 
   /** selects all elements of this TypeKeyMap which satisfy a predicate
    *

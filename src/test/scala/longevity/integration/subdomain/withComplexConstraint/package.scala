@@ -1,7 +1,7 @@
 package longevity.integration.subdomain
 
-import emblem.traversors.sync.CustomGeneratorPool
-import emblem.traversors.sync.CustomGenerator
+import emblem.emblematic.traversors.sync.CustomGeneratorPool
+import emblem.emblematic.traversors.sync.CustomGenerator
 import longevity.context.Cassandra
 import longevity.context.LongevityContext
 import longevity.context.Mongo

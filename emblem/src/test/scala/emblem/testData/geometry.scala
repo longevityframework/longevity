@@ -1,8 +1,8 @@
 package emblem.testData
 
-import emblem.Emblem
-import emblem.Emblematic
-import emblem.EmblemPool
+import emblem.emblematic.Emblem
+import emblem.emblematic.Emblematic
+import emblem.emblematic.EmblemPool
 
 
 /** for testing emblem success cases */

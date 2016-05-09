@@ -1,8 +1,8 @@
 package longevity.persistence.cassandra
 
-import emblem.Emblematic
+import emblem.emblematic.Emblematic
 import emblem.TypeKey
-import emblem.traversors.sync.EmblematicToJsonTranslator
+import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny

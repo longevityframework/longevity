@@ -1,6 +1,6 @@
 package longevity.context
 
-import emblem.traversors.sync.CustomGeneratorPool
+import emblem.emblematic.traversors.sync.CustomGeneratorPool
 import longevity.persistence.RepoPool
 import longevity.test.RepoCrudSpec
 import scala.concurrent.ExecutionContext

@@ -1,12 +1,12 @@
 package longevity.subdomain.ptype
 
-import emblem.Emblem
-import emblem.Emblematic
-import emblem.EmblematicPropPath
-import emblem.ReflectiveProp
+import emblem.emblematic.Emblem
+import emblem.emblematic.Emblematic
+import emblem.emblematic.EmblematicPropPath
+import emblem.emblematic.ReflectiveProp
 import emblem.TypeKey
-import emblem.basicTypes.basicTypeOrderings
-import emblem.basicTypes.isBasicType
+import emblem.emblematic.basicTypes.basicTypeOrderings
+import emblem.emblematic.basicTypes.isBasicType
 import emblem.exceptions.EmblematicPropPathTypeMismatchException
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
@@ -31,7 +31,7 @@ import longevity.subdomain.persistent.Persistent
  * @param path a dot-separated path of the property descending from the root
  * @param pTypeKey the `TypeKey` for the enclosing [[PType persistent type]]
  * @param propTypeKey the `TypeKey` for the property value type
- * @see `emblem.basicTypes`
+ * @see `emblem.emblematic.basicTypes`
  */
 case class Prop[P <: Persistent, A] private[ptype] (
   path: String,

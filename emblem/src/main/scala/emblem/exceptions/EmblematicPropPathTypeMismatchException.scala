@@ -1,10 +1,11 @@
 package emblem.exceptions
 
 import emblem.TypeKey
-import emblem.Emblematic
+import emblem.emblematic.Emblematic
 
-/** an exception thrown when the user attempts to build an [[EmblematicPropPath]] with a specified type,
- * but the actual type of the path is something else
+/** an exception thrown when the user attempts to build an
+ * [[emblem.emblematic.EmblematicPropPath EmblematicPropPath]] with a specified
+ * type, but the actual type of the path is something else
  */
 class EmblematicPropPathTypeMismatchException(
   val emblematic: Emblematic,

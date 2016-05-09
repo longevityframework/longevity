@@ -1,17 +1,17 @@
 package longevity.subdomain
 
-import emblem.Emblem
-import emblem.EmblemPool
-import emblem.Emblematic
-import emblem.ExtractorFor
-import emblem.ExtractorPool
-import emblem.TypeBoundFunction
-import emblem.TypeBoundPair
+import emblem.emblematic.Emblem
+import emblem.emblematic.EmblemPool
+import emblem.emblematic.Emblematic
+import emblem.emblematic.ExtractorFor
+import emblem.emblematic.ExtractorPool
+import emblem.typeBound.TypeBoundFunction
+import emblem.typeBound.TypeBoundPair
 import emblem.TypeKey
 import emblem.TypeKeyMap
-import emblem.Union
-import emblem.UnionPool
-import emblem.WideningTypeBoundFunction
+import emblem.emblematic.Union
+import emblem.emblematic.UnionPool
+import emblem.typeBound.WideningTypeBoundFunction
 import emblem.typeKey
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PType

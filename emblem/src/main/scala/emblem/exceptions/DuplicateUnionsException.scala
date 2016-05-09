@@ -1,7 +1,8 @@
 package emblem.exceptions
 
-/** An exception that is thrown on attempt to construct a [[UnionPool]] with
- * more than one [[Union]] for the same type
+/** An exception that is thrown on attempt to construct a
+ * [[emblem.emblematic.UnionPool UnionPool]] with more than one
+ * [[emblem.emblematic.Union Union]] for the same type
  */
 class DuplicateUnionsException
 extends UnionPoolException(

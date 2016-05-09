@@ -1,7 +1,7 @@
 package emblem.testData
 
-import emblem.Emblem
-import emblem.EmblemPool
+import emblem.emblematic.Emblem
+import emblem.emblematic.EmblemPool
 
 import emblem.testData.extractors._
 

@@ -1,9 +1,9 @@
 package longevity.persistence.cassandra
 
-import emblem.Emblematic
+import emblem.emblematic.Emblematic
 import emblem.TypeKey
 import emblem.exceptions.CouldNotTraverseException
-import emblem.traversors.sync.JsonToEmblematicTranslator
+import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
 import emblem.typeKey
 import java.util.UUID
 import longevity.subdomain.Assoc

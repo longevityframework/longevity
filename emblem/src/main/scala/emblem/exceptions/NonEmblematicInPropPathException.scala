@@ -1,11 +1,11 @@
 package emblem.exceptions
 
-import emblem.Emblematic
+import emblem.emblematic.Emblematic
 import emblem.TypeKey
 
 /** an exception thrown when the user attempts to build an
- * [[emblem.EmblematicPropPath]] where one of the intermediate steps in the
- * specified path is something that is not covered by the [[emblem.Emblematic]]
+ * [[emblem.emblematic.EmblematicPropPath]] where one of the intermediate steps in the
+ * specified path is something that is not covered by the [[emblem.emblematic.Emblematic]]
  */
 class NonEmblematicInPropPathException[A](
   val emblematic: Emblematic,

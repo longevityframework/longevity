@@ -1,12 +1,12 @@
 package longevity.test
 
-import emblem.Emblem
-import emblem.EmblemProp
-import emblem.Emblematic
+import emblem.emblematic.Emblem
+import emblem.emblematic.EmblemProp
+import emblem.emblematic.Emblematic
 import emblem.TypeKey
-import emblem.traversors.async.Transformer
-import emblem.traversors.async.Transformer.CustomTransformer
-import emblem.traversors.async.Transformer.CustomTransformerPool
+import emblem.emblematic.traversors.async.Transformer
+import emblem.emblematic.traversors.async.Transformer.CustomTransformer
+import emblem.emblematic.traversors.async.Transformer.CustomTransformerPool
 import emblem.typeKey
 import longevity.persistence.RepoPool
 import longevity.subdomain.Assoc

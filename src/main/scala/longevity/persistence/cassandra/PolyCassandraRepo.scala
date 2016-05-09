@@ -1,7 +1,7 @@
 package longevity.persistence.cassandra
 
 import emblem.TypeKey
-import emblem.Union
+import emblem.emblematic.Union
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
 import scala.concurrent.ExecutionContext

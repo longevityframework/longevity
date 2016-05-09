@@ -1,7 +1,7 @@
 package emblem.testData
 
-import emblem.ExtractorPool
-import emblem.Extractor
+import emblem.emblematic.ExtractorPool
+import emblem.emblematic.Extractor
 
 /** a handful of extractors used for testing */
 object extractors {
