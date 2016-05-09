@@ -9,7 +9,7 @@ import longevity.subdomain.persistent.Persistent
 class QueryDsl[P <: Persistent] {
 
   /** start building a query with a [[Prop]] */
-  implicit def where[A](prop: Prop[P, A]) = new GatherRelational(prop)
+  implicit def where[A](prop: Prop[_ >: P <: Persistent, A]) = new GatherRelational(prop)
 
   private[QueryDsl] case class CondPrefix(lhs: Query[P], op: LogicalOp) {
     def buildCond(rhs: Query[P]) = ConditionalQuery[P](lhs, op, rhs)
@@ -25,7 +25,7 @@ class QueryDsl[P <: Persistent] {
    * ```
    */
   class GatherRelational[A] private[QueryDsl] (
-    private val prop: Prop[P, A],
+    private val prop: Prop[_ >: P <: Persistent, A],
     private val prefix: Option[CondPrefix] = None) {
 
     /** gather an `eqs` expression, and prepare for an `and` or an `or` */
@@ -78,16 +78,20 @@ class QueryDsl[P <: Persistent] {
   class GatherLogical private[QueryDsl] (private[QueryDsl] val prefix: Query[P]) {
 
     /** gather an `and` token and the next property, and prepare for a relational operator */
-    def and[A](prop: Prop[P, A]) = new GatherRelational(prop, Some(CondPrefix(prefix, AndOp)))
+    def and[A](prop: Prop[_ >: P <: Persistent, A]) =
+      new GatherRelational(prop, Some(CondPrefix(prefix, AndOp)))
 
     /** gather an `and` token a (possibly parenthesized) query, and prepare for a logical operator */
-    def and(query: Query[P]) = new GatherLogical(ConditionalQuery(prefix, AndOp, query))
+    def and(query: Query[P]) =
+      new GatherLogical(ConditionalQuery(prefix, AndOp, query))
 
     /** gather an `or` token and the next property, and prepare for a relational operator */
-    def or[A](prop: Prop[P, A]) = new GatherRelational(prop, Some(CondPrefix(prefix, OrOp)))
+    def or[A](prop: Prop[_ >: P <: Persistent, A]) =
+      new GatherRelational(prop, Some(CondPrefix(prefix, OrOp)))
 
     /** gather an `or` token a (possibly parenthesized) query, and prepare for a logical operator */
-    def or(query: Query[P]) = new GatherLogical(ConditionalQuery(prefix, OrOp, query))
+    def or(query: Query[P]) =
+      new GatherLogical(ConditionalQuery(prefix, OrOp, query))
 
   }
 

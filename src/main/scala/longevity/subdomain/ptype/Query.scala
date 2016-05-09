@@ -44,27 +44,27 @@ object Query {
   case object OrOp extends LogicalOp
 
   /** a factory method for producing a [[EqualityQuery]] with an [[EqOp]] */
-  def eqs[P <: Persistent, A](prop: Prop[P, A], value: A) =
+  def eqs[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
     EqualityQuery[P, A](prop, EqOp, value)
 
   /** a factory method for producing a [[EqualityQuery]] with an [[NeqOp]] */
-  def neq[P <: Persistent, A](prop: Prop[P, A], value: A) =
+  def neq[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
     EqualityQuery[P, A](prop, NeqOp, value)
 
   /** a factory method for producing a [[OrderingQuery]] with a [[LtOp]] */
-  def lt[P <: Persistent, A](prop: Prop[P, A], value: A) =
+  def lt[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
     OrderingQuery[P, A](prop, LtOp, value)
 
   /** a factory method for producing a [[OrderingQuery]] with a [[LteOp]] */
-  def lte[P <: Persistent, A](prop: Prop[P, A], value: A) =
+  def lte[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
     OrderingQuery[P, A](prop, LteOp, value)
 
   /** a factory method for producing a [[OrderingQuery]] with a [[GtOp]] */
-  def gt[P <: Persistent, A](prop: Prop[P, A], value: A) =
+  def gt[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
     OrderingQuery[P, A](prop, GtOp, value)
 
   /** a factory method for producing a [[OrderingQuery]] with a [[LteOp]] */
-  def gte[P <: Persistent, A](prop: Prop[P, A], value: A) =
+  def gte[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
     OrderingQuery[P, A](prop, GteOp, value)
 
   /** a factory method for producing a conditional [[Query]] with an [[AndOp]] */
@@ -82,14 +82,14 @@ sealed trait Query[P <: Persistent]
 
 /** an equality query */
 sealed case class EqualityQuery[P <: Persistent, A](
-  val prop: Prop[P, A],
+  val prop: Prop[_ >: P <: Persistent, A],
   op: EqualityOp,
   value: A)
 extends Query[P]
 
 /** an ordering query */
 sealed case class OrderingQuery[P <: Persistent, A](
-  val prop: Prop[P, A],
+  val prop: Prop[_ >: P <: Persistent, A],
   op: OrderingOp,
   value: A)
 extends Query[P] {
