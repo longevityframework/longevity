@@ -5,7 +5,7 @@ import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import java.util.UUID
-import longevity.persistence._ // TODO
+import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Prop
 import org.joda.time.DateTime

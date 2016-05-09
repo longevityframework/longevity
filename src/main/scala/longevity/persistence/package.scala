@@ -85,17 +85,9 @@ package object persistence {
 
   // TODO NEXT:
   // - repo behavior has to vary based on PolyType/DerivedType:
-  //   - DerivedType needs to use the table of the poly type
-  //   - DerivedType schema gen mods
-  //   - DerivedType inserts/updates have to put in the descriminator
-  //   - DerivedType retrieveByAssoc has to include descriminator in query
-  //   - DerivedType retrieveByQuery has to include descriminator in query
-  //
-  //   - InMem
   //   - Mongo
-  //   - Cassandra
+  //   - InMem
   // - test for when Prop.propVal is accessed too early
-  // - specialized integration tests to test that the PolyType repo and DerivedType repos share a table
   //
   // - search for / clean up "persistent entity" language. use "persistent element" instead?
   // - repackaging in longevity.subdomain
