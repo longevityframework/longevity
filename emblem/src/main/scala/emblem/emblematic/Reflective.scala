@@ -1,7 +1,5 @@
 package emblem.emblematic
 
-// TODO: emblem package renames: emblem.emblematic.traversors.sync
-
 import emblem.TypeKey
 import emblem.exceptions.NoSuchPropertyException
 import emblem.stringUtil
