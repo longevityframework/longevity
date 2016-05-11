@@ -8,11 +8,13 @@ import com.datastax.driver.core.Session
 import com.datastax.driver.core.Session
 import com.typesafe.config.Config
 import emblem.TypeKey
+import emblem.exceptions.CouldNotTraverseException
 import emblem.jsonUtil.dateTimeFormatter
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
 import java.util.UUID
+import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
 import longevity.subdomain.DerivedPType
@@ -63,8 +65,13 @@ with CassandraDelete[P] {
   protected def scoredPath(prop: Prop[_, _]) = prop.path.replace('.', '_')
 
   protected def jsonStringForP(p: P): String = {
-    import org.json4s.native.JsonMethods._
-    compact(render(persistentToJsonTranslator.traverse(p)(pTypeKey)))
+    try {
+      import org.json4s.native.JsonMethods._
+      compact(render(persistentToJsonTranslator.traverse(p)(pTypeKey)))
+    } catch {
+      case e: CouldNotTraverseException =>
+        throw new NotInSubdomainTranslationException(e.typeKey, e)
+    }
   }
 
   protected def updateColumnNames(includeId: Boolean = true): Seq[String] = {

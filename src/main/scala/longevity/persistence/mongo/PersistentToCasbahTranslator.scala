@@ -13,7 +13,7 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.emblematic.traversors.sync.Traversor
 import emblem.typeKey
 import longevity.exceptions.persistence.AssocIsUnpersistedException
-import longevity.exceptions.persistence.BsonTranslationException
+import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.persistence.RepoPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
@@ -35,7 +35,7 @@ private[persistence] class PersistentToCasbahTranslator(
   def translate[P <: Persistent : TypeKey](p: P): MongoDBObject = try {
     anyToMongoDBObject(traversor.traverse[P](p))
   } catch {
-    case e: CouldNotTraverseException => throw new BsonTranslationException(e.typeKey, e)
+    case e: CouldNotTraverseException => throw new NotInSubdomainTranslationException(e.typeKey, e)
   }
 
   private def anyToMongoDBObject(any: Any): MongoDBObject =

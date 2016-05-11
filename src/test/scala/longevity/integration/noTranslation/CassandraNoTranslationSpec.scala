@@ -1,0 +1,3 @@
+package longevity.integration.noTranslation
+
+class CassandraNoTranslationSpec extends NoTranslationSpec(cassandraContext.testRepoPool)

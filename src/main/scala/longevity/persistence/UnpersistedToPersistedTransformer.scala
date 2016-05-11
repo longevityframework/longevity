@@ -7,7 +7,7 @@ import emblem.emblematic.traversors.async.Transformer
 import emblem.emblematic.traversors.async.Transformer.CustomTransformer
 import emblem.emblematic.traversors.async.Transformer.CustomTransformerPool
 import emblem.typeKey
-import longevity.exceptions.persistence.BsonTranslationException
+import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.UnpersistedAssoc
@@ -40,7 +40,7 @@ extends Transformer {
   override def transform[A : TypeKey](input: Future[A]): Future[A] =
     super.transform[A](input) recoverWith {
       case e: CouldNotTransformException =>
-        Future.failed(new BsonTranslationException(e.typeKey, e))
+        Future.failed(new NotInSubdomainTranslationException(e.typeKey, e))
     }
 
   override protected val customTransformers = CustomTransformerPool.empty + transformFutureAssoc

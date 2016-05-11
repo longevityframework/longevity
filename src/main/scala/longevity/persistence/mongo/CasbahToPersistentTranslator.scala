@@ -14,7 +14,7 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.exceptions.ExtractorInverseException
 import emblem.emblematic.traversors.sync.Traversor
 import emblem.typeKey
-import longevity.exceptions.persistence.BsonTranslationException
+import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.exceptions.persistence.ShorthandUnabbreviationException
 import longevity.persistence.RepoPool
 import longevity.subdomain.Assoc
@@ -38,7 +38,7 @@ private[persistence] class CasbahToPersistentTranslator(
   def translate[P <: Persistent : TypeKey](casbah: MongoDBObject): P = try {
     traversor.traverse[P](casbah)
   } catch {
-    case e: CouldNotTraverseException => throw new BsonTranslationException(typeKey[P], e)
+    case e: CouldNotTraverseException => throw new NotInSubdomainTranslationException(typeKey[P], e)
   }
 
   private val optionAnyType = typeOf[scala.Option[_]]
