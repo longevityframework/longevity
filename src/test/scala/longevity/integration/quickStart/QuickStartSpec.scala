@@ -1,11 +1,17 @@
 package longevity.integration.quickStart
 
-import com.github.nscala_time.time.Imports._
-import org.scalatest.OptionValues._
-import org.scalatest._
+import com.github.nscala_time.time.Implicits.richDateTime
+import com.github.nscala_time.time.Implicits.richInt
+import org.joda.time.DateTime
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
+import org.scalatest.OptionValues.convertOptionToValuable
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
-import org.scalatest.time._
+import org.scalatest.time.Millis
+import org.scalatest.time.Span
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

@@ -140,8 +140,6 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
    */
   def contains[TypeParam <: TypeBound : TypeKey] = super.contains(typeKey[TypeParam])
 
-  // TODO unit tests for {TKM,TBM}.{filter,filterKeys,filterNot,filterTypeBound,filterValues}
-
   /** selects all elements of this TypeKeyMap which satisfy a predicate
    *
    * @param p the predicate used to test elements

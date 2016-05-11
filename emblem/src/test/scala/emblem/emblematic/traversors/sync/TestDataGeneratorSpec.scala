@@ -1,6 +1,6 @@
 package emblem.emblematic.traversors.sync
 
-import com.github.nscala_time.time.Imports._
+import org.joda.time.DateTime
 import emblem.emblematic.Emblematic
 import emblem.TypeKey
 import emblem.exceptions.CouldNotGenerateException
@@ -11,9 +11,7 @@ import emblem.typeKey
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
-import org.scalatest.OptionValues._
-
-// TODO: look into reworking/adding specs for traversors using exhaustive
+import org.scalatest.OptionValues.convertOptionToValuable
 
 /** specs for [[TestDataGenerator]] */
 class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {

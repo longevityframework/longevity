@@ -6,8 +6,6 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-// TODO TypeKeyMap specs here have to move
-
 /** [[TypeBoundMap]] specifications */
 class TypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
 

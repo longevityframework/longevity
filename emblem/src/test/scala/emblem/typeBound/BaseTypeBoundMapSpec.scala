@@ -7,8 +7,6 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-// TODO TypeKeyMap specs here have to move
-
 // TODO pt-92300898 reorg specs for TypeKeyMap and TypeBoundMap
 
 /** specifications for methods common to [[TypeKeyMap]] and [[TypeBoundMap]] found in [[BaseTypeBoundMap]]. */
