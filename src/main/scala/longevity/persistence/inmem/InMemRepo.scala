@@ -42,11 +42,9 @@ class InMemRepo[P <: Persistent] private[persistence] (
 extends BaseRepo[P](pType, subdomain) {
   repo =>
 
-  // TODO: fix up entity and ID language
-
   private var idCounter = 0
-  private var idToEntityMap = Map[PersistedAssoc[_ <: Persistent], PState[P]]()
-  private var keyValToEntityMap = Map[KeyVal[_ <: Persistent], PState[P]]()
+  private var assocToPStateMap = Map[PersistedAssoc[_ <: Persistent], PState[P]]()
+  private var keyValToPStateMap = Map[KeyVal[_ <: Persistent], PState[P]]()
 
   def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
     persist(IntId[P](nextId), unpersisted)
@@ -58,13 +56,15 @@ extends BaseRepo[P](pType, subdomain) {
   }
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
-    dumpKeys(state.orig)
+    repo.synchronized {
+      dumpKeys(state.orig)
+    }
     persist(state.passoc, state.get)
   }
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = {
     repo.synchronized {
-      unregisterEntityById(state.passoc)
+      unregisterPStateByAssoc(state.passoc)
       dumpKeys(state.orig)
     }
     val deleted = new Deleted(state.get, state.assoc)
@@ -73,15 +73,14 @@ extends BaseRepo[P](pType, subdomain) {
 
   private def dumpKeys(p: P) = keys.foreach { key =>
     val keyVal = key.keyValForP(p)
-    keyValToEntityMap -= keyVal
+    keyValToPStateMap -= keyVal
   }
 
   override protected def retrieveByPersistedAssoc(
     assoc: PersistedAssoc[P])(
     implicit context: ExecutionContext)
-  : Future[Option[PState[P]]] = {
-    Future.successful(lookupEntityById(assoc))
-  }
+  : Future[Option[PState[P]]] =
+    Future.successful(lookupPStateByAssoc(assoc))
 
   override protected def retrieveByKeyVal(
     keyVal: KeyVal[P])(
@@ -93,16 +92,15 @@ extends BaseRepo[P](pType, subdomain) {
         if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
       }
     }
-    Future.successful(lookupEntityByKeyVal(keyVal))
+    Future.successful(lookupPStateByKeyVal(keyVal))
   }
 
   private def persist(assoc: PersistedAssoc[P], p: P): PState[P] = {
     val state = new PState[P](assoc, p)
     repo.synchronized {
-      registerEntityById(assoc, state)
+      registerPStateByAssoc(assoc, state)
       keys.foreach { key =>
-        val keyVal = key.keyValForP(p)
-        registerEntityByKeyVal(keyVal, state)
+        registerPStateByKeyVal(key.keyValForP(p), state)
       }
     }
     state
@@ -116,24 +114,24 @@ extends BaseRepo[P](pType, subdomain) {
 
   protected[inmem] val keys: Seq[Key[_ >: P <: Persistent]] = pType.keySet.toSeq
 
-  protected[inmem] def registerEntityById(assoc: PersistedAssoc[_ <: Persistent], state: PState[P]): Unit = {
-    idToEntityMap += (assoc -> state)
+  protected[inmem] def registerPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent], state: PState[P]): Unit = {
+    assocToPStateMap += (assoc -> state)
   }
 
-  protected[inmem] def registerEntityByKeyVal(keyVal: KeyVal[_ <: Persistent], state: PState[P]): Unit =
-    keyValToEntityMap += (keyVal -> state)
+  protected[inmem] def registerPStateByKeyVal(keyVal: KeyVal[_ <: Persistent], state: PState[P]): Unit =
+    keyValToPStateMap += (keyVal -> state)
 
-  protected[inmem] def lookupEntityById(assoc: PersistedAssoc[_ <: Persistent]): Option[PState[P]] = {
-    idToEntityMap.get(assoc)
+  protected[inmem] def lookupPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent]): Option[PState[P]] = {
+    assocToPStateMap.get(assoc)
   }
 
-  protected[inmem] def lookupEntityByKeyVal(keyVal: KeyVal[_ <: Persistent]): Option[PState[P]] =
-    keyValToEntityMap.get(keyVal)
+  protected[inmem] def lookupPStateByKeyVal(keyVal: KeyVal[_ <: Persistent]): Option[PState[P]] =
+    keyValToPStateMap.get(keyVal)
 
-  protected[inmem] def allPStates: Seq[PState[P]] = idToEntityMap.values.view.toSeq
+  protected[inmem] def allPStates: Seq[PState[P]] = assocToPStateMap.values.view.toSeq
 
-  protected[inmem] def unregisterEntityById(assoc: PersistedAssoc[_ <: Persistent]): Unit =
-    idToEntityMap -= assoc
+  protected[inmem] def unregisterPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent]): Unit =
+    assocToPStateMap -= assoc
 
 }
 
