@@ -114,6 +114,7 @@ package object persistence {
     buildRepoPool(subdomain, repoFactory)
   }
 
+  // TODO: move to MongoRepo companion
   private def mongoDb(config: Config): MongoDB = {
     val mongoClient = MongoClient(config.getString("mongodb.uri"))
     val mongoDb = mongoClient.getDB(config.getString("mongodb.db"))
@@ -130,7 +131,7 @@ package object persistence {
         pType: PType[P],
         polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
       : MongoRepo[P] =
-        new MongoRepo(pType, subdomain, mongoDB)
+        MongoRepo[P](pType, subdomain, mongoDB, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory)
   }

@@ -33,10 +33,14 @@ private[persistence] class PersistentToCasbahTranslator(
 
   /** translates a [[Persistent]] into a `MongoDBObject` */
   def translate[P <: Persistent : TypeKey](p: P): MongoDBObject = try {
-    traversor.traverse[P](p).asInstanceOf[BasicDBObject]
+    anyToMongoDBObject(traversor.traverse[P](p))
   } catch {
     case e: CouldNotTraverseException => throw new BsonTranslationException(e.typeKey, e)
   }
+
+  private def anyToMongoDBObject(any: Any): MongoDBObject =
+    if (any.isInstanceOf[MongoDBObject]) any.asInstanceOf[MongoDBObject]
+    else any.asInstanceOf[DBObject]
 
   private val optionAnyType = typeOf[scala.Option[_]]
 
@@ -90,7 +94,7 @@ private[persistence] class PersistentToCasbahTranslator(
       input: A,
       result: Iterable[Any])
     : Any =
-      result.head.asInstanceOf[MongoDBObject] + ("_discriminator" -> typeKey[B].name)
+      result.head.asInstanceOf[DBObject] + ("_discriminator" -> typeKey[B].name)
 
     override protected def stageEmblemProps[A : TypeKey](
       emblem: Emblem[A],

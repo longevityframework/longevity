@@ -105,10 +105,8 @@ with TestDataGeneration {
         created.get should equal (p)
 
         And(s"further retrieval operations should retrieve the same $pName")
-        representativeKeyOption.foreach { key =>
-          val retrieved: PState[P] = repo.retrieveOne(created.assoc).futureValue
-          retrieved.get should equal (p)
-        }
+        val retrieved: PState[P] = repo.retrieveOne(created.assoc).futureValue
+        retrieved.get should equal (p)
 
       }
     }
@@ -122,10 +120,8 @@ with TestDataGeneration {
 
         When(s"we retrieve the $pName by its Assoc")
         Then(s"we get back the same $pName persistent state")
-        repo.pType.keySet.foreach { key =>
-          val retrieved: PState[P] = repo.retrieve(created.assoc).futureValue.value
-          retrieved.get should equal (p)
-        }
+        val retrieved: PState[P] = repo.retrieve(created.assoc).futureValue.value
+        retrieved.get should equal (p)
       }
     }
 

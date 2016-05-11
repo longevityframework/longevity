@@ -27,4 +27,7 @@ case class PState[P <: Persistent] private[persistence] (
   // we may want to consider === here if we allow for non-case class entities
   def dirty = orig == p
 
+  /** returns a copy of this persistent state with a wider type bound */
+  def widen[Q >: P <: Persistent]: PState[Q] = new PState[Q](passoc.widen[Q], orig, get)
+
 }

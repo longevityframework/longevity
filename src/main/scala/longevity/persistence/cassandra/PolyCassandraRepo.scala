@@ -1,42 +1,15 @@
 package longevity.persistence.cassandra
 
-import emblem.TypeKey
-import emblem.emblematic.Union
+import longevity.persistence.BasePolyRepo
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
 
-private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRepo[P] {
-
-  private val union: Union[P] = subdomain.emblematic.unions(pTypeKey)
+private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRepo[P] with BasePolyRepo[P] {
 
   override protected def createTable(): Unit = {
     super.createTable()
     addColumn("discriminator", "text")
     createIndex(s"${tableName}_discriminator", "discriminator")
-  }
-
-  override def create(p: P)(implicit context: ExecutionContext) = {
-    def createDerived[D <: P : TypeKey] = repoPool[D].create(p.asInstanceOf[D])(context)
-    implicit val derivedTypeKey: TypeKey[_ <: P] = union.typeKeyForInstance(p).getOrElse {
-      throw new RuntimeException // TODO: exception type for attempting to create a non-derived poly
-    }
-    createDerived.map(widenPState)
-  }
-
-  private def widenPState(pstate: PState[_ <: P]): PState[P] = {
-    val passoc = CassandraId[P](pstate.passoc.asInstanceOf[CassandraId[_]].uuid)
-    new PState[P](passoc, pstate.orig, pstate.get)
-  }
-
-  override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] = {
-    def updateDerived[D <: P : TypeKey] = repoPool[D].update(state.asInstanceOf[PState[D]])(context)
-    implicit val derivedTypeKey: TypeKey[_ <: P] = union.typeKeyForInstance(state.get).getOrElse {
-      throw new RuntimeException // TODO: exception type for attempting to create a non-derived poly
-      // TODO non-derived poly thing is probably thrown by the PersistentToJsonTranslator etc as well
-    }
-    updateDerived.map(widenPState)
   }
 
 }
@@ -46,15 +19,17 @@ private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRep
 * - schema
 *   - poly:
 *     - constructs the table, plus support for poly keys and indexes
-*     - same as super, but adds discrimintator column
+*     - same as super, but adds discriminator column
 *   - derived:
-*     - constructs support for poly derived and indexes
+*     - constructs support for derived keys and indexes
+*       - all indexes should have 'discriminator' as initial column. for cassandra this doesnt matter since
+*         indexes are all single-column
 * - create:
 *   - poly:
 *     - identifies the derived type, delegates to the derived repo
 *   - derived:
 *     - same as super, but adds discriminator values
-*     - also, sets any realized props from both poly and derived
+*     - for cassandra, sets any realized props from both poly and derived
 * - retrieve Assoc
 *   - poly:
 *     - same as super
@@ -75,7 +50,7 @@ private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRep
 *     - identifies the derived type, delegates to the derived repo
 *   - derived:
 *     - same as super, but adds discriminator values
-*     - also, sets any realized props from both poly and derived
+*     - for cassandra, sets any realized props from both poly and derived
 * - delete
 *   - poly:
 *     - same as super

@@ -4,6 +4,7 @@ import longevity.context.LongevityContext
 import longevity.integration.subdomain.derivedEntities
 import longevity.persistence.PState
 import longevity.persistence.RepoPool
+import longevity.subdomain.Assoc
 import longevity.subdomain.ptype.Query
 import longevity.test.PersistedToUnpersistedMatcher
 import longevity.test.TestDataGeneration
@@ -15,7 +16,7 @@ import scala.concurrent.ExecutionContext
 
 // TODO InMem and Mongo kids
 
-/** base class for test repos that share tables in the presence of [[PolyType]] */
+/** base class for testing repos that share tables in the presence of [[PolyType]] */
 abstract class PolyReposSpec(
   protected val longevityContext: LongevityContext,
   protected val repoPool: RepoPool)
@@ -31,17 +32,17 @@ with PersistedToUnpersistedMatcher {
 
   behavior of "Repo[PolyRoot].retrieve(PRef)"
 
-  it should "retrieve by assoc a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
+  it should "retrieve by Assoc a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
     val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
     val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
-    val assoc = createdPState.assoc
+    val assoc = createdPState.assoc.asInstanceOf[Assoc[derivedEntities.PolyRoot]]
 
     val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(assoc).futureValue
     retrievedPStateOpt should be ('nonEmpty)
     retrievedPStateOpt.get.get should equal (firstDerivedRoot)
   } 
 
-  it should "retrieve by poly keyval a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
+  it should "retrieve by KeyVal a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
     val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
     val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
     val uriKeyVal = derivedEntities.PolyRoot.keys.uri.keyValForP(createdPState.get)
@@ -51,30 +52,9 @@ with PersistedToUnpersistedMatcher {
     retrievedPStateOpt.get.get should equal (firstDerivedRoot)
   } 
 
-  it should "retrieve by derived keyval a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
-    val componentUriKeyVal = derivedEntities.FirstDerivedRoot.keys.componentUri.keyValForP(createdPState.get)
-
-    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(componentUriKeyVal).futureValue
-    retrievedPStateOpt should be ('nonEmpty)
-    retrievedPStateOpt.get.get should equal (firstDerivedRoot)
-  } 
-
-  it should "not retrieve a SecondDerivedRoot by KeyVal[FirstDerivedRoot]" in {
-    val secondDerivedRoot = testDataGenerator.generate[derivedEntities.SecondDerivedRoot]
-    val createdPState = repoPool[derivedEntities.SecondDerivedRoot].create(secondDerivedRoot).futureValue
-    val componentUriKeyVal = derivedEntities.FirstDerivedRoot.keys.componentUri(createdPState.get.component.uri)
-
-    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(componentUriKeyVal).futureValue
-    retrievedPStateOpt should be ('empty)
-    // this works for cassandra because the Repo[SecondDerivedRoot] did not populate the componentUri column.
-    // this will most likely be a problem when we get to MongoRepo
-  } 
-
   behavior of "Repo[FirstDerivedRoot].retrieve(PRef)"
 
-  it should "retrieve by assoc a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
+  it should "retrieve by Assoc a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
     val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
     val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
     val castPState = createdPState.asInstanceOf[PState[derivedEntities.FirstDerivedRoot]]
@@ -85,11 +65,7 @@ with PersistedToUnpersistedMatcher {
     retrievedPStateOpt.get.get should equal (firstDerivedRoot)
   } 
 
-  // NOTE we cannot look up a KeyVal[Poly] with a Repo[Derived], but the converse is OK. PRef is
-  // covariant, which makes sense with Assoc. its not clear what makes the most sense with KeyVal, but
-  // im going to roll with covariance here for now
-
-  it should "retrieve by derived keyval a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
+  it should "retrieve by KeyVal a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
     val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
     val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
     val castPState = createdPState.asInstanceOf[PState[derivedEntities.FirstDerivedRoot]]
@@ -98,6 +74,15 @@ with PersistedToUnpersistedMatcher {
     val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(componentUriKeyVal).futureValue
     retrievedPStateOpt should be ('nonEmpty)
     retrievedPStateOpt.get.get should equal (firstDerivedRoot)
+  } 
+
+  it should "not retrieve a SecondDerivedRoot by KeyVal[FirstDerivedRoot]" in {
+    val secondDerivedRoot = testDataGenerator.generate[derivedEntities.SecondDerivedRoot]
+    val createdPState = repoPool[derivedEntities.SecondDerivedRoot].create(secondDerivedRoot).futureValue
+    val componentUriKeyVal = derivedEntities.FirstDerivedRoot.keys.componentUri(createdPState.get.component.uri)
+
+    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(componentUriKeyVal).futureValue
+    retrievedPStateOpt should be ('empty)
   } 
 
   behavior of "Repo[PolyRoot].retrieveByQuery"

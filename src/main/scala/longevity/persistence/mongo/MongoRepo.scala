@@ -1,6 +1,13 @@
 package longevity.persistence.mongo
 
-import com.mongodb.casbah.Imports._
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PolyPType
+import com.mongodb.DBObject
+import com.mongodb.casbah.MongoCursor
+import com.mongodb.casbah.MongoDB
+import com.mongodb.casbah.commons.Implicits.unwrapDBObj
+import com.mongodb.casbah.commons.Implicits.wrapDBObj
+import com.mongodb.casbah.commons.MongoDBObject
 import emblem.TypeKey
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
@@ -45,22 +52,23 @@ private[longevity] class MongoRepo[P <: Persistent] private[persistence] (
   pType: PType[P],
   subdomain: Subdomain,
   mongoDb: MongoDB)
-extends BaseRepo[P](pType, subdomain) {
+extends BaseRepo[P](pType, subdomain)
+with MongoSchema[P] {
   repo =>
 
-  private val collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
-  private val mongoCollection = mongoDb(collectionName)
+  protected[mongo] def collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
+  protected lazy val mongoCollection = mongoDb(collectionName)
   private val shorthandPool = subdomain.shorthandPool
 
-  private lazy val persistentToCasbahTranslator = new PersistentToCasbahTranslator(subdomain.emblematic, repoPool)
-  private lazy val casbahToPersistentTranslator = new CasbahToPersistentTranslator(subdomain.emblematic, repoPool)
+  protected lazy val persistentToCasbahTranslator =
+    new PersistentToCasbahTranslator(subdomain.emblematic, repoPool)
 
-  createSchema()
+  private lazy val casbahToPersistentTranslator =
+    new CasbahToPersistentTranslator(subdomain.emblematic, repoPool)
 
   def create(p: P)(implicit context: ExecutionContext) = Future {
     val objectId = new ObjectId()
-    val casbah =
-      persistentToCasbahTranslator.translate(p)(pTypeKey) ++ MongoDBObject("_id" -> objectId)
+    val casbah = casbahForP(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
       mongoCollection.insert(casbah)
     }
@@ -84,7 +92,7 @@ extends BaseRepo[P](pType, subdomain) {
     val p = state.get
     val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
-    val casbah = persistentToCasbahTranslator.translate(p)(pTypeKey) ++ MongoDBObject("_id" -> objectId)
+    val casbah = casbahForP(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
       mongoCollection.update(query, casbah)
     }
@@ -92,20 +100,23 @@ extends BaseRepo[P](pType, subdomain) {
   }
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
-    val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
-    val query = MongoDBObject("_id" -> objectId)
+    val query = deleteQuery(state)
     val writeResult = blocking {
       mongoCollection.remove(query)
     }
     new Deleted(state.get, state.assoc)
   }
 
+  protected def deleteQuery(state: PState[P]): MongoDBObject = {
+    val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
+    MongoDBObject("_id" -> objectId)
+  }
+
   override protected def retrieveByPersistedAssoc(
     assoc: PersistedAssoc[P])(
     implicit context: ExecutionContext)
   : Future[Option[PState[P]]] = Future {
-    val objectId = assoc.asInstanceOf[MongoId[P]].objectId
-    val query = MongoDBObject("_id" -> objectId)
+    val query = persistedAssocQuery(assoc)
     val resultOption = blocking {
       mongoCollection.findOne(query)
     }
@@ -113,13 +124,14 @@ extends BaseRepo[P](pType, subdomain) {
     pOption map { p => new PState[P](assoc, p) }
   }
 
+  protected def persistedAssocQuery(assoc: PersistedAssoc[P]): MongoDBObject = {
+    val objectId = assoc.asInstanceOf[MongoId[P]].objectId
+    MongoDBObject("_id" -> objectId)
+  }
+
   override protected def retrieveByKeyVal(keyVal: KeyVal[P])(implicit context: ExecutionContext)
   : Future[Option[PState[P]]] = Future {
-    val builder = MongoDBObject.newBuilder
-    keyVal.propVals.foreach {
-      case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
-    }
-    val query = builder.result
+    val query = keyValQuery(keyVal)
     val resultOption = blocking {
       mongoCollection.findOne(query)
     }
@@ -130,9 +142,19 @@ extends BaseRepo[P](pType, subdomain) {
     idPOption map { case (id, p) => new PState[P](MongoId(id), p) }
   }
 
+  protected def keyValQuery(keyVal: KeyVal[P]): MongoDBObject = {
+    val builder = MongoDBObject.newBuilder
+    keyVal.propVals.foreach {
+      case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
+    }
+    builder.result
+  }
+
+  protected def casbahForP(p: P): MongoDBObject = persistentToCasbahTranslator.translate(p)(pTypeKey)
+
   private def resolvePropVal(prop: Prop[P, _], raw: Any): Any = {
-    if (subdomain.shorthandPool.contains(prop.propTypeKey)) {
-      def abbreviate[PV : TypeKey] = subdomain.shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
+    if (shorthandPool.contains(prop.propTypeKey)) {
+      def abbreviate[PV : TypeKey] = shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
       abbreviate(prop.propTypeKey)
     } else if (prop.propTypeKey <:< typeKey[Assoc[_]]) {
       val assoc = raw.asInstanceOf[Assoc[_ <: Persistent]]
@@ -143,7 +165,7 @@ extends BaseRepo[P](pType, subdomain) {
     }
   }
 
-  private def mongoQuery(query: Query[P]): MongoDBObject = {
+  protected def mongoQuery(query: Query[P]): MongoDBObject = {
     query match {
       case EqualityQuery(prop, op, value) => op match {
         case EqOp => MongoDBObject(prop.path -> touchupValue(value)(prop.propTypeKey))
@@ -174,33 +196,31 @@ extends BaseRepo[P](pType, subdomain) {
     }
   }
 
-  // this will find a better home in pt #106611128
-  private def createSchema(): Unit = {
-    pType.keySet.foreach { key =>
-      val paths = key.props.map(_.path)
-      createMongoIndex(paths, true)
-    }
+}
 
-    val keyProps = pType.keySet.map(_.props)
-    pType.indexSet.foreach { index =>
-      if (!keyProps.contains(index.props)) {
-        val paths = index.props.map(_.path)
-        createMongoIndex(paths, false)
-      }
-    }
-  }
+object MongoRepo {
 
-  private def createMongoIndex(paths: Seq[String], unique: Boolean): Unit = {
-    val mongoPaths = paths map (_ -> 1)
-    mongoCollection.createIndex(MongoDBObject(mongoPaths.toList), indexName(paths, unique), unique)
-  }
-
-  private def indexName(paths: Seq[String], unique: Boolean): String = {
-    val cappedSegments: Seq[String] = paths.map {
-      path => path.split('.').map(_.capitalize).mkString
+  def apply[P <: Persistent](
+    pType: PType[P],
+    subdomain: Subdomain,
+    session: MongoDB,
+    polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
+  : MongoRepo[P] = {
+    val repo = pType match {
+      case pt: PolyPType[_] =>
+        new MongoRepo(pType, subdomain, session) with PolyMongoRepo[P]
+      case pt: DerivedPType[_, _] =>
+        def withPoly[Poly >: P <: Persistent](poly: MongoRepo[Poly]) = {
+          new MongoRepo(pType, subdomain, session) with DerivedMongoRepo[P, Poly] {
+            override protected val polyRepo: MongoRepo[Poly] = poly
+          }
+        }
+        withPoly(polyRepoOpt.get)
+      case _ =>
+        new MongoRepo(pType, subdomain, session)
     }
-    val prefix = if (unique) "key" else "index"
-    s"${prefix}_${cappedSegments.mkString}"
+    repo.createSchema()
+    repo
   }
 
 }

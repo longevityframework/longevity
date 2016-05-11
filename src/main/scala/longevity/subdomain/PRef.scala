@@ -13,7 +13,7 @@ import longevity.subdomain.ptype.KeyVal
  * key value of another aggregate in an entity, in place of embedding an
  * association.
  */
-trait PRef[+P <: Persistent] {
+trait PRef[P <: Persistent] {
 
   /** prevent subtyping outside of longevity library */
   private[longevity] val _lock: Int

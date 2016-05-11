@@ -6,4 +6,5 @@ import longevity.persistence.PersistedAssoc
 
 private[cassandra] case class CassandraId[P <: Persistent](uuid: UUID) extends PersistedAssoc[P] {
   private[longevity] val _lock = 0
+  def widen[Q >: P <: Persistent] = CassandraId[Q](uuid)
 }

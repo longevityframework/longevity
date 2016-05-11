@@ -35,10 +35,6 @@ class InMemRepo[P <: Persistent] private[persistence] (
 extends BaseRepo[P](pType, subdomain) {
   repo =>
 
-  private case class IntId(i: Int) extends PersistedAssoc[P] {
-    private[longevity] val _lock = 0
-  }
-
   private var nextId = 0
   private var idToEntityMap = Map[PersistedAssoc[P], PState[P]]()
   
@@ -46,7 +42,7 @@ extends BaseRepo[P](pType, subdomain) {
 
   def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
     val id = repo.synchronized {
-      val id = IntId(nextId)
+      val id = IntId[P](nextId)
       nextId += 1
       id
     }
