@@ -96,8 +96,6 @@ object PTypeSpec {
     val subdomain = Subdomain("blogging", PTypePool(User))
   }
 
-  // TODO: are there any manual examples of dot-separated properties?
-
   // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
   object keys1 {
 

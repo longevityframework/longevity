@@ -140,8 +140,6 @@ with PersistedToUnpersistedMatcher {
     val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
     val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
 
-    // TODO: consider moving this DSL test into QueryDslSpec
-
     import derivedEntities.FirstDerivedRoot.queryDsl._
     val query: Query[derivedEntities.FirstDerivedRoot] =
       derivedEntities.FirstDerivedRoot.props.componentUri eqs firstDerivedRoot.component.uri and

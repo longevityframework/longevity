@@ -22,9 +22,12 @@ import longevity.subdomain.ptype.PTypePool
  * [[Shorthand shorthands]] used by the entities.
  *
  * @param name the name of the subdomain
- * @param pTypePool a complete set of the persistent types in the subdomain. defaults to empty
- * @param entityTypePool a complete set of the entity types within the subdomain. defaults to empty
- * @param shorthandPool a complete set of the shorthands used by the bounded context
+ * @param pTypePool a complete set of the persistent types in the subdomain.
+ * defaults to empty
+ * @param entityTypePool a complete set of the entity types within the
+ * subdomain. defaults to empty
+ * @param shorthandPool a complete set of the shorthands used by the bounded
+ * context
  */
 class Subdomain(
   val name: String,
@@ -100,8 +103,6 @@ class Subdomain(
     }
   }
 
-  // TODO clean this up
-
   private def pUnions = {
     val polyTypes = pTypePool.filterValues(_.isInstanceOf[PolyPType[_]])
 
@@ -116,7 +117,7 @@ class Subdomain(
 
         def fromDerivedType[P <: Persistent, Poly >: P <: Persistent](derivedPType: DerivedPType[P, Poly])
         : TypeKeyMap[Persistent, DerivedList] = {
-          implicit val polyTypeKey: TypeKey[Poly] = derivedPType.polyPType.pTypeKey
+          implicit val polyTypeKey = derivedPType.polyPType.pTypeKey
 
           if (!polyTypes.contains[Poly]) {
             // TODO: new exception for derived type with poly type not in subdomain
@@ -144,20 +145,6 @@ class Subdomain(
   private[longevity] val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
 
   pTypePool.values.foreach(_.registerEmblematic(emblematic))
-
-  // TODO pt-#115456079: some way to express domain constraints that span multiple aggregates
-  // - figure a way for TestDataGenerator/RepoSpec to respect these
-  // - figure a way to check constraints in entityMatchers/RepoSpec
-  // - user-callable checkConstraint{,s} somewhere
-  // - musette constraints to implement:
-  //   - uri well-formedness
-  //   - email well-formedness
-  //   - markdown well-formedness?
-  //   - the site of the blog authors and the site of the blog should be the same
-  //   - the site of the blog post authors and the site of the blog should be the same
-  //   - the site of the comment author and the site of the blog should be the same
-  //   - the site of the wiki authors and the site of the wiki should be the same
-  //   - the site of the wiki page authors and the site of the wiki should be the same
 
 }
 
