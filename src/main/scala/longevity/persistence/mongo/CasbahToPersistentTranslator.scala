@@ -38,7 +38,8 @@ private[persistence] class CasbahToPersistentTranslator(
   def translate[P <: Persistent : TypeKey](casbah: MongoDBObject): P = try {
     traversor.traverse[P](casbah)
   } catch {
-    case e: CouldNotTraverseException => throw new NotInSubdomainTranslationException(typeKey[P], e)
+    case e: CouldNotTraverseException =>
+      throw new NotInSubdomainTranslationException(typeKey[P].name, e)
   }
 
   private val optionAnyType = typeOf[scala.Option[_]]

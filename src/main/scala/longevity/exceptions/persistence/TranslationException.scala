@@ -7,4 +7,8 @@ import emblem.exceptions.CouldNotTraverseException
  * translating between a persistent and a serialized form
  */
 class TranslationException(message: String, cause: Exception)
-extends PersistenceException(message, cause)
+extends PersistenceException(message, cause) {
+
+  def this(message: String) { this(message, null) }
+
+}

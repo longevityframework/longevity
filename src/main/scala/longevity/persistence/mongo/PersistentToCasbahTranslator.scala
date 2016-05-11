@@ -35,7 +35,8 @@ private[persistence] class PersistentToCasbahTranslator(
   def translate[P <: Persistent : TypeKey](p: P): MongoDBObject = try {
     anyToMongoDBObject(traversor.traverse[P](p))
   } catch {
-    case e: CouldNotTraverseException => throw new NotInSubdomainTranslationException(e.typeKey, e)
+    case e: CouldNotTraverseException =>
+      throw new NotInSubdomainTranslationException(e.typeKey.name, e)
   }
 
   private def anyToMongoDBObject(any: Any): MongoDBObject =

@@ -70,7 +70,7 @@ with CassandraDelete[P] {
       compact(render(persistentToJsonTranslator.traverse(p)(pTypeKey)))
     } catch {
       case e: CouldNotTraverseException =>
-        throw new NotInSubdomainTranslationException(e.typeKey, e)
+        throw new NotInSubdomainTranslationException(e.typeKey.name, e)
     }
   }
 

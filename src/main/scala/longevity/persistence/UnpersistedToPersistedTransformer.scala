@@ -40,7 +40,7 @@ extends Transformer {
   override def transform[A : TypeKey](input: Future[A]): Future[A] =
     super.transform[A](input) recoverWith {
       case e: CouldNotTransformException =>
-        Future.failed(new NotInSubdomainTranslationException(e.typeKey, e))
+        Future.failed(new NotInSubdomainTranslationException(e.typeKey.name, e))
     }
 
   override protected val customTransformers = CustomTransformerPool.empty + transformFutureAssoc
