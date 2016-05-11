@@ -12,7 +12,7 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
 
   protected val polyRepo: MongoRepo[Poly]
 
-  override protected[mongo] def collectionName = polyRepo.collectionName
+  override protected[mongo] val mongoCollection = polyRepo.mongoCollection
 
   override protected def createIndex(paths: Seq[String], unique: Boolean): Unit =
     super.createIndex("discriminator" +: paths, unique)

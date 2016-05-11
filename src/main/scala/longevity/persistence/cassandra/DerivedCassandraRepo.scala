@@ -10,7 +10,7 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
 
   protected val polyRepo: CassandraRepo[Poly]
 
-  override protected[cassandra] def tableName: String = polyRepo.tableName
+  override protected[cassandra] val tableName: String = polyRepo.tableName
 
   override protected def jsonStringForP(p: P): String = {
     // we use the poly type key here so we get the discriminator in the JSON

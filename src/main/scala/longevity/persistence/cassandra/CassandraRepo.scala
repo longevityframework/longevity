@@ -46,7 +46,7 @@ with CassandraRetrieveQuery[P]
 with CassandraUpdate[P]
 with CassandraDelete[P] {
 
-  protected[cassandra] def tableName = typeKeyToTableName(pTypeKey)
+  protected[cassandra] val tableName = typeKeyToTableName(pTypeKey)
 
   protected def typeKeyToTableName(key: TypeKey[_]) = camelToUnderscore(typeName(key.tpe))
 
@@ -162,9 +162,11 @@ private[persistence] object CassandraRepo {
         new CassandraRepo(pType, subdomain, session) with PolyCassandraRepo[P]
       case pt: DerivedPType[_, _] =>
         def withPoly[Poly >: P <: Persistent](poly: CassandraRepo[Poly]) = {
-          new CassandraRepo(pType, subdomain, session) with DerivedCassandraRepo[P, Poly] {
+          class DerivedRepo extends {
             override protected val polyRepo: CassandraRepo[Poly] = poly
           }
+          with CassandraRepo(pType, subdomain, session) with DerivedCassandraRepo[P, Poly]
+          new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>

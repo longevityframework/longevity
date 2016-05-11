@@ -56,8 +56,8 @@ extends BaseRepo[P](pType, subdomain)
 with MongoSchema[P] {
   repo =>
 
-  protected[mongo] def collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
-  protected lazy val mongoCollection = mongoDb(collectionName)
+  private val collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
+  protected[mongo] val mongoCollection = mongoDb(collectionName)
   private val shorthandPool = subdomain.shorthandPool
 
   protected lazy val persistentToCasbahTranslator =
@@ -211,9 +211,11 @@ object MongoRepo {
         new MongoRepo(pType, subdomain, session) with PolyMongoRepo[P]
       case pt: DerivedPType[_, _] =>
         def withPoly[Poly >: P <: Persistent](poly: MongoRepo[Poly]) = {
-          new MongoRepo(pType, subdomain, session) with DerivedMongoRepo[P, Poly] {
+          class DerivedRepo extends {
             override protected val polyRepo: MongoRepo[Poly] = poly
           }
+          with MongoRepo(pType, subdomain, session) with DerivedMongoRepo[P, Poly]
+          new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
