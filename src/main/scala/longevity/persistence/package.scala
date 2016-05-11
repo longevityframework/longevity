@@ -1,7 +1,6 @@
 package longevity
 
 import com.datastax.driver.core.Session
-import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.MongoDB
 import com.typesafe.config.Config
 import emblem.TypeKey
@@ -104,7 +103,7 @@ package object persistence {
   : RepoPool =
     persistenceStrategy match {
       case InMem => inMemRepoPool(subdomain)
-      case Mongo => mongoRepoPool(subdomain, mongoDb(config))
+      case Mongo => mongoRepoPool(subdomain, MongoRepo.mongoDbFromConfig(config))
       case Cassandra => cassandraRepoPool(subdomain, CassandraRepo.sessionFromConfig(config))
     }
 
@@ -117,17 +116,6 @@ package object persistence {
         InMemRepo[P](pType, subdomain, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory)
-  }
-
-  // TODO: move to MongoRepo companion
-  private def mongoDb(config: Config): MongoDB = {
-    val mongoClient = MongoClient(config.getString("mongodb.uri"))
-    val mongoDb = mongoClient.getDB(config.getString("mongodb.db"))
-
-    import com.mongodb.casbah.commons.conversions.scala._
-    RegisterJodaTimeConversionHelpers()
-
-    mongoDb
   }
 
   private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {

@@ -1,13 +1,13 @@
 package longevity.persistence.mongo
 
-import longevity.subdomain.DerivedPType
-import longevity.subdomain.PolyPType
 import com.mongodb.DBObject
+import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.MongoCursor
 import com.mongodb.casbah.MongoDB
 import com.mongodb.casbah.commons.Implicits.unwrapDBObj
 import com.mongodb.casbah.commons.Implicits.wrapDBObj
 import com.mongodb.casbah.commons.MongoDBObject
+import com.typesafe.config.Config
 import emblem.TypeKey
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
@@ -18,6 +18,8 @@ import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.PersistedAssoc
 import longevity.subdomain.Assoc
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
@@ -199,6 +201,16 @@ with MongoSchema[P] {
 }
 
 object MongoRepo {
+
+  def mongoDbFromConfig(config: Config): MongoDB = {
+    val mongoClient = MongoClient(config.getString("mongodb.uri"))
+    val mongoDb = mongoClient.getDB(config.getString("mongodb.db"))
+
+    import com.mongodb.casbah.commons.conversions.scala._
+    RegisterJodaTimeConversionHelpers()
+
+    mongoDb
+  }
 
   def apply[P <: Persistent](
     pType: PType[P],
