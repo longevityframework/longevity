@@ -13,9 +13,12 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
 import longevity.subdomain.ptype.EqualityQuery
+import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.KeyVal
 import longevity.subdomain.ptype.OrderingQuery
 import longevity.subdomain.ptype.PType
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PolyPType
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.Query.AndOp
 import longevity.subdomain.ptype.Query.EqOp
@@ -39,42 +42,45 @@ class InMemRepo[P <: Persistent] private[persistence] (
 extends BaseRepo[P](pType, subdomain) {
   repo =>
 
-  private var nextId = 0
-  private var idToEntityMap = Map[PersistedAssoc[P], PState[P]]()
-  
-  private var keyValToEntityMap = Map[KeyVal[P], PState[P]]()
+  // TODO: fix up entity and ID language
+
+  private var idCounter = 0
+  private var idToEntityMap = Map[PersistedAssoc[_ <: Persistent], PState[P]]()
+  private var keyValToEntityMap = Map[KeyVal[_ <: Persistent], PState[P]]()
 
   def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
-    val id = repo.synchronized {
-      val id = IntId[P](nextId)
-      nextId += 1
-      id
-    }
-    persist(id, unpersisted)
+    persist(IntId[P](nextId), unpersisted)
   }
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
   : Future[Seq[PState[P]]] = Future {
-    idToEntityMap.values.view.toSeq.filter { s => InMemRepo.queryMatches(query, s.get) }
+    allPStates.filter { s => InMemRepo.queryMatches(query, s.get) }
   }
 
-  def update(pState: PState[P])(implicit context: ExecutionContext) = Future {
-    dumpKeys(pState.orig)
-    persist(pState.passoc, pState.get)
+  def update(state: PState[P])(implicit context: ExecutionContext) = Future {
+    dumpKeys(state.orig)
+    persist(state.passoc, state.get)
   }
 
-  def delete(pState: PState[P])(implicit context: ExecutionContext) = {
-    repo.synchronized { idToEntityMap -= pState.passoc }
-    dumpKeys(pState.orig)
-    val deleted = new Deleted(pState.get, pState.assoc)
+  def delete(state: PState[P])(implicit context: ExecutionContext) = {
+    repo.synchronized {
+      unregisterEntityById(state.passoc)
+      dumpKeys(state.orig)
+    }
+    val deleted = new Deleted(state.get, state.assoc)
     Future.successful(deleted)
+  }
+
+  private def dumpKeys(p: P) = keys.foreach { key =>
+    val keyVal = key.keyValForP(p)
+    keyValToEntityMap -= keyVal
   }
 
   override protected def retrieveByPersistedAssoc(
     assoc: PersistedAssoc[P])(
     implicit context: ExecutionContext)
   : Future[Option[PState[P]]] = {
-    Future.successful(idToEntityMap.get(assoc))
+    Future.successful(lookupEntityById(assoc))
   }
 
   override protected def retrieveByKeyVal(
@@ -87,32 +93,74 @@ extends BaseRepo[P](pType, subdomain) {
         if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
       }
     }
-    val optionR = keyValToEntityMap.get(keyVal)
-    Future.successful(optionR)
+    Future.successful(lookupEntityByKeyVal(keyVal))
   }
 
   private def persist(assoc: PersistedAssoc[P], p: P): PState[P] = {
-    val pState = new PState[P](assoc, p)
+    val state = new PState[P](assoc, p)
     repo.synchronized {
-      idToEntityMap += (assoc -> pState)
-      pType.keySet.foreach { key =>
+      registerEntityById(assoc, state)
+      keys.foreach { key =>
         val keyVal = key.keyValForP(p)
-        keyValToEntityMap += keyVal -> pState
+        registerEntityByKeyVal(keyVal, state)
       }
     }
-    pState
+    state
   }
 
-  private def dumpKeys(p: P) = repo.synchronized {
-    pType.keySet.foreach { key =>
-      val keyVal = key.keyValForP(p)
-      keyValToEntityMap -= keyVal
-    }
+  protected[inmem] def nextId: Int = repo.synchronized {
+    val id = idCounter
+    idCounter += 1
+    id
   }
+
+  protected[inmem] val keys: Seq[Key[_ >: P <: Persistent]] = pType.keySet.toSeq
+
+  protected[inmem] def registerEntityById(assoc: PersistedAssoc[_ <: Persistent], state: PState[P]): Unit = {
+    idToEntityMap += (assoc -> state)
+  }
+
+  protected[inmem] def registerEntityByKeyVal(keyVal: KeyVal[_ <: Persistent], state: PState[P]): Unit =
+    keyValToEntityMap += (keyVal -> state)
+
+  protected[inmem] def lookupEntityById(assoc: PersistedAssoc[_ <: Persistent]): Option[PState[P]] = {
+    idToEntityMap.get(assoc)
+  }
+
+  protected[inmem] def lookupEntityByKeyVal(keyVal: KeyVal[_ <: Persistent]): Option[PState[P]] =
+    keyValToEntityMap.get(keyVal)
+
+  protected[inmem] def allPStates: Seq[PState[P]] = idToEntityMap.values.view.toSeq
+
+  protected[inmem] def unregisterEntityById(assoc: PersistedAssoc[_ <: Persistent]): Unit =
+    idToEntityMap -= assoc
 
 }
 
 object InMemRepo {
+
+  def apply[P <: Persistent](
+    pType: PType[P],
+    subdomain: Subdomain,
+    polyRepoOpt: Option[InMemRepo[_ >: P <: Persistent]])
+  : InMemRepo[P] = {
+    val repo = pType match {
+      case pt: PolyPType[_] =>
+        new InMemRepo(pType, subdomain) with PolyInMemRepo[P]
+      case pt: DerivedPType[_, _] =>
+        def withPoly[Poly >: P <: Persistent](poly: InMemRepo[Poly]) = {
+          class DerivedRepo extends {
+            override protected val polyRepo: InMemRepo[Poly] = poly
+          }
+          with InMemRepo(pType, subdomain) with DerivedInMemRepo[P, Poly]
+          new DerivedRepo
+        }
+        withPoly(polyRepoOpt.get)
+      case _ =>
+        new InMemRepo(pType, subdomain)
+    }
+    repo
+  }
 
   private[longevity] def queryMatches[P <: Persistent](query: Query[P], p: P): Boolean = {
     query match {

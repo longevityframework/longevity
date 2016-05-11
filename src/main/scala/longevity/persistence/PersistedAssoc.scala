@@ -7,6 +7,7 @@ import longevity.subdomain.persistent.Persistent
  * persisted
  */
 private[longevity] trait PersistedAssoc[P <: Persistent] extends Assoc[P] {
+
   def isPersisted = true
 
   /** returns a copy of this persisted assoc with a wider type bound */

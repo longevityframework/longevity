@@ -114,7 +114,7 @@ package object persistence {
         pType: PType[P],
         polyRepoOpt: Option[InMemRepo[_ >: P <: Persistent]])
       : InMemRepo[P] =
-        new InMemRepo(pType, subdomain)
+        InMemRepo[P](pType, subdomain, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory)
   }
