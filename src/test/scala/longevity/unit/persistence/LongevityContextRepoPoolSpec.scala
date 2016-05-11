@@ -4,7 +4,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 import org.scalatest.OptionValues.convertOptionToValuable
-import longevity.persistence.InMemRepo
+import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.mongo.MongoRepo
 

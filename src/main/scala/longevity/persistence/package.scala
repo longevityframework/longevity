@@ -4,24 +4,25 @@ import com.datastax.driver.core.Session
 import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.MongoDB
 import com.typesafe.config.Config
-import emblem.typeBound.TypeBoundMap
-import emblem.typeBound.TypeBoundPair
 import emblem.TypeKey
 import emblem.TypeKeyMap
+import emblem.typeBound.TypeBoundMap
+import emblem.typeBound.TypeBoundPair
 import emblem.typeKey
 import longevity.context.Cassandra
 import longevity.context.InMem
 import longevity.context.Mongo
 import longevity.context.PersistenceStrategy
 import longevity.persistence.cassandra.CassandraRepo
+import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PType
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext
 
 /** manages entity persistence operations */
 package object persistence {
@@ -37,7 +38,9 @@ package object persistence {
   type FPState[P <: Persistent] = Future[PState[P]]
 
   /** extension methods for an [[FPState]] */
-  implicit class LiftFPState[P <: Persistent](fpState: FPState[P]) {
+  implicit class LiftFPState[P <: Persistent](
+    fpState: FPState[P])(
+    implicit executionContext: ExecutionContext) {
 
     /** map the future PState by mapping the entity inside the PState */
     def mapRoot(f: P => P): FPState[P] =
@@ -53,7 +56,9 @@ package object persistence {
   type FOPState[P <: Persistent] = Future[Option[PState[P]]]
 
   /** extension methods for an [[FOPState]] */
-  implicit class LiftFOPState[P <: Persistent](fopState: FOPState[P]) {
+  implicit class LiftFOPState[P <: Persistent](
+    fopState: FOPState[P])(
+    implicit executionContext: ExecutionContext) {
 
     /** map the `FOPState` by mapping the entity inside the PState */
     def mapRoot(f: P => P): FOPState[P] =

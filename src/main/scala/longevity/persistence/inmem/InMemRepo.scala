@@ -1,9 +1,13 @@
-package longevity.persistence
+package longevity.persistence.inmem
 
 import emblem.TypeKey
 import emblem.typeKey
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.AssocIsUnpersistedException
+import longevity.persistence.BaseRepo
+import longevity.persistence.Deleted
+import longevity.persistence.PState
+import longevity.persistence.PersistedAssoc
 import longevity.subdomain.Assoc
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent

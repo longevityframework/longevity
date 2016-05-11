@@ -14,7 +14,7 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.ScalaFutures
 import scala.concurrent.ExecutionContext
 
-// TODO InMem and Mongo kids
+// TODO InMem impl
 
 /** base class for testing repos that share tables in the presence of [[PolyType]] */
 abstract class PolyReposSpec(

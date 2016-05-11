@@ -1,5 +1,6 @@
-package longevity.persistence
+package longevity.persistence.inmem
 
+import longevity.persistence.PersistedAssoc
 import longevity.subdomain.persistent.Persistent
 
 private case class IntId[P <: Persistent](i: Int) extends PersistedAssoc[P] {

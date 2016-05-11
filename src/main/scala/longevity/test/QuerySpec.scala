@@ -2,16 +2,20 @@ package longevity.test
 
 import emblem.TypeKey
 import longevity.context.LongevityContext
-import longevity.persistence._
+import longevity.persistence.CreatedCache
+import longevity.persistence.PState
+import longevity.persistence.RepoPool
+import longevity.persistence.inmem.InMemRepo
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.ptype._
+import longevity.subdomain.ptype.Prop
+import longevity.subdomain.ptype.Query
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
-import org.scalatest.time.SpanSugar._
+import org.scalatest.time.SpanSugar.convertIntToGrainOfTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.util.Random
@@ -48,8 +52,8 @@ with ScaledTimeSpans
 with TestDataGeneration {
 
   override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(4000 millis),
-    interval = scaled(50 millis))
+    timeout = scaled(4000.millis),
+    interval = scaled(50.millis))
 
   /** the number of entities to run queries against */
   protected val numEntities = 10
