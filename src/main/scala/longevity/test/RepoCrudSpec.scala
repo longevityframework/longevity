@@ -14,6 +14,7 @@ import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.RepoPool
 import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.PolyPType
 import org.scalatest.FeatureSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -75,14 +76,16 @@ with TestDataGeneration {
 
   repoPool.baseRepoMap.foreach { pair =>
     def repoSpec[P <: Persistent](pair: TypeBoundPair[Persistent, TypeKey, BaseRepo, P]): Unit = {
-      new RepoSpec(pair._2)(pair._1)
+      new RepoSpec(pair._2, pair._1)
     }
     repoSpec(pair)
   }
 
-  private class RepoSpec[P <: Persistent : TypeKey](private val repo: BaseRepo[P]) {
+  private class RepoSpec[P <: Persistent](
+    private val repo: BaseRepo[P],
+    private val pTypeKey: TypeKey[P]) {
 
-    private val pName = repo.pType.pTypeKey.name
+    private val pName = pTypeKey.name
     private val representativeKeyOption = repo.pType.keySet.headOption
 
     object Create extends Tag("Create")
@@ -146,8 +149,9 @@ with TestDataGeneration {
       scenario(s"should produce an updated persisted $pName", Update) {
 
         Given(s"a persisted $pName")
-        val originalP = randomP()
-        val modifiedP = randomP()
+        val key = randomPTypeKey
+        val originalP = randomP(key)
+        val modifiedP = randomP(key)
         val created: PState[P] = repo.create(originalP).futureValue
 
         When(s"we update the persisted $pName")
@@ -181,8 +185,20 @@ with TestDataGeneration {
       }
     }
 
-    private def randomP(): P = {
-      val p = testDataGenerator.generate[P]
+    private def randomPTypeKey(): TypeKey[_ <: P] = {
+      repo.pType match {
+        case polyPType: PolyPType[P] =>
+          val union = longevityContext.subdomain.emblematic.unions(pTypeKey)
+          val derivedTypeKeys = union.constituentKeys.toSeq
+          val randomIndex = math.abs(testDataGenerator.generate[Int]) % derivedTypeKeys.size
+          derivedTypeKeys(randomIndex)
+        case _ =>
+          pTypeKey
+      }
+    }
+
+    private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = {
+      val p = testDataGenerator.generate(key)
       repo.patchUnpersistedAssocs(p, CreatedCache()).futureValue._1
     }
 
