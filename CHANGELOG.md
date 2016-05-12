@@ -1,22 +1,21 @@
 # Longevity Change Log
 
-## [0.7-SNAPSHOT] - Entity Polymorphism
+## [0.7.0] - 2016.05.xx - Entity Polymorphism
 
-- 2016.05.xx - Persistent no longer inherits from Entity. PType no
-  longer inherits from EntityType. these changes should not affect
-  user code.
-- 2016.05.xx - modify Subdomain factory method to separate out
-  entityTypePool into pTypePool and entityTypePool.
-- 2016.05.xx - add PolyType, DerivedType, PolyPType, and DerivedPType.
-  see user manual (TODO link)
-- 2016.05.xx - reorganize package longevity.subdomain:
-  - `longevity.subdomain.Entity >>> longevity.subdomain.entity.Entity`
-  - `longevity.subdomain.DerivedType >>> longevity.subdomain.entity.DerivedType`
-  - `longevity.subdomain.EntityType >>> longevity.subdomain.entity.EntityType`
-  - `longevity.subdomain.PolyType >>> longevity.subdomain.entity.PolyType`
-  - `longevity.subdomain.ValueType >>> longevity.subdomain.entity.ValueType`
-  - `longevity.subdomain.EntityTypePool >>> longevity.subdomain.entity.EntityTypePool`
-  - `longevity.subdomain.ValueObject >>> longevity.subdomain.entity.ValueObject`
+- 2016.05.12 - `Persistent` no longer inherits from `Entity`. `PType`
+  no longer inherits from `EntityType`. these changes should not
+  affect user code.
+- 2016.05.12 - modify `Subdomain.apply` to separate out
+  `entityTypePool` into `pTypePool` and `entityTypePool`.
+- 2016.05.12 - add `PolyType`, `DerivedType`, `PolyPType`, and
+  `DerivedPType`. see user manual (TODO link).
+- 2016.05.12 - move the following classes from package
+  longevity.subdomain to package longevity.subdomain.entity:
+  - `EntityTypePool`
+  - `EntityType`
+  - `Entity`
+  - `ValueObject`
+  - `ValueType`
 
 ## [0.6.0] - 2016.03.20 - API Improvements
 
