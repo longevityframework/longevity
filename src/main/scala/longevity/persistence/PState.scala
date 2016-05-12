@@ -3,7 +3,7 @@ package longevity.persistence
 import longevity.subdomain.Assoc
 import longevity.subdomain.persistent.Persistent
 
-/** the persistent state of an entity of type `P` */
+/** the persistent state of a persistent object of type `P` */
 case class PState[P <: Persistent] private[persistence] (
   private[persistence] val passoc: PersistedAssoc[P],
   private[persistence] val orig: P,
@@ -11,19 +11,21 @@ case class PState[P <: Persistent] private[persistence] (
 
   private[persistence] def this(assoc: PersistedAssoc[P], p: P) = this(assoc, p, p)
 
-  /** returns the entity */
+  /** returns the persistent object */
   def get: P = p
 
-  /** returns the persistent state of an updated entity */
+  /** returns the persistent state of an updated persistent object */
   def set(p: P): PState[P] = map(_ => p)
 
-  /** returns the persistent state of the entity modified according to function `f` */
+  /** returns the persistent state of the persistent object modified according
+   * to function `f`
+   */
   def map(f: P => P): PState[P] = new PState(passoc, orig, f(p))
 
-  /** returns an association to the persistent entity */
+  /** returns an association to the persistent object */
   def assoc: Assoc[P] = passoc
 
-  /** returns true iff there are unpersisted changes to the entity */
+  /** returns true iff there are unpersisted changes to the persistent object */
   // we may want to consider === here if we allow for non-case class entities
   def dirty = orig == p
 

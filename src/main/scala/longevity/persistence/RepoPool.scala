@@ -12,7 +12,7 @@ class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseR
   /** a `TypeKeyMap` of [[longevity.subdomain.persistent.Persistent]] to [[Repo]] */
   val typeKeyMap: TypeKeyMap[Persistent, Repo] = baseRepoMap.widen
 
-  /** select a repository by the type of persistent entity */
+  /** select a repository by the type of persistent object */
   def apply[P <: Persistent : TypeKey]: Repo[P] = typeKeyMap[P]
 
   /** iterate over the repositories */
@@ -22,9 +22,9 @@ class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseR
   private type PStateSeq = Seq[PState[_ <: Persistent]]
   private case class CreateManyState(cache: CreatedCache, pstates: PStateSeq)
 
-  /** creates many entities at once. this method is the only way to persist
-   * aggregates with embedded unpersisted associations. any aggregates embedded
-   * this way must be present in the argument list `keyedPs`.
+  /** creates many persistent objects at once. this method is the only way to
+   * persist aggregates with embedded unpersisted associations. any aggregates
+   * embedded this way must be present in the argument list `keyedPs`.
    *
    * because [[PWithTypeKey]] is an implicit class, you can call this method
    * using just aggregate roots, and the roots will be converted to
@@ -34,7 +34,8 @@ class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseR
    * repoPool.createMany(user1, user2, user2, blogPost1, blogPost2, blog)
    * }}}
    *
-   * @param keyedPs the persistent entities to persist, wrapped with their `TypeKeys`.
+   * @param keyedPs the persistent objects to persist, wrapped with their
+   * `TypeKeys`
    *
    * @param executionContext the execution context
    * 

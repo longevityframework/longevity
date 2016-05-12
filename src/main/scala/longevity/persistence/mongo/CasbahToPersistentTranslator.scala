@@ -25,7 +25,7 @@ import scala.reflect.runtime.universe.typeOf
 
 /** translates
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
- * casbah MongoDBObjects]] into [[Persistent persistent entities]].
+ * casbah MongoDBObjects]] into [[Persistent persistent objects]].
  *
  * @param emblematic the emblematic types to use
  * @param repoPool a pool of the repositories for this persistence context
@@ -34,7 +34,7 @@ private[persistence] class CasbahToPersistentTranslator(
   private val emblematic: Emblematic,
   private val repoPool: RepoPool) {
 
-  /** translates a `MongoDBObject` into a [[Persistent persistent entity]] */
+  /** translates a `MongoDBObject` into a [[Persistent persistent object]] */
   def translate[P <: Persistent : TypeKey](casbah: MongoDBObject): P = try {
     traversor.traverse[P](casbah)
   } catch {

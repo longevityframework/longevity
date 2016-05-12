@@ -26,8 +26,8 @@ import scala.concurrent.ExecutionContext
 /** manages entity persistence operations */
 package object persistence {
 
-  /** packages a [[longevity.subdomain.persistent.Persistent persistent entity]]
-   * with a `TypeKey` for the entity's type. used by [[RepoPool.createMany]].
+  /** packages a [[longevity.subdomain.persistent.Persistent persistent object]]
+   * with a `TypeKey` for the object's type. used by [[RepoPool.createMany]].
    */
   implicit class PWithTypeKey[P <: Persistent : TypeKey](val p: P) {
     val pTypeKey = typeKey[P]
@@ -41,11 +41,11 @@ package object persistence {
     fpState: FPState[P])(
     implicit executionContext: ExecutionContext) {
 
-    /** map the future PState by mapping the entity inside the PState */
+    /** map the future PState by mapping the Persistent inside the PState */
     def mapRoot(f: P => P): FPState[P] =
       fpState.map { pState => pState.map { p => f(p) } }
 
-    /** flatMap the future PState by mapping the entity inside the PState into a `Future[P]` */
+    /** flatMap the future PState by mapping the Persistent inside the PState into a `Future[P]` */
     def flatMapRoot(f: P => Future[P]): FPState[P] =
       fpState.flatMap { pState => f(pState.get) map { p => pState.set(p) } }
 
@@ -59,13 +59,13 @@ package object persistence {
     fopState: FOPState[P])(
     implicit executionContext: ExecutionContext) {
 
-    /** map the `FOPState` by mapping the entity inside the PState */
+    /** map the `FOPState` by mapping the Persistent inside the PState */
     def mapRoot(f: P => P): FOPState[P] =
       fopState.map { opState =>
         opState.map { pState => pState.map { p => f(p) } }
       }
 
-    /** flatMap the `FOPState` by mapping the entity inside the PState into a `Future[P]` */
+    /** flatMap the `FOPState` by mapping the Persistent inside the PState into a `Future[P]` */
     def flatMapRoot(f: P => Future[P]): FOPState[P] =
       fopState.flatMap { opState =>
         opState match {
@@ -87,14 +87,8 @@ package object persistence {
 
   }
 
-  // TODO NEXT:
-  // - repo behavior has to vary based on PolyType/DerivedType:
-  //   - Mongo
-  //   - InMem
-  // - test for when Prop.propVal is accessed too early
-  //
-  // - search for / clean up "persistent entity" language. use "persistent element" instead?
-  // - repackaging in longevity.subdomain
+  // TODO: test for when Prop.propVal is accessed too early
+  // TODO: repackaging in longevity.subdomain
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,

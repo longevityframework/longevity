@@ -6,20 +6,20 @@ import longevity.subdomain.ptype.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** a repository for persistent entities of type `P` */
+/** a repository for persistent objects of type `P` */
 trait Repo[P <: Persistent] {
 
-  /** creates the persistent entity
+  /** creates the persistent object
    * 
-   * @param unpersisted the persistent entity to create
+   * @param unpersisted the persistent object to create
    * @param executionContext the execution context
    */
   def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** retrieves an optional entity from a persistent ref
+  /** retrieves an optional persistent object from a persistent ref
    * 
-   * @param ref the reference to use to look up the entity. this could be a
-   * [[longevity.subdomain.ptype.KeyVal KeyVal]] or an
+   * @param ref the reference to use to look up the persistent object. this
+   * could be a [[longevity.subdomain.ptype.KeyVal KeyVal]] or an
    * [[longevity.subdomain.Assoc Assoc]]
    * 
    * @param executionContext the execution context
@@ -29,10 +29,10 @@ trait Repo[P <: Persistent] {
    */
   def retrieve(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[Option[PState[P]]]
 
-  /** retrieves a non-optional entity from a persistent ref
+  /** retrieves a non-optional persistent object from a persistent ref
    * 
    * throws NoSuchElementException whenever the persistent ref does not refer
-   * to an entity in the repository
+   * to a persistent object in the repository
    * 
    * @param ref the reference to use to look up the entity. this could be a
    * [[longevity.subdomain.ptype.KeyVal KeyVal]] or an
@@ -45,7 +45,7 @@ trait Repo[P <: Persistent] {
    */
   def retrieveOne(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** retrieves multiple persistent entities by a query
+  /** retrieves multiple persistent objects by a query
    * 
    * @param query the query to execute
    * @param executionContext the execution context
@@ -53,16 +53,16 @@ trait Repo[P <: Persistent] {
   def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext)
   : Future[Seq[PState[P]]]
 
-  /** updates the persistent entity
+  /** updates the persistent object
    * 
-   * @param state the persistent state of the entity to update
+   * @param state the persistent state of the persistent object to update
    * @param executionContext the execution context
    */
   def update(state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** deletes the persistent entity
+  /** deletes the persistent object
    * 
-   * @param state the persistent state of the entity to delete
+   * @param state the persistent state of the persistent object to delete
    * @param executionContext the execution context
    */
   def delete(state: PState[P])(implicit executionContext: ExecutionContext): Future[Deleted[P]]
