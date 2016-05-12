@@ -1,26 +1,46 @@
 package longevity.unit.subdomain.ptype
 
-import org.joda.time.DateTime
 import emblem.typeKey
+import longevity.exceptions.subdomain.ptype.NoSuchPropException
+import longevity.exceptions.subdomain.ptype.PTypeHasNoSubdomainException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
-import longevity.exceptions.subdomain.ptype.NoSuchPropException
 import longevity.persistence.PersistedAssoc
 import longevity.subdomain.Assoc
-import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.RootType
+import org.joda.time.DateTime
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
+object PropSpec {
+
+  // we need this PType to not be included in any subdomain for the test below to work
+  // ("Prop.propVal(p) should throw exception when called before the PType is added to the Subdomain")
+
+  case class NoSubdomain(uri: String) extends Root
+
+  object NoSubdomain extends RootType[NoSubdomain] {
+    object props {
+      val uri = prop[String]("uri")
+    }
+    object keys {
+    }
+    object indexes {
+    }
+  }
+
+}
+
 /** unit tests for the proper construction of [[Prop properties]] */
 class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "RootType.Prop.apply(String)"
+  behavior of "Prop.apply(String)"
 
   it should "throw exception when the specified prop path is empty" in {
     import longevity.integration.subdomain.allAttributes
@@ -289,6 +309,16 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
     val prop = WithComponentWithAssoc.prop[Assoc[Associated]]("component.associated")
     prop.path should equal ("component.associated")
     prop.propTypeKey should equal (typeKey[Assoc[Associated]])
+  }
+
+  behavior of "Prop.propVal(p)"
+
+  it should "throw exception when called before the PType is added to the Subdomain" in {
+    import longevity.integration.subdomain.allAttributes
+    val p = PropSpec.NoSubdomain("uri")
+    intercept[PTypeHasNoSubdomainException] {
+      PropSpec.NoSubdomain.props.uri.propVal(p)
+    }
   }
 
 }

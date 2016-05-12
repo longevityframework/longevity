@@ -87,8 +87,6 @@ package object persistence {
 
   }
 
-  // TODO: test for when Prop.propVal is accessed too early
-
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
     persistenceStrategy: PersistenceStrategy,
@@ -126,7 +124,6 @@ package object persistence {
     object repoFactory extends StockRepoFactory[CassandraRepo] {
       def build[P <: Persistent](
         pType: PType[P],
-        // TODO have fun crashing compiler by removing <: Persistent here (and in children)
         polyRepoOpt: Option[CassandraRepo[_ >: P <: Persistent]])
       : CassandraRepo[P] =
         CassandraRepo[P](pType, subdomain, session, polyRepoOpt)
@@ -156,7 +153,6 @@ package object persistence {
         case _ => None
       }
 
-      // TODO have fun crashing the compiler by removing the "[P]" on the following line
       val repo = stockRepoFactory.build[P](pType, polyKey.map(keyToRepoMap(_)))
       keyToRepoMap += (pTypeKey -> repo)
 
