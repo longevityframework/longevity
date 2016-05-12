@@ -1,5 +1,5 @@
 ---
-title: persistent entities
+title: persistent objects
 layout: page
 ---
 
@@ -11,7 +11,6 @@ update or delete with a longevity [repository](repo). Persistent
 entities are Scala case classes that meet some basic criteria. Those
 criteria are laid out in the following chapters:
 
-- [Building Your Subdomain](../subdomain)
 - [Shorthands](../shorthands)
 - [Entities](../entities)
 - [Associations](../associations)
@@ -30,15 +29,21 @@ extends Persistent
 
 Persistent entities are fleshed out in the following sections of this chapter:
 
-- [Kinds of Persistent Entities](kinds.html)
+TODO: clean up these chapters:
+
+- [Kinds of Persistent Objects](kinds.html)
 - [Persistent and Non-Persistent Entities](non-persistent.html)
 - [Persistent Types](ptypes.html)
+- [Aggregate Roots](roots.html)
 
-{% assign prevTitle = "project setup" %}
-{% assign prevLink = "../project-setup.html" %}
+TODO: check new navigation
+
+TODO: polymorphism
+
+{% assign prevTitle = "building your subdomain" %}
+{% assign prevLink = "../subdomain.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
-{% assign nextTitle="kinds of persistent entities" %}
-{% assign nextLink="kinds.html" %}
+{% assign nextTitle = "kinds of persistent objects" %}
+{% assign nextLink = "kinds.html" %}
 {% include navigate.html %}
-

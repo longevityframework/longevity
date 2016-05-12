@@ -56,8 +56,8 @@ a Scala-friendly wrapper.
 </div>
 
 {% assign prevTitle = "aggregate roots" %}
-{% assign prevLink = "roots.html" %}
-{% assign upTitle = "building your subdomain" %}
+{% assign prevLink = "persistent/roots.html" %}
+{% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "collections" %}
 {% assign nextLink = "collections.html" %}

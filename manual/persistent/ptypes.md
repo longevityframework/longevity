@@ -55,11 +55,11 @@ extends Entity
 object UserProfile extends EntityType[UserProfile]
 ```
 
-{% assign prevTitle = "persistent and non-persistent entities" %}
+{% assign prevTitle = "persistent and non-persistent objects" %}
 {% assign prevLink = "non-persistent.html" %}
-{% assign upTitle = "persistent entities" %}
+{% assign upTitle = "persistent objects" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "building your subdomain" %}
-{% assign nextLink = "../subdomain" %}
+{% assign nextTitle = "aggregate roots" %}
+{% assign nextLink = "roots.html" %}
 {% include navigate.html %}
 

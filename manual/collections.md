@@ -51,8 +51,8 @@ changes](../context/persistent-state.html).
 
 {% assign prevTitle = "basic properties" %}
 {% assign prevLink = "basics.html" %}
-{% assign upTitle = "building your subdomain" %}
+{% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "shorthands" %}
-{% assign nextLink = "../shorthands" %}
+{% assign nextLink = "shorthands" %}
 {% include navigate.html %}

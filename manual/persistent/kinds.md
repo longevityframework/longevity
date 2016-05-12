@@ -1,5 +1,5 @@
 ---
-title: kinds of persistent entities
+title: kinds of persistent objects
 layout: page
 ---
 
@@ -33,11 +33,10 @@ provide special support for aggregates, events, and/or views in the
 longevity system. For now, we are focusing on getting persistence done
 well.
 
-{% assign prevTitle = "persistent entities" %}
+{% assign prevTitle = "persistent objects" %}
 {% assign prevLink = "." %}
-{% assign upTitle = "persistent entities" %}
+{% assign upTitle = "persistent objects" %}
 {% assign upLink = "." %}
-{% assign nextTitle="persistent and non-persistent entities" %}
-{% assign nextLink="non-persistent.html" %}
+{% assign nextTitle = "persistent and non-persistent entities" %}
+{% assign nextLink = "non-persistent.html" %}
 {% include navigate.html %}
-

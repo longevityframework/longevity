@@ -55,8 +55,8 @@ users, as we will see in a [later chapter](../repo).
 
 {% assign prevTitle = "kinds of subdomains" %}
 {% assign prevLink = "kinds.html" %}
-{% assign upTitle = "building your subdomain" %}
+{% assign upTitle = "persistent objects" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "basic properties" %}
-{% assign nextLink = "basics.html" %}
+{% assign nextLink = "../basics.html" %}
 {% include navigate.html %}

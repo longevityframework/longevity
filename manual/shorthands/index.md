@@ -115,7 +115,7 @@ see the [chapter on enforcing constraints](../constraints.html) for
 more information.
 
 {% assign prevTitle = "collections" %}
-{% assign prevLink = "../subdomain/collections.html" %}
+{% assign prevLink = "../collections.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "shorthand pools" %}

@@ -56,9 +56,9 @@ href="http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#
 
 </div>
 
-{% assign prevTitle = "kinds of persistent entities" %}
+{% assign prevTitle = "kinds of persistent objects" %}
 {% assign prevLink = "kinds.html" %}
-{% assign upTitle = "persistent entities" %}
+{% assign upTitle = "persistent objects" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "persistent types" %}
 {% assign nextLink = "ptypes.html" %}

@@ -1,7 +1,20 @@
 ---
-title: kinds of subdomains
+title: building your subdomain
 layout: page
 ---
+
+Your main task when working with longevity is building your
+`Subdomain`. Once this is done, we provide you with persistence. Your
+subdomain classes are the core of you application(s). The other
+layers perform their individual functions while using the domain
+classes fluidly.
+
+<div class="blue-side-bar">
+
+As we mentioned earlier, we hope to cover more than just persistence
+in the future. But we want to get the persistence part right, first.
+
+</div>
 
 Domain Driven Design describes a few [different kinds of
 subdomains](http://blog.jonathanoliver.com/ddd-strategic-design-core-supporting-and-generic-subdomains/),
@@ -31,11 +44,11 @@ val supportingSubdomain: SupportingSubdomain = SupportingSubdomain("accounts")
 val genericSubdomain: GenericSubdomain = GenericSubdomain("search")
 ```
 
-{% assign prevTitle = "building your subdomain" %}
-{% assign prevLink = "." %}
-{% assign upTitle = "building your subdomain" %}
+{% assign prevTitle = "project setup" %}
+{% assign prevLink = "project-setup.html" %}
+{% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "aggregate roots" %}
-{% assign nextLink = "roots.html" %}
+{% assign nextTitle = "persistent objects" %}
+{% assign nextLink = "persistent" %}
 {% include navigate.html %}
 

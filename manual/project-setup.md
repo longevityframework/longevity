@@ -80,7 +80,7 @@ libraryDependencies += "org.longevityframework" %% "longevity" % "0.7-SNAPSHOT"
 {% assign prevLink = "ddd-basics/aggregates-and-entities.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
-{% assign nextTitle="persistent entities" %}
-{% assign nextLink="persistent" %}
+{% assign nextTitle = "building your subdomain" %}
+{% assign nextLink = "subdomain.html" %}
 {% include navigate.html %}
 
