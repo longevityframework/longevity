@@ -3,10 +3,14 @@
 ## [0.7-SNAPSHOT] - Entity Polymorphism
 
 - 2016.05.xx - Persistent no longer inherits from Entity. PType no
-  longer inherits from EntityType
+  longer inherits from EntityType. these changes should not affect
+  user code.
 - 2016.05.xx - modify Subdomain factory method to separate out
-  entityTypePool into pTypePool and entityTypePool
-- 2016.05.xx - add PolyType, DerivedType, PolyPType and DerivedPType
+  entityTypePool into pTypePool and entityTypePool.
+- 2016.05.xx - add PolyType, DerivedType, PolyPType, and DerivedPType.
+  see user manual (TODO link)
+- 2016.05.xx - reorganize package longevity.subdomain:
+  - TODO
 
 ## [0.6.0] - 2016.03.20 - API Improvements
 
