@@ -17,8 +17,8 @@ import java.util.UUID
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
-import longevity.subdomain.DerivedPType
-import longevity.subdomain.PolyPType
+import longevity.subdomain.ptype.DerivedPType
+import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PType

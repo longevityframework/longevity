@@ -184,7 +184,7 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import ShorthandSpec._
   import longevity.subdomain.Assoc
-  import longevity.subdomain.EntityTypePool
+  import longevity.subdomain.entity.EntityTypePool
   import longevity.subdomain.Shorthand
   import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain

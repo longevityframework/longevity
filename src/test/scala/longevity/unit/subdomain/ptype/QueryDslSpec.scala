@@ -3,7 +3,7 @@ package longevity.unit.subdomain.ptype
 import org.scalatest._
 import longevity.exceptions.subdomain.ptype.PropNotOrderedException
 import longevity.subdomain.Assoc
-import longevity.subdomain.EntityTypePool
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root

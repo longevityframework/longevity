@@ -3,7 +3,7 @@ package longevity.integration.subdomain
 import longevity.context.LongevityContext
 import longevity.context.Cassandra
 import longevity.context.Mongo
-import longevity.subdomain.EntityTypePool
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.ptype.PTypePool
 

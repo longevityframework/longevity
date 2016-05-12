@@ -1,6 +1,7 @@
 package longevity.integration.subdomain.withComponentWithShorthands
 
-import longevity.subdomain._
+import longevity.subdomain.entity.Entity
+import longevity.subdomain.entity.EntityType
 
 case class ComponentWithShorthands(
   boolean: BooleanShorthand,

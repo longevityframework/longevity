@@ -10,7 +10,13 @@
 - 2016.05.xx - add PolyType, DerivedType, PolyPType, and DerivedPType.
   see user manual (TODO link)
 - 2016.05.xx - reorganize package longevity.subdomain:
-  - TODO
+  - `longevity.subdomain.Entity >>> longevity.subdomain.entity.Entity`
+  - `longevity.subdomain.DerivedType >>> longevity.subdomain.entity.DerivedType`
+  - `longevity.subdomain.EntityType >>> longevity.subdomain.entity.EntityType`
+  - `longevity.subdomain.PolyType >>> longevity.subdomain.entity.PolyType`
+  - `longevity.subdomain.ValueType >>> longevity.subdomain.entity.ValueType`
+  - `longevity.subdomain.EntityTypePool >>> longevity.subdomain.entity.EntityTypePool`
+  - `longevity.subdomain.ValueObject >>> longevity.subdomain.entity.ValueObject`
 
 ## [0.6.0] - 2016.03.20 - API Improvements
 

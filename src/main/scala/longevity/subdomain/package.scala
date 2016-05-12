@@ -6,7 +6,14 @@ import longevity.subdomain.persistent.Persistent
 /** provides support for constructing your subdomain */
 package object subdomain {
 
-  // pools:
+  /** a core domain. functionally equivalent to a [[Subdomain]] */
+  type CoreDomain = Subdomain
+
+  /** a supporting subdomain. functionally equivalent to a [[Subdomain]] */
+  type SupportingSubdomain = Subdomain
+
+  /** a generic subdomain. functionally equivalent to a [[Subdomain]] */
+  type GenericSubdomain = Subdomain
 
   /** a shorthand with the abbreviated type unspecified. this type is equivalent
    * to `Shorthand[Actual, _]`, except with a single type parameter `Actual`.
@@ -18,11 +25,6 @@ package object subdomain {
   /** an `emblem.TypeKeyMap` of [[Shorthand shorthands]], indexed by the `Actual` type */
   type ShorthandPool = TypeKeyMap[Any, ShorthandFor]
 
-  /** a type key map of [[Entity]] to [[EntityType]]
-   * @see emblem.TypeKeyMap
-   */
-  type EntityTypePool = TypeKeyMap[Entity, EntityType]
-
   /** an [[Assoc association]] to an unspecified type of [[Persistent persistent
    * entity]]. this is useful for building stuff from `emblem.traversors` for
    * traversing entities.
@@ -31,16 +33,5 @@ package object subdomain {
    * comes up, we can expose it.
    */
   private[longevity] type AssocAny = Assoc[_ <: Persistent]
-
-  // synonyms:
-
-  /** a core domain. functionally equivalent to a [[Subdomain]] */
-  type CoreDomain = Subdomain
-
-  /** a supporting subdomain. functionally equivalent to a [[Subdomain]] */
-  type SupportingSubdomain = Subdomain
-
-  /** a generic subdomain. functionally equivalent to a [[Subdomain]] */
-  type GenericSubdomain = Subdomain
 
 }

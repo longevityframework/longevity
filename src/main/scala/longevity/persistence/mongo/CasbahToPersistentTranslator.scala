@@ -19,7 +19,7 @@ import longevity.exceptions.persistence.ShorthandUnabbreviationException
 import longevity.persistence.RepoPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
-import longevity.subdomain.Entity
+import longevity.subdomain.entity.Entity
 import longevity.subdomain.persistent.Persistent
 import scala.reflect.runtime.universe.typeOf
 

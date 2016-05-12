@@ -4,7 +4,7 @@ import com.github.nscala_time.time.Imports.DateTime
 import longevity.context.Cassandra
 import longevity.context.LongevityContext
 import longevity.context.Mongo
-import longevity.subdomain.EntityTypePool
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.Shorthand
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain

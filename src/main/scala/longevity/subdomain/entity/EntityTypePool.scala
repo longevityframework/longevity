@@ -1,4 +1,4 @@
-package longevity.subdomain
+package longevity.subdomain.entity
 
 import emblem.TypeKeyMap
 import longevity.exceptions.subdomain.DuplicateEntityTypesException

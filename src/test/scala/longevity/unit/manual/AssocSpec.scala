@@ -51,9 +51,9 @@ object AssocSpec {
   object associations2 {
 
     import longevity.subdomain.Assoc
-    import longevity.subdomain.Entity
-    import longevity.subdomain.EntityType
-    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.entity.Entity
+    import longevity.subdomain.entity.EntityType
+    import longevity.subdomain.entity.EntityTypePool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool

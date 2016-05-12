@@ -36,8 +36,8 @@ object QuickStartSpec {
   // start building our subdomain:
 
   import longevity.subdomain.Assoc
-  import longevity.subdomain.Entity
-  import longevity.subdomain.EntityType
+  import longevity.subdomain.entity.Entity
+  import longevity.subdomain.entity.EntityType
   import longevity.subdomain.Shorthand
   import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain

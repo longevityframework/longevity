@@ -115,8 +115,8 @@ object SubdomainSpec {
     val uriShorthand = Shorthand[Uri, String]
     implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
 
-    import longevity.subdomain.Entity
-    import longevity.subdomain.EntityType
+    import longevity.subdomain.entity.Entity
+    import longevity.subdomain.entity.EntityType
 
     case class UserProfile(
       tagline: String,
@@ -143,7 +143,7 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.entity.EntityTypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(UserProfile))
@@ -152,12 +152,12 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects1 {
 
-    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.entity.EntityTypePool
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ValueObject
-    import longevity.subdomain.ValueType
+    import longevity.subdomain.entity.ValueObject
+    import longevity.subdomain.entity.ValueType
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
@@ -198,9 +198,9 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects2 {
 
-    import longevity.subdomain.Entity
-    import longevity.subdomain.EntityType
-    import longevity.subdomain.EntityTypePool
+    import longevity.subdomain.entity.Entity
+    import longevity.subdomain.entity.EntityType
+    import longevity.subdomain.entity.EntityTypePool
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
@@ -254,7 +254,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import SubdomainSpec._
   import longevity.subdomain.Assoc
-  import longevity.subdomain.EntityTypePool
+  import longevity.subdomain.entity.EntityTypePool
   import longevity.subdomain.Shorthand
   import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain

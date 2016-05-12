@@ -1,25 +1,32 @@
 package longevity.subdomain
 
+import emblem.TypeKey
+import emblem.TypeKeyMap
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
 import emblem.emblematic.ExtractorFor
 import emblem.emblematic.ExtractorPool
-import emblem.typeBound.TypeBoundFunction
-import emblem.typeBound.TypeBoundPair
-import emblem.TypeKey
-import emblem.TypeKeyMap
 import emblem.emblematic.Union
 import emblem.emblematic.UnionPool
+import emblem.typeBound.TypeBoundFunction
+import emblem.typeBound.TypeBoundPair
 import emblem.typeBound.WideningTypeBoundFunction
 import emblem.typeKey
+import longevity.subdomain.entity.DerivedType
+import longevity.subdomain.entity.Entity
+import longevity.subdomain.entity.EntityType
+import longevity.subdomain.entity.EntityTypePool
+import longevity.subdomain.entity.PolyType
 import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.ptype.PolyPType
 
 /** a specification of a subdomain of a project's domain. contains a pool of
- * all the [[EntityType entity types]] in the subdomain, as well as all the
- * [[Shorthand shorthands]] used by the entities.
+ * all the [[entity.EntityType entity types]] in the subdomain, as well as all
+ * the [[Shorthand shorthands]] used by the entities.
  *
  * @param name the name of the subdomain
  * @param pTypePool a complete set of the persistent types in the subdomain.

@@ -18,7 +18,7 @@ import longevity.exceptions.subdomain.ptype.PropNotOrderedException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 import longevity.subdomain.Assoc
-import longevity.subdomain.Entity
+import longevity.subdomain.entity.Entity
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.persistent.Persistent
 

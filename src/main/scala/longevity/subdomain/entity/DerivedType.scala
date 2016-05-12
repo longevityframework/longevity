@@ -1,4 +1,4 @@
-package longevity.subdomain
+package longevity.subdomain.entity
 
 /** one of the derived types in a family of domain entity types. mix this in to
  * your [[EntityType]] when it represents a concrete subtype of a [[PolyType]].

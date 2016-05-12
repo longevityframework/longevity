@@ -17,8 +17,8 @@ import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.KeyVal
 import longevity.subdomain.ptype.OrderingQuery
 import longevity.subdomain.ptype.PType
-import longevity.subdomain.DerivedPType
-import longevity.subdomain.PolyPType
+import longevity.subdomain.ptype.DerivedPType
+import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.Query.AndOp
 import longevity.subdomain.ptype.Query.EqOp

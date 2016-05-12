@@ -7,7 +7,7 @@ import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 import longevity.exceptions.subdomain.ptype.NoSuchPropException
 import longevity.persistence.PersistedAssoc
 import longevity.subdomain.Assoc
-import longevity.subdomain.EntityTypePool
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root

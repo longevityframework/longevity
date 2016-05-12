@@ -1,5 +1,6 @@
 package longevity.subdomain
 
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.ptype.PTypePool
 
 object CoreDomain {

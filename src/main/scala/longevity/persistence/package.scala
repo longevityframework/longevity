@@ -15,8 +15,8 @@ import longevity.context.PersistenceStrategy
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.mongo.MongoRepo
-import longevity.subdomain.DerivedPType
-import longevity.subdomain.PolyPType
+import longevity.subdomain.ptype.DerivedPType
+import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PType
@@ -88,7 +88,6 @@ package object persistence {
   }
 
   // TODO: test for when Prop.propVal is accessed too early
-  // TODO: repackaging in longevity.subdomain
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
