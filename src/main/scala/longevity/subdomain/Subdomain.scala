@@ -13,6 +13,7 @@ import emblem.typeBound.TypeBoundFunction
 import emblem.typeBound.TypeBoundPair
 import emblem.typeBound.WideningTypeBoundFunction
 import emblem.typeKey
+import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.entity.DerivedType
 import longevity.subdomain.entity.Entity
 import longevity.subdomain.entity.EntityType
@@ -88,8 +89,7 @@ class Subdomain(
         : TypeKeyMap[Entity, DerivedList] = {
           implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyType.entityTypeKey
           if (!polyTypes.contains[Poly]) {
-            // TODO: new exception for derived type with poly type not in subdomain
-            throw new RuntimeException
+            throw new DerivedHasNoPolyException(polyTypeKey.name, isPType = false)
           }
 
           val emblem = emblemPool(derivedType.entityTypeKey)
@@ -127,8 +127,7 @@ class Subdomain(
           implicit val polyTypeKey = derivedPType.polyPType.pTypeKey
 
           if (!polyTypes.contains[Poly]) {
-            // TODO: new exception for derived type with poly type not in subdomain
-            throw new RuntimeException
+            throw new DerivedHasNoPolyException(polyTypeKey.name, isPType = false)
           }
 
           val emblem = emblemPool(derivedPType.pTypeKey)

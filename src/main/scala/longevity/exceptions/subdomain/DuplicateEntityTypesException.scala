@@ -1,7 +1,9 @@
 package longevity.exceptions.subdomain
 
-/** thrown on attempt to construct a [[longevity.subdomain.entity.EntityTypePool]] with more than
- * one [[longevity.subdomain.entity.EntityType]] for the same [[longevity.subdomain.entity.Entity]] type.
+/** thrown on attempt to construct a
+ * [[longevity.subdomain.entity.EntityTypePool]] with more than one
+ * [[longevity.subdomain.entity.EntityType]] for a single kind of
+ * [[longevity.subdomain.entity.Entity]]
  */
 class DuplicateEntityTypesException
 extends SubdomainException(
