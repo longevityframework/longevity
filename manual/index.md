@@ -23,7 +23,6 @@ will put in links as I write the chapters.
 - [Building Your Subdomain](subdomain.html)
 - [Persistent Objects](persistent)
   - [Kinds of Persistent Objects](persistent/kinds.html)
-  - [Persistent and Non-Persistent Entities](persistent/non-persistent.html)
   - [Persistent Types](persistent/ptypes.html)
   - [Aggregate Roots](persistent/roots.html)
 - [Basic Properties](basics.html)

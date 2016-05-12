@@ -55,8 +55,8 @@ extends Entity
 object UserProfile extends EntityType[UserProfile]
 ```
 
-{% assign prevTitle = "persistent and non-persistent objects" %}
-{% assign prevLink = "non-persistent.html" %}
+{% assign prevTitle = "kinds of persistent objects" %}
+{% assign prevLink = "kinds.html" %}
 {% assign upTitle = "persistent objects" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "aggregate roots" %}

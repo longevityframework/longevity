@@ -5,9 +5,9 @@ layout: page
 
 As longevity is primarily a persistence framework, the common currency
 of the longevity API is the `Persistent`, or persistent
-entity. Persistent entities are part of your subdomain, and they are
+object. Persistent objects are part of your subdomain, and they are
 also the _persistence unit_ - something that you can create, retrieve,
-update or delete with a longevity [repository](repo). Persistent
+update or delete with a longevity [repository](../repo). Persistent
 entities are Scala case classes that meet some basic criteria. Those
 criteria are laid out in the following chapters:
 
@@ -19,6 +19,7 @@ Here's a simple example:
 
 ``` scala
 import longevity.subdomain.persistent.Persistent
+import org.joda.time.DateTime
 
 case class Note(
   author: String,
@@ -27,7 +28,7 @@ case class Note(
 extends Persistent
 ```
 
-Persistent entities are fleshed out in the following sections of this chapter:
+Persistent objects are fleshed out in the following sections of this chapter:
 
 TODO: clean up these chapters:
 
@@ -35,8 +36,6 @@ TODO: clean up these chapters:
 - [Persistent and Non-Persistent Entities](non-persistent.html)
 - [Persistent Types](ptypes.html)
 - [Aggregate Roots](roots.html)
-
-TODO: check new navigation
 
 TODO: polymorphism
 
