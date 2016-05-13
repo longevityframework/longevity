@@ -6,8 +6,8 @@ import longevity.integration.subdomain.withAssoc._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class WithAssocInMemQuerySpec extends QuerySpec[WithAssoc](
-  context.mongoContext,
-  context.mongoContext.inMemTestRepoPool) {
+  mongoContext,
+  mongoContext.inMemTestRepoPool) {
 
   lazy val sample = randomP
 

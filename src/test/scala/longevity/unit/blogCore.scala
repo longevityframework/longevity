@@ -21,7 +21,7 @@ package object blogCore {
   implicit def toMarkdown(markdown: String) = Markdown(markdown)
   implicit def toUri(uri: String) = Uri(uri)
 
-  implicit val shorthandPool = ShorthandPool(
+  val shorthandPool = ShorthandPool(
     Shorthand[Email, String],
     Shorthand[Markdown, String],
     Shorthand[Uri, String])
@@ -97,6 +97,7 @@ package object blogCore {
   object BlogCore extends Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    EntityTypePool(UserProfile))
+    EntityTypePool(UserProfile),
+    shorthandPool)
 
 }

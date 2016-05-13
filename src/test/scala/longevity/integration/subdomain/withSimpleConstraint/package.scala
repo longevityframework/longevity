@@ -8,20 +8,20 @@ import longevity.context.Mongo
 import longevity.subdomain.Shorthand
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.ptype.PTypePool
 
 /** covers a root entity with a simple shorthand constraint */
 package object withSimpleConstraint {
 
-  object shorthands {
-    val emailShorthand = Shorthand[Email, String]
-    implicit val shorthandPool = ShorthandPool.empty + emailShorthand
-  }
-
-  import shorthands._
+  val emailShorthand = Shorthand[Email, String]
 
   object context {
-    val subdomain = Subdomain("With Simple Constraint", PTypePool(WithSimpleConstraint))
+    val subdomain = Subdomain(
+      "With Simple Constraint",
+      PTypePool(WithSimpleConstraint),
+      EntityTypePool.empty,
+      ShorthandPool(emailShorthand))
 
     val emailGenerator = CustomGenerator.simpleGenerator[Email] { generator =>
       Email(s"{generator.generate[String]}@{generate.generate[String]")

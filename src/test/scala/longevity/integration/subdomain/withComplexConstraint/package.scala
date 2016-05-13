@@ -13,30 +13,26 @@ import longevity.subdomain.ptype.PTypePool
 /** covers a root entity with a simple shorthand constraint */
 package object withComplexConstraint {
 
-  object shorthands {
-    val emailShorthand = Shorthand[Email, String]
-    implicit val shorthandPool = ShorthandPool.empty + emailShorthand
+  val emailShorthand = Shorthand[Email, String]
+
+  val subdomain = Subdomain(
+    "With Simple Constraint",
+    PTypePool(WithComplexConstraint),
+    shorthandPool = ShorthandPool(emailShorthand))
+
+  val emailGenerator = CustomGenerator.simpleGenerator[Email] { generator =>
+    Email(s"{generator.generate[String]}@{generate.generate[String]")
   }
-
-  import shorthands._
-
-  object context {
-    val subdomain = Subdomain("With Simple Constraint", PTypePool(WithComplexConstraint))
-
-    val emailGenerator = CustomGenerator.simpleGenerator[Email] { generator =>
-      Email(s"{generator.generate[String]}@{generate.generate[String]")
-    }
-    val withComplexConstraintGenerator = CustomGenerator.simpleGenerator[WithComplexConstraint] { generator =>
-      val primaryEmail = generator.generate[Email]
-      WithComplexConstraint(
-        generator.generate[String],
-        primaryEmail,
-        generator.generate[Set[Email]] + primaryEmail)
-    }
-    val generators = CustomGeneratorPool.empty + emailGenerator + withComplexConstraintGenerator
-
-    val mongoContext = LongevityContext(subdomain, Mongo, customGeneratorPool = generators)
-    val cassandraContext = LongevityContext(subdomain, Cassandra, customGeneratorPool = generators)
+  val withComplexConstraintGenerator = CustomGenerator.simpleGenerator[WithComplexConstraint] { generator =>
+    val primaryEmail = generator.generate[Email]
+    WithComplexConstraint(
+      generator.generate[String],
+      primaryEmail,
+      generator.generate[Set[Email]] + primaryEmail)
   }
+  val generators = CustomGeneratorPool.empty + emailGenerator + withComplexConstraintGenerator
+
+  val mongoContext = LongevityContext(subdomain, Mongo, customGeneratorPool = generators)
+  val cassandraContext = LongevityContext(subdomain, Cassandra, customGeneratorPool = generators)
 
 }

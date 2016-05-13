@@ -37,7 +37,6 @@ with PersistedToUnpersistedMatcher {
     val associated2 = withAssoc.Associated(uri)
     val withAssoc2 = withAssoc.WithAssoc(uri, associated2)
 
-    val repoPool = withAssoc.context.mongoContext.testRepoPool
     val result = repoPool.createMany(associated1, withAssoc1, associated2, withAssoc2)
     val pstates = result.futureValue
     pstates.size should equal(4)
@@ -52,7 +51,6 @@ with PersistedToUnpersistedMatcher {
   it should "throw AssocIsUnpersistedException when the aggregate contains unpersisted assocs" in {
     val associated1 = withAssoc.Associated(uri)
     val withAssoc1 = withAssoc.WithAssoc(uri, associated1)
-    val repoPool = withAssoc.context.mongoContext.testRepoPool
     val withAssocRepo = repoPool[withAssoc.WithAssoc]
     withAssocRepo.create(withAssoc1).failed.futureValue shouldBe an [AssocIsUnpersistedException]
   }

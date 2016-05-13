@@ -6,7 +6,7 @@ import longevity.integration.subdomain.allAttributes._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class AllAttributesCassandraQuerySpec
-extends QuerySpec[AllAttributes](context.cassandraContext, context.cassandraContext.testRepoPool) {
+extends QuerySpec[AllAttributes](cassandraContext, cassandraContext.testRepoPool) {
 
   lazy val sample = randomP
 

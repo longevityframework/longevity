@@ -4,6 +4,6 @@ import org.scalatest.Suites
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class AttributeListsSpec extends Suites(
-  context.mongoContext.inMemRepoCrudSpec,
-  context.mongoContext.repoCrudSpec,
-  context.cassandraContext.repoCrudSpec)
+  mongoContext.inMemRepoCrudSpec,
+  mongoContext.repoCrudSpec,
+  cassandraContext.repoCrudSpec)

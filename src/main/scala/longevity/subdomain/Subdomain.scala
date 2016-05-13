@@ -40,8 +40,8 @@ import longevity.subdomain.ptype.PolyPType
 class Subdomain(
   val name: String,
   val pTypePool: PTypePool = PTypePool.empty,
-  val entityTypePool: EntityTypePool = EntityTypePool.empty)(
-  implicit val shorthandPool: ShorthandPool = ShorthandPool()) {
+  val entityTypePool: EntityTypePool = EntityTypePool.empty,
+  val shorthandPool: ShorthandPool = ShorthandPool.empty) {
 
   private val extractorPool: ExtractorPool = {
     val shorthandToExtractor = new TypeBoundFunction[Any, ShorthandFor, ExtractorFor] {
@@ -166,8 +166,9 @@ object Subdomain {
   def apply(
     name: String,
     pTypePool: PTypePool = PTypePool.empty,
-    entityTypePool: EntityTypePool = EntityTypePool.empty)(
-    implicit shorthandPool: ShorthandPool = ShorthandPool.empty): Subdomain =
-    new Subdomain(name, pTypePool, entityTypePool)(shorthandPool)
+    entityTypePool: EntityTypePool = EntityTypePool.empty,
+    shorthandPool: ShorthandPool = ShorthandPool.empty)
+  : Subdomain =
+    new Subdomain(name, pTypePool, entityTypePool, shorthandPool)
 
 }

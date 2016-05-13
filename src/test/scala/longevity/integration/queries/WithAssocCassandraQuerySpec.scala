@@ -6,8 +6,8 @@ import longevity.integration.subdomain.withAssoc._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class WithAssocCassandraQuerySpec extends QuerySpec[WithAssoc](
-  context.cassandraContext,
-  context.cassandraContext.testRepoPool) {
+  cassandraContext,
+  cassandraContext.testRepoPool) {
 
   lazy val sample = randomP
 

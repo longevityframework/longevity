@@ -2,6 +2,12 @@
 
 ## [0.7.0] - 2016.05.xx - Entity Polymorphism
 
+- 2016.05.12 - `PType` and sub-classes no longer take an implicit
+  `ShorthandPool` argument.
+- 2016.05.12 - `Subdomain`, `CoreDomain`, `SupportingSubdomain`, and
+  `GenericSubdomain` factory method signatures have changed. They now
+  have a single parameter list, and the `ShorthandPool` parameter is
+  no longer implicit.
 - 2016.05.12 - `Persistent` no longer inherits from `Entity`. `PType`
   no longer inherits from `EntityType`. these changes should not
   affect user code.

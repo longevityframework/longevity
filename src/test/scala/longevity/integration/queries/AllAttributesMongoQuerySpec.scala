@@ -6,7 +6,7 @@ import longevity.integration.subdomain.allAttributes._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class AllAttributesMongoQuerySpec
-extends QuerySpec[AllAttributes](context.mongoContext, context.mongoContext.testRepoPool) {
+extends QuerySpec[AllAttributes](mongoContext, mongoContext.testRepoPool) {
 
   lazy val sample = randomP
 

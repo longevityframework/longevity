@@ -113,7 +113,7 @@ object SubdomainSpec {
     val emailShorthand = Shorthand[Email, String]
     val markdownShorthand = Shorthand[Markdown, String]
     val uriShorthand = Shorthand[Uri, String]
-    implicit val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+    val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
 
     import longevity.subdomain.entity.Entity
     import longevity.subdomain.entity.EntityType
@@ -146,7 +146,7 @@ object SubdomainSpec {
     import longevity.subdomain.entity.EntityTypePool
     import longevity.subdomain.ptype.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(UserProfile))
+    val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(UserProfile), shorthandPool)
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
@@ -168,7 +168,7 @@ object SubdomainSpec {
     val emailShorthand = Shorthand[Email, String]
     val stateCodeShorthand = Shorthand[StateCode, String]
     val zipCodeShorthand = Shorthand[ZipCode, String]
-    implicit val shorthandPool = ShorthandPool(emailShorthand, stateCodeShorthand, zipCodeShorthand)
+    val shorthandPool = ShorthandPool(emailShorthand, stateCodeShorthand, zipCodeShorthand)
 
     case class Address(
       street: String,
@@ -192,7 +192,7 @@ object SubdomainSpec {
       }
     }
 
-    val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address))
+    val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address), shorthandPool)
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
@@ -214,7 +214,7 @@ object SubdomainSpec {
     val emailShorthand = Shorthand[Email, String]
     val stateCodeShorthand = Shorthand[StateCode, String]
     val zipCodeShorthand = Shorthand[ZipCode, String]
-    implicit val shorthandPool = ShorthandPool(emailShorthand, stateCodeShorthand, zipCodeShorthand)
+    val shorthandPool = ShorthandPool(emailShorthand, stateCodeShorthand, zipCodeShorthand)
 
     case class Address(
       street: String,
@@ -238,7 +238,7 @@ object SubdomainSpec {
       }
     }
 
-    val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address))
+    val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address), shorthandPool)
   }
 
 }

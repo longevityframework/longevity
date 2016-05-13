@@ -22,7 +22,7 @@ package object allShorthands {
     val longShorthand = Shorthand[LongShorthand, Long]
     val stringShorthand = Shorthand[StringShorthand, String]
 
-    implicit val shorthandPool = ShorthandPool.empty +
+    val shorthandPool = ShorthandPool.empty +
       booleanShorthand +
       charShorthand +
       dateTimeShorthand +
@@ -34,12 +34,12 @@ package object allShorthands {
 
   }
 
-  import shorthands._
+  val subdomain = Subdomain(
+    "All Shorthands",
+    PTypePool(AllShorthands),
+    shorthandPool = shorthands.shorthandPool)
 
-  object context {
-    val subdomain = Subdomain("All Shorthands", PTypePool(AllShorthands))
-    val mongoContext = LongevityContext(subdomain, Mongo)
-    val cassandraContext = LongevityContext(subdomain, Cassandra)
-  }
+  val mongoContext = LongevityContext(subdomain, Mongo)
+  val cassandraContext = LongevityContext(subdomain, Cassandra)
 
 }

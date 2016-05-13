@@ -4,9 +4,7 @@ import longevity.test.QuerySpec
 import longevity.integration.subdomain.allShorthands._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class AllShorthandsMongoQuerySpec extends QuerySpec[AllShorthands](
-  context.mongoContext,
-  context.mongoContext.testRepoPool) {
+class AllShorthandsMongoQuerySpec extends QuerySpec[AllShorthands](mongoContext, mongoContext.testRepoPool) {
 
   lazy val sample = randomP
 

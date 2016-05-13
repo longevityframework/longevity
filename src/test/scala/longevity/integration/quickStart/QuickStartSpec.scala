@@ -64,7 +64,7 @@ object QuickStartSpec {
 
     // build your shorthand pool:
 
-    implicit val shorthandPool = ShorthandPool(
+    val shorthandPool = ShorthandPool(
       Shorthand[Email, String],
       Shorthand[Markdown, String],
       Shorthand[Uri, String])
@@ -147,7 +147,10 @@ object QuickStartSpec {
 
   // build the subdomain:
 
-  val blogCore = Subdomain("blogging", PTypePool(User, Blog, BlogPost))
+  val blogCore = Subdomain(
+    "blogging",
+    PTypePool(User, Blog, BlogPost),
+    shorthandPool = shorthands.shorthandPool)
 
   // now build the context:
 

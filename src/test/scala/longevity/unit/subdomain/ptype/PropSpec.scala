@@ -44,7 +44,7 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the specified prop path is empty" in {
     import longevity.integration.subdomain.allAttributes
-    val subdomain = allAttributes.context.subdomain
+    val subdomain = allAttributes.subdomain
     intercept[NoSuchPropException] {
       allAttributes.AllAttributes.prop[Int]("")
     }
@@ -52,13 +52,13 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the specified prop path does not map to an actual prop path" in {
     import longevity.integration.subdomain.allAttributes
-    val subdomain = allAttributes.context.subdomain
+    val subdomain = allAttributes.subdomain
     intercept[NoSuchPropException] {
       allAttributes.AllAttributes.prop[Int]("invalidPropPath")
     }
 
     import longevity.integration.subdomain.withComponent
-    val withComponentSubdomain = withComponent.context.subdomain
+    val withComponentSubdomain = withComponent.subdomain
     intercept[NoSuchPropException] {
       withComponent.WithComponent.prop[Int]("component.noSuchPathSegment")
     }
@@ -66,19 +66,19 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the specified prop path passes through a collection" in {
     import longevity.integration.subdomain.withComponentList
-    val withComponentListSubdomain = withComponentList.context.subdomain
+    val withComponentListSubdomain = withComponentList.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withComponentList.WithComponentList.prop[Int]("components.uri")
     }
 
     import longevity.integration.subdomain.withComponentOption
-    val withComponentOptionSubdomain = withComponentOption.context.subdomain
+    val withComponentOptionSubdomain = withComponentOption.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withComponentOption.WithComponentOption.prop[Int]("component.uri")
     }
 
     import longevity.integration.subdomain.withComponentSet
-    val withComponentSetSubdomain = withComponentSet.context.subdomain
+    val withComponentSetSubdomain = withComponentSet.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withComponentSet.WithComponentSet.prop[Int]("components.uri")
     }
@@ -86,61 +86,61 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the specified prop path terminates with a collection" in {
     import longevity.integration.subdomain.attributeLists
-    val attributeListsSubdomain = attributeLists.context.subdomain
+    val attributeListsSubdomain = attributeLists.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       attributeLists.AttributeLists.prop[Int]("boolean")
     }
 
     import longevity.integration.subdomain.attributeOptions
-    val attributeOptionsSubdomain = attributeOptions.context.subdomain
+    val attributeOptionsSubdomain = attributeOptions.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       attributeOptions.AttributeOptions.prop[Int]("boolean")
     }
  
     import longevity.integration.subdomain.attributeSets
-    val attributeSetsSubdomain = attributeSets.context.subdomain
+    val attributeSetsSubdomain = attributeSets.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       attributeSets.AttributeSets.prop[Int]("boolean")
     }
 
     import longevity.integration.subdomain.withAssocList
-    val withAssocListSubdomain = withAssocList.context.subdomain
+    val withAssocListSubdomain = withAssocList.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withAssocList.WithAssocList.prop[Int]("associated")
     }
 
     import longevity.integration.subdomain.withAssocOption
-    val withAssocOptionSubdomain = withAssocOption.context.subdomain
+    val withAssocOptionSubdomain = withAssocOption.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withAssocOption.WithAssocOption.prop[Int]("associated")
     }
 
     import longevity.integration.subdomain.withAssocSet
-    val withAssocSetSubdomain = withAssocSet.context.subdomain
+    val withAssocSetSubdomain = withAssocSet.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withAssocSet.WithAssocSet.prop[Int]("associated")
     }
 
     import longevity.integration.subdomain.withComponentList
-    val withComponentListSubdomain = withComponentList.context.subdomain
+    val withComponentListSubdomain = withComponentList.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withComponentList.WithComponentList.prop[Int]("components")
     }
 
     import longevity.integration.subdomain.withComponentOption
-    val withComponentOptionSubdomain = withComponentOption.context.subdomain
+    val withComponentOptionSubdomain = withComponentOption.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withComponentOption.WithComponentOption.prop[Int]("component")
     }
 
     import longevity.integration.subdomain.withComponentSet
-    val withComponentSetSubdomain = withComponentSet.context.subdomain
+    val withComponentSetSubdomain = withComponentSet.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withComponentSet.WithComponentSet.prop[Int]("components")
     }
 
     import longevity.integration.subdomain.withComponent
-    val withComponentSubdomain = withComponent.context.subdomain
+    val withComponentSubdomain = withComponent.subdomain
     intercept[UnsupportedPropTypeException[_, _]] {
       withComponent.WithComponent.prop[Int]("component.tags")
     }
@@ -148,7 +148,7 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the specified prop type does not match the actual type" in {
     import longevity.integration.subdomain.allAttributes
-    val subdomain = allAttributes.context.subdomain
+    val subdomain = allAttributes.subdomain
 
     // two entirely incompatible types
     intercept[PropTypeException] {
@@ -164,7 +164,6 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "produce a valid prop for basic types" in {
     import longevity.integration.subdomain.allAttributes._
-    val subdomain = context.subdomain
 
     var prop: Prop[AllAttributes, _] = null
 
@@ -203,7 +202,6 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "produce a valid prop for shorthand types" in {
     import longevity.integration.subdomain.allShorthands._
-    val subdomain = context.subdomain
 
     var prop: Prop[AllShorthands, _] = null
 

@@ -16,12 +16,8 @@ object ShorthandSpec {
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
-    object shorthands {
-      case class Email(email: String)
-      val emailShorthand = Shorthand[Email, String]
-      implicit val shorthandPool = ShorthandPool(emailShorthand)
-    }
-    import shorthands._
+    case class Email(email: String)
+    val emailShorthand = Shorthand[Email, String]
 
     case class User(
       username: String,
@@ -38,7 +34,10 @@ object ShorthandSpec {
       }
     }
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(
+      "blogging",
+      PTypePool(User),
+      shorthandPool = ShorthandPool(emailShorthand))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
@@ -47,17 +46,14 @@ object ShorthandSpec {
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.entity.EntityTypePool
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
-    object shorthands {
-      case class Email(email: String)
-      implicit def toEmail(email: String) = Email(email)
-      val emailShorthand = Shorthand[Email, String]
-      implicit val shorthandPool = ShorthandPool(emailShorthand)
-    }
-    import shorthands._
+    case class Email(email: String)
+    implicit def toEmail(email: String) = Email(email)
+    val emailShorthand = Shorthand[Email, String]
 
     val user = User(
       "bolt",
@@ -81,7 +77,11 @@ object ShorthandSpec {
       }
     }
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(
+      "blogging",
+      PTypePool(User),
+      EntityTypePool.empty,
+      ShorthandPool(emailShorthand))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthand-pools.html
@@ -90,6 +90,7 @@ object ShorthandSpec {
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.entity.EntityTypePool
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
@@ -127,14 +128,17 @@ object ShorthandSpec {
 
     object e5 {
       import emblem.typeKey
-      val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
       object User extends RootType()(typeKey[User]) {
         object keys {
         }
         object indexes {
         }
       }
-      val subdomain = Subdomain("blogging", PTypePool(User))(shorthandPool)
+      val subdomain = Subdomain(
+        "blogging",
+        PTypePool(User),
+        EntityTypePool.empty,
+        ShorthandPool(emailShorthand, markdownShorthand, uriShorthand))
     }
 
   }
@@ -167,7 +171,7 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands1.subdomain.pTypePool.values.head should equal (shorthands1.User)
       shorthands1.subdomain.entityTypePool.size should equal (0)
       shorthands1.subdomain.shorthandPool.size should equal (1)
-      shorthands1.subdomain.shorthandPool.values.head should equal (shorthands1.shorthands.emailShorthand)
+      shorthands1.subdomain.shorthandPool.values.head should equal (shorthands1.emailShorthand)
       shorthands1.User.keySet should be ('empty)
     }
 
@@ -177,7 +181,7 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands2.subdomain.pTypePool.values.head should equal (shorthands2.User)
       shorthands2.subdomain.entityTypePool.size should equal (0)
       shorthands2.subdomain.shorthandPool.size should equal (1)
-      shorthands2.subdomain.shorthandPool.values.head should equal (shorthands2.shorthands.emailShorthand)
+      shorthands2.subdomain.shorthandPool.values.head should equal (shorthands2.emailShorthand)
       shorthands2.User.keySet should be ('empty)
     }
 

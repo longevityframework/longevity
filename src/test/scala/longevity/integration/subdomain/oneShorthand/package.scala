@@ -11,17 +11,14 @@ import longevity.subdomain.ptype.PTypePool
 /** covers a root entity with a single shorthand */
 package object oneShorthand {
 
-  object shorthands {
-    val uriShorthand = Shorthand[Uri, String]
-    implicit val shorthandPool = ShorthandPool.empty + uriShorthand
-  }
+  val uriShorthand = Shorthand[Uri, String]
 
-  import shorthands._
+  val subdomain = Subdomain(
+    "One Shorthand",
+    PTypePool(OneShorthand),
+    shorthandPool = ShorthandPool(uriShorthand))
 
-  object context {
-    val subdomain = Subdomain("One Shorthand", PTypePool(OneShorthand))
-    val mongoContext = LongevityContext(subdomain, Mongo)
-    val cassandraContext = LongevityContext(subdomain, Cassandra)
-  }
+  val mongoContext = LongevityContext(subdomain, Mongo)
+  val cassandraContext = LongevityContext(subdomain, Cassandra)
 
 }

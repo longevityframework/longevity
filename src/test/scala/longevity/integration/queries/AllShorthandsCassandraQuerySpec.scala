@@ -5,7 +5,7 @@ import longevity.integration.subdomain.allShorthands._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class AllShorthandsCassandraQuerySpec
-extends QuerySpec[AllShorthands](context.cassandraContext, context.cassandraContext.testRepoPool) {
+extends QuerySpec[AllShorthands](cassandraContext, cassandraContext.testRepoPool) {
 
   lazy val sample = randomP
 

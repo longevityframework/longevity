@@ -24,7 +24,7 @@ package object withComponentWithShorthands {
     val longShorthand = Shorthand[LongShorthand, Long]
     val stringShorthand = Shorthand[StringShorthand, String]
 
-    implicit val shorthandPool = ShorthandPool.empty +
+    val shorthandPool = ShorthandPool.empty +
       booleanShorthand +
       charShorthand +
       dateTimeShorthand +
@@ -36,13 +36,12 @@ package object withComponentWithShorthands {
 
   }
 
-  import shorthands._
-
   object context {
     val subdomain = Subdomain(
       "With Component With Shorthands",
       PTypePool(WithComponentWithShorthands),
-      EntityTypePool(ComponentWithShorthands))
+      EntityTypePool(ComponentWithShorthands),
+      shorthands.shorthandPool)
     val mongoContext = LongevityContext(subdomain, Mongo)
     val cassandraContext = LongevityContext(subdomain, Cassandra)
   }
