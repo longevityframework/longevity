@@ -14,8 +14,8 @@ to maintain your back-end store.
 - [Repo Pools](repo-pools.html)
 - [Persistent State](persistent-state.html)
 
-{% assign prevTitle = "key sets and index sets" %}
-{% assign prevLink = "../ptype/key-sets-and-index-sets.html" %}
+{% assign prevTitle = "polymorphic persistents and entities" %}
+{% assign prevLink = "../poly" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "persistence strategy" %}

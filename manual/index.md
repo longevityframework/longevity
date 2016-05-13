@@ -38,6 +38,8 @@ will put in links as I write the chapters.
   - [Keys](ptype/keys.html)
   - [Indexes](ptype/indexes.html)
   - [Key Sets and Index Sets](ptype/key-sets-and-index-sets.html)
+- [Polymorphic Persistents and Entities](poly)
+
 - [The Longevity Context](context)
   - [Persistence Strategy](context/pstrat.html)
   - [Configuring your Longevity Context](context/config.html)

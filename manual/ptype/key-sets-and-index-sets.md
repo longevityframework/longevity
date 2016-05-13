@@ -79,7 +79,7 @@ build the sets for you.
 {% assign prevLink = "indexes.html" %}
 {% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "the longevity context" %}
-{% assign nextLink = "../context" %}
+{% assign nextTitle = "polymorphic persistents and entities" %}
+{% assign nextLink = "../poly" %}
 {% include navigate.html %}
 
