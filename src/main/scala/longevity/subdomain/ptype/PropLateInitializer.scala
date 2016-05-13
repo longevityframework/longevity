@@ -1,6 +1,7 @@
 package longevity.subdomain.ptype
 
 import emblem.emblematic.Emblematic
+import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 
 /** coordinates between `Subdomain`, `PType` and `Prop` to initialize the prop
@@ -17,7 +18,7 @@ import longevity.subdomain.persistent.Persistent
  */
 private[ptype] class PropLateInitializer[P <: Persistent] {
 
-  private var emblematicOpt: Option[Emblematic] = None
+  private var subdomainOpt: Option[Subdomain] = None
   private var uninitializedProps: Set[Prop[P, _]] = Set.empty
 
   /** assures that the prop will be initialized once the `Emblematic` has been
@@ -25,20 +26,21 @@ private[ptype] class PropLateInitializer[P <: Persistent] {
    * initialized immediately.
    */
   def registerProp(prop: Prop[P, _]): Unit = this.synchronized {
-    emblematicOpt match {
-      case Some(emblematic) => prop.initializePropPath(emblematic)
+    subdomainOpt match {
+      case Some(subdomain) => prop.registerSubdomain(subdomain)
       case None => uninitializedProps += prop
     }
   }
 
+  // TODO review this comment
   /** uses the provided emblematic to initialize all the props that have already
    * been registered, as well as all the props that have not yet been
    * registered. throws exception if called more than once.
    */
-  def registerEmblematic(emblematic: Emblematic): Unit = this.synchronized {
-    assert(emblematicOpt.isEmpty)
-    emblematicOpt = Some(emblematic)
-    uninitializedProps.foreach(_.initializePropPath(emblematic))
+  def registerSubdomain(subdomain: Subdomain): Unit = this.synchronized {
+    assert(subdomainOpt.isEmpty)
+    subdomainOpt = Some(subdomain)
+    uninitializedProps.foreach(_.registerSubdomain(subdomain))
     uninitializedProps = Set.empty
   }
 

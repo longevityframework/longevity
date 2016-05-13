@@ -1,10 +1,10 @@
 package longevity.subdomain.ptype
 
+import emblem.TypeKey
 import emblem.emblematic.Emblem
 import emblem.emblematic.Emblematic
 import emblem.emblematic.EmblematicPropPath
 import emblem.emblematic.ReflectiveProp
-import emblem.TypeKey
 import emblem.emblematic.basicTypes.basicTypeOrderings
 import emblem.emblematic.basicTypes.isBasicType
 import emblem.exceptions.EmblematicPropPathTypeMismatchException
@@ -18,8 +18,9 @@ import longevity.exceptions.subdomain.ptype.PropNotOrderedException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 import longevity.subdomain.Assoc
-import longevity.subdomain.entity.Entity
 import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
+import longevity.subdomain.entity.Entity
 import longevity.subdomain.persistent.Persistent
 
 /** a property for this persistent type. properties can be used to define [[Key keys]]
@@ -37,21 +38,23 @@ case class Prop[P <: Persistent, A] private[ptype] (
   path: String,
   pTypeKey: TypeKey[P],
   propTypeKey: TypeKey[A])(
-  private val shorthandPool: ShorthandPool,
   private val propLateInitializer: PropLateInitializer[P]) {
 
-  private var emblematicPropPathOpt: Option[EmblematicPropPath[P, A]] = None
+  private var subdomainOpt: Option[Subdomain] = None
+
+  private lazy val emblematicPropPath: EmblematicPropPath[P, A] = subdomainOpt match {
+    case Some(subdomain) => initializePropPath(subdomain)
+    case None => throw new PTypeHasNoSubdomainException(pTypeKey)(
+      "you cannot use Prop.propVal without a subdomain.")
+  }
 
   propLateInitializer.registerProp(this)
 
   /** the value of this property for a persistent
+   * 
    * @param p the persistent we are looking up the value of the property for
    */
-  def propVal(p: P): A = emblematicPropPathOpt match {
-    case Some(epp) => epp.get(p)
-    case None => throw new PTypeHasNoSubdomainException(pTypeKey)(
-      "you cannot call Prop.propVal without a subdomain.")
-  }
+  def propVal(p: P): A = emblematicPropPath.get(p)
 
   /** an ordering for property values
    * 
@@ -60,7 +63,13 @@ case class Prop[P <: Persistent, A] private[ptype] (
    * for which orderings are supported. right now, we only support orderings
    * for basic types
    */
-  lazy val ordering: Ordering[A] =
+  lazy val ordering: Ordering[A] = {
+    val shorthandPool = subdomainOpt match {
+      case Some(subdomain) => subdomain.shorthandPool
+      case None => throw new PTypeHasNoSubdomainException(pTypeKey)(
+        "you cannot use Prop.ordering without a subdomain.")
+    }
+
     if (isBasicType(propTypeKey)) {
       basicTypeOrderings(propTypeKey)
     } else if (shorthandPool.contains(propTypeKey)) {
@@ -68,10 +77,19 @@ case class Prop[P <: Persistent, A] private[ptype] (
     } else {
       throw new PropNotOrderedException(this)
     }
+  }
 
   override def toString: String = path
 
-  private[ptype] def initializePropPath(emblematic: Emblematic): Unit = {
+  private[ptype] def registerSubdomain(subdomain: Subdomain): Unit = {
+    subdomainOpt = Some(subdomain)
+    // initialize lazy val so we get exceptions about problems with this prop asap:
+    emblematicPropPath
+  }
+
+  private def initializePropPath(subdomain: Subdomain): EmblematicPropPath[P, A] = {
+    val shorthandPool = subdomain.shorthandPool
+    val emblematic = subdomain.emblematic
 
     def validatePath(): EmblematicPropPath[P, _] =
       try {
@@ -109,7 +127,7 @@ case class Prop[P <: Persistent, A] private[ptype] (
 
     if (! (propTypeKey <:< propPathTypeKey)) throw new PropTypeException(path, pTypeKey, propTypeKey)
 
-    emblematicPropPathOpt = Some(emblematicPropPath.asInstanceOf[EmblematicPropPath[P, A]])
+    emblematicPropPath.asInstanceOf[EmblematicPropPath[P, A]]
   }
 
 }

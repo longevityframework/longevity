@@ -8,6 +8,7 @@ import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.Prop
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.QueryDsl
@@ -45,6 +46,7 @@ object QueryDslSpec {
 /** unit tests for the proper construction of [[Query Queries]] using the [[QueryDsl]] */
 class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
   import QueryDslSpec._
+  private val subdomain = Subdomain("QueryDslSpec", PTypePool(DslRoot, Associated))
   private val dsl = new QueryDsl[DslRoot]
   import dsl._
 

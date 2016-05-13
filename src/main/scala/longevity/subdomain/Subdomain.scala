@@ -150,7 +150,7 @@ class Subdomain(
 
   private[longevity] val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
 
-  pTypePool.values.foreach(_.registerEmblematic(emblematic))
+  pTypePool.values.foreach(_.registerSubdomain(this))
 
 }
 

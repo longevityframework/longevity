@@ -128,7 +128,7 @@ object ShorthandSpec {
     object e5 {
       import emblem.typeKey
       val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
-      object User extends RootType()(typeKey[User], shorthandPool) {
+      object User extends RootType()(typeKey[User]) {
         object keys {
         }
         object indexes {
@@ -137,38 +137,6 @@ object ShorthandSpec {
       val subdomain = Subdomain("blogging", PTypePool(User))(shorthandPool)
     }
 
-  }
-
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/where-not.html
-  object shorthandsInitIssues {
-
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
-    import longevity.subdomain.Subdomain
-    import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.PTypePool
-    import longevity.subdomain.ptype.RootType
-
-    case class Email(email: String)
-    val emailShorthand = Shorthand[Email, String]
-    implicit val shorthandPool = ShorthandPool(emailShorthand)
-
-    case class User(
-      username: String,
-      firstName: String,
-      lastName: String,
-      primaryEmail: Email,
-      emails: Set[Email])
-    extends Root
-
-    object User extends RootType[User] {
-      object keys {
-      }
-      object indexes {
-      }
-    }
-
-    val subdomain = Subdomain("blogging", PTypePool(User))
   }
 
 }
@@ -211,12 +179,6 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands2.subdomain.shorthandPool.size should equal (1)
       shorthands2.subdomain.shorthandPool.values.head should equal (shorthands2.shorthands.emailShorthand)
       shorthands2.User.keySet should be ('empty)
-    }
-
-    {
-      intercept[java.lang.ExceptionInInitializerError] {
-        shorthandsInitIssues.User.keySet should be ('empty)
-      }
     }
 
   }

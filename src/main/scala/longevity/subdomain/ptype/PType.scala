@@ -8,15 +8,14 @@ import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
-import longevity.subdomain.ShorthandPool
+import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 
 /** a type class for a domain element that is stored in a persistent collection
  *
  * @tparam P the persistent type
  */
-abstract class PType[P <: Persistent : TypeKey](
-  implicit private val shorthandPool: ShorthandPool = ShorthandPool.empty) {
+abstract class PType[P <: Persistent : TypeKey] {
 
   /** the type key for the persistent type */
   val pTypeKey = typeKey[P]
@@ -39,7 +38,7 @@ abstract class PType[P <: Persistent : TypeKey](
    * @see `emblem.emblematic.basicTypes`
    */
   def prop[A : TypeKey](path: String): Prop[P, A] =
-    Prop(path, pTypeKey, typeKey[A])(shorthandPool, propLateInitializer)
+    Prop(path, pTypeKey, typeKey[A])(propLateInitializer)
 
   /** constructs a key for this persistent type based on the supplied set of key props
    *
@@ -62,8 +61,8 @@ abstract class PType[P <: Persistent : TypeKey](
   lazy val queryDsl = new QueryDsl[P]
 
   // intended for use by the `Subdomain`. throws exception if called more than once
-  private[subdomain] def registerEmblematic(emblematic: Emblematic): Unit = {
-    propLateInitializer.registerEmblematic(emblematic)
+  private[subdomain] def registerSubdomain(subdomain: Subdomain): Unit = {
+    propLateInitializer.registerSubdomain(subdomain)
   }
 
   private def kscan(containerName: String): Set[Key[P]] = {
