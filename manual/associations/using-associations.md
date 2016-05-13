@@ -4,7 +4,7 @@ layout: page
 ---
 
 It's important to take note of the difference between a
-_compositional_ relationship, in which we nest one entity inside
+_compositional_ relationship, in which we nest one object inside
 another:
 
 ```scala

@@ -72,15 +72,15 @@ val subdomain = Subdomain("blogging", PTypePool(User))
 
 Here, no two users can have the same first and last names.
 
-We use keys to retrieve individual entity aggregates from the
+We use keys to retrieve individual persistent objects from the
 persistence layer, as we will see in the [chapter on
 `Repo.retrieve`](../repo/retrieve-keyval.html). You are most likely
-going to want to define at least one per aggregate, or you will only
-be able to retrieve collections of aggregates by query. It is possible
-that you have an entity type - perhaps representing an entry in a log
-file - for which there are no natural keys. You may be satisfied to
-confine yourself to looking up collections of these entities via
-queries such as range searches.
+going to want to define at least one per persistent type, or you will
+only be able to retrieve collections of aggregates by query. It is
+possible that you have a persistent type - perhaps representing an
+entry in a log file - for which there are no natural keys. You may be
+satisfied to confine yourself to looking up collections of these
+entities via objects such as range searches.
 
 It's worth reiterating that the keys that we define in our domain
 model are not database keys, but design constraints that live within

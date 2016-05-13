@@ -60,6 +60,9 @@ val user: User = parseUserFromJson(json)
 val userKeyVal: KeyVal[User] = User.keys.username.keyValForP(user)
 ```
 
+Please note that calling `Key.keyValForP` will not work unless your
+`Subdomain` has already been initialized.
+
 Once you have your `KeyVal`, you can look up the persistent in the
 database. You get an `Option` back, as the `KeyVal` does not
 necessarily match an existing entity.

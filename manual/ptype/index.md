@@ -6,10 +6,10 @@ layout: page
 While the `Persistent` and `Entity` classes are great places to store
 information about the individual entitites and entities themselves, we
 also need a place to keep track of "meta information" about our
-aggregates. For instance, we want to be able to specify _keys_, or
-collections of properties of the aggregate that uniquely identifies an
-aggregate among a collection of aggregates. We define these things in
-our `PTypes`.
+persistent objects. For instance, we want to be able to specify
+_keys_, or collections of properties of the aggregate that uniquely
+identifies a persistent within a collection of persistents. We define
+these things in our `PTypes`.
 
 It's important to note that, while "key" and "index" are terms used in
 database schemas and physical modelling, that is not our intention

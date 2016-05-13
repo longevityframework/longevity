@@ -3,19 +3,16 @@ title: properties
 layout: page
 ---
 
-TODO: need to point out that the PType has to be in the Subdomain
-before the Prop can be used in certain ways
-
 In our `PType`, when we talk about the fields of the `Persistent`
 type, we talk about properties, or `Props`. Properties follow a path
 from the root, and take on the type of that field in the root. Here
 are some examples:
 
 ```scala
-import longevity.subdomain.Entity
-import longevity.subdomain.EntityType
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
+import longevity.subdomain.entity.Entity
+import longevity.subdomain.entity.EntityType
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
@@ -59,9 +56,9 @@ We recommend bundling them in a `props` object within your root class, like
 so:
 
 ```scala
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class User(
@@ -84,7 +81,7 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", EntityTypePool(User))
+val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 In principle, properties could map through any path from the root of

@@ -3,14 +3,15 @@ title: associations
 layout: page
 ---
 
-So far, we have seen how to build up rich entity aggregates using
+So far, we have seen how to build up rich persistent objects using
 [basic types](basics.html), [shorthands](shorthands.html),
 [collections](collections.html), and [entities](entities.html). But we
 haven't yet seen how to establish relationships between
-aggregates. We'll call these kinds relationships _associations_. Any
-entity can make an association, but they can only refer to aggregate
-roots. We differentiate _associations_ from _compositions_, in which
-the right-hand side of the relationship is a non-root entity.
+persistents. We'll call these kinds relationships _associations_. Any
+persistent or entity can make an association, but they can only refer
+to persistent objects. We differentiate _associations_ from
+_compositions_, in which the right-hand side of the relationship is an
+entity.
 
 In longevity, we model associations with `Assocs`. As an example,
 consider that we have expanded our domain model to include users,
@@ -25,7 +26,7 @@ import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class User(username: String) extends Root
-    
+
 object User extends RootType[User] {
   object keys {
   }
@@ -56,18 +57,18 @@ object BlogPost extends RootType[BlogPost] {
 val subdomain = Subdomain("blogging", PTypePool(User, Blog, BlogPost))
 ```
 
-Non-root entities can associate with other aggregates as well. For
-instance, suppose we want to require every author to publish a
-separate profile for every blog they are a member of. We can make the
-`UserProfile` a member of the `Blog` aggregate, and put the
-association to `User` there:
+Entities can associate with other aggregates as well. For instance,
+suppose we want to require every author to publish a separate profile
+for every blog they are a member of. We can make the `UserProfile` a
+member of the `Blog` aggregate, and put the association to `User`
+there:
 
 ```scala
 import longevity.subdomain.Assoc
-import longevity.subdomain.Entity
-import longevity.subdomain.EntityType
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
+import longevity.subdomain.entity.Entity
+import longevity.subdomain.entity.EntityType
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
@@ -100,7 +101,10 @@ object Blog extends RootType[Blog] {
   }
 }
 
-val subdomain = Subdomain("blogging", PTypePool(User, Blog), EntityTypePool(UserProfile))
+val subdomain = Subdomain(
+  "blogging",
+  PTypePool(User, Blog),
+  EntityTypePool(UserProfile))
 ```
 
 <div class="blue-side-bar">

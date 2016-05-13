@@ -41,7 +41,7 @@ your keys and indexes in the inner objects, you can always do so like
 this:
 
 ```scala
-object User extends PType[User] {
+object User extends RootType[User] {
   val usernameProp = prop[String]("username")
   val emailProp = prop[String]("email")
   val firstNameProp = prop[String]("firstName")

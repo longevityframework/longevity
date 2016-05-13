@@ -1,11 +1,11 @@
 ---
-title: limitations on entities and shorthands
+title: limitations on persistents, entities and shorthands
 layout: page
 ---
 
 Longevity currently places the following limitations on the kinds of
-classes you can use for your [entites](entities.html) and
-[shorthands](shorthands.html):
+classes you can use for your [persistents](persistent), [entites](entities), and
+[shorthands](shorthands):
 
 - They must be a case class.
 - They must not be an [inner class](http://docs.scala-lang.org/tutorials/tour/inner-classes.html).
@@ -21,8 +21,8 @@ Just keep in mind that, whatever possibilities we allow for, longevity
 has the following requirements:
 
 - The set of properties that an entity contains must be clearly defined.
-- We must be able to retrieve a property value from an entity instance.
-- We must be able to construct a new entity instance from a complete set of property values.
+- We must be able to retrieve a property value from a persistent or entity instance.
+- We must be able to construct a new persistent or entity instance from a complete set of property values.
 - We must be able to retrieve an abbreviated value from a shorthand instance.
 - We must be able to construct a new shorthand instance from an abbreviated value.
 
