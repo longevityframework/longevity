@@ -3,10 +3,10 @@ title: basic properties
 layout: page
 ---
 
-In the previous example, we saw how to build a `RootEntity` with a few
-`String` properties. Of course, we can build aggregates with a lot of
+In the previous example, we saw how to build a `Persistent` with a few
+`String` properties. Of course, we can build persistent objects with
 other kinds of properties than that. The simplest kinds are ["basic
-properties"](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/#emblem.basicTypes$),
+properties"](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/#emblem.emblematic.basicTypes$),
 allowing you to put in properties with a number of simple types:
 
 - `java.lang.String`
@@ -55,8 +55,8 @@ a Scala-friendly wrapper.
 
 </div>
 
-{% assign prevTitle = "aggregate roots" %}
-{% assign prevLink = "persistent/roots.html" %}
+{% assign prevTitle = "persistent types" %}
+{% assign prevLink = "persistent/ptypes.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "collections" %}

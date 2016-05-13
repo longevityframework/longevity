@@ -24,7 +24,6 @@ will put in links as I write the chapters.
 - [Persistent Objects](persistent)
   - [Kinds of Persistent Objects](persistent/kinds.html)
   - [Persistent Types](persistent/ptypes.html)
-  - [Aggregate Roots](persistent/roots.html)
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
 - [Shorthands](shorthands)

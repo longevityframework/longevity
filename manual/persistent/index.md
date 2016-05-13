@@ -30,12 +30,8 @@ extends Persistent
 
 Persistent objects are fleshed out in the following sections of this chapter:
 
-TODO: clean up these chapters:
-
 - [Kinds of Persistent Objects](kinds.html)
-- [Persistent and Non-Persistent Entities](non-persistent.html)
 - [Persistent Types](ptypes.html)
-- [Aggregate Roots](roots.html)
 
 TODO: polymorphism
 
