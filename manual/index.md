@@ -65,6 +65,12 @@ will put in links as I write the chapters.
   - Keys and Indexes (TODO)
 - [Translation into Cassandra](cassandra) (TODO)
 
+TODO: i left off at limitations
+
+TODO: polymorphism
+
+TODO: once-over checking for broken embedded links
+
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}
 {% assign nextTitle="what is longevity" %}

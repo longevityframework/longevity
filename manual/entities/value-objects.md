@@ -22,10 +22,10 @@ value objects. But we happily support the terminology by providing
 `EntityType`, respectively. For example, we can write the following:
 
 ```scala
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
-import longevity.subdomain.ValueObject
-import longevity.subdomain.ValueType
+import longevity.subdomain.entity.EntityTypePool
+import longevity.subdomain.entity.ValueObject
+import longevity.subdomain.entity.ValueType
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
@@ -58,10 +58,10 @@ val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address))
 And it is entirely equivalent to this:
 
 ```scala
-import longevity.subdomain.Entity
-import longevity.subdomain.EntityType
-import longevity.subdomain.EntityTypePool
 import longevity.subdomain.Subdomain
+import longevity.subdomain.entity.Entity
+import longevity.subdomain.entity.EntityType
+import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType

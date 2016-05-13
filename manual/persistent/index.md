@@ -33,8 +33,6 @@ Persistent objects are fleshed out in the following sections of this chapter:
 - [Kinds of Persistent Objects](kinds.html)
 - [Persistent Types](ptypes.html)
 
-TODO: polymorphism
-
 {% assign prevTitle = "building your subdomain" %}
 {% assign prevLink = "../subdomain.html" %}
 {% assign upTitle = "user manual" %}
