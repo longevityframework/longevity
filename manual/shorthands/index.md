@@ -19,9 +19,8 @@ underlying value, such as:
 case class Email(email: String)
 ```
 
-But we're concerned that this is going to make the
-[BSON](http://bsonspec.org/) serializations of our aggregates look a
-little awkward. We would rather see this:
+But we're concerned that this is going to make the serializations of
+our aggregates look a little awkward. We would rather see this:
 
 ```json
 { "username": "sullivan",
@@ -39,14 +38,13 @@ than this:
 }
 ```
 
-Longevity will serialize your user to the simpler BSON format if you
+Longevity will serialize your user to the simpler JSON format if you
 use _shorthands_. A shorthand provides translations between your
 domain type and an abbreviated type (`Email` and `String`, in this
 example). The abbreviated type should be a [basic type](basics.html).
 
-Collect all your shorthands into a `ShorthandPool`, and make the
-shorthand pool implicitly available to your `RootTypes`, as they
-will need to know about them. Here's an example:
+Collect all your shorthands into a `ShorthandPool`, and pass it to the
+`Subdomain` factory method. Here's an example:
 
 ```scala
 import longevity.subdomain.Shorthand
@@ -56,13 +54,8 @@ import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
-object shorthands {
-  case class Email(email: String)
-  val emailShorthand = Shorthand[Email, String]
-  implicit val shorthandPool = ShorthandPool(emailShorthand)
-}
-
-import shorthands._
+case class Email(email: String)
+val emailShorthand = Shorthand[Email, String]
 
 case class User(
   username: String,
@@ -79,7 +72,10 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", PTypePool(User))
+val subdomain = Subdomain(
+  "blogging",
+  PTypePool(User),
+  shorthandPool = ShorthandPool(emailShorthand))
 ```
 
 Note that you can nest shorthands inside of collections, as the above
@@ -89,17 +85,8 @@ It can be useful to define implicit defs as well to convert from the
 abbreviated to the actual, as used to construct a user here:
 
 ```scala
-import longevity.subdomain.Shorthand
-import longevity.subdomain.ShorthandPool
-
-object shorthands {
-  case class Email(email: String)
-  implicit def toEmail(email: String) = Email(email)
-  val emailShorthand = Shorthand[Email, String]
-  implicit val shorthandPool = ShorthandPool(emailShorthand)
-}
-
-import shorthands._
+case class Email(email: String)
+implicit def toEmail(email: String) = Email(email)
 
 val user = User(
   "bolt",
@@ -114,8 +101,8 @@ validations, such as the well-formedness of an email address. Please
 see the [chapter on enforcing constraints](../constraints.html) for
 more information.
 
-{% assign prevTitle = "collections" %}
-{% assign prevLink = "../collections.html" %}
+{% assign prevTitle = "entities and value objects" %}
+{% assign prevLink = "../entities/value-objects.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "shorthand pools" %}

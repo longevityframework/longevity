@@ -31,9 +31,9 @@ requirements we have. They also seem a natural choice for modeling out
 a domain. We chose to start with them for these reasons.
 
 {% assign prevTitle = "entities and value objects" %}
-{% assign prevLink = "value-objects.html" %}
-{% assign upTitle = "entities" %}
+{% assign prevLink = "entities/value-objects.html" %}
+{% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "assocations" %}
-{% assign nextLink = "../associations" %}
+{% assign nextLink = "associations" %}
 {% include navigate.html %}

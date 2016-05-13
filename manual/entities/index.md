@@ -73,8 +73,8 @@ case class User(
 extends Root
 ```
 
-{% assign prevTitle = "where not to construct your shorthand pools" %}
-{% assign prevLink = "../subdomain/where-not.html" %}
+{% assign prevTitle = "collections" %}
+{% assign prevLink = "../collections.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "entities and value objects" %}

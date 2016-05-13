@@ -3,6 +3,9 @@ title: properties
 layout: page
 ---
 
+TODO: need to point out that the PType has to be in the Subdomain
+before the Prop can be used in certain ways
+
 In our `PType`, when we talk about the fields of the `Persistent`
 type, we talk about properties, or `Props`. Properties follow a path
 from the root, and take on the type of that field in the root. Here

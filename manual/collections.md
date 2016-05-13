@@ -47,12 +47,12 @@ know](http://longevityframework.github.io/longevity/discussions.html)!
 But please note that we will only ever support immutable
 collections. It is important for the aggregates to be entirely
 immutable, so that longevity can [keep track of any
-changes](../context/persistent-state.html).
+changes](context/persistent-state.html).
 
 {% assign prevTitle = "basic properties" %}
 {% assign prevLink = "basics.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "shorthands" %}
-{% assign nextLink = "shorthands" %}
+{% assign nextTitle = "entities" %}
+{% assign nextLink = "entities" %}
 {% include navigate.html %}
