@@ -84,11 +84,42 @@ object User extends RootType[User] {
 val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
-In principle, properties could map through any path from the root of
-your aggregate, and have a wide variety of types. In practice, we
-currently support properties with [basic
-types](../subdomain/basics.html), [shorthand
-types](../subdomain/shorthands.html), and
+Your properties can also descend into entites included in your
+persistent object. For instance, when our `User` has an embedded
+`EmailPreferences` entity, we can form a `Prop` reaching in to the
+`primaryEmail`, like so:
+
+```scala
+case class EmailPreferences(
+  primaryEmail: Email,
+  emails: Set[Email])
+extends Entity
+
+object EmailPreferences extends EntityType[EmailPreferences]
+
+case class User(
+  username: String,
+  emails: EmailPreferences,
+  addresses: Set[Address],
+  profile: Option[UserProfile])
+extends Root
+
+object User extends RootType[User] {
+  object props {
+    val username = prop[String]("username")
+    val email = prop[Email]("emails.primaryEmail")
+  }
+  object keys {
+  }
+  object indexes {
+  }
+}
+```
+
+In principle, properties could map through any path from the persisten
+object, and have a wide variety of types. In practice, we currently
+support properties with [basic types](../subdomain/basics.html),
+[shorthand types](../subdomain/shorthands.html), and
 [associations](../subdomain/associations.html). While you can descend
 into any contained entity, you currently cannot use collection types
 such as `Option`, `Set`, and `List`. We plan to continue to expand the
