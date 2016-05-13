@@ -32,8 +32,7 @@ private[ptype] class PropLateInitializer[P <: Persistent] {
     }
   }
 
-  // TODO review this comment
-  /** uses the provided emblematic to initialize all the props that have already
+  /** uses the provided subdomain to initialize all the props that have already
    * been registered, as well as all the props that have not yet been
    * registered. throws exception if called more than once.
    */
