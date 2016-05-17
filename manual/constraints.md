@@ -20,10 +20,7 @@ case class Email(email: String) {
     throw new ConstraintValidationException("no '@' in email")
 }
 
-object shorthands {
-  val emailShorthand = Shorthand[Email, String]
-  implicit val shorthandPool = ShorthandPool.empty + emailShorthand
-}
+val emailShorthand = Shorthand[Email, String]
 ```
 
 If you enforce constraints in this manner, then you will need to

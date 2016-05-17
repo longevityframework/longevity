@@ -60,7 +60,7 @@ will put in links as I write the chapters.
   - [In Memory Repositories](testing/in-mem-repos.html)
   - [RepoCrudSpec](testing/repo-crud-spec.html)
   - [QuerySpec](testing/query-spec.html)
-- [Enforcing Constraints](constraints.html) (TODO)
+- [Enforcing Constraints](constraints.html)
 - [Translation into MongoDB](mongo) (TODO)
   - Translation of Aggregates into BSON (TODO)
   - Translation of Persistent State into BSON (TODO)
