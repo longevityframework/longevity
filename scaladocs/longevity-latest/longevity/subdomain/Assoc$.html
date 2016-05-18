@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Assoc - longevity 0.6.0 API - longevity.subdomain.Assoc</title>
-          <meta name="description" content="Assoc - longevity 0.6.0 API - longevity.subdomain.Assoc" />
-          <meta name="keywords" content="Assoc longevity 0.6.0 API longevity.subdomain.Assoc" />
+          <title>Assoc - longevity 0.8-SNAPSHOT API - longevity.subdomain.Assoc</title>
+          <meta name="description" content="Assoc - longevity 0.8 - SNAPSHOT API - longevity.subdomain.Assoc" />
+          <meta name="keywords" content="Assoc longevity 0.8 SNAPSHOT API longevity.subdomain.Assoc" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/subdomain/Assoc.scala" target="_blank">Assoc.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/subdomain/Assoc.scala" target="_blank">Assoc.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -148,7 +148,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.subdomain.Assoc#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply[P&lt;:longevity.subdomain.persistent.Persistent](p:P)(implicitevidence$1:emblem.imports.TypeKey[P]):longevity.subdomain.Assoc[P]"></a>
+      <a id="apply[P&lt;:longevity.subdomain.persistent.Persistent](p:P)(implicitevidence$1:emblem.TypeKey[P]):longevity.subdomain.Assoc[P]"></a>
       <a id="apply[P&lt;:Persistent](P)(TypeKey[P]):Assoc[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -156,18 +156,18 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="P">P &lt;: <a href="persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="params">(<span name="p">p: <span class="extype" name="longevity.subdomain.Assoc.apply.P">P</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.Assoc.apply.P">P</span>]</span>)</span><span class="result">: <a href="Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a>[<span class="extype" name="longevity.subdomain.Assoc.apply.P">P</span>]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="P">P &lt;: <a href="persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="params">(<span name="p">p: <span class="extype" name="longevity.subdomain.Assoc.apply.P">P</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.Assoc.apply.P">P</span>]</span>)</span><span class="result">: <a href="Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a>[<span class="extype" name="longevity.subdomain.Assoc.apply.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.Assoc$@apply[P&lt;:longevity.subdomain.persistent.Persistent](p:P)(implicitevidence$1:emblem.imports.TypeKey[P]):longevity.subdomain.Assoc[P]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.subdomain.Assoc$@apply[P&lt;:longevity.subdomain.persistent.Persistent](p:P)(implicitevidence$1:emblem.TypeKey[P]):longevity.subdomain.Assoc[P]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">wraps a persistent entity in an unpersisted assoc.</p><div class="fullcomment"><div class="comment cmt"><p>wraps a persistent entity in an unpersisted assoc. this is useful for
+      <p class="shortcomment cmt">wraps a persistent object in an unpersisted assoc.</p><div class="fullcomment"><div class="comment cmt"><p>wraps a persistent object in an unpersisted assoc. this is useful for
 building out domain data that has not been persisted. it is made implicit
 so your code isn't littered with <code>Assoc(_)</code> calls everywhere. this ought
 not to be confusing, as it normally does not make sense to embed one
-persistent entity within another persistent entity.
+persistent object within another persistent object.
 </p></div></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TypeKeyMap - emblem 0.6.0 API - emblem.TypeKeyMap</title>
-          <meta name="description" content="TypeKeyMap - emblem 0.6.0 API - emblem.TypeKeyMap" />
-          <meta name="keywords" content="TypeKeyMap emblem 0.6.0 API emblem.TypeKeyMap" />
+          <title>TypeKeyMap - emblem 0.8-SNAPSHOT API - emblem.TypeKeyMap</title>
+          <meta name="description" content="TypeKeyMap - emblem 0.8 - SNAPSHOT API - emblem.TypeKeyMap" />
+          <meta name="keywords" content="TypeKeyMap emblem 0.8 SNAPSHOT API emblem.TypeKeyMap" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">TypeKeyMap</span><span class="tparams">[<span name="TypeBound">TypeBound</span>, <span name="Val">Val<span class="tparams">[<span name="_">_ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span></span>]</span></span>]</span><span class="result"> extends <span class="extype" name="emblem.BaseTypeBoundMap">BaseTypeBoundMap</span>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>]</span>
+        <span class="name">TypeKeyMap</span><span class="tparams">[<span name="TypeBound">TypeBound</span>, <span name="Val">Val<span class="tparams">[<span name="_">_ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span></span>]</span></span>]</span><span class="result"> extends <span class="extype" name="emblem.typeBound.BaseTypeBoundMap">BaseTypeBoundMap</span>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>]</span>
       </span>
       </h4>
       
@@ -71,14 +71,15 @@ cpu should equal (CPU(<span class="num">2.2</span>))
 <span class="kw">val</span> display: Display = partLists[Display].tail.head
 display should equal (Display(<span class="num">1080</span>))</pre><p>note that the API does not provide <code>++</code> or similar methods to add multiple key/value pairs at a time, as
 each pair needs to be type-checked separately.</p><p>(code presented here is in TypeKeyMapSpec.scala, up at the top)
-</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the TypeKey and Val types</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/emblem/src/main/scala/emblem/TypeKeyMap.scala" target="_blank">TypeKeyMap.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p>TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples</p></span><span class="cmt"><p><a href="package.html#ExtractorPool=emblem.TypeKeyMap[Any,emblem.package.ExtractorFor]" class="extmbr" name="emblem.ExtractorPool">ExtractorPool</a> for an example of how to use type key maps when the value type is more
-sophisticated than just type with a single type parameter.</p></span></dd></dl><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the TypeKey and Val types</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/emblem/src/main/scala/emblem/TypeKeyMap.scala" target="_blank">TypeKeyMap.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p>TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples</p></span><span class="cmt"><p><a href="emblematic/package.html#ExtractorPool=emblem.TypeKeyMap[Any,emblem.emblematic.package.ExtractorFor]" class="extmbr" name="emblem.emblematic.ExtractorPool">emblem.emblematic.ExtractorPool</a> for an example of how to use type
+key maps when the value type is more sophisticated than just type with a
+single type parameter</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="emblem.BaseTypeBoundMap">BaseTypeBoundMap</span>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>], <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="emblem.typeBound.BaseTypeBoundMap">BaseTypeBoundMap</span>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>], <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
                 <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 263.00 118.00" height="118pt" width="263pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 259,-114 259,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="emblem.TypeKeyMap (this class)" xlink:href="#inheritance-diagram"><polygon points="216,-49 39,-49 39,-24 216,-24 216,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../lib/class_diagram.png" y="-43.5" x="49.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="70.2188" text-anchor="start">TypeKeyMap[TypeBound, Val]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="emblem.BaseTypeBoundMap"><polygon points="255,-110 0,-110 0,-85 255,-85 255,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../lib/class_diagram.png" y="-104.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="31.2075" text-anchor="start">BaseTypeBoundMap[TypeBound, TypeKey, Val]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="TypeKeyMap[TypeBound, Val] is a subtype of BaseTypeBoundMap[TypeBound, TypeKey, Val]"><path d="M127.5,-79.6874C127.5,-69.9173 127.5,-57.8534 127.5,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="125.75,-79.8435 127.5,-84.8435 129.25,-79.8435 125.75,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 263.00 118.00" height="118pt" width="263pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 259,-114 259,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="emblem.TypeKeyMap (this class)" xlink:href="#inheritance-diagram"><polygon points="216,-49 39,-49 39,-24 216,-24 216,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../lib/class_diagram.png" y="-43.5" x="49.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="70.2188" text-anchor="start">TypeKeyMap[TypeBound, Val]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="emblem.typeBound.BaseTypeBoundMap"><polygon points="255,-110 0,-110 0,-85 255,-85 255,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../lib/class_diagram.png" y="-104.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="31.2075" text-anchor="start">BaseTypeBoundMap[TypeBound, TypeKey, Val]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="TypeKeyMap[TypeBound, Val] is a subtype of BaseTypeBoundMap[TypeBound, TypeKey, Val]"><path d="M127.5,-79.6874C127.5,-69.9173 127.5,-57.8534 127.5,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="125.75,-79.8435 127.5,-84.8435 129.25,-79.8435 125.75,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -96,7 +97,7 @@ sophisticated than just type with a single type parameter.</p></span></dd></dl><
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="emblem.TypeKeyMap"><span>TypeKeyMap</span></li><li class="in" name="emblem.BaseTypeBoundMap"><span>BaseTypeBoundMap</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="emblem.TypeKeyMap"><span>TypeKeyMap</span></li><li class="in" name="emblem.typeBound.BaseTypeBoundMap"><span>BaseTypeBoundMap</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -185,7 +186,8 @@ type parameter <code>[TypeParam &lt;: TypeBound]</code> from an argument of type
 <code>TypeParam</code>. there seems to be nothing I can do within <code>TypeKeyMap</code> to
 circumvent this. the easiest way to work around this problem is to specify
 the type key yourself with
-<a href="#+[TypeParam&lt;:TypeBound,ValTypeParam&lt;:TypeBound](pair:(emblem.TypeKey[TypeParam],Val[ValTypeParam]))(implicitvalConforms:&lt;:&lt;[Val[ValTypeParam],Val[TypeParam]]):emblem.TypeKeyMap[TypeBound,Val]" class="extmbr" name="emblem.TypeKeyMap#+">the alternate method +</a>.
+<a href="#+[TypeParam&lt;:TypeBound,ValTypeParam&lt;:TypeBound](pair:(emblem.TypeKey[TypeParam],Val[ValTypeParam]))(implicitvalConforms:&lt;:&lt;[Val[ValTypeParam],Val[TypeParam]]):emblem.TypeKeyMap[TypeBound,Val]" class="extmbr" name="emblem.TypeKeyMap#+">the alternate
+method +</a>.
 </p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value to add to the map</p></dd><dt class="param">key</dt><dd class="cmt"><p>the type key, which is inferred from the type of value</p></dd></dl></div>
     </li><li name="emblem.TypeKeyMap#+" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="+[TypeParam&lt;:TypeBound,ValTypeParam&lt;:TypeBound](pair:(emblem.TypeKey[TypeParam],Val[ValTypeParam]))(implicitvalConforms:&lt;:&lt;[Val[ValTypeParam],Val[TypeParam]]):emblem.TypeKeyMap[TypeBound,Val]"></a>
@@ -221,7 +223,9 @@ the type key yourself with
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">takes the union of two type key maps with the same type params</p><div class="fullcomment"><div class="comment cmt"><p>takes the union of two type key maps with the same type params</p></div><dl class="paramcmts block"><dt class="param">that</dt><dd class="cmt"><p>the type key map to union with this type key map</p></dd><dt>returns</dt><dd class="cmt"><p>a new type key map with the bindings of this map and that map</p></dd></dl></div>
+      <p class="shortcomment cmt">takes the union of two type key maps with the same type params
+</p><div class="fullcomment"><div class="comment cmt"><p>takes the union of two type key maps with the same type params
+</p></div><dl class="paramcmts block"><dt class="param">that</dt><dd class="cmt"><p>the type key map to union with this type key map</p></dd><dt>returns</dt><dd class="cmt"><p>a new type key map with the bindings of this map and that map</p></dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
       <a id="-&gt;[B](B):(TypeKeyMap[TypeBound,Val],B)"></a>
@@ -336,8 +340,10 @@ the type key yourself with
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">tests whether this TypeKeyMap contains a binding for a type param</p><div class="fullcomment"><div class="comment cmt"><p>tests whether this TypeKeyMap contains a binding for a type param</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param binding both the type key and the value</p></dd><dt>returns</dt><dd class="cmt"><p><code>true</code> if there is a binding for type param in this map, <code>false</code> otherwise.</p></dd></dl></div>
-    </li><li name="emblem.BaseTypeBoundMap#contains" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">tests whether this TypeKeyMap contains a binding for a type param
+</p><div class="fullcomment"><div class="comment cmt"><p>tests whether this TypeKeyMap contains a binding for a type param
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param binding both the type key and the value</p></dd><dt>returns</dt><dd class="cmt"><p><code>true</code> if there is a binding for type param in this map, <code>false</code> otherwise.</p></dd></dl></div>
+    </li><li name="emblem.typeBound.BaseTypeBoundMap#contains" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="contains(key:Key[_&lt;:TypeBound]):Boolean"></a>
       <a id="contains(TypeKey[_&lt;:TypeBound]):Boolean"></a>
       <h4 class="signature">
@@ -471,9 +477,112 @@ the type key yourself with
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
-the other map, and vice versa.</p><div class="fullcomment"><div class="comment cmt"><p>compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
-the other map, and vice versa.</p></div><dl class="paramcmts block"><dt class="param">that</dt><dd class="cmt"><p>the other type key map</p></dd><dt>returns</dt><dd class="cmt"><p>true iff both are type key maps and contain exactly the same mappings</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a> → AnyRef → Any</dd></dl></div>
+      <p class="shortcomment cmt">compares two maps structurally; i.e., checks if all mappings contained in
+this map are also contained in the other map, and vice versa
+</p><div class="fullcomment"><div class="comment cmt"><p>compares two maps structurally; i.e., checks if all mappings contained in
+this map are also contained in the other map, and vice versa
+</p></div><dl class="paramcmts block"><dt class="param">that</dt><dd class="cmt"><p>the other type key map</p></dd><dt>returns</dt><dd class="cmt"><p>true iff both are type key maps and contain exactly the same mappings</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a> → AnyRef → Any</dd></dl></div>
+    </li><li name="emblem.TypeKeyMap#filter" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="filter(p:emblem.typeBound.TypeBoundPair[TypeBound,emblem.TypeKey,Val,_&lt;:TypeBound]=&gt;Boolean):emblem.TypeKeyMap[TypeBound,Val]"></a>
+      <a id="filter((TypeBoundPair[TypeBound,TypeKey,Val,_&lt;:TypeBound])⇒Boolean):TypeKeyMap[TypeBound,Val]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filter</span><span class="params">(<span name="p">p: (<a href="typeBound/TypeBoundPair.html" class="extype" name="emblem.typeBound.TypeBoundPair">TypeBoundPair</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, _ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#emblem.TypeKeyMap@filter(p:emblem.typeBound.TypeBoundPair[TypeBound,emblem.TypeKey,Val,_&lt;:TypeBound]=&gt;Boolean):emblem.TypeKeyMap[TypeBound,Val]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">selects all elements of this TypeKeyMap which satisfy a predicate
+</p><div class="fullcomment"><div class="comment cmt"><p>selects all elements of this TypeKeyMap which satisfy a predicate
+</p></div><dl class="paramcmts block"><dt class="param">p</dt><dd class="cmt"><p>the predicate used to test elements</p></dd><dt>returns</dt><dd class="cmt"><p>a new TypeKeyMap consisting of all elements of this TypeKeyMap that
+satisfy the given predicate <code>p</code>. the order of the elements is preserved.</p></dd></dl></div>
+    </li><li name="emblem.TypeKeyMap#filterKeys" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="filterKeys(p:emblem.TypeKey[_&lt;:TypeBound]=&gt;Boolean):emblem.TypeKeyMap[TypeBound,Val]"></a>
+      <a id="filterKeys((TypeKey[_&lt;:TypeBound])⇒Boolean):TypeKeyMap[TypeBound,Val]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filterKeys</span><span class="params">(<span name="p">p: (<a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[_ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#emblem.TypeKeyMap@filterKeys(p:emblem.TypeKey[_&lt;:TypeBound]=&gt;Boolean):emblem.TypeKeyMap[TypeBound,Val]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">filters this map by retaining only keys satisfying a predicate
+</p><div class="fullcomment"><div class="comment cmt"><p>filters this map by retaining only keys satisfying a predicate
+</p></div><dl class="paramcmts block"><dt class="param">p</dt><dd class="cmt"><p>the predicate used to test keys</p></dd><dt>returns</dt><dd class="cmt"><p>an immutable map consisting only of those key value pairs of this
+map where the key satisfies the predicate <code>p</code></p></dd></dl></div>
+    </li><li name="emblem.TypeKeyMap#filterNot" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="filterNot(p:emblem.typeBound.TypeBoundPair[TypeBound,emblem.TypeKey,Val,_&lt;:TypeBound]=&gt;Boolean):emblem.TypeKeyMap[TypeBound,Val]"></a>
+      <a id="filterNot((TypeBoundPair[TypeBound,TypeKey,Val,_&lt;:TypeBound])⇒Boolean):TypeKeyMap[TypeBound,Val]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filterNot</span><span class="params">(<span name="p">p: (<a href="typeBound/TypeBoundPair.html" class="extype" name="emblem.typeBound.TypeBoundPair">TypeBoundPair</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, _ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#emblem.TypeKeyMap@filterNot(p:emblem.typeBound.TypeBoundPair[TypeBound,emblem.TypeKey,Val,_&lt;:TypeBound]=&gt;Boolean):emblem.TypeKeyMap[TypeBound,Val]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">selects all elements of this TypeKeyMap which do not satisfy a predicate
+</p><div class="fullcomment"><div class="comment cmt"><p>selects all elements of this TypeKeyMap which do not satisfy a predicate
+</p></div><dl class="paramcmts block"><dt class="param">p</dt><dd class="cmt"><p>the predicate used to test elements</p></dd><dt>returns</dt><dd class="cmt"><p>a new TypeKeyMap consisting of all elements of this TypeKeyMap that
+do not satisfy the given predicate <code>p</code>. the order of the elements is
+preserved.</p></dd></dl></div>
+    </li><li name="emblem.TypeKeyMap#filterTypeBound" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="filterTypeBound[TypeBound2&lt;:TypeBound](implicitevidence$5:emblem.TypeKey[TypeBound2]):emblem.TypeKeyMap[TypeBound2,Val]"></a>
+      <a id="filterTypeBound[TypeBound2&lt;:TypeBound](TypeKey[TypeBound2]):TypeKeyMap[TypeBound2,Val]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filterTypeBound</span><span class="tparams">[<span name="TypeBound2">TypeBound2 &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[<span class="extype" name="emblem.TypeKeyMap.filterTypeBound.TypeBound2">TypeBound2</span>]</span>)</span><span class="result">: <a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a>[<span class="extype" name="emblem.TypeKeyMap.filterTypeBound.TypeBound2">TypeBound2</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#emblem.TypeKeyMap@filterTypeBound[TypeBound2&lt;:TypeBound](implicitevidence$5:emblem.TypeKey[TypeBound2]):emblem.TypeKeyMap[TypeBound2,Val]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">filters this map by retaining only pairs that meet the stricter type
+bound <code>TypeBound2</code>.</p><div class="fullcomment"><div class="comment cmt"><p>filters this map by retaining only pairs that meet the stricter type
+bound <code>TypeBound2</code>. returns a <code>TypeKeyMap</code> with the tighter type bound
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound2</dt><dd class="cmt"><p>the new type bound</p></dd></dl></div>
+    </li><li name="emblem.TypeKeyMap#filterValues" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="filterValues(p:Val[_&lt;:TypeBound]=&gt;Boolean):emblem.TypeKeyMap[TypeBound,Val]"></a>
+      <a id="filterValues((Val[_&lt;:TypeBound])⇒Boolean):TypeKeyMap[TypeBound,Val]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filterValues</span><span class="params">(<span name="p">p: (<span class="extype" name="emblem.TypeKeyMap.Val">Val</span>[_ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#emblem.TypeKeyMap@filterValues(p:Val[_&lt;:TypeBound]=&gt;Boolean):emblem.TypeKeyMap[TypeBound,Val]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">filters this map by retaining only values satisfying a predicate
+</p><div class="fullcomment"><div class="comment cmt"><p>filters this map by retaining only values satisfying a predicate
+</p></div><dl class="paramcmts block"><dt class="param">p</dt><dd class="cmt"><p>the predicate used to test values</p></dd><dt>returns</dt><dd class="cmt"><p>an immutable map consisting only of those key value pairs of this
+map where the value satisfies the predicate <code>p</code></p></dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -497,8 +606,8 @@ the other map, and vice versa.</p></div><dl class="paramcmts block"><dt class="p
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="emblem.BaseTypeBoundMap#foreach" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="foreach(f:emblem.TypeBoundPair[TypeBound,emblem.TypeKey,Val,_&lt;:TypeBound]=&gt;Unit):Unit"></a>
+    </li><li name="emblem.typeBound.BaseTypeBoundMap#foreach" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="foreach(f:emblem.typeBound.TypeBoundPair[TypeBound,emblem.TypeKey,Val,_&lt;:TypeBound]=&gt;Unit):Unit"></a>
       <a id="foreach((TypeBoundPair[TypeBound,TypeKey,Val,_&lt;:TypeBound])⇒Unit):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -506,10 +615,10 @@ the other map, and vice versa.</p></div><dl class="paramcmts block"><dt class="p
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">foreach</span><span class="params">(<span name="f">f: (<a href="TypeBoundPair.html" class="extype" name="emblem.TypeBoundPair">TypeBoundPair</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, _ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">foreach</span><span class="params">(<span name="f">f: (<a href="typeBound/TypeBoundPair.html" class="extype" name="emblem.typeBound.TypeBoundPair">TypeBoundPair</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, _ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#emblem.TypeKeyMap@foreach(f:emblem.TypeBoundPair[TypeBound,emblem.TypeKey,Val,_&lt;:TypeBound]=&gt;Unit):Unit" title="Permalink" target="_top">
+      <a href="../index.html#emblem.TypeKeyMap@foreach(f:emblem.typeBound.TypeBoundPair[TypeBound,emblem.TypeKey,Val,_&lt;:TypeBound]=&gt;Unit):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -522,7 +631,7 @@ discarded</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">foreach</span><span class="tparams">[<span name="U">U</span>]</span><span class="params">(<span name="f">f: (<a href="TypeBoundPair.html" class="extype" name="emblem.TypeBoundPair">TypeBoundPair</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, _ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]) ⇒ <span class="extype" name="emblem.BaseTypeBoundMap.foreach.U">U</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">foreach</span><span class="tparams">[<span name="U">U</span>]</span><span class="params">(<span name="f">f: (<a href="typeBound/TypeBoundPair.html" class="extype" name="emblem.typeBound.TypeBoundPair">TypeBoundPair</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, _ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]) ⇒ <span class="extype" name="emblem.typeBound.BaseTypeBoundMap.foreach.U">U</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4></div>
           </div></dl></div>
@@ -624,7 +733,7 @@ result of the <code>default</code> computation.</p></dd></dl></div>
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a> → BaseTypeBoundMap → AnyRef → Any</dd></dl></div>
-    </li><li name="emblem.BaseTypeBoundMap#isEmpty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="emblem.typeBound.BaseTypeBoundMap#isEmpty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isEmpty:Boolean"></a>
       <a id="isEmpty:Boolean"></a>
       <h4 class="signature">
@@ -658,8 +767,8 @@ result of the <code>default</code> computation.</p></dd></dl></div>
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="emblem.BaseTypeBoundMap#iterator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="iterator:Iterator[emblem.TypeBoundPair[TypeBound,Key,Val,_&lt;:TypeBound]]"></a>
+    </li><li name="emblem.typeBound.BaseTypeBoundMap#iterator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="iterator:Iterator[emblem.typeBound.TypeBoundPair[TypeBound,Key,Val,_&lt;:TypeBound]]"></a>
       <a id="iterator:Iterator[TypeBoundPair[TypeBound,TypeKey,Val,_&lt;:TypeBound]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -667,15 +776,15 @@ result of the <code>default</code> computation.</p></dd></dl></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">iterator</span><span class="result">: <span class="extype" name="scala.Iterator">Iterator</span>[<a href="TypeBoundPair.html" class="extype" name="emblem.TypeBoundPair">TypeBoundPair</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, _ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]]</span>
+        <span class="name">iterator</span><span class="result">: <span class="extype" name="scala.Iterator">Iterator</span>[<a href="typeBound/TypeBoundPair.html" class="extype" name="emblem.typeBound.TypeBoundPair">TypeBoundPair</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, _ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#emblem.TypeKeyMap@iterator:Iterator[emblem.TypeBoundPair[TypeBound,Key,Val,_&lt;:TypeBound]]" title="Permalink" target="_top">
+      <a href="../index.html#emblem.TypeKeyMap@iterator:Iterator[emblem.typeBound.TypeBoundPair[TypeBound,Key,Val,_&lt;:TypeBound]]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">creates a new iterator over all key/value pairs of this map</p><div class="fullcomment"><div class="comment cmt"><p>creates a new iterator over all key/value pairs of this map</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the new iterator</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>BaseTypeBoundMap</dd></dl></div>
-    </li><li name="emblem.BaseTypeBoundMap#keys" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="emblem.typeBound.BaseTypeBoundMap#keys" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="keys:Iterable[Key[_&lt;:TypeBound]]"></a>
       <a id="keys:Iterable[TypeKey[_&lt;:TypeBound]]"></a>
       <h4 class="signature">
@@ -693,7 +802,7 @@ result of the <code>default</code> computation.</p></dd></dl></div>
     </span>
       <p class="shortcomment cmt">collects all keys of this map in an iterable collection.</p><div class="fullcomment"><div class="comment cmt"><p>collects all keys of this map in an iterable collection.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the keys of this map as an iterable.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>BaseTypeBoundMap</dd></dl></div>
     </li><li name="emblem.TypeKeyMap#mapValues" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="mapValues[NewVal[_&lt;:TypeBound]](f:emblem.TypeBoundFunction[TypeBound,Val,NewVal]):emblem.TypeKeyMap[TypeBound,NewVal]"></a>
+      <a id="mapValues[NewVal[_&lt;:TypeBound]](f:emblem.typeBound.TypeBoundFunction[TypeBound,Val,NewVal]):emblem.TypeKeyMap[TypeBound,NewVal]"></a>
       <a id="mapValues[NewVal[_&lt;:TypeBound]](TypeBoundFunction[TypeBound,Val,NewVal]):TypeKeyMap[TypeBound,NewVal]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -701,17 +810,17 @@ result of the <code>default</code> computation.</p></dd></dl></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">mapValues</span><span class="tparams">[<span name="NewVal">NewVal<span class="tparams">[<span name="_">_ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span></span>]</span></span>]</span><span class="params">(<span name="f">f: <a href="TypeBoundFunction.html" class="extype" name="emblem.TypeBoundFunction">TypeBoundFunction</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, <span class="extype" name="emblem.TypeKeyMap.mapValues.NewVal">NewVal</span>]</span>)</span><span class="result">: <a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.mapValues.NewVal">NewVal</span>]</span>
+        <span class="name">mapValues</span><span class="tparams">[<span name="NewVal">NewVal<span class="tparams">[<span name="_">_ &lt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span></span>]</span></span>]</span><span class="params">(<span name="f">f: <a href="typeBound/TypeBoundFunction.html" class="extype" name="emblem.typeBound.TypeBoundFunction">TypeBoundFunction</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, <span class="extype" name="emblem.TypeKeyMap.mapValues.NewVal">NewVal</span>]</span>)</span><span class="result">: <a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.mapValues.NewVal">NewVal</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#emblem.TypeKeyMap@mapValues[NewVal[_&lt;:TypeBound]](f:emblem.TypeBoundFunction[TypeBound,Val,NewVal]):emblem.TypeKeyMap[TypeBound,NewVal]" title="Permalink" target="_top">
+      <a href="../index.html#emblem.TypeKeyMap@mapValues[NewVal[_&lt;:TypeBound]](f:emblem.typeBound.TypeBoundFunction[TypeBound,Val,NewVal]):emblem.TypeKeyMap[TypeBound,NewVal]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">transforms this type key map by applying a function to every retrieved value.</p><div class="fullcomment"><div class="comment cmt"><p>transforms this type key map by applying a function to every retrieved value.
 </p></div><dl class="paramcmts block"><dt class="tparam">NewVal</dt><dd class="cmt"><p>the new value type for the resulting map</p></dd><dt class="param">f</dt><dd class="cmt"><p>the function used to transform values of this map</p></dd><dt>returns</dt><dd class="cmt"><p>a map which maps every key of this map to f(this(key))</p></dd></dl></div>
-    </li><li name="emblem.BaseTypeBoundMap#mapValuesUnderlying" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="mapValuesUnderlying[TypeBound2&gt;:TypeBound,Val2[_&lt;:TypeBound2]](f:emblem.WideningTypeBoundFunction[TypeBound,TypeBound2,Val,Val2]):Map[Any,Any]"></a>
+    </li><li name="emblem.typeBound.BaseTypeBoundMap#mapValuesUnderlying" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="mapValuesUnderlying[TypeBound2&gt;:TypeBound,Val2[_&lt;:TypeBound2]](f:emblem.typeBound.WideningTypeBoundFunction[TypeBound,TypeBound2,Val,Val2]):Map[Any,Any]"></a>
       <a id="mapValuesUnderlying[TypeBound2&gt;:TypeBound,Val2[_&lt;:TypeBound2]](WideningTypeBoundFunction[TypeBound,TypeBound2,Val,Val2]):Map[Any,Any]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -719,16 +828,16 @@ result of the <code>default</code> computation.</p></dd></dl></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">mapValuesUnderlying</span><span class="tparams">[<span name="TypeBound2">TypeBound2 &gt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span></span>, <span name="Val2">Val2<span class="tparams">[<span name="_">_ &lt;: <span class="extype" name="emblem.BaseTypeBoundMap.mapValuesUnderlying.TypeBound2">TypeBound2</span></span>]</span></span>]</span><span class="params">(<span name="f">f: <a href="WideningTypeBoundFunction.html" class="extype" name="emblem.WideningTypeBoundFunction">WideningTypeBoundFunction</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.BaseTypeBoundMap.mapValuesUnderlying.TypeBound2">TypeBound2</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, <span class="extype" name="emblem.BaseTypeBoundMap.mapValuesUnderlying.Val2">Val2</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>
+        <span class="name">mapValuesUnderlying</span><span class="tparams">[<span name="TypeBound2">TypeBound2 &gt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span></span>, <span name="Val2">Val2<span class="tparams">[<span name="_">_ &lt;: <span class="extype" name="emblem.typeBound.BaseTypeBoundMap.mapValuesUnderlying.TypeBound2">TypeBound2</span></span>]</span></span>]</span><span class="params">(<span name="f">f: <a href="typeBound/WideningTypeBoundFunction.html" class="extype" name="emblem.typeBound.WideningTypeBoundFunction">WideningTypeBoundFunction</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.typeBound.BaseTypeBoundMap.mapValuesUnderlying.TypeBound2">TypeBound2</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, <span class="extype" name="emblem.typeBound.BaseTypeBoundMap.mapValuesUnderlying.Val2">Val2</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#emblem.TypeKeyMap@mapValuesUnderlying[TypeBound2&gt;:TypeBound,Val2[_&lt;:TypeBound2]](f:emblem.WideningTypeBoundFunction[TypeBound,TypeBound2,Val,Val2]):Map[Any,Any]" title="Permalink" target="_top">
+      <a href="../index.html#emblem.TypeKeyMap@mapValuesUnderlying[TypeBound2&gt;:TypeBound,Val2[_&lt;:TypeBound2]](f:emblem.typeBound.WideningTypeBoundFunction[TypeBound,TypeBound2,Val,Val2]):Map[Any,Any]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>BaseTypeBoundMap</dd></dl></div>
     </li><li name="emblem.TypeKeyMap#mapValuesWiden" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="mapValuesWiden[WiderTypeBound&gt;:TypeBound,NewVal[_&lt;:WiderTypeBound]](f:emblem.WideningTypeBoundFunction[TypeBound,WiderTypeBound,Val,NewVal]):emblem.TypeKeyMap[WiderTypeBound,NewVal]"></a>
+      <a id="mapValuesWiden[WiderTypeBound&gt;:TypeBound,NewVal[_&lt;:WiderTypeBound]](f:emblem.typeBound.WideningTypeBoundFunction[TypeBound,WiderTypeBound,Val,NewVal]):emblem.TypeKeyMap[WiderTypeBound,NewVal]"></a>
       <a id="mapValuesWiden[WiderTypeBound&gt;:TypeBound,NewVal[_&lt;:WiderTypeBound]](WideningTypeBoundFunction[TypeBound,WiderTypeBound,Val,NewVal]):TypeKeyMap[WiderTypeBound,NewVal]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -736,16 +845,17 @@ result of the <code>default</code> computation.</p></dd></dl></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">mapValuesWiden</span><span class="tparams">[<span name="WiderTypeBound">WiderTypeBound &gt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span></span>, <span name="NewVal">NewVal<span class="tparams">[<span name="_">_ &lt;: <span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.WiderTypeBound">WiderTypeBound</span></span>]</span></span>]</span><span class="params">(<span name="f">f: <a href="WideningTypeBoundFunction.html" class="extype" name="emblem.WideningTypeBoundFunction">WideningTypeBoundFunction</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.WiderTypeBound">WiderTypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, <span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.NewVal">NewVal</span>]</span>)</span><span class="result">: <a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a>[<span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.WiderTypeBound">WiderTypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.NewVal">NewVal</span>]</span>
+        <span class="name">mapValuesWiden</span><span class="tparams">[<span name="WiderTypeBound">WiderTypeBound &gt;: <span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span></span>, <span name="NewVal">NewVal<span class="tparams">[<span name="_">_ &lt;: <span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.WiderTypeBound">WiderTypeBound</span></span>]</span></span>]</span><span class="params">(<span name="f">f: <a href="typeBound/WideningTypeBoundFunction.html" class="extype" name="emblem.typeBound.WideningTypeBoundFunction">WideningTypeBoundFunction</a>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.WiderTypeBound">WiderTypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>, <span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.NewVal">NewVal</span>]</span>)</span><span class="result">: <a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a>[<span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.WiderTypeBound">WiderTypeBound</span>, <span class="extype" name="emblem.TypeKeyMap.mapValuesWiden.NewVal">NewVal</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#emblem.TypeKeyMap@mapValuesWiden[WiderTypeBound&gt;:TypeBound,NewVal[_&lt;:WiderTypeBound]](f:emblem.WideningTypeBoundFunction[TypeBound,WiderTypeBound,Val,NewVal]):emblem.TypeKeyMap[WiderTypeBound,NewVal]" title="Permalink" target="_top">
+      <a href="../index.html#emblem.TypeKeyMap@mapValuesWiden[WiderTypeBound&gt;:TypeBound,NewVal[_&lt;:WiderTypeBound]](f:emblem.typeBound.WideningTypeBoundFunction[TypeBound,WiderTypeBound,Val,NewVal]):emblem.TypeKeyMap[WiderTypeBound,NewVal]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">transforms this type key map into a type key map with a wider type bound by applying a function to every
-retrieved value.</p><div class="fullcomment"><div class="comment cmt"><p>transforms this type key map into a type key map with a wider type bound by applying a function to every
-retrieved value.
+      <p class="shortcomment cmt">transforms this type key map into a type key map with a wider type bound
+by applying a function to every retrieved value
+</p><div class="fullcomment"><div class="comment cmt"><p>transforms this type key map into a type key map with a wider type bound
+by applying a function to every retrieved value
 </p></div><dl class="paramcmts block"><dt class="tparam">WiderTypeBound</dt><dd class="cmt"><p>the new type bound for the resulting map</p></dd><dt class="tparam">NewVal</dt><dd class="cmt"><p>the new value type for the resulting map</p></dd><dt class="param">f</dt><dd class="cmt"><p>the function used to transform values of this map.</p></dd><dt>returns</dt><dd class="cmt"><p>a map which maps every key of this map to <code>f(this(key))</code>.</p></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
@@ -798,7 +908,7 @@ retrieved value.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="emblem.BaseTypeBoundMap#size" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="emblem.typeBound.BaseTypeBoundMap#size" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="size:Int"></a>
       <a id="size:Int"></a>
       <h4 class="signature">
@@ -849,7 +959,7 @@ retrieved value.
       </a>
     </span>
       <p class="shortcomment cmt">a string representation of a TypeKeyMap</p><div class="fullcomment"><div class="comment cmt"><p>a string representation of a TypeKeyMap</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a> → AnyRef → Any</dd></dl></div>
-    </li><li name="emblem.BaseTypeBoundMap#underlying" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="emblem.typeBound.BaseTypeBoundMap#underlying" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="underlying:Map[Any,Any]"></a>
       <a id="underlying:Map[Any,Any]"></a>
       <h4 class="signature">
@@ -866,7 +976,7 @@ retrieved value.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>BaseTypeBoundMap</dd></dl></div>
-    </li><li name="emblem.BaseTypeBoundMap#values" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="emblem.typeBound.BaseTypeBoundMap#values" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="values:Iterable[Val[_&lt;:TypeBound]]"></a>
       <a id="values:Iterable[Val[_&lt;:TypeBound]]"></a>
       <h4 class="signature">
@@ -968,9 +1078,11 @@ retrieved value.
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">returns the same <code>TypeKeyMap</code>, but with the value type as a wider type than the original
-value type</p><div class="fullcomment"><div class="comment cmt"><p>returns the same <code>TypeKeyMap</code>, but with the value type as a wider type than the original
-value type</p></div><dl class="paramcmts block"><dt class="tparam">Val2</dt><dd class="cmt"><p>the new value type</p></dd></dl></div>
+      <p class="shortcomment cmt">returns the same <code>TypeKeyMap</code>, but with the value type as a wider type
+than the original value type
+</p><div class="fullcomment"><div class="comment cmt"><p>returns the same <code>TypeKeyMap</code>, but with the value type as a wider type
+than the original value type
+</p></div><dl class="paramcmts block"><dt class="tparam">Val2</dt><dd class="cmt"><p>the new value type</p></dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
       <a id="→[B](B):(TypeKeyMap[TypeBound,Val],B)"></a>
@@ -1025,8 +1137,8 @@ value type</p></div><dl class="paramcmts block"><dt class="tparam">Val2</dt><dd 
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="emblem.BaseTypeBoundMap">
-              <h3>Inherited from <span class="extype" name="emblem.BaseTypeBoundMap">BaseTypeBoundMap</span>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>]</h3>
+        <div class="parent" name="emblem.typeBound.BaseTypeBoundMap">
+              <h3>Inherited from <span class="extype" name="emblem.typeBound.BaseTypeBoundMap">BaseTypeBoundMap</span>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>]</h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">

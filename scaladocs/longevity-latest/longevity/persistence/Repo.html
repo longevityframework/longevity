@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Repo - longevity 0.6.0 API - longevity.persistence.Repo</title>
-          <meta name="description" content="Repo - longevity 0.6.0 API - longevity.persistence.Repo" />
-          <meta name="keywords" content="Repo longevity 0.6.0 API longevity.persistence.Repo" />
+          <title>Repo - longevity 0.8-SNAPSHOT API - longevity.persistence.Repo</title>
+          <meta name="description" content="Repo - longevity 0.8 - SNAPSHOT API - longevity.persistence.Repo" />
+          <meta name="keywords" content="Repo longevity 0.8 SNAPSHOT API longevity.persistence.Repo" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a repository for persistent entities of type <code>P</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/persistence/Repo.scala" target="_blank">Repo.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a repository for persistent objects of type <code>P</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/persistence/Repo.scala" target="_blank">Repo.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -117,9 +117,9 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">creates the persistent entity
-</p><div class="fullcomment"><div class="comment cmt"><p>creates the persistent entity
-</p></div><dl class="paramcmts block"><dt class="param">unpersisted</dt><dd class="cmt"><p>the persistent entity to create</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
+      <p class="shortcomment cmt">creates the persistent object
+</p><div class="fullcomment"><div class="comment cmt"><p>creates the persistent object
+</p></div><dl class="paramcmts block"><dt class="param">unpersisted</dt><dd class="cmt"><p>the persistent object to create</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
     </li><li name="longevity.persistence.Repo#delete" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="delete(state:longevity.persistence.PState[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[longevity.persistence.Deleted[P]]"></a>
       <a id="delete(PState[P])(ExecutionContext):Future[Deleted[P]]"></a>
@@ -136,9 +136,9 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">deletes the persistent entity
-</p><div class="fullcomment"><div class="comment cmt"><p>deletes the persistent entity
-</p></div><dl class="paramcmts block"><dt class="param">state</dt><dd class="cmt"><p>the persistent state of the entity to delete</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
+      <p class="shortcomment cmt">deletes the persistent object
+</p><div class="fullcomment"><div class="comment cmt"><p>deletes the persistent object
+</p></div><dl class="paramcmts block"><dt class="param">state</dt><dd class="cmt"><p>the persistent state of the persistent object to delete</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
     </li><li name="longevity.persistence.Repo#retrieve" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="retrieve(ref:longevity.subdomain.PRef[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Option[longevity.persistence.PState[P]]]"></a>
       <a id="retrieve(PRef[P])(ExecutionContext):Future[Option[PState[P]]]"></a>
@@ -155,10 +155,10 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">retrieves an optional entity from a persistent ref
-</p><div class="fullcomment"><div class="comment cmt"><p>retrieves an optional entity from a persistent ref
-</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>the reference to use to look up the entity. this could be a
-<a href="../subdomain/ptype/KeyVal.html" class="extype" name="longevity.subdomain.ptype.KeyVal">KeyVal</a> or an
+      <p class="shortcomment cmt">retrieves an optional persistent object from a persistent ref
+</p><div class="fullcomment"><div class="comment cmt"><p>retrieves an optional persistent object from a persistent ref
+</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>the reference to use to look up the persistent object. this
+could be a <a href="../subdomain/ptype/KeyVal.html" class="extype" name="longevity.subdomain.ptype.KeyVal">KeyVal</a> or an
 <a href="../subdomain/Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a></p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/persistence/AssocIsUnpersistedException.html" class="extype" name="longevity.exceptions.persistence.AssocIsUnpersistedException"><code>longevity.exceptions.persistence.AssocIsUnpersistedException</code></a> 
 whenever the persistent ref is an unpersisted assoc</p></span></dd></dl></div>
     </li><li name="longevity.persistence.Repo#retrieveByQuery" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
@@ -177,8 +177,8 @@ whenever the persistent ref is an unpersisted assoc</p></span></dd></dl></div>
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">retrieves multiple persistent entities by a query
-</p><div class="fullcomment"><div class="comment cmt"><p>retrieves multiple persistent entities by a query
+      <p class="shortcomment cmt">retrieves multiple persistent objects by a query
+</p><div class="fullcomment"><div class="comment cmt"><p>retrieves multiple persistent objects by a query
 </p></div><dl class="paramcmts block"><dt class="param">query</dt><dd class="cmt"><p>the query to execute</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
     </li><li name="longevity.persistence.Repo#retrieveOne" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="retrieveOne(ref:longevity.subdomain.PRef[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[longevity.persistence.PState[P]]"></a>
@@ -196,8 +196,8 @@ whenever the persistent ref is an unpersisted assoc</p></span></dd></dl></div>
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">retrieves a non-optional entity from a persistent ref</p><div class="fullcomment"><div class="comment cmt"><p>retrieves a non-optional entity from a persistent ref</p><p>throws NoSuchElementException whenever the persistent ref does not refer
-to an entity in the repository
+      <p class="shortcomment cmt">retrieves a non-optional persistent object from a persistent ref</p><div class="fullcomment"><div class="comment cmt"><p>retrieves a non-optional persistent object from a persistent ref</p><p>throws NoSuchElementException whenever the persistent ref does not refer
+to a persistent object in the repository
 </p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>the reference to use to look up the entity. this could be a
 <a href="../subdomain/ptype/KeyVal.html" class="extype" name="longevity.subdomain.ptype.KeyVal">KeyVal</a> or an
 <a href="../subdomain/Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a></p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/persistence/AssocIsUnpersistedException.html" class="extype" name="longevity.exceptions.persistence.AssocIsUnpersistedException"><code>longevity.exceptions.persistence.AssocIsUnpersistedException</code></a> 
@@ -218,9 +218,9 @@ whenever the persistent ref is an unpersisted assoc</p></span></dd></dl></div>
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">updates the persistent entity
-</p><div class="fullcomment"><div class="comment cmt"><p>updates the persistent entity
-</p></div><dl class="paramcmts block"><dt class="param">state</dt><dd class="cmt"><p>the persistent state of the entity to update</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
+      <p class="shortcomment cmt">updates the persistent object
+</p><div class="fullcomment"><div class="comment cmt"><p>updates the persistent object
+</p></div><dl class="paramcmts block"><dt class="param">state</dt><dd class="cmt"><p>the persistent state of the persistent object to update</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
     </li></ol>
             </div>
 

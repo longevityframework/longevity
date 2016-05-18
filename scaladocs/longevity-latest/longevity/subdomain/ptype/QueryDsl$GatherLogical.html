@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>GatherLogical - longevity 0.6.0 API - longevity.subdomain.ptype.QueryDsl.GatherLogical</title>
-          <meta name="description" content="GatherLogical - longevity 0.6.0 API - longevity.subdomain.ptype.QueryDsl.GatherLogical" />
-          <meta name="keywords" content="GatherLogical longevity 0.6.0 API longevity.subdomain.ptype.QueryDsl.GatherLogical" />
+          <title>GatherLogical - longevity 0.8-SNAPSHOT API - longevity.subdomain.ptype.QueryDsl.GatherLogical</title>
+          <meta name="description" content="GatherLogical - longevity 0.8 - SNAPSHOT API - longevity.subdomain.ptype.QueryDsl.GatherLogical" />
+          <meta name="keywords" content="GatherLogical longevity 0.8 SNAPSHOT API longevity.subdomain.ptype.QueryDsl.GatherLogical" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,7 @@
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>gathering the rest of a logical expression, combining two expressions with
 and <code>and</code> or an <code>or</code>
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/subdomain/ptype/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/subdomain/ptype/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -219,18 +219,18 @@ and <code>and</code> or an <code>or</code>
     </span>
       <p class="shortcomment cmt">gather an <code>and</code> token a (possibly parenthesized) query, and prepare for a logical operator</p>
     </li><li name="longevity.subdomain.ptype.QueryDsl.GatherLogical#and" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="and[A](prop:longevity.subdomain.ptype.Prop[P,A]):QueryDsl.this.GatherRelational[A]"></a>
-      <a id="and[A](Prop[P,A]):GatherRelational[A]"></a>
+      <a id="and[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.persistent.Persistent,A]):QueryDsl.this.GatherRelational[A]"></a>
+      <a id="and[A](Prop[_&gt;:P&lt;:Persistent,A]):GatherRelational[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">and</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical.and.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$GatherRelational.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical.and.A">A</span>]</span>
+        <span class="name">and</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span> &lt;: <a href="../persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical.and.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$GatherRelational.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical.and.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherLogical@and[A](prop:longevity.subdomain.ptype.Prop[P,A]):QueryDsl.this.GatherRelational[A]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherLogical@and[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.persistent.Persistent,A]):QueryDsl.this.GatherRelational[A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -560,18 +560,18 @@ and <code>and</code> or an <code>or</code>
     </span>
       <p class="shortcomment cmt">gather an <code>or</code> token a (possibly parenthesized) query, and prepare for a logical operator</p>
     </li><li name="longevity.subdomain.ptype.QueryDsl.GatherLogical#or" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="or[A](prop:longevity.subdomain.ptype.Prop[P,A]):QueryDsl.this.GatherRelational[A]"></a>
-      <a id="or[A](Prop[P,A]):GatherRelational[A]"></a>
+      <a id="or[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.persistent.Persistent,A]):QueryDsl.this.GatherRelational[A]"></a>
+      <a id="or[A](Prop[_&gt;:P&lt;:Persistent,A]):GatherRelational[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">or</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical.or.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$GatherRelational.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical.or.A">A</span>]</span>
+        <span class="name">or</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span> &lt;: <a href="../persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical.or.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$GatherRelational.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical.or.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherLogical@or[A](prop:longevity.subdomain.ptype.Prop[P,A]):QueryDsl.this.GatherRelational[A]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherLogical@or[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.persistent.Persistent,A]):QueryDsl.this.GatherRelational[A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

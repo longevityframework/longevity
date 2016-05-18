@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ShorthandPool - longevity 0.6.0 API - longevity.subdomain.ShorthandPool</title>
-          <meta name="description" content="ShorthandPool - longevity 0.6.0 API - longevity.subdomain.ShorthandPool" />
-          <meta name="keywords" content="ShorthandPool longevity 0.6.0 API longevity.subdomain.ShorthandPool" />
+          <title>ShorthandPool - longevity 0.8-SNAPSHOT API - longevity.subdomain.ShorthandPool</title>
+          <meta name="description" content="ShorthandPool - longevity 0.8 - SNAPSHOT API - longevity.subdomain.ShorthandPool" />
+          <meta name="keywords" content="ShorthandPool longevity 0.8 SNAPSHOT API longevity.subdomain.ShorthandPool" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/subdomain/ShorthandPool.scala" target="_blank">ShorthandPool.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/subdomain/ShorthandPool.scala" target="_blank">ShorthandPool.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -154,15 +154,17 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="shorthands">shorthands: <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a>[_, _]*</span>)</span><span class="result">: <a href="package.html#ShorthandPool=emblem.imports.TypeKeyMap[Any,longevity.subdomain.package.ShorthandFor]" class="extmbr" name="longevity.subdomain.ShorthandPool">ShorthandPool</a></span>
+        <span class="name">apply</span><span class="params">(<span name="shorthands">shorthands: <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a>[_, _]*</span>)</span><span class="result">: <a href="package.html#ShorthandPool=emblem.TypeKeyMap[Any,longevity.subdomain.package.ShorthandFor]" class="extmbr" name="longevity.subdomain.ShorthandPool">ShorthandPool</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#longevity.subdomain.ShorthandPool$@apply(shorthands:longevity.subdomain.Shorthand[_,_]*):longevity.subdomain.ShorthandPool" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Collects a sequence of <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">shorthands</a> into a <a href="package.html#ShorthandPool=emblem.imports.TypeKeyMap[Any,longevity.subdomain.package.ShorthandFor]" class="extmbr" name="longevity.subdomain.ShorthandPool">ShorthandPool</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Collects a sequence of <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">shorthands</a> into a <a href="package.html#ShorthandPool=emblem.imports.TypeKeyMap[Any,longevity.subdomain.package.ShorthandFor]" class="extmbr" name="longevity.subdomain.ShorthandPool">ShorthandPool</a>.</p></div><dl class="paramcmts block"><dt class="param">shorthands</dt><dd class="cmt"><p>the sequence of shorthands stored in the pool</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/DuplicateShorthandsException.html" class="extype" name="longevity.exceptions.subdomain.DuplicateShorthandsException"><code>longevity.exceptions.subdomain.DuplicateShorthandsException</code></a> when two or more of the shorthands have the
-same Actual type</p></span></dd></dl></div>
+      <p class="shortcomment cmt">Collects a sequence of <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">shorthands</a> into a <a href="package.html#ShorthandPool=emblem.TypeKeyMap[Any,longevity.subdomain.package.ShorthandFor]" class="extmbr" name="longevity.subdomain.ShorthandPool">ShorthandPool</a>
+</p><div class="fullcomment"><div class="comment cmt"><p>Collects a sequence of <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">shorthands</a> into a <a href="package.html#ShorthandPool=emblem.TypeKeyMap[Any,longevity.subdomain.package.ShorthandFor]" class="extmbr" name="longevity.subdomain.ShorthandPool">ShorthandPool</a>
+</p></div><dl class="paramcmts block"><dt class="param">shorthands</dt><dd class="cmt"><p>the sequence of shorthands stored in the pool</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/DuplicateShorthandsException.html" class="extype" name="longevity.exceptions.subdomain.DuplicateShorthandsException"><code>longevity.exceptions.subdomain.DuplicateShorthandsException</code></a> when
+two or more of the shorthands have the same Actual type</p></span></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>

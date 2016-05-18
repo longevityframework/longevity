@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>persistence - longevity 0.6.0 API - longevity.persistence</title>
-          <meta name="description" content="persistence - longevity 0.6.0 API - longevity.persistence" />
-          <meta name="keywords" content="persistence longevity 0.6.0 API longevity.persistence" />
+          <title>persistence - longevity 0.8-SNAPSHOT API - longevity.persistence</title>
+          <meta name="description" content="persistence - longevity 0.8 - SNAPSHOT API - longevity.persistence" />
+          <meta name="keywords" content="persistence longevity 0.8 SNAPSHOT API longevity.persistence" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>manages entity persistence operations</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>manages entity persistence operations</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -104,7 +104,8 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">the result of deleting a persistent entity</p>
+      <p class="shortcomment cmt">the result of deleting a persistent object
+</p>
     </li><li name="longevity.persistence.FOPState" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="FOPState[P&lt;:longevity.subdomain.persistent.Persistent]=scala.concurrent.Future[Option[longevity.persistence.PState[P]]]"></a>
       <a id="FOPState[P&lt;:Persistent]:FOPState[P]"></a>
@@ -139,24 +140,6 @@
       </a>
     </span>
       <p class="shortcomment cmt">a future persistent state</p>
-    </li><li name="longevity.persistence.InMemRepo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="InMemRepo[P&lt;:longevity.subdomain.persistent.Persistent]extendsBaseRepo[P]"></a>
-      <a id="InMemRepo[P&lt;:Persistent]:InMemRepo[P]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a href="InMemRepo.html"><span class="name">InMemRepo</span></a><span class="tparams">[<span name="P">P &lt;: <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="result"> extends <span class="extype" name="longevity.persistence.BaseRepo">BaseRepo</span>[<span class="extype" name="longevity.persistence.InMemRepo.P">P</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.package@InMemRepo[P&lt;:longevity.subdomain.persistent.Persistent]extendsBaseRepo[P]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">an in-memory repository for persistent entities of type <code>P</code>
-</p>
     </li><li name="longevity.persistence.LiftFOPState" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="LiftFOPState[P&lt;:longevity.subdomain.persistent.Persistent]extendsAnyRef"></a>
       <a id="LiftFOPState[P&lt;:Persistent]:LiftFOPState[P]"></a>
@@ -207,7 +190,7 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">the persistent state of an entity of type <code>P</code></p>
+      <p class="shortcomment cmt">the persistent state of a persistent object of type <code>P</code></p>
     </li><li name="longevity.persistence.PWithTypeKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="PWithTypeKey[P&lt;:longevity.subdomain.persistent.Persistent]extendsAnyRef"></a>
       <a id="PWithTypeKey[P&lt;:Persistent]:PWithTypeKey[P]"></a>
@@ -224,9 +207,9 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">packages a <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">persistent entity</a>
-with a <code>TypeKey</code> for the entity's type.</p><div class="fullcomment"><div class="comment cmt"><p>packages a <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">persistent entity</a>
-with a <code>TypeKey</code> for the entity's type. used by <a href="RepoPool.html#createMany(keyedPs:longevity.persistence.PWithTypeKey[_&lt;:longevity.subdomain.persistent.Persistent]*)(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[_&lt;:longevity.subdomain.persistent.Persistent]]]" class="extmbr" name="longevity.persistence.RepoPool#createMany">RepoPool.createMany</a>.
+      <p class="shortcomment cmt">packages a <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">persistent object</a>
+with a <code>TypeKey</code> for the object's type.</p><div class="fullcomment"><div class="comment cmt"><p>packages a <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">persistent object</a>
+with a <code>TypeKey</code> for the object's type. used by <a href="RepoPool.html#createMany(keyedPs:longevity.persistence.PWithTypeKey[_&lt;:longevity.subdomain.persistent.Persistent]*)(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[_&lt;:longevity.subdomain.persistent.Persistent]]]" class="extmbr" name="longevity.persistence.RepoPool#createMany">RepoPool.createMany</a>.
 </p></div></div>
     </li><li name="longevity.persistence.Repo" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="Repo[P&lt;:longevity.subdomain.persistent.Persistent]extendsAnyRef"></a>
@@ -244,7 +227,7 @@ with a <code>TypeKey</code> for the entity's type. used by <a href="RepoPool.htm
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a repository for persistent entities of type <code>P</code></p>
+      <p class="shortcomment cmt">a repository for persistent objects of type <code>P</code></p>
     </li><li name="longevity.persistence.RepoPool" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="RepoPoolextendsAnyRef"></a>
       <a id="RepoPool:RepoPool"></a>
@@ -269,19 +252,36 @@ with a <code>TypeKey</code> for the entity's type. used by <a href="RepoPool.htm
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="longevity.persistence.InMemRepo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="InMemRepo"></a>
-      <a id="InMemRepo:InMemRepo"></a>
+              <ol><li name="longevity.persistence.inmem" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="inmem"></a>
+      <a id="inmem:inmem"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a href="InMemRepo$.html"><span class="name">InMemRepo</span></a>
+        <a href="inmem/package.html"><span class="name">inmem</span></a>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.package@InMemRepo" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.package@inmem" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="longevity.persistence.mongo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="mongo"></a>
+      <a id="mongo:mongo"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="mongo/package.html"><span class="name">mongo</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.persistence.package@mongo" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

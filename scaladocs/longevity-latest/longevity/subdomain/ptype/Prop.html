@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Prop - longevity 0.6.0 API - longevity.subdomain.ptype.Prop</title>
-          <meta name="description" content="Prop - longevity 0.6.0 API - longevity.subdomain.ptype.Prop" />
-          <meta name="keywords" content="Prop longevity 0.6.0 API longevity.subdomain.ptype.Prop" />
+          <title>Prop - longevity 0.8-SNAPSHOT API - longevity.subdomain.ptype.Prop</title>
+          <meta name="description" content="Prop - longevity 0.8 - SNAPSHOT API - longevity.subdomain.ptype.Prop" />
+          <meta name="keywords" content="Prop longevity 0.8 SNAPSHOT API longevity.subdomain.ptype.Prop" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,12 +28,10 @@
         </head>
         <body class="type">
       <div id="definition">
-        <a href="Prop$.html" title="See companion object"><img alt="Class/Object" src="../../../lib/class_to_object_big.png" /></a>
+        <img alt="Class" src="../../../lib/class_big.png" />
         <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.subdomain">subdomain</a>.<a href="package.html" class="extype" name="longevity.subdomain.ptype">ptype</a></p>
-        <h1><a href="Prop$.html" title="See companion object">Prop</a></h1><h3><span class="morelinks"><div>
-            Related Docs:
-            <a href="Prop$.html" title="See companion object">object Prop</a>
-            | <a href="package.html" class="extype" name="longevity.subdomain.ptype">package ptype</a>
+        <h1>Prop</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="longevity.subdomain.ptype">package ptype</a>
           </div></span></h3><span class="permalink">
       <a href="../../../index.html#longevity.subdomain.ptype.Prop" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
@@ -56,7 +54,7 @@ and <a href="Index.html" class="extype" name="longevity.subdomain.ptype.Index">i
 can descend from the root into child entities at any depth. at present, a
 property cannot pass through any collections. at present, the type of the
 property must be an <a href="../Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a>, a <a href="../Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a>, or a basic type.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/subdomain/ptype/Prop.scala" target="_blank">Prop.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p><code>emblem.basicTypes</code></p></span></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/subdomain/ptype/Prop.scala" target="_blank">Prop.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p><code>emblem.emblematic.basicTypes</code></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -501,6 +499,23 @@ property must be an <a href="../Assoc.html" class="extype" name="longevity.subdo
 if the ordering is accessed, and the property value type is not a type
 for which orderings are supported. right now, we only support orderings
 for basic types</p></span></dd></dl></div>
+    </li><li name="longevity.subdomain.ptype.Prop#pTypeKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="pTypeKey:emblem.TypeKey[P]"></a>
+      <a id="pTypeKey:TypeKey[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pTypeKey</span><span class="result">: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.ptype.Prop.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.Prop@pTypeKey:emblem.TypeKey[P]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">the <code>TypeKey</code> for the enclosing <a href="PType.html" class="extype" name="longevity.subdomain.ptype.PType">persistent type</a></p>
     </li><li name="longevity.subdomain.ptype.Prop#path" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="path:String"></a>
       <a id="path:String"></a>
@@ -518,6 +533,23 @@ for basic types</p></span></dd></dl></div>
       </a>
     </span>
       <p class="shortcomment cmt">a dot-separated path of the property descending from the root</p>
+    </li><li name="longevity.subdomain.ptype.Prop#propTypeKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="propTypeKey:emblem.TypeKey[A]"></a>
+      <a id="propTypeKey:TypeKey[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">propTypeKey</span><span class="result">: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.ptype.Prop.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.Prop@propTypeKey:emblem.TypeKey[A]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">the <code>TypeKey</code> for the property value type</p>
     </li><li name="longevity.subdomain.ptype.Prop#propVal" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="propVal(p:P):A"></a>
       <a id="propVal(P):A"></a>
@@ -534,7 +566,9 @@ for basic types</p></span></dd></dl></div>
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">the value of this property for a persistent</p><div class="fullcomment"><div class="comment cmt"><p>the value of this property for a persistent</p></div><dl class="paramcmts block"><dt class="param">p</dt><dd class="cmt"><p>the persistent we are looking up the value of the property for</p></dd></dl></div>
+      <p class="shortcomment cmt">the value of this property for a persistent
+</p><div class="fullcomment"><div class="comment cmt"><p>the value of this property for a persistent
+</p></div><dl class="paramcmts block"><dt class="param">p</dt><dd class="cmt"><p>the persistent we are looking up the value of the property for</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -569,23 +603,6 @@ for basic types</p></span></dd></dl></div>
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a> → AnyRef → Any</dd></dl></div>
-    </li><li name="longevity.subdomain.ptype.Prop#typeKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="typeKey:emblem.imports.TypeKey[A]"></a>
-      <a id="typeKey:TypeKey[A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">typeKey</span><span class="result">: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.ptype.Prop.A">A</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Prop@typeKey:emblem.imports.TypeKey[A]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">the <code>TypeKey</code> for the property value type</p>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>LiftFPState - longevity 0.6.0 API - longevity.persistence.LiftFPState</title>
-          <meta name="description" content="LiftFPState - longevity 0.6.0 API - longevity.persistence.LiftFPState" />
-          <meta name="keywords" content="LiftFPState longevity 0.6.0 API longevity.persistence.LiftFPState" />
+          <title>LiftFPState - longevity 0.8-SNAPSHOT API - longevity.persistence.LiftFPState</title>
+          <meta name="description" content="LiftFPState - longevity 0.8 - SNAPSHOT API - longevity.persistence.LiftFPState" />
+          <meta name="keywords" content="LiftFPState longevity 0.8 SNAPSHOT API longevity.persistence.LiftFPState" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>extension methods for an <a href="package.html#FPState[P&lt;:longevity.subdomain.persistent.Persistent]=scala.concurrent.Future[longevity.persistence.PState[P]]" class="extmbr" name="longevity.persistence.FPState">FPState</a></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>extension methods for an <a href="package.html#FPState[P&lt;:longevity.subdomain.persistent.Persistent]=scala.concurrent.Future[longevity.persistence.PState[P]]" class="extmbr" name="longevity.persistence.FPState">FPState</a></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -98,7 +98,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="longevity.persistence.LiftFPState#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(fpState:longevity.persistence.package.FPState[P]):longevity.persistence.package.LiftFPState[P]"></a>
+      <a id="&lt;init&gt;(fpState:longevity.persistence.package.FPState[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):longevity.persistence.package.LiftFPState[P]"></a>
       <a id="&lt;init&gt;:LiftFPState[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -106,10 +106,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">LiftFPState</span><span class="params">(<span name="fpState">fpState: <a href="package.html#FPState[P&lt;:longevity.subdomain.persistent.Persistent]=scala.concurrent.Future[longevity.persistence.PState[P]]" class="extmbr" name="longevity.persistence.FPState">FPState</a>[<span class="extype" name="longevity.persistence.LiftFPState.P">P</span>]</span>)</span>
+        <span class="name">LiftFPState</span><span class="params">(<span name="fpState">fpState: <a href="package.html#FPState[P&lt;:longevity.subdomain.persistent.Persistent]=scala.concurrent.Future[longevity.persistence.PState[P]]" class="extmbr" name="longevity.persistence.FPState">FPState</a>[<span class="extype" name="longevity.persistence.LiftFPState.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="executionContext">executionContext: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.ExecutionContext" class="extype" target="_top">ExecutionContext</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.package$$LiftFPState@&lt;init&gt;(fpState:longevity.persistence.package.FPState[P]):longevity.persistence.package.LiftFPState[P]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.package$$LiftFPState@&lt;init&gt;(fpState:longevity.persistence.package.FPState[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):longevity.persistence.package.LiftFPState[P]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -416,7 +416,7 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">flatMap the future PState by mapping the entity inside the PState into a <code>Future[P]</code></p>
+      <p class="shortcomment cmt">flatMap the future PState by mapping the Persistent inside the PState into a <code>Future[P]</code></p>
     </li><li name="scala.Predef.StringFormat#formatted" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="formatted(fmtstr:String):String"></a>
       <a id="formatted(String):String"></a>
@@ -508,7 +508,7 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">map the future PState by mapping the entity inside the PState</p>
+      <p class="shortcomment cmt">map the future PState by mapping the Persistent inside the PState</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>

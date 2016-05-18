@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>PWithTypeKey - longevity 0.6.0 API - longevity.persistence.PWithTypeKey</title>
-          <meta name="description" content="PWithTypeKey - longevity 0.6.0 API - longevity.persistence.PWithTypeKey" />
-          <meta name="keywords" content="PWithTypeKey longevity 0.6.0 API longevity.persistence.PWithTypeKey" />
+          <title>PWithTypeKey - longevity 0.8-SNAPSHOT API - longevity.persistence.PWithTypeKey</title>
+          <meta name="description" content="PWithTypeKey - longevity 0.8 - SNAPSHOT API - longevity.persistence.PWithTypeKey" />
+          <meta name="keywords" content="PWithTypeKey longevity 0.8 SNAPSHOT API longevity.persistence.PWithTypeKey" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,9 +49,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>packages a <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">persistent entity</a>
-with a <code>TypeKey</code> for the entity's type. used by <a href="RepoPool.html#createMany(keyedPs:longevity.persistence.PWithTypeKey[_&lt;:longevity.subdomain.persistent.Persistent]*)(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[_&lt;:longevity.subdomain.persistent.Persistent]]]" class="extmbr" name="longevity.persistence.RepoPool#createMany">RepoPool.createMany</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>packages a <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">persistent object</a>
+with a <code>TypeKey</code> for the object's type. used by <a href="RepoPool.html#createMany(keyedPs:longevity.persistence.PWithTypeKey[_&lt;:longevity.subdomain.persistent.Persistent]*)(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[_&lt;:longevity.subdomain.persistent.Persistent]]]" class="extmbr" name="longevity.persistence.RepoPool#createMany">RepoPool.createMany</a>.
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -100,7 +100,7 @@ with a <code>TypeKey</code> for the entity's type. used by <a href="RepoPool.htm
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="longevity.persistence.PWithTypeKey#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(p:P)(implicitevidence$1:emblem.imports.TypeKey[P]):longevity.persistence.package.PWithTypeKey[P]"></a>
+      <a id="&lt;init&gt;(p:P)(implicitevidence$1:emblem.TypeKey[P]):longevity.persistence.package.PWithTypeKey[P]"></a>
       <a id="&lt;init&gt;:PWithTypeKey[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -108,10 +108,10 @@ with a <code>TypeKey</code> for the entity's type. used by <a href="RepoPool.htm
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">PWithTypeKey</span><span class="params">(<span name="p">p: <span class="extype" name="longevity.persistence.PWithTypeKey.P">P</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.persistence.PWithTypeKey.P">P</span>]</span>)</span>
+        <span class="name">PWithTypeKey</span><span class="params">(<span name="p">p: <span class="extype" name="longevity.persistence.PWithTypeKey.P">P</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.persistence.PWithTypeKey.P">P</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.package$$PWithTypeKey@&lt;init&gt;(p:P)(implicitevidence$1:emblem.imports.TypeKey[P]):longevity.persistence.package.PWithTypeKey[P]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.package$$PWithTypeKey@&lt;init&gt;(p:P)(implicitevidence$1:emblem.TypeKey[P]):longevity.persistence.package.PWithTypeKey[P]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -546,7 +546,7 @@ with a <code>TypeKey</code> for the entity's type. used by <a href="RepoPool.htm
     </span>
       
     </li><li name="longevity.persistence.PWithTypeKey#pTypeKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="pTypeKey:emblem.imports.TypeKey[P]"></a>
+      <a id="pTypeKey:emblem.TypeKey[P]"></a>
       <a id="pTypeKey:TypeKey[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -554,10 +554,10 @@ with a <code>TypeKey</code> for the entity's type. used by <a href="RepoPool.htm
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">pTypeKey</span><span class="result">: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.persistence.PWithTypeKey.P">P</span>]</span>
+        <span class="name">pTypeKey</span><span class="result">: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.persistence.PWithTypeKey.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.package$$PWithTypeKey@pTypeKey:emblem.imports.TypeKey[P]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.package$$PWithTypeKey@pTypeKey:emblem.TypeKey[P]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Subdomain - longevity 0.6.0 API - longevity.subdomain.Subdomain</title>
-          <meta name="description" content="Subdomain - longevity 0.6.0 API - longevity.subdomain.Subdomain" />
-          <meta name="keywords" content="Subdomain longevity 0.6.0 API longevity.subdomain.Subdomain" />
+          <title>Subdomain - longevity 0.8-SNAPSHOT API - longevity.subdomain.Subdomain</title>
+          <meta name="description" content="Subdomain - longevity 0.8 - SNAPSHOT API - longevity.subdomain.Subdomain" />
+          <meta name="keywords" content="Subdomain longevity 0.8 SNAPSHOT API longevity.subdomain.Subdomain" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/subdomain/Subdomain.scala" target="_blank">Subdomain.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/subdomain/Subdomain.scala" target="_blank">Subdomain.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -148,23 +148,23 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.subdomain.Subdomain#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(name:String,entityTypePool:longevity.subdomain.EntityTypePool)(implicitshorthandPool:longevity.subdomain.ShorthandPool):longevity.subdomain.Subdomain"></a>
-      <a id="apply(String,EntityTypePool)(ShorthandPool):Subdomain"></a>
+      <a id="apply(name:String,pTypePool:longevity.subdomain.ptype.PTypePool,entityTypePool:longevity.subdomain.entity.EntityTypePool,shorthandPool:longevity.subdomain.ShorthandPool):longevity.subdomain.Subdomain"></a>
+      <a id="apply(String,PTypePool,EntityTypePool,ShorthandPool):Subdomain"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entityTypePool">entityTypePool: <a href="package.html#EntityTypePool=emblem.imports.TypeKeyMap[longevity.subdomain.Entity,longevity.subdomain.EntityType]" class="extmbr" name="longevity.subdomain.EntityTypePool">EntityTypePool</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="shorthandPool">shorthandPool: <a href="package.html#ShorthandPool=emblem.imports.TypeKeyMap[Any,longevity.subdomain.package.ShorthandFor]" class="extmbr" name="longevity.subdomain.ShorthandPool">ShorthandPool</a> = <span class="symbol"><span class="name"><a href="ShorthandPool$.html">ShorthandPool()</a></span></span></span>)</span><span class="result">: <a href="Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a></span>
+        <span class="name">apply</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="pTypePool">pTypePool: <a href="ptype/package.html#PTypePool=emblem.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a> = <span class="symbol"><span class="name"><a href="../package.html">PTypePool.empty</a></span></span></span>, <span name="entityTypePool">entityTypePool: <a href="entity/package.html#EntityTypePool=emblem.TypeKeyMap[longevity.subdomain.entity.Entity,longevity.subdomain.entity.EntityType]" class="extmbr" name="longevity.subdomain.entity.EntityTypePool">EntityTypePool</a> = <span class="symbol"><span class="name"><a href="../package.html">EntityTypePool.empty</a></span></span></span>, <span name="shorthandPool">shorthandPool: <a href="package.html#ShorthandPool=emblem.TypeKeyMap[Any,longevity.subdomain.package.ShorthandFor]" class="extmbr" name="longevity.subdomain.ShorthandPool">ShorthandPool</a> = <span class="symbol"><span class="name"><a href="ShorthandPool$.html">ShorthandPool.empty</a></span></span></span>)</span><span class="result">: <a href="Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.Subdomain$@apply(name:String,entityTypePool:longevity.subdomain.EntityTypePool)(implicitshorthandPool:longevity.subdomain.ShorthandPool):longevity.subdomain.Subdomain" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.subdomain.Subdomain$@apply(name:String,pTypePool:longevity.subdomain.ptype.PTypePool,entityTypePool:longevity.subdomain.entity.EntityTypePool,shorthandPool:longevity.subdomain.ShorthandPool):longevity.subdomain.Subdomain" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">constructs a new subdomain.</p><div class="fullcomment"><div class="comment cmt"><p>constructs a new subdomain.
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the subdomain</p></dd><dt class="param">entityTypePool</dt><dd class="cmt"><p>a complete set of the entity types within the subdomain</p></dd><dt class="param">shorthandPool</dt><dd class="cmt"><p>a complete set of the shorthands used by the bounded context. defaults to empty</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the subdomain</p></dd><dt class="param">pTypePool</dt><dd class="cmt"><p>a complete set of the persistent types in the subdomain. defaults to empty</p></dd><dt class="param">entityTypePool</dt><dd class="cmt"><p>a complete set of the entity types within the subdomain. defaults to empty</p></dd><dt class="param">shorthandPool</dt><dd class="cmt"><p>a complete set of the shorthands used by the bounded context. defaults to empty</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Shorthand - longevity 0.6.0 API - longevity.subdomain.Shorthand</title>
-          <meta name="description" content="Shorthand - longevity 0.6.0 API - longevity.subdomain.Shorthand" />
-          <meta name="keywords" content="Shorthand longevity 0.6.0 API longevity.subdomain.Shorthand" />
+          <title>Shorthand - longevity 0.8-SNAPSHOT API - longevity.subdomain.Shorthand</title>
+          <meta name="description" content="Shorthand - longevity 0.8 - SNAPSHOT API - longevity.subdomain.Shorthand" />
+          <meta name="keywords" content="Shorthand longevity 0.8 SNAPSHOT API longevity.subdomain.Shorthand" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/subdomain/Shorthand.scala" target="_blank">Shorthand.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/subdomain/Shorthand.scala" target="_blank">Shorthand.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -148,7 +148,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.subdomain.Shorthand#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply[Actual,Abbreviated](implicitevidence$1:emblem.imports.TypeKey[Actual],implicitevidence$2:emblem.imports.TypeKey[Abbreviated]):longevity.subdomain.Shorthand[Actual,Abbreviated]"></a>
+      <a id="apply[Actual,Abbreviated](implicitevidence$3:emblem.TypeKey[Actual],implicitevidence$4:emblem.TypeKey[Abbreviated]):longevity.subdomain.Shorthand[Actual,Abbreviated]"></a>
       <a id="apply[Actual,Abbreviated](TypeKey[Actual],TypeKey[Abbreviated]):Shorthand[Actual,Abbreviated]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -156,16 +156,20 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="Actual">Actual</span>, <span name="Abbreviated">Abbreviated</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.Shorthand.apply.Actual">Actual</span>]</span>, <span name="arg1">arg1: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.Shorthand.apply.Abbreviated">Abbreviated</span>]</span>)</span><span class="result">: <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a>[<span class="extype" name="longevity.subdomain.Shorthand.apply.Actual">Actual</span>, <span class="extype" name="longevity.subdomain.Shorthand.apply.Abbreviated">Abbreviated</span>]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="Actual">Actual</span>, <span name="Abbreviated">Abbreviated</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.Shorthand.apply.Actual">Actual</span>]</span>, <span name="arg1">arg1: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.Shorthand.apply.Abbreviated">Abbreviated</span>]</span>)</span><span class="result">: <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a>[<span class="extype" name="longevity.subdomain.Shorthand.apply.Actual">Actual</span>, <span class="extype" name="longevity.subdomain.Shorthand.apply.Abbreviated">Abbreviated</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.Shorthand$@apply[Actual,Abbreviated](implicitevidence$1:emblem.imports.TypeKey[Actual],implicitevidence$2:emblem.imports.TypeKey[Abbreviated]):longevity.subdomain.Shorthand[Actual,Abbreviated]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.subdomain.Shorthand$@apply[Actual,Abbreviated](implicitevidence$3:emblem.TypeKey[Actual],implicitevidence$4:emblem.TypeKey[Abbreviated]):longevity.subdomain.Shorthand[Actual,Abbreviated]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">creates and returns a <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a> for the specified types <code>Actual</code> and <code>Abbreviated</code>.</p><div class="fullcomment"><div class="comment cmt"><p>creates and returns a <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a> for the specified types <code>Actual</code> and <code>Abbreviated</code>. <code>Actual</code> must be
-a stable case class with single a parameter list. <code>Abbreviated</code> must be a basic type.</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/ShorthandCreationException.html" class="extype" name="longevity.exceptions.subdomain.ShorthandCreationException"><code>longevity.exceptions.subdomain.ShorthandCreationException</code></a> when <code>Abbreviated</code> is not a basic type, or when
-<code>Actual</code> is not a stable case class with a single parameter list</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><code>emblem.basicTypes</code></p></span></dd></dl></div>
+      <p class="shortcomment cmt">creates and returns a <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a> for the specified types <code>Actual</code> and
+<code>Abbreviated</code>.</p><div class="fullcomment"><div class="comment cmt"><p>creates and returns a <a href="Shorthand.html" class="extype" name="longevity.subdomain.Shorthand">Shorthand</a> for the specified types <code>Actual</code> and
+<code>Abbreviated</code>. <code>Actual</code> must be a stable case class with single a parameter
+list. <code>Abbreviated</code> must be a basic type.
+</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/ShorthandCreationException.html" class="extype" name="longevity.exceptions.subdomain.ShorthandCreationException"><code>longevity.exceptions.subdomain.ShorthandCreationException</code></a> when
+<code>Abbreviated</code> is not a basic type, or when <code>Actual</code> is not a stable case
+class with a single parameter list</p></span></dd><dt>See also</dt><dd><span class="cmt"><p><code>emblem.emblematic.basicTypes</code></p></span></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>

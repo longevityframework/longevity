@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>RepoPool - longevity 0.6.0 API - longevity.persistence.RepoPool</title>
-          <meta name="description" content="RepoPool - longevity 0.6.0 API - longevity.persistence.RepoPool" />
-          <meta name="keywords" content="RepoPool longevity 0.6.0 API longevity.persistence.RepoPool" />
+          <title>RepoPool - longevity 0.8-SNAPSHOT API - longevity.persistence.RepoPool</title>
+          <meta name="description" content="RepoPool - longevity 0.8 - SNAPSHOT API - longevity.persistence.RepoPool" />
+          <meta name="keywords" content="RepoPool longevity 0.8 SNAPSHOT API longevity.persistence.RepoPool" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a collection of repositories</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/persistence/RepoPool.scala" target="_blank">RepoPool.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a collection of repositories</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/persistence/RepoPool.scala" target="_blank">RepoPool.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -98,7 +98,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="longevity.persistence.RepoPool#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(baseRepoMap:emblem.imports.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.persistence.BaseRepo]):longevity.persistence.RepoPool"></a>
+      <a id="&lt;init&gt;(baseRepoMap:emblem.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.persistence.BaseRepo]):longevity.persistence.RepoPool"></a>
       <a id="&lt;init&gt;:RepoPool"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -106,10 +106,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">RepoPool</span><span class="params">(<span name="baseRepoMap">baseRepoMap: <span class="extype" name="emblem.imports.TypeKeyMap">TypeKeyMap</span>[<a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a>, <span class="extype" name="longevity.persistence.BaseRepo">BaseRepo</span>]</span>)</span>
+        <span class="name">RepoPool</span><span class="params">(<span name="baseRepoMap">baseRepoMap: <span class="extype" name="emblem.TypeKeyMap">TypeKeyMap</span>[<a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a>, <span class="extype" name="longevity.persistence.BaseRepo">BaseRepo</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.RepoPool@&lt;init&gt;(baseRepoMap:emblem.imports.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.persistence.BaseRepo]):longevity.persistence.RepoPool" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.RepoPool@&lt;init&gt;(baseRepoMap:emblem.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.persistence.BaseRepo]):longevity.persistence.RepoPool" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -220,7 +220,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.persistence.RepoPool#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="apply[P&lt;:longevity.subdomain.persistent.Persistent](implicitevidence$1:emblem.imports.TypeKey[P]):longevity.persistence.Repo[P]"></a>
+      <a id="apply[P&lt;:longevity.subdomain.persistent.Persistent](implicitevidence$1:emblem.TypeKey[P]):longevity.persistence.Repo[P]"></a>
       <a id="apply[P&lt;:Persistent](TypeKey[P]):Repo[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -228,14 +228,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="P">P &lt;: <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.imports.TypeKey">TypeKey</span>[<span class="extype" name="longevity.persistence.RepoPool.apply.P">P</span>]</span>)</span><span class="result">: <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>[<span class="extype" name="longevity.persistence.RepoPool.apply.P">P</span>]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="P">P &lt;: <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.persistence.RepoPool.apply.P">P</span>]</span>)</span><span class="result">: <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>[<span class="extype" name="longevity.persistence.RepoPool.apply.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.RepoPool@apply[P&lt;:longevity.subdomain.persistent.Persistent](implicitevidence$1:emblem.imports.TypeKey[P]):longevity.persistence.Repo[P]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.RepoPool@apply[P&lt;:longevity.subdomain.persistent.Persistent](implicitevidence$1:emblem.TypeKey[P]):longevity.persistence.Repo[P]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">select a repository by the type of persistent entity</p>
+      <p class="shortcomment cmt">select a repository by the type of persistent object</p>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -292,11 +292,12 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">creates many entities at once.</p><div class="fullcomment"><div class="comment cmt"><p>creates many entities at once. this method is the only way to persist
-aggregates with embedded unpersisted associations. any aggregates embedded
-this way must be present in the argument list <code>keyedPs</code>.</p><p>because <a href="package$$PWithTypeKey.html" class="extype" name="longevity.persistence.PWithTypeKey">PWithTypeKey</a> is an implicit class, you can call this method
+      <p class="shortcomment cmt">creates many persistent objects at once.</p><div class="fullcomment"><div class="comment cmt"><p>creates many persistent objects at once. this method is the only way to
+persist aggregates with embedded unpersisted associations. any aggregates
+embedded this way must be present in the argument list <code>keyedPs</code>.</p><p>because <a href="package$$PWithTypeKey.html" class="extype" name="longevity.persistence.PWithTypeKey">PWithTypeKey</a> is an implicit class, you can call this method
 using just aggregate roots, and the roots will be converted to
-<code>PWithTypeKey</code> implicitly:</p><pre>repoPool.createMany(user1, user2, user2, blogPost1, blogPost2, blog)</pre></div><dl class="paramcmts block"><dt class="param">keyedPs</dt><dd class="cmt"><p>the persistent entities to persist, wrapped with their <code>TypeKeys</code>.</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>[Assoc.apply]</p></span></dd></dl></div>
+<code>PWithTypeKey</code> implicitly:</p><pre>repoPool.createMany(user1, user2, user2, blogPost1, blogPost2, blog)</pre></div><dl class="paramcmts block"><dt class="param">keyedPs</dt><dd class="cmt"><p>the persistent objects to persist, wrapped with their
+<code>TypeKeys</code></p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>[Assoc.apply]</p></span></dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
       <a id="ensuring((RepoPool)⇒Boolean,⇒Any):RepoPool"></a>
@@ -599,7 +600,7 @@ using just aggregate roots, and the roots will be converted to
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.persistence.RepoPool#typeKeyMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="typeKeyMap:emblem.imports.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.persistence.Repo]"></a>
+      <a id="typeKeyMap:emblem.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.persistence.Repo]"></a>
       <a id="typeKeyMap:TypeKeyMap[Persistent,Repo]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -607,10 +608,10 @@ using just aggregate roots, and the roots will be converted to
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">typeKeyMap</span><span class="result">: <span class="extype" name="emblem.imports.TypeKeyMap">TypeKeyMap</span>[<a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a>, <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>]</span>
+        <span class="name">typeKeyMap</span><span class="result">: <span class="extype" name="emblem.TypeKeyMap">TypeKeyMap</span>[<a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a>, <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.RepoPool@typeKeyMap:emblem.imports.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.persistence.Repo]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.RepoPool@typeKeyMap:emblem.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.persistence.Repo]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

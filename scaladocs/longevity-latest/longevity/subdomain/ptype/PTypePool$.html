@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>PTypePool - longevity 0.6.0 API - longevity.subdomain.ptype.PTypePool</title>
-          <meta name="description" content="PTypePool - longevity 0.6.0 API - longevity.subdomain.ptype.PTypePool" />
-          <meta name="keywords" content="PTypePool longevity 0.6.0 API longevity.subdomain.ptype.PTypePool" />
+          <title>PTypePool - longevity 0.8-SNAPSHOT API - longevity.subdomain.ptype.PTypePool</title>
+          <meta name="description" content="PTypePool - longevity 0.8 - SNAPSHOT API - longevity.subdomain.ptype.PTypePool" />
+          <meta name="keywords" content="PTypePool longevity 0.8 SNAPSHOT API longevity.subdomain.ptype.PTypePool" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>houses methods for constructing persistent type pools</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/subdomain/ptype/PTypePool.scala" target="_blank">PTypePool.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>houses methods for constructing persistent type pools</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/subdomain/ptype/PTypePool.scala" target="_blank">PTypePool.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -146,7 +146,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.subdomain.ptype.PTypePool#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(entityTypes:longevity.subdomain.ptype.PType[_&lt;:longevity.subdomain.persistent.Persistent]*):longevity.subdomain.ptype.PTypePool"></a>
+      <a id="apply(pTypes:longevity.subdomain.ptype.PType[_&lt;:longevity.subdomain.persistent.Persistent]*):longevity.subdomain.ptype.PTypePool"></a>
       <a id="apply(PType[_&lt;:Persistent]*):PTypePool"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -154,39 +154,20 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="entityTypes">entityTypes: <a href="PType.html" class="extype" name="longevity.subdomain.ptype.PType">PType</a>[_ &lt;: <a href="../persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a>]*</span>)</span><span class="result">: <a href="package.html#PTypePool=emblem.imports.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a></span>
+        <span class="name">apply</span><span class="params">(<span name="pTypes">pTypes: <a href="PType.html" class="extype" name="longevity.subdomain.ptype.PType">PType</a>[_ &lt;: <a href="../persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a>]*</span>)</span><span class="result">: <a href="package.html#PTypePool=emblem.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.PTypePool$@apply(entityTypes:longevity.subdomain.ptype.PType[_&lt;:longevity.subdomain.persistent.Persistent]*):longevity.subdomain.ptype.PTypePool" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.PTypePool$@apply(pTypes:longevity.subdomain.ptype.PType[_&lt;:longevity.subdomain.persistent.Persistent]*):longevity.subdomain.ptype.PTypePool" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">collects a sequence of <a href="PType.html" class="extype" name="longevity.subdomain.ptype.PType">persistent types</a> into a <a href="package.html#PTypePool=emblem.imports.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a>.</p><div class="fullcomment"><div class="comment cmt"><p>collects a sequence of <a href="PType.html" class="extype" name="longevity.subdomain.ptype.PType">persistent types</a> into a <a href="package.html#PTypePool=emblem.imports.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a>.</p></div><dl class="paramcmts block"><dt class="param">entityTypes</dt><dd class="cmt"><p>the sequence of entity types stored in the pool</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+      <p class="shortcomment cmt">collects a sequence of <a href="PType.html" class="extype" name="longevity.subdomain.ptype.PType">persistent types</a> into a <a href="package.html#PTypePool=emblem.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a>.</p><div class="fullcomment"><div class="comment cmt"><p>collects a sequence of <a href="PType.html" class="extype" name="longevity.subdomain.ptype.PType">persistent types</a> into a <a href="package.html#PTypePool=emblem.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a>.</p></div><dl class="paramcmts block"><dt class="param">pTypes</dt><dd class="cmt"><p>the sequence of persistent types stored in the pool</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
-      <span class="defval" name="&quot;when two EntityTypes have the same Entity type&quot;">...</span>
+      <span class="defval" name="&quot;when two PTypes have the same Persistent type&quot;">...</span>
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="longevity.subdomain.ptype.PTypePool#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="apply(entityTypePool:longevity.subdomain.EntityTypePool):longevity.subdomain.ptype.PTypePool"></a>
-      <a id="apply(EntityTypePool):PTypePool"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="entityTypePool">entityTypePool: <a href="../package.html#EntityTypePool=emblem.imports.TypeKeyMap[longevity.subdomain.Entity,longevity.subdomain.EntityType]" class="extmbr" name="longevity.subdomain.EntityTypePool">EntityTypePool</a></span>)</span><span class="result">: <a href="package.html#PTypePool=emblem.imports.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.PTypePool$@apply(entityTypePool:longevity.subdomain.EntityTypePool):longevity.subdomain.ptype.PTypePool" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">extracts all the <a href="PType.html" class="extype" name="longevity.subdomain.ptype.PType">persistent types</a> out of an <a href="../package.html#EntityTypePool=emblem.imports.TypeKeyMap[longevity.subdomain.Entity,longevity.subdomain.EntityType]" class="extmbr" name="longevity.subdomain.EntityTypePool">EntityTypePool</a>,
-collects them into a <a href="package.html#PTypePool=emblem.imports.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a>, and returns that
-</p>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -227,6 +208,23 @@ collects them into a <a href="package.html#PTypePool=emblem.imports.TypeKeyMap[l
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="longevity.subdomain.ptype.PTypePool#empty" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="empty:longevity.subdomain.ptype.PTypePool"></a>
+      <a id="empty:PTypePool"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">empty</span><span class="result">: <a href="package.html#PTypePool=emblem.TypeKeyMap[longevity.subdomain.persistent.Persistent,longevity.subdomain.ptype.PType]" class="extmbr" name="longevity.subdomain.ptype.PTypePool">PTypePool</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.PTypePool$@empty:longevity.subdomain.ptype.PTypePool" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">an empty persistent type pool</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>

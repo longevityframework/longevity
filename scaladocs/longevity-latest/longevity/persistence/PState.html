@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>PState - longevity 0.6.0 API - longevity.persistence.PState</title>
-          <meta name="description" content="PState - longevity 0.6.0 API - longevity.persistence.PState" />
-          <meta name="keywords" content="PState longevity 0.6.0 API longevity.persistence.PState" />
+          <title>PState - longevity 0.8-SNAPSHOT API - longevity.persistence.PState</title>
+          <meta name="description" content="PState - longevity 0.8 - SNAPSHOT API - longevity.persistence.PState" />
+          <meta name="keywords" content="PState longevity 0.8 SNAPSHOT API longevity.persistence.PState" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>the persistent state of an entity of type <code>P</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/persistence/PState.scala" target="_blank">PState.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>the persistent state of a persistent object of type <code>P</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/persistence/PState.scala" target="_blank">PState.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -217,22 +217,22 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="longevity.persistence.PState#assoc" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="assoc:longevity.subdomain.Assoc[P]"></a>
-      <a id="assoc:Assoc[P]"></a>
+      <a id="assoc:longevity.persistence.PersistedAssoc[P]"></a>
+      <a id="assoc:PersistedAssoc[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">assoc</span><span class="result">: <a href="../subdomain/Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a>[<span class="extype" name="longevity.persistence.PState.P">P</span>]</span>
+        <span class="name">assoc</span><span class="result">: <span class="extype" name="longevity.persistence.PersistedAssoc">PersistedAssoc</span>[<span class="extype" name="longevity.persistence.PState.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.PState@assoc:longevity.subdomain.Assoc[P]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.PState@assoc:longevity.persistence.PersistedAssoc[P]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">returns an association to the persistent entity</p>
+      <p class="shortcomment cmt">returns an association to the persistent object</p>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -272,7 +272,7 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">returns true iff there are unpersisted changes to the entity</p>
+      <p class="shortcomment cmt">returns true iff there are unpersisted changes to the persistent object</p>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
       <a id="ensuring((PState[P])⇒Boolean,⇒Any):PState[P]"></a>
@@ -437,7 +437,7 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">returns the entity</p>
+      <p class="shortcomment cmt">returns the persistent object</p>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -488,7 +488,9 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">returns the persistent state of the entity modified according to function <code>f</code></p>
+      <p class="shortcomment cmt">returns the persistent state of the persistent object modified according
+to function <code>f</code>
+</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -556,7 +558,7 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">returns the persistent state of an updated entity</p>
+      <p class="shortcomment cmt">returns the persistent state of an updated persistent object</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -643,6 +645,23 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="longevity.persistence.PState#widen" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="widen[Q&gt;:P&lt;:longevity.subdomain.persistent.Persistent]:longevity.persistence.PState[Q]"></a>
+      <a id="widen[Q&lt;:Persistent&gt;:P]:PState[Q]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">widen</span><span class="tparams">[<span name="Q">Q &gt;: <span class="extype" name="longevity.persistence.PState.P">P</span> &lt;: <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="result">: <a href="" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.PState.widen.Q">Q</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.persistence.PState@widen[Q&gt;:P&lt;:longevity.subdomain.persistent.Persistent]:longevity.persistence.PState[Q]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">returns a copy of this persistent state with a wider type bound</p>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
       <a id="→[B](B):(PState[P],B)"></a>

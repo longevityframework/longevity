@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>PersistenceStrategy - longevity 0.6.0 API - longevity.context.PersistenceStrategy</title>
-          <meta name="description" content="PersistenceStrategy - longevity 0.6.0 API - longevity.context.PersistenceStrategy" />
-          <meta name="keywords" content="PersistenceStrategy longevity 0.6.0 API longevity.context.PersistenceStrategy" />
+          <title>PersistenceStrategy - longevity 0.8-SNAPSHOT API - longevity.context.PersistenceStrategy</title>
+          <meta name="description" content="PersistenceStrategy - longevity 0.8 - SNAPSHOT API - longevity.context.PersistenceStrategy" />
+          <meta name="keywords" content="PersistenceStrategy longevity 0.8 SNAPSHOT API longevity.context.PersistenceStrategy" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -53,12 +53,12 @@
 three options:</p><ul><li><a href="InMem.html" class="extype" name="longevity.context.InMem">InMem</a></li><li><a href="Mongo.html" class="extype" name="longevity.context.Mongo">Mongo</a></li><li><a href="Cassandra.html" class="extype" name="longevity.context.Cassandra">Cassandra</a></li></ul><p>please note that the persistence strategy selected for your longevity context
 can be overridden in a test environment, so that you can use an in-memory
 database for integration testing.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.6.0/src/main/scala/longevity/context/PersistenceStrategy.scala" target="_blank">PersistenceStrategy.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/context/PersistenceStrategy.scala" target="_blank">PersistenceStrategy.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="Cassandra$.html" class="extype" name="longevity.context.Cassandra">Cassandra</a>, <a href="Cassandra.html" class="extype" name="longevity.context.Cassandra">Cassandra</a>, <a href="InMem$.html" class="extype" name="longevity.context.InMem">InMem</a>, <a href="InMem.html" class="extype" name="longevity.context.InMem">InMem</a>, <a href="Mongo.html" class="extype" name="longevity.context.Mongo">Mongo</a>, <a href="Mongo$.html" class="extype" name="longevity.context.Mongo">Mongo</a></div>
+            <div class="subClasses hiddenContent"><a href="Cassandra.html" class="extype" name="longevity.context.Cassandra">Cassandra</a>, <a href="Cassandra$.html" class="extype" name="longevity.context.Cassandra">Cassandra</a>, <a href="InMem.html" class="extype" name="longevity.context.InMem">InMem</a>, <a href="InMem$.html" class="extype" name="longevity.context.InMem">InMem</a>, <a href="Mongo$.html" class="extype" name="longevity.context.Mongo">Mongo</a>, <a href="Mongo.html" class="extype" name="longevity.context.Mongo">Mongo</a></div>
           </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
                 <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
@@ -106,10 +106,30 @@ database for integration testing.
 
         
 
-        
+        <div id="values" class="values members">
+              <h3>Abstract Value Members</h3>
+              <ol><li name="longevity.context.PersistenceStrategy#name" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="name:String"></a>
+      <a id="name:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">name</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.context.PersistenceStrategy@name:String" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">the name of the persistence strategy</p>
+    </li></ol>
+            </div>
 
         <div id="values" class="values members">
-              <h3>Value Members</h3>
+              <h3>Concrete Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
