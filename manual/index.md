@@ -26,10 +26,10 @@ will put in links as I write the chapters.
   - [Persistent Types](persistent/ptypes.html)
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
-- [Entities](entities)
-  - [Entities and Value Objects](entities/value-objects.html)
 - [Shorthands](shorthands)
   - [Shorthand Pools](shorthands/shorthand-pools.html)
+- [Entities](entities)
+  - [Entities and Value Objects](entities/value-objects.html)
 - [Limitations on Persistents, Entities and Shorthands](limitations.html)
 - [Associations](associations)
   - [Using Associations](associations/using-associations.html)
@@ -39,7 +39,7 @@ will put in links as I write the chapters.
   - [Indexes](ptype/indexes.html)
   - [Key Sets and Index Sets](ptype/key-sets-and-index-sets.html)
 - [Polymorphic Persistents and Entities](poly)
-
+  - [Polymorphic Persistents](poly/persistents.html)
 - [The Longevity Context](context)
   - [Persistence Strategy](context/pstrat.html)
   - [Configuring your Longevity Context](context/config.html)
@@ -66,8 +66,6 @@ will put in links as I write the chapters.
   - Translation of Persistent State into BSON (TODO)
   - Keys and Indexes (TODO)
 - [Translation into Cassandra](cassandra) (TODO)
-
-TODO: polymorphism
 
 TODO: once-over checking for broken embedded links
 

@@ -19,13 +19,13 @@ val pool = ShorthandPool.empty
 You can put a number of shorthands in a pool like so:
 
 ```scala
-val pool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+val pool = ShorthandPool(Email, Markdown, Uri)
 ```
 
 And you can build them with the `+` operator as well:
 
 ```scala
-val pool = ShorthandPool() + emailShorthand + markdownShorthand + uriShorthand
+val pool = ShorthandPool() + Email + Markdown + Uri
 ```
 
 You provide your shorthand pool when constructing your subdomain:
@@ -34,8 +34,7 @@ You provide your shorthand pool when constructing your subdomain:
 val subdomain = Subdomain(
   "blogging",
   PTypePool(Blog, BlogPost, User),
-  EntityTypePool(UserProfile),
-  ShorthandPool(emailShorthand, markdownShorthand, uriShorthand))
+  shorthandPool = ShorthandPool(Email, Markdown, Uri))
 ```
 
 If you don't supply a `ShorthandPool`, an empty one will be provided
@@ -52,7 +51,7 @@ support](../testing.html) to exercise persistence operations on your
 {% assign prevLink = "." %}
 {% assign upTitle = "shorthands" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "limitations on persistents, entities and shorthands" %}
-{% assign nextLink = "../limitations.html" %}
+{% assign nextTitle = "entities" %}
+{% assign nextLink = "../entities" %}
 {% include navigate.html %}
 

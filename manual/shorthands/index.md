@@ -55,7 +55,8 @@ import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class Email(email: String)
-val emailShorthand = Shorthand[Email, String]
+
+object Email extends Shorthand[Email, String]
 
 case class User(
   username: String,
@@ -75,7 +76,7 @@ object User extends RootType[User] {
 val subdomain = Subdomain(
   "blogging",
   PTypePool(User),
-  shorthandPool = ShorthandPool(emailShorthand))
+  shorthandPool = ShorthandPool(Email))
 ```
 
 Note that you can nest shorthands inside of collections, as the above
@@ -101,8 +102,8 @@ validations, such as the well-formedness of an email address. Please
 see the [chapter on enforcing constraints](../constraints.html) for
 more information.
 
-{% assign prevTitle = "entities and value objects" %}
-{% assign prevLink = "../entities/value-objects.html" %}
+{% assign prevTitle = "collections" %}
+{% assign prevLink = "../collections.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "shorthand pools" %}

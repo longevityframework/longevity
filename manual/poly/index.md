@@ -109,7 +109,7 @@ import longevity.subdomain.ptype.PTypePool
 val subdomain = Subdomain(
   PTypePool(User),
   EntityTypePool(UserVerification, EmailVerification, SmsVerification, GoogleSignIn),
-  ShorthandPool(emailShorthand, phoneNumberShorthand))
+  ShorthandPool(Email, PhoneNumber))
 ```
 
 {% assign prevTitle = "key sets and index sets" %}

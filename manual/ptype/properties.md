@@ -9,6 +9,7 @@ from the root, and take on the type of that field in the root. Here
 are some examples:
 
 ```scala
+import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.entity.Entity
 import longevity.subdomain.entity.EntityType
@@ -46,7 +47,11 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(UserProfile))
+val subdomain = Subdomain(
+  "blogging",
+  PTypePool(User),
+  EntityTypePool(UserProfile),
+  ShorthandPool(Email, Markdown, Uri))
 ```
 
 You need to specify the type of the property yourself, and longevity

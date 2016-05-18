@@ -65,6 +65,7 @@ object Commenter extends DerivedPType[Commenter, User] {
   }
 }
 
+import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.ptype.PTypePool
@@ -73,7 +74,7 @@ val subdomain = Subdomain(
   "blogging",
   PTypePool(User, Member, Commenter),
   EntityTypePool(UserProfile),
-  shorthandPool)
+  ShorthandPool(Email, Markdown, Uri))
 ```
 
 Notice how `User`, `Member`, and `Commenter` all have their own sets

@@ -74,11 +74,16 @@ object User extends RootType[User] {
 You need to add all your new entities into the `EntityTypePool`:
 
 ```scala
+import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.ptype.PTypePool
 
-val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(UserProfile))
+val subdomain = Subdomain(
+  "blogging",
+  PTypePool(User),
+  EntityTypePool(UserProfile),
+  ShorthandPool(Email, Markdown, Uri))
 ```
 
 You can put entities in entities, and entities into [supported
@@ -99,8 +104,8 @@ case class User(
 extends Root
 ```
 
-{% assign prevTitle = "collections" %}
-{% assign prevLink = "../collections.html" %}
+{% assign prevTitle = "shorthand pools" %}
+{% assign prevLink = "../shorthands/shorthand-pools.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "entities and value objects" %}

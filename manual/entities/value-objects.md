@@ -22,6 +22,7 @@ value objects. But we happily support the terminology by providing
 `EntityType`, respectively. For example, we can write the following:
 
 ```scala
+import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.entity.ValueObject
@@ -52,7 +53,11 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address))
+val subdomain = Subdomain(
+  "blogging",
+  PTypePool(User),
+  EntityTypePool(Address),
+  ShorthandPool(Email, StateCode, ZipCode))
 ```
 
 And it is entirely equivalent to this:
@@ -88,7 +93,11 @@ object User extends RootType[User] {
   }
 }
 
-val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address))
+val subdomain = Subdomain(
+  "blogging",
+  PTypePool(User),
+  EntityTypePool(Address),
+  ShorthandPool(Email, StateCode, ZipCode))
 ```
 
 For a more extended discussion on value objects in an immutable
@@ -99,7 +108,7 @@ identity](http://scabl.blogspot.com/2015/05/aeddd-13.html).
 {% assign prevLink = "." %}
 {% assign upTitle = "entities" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "shorthands" %}
-{% assign nextLink = "../shorthands" %}
+{% assign nextTitle = "limitations on persistents, entities and shorthands" %}
+{% assign nextLink = "../limitations.html" %}
 {% include navigate.html %}
 

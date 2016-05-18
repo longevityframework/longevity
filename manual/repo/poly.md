@@ -74,6 +74,7 @@ object Commenter extends DerivedPType[Commenter, User] {
   }
 }
 
+import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.ptype.PTypePool
@@ -82,7 +83,7 @@ val subdomain = Subdomain(
   "blogging",
   PTypePool(User, Member, Commenter),
   EntityTypePool(UserProfile),
-  shorthandPool)
+  ShorthandPool(Email, Markdown, Uri))
 ```
 
 When we construct our [longevity context](../context), we can get
@@ -124,10 +125,9 @@ general, you want to be working with one `Persistent` type at a
 time.
 
 That said, there is some flexibility added on to work around these
-invariant type parameters. For example, it is not true that
-`PState[Member] <:< PState[User]`, so a `PState[Member]` instance is
-not also a `PState[User]`. But we can safely convert a `PState[Member]`
-into a `PState[User]`, using method `widen`:
+invariant type parameters. For example, a `PState[Member]` instance is
+not also a `PState[User]`. But we can safely convert a
+`PState[Member]` into a `PState[User]`, using method `widen`:
 
 ```scala
 val memberState: PState[Member] = getMemberState()

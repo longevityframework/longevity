@@ -51,7 +51,6 @@ If you don't want the DSL wildcard imports to infect other parts of
 your program, it is quite easy to localize them:
 
 ```scala
-import com.github.nscala_time.time.Imports._
 import longevity.persistence.PState
 import scala.concurrent.Future
 
@@ -59,6 +58,7 @@ def getBlogState(): PState[Blog] = ???
 val blogState: PState[Blog] = getBlogState()
 
 val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
+  import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
   blog eqs blogState.assoc and postDate gt DateTime.now - 1.week
