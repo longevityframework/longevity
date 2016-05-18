@@ -4,7 +4,7 @@ layout: page
 ---
 
 Here's a first pass at a quick start guide for using longevity. We're
-planning on replacing this with more of a "getting started" guide, but
+planning on replacing this with a real "getting started" guide, but
 this is what we have for now:
 
 ```scala
