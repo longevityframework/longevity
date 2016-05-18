@@ -4,8 +4,8 @@ layout: page
 ---
 
 Here's a first pass at a quick start guide for using longevity. We're
-planning on replacing this with a real "getting started" guide, but
-this is what we have for now:
+planning on replacing this with a real "getting started" guide soon,
+but this is what we have for now:
 
 ```scala
 package longevity.integration.quickStart
