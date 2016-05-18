@@ -1,5 +1,8 @@
 package longevity.integration.subdomain.allShorthands
 
-import com.github.nscala_time.time.Imports._
+import longevity.subdomain.Shorthand
+import org.joda.time.DateTime
 
 case class DateTimeShorthand(dateTime: DateTime)
+
+object DateTimeShorthand extends Shorthand[DateTimeShorthand, DateTime]

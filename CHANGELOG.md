@@ -2,6 +2,7 @@
 
 ## [0.7.0] - 2016.05.xx - Entity Polymorphism
 
+- 2016.05.18 - users can now subclass `Shorthand`.
 - 2016.05.12 - `PType` and sub-classes no longer take an implicit
   `ShorthandPool` argument.
 - 2016.05.12 - `Subdomain`, `CoreDomain`, `SupportingSubdomain`, and

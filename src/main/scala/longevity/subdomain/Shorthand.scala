@@ -16,8 +16,22 @@ import longevity.exceptions.subdomain.ShorthandCreationException
  * @tparam Actual the actual type
  * @tparam Abbreviated the abbreviated type
  */
-class Shorthand[Actual, Abbreviated] private[longevity] (
-  private[longevity] val extractor: Extractor[Actual, Abbreviated]) {
+class Shorthand[Actual : TypeKey, Abbreviated : TypeKey] protected {
+
+  if (!isBasicType[Abbreviated]) {
+    throw new ShorthandCreationException(
+      "abbreviated type is not a basic type", typeKey[Actual], typeKey[Abbreviated])
+  }
+
+  /** the extractor that powers this shorthand */
+  private[longevity] val extractor: Extractor[Actual, Abbreviated] = {
+    try {
+      emblem.emblematic.Extractor[Actual, Abbreviated]
+    } catch {
+      case e: emblem.exceptions.GeneratorException =>
+        throw new ShorthandCreationException(e, typeKey[Actual], typeKey[Abbreviated])
+    }
+  }
 
   /** a type key for the actual type */
   private[longevity] lazy val actualTypeKey: TypeKey[Actual] = extractor.domainTypeKey
@@ -46,23 +60,14 @@ object Shorthand {
    * `Abbreviated`. `Actual` must be a stable case class with single a parameter
    * list. `Abbreviated` must be a basic type.
    *
-   * * @throws longevity.exceptions.subdomain.ShorthandCreationException when
+   * @throws longevity.exceptions.subdomain.ShorthandCreationException when
    * `Abbreviated` is not a basic type, or when `Actual` is not a stable case
    * class with a single parameter list
    * 
    * @see `emblem.emblematic.basicTypes`
    */
-  def apply[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] = {
-    if (!isBasicType[Abbreviated]) {
-      throw new ShorthandCreationException(
-        "abbreviated type is not a basic type", typeKey[Actual], typeKey[Abbreviated])
-    }
-    try {
-      new Shorthand(emblem.emblematic.Extractor[Actual, Abbreviated])
-    } catch {
-      case e: emblem.exceptions.GeneratorException =>
-        throw new ShorthandCreationException(e, typeKey[Actual], typeKey[Abbreviated])
-    }
-  }
+  def apply[Actual : TypeKey, Abbreviated : TypeKey]: Shorthand[Actual, Abbreviated] =
+    new Shorthand[Actual, Abbreviated]
+
 
 }

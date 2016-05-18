@@ -110,10 +110,9 @@ object SubdomainSpec {
     case class Email(email: String)
     case class Markdown(markdown: String)
     case class Uri(uri: String)
-    val emailShorthand = Shorthand[Email, String]
-    val markdownShorthand = Shorthand[Markdown, String]
-    val uriShorthand = Shorthand[Uri, String]
-    val shorthandPool = ShorthandPool(emailShorthand, markdownShorthand, uriShorthand)
+    object Email extends Shorthand[Email, String]
+    object Markdown extends Shorthand[Markdown, String]
+    object Uri extends Shorthand[Uri, String]
 
     import longevity.subdomain.entity.Entity
     import longevity.subdomain.entity.EntityType
@@ -146,7 +145,11 @@ object SubdomainSpec {
     import longevity.subdomain.entity.EntityTypePool
     import longevity.subdomain.ptype.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(UserProfile), shorthandPool)
+    val subdomain = Subdomain(
+      "blogging",
+      PTypePool(User),
+      EntityTypePool(UserProfile),
+      ShorthandPool(Email, Markdown, Uri))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
@@ -165,10 +168,9 @@ object SubdomainSpec {
     case class Email(email: String)
     case class StateCode(stateCode: String)
     case class ZipCode(zipCode: String)
-    val emailShorthand = Shorthand[Email, String]
-    val stateCodeShorthand = Shorthand[StateCode, String]
-    val zipCodeShorthand = Shorthand[ZipCode, String]
-    val shorthandPool = ShorthandPool(emailShorthand, stateCodeShorthand, zipCodeShorthand)
+    object Email extends Shorthand[Email, String]
+    object StateCode extends Shorthand[StateCode, String]
+    object ZipCode extends Shorthand[ZipCode, String]
 
     case class Address(
       street: String,
@@ -192,7 +194,11 @@ object SubdomainSpec {
       }
     }
 
-    val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address), shorthandPool)
+    val subdomain = Subdomain(
+      "blogging",
+      PTypePool(User),
+      EntityTypePool(Address),
+      ShorthandPool(Email, StateCode, ZipCode))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
@@ -211,10 +217,9 @@ object SubdomainSpec {
     case class Email(email: String)
     case class StateCode(stateCode: String)
     case class ZipCode(zipCode: String)
-    val emailShorthand = Shorthand[Email, String]
-    val stateCodeShorthand = Shorthand[StateCode, String]
-    val zipCodeShorthand = Shorthand[ZipCode, String]
-    val shorthandPool = ShorthandPool(emailShorthand, stateCodeShorthand, zipCodeShorthand)
+    object Email extends Shorthand[Email, String]
+    object StateCode extends Shorthand[StateCode, String]
+    object ZipCode extends Shorthand[ZipCode, String]
 
     case class Address(
       street: String,
@@ -238,7 +243,11 @@ object SubdomainSpec {
       }
     }
 
-    val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(Address), shorthandPool)
+    val subdomain = Subdomain(
+      "blogging",
+      PTypePool(User),
+      EntityTypePool(Address),
+      ShorthandPool(Email, StateCode, ZipCode))
   }
 
 }
@@ -311,9 +320,9 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       entities.subdomain.entityTypePool.size should equal (1)
       entities.subdomain.entityTypePool.values should contain (entities.UserProfile)
       entities.subdomain.shorthandPool.size should equal (3)
-      entities.subdomain.shorthandPool.values should contain (entities.emailShorthand)
-      entities.subdomain.shorthandPool.values should contain (entities.markdownShorthand)
-      entities.subdomain.shorthandPool.values should contain (entities.uriShorthand)
+      entities.subdomain.shorthandPool.values should contain (entities.Email)
+      entities.subdomain.shorthandPool.values should contain (entities.Markdown)
+      entities.subdomain.shorthandPool.values should contain (entities.Uri)
       entities.User.keySet should be ('empty)
     }
 
@@ -324,9 +333,9 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects1.subdomain.entityTypePool.size should equal (1)
       valueObjects1.subdomain.entityTypePool.values should contain (valueObjects1.Address)
       valueObjects1.subdomain.shorthandPool.size should equal (3)
-      valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.emailShorthand)
-      valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.stateCodeShorthand)
-      valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.zipCodeShorthand)
+      valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.Email)
+      valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.StateCode)
+      valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.ZipCode)
       valueObjects1.User.keySet should be ('empty)
     }
 
@@ -337,9 +346,9 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects2.subdomain.entityTypePool.size should equal (1)
       valueObjects2.subdomain.entityTypePool.values should contain (valueObjects2.Address)
       valueObjects2.subdomain.shorthandPool.size should equal (3)
-      valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.emailShorthand)
-      valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.stateCodeShorthand)
-      valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.zipCodeShorthand)
+      valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.Email)
+      valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.StateCode)
+      valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.ZipCode)
       valueObjects2.User.keySet should be ('empty)
     }
 

@@ -1,6 +1,5 @@
 package longevity.persistence
 
-import longevity.subdomain.Assoc
 import longevity.subdomain.persistent.Persistent
 
 /** the persistent state of a persistent object of type `P` */
@@ -23,7 +22,7 @@ case class PState[P <: Persistent] private[persistence] (
   def map(f: P => P): PState[P] = new PState(passoc, orig, f(p))
 
   /** returns an association to the persistent object */
-  def assoc: Assoc[P] = passoc
+  def assoc: PersistedAssoc[P] = passoc
 
   /** returns true iff there are unpersisted changes to the persistent object */
   // we may want to consider === here if we allow for non-case class entities

@@ -36,11 +36,12 @@ object QuickStartSpec {
   // start building our subdomain:
 
   import longevity.subdomain.Assoc
-  import longevity.subdomain.entity.Entity
-  import longevity.subdomain.entity.EntityType
   import longevity.subdomain.Shorthand
   import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain
+  import longevity.subdomain.entity.Entity
+  import longevity.subdomain.entity.EntityType
+  import longevity.subdomain.entity.EntityTypePool
   import longevity.subdomain.persistent.Persistent
   import longevity.subdomain.persistent.Root
   import longevity.subdomain.ptype.PTypePool
@@ -48,30 +49,20 @@ object QuickStartSpec {
 
   // shorthands help you use typed wrapper classes instead of raw values:
 
-  object shorthands {
+  case class Email(email: String)
+  object Email extends Shorthand[Email, String]
 
-    // define your shorthand classes:
+  case class Markdown(markdown: String)
+  object Markdown extends Shorthand[Markdown, String]
 
-    case class Email(email: String)
-    case class Markdown(markdown: String)
-    case class Uri(uri: String)
+  case class Uri(uri: String)
+  object Uri extends Shorthand[Uri, String]
 
-    // some convenience methods for using shorthands:
+  // some convenience methods for using shorthands:
 
-    implicit def toEmail(email: String) = Email(email)
-    implicit def toMarkdown(markdown: String) = Markdown(markdown)
-    implicit def toUri(uri: String) = Uri(uri)
-
-    // build your shorthand pool:
-
-    val shorthandPool = ShorthandPool(
-      Shorthand[Email, String],
-      Shorthand[Markdown, String],
-      Shorthand[Uri, String])
-
-  }
-
-  import shorthands._
+  implicit def toEmail(email: String) = Email(email)
+  implicit def toMarkdown(markdown: String) = Markdown(markdown)
+  implicit def toUri(uri: String) = Uri(uri)
 
   // now define your three aggregates: user, blog, and blog post:
 
@@ -150,7 +141,8 @@ object QuickStartSpec {
   val blogCore = Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    shorthandPool = shorthands.shorthandPool)
+    EntityTypePool(UserProfile),
+    ShorthandPool(Email, Markdown, Uri))
 
   // now build the context:
 
