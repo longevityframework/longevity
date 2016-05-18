@@ -10,12 +10,18 @@ this is what we have for now:
 ```scala
 package longevity.integration.quickStart
 
-import com.github.nscala_time.time.Imports._
-import org.scalatest.OptionValues._
-import org.scalatest._
+import com.github.nscala_time.time.Implicits.richDateTime
+import com.github.nscala_time.time.Implicits.richInt
+import org.joda.time.DateTime
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
+import org.scalatest.OptionValues.convertOptionToValuable
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.concurrent.ScaledTimeSpans
-import org.scalatest.time._
+import org.scalatest.time.Millis
+import org.scalatest.time.Span
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -40,42 +46,33 @@ object QuickStartSpec {
   // start building our subdomain:
 
   import longevity.subdomain.Assoc
-  import longevity.subdomain.Entity
-  import longevity.subdomain.EntityType
-  import longevity.subdomain.EntityTypePool
   import longevity.subdomain.Shorthand
   import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain
+  import longevity.subdomain.entity.Entity
+  import longevity.subdomain.entity.EntityType
+  import longevity.subdomain.entity.EntityTypePool
   import longevity.subdomain.persistent.Persistent
   import longevity.subdomain.persistent.Root
+  import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
 
   // shorthands help you use typed wrapper classes instead of raw values:
 
-  object shorthands {
+  case class Email(email: String)
+  object Email extends Shorthand[Email, String]
 
-    // define your shorthand classes:
+  case class Markdown(markdown: String)
+  object Markdown extends Shorthand[Markdown, String]
 
-    case class Email(email: String)
-    case class Markdown(markdown: String)
-    case class Uri(uri: String)
+  case class Uri(uri: String)
+  object Uri extends Shorthand[Uri, String]
 
-    // some convenience methods for using shorthands:
+  // some convenience methods for using shorthands:
 
-    implicit def toEmail(email: String) = Email(email)
-    implicit def toMarkdown(markdown: String) = Markdown(markdown)
-    implicit def toUri(uri: String) = Uri(uri)
-
-    // build your shorthand pool:
-
-    implicit val shorthandPool = ShorthandPool(
-      Shorthand[Email, String],
-      Shorthand[Markdown, String],
-      Shorthand[Uri, String])
-
-  }
-
-  import shorthands._
+  implicit def toEmail(email: String) = Email(email)
+  implicit def toMarkdown(markdown: String) = Markdown(markdown)
+  implicit def toUri(uri: String) = Uri(uri)
 
   // now define your three aggregates: user, blog, and blog post:
 
@@ -151,7 +148,11 @@ object QuickStartSpec {
 
   // build the subdomain:
 
-  val blogCore = Subdomain("blogging", EntityTypePool(User, Blog, BlogPost))
+  val blogCore = Subdomain(
+    "blogging",
+    PTypePool(User, Blog, BlogPost),
+    EntityTypePool(UserProfile),
+    ShorthandPool(Email, Markdown, Uri))
 
   // now build the context:
 
@@ -401,4 +402,3 @@ with ScaledTimeSpans {
 
 }
 ```
-
