@@ -24,7 +24,7 @@ trait BuildSettings {
 
   val publishSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
-    version := "0.7-SNAPSHOT",
+    version := "0.7.0",
     scalaVersion := "2.11.7",
 
     publishMavenStyle := true,
@@ -103,7 +103,7 @@ trait BuildSettings {
 object LongevityBuild extends Build with BuildSettings {
 
   val casbahDep: ModuleID = "org.mongodb" %% "casbah" % "3.1.1"
-  val cassandraDep: ModuleID = "com.datastax.cassandra" % "cassandra-driver-core" % "3.0.0"
+  val cassandraDep: ModuleID = "com.datastax.cassandra" % "cassandra-driver-core" % "3.0.1"
   val json4sDep: ModuleID = "org.json4s" %% "json4s-native" % "3.3.0"
 
   lazy val longevity = Project(
