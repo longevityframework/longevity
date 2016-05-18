@@ -27,8 +27,8 @@ to see these, and we will adjust the priority.
 
 </div>
 
-{% assign prevTitle = "repo.delete" %}
-{% assign prevLink = "../repo/delete.html" %}
+{% assign prevTitle = "polymorphic repositories" %}
+{% assign prevLink = "../repo/poly.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "in memory repositories" %}
