@@ -232,7 +232,7 @@ trait Traversor {
     def completeIterablePropInput(iterablePropInput: Iterable[PropInput[A, _]]): Unit = {
       val iterableFuturePropResult: Iterable[Future[PropResult[A, _]]] = iterablePropInput map {
         case (prop, input) =>
-          val futureInput = Promise.successful(input).future
+          val futureInput = Future.successful(input)
           traverseEmblemProp(emblem, prop, futureInput) map { result => (prop, result) }
       }
       val futureIterablePropResult = Future.sequence(iterableFuturePropResult)
@@ -337,7 +337,7 @@ trait Traversor {
   // returns a `Some` containing the enclosing type of the option whenever the supplied type argument `A`
   // is an Option. otherwise returns `None`.
   private def optionElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
-    if (typeKey[A].tpe <:< typeOf[Option[_]]) Some(typeKey[A].typeArgs.head) else None
+    if (typeKey[A].tpe <:< typeOf[Option[Any]]) Some(typeKey[A].typeArgs.head) else None
 
   private[traversors] def traverseOption[A : TypeKey](
     futureTraverseInputOption: Future[TraverseInput[Option[A]]])
