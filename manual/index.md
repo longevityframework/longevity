@@ -55,6 +55,7 @@ will put in links as I write the chapters.
   - [Limitations on Cassandra Queries](repo/cassandra-query-limits.html)
   - [Repo.update](repo/update.html)
   - [Repo.delete](repo/delete.html)
+  - [Polymorphic Repositories](repo/poly.html)
 - FPState and FOPState (TODO)
 - [Testing Your Subdomain](testing)
   - [In Memory Repositories](testing/in-mem-repos.html)
