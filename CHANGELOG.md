@@ -15,7 +15,8 @@
 - 2016.05.12 - modify `Subdomain.apply` to separate out
   `entityTypePool` into `pTypePool` and `entityTypePool`.
 - 2016.05.12 - add `PolyType`, `DerivedType`, `PolyPType`, and
-  `DerivedPType`. see user manual (TODO link).
+  `DerivedPType`. see [user
+  manual](http://longevityframework.github.io/longevity/manual/poly/).
 - 2016.05.12 - move the following classes from package
   longevity.subdomain to package longevity.subdomain.entity:
   - `EntityTypePool`
