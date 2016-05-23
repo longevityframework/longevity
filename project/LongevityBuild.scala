@@ -90,7 +90,6 @@ trait BuildSettings {
     // dependencies
     resolvers += Resolver.typesafeRepo("releases"),
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-    libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.2",
     libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.10.0",
     libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test
     
