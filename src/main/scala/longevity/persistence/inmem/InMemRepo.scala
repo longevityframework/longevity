@@ -1,5 +1,7 @@
 package longevity.persistence.inmem
 
+import akka.NotUsed
+import akka.stream.scaladsl.Source
 import emblem.TypeKey
 import emblem.typeKey
 import longevity.context.LongevityContext
@@ -54,6 +56,8 @@ extends BaseRepo[P](pType, subdomain) {
   : Future[Seq[PState[P]]] = Future {
     allPStates.filter { s => InMemRepo.queryMatches(query, s.get) }
   }
+
+  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] = ???
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     repo.synchronized {

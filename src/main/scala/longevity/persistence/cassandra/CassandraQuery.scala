@@ -1,7 +1,10 @@
 package longevity.persistence.cassandra
 
+import akka.NotUsed
+import akka.stream.scaladsl.Source
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
+import com.datastax.driver.core.ResultSet
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import java.util.UUID
@@ -29,21 +32,36 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.retrieveByQuery */
-private[cassandra] trait CassandraRetrieveQuery[P <: Persistent] {
+private[cassandra] trait CassandraQuery[P <: Persistent] {
   repo: CassandraRepo[P] =>
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext): Future[Seq[PState[P]]] =
     Future {
-      val info = queryInfo(query)
-      val conjunction = retrieveByQueryConjunction(info)
-      val cql = s"SELECT * FROM $tableName WHERE $conjunction ALLOW FILTERING"
-      val preparedStatement = session.prepare(cql)
-      val boundStatement = preparedStatement.bind(info.bindValues: _*)
       val resultSet = blocking {
-        session.execute(boundStatement)
+        queryResultSet(query)
       }
       resultSet.all.toList.map(retrieveFromRow)
     }
+
+  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] = {
+    def iterator(): Iterator[PState[P]] = {
+      val resultSet = queryResultSet(query)
+      import scala.collection.JavaConversions.asScalaIterator
+      resultSet.iterator.map(retrieveFromRow)
+    }
+    // no need (or option) to clean up resources once stream terminates, because
+    // Cassandra result set is paged, and does not support any close() operation
+    Source.fromIterator(iterator)
+  }
+
+  private def queryResultSet(query: Query[P]): ResultSet = {
+    val info = queryInfo(query)
+    val conjunction = retrieveByQueryConjunction(info)
+    val cql = s"SELECT * FROM $tableName WHERE $conjunction ALLOW FILTERING"
+    val preparedStatement = session.prepare(cql)
+    val boundStatement = preparedStatement.bind(info.bindValues: _*)
+    session.execute(boundStatement)
+  }
 
   protected def retrieveByQueryConjunction(queryInfo: QueryInfo): String = queryInfo.whereClause
 

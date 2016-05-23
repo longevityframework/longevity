@@ -87,7 +87,7 @@ trait BuildSettings {
     // to run a single tag in sbt:
     // test-only longevity.integration.subdomain.allAttributes.AllAttributesSpec -- -n Create
 
-    // dependencies
+    // common dependencies
     resolvers += Resolver.typesafeRepo("releases"),
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.10.0",
@@ -111,6 +111,9 @@ object LongevityBuild extends Build with BuildSettings {
     settings = buildSettings ++ Seq(
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
+
+      libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.6" % Optional,
+      libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.6" % Test,
 
       // for mongo:
 

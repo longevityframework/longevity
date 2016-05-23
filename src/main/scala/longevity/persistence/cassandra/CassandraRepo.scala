@@ -44,7 +44,7 @@ with CassandraSchema[P]
 with CassandraCreate[P]
 with CassandraRetrieveAssoc[P]
 with CassandraRetrieveKeyVal[P]
-with CassandraRetrieveQuery[P]
+with CassandraQuery[P]
 with CassandraUpdate[P]
 with CassandraDelete[P] {
 

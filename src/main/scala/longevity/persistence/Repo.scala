@@ -1,5 +1,7 @@
 package longevity.persistence
 
+import akka.NotUsed
+import akka.stream.scaladsl.Source
 import longevity.subdomain.PRef
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Query
@@ -45,13 +47,19 @@ trait Repo[P <: Persistent] {
    */
   def retrieveOne(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** retrieves multiple persistent objects by a query
+  /** retrieves multiple persistent objects matching a query
    * 
    * @param query the query to execute
    * @param executionContext the execution context
    */
   def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext)
   : Future[Seq[PState[P]]]
+
+  /** streams persistent objects matching a query
+   * 
+   * @param query the query to execute
+   */
+  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed]
 
   /** updates the persistent object
    * 

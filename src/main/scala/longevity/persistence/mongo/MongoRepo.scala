@@ -1,5 +1,7 @@
 package longevity.persistence.mongo
 
+import akka.NotUsed
+import akka.stream.scaladsl.Source
 import com.mongodb.DBObject
 import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.MongoCursor
@@ -89,6 +91,8 @@ with MongoSchema[P] {
       new PState[P](MongoId(id), p)
     }
   }
+
+  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] = ???
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     val p = state.get
