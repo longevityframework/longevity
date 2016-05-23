@@ -12,6 +12,11 @@ manual](manual). They include:
 - fully encapsulates persistence concerns
 - persists aggregate roots, events, read views, and whatever else
 - support for Mongo, Cassandra, and in-memory back ends
+- construct your persistent types using:
+  - basic values such as `Int`, `String`, and `DateTime`
+  - collections such as `Option`, `Set`, and `List`
+  - case classes
+  - polymorphic traits
 - pre-built repositories with simple, reactive APIs
 - pre-built integration tests that exercise your repositories
   against a real database
@@ -27,7 +32,6 @@ board](https://www.pivotaltracker.com/n/projects/1231978) under the
 label [longevity 1.0 post
 MMP](https://www.pivotaltracker.com/epic/show/1769462):
 
-- entity polymorphism
 - enhanced query support
 - finer control over keys and indexes
 - streaming query API
