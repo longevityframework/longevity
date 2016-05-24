@@ -1,5 +1,10 @@
 # Longevity Change Log
 
+## [0.8.0] - 2016.05.24 - Streaming Queries
+
+- 2016.05.24 - add API method `Repo.streamByQuery(query: Query[P]):
+  Source[PState[P], NotUsed]`.
+
 ## [0.7.0] - 2016.05.18 - Entity Polymorphism
 
 - 2016.05.18 - users can now subclass `Shorthand`.
