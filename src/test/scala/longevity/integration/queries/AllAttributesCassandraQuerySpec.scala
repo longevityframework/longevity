@@ -23,6 +23,7 @@ extends QuerySpec[AllAttributes](cassandraContext, cassandraContext.testRepoPool
 
   behavior of "CassandraRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries" in {
+    // only eqs here dur to cassandra query limitations
     exerciseQuery(booleanProp eqs sample.boolean, true)
     exerciseQuery(charProp eqs sample.char, true)
     exerciseQuery(dateTimeProp eqs sample.dateTime, true)

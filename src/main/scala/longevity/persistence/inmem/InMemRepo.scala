@@ -53,11 +53,14 @@ extends BaseRepo[P](pType, subdomain) {
   }
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
-  : Future[Seq[PState[P]]] = Future {
-    allPStates.filter { s => InMemRepo.queryMatches(query, s.get) }
-  }
+  : Future[Seq[PState[P]]] =
+    Future.successful(queryResults(query))
 
-  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] = ???
+  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] =
+    Source.fromIterator { () => queryResults(query).iterator }
+
+  def queryResults(query: Query[P]): Seq[PState[P]] =
+    allPStates.filter { s => InMemRepo.queryMatches(query, s.get) }
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     repo.synchronized {
