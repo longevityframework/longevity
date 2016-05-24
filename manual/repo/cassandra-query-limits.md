@@ -18,8 +18,8 @@ Queries using the _or_ operator are not supported by Cassandra.
 
 Queries must contain at least one _equals_ clause.
 
-{% assign prevTitle = "retrieval by query" %}
-{% assign prevLink = "query.html" %}
+{% assign prevTitle = "stream by query" %}
+{% assign prevLink = "stream.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "repo.update" %}

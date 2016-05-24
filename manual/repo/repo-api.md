@@ -9,6 +9,8 @@ operations, as follows:
 ```scala
 package longevity.persistence
 
+import akka.NotUsed
+import akka.stream.scaladsl.Source
 import longevity.subdomain.PRef
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Query
@@ -54,13 +56,19 @@ trait Repo[P <: Persistent] {
    */
   def retrieveOne(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** retrieves multiple persistent objects by a query
+  /** retrieves multiple persistent objects matching a query
    * 
    * @param query the query to execute
    * @param executionContext the execution context
    */
   def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext)
   : Future[Seq[PState[P]]]
+
+  /** streams persistent objects matching a query
+   * 
+   * @param query the query to execute
+   */
+  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed]
 
   /** updates the persistent object
    * 
@@ -80,20 +88,23 @@ trait Repo[P <: Persistent] {
 ```
 
 Because all of the methods in `Repo` are potentially blocking, they
-all return a [Scala
-`Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future). They
-all require an implicit execution context argument. The easiest way to
-provide this is to include `import
-scala.concurrent.ExecutionContext.Implicits.global` at the top of the
-file.
+all return some kind of asynchronous construct - either a [Scala
+`Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future),
+or, in the case of `streamByQuery`, an [Akka
+Stream](http://doc.akka.io/docs/akka/2.4.6/scala/stream/index.html).
 
-We will will discuss the three major `retrieve` methods in turn, but
-it's helpful to cover a couple of points up front. First off, the
-`PRef` is a super trait for both `Assoc` and `KeyVal`, so you can use
-the `retrieve` and `retrieveOne` methods with both. Secondly, the
-`retrieveOne` method is a simple wrapper method for `retrieve`, that
-opens up the `Option[PState[R]]` for you. If the option is a `None`,
-this will result in a `NoSuchElementException`.
+Methods returning a Scala `Future` require an implicit execution
+context argument. The easiest way to provide this is to include
+`import scala.concurrent.ExecutionContext.Implicits.global` at the top
+of the file.
+
+We will will discuss the `Repo` API methods in turn, but it's helpful
+to cover a couple of points up front. First off, the `PRef` is a super
+trait for both `Assoc` and `KeyVal`, so you can use the `retrieve` and
+`retrieveOne` methods with both. Secondly, the `retrieveOne` method is
+a simple wrapper method for `retrieve`, that opens up the
+`Option[PState[R]]` for you. If the option is a `None`, this will
+result in a `NoSuchElementException`.
 
 <div class = "blue-side-bar">
 

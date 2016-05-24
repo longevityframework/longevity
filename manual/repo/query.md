@@ -86,6 +86,6 @@ NoSQL backend ([Mongo](../mongo) and [Cassandra](../cassandra)).
 {% assign prevLink = "retrieve-keyval.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "cassandra query limitations" %}
-{% assign nextLink = "cassandra-query-limits.html" %}
+{% assign nextTitle = "stream by query" %}
+{% assign nextLink = "stream.html" %}
 {% include navigate.html %}

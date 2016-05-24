@@ -13,6 +13,7 @@ the overall API, then discuss each of the API methods in turn.
 - [Retrieval by Assoc](retrieve-assoc.html)
 - [Retrieval by Key Value](retrieve-keyval.html)
 - [Retrieval by Query](query.html)
+- [Stream by Query](stream.html)
 - [Limitations on Cassandra Queries](cassandra-query-limits.html)
 - [Repo.update](update.html)
 - [Repo.delete](delete.html)
