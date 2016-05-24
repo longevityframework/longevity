@@ -1,5 +1,7 @@
 package longevity.test
 
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
 import emblem.TypeKey
 import longevity.context.LongevityContext
 import longevity.persistence.CreatedCache
@@ -103,10 +105,26 @@ with TestDataGeneration {
   /** runs the query against the test data, and checks if the results are correct.
    * generates a test failure if they are not.
    */
-  protected def exerciseQuery(query: Query[P]): Unit = {
-    val results = repo.retrieveByQuery(query).futureValue.map(_.get).toSet
+  protected def exerciseQuery(query: Query[P], exerciseStreamByQuery: Boolean = false): Unit = {
+    val retrieveByQueryResults: Set[PState[P]] = repo.retrieveByQuery(query).futureValue.toSet
+    val results = retrieveByQueryResults.map(_.get)
     val actual = entities intersect results // remove any entities not put in by this test
     val expected = entitiesMatchingQuery(query, entities)
+
+    if (actual != expected) {
+      println(s"failure for query ${query}")
+    }
+    actual.size should equal (expected.size)
+    actual should equal (expected)
+
+    if (exerciseStreamByQuery) exerciseStream(query, retrieveByQueryResults)
+  }
+
+  private def exerciseStream(query: Query[P], expected: Set[PState[P]]): Unit = {
+    implicit val system = ActorSystem("QuickStart")
+    implicit val materializer = ActorMaterializer()
+    val source = repo.streamByQuery(query)
+    val actual = source.runFold(Set.empty[PState[P]])(_ + _).futureValue
 
     if (actual != expected) {
       println(s"failure for query ${query}")

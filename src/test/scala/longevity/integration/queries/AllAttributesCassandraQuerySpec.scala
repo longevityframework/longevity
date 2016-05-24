@@ -23,26 +23,26 @@ extends QuerySpec[AllAttributes](cassandraContext, cassandraContext.testRepoPool
 
   behavior of "CassandraRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries" in {
-    exerciseQuery(booleanProp eqs sample.boolean)
-    exerciseQuery(charProp eqs sample.char)
-    exerciseQuery(dateTimeProp eqs sample.dateTime)
-    exerciseQuery(doubleProp eqs sample.double)
-    exerciseQuery(floatProp eqs sample.float)
-    exerciseQuery(intProp eqs sample.int)
-    exerciseQuery(longProp eqs sample.long)
-    exerciseQuery(stringProp eqs sample.string)
+    exerciseQuery(booleanProp eqs sample.boolean, true)
+    exerciseQuery(charProp eqs sample.char, true)
+    exerciseQuery(dateTimeProp eqs sample.dateTime, true)
+    exerciseQuery(doubleProp eqs sample.double, true)
+    exerciseQuery(floatProp eqs sample.float, true)
+    exerciseQuery(intProp eqs sample.int, true)
+    exerciseQuery(longProp eqs sample.long, true)
+    exerciseQuery(stringProp eqs sample.string, true)
   }
 
   behavior of "CassandraRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
-    exerciseQuery(floatProp eqs sample.float and booleanProp lt sample.boolean)
-    exerciseQuery(floatProp eqs sample.float and charProp lte sample.char)
-    exerciseQuery(floatProp eqs sample.float and dateTimeProp gt sample.dateTime)
-    exerciseQuery(floatProp eqs sample.float and doubleProp gte sample.double)
-    exerciseQuery(longProp eqs sample.long and floatProp lt sample.float)
-    exerciseQuery(floatProp eqs sample.float and intProp lte sample.int)
-    exerciseQuery(floatProp eqs sample.float and longProp gt sample.long)
-    exerciseQuery(floatProp eqs sample.float and stringProp gte sample.string)
+    exerciseQuery(floatProp eqs sample.float and booleanProp lt !sample.boolean, true)
+    exerciseQuery(floatProp eqs sample.float and charProp lte sample.char, true)
+    exerciseQuery(floatProp eqs sample.float and dateTimeProp gt sample.dateTime - 1.day, true)
+    exerciseQuery(floatProp eqs sample.float and doubleProp gte sample.double, true)
+    exerciseQuery(longProp eqs sample.long and floatProp lt sample.float + 2.0f, true)
+    exerciseQuery(floatProp eqs sample.float and intProp lte sample.int, true)
+    exerciseQuery(floatProp eqs sample.float and longProp gt sample.long - 1, true)
+    exerciseQuery(floatProp eqs sample.float and stringProp gte sample.string, true)
   }
 
   behavior of "CassandraRepo.retrieveByQuery"
@@ -50,16 +50,19 @@ extends QuerySpec[AllAttributes](cassandraContext, cassandraContext.testRepoPool
     exerciseQuery(
       booleanProp eqs sample.boolean and
       charProp lte sample.char and
-      dateTimeProp lt sample.dateTime)
+      dateTimeProp lt sample.dateTime + 1.hour,
+      true)
     exerciseQuery(
       dateTimeProp eqs sample.dateTime and (
         doubleProp gte sample.double and
-        floatProp lt sample.float))
+        floatProp lt sample.float + 7),
+      true)
     exerciseQuery(
       floatProp eqs sample.float and
       intProp lte sample.int and
-      longProp gt sample.long and
-      stringProp gte sample.string)
+      longProp gt sample.long - 2 and
+      stringProp gte sample.string,
+      true)
   }
 
 }
