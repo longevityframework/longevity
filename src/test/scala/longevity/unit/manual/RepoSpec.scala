@@ -69,7 +69,8 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
   protected val blogRepo = repos[Blog]
   protected val blogPostRepo = repos[BlogPost]
 
-  "user manual example code" should "compile" in {
+  // used in http://longevityframework.github.io/longevity/manual/repo/query.html
+  "retrieve by query example code" should "compile" in {
 
     if (false) { // don't run, just compile
 
@@ -104,7 +105,6 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     if (false) { // don't run, just compile
 
-      import com.github.nscala_time.time.Imports._
       import longevity.persistence.PState
       import scala.concurrent.Future
 
@@ -112,10 +112,56 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
       val blogState: PState[Blog] = getBlogState()
 
       val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
+        import com.github.nscala_time.time.Imports._
         import BlogPost.queryDsl._
         import BlogPost.props._
         blog eqs blogState.assoc and postDate gt DateTime.now - 1.week
       }
+    }
+
+  }
+
+  // used in http://longevityframework.github.io/longevity/manual/repo/stream.html
+  "stream by query example code" should "compile" in {
+
+    if (false) { // don't run, just compile
+
+      import akka.NotUsed
+      import akka.stream.scaladsl.Source
+      import longevity.persistence.PState
+
+      def getBlogState(): PState[Blog] = ???
+      val blogState: PState[Blog] = getBlogState()
+
+      val recentPosts: Source[PState[BlogPost], NotUsed] = blogPostRepo.streamByQuery {
+        import com.github.nscala_time.time.Imports._
+        import BlogPost.queryDsl._
+        import BlogPost.props._
+        blog eqs blogState.assoc and postDate gt DateTime.now - 1.week
+      }
+
+      import akka.actor.ActorSystem
+      import akka.stream.ActorMaterializer
+
+      implicit val system = ActorSystem("blogging")
+      implicit val materializer = ActorMaterializer()
+
+      recentPosts.runForeach { blogPostState => println(s"query returned ${blogPostState.get}") }
+
+      import akka.stream.scaladsl.Sink
+
+      recentPosts.to(Sink.foreach { state => println(s"query returned ${state.get}") })
+
+      recentPosts.map(_.get).runForeach {
+        post: BlogPost => println(s"query returned ${post}")
+      }
+
+      import akka.stream.scaladsl.Keep
+      import scala.concurrent.Future
+
+      val numRecentPosts: Future[Int] =
+        recentPosts.map(_ => 1).toMat(Sink.reduce[Int](_ + _))(Keep.right).run()
+
     }
 
   }

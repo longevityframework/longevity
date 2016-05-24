@@ -121,7 +121,7 @@ with TestDataGeneration {
   }
 
   private def exerciseStream(query: Query[P], expected: Set[PState[P]]): Unit = {
-    implicit val system = ActorSystem("QuickStart")
+    implicit val system = ActorSystem("QuerySpec")
     implicit val materializer = ActorMaterializer()
     val source = repo.streamByQuery(query)
     val actual = source.runFold(Set.empty[PState[P]])(_ + _).futureValue
