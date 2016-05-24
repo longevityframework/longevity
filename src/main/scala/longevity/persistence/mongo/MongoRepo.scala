@@ -81,18 +81,21 @@ with MongoSchema[P] {
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
   : Future[Seq[PState[P]]] = Future {
-    val cursor: MongoCursor = blocking {
-      mongoCollection.find(mongoQuery(query))
-    }
-    val dbObjs: Seq[DBObject] = cursor.toSeq
-    dbObjs.map { result =>
-      val id = result.getAs[ObjectId]("_id").get
-      val p = casbahToPersistentTranslator.translate(result)(pTypeKey)
-      new PState[P](MongoId(id), p)
+    blocking {
+      queryCursor(query).toSeq.map(dbObjectToPState)
     }
   }
 
-  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] = ???
+  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] = 
+    Source.fromIterator { () => queryCursor(query).map(dbObjectToPState) }
+
+  private def queryCursor(query: Query[P]): MongoCursor = mongoCollection.find(mongoQuery(query))
+
+  private def dbObjectToPState(dbObject: DBObject): PState[P] = {
+    val id = dbObject.getAs[ObjectId]("_id").get
+    val p = casbahToPersistentTranslator.translate(dbObject)(pTypeKey)
+    new PState[P](MongoId(id), p)
+  }
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     val p = state.get

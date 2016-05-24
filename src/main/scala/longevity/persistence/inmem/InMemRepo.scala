@@ -59,7 +59,7 @@ extends BaseRepo[P](pType, subdomain) {
   def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] =
     Source.fromIterator { () => queryResults(query).iterator }
 
-  def queryResults(query: Query[P]): Seq[PState[P]] =
+  private def queryResults(query: Query[P]): Seq[PState[P]] =
     allPStates.filter { s => InMemRepo.queryMatches(query, s.get) }
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {

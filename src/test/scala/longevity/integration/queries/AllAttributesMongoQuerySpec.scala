@@ -23,34 +23,34 @@ extends QuerySpec[AllAttributes](mongoContext, mongoContext.testRepoPool) {
 
   behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries" in {
-    exerciseQuery(booleanProp eqs sample.boolean)
-    exerciseQuery(charProp neq sample.char)
-    exerciseQuery(dateTimeProp eqs sample.dateTime)
-    exerciseQuery(doubleProp neq sample.double)
-    exerciseQuery(floatProp eqs sample.float)
-    exerciseQuery(intProp neq sample.int)
-    exerciseQuery(longProp eqs sample.long)
-    exerciseQuery(stringProp neq sample.string)
+    exerciseQuery(booleanProp eqs sample.boolean, true)
+    exerciseQuery(charProp neq sample.char, true)
+    exerciseQuery(dateTimeProp eqs sample.dateTime, true)
+    exerciseQuery(doubleProp neq sample.double, true)
+    exerciseQuery(floatProp eqs sample.float, true)
+    exerciseQuery(intProp neq sample.int, true)
+    exerciseQuery(longProp eqs sample.long, true)
+    exerciseQuery(stringProp neq sample.string, true)
   }
 
   behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for simple ordering queries" in {
-    exerciseQuery(booleanProp lt sample.boolean)
-    exerciseQuery(charProp lte sample.char)
-    exerciseQuery(dateTimeProp gt sample.dateTime)
-    exerciseQuery(doubleProp gte sample.double)
-    exerciseQuery(floatProp lt sample.float)
-    exerciseQuery(intProp lte sample.int)
-    exerciseQuery(longProp gt sample.long)
-    exerciseQuery(stringProp gte sample.string)
+    exerciseQuery(booleanProp lt sample.boolean, true)
+    exerciseQuery(charProp lte sample.char, true)
+    exerciseQuery(dateTimeProp gt sample.dateTime, true)
+    exerciseQuery(doubleProp gte sample.double, true)
+    exerciseQuery(floatProp lt sample.float, true)
+    exerciseQuery(intProp lte sample.int, true)
+    exerciseQuery(longProp gt sample.long, true)
+    exerciseQuery(stringProp gte sample.string, true)
   }
 
   behavior of "MongoRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
-    exerciseQuery(booleanProp lt sample.boolean and charProp lte sample.char)
-    exerciseQuery(dateTimeProp gt sample.dateTime and doubleProp gte sample.double)
-    exerciseQuery(floatProp lt sample.float or intProp lte sample.int)
-    exerciseQuery(longProp gt sample.long or stringProp gte sample.string)
+    exerciseQuery(booleanProp lt sample.boolean and charProp lte sample.char, true)
+    exerciseQuery(dateTimeProp gt sample.dateTime and doubleProp gte sample.double, true)
+    exerciseQuery(floatProp lt sample.float or intProp lte sample.int, true)
+    exerciseQuery(longProp gt sample.long or stringProp gte sample.string, true)
   }
 
   behavior of "MongoRepo.retrieveByQuery"
@@ -58,15 +58,18 @@ extends QuerySpec[AllAttributes](mongoContext, mongoContext.testRepoPool) {
     exerciseQuery(
       booleanProp lt sample.boolean and
       charProp lte sample.char and
-      dateTimeProp neq sample.dateTime)
+      dateTimeProp neq sample.dateTime,
+      true)
     exerciseQuery(
       dateTimeProp gt sample.dateTime or (
-        doubleProp gte sample.double or floatProp lt sample.float))
+        doubleProp gte sample.double or floatProp lt sample.float),
+      true)
     exerciseQuery(
       floatProp lt sample.float or
       intProp lte sample.int or
       longProp gt sample.long or
-      stringProp gte sample.string)
+      stringProp gte sample.string,
+      true)
   }
 
 }
