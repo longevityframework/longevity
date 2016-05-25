@@ -1,7 +1,11 @@
-// longevity/bin/ReleaseStage1.scala
+// longevity/bin/ReleaseStage2.scala
 
-// covers steps 2-4 (`sbt clean test doc` through `sbt publish-signed`) in this doc:
+// covers step 2 in this doc:
 // https://docs.google.com/document/d/1RisEp9o0825YJaYjKu4AM9W8wIYNgEO2jt0RxmioJMo/edit?usp=sharing
+
+// - pass `sbt clean test doc`
+// - update version in build to x.y.0
+// - run `sbt publish-signed`
 
 import scala.sys.process._
 import java.io.File
