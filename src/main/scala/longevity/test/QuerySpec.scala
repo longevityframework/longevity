@@ -106,9 +106,9 @@ with TestDataGeneration {
    * generates a test failure if they are not.
    */
   protected def exerciseQuery(query: Query[P], exerciseStreamByQuery: Boolean = false): Unit = {
-    val retrieveByQueryResults: Set[PState[P]] = repo.retrieveByQuery(query).futureValue.toSet
-    val results = retrieveByQueryResults.map(_.get)
-    val actual = entities intersect results // remove any entities not put in by this test
+    val results: Set[PState[P]] = repo.retrieveByQuery(query).futureValue.toSet
+    val actualPStates = pStates.toSet intersect results // remove any entities not put in by this test
+    val actual = actualPStates.map(_.get)
     val expected = entitiesMatchingQuery(query, entities)
 
     if (actual != expected) {
@@ -117,7 +117,7 @@ with TestDataGeneration {
     actual.size should equal (expected.size)
     actual should equal (expected)
 
-    if (exerciseStreamByQuery) exerciseStream(query, retrieveByQueryResults)
+    if (exerciseStreamByQuery) exerciseStream(query, actualPStates)
   }
 
   private def exerciseStream(query: Query[P], expected: Set[PState[P]]): Unit = {
@@ -128,6 +128,8 @@ with TestDataGeneration {
 
     if (actual != expected) {
       println(s"failure for query ${query}")
+      println(s"  exerciseStream actual = $actual")
+      println(s"  exerciseStream expected = $expected")
     }
     actual.size should equal (expected.size)
     actual should equal (expected)
