@@ -91,7 +91,7 @@ Because all of the methods in `Repo` are potentially blocking, they
 all return some kind of asynchronous construct - either a [Scala
 `Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future),
 or, in the case of `streamByQuery`, an [Akka
-Stream](http://doc.akka.io/docs/akka/2.4.6/scala/stream/index.html).
+Stream](http://doc.akka.io/docs/akka/current/scala/stream/index.html).
 
 Methods returning a Scala `Future` require an implicit execution
 context argument. The easiest way to provide this is to include

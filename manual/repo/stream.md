@@ -83,7 +83,7 @@ val numRecentPosts: Future[Int] =
 Akka streams are extremely flexible, and the scala DSL is very fluid
 and easy to use, once you understand what is going on. Please read the
 documentation on [Akka
-Streams](http://doc.akka.io/docs/akka/2.4.6/scala/stream/index.html)
+Streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html)
 for more information.
 
 At present, Akka Streams is an optional dependency, so in order to use
