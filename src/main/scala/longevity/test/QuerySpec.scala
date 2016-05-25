@@ -124,12 +124,14 @@ with TestDataGeneration {
     implicit val system = ActorSystem("QuerySpec")
     implicit val materializer = ActorMaterializer()
     val source = repo.streamByQuery(query)
-    val actual = source.runFold(Set.empty[PState[P]])(_ + _).futureValue
+    val results = source.runFold(Set.empty[PState[P]])(_ + _).futureValue
+    val actual = pStates.toSet intersect results
 
     if (actual != expected) {
       println(s"failure for query ${query}")
       println(s"  exerciseStream actual = $actual")
       println(s"  exerciseStream expected = $expected")
+      println(s"  exerciseStream extras = ${actual -- expected}")
     }
     actual.size should equal (expected.size)
     actual should equal (expected)
