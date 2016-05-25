@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>InMemRepo - longevity 0.8-SNAPSHOT API - longevity.persistence.inmem.InMemRepo</title>
-          <meta name="description" content="InMemRepo - longevity 0.8 - SNAPSHOT API - longevity.persistence.inmem.InMemRepo" />
-          <meta name="keywords" content="InMemRepo longevity 0.8 SNAPSHOT API longevity.persistence.inmem.InMemRepo" />
+          <title>InMemRepo - longevity 0.9-SNAPSHOT API - longevity.persistence.inmem.InMemRepo</title>
+          <meta name="description" content="InMemRepo - longevity 0.9 - SNAPSHOT API - longevity.persistence.inmem.InMemRepo" />
+          <meta name="keywords" content="InMemRepo longevity 0.9 SNAPSHOT API longevity.persistence.inmem.InMemRepo" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -52,7 +52,7 @@
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an in-memory repository for persistent entities of type <code>P</code>
-</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a href="" class="extype" name="longevity.persistence.inmem.InMemRepo">InMemRepo</a>[<span class="extype" name="longevity.persistence.inmem.InMemRepo.P">P</span>]</dd><dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/ec1e846dde2c4bccf8f4c2feee3509f9a33c2ac0/src/main/scala/longevity/persistence/inmem/InMemRepo.scala" target="_blank">InMemRepo.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a href="" class="extype" name="longevity.persistence.inmem.InMemRepo">InMemRepo</a>[<span class="extype" name="longevity.persistence.inmem.InMemRepo.P">P</span>]</dd><dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/e0762fc0f0518252f5e6bc4915f4ac3a038ba780/src/main/scala/longevity/persistence/inmem/InMemRepo.scala" target="_blank">InMemRepo.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="longevity.persistence.BaseRepo">BaseRepo</span>[<span class="extype" name="longevity.persistence.inmem.InMemRepo.P">P</span>], <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>[<span class="extype" name="longevity.persistence.inmem.InMemRepo.P">P</span>], <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -789,8 +789,8 @@ whenever the persistent ref is an unpersisted assoc</p></span></dd></dl></div>
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">retrieves multiple persistent objects by a query
-</p><div class="fullcomment"><div class="comment cmt"><p>retrieves multiple persistent objects by a query
+      <p class="shortcomment cmt">retrieves multiple persistent objects matching a query
+</p><div class="fullcomment"><div class="comment cmt"><p>retrieves multiple persistent objects matching a query
 </p></div><dl class="paramcmts block"><dt class="param">query</dt><dd class="cmt"><p>the query to execute</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.persistence.inmem.InMemRepo">InMemRepo</a> → <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a></dd></dl></div>
     </li><li name="longevity.persistence.BaseRepo#retrieveOne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="retrieveOne(ref:longevity.subdomain.PRef[P])(implicitcontext:scala.concurrent.ExecutionContext):scala.concurrent.Future[longevity.persistence.PState[P]]"></a>
@@ -814,6 +814,25 @@ to a persistent object in the repository
 <a href="../../subdomain/ptype/KeyVal.html" class="extype" name="longevity.subdomain.ptype.KeyVal">KeyVal</a> or an
 <a href="../../subdomain/Assoc.html" class="extype" name="longevity.subdomain.Assoc">Assoc</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>BaseRepo → <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a></dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../../exceptions/persistence/AssocIsUnpersistedException.html" class="extype" name="longevity.exceptions.persistence.AssocIsUnpersistedException"><code>longevity.exceptions.persistence.AssocIsUnpersistedException</code></a> 
 whenever the persistent ref is an unpersisted assoc</p></span></dd></dl></div>
+    </li><li name="longevity.persistence.inmem.InMemRepo#streamByQuery" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="streamByQuery(query:longevity.subdomain.ptype.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]"></a>
+      <a id="streamByQuery(Query[P]):Source[PState[P],NotUsed]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">streamByQuery</span><span class="params">(<span name="query">query: <a href="../../subdomain/ptype/Query.html" class="extype" name="longevity.subdomain.ptype.Query">Query</a>[<span class="extype" name="longevity.persistence.inmem.InMemRepo.P">P</span>]</span>)</span><span class="result">: <span class="extype" name="akka.stream.scaladsl.Source">Source</span>[<a href="../PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.inmem.InMemRepo.P">P</span>], <span class="extype" name="akka.NotUsed">NotUsed</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.persistence.inmem.InMemRepo@streamByQuery(query:longevity.subdomain.ptype.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">streams persistent objects matching a query
+</p><div class="fullcomment"><div class="comment cmt"><p>streams persistent objects matching a query
+</p></div><dl class="paramcmts block"><dt class="param">query</dt><dd class="cmt"><p>the query to execute</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.persistence.inmem.InMemRepo">InMemRepo</a> → <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a></dd></dl></div>
     </li><li name="longevity.persistence.BaseRepo#subdomain" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="subdomain:longevity.subdomain.Subdomain"></a>
       <a id="subdomain:Subdomain"></a>
