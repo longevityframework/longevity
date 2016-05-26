@@ -22,14 +22,6 @@ val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
     Query.gt(BlogPost.props.postDate, DateTime.now - 1.week)))
 ```
 
-<div class="blue-side-bar">
-
-Of course, we would <a href =
-"https://www.pivotaltracker.com/story/show/109042398">prefer to
-return a stream here</a>, rather than a sequence wrapped in a future.
-
-</div>
-
 Anything you can do with the `Query` factory methods, as shown above,
 you can do using the Query DSL instead:
 
