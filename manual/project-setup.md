@@ -20,16 +20,16 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
 
-libraryDependencies += "org.longevityframework" %% "longevity" % "0.8.0"
+libraryDependencies += "org.longevityframework" %% "longevity" % "0.8.1"
 ```
 
 Include one of the following lines to bring in the library
 dependencies for the back end of your choice:
 
 ```scala
-libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.8.0"
+libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.8.1"
 
-libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.8.0"
+libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.8.1"
 ```
 
 ## Building the Artifacts Yourself
