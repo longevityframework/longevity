@@ -28,8 +28,8 @@ object ReleaseStage2 extends App {
 
   val isLive = false
 
-  val longevityDir = new File("/Users/jsmscs/ws/longevity")
-  val projectDir =  new File("/Users/jsmscs/ws/longevity/project")
+  val longevityDir = new File("/Users/jsmscs/ws/lf/longevity")
+  val projectDir =  new File("/Users/jsmscs/ws/lf/longevity/project")
 
   // make sure no outstanding changes
   run("git diff --exit-code")
