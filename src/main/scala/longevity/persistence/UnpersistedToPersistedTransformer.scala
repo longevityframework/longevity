@@ -8,15 +8,11 @@ import emblem.emblematic.traversors.async.Transformer.CustomTransformer
 import emblem.emblematic.traversors.async.Transformer.CustomTransformerPool
 import emblem.typeKey
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
-import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
 import longevity.subdomain.UnpersistedAssoc
 import longevity.subdomain.persistent.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import scala.concurrent.Promise
-import scala.util.Failure
-import scala.util.Success
 
 /** traverses an entity graph, replacing every
  * [[longevity.subdomain.UnpersistedAssoc unpersisted assoc]] with a

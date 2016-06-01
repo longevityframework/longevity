@@ -1,8 +1,5 @@
 package longevity.exceptions.persistence
 
-import emblem.TypeKey
-import emblem.exceptions.CouldNotTraverseException
-
 /** an exception thrown by a [[longevity.persistence.Repo repository]] when
  * translating between a persistent and a serialized form
  */

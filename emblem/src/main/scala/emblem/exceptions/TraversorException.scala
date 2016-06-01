@@ -1,7 +1,5 @@
 package emblem.exceptions
 
-import emblem.TypeKey
-
 /** an exception thrown by a [[emblem.emblematic.traversors.async.Traversor]],
  * or one of its cousins in the [[emblem.emblematic.traversors
  * emblem.emblematic.traversors package]]

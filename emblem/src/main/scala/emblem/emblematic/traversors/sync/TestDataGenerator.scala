@@ -1,18 +1,11 @@
 package emblem.emblematic.traversors.sync
 
-import emblem.emblematic.Emblem
-import emblem.emblematic.Emblematic
-import emblem.emblematic.EmblemPool
-import emblem.emblematic.EmblemProp
-import emblem.emblematic.Extractor
-import emblem.emblematic.ExtractorPool
-import emblem.typeKey
+import com.github.nscala_time.time.Implicits.richInt
+import com.github.nscala_time.time.Imports.richDateTime
 import emblem.TypeKey
-import emblem.TypeKeyMap
+import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
-import emblem.reflectionUtil.makeTypeTag
-import com.github.nscala_time.time.Imports._
-import scala.reflect.runtime.universe.typeOf
+import org.joda.time.DateTime
 
 /** generates test data for a pool of extractors, a pool of emblems, and some
  * custom generators. you can generate any kind of data you like by providing

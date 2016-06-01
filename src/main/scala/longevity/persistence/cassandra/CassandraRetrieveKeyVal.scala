@@ -2,16 +2,11 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
-import com.datastax.driver.core.Row
-import com.datastax.driver.core.Session
-import java.util.UUID
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.KeyVal
 import longevity.subdomain.ptype.Prop
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

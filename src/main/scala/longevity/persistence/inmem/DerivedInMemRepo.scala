@@ -5,7 +5,6 @@ import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.KeyVal
-import longevity.subdomain.ptype.Query
 
 private[inmem] trait DerivedInMemRepo[P <: Persistent, Poly >: P <: Persistent] extends InMemRepo[P] {
 

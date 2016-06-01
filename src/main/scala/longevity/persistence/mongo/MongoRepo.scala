@@ -43,8 +43,6 @@ import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
-import scala.util.Failure
-import scala.util.Success
 
 /** a MongoDB repository for persistent entities of type `P`.
  *

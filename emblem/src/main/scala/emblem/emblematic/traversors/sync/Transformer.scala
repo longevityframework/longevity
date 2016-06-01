@@ -2,10 +2,8 @@ package emblem.emblematic.traversors.sync
 
 import emblem.emblematic.Emblem
 import emblem.emblematic.Emblematic
-import emblem.emblematic.EmblemPool
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Extractor
-import emblem.emblematic.ExtractorPool
 import emblem.typeBound.TypeBoundFunction
 import emblem.TypeKey
 import emblem.TypeKeyMap

@@ -4,15 +4,12 @@ import Differ.Diff
 import Differ.Diffs
 import emblem.TypeKey
 import emblem.emblematic.Emblem
-import emblem.emblematic.EmblemPool
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Extractor
-import emblem.emblematic.ExtractorPool
 import emblem.emblematic.Union
 import emblem.typeKey
 import org.joda.time.DateTime
-import scala.reflect.runtime.universe.typeOf
 
 /** recursively computes a sequence of [[Differ.Diff diffs]] between two
  * different values of the same type.

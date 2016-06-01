@@ -3,11 +3,9 @@ package emblem.emblematic.traversors.async
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.emblematic.Emblem
-import emblem.emblematic.EmblemPool
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Extractor
-import emblem.emblematic.ExtractorPool
 import emblem.emblematic.Union
 import emblem.emblematic.traversors.async.Transformer.CustomTransformer
 import emblem.emblematic.traversors.async.Transformer.CustomTransformerPool
@@ -19,9 +17,6 @@ import emblem.typeKey
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import scala.concurrent.Promise
-import scala.util.Failure
-import scala.util.Success
 
 /** asynchronously tranforms a recursive data structure. the input and the
  * output of the transformation have the same type.

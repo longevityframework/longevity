@@ -3,8 +3,6 @@ package emblem.emblematic.factories
 import emblem.TypeKey
 import emblem.exceptions.CaseClassHasMultipleParamListsException
 import emblem.reflectionUtil.TypeReflector
-import scala.reflect.ClassTag
-import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe.TermSymbol
 
 /** a useful scope to hang on to various data to be shared across methods, so we

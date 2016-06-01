@@ -3,24 +3,18 @@ package emblem.emblematic.traversors.async
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.emblematic.Emblem
-import emblem.emblematic.EmblemPool
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Extractor
 import emblem.emblematic.ExtractorFor
-import emblem.emblematic.ExtractorPool
 import emblem.emblematic.Union
 import emblem.exceptions.CouldNotTraverseException
-import emblem.reflectionUtil.makeTypeTag
 import emblem.typeKey
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.Promise
 import scala.reflect.runtime.universe.typeOf
-import scala.util.Failure
-import scala.util.Success
-import scala.util.Try
 
 /** asynchronously traverses a recursive data structure. the inputs and the
  * outputs of the traversal are abstract here, and specified by the implementing

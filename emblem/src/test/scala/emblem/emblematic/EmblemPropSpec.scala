@@ -2,7 +2,6 @@ package emblem.emblematic
 
 import emblem.TypeKey
 import emblem.typeKey
-import scala.reflect.runtime.universe.TypeRef
 import scala.reflect.runtime.universe.typeOf
 import scala.reflect.runtime.universe.typeTag
 import org.scalatest.FlatSpec

@@ -2,9 +2,7 @@ package longevity.persistence.inmem
 
 import akka.NotUsed
 import akka.stream.scaladsl.Source
-import emblem.TypeKey
 import emblem.typeKey
-import longevity.context.LongevityContext
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted

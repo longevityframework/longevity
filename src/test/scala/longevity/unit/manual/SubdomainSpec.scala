@@ -262,13 +262,7 @@ object SubdomainSpec {
 class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import SubdomainSpec._
-  import longevity.subdomain.Assoc
-  import longevity.subdomain.entity.EntityTypePool
-  import longevity.subdomain.Shorthand
-  import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain
-  import longevity.subdomain.persistent.Root
-  import longevity.subdomain.ptype.RootType
 
   "user manual example code" should "produce correct subdomains" in {
 

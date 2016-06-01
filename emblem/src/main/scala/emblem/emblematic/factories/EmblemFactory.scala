@@ -6,7 +6,6 @@ import emblem.TypeKey
 import emblem.exceptions.CaseClassHasMultipleParamListsException
 import emblem.exceptions.RequiredPropertyNotSetException
 import emblem.reflectionUtil.makeTypeTag
-import scala.reflect.ClassTag
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe.MethodSymbol
 import scala.reflect.runtime.universe.NoSymbol

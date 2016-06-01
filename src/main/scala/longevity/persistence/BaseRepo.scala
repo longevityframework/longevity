@@ -1,12 +1,14 @@
 package longevity.persistence
 
 import emblem.TypeKey
-import emblem.typeKey
 import longevity.exceptions.persistence.AssocIsUnpersistedException
-import longevity.subdomain._
+import longevity.subdomain.PRef
+import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.ptype._
-import scala.concurrent._
+import longevity.subdomain.ptype.KeyVal
+import longevity.subdomain.ptype.PType
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
 /** an abstract base class for [[Repo]] implementations.
  * 

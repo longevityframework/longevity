@@ -2,12 +2,7 @@ package longevity.persistence.cassandra
 
 import akka.NotUsed
 import akka.stream.scaladsl.Source
-import com.datastax.driver.core.BoundStatement
-import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.ResultSet
-import com.datastax.driver.core.Row
-import com.datastax.driver.core.Session
-import java.util.UUID
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence.PState
@@ -24,8 +19,6 @@ import longevity.subdomain.ptype.Query.LtOp
 import longevity.subdomain.ptype.Query.LteOp
 import longevity.subdomain.ptype.Query.NeqOp
 import longevity.subdomain.ptype.Query.OrOp
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import scala.collection.JavaConversions.asScalaBuffer
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

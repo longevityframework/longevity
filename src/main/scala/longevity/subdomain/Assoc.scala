@@ -1,9 +1,7 @@
 package longevity.subdomain
 
 import emblem.TypeKey
-import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
-import scala.concurrent.Future
 
 object Assoc {
 

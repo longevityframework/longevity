@@ -2,7 +2,6 @@ package longevity.subdomain.ptype
 
 import emblem.TypeKeyMap
 import longevity.exceptions.subdomain.DuplicateEntityTypesException
-import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.persistent.Persistent
 
 /** houses methods for constructing persistent type pools */

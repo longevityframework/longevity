@@ -2,7 +2,6 @@ package emblem.emblematic
 
 import emblem.TypeKey
 import emblem.emblematic.factories.EmblemFactory
-import scala.reflect.runtime.universe.TypeTag
 
 /** a reflective signature for a type. provides name information, [[EmblemProp
  * properties]], and a tool used to build new instances. the underlying type is

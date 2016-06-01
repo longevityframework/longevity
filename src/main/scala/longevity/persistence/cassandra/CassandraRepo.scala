@@ -2,7 +2,6 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.Cluster
-import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import com.datastax.driver.core.Session
@@ -24,7 +23,6 @@ import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.Prop
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking

@@ -3,7 +3,6 @@ package emblem.emblematic
 import emblem.exceptions.CaseClassHasMultipleParamListsException
 import emblem.exceptions.CaseClassIsInnerClassException
 import emblem.exceptions.TypeIsNotCaseClassException
-import emblem.typeKey
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

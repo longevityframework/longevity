@@ -5,8 +5,7 @@ import emblem.TypeKey
 import emblem.exceptions.CaseClassHasMultipleParamsException
 import emblem.exceptions.UnexpectedDomainTypeException
 import emblem.typeKey
-import scala.reflect.runtime.currentMirror
-import scala.reflect.runtime.universe._
+import scala.reflect.runtime.universe.TermSymbol
 
 /** generates an [[Extractor extractor]] from [[TypeKey type keys]] for the `Domain` and `Range` types
  * @tparam Range the range type

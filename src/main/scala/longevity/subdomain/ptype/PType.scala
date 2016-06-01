@@ -1,9 +1,7 @@
 package longevity.subdomain.ptype
 
-import emblem.emblematic.Emblematic
 import emblem.TypeKey
 import emblem.typeKey
-import emblem.emblematic.basicTypes.isBasicType
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException

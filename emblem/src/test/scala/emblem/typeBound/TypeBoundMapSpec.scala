@@ -1,7 +1,6 @@
 package emblem.typeBound
 
 import emblem.TypeKey
-import emblem.TypeKeyMap
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

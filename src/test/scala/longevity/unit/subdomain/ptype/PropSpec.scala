@@ -7,9 +7,6 @@ import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 import longevity.persistence.PersistedAssoc
 import longevity.subdomain.Assoc
-import longevity.subdomain.ShorthandPool
-import longevity.subdomain.Subdomain
-import longevity.subdomain.entity.EntityTypePool
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.RootType
@@ -312,7 +309,6 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "Prop.propVal(p)"
 
   it should "throw exception when called before the PType is added to the Subdomain" in {
-    import longevity.integration.subdomain.allAttributes
     val p = PropSpec.NoSubdomain("uri")
     intercept[PTypeHasNoSubdomainException] {
       PropSpec.NoSubdomain.props.uri.propVal(p)

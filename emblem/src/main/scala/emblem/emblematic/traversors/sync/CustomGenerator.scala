@@ -2,14 +2,13 @@ package emblem.emblematic.traversors.sync
 
 import emblem.TypeKey
 import emblem.typeKey
-import emblem.reflectionUtil.makeTypeTag
-import scala.reflect.runtime.universe.typeOf
 
-/** a custom generator for things of type `A`. the `apply` method takes a type parameter that is tighter than
- * `A`, and acquires a [[TypeKey]] for that type, so it can customize its behavior based on the type requested.
+/** a custom generator for things of type `A`. the `apply` method takes a type
+ * parameter that is tighter than `A`, and acquires a [[TypeKey]] for that type,
+ * so it can customize its behavior based on the type requested.
  *
- * the apply method also takes a [[Generator]] as argument, so that it can call back into to the calling
- * `Generator` to generate complex values.
+ * the apply method also takes a [[Generator]] as argument, so that it can call
+ * back into to the calling `Generator` to generate complex values.
  *
  * example usage:
  *

@@ -1,6 +1,5 @@
 package longevity.subdomain.ptype
 
-import emblem.emblematic.Emblematic
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 

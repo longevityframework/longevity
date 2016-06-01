@@ -1,17 +1,13 @@
 package emblem.emblematic.traversors.sync
 
 import emblem.emblematic.Emblem
-import emblem.emblematic.EmblemPool
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Extractor
-import emblem.emblematic.ExtractorPool
 import emblem.TypeKey
-import emblem.TypeKeyMap
 import emblem.emblematic.Union
 import emblem.jsonUtil.dateTimeFormatter
 import emblem.typeKey
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import org.json4s.JsonAST.JArray
 import org.json4s.JsonAST.JBool
 import org.json4s.JsonAST.JDouble

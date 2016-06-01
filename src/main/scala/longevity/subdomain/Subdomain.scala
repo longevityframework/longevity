@@ -10,9 +10,7 @@ import emblem.emblematic.ExtractorPool
 import emblem.emblematic.Union
 import emblem.emblematic.UnionPool
 import emblem.typeBound.TypeBoundFunction
-import emblem.typeBound.TypeBoundPair
 import emblem.typeBound.WideningTypeBoundFunction
-import emblem.typeKey
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.entity.DerivedType
 import longevity.subdomain.entity.Entity

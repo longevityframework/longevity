@@ -2,12 +2,10 @@ package longevity.persistence.mongo
 
 import com.github.nscala_time.time.Imports._
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Extractor
-import emblem.emblematic.ExtractorPool
 import emblem.TypeKey
 import emblem.emblematic.Union
 import emblem.exceptions.CouldNotTraverseException

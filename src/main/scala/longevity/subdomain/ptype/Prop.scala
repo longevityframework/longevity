@@ -1,13 +1,10 @@
 package longevity.subdomain.ptype
 
 import emblem.TypeKey
-import emblem.emblematic.Emblem
-import emblem.emblematic.Emblematic
 import emblem.emblematic.EmblematicPropPath
 import emblem.emblematic.ReflectiveProp
 import emblem.emblematic.basicTypes.basicTypeOrderings
 import emblem.emblematic.basicTypes.isBasicType
-import emblem.exceptions.EmblematicPropPathTypeMismatchException
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblematicInPropPathException
@@ -18,7 +15,6 @@ import longevity.exceptions.subdomain.ptype.PropNotOrderedException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 import longevity.subdomain.Assoc
-import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.entity.Entity
 import longevity.subdomain.persistent.Persistent

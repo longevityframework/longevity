@@ -1,18 +1,13 @@
 package longevity.test
 
-import emblem.typeBound.TypeBoundPair
 import emblem.TypeKey
 import emblem.emblematic.traversors.sync.CustomGenerator
-import emblem.emblematic.traversors.sync.CustomGeneratorPool
-import emblem.emblematic.traversors.sync.Differ
 import emblem.emblematic.traversors.sync.Generator
 import emblem.emblematic.traversors.sync.TestDataGenerator
 import emblem.typeKey
 import longevity.context.LongevityContext
 import longevity.subdomain.Assoc
 import longevity.subdomain.persistent.Persistent
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 // TODO pt #110726688 produce roots with PersistedAssoc instead of UnpersistedAssoc
 

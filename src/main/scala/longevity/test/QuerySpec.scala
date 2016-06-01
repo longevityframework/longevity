@@ -20,7 +20,6 @@ import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar.convertIntToGrainOfTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import scala.util.Random
 
 /** contains common code for testing different [[longevity.subdomain.ptype.Query]]
  * instances against [[longevity.persistence.Repo#retrieveByQuery]]

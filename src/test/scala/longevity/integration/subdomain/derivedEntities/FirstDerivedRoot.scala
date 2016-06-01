@@ -1,7 +1,6 @@
 package longevity.integration.subdomain.derivedEntities
 
 import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.RootType
 
 case class FirstDerivedRoot(
   uri: String,

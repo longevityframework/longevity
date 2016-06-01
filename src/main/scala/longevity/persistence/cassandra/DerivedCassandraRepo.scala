@@ -1,6 +1,5 @@
 package longevity.persistence.cassandra
 
-import emblem.TypeKey
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.Prop

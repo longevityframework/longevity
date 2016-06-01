@@ -1,16 +1,13 @@
 package emblem.testData
 
-import com.github.nscala_time.time.Imports.richDateTime
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Extractor
 import emblem.emblematic.ExtractorPool
-
 import emblem.emblematic.Union
 import emblem.emblematic.UnionPool
 import emblem.emblematic.traversors.sync.TestDataGenerator
-import emblem.typeKey
 import org.joda.time.DateTime
 
 /** an attempt at an exhaustive set of data to cover emblematic traversal logic */

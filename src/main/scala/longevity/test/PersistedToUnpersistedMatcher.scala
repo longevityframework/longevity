@@ -1,18 +1,12 @@
 package longevity.test
 
-import emblem.typeBound.TypeBoundPair
 import emblem.TypeKey
-import emblem.emblematic.traversors.sync.CustomGenerator
-import emblem.emblematic.traversors.sync.CustomGeneratorPool
 import emblem.emblematic.traversors.sync.Differ
-import emblem.emblematic.traversors.sync.Generator
-import emblem.emblematic.traversors.sync.TestDataGenerator
 import longevity.context.LongevityContext
 import longevity.persistence.RepoPool
 import longevity.subdomain.persistent.Persistent
 import org.scalatest.Suite
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

@@ -1,7 +1,5 @@
 package longevity.test
 
-import emblem.emblematic.Emblem
-import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
 import emblem.TypeKey
 import emblem.emblematic.traversors.async.Transformer

@@ -1,6 +1,5 @@
 package emblem.emblematic
 
-import emblem.exceptions.NoSuchPropertyException
 import emblem.testData.exhaustive.Specialization1
 import emblem.testData.exhaustive.Specialization2
 import emblem.testData.exhaustive.Specialization3

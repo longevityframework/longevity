@@ -2,11 +2,8 @@ package longevity.unit.subdomain.ptype
 
 import longevity.exceptions.subdomain.ptype.NumPropValsException
 import longevity.exceptions.subdomain.ptype.PropValTypeException
-import longevity.subdomain.Assoc
-import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.KeyVal
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType

@@ -6,9 +6,6 @@ import emblem.emblematic.UnionProp
 import emblem.TypeKey
 import emblem.reflectionUtil.makeTypeTag
 import emblem.reflectionUtil.TypeReflector
-import scala.reflect.ClassTag
-import scala.reflect.runtime.currentMirror
-import scala.reflect.runtime.universe.NoSymbol
 import scala.reflect.runtime.universe.Type
 import scala.reflect.runtime.universe.TermName
 

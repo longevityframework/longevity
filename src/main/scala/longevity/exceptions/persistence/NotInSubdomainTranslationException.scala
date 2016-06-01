@@ -1,6 +1,5 @@
 package longevity.exceptions.persistence
 
-import emblem.TypeKey
 import emblem.exceptions.TraversorException
 
 /** an exception thrown by a [[longevity.persistence.Repo repository]] when

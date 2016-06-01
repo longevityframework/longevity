@@ -4,7 +4,6 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.integration.subdomain.withAssoc
 import longevity.persistence.RepoPool
-import longevity.subdomain.persistent.Root
 import longevity.test.PersistedToUnpersistedMatcher
 import longevity.test.TestDataGeneration
 import org.scalatest.FlatSpec

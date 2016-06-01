@@ -1,10 +1,8 @@
 package emblem.emblematic.traversors.sync
 
 import emblem.emblematic.Emblem
-import emblem.emblematic.EmblemPool
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Extractor
-import emblem.emblematic.ExtractorPool
 import emblem.TypeKey
 import emblem.emblematic.Union
 import emblem.exceptions.CouldNotTraverseException

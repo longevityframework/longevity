@@ -1,9 +1,6 @@
 package emblem.emblematic
 
 import emblem.exceptions.NoSuchPropertyException
-import emblem.testData.exhaustive.WithBasics
-import emblem.testData.exhaustive.WithCollections
-import emblem.testData.exhaustive.WithExtractors
 import emblem.testData.exhaustive.withBasicsEmblem
 import emblem.testData.exhaustive.withCollectionsEmblem
 import emblem.testData.exhaustive.withExtractorsEmblem
