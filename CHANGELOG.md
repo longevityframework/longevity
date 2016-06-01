@@ -7,6 +7,13 @@
   (instead of just type aliases). this allows users to directly
   subclass these three types if they wish.
 
+## [0.8.1] - 2016.06.01 - Bug Fix Release
+
+- 2016.06.01 - make Akka streams non-optional
+  dependency. difficult-to-resolve linking problems occur when this is
+  optional. we might revisit this later but for now the best solution
+  is to make it non-optional.
+
 ## [0.8.0] - 2016.05.24 - Streaming Queries
 
 - 2016.05.24 - add API method `Repo.streamByQuery(query: Query[P]):

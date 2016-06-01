@@ -111,8 +111,7 @@ object LongevityBuild extends Build with BuildSettings {
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
 
-      libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.6" % Optional,
-      libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.6" % Test,
+      libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.6",
 
       // for mongo:
 
