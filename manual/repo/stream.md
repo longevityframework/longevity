@@ -86,14 +86,6 @@ documentation on [Akka
 Streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html)
 for more information.
 
-At present, Akka Streams is an optional dependency, so in order to use
-this repository method, you will have to add the following dependency
-to your project:
-
-```scala
-libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.6"
-```
-
 {% assign prevTitle = "retrieval by query" %}
 {% assign prevLink = "query.html" %}
 {% assign upTitle = "repositories" %}
