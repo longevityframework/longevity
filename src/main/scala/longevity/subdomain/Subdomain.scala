@@ -35,7 +35,7 @@ import longevity.subdomain.ptype.PolyPType
  * @param entityTypePool a complete set of the entity types within the
  * subdomain. defaults to empty
  * @param shorthandPool a complete set of the shorthands used by the bounded
- * context
+ * context. defaults to empty
  */
 class Subdomain(
   val name: String,

@@ -6,15 +6,6 @@ import longevity.subdomain.persistent.Persistent
 /** provides support for constructing your subdomain */
 package object subdomain {
 
-  /** a core domain. functionally equivalent to a [[Subdomain]] */
-  type CoreDomain = Subdomain
-
-  /** a supporting subdomain. functionally equivalent to a [[Subdomain]] */
-  type SupportingSubdomain = Subdomain
-
-  /** a generic subdomain. functionally equivalent to a [[Subdomain]] */
-  type GenericSubdomain = Subdomain
-
   /** a shorthand with the abbreviated type unspecified. this type is equivalent
    * to `Shorthand[Actual, _]`, except with a single type parameter `Actual`.
    * this allows it to be used as a key or value in a `TypeBoundMap` or

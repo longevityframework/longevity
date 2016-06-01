@@ -1,5 +1,12 @@
 # Longevity Change Log
 
+## [0.9-SNAPSHOT]
+
+- 2016.06.01 - `CoreDomain`, `SupportingSubdomain` and
+  `GenericSubdomain` are not actual traits that extend `Subdomain`
+  (instead of just type aliases). this allows users to directly
+  subclass these three types if they wish.
+
 ## [0.8.0] - 2016.05.24 - Streaming Queries
 
 - 2016.05.24 - add API method `Repo.streamByQuery(query: Query[P]):
