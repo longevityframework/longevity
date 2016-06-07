@@ -2,6 +2,10 @@
 
 ## [0.9-SNAPSHOT]
 
+- 2016.06.07 - add method `Deleted.get`
+- 2016.06.07 - fix method names `LiftFPState.mapRoot`,
+  `LiftFPState.flatMapRoot`, `LiftFOPState.mapRoot`, and
+  `LiftFOPState.flatMapRoot` by replacing `Root` with `P`.
 - 2016.06.01 - `CoreDomain`, `SupportingSubdomain` and
   `GenericSubdomain` are not actual traits that extend `Subdomain`
   (instead of just type aliases). this allows users to directly
