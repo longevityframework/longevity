@@ -10,4 +10,9 @@ import longevity.subdomain.persistent.Persistent
  */
 case class Deleted[P <: Persistent] private[persistence] (
   val p: P,
-  val assoc: Assoc[P])
+  val assoc: Assoc[P]) {
+
+  /** returns the persistent object that was deleted */
+  def get: P = p
+
+}
