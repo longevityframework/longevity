@@ -42,11 +42,11 @@ package object persistence {
     implicit executionContext: ExecutionContext) {
 
     /** map the future PState by mapping the Persistent inside the PState */
-    def mapRoot(f: P => P): FPState[P] =
+    def mapP(f: P => P): FPState[P] =
       fpState.map { pState => pState.map { p => f(p) } }
 
     /** flatMap the future PState by mapping the Persistent inside the PState into a `Future[P]` */
-    def flatMapRoot(f: P => Future[P]): FPState[P] =
+    def flatMapP(f: P => Future[P]): FPState[P] =
       fpState.flatMap { pState => f(pState.get) map { p => pState.set(p) } }
 
   }
@@ -60,13 +60,13 @@ package object persistence {
     implicit executionContext: ExecutionContext) {
 
     /** map the `FOPState` by mapping the Persistent inside the PState */
-    def mapRoot(f: P => P): FOPState[P] =
+    def mapP(f: P => P): FOPState[P] =
       fopState.map { opState =>
         opState.map { pState => pState.map { p => f(p) } }
       }
 
     /** flatMap the `FOPState` by mapping the Persistent inside the PState into a `Future[P]` */
-    def flatMapRoot(f: P => Future[P]): FOPState[P] =
+    def flatMapP(f: P => Future[P]): FOPState[P] =
       fopState.flatMap { opState =>
         opState match {
           case Some(pState) => f(pState.get) map { p => Some(pState.set(p)) }

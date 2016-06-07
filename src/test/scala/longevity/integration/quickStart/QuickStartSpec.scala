@@ -290,7 +290,7 @@ with ScaledTimeSpans {
     val updated: FOPState[User] =
       userRepo.retrieve(
         User.keys.username(john.username)
-      ).mapRoot(
+      ).mapP(
         userService.updateUser _
       ).flatMapState(
         userRepo.update(_)
@@ -300,7 +300,7 @@ with ScaledTimeSpans {
     val updatedReactive: FOPState[User] =
       userRepo.retrieve(
         User.keys.username(john.username)
-      ).flatMapRoot(
+      ).flatMapP(
         userService.updateUserReactive _
       ).flatMapState(
         userRepo.update(_)
