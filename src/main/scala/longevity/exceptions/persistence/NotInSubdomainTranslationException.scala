@@ -3,7 +3,7 @@ package longevity.exceptions.persistence
 import emblem.exceptions.TraversorException
 
 /** an exception thrown by a [[longevity.persistence.Repo repository]] when
- * a translating between a persistent and a serialized form, and a type is
+ * translating between a persistent and a serialized form, and a type is
  * encountered that is not a basic type or collection, and is not a
  * persistent, entity, or shorthand defined by the subdomain.
  *

@@ -30,4 +30,6 @@ case class Key[P <: Persistent] private [subdomain] (val props: Seq[Prop[P, _]])
     KeyVal(this, propVals.toMap[Prop[P, _], Any])
   }
 
+  override def toString = s"Key(${props.mkString(",")})"
+
 }

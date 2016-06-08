@@ -3,6 +3,7 @@ package longevity.persistence.mongo
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import com.mongodb.DBObject
+import com.mongodb.DuplicateKeyException
 import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.MongoCursor
 import com.mongodb.casbah.MongoDB
@@ -15,20 +16,21 @@ import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
 import longevity.exceptions.persistence.AssocIsUnpersistedException
+import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.PersistedAssoc
 import longevity.subdomain.Assoc
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
+import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.EqualityQuery
 import longevity.subdomain.ptype.KeyVal
 import longevity.subdomain.ptype.OrderingQuery
 import longevity.subdomain.ptype.PType
+import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.Query.AndOp
@@ -72,7 +74,11 @@ with MongoSchema[P] {
     val objectId = new ObjectId()
     val casbah = casbahForP(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
-      mongoCollection.insert(casbah)
+      try {
+        mongoCollection.insert(casbah)
+      } catch {
+        case e: DuplicateKeyException => throwDuplicateKeyValException(p, e)
+      }
     }
     new PState[P](MongoId(objectId), p)
   }
@@ -101,7 +107,11 @@ with MongoSchema[P] {
     val query = MongoDBObject("_id" -> objectId)
     val casbah = casbahForP(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
-      mongoCollection.update(query, casbah)
+      try {
+        mongoCollection.update(query, casbah)
+      } catch {
+        case e: DuplicateKeyException => throwDuplicateKeyValException(p, e)
+      }
     }
     new PState[P](state.passoc, p)
   }
@@ -158,6 +168,16 @@ with MongoSchema[P] {
   }
 
   protected def casbahForP(p: P): MongoDBObject = persistentToCasbahTranslator.translate(p)(pTypeKey)
+
+  private def throwDuplicateKeyValException(p: P, cause: DuplicateKeyException): Unit = {
+    val indexRegex = """index: (\S+) dup key: """.r.unanchored
+    val indexName = cause.getMessage match {
+      case indexRegex(name) => name
+      case _ => ""
+    }
+    val key = pType.keySet.find(key => keyName(key) == indexName).get
+    throw new DuplicateKeyValException(p, key, cause)
+  }
 
   private def resolvePropVal(prop: Prop[P, _], raw: Any): Any = {
     if (shorthandPool.contains(prop.propTypeKey)) {

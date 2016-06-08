@@ -14,8 +14,8 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
 
   override protected[mongo] val mongoCollection = polyRepo.mongoCollection
 
-  override protected def createIndex(paths: Seq[String], unique: Boolean): Unit =
-    super.createIndex("discriminator" +: paths, unique)
+  override protected def createIndex(paths: Seq[String], indexName: String, unique: Boolean): Unit =
+    super.createIndex("discriminator" +: paths, indexName, unique)
 
   override protected def casbahForP(p: P): MongoDBObject = {
     // we use the poly type key here so we get the discriminator in the casbah
