@@ -36,7 +36,11 @@ with ScalaFutures {
 
     try {
       val exception = repo.create(p2).failed.futureValue
+      if (!exception.isInstanceOf[DuplicateKeyValException[_]]) {
+        exception.printStackTrace
+      }
       exception shouldBe a [DuplicateKeyValException[_]]
+
       val dkve = exception.asInstanceOf[DuplicateKeyValException[AllAttributes]]
       dkve.p should equal (p2)
       dkve.key should equal (AllAttributes.keys.uri)
@@ -48,9 +52,9 @@ with ScalaFutures {
 
   it should "throw exception on attempt to update to a duplicate key val" in {
 
-    val uri = "uri must be unique"
+    val uri = "uri must be unique 2"
     val p1 = AllAttributes(uri, true, 'c', 5.7d, 4.5f, 3, 77l, "stringy", DateTime.now)
-    val p2 = AllAttributes("this one is unique", false, 'd', 6.7d, 5.5f, 4, 78l, "stingy", DateTime.now)
+    val p2 = AllAttributes("this one is unique 2", false, 'd', 6.7d, 5.5f, 4, 78l, "stingy", DateTime.now)
     val repo = mongoContext.testRepoPool[AllAttributes]
     val s1 = repo.create(p1).futureValue
     val s2 = repo.create(p2).futureValue
@@ -58,6 +62,10 @@ with ScalaFutures {
     try {
       val s2_update = s2.map(_.copy(uri = uri))
       val exception = repo.update(s2_update).failed.futureValue
+
+      if (!exception.isInstanceOf[DuplicateKeyValException[_]]) {
+        exception.printStackTrace
+      }
       exception shouldBe a [DuplicateKeyValException[_]]
       val dkve = exception.asInstanceOf[DuplicateKeyValException[AllAttributes]]
       dkve.p should equal (s2_update.get)
