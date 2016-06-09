@@ -170,12 +170,12 @@ with MongoSchema[P] {
   protected def casbahForP(p: P): MongoDBObject = persistentToCasbahTranslator.translate(p)(pTypeKey)
 
   private def throwDuplicateKeyValException(p: P, cause: DuplicateKeyException): Unit = {
-    val indexRegex = """(?:index: |\.\$)(\S+)\s+dup key: \{ :""".r.unanchored
+    val indexRegex = """index: (?:[\w\.]*\$)?(\S+)\s+dup key: \{ :""".r.unanchored
     val indexName = cause.getMessage match {
       case indexRegex(name) => name
       case _ => throw cause
     }
-    val key = pType.keySet.find(key => keyName(key) == indexName).get
+    val key = pType.keySet.find(key => keyName(key) == indexName).getOrElse(throw cause)
     throw new DuplicateKeyValException(p, key, cause)
   }
 
