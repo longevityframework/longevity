@@ -173,7 +173,7 @@ with MongoSchema[P] {
     val indexRegex = """index: (\S+) dup key: """.r.unanchored
     val indexName = cause.getMessage match {
       case indexRegex(name) => name
-      case _ => ""
+      case _ => throw cause
     }
     val key = pType.keySet.find(key => keyName(key) == indexName).get
     throw new DuplicateKeyValException(p, key, cause)
