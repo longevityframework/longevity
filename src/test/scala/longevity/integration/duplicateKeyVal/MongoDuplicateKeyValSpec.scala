@@ -1,9 +1,9 @@
 package longevity.integration.duplicateKeyVal
 
-import com.mongodb.DuplicateKeyException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.integration.subdomain.allAttributes.AllAttributes
 import longevity.integration.subdomain.allAttributes.mongoContext
+import longevity.persistence.Repo
 import org.joda.time.DateTime
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -24,57 +24,60 @@ with GivenWhenThen
 with Matchers
 with ScalaFutures {
 
-  behavior of "MongoRepo.create with a single partitioned database"
+  assertDuplicateKeyValBehavior(mongoContext.testRepoPool[AllAttributes], "MongoRepo")
+  assertDuplicateKeyValBehavior(mongoContext.inMemTestRepoPool[AllAttributes], "InMemRepo")
 
-  it should "throw exception on attempt to insert duplicate key val" in {
+  def assertDuplicateKeyValBehavior(repo: Repo[AllAttributes], repoName: String): Unit = {
 
-    val uri = "uri must be unique"
-    val p1 = AllAttributes(uri, true, 'c', 5.7d, 4.5f, 3, 77l, "stringy", DateTime.now)
-    val p2 = AllAttributes(uri, false, 'd', 6.7d, 5.5f, 4, 78l, "stingy", DateTime.now)
-    val repo = mongoContext.testRepoPool[AllAttributes]
-    val s1 = repo.create(p1).futureValue
+    behavior of s"$repoName.create with a single partitioned database"
 
-    try {
-      val exception = repo.create(p2).failed.futureValue
-      if (!exception.isInstanceOf[DuplicateKeyValException[_]]) {
-        exception.printStackTrace
+    it should "throw exception on attempt to insert duplicate key val" in {
+
+      val uri = "uri must be unique"
+      val p1 = AllAttributes(uri, true, 'c', 5.7d, 4.5f, 3, 77l, "stringy", DateTime.now)
+      val p2 = AllAttributes(uri, false, 'd', 6.7d, 5.5f, 4, 78l, "stingy", DateTime.now)
+      val s1 = repo.create(p1).futureValue
+
+      try {
+        val exception = repo.create(p2).failed.futureValue
+        if (!exception.isInstanceOf[DuplicateKeyValException[_]]) {
+          exception.printStackTrace
+        }
+        exception shouldBe a [DuplicateKeyValException[_]]
+
+        val dkve = exception.asInstanceOf[DuplicateKeyValException[AllAttributes]]
+        dkve.p should equal (p2)
+        dkve.key should equal (AllAttributes.keys.uri)
+      } finally {
+        repo.delete(s1).futureValue
       }
-      exception shouldBe a [DuplicateKeyValException[_]]
-
-      val dkve = exception.asInstanceOf[DuplicateKeyValException[AllAttributes]]
-      dkve.p should equal (p2)
-      dkve.key should equal (AllAttributes.keys.uri)
-      dkve.getCause shouldBe a [DuplicateKeyException]
-    } finally {
-      repo.delete(s1).futureValue
     }
-  }
 
-  it should "throw exception on attempt to update to a duplicate key val" in {
+    it should "throw exception on attempt to update to a duplicate key val" in {
 
-    val uri = "uri must be unique 2"
-    val p1 = AllAttributes(uri, true, 'c', 5.7d, 4.5f, 3, 77l, "stringy", DateTime.now)
-    val p2 = AllAttributes("this one is unique 2", false, 'd', 6.7d, 5.5f, 4, 78l, "stingy", DateTime.now)
-    val repo = mongoContext.testRepoPool[AllAttributes]
-    val s1 = repo.create(p1).futureValue
-    val s2 = repo.create(p2).futureValue
+      val uri = "uri must be unique 2"
+      val p1 = AllAttributes(uri, true, 'c', 5.7d, 4.5f, 3, 77l, "stringy", DateTime.now)
+      val p2 = AllAttributes("this one is unique 2", false, 'd', 6.7d, 5.5f, 4, 78l, "stingy", DateTime.now)
+      val s1 = repo.create(p1).futureValue
+      val s2 = repo.create(p2).futureValue
 
-    try {
-      val s2_update = s2.map(_.copy(uri = uri))
-      val exception = repo.update(s2_update).failed.futureValue
+      try {
+        val s2_update = s2.map(_.copy(uri = uri))
+        val exception = repo.update(s2_update).failed.futureValue
 
-      if (!exception.isInstanceOf[DuplicateKeyValException[_]]) {
-        exception.printStackTrace
+        if (!exception.isInstanceOf[DuplicateKeyValException[_]]) {
+          exception.printStackTrace
+        }
+        exception shouldBe a [DuplicateKeyValException[_]]
+        val dkve = exception.asInstanceOf[DuplicateKeyValException[AllAttributes]]
+        dkve.p should equal (s2_update.get)
+        dkve.key should equal (AllAttributes.keys.uri)
+      } finally {
+        repo.delete(s1).futureValue
+        repo.delete(s2).futureValue
       }
-      exception shouldBe a [DuplicateKeyValException[_]]
-      val dkve = exception.asInstanceOf[DuplicateKeyValException[AllAttributes]]
-      dkve.p should equal (s2_update.get)
-      dkve.key should equal (AllAttributes.keys.uri)
-      dkve.getCause shouldBe a [DuplicateKeyException]
-    } finally {
-      repo.delete(s1).futureValue
-      repo.delete(s2).futureValue
     }
+
   }
 
 }

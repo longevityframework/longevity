@@ -4,6 +4,7 @@ import akka.NotUsed
 import akka.stream.scaladsl.Source
 import emblem.typeKey
 import longevity.exceptions.persistence.AssocIsUnpersistedException
+import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState
@@ -123,8 +124,12 @@ extends BaseRepo[P](pType, subdomain) {
     assocToPStateMap += (assoc -> state)
   }
 
-  protected[inmem] def registerPStateByKeyVal(keyVal: KeyVal[_ <: Persistent], state: PState[P]): Unit =
+  protected[inmem] def registerPStateByKeyVal(keyVal: KeyVal[_ <: Persistent], state: PState[P]): Unit = {
+    if (keyValToPStateMap.contains(keyVal)) {
+      throw new DuplicateKeyValException[P](state.get, keyVal.key.asInstanceOf[Key[P]])
+    }
     keyValToPStateMap += (keyVal -> state)
+  }
 
   protected[inmem] def lookupPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent]): Option[PState[P]] = {
     assocToPStateMap.get(assoc)
