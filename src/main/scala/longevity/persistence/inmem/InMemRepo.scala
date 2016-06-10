@@ -65,7 +65,16 @@ extends BaseRepo[P](pType, subdomain) {
     repo.synchronized {
       dumpKeys(state.orig)
     }
-    persist(state.passoc, state.get)
+    try {
+      persist(state.passoc, state.get)
+    } catch {
+      case e: DuplicateKeyValException[_] =>
+        keys.foreach { key =>
+          val keyVal = key.keyValForP(state.orig)
+          keyValToPStateMap += keyVal -> state
+        }
+        throw e
+    }
   }
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = {
@@ -104,6 +113,9 @@ extends BaseRepo[P](pType, subdomain) {
   private def persist(assoc: PersistedAssoc[P], p: P): PState[P] = {
     val state = new PState[P](assoc, p)
     repo.synchronized {
+      keys.foreach { key =>
+        assertUniqueKeyVal(key.keyValForP(p), state)
+      }
       registerPStateByAssoc(assoc, state)
       keys.foreach { key =>
         registerPStateByKeyVal(key.keyValForP(p), state)
@@ -120,14 +132,17 @@ extends BaseRepo[P](pType, subdomain) {
 
   protected[inmem] val keys: Seq[Key[_ >: P <: Persistent]] = pType.keySet.toSeq
 
+  protected[inmem] def assertUniqueKeyVal(keyVal: KeyVal[_ <: Persistent], state: PState[P]): Unit = {
+    if (keyValToPStateMap.contains(keyVal)) {
+      throw new DuplicateKeyValException[P](state.get, keyVal.key.asInstanceOf[Key[P]])
+    }
+  }
+
   protected[inmem] def registerPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent], state: PState[P]): Unit = {
     assocToPStateMap += (assoc -> state)
   }
 
   protected[inmem] def registerPStateByKeyVal(keyVal: KeyVal[_ <: Persistent], state: PState[P]): Unit = {
-    if (keyValToPStateMap.contains(keyVal)) {
-      throw new DuplicateKeyValException[P](state.get, keyVal.key.asInstanceOf[Key[P]])
-    }
     keyValToPStateMap += (keyVal -> state)
   }
 
