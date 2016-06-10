@@ -33,6 +33,7 @@ import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.Query
+import longevity.subdomain.ptype.Query.All
 import longevity.subdomain.ptype.Query.AndOp
 import longevity.subdomain.ptype.Query.EqOp
 import longevity.subdomain.ptype.Query.GtOp
@@ -194,6 +195,7 @@ with MongoSchema[P] {
 
   protected def mongoQuery(query: Query[P]): MongoDBObject = {
     query match {
+      case All() => MongoDBObject("$comment" -> "matching Query.All")
       case EqualityQuery(prop, op, value) => op match {
         case EqOp => MongoDBObject(prop.path -> touchupValue(value)(prop.propTypeKey))
         case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> touchupValue(value)(prop.propTypeKey)))

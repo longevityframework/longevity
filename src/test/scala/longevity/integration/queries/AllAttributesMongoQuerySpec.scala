@@ -3,6 +3,7 @@ package longevity.integration.queries
 import com.github.nscala_time.time.Imports._
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.allAttributes._
+import longevity.subdomain.ptype.Query.All
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class AllAttributesMongoQuerySpec
@@ -22,6 +23,11 @@ extends QuerySpec[AllAttributes](mongoContext, mongoContext.testRepoPool) {
   import AllAttributes.queryDsl._
 
   behavior of "MongoRepo.retrieveByQuery"
+
+  it should "produce expected results for Query.All" in {
+    exerciseQuery(All(), true)
+  }
+
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(booleanProp eqs sample.boolean, true)
     exerciseQuery(charProp neq sample.char, true)
@@ -31,6 +37,9 @@ extends QuerySpec[AllAttributes](mongoContext, mongoContext.testRepoPool) {
     exerciseQuery(intProp neq sample.int, true)
     exerciseQuery(longProp eqs sample.long, true)
     exerciseQuery(stringProp neq sample.string, true)
+
+    // make sure Query.All() can occur inside greater expression
+    exerciseQuery(stringProp neq sample.string and All(), true)
   }
 
   behavior of "MongoRepo.retrieveByQuery"

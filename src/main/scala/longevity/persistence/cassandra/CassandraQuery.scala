@@ -3,6 +3,7 @@ package longevity.persistence.cassandra
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import com.datastax.driver.core.ResultSet
+import longevity.exceptions.persistence.cassandra.AllInQueryException
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence.PState
@@ -11,6 +12,7 @@ import longevity.subdomain.ptype.ConditionalQuery
 import longevity.subdomain.ptype.EqualityQuery
 import longevity.subdomain.ptype.OrderingQuery
 import longevity.subdomain.ptype.Query
+import longevity.subdomain.ptype.Query.All
 import longevity.subdomain.ptype.Query.AndOp
 import longevity.subdomain.ptype.Query.EqOp
 import longevity.subdomain.ptype.Query.GtOp
@@ -62,6 +64,7 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
 
   private def queryInfo(query: Query[P]): QueryInfo = {
     query match {
+      case All() => throw new AllInQueryException
       case EqualityQuery(prop, op, value) => op match {
         case EqOp => QueryInfo(s"${columnName(prop)} = :${columnName(prop)}",
                                Seq(cassandraValue(value)(prop.propTypeKey)))

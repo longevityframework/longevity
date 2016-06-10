@@ -2,6 +2,7 @@
 
 ## [0.9-SNAPSHOT]
 
+- 2016.06.10 - add noop query `Query.All()`
 - 2016.06.07 - add method `Deleted.get`
 - 2016.06.07 - fix method names `LiftFPState.mapRoot`,
   `LiftFPState.flatMapRoot`, `LiftFOPState.mapRoot`, and

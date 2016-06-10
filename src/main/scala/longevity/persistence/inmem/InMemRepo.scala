@@ -21,6 +21,7 @@ import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.ptype.Query
+import longevity.subdomain.ptype.Query.All
 import longevity.subdomain.ptype.Query.AndOp
 import longevity.subdomain.ptype.Query.EqOp
 import longevity.subdomain.ptype.Query.GtOp
@@ -187,6 +188,7 @@ object InMemRepo {
 
   private[longevity] def queryMatches[P <: Persistent](query: Query[P], p: P): Boolean = {
     query match {
+      case All() => true
       case EqualityQuery(prop, op, value) => op match {
         case EqOp => prop.propVal(p) == value
         case NeqOp => prop.propVal(p) != value

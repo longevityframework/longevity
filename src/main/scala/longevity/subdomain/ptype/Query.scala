@@ -6,6 +6,9 @@ import longevity.subdomain.persistent.Persistent
 /** query operators and factory methods */
 object Query {
 
+  /** a query that filters nothing and returns everything */
+  sealed case class All[P <: Persistent]() extends Query[P]
+
   /** those relational operators - namely, _equals_ and _not equals_ - that
    * apply, regardless of the types of the operands. this is in contrast to
    * relational operators such _greater than_, which only apply to types that

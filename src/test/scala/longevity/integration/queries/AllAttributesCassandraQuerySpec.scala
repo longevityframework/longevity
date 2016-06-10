@@ -3,6 +3,9 @@ package longevity.integration.queries
 import com.github.nscala_time.time.Imports._
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.allAttributes._
+import longevity.exceptions.persistence.cassandra.AllInQueryException
+import longevity.subdomain.ptype.Query.All
+import longevity.subdomain.ptype.Query
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class AllAttributesCassandraQuerySpec
@@ -22,6 +25,11 @@ extends QuerySpec[AllAttributes](cassandraContext, cassandraContext.testRepoPool
   import AllAttributes.queryDsl._
 
   behavior of "CassandraRepo.retrieveByQuery"
+
+  it should "produce expected results for Query.All" in {
+    repo.retrieveByQuery(All()).failed.futureValue shouldBe a [AllInQueryException]
+  }
+
   it should "produce expected results for simple equality queries" in {
     // only eqs here dur to cassandra query limitations
     exerciseQuery(booleanProp eqs sample.boolean, true)
@@ -32,6 +40,11 @@ extends QuerySpec[AllAttributes](cassandraContext, cassandraContext.testRepoPool
     exerciseQuery(intProp eqs sample.int, true)
     exerciseQuery(longProp eqs sample.long, true)
     exerciseQuery(stringProp eqs sample.string, true)
+
+
+    // make sure Query.All() can occur inside greater expression
+    val query: Query[AllAttributes] = stringProp eqs sample.string and All()
+    repo.retrieveByQuery(query).failed.futureValue shouldBe a [AllInQueryException]
   }
 
   behavior of "CassandraRepo.retrieveByQuery"
