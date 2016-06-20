@@ -2,6 +2,8 @@
 
 ## [0.9-SNAPSHOT]
 
+- 2016.06.20 - add parent types `Embeddable` and `EType` for `Entity`,
+  `ValueObject`, `EntityType`, and `ValueType`.
 - 2016.06.10 - add noop query `Query.All()`
 - 2016.06.07 - add method `Deleted.get`
 - 2016.06.07 - fix method names `LiftFPState.mapRoot`,
