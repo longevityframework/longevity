@@ -39,9 +39,9 @@ object QuickStartSpec {
   import longevity.subdomain.Shorthand
   import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain
-  import longevity.subdomain.entity.Entity
-  import longevity.subdomain.entity.EntityType
-  import longevity.subdomain.entity.EntityTypePool
+  import longevity.subdomain.embeddable.Entity
+  import longevity.subdomain.embeddable.EntityType
+  import longevity.subdomain.embeddable.EntityTypePool
   import longevity.subdomain.persistent.Root
   import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType

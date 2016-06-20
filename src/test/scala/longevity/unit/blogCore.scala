@@ -3,9 +3,9 @@ package longevity.unit
 package object blogCore {
 
   import longevity.subdomain.Assoc
-  import longevity.subdomain.entity.Entity
-  import longevity.subdomain.entity.EntityType
-  import longevity.subdomain.entity.EntityTypePool
+  import longevity.subdomain.embeddable.Entity
+  import longevity.subdomain.embeddable.EntityType
+  import longevity.subdomain.embeddable.EntityTypePool
   import longevity.subdomain.Shorthand
   import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain

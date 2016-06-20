@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.withComponent
 
-import longevity.subdomain.entity.Entity
-import longevity.subdomain.entity.EntityType
+import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.EntityType
 
 case class Component(uri: String, tags: Set[String]) extends Entity
 

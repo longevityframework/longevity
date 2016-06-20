@@ -12,11 +12,11 @@ import emblem.emblematic.UnionPool
 import emblem.typeBound.TypeBoundFunction
 import emblem.typeBound.WideningTypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
-import longevity.subdomain.entity.DerivedType
-import longevity.subdomain.entity.Entity
-import longevity.subdomain.entity.EntityType
-import longevity.subdomain.entity.EntityTypePool
-import longevity.subdomain.entity.PolyType
+import longevity.subdomain.embeddable.DerivedType
+import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.EntityType
+import longevity.subdomain.embeddable.EntityTypePool
+import longevity.subdomain.embeddable.PolyType
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
@@ -24,7 +24,7 @@ import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.PolyPType
 
 /** a specification of a subdomain of a project's domain. contains a pool of
- * all the [[entity.EntityType entity types]] in the subdomain, as well as all
+ * all the [[embeddable.EntityType entity types]] in the subdomain, as well as all
  * the [[Shorthand shorthands]] used by the entities.
  *
  * @param name the name of the subdomain

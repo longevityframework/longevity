@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.derivedEntities
 
-import longevity.subdomain.entity.DerivedType
+import longevity.subdomain.embeddable.DerivedType
 
 case class FirstDerivedEntity(
   uri: String,

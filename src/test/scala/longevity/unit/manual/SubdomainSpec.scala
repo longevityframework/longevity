@@ -114,8 +114,8 @@ object SubdomainSpec {
     object Markdown extends Shorthand[Markdown, String]
     object Uri extends Shorthand[Uri, String]
 
-    import longevity.subdomain.entity.Entity
-    import longevity.subdomain.entity.EntityType
+    import longevity.subdomain.embeddable.Entity
+    import longevity.subdomain.embeddable.EntityType
 
     case class UserProfile(
       tagline: String,
@@ -142,7 +142,7 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.entity.EntityTypePool
+    import longevity.subdomain.embeddable.EntityTypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
@@ -155,12 +155,12 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects1 {
 
-    import longevity.subdomain.entity.EntityTypePool
+    import longevity.subdomain.embeddable.EntityTypePool
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.entity.ValueObject
-    import longevity.subdomain.entity.ValueType
+    import longevity.subdomain.embeddable.ValueObject
+    import longevity.subdomain.embeddable.ValueType
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
@@ -204,9 +204,9 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects2 {
 
-    import longevity.subdomain.entity.Entity
-    import longevity.subdomain.entity.EntityType
-    import longevity.subdomain.entity.EntityTypePool
+    import longevity.subdomain.embeddable.Entity
+    import longevity.subdomain.embeddable.EntityType
+    import longevity.subdomain.embeddable.EntityTypePool
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain

@@ -1,8 +1,8 @@
 package longevity.integration.subdomain.derivedEntities
 
-import longevity.subdomain.entity.PolyType
-import longevity.subdomain.entity.Entity
-import longevity.subdomain.entity.EntityType
+import longevity.subdomain.embeddable.PolyType
+import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.EntityType
 
 trait PolyEntity extends Entity {
   val uri: String

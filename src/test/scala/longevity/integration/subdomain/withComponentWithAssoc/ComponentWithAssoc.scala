@@ -1,8 +1,8 @@
 package longevity.integration.subdomain.withComponentWithAssoc
 
 import longevity.subdomain.Assoc
-import longevity.subdomain.entity.Entity
-import longevity.subdomain.entity.EntityType
+import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.EntityType
 
 case class ComponentWithAssoc(
   uri: String,

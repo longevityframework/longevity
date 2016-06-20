@@ -5,7 +5,7 @@ import longevity.context.LongevityContext
 import longevity.context.Mongo
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
-import longevity.subdomain.entity.EntityTypePool
+import longevity.subdomain.embeddable.EntityTypePool
 import longevity.subdomain.ptype.PTypePool
 
 /** covers a root entity with a single shorthand */

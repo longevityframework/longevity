@@ -16,7 +16,7 @@ import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 import longevity.subdomain.Assoc
 import longevity.subdomain.Subdomain
-import longevity.subdomain.entity.Entity
+import longevity.subdomain.embeddable.Entity
 import longevity.subdomain.persistent.Persistent
 
 /** a property for this persistent type. properties can be used to define [[Key keys]]

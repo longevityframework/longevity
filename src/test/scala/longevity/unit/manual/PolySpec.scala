@@ -17,9 +17,9 @@ object PolySpec {
     case class PhoneNumber(phoneNumber: String)
     object PhoneNumber extends Shorthand[PhoneNumber, String]
 
-    import longevity.subdomain.entity.DerivedType
-    import longevity.subdomain.entity.Entity
-    import longevity.subdomain.entity.PolyType
+    import longevity.subdomain.embeddable.DerivedType
+    import longevity.subdomain.embeddable.Entity
+    import longevity.subdomain.embeddable.PolyType
     import org.joda.time.DateTime
 
     trait UserVerification extends Entity {
@@ -74,7 +74,7 @@ object PolySpec {
 
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.entity.EntityTypePool
+    import longevity.subdomain.embeddable.EntityTypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
@@ -96,8 +96,8 @@ object PolySpec {
     object Markdown extends Shorthand[Markdown, String]
     object Uri extends Shorthand[Uri, String]
 
-    import longevity.subdomain.entity.Entity
-    import longevity.subdomain.entity.EntityType
+    import longevity.subdomain.embeddable.Entity
+    import longevity.subdomain.embeddable.EntityType
 
     case class UserProfile(
       tagline: String,
@@ -152,7 +152,7 @@ object PolySpec {
 
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.entity.EntityTypePool
+    import longevity.subdomain.embeddable.EntityTypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
@@ -175,8 +175,8 @@ object PolySpec {
     object Markdown extends Shorthand[Markdown, String]
     object Uri extends Shorthand[Uri, String]
 
-    import longevity.subdomain.entity.Entity
-    import longevity.subdomain.entity.EntityType
+    import longevity.subdomain.embeddable.Entity
+    import longevity.subdomain.embeddable.EntityType
 
     case class UserProfile(
       tagline: String,
@@ -241,7 +241,7 @@ object PolySpec {
 
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.entity.EntityTypePool
+    import longevity.subdomain.embeddable.EntityTypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
