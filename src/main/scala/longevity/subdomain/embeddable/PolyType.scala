@@ -1,7 +1,7 @@
 package longevity.subdomain.embeddable
 
 /** the base type for a family of domain entity types. mix this in to your
- * [[EntityType]] when it represents an abstract entity type with concrete
+ * [[EType]] when it represents an abstract embeddable type with concrete
  * subtypes.
  */
-trait PolyType[Poly <: Entity] extends EntityType[Poly]
+trait PolyType[Poly <: Embeddable] extends EType[Poly]

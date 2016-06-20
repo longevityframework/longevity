@@ -46,7 +46,7 @@ object ShorthandSpec {
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
@@ -80,7 +80,7 @@ object ShorthandSpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      EntityTypePool(),
+      ETypePool(),
       ShorthandPool(Email))
   }
 
@@ -90,7 +90,7 @@ object ShorthandSpec {
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
@@ -123,7 +123,7 @@ object ShorthandSpec {
         object indexes {
         }
       }
-      val subdomain = Subdomain("blogging", PTypePool(User), EntityTypePool(), shorthandPool)
+      val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(), shorthandPool)
     }
 
     object e5 {
@@ -137,7 +137,7 @@ object ShorthandSpec {
       val subdomain = Subdomain(
         "blogging",
         PTypePool(User),
-        EntityTypePool(),
+        ETypePool(),
         ShorthandPool(Email, Markdown, Uri))
     }
 
@@ -162,7 +162,7 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands1.subdomain.name should equal ("blogging")
       shorthands1.subdomain.pTypePool.size should equal (1)
       shorthands1.subdomain.pTypePool.values.head should equal (shorthands1.User)
-      shorthands1.subdomain.entityTypePool.size should equal (0)
+      shorthands1.subdomain.eTypePool.size should equal (0)
       shorthands1.subdomain.shorthandPool.size should equal (1)
       shorthands1.subdomain.shorthandPool.values.head should equal (shorthands1.Email)
       shorthands1.User.keySet should be ('empty)
@@ -172,7 +172,7 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands2.subdomain.name should equal ("blogging")
       shorthands2.subdomain.pTypePool.size should equal (1)
       shorthands2.subdomain.pTypePool.values.head should equal (shorthands2.User)
-      shorthands2.subdomain.entityTypePool.size should equal (0)
+      shorthands2.subdomain.eTypePool.size should equal (0)
       shorthands2.subdomain.shorthandPool.size should equal (1)
       shorthands2.subdomain.shorthandPool.values.head should equal (shorthands2.Email)
       shorthands2.User.keySet should be ('empty)

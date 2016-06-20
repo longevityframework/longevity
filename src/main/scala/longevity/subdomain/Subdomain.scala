@@ -13,9 +13,9 @@ import emblem.typeBound.TypeBoundFunction
 import emblem.typeBound.WideningTypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.embeddable.DerivedType
-import longevity.subdomain.embeddable.Entity
-import longevity.subdomain.embeddable.EntityType
-import longevity.subdomain.embeddable.EntityTypePool
+import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.embeddable.EType
+import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.embeddable.PolyType
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
@@ -24,13 +24,13 @@ import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.PolyPType
 
 /** a specification of a subdomain of a project's domain. contains a pool of
- * all the [[embeddable.EntityType entity types]] in the subdomain, as well as all
- * the [[Shorthand shorthands]] used by the entities.
+ * all the [[ptype.PType persistent types]] in the subdomain, as well as
+ * all the [[embeddable.EType embeddable types]].
  *
  * @param name the name of the subdomain
  * @param pTypePool a complete set of the persistent types in the subdomain.
  * defaults to empty
- * @param entityTypePool a complete set of the entity types within the
+ * @param eTypePool a complete set of the entity types within the
  * subdomain. defaults to empty
  * @param shorthandPool a complete set of the shorthands used by the bounded
  * context. defaults to empty
@@ -38,7 +38,7 @@ import longevity.subdomain.ptype.PolyPType
 class Subdomain(
   val name: String,
   val pTypePool: PTypePool = PTypePool.empty,
-  val entityTypePool: EntityTypePool = EntityTypePool.empty,
+  val eTypePool: ETypePool = ETypePool.empty,
   val shorthandPool: ShorthandPool = ShorthandPool.empty) {
 
   private val extractorPool: ExtractorPool = {
@@ -58,11 +58,11 @@ class Subdomain(
       }
     }
 
-    val entityTypesWithEmblems = entityTypePool.filterValues(!_.isInstanceOf[PolyType[_]])
-    val entityEmblems = entityTypesWithEmblems.mapValuesWiden[Any, Emblem] {
-      new WideningTypeBoundFunction[Entity, Any, EntityType, Emblem] {
-        def apply[TypeParam <: Entity](entityType: EntityType[TypeParam]): Emblem[TypeParam] =
-          Emblem(entityType.entityTypeKey)
+    val eTypesWithEmblems = eTypePool.filterValues(!_.isInstanceOf[PolyType[_]])
+    val entityEmblems = eTypesWithEmblems.mapValuesWiden[Any, Emblem] {
+      new WideningTypeBoundFunction[Embeddable, Any, EType, Emblem] {
+        def apply[TypeParam <: Embeddable](eType: EType[TypeParam]): Emblem[TypeParam] =
+          Emblem(eType.eTypeKey)
       }
     }
 
@@ -72,25 +72,25 @@ class Subdomain(
   private val unionPool: UnionPool = entityUnions ++ pUnions
 
   private def entityUnions = {
-    val polyTypes = entityTypePool.filterValues(_.isInstanceOf[PolyType[_]])
+    val polyTypes = eTypePool.filterValues(_.isInstanceOf[PolyType[_]])
 
-    type DerivedFrom[E <: Entity] = DerivedType[E, Poly] forSome { type Poly >: E <: Entity }
+    type DerivedFrom[E <: Embeddable] = DerivedType[E, Poly] forSome { type Poly >: E <: Embeddable }
 
-    val derivedTypes: TypeKeyMap[Entity, DerivedFrom] =
-      entityTypePool.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Entity, DerivedFrom]]
+    val derivedTypes: TypeKeyMap[Embeddable, DerivedFrom] =
+      eTypePool.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Embeddable, DerivedFrom]]
 
-    type DerivedList[E <: Entity] = List[Emblem[_ <: E]]
-    val baseToDerivedsMap: TypeKeyMap[Entity, DerivedList] =
-      derivedTypes.values.foldLeft(TypeKeyMap[Entity, DerivedList]) { (map, derivedType) =>
+    type DerivedList[E <: Embeddable] = List[Emblem[_ <: E]]
+    val baseToDerivedsMap: TypeKeyMap[Embeddable, DerivedList] =
+      derivedTypes.values.foldLeft(TypeKeyMap[Embeddable, DerivedList]) { (map, derivedType) =>
 
-        def fromDerivedType[E <: Entity, Poly >: E <: Entity](derivedType: DerivedType[E, Poly])
-        : TypeKeyMap[Entity, DerivedList] = {
-          implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyType.entityTypeKey
+        def fromDerivedType[E <: Embeddable, Poly >: E <: Embeddable](derivedType: DerivedType[E, Poly])
+        : TypeKeyMap[Embeddable, DerivedList] = {
+          implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyType.eTypeKey
           if (!polyTypes.contains[Poly]) {
             throw new DerivedHasNoPolyException(polyTypeKey.name, isPType = false)
           }
 
-          val emblem = emblemPool(derivedType.entityTypeKey)
+          val emblem = emblemPool(derivedType.eTypeKey)
           val derivedList = map.getOrElse(List.empty)
           map +[Poly] (emblem :: derivedList)
         }
@@ -99,10 +99,10 @@ class Subdomain(
       }
 
     polyTypes.mapValuesWiden[Any, Union] {
-      new WideningTypeBoundFunction[Entity, Any, EntityType, Union] {
-        def apply[TypeParam <: Entity](entityType: EntityType[TypeParam]): Union[TypeParam] = {
-          val constituents = baseToDerivedsMap(entityType.entityTypeKey)
-          Union[TypeParam](constituents: _*)(entityType.entityTypeKey)
+      new WideningTypeBoundFunction[Embeddable, Any, EType, Union] {
+        def apply[TypeParam <: Embeddable](eType: EType[TypeParam]): Union[TypeParam] = {
+          val constituents = baseToDerivedsMap(eType.eTypeKey)
+          Union[TypeParam](constituents: _*)(eType.eTypeKey)
         }
       }
     }
@@ -158,15 +158,15 @@ object Subdomain {
    * 
    * @param name the name of the subdomain
    * @param pTypePool a complete set of the persistent types in the subdomain. defaults to empty
-   * @param entityTypePool a complete set of the entity types within the subdomain. defaults to empty
+   * @param eTypePool a complete set of the embeddable types within the subdomain. defaults to empty
    * @param shorthandPool a complete set of the shorthands used by the bounded context. defaults to empty
    */
   def apply(
     name: String,
     pTypePool: PTypePool = PTypePool.empty,
-    entityTypePool: EntityTypePool = EntityTypePool.empty,
+    eTypePool: ETypePool = ETypePool.empty,
     shorthandPool: ShorthandPool = ShorthandPool.empty)
   : Subdomain =
-    new Subdomain(name, pTypePool, entityTypePool, shorthandPool)
+    new Subdomain(name, pTypePool, eTypePool, shorthandPool)
 
 }

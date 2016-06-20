@@ -74,13 +74,13 @@ object PolySpec {
 
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      EntityTypePool(UserVerification, EmailVerification, SmsVerification, GoogleSignIn),
+      ETypePool(UserVerification, EmailVerification, SmsVerification, GoogleSignIn),
       ShorthandPool(Email, PhoneNumber))
   }
 
@@ -152,13 +152,13 @@ object PolySpec {
 
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User, Member, Commenter),
-      EntityTypePool(UserProfile),
+      ETypePool(UserProfile),
       ShorthandPool(Email, Markdown, Uri))
 
   }
@@ -241,13 +241,13 @@ object PolySpec {
 
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User, Member, Commenter),
-      EntityTypePool(UserProfile),
+      ETypePool(UserProfile),
       ShorthandPool(Email, Markdown, Uri))
 
   }
@@ -271,7 +271,7 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
       poly.subdomain.name should equal ("blogging")
       poly.subdomain.pTypePool.size should equal (1)
       poly.subdomain.pTypePool.values.head should equal (poly.User)
-      poly.subdomain.entityTypePool.size should equal (4)
+      poly.subdomain.eTypePool.size should equal (4)
       poly.subdomain.shorthandPool.size should equal (2)
       poly.User.keySet should be ('empty)
     }
@@ -279,7 +279,7 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
     {
       persistent.subdomain.name should equal ("blogging")
       persistent.subdomain.pTypePool.size should equal (3)
-      persistent.subdomain.entityTypePool.size should equal (1)
+      persistent.subdomain.eTypePool.size should equal (1)
       persistent.subdomain.shorthandPool.size should equal (3)
       persistent.User.keySet.size should equal (0)
       persistent.Member.keySet.size should equal (0)
@@ -289,7 +289,7 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
     {
       persistent2.subdomain.name should equal ("blogging")
       persistent2.subdomain.pTypePool.size should equal (3)
-      persistent2.subdomain.entityTypePool.size should equal (1)
+      persistent2.subdomain.eTypePool.size should equal (1)
       persistent2.subdomain.shorthandPool.size should equal (3)
       persistent2.User.keySet.size should equal (1)
       persistent2.Member.keySet.size should equal (0)

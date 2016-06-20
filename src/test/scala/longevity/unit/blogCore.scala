@@ -5,7 +5,7 @@ package object blogCore {
   import longevity.subdomain.Assoc
   import longevity.subdomain.embeddable.Entity
   import longevity.subdomain.embeddable.EntityType
-  import longevity.subdomain.embeddable.EntityTypePool
+  import longevity.subdomain.embeddable.ETypePool
   import longevity.subdomain.Shorthand
   import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain
@@ -97,7 +97,7 @@ package object blogCore {
   object BlogCore extends Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    EntityTypePool(UserProfile),
+    ETypePool(UserProfile),
     shorthandPool)
 
 }

@@ -53,7 +53,7 @@ object AssocSpec {
     import longevity.subdomain.Assoc
     import longevity.subdomain.embeddable.Entity
     import longevity.subdomain.embeddable.EntityType
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
@@ -87,7 +87,7 @@ object AssocSpec {
       }
     }
 
-    val subdomain = Subdomain("blogging", PTypePool(User, Blog), EntityTypePool(UserProfile))
+    val subdomain = Subdomain("blogging", PTypePool(User, Blog), ETypePool(UserProfile))
   }
 
 }
@@ -106,10 +106,10 @@ class AssocSpec extends FlatSpec with GivenWhenThen with Matchers {
   "user manual example code" should "produce correct subdomains" in {
     associations1.subdomain.name should equal ("blogging")
     associations1.subdomain.pTypePool.size should equal (3)
-    associations1.subdomain.entityTypePool.size should equal (0)
+    associations1.subdomain.eTypePool.size should equal (0)
     associations2.subdomain.name should equal ("blogging")
     associations2.subdomain.pTypePool.size should equal (2)
-    associations2.subdomain.entityTypePool.size should equal (1)
+    associations2.subdomain.eTypePool.size should equal (1)
   }
 
 }

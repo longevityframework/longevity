@@ -3,7 +3,7 @@ package longevity.integration.subdomain
 import longevity.context.Cassandra
 import longevity.context.LongevityContext
 import longevity.context.Mongo
-import longevity.subdomain.embeddable.EntityTypePool
+import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.ptype.PTypePool
@@ -14,7 +14,7 @@ package object withComponentWithShorthands {
   val subdomain = Subdomain(
     "With Component With Shorthands",
     PTypePool(WithComponentWithShorthands),
-    EntityTypePool(ComponentWithShorthands),
+    ETypePool(ComponentWithShorthands),
     ShorthandPool(
       BooleanShorthand,
       CharShorthand,

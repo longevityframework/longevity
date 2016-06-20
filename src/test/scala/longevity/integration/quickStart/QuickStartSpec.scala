@@ -41,7 +41,7 @@ object QuickStartSpec {
   import longevity.subdomain.Subdomain
   import longevity.subdomain.embeddable.Entity
   import longevity.subdomain.embeddable.EntityType
-  import longevity.subdomain.embeddable.EntityTypePool
+  import longevity.subdomain.embeddable.ETypePool
   import longevity.subdomain.persistent.Root
   import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
@@ -140,7 +140,7 @@ object QuickStartSpec {
   val blogCore = Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    EntityTypePool(UserProfile),
+    ETypePool(UserProfile),
     ShorthandPool(Email, Markdown, Uri))
 
   // now build the context:

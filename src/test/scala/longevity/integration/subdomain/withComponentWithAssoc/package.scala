@@ -3,7 +3,7 @@ package longevity.integration.subdomain
 import longevity.context.Cassandra
 import longevity.context.LongevityContext
 import longevity.context.Mongo
-import longevity.subdomain.embeddable.EntityTypePool
+import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.ptype.PTypePool
 
@@ -13,7 +13,7 @@ package object withComponentWithAssoc {
   val subdomain = Subdomain(
     "With Component With Assoc",
     PTypePool(WithComponentWithAssoc, Associated),
-    EntityTypePool(ComponentWithAssoc))
+    ETypePool(ComponentWithAssoc))
   val mongoContext = LongevityContext(subdomain, Mongo)
   val cassandraContext = LongevityContext(subdomain, Cassandra)
 

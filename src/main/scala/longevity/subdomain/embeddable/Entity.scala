@@ -1,4 +1,4 @@
 package longevity.subdomain.embeddable
 
 /** a domain entity */
-trait Entity
+trait Entity extends Embeddable

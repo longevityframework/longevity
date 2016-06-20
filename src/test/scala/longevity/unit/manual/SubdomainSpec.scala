@@ -142,20 +142,20 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      EntityTypePool(UserProfile),
+      ETypePool(UserProfile),
       ShorthandPool(Email, Markdown, Uri))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/value-objects.html
   object valueObjects1 {
 
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
@@ -197,7 +197,7 @@ object SubdomainSpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      EntityTypePool(Address),
+      ETypePool(Address),
       ShorthandPool(Email, StateCode, ZipCode))
   }
 
@@ -206,7 +206,7 @@ object SubdomainSpec {
 
     import longevity.subdomain.embeddable.Entity
     import longevity.subdomain.embeddable.EntityType
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.Shorthand
     import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
@@ -246,7 +246,7 @@ object SubdomainSpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      EntityTypePool(Address),
+      ETypePool(Address),
       ShorthandPool(Email, StateCode, ZipCode))
   }
 
@@ -269,7 +269,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     {
       def kindsShould(subdomain: Subdomain, name: String): Unit = {
         subdomain.name should equal (name)
-        subdomain.entityTypePool should be ('empty)
+        subdomain.eTypePool should be ('empty)
         subdomain.shorthandPool should be ('empty)
         subdomain.pTypePool should be ('empty)
       }
@@ -284,7 +284,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       roots.subdomain.name should equal ("blogging")
       roots.subdomain.pTypePool.size should equal (1)
       roots.subdomain.pTypePool.values.head should equal (roots.User)
-      roots.subdomain.entityTypePool.size should equal (0)
+      roots.subdomain.eTypePool.size should equal (0)
       roots.subdomain.shorthandPool should be ('empty)
       roots.User.keySet should be ('empty)
     }
@@ -293,7 +293,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       basics.subdomain.name should equal ("blogging")
       basics.subdomain.pTypePool.size should equal (1)
       basics.subdomain.pTypePool.values.head should equal (basics.User)
-      basics.subdomain.entityTypePool.size should equal (0)
+      basics.subdomain.eTypePool.size should equal (0)
       basics.subdomain.shorthandPool should be ('empty)
       basics.User.keySet should be ('empty)
     }
@@ -302,7 +302,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       collections.subdomain.name should equal ("blogging")
       collections.subdomain.pTypePool.size should equal (1)
       collections.subdomain.pTypePool.values.head should equal (collections.User)
-      collections.subdomain.entityTypePool.size should equal (0)
+      collections.subdomain.eTypePool.size should equal (0)
       collections.subdomain.shorthandPool should be ('empty)
       collections.User.keySet should be ('empty)
     }
@@ -311,8 +311,8 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       entities.subdomain.name should equal ("blogging")
       entities.subdomain.pTypePool.size should equal (1)
       entities.subdomain.pTypePool.values.head should equal (entities.User)
-      entities.subdomain.entityTypePool.size should equal (1)
-      entities.subdomain.entityTypePool.values should contain (entities.UserProfile)
+      entities.subdomain.eTypePool.size should equal (1)
+      entities.subdomain.eTypePool.values should contain (entities.UserProfile)
       entities.subdomain.shorthandPool.size should equal (3)
       entities.subdomain.shorthandPool.values should contain (entities.Email)
       entities.subdomain.shorthandPool.values should contain (entities.Markdown)
@@ -324,8 +324,8 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects1.subdomain.name should equal ("blogging")
       valueObjects1.subdomain.pTypePool.size should equal (1)
       valueObjects1.subdomain.pTypePool.values.head should equal (valueObjects1.User)
-      valueObjects1.subdomain.entityTypePool.size should equal (1)
-      valueObjects1.subdomain.entityTypePool.values should contain (valueObjects1.Address)
+      valueObjects1.subdomain.eTypePool.size should equal (1)
+      valueObjects1.subdomain.eTypePool.values should contain (valueObjects1.Address)
       valueObjects1.subdomain.shorthandPool.size should equal (3)
       valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.Email)
       valueObjects1.subdomain.shorthandPool.values should contain (valueObjects1.StateCode)
@@ -337,8 +337,8 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects2.subdomain.name should equal ("blogging")
       valueObjects2.subdomain.pTypePool.size should equal (1)
       valueObjects2.subdomain.pTypePool.values.head should equal (valueObjects2.User)
-      valueObjects2.subdomain.entityTypePool.size should equal (1)
-      valueObjects2.subdomain.entityTypePool.values should contain (valueObjects2.Address)
+      valueObjects2.subdomain.eTypePool.size should equal (1)
+      valueObjects2.subdomain.eTypePool.values should contain (valueObjects2.Address)
       valueObjects2.subdomain.shorthandPool.size should equal (3)
       valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.Email)
       valueObjects2.subdomain.shorthandPool.values should contain (valueObjects2.StateCode)

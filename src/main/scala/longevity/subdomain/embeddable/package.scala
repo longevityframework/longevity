@@ -2,14 +2,14 @@ package longevity.subdomain
 
 import emblem.TypeKeyMap
 
-/** provides support for embedding case classes within your [persistent
- * objects](longevity.subdomain.persistent)
+/** provides support for embedding case classes within your
+ * [[longevity.subdomain.persistent.Persistent persistent objects]]
  */
 package object embeddable {
 
-  /** a type key map of [[Entity]] to [[EntityType]]
+  /** a type key map of [[Embeddable]] to [[EType]]
    * @see emblem.TypeKeyMap
    */
-  type EntityTypePool = TypeKeyMap[Entity, EntityType]
+  type ETypePool = TypeKeyMap[Embeddable, EType]
 
 }

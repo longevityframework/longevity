@@ -26,7 +26,7 @@ object PTypeSpec {
 
     import longevity.subdomain.embeddable.Entity
     import longevity.subdomain.embeddable.EntityType
-    import longevity.subdomain.embeddable.EntityTypePool
+    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
@@ -64,7 +64,7 @@ object PTypeSpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      EntityTypePool(UserProfile),
+      ETypePool(UserProfile),
       ShorthandPool(Email, Markdown, Uri))
 
   }
@@ -273,7 +273,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys1.subdomain.name should equal ("blogging")
       keys1.subdomain.pTypePool.size should equal (1)
       keys1.subdomain.pTypePool.values.head should equal (keys1.User)
-      keys1.subdomain.entityTypePool.size should equal (0)
+      keys1.subdomain.eTypePool.size should equal (0)
       keys1.User.keySet.size should equal (1)
       keys1.User.keySet.head should equal (keys1.User.keys.username)
       keys1.User.keys.username.props.size should equal (1)
@@ -286,7 +286,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys2.subdomain.name should equal ("blogging")
       keys2.subdomain.pTypePool.size should equal (1)
       keys2.subdomain.pTypePool.values.head should equal (keys2.User)
-      keys2.subdomain.entityTypePool.size should equal (0)
+      keys2.subdomain.eTypePool.size should equal (0)
       keys2.User.keySet.size should equal (2)
       keys2.User.keySet.find(_.props.size == 1).value should equal (keys2.User.keys.username)
       keys2.User.keys.username.props.size should equal (1)
