@@ -124,6 +124,7 @@ trait Visitor {
 
     protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
+      input: A,
       result: Iterable[PropResult[A, _]])
     : Unit =
       ()

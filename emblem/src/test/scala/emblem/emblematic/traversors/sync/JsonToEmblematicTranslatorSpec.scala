@@ -21,22 +21,22 @@ class JsonToEmblematicTranslatorSpec extends FlatSpec with GivenWhenThen with Ma
   behavior of "JsonToEmblematicTranslator.generate[A] for basic types"
 
   it should "produce the appropriate json4s values" in {
-    translator.traverse[Boolean](JBool(true)) should equal (true)
-    translator.traverse[Boolean](JBool(false)) should equal (false)
-    translator.traverse[Char](JString("q")) should equal ('q')
+    translator.translate[Boolean](JBool(true)) should equal (true)
+    translator.translate[Boolean](JBool(false)) should equal (false)
+    translator.translate[Char](JString("q")) should equal ('q')
     val dt = DateTime.now
-    translator.traverse[DateTime](JString(dateTimeFormatter.print(dt))) should equal (dt)
-    translator.traverse[Double](JDouble(0.7d)) should equal (0.7d)
-    translator.traverse[Float](JDouble(0.7f)) should equal (0.7f)
-    translator.traverse[Int](JInt(9)) should equal (9)
-    translator.traverse[Long](JLong(9L)) should equal (9L)
-    translator.traverse[String](JString("string")) should equal ("string")
+    translator.translate[DateTime](JString(dateTimeFormatter.print(dt))) should equal (dt)
+    translator.translate[Double](JDouble(0.7d)) should equal (0.7d)
+    translator.translate[Float](JDouble(0.7f)) should equal (0.7f)
+    translator.translate[Int](JInt(9)) should equal (9)
+    translator.translate[Long](JLong(9L)) should equal (9L)
+    translator.translate[String](JString("string")) should equal ("string")
   }
 
   behavior of "JsonToEmblematicTranslator.generate[Point]"
 
   it should "produce a Point from json4s" in {
-    { translator.traverse[geometry.Point](
+    { translator.translate[geometry.Point](
       JObject(List("x" -> JDouble(0.4d), "y" -> JDouble(-0.3d))))
     } should equal {
       geometry.Point(0.4d, -0.3d)
@@ -46,7 +46,7 @@ class JsonToEmblematicTranslatorSpec extends FlatSpec with GivenWhenThen with Ma
   behavior of "JsonToEmblematicTranslator.generate[Polygon]"
 
   it should "produce a Polygon from json4s" in {
-    { translator.traverse[geometry.Polygon](
+    { translator.translate[geometry.Polygon](
       JObject(List("corners" -> JArray(List(
         JObject(List("x" -> JDouble(0.44d), "y" -> JDouble(-0.34d))),
         JObject(List("x" -> JDouble(0.45d), "y" -> JDouble(-0.35d))),

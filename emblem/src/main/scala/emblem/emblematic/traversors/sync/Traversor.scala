@@ -144,11 +144,13 @@ trait Traversor {
    * 
    * @tparam A the type of the object to traverse
    * @param emblem the emblem being traversed
+   * @param input the input to the emblem traversal
    * @param an iterable of the outputs for the emblem props
    * @return the output for the emblem
    */
   protected def unstageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
+    input: TraverseInput[A],
     result: Iterable[PropResult[A, _]])
   : TraverseResult[A]
 
@@ -338,9 +340,15 @@ trait Traversor {
 
     override protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
+      futureInputA: Future[TraverseInput[A]],
       asyncResult: Future[Iterable[PropResult[A, _]]])
     : Future[TraverseResult[A]] =
-      asyncResult map { result => Traversor.this.unstageEmblemProps(emblem, result) }
+      for {
+        input <- futureInputA
+        result <- asyncResult
+      } yield {
+        Traversor.this.unstageEmblemProps(emblem, input, result)
+      }
 
     override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],

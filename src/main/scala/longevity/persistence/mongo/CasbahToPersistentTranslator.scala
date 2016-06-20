@@ -24,6 +24,8 @@ import scala.reflect.runtime.universe.typeOf
 /** translates
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
  * casbah MongoDBObjects]] into [[Persistent persistent objects]].
+ * 
+ * expects BSON for embeddables with a single property to inline those embeddables.
  *
  * @param emblematic the emblematic types to use
  * @param repoPool a pool of the repositories for this persistence context
@@ -34,7 +36,7 @@ private[persistence] class CasbahToPersistentTranslator(
 
   /** translates a `MongoDBObject` into a [[Persistent persistent object]] */
   def translate[P <: Persistent : TypeKey](casbah: MongoDBObject): P = try {
-    traversor.traverse[P](casbah)
+    traversor.traverse[P](WrappedInput(casbah, true))
   } catch {
     case e: CouldNotTraverseException =>
       throw new NotInSubdomainTranslationException(typeKey[P].name, e)
@@ -42,46 +44,49 @@ private[persistence] class CasbahToPersistentTranslator(
 
   private val optionAnyType = typeOf[scala.Option[_]]
 
+  case class WrappedInput(value: Any, isTopLevel: Boolean)
+
   private val traversor = new Traversor {
 
-    type TraverseInput[A] = Any
+    type TraverseInput[A] = WrappedInput
     type TraverseResult[A] = A
 
     override protected val emblematic = CasbahToPersistentTranslator.this.emblematic
     override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
 
     def assocTraversor = new CustomTraversor[AssocAny] {
-      def apply[B <: Assoc[_ <: Persistent] : TypeKey](input: TraverseInput[B]): TraverseResult[B] = {
+      def apply[B <: Assoc[_ <: Persistent] : TypeKey](input: WrappedInput): TraverseResult[B] = {
 
         // first asInstanceOf is because of emblem shortfall
         // second asInstanceOf is basically the same emblem shortfall as before
-        MongoId(input.asInstanceOf[ObjectId]).asInstanceOf[B]
+        MongoId(input.value.asInstanceOf[ObjectId]).asInstanceOf[B]
       }
     }
 
-    override protected def traverseBoolean(input: Any): Boolean = input.asInstanceOf[Boolean]
+    override protected def traverseBoolean(input: WrappedInput): Boolean = input.value.asInstanceOf[Boolean]
 
-    override protected def traverseChar(input: Any): Char = input.asInstanceOf[String](0)
+    override protected def traverseChar(input: WrappedInput): Char = input.value.asInstanceOf[String](0)
 
-    override protected def traverseDateTime(input: Any): DateTime = input.asInstanceOf[DateTime]
+    override protected def traverseDateTime(input: WrappedInput): DateTime = input.value.asInstanceOf[DateTime]
 
-    override protected def traverseDouble(input: Any): Double = input.asInstanceOf[Double]
+    override protected def traverseDouble(input: WrappedInput): Double = input.value.asInstanceOf[Double]
 
-    override protected def traverseFloat(input: Any): Float = input.asInstanceOf[Double].toFloat
+    override protected def traverseFloat(input: WrappedInput): Float = input.value.asInstanceOf[Double].toFloat
 
-    override protected def traverseInt(input: Any): Int = input.asInstanceOf[Int]
+    override protected def traverseInt(input: WrappedInput): Int = input.value.asInstanceOf[Int]
 
-    override protected def traverseLong(input: Any): Long = input.asInstanceOf[Long]
+    override protected def traverseLong(input: WrappedInput): Long = input.value.asInstanceOf[Long]
 
-    override protected def traverseString(input: Any): String = input.asInstanceOf[String]
+    override protected def traverseString(input: WrappedInput): String = input.value.asInstanceOf[String]
 
-    override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: Any): TypeKey[_ <: A] = {
+    override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: WrappedInput)
+    : TypeKey[_ <: A] = {
       val mongoDBObject: MongoDBObject = {
         val key = typeKey[A]
         if (key <:< typeOf[Persistent]) {
-          input.asInstanceOf[MongoDBObject]
+          input.value.asInstanceOf[MongoDBObject]
         } else if (key <:< typeOf[Entity]) {
-          input.asInstanceOf[BasicDBObject]
+          input.value.asInstanceOf[BasicDBObject]
         } else {
           throw new CouldNotTraverseException(key)
         }
@@ -91,45 +96,51 @@ private[persistence] class CasbahToPersistentTranslator(
       union.typeKeyForName(discriminator).get
     }
 
-    override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: Any)
-    : Iterable[Any] =
+    override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: WrappedInput)
+    : Iterable[WrappedInput] =
       Seq(input)
 
     override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
       union: Union[A],
-      input: Any,
+      input: WrappedInput,
       result: Iterable[B])
     : A =
       result.head
 
     protected def stageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
-      input: TraverseInput[A])
+      input: WrappedInput)
     : Iterable[PropInput[A, _]] = {
-      val mongoDBObject: MongoDBObject = {
-        val key = typeKey[A]
-        if (key <:< typeOf[Persistent]) {
-          input.asInstanceOf[MongoDBObject]
-        } else if (key <:< typeOf[Entity]) {
-          input.asInstanceOf[BasicDBObject]
-        } else {
-          throw new CouldNotTraverseException(key)
+      if (emblem.props.size == 1 && !input.isTopLevel) {
+        Seq(emblem.props.head -> WrappedInput(input.value, false))
+      } else {
+        val mongoDBObject: MongoDBObject = {
+          // TODO: can i replace this with a query to isTopLevel?
+          val key = typeKey[A]
+          if (key <:< typeOf[Persistent]) {
+            input.value.asInstanceOf[MongoDBObject]
+          } else if (key <:< typeOf[Entity]) {
+            input.value.asInstanceOf[BasicDBObject]
+          } else {
+            throw new CouldNotTraverseException(key)
+          }
         }
-      }
 
-      def propInput[B](prop: EmblemProp[A, B]) = {
-        if (prop.typeKey <:< optionAnyType) {
-          prop -> mongoDBObject.get(prop.name)
+        def propInput[B](prop: EmblemProp[A, B]) = {
+          if (prop.typeKey <:< optionAnyType) {
+            prop -> WrappedInput(mongoDBObject.get(prop.name), false)
+          }
+          else {
+            prop -> WrappedInput(mongoDBObject(prop.name), false)
+          }
         }
-        else {
-          prop -> mongoDBObject(prop.name)
-        }
+        emblem.props.map(propInput(_))
       }
-      emblem.props.map(propInput(_))
     }
 
     protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
+      input: WrappedInput,
       result: Iterable[PropResult[A, _]])
     : TraverseResult[A] = {
       val builder = emblem.builder()
@@ -139,8 +150,8 @@ private[persistence] class CasbahToPersistentTranslator(
 
     protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
       extractor: Extractor[Domain, Range],
-      input: TraverseInput[Domain])
-    : TraverseInput[Range] =
+      input: WrappedInput)
+    : WrappedInput =
       input
 
     protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
@@ -155,38 +166,38 @@ private[persistence] class CasbahToPersistentTranslator(
       }
 
     protected def stageOptionValue[A : TypeKey](
-      input: TraverseInput[Option[A]])
-    : Iterable[TraverseInput[A]] =
-      input.asInstanceOf[Option[TraverseInput[A]]].toIterable
+      input: WrappedInput)
+    : Iterable[WrappedInput] =
+      input.value.asInstanceOf[Option[Any]].toIterable.map(WrappedInput(_, false))
 
     protected def unstageOptionValue[A : TypeKey](
-      input: TraverseInput[Option[A]],
+      input: WrappedInput,
       result: Iterable[TraverseResult[A]])
     : TraverseResult[Option[A]] =
       result.headOption
 
     protected def stageSetElements[A : TypeKey](
-      input: TraverseInput[Set[A]])
-    : Iterable[TraverseInput[A]] = {
-      val list: MongoDBList = input.asInstanceOf[BasicDBList]
-      list
+      input: WrappedInput)
+    : Iterable[WrappedInput] = {
+      val list: MongoDBList = input.value.asInstanceOf[BasicDBList]
+      list.map(WrappedInput(_, false))
     }
 
     protected def unstageSetElements[A : TypeKey](
-      input: TraverseInput[Set[A]],
+      input: WrappedInput,
       result: Iterable[TraverseResult[A]])
     : TraverseResult[Set[A]] =
       result.toSet
 
     protected def stageListElements[A : TypeKey](
-      input: TraverseInput[List[A]])
+      input: WrappedInput)
     : Iterable[TraverseInput[A]] = {
-      val list: MongoDBList = input.asInstanceOf[BasicDBList]
-      list
+      val list: MongoDBList = input.value.asInstanceOf[BasicDBList]
+      list.map(WrappedInput(_, false))
     }
 
     protected def unstageListElements[A : TypeKey](
-      input: TraverseInput[List[A]],
+      input: WrappedInput,
       result: Iterable[TraverseResult[A]])
     : TraverseResult[List[A]] =
       result.toList

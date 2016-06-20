@@ -3,7 +3,6 @@ package emblem.testData
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
-import emblem.emblematic.Extractor
 import emblem.emblematic.ExtractorPool
 import emblem.emblematic.Union
 import emblem.emblematic.UnionPool
@@ -12,16 +11,6 @@ import org.joda.time.DateTime
 
 /** an attempt at an exhaustive set of data to cover emblematic traversal logic */
 object exhaustive {
-
-  case class Email(email: String)
-  case class Markdown(markdown: String)
-  case class Uri(uri: String)
-
-  val emailExtractor = Extractor[Email, String]
-  val markdownExtractor = Extractor[Markdown, String]
-  val uriExtractor = Extractor[Uri, String]
-
-  lazy val extractorPool = ExtractorPool(emailExtractor, markdownExtractor, uriExtractor)
 
   case class WithBasics(
     boolean: Boolean,
@@ -32,8 +21,12 @@ object exhaustive {
     int: Int,
     long: Long,
     string: String)
+
+  case class Email(email: String)
+  case class Markdown(markdown: String)
+  case class Uri(uri: String)
  
-  case class WithExtractors(
+  case class WithSinglePropEmblems(
     email: Email,
     markdown: Markdown,
     uri: Uri) 
@@ -104,8 +97,13 @@ object exhaustive {
     special8: String)
   extends ClassWithConcreteProp
 
+
+  lazy val emailEmblem = Emblem[Email]
+  lazy val markdownEmblem = Emblem[Markdown]
+  lazy val uriEmblem = Emblem[Uri]
+
   lazy val withBasicsEmblem = Emblem[WithBasics]
-  lazy val withExtractorsEmblem = Emblem[WithExtractors]
+  lazy val withSinglePropEmblemsEmblem = Emblem[WithSinglePropEmblems]
   lazy val withCollectionsEmblem = Emblem[WithCollections]
   lazy val specialization1Emblem = Emblem[Specialization1]
   lazy val specialization2Emblem = Emblem[Specialization2]
@@ -117,8 +115,11 @@ object exhaustive {
   lazy val specialization8Emblem = Emblem[Specialization8]
 
   lazy val emblemPool = EmblemPool(
+    emailEmblem,
+    markdownEmblem,
+    uriEmblem,
     withBasicsEmblem,
-    withExtractorsEmblem,
+    withSinglePropEmblemsEmblem,
     withCollectionsEmblem,
     specialization1Emblem,
     specialization2Emblem,
@@ -147,7 +148,7 @@ object exhaustive {
     classWithAbstractPropUnion,
     classWithConcretePropUnion)
 
-  lazy val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
+  lazy val emblematic = Emblematic(ExtractorPool.empty, emblemPool, unionPool)
 
   lazy val generator = new TestDataGenerator(emblematic)
 
@@ -162,7 +163,7 @@ object exhaustive {
     def string = generator.generate[String]
   }
 
-  object extractors {
+  object singlePropEmblems {
     def email = generator.generate[Email]
     def markdown = generator.generate[Markdown]
     def uri = generator.generate[Uri]
@@ -170,7 +171,7 @@ object exhaustive {
 
   object emblems {
     def withBasics = generator.generate[WithBasics]
-    def withExtractors = generator.generate[WithExtractors]
+    def withSinglePropEmblems = generator.generate[WithSinglePropEmblems]
     def withCollections = generator.generate[WithCollections]
     def specialization1 = generator.generate[Specialization1]
     def specialization2 = generator.generate[Specialization2]
@@ -198,7 +199,7 @@ object exhaustive {
     def uri = generator.generate[Option[Uri]]
 
     def withBasics = generator.generate[Option[WithBasics]]
-    def withExtractors = generator.generate[Option[WithExtractors]]
+    def withSinglePropEmblems = generator.generate[Option[WithSinglePropEmblems]]
     def withCollections = generator.generate[Option[WithCollections]]
 
     def option = generator.generate[Option[Option[String]]]
@@ -221,7 +222,7 @@ object exhaustive {
     def uri = generator.generate[Set[Uri]]
 
     def withBasics = generator.generate[Set[WithBasics]]
-    def withExtractors = generator.generate[Set[WithExtractors]]
+    def withSinglePropEmblems = generator.generate[Set[WithSinglePropEmblems]]
     def withCollections = generator.generate[Set[WithCollections]]
 
     def option = generator.generate[Set[Option[String]]]
@@ -244,7 +245,7 @@ object exhaustive {
     def uri = generator.generate[List[Uri]]
 
     def withBasics = generator.generate[List[WithBasics]]
-    def withExtractors = generator.generate[List[WithExtractors]]
+    def withSinglePropEmblems = generator.generate[List[WithSinglePropEmblems]]
     def withCollections = generator.generate[List[WithCollections]]
 
     def option = generator.generate[List[Option[String]]]

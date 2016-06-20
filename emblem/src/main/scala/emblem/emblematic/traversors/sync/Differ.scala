@@ -110,6 +110,7 @@ class Differ(
 
     override protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
+      input: DifferInput[A],
       result: Iterable[PropResult[A, _]])
     : Diffs =
       result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }

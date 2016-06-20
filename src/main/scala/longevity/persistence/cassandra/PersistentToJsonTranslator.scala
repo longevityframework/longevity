@@ -17,11 +17,11 @@ extends EmblematicToJsonTranslator {
   override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
 
   def assocTraversor = new CustomTraversor[AssocAny] {
-    def apply[B <: Assoc[_ <: Persistent] : TypeKey](input: B): JValue = {
-      if (!input.isPersisted) {
-        throw new AssocIsUnpersistedException(input)
+    def apply[B <: Assoc[_ <: Persistent] : TypeKey](input: WrappedInput[B]): JValue = {
+      if (!input.value.isPersisted) {
+        throw new AssocIsUnpersistedException(input.value)
       }
-      JString(input.asInstanceOf[CassandraId[_ <: Persistent]].uuid.toString)
+      JString(input.value.asInstanceOf[CassandraId[_ <: Persistent]].uuid.toString)
     }
   }
 

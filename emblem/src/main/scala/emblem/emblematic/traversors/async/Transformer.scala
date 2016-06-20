@@ -136,6 +136,7 @@ trait Transformer {
 
     override protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
+      futureA: Future[A],
       result: Future[Iterable[PropResult[A, _]]])
     : Future[A] = {
       result map { propResults =>

@@ -3,7 +3,7 @@ package emblem.emblematic
 import emblem.exceptions.NoSuchPropertyException
 import emblem.testData.exhaustive.withBasicsEmblem
 import emblem.testData.exhaustive.withCollectionsEmblem
-import emblem.testData.exhaustive.withExtractorsEmblem
+import emblem.testData.exhaustive.withSinglePropEmblemsEmblem
 import emblem.testData.geometry.Point
 import emblem.testData.geometry.pointEmblem
 import emblem.typeKey
@@ -43,7 +43,7 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "be the right size" in {
     pointEmblem.props.size should equal (2)
     withBasicsEmblem.props.size should equal (8)
-    withExtractorsEmblem.props.size should equal (3)
+    withSinglePropEmblemsEmblem.props.size should equal (3)
     withCollectionsEmblem.props.size should equal (3)
   }
 

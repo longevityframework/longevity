@@ -19,84 +19,98 @@ import org.json4s.JsonAST.JObject
 import org.json4s.JsonAST.JString
 import org.json4s.JsonAST.JValue
 
-/** translates json4s AST into emblematic types */
+/** translates json4s AST into emblematic types.
+ * 
+ * expects JSON for non top-level emblems with a single property to inline those
+ * emblems.
+ */
 class JsonToEmblematicTranslator extends Traversor {
 
-  type TraverseInput[A] = JValue
+  /** translates json4s AST into emblematic types */
+  def translate[A : TypeKey](input: JValue): A = traverse[A](WrappedInput(input, true))
+
+  case class WrappedInput(value: JValue, isTopLevel: Boolean)
+  type TraverseInput[A] = WrappedInput
   type TraverseResult[A] = A
 
-  override protected def traverseBoolean(input: JValue): Boolean = input match {
+  override protected def traverseBoolean(input: WrappedInput): Boolean = input.value match {
     case JBool(b) => b
     case _ => throw new CouldNotTraverseException(typeKey[Boolean])
   }
 
-  override protected def traverseChar(input: JValue): Char = input match {
+  override protected def traverseChar(input: WrappedInput): Char = input.value match {
     case JString(s) if s.length == 1 => s.head
     case _ => throw new CouldNotTraverseException(typeKey[Char])
   }
 
-  override protected def traverseDateTime(input: JValue): DateTime = input match {
+  override protected def traverseDateTime(input: WrappedInput): DateTime = input.value match {
     case JString(s) => dateTimeFormatter.parseDateTime(s)
     case _ => throw new CouldNotTraverseException(typeKey[DateTime])
   }
 
-  override protected def traverseDouble(input: JValue): Double = input match {
+  override protected def traverseDouble(input: WrappedInput): Double = input.value match {
     case JDouble(d) => d
     case _ => throw new CouldNotTraverseException(typeKey[Double])
   }
 
-  override protected def traverseFloat(input: JValue): Float = input match {
+  override protected def traverseFloat(input: WrappedInput): Float = input.value match {
     case JDouble(f) => f.toFloat
     case _ => throw new CouldNotTraverseException(typeKey[Float])
   }
 
-  override protected def traverseInt(input: JValue): Int = input match {
+  override protected def traverseInt(input: WrappedInput): Int = input.value match {
     case JInt(i) => i.toInt
     case _ => throw new CouldNotTraverseException(typeKey[Int])
   }
 
-  override protected def traverseLong(input: JValue): Long = input match {
+  override protected def traverseLong(input: WrappedInput): Long = input.value match {
     case JInt(i) => i.toLong
     case JLong(l) => l
     case _ => throw new CouldNotTraverseException(typeKey[Long])
   }
 
-  override protected def traverseString(input: JValue): String = input match {
+  override protected def traverseString(input: WrappedInput): String = input.value match {
     case JString(s) => s
     case _ => throw new CouldNotTraverseException(typeKey[String])
   }
 
-  override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: JValue): TypeKey[_ <: A] = {
-    val discriminator = input.asInstanceOf[JObject].values("discriminator").asInstanceOf[String]
+  override protected def constituentTypeKey[A : TypeKey](union: Union[A], input: WrappedInput)
+  : TypeKey[_ <: A] = {
+    val discriminator = input.value.asInstanceOf[JObject].values("discriminator").asInstanceOf[String]
     union.typeKeyForName(discriminator).get
   }
 
-  override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: JValue)
-  : Iterable[JValue] =
+  override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: WrappedInput)
+  : Iterable[WrappedInput] =
     Seq(input)
 
   override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
     union: Union[A],
-    input: JValue,
+    input: WrappedInput,
     result: Iterable[B])
   : A =
     result.head
 
   override protected def stageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
-    input: JValue)
+    input: WrappedInput)
   : Iterable[PropInput[A, _]] = {
-    input match {
-      case JObject(fields) =>
-        def fieldValue(name: String) = fields.find(_._1 == name).map(_._2).getOrElse(JNothing)
-        def propInput[B](prop: EmblemProp[A, B]) = prop -> fieldValue(prop.name)
-        emblem.props.map(propInput(_))
-      case _ => throw new CouldNotTraverseException(typeKey[A])
+    if (emblem.props.size == 1 && !input.isTopLevel) {
+      Seq(emblem.props.head -> WrappedInput(input.value, false))
+    } else {
+      input.value match {
+        case JObject(fields) =>
+          def fieldValue(name: String) = fields.find(_._1 == name).map(_._2).getOrElse(JNothing)
+          def propInput[B](prop: EmblemProp[A, B]) = prop -> WrappedInput(fieldValue(prop.name), false)
+          emblem.props.map(propInput(_))
+        case _ => throw new CouldNotTraverseException(typeKey[A])
+      }
     }
   }
 
   override protected def unstageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
+    input: WrappedInput,
     result: Iterable[PropResult[A, _]])
   : A = {
     val builder = emblem.builder()
@@ -117,41 +131,41 @@ class JsonToEmblematicTranslator extends Traversor {
     extractor.inverse(rangeResult)
 
   override protected def stageOptionValue[A : TypeKey](
-    input: JValue)
-  : Iterable[JValue] =
-    input match {
+    input: WrappedInput)
+  : Iterable[WrappedInput] =
+    input.value match {
       case JNothing => Seq()
       case _ => Seq(input)
     }
 
   override protected def unstageOptionValue[A : TypeKey](
-    input: JValue,
+    input: WrappedInput,
     result: Iterable[A])
   : Option[A] =
     result.headOption
 
-  override protected def stageSetElements[A : TypeKey](input: JValue): Iterable[JValue] = {
-    input match {
-      case JArray(elts) => elts
+  override protected def stageSetElements[A : TypeKey](input: WrappedInput): Iterable[WrappedInput] = {
+    input.value match {
+      case JArray(elts) => elts.map(WrappedInput(_, false))
       case _ =>
         implicit val aTag = typeKey[A].tag
         throw new CouldNotTraverseException(typeKey[Set[A]])
     }
   }
 
-  override protected def unstageSetElements[A : TypeKey](input: JValue, result: Iterable[A]) : Set[A] =
+  override protected def unstageSetElements[A : TypeKey](input: WrappedInput, result: Iterable[A]) : Set[A] =
     result.toSet
 
-  override protected def stageListElements[A : TypeKey](input: JValue): Iterable[JValue] =  {
-    input match {
-      case JArray(elts) => elts
+  override protected def stageListElements[A : TypeKey](input: WrappedInput): Iterable[WrappedInput] =  {
+    input.value match {
+      case JArray(elts) => elts.map(WrappedInput(_, false))
       case _ =>
         implicit val aTag = typeKey[A].tag
         throw new CouldNotTraverseException(typeKey[List[A]])
     }
   }
 
-  override protected def unstageListElements[A : TypeKey](input: JValue, result: Iterable[A]): List[A] =
+  override protected def unstageListElements[A : TypeKey](input: WrappedInput, result: Iterable[A]): List[A] =
     result.toList
 
 }

@@ -65,7 +65,7 @@ with CassandraDelete[P] {
   protected def jsonStringForP(p: P): String = {
     try {
       import org.json4s.native.JsonMethods._
-      compact(render(persistentToJsonTranslator.traverse(p)(pTypeKey)))
+      compact(render(persistentToJsonTranslator.translate(p)(pTypeKey)))
     } catch {
       case e: CouldNotTraverseException =>
         throw new NotInSubdomainTranslationException(e.typeKey.name, e)
@@ -125,7 +125,7 @@ with CassandraDelete[P] {
     val id = CassandraId[P](row.getUUID("id"))
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("p"))
-    val p = jsonToPersistentTranslator.traverse[P](json)(pTypeKey)
+    val p = jsonToPersistentTranslator.translate[P](json)(pTypeKey)
     new PState[P](id, p)
   }
 

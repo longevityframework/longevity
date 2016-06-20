@@ -151,6 +151,7 @@ trait Generator {
 
     override protected def unstageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
+      input: Unit,
       result: Iterable[PropResult[A, _]])
     : A = {
       val builder = emblem.builder()

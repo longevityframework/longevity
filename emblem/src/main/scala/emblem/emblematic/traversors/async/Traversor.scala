@@ -158,7 +158,6 @@ trait Traversor {
           }
           val futureIterableTraverseResultB = Future.sequence(iterableFutureTraverseResultB)
 
-
           val futureTraverseResultA =
             unstageUnion(union, input, futureIterableTraverseResultB)(typeKeyA, typeKeyB)
           promise.completeWith(futureTraverseResultA)
@@ -221,6 +220,7 @@ trait Traversor {
     emblem: Emblem[A],
     input: Future[TraverseInput[A]])
   : Future[TraverseResult[A]] = {
+
     val promise = Promise[TraverseResult[A]]()
 
     def completeIterablePropInput(iterablePropInput: Iterable[PropInput[A, _]]): Unit = {
@@ -230,7 +230,7 @@ trait Traversor {
           traverseEmblemProp(emblem, prop, futureInput) map { result => (prop, result) }
       }
       val futureIterablePropResult = Future.sequence(iterableFuturePropResult)
-      val futureTraverseResult = unstageEmblemProps(emblem, futureIterablePropResult)
+      val futureTraverseResult = unstageEmblemProps(emblem, input, futureIterablePropResult)
       promise.completeWith(futureTraverseResult)
     }
 
@@ -264,11 +264,13 @@ trait Traversor {
    * 
    * @tparam A the type of the object to traverse
    * @param emblem the emblem being traversed
+   * @param input the input to the emblem traversal
    * @param result an iterable of the outputs for the emblem props
    * @return the output for the emblem
    */
   protected def unstageEmblemProps[A : TypeKey](
     emblem: Emblem[A],
+    input: Future[TraverseInput[A]],
     result: Future[Iterable[PropResult[A, _]]])
   : Future[TraverseResult[A]]
 

@@ -14,7 +14,7 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
   override protected def jsonStringForP(p: P): String = {
     // we use the poly type key here so we get the discriminator in the JSON
     import org.json4s.native.JsonMethods._
-    compact(render(persistentToJsonTranslator.traverse[Poly](p)(polyRepo.pTypeKey)))
+    compact(render(persistentToJsonTranslator.translate[Poly](p)(polyRepo.pTypeKey)))
   }
 
   private def myRealizedProps: List[Prop[_ >: P <: Persistent, _]] = super.realizedProps

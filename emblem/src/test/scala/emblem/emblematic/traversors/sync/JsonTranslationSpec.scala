@@ -36,15 +36,15 @@ class JsonTranslationSpec extends FlatSpec with GivenWhenThen with Matchers {
     pipelineReproducesInput(exhaustive.basics.string)    
   }
 
-  it should "produce the original output for extractors" in {
-    pipelineReproducesInput(exhaustive.extractors.email)
-    pipelineReproducesInput(exhaustive.extractors.markdown)
-    pipelineReproducesInput(exhaustive.extractors.uri)
+  it should "produce the original output for single prop emblems" in {
+    pipelineReproducesInput(exhaustive.singlePropEmblems.email)
+    pipelineReproducesInput(exhaustive.singlePropEmblems.markdown)
+    pipelineReproducesInput(exhaustive.singlePropEmblems.uri)
   }
 
   it should "produce the original output for emblems" in {
     pipelineReproducesInput(exhaustive.emblems.withBasics)
-    pipelineReproducesInput(exhaustive.emblems.withExtractors)
+    pipelineReproducesInput(exhaustive.emblems.withSinglePropEmblems)
     pipelineReproducesInput(exhaustive.emblems.withCollections)
     pipelineReproducesInput(exhaustive.emblems.specialization1)
     pipelineReproducesInput(exhaustive.emblems.specialization2)
@@ -69,7 +69,7 @@ class JsonTranslationSpec extends FlatSpec with GivenWhenThen with Matchers {
     pipelineReproducesInput(exhaustive.options.uri)
 
     pipelineReproducesInput(exhaustive.options.withBasics)
-    pipelineReproducesInput(exhaustive.options.withExtractors)
+    pipelineReproducesInput(exhaustive.options.withSinglePropEmblems)
     pipelineReproducesInput(exhaustive.options.withCollections)
 
     pipelineReproducesInput(exhaustive.options.option.flatten) // JSON rep does not respect Some(None)
@@ -92,7 +92,7 @@ class JsonTranslationSpec extends FlatSpec with GivenWhenThen with Matchers {
     pipelineReproducesInput(exhaustive.sets.uri)
 
     pipelineReproducesInput(exhaustive.sets.withBasics)
-    pipelineReproducesInput(exhaustive.sets.withExtractors)
+    pipelineReproducesInput(exhaustive.sets.withSinglePropEmblems)
     pipelineReproducesInput(exhaustive.sets.withCollections)
 
     pipelineReproducesInput(exhaustive.sets.option)
@@ -115,7 +115,7 @@ class JsonTranslationSpec extends FlatSpec with GivenWhenThen with Matchers {
     pipelineReproducesInput(exhaustive.lists.uri)
 
     pipelineReproducesInput(exhaustive.lists.withBasics)
-    pipelineReproducesInput(exhaustive.lists.withExtractors)
+    pipelineReproducesInput(exhaustive.lists.withSinglePropEmblems)
     pipelineReproducesInput(exhaustive.lists.withCollections)
 
     pipelineReproducesInput(exhaustive.lists.option)
@@ -124,7 +124,7 @@ class JsonTranslationSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   private def pipelineReproducesInput[A : TypeKey](a: A): Unit = {
-    jsonTranslator.traverse(emblemTranslator.traverse[A](a)) should equal (a)
+    jsonTranslator.translate(emblemTranslator.translate[A](a)) should equal (a)
   }
 
 }
