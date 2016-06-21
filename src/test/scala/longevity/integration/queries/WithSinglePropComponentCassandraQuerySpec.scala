@@ -1,17 +1,17 @@
 package longevity.integration.queries
 
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.oneShorthand._
+import longevity.integration.subdomain.withSinglePropComponent._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class OneShorthandCassandraQuerySpec
-extends QuerySpec[OneShorthand](cassandraContext, cassandraContext.testRepoPool) {
+class WithSinglePropComponentCassandraQuerySpec
+extends QuerySpec[WithSinglePropComponent](cassandraContext, cassandraContext.testRepoPool) {
 
   lazy val sample = randomP
 
-  val uriProp = OneShorthand.prop[Uri]("uri")
+  val uriProp = WithSinglePropComponent.prop[Uri]("uri")
 
-  import OneShorthand.queryDsl._
+  import WithSinglePropComponent.queryDsl._
 
   behavior of "CassandraRepo.retrieveByQuery"
 

@@ -198,9 +198,9 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce a valid prop for shorthand types" in {
-    import longevity.integration.subdomain.oneShorthand._
+    import longevity.integration.subdomain.withSinglePropComponent._
 
-    val prop = OneShorthand.prop[Uri]("uri")
+    val prop = WithSinglePropComponent.prop[Uri]("uri")
     prop.path should equal ("uri")
     prop.propTypeKey should equal (typeKey[Uri])
   }

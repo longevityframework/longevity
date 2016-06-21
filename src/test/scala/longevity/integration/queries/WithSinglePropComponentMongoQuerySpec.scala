@@ -1,16 +1,16 @@
 package longevity.integration.queries
 
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.oneShorthand._
+import longevity.integration.subdomain.withSinglePropComponent._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class OneShorthandMongoQuerySpec extends QuerySpec[OneShorthand](mongoContext, mongoContext.testRepoPool) {
+class WithSinglePropComponentMongoQuerySpec extends QuerySpec[WithSinglePropComponent](mongoContext, mongoContext.testRepoPool) {
 
   lazy val sample = randomP
 
-  val uriProp = OneShorthand.prop[Uri]("uri")
+  val uriProp = WithSinglePropComponent.prop[Uri]("uri")
 
-  import OneShorthand.queryDsl._
+  import WithSinglePropComponent.queryDsl._
 
   behavior of "MongoRepo.retrieveByQuery"
 

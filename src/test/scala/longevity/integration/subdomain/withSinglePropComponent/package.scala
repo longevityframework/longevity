@@ -9,11 +9,11 @@ import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.ptype.PTypePool
 
 /** covers a root entity with a single shorthand */
-package object oneShorthand {
+package object withSinglePropComponent {
 
   val subdomain = Subdomain(
     "One Shorthand",
-    PTypePool(OneShorthand),
+    PTypePool(WithSinglePropComponent),
     ETypePool(),
     ShorthandPool(Uri))
 

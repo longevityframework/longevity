@@ -1,4 +1,4 @@
-package longevity.integration.subdomain.oneShorthand
+package longevity.integration.subdomain.withSinglePropComponent
 
 import longevity.subdomain.Shorthand
 
