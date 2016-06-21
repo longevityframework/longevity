@@ -22,14 +22,14 @@ import org.json4s.JsonAST.JValue
 /** translates json4s AST into emblematic types.
  * 
  * expects JSON for non top-level emblems with a single property to inline those
- * emblems.
+ * emblems. does not expect inlined unions.
  */
 class JsonToEmblematicTranslator extends Traversor {
 
   /** translates json4s AST into emblematic types */
   def translate[A : TypeKey](input: JValue): A = traverse[A](WrappedInput(input, true))
 
-  case class WrappedInput(value: JValue, isTopLevel: Boolean)
+  case class WrappedInput(value: JValue, isUnionOrTopLevel: Boolean)
   type TraverseInput[A] = WrappedInput
   type TraverseResult[A] = A
 
@@ -82,7 +82,7 @@ class JsonToEmblematicTranslator extends Traversor {
 
   override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: WrappedInput)
   : Iterable[WrappedInput] =
-    Seq(input)
+    Seq(input.copy(isUnionOrTopLevel = true))
 
   override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
     union: Union[A],
@@ -95,7 +95,7 @@ class JsonToEmblematicTranslator extends Traversor {
     emblem: Emblem[A],
     input: WrappedInput)
   : Iterable[PropInput[A, _]] = {
-    if (emblem.props.size == 1 && !input.isTopLevel) {
+    if (emblem.props.size == 1 && !input.isUnionOrTopLevel) {
       Seq(emblem.props.head -> WrappedInput(input.value, false))
     } else {
       input.value match {
@@ -135,7 +135,7 @@ class JsonToEmblematicTranslator extends Traversor {
   : Iterable[WrappedInput] =
     input.value match {
       case JNothing => Seq()
-      case _ => Seq(input)
+      case _ => Seq(input.copy(isUnionOrTopLevel = false))
     }
 
   override protected def unstageOptionValue[A : TypeKey](

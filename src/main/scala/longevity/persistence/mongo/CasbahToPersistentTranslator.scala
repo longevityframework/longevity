@@ -44,7 +44,7 @@ private[persistence] class CasbahToPersistentTranslator(
 
   private val optionAnyType = typeOf[scala.Option[_]]
 
-  case class WrappedInput(value: Any, isTopLevel: Boolean)
+  case class WrappedInput(value: Any, isUnionOrTopLevel: Boolean)
 
   private val traversor = new Traversor {
 
@@ -98,7 +98,7 @@ private[persistence] class CasbahToPersistentTranslator(
 
     override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: WrappedInput)
     : Iterable[WrappedInput] =
-      Seq(input)
+      Seq(input.copy(isUnionOrTopLevel = true))
 
     override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
       union: Union[A],
@@ -111,11 +111,11 @@ private[persistence] class CasbahToPersistentTranslator(
       emblem: Emblem[A],
       input: WrappedInput)
     : Iterable[PropInput[A, _]] = {
-      if (emblem.props.size == 1 && !input.isTopLevel) {
+      if (emblem.props.size == 1 && !input.isUnionOrTopLevel) {
         Seq(emblem.props.head -> WrappedInput(input.value, false))
       } else {
         val mongoDBObject: MongoDBObject = {
-          // TODO: can i replace this with a query to isTopLevel?
+          // TODO: can i replace this with a query to isUnionOrTopLevel?
           val key = typeKey[A]
           if (key <:< typeOf[Persistent]) {
             input.value.asInstanceOf[MongoDBObject]

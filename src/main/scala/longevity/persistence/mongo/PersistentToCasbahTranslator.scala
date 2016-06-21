@@ -47,7 +47,7 @@ private[persistence] class PersistentToCasbahTranslator(
 
   private val optionAnyType = typeOf[scala.Option[_]]
 
-  case class WrappedInput[A](value: A, isTopLevel: Boolean)
+  case class WrappedInput[A](value: A, isUnionOrTopLevel: Boolean)
 
   private val traversor = new Traversor {
 
@@ -92,7 +92,7 @@ private[persistence] class PersistentToCasbahTranslator(
       union: Union[A],
       input: WrappedInput[A])
     : Iterable[WrappedInput[B]] =
-      Seq(input.asInstanceOf[WrappedInput[B]])
+      Seq(input.asInstanceOf[WrappedInput[B]].copy(isUnionOrTopLevel = true))
 
     override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
       union: Union[A],
@@ -114,7 +114,7 @@ private[persistence] class PersistentToCasbahTranslator(
       input: WrappedInput[A],
       result: Iterable[PropResult[A, _]])
     : TraverseResult[A] = {
-      if (emblem.props.size == 1 && !input.isTopLevel) {
+      if (emblem.props.size == 1 && !input.isUnionOrTopLevel) {
         result.head._2
       } else {
         val builder = new MongoDBObjectBuilder()

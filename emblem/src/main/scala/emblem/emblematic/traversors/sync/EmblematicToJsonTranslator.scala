@@ -21,13 +21,14 @@ import org.json4s.JsonAST.JValue
 /** translates emblematic types into json4s AST.
  * 
  * non top-level emblems with a single property will be inlined in the JSON.
+ * does not inline unions.
  */
 class EmblematicToJsonTranslator extends Traversor {
 
   /** translates an emblematic type into json4s AST */
   def translate[A : TypeKey](input: A): JValue = traverse[A](WrappedInput(input, true))
 
-  case class WrappedInput[A](value: A, isTopLevel: Boolean)
+  case class WrappedInput[A](value: A, isUnionOrTopLevel: Boolean)
   type TraverseInput[A] = WrappedInput[A]
   type TraverseResult[A] = JValue
 
@@ -54,7 +55,7 @@ class EmblematicToJsonTranslator extends Traversor {
 
   override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: WrappedInput[A])
   : Iterable[WrappedInput[B]] =
-    Seq(WrappedInput(input.value.asInstanceOf[B], input.isTopLevel))
+    Seq(WrappedInput(input.value.asInstanceOf[B], true))
 
   override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
     union: Union[A],
@@ -78,7 +79,7 @@ class EmblematicToJsonTranslator extends Traversor {
     input: WrappedInput[A],
     result: Iterable[PropResult[A, _]])
   : JValue = {
-    if (emblem.props.size == 1 && !input.isTopLevel) {
+    if (emblem.props.size == 1 && !input.isUnionOrTopLevel) {
       result.head._2
     } else {
       val jFields = result.toList.map { case (prop, result) => prop.name -> result }
@@ -90,7 +91,7 @@ class EmblematicToJsonTranslator extends Traversor {
     extractor: Extractor[Domain, Range],
     input: TraverseInput[Domain])
   : TraverseInput[Range] =
-    WrappedInput(extractor.apply(input.value), input.isTopLevel)
+    WrappedInput(extractor.apply(input.value), false)
 
   override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
     extractor: Extractor[Domain, Range],
@@ -101,7 +102,7 @@ class EmblematicToJsonTranslator extends Traversor {
   override protected def stageOptionValue[A : TypeKey](
     input: TraverseInput[Option[A]])
   : Iterable[TraverseInput[A]] =
-    input.value.toIterable.map(WrappedInput(_, input.isTopLevel))
+    input.value.toIterable.map(WrappedInput(_, false))
 
   override protected def unstageOptionValue[A : TypeKey](
     input: WrappedInput[Option[A]],
