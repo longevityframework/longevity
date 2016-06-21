@@ -198,41 +198,11 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce a valid prop for shorthand types" in {
-    import longevity.integration.subdomain.allShorthands._
+    import longevity.integration.subdomain.oneShorthand._
 
-    var prop: Prop[AllShorthands, _] = null
-
-    prop = AllShorthands.prop[BooleanShorthand]("boolean")
-    prop.path should equal ("boolean")
-    prop.propTypeKey should equal (typeKey[BooleanShorthand])
-
-    prop = AllShorthands.prop[CharShorthand]("char")
-    prop.path should equal ("char")
-    prop.propTypeKey should equal (typeKey[CharShorthand])
-
-    prop = AllShorthands.prop[DoubleShorthand]("double")
-    prop.path should equal ("double")
-    prop.propTypeKey should equal (typeKey[DoubleShorthand])
-
-    prop = AllShorthands.prop[FloatShorthand]("float")
-    prop.path should equal ("float")
-    prop.propTypeKey should equal (typeKey[FloatShorthand])
-
-    prop = AllShorthands.prop[IntShorthand]("int")
-    prop.path should equal ("int")
-    prop.propTypeKey should equal (typeKey[IntShorthand])
-
-    prop = AllShorthands.prop[LongShorthand]("long")
-    prop.path should equal ("long")
-    prop.propTypeKey should equal (typeKey[LongShorthand])
-
-    prop = AllShorthands.prop[StringShorthand]("string")
-    prop.path should equal ("string")
-    prop.propTypeKey should equal (typeKey[StringShorthand])
-
-    prop = AllShorthands.prop[DateTimeShorthand]("dateTime")
-    prop.path should equal ("dateTime")
-    prop.propTypeKey should equal (typeKey[DateTimeShorthand])
+    val prop = OneShorthand.prop[Uri]("uri")
+    prop.path should equal ("uri")
+    prop.propTypeKey should equal (typeKey[Uri])
   }
 
   it should "produce a valid prop for an assoc" in {

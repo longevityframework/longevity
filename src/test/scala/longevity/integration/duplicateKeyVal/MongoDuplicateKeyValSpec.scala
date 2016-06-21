@@ -9,6 +9,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.time.SpanSugar._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /** expect mongo to throw DuplicateKeyValException in non-partitioned database
@@ -23,6 +24,10 @@ extends FlatSpec
 with GivenWhenThen
 with Matchers
 with ScalaFutures {
+
+  override implicit def patienceConfig = PatienceConfig(
+    timeout = scaled(4000 millis),
+    interval = scaled(50 millis))
 
   assertDuplicateKeyValBehavior(mongoContext.testRepoPool[AllAttributes], "MongoRepo")
   assertDuplicateKeyValBehavior(mongoContext.inMemTestRepoPool[AllAttributes], "InMemRepo")
