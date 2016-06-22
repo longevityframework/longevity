@@ -94,7 +94,9 @@ with MongoSchema[P] {
   def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] = 
     Source.fromIterator { () => queryCursor(query).map(dbObjectToPState) }
 
-  private def queryCursor(query: Query[P]): MongoCursor = mongoCollection.find(mongoQuery(query))
+  private def queryCursor(query: Query[P]): MongoCursor = {
+    mongoCollection.find(mongoQuery(query))
+  }
 
   private def dbObjectToPState(dbObject: DBObject): PState[P] = {
     val id = dbObject.getAs[ObjectId]("_id").get
@@ -214,14 +216,20 @@ with MongoSchema[P] {
   }
 
   private def touchupValue[A : TypeKey](value: A): Any = {
-    val abbreviated = value match {
-      case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
-      case a => a
+    val basicResolverOpt = subdomain.getBasicResolver[A]
+
+    val abbreviated = basicResolverOpt match {
+      case Some(resolver) => resolver.resolve(value)
+      case None => value match {
+        case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
+        case a => a
+      }
     }
+
     abbreviated match {
       case id: MongoId[_] => id.objectId
       case char: Char => char.toString
-      case _ => abbreviated
+      case other => other
     }
   }
 

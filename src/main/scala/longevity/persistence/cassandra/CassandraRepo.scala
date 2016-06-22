@@ -97,10 +97,16 @@ with CassandraDelete[P] {
   }
 
   protected def cassandraValue[A : TypeKey](value: A): AnyRef = {
-    val abbreviated = value match {
-      case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
-      case a => a
+    val basicResolverOpt = subdomain.getBasicResolver[A]
+
+    val abbreviated = basicResolverOpt match {
+      case Some(resolver) => resolver.resolve(value)
+      case None => value match {
+        case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
+        case a => a
+      }
     }
+
     abbreviated match {
       case id: CassandraId[_] => id.uuid
       case char: Char => char.toString

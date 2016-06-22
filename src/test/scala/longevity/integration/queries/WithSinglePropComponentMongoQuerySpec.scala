@@ -4,7 +4,8 @@ import longevity.test.QuerySpec
 import longevity.integration.subdomain.withSinglePropComponent._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class WithSinglePropComponentMongoQuerySpec extends QuerySpec[WithSinglePropComponent](mongoContext, mongoContext.testRepoPool) {
+class WithSinglePropComponentMongoQuerySpec
+extends QuerySpec[WithSinglePropComponent](mongoContext, mongoContext.testRepoPool) {
 
   lazy val sample = randomP
 

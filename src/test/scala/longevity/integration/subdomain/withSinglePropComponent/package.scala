@@ -12,10 +12,10 @@ import longevity.subdomain.ptype.PTypePool
 package object withSinglePropComponent {
 
   val subdomain = Subdomain(
-    "One Shorthand",
+    "With Single Prop Component",
     PTypePool(WithSinglePropComponent),
-    ETypePool(),
-    ShorthandPool(Uri))
+    ETypePool(Uri),
+    ShorthandPool())
 
   val mongoContext = LongevityContext(subdomain, Mongo)
   val cassandraContext = LongevityContext(subdomain, Cassandra)

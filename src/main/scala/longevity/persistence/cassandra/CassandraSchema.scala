@@ -45,14 +45,17 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
   }
 
   protected def typeKeyToCassandraType[A](key: TypeKey[A]): String = {
-    if (key <:< typeKey[Assoc[_ <: Persistent]]) {
-      "uuid"
-    } else if (CassandraRepo.basicToCassandraType.contains(key)) {
-      CassandraRepo.basicToCassandraType(key)
-    } else if (shorthandPool.contains(key)) {
-      CassandraRepo.basicToCassandraType(shorthandPool(key).abbreviatedTypeKey)
-    } else {
-      throw new RuntimeException(s"unexpected prop type ${key.tpe}")
+    val basicResolverOpt = subdomain.getBasicResolver(key)
+    basicResolverOpt match {
+      case Some(resolver) => CassandraRepo.basicToCassandraType(resolver.basicTypeKey)
+      case None =>
+        if (key <:< typeKey[Assoc[_ <: Persistent]]) {
+          "uuid"
+        } else if (shorthandPool.contains(key)) {
+          CassandraRepo.basicToCassandraType(shorthandPool(key).abbreviatedTypeKey)
+        } else {
+          throw new RuntimeException(s"unexpected prop type ${key.tpe}")
+        }
     }
   }
 

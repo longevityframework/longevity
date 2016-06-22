@@ -1,7 +1,8 @@
 package longevity.integration.subdomain.withSinglePropComponent
 
-import longevity.subdomain.Shorthand
+import longevity.subdomain.embeddable.ValueObject
+import longevity.subdomain.embeddable.ValueType
 
-case class Uri(uri: String)
+case class Uri(uri: String) extends ValueObject
 
-object Uri extends Shorthand[Uri, String]
+object Uri extends ValueType[Uri]

@@ -1,21 +1,25 @@
 package longevity.subdomain
 
+import emblem.typeKey
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.emblematic.Emblem
+import emblem.emblematic.EmblemProp
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
 import emblem.emblematic.ExtractorFor
 import emblem.emblematic.ExtractorPool
 import emblem.emblematic.Union
 import emblem.emblematic.UnionPool
+import emblem.emblematic.basicTypes.basicTypeOrderings
+import emblem.emblematic.basicTypes.isBasicType
 import emblem.typeBound.TypeBoundFunction
 import emblem.typeBound.WideningTypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.embeddable.DerivedType
-import longevity.subdomain.embeddable.Embeddable
 import longevity.subdomain.embeddable.EType
 import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.embeddable.Embeddable
 import longevity.subdomain.embeddable.PolyType
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
@@ -149,6 +153,43 @@ class Subdomain(
   private[longevity] val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
 
   pTypePool.values.foreach(_.registerSubdomain(this))
+
+  // OKAY, I need to:
+  // - know if a type is composed of a single basic
+  // - know what that single basic type is
+  // - resolve an actual basic from an actual wrapper type
+
+  /** this type key either represents a single basic value, or has an emblem
+   * that boils down to a single basic value
+   */
+  private[longevity] def getBasicResolver[A : TypeKey]: Option[BasicResolver[A, _]] = {
+    val key = typeKey[A]
+    if (isBasicType(key)) {
+      Some(BasicResolver(
+        key,
+        key,
+        identity,
+        basicTypeOrderings(key)))
+    } else {
+      val emblemOpt = emblemPool.get(key)
+      emblemOpt.flatMap { emblem =>
+        if (emblem.props.size == 1) {
+          def resolver[B](prop: EmblemProp[A, B]) = {
+            def outer[C](inner: BasicResolver[B, C]) =
+              BasicResolver(
+                key,
+                inner.basicTypeKey,
+                inner.resolve compose prop.get,
+                Ordering.by(prop.get)(inner.ordering))
+            getBasicResolver(prop.typeKey).map(inner => outer(inner))
+          }
+          resolver(emblem.props.head)
+        } else {
+          None
+        }
+      }
+    }
+  }
 
 }
 

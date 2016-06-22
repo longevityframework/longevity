@@ -3,8 +3,6 @@ package longevity.subdomain.ptype
 import emblem.TypeKey
 import emblem.emblematic.EmblematicPropPath
 import emblem.emblematic.ReflectiveProp
-import emblem.emblematic.basicTypes.basicTypeOrderings
-import emblem.emblematic.basicTypes.isBasicType
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblematicInPropPathException
@@ -16,7 +14,7 @@ import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 import longevity.subdomain.Assoc
 import longevity.subdomain.Subdomain
-import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.Embeddable
 import longevity.subdomain.persistent.Persistent
 
 /** a property for this persistent type. properties can be used to define [[Key keys]]
@@ -60,18 +58,21 @@ case class Prop[P <: Persistent, A] private[ptype] (
    * for basic types
    */
   lazy val ordering: Ordering[A] = {
-    val shorthandPool = subdomainOpt match {
-      case Some(subdomain) => subdomain.shorthandPool
+    val subdomain = subdomainOpt match {
+      case Some(subdomain) => subdomain
       case None => throw new PTypeHasNoSubdomainException(pTypeKey)(
         "you cannot use Prop.ordering without a subdomain.")
     }
+    val shorthandPool = subdomain.shorthandPool
 
-    if (isBasicType(propTypeKey)) {
-      basicTypeOrderings(propTypeKey)
-    } else if (shorthandPool.contains(propTypeKey)) {
-      shorthandPool(propTypeKey).actualOrdering
-    } else {
-      throw new PropNotOrderedException(this)
+    val basicResolverOpt = subdomain.getBasicResolver(propTypeKey)
+    basicResolverOpt match {
+      case Some(resolver) => resolver.ordering
+      case None => if (shorthandPool.contains(propTypeKey)) {
+        shorthandPool(propTypeKey).actualOrdering
+      } else {
+        throw new PropNotOrderedException(this)
+      }
     }
   }
 
@@ -101,13 +102,17 @@ case class Prop[P <: Persistent, A] private[ptype] (
 
     def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[ReflectiveProp[_, _]]): Unit =
       nonLeafEmblemProps foreach { nonLeafEmblemProp =>
-        if (! (nonLeafEmblemProp.typeKey <:< typeKey[Entity]))
+        if (! (nonLeafEmblemProp.typeKey <:< typeKey[Embeddable]))
           throw new UnsupportedPropTypeException(path)(pTypeKey, nonLeafEmblemProp.typeKey)
       }
 
     def validateLeafEmblemProp(leafEmblemProp: ReflectiveProp[_, _]): TypeKey[_] = {
       val key = leafEmblemProp.typeKey
-      if (!(isBasicType(key) || key <:< typeKey[Assoc[_]] || shorthandPool.contains(key)))
+
+      if (!(subdomainOpt.get.getBasicResolver(key).isDefined ||
+            key <:< typeKey[Assoc[_]] ||
+            shorthandPool.contains(key)
+          ))
         throw new UnsupportedPropTypeException(path)(pTypeKey, key)
       key
     }
