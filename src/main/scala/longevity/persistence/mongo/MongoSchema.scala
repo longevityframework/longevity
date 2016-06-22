@@ -12,16 +12,23 @@ private[mongo] trait MongoSchema[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   protected def createSchema(): Unit = {
+    var indexNames = Set[String]()
+
     pType.keySet.foreach { key =>
-      val paths = key.props.map(_.path)
-      createIndex(paths, keyName(key), true)
+      val paths = key.props.map(_.inlinedPath)
+      val name = indexName(key)
+      if (!indexNames.contains(name)) {
+        indexNames += name
+        createIndex(paths, name, true)
+      }
     }
 
-    val keyProps = pType.keySet.map(_.props)
     pType.indexSet.foreach { index =>
-      if (!keyProps.contains(index.props)) {
-        val paths = index.props.map(_.path)
-        createIndex(paths, indexName(index), false)
+      val paths = index.props.map(_.inlinedPath)
+      val name = indexName(index)
+      if (!indexNames.contains(name)) {
+        indexNames += name
+        createIndex(paths, name, false)
       }
     }
   }
@@ -31,22 +38,17 @@ private[mongo] trait MongoSchema[P <: Persistent] {
     mongoCollection.createIndex(MongoDBObject(mongoPaths.toList), indexName, unique)
   }
 
-  protected def keyName(key: Key[P]): String = {
-    val paths = key.props.map(_.path)
-    indexName(paths, true)
-  }
+  protected def indexName(key: Key[P]): String =
+    indexName(key.props.map(_.inlinedPath))
 
-  private def indexName(index: Index[P]): String = {
-    val paths = index.props.map(_.path)
-    indexName(paths, false)
-  }
+  private def indexName(index: Index[P]): String =
+    indexName(index.props.map(_.inlinedPath))
 
-  private def indexName(paths: Seq[String], unique: Boolean): String = {
+  private def indexName(paths: Seq[String]): String = {
     val cappedSegments: Seq[String] = paths.map {
       path => path.split('.').mkString("_")
     }
-    val prefix = if (unique) "key" else "index"
-    s"""${prefix}__${cappedSegments.mkString("__")}"""
+    cappedSegments.mkString("__")
   }
 
 }

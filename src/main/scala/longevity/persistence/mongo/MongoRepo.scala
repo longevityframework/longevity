@@ -174,11 +174,11 @@ with MongoSchema[P] {
 
   private def throwDuplicateKeyValException(p: P, cause: DuplicateKeyException): Unit = {
     val indexRegex = """index: (?:[\w\.]*\$)?(\S+)\s+dup key: \{ :""".r.unanchored
-    val indexName = cause.getMessage match {
+    val name = cause.getMessage match {
       case indexRegex(name) => name
       case _ => throw cause
     }
-    val key = pType.keySet.find(key => keyName(key) == indexName).getOrElse(throw cause)
+    val key = pType.keySet.find(key => indexName(key) == name).getOrElse(throw cause)
     throw new DuplicateKeyValException(p, key, cause)
   }
 

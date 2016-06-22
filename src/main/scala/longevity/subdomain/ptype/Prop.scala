@@ -1,6 +1,7 @@
 package longevity.subdomain.ptype
 
 import emblem.TypeKey
+import emblem.emblematic.Emblem
 import emblem.emblematic.EmblematicPropPath
 import emblem.emblematic.ReflectiveProp
 import emblem.exceptions.EmptyPropPathException
@@ -129,6 +130,28 @@ case class Prop[P <: Persistent, A] private[ptype] (
     if (! (propTypeKey <:< propPathTypeKey)) throw new PropTypeException(path, pTypeKey, propTypeKey)
 
     emblematicPropPath.asInstanceOf[EmblematicPropPath[P, A]]
+  }
+
+  /** for mongo. when building keys and indexes, we need to pull out segments that are elided in the JSON */
+  private[longevity] lazy val inlinedPath: String = {
+    def hasExactlyOneChild(prop: ReflectiveProp[_, _]): Boolean = {
+      val emblemOpt = subdomainOpt.get.emblematic.emblems.get(prop.typeKey)
+      def emblemHasSingleProp(emblem: Emblem[_]) = emblem.props.size == 1
+      emblemOpt.map(_.props.size == 1).getOrElse(false)
+    }
+
+    def inlinedSegments(props: List[ReflectiveProp[_, _]]): List[String] = props match {
+      case Nil => Nil
+      case prop :: Nil => prop.name :: Nil
+      case prop :: tail => if (hasExactlyOneChild(prop)) {
+        // the child is inlined if there is only one child
+        prop.name :: inlinedSegments(tail).tail
+      } else {
+        prop.name :: inlinedSegments(tail)
+      }
+    }
+
+    inlinedSegments(emblematicPropPath.props).mkString(".")
   }
 
 }
