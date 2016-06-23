@@ -2,6 +2,8 @@
 
 ## [0.9-SNAPSHOT]
 
+- 2016.06.23 - shorthands are gone. please use single-property
+  embeddables such as `ValueObject` instead.
 - 2016.06.21 - single-property embeddables are now inlined. this has
   no affect on the user other than how the persistents are translated
   into JSON/BSON.
