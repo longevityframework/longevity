@@ -3,13 +3,10 @@ package emblem.emblematic.traversors.sync
 import emblem.TypeKey
 import emblem.emblematic.Emblem
 import emblem.emblematic.Emblematic
-import emblem.emblematic.Extractor
 import emblem.emblematic.Union
 import emblem.exceptions.CouldNotGenerateException
 import emblem.exceptions.CouldNotTraverseException
-import emblem.exceptions.ExtractorInverseException
 import emblem.typeBound.TypeBoundFunction
-import emblem.typeKey
 import org.joda.time.DateTime
 
 /** recursively generates a data structure by type.
@@ -158,22 +155,6 @@ trait Generator {
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
       builder.build()
     }
-
-    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      input: Unit)
-    : Unit =
-      ()
-
-    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      range: Range)
-    : Domain =
-      try {
-        extractor.inverse(range)
-      } catch {
-        case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
-      }
 
     override protected def stageOptionValue[A : TypeKey](input: Unit): Iterable[Unit] =
       List.fill(optionSize)(())

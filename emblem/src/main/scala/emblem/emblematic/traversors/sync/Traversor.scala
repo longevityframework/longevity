@@ -5,7 +5,6 @@ import emblem.TypeKeyMap
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
-import emblem.emblematic.Extractor
 import emblem.emblematic.Union
 import emblem.emblematic.traversors.async.{ Traversor => AsyncTraversor }
 import emblem.typeBound.TypeBoundFunction
@@ -153,32 +152,6 @@ trait Traversor {
     input: TraverseInput[A],
     result: Iterable[PropResult[A, _]])
   : TraverseResult[A]
-
-  /** stages the traversal of an [[emblem.emblematic.Extractor Extractor]]
-   * 
-   * @tparam Range the range type for the extractor
-   * @tparam Domain the domain type for the extractor
-   * @param extractor the extractor being traversed
-   * @param input the input to the extractor traversal
-   * @return the input for traversing `Extractor.inverse`
-   */
-  protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-    extractor: Extractor[Domain, Range],
-    input: TraverseInput[Domain])
-  : TraverseInput[Range]
-
-  /** unstages the traversal of an [[emblem.emblematic.Extractor Extractor]]
-   * 
-   * @tparam Range the range type for the extractor
-   * @tparam Domain the domain type for the extractor
-   * @param extractor the extractor being traversed
-   * @param rangeResult the result of traversing `Extractor.inverse`
-   * @return the result of traversing the extractor
-   */
-  protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-    extractor: Extractor[Domain, Range],
-    rangeResult: TraverseResult[Range])
-  : TraverseResult[Domain]
 
   /** stages the traversal of an option's value
    * 
@@ -349,18 +322,6 @@ trait Traversor {
       } yield {
         Traversor.this.unstageEmblemProps(emblem, input, result)
       }
-
-    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      input: Future[TraverseInput[Domain]])
-    : Future[TraverseInput[Range]] =
-      input.map(Traversor.this.stageExtractor(extractor, _))
-
-    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      rangeResult: Future[TraverseResult[Range]])
-    : Future[TraverseResult[Domain]] =
-      rangeResult.map(Traversor.this.unstageExtractor(extractor, _))
 
     override protected def stageOptionValue[A : TypeKey](
       input: Future[TraverseInput[Option[A]]])

@@ -3,7 +3,6 @@ package emblem.testData
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
-import emblem.emblematic.ExtractorPool
 import emblem.emblematic.Union
 import emblem.emblematic.UnionPool
 import emblem.emblematic.traversors.sync.TestDataGenerator
@@ -148,7 +147,7 @@ object exhaustive {
     classWithAbstractPropUnion,
     classWithConcretePropUnion)
 
-  lazy val emblematic = Emblematic(ExtractorPool.empty, emblemPool, unionPool)
+  lazy val emblematic = Emblematic(emblemPool, unionPool)
 
   lazy val generator = new TestDataGenerator(emblematic)
 

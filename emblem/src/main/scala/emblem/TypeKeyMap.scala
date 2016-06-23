@@ -50,9 +50,6 @@ import scala.language.higherKinds
  * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
  * @tparam Val the parameterized type of the values in the map
  *
- * @see [[emblem.emblematic.ExtractorPool]] for an example of how to use type
- * key maps when the value type is more sophisticated than just type with a
- * single type parameter
  * @see TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples
  */
 class TypeKeyMap[TypeBound, Val[_ <: TypeBound]] private (underlying: Map[Any, Any])

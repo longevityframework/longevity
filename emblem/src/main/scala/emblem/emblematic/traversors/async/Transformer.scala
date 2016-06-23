@@ -5,15 +5,12 @@ import emblem.TypeKeyMap
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
-import emblem.emblematic.Extractor
 import emblem.emblematic.Union
 import emblem.emblematic.traversors.async.Transformer.CustomTransformer
 import emblem.emblematic.traversors.async.Transformer.CustomTransformerPool
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
-import emblem.exceptions.ExtractorInverseException
 import emblem.typeBound.TypeBoundFunction
-import emblem.typeKey
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -145,24 +142,6 @@ trait Transformer {
         builder.build()
       }
     }
-
-    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      domain: Future[Domain])
-    : Future[Range] =
-      domain map extractor.apply
-
-    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      range: Future[Range])
-    : Future[Domain] =
-      range map { r =>
-        try {
-          extractor.inverse(r)
-        } catch {
-          case e: Exception => throw new ExtractorInverseException(r, typeKey[Domain], e)
-        }
-      }
 
     override protected def stageOptionValue[A : TypeKey](input: Future[Option[A]]): Future[Iterable[A]] =
       input.map(_.toIterable)

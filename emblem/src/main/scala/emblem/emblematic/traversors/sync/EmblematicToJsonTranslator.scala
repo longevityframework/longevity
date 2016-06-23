@@ -2,7 +2,6 @@ package emblem.emblematic.traversors.sync
 
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
-import emblem.emblematic.Extractor
 import emblem.TypeKey
 import emblem.emblematic.Union
 import emblem.jsonUtil.dateTimeFormatter
@@ -86,18 +85,6 @@ class EmblematicToJsonTranslator extends Traversor {
       JObject(jFields)
     }
   }
-
-  override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-    extractor: Extractor[Domain, Range],
-    input: TraverseInput[Domain])
-  : TraverseInput[Range] =
-    WrappedInput(extractor.apply(input.value), false)
-
-  override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-    extractor: Extractor[Domain, Range],
-    rangeResult: TraverseResult[Range])
-  : TraverseResult[Domain] =
-    rangeResult
 
   override protected def stageOptionValue[A : TypeKey](
     input: TraverseInput[Option[A]])

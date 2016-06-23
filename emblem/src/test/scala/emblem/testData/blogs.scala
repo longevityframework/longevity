@@ -3,9 +3,6 @@ package emblem.testData
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
-import emblem.emblematic.Extractor
-import emblem.emblematic.ExtractorPool
-
 
 /** for type map happy cases */
 object blogs {
@@ -77,24 +74,23 @@ object blogs {
   case class CrmComment(uri: Uri) extends CrmEntity
   val commentEmblem = Emblem[CrmComment]
 
-  val emblemPool = EmblemPool(userEmblem, addressEmblem, blogEmblem, blogPostEmblem, commentEmblem)
-
-  // extractors
-
   case class Email(email: String)
-  lazy val emailExtractor = Extractor[Email, String]
+  lazy val emailEmblem = Emblem[Email]
 
   case class Markdown(markdown: String)
-  lazy val markdownExtractor = Extractor[Markdown, String]
+  lazy val markdownEmblem = Emblem[Markdown]
 
   case class Uri(uri: String)
-  lazy val uriExtractor = Extractor[Uri, String]
+  lazy val uriEmblem = Emblem[Uri]
 
   case class Zipcode(zipcode: Int)
-  lazy val zipcodeExtractor = Extractor[Zipcode, Int]
+  lazy val zipcodeEmblem = Emblem[Zipcode]
 
-  val extractorPool = ExtractorPool(emailExtractor, markdownExtractor, uriExtractor, zipcodeExtractor)
-  val emblematic = Emblematic(extractorPool, emblemPool)
+  val emblemPool = EmblemPool(
+    userEmblem, addressEmblem, blogEmblem, blogPostEmblem, commentEmblem,
+    emailEmblem, markdownEmblem, uriEmblem, zipcodeEmblem)
+
+  val emblematic = Emblematic(emblemPool)
 
   // entity types
 

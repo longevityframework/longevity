@@ -5,7 +5,6 @@ import emblem.emblematic.Emblematic
 import emblem.TypeKey
 import emblem.exceptions.CouldNotGenerateException
 import emblem.testData.emblems._
-import emblem.testData.extractors._
 import emblem.emblematic.traversors.sync.CustomGenerator.simpleGenerator
 import emblem.typeKey
 import org.scalatest.FlatSpec
@@ -16,7 +15,7 @@ import org.scalatest.OptionValues.convertOptionToValuable
 /** specs for [[TestDataGenerator]] */
 class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  private val emblematic = Emblematic(extractorPool, emblemPool)
+  private val emblematic = Emblematic(emblemPool)
 
   behavior of "TestDataGenerator.generate[A] with custom generator"
 
@@ -87,11 +86,10 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw CouldNotGenerateException when it does not know how to generate for a property type" in {
     val generator = standardGenerator
-    intercept[CouldNotGenerateException] { generator.generate[WithNoExtractorProp] }
     intercept[CouldNotGenerateException] { generator.generate[WithBarProp] }
   }
 
-  behavior of "TestDataGenerator.generate[A] when A has a extractor"
+  behavior of "TestDataGenerator.generate[A] when A has an emblem"
 
   it should "produce random values of type Long when the short type is a basic type" in {
     val generator = standardGenerator
@@ -112,12 +110,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  it should "throw CouldNotGenerateException when it does not have a extractor registered for the Long type" in {
-    val generator = standardGenerator
-    intercept[CouldNotGenerateException] { generator.generate[NoExtractor] }
-  }
-
-  it should "throw CouldNotGenerateException when it does not know how to generate for extractor type" in {
+  it should "throw CouldNotGenerateException when it does not know how to generate for Bar type" in {
     val generator = standardGenerator
     intercept[CouldNotGenerateException] { generator.generate[Bar] }
   }
@@ -207,7 +200,7 @@ class TestDataGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  it should "give precedence to customs over emblems, extractors, collections, and basics" in {
+  it should "give precedence to customs over emblems, collections, and basics" in {
     val uriCustomGenerator = simpleGenerator((generator) => Uri("frenchy"))
     val pointCustomGenerator = simpleGenerator((generator) => Point(-1.0, -1.0))
     val listCustomGenerator = simpleGenerator((generator) => List(1, 2, 3))

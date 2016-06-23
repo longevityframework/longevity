@@ -5,8 +5,6 @@ import emblem.TypeKeyMap
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
-import emblem.emblematic.Extractor
-import emblem.emblematic.ExtractorFor
 import emblem.emblematic.Union
 import emblem.exceptions.CouldNotTraverseException
 import emblem.typeKey
@@ -116,7 +114,6 @@ trait Traversor {
     tryTraverseCustom(input) orElse
     tryTraverseUnion(input) orElse
     tryTraverseEmblem(input) orElse
-    tryTraverseExtractor(input) orElse
     tryTraverseOption(input) orElse
     tryTraverseSet(input) orElse
     tryTraverseList(input) orElse
@@ -273,53 +270,6 @@ trait Traversor {
     input: Future[TraverseInput[A]],
     result: Future[Iterable[PropResult[A, _]]])
   : Future[TraverseResult[A]]
-
-  private def tryTraverseExtractor[Domain : TypeKey](input: Future[TraverseInput[Domain]])
-  : Option[Future[TraverseResult[Domain]]] =
-    emblematic.extractors.get[Domain] map { extractor =>
-      traverseFromExtractor[Domain](extractor, input)
-    }
-
-  private def traverseFromExtractor[Domain : TypeKey](
-    extractor: ExtractorFor[Domain],
-    input: Future[TraverseInput[Domain]])
-  : Future[TraverseResult[Domain]] =
-    traverseFromFullyTypedExtractor(extractor, input)
-
-  private def traverseFromFullyTypedExtractor[Domain : TypeKey, Range : TypeKey](
-    extractor: Extractor[Domain, Range],
-    input: Future[TraverseInput[Domain]])
-  : Future[TraverseResult[Domain]] = {
-    val rangeInput = stageExtractor(extractor, input)
-    val rangeResult = traverse(rangeInput)(extractor.rangeTypeKey)
-    unstageExtractor(extractor, rangeResult)
-  }
-
-  /** stages the traversal of an [[emblem.emblematic.Extractor Extractor]]
-   * 
-   * @tparam Range the range type for the extractor
-   * @tparam Domain the domain type for the extractor
-   * @param extractor the extractor being traversed
-   * @param input the input to the extractor traversal
-   * @return the input for traversing `Extractor.inverse`
-   */
-  protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-    extractor: Extractor[Domain, Range],
-    input: Future[TraverseInput[Domain]])
-  : Future[TraverseInput[Range]]
-
-  /** unstages the traversal of an [[emblem.emblematic.Extractor Extractor]]
-   * 
-   * @tparam Range the range type for the extractor
-   * @tparam Domain the domain type for the extractor
-   * @param extractor the extractor being traversed
-   * @param rangeResult the result of traversing `Extractor.inverse`
-   * @return the result of traversing the extractor
-   */
-  protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-    extractor: Extractor[Domain, Range],
-    rangeResult: Future[TraverseResult[Range]])
-  : Future[TraverseResult[Domain]]
 
   // TODO pt-88571474: remove code duplication with option/set/list, generalize to other kinds of "collections"
 

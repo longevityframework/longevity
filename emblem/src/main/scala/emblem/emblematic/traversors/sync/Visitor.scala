@@ -3,7 +3,6 @@ package emblem.emblematic.traversors.sync
 import emblem.emblematic.Emblem
 import emblem.emblematic.Emblematic
 import emblem.emblematic.EmblemProp
-import emblem.emblematic.Extractor
 import emblem.typeBound.TypeBoundFunction
 import emblem.TypeKey
 import emblem.TypeKeyMap
@@ -126,18 +125,6 @@ trait Visitor {
       emblem: Emblem[A],
       input: A,
       result: Iterable[PropResult[A, _]])
-    : Unit =
-      ()
-
-    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      input: Domain)
-    : Range =
-      extractor.apply(input)
-
-    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      domainResult: Unit)
     : Unit =
       ()
 

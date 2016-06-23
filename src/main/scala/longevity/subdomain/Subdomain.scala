@@ -7,7 +7,6 @@ import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
-import emblem.emblematic.ExtractorPool
 import emblem.emblematic.Union
 import emblem.emblematic.UnionPool
 import emblem.emblematic.basicTypes.basicTypeOrderings
@@ -137,14 +136,9 @@ class Subdomain(
     }
   }
 
-  private[longevity] val emblematic = Emblematic(ExtractorPool.empty, emblemPool, unionPool)
+  private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
 
   pTypePool.values.foreach(_.registerSubdomain(this))
-
-  // OKAY, I need to:
-  // - know if a type is composed of a single basic
-  // - know what that single basic type is
-  // - resolve an actual basic from an actual wrapper type
 
   /** this type key either represents a single basic value, or has an emblem
    * that boils down to a single basic value

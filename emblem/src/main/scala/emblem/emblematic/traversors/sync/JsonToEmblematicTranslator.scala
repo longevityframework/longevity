@@ -2,7 +2,6 @@ package emblem.emblematic.traversors.sync
 
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
-import emblem.emblematic.Extractor
 import emblem.TypeKey
 import emblem.emblematic.Union
 import emblem.exceptions.CouldNotTraverseException
@@ -117,18 +116,6 @@ class JsonToEmblematicTranslator extends Traversor {
     result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
     builder.build()
   }
-
-  override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-    extractor: Extractor[Domain, Range],
-    input: TraverseInput[Domain])
-  : TraverseInput[Range] =
-    input
-
-  override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-    extractor: Extractor[Domain, Range],
-    rangeResult: TraverseResult[Range])
-  : TraverseResult[Domain] =
-    extractor.inverse(rangeResult)
 
   override protected def stageOptionValue[A : TypeKey](
     input: WrappedInput)

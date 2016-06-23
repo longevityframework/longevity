@@ -6,7 +6,6 @@ import emblem.TypeKey
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
-import emblem.emblematic.Extractor
 import emblem.emblematic.Union
 import emblem.typeKey
 import org.joda.time.DateTime
@@ -115,21 +114,9 @@ class Differ(
     : Diffs =
       result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
 
-    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      input: DifferInput[Domain])
-    : DifferInput[Range] =
-      input.copy(
-        lhs = extractor.apply(input.lhs),
-        rhs = extractor.apply(input.rhs),
-        path = input.path + ".inverse")
-
-    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      result: Diffs)
-    : Diffs = result
-
-    override protected def stageOptionValue[A : TypeKey](input: DifferInput[Option[A]]): Iterable[DifferInput[A]] =
+    override protected def stageOptionValue[A : TypeKey](
+      input: DifferInput[Option[A]])
+    : Iterable[DifferInput[A]] =
       (input.lhs, input.rhs) match {
         case (Some(lhso), Some(rhso)) => Seq(DifferInput[A](lhso, rhso, input.path + ".value"))
         case _ => Seq()

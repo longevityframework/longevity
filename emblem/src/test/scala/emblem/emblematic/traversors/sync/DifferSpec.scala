@@ -35,6 +35,9 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
     differ.diff(user, user) should equal (Diffs())
     val blog = CrmBlog("blogUri")
     differ.diff(blog, blog) should equal (Diffs())
+
+    differ.diff(Uri("x"), Uri("x")) should equal (Diffs())
+    differ.diff(Zipcode(/*0*/1210), Zipcode(/*0*/1210)) should equal (Diffs())
   }
 
   it should "find diffs in basic values found directly in the emblem" in {
@@ -49,7 +52,7 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
     val user1 = user
     val user2 = user.copy(uri = "sillyUri")
     differ.diff(user1, user2) should equal (Diffs(
-      Diff(".uri.inverse", "funnyUri", "sillyUri")))
+      Diff(".uri.uri", "funnyUri", "sillyUri")))
   }
 
   it should "find diffs in basic values found in a nested emblem" in {
@@ -59,26 +62,19 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
       Diff(".address.street2", "", "Hollow St")))
   }
 
-  it should "find diffs in extractors found in a nested emblem" in {
+  it should "find diffs in triply nested emblems" in {
     val user1 = user
     val user2 = user.copy(address = user.address.copy(zipcode = 98765))
     differ.diff(user1, user2) should equal (Diffs(
-      Diff(".address.zipcode.inverse", user1.address.zipcode.zipcode, user2.address.zipcode.zipcode)))
+      Diff(".address.zipcode.zipcode", user1.address.zipcode.zipcode, user2.address.zipcode.zipcode)))
   }
 
-  behavior of "Differ.diff for extractors"
-
-  it should "produce an empty Diffs when the values match" in {
-    differ.diff(Uri("x"), Uri("x")) should equal (Diffs())
-    differ.diff(Zipcode(/*0*/1210), Zipcode(/*0*/1210)) should equal (Diffs())
-  }
-
-  it should "produce a single Diff with path .inverse when the values have different sizes" in {
+  it should "produce a single Diff when the values differ" in {
     differ.diff(Uri("x"), Uri("y")) should equal {
-      Diffs(Diff(".inverse", "x", "y"))
+      Diffs(Diff(".uri", "x", "y"))
     }
     differ.diff(Zipcode(/*0*/1210), Zipcode(/*0*/1211)) should equal {
-      Diffs(Diff(".inverse", /*0*/1210, /*0*/1211))
+      Diffs(Diff(".zipcode", /*0*/1210, /*0*/1211))
     }
   }
 
@@ -215,12 +211,12 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
     differ.diff(post1, post3) should equal (Diffs(Diff(".authors.size", post1.authors.size, post3.authors.size)))
 
     differ.diff(post1, post4) should equal (
-      Diffs(Diff(".comments(1).uri.inverse", post1.comments(1).uri.uri, post4.comments(1).uri.uri)))
+      Diffs(Diff(".comments(1).uri.uri", post1.comments(1).uri.uri, post4.comments(1).uri.uri)))
     differ.diff(post1, post5) should equal (
       Diffs(Diff(".comments.size", post1.comments.size, post5.comments.size)))
 
     differ.diff(post1, post6) should equal (
-      Diffs(Diff(".blog.value.uri.inverse", post1.blog.get.uri.uri, post6.blog.get.uri.uri)))
+      Diffs(Diff(".blog.value.uri.uri", post1.blog.get.uri.uri, post6.blog.get.uri.uri)))
     differ.diff(post1, post7) should equal (Diffs(Diff(".blog.size", post1.blog.size, post7.blog.size)))
 
   }

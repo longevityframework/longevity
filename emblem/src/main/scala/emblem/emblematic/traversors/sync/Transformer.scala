@@ -3,17 +3,14 @@ package emblem.emblematic.traversors.sync
 import emblem.emblematic.Emblem
 import emblem.emblematic.Emblematic
 import emblem.emblematic.EmblemProp
-import emblem.emblematic.Extractor
 import emblem.typeBound.TypeBoundFunction
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.emblematic.Union
 import emblem.exceptions.CouldNotTransformException
 import emblem.exceptions.CouldNotTraverseException
-import emblem.exceptions.ExtractorInverseException
 import emblem.emblematic.traversors.sync.Transformer.CustomTransformer
 import emblem.emblematic.traversors.sync.Transformer.CustomTransformerPool
-import emblem.typeKey
 import org.joda.time.DateTime
 
 /** synchronously tranforms a recursive data structure. the input and the
@@ -131,22 +128,6 @@ trait Transformer {
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
       builder.build()
     }
-
-    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      domain: Domain)
-    : Range =
-      extractor.apply(domain)
-
-    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      range: Range)
-    : Domain =
-      try {
-        extractor.inverse(range)
-      } catch {
-        case e: Exception => throw new ExtractorInverseException(range, typeKey[Domain], e)
-      }
 
     override protected def stageOptionValue[A : TypeKey](input: Option[A]): Iterable[A] =
       input.toIterable

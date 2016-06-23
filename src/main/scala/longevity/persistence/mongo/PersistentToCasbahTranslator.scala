@@ -6,7 +6,6 @@ import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
-import emblem.emblematic.Extractor
 import emblem.TypeKey
 import emblem.emblematic.Union
 import emblem.exceptions.CouldNotTraverseException
@@ -127,18 +126,6 @@ private[persistence] class PersistentToCasbahTranslator(
         builder.result()
       }
     }
-
-    override protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      input: WrappedInput[Domain])
-    : WrappedInput[Range] =
-      WrappedInput(extractor.apply(input.value), false)
-
-    override protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      rangeResult: TraverseResult[Range])
-    : TraverseResult[Domain] =
-      rangeResult
 
     override protected def stageOptionValue[A : TypeKey](
       input: WrappedInput[Option[A]])

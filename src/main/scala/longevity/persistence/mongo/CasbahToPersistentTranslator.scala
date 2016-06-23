@@ -5,15 +5,12 @@ import com.mongodb.casbah.Imports._
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
-import emblem.emblematic.Extractor
 import emblem.TypeKey
 import emblem.emblematic.Union
 import emblem.exceptions.CouldNotTraverseException
-import emblem.exceptions.ExtractorInverseException
 import emblem.emblematic.traversors.sync.Traversor
 import emblem.typeKey
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
-import longevity.exceptions.persistence.ShorthandUnabbreviationException
 import longevity.persistence.RepoPool
 import longevity.subdomain.Assoc
 import longevity.subdomain.AssocAny
@@ -147,23 +144,6 @@ private[persistence] class CasbahToPersistentTranslator(
       result.foreach { case (prop, propResult) => builder.setProp(prop, propResult) }
       builder.build()
     }
-
-    protected def stageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      input: WrappedInput)
-    : WrappedInput =
-      input
-
-    protected def unstageExtractor[Domain : TypeKey, Range : TypeKey](
-      extractor: Extractor[Domain, Range],
-      rangeResult: TraverseResult[Range])
-    : TraverseResult[Domain] =
-      try {
-        extractor.inverse(rangeResult)
-      } catch {
-        case e: ExtractorInverseException =>
-          throw new ShorthandUnabbreviationException(rangeResult, typeKey[Domain], e)
-      }
 
     protected def stageOptionValue[A : TypeKey](
       input: WrappedInput)
