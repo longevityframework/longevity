@@ -9,13 +9,14 @@ object PolySpec {
   // used in http://longevityframework.github.io/longevity/manual/poly/index.html
   object poly {
 
-    import longevity.subdomain.Shorthand
+    import longevity.subdomain.embeddable.ValueObject
+    import longevity.subdomain.embeddable.ValueType
 
-    case class Email(email: String)
-    object Email extends Shorthand[Email, String]
+    case class Email(email: String) extends ValueObject
+    object Email extends ValueType[Email]
 
-    case class PhoneNumber(phoneNumber: String)
-    object PhoneNumber extends Shorthand[PhoneNumber, String]
+    case class PhoneNumber(phoneNumber: String) extends ValueObject
+    object PhoneNumber extends ValueType[PhoneNumber]
 
     import longevity.subdomain.embeddable.DerivedType
     import longevity.subdomain.embeddable.Entity
@@ -50,7 +51,7 @@ object PolySpec {
       email: Email,
       idToken: String,
       verificationDate: DateTime)
-         extends UserVerification
+    extends UserVerification
 
     object GoogleSignIn extends DerivedType[GoogleSignIn, UserVerification] {
       val polyType = UserVerification
@@ -72,7 +73,6 @@ object PolySpec {
       }
     }
 
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
@@ -80,21 +80,23 @@ object PolySpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      ETypePool(UserVerification, EmailVerification, SmsVerification, GoogleSignIn),
-      ShorthandPool(Email, PhoneNumber))
+      ETypePool(Email, PhoneNumber, UserVerification, EmailVerification, SmsVerification, GoogleSignIn))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/poly/persistent.html
   object persistent {
 
-    import longevity.subdomain.Shorthand
+    import longevity.subdomain.embeddable.ValueObject
+    import longevity.subdomain.embeddable.ValueType
 
-    case class Email(email: String)
-    case class Markdown(markdown: String)
-    case class Uri(uri: String)
-    object Email extends Shorthand[Email, String]
-    object Markdown extends Shorthand[Markdown, String]
-    object Uri extends Shorthand[Uri, String]
+    case class Email(email: String) extends ValueObject
+    object Email extends ValueType[Email]
+
+    case class Markdown(markdown: String) extends ValueObject
+    object Markdown extends ValueType[Markdown]
+
+    case class Uri(uri: String) extends ValueObject
+    object Uri extends ValueType[Uri]
 
     import longevity.subdomain.embeddable.Entity
     import longevity.subdomain.embeddable.EntityType
@@ -150,7 +152,6 @@ object PolySpec {
       }
     }
 
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
@@ -158,22 +159,24 @@ object PolySpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User, Member, Commenter),
-      ETypePool(UserProfile),
-      ShorthandPool(Email, Markdown, Uri))
+      ETypePool(Email, Markdown, Uri, UserProfile))
 
   }
 
   // used in http://longevityframework.github.io/longevity/manual/poly/persistent.html
   object persistent2 {
 
-    import longevity.subdomain.Shorthand
+    import longevity.subdomain.embeddable.ValueObject
+    import longevity.subdomain.embeddable.ValueType
 
-    case class Email(email: String)
-    case class Markdown(markdown: String)
-    case class Uri(uri: String)
-    object Email extends Shorthand[Email, String]
-    object Markdown extends Shorthand[Markdown, String]
-    object Uri extends Shorthand[Uri, String]
+    case class Email(email: String) extends ValueObject
+    object Email extends ValueType[Email]
+
+    case class Markdown(markdown: String) extends ValueObject
+    object Markdown extends ValueType[Markdown]
+
+    case class Uri(uri: String) extends ValueObject
+    object Uri extends ValueType[Uri]
 
     import longevity.subdomain.embeddable.Entity
     import longevity.subdomain.embeddable.EntityType
@@ -239,7 +242,6 @@ object PolySpec {
       }
     }
 
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
     import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
@@ -247,8 +249,7 @@ object PolySpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User, Member, Commenter),
-      ETypePool(UserProfile),
-      ShorthandPool(Email, Markdown, Uri))
+      ETypePool(Email, Markdown, Uri, UserProfile))
 
   }
 
@@ -271,16 +272,14 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
       poly.subdomain.name should equal ("blogging")
       poly.subdomain.pTypePool.size should equal (1)
       poly.subdomain.pTypePool.values.head should equal (poly.User)
-      poly.subdomain.eTypePool.size should equal (4)
-      poly.subdomain.shorthandPool.size should equal (2)
+      poly.subdomain.eTypePool.size should equal (6)
       poly.User.keySet should be ('empty)
     }
 
     {
       persistent.subdomain.name should equal ("blogging")
       persistent.subdomain.pTypePool.size should equal (3)
-      persistent.subdomain.eTypePool.size should equal (1)
-      persistent.subdomain.shorthandPool.size should equal (3)
+      persistent.subdomain.eTypePool.size should equal (4)
       persistent.User.keySet.size should equal (0)
       persistent.Member.keySet.size should equal (0)
       persistent.Commenter.keySet.size should equal (0)
@@ -289,8 +288,7 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
     {
       persistent2.subdomain.name should equal ("blogging")
       persistent2.subdomain.pTypePool.size should equal (3)
-      persistent2.subdomain.eTypePool.size should equal (1)
-      persistent2.subdomain.shorthandPool.size should equal (3)
+      persistent2.subdomain.eTypePool.size should equal (4)
       persistent2.User.keySet.size should equal (1)
       persistent2.Member.keySet.size should equal (0)
       persistent2.Commenter.keySet.size should equal (0)

@@ -7,13 +7,11 @@ import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
-import emblem.emblematic.ExtractorFor
 import emblem.emblematic.ExtractorPool
 import emblem.emblematic.Union
 import emblem.emblematic.UnionPool
 import emblem.emblematic.basicTypes.basicTypeOrderings
 import emblem.emblematic.basicTypes.isBasicType
-import emblem.typeBound.TypeBoundFunction
 import emblem.typeBound.WideningTypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.embeddable.DerivedType
@@ -36,22 +34,11 @@ import longevity.subdomain.ptype.PolyPType
  * defaults to empty
  * @param eTypePool a complete set of the entity types within the
  * subdomain. defaults to empty
- * @param shorthandPool a complete set of the shorthands used by the bounded
- * context. defaults to empty
  */
 class Subdomain(
   val name: String,
   val pTypePool: PTypePool = PTypePool.empty,
-  val eTypePool: ETypePool = ETypePool.empty,
-  val shorthandPool: ShorthandPool = ShorthandPool.empty) {
-
-  private val extractorPool: ExtractorPool = {
-    val shorthandToExtractor = new TypeBoundFunction[Any, ShorthandFor, ExtractorFor] {
-      def apply[TypeParam](shorthand: ShorthandFor[TypeParam]): ExtractorFor[TypeParam] =
-        shorthand.extractor
-    }
-    shorthandPool.mapValues(shorthandToExtractor)
-  }
+  val eTypePool: ETypePool = ETypePool.empty) {
 
   private val emblemPool: EmblemPool = {
     val pTypesWithEmblems = pTypePool.filterValues(!_.isInstanceOf[PolyPType[_]])
@@ -150,7 +137,7 @@ class Subdomain(
     }
   }
 
-  private[longevity] val emblematic = Emblematic(extractorPool, emblemPool, unionPool)
+  private[longevity] val emblematic = Emblematic(ExtractorPool.empty, emblemPool, unionPool)
 
   pTypePool.values.foreach(_.registerSubdomain(this))
 
@@ -200,14 +187,12 @@ object Subdomain {
    * @param name the name of the subdomain
    * @param pTypePool a complete set of the persistent types in the subdomain. defaults to empty
    * @param eTypePool a complete set of the embeddable types within the subdomain. defaults to empty
-   * @param shorthandPool a complete set of the shorthands used by the bounded context. defaults to empty
    */
   def apply(
     name: String,
     pTypePool: PTypePool = PTypePool.empty,
-    eTypePool: ETypePool = ETypePool.empty,
-    shorthandPool: ShorthandPool = ShorthandPool.empty)
+    eTypePool: ETypePool = ETypePool.empty)
   : Subdomain =
-    new Subdomain(name, pTypePool, eTypePool, shorthandPool)
+    new Subdomain(name, pTypePool, eTypePool)
 
 }

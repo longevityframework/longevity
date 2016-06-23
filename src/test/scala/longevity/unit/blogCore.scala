@@ -6,25 +6,25 @@ package object blogCore {
   import longevity.subdomain.embeddable.Entity
   import longevity.subdomain.embeddable.EntityType
   import longevity.subdomain.embeddable.ETypePool
-  import longevity.subdomain.Shorthand
-  import longevity.subdomain.ShorthandPool
+  import longevity.subdomain.embeddable.ValueObject
+  import longevity.subdomain.embeddable.ValueType
   import longevity.subdomain.Subdomain
   import longevity.subdomain.persistent.Root
   import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
 
-  case class Email(email: String)
-  case class Markdown(markdown: String)
-  case class Uri(uri: String)
+  case class Email(email: String) extends ValueObject
+  object Email extends ValueType[Email]
+
+  case class Markdown(markdown: String) extends ValueObject
+  object Markdown extends ValueType[Markdown]
+
+  case class Uri(uri: String) extends ValueObject
+  object Uri extends ValueType[Uri]
 
   implicit def toEmail(email: String) = Email(email)
   implicit def toMarkdown(markdown: String) = Markdown(markdown)
   implicit def toUri(uri: String) = Uri(uri)
-
-  val shorthandPool = ShorthandPool(
-    Shorthand[Email, String],
-    Shorthand[Markdown, String],
-    Shorthand[Uri, String])
 
   case class User(
     username: String,
@@ -97,7 +97,6 @@ package object blogCore {
   object BlogCore extends Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    ETypePool(UserProfile),
-    shorthandPool)
+    ETypePool(Email, Markdown, Uri, UserProfile))
 
 }

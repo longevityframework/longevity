@@ -30,8 +30,9 @@ abstract class PType[P <: Persistent : TypeKey] {
    *
    * @throws longevity.exceptions.subdomain.ptype.PropException if any step along
    * the path does not exist, or any non-final step along the path is not an
-   * entity, or the final step along the path is not a [[Shorthand]], an
-   * [[Assoc]] or a basic type.
+   * entity, or the final step along the path is not an [[Assoc]] or a basic type.
+   *
+   * TODO review above throws clause
    *
    * @see `emblem.emblematic.basicTypes`
    */

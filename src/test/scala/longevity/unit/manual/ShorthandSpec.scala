@@ -4,20 +4,23 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
+// TODO: figure out what to do with these manual examples
+
 object ShorthandSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthands1 {
 
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.embeddable.ValueObject
+    import longevity.subdomain.embeddable.ValueType
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
-    case class Email(email: String)
-    object Email extends Shorthand[Email, String]
+    case class Email(email: String) extends ValueObject
+    object Email extends ValueType[Email]
 
     case class User(
       username: String,
@@ -37,23 +40,23 @@ object ShorthandSpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      shorthandPool = ShorthandPool(Email))
+      ETypePool(Email))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html
   object shorthands2 {
 
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.embeddable.ValueObject
+    import longevity.subdomain.embeddable.ValueType
     import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
-    case class Email(email: String)
+    case class Email(email: String) extends ValueObject
     implicit def toEmail(email: String) = Email(email)
-    object Email extends Shorthand[Email, String]
+    object Email extends ValueType[Email]
 
     val user = User(
       "bolt",
@@ -80,67 +83,7 @@ object ShorthandSpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      ETypePool(),
-      ShorthandPool(Email))
-  }
-
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthand-pools.html
-  object shorthandPools {
-
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
-    import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.ETypePool
-    import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.PTypePool
-    import longevity.subdomain.ptype.RootType
-
-    case class User() extends Root
-    case class Email(email: String)
-    case class Markdown(markdown: String)
-    case class Uri(uri: String)
-    object Email extends Shorthand[Email, String]
-    object Markdown extends Shorthand[Markdown, String]
-    object Uri extends Shorthand[Uri, String]
-
-    object e1 {
-      val pool = ShorthandPool()
-    }
-
-    object e2 {
-      val pool = ShorthandPool.empty
-    }
-
-    object e3 {
-      val pool = ShorthandPool(Email, Markdown, Uri)
-    }
-
-    object e4 {
-      val shorthandPool = ShorthandPool(Email, Markdown, Uri)
-      object User extends RootType[User] {
-        object keys {
-        }
-        object indexes {
-        }
-      }
-      val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(), shorthandPool)
-    }
-
-    object e5 {
-      import emblem.typeKey
-      object User extends RootType()(typeKey[User]) {
-        object keys {
-        }
-        object indexes {
-        }
-      }
-      val subdomain = Subdomain(
-        "blogging",
-        PTypePool(User),
-        ETypePool(),
-        ShorthandPool(Email, Markdown, Uri))
-    }
-
+      ETypePool(Email))
   }
 
 }
@@ -162,9 +105,8 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands1.subdomain.name should equal ("blogging")
       shorthands1.subdomain.pTypePool.size should equal (1)
       shorthands1.subdomain.pTypePool.values.head should equal (shorthands1.User)
-      shorthands1.subdomain.eTypePool.size should equal (0)
-      shorthands1.subdomain.shorthandPool.size should equal (1)
-      shorthands1.subdomain.shorthandPool.values.head should equal (shorthands1.Email)
+      shorthands1.subdomain.eTypePool.size should equal (1)
+      shorthands1.subdomain.eTypePool.values.head should equal (shorthands1.Email)
       shorthands1.User.keySet should be ('empty)
     }
 
@@ -172,9 +114,8 @@ class ShorthandSpec extends FlatSpec with GivenWhenThen with Matchers {
       shorthands2.subdomain.name should equal ("blogging")
       shorthands2.subdomain.pTypePool.size should equal (1)
       shorthands2.subdomain.pTypePool.values.head should equal (shorthands2.User)
-      shorthands2.subdomain.eTypePool.size should equal (0)
-      shorthands2.subdomain.shorthandPool.size should equal (1)
-      shorthands2.subdomain.shorthandPool.values.head should equal (shorthands2.Email)
+      shorthands2.subdomain.eTypePool.size should equal (1)
+      shorthands2.subdomain.eTypePool.values.head should equal (shorthands2.Email)
       shorthands2.User.keySet should be ('empty)
     }
 

@@ -22,7 +22,7 @@ import longevity.subdomain.persistent.Persistent
  * and [[Index indexes]], as well as for building [[Query queries]]. a property
  * can descend from the root into child entities at any depth. at present, a
  * property cannot pass through any collections. at present, the type of the
- * property must be an [[Assoc]], a [[Shorthand]], or a basic type.
+ * property must be an [[Assoc]] or a basic type. TODO review this scaladoc
  * 
  * @param path a dot-separated path of the property descending from the root
  * @param pTypeKey the `TypeKey` for the enclosing [[PType persistent type]]
@@ -64,16 +64,11 @@ case class Prop[P <: Persistent, A] private[ptype] (
       case None => throw new PTypeHasNoSubdomainException(pTypeKey)(
         "you cannot use Prop.ordering without a subdomain.")
     }
-    val shorthandPool = subdomain.shorthandPool
 
     val basicResolverOpt = subdomain.getBasicResolver(propTypeKey)
     basicResolverOpt match {
       case Some(resolver) => resolver.ordering
-      case None => if (shorthandPool.contains(propTypeKey)) {
-        shorthandPool(propTypeKey).actualOrdering
-      } else {
-        throw new PropNotOrderedException(this)
-      }
+      case None => throw new PropNotOrderedException(this)
     }
   }
 
@@ -86,7 +81,6 @@ case class Prop[P <: Persistent, A] private[ptype] (
   }
 
   private def initializePropPath(subdomain: Subdomain): EmblematicPropPath[P, A] = {
-    val shorthandPool = subdomain.shorthandPool
     val emblematic = subdomain.emblematic
 
     def validatePath(): EmblematicPropPath[P, _] =
@@ -111,8 +105,7 @@ case class Prop[P <: Persistent, A] private[ptype] (
       val key = leafEmblemProp.typeKey
 
       if (!(subdomainOpt.get.getBasicResolver(key).isDefined ||
-            key <:< typeKey[Assoc[_]] ||
-            shorthandPool.contains(key)
+            key <:< typeKey[Assoc[_]]
           ))
         throw new UnsupportedPropTypeException(path)(pTypeKey, key)
       key

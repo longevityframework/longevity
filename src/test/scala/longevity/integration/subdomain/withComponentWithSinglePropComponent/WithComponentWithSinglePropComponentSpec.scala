@@ -1,10 +1,11 @@
-package longevity.integration.subdomain.keyWithShorthand
+package longevity.integration.subdomain.withComponentWithSinglePropComponent
 
 import org.scalatest.Suites
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class KeyWithShorthandSpec extends Suites(
+class WithComponentWithSinglePropComponentSpec extends Suites(
   mongoContext.inMemRepoCrudSpec,
   mongoContext.repoCrudSpec,
   cassandraContext.repoCrudSpec)
+
 

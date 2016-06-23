@@ -233,40 +233,10 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce a valid prop for shorthand types in nested components" in {
-    import longevity.integration.subdomain.withComponentWithShorthands._
-    var prop: Prop[WithComponentWithShorthands, _] = null
-
-    prop = WithComponentWithShorthands.prop[BooleanShorthand]("component.boolean")
-    prop.path should equal ("component.boolean")
-    prop.propTypeKey should equal (typeKey[BooleanShorthand])
-
-    prop = WithComponentWithShorthands.prop[CharShorthand]("component.char")
-    prop.path should equal ("component.char")
-    prop.propTypeKey should equal (typeKey[CharShorthand])
-
-    prop = WithComponentWithShorthands.prop[DoubleShorthand]("component.double")
-    prop.path should equal ("component.double")
-    prop.propTypeKey should equal (typeKey[DoubleShorthand])
-
-    prop = WithComponentWithShorthands.prop[FloatShorthand]("component.float")
-    prop.path should equal ("component.float")
-    prop.propTypeKey should equal (typeKey[FloatShorthand])
-
-    prop = WithComponentWithShorthands.prop[IntShorthand]("component.int")
-    prop.path should equal ("component.int")
-    prop.propTypeKey should equal (typeKey[IntShorthand])
-
-    prop = WithComponentWithShorthands.prop[LongShorthand]("component.long")
-    prop.path should equal ("component.long")
-    prop.propTypeKey should equal (typeKey[LongShorthand])
-
-    prop = WithComponentWithShorthands.prop[StringShorthand]("component.string")
-    prop.path should equal ("component.string")
-    prop.propTypeKey should equal (typeKey[StringShorthand])
-
-    prop = WithComponentWithShorthands.prop[DateTimeShorthand]("component.dateTime")
-    prop.path should equal ("component.dateTime")
-    prop.propTypeKey should equal (typeKey[DateTimeShorthand])
+    import longevity.integration.subdomain.withComponentWithSinglePropComponent._
+    val prop = WithComponentWithSinglePropComponent.prop[Uri]("component.uri")
+    prop.path should equal ("component.uri")
+    prop.propTypeKey should equal (typeKey[Uri])
   }
 
   it should "produce a valid prop for a nested assoc" in {

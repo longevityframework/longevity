@@ -53,8 +53,6 @@ with CassandraDelete[P] {
   protected[cassandra] def realizedProps: List[Prop[_ >: P <: Persistent, _]] =
     (pType.keySet.flatMap(_.props) ++ pType.indexSet.flatMap(_.props)).toList
 
-  protected val shorthandPool = subdomain.shorthandPool
-
   protected val persistentToJsonTranslator = new PersistentToJsonTranslator(subdomain.emblematic)
   protected val jsonToPersistentTranslator = new JsonToPersistentTranslator(subdomain.emblematic)
 
@@ -99,19 +97,16 @@ with CassandraDelete[P] {
   protected def cassandraValue[A : TypeKey](value: A): AnyRef = {
     val basicResolverOpt = subdomain.getBasicResolver[A]
 
-    val abbreviated = basicResolverOpt match {
+    val resolved = basicResolverOpt match {
       case Some(resolver) => resolver.resolve(value)
-      case None => value match {
-        case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
-        case a => a
-      }
+      case None => value
     }
 
-    abbreviated match {
+    resolved match {
       case id: CassandraId[_] => id.uuid
       case char: Char => char.toString
       case d: DateTime => dateTimeFormatter.print(d)
-      case _ => abbreviated.asInstanceOf[AnyRef]
+      case _ => resolved.asInstanceOf[AnyRef]
     }
   }
 

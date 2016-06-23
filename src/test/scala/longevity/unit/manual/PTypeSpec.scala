@@ -14,15 +14,17 @@ object PTypeSpec {
   // used in http://longevityframework.github.io/longevity/manual/root-type/properties.html
   object properties1 {
 
-    import longevity.subdomain.Shorthand
-    import longevity.subdomain.ShorthandPool
+    import longevity.subdomain.embeddable.ValueObject
+    import longevity.subdomain.embeddable.ValueType
 
-    case class Email(email: String)
-    case class Markdown(markdown: String)
-    case class Uri(uri: String)
-    object Email extends Shorthand[Email, String]
-    object Markdown extends Shorthand[Markdown, String]
-    object Uri extends Shorthand[Uri, String]
+    case class Email(email: String) extends ValueObject
+    object Email extends ValueType[Email]
+
+    case class Markdown(markdown: String) extends ValueObject
+    object Markdown extends ValueType[Markdown]
+
+    case class Uri(uri: String) extends ValueObject
+    object Uri extends ValueType[Uri]
 
     import longevity.subdomain.embeddable.Entity
     import longevity.subdomain.embeddable.EntityType
@@ -64,8 +66,7 @@ object PTypeSpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      ETypePool(UserProfile),
-      ShorthandPool(Email, Markdown, Uri))
+      ETypePool(Email, Markdown, Uri, UserProfile))
 
   }
 

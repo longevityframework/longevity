@@ -51,8 +51,6 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
       case None =>
         if (key <:< typeKey[Assoc[_ <: Persistent]]) {
           "uuid"
-        } else if (shorthandPool.contains(key)) {
-          CassandraRepo.basicToCassandraType(shorthandPool(key).abbreviatedTypeKey)
         } else {
           throw new RuntimeException(s"unexpected prop type ${key.tpe}")
         }

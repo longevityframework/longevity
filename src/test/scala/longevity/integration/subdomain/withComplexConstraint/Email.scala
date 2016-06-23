@@ -1,9 +1,10 @@
 package longevity.integration.subdomain.withComplexConstraint
 
-import longevity.subdomain.Shorthand
+import longevity.subdomain.embeddable.ValueObject
+import longevity.subdomain.embeddable.ValueType
 
-case class Email(email: String) {
+case class Email(email: String) extends ValueObject {
   if (!email.contains('@')) throw new ConstraintValidationException("no '@' in email")
 }
 
-object Email extends Shorthand[Email, String]
+object Email extends ValueType[Email]

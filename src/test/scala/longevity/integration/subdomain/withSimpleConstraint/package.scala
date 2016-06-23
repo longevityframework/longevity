@@ -5,7 +5,6 @@ import emblem.emblematic.traversors.sync.CustomGeneratorPool
 import longevity.context.Cassandra
 import longevity.context.LongevityContext
 import longevity.context.Mongo
-import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.ptype.PTypePool
@@ -16,8 +15,7 @@ package object withSimpleConstraint {
   val subdomain = Subdomain(
     "With Simple Constraint",
     PTypePool(WithSimpleConstraint),
-    ETypePool(),
-    ShorthandPool(Email))
+    ETypePool(Email))
 
   val emailGenerator = CustomGenerator.simpleGenerator[Email] { generator =>
     Email(s"{generator.generate[String]}@{generate.generate[String]")

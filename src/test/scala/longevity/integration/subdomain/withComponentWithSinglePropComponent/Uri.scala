@@ -1,4 +1,4 @@
-package longevity.integration.subdomain.keyWithAssoc
+package longevity.integration.subdomain.withComponentWithSinglePropComponent
 
 import longevity.subdomain.embeddable.ValueObject
 import longevity.subdomain.embeddable.ValueType

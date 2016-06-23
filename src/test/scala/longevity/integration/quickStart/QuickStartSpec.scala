@@ -36,28 +36,28 @@ object QuickStartSpec {
   // start building our subdomain:
 
   import longevity.subdomain.Assoc
-  import longevity.subdomain.Shorthand
-  import longevity.subdomain.ShorthandPool
   import longevity.subdomain.Subdomain
   import longevity.subdomain.embeddable.Entity
   import longevity.subdomain.embeddable.EntityType
   import longevity.subdomain.embeddable.ETypePool
+  import longevity.subdomain.embeddable.ValueObject
+  import longevity.subdomain.embeddable.ValueType
   import longevity.subdomain.persistent.Root
   import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
 
-  // shorthands help you use typed wrapper classes instead of raw values:
+  // value objects to build your entities:
 
-  case class Email(email: String)
-  object Email extends Shorthand[Email, String]
+  case class Email(email: String) extends ValueObject
+  object Email extends ValueType[Email]
 
-  case class Markdown(markdown: String)
-  object Markdown extends Shorthand[Markdown, String]
+  case class Markdown(markdown: String) extends ValueObject
+  object Markdown extends ValueType[Markdown]
 
-  case class Uri(uri: String)
-  object Uri extends Shorthand[Uri, String]
+  case class Uri(uri: String) extends ValueObject
+  object Uri extends ValueType[Uri]
 
-  // some convenience methods for using shorthands:
+  // some convenience methods for using value objects:
 
   implicit def toEmail(email: String) = Email(email)
   implicit def toMarkdown(markdown: String) = Markdown(markdown)
@@ -140,8 +140,7 @@ object QuickStartSpec {
   val blogCore = Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    ETypePool(UserProfile),
-    ShorthandPool(Email, Markdown, Uri))
+    ETypePool(Email, Markdown, Uri, UserProfile))
 
   // now build the context:
 

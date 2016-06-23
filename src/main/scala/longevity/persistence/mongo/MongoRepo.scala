@@ -22,6 +22,7 @@ import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.PersistedAssoc
 import longevity.subdomain.Assoc
+import longevity.subdomain.BasicResolver
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
@@ -63,7 +64,6 @@ with MongoSchema[P] {
 
   private val collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
   protected[mongo] val mongoCollection = mongoDb(collectionName)
-  private val shorthandPool = subdomain.shorthandPool
 
   protected lazy val persistentToCasbahTranslator =
     new PersistentToCasbahTranslator(subdomain.emblematic, repoPool)
@@ -183,15 +183,19 @@ with MongoSchema[P] {
   }
 
   private def resolvePropVal(prop: Prop[P, _], raw: Any): Any = {
-    if (shorthandPool.contains(prop.propTypeKey)) {
-      def abbreviate[PV : TypeKey] = shorthandPool[PV].abbreviate(raw.asInstanceOf[PV])
-      abbreviate(prop.propTypeKey)
-    } else if (prop.propTypeKey <:< typeKey[Assoc[_]]) {
+    if (prop.propTypeKey <:< typeKey[Assoc[_]]) {
       val assoc = raw.asInstanceOf[Assoc[_ <: Persistent]]
       if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
       raw.asInstanceOf[MongoId[_ <: Persistent]].objectId
     } else {
-      raw
+      val basicResolverOpt = subdomain.getBasicResolver(prop.propTypeKey)
+      basicResolverOpt match {
+        case Some(resolver) =>
+          def resolve[A, B](resolver: BasicResolver[A, B]) =
+            resolver.resolve(raw.asInstanceOf[A])
+          resolve(resolver)
+        case None => raw
+      }
     }
   }
 
@@ -217,16 +221,11 @@ with MongoSchema[P] {
 
   private def touchupValue[A : TypeKey](value: A): Any = {
     val basicResolverOpt = subdomain.getBasicResolver[A]
-
-    val abbreviated = basicResolverOpt match {
+    val resolved = basicResolverOpt match {
       case Some(resolver) => resolver.resolve(value)
-      case None => value match {
-        case actual if shorthandPool.contains[A] => shorthandPool[A].abbreviate(actual)
-        case a => a
-      }
+      case None => value
     }
-
-    abbreviated match {
+    resolved match {
       case id: MongoId[_] => id.objectId
       case char: Char => char.toString
       case other => other
