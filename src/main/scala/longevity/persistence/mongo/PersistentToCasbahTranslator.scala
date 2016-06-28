@@ -11,12 +11,7 @@ import emblem.emblematic.Union
 import emblem.exceptions.CouldNotTraverseException
 import emblem.emblematic.traversors.sync.Traversor
 import emblem.typeKey
-import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
-import longevity.persistence.RepoPool
-import longevity.subdomain.Assoc
-import longevity.subdomain.AssocAny
-import longevity.subdomain.persistent.Persistent
 import scala.reflect.runtime.universe.typeOf
 
 /** translates [[Persistent persistents]] into
@@ -26,23 +21,17 @@ import scala.reflect.runtime.universe.typeOf
  * embeddables and nat keys with a single property will be inlined in the BSON.
  *
  * @param emblematic the emblematic types to use
- * @param repoPool a pool of the repositories for this persistence context
  */
 private[persistence] class PersistentToCasbahTranslator(
-  private val emblematic: Emblematic,
-  private val repoPool: RepoPool) {
+  private val emblematic: Emblematic) {
 
-  /** translates a [[Persistent]] into a `MongoDBObject` */
-  def translate[P <: Persistent : TypeKey](p: P): MongoDBObject = try {
-    anyToMongoDBObject(traversor.traverse[P](WrappedInput(p, true)))
+  /** translates a Scala object into casbah */
+  def translate[A : TypeKey](a: A): Any = try {
+    traversor.traverse[A](WrappedInput(a, true))
   } catch {
     case e: CouldNotTraverseException =>
       throw new NotInSubdomainTranslationException(e.typeKey.name, e)
   }
-
-  private def anyToMongoDBObject(any: Any): MongoDBObject =
-    if (any.isInstanceOf[MongoDBObject]) any.asInstanceOf[MongoDBObject]
-    else any.asInstanceOf[DBObject]
 
   private val optionAnyType = typeOf[scala.Option[_]]
 
@@ -54,20 +43,11 @@ private[persistence] class PersistentToCasbahTranslator(
     type TraverseResult[A] = Any
 
     override protected val emblematic = PersistentToCasbahTranslator.this.emblematic
-    override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
-
-    def assocTraversor = new CustomTraversor[AssocAny] {
-      def apply[B <: Assoc[_ <: Persistent] : TypeKey](input: WrappedInput[B]): TraverseResult[B] = {
-        if (!input.value.isPersisted) {
-          throw new AssocIsUnpersistedException(input.value)
-        }
-        input.value.asInstanceOf[MongoId[_ <: Persistent]].objectId
-      }
-    }
+    override protected val customTraversors = CustomTraversorPool.empty
 
     override protected def traverseBoolean(input: WrappedInput[Boolean]): Any = input.value
 
-    override protected def traverseChar(input: WrappedInput[Char]): Any = input.value
+    override protected def traverseChar(input: WrappedInput[Char]): Any = input.value.toString
 
     override protected def traverseDateTime(input: WrappedInput[DateTime]): Any = input.value
 

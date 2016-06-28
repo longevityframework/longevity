@@ -7,6 +7,7 @@ import emblem.stringUtil
 /** a prototype for [[Emblem]] and [[Union]] */
 trait Reflective[A] {
 
+  // TODO name this type better
   /** the kind of reflective property this reflective has. either an
    * [[EmblemProp]] or a [[UnionProp]]
    */

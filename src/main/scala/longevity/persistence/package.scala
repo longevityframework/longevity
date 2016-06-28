@@ -5,7 +5,6 @@ import com.mongodb.casbah.MongoDB
 import com.typesafe.config.Config
 import emblem.TypeKey
 import emblem.TypeKeyMap
-import emblem.typeBound.TypeBoundMap
 import emblem.typeBound.TypeBoundPair
 import emblem.typeKey
 import longevity.context.Cassandra
@@ -170,16 +169,6 @@ package object persistence {
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
     repoPool.baseRepoMap.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
-  }
-
-  // stuff for {Repo,RepoPool}.createMany. also used by RepoCrudSpec.randomP
-
-  private[longevity] type PIdentity[P <: Persistent] = P
-
-  private[longevity] type CreatedCache = TypeBoundMap[Persistent, PIdentity, PState]
-
-  private[longevity] object CreatedCache {
-    def apply() = TypeBoundMap[Persistent, PIdentity, PState]()
   }
 
 }

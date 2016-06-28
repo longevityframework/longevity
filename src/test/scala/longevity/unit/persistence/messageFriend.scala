@@ -4,7 +4,7 @@ import longevity.context.Cassandra
 import longevity.context.InMem
 import longevity.context.LongevityContext
 import longevity.context.Mongo
-import longevity.subdomain.Assoc
+import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.PTypePool
@@ -12,29 +12,39 @@ import longevity.subdomain.ptype.RootType
 
 object messageFriend {
 
-  case class Friend(name: String) extends Root
+  case class FriendId(id: String) extends KeyVal[Friend](Friend.keys.id)
 
-  object FriendType extends RootType[Friend] {
+  case class Friend(id: FriendId, name: String) extends Root
+
+  object Friend extends RootType[Friend] {
+    object props {
+      val id = prop[FriendId]("id")
+    }
     object keys {
+      val id = key(props.id)
     }
     object indexes {
     }
   }
 
-  case class Message(author: Assoc[Friend], content: String) extends Root
+  case class MessageId(id: String) extends KeyVal[Message](Message.keys.id)
 
-  object MessageType extends RootType[Message] {
+  case class Message(id: MessageId, author: FriendId, content: String) extends Root
+
+  object Message extends RootType[Message] {
+    object props {
+      val id = prop[MessageId]("id")
+    }
     object keys {
+      val id = key(props.id)
     }
     object indexes {
     }
   }
 
-  object context {
-    val subdomain = Subdomain("blog", PTypePool() + FriendType + MessageType)
-    val inMemLongevityContext = LongevityContext(subdomain, InMem)
-    val mongoLongevityContext = LongevityContext(subdomain, Mongo)
-    val cassandraLongevityContext = LongevityContext(subdomain, Cassandra)
-  }
+  val subdomain = Subdomain("blog", PTypePool(Friend, Message))
+  val inMemLongevityContext = LongevityContext(subdomain, InMem)
+  val mongoLongevityContext = LongevityContext(subdomain, Mongo)
+  val cassandraLongevityContext = LongevityContext(subdomain, Cassandra)
 
 }

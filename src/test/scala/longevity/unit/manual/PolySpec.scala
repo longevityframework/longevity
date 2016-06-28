@@ -67,6 +67,8 @@ object PolySpec {
     extends Root
 
     object User extends RootType[User] {
+      object props {
+      }
       object keys {
       }
       object indexes {
@@ -119,6 +121,8 @@ object PolySpec {
     }
 
     object User extends PolyPType[User] {
+      object props {
+      }
       object keys {
       }
       object indexes {
@@ -133,6 +137,8 @@ object PolySpec {
 
     object Member extends DerivedPType[Member, User] {
       val polyPType = User
+      object props {
+      }
       object keys {
       }
       object indexes {
@@ -146,6 +152,8 @@ object PolySpec {
 
     object Commenter extends DerivedPType[Commenter, User] {
       val polyPType = User
+      object props {
+      }
       object keys {
       }
       object indexes {
@@ -189,18 +197,22 @@ object PolySpec {
 
     object UserProfile extends EntityType[UserProfile]
 
+    import longevity.subdomain.KeyVal
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.DerivedPType
     import longevity.subdomain.ptype.PolyPType
 
+    case class Username(username: String)
+    extends KeyVal[User](User.keys.username)
+
     trait User extends Root {
-      val username: String
+      val username: Username
       val email: Email
     }
 
     object User extends PolyPType[User] {
       object props {
-        val username = prop[String]("username")
+        val username = prop[Username]("username")
         val email = prop[Email]("email")
       }
       object keys {
@@ -212,7 +224,7 @@ object PolySpec {
     }
 
     case class Member(
-      username: String,
+      username: Username,
       email: Email,
       profile: UserProfile)
     extends User
@@ -230,12 +242,14 @@ object PolySpec {
     }
 
     case class Commenter(
-      username: String,
+      username: Username,
       email: Email)
     extends User
 
     object Commenter extends DerivedPType[Commenter, User] {
       val polyPType = User
+      object props {
+      }
       object keys {
       }
       object indexes {

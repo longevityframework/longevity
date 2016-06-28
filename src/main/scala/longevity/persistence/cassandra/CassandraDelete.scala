@@ -17,7 +17,7 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
       blocking {
         session.execute(bindDeleteStatement(state))
       }
-      new Deleted(state.get, state.assoc)
+      new Deleted(state.get, state.passoc)
     }
 
   private lazy val deleteStatement: PreparedStatement = session.prepare(deleteStatementCql)
@@ -26,7 +26,7 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
 
   private def bindDeleteStatement(state: PState[P]): BoundStatement = {
     val boundStatement = deleteStatement.bind
-    val uuid = state.assoc.asInstanceOf[CassandraId[P]].uuid
+    val uuid = state.passoc.asInstanceOf[CassandraId[P]].uuid
     boundStatement.bind(uuid)
   }
 

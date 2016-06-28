@@ -14,10 +14,7 @@ private[persistence] trait BasePolyRepo[P <: Persistent] extends BaseRepo[P] {
 
   override def create(p: P)(implicit context: ExecutionContext) = {
     def createDerived[D <: P : TypeKey] = repoPool[D].create(p.asInstanceOf[D])(context)
-    implicit val derivedTypeKey: TypeKey[_ <: P] = union.typeKeyForInstance(p).getOrElse {
-      throw new NotInSubdomainTranslationException(p.getClass.getSimpleName)
-    }
-    createDerived.map(_.widen[P])
+    createDerived(derivedTypeKey(p)).map(_.widen[P])
   }
 
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] = {
@@ -27,11 +24,17 @@ private[persistence] trait BasePolyRepo[P <: Persistent] extends BaseRepo[P] {
         state.get.getClass.getSimpleName)
     }
 
-    def updateDerived[D <: P : TypeKey] = repoPool[D].update(state.asInstanceOf[PState[D]])(context)
-    implicit val derivedTypeKey: TypeKey[_ <: P] = union.typeKeyForInstance(state.get).getOrElse {
-      throw new NotInSubdomainTranslationException(state.get.getClass.getSimpleName)
-    }
-    updateDerived.map(_.widen[P])
+    def updateDerived[D <: P : TypeKey] = repoPool[D].update(state.asInstanceOf[PState[D]])
+    updateDerived(derivedTypeKey(state.get)).map(_.widen[P])
+  }
+
+  override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = {
+    def deleteDerived[D <: P : TypeKey] = repoPool[D].delete(state.asInstanceOf[PState[D]])
+    deleteDerived(derivedTypeKey(state.get)).map(_.widen[P])
+  }
+
+  private def derivedTypeKey(p: P): TypeKey[_ <: P] = union.typeKeyForInstance(p).getOrElse {
+    throw new NotInSubdomainTranslationException(p.getClass.getSimpleName)
   }
 
 }

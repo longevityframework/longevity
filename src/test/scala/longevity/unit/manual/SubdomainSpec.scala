@@ -35,6 +35,8 @@ object SubdomainSpec {
     import longevity.subdomain.ptype.RootType
 
     object User extends RootType[User] {
+      object props {
+      }
       object keys {
       }
       object indexes {
@@ -66,6 +68,8 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
+      object props {
+      }
       object keys {
       }
       object indexes {
@@ -92,6 +96,8 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
+      object props {
+      }
       object keys {
       }
       object indexes {
@@ -137,6 +143,8 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
+      object props {
+      }
       object keys {
       }
       object indexes {
@@ -189,6 +197,8 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
+      object props {
+      }
       object keys {
       }
       object indexes {
@@ -239,6 +249,8 @@ object SubdomainSpec {
     extends Root
 
     object User extends RootType[User] {
+      object props {
+      }
       object keys {
       }
       object indexes {

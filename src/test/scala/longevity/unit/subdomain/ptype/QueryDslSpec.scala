@@ -1,7 +1,7 @@
 package longevity.unit.subdomain.ptype
 
-import longevity.exceptions.subdomain.ptype.PropNotOrderedException
-import longevity.subdomain.Assoc
+//import longevity.exceptions.subdomain.ptype.PropNotOrderedException
+import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.PTypePool
@@ -15,7 +15,7 @@ import org.scalatest.Matchers
 /** sample domain for the QueryDslSpec */
 object QueryDslSpec {
 
-  private case class DslRoot(path1: Int, path2: Double, path3: String, path4: Assoc[Associated])
+  private case class DslRoot(path1: Int, path2: Double, path3: String, path4: AssociatedId)
   extends Root
 
   private object DslRoot extends RootType[DslRoot] {
@@ -23,7 +23,7 @@ object QueryDslSpec {
       val path1 = prop[Int]("path1")
       val path2 = prop[Double]("path2")
       val path3 = prop[String]("path3")
-      val path4 = prop[Assoc[Associated]]("path4")
+      val path4 = prop[AssociatedId]("path4")
     }
     object keys {
     }
@@ -31,10 +31,17 @@ object QueryDslSpec {
     }
   }
 
-  private case class Associated() extends Root
+  private case class AssociatedId(id: String)
+  extends KeyVal[Associated](Associated.keys.id)
+
+  private case class Associated(id: AssociatedId) extends Root
 
   private object Associated extends RootType[Associated] {
+    object props {
+      val id = prop[AssociatedId]("id")
+    }
     object keys {
+      val id = key(props.id)
     }
     object indexes {
     }
@@ -51,26 +58,27 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "QueryDsl"
 
-  it should "refuse to build a static ordering query on a non-ordered prop" in {
-    import DslRoot._
-    val assoc = Assoc(new Associated())
+  // TODO path4 is no longer non-ordered. we have to find a different example here
+  // it should "refuse to build a static ordering query on a non-ordered prop" in {
+  //   import DslRoot._
+  //   val assoc = AssociatedId("id77")
 
-    (props.path4 eqs assoc): Query[DslRoot]
-    (props.path4 neq assoc): Query[DslRoot]
+  //   (props.path4 eqs assoc): Query[DslRoot]
+  //   (props.path4 neq assoc): Query[DslRoot]
 
-    intercept[PropNotOrderedException] {
-      (props.path4 lt assoc): Query[DslRoot]
-    }
-    intercept[PropNotOrderedException] {
-      (props.path4 lte assoc): Query[DslRoot]
-    }
-    intercept[PropNotOrderedException] {
-      (props.path4 gt assoc): Query[DslRoot]
-    }
-    intercept[PropNotOrderedException] {
-      (props.path4 gte assoc): Query[DslRoot]
-    }
-  }
+  //   intercept[PropNotOrderedException] {
+  //     (props.path4 lt assoc): Query[DslRoot]
+  //   }
+  //   intercept[PropNotOrderedException] {
+  //     (props.path4 lte assoc): Query[DslRoot]
+  //   }
+  //   intercept[PropNotOrderedException] {
+  //     (props.path4 gt assoc): Query[DslRoot]
+  //   }
+  //   intercept[PropNotOrderedException] {
+  //     (props.path4 gte assoc): Query[DslRoot]
+  //   }
+  // }
 
   it should "build static relational queries that match the results of Query object methods" in {
     import DslRoot._

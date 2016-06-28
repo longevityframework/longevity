@@ -4,16 +4,16 @@ import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.RootType
 
 case class WithComponentWithSinglePropComponent(
-  uri: String,
+  id: WithComponentWithSinglePropComponentId,
   component: ComponentWithSinglePropComponent)
 extends Root
 
 object WithComponentWithSinglePropComponent extends RootType[WithComponentWithSinglePropComponent] {
   object props {
-    val uri = prop[String]("uri")
+    val id = prop[WithComponentWithSinglePropComponentId]("id")
   }
   object keys {
-    val uri = key(props.uri)
+    val id = key(props.id)
   }
   object indexes {
   }

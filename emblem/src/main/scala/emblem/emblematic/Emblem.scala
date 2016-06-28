@@ -2,6 +2,7 @@ package emblem.emblematic
 
 import emblem.TypeKey
 import emblem.emblematic.factories.EmblemFactory
+import emblem.emblematic.basicTypes.isBasicType
 
 /** a reflective signature for a type. provides name information, [[EmblemProp
  * properties]], and a tool used to build new instances. the underlying type is
@@ -22,6 +23,9 @@ extends Reflective[A] {
 
   type P[B, C] = EmblemProp[B, C]
 
+  private[emblematic] val propsMap: Map[String, EmblemProp[A, _]] =
+    props.map(prop => prop.name -> prop).toMap
+
   /** a builder of instances of the type represented by this emblem */
   class InstanceBuilder private[Emblem] () {
 
@@ -36,6 +40,36 @@ extends Reflective[A] {
 
   /** creates and returns a new builder for constructing new instances */
   def builder(): InstanceBuilder = new InstanceBuilder()
+
+  /** returns a sequence of all the [[EmblematicPropPath emblematic prop paths]]
+   * that compose this emblem.
+   *
+   * can't handle unions or collections
+   *
+   * TODO work on this scaladoc
+   *
+   * @param emblematic the emblematic to use in the recursive descent
+   */
+  def allPropPaths(emblematic: Emblematic): Seq[EmblematicPropPath[A, _]] = {
+    val pathStrings = allPropPathStrings(emblematic.emblems)
+    pathStrings.map(EmblematicPropPath.unbounded(emblematic, _)(typeKey))
+  }
+
+  private def allPropPathStrings(emblems: EmblemPool): Seq[String] = {
+    props.foldLeft(Seq[String]()) { (propPaths, prop) =>
+      val key = prop.typeKey
+      if (isBasicType(key)) {
+        propPaths :+ prop.name
+      } else if (emblems.contains(key)) {
+        propPaths ++ emblems(key).allPropPathStrings(emblems).map {
+          pathSuffix => s"${prop.name}.$pathSuffix"
+        }
+      } else {
+        throw new RuntimeException("i can only handle basics and emblems") // TODO
+      }
+    }
+
+  }
 
 }
 

@@ -2,7 +2,7 @@ package longevity.persistence
 
 import akka.NotUsed
 import akka.stream.scaladsl.Source
-import longevity.subdomain.PRef
+import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Query
 import scala.concurrent.ExecutionContext
@@ -18,34 +18,24 @@ trait Repo[P <: Persistent] {
    */
   def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** retrieves an optional persistent object from a persistent ref
+  /** retrieves an optional persistent object from a
+   * [[longevity.subdomain.KeyVal key value]]
    * 
-   * @param ref the reference to use to look up the persistent object. this
-   * could be a [[longevity.subdomain.ptype.KeyVal KeyVal]] or an
-   * [[longevity.subdomain.Assoc Assoc]]
-   * 
+   * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
-   * 
-   * @throws longevity.exceptions.persistence.AssocIsUnpersistedException
-   * whenever the persistent ref is an unpersisted assoc
    */
-  def retrieve(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[Option[PState[P]]]
+  def retrieve(keyVal: KeyVal[P])(implicit executionContext: ExecutionContext): Future[Option[PState[P]]]
 
-  /** retrieves a non-optional persistent object from a persistent ref
+  /** retrieves an optional persistent object from a
+   * [[longevity.subdomain.KeyVal key value]]
    * 
    * throws NoSuchElementException whenever the persistent ref does not refer
    * to a persistent object in the repository
    * 
-   * @param ref the reference to use to look up the entity. this could be a
-   * [[longevity.subdomain.ptype.KeyVal KeyVal]] or an
-   * [[longevity.subdomain.Assoc Assoc]]
-   *
+   * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
-   * 
-   * @throws longevity.exceptions.persistence.AssocIsUnpersistedException
-   * whenever the persistent ref is an unpersisted assoc
    */
-  def retrieveOne(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
+  def retrieveOne(keyVal: KeyVal[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
 
   /** retrieves multiple persistent objects matching a query
    * 

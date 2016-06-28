@@ -18,21 +18,25 @@ private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
   /** generates the emblem */
   def generate: Emblem[A] = Emblem[A](
     key,
-    params.map(_.name).map(emblemProp(_)),
+    params.map(_.name).map(emblemProp(_, params.size == 1)),
     makeCreator())
 
-  private def emblemProp(name: TermName): EmblemProp[A, _] = {
+  private def emblemProp(name: TermName, isOnlyChild: Boolean): EmblemProp[A, _] = {
     val memberTerm: TermSymbol = tpe.member(name).asTerm.accessed.asTerm
     val propTypeTag = makeTypeTag[Any](memberTerm) // the Any here is bogus. it comes back as something else
     val propKey = TypeKey(propTypeTag)
-    makeEmblemProp(name)(propKey)
+    makeEmblemProp(name, isOnlyChild)(propKey)
   }
 
-  private def makeEmblemProp[B](name: TermName)(implicit propKey: TypeKey[B]): EmblemProp[A, B] =
+  private def makeEmblemProp[B](
+    name: TermName,
+    isOnlyChild: Boolean)(
+    implicit propKey: TypeKey[B]): EmblemProp[A, B] =
     EmblemProp[A, B](
       name.toString,
       getFunction[B](name),
-      setFunction[B](name))(
+      setFunction[B](name),
+      isOnlyChild)(
       propKey)
 
   private def setFunction[B : TypeKey](name: TermName): (A, B) => A = {

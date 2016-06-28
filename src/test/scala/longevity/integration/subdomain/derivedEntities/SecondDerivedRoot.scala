@@ -3,7 +3,7 @@ package longevity.integration.subdomain.derivedEntities
 import longevity.subdomain.ptype.DerivedPType
 
 case class SecondDerivedRoot(
-  uri: String,
+  id: PolyRootId,
   second: String,
   component: PolyEntity)
 extends PolyRoot

@@ -2,20 +2,17 @@ package longevity.persistence.inmem
 
 import akka.NotUsed
 import akka.stream.scaladsl.Source
-import emblem.typeKey
-import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.PersistedAssoc
-import longevity.subdomain.Assoc
+import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.AnyKey
 import longevity.subdomain.ptype.ConditionalQuery
 import longevity.subdomain.ptype.EqualityQuery
-import longevity.subdomain.ptype.Key
-import longevity.subdomain.ptype.KeyVal
 import longevity.subdomain.ptype.OrderingQuery
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.DerivedPType
@@ -30,6 +27,9 @@ import longevity.subdomain.ptype.Query.LtOp
 import longevity.subdomain.ptype.Query.LteOp
 import longevity.subdomain.ptype.Query.NeqOp
 import longevity.subdomain.ptype.Query.OrOp
+import longevity.subdomain.ptype.Prop
+import longevity.subdomain.realized.RealizedKey
+import longevity.subdomain.realized.RealizedPType
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -60,7 +60,7 @@ extends BaseRepo[P](pType, subdomain) {
     Source.fromIterator { () => queryResults(query).iterator }
 
   private def queryResults(query: Query[P]): Seq[PState[P]] =
-    allPStates.filter { s => InMemRepo.queryMatches(query, s.get) }
+    allPStates.filter { s => InMemRepo.queryMatches(query, s.get, realizedPType) }
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     repo.synchronized {
@@ -70,11 +70,12 @@ extends BaseRepo[P](pType, subdomain) {
       persist(state.passoc, state.get)
     } catch {
       case e: DuplicateKeyValException[_] =>
-        keys.foreach { key =>
-          val keyVal = key.keyValForP(state.orig)
-          keyValToPStateMap += keyVal -> state
+        repo.synchronized {
+          keys.foreach { key =>
+            registerPStateByKeyVal(key.keyValForP(state.orig), state)
+          }
+          throw e
         }
-        throw e
     }
   }
 
@@ -83,33 +84,19 @@ extends BaseRepo[P](pType, subdomain) {
       unregisterPStateByAssoc(state.passoc)
       dumpKeys(state.orig)
     }
-    val deleted = new Deleted(state.get, state.assoc)
+    val deleted = new Deleted(state.get, state.passoc)
     Future.successful(deleted)
   }
 
   private def dumpKeys(p: P) = keys.foreach { key =>
-    val keyVal = key.keyValForP(p)
-    keyValToPStateMap -= keyVal
+    unregisterKeyVal(key.keyValForP(p))
   }
-
-  override protected def retrieveByPersistedAssoc(
-    assoc: PersistedAssoc[P])(
-    implicit context: ExecutionContext)
-  : Future[Option[PState[P]]] =
-    Future.successful(lookupPStateByAssoc(assoc))
 
   override protected def retrieveByKeyVal(
     keyVal: KeyVal[P])(
     implicit context: ExecutionContext)
-  : Future[Option[PState[P]]] = {
-    keyVal.propVals.foreach { case (prop, value) =>
-      if (prop.propTypeKey <:< typeKey[Assoc[_]]) {
-        val assoc = value.asInstanceOf[Assoc[_ <: Persistent]]
-        if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
-      }
-    }
+  : Future[Option[PState[P]]] =
     Future.successful(lookupPStateByKeyVal(keyVal))
-  }
 
   private def persist(assoc: PersistedAssoc[P], p: P): PState[P] = {
     val state = new PState[P](assoc, p)
@@ -131,33 +118,52 @@ extends BaseRepo[P](pType, subdomain) {
     id
   }
 
-  protected[inmem] val keys: Seq[Key[_ >: P <: Persistent]] = pType.keySet.toSeq
+  protected[inmem] val keys: Seq[RealizedKey[_ >: P <: Persistent, _ <: KeyVal[_ >: P <: Persistent]]] =
+    myKeys
 
-  protected[inmem] def assertUniqueKeyVal(keyVal: KeyVal[_ <: Persistent], state: PState[P]): Unit = {
+  protected def myKeys = {
+    // TODO asInstanceOf
+    // TODO type shorthands
+    val ks = realizedPType.keySet.asInstanceOf[Set[RealizedKey[_ >: P <: Persistent,
+                                                               _ <: KeyVal[_ >: P <: Persistent]]]]
+    ks.toSeq
+  }
+
+  protected[inmem] def assertUniqueKeyVal(
+    keyVal: KeyVal[_ <: Persistent],
+    state: PState[P])
+  : Unit = {
     if (keyValToPStateMap.contains(keyVal)) {
-      throw new DuplicateKeyValException[P](state.get, keyVal.key.asInstanceOf[Key[P]])
+      // TODO fix this asInstanceOf
+      throw new DuplicateKeyValException[P](state.get, keyVal.key.asInstanceOf[AnyKey[P]])
     }
   }
 
-  protected[inmem] def registerPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent], state: PState[P]): Unit = {
-    assocToPStateMap += (assoc -> state)
-  }
-
-  protected[inmem] def registerPStateByKeyVal(keyVal: KeyVal[_ <: Persistent], state: PState[P]): Unit = {
-    keyValToPStateMap += (keyVal -> state)
-  }
-
-  protected[inmem] def lookupPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent]): Option[PState[P]] = {
-    assocToPStateMap.get(assoc)
-  }
-
-  protected[inmem] def lookupPStateByKeyVal(keyVal: KeyVal[_ <: Persistent]): Option[PState[P]] =
-    keyValToPStateMap.get(keyVal)
-
   protected[inmem] def allPStates: Seq[PState[P]] = assocToPStateMap.values.view.toSeq
+
+  protected[inmem] def registerPStateByAssoc(
+    assoc: PersistedAssoc[_ <: Persistent],
+    state: PState[P])
+  : Unit =
+    assocToPStateMap += (assoc -> state)
 
   protected[inmem] def unregisterPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent]): Unit =
     assocToPStateMap -= assoc
+
+  protected[inmem] def registerPStateByKeyVal(
+    keyVal: KeyVal[_ <: Persistent],
+    state: PState[P])
+  : Unit =
+    keyValToPStateMap += (keyVal -> state)
+
+  protected[inmem] def lookupPStateByKeyVal(
+    keyVal: KeyVal[_ <: Persistent])
+  : Option[PState[P]] =
+    keyValToPStateMap.get(keyVal)
+
+  protected[inmem] def unregisterKeyVal(keyVal: KeyVal[_ <: Persistent]): Unit = keyValToPStateMap -= keyVal
+
+  override def toString = s"InMemRepo[${pTypeKey.name}]"
 
 }
 
@@ -186,22 +192,34 @@ object InMemRepo {
     repo
   }
 
-  private[longevity] def queryMatches[P <: Persistent](query: Query[P], p: P): Boolean = {
+  private[longevity] def queryMatches[P <: Persistent](
+    query: Query[P],
+    p: P,
+    realizedPType: RealizedPType[P])
+  : Boolean = {
+
+    def toRealized[A](prop: Prop[_ >: P <: Persistent, A]) = realizedPType.realizedProps(prop)
+
+    def orderingQueryMatches[A](query: OrderingQuery[_ >: P <: Persistent, A]) = {
+      val realizedProp = toRealized(query.prop)
+      query.op match {
+        case LtOp => realizedProp.ordering.lt(realizedProp.propVal(p), query.value)
+        case LteOp => realizedProp.ordering.lteq(realizedProp.propVal(p), query.value)
+        case GtOp => realizedProp.ordering.gt(realizedProp.propVal(p), query.value)
+        case GteOp => realizedProp.ordering.gteq(realizedProp.propVal(p), query.value)
+      }
+    }
+
     query match {
       case All() => true
       case EqualityQuery(prop, op, value) => op match {
-        case EqOp => prop.propVal(p) == value
-        case NeqOp => prop.propVal(p) != value
+        case EqOp => toRealized(prop).propVal(p) == value
+        case NeqOp => toRealized(prop).propVal(p) != value
       }
-      case OrderingQuery(prop, op, value) => op match {
-        case LtOp => prop.ordering.lt(prop.propVal(p), value)
-        case LteOp => prop.ordering.lteq(prop.propVal(p), value)
-        case GtOp => prop.ordering.gt(prop.propVal(p), value)
-        case GteOp => prop.ordering.gteq(prop.propVal(p), value)
-      }
+      case q: OrderingQuery[_, _] => orderingQueryMatches(q)
       case ConditionalQuery(lhs, op, rhs) => op match {
-        case AndOp => queryMatches(lhs, p) && queryMatches(rhs, p)
-        case OrOp => queryMatches(lhs, p) || queryMatches(rhs, p)
+        case AndOp => queryMatches(lhs, p, realizedPType) && queryMatches(rhs, p, realizedPType)
+        case OrOp => queryMatches(lhs, p, realizedPType) || queryMatches(rhs, p, realizedPType)
       }
     }
   }

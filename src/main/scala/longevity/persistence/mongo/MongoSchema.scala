@@ -3,7 +3,7 @@ package longevity.persistence.mongo
 import com.mongodb.casbah.commons.MongoDBObject
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Index
-import longevity.subdomain.ptype.Key
+import longevity.subdomain.realized.RealizedKey
 
 // this will find a better home in pt #106611128
 
@@ -14,8 +14,8 @@ private[mongo] trait MongoSchema[P <: Persistent] {
   protected def createSchema(): Unit = {
     var indexNames = Set[String]()
 
-    pType.keySet.foreach { key =>
-      val paths = key.props.map(_.inlinedPath)
+    realizedPType.keySet.foreach { key =>
+      val paths = Seq(key.realizedProp.inlinedPath)
       val name = indexName(key)
       if (!indexNames.contains(name)) {
         indexNames += name
@@ -24,7 +24,7 @@ private[mongo] trait MongoSchema[P <: Persistent] {
     }
 
     pType.indexSet.foreach { index =>
-      val paths = index.props.map(_.inlinedPath)
+      val paths = index.props.map(realizedPType.realizedProps(_).inlinedPath)
       val name = indexName(index)
       if (!indexNames.contains(name)) {
         indexNames += name
@@ -38,11 +38,11 @@ private[mongo] trait MongoSchema[P <: Persistent] {
     mongoCollection.createIndex(MongoDBObject(mongoPaths.toList), indexName, unique)
   }
 
-  protected def indexName(key: Key[P]): String =
-    indexName(key.props.map(_.inlinedPath))
+  protected def indexName(key: RealizedKey[P, _]): String =
+    indexName(Seq(key.realizedProp.inlinedPath))
 
   private def indexName(index: Index[P]): String =
-    indexName(index.props.map(_.inlinedPath))
+    indexName(index.props.map(realizedPType.realizedProps(_).inlinedPath))
 
   private def indexName(paths: Seq[String]): String = {
     val cappedSegments: Seq[String] = paths.map {

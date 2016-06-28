@@ -5,7 +5,7 @@ import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.RootType
 
 case class AttributeLists(
-  uri: String,
+  id: AttributeListsId,
   boolean: List[Boolean],
   char: List[Char],
   double: List[Double],
@@ -18,10 +18,10 @@ extends Root
 
 object AttributeLists extends RootType[AttributeLists] {
   object props {
-    val uri = prop[String]("uri")
+    val id = prop[AttributeListsId]("id")
   }
   object keys {
-    val uri = key(props.uri)
+    val id = key(props.id)
   }
   object indexes {
   }

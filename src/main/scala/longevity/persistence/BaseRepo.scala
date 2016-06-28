@@ -1,12 +1,11 @@
 package longevity.persistence
 
 import emblem.TypeKey
-import longevity.exceptions.persistence.AssocIsUnpersistedException
-import longevity.subdomain.PRef
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.ptype.KeyVal
+import longevity.subdomain.KeyVal
 import longevity.subdomain.ptype.PType
+import longevity.subdomain.realized.RealizedPType
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -22,64 +21,28 @@ extends Repo[P] {
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
 
+  /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
+  protected lazy val repoPool: RepoPool = _repoPoolOption.get
+
+  // TODO should we inline (get rid of it here) pType in place of this?
+  protected[longevity] val realizedPType: RealizedPType[P] = subdomain.realizedPTypes(pType)
+
   /** the type key for the persistent entities this repository handles */
   protected[persistence] val pTypeKey: TypeKey[P] = pType.pTypeKey
 
   def create(unpersisted: P)(implicit context: ExecutionContext): Future[PState[P]]
 
-  def retrieve(ref: PRef[P])(implicit context: ExecutionContext): Future[Option[PState[P]]] =
-    ref.pattern match {
-      case PRef.UAssocPattern(assoc) => throw new AssocIsUnpersistedException(assoc)
-      case PRef.PAssocPattern(assoc) => retrieveByPersistedAssoc(assoc)
-      case PRef.KeyValPattern(keyVal) => retrieveByKeyVal(keyVal)
-    }
+  def retrieve(keyVal: KeyVal[P])(implicit context: ExecutionContext): Future[Option[PState[P]]] =
+    retrieveByKeyVal(keyVal) // TODO inline retrieveByKeyVal
 
-  def retrieveOne(ref: PRef[P])(implicit context: ExecutionContext): Future[PState[P]] =
-    retrieve(ref).map(_.get)
+  def retrieveOne(keyVal: KeyVal[P])(implicit context: ExecutionContext): Future[PState[P]] =
+    retrieve(keyVal).map(_.get)
 
   def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]]
 
   def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]]
 
-  protected def retrieveByPersistedAssoc(assoc: PersistedAssoc[P])(implicit context: ExecutionContext)
-  : Future[Option[PState[P]]]
-
   protected def retrieveByKeyVal(keyVal: KeyVal[P])(implicit context: ExecutionContext)
   : Future[Option[PState[P]]]
-
-  /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
-  protected lazy val repoPool: RepoPool = _repoPoolOption.get
-
-  private[persistence] def createWithCache(
-    unpersisted: P,
-    cache: CreatedCache)(
-    implicit executionContext: ExecutionContext)
-  : Future[(PState[P], CreatedCache)] = {
-    cache.get[P](unpersisted) match {
-      case Some(pstate) => Future.successful((pstate, cache))
-      case None => patchUnpersistedAssocs(unpersisted, cache).flatMap {
-        case (patched, cache) => create(patched).map {
-          pstate => (pstate, cache + (unpersisted -> pstate))
-        }
-      }
-    }
-  }
-
-  // this is also used by RepoCrudSpec for making pretty test data
-  private[longevity] def patchUnpersistedAssocs(
-    p: P,
-    cache: CreatedCache)(
-    implicit executionContext: ExecutionContext)
-  : Future[(P, CreatedCache)] = {
-    val transformer = new UnpersistedToPersistedTransformer(
-      repoPool,
-      executionContext,
-      subdomain.emblematic,
-      cache)
-    implicit val pTypeTag = pTypeKey.tag
-    val futureP = Future.successful(p)
-    val futurePatched = transformer.transform(futureP)
-    futurePatched.map((_, transformer.createdCache))
-  }
 
 }

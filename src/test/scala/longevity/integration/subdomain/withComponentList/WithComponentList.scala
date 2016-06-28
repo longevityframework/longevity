@@ -4,16 +4,16 @@ import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.RootType
 
 case class WithComponentList(
-  uri: String,
+  id: WithComponentListId,
   components: List[Component])
 extends Root
 
 object WithComponentList extends RootType[WithComponentList] {
   object props {
-    val uri = prop[String]("uri")
+    val id = prop[WithComponentListId]("id")
   }
   object keys {
-    val uri = key(props.uri)
+    val id = key(props.id)
   }
   object indexes {
   }

@@ -18,13 +18,7 @@ class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseR
   /** iterate over the repositories */
   def values: collection.Iterable[Repo[_ <: Persistent]] = typeKeyMap.values
 
-  private type KeyedP = PWithTypeKey[_ <: Persistent]
-  private type PStateSeq = Seq[PState[_ <: Persistent]]
-  private case class CreateManyState(cache: CreatedCache, pstates: PStateSeq)
-
-  /** creates many persistent objects at once. this method is the only way to
-   * persist aggregates with embedded unpersisted associations. any aggregates
-   * embedded this way must be present in the argument list `keyedPs`.
+  /** creates many persistent objects at once.
    *
    * because [[PWithTypeKey]] is an implicit class, you can call this method
    * using just aggregate roots, and the roots will be converted to
@@ -45,30 +39,12 @@ class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseR
     keyedPs: PWithTypeKey[_ <: Persistent]*)(
     implicit executionContext: ExecutionContext)
   : Future[Seq[PState[_ <: Persistent]]] = {
-    val empty = Future.successful(CreateManyState(CreatedCache(), Seq[PState[_ <: Persistent]]()))
-    val foldResult = keyedPs.foldLeft(empty)(createOne _)
-    foldResult.map(_.pstates)
-  }
-
-  private def createOne(
-    acc: Future[CreateManyState],
-    keyedP: KeyedP)(
-    implicit context: ExecutionContext)
-  : Future[CreateManyState] = {
-
-    def create[P <: Persistent](
-      keyedP: PWithTypeKey[P],
-      cache: CreatedCache)
-    : Future[(PState[P], CreatedCache)] = {
-      baseRepoMap(keyedP.pTypeKey).createWithCache(keyedP.p, cache)
+    val fpStates = keyedPs.map { keyedP =>
+      def fpState[P <: Persistent](keyedP: PWithTypeKey[P]): Future[PState[_ <: Persistent]] =
+        typeKeyMap(keyedP.pTypeKey).create(keyedP.p)
+      fpState(keyedP)
     }
-
-    acc.flatMap { state =>
-      create(keyedP, state.cache).map {
-        case (pstate, cache) => CreateManyState(cache, state.pstates :+ pstate)
-      }
-    }
-
+    Future.sequence(fpStates)
   }
 
 }

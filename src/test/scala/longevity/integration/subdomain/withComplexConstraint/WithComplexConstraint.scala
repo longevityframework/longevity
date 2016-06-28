@@ -4,7 +4,7 @@ import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.RootType
 
 case class WithComplexConstraint(
-  id: String,
+  id: WithComplexConstraintId,
   primaryEmail: Email,
   emails: Set[Email])
 extends Root {
@@ -14,7 +14,7 @@ extends Root {
 
 object WithComplexConstraint extends RootType[WithComplexConstraint] {
   object props {
-    val id = prop[String]("id")
+    val id = prop[WithComplexConstraintId]("id")
   }
   object keys {
     val id = key(props.id)

@@ -7,6 +7,8 @@ import com.datastax.driver.core.Session
 import com.datastax.driver.core.Session
 import com.typesafe.config.Config
 import emblem.TypeKey
+import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
+import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
 import emblem.exceptions.CouldNotTraverseException
 import emblem.jsonUtil.dateTimeFormatter
 import emblem.stringUtil.camelToUnderscore
@@ -16,16 +18,18 @@ import java.util.UUID
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
-import longevity.subdomain.ptype.Prop
+import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.realized.BasicPropComponent
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
+
+// TODO please split this up a bit
 
 /** a Cassandra repository for persistent entities of type `P`.
  *
@@ -40,7 +44,6 @@ private[longevity] class CassandraRepo[P <: Persistent] private (
 extends BaseRepo[P](pType, subdomain)
 with CassandraSchema[P]
 with CassandraCreate[P]
-with CassandraRetrieveAssoc[P]
 with CassandraRetrieveKeyVal[P]
 with CassandraQuery[P]
 with CassandraUpdate[P]
@@ -50,20 +53,36 @@ with CassandraDelete[P] {
 
   protected def typeKeyToTableName(key: TypeKey[_]) = camelToUnderscore(typeName(key.tpe))
 
-  protected[cassandra] def realizedProps: List[Prop[_ >: P <: Persistent, _]] =
-    (pType.keySet.flatMap(_.props) ++ pType.indexSet.flatMap(_.props)).toList
+  protected[cassandra] def actualizedComponents: List[BasicPropComponent[_ >: P <: Persistent, _, _]] = {
+    val keyComponents = realizedPType.keySet.flatMap {
+      _.realizedProp.basicPropComponents: Seq[BasicPropComponent[_ >: P <: Persistent, _, _]]
+    }
 
-  protected val persistentToJsonTranslator = new PersistentToJsonTranslator(subdomain.emblematic)
-  protected val jsonToPersistentTranslator = new JsonToPersistentTranslator(subdomain.emblematic)
+    val indexComponents: Set[BasicPropComponent[_ >: P <: Persistent, _, _]] = {
+      val props = pType.indexSet.flatMap(_.props)
+      val realizedProps = props.map(realizedPType.realizedProps(_))
+      realizedProps.map(_.basicPropComponents).flatten
+    }
 
-  protected def columnName(prop: Prop[_, _]) = "prop_" + scoredPath(prop)
+    (keyComponents ++ indexComponents).toList
+  }
 
-  protected def scoredPath(prop: Prop[_, _]) = prop.path.replace('.', '_')
+  protected val emblematicToJsonTranslator = new EmblematicToJsonTranslator {
+    override protected val emblematic = subdomain.emblematic
+  }
+
+  protected val jsonToEmblematicTranslator = new JsonToEmblematicTranslator {
+    override protected val emblematic = subdomain.emblematic
+  }
+
+  protected def columnName(prop: BasicPropComponent[_, _, _]) = "prop_" + scoredPath(prop)
+
+  protected def scoredPath(prop: BasicPropComponent[_, _, _]) = prop.outerPropPath.inlinedPath.replace('.', '_')
 
   protected def jsonStringForP(p: P): String = {
     try {
       import org.json4s.native.JsonMethods._
-      compact(render(persistentToJsonTranslator.translate(p)(pTypeKey)))
+      compact(render(emblematicToJsonTranslator.translate(p)(pTypeKey)))
     } catch {
       case e: CouldNotTraverseException =>
         throw new NotInSubdomainTranslationException(e.typeKey.name, e)
@@ -71,7 +90,7 @@ with CassandraDelete[P] {
   }
 
   protected def updateColumnNames(includeId: Boolean = true): Seq[String] = {
-    val realizedPropColumnNames = realizedProps.map(columnName).toSeq.sorted
+    val realizedPropColumnNames = actualizedComponents.map(columnName).toSeq.sorted
     if (includeId)
       "id" +: "p" +: realizedPropColumnNames
     else
@@ -79,34 +98,34 @@ with CassandraDelete[P] {
   }
 
   protected def updateColumnValues(uuid: UUID, p: P, includeId: Boolean = true): Seq[AnyRef] = {
-    val realizedPropValues = realizedProps.toSeq.sortBy(columnName).map { prop =>
-      def bind[PP >: P <: Persistent](prop: Prop[PP, _]) = propValBinding(prop, p)
-      bind(prop)
+    val actualizedComponentValues = actualizedComponents.toSeq.sortBy(columnName).map { component =>
+      def bind[PP >: P <: Persistent](componeent: BasicPropComponent[PP, _, _]) = propValBinding(component, p)
+      bind(component)
     }
     if (includeId)
-      uuid +: jsonStringForP(p) +: realizedPropValues
+      uuid +: jsonStringForP(p) +: actualizedComponentValues
     else
-      jsonStringForP(p) +: realizedPropValues
+      jsonStringForP(p) +: actualizedComponentValues
   }
 
-  protected def propValBinding[PP >: P <: Persistent, A](prop: Prop[PP, A], p: P): AnyRef = {
-    def bind[B : TypeKey](prop: Prop[PP, B]) = cassandraValue(prop.propVal(p))
-    bind(prop)(prop.propTypeKey)
+  protected def propValBinding[PP >: P <: Persistent, A](
+    component: BasicPropComponent[PP, _, A],
+    p: P)
+  : AnyRef = {
+    def bind[B : TypeKey](component: BasicPropComponent[PP, _, B]) =
+      cassandraValue(component.outerPropPath.get(p), component)
+    bind(component)(component.outerPropPath.typeKey)
   }
 
-  protected def cassandraValue[A : TypeKey](value: A): AnyRef = {
-    val basicResolverOpt = subdomain.getBasicResolver[A]
-
-    val resolved = basicResolverOpt match {
-      case Some(resolver) => resolver.resolve(value)
-      case None => value
-    }
-
-    resolved match {
+  protected def cassandraValue[A : TypeKey](
+    value: A,
+    component: BasicPropComponent[_ >: P <: Persistent, _, A])
+  : AnyRef = {
+    value match {
       case id: CassandraId[_] => id.uuid
       case char: Char => char.toString
       case d: DateTime => dateTimeFormatter.print(d)
-      case _ => resolved.asInstanceOf[AnyRef]
+      case _ => value.asInstanceOf[AnyRef]
     }
   }
 
@@ -126,9 +145,11 @@ with CassandraDelete[P] {
     val id = CassandraId[P](row.getUUID("id"))
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("p"))
-    val p = jsonToPersistentTranslator.translate[P](json)(pTypeKey)
+    val p = jsonToEmblematicTranslator.translate[P](json)(pTypeKey)
     new PState[P](id, p)
   }
+
+  override def toString = s"CassandraRepo[${pTypeKey.name}]"
 
 }
 

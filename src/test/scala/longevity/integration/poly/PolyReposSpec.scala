@@ -2,11 +2,8 @@ package longevity.integration.poly
 
 import longevity.context.LongevityContext
 import longevity.integration.subdomain.derivedEntities
-import longevity.persistence.PState
 import longevity.persistence.RepoPool
-import longevity.subdomain.Assoc
 import longevity.subdomain.ptype.Query
-import longevity.test.PersistedToUnpersistedMatcher
 import longevity.test.TestDataGeneration
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -25,51 +22,28 @@ with FlatSpec
 with GivenWhenThen
 with Matchers
 with ScalaFutures
-with TestDataGeneration
-with PersistedToUnpersistedMatcher {
+with TestDataGeneration {
 
-  behavior of "Repo[PolyRoot].retrieve(PRef)"
-
-  it should "retrieve by Assoc a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
-    val assoc = createdPState.assoc.asInstanceOf[Assoc[derivedEntities.PolyRoot]]
-
-    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(assoc).futureValue
-    retrievedPStateOpt should be ('nonEmpty)
-    retrievedPStateOpt.get.get should equal (firstDerivedRoot)
-  } 
+  behavior of "Repo[PolyRoot].retrieve"
 
   it should "retrieve by KeyVal a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
     val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
     val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
-    val uriKeyVal = derivedEntities.PolyRoot.keys.uri.keyValForP(createdPState.get)
 
-    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(uriKeyVal).futureValue
+    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(firstDerivedRoot.id).futureValue
     retrievedPStateOpt should be ('nonEmpty)
     retrievedPStateOpt.get.get should equal (firstDerivedRoot)
   } 
 
-  behavior of "Repo[FirstDerivedRoot].retrieve(PRef)"
-
-  it should "retrieve by Assoc a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
-    val castPState = createdPState.asInstanceOf[PState[derivedEntities.FirstDerivedRoot]]
-    val assoc = castPState.assoc
-
-    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(assoc).futureValue
-    retrievedPStateOpt should be ('nonEmpty)
-    retrievedPStateOpt.get.get should equal (firstDerivedRoot)
-  } 
+  behavior of "Repo[FirstDerivedRoot].retrieve"
 
   it should "retrieve by KeyVal a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
     val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
     val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
-    val castPState = createdPState.asInstanceOf[PState[derivedEntities.FirstDerivedRoot]]
-    val componentUriKeyVal = derivedEntities.FirstDerivedRoot.keys.componentUri.keyValForP(castPState.get)
 
-    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(componentUriKeyVal).futureValue
+    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(
+      firstDerivedRoot.component.id
+    ).futureValue
     retrievedPStateOpt should be ('nonEmpty)
     retrievedPStateOpt.get.get should equal (firstDerivedRoot)
   } 
@@ -77,9 +51,10 @@ with PersistedToUnpersistedMatcher {
   it should "not retrieve a SecondDerivedRoot by KeyVal[FirstDerivedRoot]" in {
     val secondDerivedRoot = testDataGenerator.generate[derivedEntities.SecondDerivedRoot]
     val createdPState = repoPool[derivedEntities.SecondDerivedRoot].create(secondDerivedRoot).futureValue
-    val componentUriKeyVal = derivedEntities.FirstDerivedRoot.keys.componentUri(createdPState.get.component.uri)
 
-    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(componentUriKeyVal).futureValue
+    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(
+      secondDerivedRoot.component.id
+    ).futureValue
     retrievedPStateOpt should be ('empty)
   } 
 
@@ -90,7 +65,7 @@ with PersistedToUnpersistedMatcher {
     val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
 
     val query: Query[derivedEntities.PolyRoot] =
-      Query.eqs(derivedEntities.PolyRoot.props.uri, firstDerivedRoot.uri)
+      Query.eqs(derivedEntities.PolyRoot.props.id, firstDerivedRoot.id)
 
     val retrievedPStateSeq = repoPool[derivedEntities.PolyRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (1)
@@ -104,7 +79,7 @@ with PersistedToUnpersistedMatcher {
     val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
 
     val query: Query[derivedEntities.FirstDerivedRoot] =
-      Query.eqs(derivedEntities.FirstDerivedRoot.props.componentUri, firstDerivedRoot.component.uri)
+      Query.eqs(derivedEntities.FirstDerivedRoot.props.componentId, firstDerivedRoot.component.id)
 
     val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (1)
@@ -116,7 +91,7 @@ with PersistedToUnpersistedMatcher {
     val createdPState = repoPool[derivedEntities.PolyRoot].create(secondDerivedRoot).futureValue
 
     val query: Query[derivedEntities.FirstDerivedRoot] =
-      Query.eqs(derivedEntities.FirstDerivedRoot.props.componentUri, secondDerivedRoot.component.uri)
+      Query.eqs(derivedEntities.FirstDerivedRoot.props.componentId, secondDerivedRoot.component.id)
 
     val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (0)
@@ -128,8 +103,8 @@ with PersistedToUnpersistedMatcher {
 
     val query: Query[derivedEntities.FirstDerivedRoot] =
       Query.and(
-        Query.eqs(derivedEntities.FirstDerivedRoot.props.componentUri, firstDerivedRoot.component.uri),
-        Query.eqs(derivedEntities.PolyRoot.props.uri, firstDerivedRoot.uri))
+        Query.eqs(derivedEntities.FirstDerivedRoot.props.componentId, firstDerivedRoot.component.id),
+        Query.eqs(derivedEntities.PolyRoot.props.id, firstDerivedRoot.id))
 
     val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (1)
@@ -142,8 +117,8 @@ with PersistedToUnpersistedMatcher {
 
     import derivedEntities.FirstDerivedRoot.queryDsl._
     val query: Query[derivedEntities.FirstDerivedRoot] =
-      derivedEntities.FirstDerivedRoot.props.componentUri eqs firstDerivedRoot.component.uri and
-      derivedEntities.PolyRoot.props.uri eqs firstDerivedRoot.uri
+      derivedEntities.FirstDerivedRoot.props.componentId eqs firstDerivedRoot.component.id and
+      derivedEntities.PolyRoot.props.id eqs firstDerivedRoot.id
 
     val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (1)

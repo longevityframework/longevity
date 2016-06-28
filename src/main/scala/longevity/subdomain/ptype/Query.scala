@@ -96,7 +96,8 @@ sealed case class OrderingQuery[P <: Persistent, A](
   op: OrderingOp,
   value: A)
 extends Query[P] {
-  prop.ordering // force exception if prop is not ordered
+  // TODO we have to move this somewhere else
+  //prop.ordering // force exception if prop is not ordered
 }
 
 /** a conditional query */

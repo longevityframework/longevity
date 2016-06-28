@@ -5,7 +5,7 @@ import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.RootType
 
 case class AllAttributes(
-  uri: String,
+  id: AllAttributesId,
   boolean: Boolean,
   char: Char,
   double: Double,
@@ -18,7 +18,7 @@ extends Root
 
 object AllAttributes extends RootType[AllAttributes] {
   object props {
-    val uri = prop[String]("uri")
+    val id = prop[AllAttributesId]("id")
     val boolean = prop[Boolean]("boolean")
     val char = prop[Char]("char")
     val double = prop[Double]("double")
@@ -29,7 +29,7 @@ object AllAttributes extends RootType[AllAttributes] {
     val dateTime = prop[DateTime]("dateTime")
   }
   object keys {
-    val uri = key(props.uri)
+    val id = key(props.id)
   }
   object indexes {
     val boolean = index(props.boolean)

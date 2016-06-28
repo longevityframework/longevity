@@ -18,6 +18,7 @@ import emblem.emblematic.factories.UnionFactory
  * @param constituents emblems for the constituent types
  * @param props the [[UnionProp union properties]]
  */
+// TODO: use lookup here
 case class Union[A](
   typeKey: TypeKey[A],
   constituents: Set[Emblem[_ <: A]],

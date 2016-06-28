@@ -67,7 +67,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "produce a non-empty `keySet` when `object keys` holds keys of the right type" in {
     object User extends PType[User] {
       object props {
-        val username = prop[String]("username")
+        val username = prop[Username]("username")
         val email = prop[Email]("email")
       }
       object keys {

@@ -11,4 +11,8 @@ package object ptype {
    */
   type PTypePool = TypeKeyMap[Persistent, PType]
 
+  // TODO scaladoc
+  // TODO name this better
+  type AnyKey[P <: Persistent] = Key[P, V] forSome { type V <: KeyVal[P] }
+
 }

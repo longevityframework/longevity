@@ -3,14 +3,14 @@ package longevity.integration.subdomain.oneAttribute
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.RootType
 
-case class OneAttribute(uri: String) extends Root
+case class OneAttribute(id: OneAttributeId) extends Root
 
 object OneAttribute extends RootType[OneAttribute] {
   object props {
-    val uri = prop[String]("uri")
+    val id = prop[OneAttributeId]("id")
   }
   object keys {
-    val uri = key(props.uri)
+    val id = key(props.id)
   }
   object indexes {
   }

@@ -3,12 +3,15 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import longevity.persistence.PState
+import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Key
-import longevity.subdomain.ptype.KeyVal
-import longevity.subdomain.ptype.Prop
+import longevity.subdomain.realized.BasicPropComponent
+import longevity.subdomain.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+
+// TODO rename to CassandraRetrieve
 
 /** implementation of CassandraRepo.retrieve(KeyVal) */
 private[cassandra] trait CassandraRetrieveKeyVal[P <: Persistent] {
@@ -18,7 +21,7 @@ private[cassandra] trait CassandraRetrieveKeyVal[P <: Persistent] {
   : Future[Option[PState[P]]] =
     retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
 
-  private lazy val keyValSelectStatement: Map[Key[P], PreparedStatement] = Map().withDefault { key =>
+  private lazy val keyValSelectStatement: Map[RealizedKey[P, _], PreparedStatement] = Map().withDefault { key =>
     val conjunction = keyValSelectStatementConjunction(key)
     val cql = s"""|
     |SELECT * FROM $tableName
@@ -29,16 +32,23 @@ private[cassandra] trait CassandraRetrieveKeyVal[P <: Persistent] {
     session.prepare(cql)
   }
 
-  protected def keyValSelectStatementConjunction(key: Key[P]): String =
-    key.props.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
+  protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String = {
+    key.realizedProp.basicPropComponents.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
+  }
 
   private def bindKeyValSelectStatement(keyVal: KeyVal[P]): BoundStatement = {
-    val preparedStatement = keyValSelectStatement(keyVal.key)
-    val propVals = keyVal.key.props.map { prop =>
-      def bind[A](prop: Prop[P, A]) = cassandraValue(keyVal(prop))(prop.propTypeKey)
-      bind(prop)
+    def boundStatement[KV <: KeyVal[P]](keyVal: KV) = {
+      // TODO: we should be able to get rid of this asInstanceOf if KeyVal.key was better typed
+      val realizedKey: RealizedKey[P, KV] = realizedPType.realizedKeys(keyVal.key.asInstanceOf[Key[P, KV]])
+      val propVals = realizedKey.realizedProp.basicPropComponents.map { component =>
+        def bind[PP >: P <: Persistent, B](component: BasicPropComponent[PP, KV, B]) =
+          cassandraValue(component.innerPropPath.get(keyVal), component)(component.componentTypeKey)
+        bind(component)
+      }
+      val preparedStatement = keyValSelectStatement(realizedKey)
+      preparedStatement.bind(propVals: _*)
     }
-    preparedStatement.bind(propVals: _*)
+    boundStatement(keyVal)
   }
 
 }

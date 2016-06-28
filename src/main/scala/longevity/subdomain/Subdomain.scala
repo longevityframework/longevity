@@ -1,16 +1,13 @@
 package longevity.subdomain
 
-import emblem.typeKey
 import emblem.TypeKey
 import emblem.TypeKeyMap
+import emblem.typeBound.TypeBoundMap
 import emblem.emblematic.Emblem
-import emblem.emblematic.EmblemProp
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
 import emblem.emblematic.UnionPool
-import emblem.emblematic.basicTypes.basicTypeOrderings
-import emblem.emblematic.basicTypes.isBasicType
 import emblem.typeBound.WideningTypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.embeddable.DerivedType
@@ -23,6 +20,7 @@ import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.realized.RealizedPType
 
 /** a specification of a subdomain of a project's domain. contains a pool of
  * all the [[ptype.PType persistent types]] in the subdomain, as well as
@@ -38,6 +36,8 @@ class Subdomain(
   val name: String,
   val pTypePool: PTypePool = PTypePool.empty,
   val eTypePool: ETypePool = ETypePool.empty) {
+
+  // TODO reorganize
 
   private val emblemPool: EmblemPool = {
     val pTypesWithEmblems = pTypePool.filterValues(!_.isInstanceOf[PolyPType[_]])
@@ -56,7 +56,15 @@ class Subdomain(
       }
     }
 
-    pEmblems ++ entityEmblems
+    val keyValEmblems = pTypePool.values.foldLeft(EmblemPool()) { (acc, pType) =>
+      val keyValEmblems: EmblemPool = pType.keySet.foldLeft(EmblemPool()) { (acc, key) =>
+        def addToPool[A](emblem: Emblem[A]) = acc + (emblem.typeKey -> emblem)
+        addToPool(key.keyValEmblem)
+      }
+      acc ++ keyValEmblems
+    }
+
+    pEmblems ++ entityEmblems ++ keyValEmblems
   }
 
   private val unionPool: UnionPool = entityUnions ++ pUnions
@@ -138,37 +146,13 @@ class Subdomain(
 
   private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
 
-  pTypePool.values.foreach(_.registerSubdomain(this))
-
-  /** this type key either represents a single basic value, or has an emblem
-   * that boils down to a single basic value
-   */
-  private[longevity] def getBasicResolver[A : TypeKey]: Option[BasicResolver[A, _]] = {
-    val key = typeKey[A]
-    if (isBasicType(key)) {
-      Some(BasicResolver(
-        key,
-        key,
-        identity,
-        basicTypeOrderings(key)))
-    } else {
-      val emblemOpt = emblemPool.get(key)
-      emblemOpt.flatMap { emblem =>
-        if (emblem.props.size == 1) {
-          def resolver[B](prop: EmblemProp[A, B]) = {
-            def outer[C](inner: BasicResolver[B, C]) =
-              BasicResolver(
-                key,
-                inner.basicTypeKey,
-                inner.resolve compose prop.get,
-                Ordering.by(prop.get)(inner.ordering))
-            getBasicResolver(prop.typeKey).map(inner => outer(inner))
-          }
-          resolver(emblem.props.head)
-        } else {
-          None
-        }
+  private[longevity] val realizedPTypes: TypeBoundMap[Persistent, PType, RealizedPType] = {
+    pTypePool.values.foldLeft(TypeBoundMap[Persistent, PType, RealizedPType]()) { (acc, pType) =>
+      def addPair[P <: Persistent](pType: PType[P]) = {
+        val realizedPType = new RealizedPType(pType, emblematic)
+        acc + (pType -> realizedPType)
       }
+      addPair(pType)
     }
   }
 

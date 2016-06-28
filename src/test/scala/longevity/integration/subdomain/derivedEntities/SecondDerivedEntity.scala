@@ -3,7 +3,7 @@ package longevity.integration.subdomain.derivedEntities
 import longevity.subdomain.embeddable.DerivedType
 
 case class SecondDerivedEntity(
-  uri: String,
+  id: PolyEntityId,
   second: String)
 extends PolyEntity
 

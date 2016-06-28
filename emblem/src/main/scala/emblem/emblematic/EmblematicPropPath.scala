@@ -9,11 +9,15 @@ import emblem.exceptions.EmblematicPropPathTypeMismatchException
 /** a property path that recurses through an emblem tree to a specific leaf */
 trait EmblematicPropPath[A, B] {
 
+  // TODO better name for this??
   /** the full path name (dot-separated) */
   val name: String
 
   /** a function that retrieves the property value from an instance */
   val get: (A) => B
+
+  /** a function that updates the property value to produce a new instance */
+  val set: (A, B) => A
 
   /** a [[TypeKey type key]] for the property path value type */
   val typeKey: TypeKey[B]
@@ -21,10 +25,27 @@ trait EmblematicPropPath[A, B] {
   /** a list of the [[ReflectiveProp properties]] that make up the path */
   val props: List[ReflectiveProp[_, _]]
 
+  // TODO scaladoc
+  def ++[C](extension: EmblematicPropPath[B, C]): EmblematicPropPath[A, C] =
+    EmblematicPropPath.:::(this, extension)
+
+  // TODO scaladoc
+  lazy val inlinedPath: String = {
+
+    def inlinedSegments(props: List[ReflectiveProp[_, _]], isTopLevel: Boolean): List[String] = props match {
+      case Nil => Nil
+      case prop :: tail =>
+        def tailingSegments = inlinedSegments(tail, false)
+        if (!isTopLevel && prop.isOnlyChild) tailingSegments else prop.name :: tailingSegments
+    }
+    inlinedSegments(props, true).mkString(".")
+  }
+
   override def toString = s"EmblematicPropPath($name)"
 
   // yes, these are chintzy. please make em better
   override def hashCode: Int = name.hashCode
+
   override def equals(that: Any): Boolean =
     try {
       that.asInstanceOf[EmblematicPropPath[A, B]].name == name
@@ -95,10 +116,20 @@ object EmblematicPropPath {
     propPath0(reflective(pathSegments.head), pathSegments.tail)
   }
 
+  // TODO scaladoc
+  def empty[A : TypeKey] = new EmblematicPropPath[A, A] {
+    val name = ""
+    val get = (a: A) => a
+    val set = (a: A, a2: A) => a2
+    val typeKey = emblem.typeKey[A]
+    val props = Nil
+  }
+
   private case class Leaf[A, B](prop: ReflectiveProp[A, B])
   extends EmblematicPropPath[A, B] {
     val name = prop.name
     val get = prop.get
+    val set = prop.set
     val typeKey = prop.typeKey
     val props = prop :: Nil
   }
@@ -107,8 +138,18 @@ object EmblematicPropPath {
   extends EmblematicPropPath[A, C] {
     val name = s"${head.name}.${tail.name}"
     val get = { a: A => tail.get(head.get(a)) }
+    val set = { (a: A, c: C) => head.set(a, tail.set(head.get(a), c)) }
     val typeKey = tail.typeKey
     val props = head :: tail.props
+  }
+
+  private case class :::[A, B, C](head: EmblematicPropPath[A, B], tail: EmblematicPropPath[B, C])
+  extends EmblematicPropPath[A, C] {
+    val name = s"${head.name}.${tail.name}"
+    val get = { a: A => tail.get(head.get(a)) }
+    val set = { (a: A, c: C) => head.set(a, tail.set(head.get(a), c)) }
+    val typeKey = tail.typeKey
+    val props = head.props ::: tail.props
   }
 
 }

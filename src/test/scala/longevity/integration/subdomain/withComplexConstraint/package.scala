@@ -24,7 +24,7 @@ package object withComplexConstraint {
   val withComplexConstraintGenerator = CustomGenerator.simpleGenerator[WithComplexConstraint] { generator =>
     val primaryEmail = generator.generate[Email]
     WithComplexConstraint(
-      generator.generate[String],
+      generator.generate[WithComplexConstraintId],
       primaryEmail,
       generator.generate[Set[Email]] + primaryEmail)
   }

@@ -15,20 +15,18 @@ import emblem.TypeKey
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
-import longevity.exceptions.persistence.AssocIsUnpersistedException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState
-import longevity.persistence.PersistedAssoc
-import longevity.subdomain.Assoc
-import longevity.subdomain.BasicResolver
+import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.AnyKey
 import longevity.subdomain.ptype.ConditionalQuery
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.EqualityQuery
-import longevity.subdomain.ptype.KeyVal
+import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.OrderingQuery
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PolyPType
@@ -66,10 +64,10 @@ with MongoSchema[P] {
   protected[mongo] val mongoCollection = mongoDb(collectionName)
 
   protected lazy val persistentToCasbahTranslator =
-    new PersistentToCasbahTranslator(subdomain.emblematic, repoPool)
+    new PersistentToCasbahTranslator(subdomain.emblematic)
 
   private lazy val casbahToPersistentTranslator =
-    new CasbahToPersistentTranslator(subdomain.emblematic, repoPool)
+    new CasbahToPersistentTranslator(subdomain.emblematic)
 
   def create(p: P)(implicit context: ExecutionContext) = Future {
     val objectId = new ObjectId()
@@ -106,7 +104,7 @@ with MongoSchema[P] {
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     val p = state.get
-    val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
+    val objectId = state.passoc.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val casbah = casbahForP(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
@@ -124,28 +122,11 @@ with MongoSchema[P] {
     val writeResult = blocking {
       mongoCollection.remove(query)
     }
-    new Deleted(state.get, state.assoc)
+    new Deleted(state.get, state.passoc)
   }
 
   protected def deleteQuery(state: PState[P]): MongoDBObject = {
-    val objectId = state.assoc.asInstanceOf[MongoId[P]].objectId
-    MongoDBObject("_id" -> objectId)
-  }
-
-  override protected def retrieveByPersistedAssoc(
-    assoc: PersistedAssoc[P])(
-    implicit context: ExecutionContext)
-  : Future[Option[PState[P]]] = Future {
-    val query = persistedAssocQuery(assoc)
-    val resultOption = blocking {
-      mongoCollection.findOne(query)
-    }
-    val pOption = resultOption map { casbahToPersistentTranslator.translate(_)(pTypeKey) }
-    pOption map { p => new PState[P](assoc, p) }
-  }
-
-  protected def persistedAssocQuery(assoc: PersistedAssoc[P]): MongoDBObject = {
-    val objectId = assoc.asInstanceOf[MongoId[P]].objectId
+    val objectId = state.passoc.asInstanceOf[MongoId[P]].objectId
     MongoDBObject("_id" -> objectId)
   }
 
@@ -163,14 +144,28 @@ with MongoSchema[P] {
   }
 
   protected def keyValQuery(keyVal: KeyVal[P]): MongoDBObject = {
-    val builder = MongoDBObject.newBuilder
-    keyVal.propVals.foreach {
-      case (prop, value) => builder += prop.path -> resolvePropVal(prop, value)
+    def build[KV <: KeyVal[P]](keyVal: KV) = {
+      val builder = MongoDBObject.newBuilder
+      val key = keyVal.key.asInstanceOf[Key[P, KV]] // TODO better KeyVal typing should remove this cast
+      val realizedKey = realizedPType.realizedKeys(key)
+      realizedKey.realizedProp.basicPropComponents.foreach { basicPropComponent =>
+        builder += basicPropComponent.outerPropPath.inlinedPath -> basicPropComponent.innerPropPath.get(keyVal)
+      }
+      builder.result
     }
-    builder.result
+    build(keyVal)
   }
 
-  protected def casbahForP(p: P): MongoDBObject = persistentToCasbahTranslator.translate(p)(pTypeKey)
+  protected def casbahForP(p: P): MongoDBObject = {
+    anyToMongoDBObject(persistentToCasbahTranslator.translate(p)(pTypeKey))
+  }
+
+  protected def anyToMongoDBObject(any: Any): MongoDBObject =
+    if (any.isInstanceOf[MongoDBObject]) any.asInstanceOf[MongoDBObject]
+    else any.asInstanceOf[DBObject]
+
+  protected def toCasbah[A : TypeKey](a: A): Any =
+    persistentToCasbahTranslator.translate(a)(typeKey[A])
 
   private def throwDuplicateKeyValException(p: P, cause: DuplicateKeyException): Unit = {
     val indexRegex = """index: (?:[\w\.]*\$)?(\S+)\s+dup key: \{ :""".r.unanchored
@@ -178,39 +173,23 @@ with MongoSchema[P] {
       case indexRegex(name) => name
       case _ => throw cause
     }
-    val key = pType.keySet.find(key => indexName(key) == name).getOrElse(throw cause)
-    throw new DuplicateKeyValException(p, key, cause)
-  }
-
-  private def resolvePropVal(prop: Prop[P, _], raw: Any): Any = {
-    if (prop.propTypeKey <:< typeKey[Assoc[_]]) {
-      val assoc = raw.asInstanceOf[Assoc[_ <: Persistent]]
-      if (!assoc.isPersisted) throw new AssocIsUnpersistedException(assoc)
-      raw.asInstanceOf[MongoId[_ <: Persistent]].objectId
-    } else {
-      val basicResolverOpt = subdomain.getBasicResolver(prop.propTypeKey)
-      basicResolverOpt match {
-        case Some(resolver) =>
-          def resolve[A, B](resolver: BasicResolver[A, B]) =
-            resolver.resolve(raw.asInstanceOf[A])
-          resolve(resolver)
-        case None => raw
-      }
-    }
+    val realizedKey = realizedPType.keySet.find(key => indexName(key) == name).getOrElse(throw cause)
+    // TODO fix this asInstanceOf
+    throw new DuplicateKeyValException(p, realizedKey.key.asInstanceOf[AnyKey[P]], cause)
   }
 
   protected def mongoQuery(query: Query[P]): MongoDBObject = {
     query match {
       case All() => MongoDBObject("$comment" -> "matching Query.All")
       case EqualityQuery(prop, op, value) => op match {
-        case EqOp => MongoDBObject(prop.path -> touchupValue(value)(prop.propTypeKey))
-        case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> touchupValue(value)(prop.propTypeKey)))
+        case EqOp => MongoDBObject(prop.path -> mongoValue(value, prop))
+        case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> mongoValue(value, prop)))
       }
       case OrderingQuery(prop, op, value) => op match {
-        case LtOp => MongoDBObject(prop.path -> MongoDBObject("$lt" -> touchupValue(value)(prop.propTypeKey)))
-        case LteOp => MongoDBObject(prop.path -> MongoDBObject("$lte" -> touchupValue(value)(prop.propTypeKey)))
-        case GtOp => MongoDBObject(prop.path -> MongoDBObject("$gt" -> touchupValue(value)(prop.propTypeKey)))
-        case GteOp => MongoDBObject(prop.path -> MongoDBObject("$gte" -> touchupValue(value)(prop.propTypeKey)))
+        case LtOp => MongoDBObject(prop.path -> MongoDBObject("$lt" -> mongoValue(value, prop)))
+        case LteOp => MongoDBObject(prop.path -> MongoDBObject("$lte" -> mongoValue(value, prop)))
+        case GtOp => MongoDBObject(prop.path -> MongoDBObject("$gt" -> mongoValue(value, prop)))
+        case GteOp => MongoDBObject(prop.path -> MongoDBObject("$gte" -> mongoValue(value, prop)))
       }
       case ConditionalQuery(lhs, op, rhs) => op match {
         case AndOp => MongoDBObject("$and" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
@@ -219,18 +198,16 @@ with MongoSchema[P] {
     }
   }
 
-  private def touchupValue[A : TypeKey](value: A): Any = {
-    val basicResolverOpt = subdomain.getBasicResolver[A]
-    val resolved = basicResolverOpt match {
-      case Some(resolver) => resolver.resolve(value)
-      case None => value
-    }
-    resolved match {
-      case id: MongoId[_] => id.objectId
-      case char: Char => char.toString
-      case other => other
+  private def mongoValue[A](value: A, prop: Prop[_ >: P <: Persistent, A]): Any = {
+    val realizedProp = realizedPType.realizedProps(prop)
+    if (realizedProp.basicPropComponents.size == 1) {
+      realizedProp.basicPropComponents.head.innerPropPath.get(value)
+    } else {
+      toCasbah(value)(prop.propTypeKey)
     }
   }
+
+  override def toString = s"MongoRepo[${pTypeKey.name}]"
 
 }
 

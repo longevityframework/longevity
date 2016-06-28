@@ -11,9 +11,6 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.emblematic.traversors.sync.Traversor
 import emblem.typeKey
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
-import longevity.persistence.RepoPool
-import longevity.subdomain.Assoc
-import longevity.subdomain.AssocAny
 import longevity.subdomain.embeddable.Entity
 import longevity.subdomain.persistent.Persistent
 import scala.reflect.runtime.universe.typeOf
@@ -25,11 +22,9 @@ import scala.reflect.runtime.universe.typeOf
  * expects BSON for embeddables with a single property to inline those embeddables.
  *
  * @param emblematic the emblematic types to use
- * @param repoPool a pool of the repositories for this persistence context
  */
 private[persistence] class CasbahToPersistentTranslator(
-  private val emblematic: Emblematic,
-  private val repoPool: RepoPool) {
+  private val emblematic: Emblematic) {
 
   /** translates a `MongoDBObject` into a [[Persistent persistent object]] */
   def translate[P <: Persistent : TypeKey](casbah: MongoDBObject): P = try {
@@ -49,16 +44,7 @@ private[persistence] class CasbahToPersistentTranslator(
     type TraverseResult[A] = A
 
     override protected val emblematic = CasbahToPersistentTranslator.this.emblematic
-    override protected val customTraversors = CustomTraversorPool.empty + assocTraversor
-
-    def assocTraversor = new CustomTraversor[AssocAny] {
-      def apply[B <: Assoc[_ <: Persistent] : TypeKey](input: WrappedInput): TraverseResult[B] = {
-
-        // first asInstanceOf is because of emblem shortfall
-        // second asInstanceOf is basically the same emblem shortfall as before
-        MongoId(input.value.asInstanceOf[ObjectId]).asInstanceOf[B]
-      }
-    }
+    override protected val customTraversors = CustomTraversorPool.empty
 
     override protected def traverseBoolean(input: WrappedInput): Boolean = input.value.asInstanceOf[Boolean]
 
@@ -112,14 +98,10 @@ private[persistence] class CasbahToPersistentTranslator(
         Seq(emblem.props.head -> WrappedInput(input.value, false))
       } else {
         val mongoDBObject: MongoDBObject = {
-          // TODO: can i replace this with a query to isUnionOrTopLevel?
-          val key = typeKey[A]
-          if (key <:< typeOf[Persistent]) {
+          if (input.value.isInstanceOf[MongoDBObject]) {
             input.value.asInstanceOf[MongoDBObject]
-          } else if (key <:< typeOf[Entity]) {
-            input.value.asInstanceOf[BasicDBObject]
           } else {
-            throw new CouldNotTraverseException(key)
+            input.value.asInstanceOf[BasicDBObject]
           }
         }
 

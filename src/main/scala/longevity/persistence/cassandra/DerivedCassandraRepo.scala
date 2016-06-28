@@ -1,8 +1,8 @@
 package longevity.persistence.cassandra
 
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.ptype.Key
-import longevity.subdomain.ptype.Prop
+import longevity.subdomain.realized.BasicPropComponent
+import longevity.subdomain.realized.RealizedKey
 import java.util.UUID
 
 private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Persistent] extends CassandraRepo[P] {
@@ -14,23 +14,24 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
   override protected def jsonStringForP(p: P): String = {
     // we use the poly type key here so we get the discriminator in the JSON
     import org.json4s.native.JsonMethods._
-    compact(render(persistentToJsonTranslator.translate[Poly](p)(polyRepo.pTypeKey)))
+    compact(render(emblematicToJsonTranslator.translate[Poly](p)(polyRepo.pTypeKey)))
   }
 
-  private def myRealizedProps: List[Prop[_ >: P <: Persistent, _]] = super.realizedProps
+  private def myActualizedComponents: List[BasicPropComponent[_ >: P <: Persistent, _, _]] =
+    super.actualizedComponents
 
-  override protected[cassandra] def realizedProps: List[Prop[_ >: P <: Persistent, _]] = {
-    myRealizedProps ++ polyRepo.realizedProps
+  override protected[cassandra] def actualizedComponents: List[BasicPropComponent[_ >: P <: Persistent, _, _]] = {
+    myActualizedComponents ++ polyRepo.actualizedComponents
   }
 
   override protected def createSchema(): Unit = {
-    createRealizedPropColumns()
+    createActualizedPropColumns()
     createIndexes()
   }
 
-  private def createRealizedPropColumns(): Unit = {
-    realizedProps.map { prop =>
-      addColumn(columnName(prop), typeKeyToCassandraType(prop.propTypeKey))
+  private def createActualizedPropColumns(): Unit = {
+    actualizedComponents.map {
+      prop => addColumn(columnName(prop), componentToCassandraType(prop))
     }
   }
 
@@ -43,10 +44,7 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     super.updateColumnValues(uuid, p, includeId) :+ discriminatorValue
   }
 
-  override protected def retrieveByPersistedAssocCql: String =
-    s"SELECT * FROM $tableName WHERE id = :id AND discriminator = '$discriminatorValue'"
-
-  override protected def keyValSelectStatementConjunction(key: Key[P]): String =
+  override protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String =
     super.keyValSelectStatementConjunction(key) + s"\nAND\n  discriminator = '$discriminatorValue'"
 
   override protected def retrieveByQueryConjunction(queryInfo: QueryInfo): String =

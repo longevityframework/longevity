@@ -3,7 +3,7 @@ package longevity.integration.subdomain.derivedEntities
 import longevity.subdomain.ptype.DerivedPType
 
 case class FirstDerivedRoot(
-  uri: String,
+  id: PolyRootId,
   first: String,
   component: PolyEntity)
 extends PolyRoot
@@ -12,10 +12,10 @@ object FirstDerivedRoot extends DerivedPType[FirstDerivedRoot, PolyRoot] {
   val polyPType = PolyRoot
   object props {
     val first = prop[String]("first")
-    val componentUri = prop[String]("component.uri")
+    val componentId = prop[PolyEntityId]("component.id")
   }
   object keys {
-    val componentUri = key(props.componentUri)
+    val componentId = key(props.componentId)
   }
   object indexes {
     val first = index(props.first)

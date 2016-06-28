@@ -4,12 +4,13 @@ import emblem.typeBound.TypeBoundPair
 import emblem.TypeKey
 import longevity.context.LongevityContext
 import longevity.persistence.BaseRepo
-import longevity.persistence.CreatedCache
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.RepoPool
+import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.realized.RealizedKey
 import org.scalatest.FeatureSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -102,27 +103,16 @@ with TestDataGeneration {
         created.get should equal (p)
 
         And(s"further retrieval operations should retrieve the same $pName")
-        val retrieved: PState[P] = repo.retrieveOne(created.assoc).futureValue
-        retrieved.get should equal (p)
+        repo.realizedPType.keySet.foreach { key =>
+          val keyValForP = key.keyValForP_TODO(created.get)
+          val retrieved: PState[P] = repo.retrieve(keyValForP).futureValue.value
+          retrieved.get should equal (p)
+        }
 
       }
     }
 
-    feature(s"${pName}Repo.retrieve(Assoc)") {
-      scenario(s"should produce the same persisted $pName", RetrieveAssoc) {
-
-        Given(s"a persisted $pName")
-        val p = randomP()
-        val created = repo.create(p).futureValue
-
-        When(s"we retrieve the $pName by its Assoc")
-        Then(s"we get back the same $pName persistent state")
-        val retrieved: PState[P] = repo.retrieve(created.assoc).futureValue.value
-        retrieved.get should equal (p)
-      }
-    }
-
-    feature(s"${pName}Repo.retrieve(NatKey)") {
+    feature(s"${pName}Repo.retrieve(KeyVal)") {
       scenario(s"should produce the same persisted $pName", RetrieveNatKey) {
 
         Given(s"a persisted $pName")
@@ -131,8 +121,8 @@ with TestDataGeneration {
 
         When(s"we retrieve the $pName by any of its keys")
         Then(s"we get back the same $pName persistent state")
-        repo.pType.keySet.foreach { key =>
-          val keyValForP = key.keyValForP(created.get)
+        repo.realizedPType.keySet.foreach { key =>
+          val keyValForP = key.keyValForP_TODO(created.get)
           val retrieved: PState[P] = repo.retrieve(keyValForP).futureValue.value
           retrieved.get should equal (p)
         }
@@ -145,7 +135,15 @@ with TestDataGeneration {
         Given(s"a persisted $pName")
         val key = randomPTypeKey
         val originalP = randomP(key)
-        val modifiedP = randomP(key)
+        // TODO this modifiedP doesnt take into account polys
+        val modifiedP = repo.realizedPType.keySet.foldLeft(randomP(key)) { (modified, key) =>
+          def updateKeyVal[V <: KeyVal[P]](key: RealizedKey[P, V]) = {
+            val originalKeyVal = key.keyValForP(originalP)
+            key.updateKeyVal(modified, originalKeyVal)
+          }
+          updateKeyVal(key)
+        }
+
         val created: PState[P] = repo.create(originalP).futureValue
 
         When(s"we update the persisted $pName")
@@ -156,8 +154,11 @@ with TestDataGeneration {
         updated.get should equal (modifiedP)
 
         And(s"further retrieval operations should retrieve the updated copy")
-        val retrieved: PState[P] = repo.retrieveOne(updated.assoc).futureValue
-        retrieved.get should equal (modifiedP)
+        repo.realizedPType.keySet.foreach { key =>
+          val keyValForP = key.keyValForP_TODO(created.get)
+          val retrieved: PState[P] = repo.retrieve(keyValForP).futureValue.value
+          retrieved.get should equal (modifiedP)
+        }
       }
     }
 
@@ -171,11 +172,14 @@ with TestDataGeneration {
         val deleted: Deleted[P] = repo.delete(created).futureValue
 
         Then(s"we get back a Deleted persistent state")
-        deleted.p should equal (p)
+        deleted.get should equal (p)
 
         And(s"we should no longer be able to retrieve the $pName")
-        val retrieved: Option[PState[P]] = repo.retrieve(deleted.assoc).futureValue
-        retrieved.isEmpty should be (true)
+        repo.realizedPType.keySet.foreach { key =>
+          val keyValForP = key.keyValForP_TODO(created.get)
+          val retrieved: Option[PState[P]] = repo.retrieve(keyValForP).futureValue
+          retrieved.isEmpty should be (true)
+        }
       }
     }
 
@@ -191,10 +195,7 @@ with TestDataGeneration {
       }
     }
 
-    private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = {
-      val p = testDataGenerator.generate(key)
-      repo.patchUnpersistedAssocs(p, CreatedCache()).futureValue._1
-    }
+    private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = testDataGenerator.generate(key)
 
   }
  

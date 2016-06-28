@@ -4,7 +4,6 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import emblem.TypeKey
 import longevity.context.LongevityContext
-import longevity.persistence.CreatedCache
 import longevity.persistence.PState
 import longevity.persistence.RepoPool
 import longevity.persistence.inmem.InMemRepo
@@ -97,8 +96,9 @@ with TestDataGeneration {
    * @param k the order statistic to select
    */
   protected def orderStatPropVal[A](prop: Prop[P, A], k: Int): A = {
-    implicit val ordering = prop.ordering
-    entities.view.map(root => prop.propVal(root)).toSeq.sorted.apply(k)
+    val realizedProp = repo.realizedPType.realizedProps(prop)
+    implicit val ordering = realizedProp.ordering
+    entities.view.map(root => realizedProp.propVal(root)).toSeq.sorted.apply(k)
   }
 
   /** runs the query against the test data, and checks if the results are correct.
@@ -136,13 +136,10 @@ with TestDataGeneration {
     actual should equal (expected)
   }
 
-  private def generateP(): P = {
-    val p = testDataGenerator.generate[P]
-    repo.patchUnpersistedAssocs(p, CreatedCache()).futureValue._1
-  }
+  private def generateP(): P = testDataGenerator.generate[P]
 
   private def entitiesMatchingQuery(query: Query[P], entities: Set[P]): Set[P] = {
-    entities.filter(InMemRepo.queryMatches(query, _))
+    entities.filter(InMemRepo.queryMatches(query, _, repo.realizedPType))
   }
 
 }

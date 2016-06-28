@@ -1,11 +1,8 @@
 package longevity.persistence.cassandra
 
 import com.datastax.driver.core.exceptions.InvalidQueryException
-import emblem.TypeKey
-import emblem.typeKey
-import longevity.subdomain.Assoc
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.ptype.Prop
+import longevity.subdomain.realized.BasicPropComponent
 
 /** implementation of CassandraRepo.createSchema */
 private[cassandra] trait CassandraSchema[P <: Persistent] {
@@ -17,14 +14,15 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
   }
 
   protected def createTable(): Unit = {
-    def columnDef(prop: Prop[_, _]) =
-      s"${columnName(prop)} ${typeKeyToCassandraType(prop.propTypeKey)}"
-    val realizedPropColumnDefs = realizedProps.map(columnDef).mkString(",\n  ")
+    def columnDefs(component: BasicPropComponent[_ >: P <: Persistent, _, _]) = {
+      s"${columnName(component)} ${componentToCassandraType(component)}"
+    }
+    val actualizedComponentColumnDefs = actualizedComponents.map(columnDefs).mkString(",\n  ")
     val createTable = s"""|
     |CREATE TABLE IF NOT EXISTS $tableName (
     |  id uuid,
     |  p text,
-    |  $realizedPropColumnDefs,
+    |  $actualizedComponentColumnDefs,
     |  PRIMARY KEY (id)
     |)
     |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
@@ -44,24 +42,15 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
     }
   }
 
-  protected def typeKeyToCassandraType[A](key: TypeKey[A]): String = {
-    val basicResolverOpt = subdomain.getBasicResolver(key)
-    basicResolverOpt match {
-      case Some(resolver) => CassandraRepo.basicToCassandraType(resolver.basicTypeKey)
-      case None =>
-        if (key <:< typeKey[Assoc[_ <: Persistent]]) {
-          "uuid"
-        } else {
-          throw new RuntimeException(s"unexpected prop type ${key.tpe}")
-        }
-    }
+  protected def componentToCassandraType[A](component: BasicPropComponent[_ >: P <: Persistent, _, A]): String = {
+    CassandraRepo.basicToCassandraType(component.componentTypeKey)
   }
 
-  protected def createIndexes(): Unit = realizedProps.foreach(createIndex)
+  protected def createIndexes(): Unit = actualizedComponents.foreach(createIndex)
 
-  protected def createIndex(prop: Prop[_ >: P <: Persistent, _]): Unit = {
-    val indexName = s"${tableName}_${scoredPath(prop)}"
-    createIndex(indexName, columnName(prop))
+  protected def createIndex(component: BasicPropComponent[_ >: P <: Persistent, _, _]): Unit = {
+    val indexName = s"${tableName}_${scoredPath(component)}"
+    createIndex(indexName, columnName(component))
   }
 
   protected def createIndex(indexName: String, columnName: String): Unit = {

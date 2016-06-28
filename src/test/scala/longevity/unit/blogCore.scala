@@ -2,19 +2,22 @@ package longevity.unit
 
 package object blogCore {
 
-  import longevity.subdomain.Assoc
   import longevity.subdomain.embeddable.Entity
   import longevity.subdomain.embeddable.EntityType
   import longevity.subdomain.embeddable.ETypePool
   import longevity.subdomain.embeddable.ValueObject
   import longevity.subdomain.embeddable.ValueType
+  import longevity.subdomain.KeyVal
   import longevity.subdomain.Subdomain
   import longevity.subdomain.persistent.Root
   import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
 
-  case class Email(email: String) extends ValueObject
-  object Email extends ValueType[Email]
+  case class Email(email: String)
+  extends KeyVal[User](User.keys.email)
+
+  case class Username(username: String)
+  extends KeyVal[User](User.keys.username)
 
   case class Markdown(markdown: String) extends ValueObject
   object Markdown extends ValueType[Markdown]
@@ -23,19 +26,20 @@ package object blogCore {
   object Uri extends ValueType[Uri]
 
   implicit def toEmail(email: String) = Email(email)
+  implicit def toUsername(username: String) = Username(username)
   implicit def toMarkdown(markdown: String) = Markdown(markdown)
   implicit def toUri(uri: String) = Uri(uri)
 
   case class User(
-    username: String,
-    fullname: String,
+    username: Username,
     email: Email,
+    fullname: String,
     profile: Option[UserProfile] = None)
   extends Root
 
   object User extends RootType[User] {
     object props {
-      val username = prop[String]("username")
+      val username = prop[Username]("username")
       val email = prop[Email]("email")
     }
     object keys {
@@ -54,16 +58,19 @@ package object blogCore {
 
   object UserProfile extends EntityType[UserProfile]
 
+  case class BlogUri(uri: Uri)
+  extends KeyVal[Blog](Blog.keys.uri)
+
   case class Blog(
-    uri: Uri,
+    uri: BlogUri,
     title: String,
     description: Markdown,
-    authors: Set[Assoc[User]])
+    authors: Set[Username])
   extends Root
 
   object Blog extends RootType[Blog] {
     object props {
-      val uri = prop[Uri]("uri")
+      val uri = prop[BlogUri]("uri")
     }
     object keys {
       val uri = key(props.uri)
@@ -72,31 +79,35 @@ package object blogCore {
     }
   }
 
+  case class BlogPostUri(uri: Uri)
+  extends KeyVal[BlogPost](BlogPost.keys.uri)
+
   case class BlogPost(
-    uriPathSuffix: String,
+    uri: BlogPostUri,
     title: String,
     slug: Option[Markdown] = None,
     content: Markdown,
     labels: Set[String] = Set(),
-    blog: Assoc[Blog],
-    authors: Set[Assoc[User]])
+    blog: BlogUri,
+    authors: Set[Username])
   extends Root
 
   object BlogPost extends RootType[BlogPost] {
     object props {
-      val blog = prop[Assoc[Blog]]("blog")
-      val suffix = prop[String]("uriPathSuffix")
+      val uri = prop[BlogPostUri]("uri")
+      val blog = prop[BlogUri]("blog")
     }
     object keys {
-      val uri = key(props.blog, props.suffix)
+      val uri = key(props.uri)
     }
     object indexes {
+      val blog = props.blog
     }
   }
 
   object BlogCore extends Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    ETypePool(Email, Markdown, Uri, UserProfile))
+    ETypePool(Markdown, Uri, UserProfile))
 
 }

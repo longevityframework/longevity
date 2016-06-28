@@ -20,11 +20,11 @@ extends QuerySpec[WithSinglePropComponent](mongoContext, mongoContext.testRepoPo
     exerciseQuery(uriProp neq sample.uri)
   }
 
-  it should "produce expected results for simple ordering queries" in {
-    exerciseQuery(uriProp gt sample.uri)
-    exerciseQuery(uriProp gte sample.uri)
-    exerciseQuery(uriProp lt sample.uri)
-    exerciseQuery(uriProp lte sample.uri)
-  }
+  // it should "produce expected results for simple ordering queries" in {
+  //   exerciseQuery(uriProp gt sample.uri)
+  //   exerciseQuery(uriProp gte sample.uri)
+  //   exerciseQuery(uriProp lt sample.uri)
+  //   exerciseQuery(uriProp lte sample.uri)
+  // }
 
 }

@@ -9,6 +9,8 @@ case class WithNoTranslationLonghand(
 extends Root
 
 object WithNoTranslationLonghand extends RootType[WithNoTranslationLonghand] {
+  object props {
+  }
   object keys {
   }
   object indexes {

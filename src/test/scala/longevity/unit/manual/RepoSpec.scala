@@ -6,49 +6,46 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** code samples found in the repo chapter of the user manual */
 object RepoSpec {
 
+  // TODO this one will need to be rewritten 
   // used in http://longevityframework.github.io/longevity/manual/repo/retrieve-keyval.html
   object keyval {
 
-    import longevity.integration.quickStart.QuickStartSpec._
-    import longevity.persistence.PState
+    // import longevity.integration.quickStart.QuickStartSpec._
+    // import longevity.persistence.PState
 
-    def blogState: PState[Blog] = ???
+    // def blogState: PState[Blog] = ???
 
-    import longevity.subdomain.Assoc
-    import longevity.subdomain.ptype.RootType
-    import longevity.subdomain.ptype.Key
-    import longevity.subdomain.ptype.KeyVal
+    // import longevity.subdomain.ptype.RootType
+    // import longevity.subdomain.ptype.Key
 
-    object User extends RootType[User] {
-      object props {
-        val username = prop[String]("username")
-      }
-      object keys {
-        val username = key(props.username)
-      }
-      object indexes {
-      }
-    }
+    // object User extends RootType[User] {
+    //   object props {
+    //     val username = prop[Username]("username")
+    //   }
+    //   object keys {
+    //     val username = key(props.username)
+    //   }
+    //   object indexes {
+    //   }
+    // }
 
-    val usernameKey: Key[User] = User.keys.username
-    val username: String = "smithy"
-    val usernameKeyVal: KeyVal[User] = usernameKey(username)
+    // val username = Username("smithy")
 
-    object BlogPost extends RootType[BlogPost] {
-      object props {
-        val blog = prop[Assoc[Blog]]("blog")
-        val suffix = prop[String]("uriPathSuffix")
-      }
-      object keys {
-        val uri = key(props.blog, props.suffix)
-      }
-      object indexes {
-      }
-    }
+    // object BlogPost extends RootType[BlogPost] {
+    //   object props {
+    //     val blog = prop[BlogUrl]("blog")
+    //     val suffix = prop[String]("uriPathSuffix")
+    //   }
+    //   object keys {
+    //     val uri = key(props.blog, props.suffix)
+    //   }
+    //   object indexes {
+    //   }
+    // }
 
-    val blogAssoc: Assoc[Blog] = blogState.assoc
-    val uriPathSuffix: String = "suffix"
-    val blogPostKeyVal: KeyVal[BlogPost] = BlogPost.keys.uri(blogAssoc, uriPathSuffix)
+    // val blogAssoc: Assoc[Blog] = blogState.assoc
+    // val uriPathSuffix: String = "suffix"
+    // val blogPostKeyVal: KeyVal[BlogPost] = BlogPost.keys.uri(blogAssoc, uriPathSuffix)
 
   }
 
@@ -79,12 +76,11 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
       import longevity.subdomain.ptype.Query
       import scala.concurrent.Future
 
-      def getBlogState(): PState[Blog] = ???
-      val blogState: PState[Blog] = getBlogState()
+      val blog: Blog = ???
 
       val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
         Query.and(
-          Query.eqs(BlogPost.props.blog, blogState.assoc),
+          Query.eqs(BlogPost.props.blog, blog.uri),
           Query.gt(BlogPost.props.postDate, DateTime.now - 1.week)))
     }
 
@@ -94,12 +90,11 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
       import longevity.persistence.PState
       import scala.concurrent.Future
 
-      def getBlogState(): PState[Blog] = ???
-      val blogState: PState[Blog] = getBlogState()
+      val blog: Blog = ???
 
       import BlogPost.queryDsl._
       val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
-        BlogPost.props.blog eqs blogState.assoc and
+        BlogPost.props.blog eqs blog.uri and
         BlogPost.props.postDate gt DateTime.now - 1.week)
     }
 
@@ -108,14 +103,13 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
       import longevity.persistence.PState
       import scala.concurrent.Future
 
-      def getBlogState(): PState[Blog] = ???
-      val blogState: PState[Blog] = getBlogState()
+      val blog: Blog = ???
 
       val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
         import com.github.nscala_time.time.Imports._
         import BlogPost.queryDsl._
-        import BlogPost.props._
-        blog eqs blogState.assoc and postDate gt DateTime.now - 1.week
+        import BlogPost.props
+        props.blog eqs blog.uri and props.postDate gt DateTime.now - 1.week
       }
     }
 
@@ -130,14 +124,13 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
       import akka.stream.scaladsl.Source
       import longevity.persistence.PState
 
-      def getBlogState(): PState[Blog] = ???
-      val blogState: PState[Blog] = getBlogState()
+      val blog: Blog = ???
 
       val recentPosts: Source[PState[BlogPost], NotUsed] = blogPostRepo.streamByQuery {
         import com.github.nscala_time.time.Imports._
         import BlogPost.queryDsl._
-        import BlogPost.props._
-        blog eqs blogState.assoc and postDate gt DateTime.now - 1.week
+        import BlogPost.props
+        props.blog eqs blog.uri and props.postDate gt DateTime.now - 1.week
       }
 
       import akka.actor.ActorSystem

@@ -35,7 +35,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
   }
 
   private def bindUpdateStatement(state: PState[P]): BoundStatement = {
-    val uuid = state.assoc.asInstanceOf[CassandraId[P]].uuid
+    val uuid = state.passoc.asInstanceOf[CassandraId[P]].uuid
     val p = state.get
     val columnBindings = updateColumnValues(uuid, p, includeId = false) :+ uuid
     updateStatement.bind(columnBindings: _*)

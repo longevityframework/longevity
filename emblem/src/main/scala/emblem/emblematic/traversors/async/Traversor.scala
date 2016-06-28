@@ -292,7 +292,7 @@ trait Traversor {
 
     def completeIterableTraverseInput(iterableTraverseInput: Iterable[TraverseInput[A]]): Unit = {
       val iterableFutureTraverseResult = iterableTraverseInput map { traverseInput =>
-        val futureTraverseInput = Promise.successful(traverseInput).future
+        val futureTraverseInput = Future.successful(traverseInput)
         traverse[A](futureTraverseInput)
       }
       val futureIterableTraverseResult = Future.sequence(iterableFutureTraverseResult)
