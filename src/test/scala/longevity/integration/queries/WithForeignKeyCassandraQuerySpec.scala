@@ -1,7 +1,7 @@
 package longevity.integration.queries
 
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.withForeignKey._
+import longevity.integration.subdomain.foreignKey._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class WithForeignKeyCassandraQuerySpec extends QuerySpec[WithForeignKey](

@@ -18,7 +18,7 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
 
   override protected def casbahForP(p: P): MongoDBObject = {
     // we use the poly type key here so we get the discriminator in the casbah
-    anyToMongoDBObject(persistentToCasbahTranslator.translate[Poly](p)(polyRepo.pTypeKey))
+    anyToMongoDBObject(persistentToCasbahTranslator.translate[Poly](p, false)(polyRepo.pTypeKey))
   }
 
   override protected def keyValQuery(keyVal: KeyVal[P]): MongoDBObject = {

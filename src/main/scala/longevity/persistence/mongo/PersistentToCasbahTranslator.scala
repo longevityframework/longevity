@@ -26,8 +26,8 @@ private[persistence] class PersistentToCasbahTranslator(
   private val emblematic: Emblematic) {
 
   /** translates a Scala object into casbah */
-  def translate[A : TypeKey](a: A): Any = try {
-    traversor.traverse[A](WrappedInput(a, true))
+  def translate[A : TypeKey](a: A, isUnionOrTopLevel: Boolean): Any = try {
+    traversor.traverse[A](WrappedInput(a, isUnionOrTopLevel))
   } catch {
     case e: CouldNotTraverseException =>
       throw new NotInSubdomainTranslationException(e.typeKey.name, e)

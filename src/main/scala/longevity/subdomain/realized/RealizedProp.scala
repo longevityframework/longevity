@@ -1,11 +1,8 @@
 package longevity.subdomain.realized
 
-import emblem.TypeKey
-import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
 import emblem.emblematic.EmblematicPropPath
 import emblem.emblematic.ReflectiveProp
-import emblem.emblematic.basicTypes.basicTypeOrderings
 import emblem.emblematic.basicTypes.isBasicType
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
@@ -42,52 +39,6 @@ private[longevity] class RealizedProp[P <: Persistent, A](
 
   def updatePropVal(p: P, a: A): P = emblematicPropPath.set(p, a)
 
-  // TODO get rid of this. use BasicPropComponent instead
-  val basicResolvers = getBasicResolvers(prop.propTypeKey)
-
-  /** an ordering for property values */
-  val ordering: Ordering[A] = {
-    val unitOrdering = new Ordering[A] {
-      def compare(a1: A, a2: A) = 0
-    }
-    basicResolvers.foldLeft(unitOrdering) { (ordering, resolver) =>
-      new Ordering[A]() {
-        def compare(a1: A, a2: A) = {
-          val i = ordering.compare(a1, a2)
-          if (i != 0) i else {
-            resolver.ordering.compare(a1, a2)
-          }
-        }
-      }
-    }
-  }
-
-  /** resolves to underlying basic type */
-  def resolvedPropVals(p: P): Seq[Any] = {
-    basicResolvers.map(_.resolve(propVal(p)))
-  }
-
-  private def getBasicResolvers[A : TypeKey]: Seq[BasicResolver[A, _]] = {
-    val key = typeKey[A]
-    if (isBasicType(key)) {
-      Seq(BasicResolver(key, key, identity, basicTypeOrderings(key)))
-    } else {
-      def resolver[B](prop: EmblemProp[A, B]) = {
-        def outer[C](inner: BasicResolver[B, C]) = {
-          BasicResolver(
-            key,
-            inner.basicTypeKey,
-            inner.resolve compose prop.get,
-            Ordering.by(prop.get)(inner.ordering))
-        }
-        getBasicResolvers(prop.typeKey).map {
-          resolver => outer(resolver)
-        }
-      }
-      emblematic.emblems(key).props.flatMap(resolver(_))
-    }
-  }
-
   val basicPropComponents: Seq[BasicPropComponent[P, A, _]] = {
     if (isBasicType(propTypeKey)) {
       Seq(BasicPropComponent[P, A, A](
@@ -108,6 +59,32 @@ private[longevity] class RealizedProp[P <: Persistent, A](
         }
         component(propPath)
       }
+    }
+  }
+
+  /** resolves to underlying basic type */
+  def resolvedPropVals(p: P): Seq[Any] = {
+    basicPropComponents.map(_.get(propVal(p)))
+  }
+
+  /** an ordering for property values */
+  val ordering: Ordering[A] = {
+    val unitOrdering = new Ordering[A] {
+      def compare(a1: A, a2: A) = 0
+    }
+    basicPropComponents.foldLeft(unitOrdering) { (ordering, basicPropComponent) =>
+      def accumulate[B](basicPropComponent: BasicPropComponent[P, A, B]) =
+        new Ordering[A]() {
+          def compare(a1: A, a2: A) = {
+            val i = ordering.compare(a1, a2)
+            if (i != 0) i else {
+              basicPropComponent.ordering.compare(
+                basicPropComponent.get(a1),
+                basicPropComponent.get(a2))
+            }
+          }
+        }
+      accumulate(basicPropComponent)
     }
   }
 

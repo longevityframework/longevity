@@ -11,10 +11,8 @@ import com.mongodb.casbah.commons.Implicits.unwrapDBObj
 import com.mongodb.casbah.commons.Implicits.wrapDBObj
 import com.mongodb.casbah.commons.MongoDBObject
 import com.typesafe.config.Config
-import emblem.TypeKey
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
-import emblem.typeKey
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
@@ -157,15 +155,12 @@ with MongoSchema[P] {
   }
 
   protected def casbahForP(p: P): MongoDBObject = {
-    anyToMongoDBObject(persistentToCasbahTranslator.translate(p)(pTypeKey))
+    anyToMongoDBObject(persistentToCasbahTranslator.translate(p, true)(pTypeKey))
   }
 
   protected def anyToMongoDBObject(any: Any): MongoDBObject =
     if (any.isInstanceOf[MongoDBObject]) any.asInstanceOf[MongoDBObject]
     else any.asInstanceOf[DBObject]
-
-  protected def toCasbah[A : TypeKey](a: A): Any =
-    persistentToCasbahTranslator.translate(a)(typeKey[A])
 
   private def throwDuplicateKeyValException(p: P, cause: DuplicateKeyException): Unit = {
     val indexRegex = """index: (?:[\w\.]*\$)?(\S+)\s+dup key: \{ :""".r.unanchored
@@ -199,12 +194,7 @@ with MongoSchema[P] {
   }
 
   private def mongoValue[A](value: A, prop: Prop[_ >: P <: Persistent, A]): Any = {
-    val realizedProp = realizedPType.realizedProps(prop)
-    if (realizedProp.basicPropComponents.size == 1) {
-      realizedProp.basicPropComponents.head.innerPropPath.get(value)
-    } else {
-      toCasbah(value)(prop.propTypeKey)
-    }
+    persistentToCasbahTranslator.translate(value, false)(prop.propTypeKey)
   }
 
   override def toString = s"MongoRepo[${pTypeKey.name}]"

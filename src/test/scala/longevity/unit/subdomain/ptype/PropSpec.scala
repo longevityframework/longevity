@@ -22,173 +22,173 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
   // TODO all these excptions have moved to subdomain creation
 
   // it should "throw exception when the specified prop path is empty" in {
-  //   import longevity.integration.subdomain.allAttributes
-  //   val subdomain = allAttributes.subdomain
+  //   import longevity.integration.subdomain.basics
+  //   val subdomain = basics.subdomain
   //   intercept[NoSuchPropException] {
-  //     allAttributes.AllAttributes.prop[Int]("")
+  //     basics.Basics.prop[Int]("")
   //   }
   // }
 
   // it should "throw exception when the specified prop path does not map to an actual prop path" in {
-  //   import longevity.integration.subdomain.allAttributes
-  //   val subdomain = allAttributes.subdomain
+  //   import longevity.integration.subdomain.basics
+  //   val subdomain = basics.subdomain
   //   intercept[NoSuchPropException] {
-  //     allAttributes.AllAttributes.prop[Int]("invalidPropPath")
+  //     basics.Basics.prop[Int]("invalidPropPath")
   //   }
 
-  //   import longevity.integration.subdomain.withComponent
-  //   val withComponentSubdomain = withComponent.subdomain
+  //   import longevity.integration.subdomain.component
+  //   val componentSubdomain = component.subdomain
   //   intercept[NoSuchPropException] {
-  //     withComponent.WithComponent.prop[Int]("component.noSuchPathSegment")
+  //     component.WithComponent.prop[Int]("component.noSuchPathSegment")
   //   }
   // }
 
   // it should "throw exception when the specified prop path passes through a collection" in {
-  //   import longevity.integration.subdomain.withComponentList
-  //   val withComponentListSubdomain = withComponentList.subdomain
+  //   import longevity.integration.subdomain.componentList
+  //   val componentListSubdomain = componentList.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withComponentList.WithComponentList.prop[Int]("components.uri")
+  //     componentList.WithComponentList.prop[Int]("components.uri")
   //   }
 
-  //   import longevity.integration.subdomain.withComponentOption
-  //   val withComponentOptionSubdomain = withComponentOption.subdomain
+  //   import longevity.integration.subdomain.componentOption
+  //   val componentOptionSubdomain = componentOption.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withComponentOption.WithComponentOption.prop[Int]("component.uri")
+  //     componentOption.WithComponentOption.prop[Int]("component.uri")
   //   }
 
-  //   import longevity.integration.subdomain.withComponentSet
-  //   val withComponentSetSubdomain = withComponentSet.subdomain
+  //   import longevity.integration.subdomain.componentSet
+  //   val componentSetSubdomain = componentSet.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withComponentSet.WithComponentSet.prop[Int]("components.uri")
+  //     componentSet.WithComponentSet.prop[Int]("components.uri")
   //   }
   // }
 
   // it should "throw exception when the specified prop path terminates with a collection" in {
-  //   import longevity.integration.subdomain.attributeLists
-  //   val attributeListsSubdomain = attributeLists.subdomain
+  //   import longevity.integration.subdomain.basicLists
+  //   val basicListsSubdomain = basicLists.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     attributeLists.AttributeLists.prop[Int]("boolean")
+  //     basicLists.BasicLists.prop[Int]("boolean")
   //   }
 
-  //   import longevity.integration.subdomain.attributeOptions
-  //   val attributeOptionsSubdomain = attributeOptions.subdomain
+  //   import longevity.integration.subdomain.basicOptions
+  //   val basicOptionsSubdomain = basicOptions.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     attributeOptions.AttributeOptions.prop[Int]("boolean")
+  //     basicOptions.BasicOptions.prop[Int]("boolean")
   //   }
  
-  //   import longevity.integration.subdomain.attributeSets
-  //   val attributeSetsSubdomain = attributeSets.subdomain
+  //   import longevity.integration.subdomain.basicSets
+  //   val basicSetsSubdomain = basicSets.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     attributeSets.AttributeSets.prop[Int]("boolean")
+  //     basicSets.BasicSets.prop[Int]("boolean")
   //   }
 
-  //   import longevity.integration.subdomain.withForeignKeyList
-  //   val withForeignKeyListSubdomain = withForeignKeyList.subdomain
+  //   import longevity.integration.subdomain.foreignKeyList
+  //   val foreignKeyListSubdomain = foreignKeyList.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withForeignKeyList.WithForeignKeyList.prop[Int]("associated")
+  //     foreignKeyList.WithForeignKeyList.prop[Int]("associated")
   //   }
 
-  //   import longevity.integration.subdomain.withForeignKeyOption
-  //   val withForeignKeyOptionSubdomain = withForeignKeyOption.subdomain
+  //   import longevity.integration.subdomain.foreignKeyOption
+  //   val foreignKeyOptionSubdomain = foreignKeyOption.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withForeignKeyOption.WithForeignKeyOption.prop[Int]("associated")
+  //     foreignKeyOption.WithForeignKeyOption.prop[Int]("associated")
   //   }
 
-  //   import longevity.integration.subdomain.withForeignKeySet
-  //   val withForeignKeySetSubdomain = withForeignKeySet.subdomain
+  //   import longevity.integration.subdomain.foreignKeySet
+  //   val foreignKeySetSubdomain = foreignKeySet.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withForeignKeySet.WithForeignKeySet.prop[Int]("associated")
+  //     foreignKeySet.WithForeignKeySet.prop[Int]("associated")
   //   }
 
-  //   import longevity.integration.subdomain.withComponentList
-  //   val withComponentListSubdomain = withComponentList.subdomain
+  //   import longevity.integration.subdomain.componentList
+  //   val componentListSubdomain = componentList.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withComponentList.WithComponentList.prop[Int]("components")
+  //     componentList.WithComponentList.prop[Int]("components")
   //   }
 
-  //   import longevity.integration.subdomain.withComponentOption
-  //   val withComponentOptionSubdomain = withComponentOption.subdomain
+  //   import longevity.integration.subdomain.componentOption
+  //   val componentOptionSubdomain = componentOption.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withComponentOption.WithComponentOption.prop[Int]("component")
+  //     componentOption.WithComponentOption.prop[Int]("component")
   //   }
 
-  //   import longevity.integration.subdomain.withComponentSet
-  //   val withComponentSetSubdomain = withComponentSet.subdomain
+  //   import longevity.integration.subdomain.componentSet
+  //   val componentSetSubdomain = componentSet.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withComponentSet.WithComponentSet.prop[Int]("components")
+  //     componentSet.WithComponentSet.prop[Int]("components")
   //   }
 
-  //   import longevity.integration.subdomain.withComponent
-  //   val withComponentSubdomain = withComponent.subdomain
+  //   import longevity.integration.subdomain.component
+  //   val componentSubdomain = component.subdomain
   //   intercept[UnsupportedPropTypeException[_, _]] {
-  //     withComponent.WithComponent.prop[Int]("component.tags")
+  //     component.WithComponent.prop[Int]("component.tags")
   //   }
   // }
 
   // it should "throw exception when the specified prop type does not match the actual type" in {
-  //   import longevity.integration.subdomain.allAttributes
-  //   val subdomain = allAttributes.subdomain
+  //   import longevity.integration.subdomain.basics
+  //   val subdomain = basics.subdomain
 
   //   // two entirely incompatible types
   //   intercept[PropTypeException] {
-  //     allAttributes.AllAttributes.prop[String]("boolean")
+  //     basics.Basics.prop[String]("boolean")
   //   }
 
   //   // Double <:< AnyVal, but we need requested type to be subtype of the actual type, not
   //   // the other way around:
   //   intercept[PropTypeException] {
-  //     allAttributes.AllAttributes.prop[AnyVal]("double")
+  //     basics.Basics.prop[AnyVal]("double")
   //   }
   // }
 
   it should "produce a valid prop for basic types" in {
-    import longevity.integration.subdomain.allAttributes._
+    import longevity.integration.subdomain.basics._
 
-    var prop: Prop[AllAttributes, _] = null
+    var prop: Prop[Basics, _] = null
 
-    prop = AllAttributes.prop[Boolean]("boolean")
+    prop = Basics.prop[Boolean]("boolean")
     prop.path should equal ("boolean")
     prop.propTypeKey should equal (typeKey[Boolean])
 
-    prop = AllAttributes.prop[Char]("char")
+    prop = Basics.prop[Char]("char")
     prop.path should equal ("char")
     prop.propTypeKey should equal (typeKey[Char])
 
-    prop = AllAttributes.prop[Double]("double")
+    prop = Basics.prop[Double]("double")
     prop.path should equal ("double")
     prop.propTypeKey should equal (typeKey[Double])
 
-    prop = AllAttributes.prop[Float]("float")
+    prop = Basics.prop[Float]("float")
     prop.path should equal ("float")
     prop.propTypeKey should equal (typeKey[Float])
 
-    prop = AllAttributes.prop[Int]("int")
+    prop = Basics.prop[Int]("int")
     prop.path should equal ("int")
     prop.propTypeKey should equal (typeKey[Int])
 
-    prop = AllAttributes.prop[Long]("long")
+    prop = Basics.prop[Long]("long")
     prop.path should equal ("long")
     prop.propTypeKey should equal (typeKey[Long])
 
-    prop = AllAttributes.prop[String]("string")
+    prop = Basics.prop[String]("string")
     prop.path should equal ("string")
     prop.propTypeKey should equal (typeKey[String])
 
-    prop = AllAttributes.prop[DateTime]("dateTime")
+    prop = Basics.prop[DateTime]("dateTime")
     prop.path should equal ("dateTime")
     prop.propTypeKey should equal (typeKey[DateTime])
   }
 
   it should "produce a valid prop for single prop embeddables" in {
-    import longevity.integration.subdomain.withSinglePropComponent._
+    import longevity.integration.subdomain.shorthands._
 
-    val prop = WithSinglePropComponent.prop[Uri]("uri")
-    prop.path should equal ("uri")
-    prop.propTypeKey should equal (typeKey[Uri])
+    val prop = Shorthands.prop[ShorthandsId]("id")
+    prop.path should equal ("id")
+    prop.propTypeKey should equal (typeKey[ShorthandsId])
   }
 
   it should "produce a valid prop for a key vals" in {
-    import longevity.integration.subdomain.withForeignKey._
+    import longevity.integration.subdomain.foreignKey._
     val prop = WithForeignKey.prop[AssociatedId]("associated")
     prop.path should equal ("associated")
     prop.propTypeKey should equal (typeKey[AssociatedId])
@@ -203,28 +203,28 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "produce a prop with the actual prop type when the provided type is overly tight" ignore {
 
     // TODO: need to find a new example to test this:
-    // import longevity.integration.subdomain.withForeignKey._
+    // import longevity.integration.subdomain.foreignKey._
     // val overlyTypedProp = WithForeignKey.prop[PersistedAssoc[Associated]]("associated")
     // overlyTypedProp.path should equal ("associated")
     // overlyTypedProp.propTypeKey should equal (typeKey[Assoc[Associated]])
   }
 
   it should "produce a valid prop for a nested basic type" in {
-    import longevity.integration.subdomain.withComponent._
+    import longevity.integration.subdomain.component._
     val prop = WithComponent.prop[String]("component.id")
     prop.path should equal ("component.id")
     prop.propTypeKey should equal (typeKey[String])
   }
 
   it should "produce a valid prop for shorthand types in nested components" in {
-    import longevity.integration.subdomain.withComponentWithSinglePropComponent._
-    val prop = WithComponentWithSinglePropComponent.prop[Uri]("component.uri")
+    import longevity.integration.subdomain.componentShorthands._
+    val prop = WithComponentShorthands.prop[Uri]("component.uri")
     prop.path should equal ("component.uri")
     prop.propTypeKey should equal (typeKey[Uri])
   }
 
   it should "produce a valid prop for a nested foreign key" in {
-    import longevity.integration.subdomain.withComponentWithForeignKey._
+    import longevity.integration.subdomain.componentWithForeignKey._
     val prop = WithComponentWithForeignKey.prop[AssociatedId]("component.associated")
     prop.path should equal ("component.associated")
     prop.propTypeKey should equal (typeKey[AssociatedId])
