@@ -16,7 +16,7 @@ class WithForeignKeyMongoQuerySpec extends QuerySpec[WithForeignKey](
   import WithForeignKey.queryDsl._
 
   behavior of "InMemRepo.retrieveByQuery"
-  it should "produce expected results for simple equality queries with associations" in {
+  it should "produce expected results for simple equality queries with foreign keys" in {
     exerciseQuery(associatedProp eqs sample.associated)
     exerciseQuery(associatedProp neq sample.associated)
   }

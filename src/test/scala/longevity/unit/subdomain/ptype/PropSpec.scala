@@ -204,7 +204,7 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     // TODO: need to find a new example to test this:
     // import longevity.integration.subdomain.foreignKey._
-    // val overlyTypedProp = WithForeignKey.prop[PersistedAssoc[Associated]]("associated")
+    // val overlyTypedProp = WithForeignKey.prop[DatabaseId[Associated]]("associated")
     // overlyTypedProp.path should equal ("associated")
     // overlyTypedProp.propTypeKey should equal (typeKey[Assoc[Associated]])
   }

@@ -17,7 +17,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
       blocking {
         session.execute(bindUpdateStatement(state))
       }
-      new PState[P](state.passoc, state.get)
+      new PState[P](state.id, state.get)
     }
 
   private lazy val updateStatement: PreparedStatement = {
@@ -35,7 +35,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
   }
 
   private def bindUpdateStatement(state: PState[P]): BoundStatement = {
-    val uuid = state.passoc.asInstanceOf[CassandraId[P]].uuid
+    val uuid = state.id.asInstanceOf[CassandraId[P]].uuid
     val p = state.get
     val columnBindings = updateColumnValues(uuid, p, includeId = false) :+ uuid
     updateStatement.bind(columnBindings: _*)

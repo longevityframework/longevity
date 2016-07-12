@@ -6,7 +6,7 @@ import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState
-import longevity.persistence.PersistedAssoc
+import longevity.persistence.DatabaseId
 import longevity.subdomain.AnyKeyVal
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
@@ -45,7 +45,7 @@ extends BaseRepo[P](pType, subdomain) {
   repo =>
 
   private var idCounter = 0
-  private var assocToPStateMap = Map[PersistedAssoc[_ <: Persistent], PState[P]]()
+  private var idToPStateMap = Map[DatabaseId[_ <: Persistent], PState[P]]()
   private var keyValToPStateMap = Map[Any, PState[P]]()
 
   def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
@@ -70,7 +70,7 @@ extends BaseRepo[P](pType, subdomain) {
       dumpKeys(state.orig)
     }
     try {
-      persist(state.passoc, state.get)
+      persist(state.id, state.get)
     } catch {
       case e: DuplicateKeyValException[_] =>
         repo.synchronized {
@@ -84,10 +84,10 @@ extends BaseRepo[P](pType, subdomain) {
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = {
     repo.synchronized {
-      unregisterPStateByAssoc(state.passoc)
+      unregisterPStateById(state.id)
       dumpKeys(state.orig)
     }
-    val deleted = new Deleted(state.get, state.passoc)
+    val deleted = new Deleted(state.get)
     Future.successful(deleted)
   }
 
@@ -95,13 +95,13 @@ extends BaseRepo[P](pType, subdomain) {
     unregisterKeyVal(key.keyValForP(p))
   }
 
-  private def persist(assoc: PersistedAssoc[P], p: P): PState[P] = {
-    val state = new PState[P](assoc, p)
+  private def persist(id: DatabaseId[P], p: P): PState[P] = {
+    val state = new PState[P](id, p)
     repo.synchronized {
       keys.foreach { key =>
         assertUniqueKeyVal(key.keyValForP(p), state)
       }
-      registerPStateByAssoc(assoc, state)
+      registerPStateById(id, state)
       keys.foreach { key =>
         registerPStateByKeyVal(key.keyValForP(p), state)
       }
@@ -115,33 +115,24 @@ extends BaseRepo[P](pType, subdomain) {
     id
   }
 
-  protected[inmem] def keys: Seq[AnyRealizedKey[_ >: P <: Persistent]] =
-    myKeys
+  protected[inmem] def keys: Seq[AnyRealizedKey[_ >: P <: Persistent]] = myKeys
 
-  protected def myKeys = {
-    // TODO asInstanceOf
-    // TODO type shorthands
-    val ks = realizedPType.keySet.asInstanceOf[Set[AnyRealizedKey[_ >: P <: Persistent]]]
-    ks.toSeq
-  }
+  protected def myKeys: Seq[AnyRealizedKey[_ >: P <: Persistent]] = realizedPType.keySet.toSeq
 
-  protected[inmem] def assertUniqueKeyVal(keyVal: Any, state: PState[P]): Unit = {
+  protected[inmem] def assertUniqueKeyVal(keyVal: AnyKeyVal[_ <: Persistent], state: PState[P]): Unit = {
     if (keyValToPStateMap.contains(keyVal)) {
-      // TODO fix this asInstanceOf
-      throw new DuplicateKeyValException[P](state.get, keyVal.asInstanceOf[AnyKeyVal[P]].key)
+      throw new DuplicateKeyValException[P](state.get, keyVal.key)
     }
   }
 
-  protected[inmem] def allPStates: Seq[PState[P]] = assocToPStateMap.values.view.toSeq
+  protected[inmem] def allPStates: Seq[PState[P]] = idToPStateMap.values.view.toSeq
 
-  protected[inmem] def registerPStateByAssoc(
-    assoc: PersistedAssoc[_ <: Persistent],
-    state: PState[P])
-  : Unit =
-    assocToPStateMap += (assoc -> state)
+  // TODO can't i use `state.id`??
+  protected[inmem] def registerPStateById(id: DatabaseId[_ <: Persistent], state: PState[P]): Unit =
+    idToPStateMap += (id -> state)
 
-  protected[inmem] def unregisterPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent]): Unit =
-    assocToPStateMap -= assoc
+  protected[inmem] def unregisterPStateById(id: DatabaseId[_ <: Persistent]): Unit =
+    idToPStateMap -= id
 
   protected[inmem] def registerPStateByKeyVal(keyVal: Any, state: PState[P]): Unit =
     keyValToPStateMap += (keyVal, state).asInstanceOf[(AnyKeyVal[_ <: Persistent], PState[P])]

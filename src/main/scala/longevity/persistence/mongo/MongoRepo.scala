@@ -20,11 +20,9 @@ import longevity.persistence.PState
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.ptype.AnyKey
 import longevity.subdomain.ptype.ConditionalQuery
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.EqualityQuery
-import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.OrderingQuery
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PolyPType
@@ -114,7 +112,7 @@ with MongoSchema[P] {
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     val p = state.get
-    val objectId = state.passoc.asInstanceOf[MongoId[P]].objectId
+    val objectId = state.id.asInstanceOf[MongoId[P]].objectId
     val query = MongoDBObject("_id" -> objectId)
     val casbah = casbahForP(p) ++ MongoDBObject("_id" -> objectId)
     val writeResult = blocking {
@@ -124,7 +122,7 @@ with MongoSchema[P] {
         case e: DuplicateKeyException => throwDuplicateKeyValException(p, e)
       }
     }
-    new PState[P](state.passoc, p)
+    new PState[P](state.id, p)
   }
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
@@ -132,18 +130,17 @@ with MongoSchema[P] {
     val writeResult = blocking {
       mongoCollection.remove(query)
     }
-    new Deleted(state.get, state.passoc)
+    new Deleted(state.get)
   }
 
   protected def deleteQuery(state: PState[P]): MongoDBObject = {
-    val objectId = state.passoc.asInstanceOf[MongoId[P]].objectId
+    val objectId = state.id.asInstanceOf[MongoId[P]].objectId
     MongoDBObject("_id" -> objectId)
   }
 
   protected def keyValQuery[V <: KeyVal[P, V]](keyVal: V): MongoDBObject = {
     val builder = MongoDBObject.newBuilder
-    val key = keyVal.key.asInstanceOf[Key[P, V]] // TODO better KeyVal typing should remove this cast
-    val realizedKey = realizedPType.realizedKeys(key)
+    val realizedKey = realizedPType.realizedKeys(keyVal.key)
     realizedKey.realizedProp.basicPropComponents.foreach { basicPropComponent =>
       builder += basicPropComponent.outerPropPath.inlinedPath -> basicPropComponent.innerPropPath.get(keyVal)
     }
@@ -165,8 +162,7 @@ with MongoSchema[P] {
       case _ => throw cause
     }
     val realizedKey = realizedPType.keySet.find(key => indexName(key) == name).getOrElse(throw cause)
-    // TODO fix this asInstanceOf
-    throw new DuplicateKeyValException(p, realizedKey.key.asInstanceOf[AnyKey[P]], cause)
+    throw new DuplicateKeyValException(p, realizedKey.key, cause)
   }
 
   protected def mongoQuery(query: Query[P]): MongoDBObject = {

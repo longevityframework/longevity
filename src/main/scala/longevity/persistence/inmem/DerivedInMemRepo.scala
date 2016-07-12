@@ -1,6 +1,6 @@
 package longevity.persistence.inmem
 
-import longevity.persistence.PersistedAssoc
+import longevity.persistence.DatabaseId
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.realized.AnyRealizedKey
@@ -14,14 +14,11 @@ private[inmem] trait DerivedInMemRepo[P <: Persistent, Poly >: P <: Persistent] 
   override protected[inmem] val keys: Seq[AnyRealizedKey[_ >: P <: Persistent]] =
     polyRepo.keys ++ myKeys
 
-  override protected[inmem] def registerPStateByAssoc(
-    assoc: PersistedAssoc[_ <: Persistent],
-    state: PState[P])
-  : Unit =
-    polyRepo.registerPStateByAssoc(assoc, state.widen[Poly])
+  override protected[inmem] def registerPStateById(id: DatabaseId[_ <: Persistent], state: PState[P]): Unit =
+    polyRepo.registerPStateById(id, state.widen[Poly])
 
-  override protected[inmem] def unregisterPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent]): Unit =
-    polyRepo.unregisterPStateByAssoc(assoc)
+  override protected[inmem] def unregisterPStateById(id: DatabaseId[_ <: Persistent]): Unit =
+    polyRepo.unregisterPStateById(id)
 
   override protected[inmem] def registerPStateByKeyVal(keyVal: Any, state: PState[P]): Unit =
     polyRepo.registerPStateByKeyVal(keyVal, state.widen[Poly])
