@@ -3,10 +3,9 @@ package longevity.exceptions.subdomain.ptype
 import emblem.TypeKey
 import longevity.subdomain.persistent.Persistent
 
-/** thrown on attempt to create a property with a type that longevity doesn't
- * support yet. these include and properties that are not exactly-one valued -
- * no options, sets or lists anywhere in the path. these also include paths that
- * end on an entity, and not a basic type, shorthand or assoc.
+/** thrown on attempt to create a property with a type that longevity does not
+ * now support, such as property paths that contain any collections or
+ * [[longevity.subdomain.embeddable.PolyType polymorphic types]].
  */
 class UnsupportedPropTypeException[P <: Persistent : TypeKey, U : TypeKey](val path: String)
 extends PropException(

@@ -14,7 +14,6 @@ private[longevity] class RealizedPType[P <: Persistent](
   pType: PType[P],
   emblematic: Emblematic) {
 
-  // TODO should this just be Prop[P,A]??
   type PProp[A] = Prop[_ >: P <: Persistent, A]
   type PRealizedProp[A] = RealizedProp[_ >: P <: Persistent, A]
 
@@ -31,20 +30,14 @@ private[longevity] class RealizedPType[P <: Persistent](
     }
   }
 
-  def realizedProp(prop: Prop[_ >: P <: Persistent, _])
-  : RealizedProp[_ >: P <: Persistent, _] = {
-    def rp[A](prop: Prop[_ >: P <: Persistent, A]) = realizedProps(prop)
-    rp(prop)
-  }
-
-  val realizedKeyMap: Map[AnyKey[P], AnyRealizedKey[P]] = {
+  private val realizedKeyMap: Map[AnyKey[P], AnyRealizedKey[P]] = {
     val empty = Map[AnyKey[P], AnyRealizedKey[P]]()
     pType.keySet.foldLeft(empty) { (acc, key) =>
       def accumulate[A <: KeyVal[P, A]](key: Key[P, A]) = {
-        val prop = key.keyValProp
-        val realizedKey = RealizedKey[P, A](
-          key)(
-          realizedProps(prop).asInstanceOf[RealizedProp[P, A]], // TODO asInstanceOf
+        val prop: Prop[P,A] = key.keyValProp
+        val realizedKey = RealizedKey[P, A](key)(
+          // this asInstanceOf is correct, but a pain to excise
+          realizedProps(prop).asInstanceOf[RealizedProp[P, A]],
           emblematic)(
           prop.propTypeKey)
         acc + (key -> realizedKey)

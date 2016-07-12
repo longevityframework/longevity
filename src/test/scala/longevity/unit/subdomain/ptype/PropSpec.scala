@@ -8,7 +8,7 @@ import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
 // TODO all these excptions have moved to subdomain creation
-// import longevity.exceptions.subdomain.ptype.NoSuchPropException
+// import longevity.exceptions.subdomain.ptype.NoSuchPropPathException
 // import longevity.exceptions.subdomain.ptype.PropTypeException
 // import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
 // import longevity.subdomain.persistent.Root
@@ -24,7 +24,7 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
   // it should "throw exception when the specified prop path is empty" in {
   //   import longevity.integration.subdomain.basics
   //   val subdomain = basics.subdomain
-  //   intercept[NoSuchPropException] {
+  //   intercept[NoSuchPropPathException] {
   //     basics.Basics.prop[Int]("")
   //   }
   // }
@@ -32,13 +32,13 @@ class PropSpec extends FlatSpec with GivenWhenThen with Matchers {
   // it should "throw exception when the specified prop path does not map to an actual prop path" in {
   //   import longevity.integration.subdomain.basics
   //   val subdomain = basics.subdomain
-  //   intercept[NoSuchPropException] {
+  //   intercept[NoSuchPropPathException] {
   //     basics.Basics.prop[Int]("invalidPropPath")
   //   }
 
   //   import longevity.integration.subdomain.component
   //   val componentSubdomain = component.subdomain
-  //   intercept[NoSuchPropException] {
+  //   intercept[NoSuchPropPathException] {
   //     component.WithComponent.prop[Int]("component.noSuchPathSegment")
   //   }
   // }

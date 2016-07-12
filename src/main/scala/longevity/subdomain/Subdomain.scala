@@ -37,37 +37,49 @@ class Subdomain(
   val pTypePool: PTypePool = PTypePool.empty,
   val eTypePool: ETypePool = ETypePool.empty) {
 
-  // TODO reorganize
+  private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
 
-  private val emblemPool: EmblemPool = {
+  private[longevity] val realizedPTypes: TypeBoundMap[Persistent, PType, RealizedPType] = {
+    pTypePool.values.foldLeft(TypeBoundMap[Persistent, PType, RealizedPType]()) { (acc, pType) =>
+      def addPair[P <: Persistent](pType: PType[P]) = {
+        val realizedPType = new RealizedPType(pType, emblematic)
+        acc + (pType -> realizedPType)
+      }
+      addPair(pType)
+    }
+  }
+
+  private def emblemPool = pEmblems ++ entityEmblems ++ keyValEmblems
+
+  private def pEmblems = {
     val pTypesWithEmblems = pTypePool.filterValues(!_.isInstanceOf[PolyPType[_]])
-    val pEmblems = pTypesWithEmblems.mapValuesWiden[Any, Emblem] {
+    pTypesWithEmblems.mapValuesWiden[Any, Emblem] {
       new WideningTypeBoundFunction[Persistent, Any, PType, Emblem] {
         def apply[TypeParam <: Persistent](pType: PType[TypeParam]): Emblem[TypeParam] =
           Emblem(pType.pTypeKey)
       }
     }
+  }
 
+  private def entityEmblems = {
     val eTypesWithEmblems = eTypePool.filterValues(!_.isInstanceOf[PolyType[_]])
-    val entityEmblems = eTypesWithEmblems.mapValuesWiden[Any, Emblem] {
+    eTypesWithEmblems.mapValuesWiden[Any, Emblem] {
       new WideningTypeBoundFunction[Embeddable, Any, EType, Emblem] {
         def apply[TypeParam <: Embeddable](eType: EType[TypeParam]): Emblem[TypeParam] =
           Emblem(eType.eTypeKey)
       }
     }
-
-    val keyValEmblems = pTypePool.values.foldLeft(EmblemPool()) { (acc, pType) =>
-      val keyValEmblems: EmblemPool = pType.keySet.foldLeft(EmblemPool()) { (acc, key) =>
-        def addToPool[A](emblem: Emblem[A]) = acc + (emblem.typeKey -> emblem)
-        addToPool(key.keyValEmblem)
-      }
-      acc ++ keyValEmblems
-    }
-
-    pEmblems ++ entityEmblems ++ keyValEmblems
   }
 
-  private val unionPool: UnionPool = entityUnions ++ pUnions
+  private def keyValEmblems = pTypePool.values.foldLeft(EmblemPool()) { (acc, pType) =>
+    val keyValEmblems: EmblemPool = pType.keySet.foldLeft(EmblemPool()) { (acc, key) =>
+      def addToPool[A](emblem: Emblem[A]) = acc + (emblem.typeKey -> emblem)
+      addToPool(key.keyValEmblem)
+    }
+    acc ++ keyValEmblems
+  }
+
+  private def unionPool = entityUnions ++ pUnions
 
   private def entityUnions = {
     val polyTypes = eTypePool.filterValues(_.isInstanceOf[PolyType[_]])
@@ -144,18 +156,6 @@ class Subdomain(
     }
   }
 
-  private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
-
-  private[longevity] val realizedPTypes: TypeBoundMap[Persistent, PType, RealizedPType] = {
-    pTypePool.values.foldLeft(TypeBoundMap[Persistent, PType, RealizedPType]()) { (acc, pType) =>
-      def addPair[P <: Persistent](pType: PType[P]) = {
-        val realizedPType = new RealizedPType(pType, emblematic)
-        acc + (pType -> realizedPType)
-      }
-      addPair(pType)
-    }
-  }
-
 }
 
 /** provides a factory method for constructing [[Subdomain subdomains]] */
@@ -167,14 +167,23 @@ object Subdomain {
    * @param pTypePool a complete set of the persistent types in the subdomain. defaults to empty
    * @param eTypePool a complete set of the embeddable types within the subdomain. defaults to empty
    *
-   * TODO i am gathering all subdomain ctor exceptions here for now. clean up n shit later
+   * @throws longevity.exceptions.subdomain.ptype.NoSuchPropPathException if a
+   * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
+   * [[longevity.subdomain.ptype.PType persistent types]] has a property path
+   * that does not exist in the [[longevity.subdomain.persistent.Persistent
+   * persistent]] being reflected on
    * 
-   * @throws longevity.exceptions.subdomain.ptype.PropException if any step along
-   * the path does not exist, or any non-final step along the path is not an
-   * entity, or the final step along the path is not a basic type.
-   *
-   * TODO review above throws clause
-   *
+   * @throws longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
+   * if a [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
+   * [[longevity.subdomain.ptype.PType persistent types]] has a property path
+   * that contains a collection or a [[longevity.subdomain.embeddable.PolyType
+   * polymorphic type]]
+   * 
+   * @throws longevity.exceptions.subdomain.ptype.PropTypeException if a
+   * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
+   * [[longevity.subdomain.ptype.PType persistent types]] has a property whose
+   * specified type does not match the type of the corresponding path in the
+   * [[longevity.subdomain.persistent.Persistent persistent]] being reflected on
    */
   def apply(
     name: String,

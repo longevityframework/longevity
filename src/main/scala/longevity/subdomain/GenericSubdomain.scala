@@ -27,6 +27,8 @@ object GenericSubdomain {
    * defaults to empty
    * @param entityTypePool a complete set of the entity types within the core
    * domain. defaults to empty
+   * 
+   * @see [[Subdomain.apply]] for a complete rundown of exceptions thrown on subdomain creation
    */
   def apply(
     name: String,

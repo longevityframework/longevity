@@ -8,7 +8,7 @@ import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblematicInPropPathException
 import emblem.typeKey
-import longevity.exceptions.subdomain.ptype.NoSuchPropException
+import longevity.exceptions.subdomain.ptype.NoSuchPropPathException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
@@ -85,17 +85,15 @@ private[subdomain] object RealizedProp {
 
   def apply[P <: Persistent, A](prop: Prop[P, A], emblematic: Emblematic): RealizedProp[P, A] = {
 
-    // TODO: gather exceptions from here into subdomain scaladoc
-
     val emblematicPropPath: EmblematicPropPath[P, A] = {
       def validatePath(): EmblematicPropPath[P, _] =
         try {
           EmblematicPropPath.unbounded(emblematic, prop.path)(prop.pTypeKey)
         } catch {
           case e: EmptyPropPathException =>
-            throw new NoSuchPropException(prop.path, prop.pTypeKey)
+            throw new NoSuchPropPathException(prop.path, prop.pTypeKey)
           case e: NoSuchPropertyException =>
-            throw new NoSuchPropException(prop.path, prop.pTypeKey)
+            throw new NoSuchPropPathException(prop.path, prop.pTypeKey)
           case e: NonEmblematicInPropPathException[_] =>
             throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, e.typeKey)
         }
