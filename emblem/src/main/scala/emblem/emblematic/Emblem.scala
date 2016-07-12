@@ -48,8 +48,8 @@ extends Reflective[A] {
    *
    * @param emblematic the emblematic to use in the recursive descent
    * 
-   * @throws EmblemNotComposedOfBasicsException if the emblem recursively
-   * contains any unions or collections
+   * @throws emblem.exceptions.EmblemNotComposedOfBasicsException if the emblem
+   * recursively contains any unions or collections
    */
   def basicPropPaths(emblematic: Emblematic): Seq[EmblematicPropPath[A, _]] = {
     val pathStrings = basicPropPathStrings(emblematic.emblems)
