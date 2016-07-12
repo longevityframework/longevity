@@ -7,11 +7,10 @@ import emblem.stringUtil
 /** a prototype for [[Emblem]] and [[Union]] */
 trait Reflective[A] {
 
-  // TODO name this type better
   /** the kind of reflective property this reflective has. either an
    * [[EmblemProp]] or a [[UnionProp]]
    */
-  type P[B, C] <: ReflectiveProp[B, C]
+  type PropType[B, C] <: ReflectiveProp[B, C]
 
   /** a [[TypeKey type key]] for the type that we reflect upon */
   val typeKey: TypeKey[A]
@@ -28,24 +27,24 @@ trait Reflective[A] {
   val fullname: String = stringUtil.typeFullname(tpe)
 
   /** the [[ReflectiveProp reflective properties */
-  val props: Seq[P[A, _]]
+  val props: Seq[PropType[A, _]]
 
   /** a map of the [[props]], keyed by name */
-  val propMap: Map[String, P[A, _]] = props.view.map(prop => prop.name -> prop).toMap
+  val propMap: Map[String, PropType[A, _]] = props.view.map(prop => prop.name -> prop).toMap
 
   /** retrieves a [[ReflectiveProp reflective property]] by name */
-  def apply(name: String): P[A, _] =
+  def apply(name: String): PropType[A, _] =
     propMap.getOrElse(name, throw new NoSuchPropertyException(this.toString, name))
 
   /** retrieves the reflective property with the specified property type by name */
-  def prop[B : TypeKey](name: String): P[A, B] = {
+  def prop[B : TypeKey](name: String): PropType[A, B] = {
     val typeKey = implicitly[TypeKey[B]]
     val prop = apply(name)
     if (typeKey != prop.typeKey) {
       throw new ClassCastException(
         s"requested property $name with type ${typeKey.tpe}, but this property has type ${prop.typeKey.tpe}")
     }
-    prop.asInstanceOf[P[A, B]]
+    prop.asInstanceOf[PropType[A, B]]
   }
 
   /** a string describing the reflective in full detail */

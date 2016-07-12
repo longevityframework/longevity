@@ -4,6 +4,7 @@ import emblem.emblematic.Emblematic
 import emblem.typeBound.TypeBoundMap
 import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.AnyKey
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.PType
@@ -36,25 +37,25 @@ class RealizedPType[P <: Persistent](
     rp(prop)
   }
 
-  type PKey[A <: KeyVal[P]] = Key[P, A]
-  type PRealizedKey[A <: KeyVal[P]] = RealizedKey[P, A]
-
-  // TODO is this TBM used? could i just have the keySet instead?
-  val realizedKeys: TypeBoundMap[KeyVal[P], PKey, PRealizedKey] = {
-    pType.keySet.foldLeft(TypeBoundMap[KeyVal[P], PKey, PRealizedKey]()) { (acc, key) =>
-      def pair[A <: KeyVal[P]](key: Key[P, A]) = {
+  val realizedKeyMap: Map[AnyKey[P], AnyRealizedKey[P]] = {
+    val empty = Map[AnyKey[P], AnyRealizedKey[P]]()
+    pType.keySet.foldLeft(empty) { (acc, key) =>
+      def accumulate[A <: KeyVal[P, A]](key: Key[P, A]) = {
         val prop = key.keyValProp
         val realizedKey = RealizedKey[P, A](
           key)(
-          realizedProps(prop).asInstanceOf[RealizedProp[P, A]],
+          realizedProps(prop).asInstanceOf[RealizedProp[P, A]], // TODO asInstanceOf
           emblematic)(
           prop.propTypeKey)
         acc + (key -> realizedKey)
       }
-      pair(key)
+      accumulate(key)
     }
   }
 
-  val keySet: Set[AnyRealizedKey[P]] = realizedKeys.values.toSet
+  def realizedKeys[V <: KeyVal[P, V]](key: Key[P, V]): RealizedKey[P, V] =
+    realizedKeyMap(key).asInstanceOf[RealizedKey[P, V]]
+
+  val keySet: Set[AnyRealizedKey[P]] = realizedKeyMap.values.toSet
 
 }

@@ -12,10 +12,12 @@ private[emblematic] class UnionConstituentLookup[A](
 
   val constituentKeys: Set[TypeKey[_ <: A]] = constituents.map(_.typeKey)
 
+  /** @see [[Union.typeKeyForInstance]] */
   def typeKeyForInstance(a: A): Option[TypeKey[_ <: A]] = {
     typeKeyForName(a.getClass.getSimpleName)
   }
  
+  /** @see [[Union.typeKeyForName]] */
   def typeKeyForName(name: String): Option[TypeKey[_ <: A]] =
     constituentKeysByName.get(name)
 

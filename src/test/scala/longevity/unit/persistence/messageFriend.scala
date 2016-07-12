@@ -12,7 +12,7 @@ import longevity.subdomain.ptype.RootType
 
 object messageFriend {
 
-  case class FriendId(id: String) extends KeyVal[Friend](Friend.keys.id)
+  case class FriendId(id: String) extends KeyVal[Friend, FriendId](Friend.keys.id)
 
   case class Friend(id: FriendId, name: String) extends Root
 
@@ -27,7 +27,7 @@ object messageFriend {
     }
   }
 
-  case class MessageId(id: String) extends KeyVal[Message](Message.keys.id)
+  case class MessageId(id: String) extends KeyVal[Message, MessageId](Message.keys.id)
 
   case class Message(id: MessageId, author: FriendId, content: String) extends Root
 

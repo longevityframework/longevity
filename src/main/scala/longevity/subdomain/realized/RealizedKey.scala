@@ -8,7 +8,9 @@ import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Key
 
 /** TODO */
-private[longevity] case class RealizedKey[P <: Persistent, V <: KeyVal[P] : TypeKey] private [subdomain](
+private[longevity] case class RealizedKey[
+  P <: Persistent,
+  V <: KeyVal[P, V] : TypeKey] private [subdomain](
   key: Key[P, V])(
   val realizedProp: RealizedProp[P, V],
   emblematic: Emblematic) {
@@ -21,7 +23,7 @@ private[longevity] case class RealizedKey[P <: Persistent, V <: KeyVal[P] : Type
   def keyValForP(p: P): V = realizedProp.propVal(p)
 
   // oh my scala typer
-  def keyValForP_TODO(p: P): KeyVal[P] = keyValForP(p)
+  def keyValForP_TODO(p: P): KeyVal[P, _] = keyValForP(p)
 
   def updateKeyVal(p: P, keyVal: V): P = {
     realizedProp.updatePropVal(p, keyVal)

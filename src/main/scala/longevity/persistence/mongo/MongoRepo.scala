@@ -80,6 +80,18 @@ with MongoSchema[P] {
     new PState[P](MongoId(objectId), p)
   }
 
+  override def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext) = Future {
+    val query = keyValQuery(keyVal)
+    val resultOption = blocking {
+      mongoCollection.findOne(query)
+    }
+    val idPOption = resultOption map { result =>
+      val id = result.getAs[ObjectId]("_id").get
+      id -> casbahToPersistentTranslator.translate(result)(pTypeKey)
+    }
+    idPOption map { case (id, p) => new PState[P](MongoId(id), p) }
+  }
+
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
   : Future[Seq[PState[P]]] = Future {
     blocking {
@@ -128,30 +140,14 @@ with MongoSchema[P] {
     MongoDBObject("_id" -> objectId)
   }
 
-  override protected def retrieveByKeyVal(keyVal: KeyVal[P])(implicit context: ExecutionContext)
-  : Future[Option[PState[P]]] = Future {
-    val query = keyValQuery(keyVal)
-    val resultOption = blocking {
-      mongoCollection.findOne(query)
+  protected def keyValQuery[V <: KeyVal[P, V]](keyVal: V): MongoDBObject = {
+    val builder = MongoDBObject.newBuilder
+    val key = keyVal.key.asInstanceOf[Key[P, V]] // TODO better KeyVal typing should remove this cast
+    val realizedKey = realizedPType.realizedKeys(key)
+    realizedKey.realizedProp.basicPropComponents.foreach { basicPropComponent =>
+      builder += basicPropComponent.outerPropPath.inlinedPath -> basicPropComponent.innerPropPath.get(keyVal)
     }
-    val idPOption = resultOption map { result =>
-      val id = result.getAs[ObjectId]("_id").get
-      id -> casbahToPersistentTranslator.translate(result)(pTypeKey)
-    }
-    idPOption map { case (id, p) => new PState[P](MongoId(id), p) }
-  }
-
-  protected def keyValQuery(keyVal: KeyVal[P]): MongoDBObject = {
-    def build[KV <: KeyVal[P]](keyVal: KV) = {
-      val builder = MongoDBObject.newBuilder
-      val key = keyVal.key.asInstanceOf[Key[P, KV]] // TODO better KeyVal typing should remove this cast
-      val realizedKey = realizedPType.realizedKeys(key)
-      realizedKey.realizedProp.basicPropComponents.foreach { basicPropComponent =>
-        builder += basicPropComponent.outerPropPath.inlinedPath -> basicPropComponent.innerPropPath.get(keyVal)
-      }
-      builder.result
-    }
-    build(keyVal)
+    builder.result
   }
 
   protected def casbahForP(p: P): MongoDBObject = {

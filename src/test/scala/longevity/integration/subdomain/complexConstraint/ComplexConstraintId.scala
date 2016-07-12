@@ -4,5 +4,5 @@ import longevity.subdomain.KeyVal
 
 case class ComplexConstraintId(
   id: String)
-extends KeyVal[ComplexConstraint](
+extends KeyVal[ComplexConstraint, ComplexConstraintId](
   ComplexConstraint.keys.id)

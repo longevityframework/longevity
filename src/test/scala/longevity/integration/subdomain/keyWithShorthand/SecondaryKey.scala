@@ -5,5 +5,5 @@ import longevity.subdomain.KeyVal
 case class SecondaryKey(
   id: String,
   uri: Uri)
-extends KeyVal[KeyWithShorthand](
+extends KeyVal[KeyWithShorthand, SecondaryKey](
   KeyWithShorthand.keys.secondaryKey)

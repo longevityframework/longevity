@@ -104,8 +104,7 @@ with TestDataGeneration {
 
         And(s"further retrieval operations should retrieve the same $pName")
         repo.realizedPType.keySet.foreach { key =>
-          val keyValForP = key.keyValForP_TODO(created.get)
-          val retrieved: PState[P] = repo.retrieve(keyValForP).futureValue.value
+          val retrieved: PState[P] = retrieveByKey(key, created.get)
           retrieved.get should equal (p)
         }
 
@@ -122,8 +121,7 @@ with TestDataGeneration {
         When(s"we retrieve the $pName by any of its keys")
         Then(s"we get back the same $pName persistent state")
         repo.realizedPType.keySet.foreach { key =>
-          val keyValForP = key.keyValForP_TODO(created.get)
-          val retrieved: PState[P] = repo.retrieve(keyValForP).futureValue.value
+          val retrieved: PState[P] = retrieveByKey(key, created.get)
           retrieved.get should equal (p)
         }
       }
@@ -135,13 +133,12 @@ with TestDataGeneration {
         Given(s"a persisted $pName")
         val key = randomPTypeKey
         val originalP = randomP(key)
-        // TODO this modifiedP doesnt take into account polys
         val modifiedP = repo.realizedPType.keySet.foldLeft(randomP(key)) { (modified, key) =>
-          def updateKeyVal[V <: KeyVal[P]](key: RealizedKey[P, V]) = {
+          def updateByOriginalKeyVal[V <: KeyVal[P, V]](key: RealizedKey[P, V]) = {
             val originalKeyVal = key.keyValForP(originalP)
             key.updateKeyVal(modified, originalKeyVal)
           }
-          updateKeyVal(key)
+          updateByOriginalKeyVal(key)
         }
 
         val created: PState[P] = repo.create(originalP).futureValue
@@ -155,7 +152,7 @@ with TestDataGeneration {
 
         And(s"further retrieval operations should retrieve the updated copy")
         repo.realizedPType.keySet.foreach { key =>
-          val keyValForP = key.keyValForP_TODO(created.get)
+          val keyValForP = key.keyValForP(created.get)
           val retrieved: PState[P] = repo.retrieve(keyValForP).futureValue.value
           retrieved.get should equal (modifiedP)
         }
@@ -176,7 +173,7 @@ with TestDataGeneration {
 
         And(s"we should no longer be able to retrieve the $pName")
         repo.realizedPType.keySet.foreach { key =>
-          val keyValForP = key.keyValForP_TODO(created.get)
+          val keyValForP = key.keyValForP(created.get)
           val retrieved: Option[PState[P]] = repo.retrieve(keyValForP).futureValue
           retrieved.isEmpty should be (true)
         }
@@ -196,6 +193,10 @@ with TestDataGeneration {
     }
 
     private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = testDataGenerator.generate(key)
+
+    private def retrieveByKey[V <: KeyVal[P, V]](key: RealizedKey[P, V], p: P): PState[P] = {
+      repo.retrieve(key.keyValForP(p)).futureValue.value
+    }
 
   }
  

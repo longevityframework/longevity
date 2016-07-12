@@ -8,12 +8,12 @@ import longevity.subdomain.ptype.AnyKey
  */
 class DuplicateKeyValException[P <: Persistent](
   val p: P,
-  val key: AnyKey[P],
+  val key: AnyKey[_ <: Persistent],
   cause: Exception)
 extends PersistenceException(
   s"attempt to persist $p has failed due to violation of uniqueness of key $key",
   cause) {
 
-  def this(p: P, key: AnyKey[P]) { this(p, key, null) }
+  def this(p: P, key: AnyKey[_ <: Persistent]) { this(p, key, null) }
 
 }

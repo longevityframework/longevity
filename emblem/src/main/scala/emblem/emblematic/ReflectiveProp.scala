@@ -20,11 +20,10 @@ trait ReflectiveProp[A, B] {
   /** a function that retrieves the property value from an instance */
   val get: (A) => B
 
-  // TODO unit tests for ReflectiveProp.set
   /** a function that updates the property value to produce a new instance */
   val set: (A, B) => A
 
-  // TODO scaladoc
+  /** true whenever this property is the only property of the parent [[Reflective]] */
   val isOnlyChild: Boolean
 
   override def toString: String = s"$name: ${typeKey.tpe}"

@@ -49,7 +49,7 @@ private[longevity] class RealizedProp[P <: Persistent, A](
       val emblem = emblematic.emblems.getOrElse(
         throw new RuntimeException("can't handle unions"))( // TODO RuntimeException
         propTypeKey)
-      val propPaths = emblem.allPropPaths(emblematic)
+      val propPaths = emblem.basicPropPaths(emblematic)
 
       propPaths.map { propPath =>
         def component[B](propPath: EmblematicPropPath[A, B]) = {

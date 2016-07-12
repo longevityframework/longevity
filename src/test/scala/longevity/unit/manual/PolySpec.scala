@@ -203,7 +203,7 @@ object PolySpec {
     import longevity.subdomain.ptype.PolyPType
 
     case class Username(username: String)
-    extends KeyVal[User](User.keys.username)
+    extends KeyVal[User, Username](User.keys.username)
 
     trait User extends Root {
       val username: Username

@@ -4,6 +4,7 @@ import akka.NotUsed
 import akka.stream.scaladsl.Source
 import com.datastax.driver.core.ResultSet
 import longevity.exceptions.persistence.cassandra.AllInQueryException
+import longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence.PState
@@ -23,7 +24,6 @@ import longevity.subdomain.ptype.Query.LteOp
 import longevity.subdomain.ptype.Query.NeqOp
 import longevity.subdomain.ptype.Query.OrOp
 import longevity.subdomain.realized.BasicPropComponent
-import longevity.subdomain.realized.RealizedProp
 import scala.collection.JavaConversions.asScalaBuffer
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -63,7 +63,6 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
 
   protected def retrieveByQueryConjunction(queryInfo: QueryInfo): String = queryInfo.whereClause
 
-  // TODO private?
   protected case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
 
   private object QueryInfo {
@@ -116,18 +115,15 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
         }
         info(components.head)
       } else {
-        // TODO RuntimeException
-        throw new RuntimeException("cassandra does not support ordering queries on multi-valued properties")
+        throw new CompoundPropInOrderingQuery
       }
     }
     componentsToQueryInfo(components)
   }
 
-  // TODO try rm ascription
   def toComponents[A](prop: Prop[_ >: P <: Persistent, A])
   : Seq[BasicPropComponent[_ >: P <: Persistent, A, _]] = {
-    val realizedProp: RealizedProp[_ >: P <: Persistent, A] = realizedPType.realizedProps(prop)
-    realizedProp.basicPropComponents
+    realizedPType.realizedProps(prop).basicPropComponents
   }
 
 

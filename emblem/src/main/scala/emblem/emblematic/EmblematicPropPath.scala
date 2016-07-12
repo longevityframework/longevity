@@ -9,7 +9,6 @@ import emblem.exceptions.EmblematicPropPathTypeMismatchException
 /** a property path that recurses through an emblem tree to a specific leaf */
 trait EmblematicPropPath[A, B] {
 
-  // TODO better name for this??
   /** the full path name (dot-separated) */
   val name: String
 
@@ -25,13 +24,12 @@ trait EmblematicPropPath[A, B] {
   /** a list of the [[ReflectiveProp properties]] that make up the path */
   val props: List[ReflectiveProp[_, _]]
 
-  // TODO scaladoc
-  def ++[C](extension: EmblematicPropPath[B, C]): EmblematicPropPath[A, C] =
-    EmblematicPropPath.:::(this, extension)
-
-  // TODO scaladoc
+  /** a string representation of the path with only-child properties removed.
+   * this produces a path that simulates the JSON paths produced by
+   * [[emblem.emblematic.traversors.sync.JsonToEmblematicTranslator]] and
+   * [[emblem.emblematic.traversors.sync.EmblematicToJsonTranslator]].
+   */
   lazy val inlinedPath: String = {
-
     def inlinedSegments(props: List[ReflectiveProp[_, _]], isTopLevel: Boolean): List[String] = props match {
       case Nil => Nil
       case prop :: tail =>
@@ -41,17 +39,21 @@ trait EmblematicPropPath[A, B] {
     inlinedSegments(props, true).mkString(".")
   }
 
+  /** produces an emblematic prop path that appends the extension prop path to this
+   * prop path
+   * @param extension the extension prop path
+   */
+  def ++[C](extension: EmblematicPropPath[B, C]): EmblematicPropPath[A, C] =
+    EmblematicPropPath.:::(this, extension)
+
   override def toString = s"EmblematicPropPath($name)"
 
-  // yes, these are chintzy. please make em better
   override def hashCode: Int = name.hashCode
 
-  override def equals(that: Any): Boolean =
-    try {
-      that.asInstanceOf[EmblematicPropPath[A, B]].name == name
-    } catch {
-      case e: ClassCastException => false
-    }
+  override def equals(that: Any): Boolean = {
+    that.isInstanceOf[EmblematicPropPath[A, B]] &&
+    that.asInstanceOf[EmblematicPropPath[A, B]].name == name
+  }
 
 }
 
@@ -116,7 +118,9 @@ object EmblematicPropPath {
     propPath0(reflective(pathSegments.head), pathSegments.tail)
   }
 
-  // TODO scaladoc
+  /** an empty property path for type `A`
+   * @tparam A the type of the empty property path
+   */
   def empty[A : TypeKey] = new EmblematicPropPath[A, A] {
     val name = ""
     val get = (a: A) => a

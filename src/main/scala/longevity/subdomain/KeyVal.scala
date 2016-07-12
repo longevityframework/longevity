@@ -14,5 +14,4 @@ import longevity.subdomain.ptype.Key
  * `Key[P, Self]`, where `Self` is the case class extending `KeyVal`, but
  * I'm not going to try to enforce that now. it makes the typing nasty hard
  */
-// TODO see if i can enforce that they KeyVal & Key types match
-abstract class KeyVal[P <: Persistent](val key: Key[P, _ <: KeyVal[P]])
+abstract class KeyVal[P <: Persistent, KV <: KeyVal[P, KV]](val key: Key[P, KV])

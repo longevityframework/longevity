@@ -29,8 +29,6 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-// TODO please split this up a bit
-
 /** a Cassandra repository for persistent entities of type `P`.
  *
  * @param pType the type of the persistent entities this repository handles
@@ -44,7 +42,7 @@ private[longevity] class CassandraRepo[P <: Persistent] private (
 extends BaseRepo[P](pType, subdomain)
 with CassandraSchema[P]
 with CassandraCreate[P]
-with CassandraRetrieveKeyVal[P]
+with CassandraRetrieve[P]
 with CassandraQuery[P]
 with CassandraUpdate[P]
 with CassandraDelete[P] {

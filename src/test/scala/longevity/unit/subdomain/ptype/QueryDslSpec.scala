@@ -32,7 +32,7 @@ object QueryDslSpec {
   }
 
   private case class AssociatedId(id: String)
-  extends KeyVal[Associated](Associated.keys.id)
+  extends KeyVal[Associated, AssociatedId](Associated.keys.id)
 
   private case class Associated(id: AssociatedId) extends Root
 

@@ -24,7 +24,6 @@ extends Repo[P] {
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repoPool: RepoPool = _repoPoolOption.get
 
-  // TODO should we inline (get rid of it here) pType in place of this?
   protected[longevity] val realizedPType: RealizedPType[P] = subdomain.realizedPTypes(pType)
 
   /** the type key for the persistent entities this repository handles */
@@ -32,17 +31,13 @@ extends Repo[P] {
 
   def create(unpersisted: P)(implicit context: ExecutionContext): Future[PState[P]]
 
-  def retrieve(keyVal: KeyVal[P])(implicit context: ExecutionContext): Future[Option[PState[P]]] =
-    retrieveByKeyVal(keyVal) // TODO inline retrieveByKeyVal
+  def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext): Future[Option[PState[P]]]
 
-  def retrieveOne(keyVal: KeyVal[P])(implicit context: ExecutionContext): Future[PState[P]] =
+  def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
 
   def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]]
 
   def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]]
-
-  protected def retrieveByKeyVal(keyVal: KeyVal[P])(implicit context: ExecutionContext)
-  : Future[Option[PState[P]]]
 
 }

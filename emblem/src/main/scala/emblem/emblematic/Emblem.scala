@@ -3,6 +3,7 @@ package emblem.emblematic
 import emblem.TypeKey
 import emblem.emblematic.factories.EmblemFactory
 import emblem.emblematic.basicTypes.isBasicType
+import emblem.exceptions.EmblemNotComposedOfBasicsException
 
 /** a reflective signature for a type. provides name information, [[EmblemProp
  * properties]], and a tool used to build new instances. the underlying type is
@@ -21,7 +22,7 @@ case class Emblem[A] private[emblem] (
   creator: Map[String, Any] => A)
 extends Reflective[A] {
 
-  type P[B, C] = EmblemProp[B, C]
+  type PropType[B, C] = EmblemProp[B, C]
 
   private[emblematic] val propsMap: Map[String, EmblemProp[A, _]] =
     props.map(prop => prop.name -> prop).toMap
@@ -41,35 +42,37 @@ extends Reflective[A] {
   /** creates and returns a new builder for constructing new instances */
   def builder(): InstanceBuilder = new InstanceBuilder()
 
-  /** returns a sequence of all the [[EmblematicPropPath emblematic prop paths]]
-   * that compose this emblem.
-   *
-   * can't handle unions or collections
-   *
-   * TODO work on this scaladoc
+  /** returns a sequence of all the [[basicTypes basic]] [[EmblematicPropPath
+   * emblematic prop paths]] that compose this emblem. these prop paths are
+   * ordered by their (depth-first) appearance in the emblem.
    *
    * @param emblematic the emblematic to use in the recursive descent
+   * 
+   * @throws EmblemNotComposedOfBasicsException if the emblem recursively
+   * contains any unions or collections
    */
-  def allPropPaths(emblematic: Emblematic): Seq[EmblematicPropPath[A, _]] = {
-    val pathStrings = allPropPathStrings(emblematic.emblems)
+  def basicPropPaths(emblematic: Emblematic): Seq[EmblematicPropPath[A, _]] = {
+    val pathStrings = basicPropPathStrings(emblematic.emblems)
     pathStrings.map(EmblematicPropPath.unbounded(emblematic, _)(typeKey))
   }
 
-  private def allPropPathStrings(emblems: EmblemPool): Seq[String] = {
+  private def basicPropPathStrings(emblems: EmblemPool): Seq[String] = {
     props.foldLeft(Seq[String]()) { (propPaths, prop) =>
       val key = prop.typeKey
       if (isBasicType(key)) {
         propPaths :+ prop.name
       } else if (emblems.contains(key)) {
-        propPaths ++ emblems(key).allPropPathStrings(emblems).map {
+        propPaths ++ emblems(key).basicPropPathStrings(emblems).map {
           pathSuffix => s"${prop.name}.$pathSuffix"
         }
       } else {
-        throw new RuntimeException("i can only handle basics and emblems") // TODO
+        throw new EmblemNotComposedOfBasicsException(this, prop)
       }
     }
 
   }
+
+  override def toString = s"Emblem[${typeKey.name}]"
 
 }
 

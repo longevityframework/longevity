@@ -1,15 +1,17 @@
 package emblem.emblematic.factories
 
+import emblem.TypeKey
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Union
 import emblem.emblematic.UnionConstituentLookup
 import emblem.emblematic.UnionProp
-import emblem.TypeKey
-import emblem.reflectionUtil.makeTypeTag
+import emblem.exceptions.InstanceNotInUnionException
 import emblem.reflectionUtil.TypeReflector
-import scala.reflect.runtime.universe.Type
+import emblem.reflectionUtil.makeTypeTag
+import emblem.typeKey
 import scala.reflect.runtime.universe.TermName
+import scala.reflect.runtime.universe.Type
 
 /** generates an [[Union]] from the corresponding [[TypeKey]] */
 private[emblem] class UnionFactory[A : TypeKey] extends TypeReflector[A] {
@@ -23,7 +25,8 @@ private[emblem] class UnionFactory[A : TypeKey] extends TypeReflector[A] {
     Union[A](
       key,
       constituents,
-      unionProps)
+      unionProps,
+      lookup)
   }
 
   private def unionProp(
@@ -54,8 +57,11 @@ private[emblem] class UnionFactory[A : TypeKey] extends TypeReflector[A] {
     lookup: UnionConstituentLookup[A])
   : (A, B) => A = {
     { (a: A, b: B) =>
-      val emblem = lookup.emblemForInstance(a).get // TODO get??
-      // TODO is this asInstanceOf correct?
+      val emblem = lookup.emblemForInstance(a).getOrElse {
+        throw new InstanceNotInUnionException(a, typeKey[A])
+      }
+
+      // is this asInstanceOf correct?
       emblem.propsMap(name).asInstanceOf[EmblemProp[A, B]].set(a, b)
     }
   }

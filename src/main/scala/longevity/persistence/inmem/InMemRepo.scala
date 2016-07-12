@@ -7,10 +7,10 @@ import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.PersistedAssoc
+import longevity.subdomain.AnyKeyVal
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.ptype.AnyKey
 import longevity.subdomain.ptype.ConditionalQuery
 import longevity.subdomain.ptype.EqualityQuery
 import longevity.subdomain.ptype.OrderingQuery
@@ -28,7 +28,7 @@ import longevity.subdomain.ptype.Query.LteOp
 import longevity.subdomain.ptype.Query.NeqOp
 import longevity.subdomain.ptype.Query.OrOp
 import longevity.subdomain.ptype.Prop
-import longevity.subdomain.realized.RealizedKey
+import longevity.subdomain.realized.AnyRealizedKey
 import longevity.subdomain.realized.RealizedPType
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -46,11 +46,14 @@ extends BaseRepo[P](pType, subdomain) {
 
   private var idCounter = 0
   private var assocToPStateMap = Map[PersistedAssoc[_ <: Persistent], PState[P]]()
-  private var keyValToPStateMap = Map[KeyVal[_ <: Persistent], PState[P]]()
+  private var keyValToPStateMap = Map[Any, PState[P]]()
 
   def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
     persist(IntId[P](nextId), unpersisted)
   }
+
+  override def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext) =
+    Future.successful(lookupPStateByKeyVal(keyVal))
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
   : Future[Seq[PState[P]]] =
@@ -92,12 +95,6 @@ extends BaseRepo[P](pType, subdomain) {
     unregisterKeyVal(key.keyValForP(p))
   }
 
-  override protected def retrieveByKeyVal(
-    keyVal: KeyVal[P])(
-    implicit context: ExecutionContext)
-  : Future[Option[PState[P]]] =
-    Future.successful(lookupPStateByKeyVal(keyVal))
-
   private def persist(assoc: PersistedAssoc[P], p: P): PState[P] = {
     val state = new PState[P](assoc, p)
     repo.synchronized {
@@ -118,24 +115,20 @@ extends BaseRepo[P](pType, subdomain) {
     id
   }
 
-  protected[inmem] val keys: Seq[RealizedKey[_ >: P <: Persistent, _ <: KeyVal[_ >: P <: Persistent]]] =
+  protected[inmem] def keys: Seq[AnyRealizedKey[_ >: P <: Persistent]] =
     myKeys
 
   protected def myKeys = {
     // TODO asInstanceOf
     // TODO type shorthands
-    val ks = realizedPType.keySet.asInstanceOf[Set[RealizedKey[_ >: P <: Persistent,
-                                                               _ <: KeyVal[_ >: P <: Persistent]]]]
+    val ks = realizedPType.keySet.asInstanceOf[Set[AnyRealizedKey[_ >: P <: Persistent]]]
     ks.toSeq
   }
 
-  protected[inmem] def assertUniqueKeyVal(
-    keyVal: KeyVal[_ <: Persistent],
-    state: PState[P])
-  : Unit = {
+  protected[inmem] def assertUniqueKeyVal(keyVal: Any, state: PState[P]): Unit = {
     if (keyValToPStateMap.contains(keyVal)) {
       // TODO fix this asInstanceOf
-      throw new DuplicateKeyValException[P](state.get, keyVal.key.asInstanceOf[AnyKey[P]])
+      throw new DuplicateKeyValException[P](state.get, keyVal.asInstanceOf[AnyKeyVal[P]].key)
     }
   }
 
@@ -150,18 +143,13 @@ extends BaseRepo[P](pType, subdomain) {
   protected[inmem] def unregisterPStateByAssoc(assoc: PersistedAssoc[_ <: Persistent]): Unit =
     assocToPStateMap -= assoc
 
-  protected[inmem] def registerPStateByKeyVal(
-    keyVal: KeyVal[_ <: Persistent],
-    state: PState[P])
-  : Unit =
-    keyValToPStateMap += (keyVal -> state)
+  protected[inmem] def registerPStateByKeyVal(keyVal: Any, state: PState[P]): Unit =
+    keyValToPStateMap += (keyVal, state).asInstanceOf[(AnyKeyVal[_ <: Persistent], PState[P])]
 
-  protected[inmem] def lookupPStateByKeyVal(
-    keyVal: KeyVal[_ <: Persistent])
-  : Option[PState[P]] =
+  protected[inmem] def lookupPStateByKeyVal(keyVal: Any): Option[PState[P]] =
     keyValToPStateMap.get(keyVal)
 
-  protected[inmem] def unregisterKeyVal(keyVal: KeyVal[_ <: Persistent]): Unit = keyValToPStateMap -= keyVal
+  protected[inmem] def unregisterKeyVal(keyVal: Any): Unit = keyValToPStateMap -= keyVal
 
   override def toString = s"InMemRepo[${pTypeKey.name}]"
 

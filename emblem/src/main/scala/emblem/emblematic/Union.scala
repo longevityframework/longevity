@@ -18,14 +18,14 @@ import emblem.emblematic.factories.UnionFactory
  * @param constituents emblems for the constituent types
  * @param props the [[UnionProp union properties]]
  */
-// TODO: use lookup here
 case class Union[A](
   typeKey: TypeKey[A],
   constituents: Set[Emblem[_ <: A]],
-  props: Seq[UnionProp[A, _]])
+  props: Seq[UnionProp[A, _]],
+  lookup: UnionConstituentLookup[A])
 extends Reflective[A] {
 
-  type P[B, C] = UnionProp[B, C]
+  type PropType[B, C] = UnionProp[B, C]
 
   /** type keys for the constituent types */
   val constituentKeys: Set[TypeKey[_ <: A]] = constituents.map(_.typeKey)
@@ -37,9 +37,7 @@ extends Reflective[A] {
    * @param a the instance to find the constituent type for
    * @return the type key for the constituent type
    */
-  def typeKeyForInstance(a: A): Option[TypeKey[_ <: A]] = {
-    typeKeyForName(a.getClass.getSimpleName)
-  }
+  def typeKeyForInstance(a: A): Option[TypeKey[_ <: A]] = lookup.typeKeyForInstance(a)
  
   /** returns the type key for the constituent with the given name,
    * wrapped in a `Some`, if the name matches one of the constituent types.
@@ -48,11 +46,7 @@ extends Reflective[A] {
    * @param a the instance to find the constituent type for
    * @return the type key for the constituent type
    */
-  def typeKeyForName(name: String): Option[TypeKey[_ <: A]] =
-    constituentKeysByName.get(name)
-
-  private val constituentKeysByName: Map[String, TypeKey[_ <: A]] =
-    constituentKeys.map(c => (c.name, c)).toMap
+  def typeKeyForName(name: String): Option[TypeKey[_ <: A]] = lookup.typeKeyForName(name)
 
 }
 

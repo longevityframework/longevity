@@ -20,11 +20,13 @@ trait Repo[P <: Persistent] {
 
   /** retrieves an optional persistent object from a
    * [[longevity.subdomain.KeyVal key value]]
-   * 
+   *
+   * @tparam V the type of the key value
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieve(keyVal: KeyVal[P])(implicit executionContext: ExecutionContext): Future[Option[PState[P]]]
+  def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext)
+  : Future[Option[PState[P]]]
 
   /** retrieves an optional persistent object from a
    * [[longevity.subdomain.KeyVal key value]]
@@ -32,10 +34,11 @@ trait Repo[P <: Persistent] {
    * throws NoSuchElementException whenever the persistent ref does not refer
    * to a persistent object in the repository
    * 
+   * @tparam V the type of the key value
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieveOne(keyVal: KeyVal[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
+  def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
   /** retrieves multiple persistent objects matching a query
    * 

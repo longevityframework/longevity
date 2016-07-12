@@ -112,7 +112,7 @@ object PTypeSpec {
     import longevity.subdomain.ptype.RootType
 
     case class Username(username: String)
-    extends KeyVal[User](User.keys.username)
+    extends KeyVal[User, Username](User.keys.username)
 
     case class User(
       username: Username,
@@ -206,10 +206,9 @@ object PTypeSpec {
   // used in http://longevityframework.github.io/longevity/manual/root-type/key-sets-and-index-sets.html
   object sets1 {
 
-    import longevity.subdomain.KeyVal
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.Index
-    import longevity.subdomain.ptype.Key
+    import longevity.subdomain.ptype.AnyKey
     import longevity.subdomain.ptype.Prop
     import longevity.subdomain.ptype.RootType
 
@@ -221,7 +220,7 @@ object PTypeSpec {
 
     object User extends RootType[User] {
       override lazy val propSet = Set.empty[Prop[User, _]]
-      override lazy val keySet = Set.empty[Key[User, _ <: KeyVal[User]]]
+      override lazy val keySet = Set.empty[AnyKey[User]]
       override lazy val indexSet = Set.empty[Index[User]]
     }
 
@@ -236,15 +235,15 @@ object PTypeSpec {
 
     import longevity.subdomain.KeyVal
     import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.Key
+    import longevity.subdomain.ptype.AnyKey
     import longevity.subdomain.ptype.Prop
     import longevity.subdomain.ptype.RootType
 
     case class Username(username: String)
-    extends KeyVal[User](User.usernameKey)
+    extends KeyVal[User, Username](User.usernameKey)
 
     case class Email(email: String)
-    extends KeyVal[User](User.emailKey)
+    extends KeyVal[User, Email](User.emailKey)
 
     case class User(
       username: Username,
@@ -266,7 +265,7 @@ object PTypeSpec {
       // TODO can we work around the type ascription here???
       override lazy val propSet = Set[Prop[User, _]](usernameProp, emailProp, firstNameProp, lastNameProp)
       // TODO we need a named type for this crazy thing
-      override lazy val keySet = Set[Key[User, V] forSome { type V <: KeyVal[User] }](usernameKey, emailKey)
+      override lazy val keySet = Set[AnyKey[User]](usernameKey, emailKey)
       override lazy val indexSet = Set(fullnameIndex)
     }
 

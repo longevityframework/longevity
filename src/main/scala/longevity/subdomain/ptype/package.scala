@@ -13,6 +13,6 @@ package object ptype {
 
   // TODO scaladoc
   // TODO name this better
-  type AnyKey[P <: Persistent] = Key[P, V] forSome { type V <: KeyVal[P] }
+  type AnyKey[P <: Persistent] = Key[P, V] forSome { type V <: KeyVal[P, V] }
 
 }

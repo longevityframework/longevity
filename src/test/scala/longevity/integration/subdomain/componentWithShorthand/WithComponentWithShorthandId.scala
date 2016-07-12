@@ -4,5 +4,5 @@ import longevity.subdomain.KeyVal
 
 case class WithComponentShorthandsId(
   id: String)
-extends KeyVal[WithComponentShorthands](
+extends KeyVal[WithComponentShorthands, WithComponentShorthandsId](
   WithComponentShorthands.keys.id)

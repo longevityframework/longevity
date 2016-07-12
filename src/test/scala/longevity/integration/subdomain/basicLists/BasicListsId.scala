@@ -3,4 +3,4 @@ package longevity.integration.subdomain.basicLists
 import longevity.subdomain.KeyVal
 
 case class BasicListsId(id: String)
-extends KeyVal[BasicLists](BasicLists.keys.id)
+extends KeyVal[BasicLists, BasicListsId](BasicLists.keys.id)
