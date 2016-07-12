@@ -3,7 +3,7 @@ package longevity.subdomain
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.ptype.PTypePool
 
-/** a generic subdomain. functionally equivalent to a [[Subdomain]]
+/** a generic subdomain. functionally equivalent to a [[Subdomain]].
  *
  * @param name the name of the subdomain
  * @param pTypePool a complete set of the persistent types in the subdomain.
@@ -17,9 +17,10 @@ class GenericSubdomain(
   entityTypePool: ETypePool = ETypePool.empty)
 extends Subdomain(name, pTypePool, entityTypePool)
 
+/** provides a factory method for constructing [[GenericSubdomain generic subdomains]] */
 object GenericSubdomain {
 
-  /** constructs a generic subdomain. really just another name for a [[Subdomain]].
+  /** constructs a generic subdomain. functionally equivalent to a [[Subdomain]].
    *
    * @param name the name of the core domain
    * @param pTypePool a complete set of the persistent types in the subdomain.

@@ -3,7 +3,7 @@ package longevity.subdomain
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.ptype.PTypePool
 
-/** a supporting subdomain. functionally equivalent to a [[Subdomain]]
+/** a supporting subdomain. functionally equivalent to a [[Subdomain]].
  *
  * @param name the name of the subdomain
  * @param pTypePool a complete set of the persistent types in the subdomain.
@@ -17,9 +17,12 @@ class SupportingSubdomain(
   entityTypePool: ETypePool = ETypePool.empty)
 extends Subdomain(name, pTypePool, entityTypePool)
 
+/** provides a factory method for constructing [[SupportingSubdomain supporting
+ * subdomains]]
+ */
 object SupportingSubdomain {
 
-  /** constructs a supporting subdomain. really just another name for a [Subdomain].
+  /** constructs a supporting subdomain. functionally equivalent to a [Subdomain].
    *
    * @param name the name of the core domain
    * @param pTypePool a complete set of the persistent types in the subdomain.

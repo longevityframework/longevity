@@ -10,7 +10,7 @@ import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.Prop
 
-class RealizedPType[P <: Persistent](
+private[longevity] class RealizedPType[P <: Persistent](
   pType: PType[P],
   emblematic: Emblematic) {
 

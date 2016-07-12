@@ -2,7 +2,7 @@ package longevity.subdomain
 
 import emblem.TypeKeyMap
 
-/** provides support for embedding case classes within your
+/** provides tools for defining classes to embed within your
  * [[longevity.subdomain.persistent.Persistent persistent objects]]
  */
 package object embeddable {

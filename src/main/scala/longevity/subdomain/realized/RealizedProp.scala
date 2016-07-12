@@ -16,25 +16,18 @@ import longevity.subdomain.embeddable.Embeddable
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Prop
 
-/** TODO */
 private[longevity] class RealizedProp[P <: Persistent, A](
-  // TODO figure out which ones actually need to be vals
   private[realized] val prop: Prop[P, A],
   private val emblematic: Emblematic,
   private[realized] val emblematicPropPath: EmblematicPropPath[P, A]) {
-
-  // TODO reorder methods here
-
-  def inlinedPath = emblematicPropPath.inlinedPath
 
   def propTypeKey = prop.propTypeKey
 
   def path = prop.path
 
-  /** the value of this property for a persistent
-   * 
-   * @param p the persistent we are looking up the value of the property for
-   */
+  def inlinedPath = emblematicPropPath.inlinedPath
+
+  /** the value of this property for a persistent */
   def propVal(p: P): A = emblematicPropPath.get(p)
 
   def updatePropVal(p: P, a: A): P = emblematicPropPath.set(p, a)
@@ -45,12 +38,8 @@ private[longevity] class RealizedProp[P <: Persistent, A](
         EmblematicPropPath.empty[A](propTypeKey),
         emblematicPropPath))
     } else {
-
-      val emblem = emblematic.emblems.getOrElse(
-        throw new RuntimeException("can't handle unions"))( // TODO RuntimeException
-        propTypeKey)
+      val emblem = emblematic.emblems(propTypeKey)
       val propPaths = emblem.basicPropPaths(emblematic)
-
       propPaths.map { propPath =>
         def component[B](propPath: EmblematicPropPath[A, B]) = {
           BasicPropComponent[P, A, B](
@@ -95,6 +84,8 @@ private[longevity] class RealizedProp[P <: Persistent, A](
 private[subdomain] object RealizedProp {
 
   def apply[P <: Persistent, A](prop: Prop[P, A], emblematic: Emblematic): RealizedProp[P, A] = {
+
+    // TODO: gather exceptions from here into subdomain scaladoc
 
     val emblematicPropPath: EmblematicPropPath[P, A] = {
       def validatePath(): EmblematicPropPath[P, _] =

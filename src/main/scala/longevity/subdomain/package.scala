@@ -2,11 +2,10 @@ package longevity
 
 import longevity.subdomain.persistent.Persistent
 
-/** provides support for constructing your subdomain */
+/** provides tools for constructing your subdomain */
 package object subdomain {
 
-  // TODO scaladoc
-  // TODO name this better
+  /** an arbitrary [[KeyVal key value]] type for a given persistent type `P` */
   type AnyKeyVal[P <: Persistent] = KeyVal[P, V] forSome { type V <: KeyVal[P, V] }
 
 }

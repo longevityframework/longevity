@@ -84,7 +84,7 @@ extends BaseRepo[P](pType, subdomain) {
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = {
     repo.synchronized {
-      unregisterPStateById(state.id)
+      unregisterPStateById(state)
       dumpKeys(state.orig)
     }
     val deleted = new Deleted(state.get)
@@ -101,7 +101,7 @@ extends BaseRepo[P](pType, subdomain) {
       keys.foreach { key =>
         assertUniqueKeyVal(key.keyValForP(p), state)
       }
-      registerPStateById(id, state)
+      registerPStateById(state)
       keys.foreach { key =>
         registerPStateByKeyVal(key.keyValForP(p), state)
       }
@@ -127,15 +127,14 @@ extends BaseRepo[P](pType, subdomain) {
 
   protected[inmem] def allPStates: Seq[PState[P]] = idToPStateMap.values.view.toSeq
 
-  // TODO can't i use `state.id`??
-  protected[inmem] def registerPStateById(id: DatabaseId[_ <: Persistent], state: PState[P]): Unit =
-    idToPStateMap += (id -> state)
+  protected[inmem] def registerPStateById(state: PState[P]): Unit =
+    idToPStateMap += (state.id -> state)
 
-  protected[inmem] def unregisterPStateById(id: DatabaseId[_ <: Persistent]): Unit =
-    idToPStateMap -= id
+  protected[inmem] def unregisterPStateById(state: PState[P]): Unit =
+    idToPStateMap -= state.id
 
   protected[inmem] def registerPStateByKeyVal(keyVal: Any, state: PState[P]): Unit =
-    keyValToPStateMap += (keyVal, state).asInstanceOf[(AnyKeyVal[_ <: Persistent], PState[P])]
+    keyValToPStateMap += keyVal -> state
 
   protected[inmem] def lookupPStateByKeyVal(keyVal: Any): Option[PState[P]] =
     keyValToPStateMap.get(keyVal)

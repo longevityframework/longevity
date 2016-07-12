@@ -6,10 +6,9 @@ import emblem.typeKey
 import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 
-// TODO revisit this scaladoc
-/** a natural key for this persistent type. a set of properties for which,
- * given specific property values for each of the properties, will match no more
- * than one persistent instance.
+/** a natural key for this persistent type. wraps a [[Prop property]] that,
+ * given specific a property value, will match no more than one persistent
+ * instance.
  * 
  * @tparam P the persistent type
  * @tparam V the key value type

@@ -95,10 +95,7 @@ sealed case class OrderingQuery[P <: Persistent, A](
   val prop: Prop[_ >: P <: Persistent, A],
   op: OrderingOp,
   value: A)
-extends Query[P] {
-  // TODO we have to move this somewhere else
-  //prop.ordering // force exception if prop is not ordered
-}
+extends Query[P]
 
 /** a conditional query */
 sealed case class ConditionalQuery[P <: Persistent](

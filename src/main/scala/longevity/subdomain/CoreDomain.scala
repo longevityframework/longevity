@@ -17,9 +17,10 @@ class CoreDomain(
   entityTypePool: ETypePool = ETypePool.empty)
 extends Subdomain(name, pTypePool, entityTypePool)
 
+/** provides a factory method for constructing [[CoreDomain core domains]] */
 object CoreDomain {
 
-  /** constructs a core domain. really just another name for a [[Subdomain]].
+  /** constructs a core domain. functionally equivalent to a [[Subdomain]].
    *
    * @param name the name of the core domain
    * @param pTypePool a complete set of the persistent types in the subdomain.

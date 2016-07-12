@@ -3,6 +3,7 @@ package longevity.subdomain
 import emblem.TypeKeyMap
 import longevity.subdomain.persistent.Persistent
 
+/** provides tools for defining the types for your persistent classes */
 package object ptype {
 
   /** a type key map of [[longevity.subdomain.persistent.Persistent
@@ -11,8 +12,7 @@ package object ptype {
    */
   type PTypePool = TypeKeyMap[Persistent, PType]
 
-  // TODO scaladoc
-  // TODO name this better
+  /** an arbitrary [[Key key]] type for a given persistent type `P` */
   type AnyKey[P <: Persistent] = Key[P, V] forSome { type V <: KeyVal[P, V] }
 
 }

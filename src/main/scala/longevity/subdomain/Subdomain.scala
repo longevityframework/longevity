@@ -158,13 +158,23 @@ class Subdomain(
 
 }
 
+/** provides a factory method for constructing [[Subdomain subdomains]] */
 object Subdomain {
 
-  /** constructs a new subdomain.
+  /** constructs a new subdomain
    * 
    * @param name the name of the subdomain
    * @param pTypePool a complete set of the persistent types in the subdomain. defaults to empty
    * @param eTypePool a complete set of the embeddable types within the subdomain. defaults to empty
+   *
+   * TODO i am gathering all subdomain ctor exceptions here for now. clean up n shit later
+   * 
+   * @throws longevity.exceptions.subdomain.ptype.PropException if any step along
+   * the path does not exist, or any non-final step along the path is not an
+   * entity, or the final step along the path is not a basic type.
+   *
+   * TODO review above throws clause
+   *
    */
   def apply(
     name: String,

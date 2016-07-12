@@ -7,7 +7,6 @@ import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Key
 
-/** TODO */
 private[longevity] case class RealizedKey[
   P <: Persistent,
   V <: KeyVal[P, V] : TypeKey] private [subdomain](
@@ -22,12 +21,11 @@ private[longevity] case class RealizedKey[
    */
   def keyValForP(p: P): V = realizedProp.propVal(p)
 
-  // oh my scala typer
-  def keyValForP_TODO(p: P): KeyVal[P, _] = keyValForP(p)
-
+  /** returns a copy of the persistent with an updated key value */
   def updateKeyVal(p: P, keyVal: V): P = {
     realizedProp.updatePropVal(p, keyVal)
   }
 
   override def toString = s"Realized$key"
+
 }

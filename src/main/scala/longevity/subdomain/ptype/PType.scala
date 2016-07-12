@@ -22,22 +22,24 @@ abstract class PType[P <: Persistent : TypeKey] {
   /** the properties for this persistent type */
   lazy val propSet: Set[Prop[P, _]] = pscan("props")
 
-  // TODO we need a named type for this crazy thing
   /** the keys for this persistent type */
   lazy val keySet: Set[AnyKey[P]] = kscan("keys")
 
   /** the indexes for this persistent type */
   lazy val indexSet: Set[Index[P]] = iscan("indexes")
 
-  // TODO all these throws clauses have to move to subdomain construction
-  /** constructs a [[longevity.subdomain.ptype.Prop Prop]] from a path
+  /** constructs a [[longevity.subdomain.ptype.Prop Prop]] of type `A` from the
+   * provided property path.
    *
-   * @throws longevity.exceptions.subdomain.ptype.PropException if any step along
-   * the path does not exist, or any non-final step along the path is not an
-   * entity, or the final step along the path is not a basic type.
+   * the provided type `A` should match the type of the actual property in the
+   * `Persistent`. type `A` should not contain any collections or
+   * [[longevity.subdomain.embeddable.PolyType poly types]]. violations will
+   * cause an exception to be thrown on [[longevity.subdomain.Subdomain
+   * Subdomain construction]].
    *
-   * TODO review above throws clause
-   *
+   * @tparam A the type of the property
+   * @param path the property path
+   * 
    * @see `emblem.emblematic.basicTypes`
    */
   def prop[A : TypeKey](path: String): Prop[P, A] = Prop(path, pTypeKey, typeKey[A])
