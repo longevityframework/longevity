@@ -7,7 +7,6 @@ import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
-import emblem.emblematic.UnionPool
 import emblem.typeBound.WideningTypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.embeddable.DerivedType
