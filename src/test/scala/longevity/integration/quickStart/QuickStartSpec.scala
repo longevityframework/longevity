@@ -26,12 +26,12 @@ object QuickStartSpec {
   // set up your library dependencies in sbt:
 
   // resolvers += Resolver.sonatypeRepo("releases")
-  // libraryDependencies += "org.longevityframework" %% "longevity" % "0.8.0"
+  // libraryDependencies += "org.longevityframework" %% "longevity" % "0.9.0"
 
   // bring in library dependencies for either mongo or cassandra:
 
-  // libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.8.0"
-  // libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.8.0"
+  // libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.9.0"
+  // libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.9.0"
 
   // start building our subdomain:
 
@@ -46,7 +46,7 @@ object QuickStartSpec {
   import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
 
-  // value objects to build your entities:
+  // value objects to build your entities with:
 
   case class Markdown(markdown: String) extends ValueObject
   object Markdown extends ValueType[Markdown]
@@ -61,7 +61,7 @@ object QuickStartSpec {
 
   // now define your three aggregates: user, blog, and blog post:
 
-  // user keys:
+  // user has two keys:
 
   import longevity.subdomain.KeyVal
 
@@ -164,7 +164,7 @@ object QuickStartSpec {
 
   val context = LongevityContext(blogCore, Mongo)
 
-  // create some unpersisted entities:
+  // create some persistent objects:
 
   val john = User("smithy", "John Smith", "smithy@john-smith.ninja")
   val frank = User("franky", "Francis Nickerson", "franky@john-smith.ninja")
@@ -210,7 +210,7 @@ with ScaledTimeSpans {
   import longevity.subdomain.persistent.Persistent
   import longevity.persistence._
 
-  // get the repo pool:
+  // get the repositories:
 
   // normally we would use `context.repoPool` here, but since this is actually
   // a test, we will use the test DB:
@@ -222,9 +222,7 @@ with ScaledTimeSpans {
 
   "QuickStartSpec" should "exercise basic longevity functionality" in {
 
-    // persist the aggregates all at once. it doesn't matter what
-    // order you pass them in, this method will assure that associated
-    // aggregates always get persisted first.
+    // persist the aggregates all at once:
     val createManyResult: Future[Seq[PState[_ <: Persistent]]] =
       repos.createMany(john, frank, blog, johnsPost, franksPost)
 
@@ -273,7 +271,7 @@ with ScaledTimeSpans {
     val futurePostState: Future[PState[BlogPost]] =
       blogPostRepo.create(newPost)
 
-    // clean up the new post:
+    // delete the new post:
 
     val postState = futurePostState.futureValue
     blogPostRepo.delete(postState).futureValue
@@ -284,55 +282,35 @@ with ScaledTimeSpans {
     val modifiedBlogState = blogState.map { blog =>
       blog.copy(authors = blog.authors + jerry.username)
     }
-    blogRepo.update(modifiedBlogState)
+    blogRepo.update(modifiedBlogState).futureValue
 
-    // there are convenience methods in `FPState` and `FOPState` that allow
-    // you to conveniently manipulate the enclosed root. for example, suppose
-    // we have two service methods that work on a user:
+    // suppose we have two service methods that work on a user:
 
     object userService {
       def updateUser(user: User): User = user
       def updateUserReactive(user: User): Future[User] = Future.successful(user)
     }
 
-    // we can apply these service methods directly to an `FPState[User]` or an
-    // `FOPState[User]`, like so:
+    // we can apply the first service method like so:
 
-    val updated: FOPState[User] =
-      userRepo.retrieve(john.username).mapP(
-        userService.updateUser _
-      ).flatMapState(
-        userRepo.update(_)
-      )
+    val updated: FPState[User] = for {
+      originalState <- userRepo.retrieveOne(john.username)
+      modifiedState = originalState.map(userService.updateUser)
+      updatedState <- userRepo.update(modifiedState)
+    } yield updatedState
+
     updated.futureValue
 
-    val updatedReactive: FOPState[User] =
-      userRepo.retrieve(john.username).flatMapP(
-        userService.updateUserReactive _
-      ).flatMapState(
-        userRepo.update(_)
-      )
+    // and we can apply the reactive service method like so:
+
+    val updatedReactive: FPState[User] = for {
+      originalState <- userRepo.retrieveOne(john.username)
+      modifiedUser <- userService.updateUserReactive(originalState.get)
+      modifiedState = originalState.set(modifiedUser)
+      updatedState <- userRepo.update(modifiedState)
+    } yield updatedState
+
     updatedReactive.futureValue
-
-  // TODO do it with for comprehension pelase!
-
-    // equivalent to above, but without mapRoot and flatMapRoot
-
-    val updatedNoMapRoot: FPState[User] = {
-      userRepo retrieve john.username flatMap { optUserState =>
-        val userState = optUserState getOrElse { throw new RuntimeException }
-        val updatedState = userState map userService.updateUser
-        userRepo update updatedState
-      }
-    }
-
-    def applyEvent(username: Username): FPState[User] = {
-      userRepo retrieve username flatMap { optUserState =>
-        val userState = optUserState getOrElse { throw new RuntimeException }
-        val updatedState = userState map userService.updateUser
-        userRepo update updatedState
-      }
-    }
 
     // use a `KeyVal` to retrieve an author from a blog post:
 
@@ -378,19 +356,19 @@ with ScaledTimeSpans {
   }
 
   private def deletePost(post: BlogPost): Unit = {
-    val deleted = for {
+    val futureDeleted = for {
       optPostState <- blogPostRepo.retrieve(post.uri)
       deleted <- optPostState map blogPostRepo.delete getOrElse Future.successful(())
     } yield deleted
-    deleted.futureValue
+    futureDeleted.futureValue
   }
 
   private def deleteBlog(blog: Blog): Unit = {
-    val deleted = for {
+    val futureDeleted = for {
       optBlogState <- blogRepo retrieve blog.uri
       deleted <- optBlogState map blogRepo.delete getOrElse Future.successful(())
     } yield deleted
-    deleted.futureValue
+    futureDeleted.futureValue
   }
 
 }
