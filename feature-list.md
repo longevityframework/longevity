@@ -45,7 +45,6 @@ MMP](https://www.pivotaltracker.com/epic/show/1769462) (please follow
 the "add/view stories" link on the right side of the linked page):
 
 - Enhanced query support.
-- Finer control over keys and indexes.
 - Optimistic locking.
 - Soft deletes.
 - Schema generation.
