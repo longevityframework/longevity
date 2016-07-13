@@ -1,5 +1,5 @@
 ---
-title: entities and value objects
+title: value objects
 layout: page
 ---
 
@@ -18,18 +18,32 @@ position within the aggregate, or document.
 
 Consequently, longevity does not distinguish between entities and
 value objects. But we happily support the terminology by providing
-`ValueObject` and `ValueType` as synonyms for `Entity` and
-`EntityType`, respectively. For example, we can write the following:
+`ValueObject` and `ValueType` as synonyms for `Embeddable` and
+`EType`, respectively.
+
+Typically, we are more comfortable calling things data objects when
+they are easily viewed as data objects, such as an address. They are
+also useful to single-valued case classes that we use instead of raw
+values for better typing, such as the `ZipCode` and `Email` in the
+example below:
 
 ```scala
-import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
-import longevity.subdomain.entity.EntityTypePool
-import longevity.subdomain.entity.ValueObject
-import longevity.subdomain.entity.ValueType
+import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.embeddable.ValueObject
+import longevity.subdomain.embeddable.ValueType
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
+
+case class Email(email: String) extends ValueObject
+object Email extends ValueType[Email]
+
+case class StateCode(stateCode: String) extends ValueObject
+object StateCode extends ValueType[StateCode]
+
+case class ZipCode(zipCode: String) extends ValueObject
+object ZipCode extends ValueType[ZipCode]
 
 case class Address(
   street: String,
@@ -47,6 +61,8 @@ case class User(
 extends Root
 
 object User extends RootType[User] {
+  object props {
+  }
   object keys {
   }
   object indexes {
@@ -56,48 +72,7 @@ object User extends RootType[User] {
 val subdomain = Subdomain(
   "blogging",
   PTypePool(User),
-  EntityTypePool(Address),
-  ShorthandPool(Email, StateCode, ZipCode))
-```
-
-And it is entirely equivalent to this:
-
-```scala
-import longevity.subdomain.Subdomain
-import longevity.subdomain.entity.Entity
-import longevity.subdomain.entity.EntityType
-import longevity.subdomain.entity.EntityTypePool
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.PTypePool
-import longevity.subdomain.ptype.RootType
-
-case class Address(
-  street: String,
-  city: String,
-  state: StateCode,
-  zip: ZipCode)
-extends Entity
-
-object Address extends EntityType[Address]
-
-case class User(
-  username: String,
-  email: Email,
-  address: Address)
-extends Root
-
-object User extends RootType[User] {
-  object keys {
-  }
-  object indexes {
-  }
-}
-
-val subdomain = Subdomain(
-  "blogging",
-  PTypePool(User),
-  EntityTypePool(Address),
-  ShorthandPool(Email, StateCode, ZipCode))
+  ETypePool(Email, StateCode, ZipCode, Address))
 ```
 
 For a more extended discussion on value objects in an immutable
@@ -106,7 +81,7 @@ identity](http://scabl.blogspot.com/2015/05/aeddd-13.html).
 
 {% assign prevTitle = "entities" %}
 {% assign prevLink = "." %}
-{% assign upTitle = "entities" %}
+{% assign upTitle = "embeddables" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "limitations on persistents, entities and shorthands" %}
 {% assign nextLink = "../limitations.html" %}

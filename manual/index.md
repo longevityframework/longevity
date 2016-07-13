@@ -26,10 +26,12 @@ will put in links as I write the chapters.
   - [Persistent Types](persistent/ptypes.html)
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
-- [Shorthands](shorthands)
-  - [Shorthand Pools](shorthands/shorthand-pools.html)
-- [Entities](entities)
-  - [Entities and Value Objects](entities/value-objects.html)
+- [Embeddables](embeddables)
+  - [Entities](embeddables/entities.html)
+  - [Value Objects](embeddables/value-objects.html)
+
+TODO key values
+
 - [Limitations on Persistents, Entities and Shorthands](limitations.html)
 - [Associations](associations)
   - [Using Associations](associations/using-associations.html)
