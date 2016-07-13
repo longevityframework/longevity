@@ -12,6 +12,7 @@ import longevity.exceptions.subdomain.ptype.NoSuchPropPathException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
+import longevity.subdomain.KeyVal
 import longevity.subdomain.embeddable.Embeddable
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Prop
@@ -83,6 +84,11 @@ private[longevity] class RealizedProp[P <: Persistent, A](
 
 private[subdomain] object RealizedProp {
 
+  private val keyValTypeKey = typeKey[KeyVal[P, V] forSome {
+    type P <: Persistent
+    type V <: KeyVal[P, V]
+  }]
+
   def apply[P <: Persistent, A](prop: Prop[P, A], emblematic: Emblematic): RealizedProp[P, A] = {
 
     val emblematicPropPath: EmblematicPropPath[P, A] = {
@@ -104,10 +110,19 @@ private[subdomain] object RealizedProp {
             throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, nonLeafEmblemProp.typeKey)
         }
 
+      def validateLeafEmblemProp(leafEmblemProp: ReflectiveProp[_, _]): Unit = {
+        if (! (isBasicType(leafEmblemProp.typeKey) ||
+               leafEmblemProp.typeKey <:< typeKey[Embeddable] ||
+               leafEmblemProp.typeKey <:< keyValTypeKey)) {
+          throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, leafEmblemProp.typeKey)
+        }
+      }
+
       val emblematicPropPath = validatePath()
       val reflectiveProps = emblematicPropPath.props
 
       validateNonLeafEmblemProps(reflectiveProps.dropRight(1))
+      validateLeafEmblemProp(reflectiveProps.last)
 
       val propPathTypeKey = reflectiveProps.last.typeKey
 

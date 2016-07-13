@@ -1,5 +1,6 @@
 package longevity.unit.subdomain.ptype
 
+import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException
 import longevity.subdomain.ptype.PType
@@ -13,6 +14,44 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   import longevity.unit.blogCore._
 
   behavior of "PType construction"
+
+  it should "throw exception when the `propSet` is not overridden, and there is no `object props`" in {
+    object User extends PType[User] {
+      object keys {
+      }
+      object indexes {
+      }
+    }
+    intercept[NoPropsForPTypeException[_]] {
+      User.propSet
+    }
+  }
+
+  it should "produce an empty `propSet` when `object props` is empty" in {
+    object User extends PType[User] {
+      object props {
+      }
+      object keys {
+      }
+      object indexes {
+      }
+    }
+    User.propSet should equal (Set())
+  }
+
+  it should "produce a non-empty `propSet` when `object props` holds props of the right type" in {
+    object User extends PType[User] {
+      object props {
+        val username = prop[Username]("username")
+        val email = prop[Email]("email")
+      }
+      object keys {
+      }
+      object indexes {
+      }
+    }
+    User.propSet should equal (Set(User.props.username, User.props.email))
+  }
 
   it should "throw exception when the `keySet` is not overridden, and there is no `object keys`" in {
     object User extends PType[User] {
