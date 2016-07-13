@@ -104,17 +104,22 @@ private[subdomain] object RealizedProp {
             throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, e.typeKey)
         }
 
-      def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[ReflectiveProp[_, _]]): Unit =
+      def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[ReflectiveProp[_, _]]): Unit = {
         nonLeafEmblemProps foreach { nonLeafEmblemProp =>
-          if (! (nonLeafEmblemProp.typeKey <:< typeKey[Embeddable]))
-            throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, nonLeafEmblemProp.typeKey)
+          val key = nonLeafEmblemProp.typeKey
+          if (! (key <:< typeKey[Embeddable])) {
+            throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, key)
+          }
         }
+      }
 
       def validateLeafEmblemProp(leafEmblemProp: ReflectiveProp[_, _]): Unit = {
-        if (! (isBasicType(leafEmblemProp.typeKey) ||
-               leafEmblemProp.typeKey <:< typeKey[Embeddable] ||
-               leafEmblemProp.typeKey <:< keyValTypeKey)) {
-          throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, leafEmblemProp.typeKey)
+        val key = leafEmblemProp.typeKey
+        def isBasic = isBasicType(key)
+        def isNonPolyEmbeddable = key <:< typeKey[Embeddable] && ! (emblematic.unions.contains(key))
+        def isKeyVal = key <:< keyValTypeKey
+        if (! (isBasic || isNonPolyEmbeddable || isKeyVal)) {
+          throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, key)
         }
       }
 
@@ -126,7 +131,7 @@ private[subdomain] object RealizedProp {
 
       val propPathTypeKey = reflectiveProps.last.typeKey
 
-      if (! (prop.propTypeKey <:< propPathTypeKey)) {
+      if (! (prop.propTypeKey =:= propPathTypeKey)) {
         throw new PropTypeException(prop.path, prop.pTypeKey, prop.propTypeKey)
       }
 

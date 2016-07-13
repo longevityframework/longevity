@@ -3,6 +3,7 @@ package longevity.unit.subdomain
 import longevity.exceptions.subdomain.ptype.NoSuchPropPathException
 import longevity.exceptions.subdomain.ptype.PropTypeException
 import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
+import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.DerivedType
 import longevity.subdomain.embeddable.ETypePool
@@ -105,6 +106,27 @@ object SubdomainSpec {
     def subdomain = Subdomain("propPathWithTerminalSet", PTypePool(A))
   }
 
+  object propPathWithTerminalPoly {
+    case class A(b: B) extends Root
+    object A extends RootType[A] {
+      object props {
+        val id = prop[B]("b")
+      }
+      object keys {
+      }
+      object indexes {
+      }
+    }
+
+    trait B extends Entity { val id: String }
+    object B extends PolyType[B]
+
+    case class C(id: String) extends B
+    object C extends DerivedType[C, B] { val polyType = B }
+
+    def subdomain = Subdomain("propPathWithTerminalPoly", PTypePool(A), ETypePool(B, C))
+  }
+
   object propPathWithInternalList {
     case class A(id: List[B]) extends Root
     object A extends RootType[A] {
@@ -153,6 +175,27 @@ object SubdomainSpec {
     def subdomain = Subdomain("propPathWithInternalSet", PTypePool(A), ETypePool(B))
   }
 
+  object propPathWithInternalPoly {
+    case class A(b: B) extends Root
+    object A extends RootType[A] {
+      object props {
+        val id = prop[String]("b.id")
+      }
+      object keys {
+      }
+      object indexes {
+      }
+    }
+
+    trait B extends Entity { val id: String }
+    object B extends PolyType[B]
+
+    case class C(id: String) extends B
+    object C extends DerivedType[C, B] { val polyType = B }
+
+    def subdomain = Subdomain("propPathWithInternalPoly", PTypePool(A), ETypePool(B, C))
+  }
+
   object incompatiblePropType {
     case class A(id: String) extends Root
     object A extends RootType[A] {
@@ -182,24 +225,23 @@ object SubdomainSpec {
   }
 
   object subtypePropType {
-    case class A(b: B) extends Root
+
+    case class AId(id: String) extends KeyVal[A, AId](A.keys.id)
+
+    case class A(id: AId) extends Root
     object A extends RootType[A] {
       object props {
-        val id = prop[C]("b")
+        val id = prop[AId]("id")
+        val id2 = prop[KeyVal[A, _ <: KeyVal[A, _]]]("id") // this is the problematic prop
       }
       object keys {
+        val id = key(props.id)
       }
       object indexes {
       }
     }
 
-    trait B extends Entity { val id: String }
-    object B extends PolyType[B]
-
-    case class C(id: String) extends B
-    object C extends DerivedType[C, B] { val polyType = B }
-
-    def subdomain = Subdomain("subtypePropType", PTypePool(A), ETypePool(B, C))
+    def subdomain = Subdomain("subtypePropType", PTypePool(A))
   }
 
 }
@@ -245,6 +287,12 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
+  it should "throw exception when a PType contains a prop with a prop path that terminates with a poly" in {
+    intercept[UnsupportedPropTypeException[_, _]] {
+      SubdomainSpec.propPathWithTerminalPoly.subdomain
+    }
+  }
+
   it should "throw exception when a PType contains a prop with a prop path with an intermediary list" in {
     intercept[UnsupportedPropTypeException[_, _]] {
       SubdomainSpec.propPathWithInternalList.subdomain
@@ -263,6 +311,11 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
+  // unlike terminal polys, intermediary polys can still be distilled down to a seq of basic components
+  it should "pass when a PType contains a prop with a prop path with an intermediary poly" in {
+    SubdomainSpec.propPathWithInternalPoly.subdomain
+  }
+
   it should "throw exception when the specified prop type is incompatible with the actual type" in {
     intercept[PropTypeException] {
       SubdomainSpec.incompatiblePropType.subdomain
@@ -276,8 +329,10 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  it should "pass when the specified prop type is a subtype of the actual type" in {
-    SubdomainSpec.subtypePropType.subdomain
+  it should "throw exception when the specified prop type is a subtype of the actual type" in {
+    intercept[PropTypeException] {
+      SubdomainSpec.subtypePropType.subdomain
+    }
   }
 
 }
