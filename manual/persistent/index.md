@@ -11,6 +11,7 @@ update or delete with a longevity [repository](../repo). Persistent
 entities are Scala case classes that meet some basic criteria. Those
 criteria are laid out in the following chapters:
 
+- TODO rehash this ToC
 - [Shorthands](../shorthands)
 - [Entities](../entities)
 - [Associations](../associations)

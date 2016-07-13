@@ -23,7 +23,8 @@ the data for fast query response.
 
 Of course, you can always use `Persistent` itself if what you want to
 persist does not fit snugly into one of these three categories. Or you
-can extend the trait yourself if you like.
+can create your own categories of persistent objects by extending
+`Persistent` yourself.
 
 At the moment, all four of these traits a functionally equivalent. We
 tend to favor `Root` in our documentation, because it makes for clear

@@ -3,18 +3,11 @@ title: building your subdomain
 layout: page
 ---
 
-Your main task when working with longevity is building your
+Your main task when working with longevity is constructing your
 `Subdomain`. Once this is done, we provide you with persistence. Your
-subdomain classes are the core of you application(s). The other
+subdomain classes are the core of your application(s). The other
 layers perform their individual functions while using the domain
 classes fluidly.
-
-<div class="blue-side-bar">
-
-As we mentioned earlier, we hope to cover more than just persistence
-in the future. But we want to get the persistence part right, first.
-
-</div>
 
 Domain Driven Design describes a few [different kinds of
 subdomains](http://blog.jonathanoliver.com/ddd-strategic-design-core-supporting-and-generic-subdomains/),
@@ -30,18 +23,41 @@ them. To get started, here are a few ways to build an empty
 `Subdomain`:
 
 ```scala
-import longevity.subdomain._
+import longevity.subdomain.Subdomain
 
 val subdomain = Subdomain("blogging")
 
 // you can also use these synonyms freely:
+
 import longevity.subdomain.CoreDomain
-import longevity.subdomain.SupportingSubdomain
 import longevity.subdomain.GenericSubdomain
+import longevity.subdomain.SupportingSubdomain
 
 val coreDomain: CoreDomain = CoreDomain("blogging")
 val supportingSubdomain: SupportingSubdomain = SupportingSubdomain("accounts")
 val genericSubdomain: GenericSubdomain = GenericSubdomain("search")
+```
+
+If you prefer, you can also extend the `Subdomain` classes instead. For example:
+
+```scala
+// create your own domain type:
+
+import longevity.subdomain.Subdomain
+
+class BloggingDomain extends Subdomain("blogging")
+
+val bloggingDomain = new BloggingDomain
+
+// or put your subdomains in companion objects:
+
+import longevity.subdomain.CoreDomain
+import longevity.subdomain.GenericSubdomain
+import longevity.subdomain.SupportingSubdomain
+
+object BloggingCore extends CoreDomain("blogging")
+object AccountsSubdomain extends SupportingSubdomain("accounts")
+object SearchSubdomain extends GenericSubdomain("search")
 ```
 
 {% assign prevTitle = "project setup" %}

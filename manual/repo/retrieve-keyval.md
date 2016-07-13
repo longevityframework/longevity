@@ -72,7 +72,7 @@ val userRetrieveResult: Future[Option[PState[User]]] =
   userRepo.retrieve(userKeyVal)
 
 val blogRetrieveResult: Future[Option[PState[Blog]]] =
-  blogRepo.retreieve(blogKeyVal)
+  blogRepo.retrieve(blogKeyVal)
 ```
 
 Once you get back your `PState`, you can of course use it to examine
