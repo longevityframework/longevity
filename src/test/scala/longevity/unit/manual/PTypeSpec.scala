@@ -139,38 +139,37 @@ object PTypeSpec {
   // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
   object keys2 {
 
-    // TODO multi-prop keyvals not supported yet
-    // import longevity.subdomain.KeyVal
-    // import longevity.subdomain.Subdomain
-    // import longevity.subdomain.persistent.Root
-    // import longevity.subdomain.ptype.PTypePool
-    // import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.KeyVal
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.ptype.RootType
 
-    // case class Username(username: String)
-    // extends KeyVal[User](User.keys.username)
+    case class Username(username: String)
+    extends KeyVal[User, Username](User.keys.username)
 
-    // case class FullName(first: String, last: String)
-    // extends KeyVal[User](User.keys.fullName)
+    case class FullName(first: String, last: String)
+    extends KeyVal[User, FullName](User.keys.fullName)
 
-    // case class User(
-    //   username: Username,
-    //   fullName: FullName)
-    // extends Root
+    case class User(
+      username: Username,
+      fullName: FullName)
+    extends Root
 
-    // object User extends RootType[User] {
-    //   object props {
-    //     val username = prop[Username]("username")
-    //     val fullName = prop[FullName]("fullName")
-    //   }
-    //   object keys {
-    //     val username = key(props.username)
-    //     val fullName = key(props.fullName)
-    //   }
-    //   object indexes {
-    //   }
-    // }
+    object User extends RootType[User] {
+      object props {
+        val username = prop[Username]("username")
+        val fullName = prop[FullName]("fullName")
+      }
+      object keys {
+        val username = key(props.username)
+        val fullName = key(props.fullName)
+      }
+      object indexes {
+      }
+    }
 
-    // val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain("blogging", PTypePool(User))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/root-type/indexes.html
@@ -262,9 +261,7 @@ object PTypeSpec {
       val emailKey = key(emailProp)
       val fullnameIndex = index(lastNameProp, firstNameProp)
 
-      // TODO can we work around the type ascription here???
       override lazy val propSet = Set[Prop[User, _]](usernameProp, emailProp, firstNameProp, lastNameProp)
-      // TODO we need a named type for this crazy thing
       override lazy val keySet = Set[AnyKey[User]](usernameKey, emailKey)
       override lazy val indexSet = Set(fullnameIndex)
     }
@@ -302,17 +299,15 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys1.User.keySet.head should equal (keys1.User.keys.username)
     }
 
-    // TODO multi-prop keyvals not supported yet
-
-    // {
-    //   keys2.subdomain.name should equal ("blogging")
-    //   keys2.subdomain.pTypePool.size should equal (1)
-    //   keys2.subdomain.pTypePool.values.head should equal (keys2.User)
-    //   keys2.subdomain.eTypePool.size should equal (0)
-    //   keys2.User.keySet.size should equal (2)
-    //   keys2.User.keySet should contain (keys2.User.keys.username)
-    //   keys2.User.keySet should contain (keys2.User.keys.fullName)
-    // }
+    {
+      keys2.subdomain.name should equal ("blogging")
+      keys2.subdomain.pTypePool.size should equal (1)
+      keys2.subdomain.pTypePool.values.head should equal (keys2.User)
+      keys2.subdomain.eTypePool.size should equal (0)
+      keys2.User.keySet.size should equal (2)
+      keys2.User.keySet should contain (keys2.User.keys.username)
+      keys2.User.keySet should contain (keys2.User.keys.fullName)
+    }
 
     indexes1.subdomain.name should equal ("blogging")
     sets1.subdomain.name should equal ("blogging")

@@ -6,49 +6,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** code samples found in the repo chapter of the user manual */
 object RepoSpec {
 
-  // TODO this one will need to be rewritten 
-  // used in http://longevityframework.github.io/longevity/manual/repo/retrieve-keyval.html
-  object keyval {
-
-    // import longevity.integration.quickStart.QuickStartSpec._
-    // import longevity.persistence.PState
-
-    // def blogState: PState[Blog] = ???
-
-    // import longevity.subdomain.ptype.RootType
-    // import longevity.subdomain.ptype.Key
-
-    // object User extends RootType[User] {
-    //   object props {
-    //     val username = prop[Username]("username")
-    //   }
-    //   object keys {
-    //     val username = key(props.username)
-    //   }
-    //   object indexes {
-    //   }
-    // }
-
-    // val username = Username("smithy")
-
-    // object BlogPost extends RootType[BlogPost] {
-    //   object props {
-    //     val blog = prop[BlogUrl]("blog")
-    //     val suffix = prop[String]("uriPathSuffix")
-    //   }
-    //   object keys {
-    //     val uri = key(props.blog, props.suffix)
-    //   }
-    //   object indexes {
-    //   }
-    // }
-
-    // val blogAssoc: Assoc[Blog] = blogState.assoc
-    // val uriPathSuffix: String = "suffix"
-    // val blogPostKeyVal: KeyVal[BlogPost] = BlogPost.keys.uri(blogAssoc, uriPathSuffix)
-
-  }
-
 }
 
 /** exercises code samples found in the repo chapter of the user manual.

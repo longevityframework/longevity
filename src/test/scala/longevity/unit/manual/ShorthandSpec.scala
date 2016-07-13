@@ -4,8 +4,6 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-// TODO: figure out what to do with these manual examples
-
 object ShorthandSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/shorthands.html

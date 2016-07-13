@@ -1,6 +1,5 @@
 package longevity.unit.subdomain.ptype
 
-//import longevity.exceptions.subdomain.ptype.PropNotOrderedException
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
@@ -58,29 +57,7 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "QueryDsl"
 
-  // TODO path4 is no longer non-ordered. we have to find a different example here
-  // it should "refuse to build a static ordering query on a non-ordered prop" in {
-  //   import DslRoot._
-  //   val assoc = AssociatedId("id77")
-
-  //   (props.path4 eqs assoc): Query[DslRoot]
-  //   (props.path4 neq assoc): Query[DslRoot]
-
-  //   intercept[PropNotOrderedException] {
-  //     (props.path4 lt assoc): Query[DslRoot]
-  //   }
-  //   intercept[PropNotOrderedException] {
-  //     (props.path4 lte assoc): Query[DslRoot]
-  //   }
-  //   intercept[PropNotOrderedException] {
-  //     (props.path4 gt assoc): Query[DslRoot]
-  //   }
-  //   intercept[PropNotOrderedException] {
-  //     (props.path4 gte assoc): Query[DslRoot]
-  //   }
-  // }
-
-  it should "build static relational queries that match the results of Query object methods" in {
+  it should "build relational queries that match the results of Query object methods" in {
     import DslRoot._
     val value = 7
 
@@ -110,7 +87,7 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   }
 
-  it should "combine two static relational queries with logical operators" in {
+  it should "combine two relational queries with logical operators" in {
     import DslRoot._
     val value1 = 7
     val value2 = 1.2
@@ -143,7 +120,7 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   }
 
-  it should "combine three or more static relational queries with logical operators" in {
+  it should "combine three or more relational queries with logical operators" in {
     import DslRoot._
     val value1 = 7
     val value2 = 1.2
