@@ -193,7 +193,7 @@ with MongoSchema[P] {
 
 }
 
-object MongoRepo {
+private[persistence] object MongoRepo {
 
   def mongoDbFromConfig(config: Config): MongoDB = {
     val mongoClient = MongoClient(config.getString("mongodb.uri"))

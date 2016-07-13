@@ -5,9 +5,13 @@ import longevity.subdomain.persistent.Persistent
 
 /** a property for this persistent type. properties can be used to define [[Key keys]]
  * and [[Index indexes]], as well as for building [[Query queries]]. a property
- * can descend from the root into child entities at any depth. at present, a
- * property cannot pass through any collections or
- * [[longevity.subdomain.embeddable.PolyType polymorphic embeddables]].
+ * can descend from the root into child entities at any depth.
+ *
+ * at present, a
+ * property cannot pass through any collections or terminate with a
+ * [[longevity.subdomain.embeddable.PolyType polymorphic embeddable]].
+ * violations will cause an exception to be thrown on
+ * [[longevity.subdomain.Subdomain Subdomain construction]].
  * 
  * @param path a dot-separated path of the property descending from the root
  * @param pTypeKey the `TypeKey` for the enclosing [[PType persistent type]]

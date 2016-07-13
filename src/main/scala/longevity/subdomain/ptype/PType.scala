@@ -32,15 +32,13 @@ abstract class PType[P <: Persistent : TypeKey] {
    * provided property path.
    *
    * the provided type `A` should match the type of the actual property in the
-   * `Persistent`. type `A` should not contain any collections or
-   * [[longevity.subdomain.embeddable.PolyType poly types]]. violations will
-   * cause an exception to be thrown on [[longevity.subdomain.Subdomain
-   * Subdomain construction]].
+   * `Persistent`. type `A` should not contain any collections, or terminate
+   * with [[longevity.subdomain.embeddable.PolyType polymorphic embeddable]].
+   * violations will cause an exception to be thrown on
+   * [[longevity.subdomain.Subdomain Subdomain construction]].
    *
    * @tparam A the type of the property
    * @param path the property path
-   * 
-   * @see `emblem.emblematic.basicTypes`
    */
   def prop[A : TypeKey](path: String): Prop[P, A] = Prop(path, pTypeKey, typeKey[A])
 

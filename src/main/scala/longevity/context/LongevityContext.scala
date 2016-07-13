@@ -5,9 +5,10 @@ import com.typesafe.config.ConfigFactory
 import emblem.emblematic.traversors.sync.CustomGeneratorPool
 import longevity.subdomain.Subdomain
 
+/** contains a factory method for [[LongevityContext]] objects */
 object LongevityContext {
 
-  /** constructs and returns a `LongevityContext`
+  /** constructs and returns a [[LongevityContext]]
    * 
    * @param subdomain the subdomain
    * @param persistenceStrategy the persistence strategy for this longevity

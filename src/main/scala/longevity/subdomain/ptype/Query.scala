@@ -9,9 +9,9 @@ object Query {
   /** a query that filters nothing and returns everything */
   sealed case class All[P <: Persistent]() extends Query[P]
 
-  /** those relational operators - namely, _equals_ and _not equals_ - that
+  /** those relational operators - namely, ''equals'' and ''not equals'' - that
    * apply, regardless of the types of the operands. this is in contrast to
-   * relational operators such _greater than_, which only apply to types that
+   * relational operators such ''greater than'', which only apply to types that
    * have a ordering.
    */
   sealed trait EqualityOp
@@ -37,7 +37,7 @@ object Query {
   /** the greater than equals operator */
   case object GteOp extends OrderingOp
 
-  /** either of the binary logical operators _and_ and _or_ */
+  /** either of the binary logical operators ''and'' and ''or'' */
   sealed trait LogicalOp
 
   /** the and operator */
@@ -83,21 +83,39 @@ object Query {
 /** a query for looking up persistent entities of type `P` */
 sealed trait Query[P <: Persistent]
 
-/** an equality query */
+/** an equality query. compares a property to a value with an `eq` or an `neq`
+ * operator.
+ *
+ * @param prop the property to compare
+ * @param op the `eq` or `neq` operator
+ * @param value the value to compare
+ */
 sealed case class EqualityQuery[P <: Persistent, A](
   val prop: Prop[_ >: P <: Persistent, A],
   op: EqualityOp,
   value: A)
 extends Query[P]
 
-/** an ordering query */
+/** an ordering query. compares a property to a value with a `lt`, `lte`, `gt`,
+ * or `gte` operator.
+ *
+ * @param prop the property to compare
+ * @param op the ordering operator
+ * @param value the value to compare
+ */
 sealed case class OrderingQuery[P <: Persistent, A](
   val prop: Prop[_ >: P <: Persistent, A],
   op: OrderingOp,
   value: A)
 extends Query[P]
 
-/** a conditional query */
+/** a conditional query. combines two sub-queries with an `and` or an `or`
+ * operator.
+ *
+ * @param lhs the left-hand side sub-query
+ * @param op the `and` or `or` operator
+ * @param rhs the right-hand side sub-query
+ */
 sealed case class ConditionalQuery[P <: Persistent](
   lhs: Query[P],
   op: LogicalOp,

@@ -1,7 +1,7 @@
 package longevity.exceptions.persistence
 
-/** an exception thrown when attempting to modify a PState for a PolyPType from
- * one DerivedPType type to another
+/** an exception thrown when attempting to modify a `PState` for a `PolyPType`
+ * from one `DerivedPType` type to another
  */
 class PStateChangesDerivedPTypeException(origTypeName: String, currTypeName: String)
 extends PersistenceException(

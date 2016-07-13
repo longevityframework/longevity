@@ -10,12 +10,12 @@ import scala.concurrent.Future
 class RepoPool (private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseRepo]) {
 
   /** a `TypeKeyMap` of [[longevity.subdomain.persistent.Persistent]] to [[Repo]] */
-  val typeKeyMap: TypeKeyMap[Persistent, Repo] = baseRepoMap.widen
+  private[longevity] val typeKeyMap: TypeKeyMap[Persistent, Repo] = baseRepoMap.widen
 
   /** select a repository by the type of persistent object */
   def apply[P <: Persistent : TypeKey]: Repo[P] = typeKeyMap[P]
 
-  /** iterate over the repositories */
+  /** an iterable collection of the repositories */
   def values: collection.Iterable[Repo[_ <: Persistent]] = typeKeyMap.values
 
   /** creates many persistent objects at once.

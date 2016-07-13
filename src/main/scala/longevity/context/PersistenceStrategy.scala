@@ -17,23 +17,30 @@ sealed trait PersistenceStrategy {
   val name: String
 }
 
-/** entities live in-memory. when the application exits, they are gone. */
+/** a persistence strategy indicating that entities live in-memory. when the
+ * application exits, they are gone.
+ */
 sealed trait InMem extends PersistenceStrategy {
   val name = "InMem"
 }
 
+/** a persistence strategy indicating that entities live in-memory. when the
+ * application exits, they are gone.
+ */
 case object InMem extends InMem
 
-/** entities live in MongoDB */
+/** a persistence strategy indicating that entities live in MongoDB */
 sealed trait Mongo extends PersistenceStrategy {
   val name = "Mongo"
 }
 
+/** a persistence strategy indicating that entities live in MongoDB */
 case object Mongo extends Mongo
 
-/** entities live in Cassandra */
+/** a persistence strategy indicating that entities live in Cassandra */
 sealed trait Cassandra extends PersistenceStrategy {
   val name = "Cassandra"
 }
 
+/** a persistence strategy indicating that entities live in Cassandra */
 case object Cassandra extends Cassandra

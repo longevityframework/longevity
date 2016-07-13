@@ -21,9 +21,12 @@ import org.scalatest.concurrent.ScaledTimeSpans
 import org.scalatest.time.SpanSugar._
 import scala.concurrent.ExecutionContext
 
-/** a fixture to test a [[longevity.persistence.RepoPool]]. all you have
- * to do is extend this class and provide the necessary inputs to the
- * constructor.
+/** a [[http://www.scalatest.org/ ScalaTest]] fixture to test a
+ * [[longevity.persistence.RepoPool RepoPool]]. instances of this test are
+ * provided in your [[longevity.context.LongevityContext LongevityContext]] via
+ * methods `repoCrudSpec` and `inMemRepoCrudSpec`. these methods are added by an
+ * implicit conversion from `LongevityContext` to
+ * [[longevity.context.TestContext.ScalaTestSpecs ScalaTestSpecs]].
  *
  * the repo CRUD spec exercises create/retrieve/update/delete for all the repos
  * in your repo pool.
