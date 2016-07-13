@@ -9,7 +9,7 @@ extends QuerySpec[WithComponent](mongoContext, mongoContext.testRepoPool) {
 
   lazy val sample = randomP
 
-  val componentProp = WithComponent.prop[Component]("component")
+  val componentProp = WithComponent.props.component
 
   import WithComponent.queryDsl._
 

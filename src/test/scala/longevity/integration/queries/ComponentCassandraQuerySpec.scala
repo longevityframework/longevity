@@ -9,7 +9,7 @@ extends QuerySpec[WithComponent](cassandraContext, cassandraContext.testRepoPool
 
   lazy val sample = randomP
 
-  val componentProp = WithComponent.prop[Component]("component")
+  val componentProp = WithComponent.props.component
 
   import WithComponent.queryDsl._
 

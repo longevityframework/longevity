@@ -10,7 +10,7 @@ extends QuerySpec[WithShorthandWithComponent](mongoContext, mongoContext.inMemTe
   lazy val sample = randomP
 
   val shorthandWithComponentProp =
-    WithShorthandWithComponent.prop[ShorthandWithComponent]("shorthandWithComponent")
+    WithShorthandWithComponent.props.shorthandWithComponent
 
   import WithShorthandWithComponent.queryDsl._
 

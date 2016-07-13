@@ -9,7 +9,7 @@ extends QuerySpec[Shorthands](cassandraContext, cassandraContext.testRepoPool) {
 
   lazy val sample = randomP
 
-  val idProp = Shorthands.prop[ShorthandsId]("id")
+  val idProp = Shorthands.props.id
 
   import Shorthands.queryDsl._
 

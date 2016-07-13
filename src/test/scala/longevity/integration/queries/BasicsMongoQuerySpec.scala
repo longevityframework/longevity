@@ -1,6 +1,5 @@
 package longevity.integration.queries
 
-import com.github.nscala_time.time.Imports._
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.basics._
 import longevity.subdomain.ptype.Query.All
@@ -11,14 +10,14 @@ extends QuerySpec[Basics](mongoContext, mongoContext.testRepoPool) {
 
   lazy val sample = randomP
 
-  val booleanProp = Basics.prop[Boolean]("boolean")
-  val charProp = Basics.prop[Char]("char")
-  val doubleProp = Basics.prop[Double]("double")
-  val floatProp = Basics.prop[Float]("float")
-  val intProp = Basics.prop[Int]("int")
-  val longProp = Basics.prop[Long]("long")
-  val stringProp = Basics.prop[String]("string")
-  val dateTimeProp = Basics.prop[DateTime]("dateTime")
+  val booleanProp = Basics.props.boolean
+  val charProp = Basics.props.char
+  val doubleProp = Basics.props.double
+  val floatProp = Basics.props.float
+  val intProp = Basics.props.int
+  val longProp = Basics.props.long
+  val stringProp = Basics.props.string
+  val dateTimeProp = Basics.props.dateTime
 
   import Basics.queryDsl._
 

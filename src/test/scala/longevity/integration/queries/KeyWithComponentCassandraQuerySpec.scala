@@ -9,7 +9,7 @@ extends QuerySpec[KeyWithComponent](cassandraContext, cassandraContext.testRepoP
 
   lazy val sample = randomP
 
-  val secondaryKeyProp = KeyWithComponent.prop[SecondaryKey]("secondaryKey")
+  val secondaryKeyProp = KeyWithComponent.props.secondaryKey
 
   import KeyWithComponent.queryDsl._
 

@@ -9,7 +9,7 @@ extends QuerySpec[KeyWithShorthand](mongoContext, mongoContext.testRepoPool) {
 
   lazy val sample = randomP
 
-  val secondaryKeyProp = KeyWithShorthand.prop[SecondaryKey]("secondaryKey")
+  val secondaryKeyProp = KeyWithShorthand.props.secondaryKey
 
   import KeyWithShorthand.queryDsl._
 
