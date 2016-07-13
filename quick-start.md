@@ -36,48 +36,56 @@ object QuickStartSpec {
   // set up your library dependencies in sbt:
 
   // resolvers += Resolver.sonatypeRepo("releases")
-  // libraryDependencies += "org.longevityframework" %% "longevity" % "0.8.1"
+  // libraryDependencies += "org.longevityframework" %% "longevity" % "0.9.0"
 
   // bring in library dependencies for either mongo or cassandra:
 
-  // libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.8.1"
-  // libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.8.1"
+  // libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.9.0"
+  // libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.9.0"
 
   // start building our subdomain:
 
-  import longevity.subdomain.Assoc
-  import longevity.subdomain.Shorthand
-  import longevity.subdomain.ShorthandPool
+  import longevity.subdomain.KeyVal
   import longevity.subdomain.Subdomain
-  import longevity.subdomain.entity.Entity
-  import longevity.subdomain.entity.EntityType
-  import longevity.subdomain.entity.EntityTypePool
-  import longevity.subdomain.persistent.Persistent
+  import longevity.subdomain.embeddable.Entity
+  import longevity.subdomain.embeddable.EntityType
+  import longevity.subdomain.embeddable.ETypePool
+  import longevity.subdomain.embeddable.ValueObject
+  import longevity.subdomain.embeddable.ValueType
   import longevity.subdomain.persistent.Root
   import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
 
-  // shorthands help you use typed wrapper classes instead of raw values:
+  // value objects to build your entities with:
 
-  case class Email(email: String)
-  object Email extends Shorthand[Email, String]
+  case class Markdown(markdown: String) extends ValueObject
+  object Markdown extends ValueType[Markdown]
 
-  case class Markdown(markdown: String)
-  object Markdown extends Shorthand[Markdown, String]
+  case class Uri(uri: String) extends ValueObject
+  object Uri extends ValueType[Uri]
 
-  case class Uri(uri: String)
-  object Uri extends Shorthand[Uri, String]
+  // some convenience methods for using value objects:
 
-  // some convenience methods for using shorthands:
-
-  implicit def toEmail(email: String) = Email(email)
   implicit def toMarkdown(markdown: String) = Markdown(markdown)
   implicit def toUri(uri: String) = Uri(uri)
 
   // now define your three aggregates: user, blog, and blog post:
 
+  // user has two keys:
+
+  import longevity.subdomain.KeyVal
+
+  case class Username(username: String)
+  extends KeyVal[User, Username](User.keys.username)
+
+  case class Email(email: String)
+  extends KeyVal[User, Email](User.keys.email)
+
+  implicit def toUsername(username: String) = Username(username)
+  implicit def toEmail(email: String) = Email(email)
+
   case class User(
-    username: String,
+    username: Username,
     fullname: String,
     email: Email,
     profile: Option[UserProfile] = None)
@@ -85,7 +93,7 @@ object QuickStartSpec {
 
   object User extends RootType[User] {
     object props {
-      val username = prop[String]("username")
+      val username = prop[Username]("username")
       val email = prop[Email]("email")
     }
     object keys {
@@ -104,16 +112,19 @@ object QuickStartSpec {
 
   object UserProfile extends EntityType[UserProfile]
 
+  case class BlogUri(uri: Uri)
+  extends KeyVal[Blog, BlogUri](Blog.keys.uri)
+
   case class Blog(
-    uri: Uri,
+    uri: BlogUri,
     title: String,
     description: Markdown,
-    authors: Set[Assoc[User]])
+    authors: Set[Username])
   extends Root
 
   object Blog extends RootType[Blog] {
     object props {
-      val uri = prop[Uri]("uri")
+      val uri = prop[BlogUri]("uri")
     }
     object keys {
       val uri = key(props.uri)
@@ -122,27 +133,31 @@ object QuickStartSpec {
     }
   }
 
+  case class BlogPostUri(uri: Uri)
+  extends KeyVal[BlogPost, BlogPostUri](BlogPost.keys.uri)
+
   case class BlogPost(
-    uriPathSuffix: String,
+    uri: BlogPostUri,
     title: String,
     slug: Option[Markdown] = None,
     content: Markdown,
     labels: Set[String] = Set(),
     postDate: DateTime,
-    blog: Assoc[Blog],
-    authors: Set[Assoc[User]])
+    blog: BlogUri,
+    authors: Set[Username])
   extends Root
 
   object BlogPost extends RootType[BlogPost] {
     object props {
-      val blog = prop[Assoc[Blog]]("blog")
-      val uriPathSuffix = prop[String]("uriPathSuffix")
+      val uri = prop[BlogPostUri]("uri")
+      val blog = prop[BlogUri]("blog")
       val postDate = prop[DateTime]("postDate")
     }
     object keys {
-      val uri = key(props.blog, props.uriPathSuffix)
+      val uri = key(props.uri)
     }
     object indexes {
+      val recentPosts = index(props.blog, props.postDate)
     }
   }
 
@@ -151,8 +166,7 @@ object QuickStartSpec {
   val blogCore = Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    EntityTypePool(UserProfile),
-    ShorthandPool(Email, Markdown, Uri))
+    ETypePool(Markdown, Uri, UserProfile))
 
   // now build the context:
 
@@ -160,33 +174,33 @@ object QuickStartSpec {
 
   val context = LongevityContext(blogCore, Mongo)
 
-  // create some unpersisted entities:
+  // create some persistent objects:
 
   val john = User("smithy", "John Smith", "smithy@john-smith.ninja")
   val frank = User("franky", "Francis Nickerson", "franky@john-smith.ninja")
   val jerry = User("jerry", "Jerry Jones", "jerry@john-smith.ninja")
 
   val blog = Blog(
-    uri = "http://blog.john-smith.ninja/",
+    uri = BlogUri("http://blog.john-smith.ninja/"),
     title = "The Blogging Ninjas",
     description = "We try to keep things interesting blogging about ninjas.",
-    authors = Set(Assoc(john), Assoc(frank)))
+    authors = Set(john.username, frank.username))
 
   val johnsPost = BlogPost(
-    uriPathSuffix = "johns_first_post",
+    uri = BlogPostUri("johns_first_post"),
     title = "John's first post",
     content = "_work in progress_",
     postDate = DateTime.now,
-    blog = Assoc(blog),
-    authors = Set(Assoc(john)))
+    blog = blog.uri,
+    authors = Set(john.username))
 
   val franksPost = BlogPost(
-    uriPathSuffix = "franks_first_post",
+    uri = BlogPostUri("franks_first_post"),
     title = "Frank's first post",
     content = "_work in progress_",
     postDate = DateTime.now,
-    blog = Assoc(blog),
-    authors = Set(Assoc(frank)))
+    blog = blog.uri,
+    authors = Set(frank.username))
 
 }
 
@@ -203,12 +217,10 @@ with ScaledTimeSpans {
     interval = scaled(Span(50, Millis)))
 
   import QuickStartSpec._
-  import longevity.subdomain.Assoc
   import longevity.subdomain.persistent.Persistent
-  import longevity.subdomain.ptype.KeyVal
   import longevity.persistence._
 
-  // get the repo pool:
+  // get the repositories:
 
   // normally we would use `context.repoPool` here, but since this is actually
   // a test, we will use the test DB:
@@ -220,9 +232,7 @@ with ScaledTimeSpans {
 
   "QuickStartSpec" should "exercise basic longevity functionality" in {
 
-    // persist the aggregates all at once. it doesn't matter what
-    // order you pass them in, this method will assure that associated
-    // aggregates always get persisted first.
+    // persist the aggregates all at once:
     val createManyResult: Future[Seq[PState[_ <: Persistent]]] =
       repos.createMany(john, frank, blog, johnsPost, franksPost)
 
@@ -234,8 +244,7 @@ with ScaledTimeSpans {
 
     // `Repo[User].retrieve` returns a `Future[Option[PState[User]]]`,
     // aka `FOPState[User]`
-    val retrieveResult: FOPState[User] =
-      userRepo.retrieve(User.keys.username(john.username))
+    val retrieveResult: FOPState[User] = userRepo.retrieve(john.username)
 
     // unwrap the future and option:
 
@@ -258,22 +267,21 @@ with ScaledTimeSpans {
 
     // create a new blog post:
 
-    val blogKeyVal: KeyVal[Blog] = Blog.keys.uri(blog.uri)
     val blogState: PState[Blog] =
-      blogRepo.retrieve(blogKeyVal).futureValue.value
+      blogRepo.retrieve(blog.uri).futureValue.value
 
     val newPost = BlogPost(
-      uriPathSuffix = "new_post",
+      uri = BlogPostUri("new_post"),
       title = "New post",
       content = "_work in progress_",
       postDate = DateTime.now,
-      blog = blogState.assoc,
-      authors = Set(userState.assoc))
+      blog = blog.uri,
+      authors = Set(john.username))
 
     val futurePostState: Future[PState[BlogPost]] =
       blogPostRepo.create(newPost)
 
-    // clean up the new post:
+    // delete the new post:
 
     val postState = futurePostState.futureValue
     blogPostRepo.delete(postState).futureValue
@@ -282,73 +290,48 @@ with ScaledTimeSpans {
 
     val newUserState = userRepo.create(jerry).futureValue
     val modifiedBlogState = blogState.map { blog =>
-      blog.copy(authors = blog.authors + updatedUserState.assoc)
+      blog.copy(authors = blog.authors + jerry.username)
     }
-    blogRepo.update(modifiedBlogState)
+    blogRepo.update(modifiedBlogState).futureValue
 
-    // there are convenience methods in `FPState` and `FOPState` that allow
-    // you to conveniently manipulate the enclosed root. for example, suppose
-    // we have two service methods that work on a user:
+    // suppose we have two service methods that work on a user:
 
     object userService {
       def updateUser(user: User): User = user
       def updateUserReactive(user: User): Future[User] = Future.successful(user)
     }
 
-    // we can apply these service methods directly to an `FPState[User]` or an
-    // `FOPState[User]`, like so:
+    // we can apply the first service method like so:
 
-    val updated: FOPState[User] =
-      userRepo.retrieve(
-        User.keys.username(john.username)
-      ).mapRoot(
-        userService.updateUser _
-      ).flatMapState(
-        userRepo.update(_)
-      )
+    val updated: FPState[User] = for {
+      originalState <- userRepo.retrieveOne(john.username)
+      modifiedState = originalState.map(userService.updateUser)
+      updatedState <- userRepo.update(modifiedState)
+    } yield updatedState
+
     updated.futureValue
 
-    val updatedReactive: FOPState[User] =
-      userRepo.retrieve(
-        User.keys.username(john.username)
-      ).flatMapRoot(
-        userService.updateUserReactive _
-      ).flatMapState(
-        userRepo.update(_)
-      )
+    // and we can apply the reactive service method like so:
+
+    val updatedReactive: FPState[User] = for {
+      originalState <- userRepo.retrieveOne(john.username)
+      modifiedUser <- userService.updateUserReactive(originalState.get)
+      modifiedState = originalState.set(modifiedUser)
+      updatedState <- userRepo.update(modifiedState)
+    } yield updatedState
+
     updatedReactive.futureValue
 
-    // equivalent to above, but without mapRoot and flatMapRoot
+    // use a `KeyVal` to retrieve an author from a blog post:
 
-    val updatedNoMapRoot: FPState[User] = {
-      userRepo retrieve User.keys.username(john.username) flatMap { optUserState =>
-        val userState = optUserState getOrElse { throw new RuntimeException }
-        val updatedState = userState map userService.updateUser
-        userRepo update updatedState
-      }
-    }
-
-    def applyEvent(username: String): FPState[User] = {
-      userRepo retrieve User.keys.username(username) flatMap { optUserState =>
-        val userState = optUserState getOrElse { throw new RuntimeException }
-        val updatedState = userState map userService.updateUser
-        userRepo update updatedState
-      }
-    }
-
-    // use an `Assoc` to retrieve an author from a blog post:
-
-    val post: BlogPost = blogPostRepo.retrieve(
-      BlogPost.keys.uri(blogState.assoc, johnsPost.uriPathSuffix)
-    ).futureValue.value.get
-    val authorAssoc: Assoc[User] = post.authors.head
-    val author: FPState[User] = userRepo.retrieveOne(authorAssoc)
+    val authorUsername: Username = johnsPost.authors.head
+    val author: FPState[User] = userRepo.retrieveOne(authorUsername)
 
     // find posts for a given blog published in the last week:
 
     import BlogPost.queryDsl._
     val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
-      BlogPost.props.blog eqs blogState.assoc and
+      BlogPost.props.blog eqs blog.uri and
       BlogPost.props.postDate gt DateTime.now - 1.week)
     recentPosts.futureValue.size should equal (2)
 
@@ -357,7 +340,7 @@ with ScaledTimeSpans {
     import longevity.subdomain.ptype.Query
     val noDsl: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
       Query.and(
-        Query.eqs(BlogPost.props.blog, blogState.assoc),
+        Query.eqs(BlogPost.props.blog, blog.uri),
         Query.gt(BlogPost.props.postDate, DateTime.now - 1.week)))
     noDsl.futureValue.size should equal (2)
 
@@ -369,35 +352,33 @@ with ScaledTimeSpans {
     deleteUser(john)
     deleteUser(frank)
     deleteUser(jerry)
-    deletePost(johnsPost, blog)
-    deletePost(franksPost, blog)
+    deletePost(johnsPost)
+    deletePost(franksPost)
     deleteBlog(blog)
   }
 
   private def deleteUser(user: User): Unit = {
     val futureDeleted = for {
-      optUserState <- userRepo retrieve User.keys.username(user.username)
+      optUserState <- userRepo retrieve user.username
       deleted <- optUserState map userRepo.delete getOrElse Future.successful(())
     } yield deleted
     futureDeleted.futureValue
   }
 
-  private def deletePost(post: BlogPost, blog: Blog): Unit = {
-    val deleted = for {
-      optBlogState <- blogRepo retrieve Blog.keys.uri(blog.uri)
-      optKeyVal = optBlogState map { blogState => BlogPost.keys.uri(blogState.assoc, post.uriPathSuffix) }
-      optPostState <- optKeyVal map blogPostRepo.retrieve getOrElse Future.successful(None)
+  private def deletePost(post: BlogPost): Unit = {
+    val futureDeleted = for {
+      optPostState <- blogPostRepo.retrieve(post.uri)
       deleted <- optPostState map blogPostRepo.delete getOrElse Future.successful(())
     } yield deleted
-    deleted.futureValue
+    futureDeleted.futureValue
   }
 
   private def deleteBlog(blog: Blog): Unit = {
-    val deleted = for {
-      optBlogState <- blogRepo retrieve Blog.keys.uri(blog.uri)
+    val futureDeleted = for {
+      optBlogState <- blogRepo retrieve blog.uri
       deleted <- optBlogState map blogRepo.delete getOrElse Future.successful(())
     } yield deleted
-    deleted.futureValue
+    futureDeleted.futureValue
   }
 
 }
