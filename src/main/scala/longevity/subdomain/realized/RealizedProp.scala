@@ -8,10 +8,10 @@ import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblematicInPropPathException
 import emblem.typeKey
-import longevity.exceptions.subdomain.ptype.NoSuchPropPathException
-import longevity.exceptions.subdomain.ptype.PropTypeException
-import longevity.exceptions.subdomain.ptype.PropTypeException
-import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
+import longevity.exceptions.subdomain.NoSuchPropPathException
+import longevity.exceptions.subdomain.PropTypeException
+import longevity.exceptions.subdomain.PropTypeException
+import longevity.exceptions.subdomain.UnsupportedPropTypeException
 import longevity.subdomain.KeyVal
 import longevity.subdomain.embeddable.Embeddable
 import longevity.subdomain.persistent.Persistent

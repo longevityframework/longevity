@@ -1,4 +1,4 @@
-package longevity.exceptions.subdomain.ptype
+package longevity.exceptions.subdomain
 
 import emblem.TypeKey
 import longevity.subdomain.persistent.Persistent
@@ -9,5 +9,5 @@ import longevity.subdomain.persistent.Persistent
  * @param propVal the key prop value
  */
 class PropTypeException(path: String, pTypeKey: TypeKey[_ <: Persistent], propType: TypeKey[_])
-extends PropException(
+extends SubdomainException(
   s"property '$path' for root ${pTypeKey.name} does not match type ${propType.name}")

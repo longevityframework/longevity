@@ -1,8 +1,8 @@
 package longevity.unit.subdomain
 
-import longevity.exceptions.subdomain.ptype.NoSuchPropPathException
-import longevity.exceptions.subdomain.ptype.PropTypeException
-import longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
+import longevity.exceptions.subdomain.NoSuchPropPathException
+import longevity.exceptions.subdomain.PropTypeException
+import longevity.exceptions.subdomain.UnsupportedPropTypeException
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.DerivedType

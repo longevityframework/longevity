@@ -166,19 +166,19 @@ object Subdomain {
    * @param pTypePool a complete set of the persistent types in the subdomain. defaults to empty
    * @param eTypePool a complete set of the embeddable types within the subdomain. defaults to empty
    *
-   * @throws longevity.exceptions.subdomain.ptype.NoSuchPropPathException if a
+   * @throws longevity.exceptions.subdomain.NoSuchPropPathException if a
    * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
    * [[longevity.subdomain.ptype.PType persistent types]] has a property path
    * that does not exist in the [[longevity.subdomain.persistent.Persistent
    * persistent]] being reflected on
    * 
-   * @throws longevity.exceptions.subdomain.ptype.UnsupportedPropTypeException
+   * @throws longevity.exceptions.subdomain.UnsupportedPropTypeException
    * if a [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
    * [[longevity.subdomain.ptype.PType persistent types]] has a property path
    * that contains a collection or a [[longevity.subdomain.embeddable.PolyType
    * polymorphic type]]
    * 
-   * @throws longevity.exceptions.subdomain.ptype.PropTypeException if a
+   * @throws longevity.exceptions.subdomain.PropTypeException if a
    * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
    * [[longevity.subdomain.ptype.PType persistent types]] has a property whose
    * specified type does not match the type of the corresponding path in the
