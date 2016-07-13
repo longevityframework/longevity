@@ -2,6 +2,16 @@
 
 ## [0.9-SNAPSHOT]
 
+- 2016.07.12 - `KeyVal` and `Key` have been completely reworked for
+  improved understandability and ease of use. please see the manual
+  for details.
+- 2016.07.12 - `Assoc`s are gone. please use `KeyVal`s and `Key`s
+  instead.
+- 2016.07.12 - a `PType`'s properties and keys are now only realized
+  when the `Subdomain` is constructed. this should have no affect on
+  the user, except that some exceptions for malformed properties will
+  be delayed until `Subdomain` initialization. also, properties
+  created outside of `PType.propSet` will no longer work.
 - 2016.06.23 - shorthands are gone. please use single-property
   embeddables such as `ValueObject` instead.
 - 2016.06.21 - single-property embeddables are now inlined. this has
@@ -9,13 +19,13 @@
   into JSON/BSON.
 - 2016.06.20 - add parent types `Embeddable` and `EType` for `Entity`,
   `ValueObject`, `EntityType`, and `ValueType`.
-- 2016.06.10 - add noop query `Query.All()`
-- 2016.06.07 - add method `Deleted.get`
+- 2016.06.10 - add noop query `Query.All()`.
+- 2016.06.07 - add method `Deleted.get`.
 - 2016.06.07 - fix method names `LiftFPState.mapRoot`,
   `LiftFPState.flatMapRoot`, `LiftFOPState.mapRoot`, and
   `LiftFOPState.flatMapRoot` by replacing `Root` with `P`.
 - 2016.06.01 - `CoreDomain`, `SupportingSubdomain` and
-  `GenericSubdomain` are not actual traits that extend `Subdomain`
+  `GenericSubdomain` are now actual traits that extend `Subdomain`
   (instead of just type aliases). this allows users to directly
   subclass these three types if they wish.
 
