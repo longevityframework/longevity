@@ -1,6 +1,8 @@
 package longevity.unit.manual
 
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 
 /** code samples found in the context section of the user manual
  *

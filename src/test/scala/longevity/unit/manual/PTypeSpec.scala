@@ -10,8 +10,8 @@ import org.scalatest.Matchers
  */
 object PTypeSpec {
 
-  // used in http://longevityframework.github.io/longevity/manual/root-type/properties.html
-  object properties1 {
+  // used in http://longevityframework.github.io/longevity/manual/ptype/properties.html
+  object properties {
 
     import longevity.subdomain.embeddable.ValueObject
     import longevity.subdomain.embeddable.ValueType
@@ -25,13 +25,9 @@ object PTypeSpec {
     case class Uri(uri: String) extends ValueObject
     object Uri extends ValueType[Uri]
 
-    import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.embeddable.Entity
     import longevity.subdomain.embeddable.EntityType
     import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.Prop
-    import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
     case class UserProfile(
@@ -49,20 +45,24 @@ object PTypeSpec {
     extends Root
 
     object User extends RootType[User] {
+      object props {
 
-      // fully typed:
-      val profileDescription: longevity.subdomain.ptype.Prop[User, Markdown] =
-        prop[Markdown]("profile.description")
+       // fully typed:
+       val profileDescription: longevity.subdomain.ptype.Prop[User, Markdown] =
+         prop[Markdown]("profile.description")
 
-      // brief:
-      val usernameProp = prop[String]("username")
-
-      override lazy val propSet = Set[Prop[User, _]](profileDescription, usernameProp)
+       // brief:
+       val usernameProp = prop[String]("username")
+      }
       object keys {
       }
       object indexes {
       }
     }
+
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
@@ -71,44 +71,11 @@ object PTypeSpec {
 
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/root-type/properties.html
-  object properties2 {
-
-    import longevity.subdomain.Subdomain
-    import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.PTypePool
-    import longevity.subdomain.ptype.RootType
-
-    case class User(
-      username: String,
-      firstName: String,
-      lastName: String,
-      email: String)
-    extends Root
-
-    object User extends RootType[User] {
-      object props {
-        val username = prop[String]("username")
-        val firstName = prop[String]("firstName")
-        val lastName = prop[String]("lastName")
-        val email = prop[String]("email")
-      }
-      object keys {
-      }
-      object indexes {
-      }
-    }
-
-    val subdomain = Subdomain("blogging", PTypePool(User))
-  }
-
-  // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
+  // used in http://longevityframework.github.io/longevity/manual/ptype/keys.html
   object keys1 {
 
     import longevity.subdomain.KeyVal
-    import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
     case class Username(username: String)
@@ -123,8 +90,6 @@ object PTypeSpec {
     object User extends RootType[User] {
       object props {
         val username = prop[Username]("username")
-        val firstName = prop[String]("firstName")
-        val lastName = prop[String]("lastName")
       }
       object keys {
         val username = key(props.username)  
@@ -133,16 +98,17 @@ object PTypeSpec {
       }
     }
 
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.ptype.PTypePool
+
     val subdomain = Subdomain("blogging", PTypePool(User))
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/root-type/keys.html
+  // used in http://longevityframework.github.io/longevity/manual/ptype/keys.html
   object keys2 {
 
     import longevity.subdomain.KeyVal
-    import longevity.subdomain.Subdomain
     import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
     case class Username(username: String)
@@ -169,35 +135,44 @@ object PTypeSpec {
       }
     }
 
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.ptype.PTypePool
+
     val subdomain = Subdomain("blogging", PTypePool(User))
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/root-type/indexes.html
+  // used in http://longevityframework.github.io/longevity/manual/ptype/indexes.html
   object indexes1 {
 
-    import longevity.subdomain.Subdomain
+    import longevity.subdomain.KeyVal
     import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
+    case class Username(username: String)
+    extends KeyVal[User, Username](User.keys.username)
+
     case class User(
-      username: String,
+      username: Username,
       firstName: String,
       lastName: String)
     extends Root
 
     object User extends RootType[User] {
       object props {
-        val username = prop[String]("username")
+        val username = prop[Username]("username")
         val firstName = prop[String]("firstName")
         val lastName = prop[String]("lastName")
       }
       object keys {
+        val username = key(props.username)
       }
       object indexes {
         val fullname = index(props.lastName, props.firstName)
       }
     }
+
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User))
   }
@@ -206,16 +181,17 @@ object PTypeSpec {
   object sets1 {
 
     import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.Index
-    import longevity.subdomain.ptype.AnyKey
-    import longevity.subdomain.ptype.Prop
-    import longevity.subdomain.ptype.RootType
 
     case class User(
       username: String,
       firstName: String,
       lastName: String)
     extends Root
+
+    import longevity.subdomain.ptype.Index
+    import longevity.subdomain.ptype.AnyKey
+    import longevity.subdomain.ptype.Prop
+    import longevity.subdomain.ptype.RootType
 
     object User extends RootType[User] {
       override lazy val propSet = Set.empty[Prop[User, _]]
@@ -287,8 +263,13 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   "user manual example code" should "produce correct subdomains" in {
 
-    properties1.subdomain.name should equal ("blogging")
-    properties2.subdomain.name should equal ("blogging")
+    {
+      properties.subdomain.name should equal ("blogging")
+      properties.subdomain.pTypePool.size should equal (1)
+      properties.subdomain.pTypePool.values.head should equal (properties.User)
+      properties.subdomain.eTypePool.size should equal (4)
+      properties.User.keySet should be ('empty)
+    }
 
     {
       keys1.subdomain.name should equal ("blogging")

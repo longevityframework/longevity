@@ -1,6 +1,8 @@
 package longevity.unit.manual
 
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /** code samples found in the repo chapter of the user manual */

@@ -199,8 +199,6 @@ object PolySpec {
 
     import longevity.subdomain.KeyVal
     import longevity.subdomain.persistent.Root
-    import longevity.subdomain.ptype.DerivedPType
-    import longevity.subdomain.ptype.PolyPType
 
     case class Username(username: String)
     extends KeyVal[User, Username](User.keys.username)
@@ -209,6 +207,15 @@ object PolySpec {
       val username: Username
       val email: Email
     }
+
+    case class Member(
+      username: Username,
+      email: Email,
+      profile: UserProfile)
+    extends User
+
+    import longevity.subdomain.ptype.DerivedPType
+    import longevity.subdomain.ptype.PolyPType
 
     object User extends PolyPType[User] {
       object props {
@@ -222,12 +229,6 @@ object PolySpec {
         val email = index(props.email)
       }
     }
-
-    case class Member(
-      username: Username,
-      email: Email,
-      profile: UserProfile)
-    extends User
 
     object Member extends DerivedPType[Member, User] {
       val polyPType = User
