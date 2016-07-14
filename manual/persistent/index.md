@@ -9,12 +9,7 @@ object. Persistent objects are part of your subdomain, and they are
 also the _persistence unit_ - something that you can create, retrieve,
 update or delete with a longevity [repository](../repo). Persistent
 entities are Scala case classes that meet some basic criteria. Those
-criteria are laid out in the following chapters:
-
-- TODO rehash this ToC
-- [Shorthands](../shorthands)
-- [Entities](../entities)
-- [Associations](../associations)
+criteria are laid out in the chapters that follow.
 
 Here's a simple example:
 

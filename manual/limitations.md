@@ -1,11 +1,11 @@
 ---
-title: limitations on persistents, entities and shorthands
+title: limitations on persistents, embeddables, and key values
 layout: page
 ---
 
 Longevity currently places the following limitations on the kinds of
 classes you can use for your [persistents](persistent), [entites](entities), and
-[shorthands](shorthands):
+[key values](key-values.html):
 
 - They must be a case class.
 - They must not be an [inner class](http://docs.scala-lang.org/tutorials/tour/inner-classes.html).
@@ -20,20 +20,19 @@ what you are trying to do, and we will see what we can to do help.
 Just keep in mind that, whatever possibilities we allow for, longevity
 has the following requirements:
 
-- The set of properties that an entity contains must be clearly defined.
-- We must be able to retrieve a property value from a persistent or entity instance.
-- We must be able to construct a new persistent or entity instance from a complete set of property values.
-- We must be able to retrieve an abbreviated value from a shorthand instance.
-- We must be able to construct a new shorthand instance from an abbreviated value.
+- The set of properties that a persistent, embeddable, or key values contains must be clearly defined.
+- We must be able to retrieve a property value from a persistent,
+  embeddable, or key value.
+- We must be able to construct a new persistent or embeddable from a complete set of property values.
 
 Case classes are quite convenient things for fulfilling the
 requirements we have. They also seem a natural choice for modeling out
 a domain. We chose to start with them for these reasons.
 
-{% assign prevTitle = "entities and value objects" %}
-{% assign prevLink = "entities/value-objects.html" %}
+{% assign prevTitle = "key values" %}
+{% assign prevLink = "key-values.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "assocations" %}
-{% assign nextLink = "associations" %}
+{% assign nextTitle = "the persistent type" %}
+{% assign nextLink = "ptype" %}
 {% include navigate.html %}

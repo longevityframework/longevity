@@ -29,17 +29,14 @@ will put in links as I write the chapters.
 - [Embeddables](embeddables)
   - [Entities](embeddables/entities.html)
   - [Value Objects](embeddables/value-objects.html)
-
-TODO key values
-
-- [Limitations on Persistents, Entities and Shorthands](limitations.html)
-- [Associations](associations)
-  - [Using Associations](associations/using-associations.html)
+- [Key Values](key-values.html)
+- [Limitations on Persistents, Embeddables, and Key Values](limitations.html)
 - [The Persistent Type](ptype)
   - [Properties](ptype/properties.html)
   - [Keys](ptype/keys.html)
   - [Indexes](ptype/indexes.html)
-  - [Key Sets and Index Sets](ptype/key-sets-and-index-sets.html)
+  - [Prop Sets, Key Sets, and Index Sets](ptype/sets.html)
+  
 - [Polymorphic Persistents and Entities](poly)
   - [Polymorphic Persistents](poly/persistents.html)
 - [The Longevity Context](context)

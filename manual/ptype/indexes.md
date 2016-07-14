@@ -10,20 +10,22 @@ instance, if there is an expectation that queries on `lastName` /
 like so:
 
 ```scala
-import longevity.subdomain.Subdomain
+import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
+case class Username(username: String)
+extends KeyVal[User, Username](User.keys.username)
+
 case class User(
-  username: String,
+  username: Username,
   firstName: String,
   lastName: String)
 extends Root
 
 object User extends RootType[User] {
   object props {
-    val username = prop[String]("username")
+    val username = prop[Username]("username")
     val firstName = prop[String]("firstName")
     val lastName = prop[String]("lastName")
   }
@@ -34,8 +36,6 @@ object User extends RootType[User] {
     val fullname = index(props.lastName, props.firstName)
   }
 }
-
-val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 An index like `User.indexes.fullname` above will assure fast
@@ -50,7 +50,7 @@ section](../repo/query.html).
 {% assign prevLink = "keys.html" %}
 {% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "key sets and index sets" %}
-{% assign nextLink = "key-sets-and-index-sets.html" %}
+{% assign nextTitle = "prop sets, key sets, and index sets" %}
+{% assign nextLink = "sets.html" %}
 {% include navigate.html %}
 

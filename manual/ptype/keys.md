@@ -3,26 +3,27 @@ title: keys
 layout: page
 ---
 
-Keys are composed of a sequence of properties. We define them in our
+Keys are composed of a single property whose type is [key
+value](../key-values.html) for the `Persistent`. We define them in our
 `PType` like so:
 
 ```scala
-import longevity.subdomain.Subdomain
+import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
+case class Username(username: String)
+extends KeyVal[User, Username](User.keys.username)
+
 case class User(
-  username: String,
+  username: Username,
   firstName: String,
   lastName: String)
 extends Root
 
 object User extends RootType[User] {
   object props {
-    val username = prop[String]("username")
-    val firstName = prop[String]("firstName")
-    val lastName = prop[String]("lastName")
+    val username = prop[Username]("username")
   }
   object keys {
     val username = key(props.username)  
@@ -30,11 +31,9 @@ object User extends RootType[User] {
   object indexes {
   }
 }
-
-val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
-The values of the properties in a key uniquely identify a row. So in
+The key value uniquely identifies a persistent object. So in
 the above example, no two users can have the same username.
 
 We can declare multiple keys, and composite keys, just as
@@ -42,45 +41,46 @@ easily. Here, for instance, we add an ill-advised composite key on a
 `firstName`/`lastName` combination:
 
 ```scala
-import longevity.subdomain.Subdomain
+import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
+case class Username(username: String)
+extends KeyVal[User, Username](User.keys.username)
+
+case class FullName(first: String, last: String)
+extends KeyVal[User, FullName](User.keys.fullName)
+
 case class User(
-  username: String,
-  firstName: String,
-  lastName: String)
+  username: Username,
+  fullName: FullName)
 extends Root
 
 object User extends RootType[User] {
   object props {
-    val username = prop[String]("username")
-    val firstName = prop[String]("firstName")
-    val lastName = prop[String]("lastName")
+    val username = prop[Username]("username")
+    val fullName = prop[FullName]("fullName")
   }
   object keys {
     val username = key(props.username)
-    val fullname = key(props.firstName, props.lastName)
+    val fullName = key(props.fullName)
   }
   object indexes {
   }
 }
-
-val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 Here, no two users can have the same first and last names.
 
 We use keys to retrieve individual persistent objects from the
-persistence layer, as we will see in the [chapter on
+persistence layer, as we will see in the [section on
 `Repo.retrieve`](../repo/retrieve-keyval.html). You are most likely
-going to want to define at least one per persistent type, or you will
-only be able to retrieve collections of aggregates by query. It is
-possible that you have a persistent type - perhaps representing an
-entry in a log file - for which there are no natural keys. You may be
-satisfied to confine yourself to looking up collections of these
-entities via objects such as range searches.
+going to want to define at least one key per persistent type, or you
+will only be able to retrieve collections of persistent objects [by
+query](../repo/query.html). It is possible that you have a persistent
+type - perhaps representing an entry in a log file - for which there
+are no natural keys. You may be satisfied to confine yourself to
+looking up collections of these objects via range searches.
 
 It's worth reiterating that the keys that we define in our domain
 model are not database keys, but design constraints that live within

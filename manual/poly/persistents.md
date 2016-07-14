@@ -11,8 +11,8 @@ profile. With persistent types, we inherit from `PolyPType` and
 for entities.
 
 ```scala
-import longevity.subdomain.entity.entity.Entity
-import longevity.subdomain.entity.EntityType
+import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.EntityType
 
 case class UserProfile(
   tagline: String,
@@ -32,6 +32,8 @@ trait User extends Root {
 }
 
 object User extends PolyPType[User] {
+  object props {
+  }
   object keys {
   }
   object indexes {
@@ -46,6 +48,8 @@ extends User
 
 object Member extends DerivedPType[Member, User] {
   val polyPType = User
+  object props {
+  }
   object keys {
   }
   object indexes {
@@ -59,31 +63,25 @@ extends User
 
 object Commenter extends DerivedPType[Commenter, User] {
   val polyPType = User
+  object props {
+  }
   object keys {
   }
   object indexes {
   }
 }
-
-import longevity.subdomain.ShorthandPool
-import longevity.subdomain.Subdomain
-import longevity.subdomain.entity.EntityTypePool
-import longevity.subdomain.ptype.PTypePool
-
-val subdomain = Subdomain(
-  "blogging",
-  PTypePool(User, Member, Commenter),
-  EntityTypePool(UserProfile),
-  ShorthandPool(Email, Markdown, Uri))
 ```
 
 Notice how `User`, `Member`, and `Commenter` all have their own sets
-of keys and indexes. We could, for example, put in a
+of properties, keys, and indexes. We could, for example, put in a
 [key](../ptype/keys.html) on `User.username`, and
 [indexes](../ptype/indexes.html) on `User.email` and
 `Member.profile.tagline`, like so:
 
 ```scala
+import longevity.subdomain.ptype.DerivedPType
+import longevity.subdomain.ptype.PolyPType
+
 object User extends PolyPType[User] {
   object props {
     val username = prop[String]("username")

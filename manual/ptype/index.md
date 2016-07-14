@@ -3,13 +3,12 @@ title: the persistent type
 layout: page
 ---
 
-While the `Persistent` and `Entity` classes are great places to store
-information about the individual entitites and entities themselves, we
-also need a place to keep track of "meta information" about our
-persistent objects. For instance, we want to be able to specify
-_keys_, or collections of properties of the aggregate that uniquely
-identifies a persistent within a collection of persistents. We define
-these things in our `PTypes`.
+While the `Persistent` classes are great places to store information
+about individual persistent objects, we also need a place to keep
+track of "meta information" about them. For instance, we want to be
+able to specify _keys_, or properties of the object that uniquely
+identify a persistent within a collection of persistents. We store
+this kind of meta information in our `PTypes`.
 
 It's important to note that, while "key" and "index" are terms used in
 database schemas and physical modelling, that is not our intention
@@ -34,7 +33,7 @@ discuss properties first.
 - [Properties](properties.html)
 - [Keys](keys.html)
 - [Indexes](indexes.html)
-- [Key Sets and Index Sets](key-sets-and-index-sets.html)
+- [Prop Sets, Key Sets, and Index Sets](sets.html)
 
 {% assign prevTitle = "using associations" %}
 {% assign prevLink = "../subdomain/using-associations.html" %}

@@ -1,5 +1,5 @@
 ---
-title: polymorphic entities
+title: polymorphic persistents and entities
 layout: page
 ---
 
@@ -56,15 +56,15 @@ extends Root
 
 For this to work, all we need to do is to make longevity aware of our
 polymorphic type `UserVerification`, and its children. All four will
-be entities, but we mark the `EntityType` of the parent as a
-`PolyType`, and that of the children as `DerivedType`. Every derived
-type must be aware of its parent poly type, so we need to define a
-`val polyType = UserVerification` in the derived types:
+be embeddables, but we mark the `EType` of the parent as a `PolyType`,
+and that of the children as `DerivedType`. Every derived type must be
+aware of its parent poly type, so we need to define a `val polyType =
+UserVerification` in the derived types:
 
 ```scala
-import longevity.subdomain.entity.DerivedType
-import longevity.subdomain.entity.Entity
-import longevity.subdomain.entity.PolyType
+import longevity.subdomain.embeddable.DerivedType
+import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.PolyType
 import org.joda.time.DateTime
 
 trait UserVerification extends Entity {
