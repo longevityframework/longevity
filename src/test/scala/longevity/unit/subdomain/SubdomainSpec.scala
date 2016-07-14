@@ -1,17 +1,26 @@
 package longevity.unit.subdomain
 
+import longevity.exceptions.subdomain.DerivedHasNoPolyException
+import longevity.exceptions.subdomain.DuplicateETypesException
+import longevity.exceptions.subdomain.DuplicatePTypesException
 import longevity.exceptions.subdomain.NoSuchPropPathException
 import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.UnsupportedPropTypeException
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.DerivedType
+import longevity.subdomain.embeddable.EType
 import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.embeddable.Embeddable
 import longevity.subdomain.embeddable.Entity
 import longevity.subdomain.embeddable.EntityType
 import longevity.subdomain.embeddable.PolyType
+import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.persistent.Root
+import longevity.subdomain.ptype.DerivedPType
+import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.ptype.RootType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -62,6 +71,21 @@ object SubdomainSpec {
     case class B(id: String) extends Entity
     object B extends EntityType[B]
     def subdomain = Subdomain("noSuchPropPathInComponent", PTypePool(A), ETypePool(B))
+  }
+
+  object propPathWithNonEmbeddable {
+    import java.util.UUID
+    case class A(id: UUID) extends Root
+    object A extends RootType[A] {
+      object props {
+        val id = prop[UUID]("id")
+      }
+      object keys {
+      }
+      object indexes {
+      }
+    }
+    def subdomain = Subdomain("propPathWithNonEmbeddable", PTypePool(A))
   }
 
   object propPathWithTerminalList {
@@ -131,7 +155,7 @@ object SubdomainSpec {
     case class A(id: List[B]) extends Root
     object A extends RootType[A] {
       object props {
-        val id = prop[List[B]]("id")
+        val id = prop[String]("id.id")
       }
       object keys {
       }
@@ -147,7 +171,7 @@ object SubdomainSpec {
     case class A(id: Option[B]) extends Root
     object A extends RootType[A] {
       object props {
-        val id = prop[Option[B]]("id")
+        val id = prop[String]("id.id")
       }
       object keys {
       }
@@ -163,7 +187,7 @@ object SubdomainSpec {
     case class A(id: Set[B]) extends Root
     object A extends RootType[A] {
       object props {
-        val id = prop[Set[B]]("id")
+        val id = prop[String]("id.id")
       }
       object keys {
       }
@@ -244,6 +268,59 @@ object SubdomainSpec {
     def subdomain = Subdomain("subtypePropType", PTypePool(A))
   }
 
+  object derivedPTypeHasNoPoly {
+
+    trait Poly extends Persistent { val id: String }
+    object Poly extends PolyPType[Poly] {
+      object props {
+      }
+      object keys {
+      }
+      object indexes {
+      }
+    }
+
+    case class Derived(id: String) extends Poly
+    object Derived extends DerivedPType[Derived, Poly] {
+      val polyPType = Poly
+      object props {
+      }
+      object keys {
+      }
+      object indexes {
+      }
+    }
+
+    def subdomain = Subdomain("derivedPTypeHasNoPoly", PTypePool(Derived))
+  }
+
+  object derivedETypeHasNoPoly {
+
+    trait Poly extends Embeddable { val id: String }
+    object Poly extends PolyType[Poly]
+
+    case class Derived(id: String) extends Poly
+    object Derived extends DerivedType[Derived, Poly] {
+      val polyType = Poly
+    }
+
+    def subdomain = Subdomain("derivedETypeHasNoPoly", PTypePool(), ETypePool(Derived))
+  }
+
+  object duplicateETypes {
+    case class A(id: String) extends Embeddable
+    object A extends EType[A]
+    object B extends EType[A]
+    def subdomain = Subdomain("duplicateETypes", PTypePool(), ETypePool(A, B))
+  }
+
+  object duplicatePTypes {
+    case class A(id: String) extends Persistent
+    object A extends PType[A]
+    object B extends PType[A]
+    def subdomain = Subdomain("duplicatePTypes", PTypePool(A, B))
+  }
+
 }
 
 /** unit tests for the proper [[Subdomain]] construction */
@@ -266,6 +343,12 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "throw exception when a PType contains a prop with a prop path not found in the component" in {
     intercept[NoSuchPropPathException] {
       SubdomainSpec.noSuchPropPathInComponent.subdomain
+    }
+  }
+
+  it should "throw exception when a PType contains a prop with a non-embeddable, non-collection, non-basic" in {
+    intercept[UnsupportedPropTypeException[_, _]] {
+      SubdomainSpec.propPathWithNonEmbeddable.subdomain
     }
   }
 
@@ -332,6 +415,30 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "throw exception when the specified prop type is a subtype of the actual type" in {
     intercept[PropTypeException] {
       SubdomainSpec.subtypePropType.subdomain
+    }
+  }
+
+  it should "throw exception when the PolyPType is missing from the PTypePool" in {
+    intercept[DerivedHasNoPolyException] {
+      SubdomainSpec.derivedPTypeHasNoPoly.subdomain
+    }
+  }
+
+  it should "throw exception when the PolyType is missing from the ETypePool" in {
+    intercept[DerivedHasNoPolyException] {
+      SubdomainSpec.derivedETypeHasNoPoly.subdomain
+    }
+  }
+
+  it should "throw exception when there is a duplicate EType in the ETypePool" in {
+    intercept[DuplicateETypesException] {
+      SubdomainSpec.duplicateETypes.subdomain
+    }
+  }
+
+  it should "throw exception when there is a duplicate PType in the PTypePool" in {
+    intercept[DuplicatePTypesException] {
+      SubdomainSpec.duplicatePTypes.subdomain
     }
   }
 

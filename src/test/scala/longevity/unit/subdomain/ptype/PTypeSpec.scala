@@ -8,7 +8,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-/** unit tests for the proper construction of a [[PType persistent type]] */
+/** unit tests for the proper construction and behavior of a [[PType persistent type]] */
 class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import longevity.unit.blogCore._
@@ -183,6 +183,20 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       }
     }
     User.indexSet should equal (Set(User.indexes.username, User.indexes.email))
+  }
+
+  behavior of "PType.toString"
+
+  it should "produce a string indicating its a PType and what the Persistent type is" in {
+    object User extends PType[User] {
+      object props {
+      }
+      object keys {
+      }
+      object indexes {
+      }
+    }
+    User.toString should equal ("PType[User]")
   }
 
 }

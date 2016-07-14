@@ -51,10 +51,6 @@ private[longevity] class RealizedProp[P <: Persistent, A](
     }
   }
 
-  def resolvedPropVals(p: P): Seq[Any] = {
-    basicPropComponents.map(_.get(propVal(p)))
-  }
-
   val ordering: Ordering[A] = {
     val unitOrdering = new Ordering[A] { def compare(a1: A, a2: A) = 0 }
     basicPropComponents.foldLeft(unitOrdering) { (ordering, basicPropComponent) =>
@@ -99,15 +95,6 @@ private[subdomain] object RealizedProp {
             throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, e.typeKey)
         }
 
-      def validateNonLeafEmblemProps(nonLeafEmblemProps: Seq[ReflectiveProp[_, _]]): Unit = {
-        nonLeafEmblemProps foreach { nonLeafEmblemProp =>
-          val key = nonLeafEmblemProp.typeKey
-          if (! (key <:< typeKey[Embeddable])) {
-            throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, key)
-          }
-        }
-      }
-
       def validateLeafEmblemProp(leafEmblemProp: ReflectiveProp[_, _]): Unit = {
         val key = leafEmblemProp.typeKey
         def isBasic = isBasicType(key)
@@ -120,11 +107,11 @@ private[subdomain] object RealizedProp {
 
       val emblematicPropPath = validatePath()
       val reflectiveProps = emblematicPropPath.props
+      val leaf = reflectiveProps.last
 
-      validateNonLeafEmblemProps(reflectiveProps.dropRight(1))
-      validateLeafEmblemProp(reflectiveProps.last)
+      validateLeafEmblemProp(leaf)
 
-      val propPathTypeKey = reflectiveProps.last.typeKey
+      val propPathTypeKey = leaf.typeKey
 
       if (! (prop.propTypeKey =:= propPathTypeKey)) {
         throw new PropTypeException(prop.path, prop.pTypeKey, prop.propTypeKey)

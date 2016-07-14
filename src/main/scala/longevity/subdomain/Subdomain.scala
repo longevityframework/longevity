@@ -101,7 +101,7 @@ class Subdomain(
 
           val emblem = emblemPool(derivedType.eTypeKey)
           val derivedList = map.getOrElse(List.empty)
-          map +[Poly] (emblem :: derivedList)
+          map.+[Poly](emblem :: derivedList)
         }
 
         fromDerivedType(derivedType)
@@ -139,7 +139,7 @@ class Subdomain(
 
           val emblem = emblemPool(derivedPType.pTypeKey)
           val derivedList = map.getOrElse(List.empty)
-          map +[Poly] (emblem :: derivedList)
+          map.+[Poly] (emblem :: derivedList)
         }
 
         fromDerivedType(derivedType)
