@@ -7,7 +7,8 @@ Once we get our hands on a persistent state, we can use `PState.map`
 to modify the aggregate:
 
 ```scala
-val retrieved: FPState[User] = userRepo.retrieveOne(User.usernameKey(username))
+val username = Username("smithy")
+val retrieved: FPState[User] = userRepo.retrieveOne(username)
 val modified: FPState[User] = retrieved map { userState =>
   userState.map(_.copy(fullname = "John Smith Jr."))
 }
@@ -19,6 +20,18 @@ We can now persist our changes with `Repo.update`:
 val updated: FPState[User] = modified.map { userState =>
   userRepo.update(userState)
 }
+```
+
+All this looks much nicer using [for
+comprehensions](http://docs.scala-lang.org/tutorials/tour/sequence-comprehensions.html):
+
+```scala
+val username = Username("smithy")
+val updated: FPState[User] = for {
+  retrieved <- userRepo.retrieveOne(username)
+  modified = retrieved.map(_.copy(fullname = "John Smith Jr."))
+  updated <- userRepo.update(modified)
+} yield updated
 ```
 
 Calling `Repo.update` may not result in a database call if the

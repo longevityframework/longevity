@@ -42,16 +42,17 @@ ScalaTest is an optional dependency in longevity, so you'll need to
 declare a dependency on ScalaTest in your own project to use the repo
 crud specs.
 
-As of release 0.6, you need to provide an execution context when
-calling `LongevityContext.repoCrudSpec`. The easiest way to do this is
-to include `import scala.concurrent.ExecutionContext.Implicits.global`
-at the top of your file.
+You need to provide an execution context when calling
+`LongevityContext.repoCrudSpec`. The easiest way to do this is to
+include `import scala.concurrent.ExecutionContext.Implicits.global` at
+the top of your file.
 
 Please note that the default test data generator will not work out of
 the box in the face of constraint violations causing exceptions to be
-thrown from your entity constructors. In this case, you need to
-provide custom generators for your types. This is described in the
-section on [enforcing constraints](../constraints.html).
+thrown from your persistent and embeddable constructors. In this case,
+you need to provide custom generators for your types. This is
+described in the section on [enforcing
+constraints](../constraints.html).
 
 {% assign prevTitle = "in memory repositories" %}
 {% assign prevLink = "in-mem-repos.html" %}

@@ -74,7 +74,7 @@ Here, no two users can have the same first and last names.
 
 We use keys to retrieve individual persistent objects from the
 persistence layer, as we will see in the [section on
-`Repo.retrieve`](../repo/retrieve-keyval.html). You are most likely
+`Repo.retrieve`](../repo/retrieve.html). You are most likely
 going to want to define at least one key per persistent type, or you
 will only be able to retrieve collections of persistent objects [by
 query](../repo/query.html). It is possible that you have a persistent

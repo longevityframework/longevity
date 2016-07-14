@@ -18,6 +18,15 @@ Queries using the _or_ operator are not supported by Cassandra.
 
 Queries must contain at least one _equals_ clause.
 
+Ordering query operators - _less-than_, _less-than-or-equals_,
+_greater-than_, and _greater-than-or-equals_ - can only be used with
+properties that are composed of a single basic type. The reason for
+this is that to construct an ordering query for a compound property
+requires the use of the _not-equals_ operator, which is not supported
+by Cassandra CQL.
+
+The `Query.All()` query is not supported by Cassandra.
+
 {% assign prevTitle = "stream by query" %}
 {% assign prevLink = "stream.html" %}
 {% assign upTitle = "repositories" %}

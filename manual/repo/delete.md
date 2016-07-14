@@ -3,7 +3,7 @@ title: repo.delete
 layout: page
 ---
 
-Use `Repo.delete` to remove a persistent entity from the database:
+Use `Repo.delete` to remove a persistent object from the database:
 
 ```scala
 val userState: PState[User] = getUserState()
@@ -16,17 +16,16 @@ For now, this is a hard delete, but see [PT
 support for soft deletes.
 
 You cannot do much with the `Deleted`, but you can have at the
-aggregate or the `Assoc` for old times sake:
+persisent object for old times sake:
 
 ```scala
 deleteResult map { deleted =>
-  val deletedAggregate: User = deleted.root
-  val deletedAssoc: Assoc[User] = deleted.assoc
+  val deletedUser: User = deleted.get
 }
 ```
 
-Of course, neither of these values will be particularly useful, since
-the entity no longer exists.
+Of course, this value will not be particularly useful, as the
+persisent object no longer exists.
 
 <div class = "blue-side-bar">
 

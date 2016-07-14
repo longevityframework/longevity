@@ -3,15 +3,16 @@ title: polymorphic repositories
 layout: page
 ---
 
-We we use [polymorphic persistent objects](../poly/persistents.html)
+When we use [polymorphic persistent objects](../poly/persistents.html)
 in our domain, we end up with a repository for the parent type, as
 well as one for each of the derived subtypes. In our example, we have
 a `User` trait with two inheriting subclasses, `Member` and
 `Commenter`:
 
+
 ```scala
-import longevity.subdomain.entity.entity.Entity
-import longevity.subdomain.entity.EntityType
+import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.EntityType
 
 case class UserProfile(
   tagline: String,
@@ -21,25 +22,27 @@ extends Entity
 
 object UserProfile extends EntityType[UserProfile]
 
+import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PolyPType
 
+case class Username(username: String)
+extends KeyVal[User, Username](User.keys.username)
+
 trait User extends Root {
-  val username: String
+  val username: Username
   val email: Email
 }
 
 object User extends PolyPType[User] {
   object props {
-    val username = prop[String]("username")
-    val email = prop[Email]("email")
+    val username = prop[Username]("username")
   }
   object keys {
     val username = key(props.username)
   }
   object indexes {
-    val email = index(props.email)
   }
 }
 
@@ -68,22 +71,22 @@ extends User
 
 object Commenter extends DerivedPType[Commenter, User] {
   val polyPType = User
+  object props {
+  }
   object keys {
   }
   object indexes {
   }
 }
 
-import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
-import longevity.subdomain.entity.EntityTypePool
+import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.ptype.PTypePool
 
 val subdomain = Subdomain(
   "blogging",
   PTypePool(User, Member, Commenter),
-  EntityTypePool(UserProfile),
-  ShorthandPool(Email, Markdown, Uri))
+  ETypePool(UserProfile))
 ```
 
 When we construct our [longevity context](../context), we can get
@@ -113,8 +116,7 @@ val memberState: PState[Member] = Await(futureMemberState, Duration.Inf)
 // we waited for the future to complete to make sure that the member
 // was persisted. now we can look up the member with the other repo:
 
-val userKeyVal: KeyVal[User] = User.keys.username(member.username)
-val futureUserState: Future[PState[User]] = userRepo.retrieveOne(userKeyVal)
+val futureUserState: Future[PState[User]] = userRepo.retrieveOne(member.username)
 ```
 
 Notice how the final result of is a `PState[User]`. `PStates` are

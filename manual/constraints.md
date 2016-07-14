@@ -9,18 +9,18 @@ wondering how we go about generating the test data. The answer is, you
 gave us nearly all the information we need to do so in your
 [subdomain](subdomain). The only thing we cannot handle out of the box
 is when exceptions are thrown in the constructors of your
-[entity](entities) and [shorthand](shorthands) classes.
+[persistent](persistent) and [embeddable](embeddable) classes.
 
 A class constructor is a great place to enforce domain constraints,
 such as requiring that an email has an at sign (`@`):
 
 ```scala
-case class Email(email: String) {
+case class Email(email: String) extends ValueObject {
   if (!email.contains('@'))
     throw new ConstraintValidationException("no '@' in email")
 }
 
-object Email extends Shorthand[Email, String]
+object Email extends ValueType[Email]
 ```
 
 If you enforce constraints in this manner, then you will need to
@@ -40,7 +40,7 @@ val generators = CustomGeneratorPool.empty + emailGenerator
 ```
 
 In nearly all cases, you can get away with building a [simple
-generator](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/index.html#emblem.traversors.sync.CustomGenerator$@simpleGenerator[A](underlying:emblem.traversors.sync.Generator=>A)(implicitevidence$2:emblem.imports.TypeKey[A]):emblem.traversors.sync.CustomGenerator[A]),
+generator](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/index.html#emblem.emblematic.traversors.sync.CustomGenerator$@simpleGenerator[A](underlying:emblem.emblematic.traversors.sync.Generator=>A)(implicitevidence$2:emblem.imports.TypeKey[A]):emblem.emblematictraversors.sync.CustomGenerator[A]),
 as above. You can recursively call the
 [test data generator](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/index.html#emblem.traversors.sync.TestDataGenerator)
 within your custom generator to construct your test data.

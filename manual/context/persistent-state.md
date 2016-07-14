@@ -8,17 +8,17 @@ persistence information is stored. You might find database IDs,
 optimistic locking counters, dirty flags, and created/modified columns
 in there. While you will be able to see some of these things when
 querying your database by hand, in your application, the persistent
-state is a black box. But you can always get at your aggregate with
-method `get`:
+state is a black box. But you can always get at your persistent object
+with method `get`:
 
 ```scala
 val userState: PState[User] = getUserState()
 val user: User = userState.get
 ```
 
-Your aggregate is immutable and so is the `PState`. You "update" an
-aggregate by creating a new, modified aggregate, for instance with
-method `copy`:
+Your aggregate is immutable and so is the `PState`. You "update" a
+persistent object by creating a new, modified object, for instance
+with method `copy`:
 
 ```scala
 val newTitle = "Dr."

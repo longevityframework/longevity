@@ -11,7 +11,7 @@ package longevity.persistence
 
 import akka.NotUsed
 import akka.stream.scaladsl.Source
-import longevity.subdomain.PRef
+import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Query
 import scala.concurrent.ExecutionContext
@@ -27,34 +27,27 @@ trait Repo[P <: Persistent] {
    */
   def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  /** retrieves an optional persistent object from a persistent ref
-   * 
-   * @param ref the reference to use to look up the persistent object. this
-   * could be a [[longevity.subdomain.ptype.KeyVal KeyVal]] or an
-   * [[longevity.subdomain.Assoc Assoc]]
-   * 
+  /** retrieves an optional persistent object from a
+   * [[longevity.subdomain.KeyVal key value]]
+   *
+   * @tparam V the type of the key value
+   * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
-   * 
-   * @throws longevity.exceptions.persistence.AssocIsUnpersistedException
-   * whenever the persistent ref is an unpersisted assoc
    */
-  def retrieve(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[Option[PState[P]]]
+  def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext)
+  : Future[Option[PState[P]]]
 
-  /** retrieves a non-optional persistent object from a persistent ref
+  /** retrieves an optional persistent object from a
+   * [[longevity.subdomain.KeyVal key value]]
    * 
    * throws NoSuchElementException whenever the persistent ref does not refer
    * to a persistent object in the repository
    * 
-   * @param ref the reference to use to look up the entity. this could be a
-   * [[longevity.subdomain.ptype.KeyVal KeyVal]] or an
-   * [[longevity.subdomain.Assoc Assoc]]
-   *
+   * @tparam V the type of the key value
+   * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
-   * 
-   * @throws longevity.exceptions.persistence.AssocIsUnpersistedException
-   * whenever the persistent ref is an unpersisted assoc
    */
-  def retrieveOne(ref: PRef[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
+  def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
   /** retrieves multiple persistent objects matching a query
    * 
@@ -87,6 +80,9 @@ trait Repo[P <: Persistent] {
 }
 ```
 
+Don't worry about the complicated type parameters on the `retrieve`
+and `retrieveOne` methods - they can easily be inferred by the compiler.
+
 Because all of the methods in `Repo` are potentially blocking, they
 all return some kind of asynchronous construct - either a [Scala
 `Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future),
@@ -99,21 +95,10 @@ context argument. The easiest way to provide this is to include
 of the file.
 
 We will will discuss the `Repo` API methods in turn, but it's helpful
-to cover a couple of points up front. First off, the `PRef` is a super
-trait for both `Assoc` and `KeyVal`, so you can use the `retrieve` and
-`retrieveOne` methods with both. Secondly, the `retrieveOne` method is
-a simple wrapper method for `retrieve`, that opens up the
-`Option[PState[R]]` for you. If the option is a `None`, this will
-result in a `NoSuchElementException`.
-
-<div class = "blue-side-bar">
-
-There are two kinds of persistent refs: associations and key
-values. we plan to integrate these two types more in the future. In
-particular, it should be easier to embed a key value of another
-aggregate in an entity, in place of embedding an association.
-
-</div>
+to cover one point up front: the `retrieveOne` method is a simple
+wrapper method for `retrieve`, that opens up the `Option[PState[R]]`
+for you. If the option is a `None`, this will result in a
+`NoSuchElementException`.
 
 {% assign prevTitle = "repositories" %}
 {% assign prevLink = "." %}

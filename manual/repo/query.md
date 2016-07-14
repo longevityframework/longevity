@@ -68,6 +68,9 @@ The six comparator operators all take a
 [property](../ptype/properties.html) on the left-hand side, and a
 value on the right-hand side.
 
+There is also a `Query.All()` query that filters nothing and
+returns everything.
+
 [Keys](../ptype/keys.html) and
 [indexes](../ptype/indexes.html) will aid query performance in an
 intuitive manner. For finer details on just how your query will run,
@@ -75,7 +78,7 @@ please see the chapters on how your subdomain is translated to your
 NoSQL backend ([Mongo](../mongo) and [Cassandra](../cassandra)).
 
 {% assign prevTitle = "retrieval by key value" %}
-{% assign prevLink = "retrieve-keyval.html" %}
+{% assign prevLink = "retrieve.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "stream by query" %}

@@ -68,18 +68,18 @@ This `sponsor` field represents a relationship between two persistent
 objects. In UML, we call this kind of relationship an
 [aggregation](http://aviadezra.blogspot.com/2009/05/uml-association-aggregation-composition.html). This
 is a looser kind of relationship than the [compositional
-relationships](embeddables/entities.html) we get when using
+relationships](embeddable/entities.html) we get when using
 embeddables. With aggregations, the life cycles of the entities in
 question are independent.
 
 As we can see in the previous example, `KeyVals` can appear inside
 [collections](collections.html). They can also appear within
-[embeddables](embeddables). `KeyVals` can have multiple fields in
+[embeddables](embeddable). `KeyVals` can have multiple fields in
 them, and they can even embed other `KeyVals`. But they cannot contain
 any collections or [polymorphic entities](poly).
 
 We can always look up a persistent object by `KeyVal` using
-[repository method `Repo.retrieve`](repo/retrieve-keyval.html), as we
+[repository method `Repo.retrieve`](repo/retrieve.html), as we
 will discuss in a later section.
 
 {% assign prevTitle = "value objects" %}
