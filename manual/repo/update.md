@@ -45,7 +45,7 @@ We can continue to manipulate the persistent state returned by
 At present, there is nothing preventing you from modifying the
 contents of a key value for an aggregate. Consequently, it is possible
 for `update` to fail by attempting to put in a duplicate key
-value. See the note at the bottom of the [page on
+value. See the note at the bottom of the [section on
 repo.create](create.html) for more information on duplicate keys.
 
 The resulting `PState` result may well be different from the `PState`

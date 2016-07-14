@@ -56,5 +56,5 @@ changes](context/persistent-state.html).
 {% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "embeddables" %}
-{% assign nextLink = "embeddables" %}
+{% assign nextLink = "embeddable" %}
 {% include navigate.html %}

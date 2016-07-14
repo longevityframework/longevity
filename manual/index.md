@@ -36,7 +36,7 @@ will put in links as I write the chapters.
   - [Keys](ptype/keys.html)
   - [Indexes](ptype/indexes.html)
   - [Prop Sets, Key Sets, and Index Sets](ptype/sets.html)
-- [Polymorphic Persistents and Entities](poly)
+- [Polymorphic Embeddables](poly)
   - [Polymorphic Persistents](poly/persistents.html)
 - [The Longevity Context](context)
   - [Persistence Strategy](context/pstrat.html)

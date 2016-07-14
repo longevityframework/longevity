@@ -35,7 +35,7 @@ with something like <code>Repo.deleteByQuery</code>.
 </div>
 
 {% assign prevTitle = "repo.update" %}
-{% assign prevLink = "repo-update.html" %}
+{% assign prevLink = "update.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "polymorphic repositories" %}

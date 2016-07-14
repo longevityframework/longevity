@@ -4,8 +4,8 @@ layout: page
 ---
 
 Longevity currently places the following limitations on the kinds of
-classes you can use for your [persistents](persistent), [entites](entities), and
-[key values](key-values.html):
+classes you can use for your [persistents](persistent),
+[embeddables](embeddable), and [key values](key-values.html):
 
 - They must be a case class.
 - They must not be an [inner class](http://docs.scala-lang.org/tutorials/tour/inner-classes.html).

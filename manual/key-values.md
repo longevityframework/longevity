@@ -83,7 +83,7 @@ We can always look up a persistent object by `KeyVal` using
 will discuss in a later section.
 
 {% assign prevTitle = "value objects" %}
-{% assign prevLink = "entities/value-objects.html" %}
+{% assign prevLink = "embeddable/value-objects.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "limitations on persistents, embeddables, and key values" %}

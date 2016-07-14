@@ -26,7 +26,7 @@ object User extends RootType[User] {
 }
 ```
 
-Is equivalent to this:
+Is functionally equivalent to this:
 
 ```scala
 import longevity.subdomain.ptype.Index
@@ -89,7 +89,7 @@ build the sets for you.
 {% assign prevLink = "indexes.html" %}
 {% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "polymorphic persistents and entities" %}
+{% assign nextTitle = "polymorphic embeddables" %}
 {% assign nextLink = "../poly" %}
 {% include navigate.html %}
 

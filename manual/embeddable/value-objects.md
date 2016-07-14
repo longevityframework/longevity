@@ -80,7 +80,7 @@ context, please see this blog post on [entities, value objects, and
 identity](http://scabl.blogspot.com/2015/05/aeddd-13.html).
 
 {% assign prevTitle = "entities" %}
-{% assign prevLink = "." %}
+{% assign prevLink = "entities.html" %}
 {% assign upTitle = "embeddables" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "key values" %}

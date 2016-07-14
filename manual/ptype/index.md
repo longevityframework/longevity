@@ -35,8 +35,8 @@ discuss properties first.
 - [Indexes](indexes.html)
 - [Prop Sets, Key Sets, and Index Sets](sets.html)
 
-{% assign prevTitle = "using associations" %}
-{% assign prevLink = "../subdomain/using-associations.html" %}
+{% assign prevTitle = "limitations on persistents, embeddables, and key values" %}
+{% assign prevLink = "../limitations.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "properties" %}

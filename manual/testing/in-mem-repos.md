@@ -30,9 +30,9 @@ In your tests, you can initialize your service like this instead:
 val userService = new UserService(longevityContext.inMemRepoPool[User])
 ```
 
-{% assign prevTitle = "testing" %}
+{% assign prevTitle = "testing your subdomain" %}
 {% assign prevLink = "." %}
-{% assign upTitle = "testing" %}
+{% assign upTitle = "testing your subdomain" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "repo crud spec" %}
 {% assign nextLink = "repo-crud-spec.html" %}

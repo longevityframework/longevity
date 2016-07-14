@@ -29,16 +29,16 @@ model by imposing the following rule:
 In essence, we are drawing a clear distinction between two different
 kinds of relationships that occur in domain modelling: _composition_,
 where one entity can be seen as _part of_ another entity, and
-_assocation_, where the two entities are much more loosely
-associated. The hallmark of an assocation is when the two entities
+_aggregation_, where the two entities are much more loosely
+associated. The hallmark of an aggregation is when the two entities
 have independent life-cycles.
 
 With Hibernate, all our relationships are represented by a direct
 reference between the two entities. In longevity, we clearly
 distinguish between the two kinds of relationships. Compositional
 relationships are naturally modeled as nested case classes, and
-associational relationships are modeled with an extra level of
-indirection, which we call an `Assoc`.
+aggregational relationships are modeled with using
+[keys](../ptype/keys.html) and [key values](../key-values.html).
 
 For a text-book example of DDD aggregates, please see this blog post
 on [The Entity and the Aggregate

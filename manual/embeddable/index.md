@@ -52,7 +52,7 @@ val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(FullName))
 ```
 
 You can put embeddables in embeddables, and embeddables into
-[supported collection types](collections.html) `Option`, `Set` and
+[supported collection types](../collections.html) `Option`, `Set` and
 `List`, collections into embeddables. For example:
 
 ```scala

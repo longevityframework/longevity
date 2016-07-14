@@ -14,7 +14,7 @@ subdomains](http://blog.jonathanoliver.com/ddd-strategic-design-core-supporting-
 such as _core_, _supporting_, and _generic_. In longevity, these are all
 the same thing, but you can call them as you please. You can also make
 use of multiple longevity `Subdomains` in a single application. (See
-the [chapter on configuration](../context/config.html) for providing separate
+the [chapter on configuration](context/config.html) for providing separate
 configuration for each subdomain.)
 
 Longevity `Subdomains` are quite easy to construct, and in this

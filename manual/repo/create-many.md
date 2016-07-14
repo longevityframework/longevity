@@ -49,7 +49,7 @@ include `import scala.concurrent.ExecutionContext.Implicits.global` at
 the top of the file.
 
 {% assign prevTitle = "repo.create" %}
-{% assign prevLink = "repo-create.html" %}
+{% assign prevLink = "create.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "retrieval by key value" %}

@@ -34,7 +34,7 @@ our domain classes serving as a reference for the model.
 In longevity, the use of Scala case classes, and the careful
 encapsulation of persistence concerns, allows us to write domain
 classes that directly reflect our domain, as we will see in the
-section on [Building Your Subdomain](../subdomain).
+section on [building your subdomain](../subdomain.html).
 
 {% assign prevTitle = "ddd basics" %}
 {% assign prevLink = "." %}

@@ -35,7 +35,7 @@ Now we need to build a corresponding `RootType`. By convention, we
 designate the companion object as the `PType`. For now, we won't
 provide any information in our persistent type, but we still need to
 declare our [properties](../ptype/properties.html),
-[keys](../ptype/keys.html), and [indexes.html](../ptype/indexes.html).
+[keys](../ptype/keys.html), and [indexes](../ptype/indexes.html).
 The easiest way to do this is by providing empty `props`, `keys`, and
 `indexes` objects inside the `PType`:
 
@@ -53,7 +53,7 @@ object User extends RootType[User] {
 ```
 
 You pass longevity a collection of your `PTypes` when [building your
-subdomain](../subdomain), so that longevity is aware of them:
+subdomain](../subdomain.html), so that longevity is aware of them:
 
 ```scala
 import longevity.subdomain.Subdomain

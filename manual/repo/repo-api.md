@@ -1,5 +1,5 @@
 ---
-title: repositories
+title: the repo api
 layout: page
 ---
 

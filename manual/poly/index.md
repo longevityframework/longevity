@@ -1,5 +1,5 @@
 ---
-title: polymorphic persistents and entities
+title: polymorphic embeddables
 layout: page
 ---
 
@@ -112,8 +112,8 @@ val subdomain = Subdomain(
   ShorthandPool(Email, PhoneNumber))
 ```
 
-{% assign prevTitle = "key sets and index sets" %}
-{% assign prevLink = "../ptype/key-sets-and-index-sets.html" %}
+{% assign prevTitle = "prop sets, key sets, and index sets" %}
+{% assign prevLink = "../ptype/sets.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "polymorphic persistents" %}
