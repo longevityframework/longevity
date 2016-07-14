@@ -47,7 +47,7 @@ abstract class PType[P <: Persistent : TypeKey] {
    * @tparam V the type of the key value
    * @param keyValProp a property for the key
    */
-  def key[V <: KeyVal[P, V] : TypeKey](keyValProp: Prop[P, V]): Key[P, V] = new Key(keyValProp)
+  def key[V <: KeyVal[P, V] : TypeKey](keyValProp: Prop[P, V]): Key[P, V] = Key(keyValProp)
 
   /** constructs an index for this persistent type based on the supplied set of
    * index props
@@ -86,4 +86,5 @@ abstract class PType[P <: Persistent : TypeKey] {
   }
 
   override def toString = s"PType[${pTypeKey.name}]"
+
 }

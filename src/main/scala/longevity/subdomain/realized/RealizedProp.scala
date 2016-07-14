@@ -28,7 +28,6 @@ private[longevity] class RealizedProp[P <: Persistent, A](
 
   def inlinedPath = emblematicPropPath.inlinedPath
 
-  /** the value of this property for a persistent */
   def propVal(p: P): A = emblematicPropPath.get(p)
 
   def updatePropVal(p: P, a: A): P = emblematicPropPath.set(p, a)
@@ -52,16 +51,12 @@ private[longevity] class RealizedProp[P <: Persistent, A](
     }
   }
 
-  /** resolves to underlying basic type */
   def resolvedPropVals(p: P): Seq[Any] = {
     basicPropComponents.map(_.get(propVal(p)))
   }
 
-  /** an ordering for property values */
   val ordering: Ordering[A] = {
-    val unitOrdering = new Ordering[A] {
-      def compare(a1: A, a2: A) = 0
-    }
+    val unitOrdering = new Ordering[A] { def compare(a1: A, a2: A) = 0 }
     basicPropComponents.foldLeft(unitOrdering) { (ordering, basicPropComponent) =>
       def accumulate[B](basicPropComponent: BasicPropComponent[P, A, B]) =
         new Ordering[A]() {

@@ -170,11 +170,24 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
     new TypeBoundMap[TypeBound, Key, Val2](
       mapValuesUnderlying[TypeBound, Val2](f))
 
+  /** returns the same `TypeBoundMap`, but with the key and value types as wider
+   * types than the originals
+   *
+   * @tparam Key2 the new key type
+   * @tparam Val2 the new value type
+   */
+  def widen[
+    Key2[TypeParam <: TypeBound] >: Key[TypeParam],
+    Val2[TypeParam <: TypeBound] >: Val[TypeParam]]
+  : TypeBoundMap[TypeBound, Key2, Val2] =
+    this.asInstanceOf[TypeBoundMap[TypeBound, Key2, Val2]]
+
   /** a string representation of a TypeBoundMap */
   override def toString = s"TypeBound${underlying}"
 
-  /** compares two maps structurally; i.e., checks if all mappings contained in this map are also contained in
-   * the other map, and vice versa.
+  /** compares two maps structurally; i.e., checks if all mappings contained in
+   * this map are also contained in the other map, and vice versa.
+   * 
    * @param that the other type key map
    * @return true if both maps contain exactly the same mappings, false otherwise.
    */

@@ -8,7 +8,7 @@ import longevity.subdomain.persistent.Persistent
 
 /** a natural key for this persistent type. wraps a [[Prop property]] that,
  * given specific a property value, will match no more than one persistent
- * instance.
+ * object.
  * 
  * @tparam P the persistent type
  * @tparam V the key value type

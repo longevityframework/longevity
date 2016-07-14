@@ -19,9 +19,15 @@ class QueryDsl[P <: Persistent] {
    *
    * ```
    * object User extends RootType[User] {
-   *   val accountNoProp = prop[String]("account.number")
+   *   object props {
+   *     val accountNumber = prop[String]("account.number")
+   *   }
+   *   object keys {
+   *   }
+   *   object indexes {
+   *   }
    * }
-   * User.accountNoProp eqs "D85330"`
+   * User.props.accountNumber eqs "D85330"`
    * ```
    */
   class GatherRelational[A] private[QueryDsl] (
