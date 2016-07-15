@@ -97,8 +97,7 @@ with CassandraDelete[P] {
 
   protected def updateColumnValues(uuid: UUID, p: P, includeId: Boolean = true): Seq[AnyRef] = {
     val actualizedComponentValues = actualizedComponents.toSeq.sortBy(columnName).map { component =>
-      def bind[PP >: P <: Persistent](componeent: BasicPropComponent[PP, _, _]) = propValBinding(component, p)
-      bind(component)
+      propValBinding(component, p)
     }
     if (includeId)
       uuid +: jsonStringForP(p) +: actualizedComponentValues
@@ -120,7 +119,6 @@ with CassandraDelete[P] {
     component: BasicPropComponent[_ >: P <: Persistent, _, A])
   : AnyRef = {
     value match {
-      case id: CassandraId[_] => id.uuid
       case char: Char => char.toString
       case d: DateTime => dateTimeFormatter.print(d)
       case _ => value.asInstanceOf[AnyRef]

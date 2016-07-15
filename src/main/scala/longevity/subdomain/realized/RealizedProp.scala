@@ -24,8 +24,6 @@ private[longevity] class RealizedProp[P <: Persistent, A](
 
   def propTypeKey = prop.propTypeKey
 
-  def path = prop.path
-
   def inlinedPath = emblematicPropPath.inlinedPath
 
   def propVal(p: P): A = emblematicPropPath.get(p)

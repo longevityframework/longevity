@@ -1,6 +1,8 @@
 package longevity.integration.poly
 
 import longevity.context.LongevityContext
+import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.integration.subdomain.derivedEntities
 import longevity.persistence.RepoPool
 import longevity.subdomain.ptype.Query
@@ -10,6 +12,15 @@ import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 import org.scalatest.concurrent.ScalaFutures
 import scala.concurrent.ExecutionContext
+
+object PolyReposSpec {
+
+  case class DerivedNotInSubdomain(
+    id: derivedEntities.PolyRootId,
+    component: derivedEntities.PolyEntity)
+  extends derivedEntities.PolyRoot
+
+}
 
 /** base class for testing repos that share tables in the presence of [[PolyType]] */
 abstract class PolyReposSpec(
@@ -124,5 +135,34 @@ with TestDataGeneration {
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedRoot)
   } 
+
+  behavior of "Repo[PolyRoot].create"
+
+  it should "throw exception on a subclass of PolyRoot that is not in the subdomain" in {
+    val derivedNotInSubdomain = generateDerivedNotInSubdomain
+
+    intercept[NotInSubdomainTranslationException] {
+      repoPool[derivedEntities.PolyRoot].create(derivedNotInSubdomain)
+    }
+  } 
+
+  behavior of "Repo[PolyRoot].update"
+
+  it should "throw exception on attempt to change the derived type of the PState" in {
+    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
+    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+
+    val secondDerivedRoot = testDataGenerator.generate[derivedEntities.SecondDerivedRoot]
+    val modifiedPState = createdPState.set(secondDerivedRoot)
+
+    intercept[PStateChangesDerivedPTypeException] {
+      repoPool[derivedEntities.PolyRoot].update(modifiedPState)
+    }
+  } 
+
+  private def generateDerivedNotInSubdomain =
+    PolyReposSpec.DerivedNotInSubdomain(
+      testDataGenerator.generate[derivedEntities.PolyRootId],
+      testDataGenerator.generate[derivedEntities.PolyEntity])
 
 }

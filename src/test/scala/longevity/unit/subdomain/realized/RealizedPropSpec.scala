@@ -21,11 +21,6 @@ class RealizedPropSpec extends FlatSpec with GivenWhenThen with Matchers {
     realizedProp.propTypeKey should equal (typeKey[Email])
   }
 
-  behavior of "RealizedProp.path"
-  it should "produce the right path" in {
-    realizedProp.path should equal ("email")
-  }
-
   behavior of "RealizedProp.inlinedPath"
   it should "produce the right path" in {
     realizedProp.inlinedPath should equal ("email")

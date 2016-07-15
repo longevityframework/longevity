@@ -1,11 +1,13 @@
 package longevity.integration.queries
 
 import com.github.nscala_time.time.Imports._
-import longevity.test.QuerySpec
-import longevity.integration.subdomain.basics._
 import longevity.exceptions.persistence.cassandra.AllInQueryException
-import longevity.subdomain.ptype.Query.All
+import longevity.exceptions.persistence.cassandra.NeqInQueryException
+import longevity.exceptions.persistence.cassandra.OrInQueryException
+import longevity.integration.subdomain.basics._
 import longevity.subdomain.ptype.Query
+import longevity.subdomain.ptype.Query.All
+import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class BasicsCassandraQuerySpec
@@ -47,7 +49,6 @@ extends QuerySpec[Basics](cassandraContext, cassandraContext.testRepoPool) {
     repo.retrieveByQuery(query).failed.futureValue shouldBe a [AllInQueryException]
   }
 
-  behavior of "CassandraRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
     exerciseQuery(floatProp eqs sample.float and booleanProp lt !sample.boolean, true)
     exerciseQuery(floatProp eqs sample.float and charProp lte sample.char, true)
@@ -59,7 +60,6 @@ extends QuerySpec[Basics](cassandraContext, cassandraContext.testRepoPool) {
     exerciseQuery(floatProp eqs sample.float and stringProp gte sample.string, true)
   }
 
-  behavior of "CassandraRepo.retrieveByQuery"
   it should "produce expected results for nested conditional queries" in {
     exerciseQuery(
       booleanProp eqs sample.boolean and
@@ -77,6 +77,19 @@ extends QuerySpec[Basics](cassandraContext, cassandraContext.testRepoPool) {
       longProp gt sample.long - 2 and
       stringProp gte sample.string,
       true)
+  }
+
+  it should "throw exception for or queries" in {
+    repo.retrieveByQuery(
+      booleanProp eqs sample.boolean or
+      charProp lte sample.char
+    ).failed.futureValue shouldBe a [OrInQueryException]
+  }
+
+  it should "throw exception for neq queries" in {
+    repo.retrieveByQuery(
+      booleanProp neq sample.boolean
+    ).failed.futureValue shouldBe a [NeqInQueryException]
   }
 
 }
