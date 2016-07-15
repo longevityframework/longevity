@@ -43,7 +43,7 @@ trait LongevityContext extends PersistenceContext with TestContext {
   /** the subdomain that provides the ubiquitous language for the bounded context */
   val subdomain: Subdomain
 
-  /** the longevity configuration. see the reference.conf resource file for all
+  /** the longevity configuration. see the `reference.conf` resource file for all
    * the longevity config settings, and their defaults.
    */
   val config: Config

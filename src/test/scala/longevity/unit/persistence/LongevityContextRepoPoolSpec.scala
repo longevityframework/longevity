@@ -8,7 +8,7 @@ import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.mongo.MongoRepo
 
 /** unit tests for the proper construction of [[LongevityContext.repoPool]] and
- * [[LongevityContext.inMemRepoPool]]
+ * [[LongevityContext.inMemTestRepoPool]]
  */
 class LongevityContextRepoPoolSpec extends FlatSpec with GivenWhenThen with Matchers {
 

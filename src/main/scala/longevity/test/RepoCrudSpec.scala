@@ -84,11 +84,9 @@ with TestDataGeneration {
     private val pTypeKey: TypeKey[P]) {
 
     private val pName = pTypeKey.name
-    private val representativeKeyOption = repo.pType.keySet.headOption
 
     object Create extends Tag("Create")
-    object RetrieveAssoc extends Tag("RetrieveAssoc")
-    object RetrieveNatKey extends Tag("RetrieveNatKey")
+    object Retrieve extends Tag("Retrieve")
     object Update extends Tag("Update")
     object Delete extends Tag("Delete")
 
@@ -114,8 +112,8 @@ with TestDataGeneration {
       }
     }
 
-    feature(s"${pName}Repo.retrieve(KeyVal)") {
-      scenario(s"should produce the same persisted $pName", RetrieveNatKey) {
+    feature(s"${pName}Repo.retrieve") {
+      scenario(s"should produce the same persisted $pName", Retrieve) {
 
         Given(s"a persisted $pName")
         val p = randomP()

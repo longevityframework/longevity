@@ -94,7 +94,7 @@ package object persistence {
     config: Config)
   : RepoPool =
     persistenceStrategy match {
-      case InMem => inMemRepoPool(subdomain)
+      case InMem => inMemTestRepoPool(subdomain)
       case Mongo => mongoRepoPool(subdomain, MongoRepo.mongoDbFromConfig(config))
       case Cassandra => cassandraRepoPool(subdomain, CassandraRepo.sessionFromConfig(config))
     }
@@ -106,7 +106,7 @@ package object persistence {
     : R[P]
   }
 
-  private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
+  private def inMemTestRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory[InMemRepo] {
       def build[P <: Persistent](
         pType: PType[P],
