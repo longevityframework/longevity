@@ -58,13 +58,13 @@ package object persistence {
     fopState: FOPState[P])(
     implicit executionContext: ExecutionContext) {
 
-    /** map the `FOPState` by mapping the Persistent inside the PState */
+    /** map the `FOPState` by mapping the `Persistent` inside the `PState` */
     def mapP(f: P => P): FOPState[P] =
       fopState.map { opState =>
         opState.map { pState => pState.map { p => f(p) } }
       }
 
-    /** flatMap the `FOPState` by mapping the Persistent inside the PState into a `Future[P]` */
+    /** flatMap the `FOPState` by mapping the `Persistent` inside the `PState` into a `Future[P]` */
     def flatMapP(f: P => Future[P]): FOPState[P] =
       fopState.flatMap { opState =>
         opState match {
@@ -73,9 +73,11 @@ package object persistence {
         }
       }
 
+    /** map the `FOPState` by mapping the `PState` inside the `Option` */
     def mapState(f: PState[P] => PState[P]): FOPState[P] =
       fopState.map { opState => opState.map(f(_)) }
 
+    /** flatMap the `FOPState` by mapping the `PState` inside the `Option` into a `FPState[P]` */
     def flatMapState(f: PState[P] => FPState[P]): FOPState[P] =
       fopState.flatMap { opState =>
         opState match {
@@ -96,6 +98,13 @@ package object persistence {
       case Mongo => mongoRepoPool(subdomain, MongoRepo.mongoDbFromConfig(config))
       case Cassandra => cassandraRepoPool(subdomain, CassandraRepo.sessionFromConfig(config))
     }
+
+  private trait StockRepoFactory[R[P <: Persistent] <: BaseRepo[P]] {
+    def build[P <: Persistent](
+      pType: PType[P],
+      polyRepoOpt: Option[R[_ >: P <: Persistent]] = None)
+    : R[P]
+  }
 
   private def inMemRepoPool(subdomain: Subdomain): RepoPool = {
     object repoFactory extends StockRepoFactory[InMemRepo] {
@@ -128,13 +137,6 @@ package object persistence {
         CassandraRepo[P](pType, subdomain, session, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory)
-  }
-
-  private trait StockRepoFactory[R[P <: Persistent] <: BaseRepo[P]] {
-    def build[P <: Persistent](
-      pType: PType[P],
-      polyRepoOpt: Option[R[_ >: P <: Persistent]] = None)
-    : R[P]
   }
 
   private def buildRepoPool[R[P <: Persistent] <: BaseRepo[P]](

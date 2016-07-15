@@ -9,7 +9,7 @@ import longevity.subdomain.realized.RealizedPType
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** an abstract base class for [[Repo]] implementations.
+/** an abstract base class for [[Repo]] implementations
  * 
  * @param pType the entity type for the persistent entities this repository handles
  * @param subdomain the subdomain containing the persistent entities that this repo persists

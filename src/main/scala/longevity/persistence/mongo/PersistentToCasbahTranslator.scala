@@ -18,7 +18,7 @@ import scala.reflect.runtime.universe.typeOf
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBObject
  * casbah MongoDBObjects]].
  * 
- * embeddables and nat keys with a single property will be inlined in the BSON.
+ * embeddables and key values with a single property will be inlined in the BSON.
  *
  * @param emblematic the emblematic types to use
  */
@@ -43,7 +43,6 @@ private[persistence] class PersistentToCasbahTranslator(
     type TraverseResult[A] = Any
 
     override protected val emblematic = PersistentToCasbahTranslator.this.emblematic
-    override protected val customTraversors = CustomTraversorPool.empty
 
     override protected def traverseBoolean(input: WrappedInput[Boolean]): Any = input.value
 

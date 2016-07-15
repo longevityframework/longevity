@@ -38,15 +38,15 @@ trait Repo[P <: Persistent] {
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext): Future[PState[P]]
+  def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext)
+  : Future[PState[P]]
 
   /** retrieves multiple persistent objects matching a query
    * 
    * @param query the query to execute
    * @param executionContext the execution context
    */
-  def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext)
-  : Future[Seq[PState[P]]]
+  def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext): Future[Seq[PState[P]]]
 
   /** streams persistent objects matching a query
    * 

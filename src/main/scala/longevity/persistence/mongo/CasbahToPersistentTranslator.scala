@@ -11,7 +11,7 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.emblematic.traversors.sync.Traversor
 import emblem.typeKey
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
-import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.Embeddable
 import longevity.subdomain.persistent.Persistent
 import scala.reflect.runtime.universe.typeOf
 
@@ -19,7 +19,8 @@ import scala.reflect.runtime.universe.typeOf
  * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBList
  * casbah MongoDBObjects]] into [[Persistent persistent objects]].
  * 
- * expects BSON for embeddables with a single property to inline those embeddables.
+ * expects BSON for embeddables and key values with a single property to inline
+ * those embeddables.
  *
  * @param emblematic the emblematic types to use
  */
@@ -44,7 +45,6 @@ private[persistence] class CasbahToPersistentTranslator(
     type TraverseResult[A] = A
 
     override protected val emblematic = CasbahToPersistentTranslator.this.emblematic
-    override protected val customTraversors = CustomTraversorPool.empty
 
     override protected def traverseBoolean(input: WrappedInput): Boolean = input.value.asInstanceOf[Boolean]
 
@@ -68,7 +68,7 @@ private[persistence] class CasbahToPersistentTranslator(
         val key = typeKey[A]
         if (key <:< typeOf[Persistent]) {
           input.value.asInstanceOf[MongoDBObject]
-        } else if (key <:< typeOf[Entity]) {
+        } else if (key <:< typeOf[Embeddable]) {
           input.value.asInstanceOf[BasicDBObject]
         } else {
           throw new CouldNotTraverseException(key)
