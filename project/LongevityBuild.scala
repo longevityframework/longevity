@@ -101,15 +101,15 @@ trait BuildSettings {
 object LongevityBuild extends Build with BuildSettings {
 
   val casbahDep: ModuleID = "org.mongodb" %% "casbah" % "3.1.1"
-  val cassandraDep: ModuleID = "com.datastax.cassandra" % "cassandra-driver-core" % "3.0.1"
-  val json4sDep: ModuleID = "org.json4s" %% "json4s-native" % "3.3.0"
+  val cassandraDep: ModuleID = "com.datastax.cassandra" % "cassandra-driver-core" % "3.0.2"
+  val json4sDep: ModuleID = "org.json4s" %% "json4s-native" % "3.4.0"
 
   lazy val longevity = Project(
     id = "longevity",
     base = file("."),
     settings = buildSettings ++ Seq(
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
-      libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.6",
+      libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.8",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
 
       // for mongo:
