@@ -267,9 +267,6 @@ with ScaledTimeSpans {
 
     // create a new blog post:
 
-    val blogState: PState[Blog] =
-      blogRepo.retrieve(blog.uri).futureValue.value
-
     val newPost = BlogPost(
       uri = BlogPostUri("new_post"),
       title = "New post",
@@ -288,7 +285,9 @@ with ScaledTimeSpans {
 
     // add a new author to a blog:
 
-    val newUserState = userRepo.create(jerry).futureValue
+    userRepo.create(jerry).futureValue
+
+    val blogState: PState[Blog] = blogRepo.retrieveOne(blog.uri).futureValue
     val modifiedBlogState = blogState.map { blog =>
       blog.copy(authors = blog.authors + jerry.username)
     }
