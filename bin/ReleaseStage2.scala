@@ -26,7 +26,7 @@ object ReleaseStage2 extends App {
     }
   }
 
-  val isLive = false
+  val isLive = true
 
   val longevityDir = new File("/Users/jsmscs/ws/lf/longevity")
   val projectDir =  new File("/Users/jsmscs/ws/lf/longevity/project")
