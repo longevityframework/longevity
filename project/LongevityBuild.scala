@@ -24,7 +24,7 @@ trait BuildSettings {
 
   val publishSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
-    version := "0.9-SNAPSHOT",
+    version := "0.9.0",
     scalaVersion := "2.11.8",
 
     publishMavenStyle := true,
