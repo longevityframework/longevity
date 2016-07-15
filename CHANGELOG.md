@@ -1,6 +1,6 @@
 # Longevity Change Log
 
-## [0.9-SNAPSHOT]
+## [0.9.0] - Streamlined API
 
 - 2016.07.12 - `KeyVal` and `Key` have been completely reworked for
   improved understandability and ease of use. please see the manual
