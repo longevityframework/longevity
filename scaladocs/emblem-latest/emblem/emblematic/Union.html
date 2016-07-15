@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Union - emblem 0.9-SNAPSHOT API - emblem.emblematic.Union</title>
-          <meta name="description" content="Union - emblem 0.9 - SNAPSHOT API - emblem.emblematic.Union" />
-          <meta name="keywords" content="Union emblem 0.9 SNAPSHOT API emblem.emblematic.Union" />
+          <title>Union - emblem 0.10-SNAPSHOT API - emblem.emblematic.Union</title>
+          <meta name="description" content="Union - emblem 0.10 - SNAPSHOT API - emblem.emblematic.Union" />
+          <meta name="keywords" content="Union emblem 0.10 SNAPSHOT API emblem.emblematic.Union" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Union</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="typeKey">typeKey: <a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>, <span name="constituents">constituents: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="Emblem.html" class="extype" name="emblem.emblematic.Emblem">Emblem</a>[_ &lt;: <span class="extype" name="emblem.emblematic.Union.A">A</span>]]</span>, <span name="props">props: <span class="extype" name="scala.Seq">Seq</span>[<a href="UnionProp.html" class="extype" name="emblem.emblematic.UnionProp">UnionProp</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, _]]</span>)</span><span class="result"> extends <a href="Reflective.html" class="extype" name="emblem.emblematic.Reflective">Reflective</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>] with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+        <span class="name">Union</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="typeKey">typeKey: <a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>, <span name="constituents">constituents: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="Emblem.html" class="extype" name="emblem.emblematic.Emblem">Emblem</a>[_ &lt;: <span class="extype" name="emblem.emblematic.Union.A">A</span>]]</span>, <span name="props">props: <span class="extype" name="scala.Seq">Seq</span>[<a href="UnionProp.html" class="extype" name="emblem.emblematic.UnionProp">UnionProp</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, _]]</span>, <span name="lookup">lookup: <span class="extype" name="emblem.emblematic.UnionConstituentLookup">UnionConstituentLookup</span>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>)</span><span class="result"> extends <a href="Reflective.html" class="extype" name="emblem.emblematic.Reflective">Reflective</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>] with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4>
       
@@ -58,12 +58,11 @@ same simple name, if the types involved are companion objects, or if the
 types are otherwise complex types, such as <code>Foo with Bar</code>. for now, it's best
 to declare your constituent types in discrete classes. if this ever becomes a
 problematic limitation, we will look into making this more robust.
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the supertype</p></dd><dt class="param">typeKey</dt><dd class="cmt"><p>the type key for the supertype</p></dd><dt class="param">constituents</dt><dd class="cmt"><p>emblems for the constituent types</p></dd><dt class="param">props</dt><dd class="cmt"><p>the <a href="UnionProp.html" class="extype" name="emblem.emblematic.UnionProp">union properties</a></p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/e0762fc0f0518252f5e6bc4915f4ac3a038ba780/emblem/src/main/scala/emblem/emblematic/Union.scala" target="_blank">Union.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the supertype</p></dd><dt class="param">typeKey</dt><dd class="cmt"><p>the type key for the supertype</p></dd><dt class="param">constituents</dt><dd class="cmt"><p>emblems for the constituent types</p></dd><dt class="param">props</dt><dd class="cmt"><p>the <a href="UnionProp.html" class="extype" name="emblem.emblematic.UnionProp">union properties</a></p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/a609d8e5669dbd0094f9753b04b47e0e2fb701d5/emblem/src/main/scala/emblem/emblematic/Union.scala" target="_blank">Union.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="Reflective.html" class="extype" name="emblem.emblematic.Reflective">Reflective</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>], <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="Reflective.html" class="extype" name="emblem.emblematic.Reflective">Reflective</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>], <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
                 <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 317.00 118.00" height="118pt" width="317pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 313,-114 313,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="emblem.emblematic.Union (this class)" xlink:href="#inheritance-diagram"><polygon points="197.5,-49 115.5,-49 115.5,-24 197.5,-24 197.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="125.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="146.434" text-anchor="start">Union[A]</text></a></g></g><!-- node1 --><g class="node trait" id="graph1_1"><g id="a_trait|graph1_1"><a xlink:title="emblem.emblematic.Reflective" xlink:href="Reflective.html#inheritance-diagram"><polygon points="99,-110 0,-110 0,-85 99,-85 99,-110" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-104.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="31.0444" text-anchor="start">Reflective[A]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="Union[A] is a subtype of Reflective[A]"><path d="M74.9248,-82.4807C93.3394,-72.3269 117.946,-58.7588 135.302,-49.1884" stroke="#d4d4d4" fill="none"></path><polygon points="73.9182,-81.0373 70.3847,-84.9841 75.6082,-84.1023 73.9182,-81.0373" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="scala.Product"><polygon points="195.5,-110 117.5,-110 117.5,-85 195.5,-85 195.5,-110" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-104.5" x="127.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="148.379" text-anchor="start">Product</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge inheritance" id="graph1_2_0"><g id="a_inheritance|graph1_2_0"><a xlink:title="Union[A] is a subtype of Product"><path d="M156.5,-79.6874C156.5,-69.9173 156.5,-57.8534 156.5,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="154.75,-79.8435 156.5,-84.8435 158.25,-79.8435 154.75,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node trait" id="graph1_3"><g id="a_trait|graph1_3"><a xlink:title="scala.Serializable"><polygon points="309,-110 214,-110 214,-85 309,-85 309,-110" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-104.5" x="224.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="245.264" text-anchor="start">Serializable</text></a></g></g><!-- node3&#45;&gt;node0 --><g class="edge inheritance" id="graph1_3_0"><g id="a_inheritance|graph1_3_0"><a xlink:title="Union[A] is a subtype of Serializable"><path d="M236.55,-82.4807C218.48,-72.3269 194.334,-58.7588 177.301,-49.1884" stroke="#d4d4d4" fill="none"></path><polygon points="235.789,-84.0604 241.006,-84.9841 237.504,-81.0091 235.789,-84.0604" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
@@ -75,7 +74,7 @@ problematic limitation, we will look into making this more robust.
               <ol>
                 
                 <li class="alpha in"><span>Alphabetic</span></li>
-                <li class="inherit out"><span>By inheritance</span></li>
+                <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
             </div>
         <div id="ancestors">
@@ -93,7 +92,7 @@ problematic limitation, we will look into making this more robust.
             <span class="filtertype"></span>
             <ol>
               <li class="hideall out"><span>Hide All</span></li>
-              <li class="showall in"><span>Show all</span></li>
+              <li class="showall in"><span>Show All</span></li>
             </ol>
           </div>
         <div id="visbl">
@@ -107,7 +106,7 @@ problematic limitation, we will look into making this more robust.
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="emblem.emblematic.Union#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(typeKey:emblem.TypeKey[A],constituents:Set[emblem.emblematic.Emblem[_&lt;:A]],props:Seq[emblem.emblematic.UnionProp[A,_]]):emblem.emblematic.Union[A]"></a>
+      <a id="&lt;init&gt;(typeKey:emblem.TypeKey[A],constituents:Set[emblem.emblematic.Emblem[_&lt;:A]],props:Seq[emblem.emblematic.UnionProp[A,_]],lookup:emblem.emblematic.UnionConstituentLookup[A]):emblem.emblematic.Union[A]"></a>
       <a id="&lt;init&gt;:Union[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -115,10 +114,10 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Union</span><span class="params">(<span name="typeKey">typeKey: <a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>, <span name="constituents">constituents: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="Emblem.html" class="extype" name="emblem.emblematic.Emblem">Emblem</a>[_ &lt;: <span class="extype" name="emblem.emblematic.Union.A">A</span>]]</span>, <span name="props">props: <span class="extype" name="scala.Seq">Seq</span>[<a href="UnionProp.html" class="extype" name="emblem.emblematic.UnionProp">UnionProp</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, _]]</span>)</span>
+        <span class="name">Union</span><span class="params">(<span name="typeKey">typeKey: <a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>, <span name="constituents">constituents: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="Emblem.html" class="extype" name="emblem.emblematic.Emblem">Emblem</a>[_ &lt;: <span class="extype" name="emblem.emblematic.Union.A">A</span>]]</span>, <span name="props">props: <span class="extype" name="scala.Seq">Seq</span>[<a href="UnionProp.html" class="extype" name="emblem.emblematic.UnionProp">UnionProp</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, _]]</span>, <span name="lookup">lookup: <span class="extype" name="emblem.emblematic.UnionConstituentLookup">UnionConstituentLookup</span>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#emblem.emblematic.Union@&lt;init&gt;(typeKey:emblem.TypeKey[A],constituents:Set[emblem.emblematic.Emblem[_&lt;:A]],props:Seq[emblem.emblematic.UnionProp[A,_]]):emblem.emblematic.Union[A]" title="Permalink" target="_top">
+      <a href="../../index.html#emblem.emblematic.Union@&lt;init&gt;(typeKey:emblem.TypeKey[A],constituents:Set[emblem.emblematic.Emblem[_&lt;:A]],props:Seq[emblem.emblematic.UnionProp[A,_]],lookup:emblem.emblematic.UnionConstituentLookup[A]):emblem.emblematic.Union[A]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -128,19 +127,19 @@ problematic limitation, we will look into making this more robust.
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="emblem.emblematic.Union.P" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="P[B,C]=emblem.emblematic.UnionProp[B,C]"></a>
-      <a id="P[B,C]:P[B,C]"></a>
+              <ol><li name="emblem.emblematic.Union.PropType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="PropType[B,C]=emblem.emblematic.UnionProp[B,C]"></a>
+      <a id="PropType[B,C]:PropType[B,C]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">P</span><span class="tparams">[<span name="B">B</span>, <span name="C">C</span>]</span><span class="result"> = <a href="UnionProp.html" class="extype" name="emblem.emblematic.UnionProp">UnionProp</a>[<span class="extype" name="emblem.emblematic.Union.P.B">B</span>, <span class="extype" name="emblem.emblematic.Union.P.C">C</span>]</span>
+        <span class="name">PropType</span><span class="tparams">[<span name="B">B</span>, <span name="C">C</span>]</span><span class="result"> = <a href="UnionProp.html" class="extype" name="emblem.emblematic.UnionProp">UnionProp</a>[<span class="extype" name="emblem.emblematic.Union.PropType.B">B</span>, <span class="extype" name="emblem.emblematic.Union.PropType.C">C</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#emblem.emblematic.Union@P[B,C]=emblem.emblematic.UnionProp[B,C]" title="Permalink" target="_top">
+      <a href="../../index.html#emblem.emblematic.Union@PropType[B,C]=emblem.emblematic.UnionProp[B,C]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -163,7 +162,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@!=(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -180,7 +179,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@##():Int" title="Permalink" target="_top">
@@ -242,7 +241,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@==(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -251,18 +250,18 @@ problematic limitation, we will look into making this more robust.
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="emblem.emblematic.Reflective#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(name:String):Reflective.this.P[A,_]"></a>
-      <a id="apply(String):P[A,_]"></a>
+      <a id="apply(name:String):Reflective.this.PropType[A,_]"></a>
+      <a id="apply(String):PropType[A,_]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="#P[B,C]=emblem.emblematic.UnionProp[B,C]" class="extmbr" name="emblem.emblematic.Union.P">P</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, _]</span>
+        <span class="name">apply</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="#PropType[B,C]=emblem.emblematic.UnionProp[B,C]" class="extmbr" name="emblem.emblematic.Union.PropType">PropType</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, _]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#emblem.emblematic.Union@apply(name:String):Reflective.this.P[A,_]" title="Permalink" target="_top">
+      <a href="../../index.html#emblem.emblematic.Union@apply(name:String):Reflective.this.PropType[A,_]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -293,7 +292,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@clone():Object" title="Permalink" target="_top">
@@ -367,7 +366,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
@@ -388,7 +387,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
@@ -409,7 +408,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
@@ -430,7 +429,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="emblem.emblematic.Union">Union</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@ensuring(cond:Boolean):A" title="Permalink" target="_top">
@@ -451,7 +450,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -468,7 +467,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@finalize():Unit" title="Permalink" target="_top">
@@ -549,7 +548,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
@@ -557,6 +556,23 @@ problematic limitation, we will look into making this more robust.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="emblem.emblematic.Union#lookup" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lookup:emblem.emblematic.UnionConstituentLookup[A]"></a>
+      <a id="lookup:UnionConstituentLookup[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lookup</span><span class="result">: <span class="extype" name="emblem.emblematic.UnionConstituentLookup">UnionConstituentLookup</span>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#emblem.emblematic.Union@lookup:emblem.emblematic.UnionConstituentLookup[A]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="emblem.emblematic.Reflective#name" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="name:String"></a>
       <a id="name:String"></a>
@@ -600,7 +616,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -617,7 +633,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@notify():Unit" title="Permalink" target="_top">
@@ -634,7 +650,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@notifyAll():Unit" title="Permalink" target="_top">
@@ -643,39 +659,39 @@ problematic limitation, we will look into making this more robust.
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="emblem.emblematic.Reflective#prop" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="prop[B](name:String)(implicitevidence$1:emblem.TypeKey[B]):Reflective.this.P[A,B]"></a>
-      <a id="prop[B](String)(TypeKey[B]):P[A,B]"></a>
+      <a id="prop[B](name:String)(implicitevidence$1:emblem.TypeKey[B]):Reflective.this.PropType[A,B]"></a>
+      <a id="prop[B](String)(TypeKey[B]):PropType[A,B]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">prop</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[<span class="extype" name="emblem.emblematic.Reflective.prop.B">B</span>]</span>)</span><span class="result">: <a href="#P[B,C]=emblem.emblematic.UnionProp[B,C]" class="extmbr" name="emblem.emblematic.Union.P">P</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, <span class="extype" name="emblem.emblematic.Reflective.prop.B">B</span>]</span>
+        <span class="name">prop</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[<span class="extype" name="emblem.emblematic.Reflective.prop.B">B</span>]</span>)</span><span class="result">: <a href="#PropType[B,C]=emblem.emblematic.UnionProp[B,C]" class="extmbr" name="emblem.emblematic.Union.PropType">PropType</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, <span class="extype" name="emblem.emblematic.Reflective.prop.B">B</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#emblem.emblematic.Union@prop[B](name:String)(implicitevidence$1:emblem.TypeKey[B]):Reflective.this.P[A,B]" title="Permalink" target="_top">
+      <a href="../../index.html#emblem.emblematic.Union@prop[B](name:String)(implicitevidence$1:emblem.TypeKey[B]):Reflective.this.PropType[A,B]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">retrieves the reflective property with the specified property type by name</p><div class="fullcomment"><div class="comment cmt"><p>retrieves the reflective property with the specified property type by name</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Reflective.html" class="extype" name="emblem.emblematic.Reflective">Reflective</a></dd></dl></div>
     </li><li name="emblem.emblematic.Reflective#propMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="propMap:Map[String,Reflective.this.P[A,_]]"></a>
-      <a id="propMap:Map[String,P[A,_]]"></a>
+      <a id="propMap:Map[String,Reflective.this.PropType[A,_]]"></a>
+      <a id="propMap:Map[String,PropType[A,_]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">propMap</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <a href="#P[B,C]=emblem.emblematic.UnionProp[B,C]" class="extmbr" name="emblem.emblematic.Union.P">P</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, _]]</span>
+        <span class="name">propMap</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <a href="#PropType[B,C]=emblem.emblematic.UnionProp[B,C]" class="extmbr" name="emblem.emblematic.Union.PropType">PropType</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>, _]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#emblem.emblematic.Union@propMap:Map[String,Reflective.this.P[A,_]]" title="Permalink" target="_top">
+      <a href="../../index.html#emblem.emblematic.Union@propMap:Map[String,Reflective.this.PropType[A,_]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a map of the <a href="Reflective.html#props:Seq[Reflective.this.P[A,_]]" class="extmbr" name="emblem.emblematic.Reflective#props">props</a>, keyed by name</p><div class="fullcomment"><div class="comment cmt"><p>a map of the <a href="Reflective.html#props:Seq[Reflective.this.P[A,_]]" class="extmbr" name="emblem.emblematic.Reflective#props">props</a>, keyed by name</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Reflective.html" class="extype" name="emblem.emblematic.Reflective">Reflective</a></dd></dl></div>
+      <p class="shortcomment cmt">a map of the <a href="Reflective.html#props:Seq[Reflective.this.PropType[A,_]]" class="extmbr" name="emblem.emblematic.Reflective#props">props</a>, keyed by name</p><div class="fullcomment"><div class="comment cmt"><p>a map of the <a href="Reflective.html#props:Seq[Reflective.this.PropType[A,_]]" class="extmbr" name="emblem.emblematic.Reflective#props">props</a>, keyed by name</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Reflective.html" class="extype" name="emblem.emblematic.Reflective">Reflective</a></dd></dl></div>
     </li><li name="emblem.emblematic.Union#props" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="props:Seq[emblem.emblematic.UnionProp[A,_]]"></a>
       <a id="props:Seq[UnionProp[A,_]]"></a>
@@ -753,7 +769,7 @@ problematic limitation, we will look into making this more robust.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">typeKeyForInstance</span><span class="params">(<span name="a">a: <span class="extype" name="emblem.emblematic.Union.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[_ &lt;: <span class="extype" name="emblem.emblematic.Union.A">A</span>]]</span>
+        <span class="name">typeKeyForInstance</span><span class="params">(<span name="a">a: <span class="extype" name="emblem.emblematic.Union.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[_ &lt;: <span class="extype" name="emblem.emblematic.Union.A">A</span>]]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@typeKeyForInstance(a:A):Option[emblem.TypeKey[_&lt;:A]]" title="Permalink" target="_top">
@@ -774,7 +790,7 @@ otherwise returns <code>None</code>.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">typeKeyForName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[_ &lt;: <span class="extype" name="emblem.emblematic.Union.A">A</span>]]</span>
+        <span class="name">typeKeyForName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="../TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>[_ &lt;: <span class="extype" name="emblem.emblematic.Union.A">A</span>]]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@typeKeyForName(name:String):Option[emblem.TypeKey[_&lt;:A]]" title="Permalink" target="_top">
@@ -795,7 +811,7 @@ otherwise returns <code>None</code>.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@wait():Unit" title="Permalink" target="_top">
@@ -818,7 +834,7 @@ otherwise returns <code>None</code>.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
@@ -841,7 +857,7 @@ otherwise returns <code>None</code>.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../index.html#emblem.emblematic.Union@wait(x$1:Long):Unit" title="Permalink" target="_top">
@@ -886,19 +902,19 @@ otherwise returns <code>None</code>.
 
         <div id="inheritedMembers">
         <div class="parent" name="scala.Serializable">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></h3>
             </div><div class="parent" name="java.io.Serializable">
               <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
             </div><div class="parent" name="scala.Product">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Product" class="extype" target="_top">Product</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a></h3>
             </div><div class="parent" name="scala.Equals">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Equals" class="extype" target="_top">Equals</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Equals" class="extype" target="_top">Equals</a></h3>
             </div><div class="parent" name="emblem.emblematic.Reflective">
               <h3>Inherited from <a href="Reflective.html" class="extype" name="emblem.emblematic.Reflective">Reflective</a>[<span class="extype" name="emblem.emblematic.Union.A">A</span>]</h3>
             </div><div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
             </div>
         <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
