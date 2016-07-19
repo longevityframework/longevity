@@ -4,7 +4,7 @@ Status](https://travis-ci.org/longevityframework/longevity.svg?branch=master)](h
 
 # longevity
 
-A Domain Driven Design persistence framework for Scala and NoSQL.
+A DDD-Oriented Persistence Framework for Scala and NoSQL.
 
 Model your domain in the language and style of Domain Driven
 Design. Implement it using Scala case classes and companion
