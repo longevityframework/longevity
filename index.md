@@ -17,6 +17,7 @@ database, as well as in-memory repositories for other tests.
 
 - [Feature List](feature-list.html)
 - [Quick Start Guide](quick-start.html)
+- [Activator Tutorial](activator.html)
 - [User Manual](manual)
 - [Scaladocs](scaladocs)
 
