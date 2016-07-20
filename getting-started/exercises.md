@@ -18,10 +18,9 @@ you might try:
 object for the user repository.
 - Write a simple UI that uses the backing API.
 
-Thank you very much for working through this tutorial! We hope you
-enjoy [longevity](http://longevityframework.github.io/longevity/) as
-much as we do. If you would like to investigate further, please take a
-look at our [user
+Thank you very much for working through this guide! We hope you enjoy
+longevity as much as we do. If you would like to investigate further,
+please take a look at our [user
 manual](http://longevityframework.github.io/longevity/manual/). Also,
 please write to our [discussion
 forum](https://groups.google.com/forum/#!forum/longevity-users) to

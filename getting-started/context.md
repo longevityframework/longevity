@@ -4,7 +4,7 @@ layout: page
 ---
 
 Once we have your subdomain in place, we are ready to build our
-`LongevityContext`:
+`LongevityContext`, which we do in `SimblContextImpl.scala`:
 
 ```scala
 import longevity.context.LongevityContext
@@ -24,13 +24,15 @@ return more than one result.
 Apart from the subdomain itself, we have to provide a
 `PersistenceStrategy` when building the longevity context. Your
 choices are currently `InMem`, `Mongo`, and `Cassandra`. We use
-`InMem` out of the box, so that this tutorial will work even if you
-don't have a MongoDB or Cassandra database set up for use.
+`InMem` out of the box, so that the application will work out of the
+box, even if you don't have a MongoDB or Cassandra database set up for
+use.
 
 Longevity uses [Typesafe
 Config](https://github.com/typesafehub/config) to configure the
 longevity context. Typically, the configuration is drawn from the
-`application.conf` resource file:
+`application.conf` resource file. The longevity configuration for
+Simple Blogging looks this:
 
 ```prop
 longevity.mongodb.uri = "localhost:27017"

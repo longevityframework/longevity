@@ -24,6 +24,6 @@ GitHub.)
 {% assign prevLink = "update-user.html" %}
 {% assign upTitle = "getting started guide" %}
 {% assign upLink = "." %}
-{% assign nextTitle="testing crud operations" %}
-{% assign nextLink="testing.html" %}
+{% assign nextTitle = "testing crud operations" %}
+{% assign nextLink = "testing.html" %}
 {% include navigate.html %}

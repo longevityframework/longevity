@@ -3,11 +3,22 @@ title: UserServiceImpl.retrieveUser
 layout: page
 ---
 
-<a href="#code/src/main/scala/simbl/service/UserServiceImpl.scala"
-class="shortcut">`UserServiceImpl.retrieveUser`</a> does its work by
-calling `userRepo.retrieve`. To call this method, we have to convert
-from the `username` string to a `Username`, as `userRepo.retrieve`
-takes a `KeyVal` as argument.
+Here's the code for `UserServiceImpl.retrieveUser`:
+
+```scala
+  def retrieveUser(username: String): Future[Option[UserInfo]] = {
+    for {
+      retrieved <- userRepo.retrieve(Username(username))
+    } yield {
+      def stateToInfo(state: PState[User]) = UserInfo(state.get)
+      retrieved.map(stateToInfo)
+    }
+  }
+```
+
+This method does its work by calling `userRepo.retrieve`. To call this
+method, we have to convert from the `username` string to a `Username`,
+as `userRepo.retrieve` takes a `KeyVal` as argument.
 
 Once again, the `User` is wrapped in a `PState`, so we can manipulate
 its persistent state if we wish. This in turn is wrapped in an

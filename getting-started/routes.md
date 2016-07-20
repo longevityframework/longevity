@@ -33,11 +33,11 @@ HTTP](http://doc.akka.io/docs/akka/2.4.8/scala/http/), and we will not
 go into the details here. Please take a look at the source code if you
 are interested. If you do not already have the [Simple Blogging
 project](https://github.com/longevityframework/simbl) checked out, you
-can browse the source [on
+can view the source [on
 GitHub](https://github.com/longevityframework/simbl/blob/master/src/main/scala/simbl/api/UserRoute.scala).
 
 For our purposes, the important thing to note is that the work for
-each of these endpoints is delegated to one of the methods in
+each of these endpoints delegates to one of the methods in
 `UserService.scala`, which we will turn to next.
 
 {% assign prevTitle = "building the longevity context" %}

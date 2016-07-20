@@ -21,14 +21,29 @@ Activator](https://www.lightbend.com/community/core-tools/activator-and-sbt).
 
 We will only have the chance to cover a portion of the blogging
 application code, so please feel free to explore the codebase further
-on your own. You can also look to the [user
-manual](../manual) for
+on your own. You can also look to the [user manual](../manual) for
 more information.
 
-TODO ToC
+Here's a table of contents for the getting started guide:
+
+- [Modelling our Subdomain](modelling.html)
+- [Building the User Aggregate](user.html)
+- [The User Profile](user-profile.html)
+- [Username and Email](keyvals.html)
+- [Building the Subdomain](building.html)
+- [Building the Longevity Context](context.html)
+- [The Akka HTTP Routes](routes.html)
+- [The User Service](service.html)
+- [User Service Implementation](service-impl.html)
+- [UserServiceImpl.createUser](create-user.html)
+- [UserServiceImpl.retrieveUser](retrieve-user.html)
+- [UserServiceImpl.updateUser](update-user.html)
+- [Exercising the API](api.html)
+- [Testing CRUD Operations](testing.html)
+- [Exercises for the Reader](exercises.html)
 
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}
-{% assign nextTitle="modelling our subdomain" %}
-{% assign nextLink="modelling.html" %}
+{% assign nextTitle = "modelling our subdomain" %}
+{% assign nextLink = "modelling.html" %}
 {% include navigate.html %}

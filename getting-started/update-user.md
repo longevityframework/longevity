@@ -3,10 +3,26 @@ title: UserServiceImpl.updateUser
 layout: page
 ---
 
-Let's take a look at
-<a href="#code/src/main/scala/simbl/service/UserServiceImpl.scala"
-class="shortcut">`UserServiceImpl.updateUser`</a>. This method shows a
-variation on `userRepo.retrieve`:
+Here's the code for `UserServiceImpl.updateUser`:
+
+```scala
+  def updateUser(username: String, info: UserInfo): Future[Option[UserInfo]] = {
+    {
+      for {
+        retrieved <- userRepo.retrieveOne(Username(username))
+        modified = retrieved.map(info.mapUser)
+        updated <- userRepo.update(modified)
+      } yield {
+        Some(UserInfo(updated.get))
+      }
+    } recover {
+      case e: DuplicateKeyValException[_] => handleDuplicateKeyVal(e, info)
+      case e: NoSuchElementException => None
+    }
+  }
+```
+
+This method shows a variation on `userRepo.retrieve`:
 `userRepo.retrieveOne`. `retrieveOne` opens up the `Option` for you,
 throwing a `NoSuchElementException` if the `Option` is empty. We
 handle the `NoSuchElementException` in the `recover` clause, returning
@@ -18,7 +34,7 @@ The `retrieved` in the for comprehension is a `PState[User]`. Calling
 changes produced by the function passed to `map`. In this case, we
 call `UserInfo.mapUser`, which updates a `User` according to the
 information in the `UserInfo`. The resulting `PState` is stored in a
-local val named `modified`.
+local value named `modified`.
 
 We then pass `modified` on to `userRepo.update`. This method persists
 the changes, but like `userRepo.create`, it might generate a
@@ -31,6 +47,6 @@ Blogging service exception.
 {% assign prevLink = "retrieve-user.html" %}
 {% assign upTitle = "getting started guide" %}
 {% assign upLink = "." %}
-{% assign nextTitle="exercising the api" %}
-{% assign nextLink="exercising.html" %}
+{% assign nextTitle = "exercising the api" %}
+{% assign nextLink = "api.html" %}
 {% include navigate.html %}
