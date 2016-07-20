@@ -15,6 +15,9 @@ import org.scalatest.time.Span
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+// i would pull this, but unit/manual/RepoSpec.scala depends on it. i
+// should rework that class so i can delete this one
+
 /** demonstrates how to get started quickly with longevity. please
  * read the manual when you get the chance  :)
  * 
