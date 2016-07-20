@@ -16,7 +16,7 @@ integration tests to exercise your repositories against a real
 database, as well as in-memory repositories for other tests.
 
 - [Feature List](feature-list.html)
-- [Quick Start Guide](quick-start.html)
+- [Getting Started Guide](getting-started)
 - [Activator Tutorial](activator.html)
 - [User Manual](manual)
 - [Scaladocs](scaladocs)
