@@ -62,7 +62,7 @@ empty set.
 {% assign prevLink = "testing/query-spec.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = "./" %}
-{% assign nextTitle="translation into MongoDB" %}
-{% assign nextLink="mongo" %}
+{% assign nextTitle = "translating persistents to the database" %}
+{% assign nextLink = "translation" %}
 {% include navigate.html %}
 

@@ -71,11 +71,10 @@ value on the right-hand side.
 There is also a `Query.All()` query that filters nothing and
 returns everything.
 
-[Keys](../ptype/keys.html) and
-[indexes](../ptype/indexes.html) will aid query performance in an
-intuitive manner. For finer details on just how your query will run,
-please see the chapters on how your subdomain is translated to your
-NoSQL backend ([Mongo](../mongo) and [Cassandra](../cassandra)).
+[Keys](../ptype/keys.html) and [indexes](../ptype/indexes.html) will
+aid query performance in an intuitive manner. For finer details on
+just how your query will run, please see the chapter on how your
+subdomain is [translated to your NoSQL backend](../translation).
 
 {% assign prevTitle = "retrieval by key value" %}
 {% assign prevLink = "retrieve.html" %}

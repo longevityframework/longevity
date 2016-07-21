@@ -85,8 +85,8 @@ looking up collections of these objects via range searches.
 It's worth reiterating that the keys that we define in our domain
 model are not database keys, but design constraints that live within
 the domain model itself. That being said, they do map to database keys
-in predictable ways. See the chapters on [translation into
-MongoDB](../mongo) and [translation into Cassandra](../cassandra).
+in predictable ways. See the chapter on [translating persistents to
+the database](../translation) for more information.
 
 {% assign prevTitle = "properties" %}
 {% assign prevLink = "properties.html" %}
