@@ -60,11 +60,11 @@ will put in links as I write the chapters.
   - [RepoCrudSpec](testing/repo-crud-spec.html)
   - [QuerySpec](testing/query-spec.html)
 - [Enforcing Constraints](constraints.html)
-- [Translation into MongoDB](mongo) (TODO)
-  - Translation of Aggregates into BSON (TODO)
-  - Translation of Persistent State into BSON (TODO)
-  - Keys and Indexes (TODO)
-- [Translation into Cassandra](cassandra) (TODO)
+- [Translating Persistents to the Database](translation)
+  - [Persistent to JSON](translation/json.html)
+  - [Partition Keys](translation/keys.html)
+  - [MongoDB Translation](translation/mongo.html)
+  - [Cassandra Translation](translation/cassandra.html)
 
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}
