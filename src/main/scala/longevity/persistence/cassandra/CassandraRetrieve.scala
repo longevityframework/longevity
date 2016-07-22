@@ -2,11 +2,14 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
+import longevity.persistence.PState
 import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.realized.BasicPropComponent
 import longevity.subdomain.realized.RealizedKey
 import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.retrieve(KeyVal) */
 private[cassandra] trait CassandraRetrieve[P <: Persistent] {
@@ -14,6 +17,18 @@ private[cassandra] trait CassandraRetrieve[P <: Persistent] {
 
   def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext) =
     retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
+
+  protected def retrieveFromBoundStatement(
+    statement: BoundStatement)(
+    implicit context: ExecutionContext)
+  : Future[Option[PState[P]]] =
+    Future {
+      val resultSet = blocking {
+        session.execute(statement)
+      }
+      val rowOption = Option(resultSet.one)
+      rowOption.map(retrieveFromRow)
+    }
 
   private lazy val keyValSelectStatement: Map[RealizedKey[P, _], PreparedStatement] = Map().withDefault { key =>
     val conjunction = keyValSelectStatementConjunction(key)

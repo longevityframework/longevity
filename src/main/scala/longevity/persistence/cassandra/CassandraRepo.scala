@@ -1,6 +1,5 @@
 package longevity.persistence.cassandra
 
-import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
@@ -25,9 +24,6 @@ import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.realized.BasicPropComponent
 import org.joda.time.DateTime
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
 /** a Cassandra repository for persistent entities of type `P`.
  *
@@ -47,9 +43,7 @@ with CassandraQuery[P]
 with CassandraUpdate[P]
 with CassandraDelete[P] {
 
-  protected[cassandra] val tableName = typeKeyToTableName(pTypeKey)
-
-  protected def typeKeyToTableName(key: TypeKey[_]) = camelToUnderscore(typeName(key.tpe))
+  protected[cassandra] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
 
   protected[cassandra] def actualizedComponents: List[BasicPropComponent[_ >: P <: Persistent, _, _]] = {
     val keyComponents = realizedPType.keySet.flatMap {
@@ -105,7 +99,7 @@ with CassandraDelete[P] {
       jsonStringForP(p) +: actualizedComponentValues
   }
 
-  protected def propValBinding[PP >: P <: Persistent, A](
+  private def propValBinding[PP >: P <: Persistent, A](
     component: BasicPropComponent[PP, _, A],
     p: P)
   : AnyRef = {
@@ -124,18 +118,6 @@ with CassandraDelete[P] {
       case _ => value.asInstanceOf[AnyRef]
     }
   }
-
-  protected def retrieveFromBoundStatement(
-    statement: BoundStatement)(
-    implicit context: ExecutionContext)
-  : Future[Option[PState[P]]] =
-    Future {
-      val resultSet = blocking {
-        session.execute(statement)
-      }
-      val rowOption = Option(resultSet.one)
-      rowOption.map(retrieveFromRow)
-    }
 
   protected def retrieveFromRow(row: Row): PState[P] = {
     val id = CassandraId[P](row.getUUID("id"))
