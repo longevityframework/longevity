@@ -22,7 +22,7 @@ import scala.concurrent.Future
 
 /** contains common code for testing different [[longevity.subdomain.ptype.Query
  * Query]] instances against [[longevity.persistence.Repo.retrieveByQuery
- * Repo.retrieveByQuery]] and [[longevity.persistence.Repo.streamByQuery
+ * Repo.retrieveByQuery]] and [[longevity.persistence.StreamingRepo.streamByQuery
  * Repo.streamByQuery]].
  *
  * pardon the nasty ScalaDocs for this class. we haven't figured out how to

@@ -36,7 +36,7 @@ private[mongo] trait MongoQuery[P <: Persistent] {
     }
   }
 
-  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] = 
+  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = 
     Source.fromIterator { () => queryCursor(query).map(dbObjectToPState) }
 
   private def queryCursor(query: Query[P]): MongoCursor = {

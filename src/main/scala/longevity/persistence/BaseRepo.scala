@@ -1,10 +1,13 @@
 package longevity.persistence
 
+import akka.NotUsed
+import akka.stream.scaladsl.Source
 import emblem.TypeKey
+import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.KeyVal
 import longevity.subdomain.ptype.PType
+import longevity.subdomain.ptype.Query
 import longevity.subdomain.realized.RealizedPType
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -29,15 +32,9 @@ extends Repo[P] {
   /** the type key for the persistent entities this repository handles */
   protected[persistence] val pTypeKey: TypeKey[P] = pType.pTypeKey
 
-  def create(unpersisted: P)(implicit context: ExecutionContext): Future[PState[P]]
-
-  def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext): Future[Option[PState[P]]]
-
   def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
 
-  def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]]
-
-  def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]]
+  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed]
 
 }

@@ -41,7 +41,7 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
       resultSet.all.toList.map(retrieveFromRow)
     }
 
-  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] = {
+  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
     def iterator(): Iterator[PState[P]] = {
       val resultSet = queryResultSet(query)
       import scala.collection.JavaConversions.asScalaIterator

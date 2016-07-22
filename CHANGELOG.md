@@ -1,5 +1,13 @@
 # Longevity Change Log
 
+## [0.10.0] - ???
+
+- 2016.07.22 - Make [Akka
+  Streams](http://doc.akka.io/docs/akka/2.4.8/scala.html) an optional
+  dependency. If you are using `Repo.streamByQuery`, you must now
+  declare a dependency on Akka Streams yourself: `libraryDependencies
+  += "com.typesafe.akka" %% "akka-stream" % "2.4.8"`.
+
 ## [0.9.0] - Streamlined API
 
 - 2016.07.12 - `KeyVal` and `Key` have been completely reworked for

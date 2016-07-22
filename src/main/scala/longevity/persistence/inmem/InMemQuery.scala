@@ -16,7 +16,7 @@ private[inmem] trait InMemQuery[P <: Persistent] {
   : Future[Seq[PState[P]]] =
     Future.successful(queryResults(query))
 
-  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] =
+  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] =
     Source.fromIterator { () => queryResults(query).iterator }
 
   private def queryResults(query: Query[P]): Seq[PState[P]] =
