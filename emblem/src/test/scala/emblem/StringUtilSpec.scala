@@ -1,11 +1,17 @@
 package emblem
 
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.GivenWhenThen
+import org.scalatest.Matchers
+import stringUtil.camelToUnderscore
+import stringUtil.typeFullname
+import stringUtil.typeName
+import stringUtil.typeNamePrefix
+import stringUtil.uncapitalize
+import stringUtil.underscoreToCamel
 
 /** [[stringUtil]] specifications */
 class StringUtilSpec extends FlatSpec with GivenWhenThen with Matchers {
-
-  import stringUtil._
 
   behavior of "emblem.stringUtil.uncapitalize"
 
@@ -25,7 +31,28 @@ class StringUtilSpec extends FlatSpec with GivenWhenThen with Matchers {
     uncapitalize(" Foo") should equal (" Foo")
   }
 
-  // TODO pt-86950732: specs for camelToUnderscores, underscoreToCamel
+  behavior of "emblem.stringUtil.camelToUnderscore"
+
+  it should "convert from CamelCase to snake_case" in {
+    camelToUnderscore("") should equal ("")
+    camelToUnderscore("foo") should equal ("foo")
+    camelToUnderscore("Foo") should equal ("foo")
+    camelToUnderscore("fooBar") should equal ("foo_bar")
+    camelToUnderscore("FooBar") should equal ("foo_bar")
+    camelToUnderscore("FooBarXYZ") should equal ("foo_bar_x_y_z")
+  }
+
+  behavior of "emblem.stringUtil.underscoreToCamel"
+
+  it should "convert from snake_case to CamelCase" in {
+    underscoreToCamel("") should equal ("")
+    underscoreToCamel("foo") should equal ("foo")
+    underscoreToCamel("Foo") should equal ("foo")
+    underscoreToCamel("foo_bar") should equal ("fooBar")
+    underscoreToCamel("Foo_Bar") should equal ("fooBar")
+    underscoreToCamel("foo_bar_x_y_z") should equal ("fooBarXYZ")
+    underscoreToCamel("Foo_Bar_X_Y_Z") should equal ("fooBarXYZ")
+  }
 
   case class Foo()
 

@@ -47,7 +47,7 @@ object stringUtil {
    * copied from [[https://gist.github.com/sidharthkuruvila/3154845
    * https://gist.github.com/sidharthkuruvila/3154845]]
    */
-  def underscoreToCamel(name: String) = "_([a-z\\d])".r.replaceAllIn(uncapitalize(name), { m =>
+  def underscoreToCamel(name: String) = "_([a-z\\d])".r.replaceAllIn(name.toLowerCase, { m =>
     m.group(1).toUpperCase()
   })
 
