@@ -23,10 +23,14 @@ object stringUtil {
 
   /** takes a camel cased identifier name and returns an underscore separated name.
    *
-   * example:
-   *     camelToUnderscores("ThisIsA1Test") == "this_is_a_1_test"
-   *
-   * copied from https://gist.github.com/sidharthkuruvila/3154845
+   * for example:
+   * 
+   * {{{
+   * camelToUnderscores("ThisIsA1Test") == "this_is_a_1_test"
+   * }}}
+   * 
+   * copied from [[https://gist.github.com/sidharthkuruvila/3154845
+   * https://gist.github.com/sidharthkuruvila/3154845]]
    */
   def camelToUnderscore(name: String) = "[A-Z\\d]".r.replaceAllIn(uncapitalize(name), { m =>
     "_" + m.group(0).toLowerCase()
@@ -34,10 +38,14 @@ object stringUtil {
  
   /** takes an underscore separated identifier name and returns a camel cased one.
    *
-   * example:
-   *    underscoreToCamel("this_is_a_1_test") == "thisIsA1Test"
+   * for example:
    *
-   * copied from https://gist.github.com/sidharthkuruvila/3154845
+   * {{{
+   * underscoreToCamel("this_is_a_1_test") == "thisIsA1Test"
+   * }}}
+   * 
+   * copied from [[https://gist.github.com/sidharthkuruvila/3154845
+   * https://gist.github.com/sidharthkuruvila/3154845]]
    */
   def underscoreToCamel(name: String) = "_([a-z\\d])".r.replaceAllIn(uncapitalize(name), { m =>
     m.group(1).toUpperCase()
