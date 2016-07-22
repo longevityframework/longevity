@@ -55,9 +55,9 @@ private[inmem] trait InMemWrite[P <: Persistent] {
   protected[inmem] def unregisterPStateById(state: PState[P]): Unit =
     idToPStateMap -= state.id
 
-  protected[inmem] def registerPStateByKeyVal(keyVal: Any, state: PState[P]): Unit =
-    keyValToPStateMap += keyVal -> state
+  protected[inmem] def registerPStateByKeyVal(keyVal: AnyKeyValAtAll, state: PState[P]): Unit =
+    keyValToPStateMap += ((keyVal, state)) // Scala compiler barfs on -> pair syntax here
 
-  protected[inmem] def unregisterKeyVal(keyVal: Any): Unit = keyValToPStateMap -= keyVal
+  protected[inmem] def unregisterKeyVal(keyVal: AnyKeyValAtAll): Unit = keyValToPStateMap -= keyVal
 
 }

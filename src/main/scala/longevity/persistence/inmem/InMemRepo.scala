@@ -3,6 +3,7 @@ package longevity.persistence.inmem
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
 import longevity.persistence.DatabaseId
+import longevity.subdomain.AnyKeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
@@ -42,8 +43,11 @@ with InMemUpdate[P]
 with InMemWrite[P] {
   repo =>
 
+  // i wish i could type this tighter, but compiler is giving me problems..
+  protected type AnyKeyValAtAll = AnyKeyVal[P] forSome { type P <: Persistent }
+
   protected var idToPStateMap = Map[DatabaseId[_ <: Persistent], PState[P]]()
-  protected var keyValToPStateMap = Map[Any, PState[P]]()
+  protected var keyValToPStateMap = Map[AnyKeyValAtAll, PState[P]]()
 
   override def toString = s"InMemRepo[${pTypeKey.name}]"
 

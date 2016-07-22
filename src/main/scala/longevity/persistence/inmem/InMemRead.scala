@@ -9,7 +9,7 @@ import longevity.subdomain.persistent.Persistent
 private[inmem] trait InMemRead[P <: Persistent] {
   repo: InMemRepo[P] =>
 
-  protected[inmem] def lookupPStateByKeyVal(keyVal: Any): Option[PState[P]] =
+  protected[inmem] def lookupPStateByKeyVal(keyVal: AnyKeyValAtAll): Option[PState[P]] =
     keyValToPStateMap.get(keyVal)
 
 }

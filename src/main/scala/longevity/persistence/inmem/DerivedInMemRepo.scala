@@ -19,13 +19,13 @@ private[inmem] trait DerivedInMemRepo[P <: Persistent, Poly >: P <: Persistent] 
   override protected[inmem] def unregisterPStateById(state: PState[P]): Unit =
     polyRepo.unregisterPStateById(state.widen[Poly])
 
-  override protected[inmem] def registerPStateByKeyVal(keyVal: Any, state: PState[P]): Unit =
+  override protected[inmem] def registerPStateByKeyVal(keyVal: AnyKeyValAtAll, state: PState[P]): Unit =
     polyRepo.registerPStateByKeyVal(keyVal, state.widen[Poly])
 
-  override protected[inmem] def lookupPStateByKeyVal(keyVal: Any): Option[PState[P]] =
+  override protected[inmem] def lookupPStateByKeyVal(keyVal: AnyKeyValAtAll): Option[PState[P]] =
     polyRepo.lookupPStateByKeyVal(keyVal).asInstanceOf[Option[PState[P]]]
 
-  override protected[inmem] def unregisterKeyVal(keyVal: Any): Unit =
+  override protected[inmem] def unregisterKeyVal(keyVal: AnyKeyValAtAll): Unit =
     polyRepo.unregisterKeyVal(keyVal)
 
   override protected[inmem] def allPStates: Seq[PState[P]] = {
