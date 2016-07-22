@@ -80,11 +80,19 @@ val numRecentPosts: Future[Int] =
   recentPosts.map(_ => 1).toMat(Sink.reduce[Int](_ + _))(Keep.right).run()
 ```
 
-Akka streams are extremely flexible, and the scala DSL is very fluid
+Akka Streams are extremely flexible, and the scala DSL is very fluid
 and easy to use, once you understand what is going on. Please read the
 documentation on [Akka
 Streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html)
 for more information.
+
+Akka Streams is an optional dependency in longevity, so you'll need to
+declare the dependency in your own project to use the
+`Repo.streamByQuery` method:
+
+```scala
+libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.8"
+```
 
 {% assign prevTitle = "retrieval by query" %}
 {% assign prevLink = "query.html" %}
