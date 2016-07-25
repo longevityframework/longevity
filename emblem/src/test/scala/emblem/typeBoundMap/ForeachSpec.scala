@@ -1,171 +1,21 @@
-package emblem.typeBound
+package emblem.typeBoundMap
 
 import emblem.TypeKey
 import emblem.TypeKeyMap
+import emblem.typeBound.TypeBoundFunction
+import emblem.typeBound.TypeBoundMap
+import emblem.typeBound.TypeBoundPair
+import emblem.typeBound.WideningTypeBoundFunction
 import emblem.typeKey
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-// TODO pt-92300898 reorg specs for TypeKeyMap and TypeBoundMap
-
-/** specifications for methods common to [[TypeKeyMap]] and [[TypeBoundMap]] found in [[BaseTypeBoundMap]]. */
-class BaseTypeBoundMapSpec extends FlatSpec with GivenWhenThen with Matchers {
-
-  behavior of "TypeKeyMap.contains"
-  it should "return true iff the map contains the given key" in {
-    import emblem.testData.computerParts._
-    val memoryList = Memory(2) :: Memory(4) :: Memory(8) :: Nil
-    val cpuList = CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
-    val displayList = Display(720) :: Display(1080) :: Nil
-
-    var partLists = TypeKeyMap[ComputerPart, List]()
-    partLists.contains[Memory] should be (false)
-    partLists.contains[CPU] should be (false)
-    partLists.contains[Display] should be (false)
-
-    partLists += memoryList
-    partLists.contains[Memory] should be (true)
-    partLists.contains[CPU] should be (false)
-    partLists.contains[Display] should be (false)
-
-    partLists += cpuList
-    partLists.contains[Memory] should be (true)
-    partLists.contains[CPU] should be (true)
-    partLists.contains[Display] should be (false)
-
-    partLists += displayList
-    partLists.contains[Memory] should be (true)
-    partLists.contains[CPU] should be (true)
-    partLists.contains[Display] should be (true)
-  }  
-
-  behavior of "TypeBoundMap.contains"
-  it should "return true iff the map contains the given key" in {
-    import emblem.testData.pets._
-    val catStore1 = new PetStore[Cat]
-    val catStore2 = new PetStore[Cat]
-    val dogStore1 = new PetStore[Dog]
-
-    var inventories = TypeBoundMap[Pet, PetStore, List]
-    inventories.contains(catStore1) should equal (false)
-    inventories.contains(catStore2) should equal (false)
-    inventories.contains(dogStore1) should equal (false)
-
-    inventories += (catStore1 -> List(Cat("cat11"), Cat("cat12"), Cat("cat13")))
-    inventories.contains(catStore1) should equal (true)
-    inventories.contains(catStore2) should equal (false)
-    inventories.contains(dogStore1) should equal (false)
-
-    inventories += (catStore2 -> List(Cat("cat21"))) 
-    inventories.contains(catStore1) should equal (true)
-    inventories.contains(catStore2) should equal (true)
-    inventories.contains(dogStore1) should equal (false)
-
-    inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
-    inventories.contains(catStore1) should equal (true)
-    inventories.contains(catStore2) should equal (true)
-    inventories.contains(dogStore1) should equal (true)
-  }
-
-  behavior of "TypeKeyMap.foreach"
-  it should "iterator over all the TypeBoundPairs in the map" in {
-    import emblem.testData.computerParts._
-    val memoryList = Memory(2) :: Memory(4) :: Memory(8) :: Nil
-    val cpuList = CPU(2.2) :: CPU(2.4) :: CPU(2.6) :: Nil
-    val displayList = Display(720) :: Display(1080) :: Nil
-
-    var range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
-
-    var partLists = TypeKeyMap[ComputerPart, List]()
-    partLists.foreach { pair => range += pair }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
-    } should be {
-      false
-    }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
-    } should be {
-      false
-    }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
-    } should be {
-      false
-    }
-
-    range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
-    partLists += memoryList
-    partLists.foreach { pair => range += pair }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
-    } should be {
-      true
-    }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
-    } should be {
-      false
-    }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
-    } should be {
-      false
-    }
-
-    range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
-    partLists += cpuList
-    partLists.foreach { pair => range += pair }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
-    } should be {
-      true
-    }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
-    } should be {
-      true
-    }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
-    } should be {
-      false
-    }
-
-    range = Set[TypeBoundPair[ComputerPart, TypeKey, List, _ <: ComputerPart]]()
-    partLists += displayList
-    partLists.foreach { pair => range += pair }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, Memory](typeKey[Memory], memoryList))
-    } should be {
-      true
-    }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, CPU](typeKey[CPU], cpuList))
-    } should be {
-      true
-    }
-
-    { range.contains(
-        TypeBoundPair[ComputerPart, TypeKey, List, Display](typeKey[Display], displayList))
-    } should be {
-      true
-    }
-  }  
+/** specifications for [[TypeBoundMap.foreach]] */
+class ForeachSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "TypeBoundMap.foreach"
+
   it should "return true iff the map contains the given key" in {
     import emblem.testData.pets._
     val catStore1 = new PetStore[Cat]
