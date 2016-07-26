@@ -15,11 +15,23 @@ class CustomGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "the example code in the scaladocs for CustomGenerator.simpleGenerator"
   it should "compile and produce the expected results" in {
 
+    var callCount = 0
     val intHolderGen: CustomGenerator[IntHolder] =
-      simpleGenerator((generator: Generator) => new IntHolder(generator.generate[Int]))
+      simpleGenerator((generator: Generator) => {
+        callCount += 1
+        new IntHolder(generator.generate[Int])
+      })
     val generator = new TestDataGenerator(
       customGeneratorPool = CustomGeneratorPool.empty + intHolderGen)
 
+    generator.generate[Int]
+    callCount should equal (0)
+
+    generator.generate[IntHolder]
+    callCount should equal (1)
+
+    generator.generate[IntHolder]
+    callCount should equal (2)
   }
 
   behavior of "the example code in the scaladocs for trait CustomGenerator"
@@ -36,6 +48,9 @@ class CustomGeneratorSpec extends FlatSpec with GivenWhenThen with Matchers {
     val generator = new TestDataGenerator(
       customGeneratorPool = CustomGeneratorPool.empty + listCustomGenerator)
 
+    generator.generate[List[Int]].size should equal (5)
+    generator.generate[List[String]].size should equal (5)
+    generator.generate[List[Option[Double]]].size should equal (5)
   }
 
 }

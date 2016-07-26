@@ -23,10 +23,29 @@ class CustomVisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
       }
     }
 
-    val visitor = new Visitor {
-      override protected val customVisitors: CustomVisitorPool = CustomVisitorPool.empty + listCustomVisitor
+    // count int visits
+    var visitCount = 0
+    val intCustomVisitor = new CustomVisitor[Int] {
+      def apply[B <: Int : TypeKey](visitor: Visitor, b: B): Unit = {
+        visitCount += 1
+      }
     }
 
+    val visitor = new Visitor {
+      override protected val customVisitors: CustomVisitorPool =
+        CustomVisitorPool.empty + listCustomVisitor + intCustomVisitor
+    }
+
+    visitor.visit("dd")
+    visitCount should equal (0)
+    visitor.visit(5)
+    visitCount should equal (1)
+    visitor.visit(List(2,3,4))
+    visitCount should equal (4)
+    visitor.visit(List(2,3,4,5,6,7,8,9,0,1,2,3,4,5,6))
+    visitCount should equal (9)
+    visitor.visit(List(2,3,4,5,6,7,8,9,0,1,2,3,4,5,6))
+    visitCount should equal (14)
   }
 
   behavior of "the example code in the scaladocs for trait CustomVisitor, modified to use KTBF"
