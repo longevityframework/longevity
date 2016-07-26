@@ -2,9 +2,10 @@ package emblem.typeBound
 
 import scala.language.higherKinds
 
-/** a map where the types for keys and values share a type parameter with the same bounds. the key and value
- * of each key/value pair are constrained to match on that type parameter. for example, we might have some pet
- * stores that only cater to a single kind of pet:
+/** a map where the types for keys and values share a type parameter
+ * with the same bounds. the key and value * of each key/value pair are
+ * constrained to match on that type parameter. for example, we might
+ * have some pet * stores that only cater to a single kind of pet:
  *
  * {{{
  * trait Pet
@@ -17,7 +18,8 @@ import scala.language.higherKinds
  * val dogStore1 = new PetStore[Dog]
  * }}}
  *
- * we can use a `TypeBoundMap` to store a list of pets of the appropriate type for every pet store:
+ * we can use a `TypeBoundMap` to store a list of pets of the
+ * appropriate type for every pet store:
  *
  * {{{
  * var inventories = TypeBoundMap[Pet, PetStore, List]
@@ -26,7 +28,8 @@ import scala.language.higherKinds
  * inventories += (dogStore1 -> List(Dog("dog11"), Dog("dog12")))
  * }}}
  *
- * now we can look up pet lists by pet store, with everything coming back as the expected type:
+ * now we can look up pet lists by pet store, with everything coming
+ * back as the expected type:
  * 
  * {{{
  * val cats1: List[Cat] = inventories(catStore1)
@@ -42,10 +45,12 @@ import scala.language.higherKinds
  * dog should equal (Dog("dog11"))
  * }}}
  *
- * note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
- * each pair needs to be type-checked separately.
+ * note that the API does not provide methods to add multiple
+ * key/value pairs at a time, as each pair needs to be type-checked
+ * separately.
  *
- * (the code presented here is in TypeBoundMapSpec.scala, up at the top)
+ * (the code presented here is in TypeBoundMapSpec.scala, up at the
+ * top)
  * 
  * @tparam TypeBound the upper bound on the type parameters passed to the Key and Val types
  * @tparam Key the parameterized type of the keys in the map
