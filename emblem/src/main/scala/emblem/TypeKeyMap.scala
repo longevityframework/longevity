@@ -45,12 +45,12 @@ import scala.language.higherKinds
  * note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
  * each pair needs to be type-checked separately.
  *
- * (code presented here is in TypeKeyMapSpec.scala, up at the top)
+ * (code presented here is in `emblem.typeKeyMap.ScaladocSpec`.)
  * 
  * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
  * @tparam Val the parameterized type of the values in the map
  *
- * @see TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples
+ * @see `src/test/scala/emblem/typeKeyMap/` for many more examples
  */
 class TypeKeyMap[TypeBound, Val[_ <: TypeBound]] private (underlying: Map[Any, Any])
 extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {

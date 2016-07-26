@@ -49,14 +49,13 @@ import scala.language.higherKinds
  * key/value pairs at a time, as each pair needs to be type-checked
  * separately.
  *
- * (the code presented here is in TypeBoundMapSpec.scala, up at the
- * top)
+ * (the code presented here is in test class `emblem.typeBoundMap.ScaladocSpec`.)
  * 
  * @tparam TypeBound the upper bound on the type parameters passed to the Key and Val types
  * @tparam Key the parameterized type of the keys in the map
  * @tparam Val the parameterized type of the values in the map
  * 
- * @see TypeBoundMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples
+ * @see `src/test/scala/emblem/typeBoundMap/` for many more examples
  */
 class TypeBoundMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (underlying: Map[Any, Any])
 extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
