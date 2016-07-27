@@ -59,6 +59,9 @@ private[emblem] abstract class TypeReflector[A : TypeKey] {
     tpe.members.filter(publicTerm).map(_.asTerm).filter(isValue).toSeq
   }
 
+  /** all the abstract public val members of the type */
+  protected def abstractPublicVals: Seq[TermSymbol] = publicVals.filter(_.isAbstract)
+
   /** a function that acts like a getter for the supplied term name */
   protected def getFunction[U : TypeKey](name: TermName): (A) => U = {
     val getter = tpe.decl(name).asMethod
