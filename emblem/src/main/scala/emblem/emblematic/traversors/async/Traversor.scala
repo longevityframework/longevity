@@ -282,8 +282,16 @@ trait Traversor {
 
   // returns a `Some` containing the enclosing type of the option whenever the supplied type argument `A`
   // is an Option. otherwise returns `None`.
-  private def optionElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
-    if (typeKey[A].tpe <:< typeOf[Option[Any]]) Some(typeKey[A].typeArgs.head) else None
+  private def optionElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] = {
+    val key = typeKey[A]
+    if (key =:= typeKey[None.type]) {
+      Some(typeKey[Nothing])
+    } else if (key <:< typeKey[Option[Any]]) {
+      Some(key.typeArgs.head) 
+    } else {
+      None
+    }
+  }
 
   private[traversors] def traverseOption[A : TypeKey](
     futureTraverseInputOption: Future[TraverseInput[Option[A]]])
@@ -395,8 +403,14 @@ trait Traversor {
 
   // returns a `Some` containing the enclosing type of the list whenever the supplied type argument `A`
   // is a List. otherwise returns `None`.
-  private def listElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] =
-    if (typeKey[A].tpe <:< typeOf[List[_]]) Some(typeKey[A].typeArgs.head) else None
+  private def listElementTypeKeyOption[A : TypeKey]: Option[TypeKey[_]] = {
+    val key = typeKey[A]
+    if (key =:= typeKey[Nil.type]) {
+      Some(typeKey[Nothing])
+    } else if (key <:< typeOf[List[_]]) {
+      Some(key.typeArgs.head)
+    } else None
+  }
 
   private def traverseList[A : TypeKey](futureTraverseInputList: Future[TraverseInput[List[A]]])
   : Future[TraverseResult[List[A]]] = {
