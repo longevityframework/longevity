@@ -111,8 +111,19 @@ class Differ(
       emblem: Emblem[A],
       input: DifferInput[A],
       result: Iterable[PropResult[A, _]])
-    : Diffs =
-      result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
+    : Diffs = {
+      def isEmblemPropDiff(r: PropResult[A, _]) = {
+        val prop = r._1
+        val diffs = r._2
+        diffs.size == 1 && diffs.head.path == input.path + "." + prop.name
+      }
+      def moreThanHalfOfEmblemPropsDiffer = result.filter(isEmblemPropDiff).size * 2 > emblem.props.size
+      if (moreThanHalfOfEmblemPropsDiffer) {
+        Diffs(Diff(input.path, input.lhs, input.rhs))
+      } else {
+        result.map(_._2).foldLeft(Seq[Diff]()) { (a: Diffs, b: Diffs) => a ++ b }
+      }
+    }
 
     override protected def stageOptionValue[A : TypeKey](
       input: DifferInput[Option[A]])

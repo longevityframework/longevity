@@ -56,6 +56,8 @@ trait Traversor {
     Await.result(futureResult, Duration.Inf)
   }
 
+  // TODO pt-127183407 make these next two case classes 
+
   /** an input for traversing an [[emblem.emblematic.EmblemProp EmblemProp]] */
   protected type PropInput[A, B] = (EmblemProp[A, B], TraverseInput[B])
 
