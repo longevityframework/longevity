@@ -7,7 +7,6 @@ import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
-import emblem.typeKey
 import org.joda.time.DateTime
 
 /** recursively computes a sequence of [[Differ.Diff diffs]] between two
@@ -82,7 +81,7 @@ class Differ(
 
     override protected def stageUnion[A : TypeKey, B <: A : TypeKey](union: Union[A], input: DifferInput[A])
     : Iterable[DifferInput[B]] = {
-      val lhsTypeKey = typeKey[A]
+      val lhsTypeKey = union.typeKeyForInstance(input.lhs).get
       val rhsTypeKey = union.typeKeyForInstance(input.rhs).get
       if (lhsTypeKey == rhsTypeKey) {
         Seq(input.asInstanceOf[DifferInput[B]])
@@ -97,8 +96,12 @@ class Differ(
       input: DifferInput[A],
       result: Iterable[Diffs])
     : Diffs =
-      result.headOption.getOrElse(Seq(
-        Diff(s"${input.path}.type", typeKey[A].name, typeKey[B].name)))
+      result.headOption.getOrElse {
+        val lhsTypeKey = union.typeKeyForInstance(input.lhs).get
+        val rhsTypeKey = union.typeKeyForInstance(input.rhs).get
+        Seq(
+          Diff(s"${input.path}.type", lhsTypeKey.name, rhsTypeKey.name))
+      }
 
     override protected def stageEmblemProps[A : TypeKey](emblem: Emblem[A], input: DifferInput[A])
     : Iterable[PropInput[A, _]] = {

@@ -266,6 +266,27 @@ class DifferSpec extends FlatSpec with GivenWhenThen with Matchers {
     differ.diff(le1, le2) should equal (Diffs(Diff("(0)", le1.head, le2.head)))
   }
 
-  // TODO unions
+  behavior of "Differ.diff for unions"
+
+  it should "produce an empty Diffs when the values match" in {
+    val e1 = emblems.specialization1
+    val e2 = emblems.specialization2
+    differ.diff(e1, e1) should equal (Diffs())
+    differ.diff(e2, e2) should equal (Diffs())
+  }
+
+  it should "produce a single Diff when the types match but the values differ" in {
+    val e1 = emblems.specialization1
+    val e2 = emblems.specialization1
+    differ.diff(e1, e2) should equal (Diffs(Diff("", e1, e2)))
+  }
+
+  it should "produce a single Diff when the types differ" in {
+    val e1 = emblems.specialization1
+    val e2 = emblems.specialization2
+    differ.diff[TraitWithAbstractProp](e1, e2) should equal {
+      Diffs(Diff(".type", "Specialization1", "Specialization2"))
+    }
+  }
 
 }
