@@ -34,10 +34,9 @@ extends Root
 Now we need to build a corresponding `RootType`. By convention, we
 designate the companion object as the `PType`. For now, we won't
 provide any information in our persistent type, but we still need to
-declare our [properties](../ptype/properties.html),
-[keys](../ptype/keys.html), and [indexes](../ptype/indexes.html).
-The easiest way to do this is by providing empty `props`, `keys`, and
-`indexes` objects inside the `PType`:
+declare our [properties](../ptype/properties.html) and
+[keys](../ptype/keys.html).  The easiest way to do this is by
+providing empty `props` and `keys` objects inside the `PType`:
 
 ```scala
 import longevity.subdomain.ptype.RootType

@@ -21,6 +21,8 @@ object User extends RootType[User] {
   }
   object keys {
   }
+  object indexes {
+  }
 }
 ```
 
@@ -64,11 +66,17 @@ object User extends RootType[User] {
 }
 ```
 
-If you do not override `propSet`, `keySet`, or `indexSet`, and do not
-provide inner objects `props`, `keys`, or `indexes`, you will get a
-`NoPropsForPTypeException`, `NoKeysForPTypeException`, or
-`NoIndexesForPTypeException`, respectively. (It would not be hard to
-have a macro that turns this into a compile-time error.)
+If you do not override `propSet`, or `keySet`, and do not provide
+inner objects `props` or `keys`, you will get a
+`NoPropsForPTypeException` or `NoKeysForPTypeException`,
+respectively. (It would not be hard to have a macro that turns this
+into a compile-time error.) If you do not override `indexSet` and do
+not provide an inner object `indexes`, you will get no indexes. While
+we expect nearly every persistent type to contain keys, we expect many
+users will have no need for indexes. In NoSQL, indexes are vaguely
+frowned upon. A preferred approach would be to maintain a [secondary
+view table](http://martinfowler.com/bliki/CQRS.html) that will bypass
+the need for an index.
 
 Longevity needs access to these sets in order to initialize your
 database, among other things. But at the same time, you need to be

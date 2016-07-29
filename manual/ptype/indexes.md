@@ -6,8 +6,9 @@ layout: page
 An index in longevity is a requirement that certain forms of queries
 on our persistent objects should perform with low latency. For
 instance, if there is an expectation that queries on `lastName` /
-`firstName` should perform quickly, then we need to define an index,
-like so:
+`firstName` should perform quickly, then we need to define an
+index. To do this, we declare our index in a singleton object
+`indexes` inside our `PType`:
 
 ```scala
 import longevity.subdomain.KeyVal
