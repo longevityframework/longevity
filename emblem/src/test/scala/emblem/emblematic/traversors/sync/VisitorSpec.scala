@@ -12,7 +12,6 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   class CountingVisitor extends Visitor {
     var counts = Map[Any, Int]().withDefaultValue(0)
-    def reset = counts = Map[Any, Int]().withDefaultValue(0)
 
     override protected val emblematic = exhaustive.emblematic
     override protected def visitBoolean(input: Boolean): Unit = counts += input -> (counts(input) + 1)
@@ -25,7 +24,7 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     override protected def visitString(input: String): Unit = counts += input -> (counts(input) + 1)
   }
 
-  private val visitor = new CountingVisitor
+  private def newVisitor = new CountingVisitor
 
   behavior of "Visitor.visit for types not covered by the emblematic"
 
@@ -33,13 +32,14 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "produce a CouldNotVisitException" in {
     intercept[CouldNotVisitException] {
-      visitor.visit(NoEmblem())
+      newVisitor.visit(NoEmblem())
     }
   }
 
   behavior of "Visitor.visit for basic values"
 
   it should "produce the visited basic value" in {
+    val visitor = newVisitor
     val date = DateTime.now
     visitor.visit(true)
     visitor.visit('c')
@@ -58,31 +58,31 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     visitor.counts(316) should equal (1)
     visitor.counts(24l) should equal (1)
     visitor.counts("foo") should equal (1)
-    visitor.reset
   }
 
   behavior of "Visitor.visit for options"
 
   it should "produce the visited option" in {
+    val visitor = newVisitor
     visitor.visit(None)
     visitor.visit(Some(6))
     visitor.counts(6) should equal (1)
-    visitor.reset
   }
 
   behavior of "Visitor.visit for sets"
 
   it should "produce a copy of the set with elements visited" in {
+    val visitor = newVisitor
     visitor.visit(Set())
     visitor.visit(Set(6, 7))
     visitor.counts(6) should equal (1)
     visitor.counts(7) should equal (1)
-    visitor.reset
   }
 
   behavior of "Visitor.visit for lists"
 
   it should "produce a copy of the list with elements visited" in {
+    val visitor = newVisitor
     visitor.visit(Nil)
     visitor.visit(List())
 
@@ -90,21 +90,21 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     visitor.visit(List(6, 7))
     visitor.counts(6) should equal (2)
     visitor.counts(7) should equal (2)
-    visitor.reset
   }
 
   behavior of "Visitor.visit for single-prop emblems"
 
   it should "produce a copy of the emblem with the prop value visited" in {
+    val visitor = newVisitor
     val s = "foo"
     visitor.visit(exhaustive.Email(s))
     visitor.counts(s) should equal (1)
-    visitor.reset
   }
 
   behavior of "Visitor.visit for emblems with basics"
 
   it should "produce a copy of the emblem with the prop values visited" in {
+    val visitor = newVisitor
     val date = DateTime.now
     val withBasics = exhaustive.WithBasics(true, 'f', date, 3245.24543d, 43.4f, 245, 45345l, "ggg")
     visitor.visit(withBasics)
@@ -116,12 +116,12 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     visitor.counts(245) should equal (1)
     visitor.counts(45345l) should equal (1)
     visitor.counts("ggg") should equal (1)
-    visitor.reset
   }
 
   behavior of "Visitor.visit for emblems with single-prop emblems"
 
   it should "produce a copy of the emblem with the prop values visited" in {
+    val visitor = newVisitor
     val emblem1 = exhaustive.WithSinglePropEmblems(
       exhaustive.Email("1234"),
       exhaustive.Markdown("5678"),
@@ -132,12 +132,12 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     visitor.counts("1234") should equal (1)
     visitor.counts("5678") should equal (1)
     visitor.counts("90") should equal (1)
-    visitor.reset
   }
 
   behavior of "Visitor.visit for emblems with collections"
 
   it should "produce a copy of the emblem with the prop values visited" in {
+    val visitor = newVisitor
     val emblem1 = exhaustive.WithCollections(Some("A"), Set("B", "C"), List("D", "E", "F"))
     visitor.visit(emblem1)
 
@@ -148,12 +148,12 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     visitor.counts("D") should equal (1)
     visitor.counts("E") should equal (1)
     visitor.counts("F") should equal (1)
-    visitor.reset
   }
 
   behavior of "Visitor.visit for unions"
 
   it should "produce a copy of the union with the prop values visited" in {
+    val visitor = newVisitor
     val s11 = exhaustive.Specialization1("common", "special1")
     visitor.visit(s11)
 
@@ -164,7 +164,6 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     visitor.counts("common") should equal (2)
     visitor.counts("special1") should equal (1)
     visitor.counts("special2") should equal (1)
-    visitor.reset
   }
 
 }
