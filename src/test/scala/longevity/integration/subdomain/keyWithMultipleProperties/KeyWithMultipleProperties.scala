@@ -17,6 +17,4 @@ object KeyWithMultipleProperties extends RootType[KeyWithMultipleProperties] {
     val id = key(props.id)
     val secondaryKey = key(props.secondaryKey)
   }
-  object indexes {
-  }
 }

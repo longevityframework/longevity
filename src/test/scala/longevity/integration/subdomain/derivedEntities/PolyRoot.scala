@@ -16,6 +16,4 @@ object PolyRoot extends RootType[PolyRoot] with PolyPType[PolyRoot] {
   object keys {
     val id = key(props.id)
   }
-  object indexes {
-  }
 }

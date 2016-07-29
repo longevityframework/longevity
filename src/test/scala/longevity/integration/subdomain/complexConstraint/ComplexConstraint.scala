@@ -19,6 +19,4 @@ object ComplexConstraint extends RootType[ComplexConstraint] {
   object keys {
     val id = key(props.id)
   }
-  object indexes {
-  }
 }

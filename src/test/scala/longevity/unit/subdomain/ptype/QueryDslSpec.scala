@@ -25,8 +25,6 @@ object QueryDslSpec {
     }
     object keys {
     }
-    object indexes {
-    }
   }
 
   private case class AssociatedId(id: String)
@@ -40,8 +38,6 @@ object QueryDslSpec {
     }
     object keys {
       val id = key(props.id)
-    }
-    object indexes {
     }
   }
 

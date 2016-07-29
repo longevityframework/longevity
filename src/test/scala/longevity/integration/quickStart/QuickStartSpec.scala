@@ -93,8 +93,6 @@ object QuickStartSpec {
       val username = key(props.username)
       val email = key(props.email)
     }
-    object indexes {
-    }
   }
 
   case class UserProfile(
@@ -121,8 +119,6 @@ object QuickStartSpec {
     }
     object keys {
       val uri = key(props.uri)
-    }
-    object indexes {
     }
   }
 

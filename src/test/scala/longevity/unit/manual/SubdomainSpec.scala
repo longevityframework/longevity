@@ -60,8 +60,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
 
     import longevity.subdomain.Subdomain
@@ -93,8 +91,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
 
     val subdomain = Subdomain("blogging", PTypePool(User))
@@ -120,8 +116,6 @@ object SubdomainSpec {
       object props {
       }
       object keys {
-      }
-      object indexes {
       }
     }
 
@@ -152,8 +146,6 @@ object SubdomainSpec {
       object props {
       }
       object keys {
-      }
-      object indexes {
       }
     }
 
@@ -202,8 +194,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
 
     import longevity.subdomain.Subdomain
@@ -241,8 +231,6 @@ object SubdomainSpec {
       object props {
       }
       object keys {
-      }
-      object indexes {
       }
     }
 
@@ -292,8 +280,6 @@ object SubdomainSpec {
       object props {
       }
       object keys {
-      }
-      object indexes {
       }
     }
 

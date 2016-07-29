@@ -15,6 +15,4 @@ object WithComponentSet extends RootType[WithComponentSet] {
   object keys {
     val id = key(props.id)
   }
-  object indexes {
-  }
 }

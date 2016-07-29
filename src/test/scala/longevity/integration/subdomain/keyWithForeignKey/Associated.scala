@@ -12,6 +12,4 @@ object Associated extends RootType[Associated] {
   object keys {
     val id = key(props.id)
   }
-  object indexes {
-  }
 }

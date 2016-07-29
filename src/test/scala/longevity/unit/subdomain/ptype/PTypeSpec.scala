@@ -2,7 +2,6 @@ package longevity.unit.subdomain.ptype
 
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
-import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException
 import longevity.subdomain.ptype.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -19,8 +18,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     object User extends PType[User] {
       object keys {
       }
-      object indexes {
-      }
     }
     intercept[NoPropsForPTypeException[_]] {
       User.propSet
@@ -32,8 +29,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       object props {
       }
       object keys {
-      }
-      object indexes {
       }
     }
     User.propSet should equal (Set())
@@ -47,8 +42,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     User.propSet should equal (Set(User.props.username, User.props.email))
   }
@@ -56,8 +49,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "throw exception when the `keySet` is not overridden, and there is no `object keys`" in {
     object User extends PType[User] {
       object props {
-      }
-      object indexes {
       }
     }
     intercept[NoKeysForPTypeException[_]] {
@@ -71,8 +62,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     User.keySet should equal (Set())
   }
@@ -84,8 +73,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       object keys {
         val x = 7
       }
-      object indexes {
-      }
     }
     User.keySet should equal (Set())
   }
@@ -96,8 +83,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       }
       object keys {
         val x = Blog.keys.uri
-      }
-      object indexes {
       }
     }
     User.keySet should equal (Set())
@@ -113,22 +98,19 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
         val username = key(props.username)
         val email = key(props.email)
       }
-      object indexes {
-      }
     }
     User.keySet should equal (Set(User.keys.username, User.keys.email))
   }
 
-  it should "throw exception when the `indexSet` is not overridden, and there is no `object indexes`" in {
+  it should "produce an empty `indexSet` when the `indexSet` is not overridden, " +
+  "and there is no `object indexes`" in {
     object User extends PType[User] {
       object props {
       }
       object keys {
       }
     }
-    intercept[NoIndexesForPTypeException[_]] {
-      User.indexSet
-    }
+    User.indexSet should equal (Set())
   }
 
   it should "produce an empty `indexSet` when `object indexes` is empty" in {
@@ -192,8 +174,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       object props {
       }
       object keys {
-      }
-      object indexes {
       }
     }
     User.toString should equal ("PType[User]")

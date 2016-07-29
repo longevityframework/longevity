@@ -17,6 +17,4 @@ object MultipleKeys extends RootType[MultipleKeys] {
     val id = key(props.id)
     val username = key(props.username)
   }
-  object indexes {
-  }
 }

@@ -23,6 +23,4 @@ object BasicSets extends RootType[BasicSets] {
   object keys {
     val id = key(props.id)
   }
-  object indexes {
-  }
 }

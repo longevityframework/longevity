@@ -15,6 +15,4 @@ object WithComponentShorthands extends RootType[WithComponentShorthands] {
   object keys {
     val id = key(props.id)
   }
-  object indexes {
-  }
 }

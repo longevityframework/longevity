@@ -15,6 +15,4 @@ object WithForeignKeySet extends RootType[WithForeignKeySet] {
   object keys {
     val id = key(props.id)
   }
-  object indexes {
-  }
 }

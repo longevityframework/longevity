@@ -22,6 +22,4 @@ object ShorthandOptions extends RootType[ShorthandOptions] {
   object keys {
     val id = key[ShorthandOptionsId](props.id)
   }
-  object indexes {
-  }
 }

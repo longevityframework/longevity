@@ -37,8 +37,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     def subdomain = Subdomain("emptyPropPath", PTypePool(A))
   }
@@ -51,8 +49,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     def subdomain = Subdomain("noSuchPropPath", PTypePool(A))
   }
@@ -64,8 +60,6 @@ object SubdomainSpec {
         val id = prop[String]("b.noSuchPropPath")
       }
       object keys {
-      }
-      object indexes {
       }
     }
     case class B(id: String) extends Entity
@@ -82,8 +76,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     def subdomain = Subdomain("propPathWithNonEmbeddable", PTypePool(A))
   }
@@ -95,8 +87,6 @@ object SubdomainSpec {
         val id = prop[List[String]]("id")
       }
       object keys {
-      }
-      object indexes {
       }
     }
     def subdomain = Subdomain("propPathWithTerminalList", PTypePool(A))
@@ -110,8 +100,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     def subdomain = Subdomain("propPathWithTerminalOption", PTypePool(A))
   }
@@ -124,8 +112,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     def subdomain = Subdomain("propPathWithTerminalSet", PTypePool(A))
   }
@@ -137,8 +123,6 @@ object SubdomainSpec {
         val id = prop[B]("b")
       }
       object keys {
-      }
-      object indexes {
       }
     }
 
@@ -159,8 +143,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     case class B(id: String) extends Entity
     object B extends EntityType[B]
@@ -174,8 +156,6 @@ object SubdomainSpec {
         val id = prop[String]("id.id")
       }
       object keys {
-      }
-      object indexes {
       }
     }
     case class B(id: String) extends Entity
@@ -191,8 +171,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     case class B(id: String) extends Entity
     object B extends EntityType[B]
@@ -206,8 +184,6 @@ object SubdomainSpec {
         val id = prop[String]("b.id")
       }
       object keys {
-      }
-      object indexes {
       }
     }
 
@@ -228,8 +204,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
     def subdomain = Subdomain("incompatiblePropType", PTypePool(A))
   }
@@ -241,8 +215,6 @@ object SubdomainSpec {
         val id = prop[AnyRef]("id")
       }
       object keys {
-      }
-      object indexes {
       }
     }
     def subdomain = Subdomain("supertypePropType", PTypePool(A))
@@ -261,8 +233,6 @@ object SubdomainSpec {
       object keys {
         val id = key(props.id)
       }
-      object indexes {
-      }
     }
 
     def subdomain = Subdomain("subtypePropType", PTypePool(A))
@@ -276,8 +246,6 @@ object SubdomainSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
 
     case class Derived(id: String) extends Poly
@@ -286,8 +254,6 @@ object SubdomainSpec {
       object props {
       }
       object keys {
-      }
-      object indexes {
       }
     }
 

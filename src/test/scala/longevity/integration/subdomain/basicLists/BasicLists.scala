@@ -23,6 +23,4 @@ object BasicLists extends RootType[BasicLists] {
   object keys {
     val id = key(props.id)
   }
-  object indexes {
-  }
 }

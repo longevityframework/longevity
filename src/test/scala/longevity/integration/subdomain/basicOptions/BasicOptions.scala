@@ -23,6 +23,4 @@ object BasicOptions extends RootType[BasicOptions] {
   object keys {
     val id = key(props.id)
   }
-  object indexes {
-  }
 }

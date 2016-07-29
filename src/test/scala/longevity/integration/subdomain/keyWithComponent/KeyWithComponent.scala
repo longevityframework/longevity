@@ -17,6 +17,4 @@ object KeyWithComponent extends RootType[KeyWithComponent] {
     val id = key(props.id)
     val secondaryKey = key(props.secondaryKey)
   }
-  object indexes {
-  }
 }

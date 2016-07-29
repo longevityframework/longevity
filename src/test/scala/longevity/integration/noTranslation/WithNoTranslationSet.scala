@@ -13,6 +13,4 @@ object WithNoTranslationSet extends RootType[WithNoTranslationSet] {
   }
   object keys {
   }
-  object indexes {
-  }
 }

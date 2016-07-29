@@ -23,8 +23,6 @@ object messageFriend {
     object keys {
       val id = key(props.id)
     }
-    object indexes {
-    }
   }
 
   case class MessageId(id: String) extends KeyVal[Message, MessageId](Message.keys.id)
@@ -37,8 +35,6 @@ object messageFriend {
     }
     object keys {
       val id = key(props.id)
-    }
-    object indexes {
     }
   }
 

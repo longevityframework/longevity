@@ -1,7 +1,12 @@
 # Longevity Change Log
 
-## [0.10.0] - ???
+## [0.10.0] - Optimistic Locking
 
+- 2016.07.29 - Make `PType.indexes` optional. You used to have to
+  declare an empty `indexes` singleton object within your `PType` if
+  you had no indexes. Now, you can just leave it out. This should have
+  no effect on existing code, but you can go back and remove empty
+  `indexes` objects if you want.
 - 2016.07.22 - Make [Akka
   Streams](http://doc.akka.io/docs/akka/2.4.8/scala.html) an optional
   dependency. If you are using `Repo.streamByQuery`, you must now

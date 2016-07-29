@@ -4,7 +4,6 @@ import emblem.TypeKey
 import emblem.typeKey
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
-import longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.subdomain.KeyVal
@@ -78,11 +77,8 @@ abstract class PType[P <: Persistent : TypeKey] {
   }
 
   private def iscan(containerName: String): Set[Index[P]] = {
-    val indexes: Any = innerModule(this, "indexes").getOrElse {
-      throw new NoIndexesForPTypeException
-    }
     implicit val tag = pTypeKey.tag
-    termsWithType[Index[P]](indexes)
+    innerModule(this, "indexes").map(termsWithType[Index[P]]).getOrElse(Set[Index[P]]())
   }
 
   override def toString = s"PType[${pTypeKey.name}]"

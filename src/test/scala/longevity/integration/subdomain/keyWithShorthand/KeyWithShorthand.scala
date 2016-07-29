@@ -17,6 +17,4 @@ object KeyWithShorthand extends RootType[KeyWithShorthand] {
     val id = key(props.id)
     val secondaryKey = key(props.secondaryKey)
   }
-  object indexes {
-  }
 }

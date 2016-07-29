@@ -56,8 +56,6 @@ object PTypeSpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
 
     import longevity.subdomain.Subdomain
@@ -94,8 +92,6 @@ object PTypeSpec {
       object keys {
         val username = key(props.username)  
       }
-      object indexes {
-      }
     }
 
     import longevity.subdomain.Subdomain
@@ -130,8 +126,6 @@ object PTypeSpec {
       object keys {
         val username = key(props.username)
         val fullName = key(props.fullName)
-      }
-      object indexes {
       }
     }
 

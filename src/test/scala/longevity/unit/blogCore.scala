@@ -46,8 +46,6 @@ package object blogCore {
       val username = key(props.username)
       val email = key(props.email)
     }
-    object indexes {
-    }
   }
 
   case class UserProfile(
@@ -74,8 +72,6 @@ package object blogCore {
     }
     object keys {
       val uri = key(props.uri)
-    }
-    object indexes {
     }
   }
 

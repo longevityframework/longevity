@@ -32,8 +32,6 @@ object KeyValSpec {
       object keys {
         val username = key(props.username)
       }
-      object indexes {
-      }
     }
 
     import longevity.subdomain.Subdomain
@@ -68,8 +66,6 @@ object KeyValSpec {
       }
       object keys {
         val username = key(props.username)
-      }
-      object indexes {
       }
     }
 

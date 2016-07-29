@@ -71,8 +71,6 @@ object PolySpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
 
     import longevity.subdomain.Subdomain
@@ -125,8 +123,6 @@ object PolySpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
 
     case class Member(
@@ -141,8 +137,6 @@ object PolySpec {
       }
       object keys {
       }
-      object indexes {
-      }
     }
 
     case class Commenter(
@@ -155,8 +149,6 @@ object PolySpec {
       object props {
       }
       object keys {
-      }
-      object indexes {
       }
     }
 
@@ -252,8 +244,6 @@ object PolySpec {
       object props {
       }
       object keys {
-      }
-      object indexes {
       }
     }
 
