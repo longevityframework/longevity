@@ -14,14 +14,30 @@ class VisitorSpec extends FlatSpec with GivenWhenThen with Matchers {
     var counts = Map[Any, Int]().withDefaultValue(0)
 
     override protected val emblematic = exhaustive.emblematic
-    override protected def visitBoolean(input: Boolean): Unit = counts += input -> (counts(input) + 1)
-    override protected def visitChar(input: Char): Unit = counts += input -> (counts(input) + 1)
-    override protected def visitDateTime(input: DateTime): Unit = counts += input -> (counts(input) + 1)
-    override protected def visitDouble(input: Double): Unit = counts += input -> (counts(input) + 1)
-    override protected def visitFloat(input: Float): Unit = counts += input -> (counts(input) + 1)
-    override protected def visitInt(input: Int): Unit = counts += input -> (counts(input) + 1)
-    override protected def visitLong(input: Long): Unit = counts += input -> (counts(input) + 1)
-    override protected def visitString(input: String): Unit = counts += input -> (counts(input) + 1)
+    override protected def visitBoolean(input: Boolean): Unit = synchronized {
+      counts += input -> (counts(input) + 1)
+    }
+    override protected def visitChar(input: Char): Unit = synchronized {
+      counts += input -> (counts(input) + 1)
+    }
+    override protected def visitDateTime(input: DateTime): Unit = synchronized {
+      counts += input -> (counts(input) + 1)
+    }
+    override protected def visitDouble(input: Double): Unit = synchronized {
+      counts += input -> (counts(input) + 1)
+    }
+    override protected def visitFloat(input: Float): Unit = synchronized {
+      counts += input -> (counts(input) + 1)
+    }
+    override protected def visitInt(input: Int): Unit = synchronized {
+      counts += input -> (counts(input) + 1)
+    }
+    override protected def visitLong(input: Long): Unit = synchronized {
+      counts += input -> (counts(input) + 1)
+    }
+    override protected def visitString(input: String): Unit = synchronized {
+      counts += input -> (counts(input) + 1)
+    }
   }
 
   private def newVisitor = new CountingVisitor
