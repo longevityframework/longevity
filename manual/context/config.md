@@ -6,9 +6,8 @@ layout: page
 Longevity uses [Typesafe
 Config](https://github.com/typesafehub/config) to help you configure
 your `LongevityContext`. The default configuration settings are found
-in the `reference.conf` file included in the longevity jar.  This file
-contains settings for all the available context
-configurations. (Here's the [latest version on
+in the `reference.conf` file included in the longevity jar. (Here's
+the [latest version on
 GitHub](https://github.com/longevityframework/longevity/blob/master/src/main/resources/reference.conf).)
 
 The typical way to supply configuration to your application is to
@@ -50,6 +49,45 @@ Please see the [Typesafe Config
 documentation](https://github.com/typesafehub/config#overview) for
 more information on the different ways you can manage your
 configuration.
+
+Longevity converts the Typesafe Config into a `LongevityConfig` case
+class internally. You can use case class configuration if you
+prefer. Just use the `LongevityContext` constructor directly, instead
+of the `LongevityContext.apply` factory method used above. Here we use
+the `LongevityConfig` case class to define the same configuration as
+found in the `reference.conf` file:
+
+```scala
+import longevity.context.LongevityConfig
+import longevity.context.MongoConfig
+import longevity.context.TestConfig
+import longevity.context.CassandraConfig
+
+val longevityConfig = LongevityConfig(
+  optimisticLocking = true,
+  mongodb = MongoConfig(
+    uri = "localhost:27017",
+    db = "longevity_main"),
+  cassandra = CassandraConfig(
+    address = "localhost",
+    credentials = None,
+    keyspace = "longevity_main",
+    replicationFactor = 1),
+  test = TestConfig(
+    mongodb = MongoConfig(
+      uri = "localhost:27017",
+      db = "longevity_test"),
+    cassandra = CassandraConfig(
+      address = "localhost",
+      credentials = None,
+      keyspace = "longevity_test",
+      replicationFactor = 1)))
+
+val bloggingContext = new LongevityContext(
+  bloggingDomain,
+  Mongo,
+  config = longevityConfig)
+```
 
 {% assign prevTitle = "persistence strategy" %}
 {% assign prevLink = "pstrat.html" %}
