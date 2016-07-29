@@ -4,11 +4,12 @@ layout: page
 ---
 
 In our `PType`, when we talk about the fields of the `Persistent`
-type, we talk about properties, or `Props`. Properties follow a path
-from the root of the persistent object, and take on the type of that
-field in the persistent. We typically define them in a singleton
-object `props` inside the `PType`. Here's an example defining a couple
-of properties:
+type, we talk about properties, or `Props`. Properties map to
+underlying members within the [persistent object](../persistent), at
+any depth. They follow a path from the root of the persistent
+object, and take on the type of that member in the persistent. We
+typically define them in a singleton object `props` inside the
+`PType`. Here's an example defining a couple of properties:
 
 ```scala
 import longevity.subdomain.embeddable.Entity
@@ -47,9 +48,6 @@ object User extends RootType[User] {
 
 You need to specify the type of the property yourself, and longevity
 will check that the type is correct when the `Subdomain` is created.
-
-As you can see from the above example, properties can descend into
-embeddables included in your persistent object.
 
 In principle, properties could map through any path from the
 persistent object, and have a wide variety of types. In practice, we
