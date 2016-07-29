@@ -2,6 +2,10 @@
 
 ## [0.10.0] - Optimistic Locking
 
+- 2016.07.29 - Add `LongevityConfig` for well-typed
+  configuration. Users can use `LongevityConfig` instead of a Typesafe
+  Config to configure their context. Just use the `LongevityContext`
+  constructor instead of the `LongevityContext.apply` factor method.
 - 2016.07.29 - Make `PType.indexes` optional. You used to have to
   declare an empty `indexes` singleton object within your `PType` if
   you had no indexes. Now, you can just leave it out. This should have
@@ -15,9 +19,9 @@
 
 ## [0.9.0] - Streamlined API
 
-- 2016.07.12 - `KeyVal` and `Key` have been completely reworked for
-  improved understandability and ease of use. please see the manual
-  for details.
+- 2016.07.12 - Completely rework `KeyVal` and `Key` for improved
+  understandability and ease of use. please see the manual for
+  details.
 - 2016.07.12 - `Assoc`s are gone. please use `KeyVal`s and `Key`s
   instead.
 - 2016.07.12 - a `PType`'s properties and keys are now only realized
