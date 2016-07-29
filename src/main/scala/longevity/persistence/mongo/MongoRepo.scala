@@ -2,9 +2,9 @@ package longevity.persistence.mongo
 
 import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.MongoDB
-import com.typesafe.config.Config
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
+import longevity.context.MongoConfig
 import longevity.persistence.BaseRepo
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
@@ -42,9 +42,9 @@ with MongoWrite[P] {
 
 private[persistence] object MongoRepo {
 
-  def mongoDbFromConfig(config: Config): MongoDB = {
-    val mongoClient = MongoClient(config.getString("mongodb.uri"))
-    val mongoDb = mongoClient.getDB(config.getString("mongodb.db"))
+  def mongoDbFromConfig(config: MongoConfig): MongoDB = {
+    val mongoClient = MongoClient(config.uri)
+    val mongoDb = mongoClient.getDB(config.db)
 
     import com.mongodb.casbah.commons.conversions.scala._
     RegisterJodaTimeConversionHelpers()

@@ -110,6 +110,7 @@ object LongevityBuild extends Build with BuildSettings {
     base = file("."),
     settings = buildSettings ++ Seq(
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
+      libraryDependencies += "com.github.kxbmap" %% "configs" % "0.4.2",
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
 
       // for streaming api:

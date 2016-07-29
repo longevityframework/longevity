@@ -2,7 +2,6 @@ package longevity.persistence
 
 import com.datastax.driver.core.Session
 import com.mongodb.casbah.MongoDB
-import com.typesafe.config.Config
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.typeBound.TypeBoundPair
@@ -10,6 +9,7 @@ import longevity.context.Cassandra
 import longevity.context.InMem
 import longevity.context.Mongo
 import longevity.context.PersistenceStrategy
+import longevity.context.LongevityConfig
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.mongo.MongoRepo
@@ -25,12 +25,17 @@ private[longevity] object RepoPoolBuilder {
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
     persistenceStrategy: PersistenceStrategy,
-    config: Config)
+    config: LongevityConfig,
+    test: Boolean)
   : RepoPool =
     persistenceStrategy match {
       case InMem => inMemTestRepoPool(subdomain)
-      case Mongo => mongoRepoPool(subdomain, MongoRepo.mongoDbFromConfig(config))
-      case Cassandra => cassandraRepoPool(subdomain, CassandraRepo.sessionFromConfig(config))
+      case Mongo =>
+        val mongoConfig = if (test) config.test.mongodb else config.mongodb
+        mongoRepoPool(subdomain, MongoRepo.mongoDbFromConfig(mongoConfig))
+      case Cassandra =>
+        val cassandraConfig = if (test) config.test.cassandra else config.cassandra
+        cassandraRepoPool(subdomain, CassandraRepo.sessionFromConfig(cassandraConfig))
     }
 
   private trait StockRepoFactory[R[P <: Persistent] <: BaseRepo[P]] {

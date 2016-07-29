@@ -4,7 +4,6 @@ import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import com.datastax.driver.core.Session
-import com.typesafe.config.Config
 import emblem.TypeKey
 import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
@@ -14,6 +13,7 @@ import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
 import java.util.UUID
+import longevity.context.CassandraConfig
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
@@ -133,26 +133,22 @@ with CassandraDelete[P] {
 
 private[persistence] object CassandraRepo {
 
-  def sessionFromConfig(config: Config): Session = {
-    val builder = Cluster.builder.addContactPoint(config.getString("cassandra.address"))
-    if (config.getBoolean("cassandra.useCredentials")) {
-      builder.withCredentials(
-        config.getString("cassandra.username"),
-        config.getString("cassandra.password"))
+  def sessionFromConfig(config: CassandraConfig): Session = {
+    val builder = Cluster.builder.addContactPoint(config.address)
+    config.credentials.map { creds =>
+      builder.withCredentials(creds.username, creds.password)
     }
     val cluster = builder.build
     val session = cluster.connect()
-    val keyspace = config.getString("cassandra.keyspace")
-    val replicationFactor = config.getInt("cassandra.replicationFactor")
     session.execute(
       s"""|
-      |CREATE KEYSPACE IF NOT EXISTS $keyspace
+      |CREATE KEYSPACE IF NOT EXISTS ${config.keyspace}
       |WITH replication = {
       |  'class': 'SimpleStrategy',
-      |  'replication_factor': $replicationFactor
+      |  'replication_factor': ${config.replicationFactor}
       |};
       |""".stripMargin)
-    session.execute(s"use $keyspace")
+    session.execute(s"use ${config.keyspace}")
     session
   }
 

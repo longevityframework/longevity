@@ -26,7 +26,7 @@ object ContextSpec {
     val bloggingContext = LongevityContext(
       bloggingDomain,
       Mongo,
-      config = bloggingConfig)
+      typesafeConfig = bloggingConfig)
 
     val accountsSubdomain: SupportingSubdomain =
       SupportingSubdomain("accounts", PTypePool.empty)
@@ -34,11 +34,11 @@ object ContextSpec {
     val accountsContext = LongevityContext(
       accountsSubdomain,
       Cassandra,
-      config = accountsConfig)
+      typesafeConfig = accountsConfig)
 
     import com.typesafe.config.ConfigFactory
-    def loadBloggingConfig(): Config = ConfigFactory.empty()
-    def loadAccountsConfig(): Config = ConfigFactory.empty()
+    def loadBloggingConfig(): Config = ConfigFactory.load()
+    def loadAccountsConfig(): Config = ConfigFactory.load()
   }
 
 }
