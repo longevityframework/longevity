@@ -47,8 +47,6 @@ object User extends RootType[User] {
   }
   object keys {
   }
-  object indexes {
-  }
 }
 ```
 

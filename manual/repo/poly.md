@@ -42,8 +42,6 @@ object User extends PolyPType[User] {
   object keys {
     val username = key(props.username)
   }
-  object indexes {
-  }
 }
 
 case class Member(
@@ -74,8 +72,6 @@ object Commenter extends DerivedPType[Commenter, User] {
   object props {
   }
   object keys {
-  }
-  object indexes {
   }
 }
 

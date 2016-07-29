@@ -36,8 +36,6 @@ object User extends PolyPType[User] {
   }
   object keys {
   }
-  object indexes {
-  }
 }
 
 case class Member(
@@ -52,8 +50,6 @@ object Member extends DerivedPType[Member, User] {
   }
   object keys {
   }
-  object indexes {
-  }
 }
 
 case class Commenter(
@@ -66,8 +62,6 @@ object Commenter extends DerivedPType[Commenter, User] {
   object props {
   }
   object keys {
-  }
-  object indexes {
   }
 }
 ```

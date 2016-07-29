@@ -35,8 +35,6 @@ object User extends RootType[User] {
   }
   object keys {
   }
-  object indexes {
-  }
 }
 ```
 
@@ -89,8 +87,6 @@ object User extends RootType[User] {
   object props {
   }
   object keys {
-  }
-  object indexes {
   }
 }
 

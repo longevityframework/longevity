@@ -57,9 +57,9 @@ case class User(
 extends Root
 
 object User extends RootType[User] {
-  object keys {
+  object props {
   }
-  object indexes {
+  object keys {
   }
 }
 ```

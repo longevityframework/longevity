@@ -28,8 +28,6 @@ object User extends RootType[User] {
   object keys {
     val username = key(props.username)  
   }
-  object indexes {
-  }
 }
 ```
 
@@ -64,8 +62,6 @@ object User extends RootType[User] {
   object keys {
     val username = key(props.username)
     val fullName = key(props.fullName)
-  }
-  object indexes {
   }
 }
 ```
