@@ -3,9 +3,9 @@ package emblem.typeBound
 import scala.language.higherKinds
 
 /** a map where the types for keys and values share a type parameter
- * with the same bounds. the key and value * of each key/value pair are
+ * with the same bounds. the key and value of each key/value pair are
  * constrained to match on that type parameter. for example, we might
- * have some pet * stores that only cater to a single kind of pet:
+ * have some pet stores that only cater to a single kind of pet:
  *
  * {{{
  * trait Pet
@@ -51,7 +51,8 @@ import scala.language.higherKinds
  *
  * (the code presented here is in test class `emblem.typeBoundMap.ScaladocSpec`.)
  * 
- * @tparam TypeBound the upper bound on the type parameters passed to the Key and Val types
+ * @tparam TypeBound the upper bound on the type parameters passed to the `Key`
+ * and `Val` types
  * @tparam Key the parameterized type of the keys in the map
  * @tparam Val the parameterized type of the values in the map
  * 
@@ -60,51 +61,57 @@ import scala.language.higherKinds
 class TypeBoundMap[TypeBound, Key[_ <: TypeBound], Val[_ <: TypeBound]] private (underlying: Map[Any, Any])
 extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
 
-  /** retrieves the value which is associated with the given key, both bound by the same type param.
+  /** retrieves the value which is associated with the given key, both bound by
+   * the same type param.
    * 
-   * throws java.util.NoSuchElementException when no value is mapped to the supplied key
+   * throws java.util.NoSuchElementException when no value is mapped to the
+   * supplied key.
+   * 
    * @tparam TypeParam the type param binding both the key and the value
    */
   def apply[TypeParam <: TypeBound](key: Key[TypeParam]): Val[TypeParam] = get(key).get
 
   /** optionally returns the value associated with the given key
+   * 
    * @tparam TypeParam the type param bounding both the key and the value
-   * @return an option value containing the value associated with type key in this map, or `None` if none
-   * exists.
+   * @return an option value containing the value associated with type key in
+   * this map, or `None` if none exists.
    */
   def get[TypeParam <: TypeBound](key: Key[TypeParam]): Option[Val[TypeParam]] =
     underlying.get(key).asInstanceOf[Option[Val[TypeParam]]]
 
-  /** returns the value associated with a key, or a default value if the key is not contained in the map.
+  /** returns the value associated with a key, or a default value if the key is
+   * not contained in the map.
    *
-   * @param default a computation that yields a default value in case no binding for the key is found in
-   * the map
    * @tparam TypeParam the type param bounding both the key and the value
-   * @return the value associated with key if it exists, otherwise the result of the `default` computation.
+   * @param default a computation that yields a default value in case no binding
+   * for the key is found in the map
+   * @return the value associated with key if it exists, otherwise the result of
+   * the `default` computation.
    */
   def getOrElse[TypeParam <: TypeBound](
     key: Key[TypeParam], default: => Val[TypeParam]): Val[TypeParam] =
     underlying.getOrElse(key, default).asInstanceOf[Val[TypeParam]]
 
-  /** adds a key/value pair to this map, returning a new map. both the key and the value are bound by the same
-   * type param.
+  /** adds a key/value pair to this map, returning a new map. both the key and
+   * the value are bound by the same type param.
    * 
-   * @param pair the key/value pair
-   * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[TypeParam])`
    * @tparam TypeParam the type param bounding both the key and the value
    * @tparam ValTypeParam the type param for the value type. this can be any type, provided that
    * `Val[ValTypeParam] <: Val[KeyTypeParam])`
+   * @param pair the key/value pair
+   * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[TypeParam])`
    */
   def +[
     TypeParam <: TypeBound,
     ValTypeParam <: TypeBound](
     pair: (Key[TypeParam], Val[ValTypeParam]))(
-    implicit
-    valConforms: Val[ValTypeParam] <:< Val[TypeParam])
+    implicit valConforms: Val[ValTypeParam] <:< Val[TypeParam])
   : TypeBoundMap[TypeBound, Key, Val] =
     new TypeBoundMap[TypeBound, Key, Val](underlying + pair)
 
   /** takes the union of two type bound maps with the same type params
+   * 
    * @param that the type bound map to union with this type bound map
    * @return a new type bound map with the bindings of this map and that map
    */
@@ -204,7 +211,9 @@ extends BaseTypeBoundMap[TypeBound, Key, Val](underlying) {
 object TypeBoundMap {
 
   /** creates and returns an empty [[TypeBoundMap]] for the supplied types.
-   * @tparam TypeBound the upper bound on the type parameters passed into the Key and Value types
+   * 
+   * @tparam TypeBound the upper bound on the type parameters passed into the
+   * `Key` and `Val` types
    * @tparam Key the parameterized type of the keys in the map
    * @tparam Val the parameterized type of the values in the map
    */

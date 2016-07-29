@@ -2,8 +2,9 @@ package emblem.typeBound
 
 import scala.language.higherKinds
 
-/** a function with one type parameter, where both the argument and the return value are types with a single
- * type parameter, bound to the type parameter of the function.
+/** a function with one type parameter, where both the argument and the return
+ * value are types with a single type parameter, bound to the type parameter of
+ * the function.
  *
  * @tparam TypeBound the type bound to use for the argument and return value types
  * @tparam Arg the argument type

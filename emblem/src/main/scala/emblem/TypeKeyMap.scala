@@ -6,9 +6,10 @@ import emblem.typeBound.TypeBoundPair
 import emblem.typeBound.WideningTypeBoundFunction
 import scala.language.higherKinds
 
-/** a map where the keys are [[TypeKey type keys]] with an upper bound, and the values have a type parameter
- * with the same bound. The key and value of each key/value pair are constrained to match on that type
- * parameter. For example, suppose we are maintaining an inventory of computer parts:
+/** a map where the keys are [[TypeKey type keys]] with an upper bound, and the
+ * values have a type parameter with the same bound. The key and value of each
+ * key/value pair are constrained to match on that type parameter. For example,
+ * suppose we are maintaining an inventory of computer parts:
  *
  * {{{
  * sealed trait ComputerPart
@@ -26,7 +27,8 @@ import scala.language.higherKinds
  * partLists += Display(720) :: Display(1080) :: Nil
  * }}}
  *
- * now we can look up part lists by part type, with everything coming back as the expected type:
+ * now we can look up part lists by part type, with everything coming back as
+ * the expected type:
  * 
  * {{{
  * val memories: List[Memory] = partLists[Memory]
@@ -42,12 +44,13 @@ import scala.language.higherKinds
  * display should equal (Display(1080))
  * }}}
  *
- * note that the API does not provide `++` or similar methods to add multiple key/value pairs at a time, as
- * each pair needs to be type-checked separately.
+ * note that the API does not provide methods to add multiple key/value pairs at
+ * a time, as each pair needs to be type-checked separately.
  *
  * (code presented here is in `emblem.typeKeyMap.ScaladocSpec`.)
  * 
- * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
+ * @tparam TypeBound the upper bound on the type parameters passed to the
+ * TypeKey and Val types
  * @tparam Val the parameterized type of the values in the map
  *
  * @see `src/test/scala/emblem/typeKeyMap/` for many more examples
@@ -57,15 +60,18 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
 
   /** retrieves the value which is associated with the given type key.
    * 
-   * throws java.util.NoSuchElementException when no value is mapped to the supplied type param
+   * throws java.util.NoSuchElementException when no value is mapped to the
+   * supplied type param.
+   * 
    * @tparam TypeParam the type param binding both the type key and the value
    */
   def apply[TypeParam <: TypeBound : TypeKey]: Val[TypeParam] = get[TypeParam].get
 
   /** optionally returns the value associated with the given type key
+   * 
    * @tparam TypeParam the type param bounding both the type key and the value
-   * @return an option value containing the value associated with type key in this map, or None if none
-   * exists.
+   * @return an option value containing the value associated with type key in
+   * this map, or None if none exists.
    */
   def get[TypeParam <: TypeBound : TypeKey]: Option[Val[TypeParam]] =
     underlying.get(typeKey[TypeParam]).asInstanceOf[Option[Val[TypeParam]]]
@@ -83,11 +89,12 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
     underlying.getOrElse(typeKey[TypeParam], default).asInstanceOf[Val[TypeParam]]
 
   /** adds a typekey/value pair to this map, returning a new map.
-   * @param pair the typekey/value pair
-   * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[TypeParam])`
+   * 
    * @tparam TypeParam the type param bounding both the type key and the value
    * @tparam ValTypeParam the type param for the value type. this can be any type, provided that
    * `Val[ValTypeParam] <: Val[TypeParam])`
+   * @param pair the typekey/value pair
+   * @param valConforms a constraint ensuring that `Val[ValTypeParam] <: Val[TypeParam])`
    */
   def +[
     TypeParam <: TypeBound,
@@ -250,7 +257,9 @@ extends BaseTypeBoundMap[TypeBound, TypeKey, Val](underlying) {
 object TypeKeyMap {
 
   /** creates and returns an empty [[TypeKeyMap]] for the supplied types
-   * @tparam TypeBound the upper bound on the type parameters passed to the TypeKey and Val types
+   * 
+   * @tparam TypeBound the upper bound on the type parameters passed to the
+   * `TypeKey` and `Val` types
    * @tparam Val the parameterized type of the values in the map
    */
   def apply[TypeBound, Val[_ <: TypeBound]](): TypeKeyMap[TypeBound, Val] =

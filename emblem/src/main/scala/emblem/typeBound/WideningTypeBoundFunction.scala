@@ -2,8 +2,9 @@ package emblem.typeBound
 
 import scala.language.higherKinds
 
-/** like a [[TypeBoundFunction]], except that the type bound for the return value is wider than the type bound
- * for the argument. This is useful for `mapWiden` and `mapValuesWiden` methods in [[TypeKeyMap]] and
+/** like a [[TypeBoundFunction]], except that the type bound for the return
+ * value is wider than the type bound for the argument. This is useful for
+ * `mapWiden` and `mapValuesWiden` methods in [[TypeKeyMap]] and
  * [[TypeBoundMap]] that return a map with a wider type bound than the original.
  * 
  * @tparam TypeBound the type bound to use for the argument type
