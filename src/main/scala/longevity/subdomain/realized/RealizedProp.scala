@@ -30,9 +30,9 @@ private[longevity] class RealizedProp[P <: Persistent, A](
 
   def updatePropVal(p: P, a: A): P = emblematicPropPath.set(p, a)
 
-  val basicPropComponents: Seq[BasicPropComponent[P, A, _]] = {
+  val realizedPropComponents: Seq[RealizedPropComponent[P, A, _]] = {
     if (isBasicType(propTypeKey)) {
-      Seq(BasicPropComponent[P, A, A](
+      Seq(RealizedPropComponent[P, A, A](
         EmblematicPropPath.empty[A](propTypeKey),
         emblematicPropPath))
     } else {
@@ -40,7 +40,7 @@ private[longevity] class RealizedProp[P <: Persistent, A](
       val propPaths = emblem.basicPropPaths(emblematic)
       propPaths.map { propPath =>
         def component[B](propPath: EmblematicPropPath[A, B]) = {
-          BasicPropComponent[P, A, B](
+          RealizedPropComponent[P, A, B](
             propPath,
             emblematicPropPath ++ propPath)
         }
@@ -51,19 +51,19 @@ private[longevity] class RealizedProp[P <: Persistent, A](
 
   val ordering: Ordering[A] = {
     val unitOrdering = new Ordering[A] { def compare(a1: A, a2: A) = 0 }
-    basicPropComponents.foldLeft(unitOrdering) { (ordering, basicPropComponent) =>
-      def accumulate[B](basicPropComponent: BasicPropComponent[P, A, B]) =
+    realizedPropComponents.foldLeft(unitOrdering) { (ordering, realizedPropComponent) =>
+      def accumulate[B](realizedPropComponent: RealizedPropComponent[P, A, B]) =
         new Ordering[A]() {
           def compare(a1: A, a2: A) = {
             val i = ordering.compare(a1, a2)
             if (i != 0) i else {
-              basicPropComponent.ordering.compare(
-                basicPropComponent.get(a1),
-                basicPropComponent.get(a2))
+              realizedPropComponent.ordering.compare(
+                realizedPropComponent.get(a1),
+                realizedPropComponent.get(a2))
             }
           }
         }
-      accumulate(basicPropComponent)
+      accumulate(realizedPropComponent)
     }
   }
 

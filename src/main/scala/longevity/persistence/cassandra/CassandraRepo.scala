@@ -22,7 +22,7 @@ import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PolyPType
-import longevity.subdomain.realized.BasicPropComponent
+import longevity.subdomain.realized.RealizedPropComponent
 import org.joda.time.DateTime
 
 /** a Cassandra repository for persistent entities of type `P`.
@@ -45,15 +45,15 @@ with CassandraDelete[P] {
 
   protected[cassandra] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
 
-  protected[cassandra] def actualizedComponents: List[BasicPropComponent[_ >: P <: Persistent, _, _]] = {
+  protected[cassandra] def actualizedComponents: List[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
     val keyComponents = realizedPType.keySet.flatMap {
-      _.realizedProp.basicPropComponents: Seq[BasicPropComponent[_ >: P <: Persistent, _, _]]
+      _.realizedProp.realizedPropComponents: Seq[RealizedPropComponent[_ >: P <: Persistent, _, _]]
     }
 
-    val indexComponents: Set[BasicPropComponent[_ >: P <: Persistent, _, _]] = {
+    val indexComponents: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
       val props = pType.indexSet.flatMap(_.props)
       val realizedProps = props.map(realizedPType.realizedProps(_))
-      realizedProps.map(_.basicPropComponents).flatten
+      realizedProps.map(_.realizedPropComponents).flatten
     }
 
     (keyComponents ++ indexComponents).toList
@@ -67,9 +67,9 @@ with CassandraDelete[P] {
     override protected val emblematic = subdomain.emblematic
   }
 
-  protected def columnName(prop: BasicPropComponent[_, _, _]) = "prop_" + scoredPath(prop)
+  protected def columnName(prop: RealizedPropComponent[_, _, _]) = "prop_" + scoredPath(prop)
 
-  protected def scoredPath(prop: BasicPropComponent[_, _, _]) = prop.outerPropPath.inlinedPath.replace('.', '_')
+  protected def scoredPath(prop: RealizedPropComponent[_, _, _]) = prop.outerPropPath.inlinedPath.replace('.', '_')
 
   protected def jsonStringForP(p: P): String = {
     try {
@@ -100,17 +100,17 @@ with CassandraDelete[P] {
   }
 
   private def propValBinding[PP >: P <: Persistent, A](
-    component: BasicPropComponent[PP, _, A],
+    component: RealizedPropComponent[PP, _, A],
     p: P)
   : AnyRef = {
-    def bind[B : TypeKey](component: BasicPropComponent[PP, _, B]) =
+    def bind[B : TypeKey](component: RealizedPropComponent[PP, _, B]) =
       cassandraValue(component.outerPropPath.get(p), component)
     bind(component)(component.outerPropPath.typeKey)
   }
 
   protected def cassandraValue[A : TypeKey](
     value: A,
-    component: BasicPropComponent[_ >: P <: Persistent, _, A])
+    component: RealizedPropComponent[_ >: P <: Persistent, _, A])
   : AnyRef = {
     value match {
       case char: Char => char.toString

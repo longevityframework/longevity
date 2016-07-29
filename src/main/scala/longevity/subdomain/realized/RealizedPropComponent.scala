@@ -5,8 +5,8 @@ import emblem.emblematic.basicTypes.basicTypeOrderings
 import emblem.emblematic.EmblematicPropPath
 import longevity.subdomain.persistent.Persistent
 
-/** a component of a prop that is a basic type */
-private[longevity] case class BasicPropComponent[P <: Persistent, A, B](
+/** a component of a realized property that is a basic type */
+private[longevity] case class RealizedPropComponent[P <: Persistent, A, B](
   innerPropPath: EmblematicPropPath[A, B],
   outerPropPath: EmblematicPropPath[P, B]) {
 

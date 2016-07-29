@@ -23,7 +23,7 @@ import longevity.subdomain.ptype.Query.LtOp
 import longevity.subdomain.ptype.Query.LteOp
 import longevity.subdomain.ptype.Query.NeqOp
 import longevity.subdomain.ptype.Query.OrOp
-import longevity.subdomain.realized.BasicPropComponent
+import longevity.subdomain.realized.RealizedPropComponent
 import scala.collection.JavaConversions.asScalaBuffer
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -84,7 +84,7 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
   private def equalityQueryQueryInfo[A](query: EqualityQuery[P, A]): QueryInfo = query.op match {
     case EqOp =>
       val infos: Seq[QueryInfo] = toComponents(query.prop).map { component =>
-        def info[B](component: BasicPropComponent[_ >: P <: Persistent, A, B]) = {
+        def info[B](component: RealizedPropComponent[_ >: P <: Persistent, A, B]) = {
           val componentValue =
             cassandraValue[B](component.innerPropPath.get(query.value), component)(component.componentTypeKey)
           QueryInfo(s"${columnName(component)} = :${columnName(component)}",
@@ -98,9 +98,9 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
 
   private def orderingQueryQueryInfo[A](query: OrderingQuery[P, A]): QueryInfo = {
     val components = toComponents(query.prop)
-    def componentsToQueryInfo(components: Seq[BasicPropComponent[_ >: P <: Persistent, A, _]]): QueryInfo = {
+    def componentsToQueryInfo(components: Seq[RealizedPropComponent[_ >: P <: Persistent, A, _]]): QueryInfo = {
       if (components.size == 1) {
-        def info[B](component: BasicPropComponent[_ >: P <: Persistent, A, B]) = {
+        def info[B](component: RealizedPropComponent[_ >: P <: Persistent, A, B]) = {
           val componentValue = cassandraValue[B](
             component.innerPropPath.get(query.value),
             component)(
@@ -122,8 +122,8 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
   }
 
   def toComponents[A](prop: Prop[_ >: P <: Persistent, A])
-  : Seq[BasicPropComponent[_ >: P <: Persistent, A, _]] = {
-    realizedPType.realizedProps(prop).basicPropComponents
+  : Seq[RealizedPropComponent[_ >: P <: Persistent, A, _]] = {
+    realizedPType.realizedProps(prop).realizedPropComponents
   }
 
 

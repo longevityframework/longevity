@@ -18,7 +18,7 @@ abstract class PType[P <: Persistent : TypeKey] {
   /** the type key for the persistent type */
   val pTypeKey = typeKey[P]
 
-  /** the properties for this persistent type */
+  /** the [Prop properties] for this persistent type */
   lazy val propSet: Set[Prop[P, _]] = pscan("props")
 
   /** the keys for this persistent type */

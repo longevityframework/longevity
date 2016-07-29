@@ -24,8 +24,8 @@ private[mongo] trait MongoRetrieve[P <: Persistent] {
   protected def keyValQuery[V <: KeyVal[P, V]](keyVal: V): MongoDBObject = {
     val builder = MongoDBObject.newBuilder
     val realizedKey = realizedPType.realizedKeys(keyVal.key)
-    realizedKey.realizedProp.basicPropComponents.foreach { basicPropComponent =>
-      builder += basicPropComponent.outerPropPath.inlinedPath -> basicPropComponent.innerPropPath.get(keyVal)
+    realizedKey.realizedProp.realizedPropComponents.foreach { component =>
+      builder += component.outerPropPath.inlinedPath -> component.innerPropPath.get(keyVal)
     }
     builder.result
   }

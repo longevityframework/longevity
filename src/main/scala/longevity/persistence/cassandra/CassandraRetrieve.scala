@@ -5,7 +5,7 @@ import com.datastax.driver.core.PreparedStatement
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.realized.BasicPropComponent
+import longevity.subdomain.realized.RealizedPropComponent
 import longevity.subdomain.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -42,13 +42,13 @@ private[cassandra] trait CassandraRetrieve[P <: Persistent] {
   }
 
   protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String = {
-    key.realizedProp.basicPropComponents.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
+    key.realizedProp.realizedPropComponents.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
   }
 
   private def bindKeyValSelectStatement[V <: KeyVal[P, V]](keyVal: V): BoundStatement = {
     val realizedKey: RealizedKey[P, V] = realizedPType.realizedKeys(keyVal.key)
-    val propVals = realizedKey.realizedProp.basicPropComponents.map { component =>
-      def bind[PP >: P <: Persistent, B](component: BasicPropComponent[PP, V, B]) =
+    val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
+      def bind[PP >: P <: Persistent, B](component: RealizedPropComponent[PP, V, B]) =
         cassandraValue(component.innerPropPath.get(keyVal), component)(component.componentTypeKey)
       bind(component)
     }

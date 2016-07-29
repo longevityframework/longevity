@@ -1,7 +1,7 @@
 package longevity.persistence.cassandra
 
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.realized.BasicPropComponent
+import longevity.subdomain.realized.RealizedPropComponent
 import longevity.subdomain.realized.RealizedKey
 import java.util.UUID
 
@@ -17,10 +17,11 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     compact(render(emblematicToJsonTranslator.translate[Poly](p)(polyRepo.pTypeKey)))
   }
 
-  private def myActualizedComponents: List[BasicPropComponent[_ >: P <: Persistent, _, _]] =
+  private def myActualizedComponents: List[RealizedPropComponent[_ >: P <: Persistent, _, _]] =
     super.actualizedComponents
 
-  override protected[cassandra] def actualizedComponents: List[BasicPropComponent[_ >: P <: Persistent, _, _]] = {
+  override protected[cassandra] def actualizedComponents
+  : List[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
     myActualizedComponents ++ polyRepo.actualizedComponents
   }
 

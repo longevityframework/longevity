@@ -2,7 +2,7 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.realized.BasicPropComponent
+import longevity.subdomain.realized.RealizedPropComponent
 
 /** implementation of CassandraRepo.createSchema */
 private[cassandra] trait CassandraSchema[P <: Persistent] {
@@ -14,7 +14,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
   }
 
   protected def createTable(): Unit = {
-    def columnDefs(component: BasicPropComponent[_ >: P <: Persistent, _, _]) = {
+    def columnDefs(component: RealizedPropComponent[_ >: P <: Persistent, _, _]) = {
       s"${columnName(component)} ${componentToCassandraType(component)}"
     }
     val actualizedComponentColumnDefs = actualizedComponents.map(columnDefs).mkString(",\n  ")
@@ -42,13 +42,14 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
     }
   }
 
-  protected def componentToCassandraType[A](component: BasicPropComponent[_ >: P <: Persistent, _, A]): String = {
+  protected def componentToCassandraType[A](component: RealizedPropComponent[_ >: P <: Persistent, _, A])
+  : String = {
     CassandraRepo.basicToCassandraType(component.componentTypeKey)
   }
 
   protected def createIndexes(): Unit = actualizedComponents.foreach(createIndex)
 
-  protected def createIndex(component: BasicPropComponent[_ >: P <: Persistent, _, _]): Unit = {
+  protected def createIndex(component: RealizedPropComponent[_ >: P <: Persistent, _, _]): Unit = {
     val indexName = s"${tableName}_${scoredPath(component)}"
     createIndex(indexName, columnName(component))
   }
