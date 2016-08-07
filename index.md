@@ -24,7 +24,6 @@ database, as well as in-memory repositories for other tests.
 - [Questions, Comments, Problems, and Discussions](discussions.html)
 - [Contributing](contributing.html)
 - [License](license.html)
-- [What's Happening](whats-happening.html)
 - [Consulting Services](by-design.html)
 
 For the latest longevity news, please check out the [longevity tag on
