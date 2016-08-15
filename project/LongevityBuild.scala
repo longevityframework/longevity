@@ -44,8 +44,8 @@ trait BuildSettings {
 
   val longevityPomExtra = (
     <scm>
-      <url>git@github.com:longevityframework/emblem.git</url>
-      <connection>scm:git:git@github.com:longevityframework/emblem.git</connection>
+      <url>git@github.com:longevityframework/longevity.git</url>
+      <connection>scm:git:git@github.com:longevityframework/longevity.git</connection>
     </scm>
     <developers>
       <developer>
