@@ -23,15 +23,15 @@ from the root, so no non-root entity requires a corresponding
 repository. Aggregates also serve to simplify our entity-relationship
 model by imposing the following rule:
 
-- An entity is only allowed to have a relationship with a non-root
+- An entity can only have a relationship with a non-root
   entity if that entity is part of the same aggregate.
 
-In essence, we are drawing a clear distinction between two different
-kinds of relationships that occur in domain modelling: _composition_,
-where one entity can be seen as _part of_ another entity, and
-_aggregation_, where the two entities are much more loosely
-associated. The hallmark of an aggregation is when the two entities
-have independent life-cycles.
+In essence, we are drawing a distinction between two different kinds
+of relationships that occur in domain modelling: _composition_, where
+one entity can be seen as _part of_ another entity, and _aggregation_,
+where the two entities are much more loosely associated. The hallmark
+of an aggregation is when the two entities have independent
+life-cycles.
 
 With Hibernate, all our relationships are represented by a direct
 reference between the two entities. In longevity, we clearly
