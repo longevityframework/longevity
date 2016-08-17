@@ -10,8 +10,6 @@ classes you can use for your [persistents](persistent),
 - They must be a case class.
 - They must not be an [inner class](http://docs.scala-lang.org/tutorials/tour/inner-classes.html).
 - They must have a primary constructor with a single parameter list.
-- The primary constructor for a shorthand must have a single parameter
-  of a [basic type](basics.html).
 
 We would like to relax these limitations in the future. If you find
 these limitations to be too cumbersome for you, please [let us
