@@ -7,9 +7,9 @@ Longevity currently places the following limitations on the kinds of
 classes you can use for your [persistents](persistent),
 [embeddables](embeddable), and [key values](key-values.html):
 
-- They must be a case class.
+- They must be a case class or a case object.
 - They must not be an [inner class](http://docs.scala-lang.org/tutorials/tour/inner-classes.html).
-- They must have a primary constructor with a single parameter list.
+- Case class primary constructors must have a single parameter list.
 
 We would like to relax these limitations in the future. If you find
 these limitations to be too cumbersome for you, please [let us
@@ -18,10 +18,12 @@ what you are trying to do, and we will see what we can to do help.
 Just keep in mind that, whatever possibilities we allow for, longevity
 has the following requirements:
 
-- The set of properties that a persistent, embeddable, or key values contains must be clearly defined.
+- The set of properties that a persistent, embeddable, or key values
+  contains must be clearly defined.
 - We must be able to retrieve a property value from a persistent,
   embeddable, or key value.
-- We must be able to construct a new persistent or embeddable from a complete set of property values.
+- We must be able to construct a new persistent or embeddable from a
+  complete set of property values.
 
 Case classes are quite convenient things for fulfilling the
 requirements we have. They also seem a natural choice for modeling out
