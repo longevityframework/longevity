@@ -36,11 +36,11 @@ encapsulation of persistence concerns, allows us to write domain
 classes that directly reflect our domain, as we will see in the
 section on [building your subdomain](../subdomain.html).
 
-{% assign prevTitle = "ddd basics" %}
+{% assign prevTitle = "ddd primer" %}
 {% assign prevLink = "." %}
-{% assign upTitle = "ddd basics" %}
+{% assign upTitle = "ddd primer" %}
 {% assign upLink = "." %}
-{% assign nextTitle="subdomains and bounded contexts" %}
-{% assign nextLink="subdomains-and-bounded-contexts.html" %}
+{% assign nextTitle = "subdomains and bounded contexts" %}
+{% assign nextLink = "subdomains-and-bounded-contexts.html" %}
 {% include navigate.html %}
 

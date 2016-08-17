@@ -76,8 +76,8 @@ dependency. If you are on the `master` branch, use:
 libraryDependencies += "org.longevityframework" %% "longevity" % "0.10-SNAPSHOT"
 ```
 
-{% assign prevTitle = "aggregates and entities" %}
-{% assign prevLink = "ddd-basics/aggregates-and-entities.html" %}
+{% assign prevTitle = "what is longevity" %}
+{% assign prevLink = "what-is-longevity.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "building your subdomain" %}

@@ -15,10 +15,6 @@ This is a rough outline of planned chapters, and subject to change. I
 will put in links as I write the chapters.
 
 - [What Is Longevity?](what-is-longevity.html)
-- [The Basics of Domain Driven Design](ddd-basics)
-  - [Ubiquitous Language](ddd-basics/ubiquitous-language.html)
-  - [Subdomains and Bounded Contexts](ddd-basics/subdomains-and-bounded-contexts.html)
-  - [Aggregates and Entities](ddd-basics/aggregates-and-entities.html)
 - [Project Setup](project-setup.html)
 - [Building Your Subdomain](subdomain.html)
 - [Persistent Objects](persistent)
@@ -65,6 +61,10 @@ will put in links as I write the chapters.
   - [Partition Keys](translation/keys.html)
   - [MongoDB Translation](translation/mongo.html)
   - [Cassandra Translation](translation/cassandra.html)
+- [A Primer on Domain Driven Design](ddd-basics)
+  - [Ubiquitous Language](ddd-basics/ubiquitous-language.html)
+  - [Subdomains and Bounded Contexts](ddd-basics/subdomains-and-bounded-contexts.html)
+  - [Aggregates and Entities](ddd-basics/aggregates-and-entities.html)
 
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}

@@ -37,6 +37,6 @@ from the database.
 {% assign prevLink = "./" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = "./" %}
-{% assign nextTitle="ddd basics" %}
-{% assign nextLink="ddd-basics/" %}
+{% assign nextTitle = "project setup" %}
+{% assign nextLink = "project-setup.html" %}
 {% include navigate.html %}

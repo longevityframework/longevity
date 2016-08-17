@@ -29,9 +29,9 @@ event sourcing.
 
 {% assign prevTitle = "ubiquitous language" %}
 {% assign prevLink = "ubiquitous-language.html" %}
-{% assign upTitle = "ddd basics" %}
+{% assign upTitle = "ddd primer" %}
 {% assign upLink = "." %}
-{% assign nextTitle="aggregates and entities" %}
-{% assign nextLink="aggregates-and-entities.html" %}
+{% assign nextTitle = "aggregates and entities" %}
+{% assign nextLink = "aggregates-and-entities.html" %}
 {% include navigate.html %}
 

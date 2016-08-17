@@ -46,9 +46,7 @@ Root](http://scabl.blogspot.com/2015/03/aeddd-5.html)
 
 {% assign prevTitle = "subdomains and bounded contexts" %}
 {% assign prevLink = "subdomains-and-bounded-contexts.html" %}
-{% assign upTitle = "ddd basics" %}
+{% assign upTitle = "ddd primer" %}
 {% assign upLink = "." %}
-{% assign nextTitle="project setup" %}
-{% assign nextLink="../project-setup.html" %}
 {% include navigate.html %}
 

@@ -35,4 +35,6 @@ name of the persistent class.
 {% assign prevLink = "mongo.html" %}
 {% assign upTitle = "translating persistents to the database" %}
 {% assign upLink = "." %}
+{% assign nextTitle = "ddd primer" %}
+{% assign nextLink = "../ddd-basics" %}
 {% include navigate.html %}

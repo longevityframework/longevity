@@ -1,5 +1,5 @@
 ---
-title: the basics of domain driven design
+title: a primer on domain driven design
 layout: page
 ---
 
@@ -16,11 +16,11 @@ relevant to using longevity:
 - [Subdomains and Bounded Contexts](subdomains-and-bounded-contexts.html)
 - [Aggregates and Entities](aggregates-and-entities.html)
 
-{% assign prevTitle = "what is longevity" %}
-{% assign prevLink = "../what-is-longevity.html" %}
+{% assign prevTitle = "cassandra translation" %}
+{% assign prevLink = "../translation/cassandra.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
-{% assign nextTitle="ubiquitous language" %}
-{% assign nextLink="ubiquitous-language.html" %}
+{% assign nextTitle = "ubiquitous language" %}
+{% assign nextLink = "ubiquitous-language.html" %}
 {% include navigate.html %}
 
