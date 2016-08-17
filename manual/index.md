@@ -7,12 +7,9 @@ Welcome to longevity! This user manual will show you all you need to
 know in order to use it. We recommend you read through the manual
 once, and then come back to it as a reference. If you are new to
 Domain Driven Design, or feel that you might need a refresher, please
-don't overlook the chapters on [the basics of DDD](./ddd-basics/).
+glance through the chapters on [the basics of DDD](./ddd-basics/).
 
 ## Table of Contents
-
-This is a rough outline of planned chapters, and subject to change. I
-will put in links as I write the chapters.
 
 - [What Is Longevity?](what-is-longevity.html)
 - [Project Setup](project-setup.html)
