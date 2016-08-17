@@ -65,7 +65,13 @@ private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
   }
 
   private def makeCreator(): Map[String, Any] => A = {
-    val creator = { map: Map[String, Any] =>
+    def caseObjectCreator = {
+      val moduleMirror = currentMirror.reflectModule(symbol.module.asModule)
+      val instance = moduleMirror.instance.asInstanceOf[A]
+
+      { map: Map[String, Any] => instance }
+    }
+    def caseClassCreator = { map: Map[String, Any] =>
       val args = params.zipWithIndex.map {
         case (param, index) =>
         val paramName: String = param.name.toString          
@@ -84,7 +90,8 @@ private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
       }
       module.applyMirror(args: _*).asInstanceOf[A]
     }
-    creator
+
+    if (symbol.isModuleClass) caseObjectCreator else caseClassCreator
   }
 
 }

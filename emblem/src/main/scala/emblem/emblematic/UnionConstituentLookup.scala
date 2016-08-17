@@ -18,8 +18,11 @@ private[emblematic] class UnionConstituentLookup[A](
   }
  
   /** @see [[Union.typeKeyForName]] */
-  def typeKeyForName(name: String): Option[TypeKey[_ <: A]] =
-    constituentKeysByName.get(name)
+  def typeKeyForName(name: String): Option[TypeKey[_ <: A]] = {
+    // trimming the "$" is a special-case for handling case objects
+    val trimmed = if (name.endsWith("$")) name.dropRight(1) else name
+    constituentKeysByName.get(trimmed)
+  }
 
   def emblemForInstance(a: A): Option[Emblem[_ <: A]] = {
     emblemForName(a.getClass.getSimpleName)
