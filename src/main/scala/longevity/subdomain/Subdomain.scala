@@ -148,7 +148,7 @@ class Subdomain(
     polyTypes.mapValuesWiden[Any, Union] {
       new WideningTypeBoundFunction[Persistent, Any, PType, Union] {
         def apply[TypeParam <: Persistent](pType: PType[TypeParam]): Union[TypeParam] = {
-          val constituents = baseToDerivedsMap(pType.pTypeKey)
+          val constituents = baseToDerivedsMap.getOrElse(List[Emblem[TypeParam]]())(pType.pTypeKey)
           Union[TypeParam](constituents: _*)(pType.pTypeKey)
         }
       }
