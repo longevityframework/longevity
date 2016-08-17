@@ -4,7 +4,6 @@ import emblem.emblematic.Emblem
 import emblem.emblematic.Emblematic
 import emblem.emblematic.EmblemPool
 
-
 /** for testing emblem success cases */
 object geometry {
 
