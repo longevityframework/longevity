@@ -31,6 +31,7 @@ glance through the chapters on [the basics of DDD](./ddd-basics/).
   - [Prop Sets, Key Sets, and Index Sets](ptype/sets.html)
 - [Polymorphic Embeddables](poly)
   - [Polymorphic Persistents](poly/persistents.html)
+  - [Controlled Vocabularies](poly/cv.html)
 - [The Longevity Context](context)
   - [Persistence Strategy](context/pstrat.html)
   - [Configuring your Longevity Context](context/config.html)

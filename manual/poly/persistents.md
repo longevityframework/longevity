@@ -116,7 +116,7 @@ section on [polymorphic repositories](../repo/poly.html).
 {% assign prevLink = "." %}
 {% assign upTitle = "polymorphic embeddables" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "the longevity context" %}
-{% assign nextLink = "../context" %}
+{% assign nextTitle = "controlled vocabularies" %}
+{% assign nextLink = "cv.html" %}
 {% include navigate.html %}
 
