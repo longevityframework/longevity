@@ -258,6 +258,73 @@ object PolySpec {
 
   }
 
+  // used in http://longevityframework.github.io/longevity/manual/poly/cv.html
+  object cv1 {
+
+    sealed trait AccountStatus
+
+    case object Active extends AccountStatus
+
+    case object Suspended extends AccountStatus
+
+    case object Cancelled extends AccountStatus
+  }
+
+  // used in http://longevityframework.github.io/longevity/manual/poly/cv.html
+  object cv2 {
+
+    import longevity.subdomain.embeddable.DerivedType
+    import longevity.subdomain.embeddable.Embeddable
+    import longevity.subdomain.embeddable.PolyType
+
+    sealed trait AccountStatus extends Embeddable
+
+    object AccountStatus extends PolyType[AccountStatus]
+
+    case object Active extends AccountStatus
+
+    object Active_Type extends DerivedType[Active.type, AccountStatus] {
+      val polyType = AccountStatus
+    }
+
+    case object Suspended extends AccountStatus
+
+    object Suspended_Type extends DerivedType[Suspended.type, AccountStatus] {
+      val polyType = AccountStatus
+    }
+
+    case object Cancelled extends AccountStatus
+
+    object Cancelled_Type extends DerivedType[Cancelled.type, AccountStatus] {
+      val polyType = AccountStatus
+    }
+
+    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ptype.RootType
+
+    case class Account(
+      name: String,
+      accountStatus: AccountStatus)
+    extends Root
+
+    object Account extends RootType[Account] {
+      object keys {
+      }
+      object indexes {
+      }
+    }
+
+    import longevity.subdomain.Subdomain
+    import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.ptype.PTypePool
+
+    val subdomain = Subdomain(
+      "accounts",
+      PTypePool(Account),
+      ETypePool(AccountStatus, Active_Type, Suspended_Type, Cancelled_Type))
+
+  }
+
 }
 
 /** exercises code samples found in the entity polymorphism section of the user
