@@ -28,6 +28,7 @@ manual](manual). They include:
   - Collection types such as `Option`, `Set`, and `List`.
   - Case classes.
   - Polymorphic traits.
+  - Controlled vocabularies.
 - Supports domain-level keys and indexes.
 - Provides pre-built repositories with simple, reactive APIs.
 - Provides a query DSL for retrieval or streaming of multiple records.
