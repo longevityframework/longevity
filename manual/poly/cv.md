@@ -129,7 +129,7 @@ happy to support you in implementing it however we can.
 
 {% assign prevTitle = "polymorphic persistents" %}
 {% assign prevLink = "persistents.html" %}
-{% assign upTitle = "polymorphic embeddables" %}
+{% assign upTitle = "subtype polymorphism" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "the longevity context" %}
 {% assign nextLink = "../context" %}

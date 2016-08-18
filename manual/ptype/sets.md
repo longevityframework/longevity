@@ -95,7 +95,7 @@ build the sets for you.
 {% assign prevLink = "indexes.html" %}
 {% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "polymorphic embeddables" %}
+{% assign nextTitle = "subtype polymorphism" %}
 {% assign nextLink = "../poly" %}
 {% include navigate.html %}
 

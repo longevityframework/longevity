@@ -14,8 +14,8 @@ to maintain your back-end store.
 - [Repo Pools](repo-pools.html)
 - [Persistent State](persistent-state.html)
 
-{% assign prevTitle = "polymorphic embeddables" %}
-{% assign prevLink = "../poly" %}
+{% assign prevTitle = "controlled vocabularies" %}
+{% assign prevLink = "../poly/cv.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "persistence strategy" %}

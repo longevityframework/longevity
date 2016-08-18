@@ -113,8 +113,8 @@ Member` will only apply to members. For more information, see the
 section on [polymorphic repositories](../repo/poly.html).
 
 {% assign prevTitle = "polymorphic embeddables" %}
-{% assign prevLink = "." %}
-{% assign upTitle = "polymorphic embeddables" %}
+{% assign prevLink = "embeddables.html" %}
+{% assign upTitle = "subtype polymorphism" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "controlled vocabularies" %}
 {% assign nextLink = "cv.html" %}
