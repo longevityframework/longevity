@@ -7,12 +7,13 @@ Status](https://travis-ci.org/longevityframework/longevity.svg?branch=master)](h
 A Persistence Framework for Scala and NoSQL with a Domain Driven
 Design Orientation.
 
-Model your domain in the language and style of Domain Driven
-Design. Implement it using Scala case classes and companion
-objects. Pass us your subdomain, and we provide the
-persistence. Persistence concerns, operations and data are abstracted
-behind an elegant persistence API. We provide you with fully featured
-repositories for [MongoDB](https://www.mongodb.org/) and
+Build your data model using standard Scala idioms such as case
+classes, companion objects, options, and immutable collections. Tell
+us about the types in your model, and we provide the persistence.
+
+Persistence concerns and operations are abstracted behind an elegant
+persistence API. We provide you with fully featured repositories for
+[MongoDB](https://www.mongodb.org/) and
 [Cassandra](http://cassandra.apache.org/). We provide a suite of
 integration tests to exercise your repositories against a real
 database, as well as in-memory repositories for other tests.
