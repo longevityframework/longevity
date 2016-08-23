@@ -1,7 +1,6 @@
 package longevity.persistence.mongo
 
 import com.mongodb.DuplicateKeyException
-import com.mongodb.casbah.commons.MongoDBObject
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
 import org.bson.types.ObjectId
@@ -14,16 +13,16 @@ private[mongo] trait MongoCreate[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   def create(p: P)(implicit context: ExecutionContext) = Future {
-    val objectId = new ObjectId()
-    val casbah = casbahForP(p) ++ MongoDBObject("_id" -> objectId)
+    val id = new ObjectId()
+    val modifiedDate = persistenceConfig.modifiedDate
     val writeResult = blocking {
       try {
-        mongoCollection.insert(casbah)
+        mongoCollection.insert(casbahForP(p, id, modifiedDate))
       } catch {
         case e: DuplicateKeyException => throwDuplicateKeyValException(p, e)
       }
     }
-    new PState[P](MongoId(objectId), p)
+    PState(MongoId[P](id), modifiedDate, p)
   }
 
 }

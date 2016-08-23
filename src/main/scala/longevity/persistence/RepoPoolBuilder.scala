@@ -68,7 +68,7 @@ private[longevity] object RepoPoolBuilder {
         pType: PType[P],
         polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
       : MongoRepo[P] =
-        MongoRepo[P](pType, subdomain, mongoDB, polyRepoOpt)
+        MongoRepo[P](pType, subdomain, mongoDB, persistenceConfig, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory)
   }

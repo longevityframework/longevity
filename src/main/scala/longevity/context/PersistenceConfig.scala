@@ -2,7 +2,7 @@ package longevity.context
 
 import org.joda.time.DateTime
 
-/** persistence strategy agnostic configuration to pass on to the repositories */
+/** configuration for persistence that is [[PersistenceStrategy persistence strategy]] agnostic */
 private[longevity] trait PersistenceConfig {
 
   /** is optimistic locking turned on? */

@@ -3,6 +3,8 @@ package longevity.persistence.mongo
 import com.mongodb.casbah.commons.Implicits.unwrapDBObj
 import com.mongodb.casbah.commons.Implicits.wrapDBObj
 import com.mongodb.casbah.commons.MongoDBObject
+import com.mongodb.casbah.commons.MongoDBObjectBuilder
+import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
@@ -19,12 +21,19 @@ private[mongo] trait MongoDelete[P <: Persistent] {
     val writeResult = blocking {
       mongoCollection.remove(query)
     }
+    if (persistenceConfig.optimisticLocking && writeResult.getN == 0) {
+      throw new WriteConflictException(state)
+    }
     new Deleted(state.get)
   }
 
   protected def deleteQuery(state: PState[P]): MongoDBObject = {
-    val objectId = state.id.asInstanceOf[MongoId[P]].objectId
-    MongoDBObject("_id" -> objectId)
+    val builder = new MongoDBObjectBuilder()
+    builder += "_id" -> mongoId(state)
+    if (persistenceConfig.optimisticLocking) {
+      builder += "_modifiedDate" -> state.modifiedDate
+    }
+    builder.result()
   }
 
 }

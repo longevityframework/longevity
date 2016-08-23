@@ -5,6 +5,7 @@ import com.mongodb.casbah.MongoDB
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import longevity.context.MongoConfig
+import longevity.context.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
@@ -17,11 +18,13 @@ import longevity.subdomain.ptype.PolyPType
  * @param pType the persistent type of the entities this repository handles
  * @param subdomain the subdomain containing the entities that this repo persists
  * @param mongoDb the connection to the mongo database
+ * @param persistenceConfig persistence configuration that is persistence strategy agnostic
  */
 private[longevity] class MongoRepo[P <: Persistent] private[persistence] (
   pType: PType[P],
   subdomain: Subdomain,
-  mongoDb: MongoDB)
+  mongoDb: MongoDB,
+  protected val persistenceConfig: PersistenceConfig)
 extends BaseRepo[P](pType, subdomain)
 with MongoCreate[P]
 with MongoDelete[P]
@@ -56,22 +59,23 @@ private[persistence] object MongoRepo {
     pType: PType[P],
     subdomain: Subdomain,
     session: MongoDB,
+    config: PersistenceConfig,
     polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
   : MongoRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
-        new MongoRepo(pType, subdomain, session) with PolyMongoRepo[P]
+        new MongoRepo(pType, subdomain, session, config) with PolyMongoRepo[P]
       case pt: DerivedPType[_, _] =>
         def withPoly[Poly >: P <: Persistent](poly: MongoRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: MongoRepo[Poly] = poly
           }
-          with MongoRepo(pType, subdomain, session) with DerivedMongoRepo[P, Poly]
+          with MongoRepo(pType, subdomain, session, config) with DerivedMongoRepo[P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new MongoRepo(pType, subdomain, session)
+        new MongoRepo(pType, subdomain, session, config)
     }
     repo.createSchema()
     repo

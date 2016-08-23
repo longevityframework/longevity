@@ -30,6 +30,7 @@ import longevity.subdomain.realized.RealizedPType
  * 
  * @param pType the persistent type for the entities this repository handles
  * @param subdomain the subdomain containing the entities that this repo persists
+ * @param persistenceConfig persistence configuration that is persistence strategy agnostic
  */
 private[longevity] class InMemRepo[P <: Persistent] private[persistence] (
   pType: PType[P],

@@ -27,7 +27,7 @@ with ScalaFutures {
     timeout = scaled(4000.millis),
     interval = scaled(50.millis))
 
-  behavior of "Repo[Basics].update"
+  behavior of "Repo.{update,delete} when the original PState comes from a create"
 
   it should "throw exception when an update beats an update" in {
     val basic = generator.generate[basics.Basics]
@@ -75,6 +75,116 @@ with ScalaFutures {
     val deleted1 = repo.delete(createdPState).futureValue
 
     val failure2 = repo.delete(createdPState).failed.futureValue
+    failure2 shouldBe a [WriteConflictException[_]]
+  } 
+
+  behavior of "Repo.{update,delete} when the original PState comes from a retrieve"
+
+  it should "throw exception when an update beats an update" in {
+    val basic = generator.generate[basics.Basics]
+    val createdPState = repo.create(basic).futureValue
+    val retrievedPState = repo.retrieveOne(basic.id).futureValue
+
+    val modified1 = generator.generate[basics.Basics]
+    val modifiedPState1 = retrievedPState.set(modified1)
+    val updated1 = repo.update(modifiedPState1).futureValue
+
+    val modified2 = generator.generate[basics.Basics]
+    val modifiedPState2 = retrievedPState.set(modified2)
+
+    val failure2 = repo.update(modifiedPState2).failed.futureValue
+    failure2 shouldBe a [WriteConflictException[_]]
+  } 
+
+  it should "throw exception when a delete beats an update" in {
+    val basic = generator.generate[basics.Basics]
+    val createdPState = repo.create(basic).futureValue
+    val retrievedPState = repo.retrieveOne(basic.id).futureValue
+
+    val deleted1 = repo.delete(retrievedPState).futureValue
+
+    val modified2 = generator.generate[basics.Basics]
+    val modifiedPState2 = retrievedPState.set(modified2)
+    val failure2 = repo.update(modifiedPState2).failed.futureValue
+    failure2 shouldBe a [WriteConflictException[_]]
+  } 
+
+  it should "throw exception when an update beats a delete" in {
+    val basic = generator.generate[basics.Basics]
+    val createdPState = repo.create(basic).futureValue
+    val retrievedPState = repo.retrieveOne(basic.id).futureValue
+
+    val modified1 = generator.generate[basics.Basics]
+    val modifiedPState1 = retrievedPState.set(modified1)
+    val updated1 = repo.update(modifiedPState1).futureValue
+
+    val failure2 = repo.delete(retrievedPState).failed.futureValue
+    failure2 shouldBe a [WriteConflictException[_]]
+  } 
+
+  it should "throw exception when a delete beats a delete" in {
+    val basic = generator.generate[basics.Basics]
+    val createdPState = repo.create(basic).futureValue
+    val retrievedPState = repo.retrieveOne(basic.id).futureValue
+
+    val deleted1 = repo.delete(retrievedPState).futureValue
+
+    val failure2 = repo.delete(retrievedPState).failed.futureValue
+    failure2 shouldBe a [WriteConflictException[_]]
+  } 
+
+  behavior of "Repo.{update,delete} when the original PState comes from a update"
+
+  it should "throw exception when an update beats an update" in {
+    val basic = generator.generate[basics.Basics]
+    val createdPState = repo.create(basic).futureValue
+    val updatedPState = repo.update(createdPState.set(generator.generate[basics.Basics])).futureValue
+
+    val modified1 = generator.generate[basics.Basics]
+    val modifiedPState1 = updatedPState.set(modified1)
+    val updated1 = repo.update(modifiedPState1).futureValue
+
+    val modified2 = generator.generate[basics.Basics]
+    val modifiedPState2 = updatedPState.set(modified2)
+
+    val failure2 = repo.update(modifiedPState2).failed.futureValue
+    failure2 shouldBe a [WriteConflictException[_]]
+  } 
+
+  it should "throw exception when a delete beats an update" in {
+    val basic = generator.generate[basics.Basics]
+    val createdPState = repo.create(basic).futureValue
+    val updatedPState = repo.update(createdPState.set(generator.generate[basics.Basics])).futureValue
+
+    val deleted1 = repo.delete(updatedPState).futureValue
+
+    val modified2 = generator.generate[basics.Basics]
+    val modifiedPState2 = updatedPState.set(modified2)
+    val failure2 = repo.update(modifiedPState2).failed.futureValue
+    failure2 shouldBe a [WriteConflictException[_]]
+  } 
+
+  it should "throw exception when an update beats a delete" in {
+    val basic = generator.generate[basics.Basics]
+    val createdPState = repo.create(basic).futureValue
+    val updatedPState = repo.update(createdPState.set(generator.generate[basics.Basics])).futureValue
+
+    val modified1 = generator.generate[basics.Basics]
+    val modifiedPState1 = updatedPState.set(modified1)
+    val updated1 = repo.update(modifiedPState1).futureValue
+
+    val failure2 = repo.delete(updatedPState).failed.futureValue
+    failure2 shouldBe a [WriteConflictException[_]]
+  } 
+
+  it should "throw exception when a delete beats a delete" in {
+    val basic = generator.generate[basics.Basics]
+    val createdPState = repo.create(basic).futureValue
+    val updatedPState = repo.update(createdPState.set(generator.generate[basics.Basics])).futureValue
+
+    val deleted1 = repo.delete(updatedPState).futureValue
+
+    val failure2 = repo.delete(updatedPState).failed.futureValue
     failure2 shouldBe a [WriteConflictException[_]]
   } 
 
