@@ -27,11 +27,11 @@ private[inmem] trait InMemWrite[P <: Persistent] {
   protected def myKeys: Seq[AnyRealizedKey[_ >: P <: Persistent]] = realizedPType.keySet.toSeq
 
   protected[inmem] def assertNoWriteConflict(state: PState[P]) = {
-    val id = state.id
-    if (persistenceConfig.optimisticLocking &&
-        idToPStateMap.contains(id) &&
-        idToPStateMap(id).modifiedDate != state.modifiedDate) {
-      throw new WriteConflictException(state)
+    if (persistenceConfig.optimisticLocking) {
+      val id = state.id
+      if (!idToPStateMap.contains(id) || idToPStateMap(id).modifiedDate != state.modifiedDate) {
+        throw new WriteConflictException(state)
+      }
     }
   }
 

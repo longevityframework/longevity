@@ -10,14 +10,13 @@ import longevity.persistence.Deleted
 private[inmem] trait InMemDelete[P <: Persistent] {
   repo: InMemRepo[P] =>
 
-  def delete(state: PState[P])(implicit context: ExecutionContext) = {
+  def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
     repo.synchronized {
       assertNoWriteConflict(state)
       unregisterById(state)
       unregisterByKeyVals(state.orig)
     }
-    val deleted = new Deleted(state.get)
-    Future.successful(deleted)
+    new Deleted(state.get)
   }
 
 }
