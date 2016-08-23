@@ -14,13 +14,15 @@ import org.scalatest.time.SpanSugar._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /** expect mongo to throw DuplicateKeyValException in non-partitioned database
- * setup such as our test database. note we do not necessarily expect the same
- * behavior out of other back ends. we provide no guarantee that duplicate key
- * vals will be caught, as our underlying back ends do not necessarily provide any
- * such guarantee. but Mongo does guarantee to catch this in a single partition
- * database.
+ * setup such as our test database. expect the same out of inmem back end.
+ *
+ * we do not necessarily expect the same behavior out of other
+ * back ends. we provide no guarantee that duplicate key vals will be
+ * caught, as our underlying back ends do not necessarily provide any
+ * such guarantee. but Mongo does guarantee to catch this in a single
+ * partition database.
  */
-class MongoDuplicateKeyValSpec
+class DuplicateKeyValSpec
 extends FlatSpec
 with GivenWhenThen
 with Matchers
