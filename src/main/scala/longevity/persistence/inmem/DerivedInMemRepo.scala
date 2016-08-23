@@ -13,20 +13,23 @@ private[inmem] trait DerivedInMemRepo[P <: Persistent, Poly >: P <: Persistent] 
   override protected[inmem] val keys: Seq[AnyRealizedKey[_ >: P <: Persistent]] =
     polyRepo.keys ++ myKeys
 
-  override protected[inmem] def registerPStateById(state: PState[P]): Unit =
-    polyRepo.registerPStateById(state.widen[Poly])
+  override protected[inmem] def assertNoWriteConflict(state: PState[P]) =
+    polyRepo.assertNoWriteConflict(state.widen[Poly])
 
-  override protected[inmem] def unregisterPStateById(state: PState[P]): Unit =
-    polyRepo.unregisterPStateById(state.widen[Poly])
+  override protected[inmem] def registerById(state: PState[P]): Unit =
+    polyRepo.registerById(state.widen[Poly])
 
-  override protected[inmem] def registerPStateByKeyVal(keyVal: AnyKeyValAtAll, state: PState[P]): Unit =
-    polyRepo.registerPStateByKeyVal(keyVal, state.widen[Poly])
+  override protected[inmem] def unregisterById(state: PState[P]): Unit =
+    polyRepo.unregisterById(state.widen[Poly])
+
+  override protected[inmem] def registerByKeyVal(keyVal: AnyKeyValAtAll, state: PState[P]): Unit =
+    polyRepo.registerByKeyVal(keyVal, state.widen[Poly])
 
   override protected[inmem] def lookupPStateByKeyVal(keyVal: AnyKeyValAtAll): Option[PState[P]] =
     polyRepo.lookupPStateByKeyVal(keyVal).asInstanceOf[Option[PState[P]]]
 
-  override protected[inmem] def unregisterKeyVal(keyVal: AnyKeyValAtAll): Unit =
-    polyRepo.unregisterKeyVal(keyVal)
+  override protected[inmem] def unregisterByKeyVal(keyVal: AnyKeyValAtAll): Unit =
+    polyRepo.unregisterByKeyVal(keyVal)
 
   override protected[inmem] def allPStates: Seq[PState[P]] = {
     def hasTypeP(state: PState[_ >: P]): Boolean = {

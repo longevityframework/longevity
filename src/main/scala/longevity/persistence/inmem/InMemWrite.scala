@@ -1,8 +1,8 @@
 package longevity.persistence.inmem
 
+import longevity.exceptions.persistence.WriteConflictException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
-import longevity.persistence.DatabaseId
 import longevity.subdomain.AnyKeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.realized.AnyRealizedKey
@@ -15,25 +15,8 @@ private[inmem] trait InMemWrite[P <: Persistent] {
 
   private var idCounter = 0
 
-  protected def dumpKeys(p: P) = keys.foreach { key =>
-    unregisterKeyVal(key.keyValForP(p))
-  }
-
-  protected def persist(id: DatabaseId[P], p: P): PState[P] = {
-    val state = new PState[P](id, p)
-    repo.synchronized {
-      keys.foreach { key =>
-        assertUniqueKeyVal(key.keyValForP(p), state)
-      }
-      registerPStateById(state)
-      keys.foreach { key =>
-        registerPStateByKeyVal(key.keyValForP(p), state)
-      }
-    }
-    state
-  }
-
-  protected[inmem] def nextId: Int = repo.synchronized {
+  /** caller must wrap this call in synchronized block! */
+  protected[inmem] def nextId: Int = {
     val id = idCounter
     idCounter += 1
     id
@@ -43,21 +26,43 @@ private[inmem] trait InMemWrite[P <: Persistent] {
 
   protected def myKeys: Seq[AnyRealizedKey[_ >: P <: Persistent]] = realizedPType.keySet.toSeq
 
+  protected[inmem] def assertNoWriteConflict(state: PState[P]) = {
+    val id = state.id
+    if (persistenceConfig.optimisticLocking &&
+        idToPStateMap.contains(id) &&
+        idToPStateMap(id).modifiedDate != state.modifiedDate) {
+      throw new WriteConflictException(state)
+    }
+  }
+
+  protected[inmem] def registerById(state: PState[P]): Unit =
+    idToPStateMap += (state.id -> state)
+
+  protected[inmem] def unregisterById(state: PState[P]): Unit =
+    idToPStateMap -= state.id
+
+  protected def registerByKeyVals(state: PState[P]) = keys.foreach { key =>
+    registerByKeyVal(key.keyValForP(state.get), state)
+  }
+
+  protected[inmem] def registerByKeyVal(keyVal: AnyKeyValAtAll, state: PState[P]) =
+    keyValToPStateMap += ((keyVal, state)) // Scala compiler gripes on -> pair syntax here
+
+  protected[inmem] def assertUniqueKeyVals(state: PState[P]): Unit = keys.foreach { key =>
+    assertUniqueKeyVal(key.keyValForP(state.get), state)
+  }
+
   protected[inmem] def assertUniqueKeyVal(keyVal: AnyKeyVal[_ <: Persistent], state: PState[P]): Unit = {
-    if (keyValToPStateMap.contains(keyVal)) {
+    if (keyValToPStateMap.contains(keyVal) &&
+        keyValToPStateMap(keyVal).id != state.id) {
       throw new DuplicateKeyValException[P](state.get, keyVal.key)
     }
   }
 
-  protected[inmem] def registerPStateById(state: PState[P]): Unit =
-    idToPStateMap += (state.id -> state)
+  protected def unregisterByKeyVals(p: P) = keys.foreach { key =>
+    unregisterByKeyVal(key.keyValForP(p))
+  }
 
-  protected[inmem] def unregisterPStateById(state: PState[P]): Unit =
-    idToPStateMap -= state.id
-
-  protected[inmem] def registerPStateByKeyVal(keyVal: AnyKeyValAtAll, state: PState[P]): Unit =
-    keyValToPStateMap += ((keyVal, state)) // Scala compiler barfs on -> pair syntax here
-
-  protected[inmem] def unregisterKeyVal(keyVal: AnyKeyValAtAll): Unit = keyValToPStateMap -= keyVal
+  protected[inmem] def unregisterByKeyVal(keyVal: AnyKeyValAtAll) = keyValToPStateMap -= keyVal
 
 }

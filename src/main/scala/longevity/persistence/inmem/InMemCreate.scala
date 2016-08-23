@@ -1,5 +1,6 @@
 package longevity.persistence.inmem
 
+import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -9,7 +10,13 @@ private[inmem] trait InMemCreate[P <: Persistent] {
   repo: InMemRepo[P] =>
 
   def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
-    persist(IntId[P](nextId), unpersisted)
+    repo.synchronized {
+      val state = PState(IntId[P](nextId), persistenceConfig.modifiedDate, unpersisted)
+      assertUniqueKeyVals(state)
+      registerById(state)
+      registerByKeyVals(state)
+      state
+    }
   }
 
 }

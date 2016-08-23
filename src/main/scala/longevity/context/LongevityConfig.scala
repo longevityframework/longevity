@@ -8,3 +8,4 @@ case class LongevityConfig(
   mongodb: MongoConfig,
   cassandra: CassandraConfig,
   test: TestConfig)
+extends PersistenceConfig

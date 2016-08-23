@@ -8,6 +8,7 @@ import emblem.typeBound.TypeBoundPair
 import longevity.context.Cassandra
 import longevity.context.InMem
 import longevity.context.Mongo
+import longevity.context.PersistenceConfig
 import longevity.context.PersistenceStrategy
 import longevity.context.LongevityConfig
 import longevity.persistence.cassandra.CassandraRepo
@@ -29,13 +30,14 @@ private[longevity] object RepoPoolBuilder {
     test: Boolean)
   : RepoPool =
     persistenceStrategy match {
-      case InMem => inMemTestRepoPool(subdomain)
+      case InMem =>
+        inMemTestRepoPool(subdomain, config)
       case Mongo =>
         val mongoConfig = if (test) config.test.mongodb else config.mongodb
-        mongoRepoPool(subdomain, MongoRepo.mongoDbFromConfig(mongoConfig))
+        mongoRepoPool(subdomain, MongoRepo.mongoDbFromConfig(mongoConfig), config)
       case Cassandra =>
         val cassandraConfig = if (test) config.test.cassandra else config.cassandra
-        cassandraRepoPool(subdomain, CassandraRepo.sessionFromConfig(cassandraConfig))
+        cassandraRepoPool(subdomain, CassandraRepo.sessionFromConfig(cassandraConfig), config)
     }
 
   private trait StockRepoFactory[R[P <: Persistent] <: BaseRepo[P]] {
@@ -45,18 +47,22 @@ private[longevity] object RepoPoolBuilder {
     : R[P]
   }
 
-  private def inMemTestRepoPool(subdomain: Subdomain): RepoPool = {
+  private def inMemTestRepoPool(subdomain: Subdomain, persistenceConfig: PersistenceConfig): RepoPool = {
     object repoFactory extends StockRepoFactory[InMemRepo] {
       def build[P <: Persistent](
         pType: PType[P],
         polyRepoOpt: Option[InMemRepo[_ >: P <: Persistent]])
       : InMemRepo[P] =
-        InMemRepo[P](pType, subdomain, polyRepoOpt)
+        InMemRepo[P](pType, subdomain, persistenceConfig, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory)
   }
 
-  private def mongoRepoPool(subdomain: Subdomain, mongoDB: MongoDB): RepoPool = {
+  private def mongoRepoPool(
+    subdomain: Subdomain,
+    mongoDB: MongoDB,
+    persistenceConfig: PersistenceConfig)
+  : RepoPool = {
     object repoFactory extends StockRepoFactory[MongoRepo] {
       def build[P <: Persistent](
         pType: PType[P],
@@ -67,7 +73,11 @@ private[longevity] object RepoPoolBuilder {
     buildRepoPool(subdomain, repoFactory)
   }
 
-  private def cassandraRepoPool(subdomain: Subdomain, session: Session): RepoPool = {
+  private def cassandraRepoPool(
+    subdomain: Subdomain,
+    session: Session,
+    persistenceConfig: PersistenceConfig)
+  : RepoPool = {
     object repoFactory extends StockRepoFactory[CassandraRepo] {
       def build[P <: Persistent](
         pType: PType[P],

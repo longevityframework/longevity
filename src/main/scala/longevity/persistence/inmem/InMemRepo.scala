@@ -1,5 +1,6 @@
 package longevity.persistence.inmem
 
+import longevity.context.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
 import longevity.persistence.DatabaseId
@@ -32,7 +33,8 @@ import longevity.subdomain.realized.RealizedPType
  */
 private[longevity] class InMemRepo[P <: Persistent] private[persistence] (
   pType: PType[P],
-  subdomain: Subdomain)
+  subdomain: Subdomain,
+  protected val persistenceConfig: PersistenceConfig)
 extends BaseRepo[P](pType, subdomain)
 with InMemCreate[P]
 with InMemDelete[P]
@@ -58,22 +60,23 @@ private[longevity] object InMemRepo {
   private[persistence] def apply[P <: Persistent](
     pType: PType[P],
     subdomain: Subdomain,
+    persistenceConfig: PersistenceConfig,
     polyRepoOpt: Option[InMemRepo[_ >: P <: Persistent]])
   : InMemRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
-        new InMemRepo(pType, subdomain) with PolyInMemRepo[P]
+        new InMemRepo(pType, subdomain, persistenceConfig) with PolyInMemRepo[P]
       case pt: DerivedPType[_, _] =>
         def withPoly[Poly >: P <: Persistent](poly: InMemRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: InMemRepo[Poly] = poly
           }
-          with InMemRepo(pType, subdomain) with DerivedInMemRepo[P, Poly]
+          with InMemRepo(pType, subdomain, persistenceConfig) with DerivedInMemRepo[P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new InMemRepo(pType, subdomain)
+        new InMemRepo(pType, subdomain, persistenceConfig)
     }
     repo
   }

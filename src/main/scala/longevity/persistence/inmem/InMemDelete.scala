@@ -12,8 +12,9 @@ private[inmem] trait InMemDelete[P <: Persistent] {
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = {
     repo.synchronized {
-      unregisterPStateById(state)
-      dumpKeys(state.orig)
+      assertNoWriteConflict(state)
+      unregisterById(state)
+      unregisterByKeyVals(state.orig)
     }
     val deleted = new Deleted(state.get)
     Future.successful(deleted)
