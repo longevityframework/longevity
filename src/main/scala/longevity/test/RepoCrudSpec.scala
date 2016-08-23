@@ -59,8 +59,7 @@ with FeatureSpec
 with GivenWhenThen
 with Matchers
 with ScalaFutures
-with ScaledTimeSpans
-with TestDataGeneration {
+with ScaledTimeSpans {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000 millis),
@@ -186,14 +185,14 @@ with TestDataGeneration {
         case polyPType: PolyPType[P] =>
           val union = longevityContext.subdomain.emblematic.unions(pTypeKey)
           val derivedTypeKeys = union.constituentKeys.toSeq
-          val randomIndex = math.abs(testDataGenerator.generate[Int]) % derivedTypeKeys.size
+          val randomIndex = math.abs(context.testDataGenerator.generate[Int]) % derivedTypeKeys.size
           derivedTypeKeys(randomIndex)
         case _ =>
           pTypeKey
       }
     }
 
-    private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = testDataGenerator.generate(key)
+    private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = context.testDataGenerator.generate(key)
 
     private def retrieveByKey[V <: KeyVal[P, V]](key: RealizedKey[P, V], p: P): PState[P] = {
       repo.retrieve(key.keyValForP(p)).futureValue.value

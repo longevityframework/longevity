@@ -2,6 +2,7 @@
 
 ## [0.10.0] - Optimistic Locking
 
+- 2016.08.23 - Add `LongevityContext.testDataGenerator`.
 - 2016.08.17 - Add support for `Persistents` and `Embeddables` that
   are case objects.
 - 2016.07.29 - Add `LongevityConfig` for well-typed

@@ -6,13 +6,12 @@ import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.integration.subdomain.derivedEntities
 import longevity.persistence.RepoPool
 import longevity.subdomain.ptype.Query
-import longevity.test.TestDataGeneration
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.time.SpanSugar._
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object PolyReposSpec {
 
@@ -27,18 +26,16 @@ object PolyReposSpec {
 abstract class PolyReposSpec(
   protected val longevityContext: LongevityContext,
   protected val repoPool: RepoPool)
-extends {
-  protected implicit val executionContext = ExecutionContext.global
-}
-with FlatSpec
+extends FlatSpec
 with GivenWhenThen
 with Matchers
-with ScalaFutures
-with TestDataGeneration {
+with ScalaFutures {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000.millis),
     interval = scaled(50.millis))
+
+  private val testDataGenerator = longevityContext.testDataGenerator
 
   behavior of "Repo[PolyRoot].retrieve"
 

@@ -3,6 +3,7 @@ package longevity.context
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 import emblem.emblematic.traversors.sync.CustomGeneratorPool
+import emblem.emblematic.traversors.sync.TestDataGenerator
 import longevity.exceptions.context.LongevityConfigException
 import longevity.persistence.RepoPoolBuilder.buildRepoPool
 import longevity.subdomain.Subdomain
@@ -67,5 +68,6 @@ extends PersistenceContext with TestContext {
   lazy val repoPool = buildRepoPool(subdomain, persistenceStrategy, config, false)
   lazy val testRepoPool = buildRepoPool(subdomain, persistenceStrategy, config, true)
   lazy val inMemTestRepoPool = buildRepoPool(subdomain, InMem, config, true)
+  lazy val testDataGenerator = new TestDataGenerator(subdomain.emblematic, customGeneratorPool)
 
 }

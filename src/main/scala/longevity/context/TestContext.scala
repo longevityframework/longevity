@@ -1,6 +1,7 @@
 package longevity.context
 
 import emblem.emblematic.traversors.sync.CustomGeneratorPool
+import emblem.emblematic.traversors.sync.TestDataGenerator
 import longevity.persistence.RepoPool
 import longevity.test.RepoCrudSpec
 import scala.concurrent.ExecutionContext
@@ -20,6 +21,9 @@ trait TestContext {
 
   /** an in-memory set of repositories for this longevity context, for use in testing */
   val inMemTestRepoPool: RepoPool
+
+  /** a utility class for generating test data for the subdomain */
+  val testDataGenerator: TestDataGenerator
 
 }
 

@@ -50,8 +50,7 @@ with BeforeAndAfterAll
 with GivenWhenThen
 with Matchers
 with ScalaFutures
-with ScaledTimeSpans
-with TestDataGeneration {
+with ScaledTimeSpans {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000.millis),
@@ -138,7 +137,7 @@ with TestDataGeneration {
     actual should equal (expected)
   }
 
-  private def generateP(): P = testDataGenerator.generate[P]
+  private def generateP(): P = longevityContext.testDataGenerator.generate[P]
 
   private def entitiesMatchingQuery(query: Query[P], entities: Set[P]): Set[P] = {
     entities.filter(InMemRepo.queryMatches(query, _, repo.realizedPType))
