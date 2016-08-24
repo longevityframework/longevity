@@ -1,7 +1,9 @@
 # Longevity Change Log
 
-## [0.10.0] - Optimistic Locking
+## [0.10.0] - 2016.08.24 - Optimistic Locking
 
+- 2016.08.24 - Add optimistic locking. To turn it on, you will need to
+  set `longevity.optimisticLocking = true` in your typesafe config.
 - 2016.08.23 - Add `LongevityContext.testDataGenerator`.
 - 2016.08.17 - Add support for `Persistents` and `Embeddables` that
   are case objects.
@@ -20,7 +22,14 @@
   declare a dependency on Akka Streams yourself: `libraryDependencies
   += "com.typesafe.akka" %% "akka-stream" % "2.4.8"`.
 
-## [0.9.0] - Streamlined API
+## [0.9.1] - 2016.08.24 - Bug Fix Release
+
+- 2016.08.24 - There was an error in the build that caused longevity
+  poms to refer to the emblem GitHub project, instead of the longevity
+  GitHub project. This release fixes that. There are no code changes
+  whatsoever.
+
+## [0.9.0] - 2016.07.15 - Streamlined API
 
 - 2016.07.12 - Completely rework `KeyVal` and `Key` for improved
   understandability and ease of use. please see the manual for
