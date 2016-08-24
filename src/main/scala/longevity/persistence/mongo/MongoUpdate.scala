@@ -24,7 +24,7 @@ private[mongo] trait MongoUpdate[P <: Persistent] {
     } catch {
       case e: DuplicateKeyException => throwDuplicateKeyValException(state.get, e)
     }
-    if (writeResult.getN == 0) {
+    if (persistenceConfig.optimisticLocking && writeResult.getN == 0) {
       throw new WriteConflictException(state)
     }
     PState[P](state.id, modifiedDate, state.get)
