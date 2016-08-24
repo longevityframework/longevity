@@ -83,7 +83,7 @@ private[longevity] object RepoPoolBuilder {
         pType: PType[P],
         polyRepoOpt: Option[CassandraRepo[_ >: P <: Persistent]])
       : CassandraRepo[P] =
-        CassandraRepo[P](pType, subdomain, session, polyRepoOpt)
+        CassandraRepo[P](pType, subdomain, session, persistenceConfig, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory)
   }

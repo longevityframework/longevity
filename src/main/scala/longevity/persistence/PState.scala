@@ -10,9 +10,6 @@ case class PState[P <: Persistent] private[persistence] (
   private[persistence] val orig: P,
   private val p: P) {
 
-  // TODO this one needs to go
-  private[persistence] def this(id: DatabaseId[P], p: P) = this(id, None, p, p)
-
   /** returns the persistent object */
   def get: P = p
 

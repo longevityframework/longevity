@@ -5,9 +5,10 @@ import com.datastax.driver.core.PreparedStatement
 import java.util.UUID
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
-import scala.concurrent.blocking
+import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.create */
 private[cassandra] trait CassandraCreate[P <: Persistent] {
@@ -15,10 +16,11 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
     val uuid = UUID.randomUUID
+    val modifiedDate = persistenceConfig.modifiedDate
     blocking {
-      session.execute(bindInsertStatement(uuid, p))
+      session.execute(bindInsertStatement(uuid, modifiedDate, p))
     }
-    new PState[P](CassandraId(uuid), p)
+    PState(CassandraId[P](uuid), modifiedDate, p)
   }
   
   private lazy val insertStatement: PreparedStatement = {
@@ -36,8 +38,8 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
     session.prepare(cql)
   }
 
-  private def bindInsertStatement(uuid: UUID, p: P): BoundStatement = {
-    val bindings = updateColumnValues(uuid, p, includeId = true)
+  private def bindInsertStatement(uuid: UUID, modifiedDate: Option[DateTime], p: P): BoundStatement = {
+    val bindings = updateColumnValues(uuid, modifiedDate, p, includeId = true)
     insertStatement.bind(bindings: _*)
   }
 

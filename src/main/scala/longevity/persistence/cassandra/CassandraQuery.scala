@@ -84,13 +84,8 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
   private def equalityQueryQueryInfo[A](query: EqualityQuery[P, A]): QueryInfo = query.op match {
     case EqOp =>
       val infos: Seq[QueryInfo] = toComponents(query.prop).map { component =>
-        def info[B](component: RealizedPropComponent[_ >: P <: Persistent, A, B]) = {
-          val componentValue =
-            cassandraValue[B](component.innerPropPath.get(query.value), component)(component.componentTypeKey)
-          QueryInfo(s"${columnName(component)} = :${columnName(component)}",
-                    Seq(componentValue))
-        }
-        info(component)
+        val componentValue = cassandraValue(component.innerPropPath.get(query.value))
+        QueryInfo(s"${columnName(component)} = :${columnName(component)}", Seq(componentValue))
       }
       infos.tail.fold(infos.head)(QueryInfo.and)
     case NeqOp => throw new NeqInQueryException
@@ -101,10 +96,7 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
     def componentsToQueryInfo(components: Seq[RealizedPropComponent[_ >: P <: Persistent, A, _]]): QueryInfo = {
       if (components.size == 1) {
         def info[B](component: RealizedPropComponent[_ >: P <: Persistent, A, B]) = {
-          val componentValue = cassandraValue[B](
-            component.innerPropPath.get(query.value),
-            component)(
-            component.componentTypeKey)
+          val componentValue = cassandraValue(component.innerPropPath.get(query.value))
           val opString = query.op match {
             case LtOp => "<"
             case LteOp => "<="

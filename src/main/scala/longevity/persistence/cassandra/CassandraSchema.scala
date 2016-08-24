@@ -11,6 +11,9 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
   protected def createSchema(): Unit = {
     createTable()
     createIndexes()
+    if (persistenceConfig.optimisticLocking) {
+      addColumn("modified_date", "text")
+    }
   }
 
   protected def createTable(): Unit = {
