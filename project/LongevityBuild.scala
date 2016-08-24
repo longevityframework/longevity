@@ -24,7 +24,7 @@ trait BuildSettings {
 
   val publishSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
-    version := "0.9.0",
+    version := "0.9.1",
     scalaVersion := "2.11.8",
 
     publishMavenStyle := true,
@@ -44,8 +44,8 @@ trait BuildSettings {
 
   val longevityPomExtra = (
     <scm>
-      <url>git@github.com:longevityframework/emblem.git</url>
-      <connection>scm:git:git@github.com:longevityframework/emblem.git</connection>
+      <url>git@github.com:longevityframework/longevity.git</url>
+      <connection>scm:git:git@github.com:longevityframework/longevity.git</connection>
     </scm>
     <developers>
       <developer>
