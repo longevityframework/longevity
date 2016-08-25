@@ -33,4 +33,15 @@ class JsonUtilSpec extends FlatSpec with GivenWhenThen with Matchers {
     actual should equal (expected)
   }
 
+  // i don't know how to fix this. JodaTime only supports a certain set of timezones on for the
+  // date time parser: http://joda-time.sourceforge.net/timezones.html
+  // this would be especially bad if a computer somewhere had a default time zone with one of these
+  // unsupported formats.
+  it should "produce the original DateTime in a round trip when time zone is set to CDT" ignore {
+    val expected = DateTime.now.withZone(DateTimeZone.forID("CDT"))
+    val stringRep = dateTimeFormatter.print(expected)
+    val actual = dateTimeFormatter.parseDateTime(stringRep)
+    actual should equal (expected)
+  }
+
 }
