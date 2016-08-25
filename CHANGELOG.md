@@ -1,7 +1,10 @@
 # Longevity Change Log
 
-## [0.10.0] - 2016.08.24 - Optimistic Locking
+## [0.10.0] - 2016.08.25 - Optimistic Locking
 
+- 2016.08.25 - Fix JSON translation of DateTimes to use time zone
+  codes instead of offsets. Fix JSON parser to respect the time zone
+  in the string representation of the DateTime.
 - 2016.08.24 - Add optimistic locking. To turn it on, you will need to
   set `longevity.optimisticLocking = true` in your typesafe config.
 - 2016.08.23 - Add `LongevityContext.testDataGenerator`.

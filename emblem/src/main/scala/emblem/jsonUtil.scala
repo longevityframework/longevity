@@ -11,6 +11,6 @@ object jsonUtil {
    * format is entirely lossless AFAIK, including with respect to time zones,
    * and conforms to ISO 8061.
    */
-  val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+  val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS z").withOffsetParsed
 
 }

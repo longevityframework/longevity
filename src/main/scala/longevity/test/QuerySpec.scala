@@ -106,9 +106,8 @@ with ScaledTimeSpans {
    * generates a test failure if they are not.
    */
   protected def exerciseQuery(query: Query[P], exerciseStreamByQuery: Boolean = false): Unit = {
-    val results: Set[PState[P]] = repo.retrieveByQuery(query).futureValue.toSet
-    val actualPStates = pStates.toSet intersect results // remove any entities not put in by this test
-    val actual = actualPStates.map(_.get)
+    val results: Set[P] = repo.retrieveByQuery(query).futureValue.map(_.get).toSet
+    val actual = pStates.map(_.get).toSet intersect results // remove any entities not put in by this test
     val expected = entitiesMatchingQuery(query, entities)
 
     if (actual != expected) {
@@ -117,15 +116,15 @@ with ScaledTimeSpans {
     actual.size should equal (expected.size)
     actual should equal (expected)
 
-    if (exerciseStreamByQuery) exerciseStream(query, actualPStates)
+    if (exerciseStreamByQuery) exerciseStream(query, actual)
   }
 
-  private def exerciseStream(query: Query[P], expected: Set[PState[P]]): Unit = {
+  private def exerciseStream(query: Query[P], expected: Set[P]): Unit = {
     implicit val system = ActorSystem("QuerySpec")
     implicit val materializer = ActorMaterializer()
     val source = repo.streamByQuery(query)
-    val results = source.runFold(Set.empty[PState[P]])(_ + _).futureValue
-    val actual = pStates.toSet intersect results
+    val results = source.runFold(Set.empty[PState[P]])(_ + _).futureValue.map(_.get)
+    val actual = pStates.map(_.get).toSet intersect results
 
     if (actual != expected) {
       println(s"failure for query ${query}")
