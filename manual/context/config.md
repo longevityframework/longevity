@@ -64,7 +64,7 @@ import longevity.context.TestConfig
 import longevity.context.CassandraConfig
 
 val longevityConfig = LongevityConfig(
-  optimisticLocking = true,
+  optimisticLocking = false,
   mongodb = MongoConfig(
     uri = "localhost:27017",
     db = "longevity_main"),
@@ -93,7 +93,7 @@ val bloggingContext = new LongevityContext(
 {% assign prevLink = "pstrat.html" %}
 {% assign upTitle = "the longevity context" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "repo pools" %}
-{% assign nextLink = "repo-pools.html" %}
+{% assign nextTitle = "optimistic locking" %}
+{% assign nextLink = "opt-lock.html" %}
 {% include navigate.html %}
 

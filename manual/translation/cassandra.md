@@ -7,6 +7,12 @@ Every Cassandra table has at least two columns: A column named `p`,
 which stores the [persistent object translated into JSON](json.html),
 and a column named `id`, which stores a [primary key UUID](keys.html).
 
+It [optimistic locking](../context/opt-lock.html) is turned on, then a
+`modified_date` column is also added. This is a `text` column storing
+the timestamp in a lossless [ISO
+8061](https://en.wikipedia.org/wiki/ISO_8601) format with UTC time
+zone.
+
 More columns are added to support any [keys](../ptype/keys.html) or
 [indexes](../ptype/indexes.html) for the [persistent
 type](../ptype). Every [property](../ptype/properties.html) used in a

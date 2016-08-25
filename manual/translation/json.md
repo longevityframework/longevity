@@ -29,6 +29,12 @@ are translated into a BSON
 the same JSON as `expr`.
 - `Sets` and `Lists` are translated into JSON arrays.
 
+We currently do not support the Cassandra native type `timestamp`
+because it does not preserve time zone. It wouldn't be too hard to add
+`timestamp` support as a configuration setting. We are more than happy
+to provide you with assistance if you wanted to tackle implementing a
+feature like this.
+
 {% assign prevTitle = "translating persistents to the database" %}
 {% assign prevLink = "." %}
 {% assign upTitle = "translating persistents to the database" %}

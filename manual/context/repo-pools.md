@@ -40,8 +40,8 @@ class TestPersistenceModule extends Module {
 The `Repo` API makes heavy use of the persistent state, or `PState`,
 so we will take a look at that before moving on to repositories.
 
-{% assign prevTitle = "configuring your longevity context" %}
-{% assign prevLink = "config.html" %}
+{% assign prevTitle = "optimistic locking" %}
+{% assign prevLink = "opt-lock.html" %}
 {% assign upTitle = "the longevity context" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "persistent state" %}

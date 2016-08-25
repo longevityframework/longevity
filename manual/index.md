@@ -36,6 +36,7 @@ glance through the chapters on [the basics of DDD](./ddd-basics/).
 - [The Longevity Context](context)
   - [Persistence Strategy](context/pstrat.html)
   - [Configuring your Longevity Context](context/config.html)
+  - [Optimistic Locking](context/opt-lock.html)
   - [Repo Pools](context/repo-pools.html)
   - [Persistent State](context/persistent-state.html)
 - [Repositories](repo/index.html)

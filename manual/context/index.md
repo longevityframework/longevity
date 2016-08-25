@@ -11,6 +11,7 @@ to maintain your back-end store.
 
 - [Persistence Strategy](pstrat.html)
 - [Configuring your Longevity Context](config.html)
+- [Optimistic Locking](opt-lock.html)
 - [Repo Pools](repo-pools.html)
 - [Persistent State](persistent-state.html)
 
