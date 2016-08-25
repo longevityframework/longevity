@@ -43,11 +43,7 @@ class JsonToEmblematicTranslator extends Traversor {
   }
 
   override protected def traverseDateTime(input: WrappedInput): DateTime = input.value match {
-    case JString(s) =>
-      println(s"JSON 2 DateTime '$s'")
-      val d = dateTimeFormatter.parseDateTime(s)
-      println(s"JSON 2 DateTime '$s' $d.getZone $d")
-      d
+    case JString(s) => dateTimeFormatter.parseDateTime(s)
     case _ => throw new CouldNotTraverseException(typeKey[DateTime])
   }
 

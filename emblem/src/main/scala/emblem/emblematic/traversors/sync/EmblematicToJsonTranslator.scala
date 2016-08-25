@@ -35,11 +35,8 @@ class EmblematicToJsonTranslator extends Traversor {
 
   override protected def traverseChar(input: WrappedInput[Char]): JValue = JString(input.value.toString)
 
-  override protected def traverseDateTime(input: WrappedInput[DateTime]): JValue = {
-    println(s"DateTime 2 JSON '${input.value}' ${input.value.getZone} ")
-    println(s"DateTime 2 JSON result = '${dateTimeFormatter.print(input.value)}'")
+  override protected def traverseDateTime(input: WrappedInput[DateTime]): JValue =
     JString(dateTimeFormatter.print(input.value))
-  }
 
   override protected def traverseDouble(input: WrappedInput[Double]): JValue = JDouble(input.value)
 
