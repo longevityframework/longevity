@@ -89,8 +89,8 @@ trait BuildSettings {
 
     // common dependencies
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-    libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.10.0",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test
+    libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.12.0",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % Test
     
   )
 
@@ -100,9 +100,9 @@ trait BuildSettings {
 
 object LongevityBuild extends Build with BuildSettings {
 
-  val akkaStreamDep: ModuleID = "com.typesafe.akka" %% "akka-stream" % "2.4.8"
+  val akkaStreamDep: ModuleID = "com.typesafe.akka" %% "akka-stream" % "2.4.9"
   val casbahDep: ModuleID = "org.mongodb" %% "casbah" % "3.1.1"
-  val cassandraDep: ModuleID = "com.datastax.cassandra" % "cassandra-driver-core" % "3.0.2"
+  val cassandraDep: ModuleID = "com.datastax.cassandra" % "cassandra-driver-core" % "3.1.0"
   val json4sDep: ModuleID = "org.json4s" %% "json4s-native" % "3.4.0"
 
   lazy val longevity = Project(
@@ -111,7 +111,7 @@ object LongevityBuild extends Build with BuildSettings {
     settings = buildSettings ++ Seq(
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
       libraryDependencies += "com.github.kxbmap" %% "configs" % "0.4.2",
-      libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
+      libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % Optional,
 
       // for streaming api:
 
