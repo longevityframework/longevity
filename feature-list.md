@@ -29,7 +29,7 @@ manual](manual). They include:
   - Case classes.
   - Polymorphic traits.
   - Controlled vocabularies.
-- Supports domain-level keys and indexes.
+- Domain-level keys and indexes.
 - Pre-built repositories with simple, reactive APIs.
 - Configuration-level optimistic locking.
 - Query DSL for retrieval or streaming of multiple records.
@@ -37,6 +37,7 @@ manual](manual). They include:
   against a real database.
 - Fully featured in-memory repositories for use in other integration
   testing.
+- Test data generation.
 
 ## Features planned for 1.0 release
 
