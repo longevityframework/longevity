@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ptype - longevity 0.10-SNAPSHOT API - longevity.subdomain.ptype</title>
-          <meta name="description" content="ptype - longevity 0.10 - SNAPSHOT API - longevity.subdomain.ptype" />
-          <meta name="keywords" content="ptype longevity 0.10 SNAPSHOT API longevity.subdomain.ptype" />
+          <title>ptype - longevity 0.11-SNAPSHOT API - longevity.subdomain.ptype</title>
+          <meta name="description" content="ptype - longevity 0.11 - SNAPSHOT API - longevity.subdomain.ptype" />
+          <meta name="keywords" content="ptype longevity 0.11 SNAPSHOT API longevity.subdomain.ptype" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for defining the types for your persistent classes</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/a609d8e5669dbd0094f9753b04b47e0e2fb701d5/src/main/scala/longevity/subdomain/ptype/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for defining the types for your persistent classes</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/e000b9757020e731f156ea674b460ee6ff55e844/src/main/scala/longevity/subdomain/ptype/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="content-diagram-container">
@@ -219,8 +219,8 @@ operator.
       </a>
     </span>
       <p class="shortcomment cmt">a natural key for this persistent type.</p><div class="fullcomment"><div class="comment cmt"><p>a natural key for this persistent type. wraps a <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">property</a> that,
-given specific a property value, will match no more than one persistent
-object.
+given specific a property value, will match the corresponding member of no
+more than one persistent object.
 </p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the key value type</p></dd></dl></div>
     </li><li name="longevity.subdomain.ptype.OrderingQuery" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="OrderingQuery[P&lt;:longevity.subdomain.persistent.Persistent,A]extendsQuery[P]withProductwithSerializable"></a>
@@ -313,11 +313,11 @@ type with concrete subtypes.
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a property for this persistent type.</p><div class="fullcomment"><div class="comment cmt"><p>a property for this persistent type. properties can be used to define <a href="Key.html" class="extype" name="longevity.subdomain.ptype.Key">keys</a>
-and <a href="Index.html" class="extype" name="longevity.subdomain.ptype.Index">indexes</a>, as well as for building <a href="Query.html" class="extype" name="longevity.subdomain.ptype.Query">queries</a>. a property
-can descend from the root into child entities at any depth.</p><p>at present, a
-property cannot pass through any collections or terminate with a
-<a href="../embeddable/PolyType.html" class="extype" name="longevity.subdomain.embeddable.PolyType">polymorphic embeddable</a>.
+      <p class="shortcomment cmt">a property for this persistent type.</p><div class="fullcomment"><div class="comment cmt"><p>a property for this persistent type. properties map to underlying members
+within the [Persistent persistent object], at any depth.</p><p>properties can be used to define <a href="Key.html" class="extype" name="longevity.subdomain.ptype.Key">keys</a> and <a href="Index.html" class="extype" name="longevity.subdomain.ptype.Index">indexes</a>, as well
+as for building <a href="Query.html" class="extype" name="longevity.subdomain.ptype.Query">queries</a>. a property can descend from the root into
+child entities at any depth.</p><p>at present, a property cannot pass through any collections or terminate with
+a <a href="../embeddable/PolyType.html" class="extype" name="longevity.subdomain.embeddable.PolyType">polymorphic embeddable</a>.
 violations will cause an exception to be thrown on
 <a href="../Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain construction</a>.
 </p></div></div>

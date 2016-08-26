@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>typeBound - emblem 0.10-SNAPSHOT API - emblem.typeBound</title>
-          <meta name="description" content="typeBound - emblem 0.10 - SNAPSHOT API - emblem.typeBound" />
-          <meta name="keywords" content="typeBound emblem 0.10 SNAPSHOT API emblem.typeBound" />
+          <title>typeBound - emblem 0.11-SNAPSHOT API - emblem.typeBound</title>
+          <meta name="description" content="typeBound - emblem 0.11 - SNAPSHOT API - emblem.typeBound" />
+          <meta name="keywords" content="typeBound emblem 0.11 SNAPSHOT API emblem.typeBound" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -85,9 +85,11 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a function with one type parameter, where both the argument and the return value are types with a single
-type parameter, bound to the type parameter of the function.</p><div class="fullcomment"><div class="comment cmt"><p>a function with one type parameter, where both the argument and the return value are types with a single
-type parameter, bound to the type parameter of the function.
+      <p class="shortcomment cmt">a function with one type parameter, where both the argument and the return
+value are types with a single type parameter, bound to the type parameter of
+the function.</p><div class="fullcomment"><div class="comment cmt"><p>a function with one type parameter, where both the argument and the return
+value are types with a single type parameter, bound to the type parameter of
+the function.
 </p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the type bound to use for the argument and return value types</p></dd><dt class="tparam">Arg</dt><dd class="cmt"><p>the argument type</p></dd><dt class="tparam">ReturnVal</dt><dd class="cmt"><p>the return value type</p></dd></dl></div>
     </li><li name="emblem.typeBound.TypeBoundMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TypeBoundMap[TypeBound,Key[_&lt;:TypeBound],Val[_&lt;:TypeBound]]extendsBaseTypeBoundMap[TypeBound,Key,Val]"></a>
@@ -105,19 +107,23 @@ type parameter, bound to the type parameter of the function.
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a map where the types for keys and values share a type parameter with the same bounds.</p><div class="fullcomment"><div class="comment cmt"><p>a map where the types for keys and values share a type parameter with the same bounds. the key and value
-of each key/value pair are constrained to match on that type parameter. for example, we might have some pet
-stores that only cater to a single kind of pet:</p><pre><span class="kw">trait</span> Pet
+      <p class="shortcomment cmt">a map where the types for keys and values share a type parameter
+with the same bounds.</p><div class="fullcomment"><div class="comment cmt"><p>a map where the types for keys and values share a type parameter
+with the same bounds. the key and value of each key/value pair are
+constrained to match on that type parameter. for example, we might
+have some pet stores that only cater to a single kind of pet:</p><pre><span class="kw">trait</span> Pet
 <span class="kw">case</span> <span class="kw">class</span> Cat(name: <span class="std">String</span>) <span class="kw">extends</span> Pet
 <span class="kw">case</span> <span class="kw">class</span> Dog(name: <span class="std">String</span>) <span class="kw">extends</span> Pet
 <span class="kw">class</span> PetStore[P <span class="kw">&lt;:</span> Pet]
 
 <span class="kw">val</span> catStore1 = <span class="kw">new</span> PetStore[Cat]
 <span class="kw">val</span> catStore2 = <span class="kw">new</span> PetStore[Cat]
-<span class="kw">val</span> dogStore1 = <span class="kw">new</span> PetStore[Dog]</pre><p>we can use a <code>TypeBoundMap</code> to store a list of pets of the appropriate type for every pet store:</p><pre><span class="kw">var</span> inventories = TypeBoundMap[Pet, PetStore, <span class="std">List</span>]
+<span class="kw">val</span> dogStore1 = <span class="kw">new</span> PetStore[Dog]</pre><p>we can use a <code>TypeBoundMap</code> to store a list of pets of the
+appropriate type for every pet store:</p><pre><span class="kw">var</span> inventories = TypeBoundMap[Pet, PetStore, <span class="std">List</span>]
 inventories += (catStore1 -&gt; <span class="std">List</span>(Cat(<span class="lit">"cat11"</span>), Cat(<span class="lit">"cat12"</span>), Cat(<span class="lit">"cat13"</span>)))
 inventories += (catStore2 -&gt; <span class="std">List</span>(Cat(<span class="lit">"cat21"</span>)))
-inventories += (dogStore1 -&gt; <span class="std">List</span>(Dog(<span class="lit">"dog11"</span>), Dog(<span class="lit">"dog12"</span>)))</pre><p>now we can look up pet lists by pet store, with everything coming back as the expected type:</p><pre><span class="kw">val</span> cats1: <span class="std">List</span>[Cat] = inventories(catStore1)
+inventories += (dogStore1 -&gt; <span class="std">List</span>(Dog(<span class="lit">"dog11"</span>), Dog(<span class="lit">"dog12"</span>)))</pre><p>now we can look up pet lists by pet store, with everything coming
+back as the expected type:</p><pre><span class="kw">val</span> cats1: <span class="std">List</span>[Cat] = inventories(catStore1)
 cats1.size should be (<span class="num">3</span>)
 <span class="kw">val</span> cats2: <span class="std">List</span>[Cat] = inventories(catStore2)
 cats2.size should be (<span class="num">1</span>)
@@ -127,9 +133,11 @@ dogs1.size should be (<span class="num">2</span>)
 <span class="kw">val</span> cat: Cat = inventories(catStore1).head
 cat should equal (Cat(<span class="lit">"cat11"</span>))
 <span class="kw">val</span> dog: Dog = inventories(dogStore1).head
-dog should equal (Dog(<span class="lit">"dog11"</span>))</pre><p>note that the API does not provide <code>++</code> or similar methods to add multiple key/value pairs at a time, as
-each pair needs to be type-checked separately.</p><p>(the code presented here is in TypeBoundMapSpec.scala, up at the top)
-</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the Key and Val types</p></dd><dt class="tparam">Key</dt><dd class="cmt"><p>the parameterized type of the keys in the map</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>TypeBoundMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples</p></span></dd></dl></div>
+dog should equal (Dog(<span class="lit">"dog11"</span>))</pre><p>note that the API does not provide methods to add multiple
+key/value pairs at a time, as each pair needs to be type-checked
+separately.</p><p>(the code presented here is in test class <code>emblem.typeBoundMap.ScaladocSpec</code>.)
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the <code>Key</code>
+and <code>Val</code> types</p></dd><dt class="tparam">Key</dt><dd class="cmt"><p>the parameterized type of the keys in the map</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><code>src/test/scala/emblem/typeBoundMap/</code> for many more examples</p></span></dd></dl></div>
     </li><li name="emblem.typeBound.TypeBoundPair" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TypeBoundPair[TypeBound,A[_&lt;:TypeBound],B[_&lt;:TypeBound],TypeParam&lt;:TypeBound]extendsProductwithSerializable"></a>
       <a id="TypeBoundPair[TypeBound,A[_&lt;:TypeBound],B[_&lt;:TypeBound],TypeParam&lt;:TypeBound]:TypeBoundPair[TypeBound,A,B,TypeParam]"></a>
@@ -146,12 +154,13 @@ each pair needs to be type-checked separately.</p><p>(the code presented here is
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">mimics a pair found in an ordinary map, but preserves the type parameter equality in the two elements
-of the pair
-</p><div class="fullcomment"><div class="comment cmt"><p>mimics a pair found in an ordinary map, but preserves the type parameter equality in the two elements
-of the pair
-</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed into the A and B types of the two elements
-of this pair</p></dd><dt class="tparam">A</dt><dd class="cmt"><p>the parameterized type of the first element of this pair</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>the parameterized type of the second element of this pair</p></dd><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param binding both the A and B types of the two elements of this pair</p></dd><dt class="param">_1</dt><dd class="cmt"><p>the first element of this type bound pair</p></dd><dt class="param">_2</dt><dd class="cmt"><p>the second element of this type bound pair</p></dd></dl></div>
+      <p class="shortcomment cmt">mimics a pair found in an ordinary map, but preserves the type parameter
+equality in the two elements of the pair
+</p><div class="fullcomment"><div class="comment cmt"><p>mimics a pair found in an ordinary map, but preserves the type parameter
+equality in the two elements of the pair
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed into the <code>A</code>
+and <code>B</code> types of the two elements of this pair</p></dd><dt class="tparam">A</dt><dd class="cmt"><p>the parameterized type of the first element of this pair</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>the parameterized type of the second element of this pair</p></dd><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param binding both the <code>A</code> and <code>B</code> types of the
+two elements of this pair</p></dd><dt class="param">_1</dt><dd class="cmt"><p>the first element of this type bound pair</p></dd><dt class="param">_2</dt><dd class="cmt"><p>the second element of this type bound pair</p></dd></dl></div>
     </li><li name="emblem.typeBound.WideningTypeBoundFunction" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="WideningTypeBoundFunction[TypeBound,WiderTypeBound&gt;:TypeBound,Arg[_&lt;:TypeBound],ReturnVal[_&lt;:WiderTypeBound]]extendsAnyRef"></a>
       <a id="WideningTypeBoundFunction[TypeBound,WiderTypeBound&gt;:TypeBound,Arg[_&lt;:TypeBound],ReturnVal[_&lt;:WiderTypeBound]]:WideningTypeBoundFunction[TypeBound,WiderTypeBound,Arg,ReturnVal]"></a>
@@ -168,9 +177,10 @@ of this pair</p></dd><dt class="tparam">A</dt><dd class="cmt"><p>the parameteriz
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">like a <a href="TypeBoundFunction.html" class="extype" name="emblem.typeBound.TypeBoundFunction">TypeBoundFunction</a>, except that the type bound for the return value is wider than the type bound
-for the argument.</p><div class="fullcomment"><div class="comment cmt"><p>like a <a href="TypeBoundFunction.html" class="extype" name="emblem.typeBound.TypeBoundFunction">TypeBoundFunction</a>, except that the type bound for the return value is wider than the type bound
-for the argument. This is useful for <code>mapWiden</code> and <code>mapValuesWiden</code> methods in <a href="../TypeKeyMap.html" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a> and
+      <p class="shortcomment cmt">like a <a href="TypeBoundFunction.html" class="extype" name="emblem.typeBound.TypeBoundFunction">TypeBoundFunction</a>, except that the type bound for the return
+value is wider than the type bound for the argument.</p><div class="fullcomment"><div class="comment cmt"><p>like a <a href="TypeBoundFunction.html" class="extype" name="emblem.typeBound.TypeBoundFunction">TypeBoundFunction</a>, except that the type bound for the return
+value is wider than the type bound for the argument. This is useful for
+<code>mapWiden</code> and <code>mapValuesWiden</code> methods in <a href="../TypeKeyMap.html" class="extype" name="emblem.TypeKeyMap">TypeKeyMap</a> and
 <a href="TypeBoundMap.html" class="extype" name="emblem.typeBound.TypeBoundMap">TypeBoundMap</a> that return a map with a wider type bound than the original.
 </p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the type bound to use for the argument type</p></dd><dt class="tparam">WiderTypeBound</dt><dd class="cmt"><p>the type bound to use for the return value type</p></dd><dt class="tparam">Arg</dt><dd class="cmt"><p>the argument type</p></dd><dt class="tparam">ReturnVal</dt><dd class="cmt"><p>the return value type</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>TypeBoundFunction</p></span></dd></dl></div>
     </li></ol>

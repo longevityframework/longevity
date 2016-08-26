@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>emblem - emblem 0.10-SNAPSHOT API - emblem</title>
-          <meta name="description" content="emblem - emblem 0.10 - SNAPSHOT API - emblem" />
-          <meta name="keywords" content="emblem emblem 0.10 SNAPSHOT API emblem" />
+          <title>emblem - emblem 0.11-SNAPSHOT API - emblem</title>
+          <meta name="description" content="emblem - emblem 0.11 - SNAPSHOT API - emblem" />
+          <meta name="keywords" content="emblem emblem 0.11 SNAPSHOT API emblem" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a collection of utilities for reflecting on types</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/a609d8e5669dbd0094f9753b04b47e0e2fb701d5/emblem/src/main/scala/emblem/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a collection of utilities for reflecting on types</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/e000b9757020e731f156ea674b460ee6ff55e844/emblem/src/main/scala/emblem/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -131,16 +131,18 @@ you can get one implicitly like so:</p><pre><span class="kw">def</span> foo[A : 
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a map where the keys are <a href="TypeKey.html" class="extype" name="emblem.TypeKey">type keys</a> with an upper bound, and the values have a type parameter
-with the same bound.</p><div class="fullcomment"><div class="comment cmt"><p>a map where the keys are <a href="TypeKey.html" class="extype" name="emblem.TypeKey">type keys</a> with an upper bound, and the values have a type parameter
-with the same bound. The key and value of each key/value pair are constrained to match on that type
-parameter. For example, suppose we are maintaining an inventory of computer parts:</p><pre><span class="kw">sealed</span> <span class="kw">trait</span> ComputerPart
+      <p class="shortcomment cmt">a map where the keys are <a href="TypeKey.html" class="extype" name="emblem.TypeKey">type keys</a> with an upper bound, and the
+values have a type parameter with the same bound.</p><div class="fullcomment"><div class="comment cmt"><p>a map where the keys are <a href="TypeKey.html" class="extype" name="emblem.TypeKey">type keys</a> with an upper bound, and the
+values have a type parameter with the same bound. The key and value of each
+key/value pair are constrained to match on that type parameter. For example,
+suppose we are maintaining an inventory of computer parts:</p><pre><span class="kw">sealed</span> <span class="kw">trait</span> ComputerPart
 <span class="kw">case</span> <span class="kw">class</span> Memory(gb: <span class="std">Int</span>) <span class="kw">extends</span> ComputerPart
 <span class="kw">case</span> <span class="kw">class</span> CPU(mhz: <span class="std">Double</span>) <span class="kw">extends</span> ComputerPart
 <span class="kw">case</span> <span class="kw">class</span> Display(resolution: <span class="std">Int</span>) <span class="kw">extends</span> ComputerPart</pre><p>we can use a <code>TypeKeyMap</code> to store a list of parts for each kind of part:</p><pre><span class="kw">var</span> partLists = TypeKeyMap[ComputerPart, <span class="std">List</span>]()
 partLists += Memory(<span class="num">2</span>) :: Memory(<span class="num">4</span>) :: Memory(<span class="num">8</span>) :: Nil
 partLists += CPU(<span class="num">2.2</span>) :: CPU(<span class="num">2.4</span>) :: CPU(<span class="num">2.6</span>) :: Nil
-partLists += Display(<span class="num">720</span>) :: Display(<span class="num">1080</span>) :: Nil</pre><p>now we can look up part lists by part type, with everything coming back as the expected type:</p><pre><span class="kw">val</span> memories: <span class="std">List</span>[Memory] = partLists[Memory]
+partLists += Display(<span class="num">720</span>) :: Display(<span class="num">1080</span>) :: Nil</pre><p>now we can look up part lists by part type, with everything coming back as
+the expected type:</p><pre><span class="kw">val</span> memories: <span class="std">List</span>[Memory] = partLists[Memory]
 memories.size should be (<span class="num">3</span>)
 <span class="kw">val</span> cpus: <span class="std">List</span>[CPU] = partLists[CPU]
 cpus.size should be (<span class="num">3</span>)
@@ -150,9 +152,10 @@ displays.size should be (<span class="num">2</span>)
 <span class="kw">val</span> cpu: CPU = partLists[CPU].head
 cpu should equal (CPU(<span class="num">2.2</span>))
 <span class="kw">val</span> display: Display = partLists[Display].tail.head
-display should equal (Display(<span class="num">1080</span>))</pre><p>note that the API does not provide <code>++</code> or similar methods to add multiple key/value pairs at a time, as
-each pair needs to be type-checked separately.</p><p>(code presented here is in TypeKeyMapSpec.scala, up at the top)
-</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the TypeKey and Val types</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples</p></span></dd></dl></div>
+display should equal (Display(<span class="num">1080</span>))</pre><p>note that the API does not provide methods to add multiple key/value pairs at
+a time, as each pair needs to be type-checked separately.</p><p>(code presented here is in <code>emblem.typeKeyMap.ScaladocSpec</code>.)
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the
+TypeKey and Val types</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><code>src/test/scala/emblem/typeKeyMap/</code> for many more examples</p></span></dd></dl></div>
     </li></ol>
             </div>
 

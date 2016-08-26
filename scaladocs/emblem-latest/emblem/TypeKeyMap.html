@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TypeKeyMap - emblem 0.10-SNAPSHOT API - emblem.TypeKeyMap</title>
-          <meta name="description" content="TypeKeyMap - emblem 0.10 - SNAPSHOT API - emblem.TypeKeyMap" />
-          <meta name="keywords" content="TypeKeyMap emblem 0.10 SNAPSHOT API emblem.TypeKeyMap" />
+          <title>TypeKeyMap - emblem 0.11-SNAPSHOT API - emblem.TypeKeyMap</title>
+          <meta name="description" content="TypeKeyMap - emblem 0.11 - SNAPSHOT API - emblem.TypeKeyMap" />
+          <meta name="keywords" content="TypeKeyMap emblem 0.11 SNAPSHOT API emblem.TypeKeyMap" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,15 +51,17 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a map where the keys are <a href="TypeKey.html" class="extype" name="emblem.TypeKey">type keys</a> with an upper bound, and the values have a type parameter
-with the same bound. The key and value of each key/value pair are constrained to match on that type
-parameter. For example, suppose we are maintaining an inventory of computer parts:</p><pre><span class="kw">sealed</span> <span class="kw">trait</span> ComputerPart
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a map where the keys are <a href="TypeKey.html" class="extype" name="emblem.TypeKey">type keys</a> with an upper bound, and the
+values have a type parameter with the same bound. The key and value of each
+key/value pair are constrained to match on that type parameter. For example,
+suppose we are maintaining an inventory of computer parts:</p><pre><span class="kw">sealed</span> <span class="kw">trait</span> ComputerPart
 <span class="kw">case</span> <span class="kw">class</span> Memory(gb: <span class="std">Int</span>) <span class="kw">extends</span> ComputerPart
 <span class="kw">case</span> <span class="kw">class</span> CPU(mhz: <span class="std">Double</span>) <span class="kw">extends</span> ComputerPart
 <span class="kw">case</span> <span class="kw">class</span> Display(resolution: <span class="std">Int</span>) <span class="kw">extends</span> ComputerPart</pre><p>we can use a <code>TypeKeyMap</code> to store a list of parts for each kind of part:</p><pre><span class="kw">var</span> partLists = TypeKeyMap[ComputerPart, <span class="std">List</span>]()
 partLists += Memory(<span class="num">2</span>) :: Memory(<span class="num">4</span>) :: Memory(<span class="num">8</span>) :: Nil
 partLists += CPU(<span class="num">2.2</span>) :: CPU(<span class="num">2.4</span>) :: CPU(<span class="num">2.6</span>) :: Nil
-partLists += Display(<span class="num">720</span>) :: Display(<span class="num">1080</span>) :: Nil</pre><p>now we can look up part lists by part type, with everything coming back as the expected type:</p><pre><span class="kw">val</span> memories: <span class="std">List</span>[Memory] = partLists[Memory]
+partLists += Display(<span class="num">720</span>) :: Display(<span class="num">1080</span>) :: Nil</pre><p>now we can look up part lists by part type, with everything coming back as
+the expected type:</p><pre><span class="kw">val</span> memories: <span class="std">List</span>[Memory] = partLists[Memory]
 memories.size should be (<span class="num">3</span>)
 <span class="kw">val</span> cpus: <span class="std">List</span>[CPU] = partLists[CPU]
 cpus.size should be (<span class="num">3</span>)
@@ -69,9 +71,10 @@ displays.size should be (<span class="num">2</span>)
 <span class="kw">val</span> cpu: CPU = partLists[CPU].head
 cpu should equal (CPU(<span class="num">2.2</span>))
 <span class="kw">val</span> display: Display = partLists[Display].tail.head
-display should equal (Display(<span class="num">1080</span>))</pre><p>note that the API does not provide <code>++</code> or similar methods to add multiple key/value pairs at a time, as
-each pair needs to be type-checked separately.</p><p>(code presented here is in TypeKeyMapSpec.scala, up at the top)
-</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the TypeKey and Val types</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/a609d8e5669dbd0094f9753b04b47e0e2fb701d5/emblem/src/main/scala/emblem/TypeKeyMap.scala" target="_blank">TypeKeyMap.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p>TypeKeyMapSpec.scala and BaseTypeBoundMapSpec.scala for many more examples</p></span></dd></dl><div class="toggleContainer block">
+display should equal (Display(<span class="num">1080</span>))</pre><p>note that the API does not provide methods to add multiple key/value pairs at
+a time, as each pair needs to be type-checked separately.</p><p>(code presented here is in <code>emblem.typeKeyMap.ScaladocSpec</code>.)
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeBound</dt><dd class="cmt"><p>the upper bound on the type parameters passed to the
+TypeKey and Val types</p></dd><dt class="tparam">Val</dt><dd class="cmt"><p>the parameterized type of the values in the map</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/e000b9757020e731f156ea674b460ee6ff55e844/emblem/src/main/scala/emblem/TypeKeyMap.scala" target="_blank">TypeKeyMap.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p><code>src/test/scala/emblem/typeKeyMap/</code> for many more examples</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="emblem.typeBound.BaseTypeBoundMap">BaseTypeBoundMap</span>[<span class="extype" name="emblem.TypeKeyMap.TypeBound">TypeBound</span>, <a href="TypeKey.html" class="extype" name="emblem.TypeKey">TypeKey</a>, <span class="extype" name="emblem.TypeKeyMap.Val">Val</span>], <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -202,7 +205,8 @@ method +</a>.
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">adds a typekey/value pair to this map, returning a new map.</p><div class="fullcomment"><div class="comment cmt"><p>adds a typekey/value pair to this map, returning a new map.</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param bounding both the type key and the value</p></dd><dt class="tparam">ValTypeParam</dt><dd class="cmt"><p>the type param for the value type. this can be any type, provided that
+      <p class="shortcomment cmt">adds a typekey/value pair to this map, returning a new map.</p><div class="fullcomment"><div class="comment cmt"><p>adds a typekey/value pair to this map, returning a new map.
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param bounding both the type key and the value</p></dd><dt class="tparam">ValTypeParam</dt><dd class="cmt"><p>the type param for the value type. this can be any type, provided that
 <code>Val[ValTypeParam] &lt;: Val[TypeParam])</code></p></dd><dt class="param">pair</dt><dd class="cmt"><p>the typekey/value pair</p></dd><dt class="param">valConforms</dt><dd class="cmt"><p>a constraint ensuring that <code>Val[ValTypeParam] &lt;: Val[TypeParam])</code></p></dd></dl></div>
     </li><li name="emblem.TypeKeyMap#++" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="++(that:emblem.TypeKeyMap[TypeBound,Val]):emblem.TypeKeyMap[TypeBound,Val]"></a>
@@ -280,7 +284,9 @@ method +</a>.
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">retrieves the value which is associated with the given type key.</p><div class="fullcomment"><div class="comment cmt"><p>retrieves the value which is associated with the given type key.</p><p>throws java.util.NoSuchElementException when no value is mapped to the supplied type param</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param binding both the type key and the value</p></dd></dl></div>
+      <p class="shortcomment cmt">retrieves the value which is associated with the given type key.</p><div class="fullcomment"><div class="comment cmt"><p>retrieves the value which is associated with the given type key.</p><p>throws java.util.NoSuchElementException when no value is mapped to the
+supplied type param.
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param binding both the type key and the value</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -619,8 +625,8 @@ map where the value satisfies the predicate <code>p</code></p></dd></dl></div>
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">[use case]  applies a function <code>f</code> to all elements of this type bound map.</p><div class="fullcomment">[use case] <div class="comment cmt"><p> applies a function <code>f</code> to all elements of this type bound map.</p></div><dl class="paramcmts block"><dt class="param">f</dt><dd class="cmt"><p>the function that is applied for its side-effect to every element. the result of function <code>f</code> is
-discarded</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>BaseTypeBoundMap</dd><div class="full-signature-block toggleContainer">
+      <p class="shortcomment cmt">[use case]  applies a function <code>f</code> to all elements of this type bound map.</p><div class="fullcomment">[use case] <div class="comment cmt"><p> applies a function <code>f</code> to all elements of this type bound map.</p></div><dl class="paramcmts block"><dt class="param">f</dt><dd class="cmt"><p>the function that is applied for its side-effect to every element.
+the result of function <code>f</code> is discarded</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>BaseTypeBoundMap</dd><div class="full-signature-block toggleContainer">
             <span class="toggle">Full Signature</span>
             <div class="hiddenContent full-signature-usecase"><h4 id="signature" class="signature">
       <span class="modifier_kind">
@@ -672,8 +678,10 @@ discarded</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt>
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">optionally returns the value associated with the given type key</p><div class="fullcomment"><div class="comment cmt"><p>optionally returns the value associated with the given type key</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param bounding both the type key and the value</p></dd><dt>returns</dt><dd class="cmt"><p>an option value containing the value associated with type key in this map, or None if none
-exists.</p></dd></dl></div>
+      <p class="shortcomment cmt">optionally returns the value associated with the given type key
+</p><div class="fullcomment"><div class="comment cmt"><p>optionally returns the value associated with the given type key
+</p></div><dl class="paramcmts block"><dt class="tparam">TypeParam</dt><dd class="cmt"><p>the type param bounding both the type key and the value</p></dd><dt>returns</dt><dd class="cmt"><p>an option value containing the value associated with type key in
+this map, or None if none exists.</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>

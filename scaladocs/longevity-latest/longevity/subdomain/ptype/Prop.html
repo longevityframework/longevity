@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Prop - longevity 0.10-SNAPSHOT API - longevity.subdomain.ptype.Prop</title>
-          <meta name="description" content="Prop - longevity 0.10 - SNAPSHOT API - longevity.subdomain.ptype.Prop" />
-          <meta name="keywords" content="Prop longevity 0.10 SNAPSHOT API longevity.subdomain.ptype.Prop" />
+          <title>Prop - longevity 0.11-SNAPSHOT API - longevity.subdomain.ptype.Prop</title>
+          <meta name="description" content="Prop - longevity 0.11 - SNAPSHOT API - longevity.subdomain.ptype.Prop" />
+          <meta name="keywords" content="Prop longevity 0.11 SNAPSHOT API longevity.subdomain.ptype.Prop" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,14 +49,14 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a property for this persistent type. properties can be used to define <a href="Key.html" class="extype" name="longevity.subdomain.ptype.Key">keys</a>
-and <a href="Index.html" class="extype" name="longevity.subdomain.ptype.Index">indexes</a>, as well as for building <a href="Query.html" class="extype" name="longevity.subdomain.ptype.Query">queries</a>. a property
-can descend from the root into child entities at any depth.</p><p>at present, a
-property cannot pass through any collections or terminate with a
-<a href="../embeddable/PolyType.html" class="extype" name="longevity.subdomain.embeddable.PolyType">polymorphic embeddable</a>.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a property for this persistent type. properties map to underlying members
+within the [Persistent persistent object], at any depth.</p><p>properties can be used to define <a href="Key.html" class="extype" name="longevity.subdomain.ptype.Key">keys</a> and <a href="Index.html" class="extype" name="longevity.subdomain.ptype.Index">indexes</a>, as well
+as for building <a href="Query.html" class="extype" name="longevity.subdomain.ptype.Query">queries</a>. a property can descend from the root into
+child entities at any depth.</p><p>at present, a property cannot pass through any collections or terminate with
+a <a href="../embeddable/PolyType.html" class="extype" name="longevity.subdomain.embeddable.PolyType">polymorphic embeddable</a>.
 violations will cause an exception to be thrown on
 <a href="../Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain construction</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/a609d8e5669dbd0094f9753b04b47e0e2fb701d5/src/main/scala/longevity/subdomain/ptype/Prop.scala" target="_blank">Prop.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/e000b9757020e731f156ea674b460ee6ff55e844/src/main/scala/longevity/subdomain/ptype/Prop.scala" target="_blank">Prop.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -511,7 +511,8 @@ violations will cause an exception to be thrown on
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">a dot-separated path of the property descending from the root</p>
+      <p class="shortcomment cmt">a dot-separated path of the persistent object member descending
+from the root</p>
     </li><li name="longevity.subdomain.ptype.Prop#propTypeKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="propTypeKey:emblem.TypeKey[A]"></a>
       <a id="propTypeKey:TypeKey[A]"></a>

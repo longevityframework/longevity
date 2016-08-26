@@ -1,22 +1,22 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>NoIndexesForPTypeException - longevity 0.10-SNAPSHOT API - longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException</title>
-          <meta name="description" content="NoIndexesForPTypeException - longevity 0.10 - SNAPSHOT API - longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException" />
-          <meta name="keywords" content="NoIndexesForPTypeException longevity 0.10 SNAPSHOT API longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException" />
+          <title>WriteConflictException - longevity 0.11-SNAPSHOT API - longevity.exceptions.persistence.WriteConflictException</title>
+          <meta name="description" content="WriteConflictException - longevity 0.11 - SNAPSHOT API - longevity.exceptions.persistence.WriteConflictException" />
+          <meta name="keywords" content="WriteConflictException longevity 0.11 SNAPSHOT API longevity.exceptions.persistence.WriteConflictException" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
-      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
-      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
-      <script type="text/javascript" src="../../../../lib/template.js"></script>
-      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
-      <script type="text/javascript" src="../../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../../lib/diagrams.js" id="diagrams-js"></script>
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../lib/diagrams.js" id="diagrams-js"></script>
       <script type="text/javascript">
          if(top === self) {
-            var url = '../../../../index.html';
-            var hash = 'longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException';
+            var url = '../../../index.html';
+            var hash = 'longevity.exceptions.persistence.WriteConflictException';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,13 +28,13 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Class" src="../../../../lib/class_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="longevity">longevity</a>.<a href="../../package.html" class="extype" name="longevity.exceptions">exceptions</a>.<a href="../package.html" class="extype" name="longevity.exceptions.subdomain">subdomain</a>.<a href="package.html" class="extype" name="longevity.exceptions.subdomain.ptype">ptype</a></p>
-        <h1>NoIndexesForPTypeException</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="longevity.exceptions.subdomain.ptype">package ptype</a>
+        <img alt="Class" src="../../../lib/class_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.exceptions">exceptions</a>.<a href="package.html" class="extype" name="longevity.exceptions.persistence">persistence</a></p>
+        <h1>WriteConflictException</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="longevity.exceptions.persistence">package persistence</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       </div>
@@ -45,18 +45,16 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">NoIndexesForPTypeException</span><span class="tparams">[<span name="P">P &lt;: <a href="../../../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="result"> extends <a href="PTypeException.html" class="extype" name="longevity.exceptions.subdomain.ptype.PTypeException">PTypeException</a></span>
+        <span class="name">WriteConflictException</span><span class="tparams">[<span name="P">P &lt;: <a href="../../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="result"> extends <a href="PersistenceException.html" class="extype" name="longevity.exceptions.persistence.PersistenceException">PersistenceException</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception thrown when <a href="../../../subdomain/ptype/PType.html" class="extype" name="longevity.subdomain.ptype.PType">persistent type</a>
-neither overrides <code>indexSet</code> nor defines an inner object <code>indexes</code>
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/a609d8e5669dbd0094f9753b04b47e0e2fb701d5/src/main/scala/longevity/exceptions/subdomain/ptype/NoIndexesForPTypeException.scala" target="_blank">NoIndexesForPTypeException.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception thrown due to optimistic locking detection of a conflicting write</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/e000b9757020e731f156ea674b460ee6ff55e844/src/main/scala/longevity/exceptions/persistence/WriteConflictException.scala" target="_blank">WriteConflictException.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="PTypeException.html" class="extype" name="longevity.exceptions.subdomain.ptype.PTypeException">PTypeException</a>, <a href="../SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException">SubdomainException</a>, <a href="../../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="PersistenceException.html" class="extype" name="longevity.exceptions.persistence.PersistenceException">PersistenceException</a>, <a href="../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 427.00 125.00" height="125pt" width="427pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 423,-121 423,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><!-- node2 --><g class="node implicit-outgoing class" id="graph1_2"><g id="a_implicit-outgoing class|graph1_2"><a xlink:title="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException can be implicitly converted to RichException by the implicit method RichException in object scala.Predef"><polygon points="394.5,-49 287.5,-49 287.5,-24 394.5,-24 394.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-43.5" x="298" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="318.65" text-anchor="start">RichException</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException (this class)" xlink:href="#inheritance-diagram"><polygon points="215.5,-49 24.5,-49 24.5,-24 215.5,-24 215.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.9609" text-anchor="start">NoIndexesForPTypeException[P]</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge implicit-outgoing" id="0_2"><g id="a_implicit-outgoing|0_2"><a xlink:title="NoIndexesForPTypeException[P] can be implicitly converted to RichException"><path d="M223.553,-36.5C240.806,-36.5 258.285,-36.5 274.3,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="274.455,-38.2501 279.455,-36.5 274.455,-34.7501 274.455,-38.2501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="251.5" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.exceptions.subdomain.ptype.PTypeException" xlink:href="PTypeException.html#inheritance-diagram"><polygon points="178,-117 62,-117 62,-92 178,-92 178,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-111.5" x="72" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="92.978" text-anchor="start">PTypeException</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="NoIndexesForPTypeException[P] is a subtype of PTypeException"><path d="M120,-86.6005C120,-74.8849 120,-59.583 120,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="118.25,-86.7005 120,-91.7005 121.75,-86.7006 118.25,-86.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 391.00 125.00" height="125pt" width="391pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 387,-121 387,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><!-- node2 --><g class="node implicit-outgoing class" id="graph1_2"><g id="a_implicit-outgoing class|graph1_2"><a xlink:title="longevity.exceptions.persistence.WriteConflictException can be implicitly converted to RichException by the implicit method RichException in object scala.Predef"><polygon points="358.5,-49 251.5,-49 251.5,-24 358.5,-24 358.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="262" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="282.65" text-anchor="start">RichException</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.exceptions.persistence.WriteConflictException (this class)" xlink:href="#inheritance-diagram"><polygon points="180,-49 24,-49 24,-24 180,-24 180,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="34" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="54.7925" text-anchor="start">WriteConflictException[P]</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge implicit-outgoing" id="0_2"><g id="a_implicit-outgoing|0_2"><a xlink:title="WriteConflictException[P] can be implicitly converted to RichException"><path d="M187.863,-36.5C204.656,-36.5 222.034,-36.5 238.099,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="238.275,-38.2501 243.275,-36.5 238.275,-34.7501 238.275,-38.2501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="215.75" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.exceptions.persistence.PersistenceException" xlink:href="PersistenceException.html#inheritance-diagram"><polygon points="171.5,-117 32.5,-117 32.5,-92 171.5,-92 171.5,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-111.5" x="43" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="63.5298" text-anchor="start">PersistenceException</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="WriteConflictException[P] is a subtype of PersistenceException"><path d="M102,-86.6005C102,-74.8849 102,-59.583 102,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="100.25,-86.7005 102,-91.7005 103.75,-86.7006 100.25,-86.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -74,7 +72,7 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException"><span>NoIndexesForPTypeException</span></li><li class="in" name="longevity.exceptions.subdomain.ptype.PTypeException"><span>PTypeException</span></li><li class="in" name="longevity.exceptions.subdomain.SubdomainException"><span>SubdomainException</span></li><li class="in" name="longevity.exceptions.LongevityException"><span>LongevityException</span></li><li class="in" name="java.lang.Exception"><span>Exception</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.exceptions.persistence.WriteConflictException"><span>WriteConflictException</span></li><li class="in" name="longevity.exceptions.persistence.PersistenceException"><span>PersistenceException</span></li><li class="in" name="longevity.exceptions.LongevityException"><span>LongevityException</span></li><li class="in" name="java.lang.Exception"><span>Exception</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -98,20 +96,20 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException[P]"></a>
-      <a id="&lt;init&gt;:NoIndexesForPTypeException[P]"></a>
+              <ol><li name="longevity.exceptions.persistence.WriteConflictException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(state:longevity.persistence.PState[P]):longevity.exceptions.persistence.WriteConflictException[P]"></a>
+      <a id="&lt;init&gt;:WriteConflictException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">NoIndexesForPTypeException</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]</span>)</span>
+        <span class="name">WriteConflictException</span><span class="params">(<span name="state">state: <a href="../../persistence/PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException[P]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@&lt;init&gt;(state:longevity.persistence.PState[P]):longevity.exceptions.persistence.WriteConflictException[P]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
@@ -136,8 +134,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@!=(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -153,8 +151,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@##():Int" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@##():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -170,34 +168,34 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span title="gt4s: $plus" class="implicit">+</span><span class="params">(<span name="other">other: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@+(other:String):String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@+(other:String):String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
-      <a id="-&gt;[B](B):(NoIndexesForPTypeException[P],B)"></a>
+      <a id="-&gt;[B](B):(WriteConflictException[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -215,8 +213,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@==(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -232,8 +230,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">addSuppressed</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@addSuppressed(x$1:Throwable):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@addSuppressed(x$1:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -249,8 +247,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@asInstanceOf[T0]:T0" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -266,11 +264,11 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@clone():Object" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@clone():Object" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
@@ -279,86 +277,86 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring((NoIndexesForPTypeException[P])⇒Boolean,⇒Any):NoIndexesForPTypeException[P]"></a>
+      <a id="ensuring((WriteConflictException[P])⇒Boolean,⇒Any):WriteConflictException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean):A"></a>
-      <a id="ensuring((NoIndexesForPTypeException[P])⇒Boolean):NoIndexesForPTypeException[P]"></a>
+      <a id="ensuring((WriteConflictException[P])⇒Boolean):WriteConflictException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring(Boolean,⇒Any):NoIndexesForPTypeException[P]"></a>
+      <a id="ensuring(Boolean,⇒Any):WriteConflictException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean):A"></a>
-      <a id="ensuring(Boolean):NoIndexesForPTypeException[P]"></a>
+      <a id="ensuring(Boolean):WriteConflictException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@ensuring(cond:Boolean):A" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@ensuring(cond:Boolean):A" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -373,8 +371,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -390,8 +388,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@equals(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -407,8 +405,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">fillInStackTrace</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@fillInStackTrace():Throwable" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@fillInStackTrace():Throwable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -424,11 +422,11 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@finalize():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="symbol">classOf[java.lang.Throwable]</span>
@@ -447,13 +445,13 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="implicit">formatted</span><span class="params">(<span name="fmtstr">fmtstr: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@formatted(fmtstr:String):String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@formatted(fmtstr:String):String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -471,8 +469,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">getCause</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@getCause():Throwable" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@getCause():Throwable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -488,8 +486,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@getClass():Class[_]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -505,8 +503,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">getLocalizedMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@getLocalizedMessage():String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@getLocalizedMessage():String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -522,8 +520,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">getMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@getMessage():String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@getMessage():String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -539,8 +537,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">getStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@getStackTrace():Array[StackTraceElement]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@getStackTrace():Array[StackTraceElement]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -556,8 +554,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">getSuppressed</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.Throwable">Throwable</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@getSuppressed():Array[Throwable]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@getSuppressed():Array[Throwable]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -573,8 +571,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@hashCode():Int" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -590,8 +588,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">initCause</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@initCause(x$1:Throwable):Throwable" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@initCause(x$1:Throwable):Throwable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -607,8 +605,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -624,8 +622,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -641,8 +639,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@notify():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -658,8 +656,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@notifyAll():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -675,8 +673,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintWriter">PrintWriter</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -692,8 +690,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintStream">PrintStream</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -709,8 +707,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">printStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@printStackTrace():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@printStackTrace():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -726,11 +724,28 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">setStackTrace</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="longevity.exceptions.persistence.WriteConflictException#state" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="state:longevity.persistence.PState[P]"></a>
+      <a id="state:PState[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">state</span><span class="result">: <a href="../../persistence/PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@state:longevity.persistence.PState[P]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -743,8 +758,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -760,8 +775,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@toString():String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@toString():String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable → AnyRef → Any</dd></dl></div>
@@ -777,8 +792,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@wait():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -800,8 +815,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -823,8 +838,8 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@wait(x$1:Long):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -836,23 +851,23 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
-      <a id="→[B](B):(NoIndexesForPTypeException[P],B)"></a>
+      <a id="→[B](B):(WriteConflictException[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@→[B](y:B):(A,B)" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@→[B](y:B):(A,B)" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li></ol>
@@ -874,12 +889,12 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         <span class="implicit deprecated" title="Deprecated: (Since version 2.11.0) Use Throwable#getStackTrace">getStackTraceString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException@getStackTraceString:String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../index.html#longevity.exceptions.persistence.WriteConflictException@getStackTraceString:String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to
             <span class="extype" name="scala.Predef.RichException">RichException</span> performed by method RichException in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>RichException</dd><dt>Annotations</dt><dd>
@@ -891,12 +906,10 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="longevity.exceptions.subdomain.ptype.PTypeException">
-              <h3>Inherited from <a href="PTypeException.html" class="extype" name="longevity.exceptions.subdomain.ptype.PTypeException">PTypeException</a></h3>
-            </div><div class="parent" name="longevity.exceptions.subdomain.SubdomainException">
-              <h3>Inherited from <a href="../SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException">SubdomainException</a></h3>
+        <div class="parent" name="longevity.exceptions.persistence.PersistenceException">
+              <h3>Inherited from <a href="PersistenceException.html" class="extype" name="longevity.exceptions.persistence.PersistenceException">PersistenceException</a></h3>
             </div><div class="parent" name="longevity.exceptions.LongevityException">
-              <h3>Inherited from <a href="../../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a></h3>
+              <h3>Inherited from <a href="../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a></h3>
             </div><div class="parent" name="java.lang.Exception">
               <h3>Inherited from <span class="extype" name="java.lang.Exception">Exception</span></h3>
             </div><div class="parent" name="java.lang.Throwable">
@@ -910,23 +923,23 @@ neither overrides <code>indexSet</code> nor defines an inner object <code>indexe
             </div>
         <div class="conversion" name="scala.Predef.RichException">
               <h3>Inherited by implicit conversion RichException from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.RichException">RichException</span>
+                <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to <span class="extype" name="scala.Predef.RichException">RichException</span>
               </h3>
             </div><div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]]
+                <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]]
+                <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]]
+                <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException">NoIndexesForPTypeException</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.NoIndexesForPTypeException.P">P</span>]]
+                <a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.persistence.WriteConflictException">WriteConflictException</a>[<span class="extype" name="longevity.exceptions.persistence.WriteConflictException.P">P</span>]]
               </h3>
             </div>
         </div>
