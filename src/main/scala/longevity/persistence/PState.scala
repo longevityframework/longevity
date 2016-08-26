@@ -4,7 +4,7 @@ import longevity.subdomain.persistent.Persistent
 import org.joda.time.DateTime
 
 /** the persistent state of a persistent object of type `P` */
-case class PState[P <: Persistent] private[persistence] (
+case class PState[P <: Persistent] private (
   private[persistence] val id: DatabaseId[P],
   private[persistence] val modifiedDate: Option[DateTime],
   private[persistence] val orig: P,
@@ -22,11 +22,13 @@ case class PState[P <: Persistent] private[persistence] (
   def map(f: P => P): PState[P] = PState(id, modifiedDate, orig, f(p))
 
   /** returns true iff there are unpersisted changes to the persistent object */
-  // we may want to consider === here if we allow for non-case class entities
+  // we may want to consider === here if we allow for non-case class persistents
   def dirty = orig == p
 
   /** returns a copy of this persistent state with a wider type bound */
-  def widen[Q >: P <: Persistent]: PState[Q] = new PState[Q](id.widen[Q], modifiedDate, orig, get)
+  def widen[Q >: P <: Persistent]: PState[Q] = new PState[Q](id.widen[Q], modifiedDate, orig, p)
+
+  override def toString = s"PState($p)"
 
 }
 
