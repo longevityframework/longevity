@@ -23,7 +23,7 @@
   Streams](http://doc.akka.io/docs/akka/2.4.8/scala.html) an optional
   dependency. If you are using `Repo.streamByQuery`, you must now
   declare a dependency on Akka Streams yourself: `libraryDependencies
-  += "com.typesafe.akka" %% "akka-stream" % "2.4.8"`.
+  += "com.typesafe.akka" %% "akka-stream" % "2.4.9"`.
 
 ## [0.9.1] - 2016.08.24 - Bug Fix Release
 
