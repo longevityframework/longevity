@@ -5,7 +5,6 @@ layout: page
 
 ## Design Principles
 
-- Supports [Domain Driven Design methodologies](manual/ddd-basics).
 - Built to support multiple NoSQL back ends.
 - Fully encapsulates persistence concerns.
 - [Asynchronous persistence API](manual/repo/repo-api.html) using [Scala
@@ -13,9 +12,9 @@ layout: page
   [Akka
   streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html). 
 - Agnostic about what kinds of data you want to persist.
-  - That said, longevity provides built-in support for common DDD
-    persistence patterns such as aggregate roots, events, and read
-    views.
+  - That said, longevity provides built-in support for common [Domain
+    Driven Design](manual/ddd-basics) persistence patterns such as
+    aggregate roots, events, and read views.
 
 ## Current Features
 
