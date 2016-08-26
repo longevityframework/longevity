@@ -42,8 +42,8 @@ manual](manual). They include:
 
 These features are tracked on the [story
 board](https://www.pivotaltracker.com/n/projects/1231978) under the
-label [longevity 1.0 post
-MMP](https://www.pivotaltracker.com/epic/show/1769462) (please follow
+label [longevity
+1.0](https://www.pivotaltracker.com/epic/show/1769462) (please follow
 the "add/view stories" link on the right side of the linked page):
 
 - Enhanced query support.
