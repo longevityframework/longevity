@@ -30,10 +30,10 @@ manual](manual). They include:
   - Polymorphic traits.
   - Controlled vocabularies.
 - Supports domain-level keys and indexes.
-- Provides pre-built repositories with simple, reactive APIs.
+- Pre-built repositories with simple, reactive APIs.
 - Configuration-level optimistic locking.
-- Provides a query DSL for retrieval or streaming of multiple records.
-- Provides pre-built integration tests that exercise your repositories
+- Query DSL for retrieval or streaming of multiple records.
+- Pre-built integration tests that exercise your repositories
   against a real database.
 - Fully featured in-memory repositories for use in other integration
   testing.
