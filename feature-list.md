@@ -31,6 +31,7 @@ manual](manual). They include:
   - Controlled vocabularies.
 - Supports domain-level keys and indexes.
 - Provides pre-built repositories with simple, reactive APIs.
+- Configuration-level optimistic locking.
 - Provides a query DSL for retrieval or streaming of multiple records.
 - Provides pre-built integration tests that exercise your repositories
   against a real database.
@@ -45,8 +46,7 @@ label [longevity 1.0 post
 MMP](https://www.pivotaltracker.com/epic/show/1769462) (please follow
 the "add/view stories" link on the right side of the linked page):
 
-- Enhanced query support.
-- Optimistic locking.
-- Soft deletes.
-- Schema generation.
-- Logging.
+- Enhanced query support
+- Soft deletes
+- Schema generation
+- Logging
