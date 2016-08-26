@@ -4,8 +4,7 @@ Status](https://travis-ci.org/longevityframework/longevity.svg?branch=master)](h
 
 # longevity
 
-A Persistence Framework for Scala and NoSQL with a Domain Driven
-Design Orientation.
+A Persistence Framework for Scala and NoSQL.
 
 Build your data model using standard Scala idioms such as case
 classes, companion objects, options, and immutable collections. Tell
