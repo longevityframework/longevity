@@ -74,10 +74,11 @@ We implement optimistic locking by storing a `modifiedDate` value in
 every database row. Every create or update operation will update the
 `modifiedDate` to be the current time.
 
-The `PState` keeps track of the value of `modifiedDate` for the object
-it encloses. The repository methods all return `PStates` with the
-`modifiedDate` matching what is in the database at that
-moment. `PState` methods `set` and `map` preserve the `modifiedDate`.
+The [persistent state](persistent-state.html) keeps track of the value
+of `modifiedDate` for the object it encloses. The repository methods
+all return `PStates` with the `modifiedDate` matching what is in the
+database at that moment. `PState` methods `set` and `map` preserve the
+`modifiedDate`.
 
 When `Repo` methods `update` or `delete` are called, the repository
 qualifies the database write command that gets issued. The command
