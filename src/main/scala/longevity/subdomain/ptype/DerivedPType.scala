@@ -1,14 +1,14 @@
 package longevity.subdomain.ptype
 
+import emblem.TypeKey
 import longevity.subdomain.persistent.Persistent
 
 /** one of the derived types in a family of persistent types. mix this in to
  * youe [[PType persistent type]] when it represents a concrete subtype of a
  * [[PolyPType]].
  */
-trait DerivedPType[P <: Persistent, Poly >: P <: Persistent] extends PType[P] {
+abstract class DerivedPType[P <: Persistent : TypeKey, Poly >: P <: Persistent : TypeKey] extends PType[P] {
 
-  /** the poly type that this type is derived from */
-  val polyPType: PolyPType[Poly]
+  private[longevity] val polyPTypeKey: TypeKey[Poly] = implicitly[TypeKey[Poly]]
 
 }

@@ -130,7 +130,7 @@ object SubdomainSpec {
     object B extends PolyType[B]
 
     case class C(id: String) extends B
-    object C extends DerivedType[C, B] { val polyType = B }
+    object C extends DerivedType[C, B]
 
     def subdomain = Subdomain("propPathWithTerminalPoly", PTypePool(A), ETypePool(B, C))
   }
@@ -191,7 +191,7 @@ object SubdomainSpec {
     object B extends PolyType[B]
 
     case class C(id: String) extends B
-    object C extends DerivedType[C, B] { val polyType = B }
+    object C extends DerivedType[C, B]
 
     def subdomain = Subdomain("propPathWithInternalPoly", PTypePool(A), ETypePool(B, C))
   }
@@ -250,7 +250,6 @@ object SubdomainSpec {
 
     case class Derived(id: String) extends Poly
     object Derived extends DerivedPType[Derived, Poly] {
-      val polyPType = Poly
       object props {
       }
       object keys {
@@ -266,9 +265,7 @@ object SubdomainSpec {
     object Poly extends PolyType[Poly]
 
     case class Derived(id: String) extends Poly
-    object Derived extends DerivedType[Derived, Poly] {
-      val polyType = Poly
-    }
+    object Derived extends DerivedType[Derived, Poly]
 
     def subdomain = Subdomain("derivedETypeHasNoPoly", PTypePool(), ETypePool(Derived))
   }

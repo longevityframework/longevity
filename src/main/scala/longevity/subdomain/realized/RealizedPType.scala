@@ -1,5 +1,6 @@
 package longevity.subdomain.realized
 
+import emblem.TypeKey
 import emblem.emblematic.Emblematic
 import emblem.typeBound.TypeBoundMap
 import longevity.subdomain.KeyVal
@@ -8,11 +9,11 @@ import longevity.subdomain.ptype.AnyKey
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.PType
-import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.ptype.Prop
 
 private[longevity] class RealizedPType[P <: Persistent](
   pType: PType[P],
+  polyPTypeOpt: Option[PType[_ >: P <: Persistent]],
   emblematic: Emblematic) {
 
   private type MyProp[A] = Prop[P, A]
@@ -35,16 +36,19 @@ private[longevity] class RealizedPType[P <: Persistent](
     def myWidenedProps = myRealizedProps.widen[PProp, PRealizedProp]
     pType match {
       case derivedPType: DerivedPType[P, _] =>
-        def polyProps[PP >: P <: Persistent](polyPType: PolyPType[PP]) = {
+        def polyProps[PP >: P <: Persistent](polyPTypeKey: TypeKey[PP]) = {
           val empty = TypeBoundMap[Any, PProp, PRealizedProp]()
-          polyPType.propSet.foldLeft(empty) { (acc, prop) =>
-            def pair[PP >: P <: Persistent, A](prop: Prop[PP, A]) = {
-              acc + (prop -> RealizedProp(prop, emblematic))
+          polyPTypeOpt match {
+            case None => empty
+            case Some(polyPType) => polyPType.propSet.foldLeft(empty) { (acc, prop) =>
+              def pair[PP >: P <: Persistent, A](prop: Prop[PP, A]) = {
+                acc + (prop -> RealizedProp(prop, emblematic))
+              }
+              pair(prop)
             }
-            pair(prop)
           }
         }
-        myWidenedProps ++ polyProps(derivedPType.polyPType)
+        myWidenedProps ++ polyProps(derivedPType.polyPTypeKey)
       case _ => myWidenedProps
     }
   }

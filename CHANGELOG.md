@@ -1,5 +1,13 @@
 # Longevity Change Log
 
+## [0.11-SNAPSHOT]
+
+- 2016.08.28 - Get rid of `DerivedType.polyType` and
+  `DerivedPType.polyPType`. `DerivedType` and `DerivedPType` are now
+  abstract classes instead of traits, so users may need to reorder
+  their inheritance `with` clauses. (It's highly unlikely a user would
+  have been be using these traits to extend a class.)
+
 ## [0.10.0] - 2016.08.25 - Optimistic Locking
 
 - 2016.08.25 - Fix JSON translation of DateTimes to use time zone

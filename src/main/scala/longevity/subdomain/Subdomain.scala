@@ -41,7 +41,16 @@ class Subdomain(
   private[longevity] val realizedPTypes: TypeBoundMap[Persistent, PType, RealizedPType] = {
     pTypePool.values.foldLeft(TypeBoundMap[Persistent, PType, RealizedPType]()) { (acc, pType) =>
       def addPair[P <: Persistent](pType: PType[P]) = {
-        val realizedPType = new RealizedPType(pType, emblematic)
+        val polyPTypeOpt = pType match {
+          case derivedPType: DerivedPType[P, _] =>
+            if (!pTypePool.contains(derivedPType.polyPTypeKey)) {
+              throw new DerivedHasNoPolyException(derivedPType.polyPTypeKey.name, isPType = true)
+            }
+            Some(pTypePool(derivedPType.polyPTypeKey))
+          case _ =>
+            None
+        }
+        val realizedPType = new RealizedPType[P](pType, polyPTypeOpt, emblematic)
         acc + (pType -> realizedPType)
       }
       addPair(pType)
@@ -85,8 +94,10 @@ class Subdomain(
 
     type DerivedFrom[E <: Embeddable] = DerivedType[E, Poly] forSome { type Poly >: E <: Embeddable }
 
-    val derivedTypes: TypeKeyMap[Embeddable, DerivedFrom] =
-      eTypePool.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Embeddable, DerivedFrom]]
+    val derivedTypes =
+      eTypePool
+        .filterValues(_.isInstanceOf[DerivedFrom[_]])
+        .asInstanceOf[TypeKeyMap[Embeddable, DerivedFrom]]
 
     type DerivedList[E <: Embeddable] = List[Emblem[_ <: E]]
     val baseToDerivedsMap: TypeKeyMap[Embeddable, DerivedList] =
@@ -94,7 +105,7 @@ class Subdomain(
 
         def fromDerivedType[E <: Embeddable, Poly >: E <: Embeddable](derivedType: DerivedType[E, Poly])
         : TypeKeyMap[Embeddable, DerivedList] = {
-          implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyType.eTypeKey
+          implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyTypeKey
           if (!polyTypes.contains[Poly]) {
             throw new DerivedHasNoPolyException(polyTypeKey.name, isPType = false)
           }
@@ -131,7 +142,7 @@ class Subdomain(
 
         def fromDerivedType[P <: Persistent, Poly >: P <: Persistent](derivedPType: DerivedPType[P, Poly])
         : TypeKeyMap[Persistent, DerivedList] = {
-          implicit val polyTypeKey = derivedPType.polyPType.pTypeKey
+          implicit val polyTypeKey = derivedPType.polyPTypeKey
 
           if (!polyTypes.contains[Poly]) {
             throw new DerivedHasNoPolyException(polyTypeKey.name, isPType = false)

@@ -9,7 +9,6 @@ case class FirstDerivedRoot(
 extends PolyRoot
 
 object FirstDerivedRoot extends DerivedPType[FirstDerivedRoot, PolyRoot] {
-  val polyPType = PolyRoot
   object props {
     val first = prop[String]("first")
     val componentId = prop[PolyEntityId]("component.id")

@@ -99,7 +99,7 @@ private[longevity] object RepoPoolBuilder {
       val pType = pair._2
 
       val polyKey: Option[TypeKey[_ >: P <: Persistent]] = pType match {
-        case dpt: DerivedPType[_, _] => Some(dpt.polyPType.pTypeKey)
+        case dpt: DerivedPType[_, _] => Some(dpt.polyPTypeKey)
         case _ => None
       }
 

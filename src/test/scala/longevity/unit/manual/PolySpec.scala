@@ -34,18 +34,14 @@ object PolySpec {
       verificationDate: DateTime)
     extends UserVerification
 
-    object EmailVerification extends DerivedType[EmailVerification, UserVerification] {
-      val polyType = UserVerification
-    }
+    object EmailVerification extends DerivedType[EmailVerification, UserVerification]
 
     case class SmsVerification(
       phoneNumber: PhoneNumber,
       verificationDate: DateTime)
     extends UserVerification
 
-    object SmsVerification extends DerivedType[SmsVerification, UserVerification] {
-      val polyType = UserVerification
-    }
+    object SmsVerification extends DerivedType[SmsVerification, UserVerification]
 
     case class GoogleSignIn(
       email: Email,
@@ -53,9 +49,7 @@ object PolySpec {
       verificationDate: DateTime)
     extends UserVerification
 
-    object GoogleSignIn extends DerivedType[GoogleSignIn, UserVerification] {
-      val polyType = UserVerification
-    }
+    object GoogleSignIn extends DerivedType[GoogleSignIn, UserVerification]
 
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -132,7 +126,6 @@ object PolySpec {
     extends User
 
     object Member extends DerivedPType[Member, User] {
-      val polyPType = User
       object props {
       }
       object keys {
@@ -145,7 +138,6 @@ object PolySpec {
     extends User
 
     object Commenter extends DerivedPType[Commenter, User] {
-      val polyPType = User
       object props {
       }
       object keys {
@@ -223,7 +215,6 @@ object PolySpec {
     }
 
     object Member extends DerivedPType[Member, User] {
-      val polyPType = User
       object props {
         val tagline = prop[String]("profile.tagline")
       }
@@ -240,7 +231,6 @@ object PolySpec {
     extends User
 
     object Commenter extends DerivedPType[Commenter, User] {
-      val polyPType = User
       object props {
       }
       object keys {
@@ -283,21 +273,15 @@ object PolySpec {
 
     case object Active extends AccountStatus
 
-    object Active_Type extends DerivedType[Active.type, AccountStatus] {
-      val polyType = AccountStatus
-    }
+    object Active_Type extends DerivedType[Active.type, AccountStatus]
 
     case object Suspended extends AccountStatus
 
-    object Suspended_Type extends DerivedType[Suspended.type, AccountStatus] {
-      val polyType = AccountStatus
-    }
+    object Suspended_Type extends DerivedType[Suspended.type, AccountStatus]
 
     case object Cancelled extends AccountStatus
 
-    object Cancelled_Type extends DerivedType[Cancelled.type, AccountStatus] {
-      val polyType = AccountStatus
-    }
+    object Cancelled_Type extends DerivedType[Cancelled.type, AccountStatus]
 
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
