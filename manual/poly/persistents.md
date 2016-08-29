@@ -45,7 +45,6 @@ case class Member(
 extends User
 
 object Member extends DerivedPType[Member, User] {
-  val polyPType = User
   object props {
   }
   object keys {
@@ -58,7 +57,6 @@ case class Commenter(
 extends User
 
 object Commenter extends DerivedPType[Commenter, User] {
-  val polyPType = User
   object props {
   }
   object keys {
@@ -90,7 +88,6 @@ object User extends PolyPType[User] {
 }
 
 object Member extends DerivedPType[Member, User] {
-  val polyPType = User
   object props {
     val tagline = prop[String]("profile.tagline")
   }

@@ -55,9 +55,7 @@ extends Root
 For this to work, all we need to do is to make longevity aware of our
 polymorphic type `UserVerification`, and its children. All four will
 be embeddables, but we mark the `EType` of the parent as a `PolyType`,
-and that of the children as `DerivedType`. Every derived type must be
-aware of its parent poly type, so we need to define a `val polyType =
-UserVerification` in the derived types:
+and that of the children as `DerivedType`:
 
 ```scala
 import longevity.subdomain.embeddable.DerivedType
@@ -76,18 +74,14 @@ case class EmailVerification(
   verificationDate: DateTime)
 extends UserVerification
 
-object EmailVerification extends DerivedType[EmailVerification, UserVerification] {
-  val polyType = UserVerification
-}
+object EmailVerification extends DerivedType[EmailVerification, UserVerification]
 
 case class SmsVerification(
   phoneNumber: PhoneNumber,
   verificationDate: DateTime)
 extends UserVerification
 
-object SmsVerification extends DerivedType[SmsVerification, UserVerification] {
-  val polyType = UserVerification
-}
+object SmsVerification extends DerivedType[SmsVerification, UserVerification]
 
 case class GoogleSignIn(
   email: Email,
@@ -95,9 +89,7 @@ case class GoogleSignIn(
   verificationDate: DateTime)
 extends UserVerification
 
-object GoogleSignIn extends DerivedType[GoogleSignIn, UserVerification] {
-  val polyType = UserVerification
-}
+object GoogleSignIn extends DerivedType[GoogleSignIn, UserVerification]
 
 import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain

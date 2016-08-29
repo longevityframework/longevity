@@ -35,21 +35,15 @@ object AccountStatus extends PolyType[AccountStatus]
 
 case object Active extends AccountStatus
 
-object Active_Type extends DerivedType[Active.type, AccountStatus] {
-  val polyType = AccountStatus
-}
+object Active_Type extends DerivedType[Active.type, AccountStatus]
 
 case object Suspended extends AccountStatus
 
-object Suspended_Type extends DerivedType[Suspended.type, AccountStatus] {
-  val polyType = AccountStatus
-}
+object Suspended_Type extends DerivedType[Suspended.type, AccountStatus]
 
 case object Cancelled extends AccountStatus
 
-object Cancelled_Type extends DerivedType[Cancelled.type, AccountStatus] {
-  val polyType = AccountStatus
-}
+object Cancelled_Type extends DerivedType[Cancelled.type, AccountStatus]
 ```
 
 Creating all these `ETypes` is straightforward, but a bit verbose. We
@@ -64,9 +58,7 @@ with an empty parameter list instead. For instance:
 ```scala
 case class Active() extends AccountStatus
 
-object Active extends DerivedType[Active, AccountStatus] {
-  val polyType = AccountStatus
-}
+object Active extends DerivedType[Active, AccountStatus]
 ```
 
 But attempting something like this:
@@ -74,9 +66,7 @@ But attempting something like this:
 ```scala
 case object Active
 extends DerivedType[Active.type, AccountStatus]
-with AccountStatus {
-  val polyType = AccountStatus
-}
+with AccountStatus
 ```
 
 Produces an "illegal cyclic reference" compiler error.
