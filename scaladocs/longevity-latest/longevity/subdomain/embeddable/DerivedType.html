@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DerivedType - longevity 0.11-SNAPSHOT API - longevity.subdomain.embeddable.DerivedType</title>
-          <meta name="description" content="DerivedType - longevity 0.11 - SNAPSHOT API - longevity.subdomain.embeddable.DerivedType" />
-          <meta name="keywords" content="DerivedType longevity 0.11 SNAPSHOT API longevity.subdomain.embeddable.DerivedType" />
+          <title>DerivedType - longevity 0.12-SNAPSHOT API - longevity.subdomain.embeddable.DerivedType</title>
+          <meta name="description" content="DerivedType - longevity 0.12 - SNAPSHOT API - longevity.subdomain.embeddable.DerivedType" />
+          <meta name="keywords" content="DerivedType longevity 0.12 SNAPSHOT API longevity.subdomain.embeddable.DerivedType" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,10 +28,12 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Trait" src="../../../lib/trait_big.png" />
+        <a href="DerivedType$.html" title="See companion object"><img alt="Class/Object" src="../../../lib/class_to_object_big.png" /></a>
         <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.subdomain">subdomain</a>.<a href="package.html" class="extype" name="longevity.subdomain.embeddable">embeddable</a></p>
-        <h1>DerivedType</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="longevity.subdomain.embeddable">package embeddable</a>
+        <h1><a href="DerivedType$.html" title="See companion object">DerivedType</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="DerivedType$.html" title="See companion object">object DerivedType</a>
+            | <a href="package.html" class="extype" name="longevity.subdomain.embeddable">package embeddable</a>
           </div></span></h3><span class="permalink">
       <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
@@ -41,22 +43,22 @@
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">DerivedType</span><span class="tparams">[<span name="P">P &lt;: <a href="Embeddable.html" class="extype" name="longevity.subdomain.embeddable.Embeddable">Embeddable</a></span>, <span name="Poly">Poly &gt;: <span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span> &lt;: <a href="Embeddable.html" class="extype" name="longevity.subdomain.embeddable.Embeddable">Embeddable</a></span>]</span><span class="result"> extends <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.EType">EType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>]</span>
+        <span class="name">DerivedType</span><span class="tparams">[<span name="E">E &lt;: <a href="Embeddable.html" class="extype" name="longevity.subdomain.embeddable.Embeddable">Embeddable</a></span>, <span name="Poly">Poly &gt;: <span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span> &lt;: <a href="Embeddable.html" class="extype" name="longevity.subdomain.embeddable.Embeddable">Embeddable</a></span>]</span><span class="result"> extends <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.EType">EType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>]</span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>one of the derived types in a family of domain entity types. mix this in to
 your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.EType">EType</a> when it represents a concrete subtype of a <a href="PolyType.html" class="extype" name="longevity.subdomain.embeddable.PolyType">PolyType</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/e000b9757020e731f156ea674b460ee6ff55e844/src/main/scala/longevity/subdomain/embeddable/DerivedType.scala" target="_blank">DerivedType.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/d78c074e02aef434d73f8e128bc33eb457b065a4/src/main/scala/longevity/subdomain/embeddable/DerivedType.scala" target="_blank">DerivedType.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="EType.html" class="extype" name="longevity.subdomain.embeddable.EType">EType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>], <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="EType.html" class="extype" name="longevity.subdomain.embeddable.EType">EType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>], <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 192.00 118.00" height="118pt" width="192pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 188,-114 188,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.subdomain.embeddable.DerivedType (this trait)" xlink:href="#inheritance-diagram"><polygon points="159.5,-49 24.5,-49 24.5,-24 159.5,-24 159.5,-49" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.5684" text-anchor="start">DerivedType[P, Poly]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.subdomain.embeddable.EType" xlink:href="EType.html#inheritance-diagram"><polygon points="134,-110 50,-110 50,-85 134,-85 134,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-104.5" x="60" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="80.8228" text-anchor="start">EType[P]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="DerivedType[P, Poly] is a subtype of EType[P]"><path d="M92,-79.6874C92,-69.9173 92,-57.8534 92,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="90.2501,-79.8435 92,-84.8435 93.7501,-79.8435 90.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 194.00 118.00" height="118pt" width="194pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 190,-114 190,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.subdomain.embeddable.DerivedType (this class)" xlink:href="#inheritance-diagram"><polygon points="161.5,-49 24.5,-49 24.5,-24 161.5,-24 161.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.9238" text-anchor="start">DerivedType[E, Poly]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.subdomain.embeddable.EType" xlink:href="EType.html#inheritance-diagram"><polygon points="135,-110 51,-110 51,-85 135,-85 135,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-104.5" x="61" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="81.8228" text-anchor="start">EType[E]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="DerivedType[E, Poly] is a subtype of EType[E]"><path d="M93,-79.6874C93,-69.9173 93,-57.8534 93,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="91.2501,-79.8435 93,-84.8435 94.7501,-79.8435 91.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -96,34 +98,34 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
 
       <div id="template">
         <div id="allMembers">
-        
-
-        
-
-        <div id="values" class="values members">
-              <h3>Abstract Value Members</h3>
-              <ol><li name="longevity.subdomain.embeddable.DerivedType#polyType" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="polyType:longevity.subdomain.embeddable.PolyType[Poly]"></a>
-      <a id="polyType:PolyType[Poly]"></a>
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="longevity.subdomain.embeddable.DerivedType#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[E],implicitevidence$2:emblem.TypeKey[Poly]):longevity.subdomain.embeddable.DerivedType[E,Poly]"></a>
+      <a id="&lt;init&gt;:DerivedType[E,Poly]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">val</span>
+        <span class="modifier"></span>
+        <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">polyType</span><span class="result">: <a href="PolyType.html" class="extype" name="longevity.subdomain.embeddable.PolyType">PolyType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>
+        <span class="name">DerivedType</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>]</span>, <span name="arg1">arg1: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType@polyType:longevity.subdomain.embeddable.PolyType[Poly]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType@&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[E],implicitevidence$2:emblem.TypeKey[Poly]):longevity.subdomain.embeddable.DerivedType[E,Poly]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">the poly type that this type is derived from</p>
+      
     </li></ol>
             </div>
 
+        
+
+        
+
         <div id="values" class="values members">
-              <h3>Concrete Value Members</h3>
+              <h3>Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
@@ -175,20 +177,20 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
-      <a id="-&gt;[B](B):(DerivedType[P,Poly],B)"></a>
+      <a id="-&gt;[B](B):(DerivedType[E,Poly],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
@@ -196,8 +198,8 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -262,14 +264,14 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
         </dd></dl></div>
     </li><li name="longevity.subdomain.embeddable.EType#eTypeKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eTypeKey:emblem.TypeKey[E]"></a>
-      <a id="eTypeKey:TypeKey[P]"></a>
+      <a id="eTypeKey:TypeKey[E]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">eTypeKey</span><span class="result">: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>]</span>
+        <span class="name">eTypeKey</span><span class="result">: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType@eTypeKey:emblem.TypeKey[E]" title="Permalink" target="_top">
@@ -279,14 +281,14 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
       <p class="shortcomment cmt">a <code>TypeKey</code> for the domain entity</p><div class="fullcomment"><div class="comment cmt"><p>a <code>TypeKey</code> for the domain entity</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EType.html" class="extype" name="longevity.subdomain.embeddable.EType">EType</a></dd><dt>See also</dt><dd><span class="cmt"><p><code>emblem.TypeKey</code></p></span></dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring((DerivedType[P,Poly])⇒Boolean,⇒Any):DerivedType[P,Poly]"></a>
+      <a id="ensuring((DerivedType[E,Poly])⇒Boolean,⇒Any):DerivedType[E,Poly]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
@@ -294,20 +296,20 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean):A"></a>
-      <a id="ensuring((DerivedType[P,Poly])⇒Boolean):DerivedType[P,Poly]"></a>
+      <a id="ensuring((DerivedType[E,Poly])⇒Boolean):DerivedType[E,Poly]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
@@ -315,20 +317,20 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring(Boolean,⇒Any):DerivedType[P,Poly]"></a>
+      <a id="ensuring(Boolean,⇒Any):DerivedType[E,Poly]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
@@ -336,20 +338,20 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean):A"></a>
-      <a id="ensuring(Boolean):DerivedType[P,Poly]"></a>
+      <a id="ensuring(Boolean):DerivedType[E,Poly]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType@ensuring(cond:Boolean):A" title="Permalink" target="_top">
@@ -357,8 +359,8 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -435,8 +437,8 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -649,14 +651,14 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
-      <a id="→[B](B):(DerivedType[P,Poly],B)"></a>
+      <a id="→[B](B):(DerivedType[E,Poly],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#longevity.subdomain.embeddable.DerivedType@→[B](y:B):(A,B)" title="Permalink" target="_top">
@@ -664,8 +666,8 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li></ol>
@@ -678,7 +680,7 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
 
         <div id="inheritedMembers">
         <div class="parent" name="longevity.subdomain.embeddable.EType">
-              <h3>Inherited from <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.EType">EType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>]</h3>
+              <h3>Inherited from <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.EType">EType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>]</h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
@@ -686,19 +688,19 @@ your <a href="EType.html" class="extype" name="longevity.subdomain.embeddable.ET
             </div>
         <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]]
+                <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]]
+                <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]]
+                <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.P">P</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]]
+                <a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.embeddable.DerivedType">DerivedType</a>[<span class="extype" name="longevity.subdomain.embeddable.DerivedType.E">E</span>, <span class="extype" name="longevity.subdomain.embeddable.DerivedType.Poly">Poly</span>]]
               </h3>
             </div>
         </div>
