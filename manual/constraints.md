@@ -19,8 +19,6 @@ case class Email(email: String) extends ValueObject {
   if (!email.contains('@'))
     throw new ConstraintValidationException("no '@' in email")
 }
-
-object Email extends ValueType[Email]
 ```
 
 If you enforce constraints in this manner, then you will need to

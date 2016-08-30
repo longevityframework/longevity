@@ -11,68 +11,26 @@ vocabulary for account status that uses the latter approach:
 
 ```scala
 sealed trait AccountStatus
-
 case object Active extends AccountStatus
-
 case object Suspended extends AccountStatus
-
 case object Cancelled extends AccountStatus
 ```
 
 Because longevity supports case objects and polymorphism, this pattern
 directly translates into a longevity-enabled subdomain. We simply have
-to mark the top of the hierarchy as `Embeddable`, and create `ETypes`
-for the four types in the hierarchy:
+to mark the top of the hierarchy as `Embeddable`:
 
 ```scala
-import longevity.subdomain.embeddable.DerivedType
 import longevity.subdomain.embeddable.Embeddable
-import longevity.subdomain.embeddable.PolyType
 
 sealed trait AccountStatus extends Embeddable
-
-object AccountStatus extends PolyType[AccountStatus]
-
 case object Active extends AccountStatus
-
-object Active_Type extends DerivedType[Active.type, AccountStatus]
-
 case object Suspended extends AccountStatus
-
-object Suspended_Type extends DerivedType[Suspended.type, AccountStatus]
-
 case object Cancelled extends AccountStatus
-
-object Cancelled_Type extends DerivedType[Cancelled.type, AccountStatus]
 ```
 
-Creating all these `ETypes` is straightforward, but a bit verbose. We
-[have plans](https://www.pivotaltracker.com/story/show/127406543) to
-save you from writing this kind of boilerplate in the future.
-
-Note that our `ETypes` for the members of the controlled vocabulary
-have to be named differently from our case objects, or we would get a
-name clash. If you like, you can get around this by using a case class
-with an empty parameter list instead. For instance:
-
-```scala
-case class Active() extends AccountStatus
-
-object Active extends DerivedType[Active, AccountStatus]
-```
-
-But attempting something like this:
-
-```scala
-case object Active
-extends DerivedType[Active.type, AccountStatus]
-with AccountStatus
-```
-
-Produces an "illegal cyclic reference" compiler error.
-
-In any event, we are now free to use this controlled vocabulary in our
-domain, such as:
+We are now free to use this controlled vocabulary in our domain, such
+as:
 
 ```scala
 import longevity.subdomain.persistent.Root
@@ -96,18 +54,24 @@ We just need to add the members of our controlled vocabulary to the
 
 ```scala
 import longevity.subdomain.Subdomain
+import longevity.subdomain.embeddable.DerivedType
 import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.embeddable.PolyType
 import longevity.subdomain.ptype.PTypePool
 
 val subdomain = Subdomain(
   "accounts",
   PTypePool(Account),
-  ETypePool(AccountStatus, Active_Type, Suspended_Type, Cancelled_Type))
+  ETypePool(
+    PolyType[AccountStatus],
+    DerivedType[Active.type, AccountStatus],
+    DerivedType[Suspended.type, AccountStatus],
+    DerivedType[Cancelled.type, AccountStatus]))
 ```
 
-Having to list all the members of the controlled vocabulary here is,
-once again, less than ideal, and something we want to address. It is
-presently covered by the same [user
+Having to list all the members of the controlled vocabulary here is
+less than ideal, and something we want to address. It is presently
+covered by the same [user
 story](https://www.pivotaltracker.com/story/show/127406543) on our
 story board.
 

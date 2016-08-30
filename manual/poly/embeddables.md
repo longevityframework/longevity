@@ -58,30 +58,22 @@ be embeddables, but we mark the `EType` of the parent as a `PolyType`,
 and that of the children as `DerivedType`:
 
 ```scala
-import longevity.subdomain.embeddable.DerivedType
 import longevity.subdomain.embeddable.Entity
-import longevity.subdomain.embeddable.PolyType
 import org.joda.time.DateTime
 
 trait UserVerification extends Entity {
   val verificationDate: DateTime
 }
 
-object UserVerification extends PolyType[UserVerification]
-
 case class EmailVerification(
   email: Email,
   verificationDate: DateTime)
 extends UserVerification
 
-object EmailVerification extends DerivedType[EmailVerification, UserVerification]
-
 case class SmsVerification(
   phoneNumber: PhoneNumber,
   verificationDate: DateTime)
 extends UserVerification
-
-object SmsVerification extends DerivedType[SmsVerification, UserVerification]
 
 case class GoogleSignIn(
   email: Email,
@@ -89,17 +81,23 @@ case class GoogleSignIn(
   verificationDate: DateTime)
 extends UserVerification
 
-object GoogleSignIn extends DerivedType[GoogleSignIn, UserVerification]
-
-import longevity.subdomain.ShorthandPool
 import longevity.subdomain.Subdomain
-import longevity.subdomain.entity.EntityTypePool
+import longevity.subdomain.embeddable.DerivedType
+import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.embeddable.PolyType
+import longevity.subdomain.embeddable.ValueType
 import longevity.subdomain.ptype.PTypePool
 
 val subdomain = Subdomain(
+  "blogging",
   PTypePool(User),
-  EntityTypePool(UserVerification, EmailVerification, SmsVerification, GoogleSignIn),
-  ShorthandPool(Email, PhoneNumber))
+  ETypePool(
+    ValueType[Email],
+    ValueType[PhoneNumber],
+    PolyType[UserVerification],
+    DerivedType[EmailVerification, UserVerification],
+    DerivedType[SmsVerification, UserVerification],
+    DerivedType[GoogleSignIn, UserVerification]))
 ```
 
 {% assign prevTitle = "subtype polymorphism" %}

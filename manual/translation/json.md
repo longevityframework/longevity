@@ -22,8 +22,8 @@ primitive types, with two exceptions:
 are translated into a BSON
 [ISODate](https://docs.mongodb.com/manual/reference/bson-types/#date).
   - In Cassandra, `DateTimes` are translated into a string in a
-    lossless [ISO 8061](https://en.wikipedia.org/wiki/ISO_8601)
-    format.
+    lossless, time-zone preserving [ISO
+    8061](https://en.wikipedia.org/wiki/ISO_8601) format.
 - Empty `Options` are omitted from the JSON.
 - Non-empty `Options` are inlined, so that `Some(expr)` will produce
 the same JSON as `expr`.

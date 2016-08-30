@@ -37,13 +37,8 @@ import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 
 case class Email(email: String) extends ValueObject
-object Email extends ValueType[Email]
-
 case class StateCode(stateCode: String) extends ValueObject
-object StateCode extends ValueType[StateCode]
-
 case class ZipCode(zipCode: String) extends ValueObject
-object ZipCode extends ValueType[ZipCode]
 
 case class Address(
   street: String,
@@ -51,8 +46,6 @@ case class Address(
   state: StateCode,
   zip: ZipCode)
 extends ValueObject
-
-object Address extends ValueType[Address]
 
 case class User(
   username: String,
@@ -70,7 +63,7 @@ object User extends RootType[User] {
 val subdomain = Subdomain(
   "blogging",
   PTypePool(User),
-  ETypePool(Email, StateCode, ZipCode, Address))
+  ETypePool(ValueType[Email], ValueType[StateCode], ValueType[ZipCode], ValueType[Address]))
 ```
 
 For a more extended discussion on value objects in an immutable

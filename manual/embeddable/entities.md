@@ -32,15 +32,12 @@ it in longevity like so:
 
 ```scala
 import longevity.subdomain.embeddable.Entity
-import longevity.subdomain.embeddable.EntityType
 
 case class UserProfile(
   tagline: String,
   imageUri: String,
   description: String)
 extends Entity
-
-object UserProfile extends EntityType[UserProfile]
 ```
 
 Let's add the profile to the user. They may not have created their
@@ -69,9 +66,13 @@ Finally, we need to add our new entity into the `ETypePool`:
 ```scala
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.embeddable.EntityType
 import longevity.subdomain.ptype.PTypePool
 
-val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(UserProfile))
+val subdomain = Subdomain(
+  "blogging",
+  PTypePool(User),
+  ETypePool(EntityType[UserProfile]))
 ```
 
 {% assign prevTitle = "embeddables" %}
