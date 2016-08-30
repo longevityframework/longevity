@@ -10,46 +10,32 @@ object PolySpec {
   object poly {
 
     import longevity.subdomain.embeddable.ValueObject
-    import longevity.subdomain.embeddable.ValueType
 
     case class Email(email: String) extends ValueObject
-    object Email extends ValueType[Email]
-
     case class PhoneNumber(phoneNumber: String) extends ValueObject
-    object PhoneNumber extends ValueType[PhoneNumber]
 
-    import longevity.subdomain.embeddable.DerivedType
     import longevity.subdomain.embeddable.Entity
-    import longevity.subdomain.embeddable.PolyType
     import org.joda.time.DateTime
 
     trait UserVerification extends Entity {
       val verificationDate: DateTime
     }
 
-    object UserVerification extends PolyType[UserVerification]
-
     case class EmailVerification(
       email: Email,
       verificationDate: DateTime)
     extends UserVerification
-
-    object EmailVerification extends DerivedType[EmailVerification, UserVerification]
-
+ 
     case class SmsVerification(
       phoneNumber: PhoneNumber,
       verificationDate: DateTime)
     extends UserVerification
-
-    object SmsVerification extends DerivedType[SmsVerification, UserVerification]
 
     case class GoogleSignIn(
       email: Email,
       idToken: String,
       verificationDate: DateTime)
     extends UserVerification
-
-    object GoogleSignIn extends DerivedType[GoogleSignIn, UserVerification]
 
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -68,40 +54,40 @@ object PolySpec {
     }
 
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.embeddable.DerivedType
     import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.embeddable.PolyType
+    import longevity.subdomain.embeddable.ValueType
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      ETypePool(Email, PhoneNumber, UserVerification, EmailVerification, SmsVerification, GoogleSignIn))
+      ETypePool(
+        ValueType[Email],
+        ValueType[PhoneNumber],
+        PolyType[UserVerification],
+        DerivedType[EmailVerification, UserVerification],
+        DerivedType[SmsVerification, UserVerification],
+        DerivedType[GoogleSignIn, UserVerification]))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/poly/persistent.html
-  object persistent {
+  object persistent1 {
 
     import longevity.subdomain.embeddable.ValueObject
-    import longevity.subdomain.embeddable.ValueType
 
     case class Email(email: String) extends ValueObject
-    object Email extends ValueType[Email]
-
     case class Markdown(markdown: String) extends ValueObject
-    object Markdown extends ValueType[Markdown]
-
     case class Uri(uri: String) extends ValueObject
-    object Uri extends ValueType[Uri]
 
     import longevity.subdomain.embeddable.Entity
-    import longevity.subdomain.embeddable.EntityType
 
     case class UserProfile(
       tagline: String,
       imageUri: Uri,
       description: Markdown)
     extends Entity
-
-    object UserProfile extends EntityType[UserProfile]
 
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.DerivedPType
@@ -146,12 +132,18 @@ object PolySpec {
 
     import longevity.subdomain.Subdomain
     import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.embeddable.EntityType
+    import longevity.subdomain.embeddable.ValueType
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User, Member, Commenter),
-      ETypePool(Email, Markdown, Uri, UserProfile))
+      ETypePool(
+        ValueType[Email],
+        ValueType[Markdown],
+        ValueType[Uri],
+        EntityType[UserProfile]))
 
   }
 
@@ -159,27 +151,18 @@ object PolySpec {
   object persistent2 {
 
     import longevity.subdomain.embeddable.ValueObject
-    import longevity.subdomain.embeddable.ValueType
 
     case class Email(email: String) extends ValueObject
-    object Email extends ValueType[Email]
-
     case class Markdown(markdown: String) extends ValueObject
-    object Markdown extends ValueType[Markdown]
-
     case class Uri(uri: String) extends ValueObject
-    object Uri extends ValueType[Uri]
 
     import longevity.subdomain.embeddable.Entity
-    import longevity.subdomain.embeddable.EntityType
 
     case class UserProfile(
       tagline: String,
       imageUri: Uri,
       description: Markdown)
     extends Entity
-
-    object UserProfile extends EntityType[UserProfile]
 
     import longevity.subdomain.KeyVal
     import longevity.subdomain.persistent.Root
@@ -239,49 +222,38 @@ object PolySpec {
 
     import longevity.subdomain.Subdomain
     import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.embeddable.EntityType
+    import longevity.subdomain.embeddable.ValueType
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User, Member, Commenter),
-      ETypePool(Email, Markdown, Uri, UserProfile))
+      ETypePool(
+        ValueType[Email],
+        ValueType[Markdown],
+        ValueType[Uri],
+        EntityType[UserProfile]))
 
   }
 
   // used in http://longevityframework.github.io/longevity/manual/poly/cv.html
   object cv1 {
-
     sealed trait AccountStatus
-
     case object Active extends AccountStatus
-
     case object Suspended extends AccountStatus
-
     case object Cancelled extends AccountStatus
   }
 
   // used in http://longevityframework.github.io/longevity/manual/poly/cv.html
   object cv2 {
 
-    import longevity.subdomain.embeddable.DerivedType
     import longevity.subdomain.embeddable.Embeddable
-    import longevity.subdomain.embeddable.PolyType
 
     sealed trait AccountStatus extends Embeddable
-
-    object AccountStatus extends PolyType[AccountStatus]
-
     case object Active extends AccountStatus
-
-    object Active_Type extends DerivedType[Active.type, AccountStatus]
-
     case object Suspended extends AccountStatus
-
-    object Suspended_Type extends DerivedType[Suspended.type, AccountStatus]
-
     case object Cancelled extends AccountStatus
-
-    object Cancelled_Type extends DerivedType[Cancelled.type, AccountStatus]
 
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -299,13 +271,19 @@ object PolySpec {
     }
 
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.embeddable.DerivedType
     import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.embeddable.PolyType
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "accounts",
       PTypePool(Account),
-      ETypePool(AccountStatus, Active_Type, Suspended_Type, Cancelled_Type))
+      ETypePool(
+        PolyType[AccountStatus],
+        DerivedType[Active.type, AccountStatus],
+        DerivedType[Suspended.type, AccountStatus],
+        DerivedType[Cancelled.type, AccountStatus]))
 
   }
 
@@ -333,12 +311,12 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      persistent.subdomain.name should equal ("blogging")
-      persistent.subdomain.pTypePool.size should equal (3)
-      persistent.subdomain.eTypePool.size should equal (4)
-      persistent.User.keySet.size should equal (0)
-      persistent.Member.keySet.size should equal (0)
-      persistent.Commenter.keySet.size should equal (0)
+      persistent1.subdomain.name should equal ("blogging")
+      persistent1.subdomain.pTypePool.size should equal (3)
+      persistent1.subdomain.eTypePool.size should equal (4)
+      persistent1.User.keySet.size should equal (0)
+      persistent1.Member.keySet.size should equal (0)
+      persistent1.Commenter.keySet.size should equal (0)
     }
 
     {

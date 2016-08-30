@@ -1,7 +1,13 @@
-# Longevity Change Log
+# Longevity Changelog
 
-## [0.11-SNAPSHOT]
+## [0.11.0] - 2016.08.29 - API Simplifications
 
+- 2016.08.29 - Add factory methods for `EType` and all its
+  descendents. The older pattern of making embeddable companion
+  objects into `ETypes` (e.g., `case class Email extends
+  EType[Email]`) still works, but now you can just mention the `EType`
+  directly, when building your subdomain. (E.g., `Subdomain(???, ???,
+  ETypePool(EType[Email]))`).
 - 2016.08.28 - Get rid of `DerivedType.polyType` and
   `DerivedPType.polyPType`. `DerivedType` and `DerivedPType` are now
   abstract classes instead of traits, so users may need to reorder

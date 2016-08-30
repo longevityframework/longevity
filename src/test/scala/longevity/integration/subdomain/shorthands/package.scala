@@ -5,6 +5,7 @@ import longevity.context.Cassandra
 import longevity.context.Mongo
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.embeddable.ValueType
 import longevity.subdomain.ptype.PTypePool
 
 package object shorthands {
@@ -13,14 +14,14 @@ package object shorthands {
     "Shorthands",
     PTypePool(Shorthands),
     ETypePool(
-      BooleanShorthand,
-      CharShorthand,
-      DateTimeShorthand,
-      DoubleShorthand,
-      FloatShorthand,
-      IntShorthand,
-      LongShorthand,
-      StringShorthand))
+      ValueType[BooleanShorthand],
+      ValueType[CharShorthand],
+      ValueType[DateTimeShorthand],
+      ValueType[DoubleShorthand],
+      ValueType[FloatShorthand],
+      ValueType[IntShorthand],
+      ValueType[LongShorthand],
+      ValueType[StringShorthand]))
 
   val mongoContext = LongevityContext(subdomain, Mongo)
   val cassandraContext = LongevityContext(subdomain, Cassandra)

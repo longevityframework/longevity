@@ -63,8 +63,7 @@ object SubdomainSpec {
       }
     }
     case class B(id: String) extends Entity
-    object B extends EntityType[B]
-    def subdomain = Subdomain("noSuchPropPathInComponent", PTypePool(A), ETypePool(B))
+    def subdomain = Subdomain("noSuchPropPathInComponent", PTypePool(A), ETypePool(EntityType[B]))
   }
 
   object propPathWithNonEmbeddable {
@@ -127,12 +126,13 @@ object SubdomainSpec {
     }
 
     trait B extends Entity { val id: String }
-    object B extends PolyType[B]
 
     case class C(id: String) extends B
-    object C extends DerivedType[C, B]
 
-    def subdomain = Subdomain("propPathWithTerminalPoly", PTypePool(A), ETypePool(B, C))
+    def subdomain = Subdomain(
+      "propPathWithTerminalPoly",
+      PTypePool(A),
+      ETypePool(PolyType[B], DerivedType[C, B]))
   }
 
   object propPathWithInternalList {
@@ -145,8 +145,7 @@ object SubdomainSpec {
       }
     }
     case class B(id: String) extends Entity
-    object B extends EntityType[B]
-    def subdomain = Subdomain("propPathWithInternalList", PTypePool(A), ETypePool(B))
+    def subdomain = Subdomain("propPathWithInternalList", PTypePool(A), ETypePool(EntityType[B]))
   }
 
   object propPathWithInternalOption {
@@ -159,8 +158,7 @@ object SubdomainSpec {
       }
     }
     case class B(id: String) extends Entity
-    object B extends EntityType[B]
-    def subdomain = Subdomain("propPathWithInternalOption", PTypePool(A), ETypePool(B))
+    def subdomain = Subdomain("propPathWithInternalOption", PTypePool(A), ETypePool(EntityType[B]))
   }
 
   object propPathWithInternalSet {
@@ -173,8 +171,7 @@ object SubdomainSpec {
       }
     }
     case class B(id: String) extends Entity
-    object B extends EntityType[B]
-    def subdomain = Subdomain("propPathWithInternalSet", PTypePool(A), ETypePool(B))
+    def subdomain = Subdomain("propPathWithInternalSet", PTypePool(A), ETypePool(EntityType[B]))
   }
 
   object propPathWithInternalPoly {
@@ -188,12 +185,12 @@ object SubdomainSpec {
     }
 
     trait B extends Entity { val id: String }
-    object B extends PolyType[B]
-
     case class C(id: String) extends B
-    object C extends DerivedType[C, B]
 
-    def subdomain = Subdomain("propPathWithInternalPoly", PTypePool(A), ETypePool(B, C))
+    def subdomain = Subdomain(
+      "propPathWithInternalPoly",
+      PTypePool(A),
+      ETypePool(PolyType[B], DerivedType[C, B]))
   }
 
   object incompatiblePropType {
@@ -260,27 +257,30 @@ object SubdomainSpec {
   }
 
   object derivedETypeHasNoPoly {
-
     trait Poly extends Embeddable { val id: String }
-    object Poly extends PolyType[Poly]
-
     case class Derived(id: String) extends Poly
-    object Derived extends DerivedType[Derived, Poly]
-
-    def subdomain = Subdomain("derivedETypeHasNoPoly", PTypePool(), ETypePool(Derived))
+    def subdomain = Subdomain("derivedETypeHasNoPoly", PTypePool(), ETypePool(DerivedType[Derived, Poly]))
   }
 
   object duplicateETypes {
     case class A(id: String) extends Embeddable
-    object A extends EType[A]
-    object B extends EType[A]
-    def subdomain = Subdomain("duplicateETypes", PTypePool(), ETypePool(A, B))
+    def subdomain = Subdomain("duplicateETypes", PTypePool(), ETypePool(EType[A], EType[A]))
   }
 
   object duplicatePTypes {
     case class A(id: String) extends Persistent
-    object A extends PType[A]
-    object B extends PType[A]
+    object A extends PType[A] {
+      object props {
+      }
+      object keys {
+      }
+    }
+    object B extends PType[A] {
+      object props {
+      }
+      object keys {
+      }
+    }
     def subdomain = Subdomain("duplicatePTypes", PTypePool(A, B))
   }
 

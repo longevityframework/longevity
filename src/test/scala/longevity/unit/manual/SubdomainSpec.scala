@@ -125,7 +125,6 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/index.html
   object embeddables1 {
 
-    import longevity.subdomain.embeddable.EType
     import longevity.subdomain.embeddable.Embeddable
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -134,8 +133,6 @@ object SubdomainSpec {
       firstName: String,
       lastName: String)
     extends Embeddable
-
-    object FullName extends EType[FullName]
 
     case class User(
       username: String,
@@ -150,38 +147,36 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.embeddable.EType
     import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(FullName))
+    val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EType[FullName]))
+
+    object FullName extends EType[FullName]
+
+    val subdomain2 = Subdomain("blogging", PTypePool(User), ETypePool(FullName))
 
   }
 
   // used in http://longevityframework.github.io/longevity/manual/embeddables/index.html
   object embeddables2 {
 
-    import longevity.subdomain.embeddable.EType
     import longevity.subdomain.embeddable.Embeddable
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
 
     case class Email(email: String) extends Embeddable
 
-    object Email extends EType[Email]
-
     case class EmailPreferences(
       primaryEmail: Email,
       emails: Set[Email])
     extends Embeddable
 
-    object EmailPreferences extends EType[EmailPreferences]
-
     case class Address(
       street: String,
       city: String)
     extends Embeddable
-
-    object Address extends EType[Address]
 
     case class User(
       username: String,
@@ -197,10 +192,14 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.embeddable.EType
     import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(Address, Email, EmailPreferences))
+    val subdomain = Subdomain(
+      "blogging",
+      PTypePool(User),
+      ETypePool(EType[Address], EType[Email], EType[EmailPreferences]))
 
   }
 
@@ -208,15 +207,12 @@ object SubdomainSpec {
   object entities {
 
     import longevity.subdomain.embeddable.Entity
-    import longevity.subdomain.embeddable.EntityType
 
     case class UserProfile(
       tagline: String,
       imageUri: String,
       description: String)
     extends Entity
-
-    object UserProfile extends EntityType[UserProfile]
 
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -235,10 +231,11 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.embeddable.EntityType
     import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(UserProfile))
+    val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EntityType[UserProfile]))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/embeddables/value-objects.html
@@ -253,13 +250,8 @@ object SubdomainSpec {
     import longevity.subdomain.ptype.RootType
 
     case class Email(email: String) extends ValueObject
-    object Email extends ValueType[Email]
-
     case class StateCode(stateCode: String) extends ValueObject
-    object StateCode extends ValueType[StateCode]
-
     case class ZipCode(zipCode: String) extends ValueObject
-    object ZipCode extends ValueType[ZipCode]
 
     case class Address(
       street: String,
@@ -267,8 +259,6 @@ object SubdomainSpec {
       state: StateCode,
       zip: ZipCode)
     extends ValueObject
-
-    object Address extends ValueType[Address]
 
     case class User(
       username: String,
@@ -286,7 +276,7 @@ object SubdomainSpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      ETypePool(Email, StateCode, ZipCode, Address))
+      ETypePool(ValueType[Email], ValueType[StateCode], ValueType[ZipCode], ValueType[Address]))
   }
 
 }
@@ -352,7 +342,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       embeddables1.subdomain.pTypePool.size should equal (1)
       embeddables1.subdomain.pTypePool.values.head should equal (embeddables1.User)
       embeddables1.subdomain.eTypePool.size should equal (1)
-      embeddables1.subdomain.eTypePool.values should contain (embeddables1.FullName)
       embeddables1.User.keySet should be ('empty)
     }
 
@@ -361,9 +350,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       embeddables2.subdomain.pTypePool.size should equal (1)
       embeddables2.subdomain.pTypePool.values.head should equal (embeddables2.User)
       embeddables2.subdomain.eTypePool.size should equal (3)
-      embeddables2.subdomain.eTypePool.values should contain (embeddables2.Address)
-      embeddables2.subdomain.eTypePool.values should contain (embeddables2.Email)
-      embeddables2.subdomain.eTypePool.values should contain (embeddables2.EmailPreferences)
       embeddables2.User.keySet should be ('empty)
     }
 
@@ -372,7 +358,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       entities.subdomain.pTypePool.size should equal (1)
       entities.subdomain.pTypePool.values.head should equal (entities.User)
       entities.subdomain.eTypePool.size should equal (1)
-      entities.subdomain.eTypePool.values should contain (entities.UserProfile)
       entities.User.keySet should be ('empty)
     }
 
@@ -381,10 +366,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects.subdomain.pTypePool.size should equal (1)
       valueObjects.subdomain.pTypePool.values.head should equal (valueObjects.User)
       valueObjects.subdomain.eTypePool.size should equal (4)
-      valueObjects.subdomain.eTypePool.values should contain (valueObjects.Address)
-      valueObjects.subdomain.eTypePool.values should contain (valueObjects.Email)
-      valueObjects.subdomain.eTypePool.values should contain (valueObjects.StateCode)
-      valueObjects.subdomain.eTypePool.values should contain (valueObjects.ZipCode)
       valueObjects.User.keySet should be ('empty)
     }
 

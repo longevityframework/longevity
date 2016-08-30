@@ -20,10 +20,8 @@ package object blogCore {
   extends KeyVal[User, Username](User.keys.username)
 
   case class Markdown(markdown: String) extends ValueObject
-  object Markdown extends ValueType[Markdown]
 
   case class Uri(uri: String) extends ValueObject
-  object Uri extends ValueType[Uri]
 
   implicit def toEmail(email: String) = Email(email)
   implicit def toUsername(username: String) = Username(username)
@@ -53,8 +51,6 @@ package object blogCore {
     imageUri: Uri,
     description: Markdown)
   extends Entity
-
-  object UserProfile extends EntityType[UserProfile]
 
   case class BlogUri(uri: Uri)
   extends KeyVal[Blog, BlogUri](Blog.keys.uri)
@@ -104,6 +100,6 @@ package object blogCore {
   object BlogCore extends Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    ETypePool(Markdown, Uri, UserProfile))
+    ETypePool(ValueType[Markdown], ValueType[Uri], EntityType[UserProfile]))
 
 }

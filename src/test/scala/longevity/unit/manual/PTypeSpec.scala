@@ -14,19 +14,12 @@ object PTypeSpec {
   object properties {
 
     import longevity.subdomain.embeddable.ValueObject
-    import longevity.subdomain.embeddable.ValueType
 
     case class Email(email: String) extends ValueObject
-    object Email extends ValueType[Email]
-
     case class Markdown(markdown: String) extends ValueObject
-    object Markdown extends ValueType[Markdown]
-
     case class Uri(uri: String) extends ValueObject
-    object Uri extends ValueType[Uri]
 
     import longevity.subdomain.embeddable.Entity
-    import longevity.subdomain.embeddable.EntityType
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
 
@@ -35,8 +28,6 @@ object PTypeSpec {
       imageUri: Uri,
       description: Markdown)
     extends Entity
-
-    object UserProfile extends EntityType[UserProfile]
 
     case class User(
       username: String,
@@ -60,12 +51,14 @@ object PTypeSpec {
 
     import longevity.subdomain.Subdomain
     import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.embeddable.EntityType
+    import longevity.subdomain.embeddable.ValueType
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      ETypePool(Email, Markdown, Uri, UserProfile))
+      ETypePool(ValueType[Email], ValueType[Markdown], ValueType[Uri], EntityType[UserProfile]))
 
   }
 

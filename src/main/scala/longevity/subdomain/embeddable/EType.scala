@@ -12,3 +12,12 @@ abstract class EType[E <: Embeddable : TypeKey] {
   val eTypeKey: TypeKey[E] = typeKey[E]
 
 }
+
+/** contains a factory method for creating `ETypes` */
+object EType {
+
+  /** create and return an `EType` for type `E` */
+  def apply[E <: Embeddable : TypeKey] = new EType[E] {
+  }
+
+}
