@@ -91,7 +91,7 @@ trait BuildSettings {
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.12.0",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % Test
-    
+
   )
 
   private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
@@ -112,6 +112,7 @@ object LongevityBuild extends Build with BuildSettings {
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
       libraryDependencies += "com.github.kxbmap" %% "configs" % "0.4.2",
       libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % Optional,
+      libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.21" % Test,
 
       // for streaming api:
 
