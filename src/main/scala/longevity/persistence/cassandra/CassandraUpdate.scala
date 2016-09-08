@@ -1,7 +1,6 @@
 package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
-import com.datastax.driver.core.PreparedStatement
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
@@ -27,9 +26,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
       PState[P](state.id, modifiedDate, state.get)
     }
 
-  private lazy val updateStatement: PreparedStatement = {
-    session.prepare(updateCql)
-  }
+  private lazy val updateStatement = preparedStatement(updateCql)
 
   private def updateCql = {
     val columnAssignments = updateColumnNames(includeId = false).map(c => s"$c = :$c").mkString(",\n  ")

@@ -35,7 +35,7 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
     |)
     |""".stripMargin
 
-    session.prepare(cql)
+    preparedStatement(cql)
   }
 
   private def bindInsertStatement(uuid: UUID, modifiedDate: Option[DateTime], p: P): BoundStatement = {

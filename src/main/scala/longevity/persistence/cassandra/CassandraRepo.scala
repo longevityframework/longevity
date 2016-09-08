@@ -1,6 +1,7 @@
 package longevity.persistence.cassandra
 
 import com.datastax.driver.core.Cluster
+import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import com.datastax.driver.core.Session
@@ -135,6 +136,17 @@ with CassandraDelete[P] {
     val p = jsonToEmblematicTranslator.translate[P](json)(pTypeKey)
     PState[P](id, modifiedDate, p)
   }
+
+  protected def preparedStatement(cql: String): PreparedStatement = {
+    synchronized {
+      if (!preparedStatements.contains(cql)) {
+        preparedStatements += cql -> session.prepare(cql)
+      }
+    }
+    preparedStatements(cql)
+  }
+
+  private var preparedStatements = Map[String, PreparedStatement]()
 
   override def toString = s"CassandraRepo[${pTypeKey.name}]"
 

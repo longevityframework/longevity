@@ -26,7 +26,7 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
       new Deleted(state.get)
     }
 
-  private lazy val deleteStatement: PreparedStatement = session.prepare(deleteStatementCql)
+  private lazy val deleteStatement: PreparedStatement = preparedStatement(deleteStatementCql)
 
   protected def deleteStatementCql: String = if (persistenceConfig.optimisticLocking) {
     s"DELETE FROM $tableName WHERE id = :id IF modified_date = :modified_date"

@@ -37,7 +37,7 @@ private[cassandra] trait CassandraRetrieve[P <: Persistent] {
     |  $conjunction
     |ALLOW FILTERING
     |""".stripMargin
-    session.prepare(cql)
+    preparedStatement(cql)
   }
 
   protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String = {
