@@ -56,8 +56,7 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
     val info = queryInfo(query)
     val conjunction = retrieveByQueryConjunction(info)
     val cql = s"SELECT * FROM $tableName WHERE $conjunction ALLOW FILTERING"
-    val preparedStatement = session.prepare(cql)
-    val boundStatement = preparedStatement.bind(info.bindValues: _*)
+    val boundStatement = preparedStatement(cql).bind(info.bindValues: _*)
     session.execute(boundStatement)
   }
 
