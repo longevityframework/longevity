@@ -20,7 +20,7 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
 
-libraryDependencies += "org.longevityframework" %% "longevity" % "0.11.1"
+libraryDependencies += "org.longevityframework" %% "longevity" % "0.11.2"
 ```
 
 Include one of the following lines to bring in the library
