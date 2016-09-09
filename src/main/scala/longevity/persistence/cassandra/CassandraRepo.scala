@@ -137,6 +137,8 @@ with CassandraDelete[P] {
     PState[P](id, modifiedDate, p)
   }
 
+  private var preparedStatements = Map[String, PreparedStatement]()
+
   protected def preparedStatement(cql: String): PreparedStatement = {
     synchronized {
       if (!preparedStatements.contains(cql)) {
@@ -145,8 +147,6 @@ with CassandraDelete[P] {
     }
     preparedStatements(cql)
   }
-
-  private var preparedStatements = Map[String, PreparedStatement]()
 
   override def toString = s"CassandraRepo[${pTypeKey.name}]"
 
