@@ -19,9 +19,11 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
       val resultSet = blocking {
         session.execute(bindDeleteStatement(state))
       }
-      val deleteSuccess = resultSet.one.getBool(0)
-      if (!deleteSuccess) {
-        throw new WriteConflictException(state)
+      if (persistenceConfig.optimisticLocking) {
+        val deleteSuccess = resultSet.one.getBool(0)
+        if (!deleteSuccess) {
+          throw new WriteConflictException(state)
+        }
       }
       new Deleted(state.get)
     }
