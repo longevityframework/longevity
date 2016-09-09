@@ -17,7 +17,7 @@ persistence API. We provide you with fully featured repositories for
 integration tests to exercise your repositories against a real
 database, as well as in-memory repositories for other tests.
 
-For more information, please see the [longevity
+For more information, please visit the [longevity
 website](http://longevityframework.github.io/longevity/).
 
 [Emblem](https://github.com/longevityframework/emblem) source code is
