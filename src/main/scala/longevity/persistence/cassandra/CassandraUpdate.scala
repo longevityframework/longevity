@@ -19,9 +19,11 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
       val resultSet = blocking {
         session.execute(bindUpdateStatement(state, modifiedDate))
       }
-      val updateSuccess = resultSet.one.getBool(0)
-      if (!updateSuccess) {
-        throw new WriteConflictException(state)
+      if (persistenceConfig.optimisticLocking) {
+        val updateSuccess = resultSet.one.getBool(0)
+        if (!updateSuccess) {
+          throw new WriteConflictException(state)
+        }
       }
       PState[P](state.id, modifiedDate, state.get)
     }
