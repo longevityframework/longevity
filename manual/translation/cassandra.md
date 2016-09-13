@@ -8,16 +8,13 @@ which stores the [persistent object translated into JSON](json.html),
 and a column named `id`, which stores a [primary key UUID](keys.html).
 
 It [optimistic locking](../context/opt-lock.html) is turned on, then a
-`modified_date` column is also added. This is a `text` column storing
-the timestamp in a lossless [ISO
-8061](https://en.wikipedia.org/wiki/ISO_8601) format with UTC time
-zone.
+`row_version` column is also added.
 
 Please note that the Cassandra optimistic locking implementation uses
 [lightweight
 transactions](http://docs.datastax.com/en/cassandra/2.0/cassandra/dml/dml_ltwt_transaction_c.html)
-for updates and deletes, introducing an `IF date_modified = '...'`
-clause to the database command. This will incur a performance penalty.
+for updates and deletes, introducing an `IF row_version = ...` clause
+to the database command. This will incur a performance penalty.
 
 More columns are added to support any [keys](../ptype/keys.html) or
 [indexes](../ptype/indexes.html) for the [persistent

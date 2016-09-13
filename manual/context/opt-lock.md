@@ -70,30 +70,23 @@ translation](../translation). You do not need to know how optimistic
 locking works in order to use it, but we describe our implementation
 briefly here for those who are interested.
 
-We implement optimistic locking by storing a `modifiedDate` value in
-every database row. Every create or update operation will update the
-`modifiedDate` to be the current time.
+We implement optimistic locking by storing a `rowVersion` value in
+every database row. Every create or update operation will increment
+the `rowVersion` by one.
 
 The [persistent state](persistent-state.html) keeps track of the value
-of `modifiedDate` for the object it encloses. The repository methods
-all return `PStates` with the `modifiedDate` matching what is in the
+of `rowVersion` for the object it encloses. The repository methods
+all return `PStates` with the `rowVersion` matching what is in the
 database at that moment. `PState` methods `set` and `map` preserve the
-`modifiedDate`.
+`rowVersion`.
 
 When `Repo` methods `update` or `delete` are called, the repository
 qualifies the database write command that gets issued. The command
-will only make a database change when the `modifiedDate` in the
-database matches the `modifiedDate` in the `PState`. The repository
+will only make a database change when the `rowVersion` in the
+database matches the `rowVersion` in the `PState`. The repository
 method checks the return value from the database to confirm the change
 was made. If it was not, then there was a write conflict, and a
 `WriteConflictException` is thrown.
-
-Optimistic locking implementations commonly use an integer counter
-instead of a timestamp. This most likely results in an entirely
-insignificant performance improvement (both time and space) in both
-the software and the database. We chose to use a timestamp over a
-counter because the timestamp provides useful information to anyone
-examining the database directly.
 
 {% assign prevTitle = "configuring your longevity context" %}
 {% assign prevLink = "config.html" %}
