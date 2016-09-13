@@ -49,3 +49,4 @@ the "add/view stories" link on the right side of the linked page):
 - Enhanced query support.
 - User control of [sharding](https://docs.mongodb.com/manual/sharding/#shard-keys)/[partitioning](https://docs.datastax.com/en/cql/3.1/cql/cql_reference/refCompositePk.html).
 - Improved control over schema generation.
+- Eliminate boilerplate for building a subdomain with reflective techniques.
