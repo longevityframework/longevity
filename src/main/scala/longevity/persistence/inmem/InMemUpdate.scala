@@ -17,7 +17,12 @@ private[inmem] trait InMemUpdate[P <: Persistent] {
         assertNoWriteConflict(state)
         assertUniqueKeyVals(state)
         unregisterByKeyVals(state.orig)
-        val newState = state.copy(orig = state.get, modifiedDate = persistenceConfig.modifiedDate)
+        val rowVersion = if (persistenceConfig.optimisticLocking) {
+          state.rowVersion.map(_ + 1).orElse(Some(0L))
+        } else {
+          None
+        }
+        val newState = PState[P](state.id, rowVersion, state.get)
         registerById(newState)
         registerByKeyVals(newState)
         logger.debug(s"done calling InMemRepo.update: $newState")

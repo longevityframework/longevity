@@ -5,7 +5,6 @@ import com.datastax.driver.core.PreparedStatement
 import java.util.UUID
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
-import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -17,11 +16,11 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
   override def create(p: P)(implicit context: ExecutionContext) = Future {
     logger.debug(s"calling CassandraRepo.create: $p")
     val uuid = UUID.randomUUID
-    val modifiedDate = persistenceConfig.modifiedDate
+    val rowVersion = Some(0L)
     blocking {
-      session.execute(bindInsertStatement(uuid, modifiedDate, p))
+      session.execute(bindInsertStatement(uuid, rowVersion, p))
     }
-    val state = PState(CassandraId[P](uuid), modifiedDate, p)
+    val state = PState(CassandraId[P](uuid), rowVersion, p)
     logger.debug(s"done calling CassandraRepo.create: $state")
     state
   }
@@ -41,8 +40,8 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
     preparedStatement(cql)
   }
 
-  private def bindInsertStatement(uuid: UUID, modifiedDate: Option[DateTime], p: P): BoundStatement = {
-    val bindings = updateColumnValues(uuid, modifiedDate, p, includeId = true)
+  private def bindInsertStatement(uuid: UUID, rowVersion: Option[Long], p: P): BoundStatement = {
+    val bindings = updateColumnValues(uuid, rowVersion, p, includeId = true)
     logger.debug(s"invoking CQL: $insertStatement with bindings: $bindings")
     insertStatement.bind(bindings: _*)
   }

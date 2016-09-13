@@ -4,7 +4,6 @@ import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.realized.RealizedPropComponent
 import longevity.subdomain.realized.RealizedKey
 import java.util.UUID
-import org.joda.time.DateTime
 
 private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Persistent] extends CassandraRepo[P] {
 
@@ -42,9 +41,9 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
   }
 
   override protected def updateColumnValues(
-    uuid: UUID, modifiedDate: Option[DateTime], p: P, includeId: Boolean = true): Seq[AnyRef] = {
+    uuid: UUID, rowVersion: Option[Long], p: P, includeId: Boolean = true): Seq[AnyRef] = {
     val discriminatorValue = p.getClass.getSimpleName
-    super.updateColumnValues(uuid, modifiedDate, p, includeId) :+ discriminatorValue
+    super.updateColumnValues(uuid, rowVersion, p, includeId) :+ discriminatorValue
   }
 
   override protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String =

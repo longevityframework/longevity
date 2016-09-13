@@ -16,8 +16,12 @@ private[mongo] trait MongoUpdate[P <: Persistent] {
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     logger.debug(s"calling MongoRepo.update: $state")
     val query = buildQuery(state)
-    val modifiedDate = persistenceConfig.modifiedDate
-    val casbah = casbahForP(state.get, mongoId(state), modifiedDate)
+    val rowVersion = if (persistenceConfig.optimisticLocking) {
+      state.rowVersion.map(_ + 1).orElse(Some(0L))
+    } else {
+      None
+    }
+    val casbah = casbahForP(state.get, mongoId(state), rowVersion)
     logger.debug(s"calling MongoCollection.update: $casbah")
     val writeResult = try {
       blocking {
@@ -29,7 +33,7 @@ private[mongo] trait MongoUpdate[P <: Persistent] {
     if (persistenceConfig.optimisticLocking && writeResult.getN == 0) {
       throw new WriteConflictException(state)
     }
-    val newState = PState[P](state.id, modifiedDate, state.get)
+    val newState = PState[P](state.id, rowVersion, state.get)
     logger.debug(s"done calling MongoRepo.update: $newState")
     newState
   }
@@ -38,7 +42,7 @@ private[mongo] trait MongoUpdate[P <: Persistent] {
     val builder = new MongoDBObjectBuilder()
     builder += "_id" -> mongoId(state)
     if (persistenceConfig.optimisticLocking) {
-      builder += "_modifiedDate" -> state.modifiedDate
+      builder += "_rowVersion" -> state.rowVersion
     }
     builder.result()
   }

@@ -34,7 +34,7 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
   private lazy val deleteStatement: PreparedStatement = preparedStatement(deleteStatementCql)
 
   protected def deleteStatementCql: String = if (persistenceConfig.optimisticLocking) {
-    s"DELETE FROM $tableName WHERE id = :id IF modified_date = :modified_date"
+    s"DELETE FROM $tableName WHERE id = :id IF row_version = :row_version"
   } else {
     s"DELETE FROM $tableName WHERE id = :id"
   }
@@ -44,7 +44,8 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
     val uuid = state.id.asInstanceOf[CassandraId[P]].uuid
     logger.debug(s"invoking CQL: ${deleteStatement.getQueryString} with uuid $uuid")
     if (persistenceConfig.optimisticLocking) {
-      boundStatement.bind(uuid, state.modifiedDate.map(cassandraDate).orNull)
+      val version = if (state.rowVersion.isEmpty) null else state.rowVersion.get.asInstanceOf[AnyRef]
+      boundStatement.bind(uuid, version)
     } else {
       boundStatement.bind(uuid)
     }

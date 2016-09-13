@@ -4,7 +4,6 @@ import com.datastax.driver.core.BoundStatement
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
-import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -16,9 +15,13 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
       logger.debug(s"calling CassandraRepo.update: $state")
-      val modifiedDate = persistenceConfig.modifiedDate
+      val rowVersion = if (persistenceConfig.optimisticLocking) {
+        state.rowVersion.map(_ + 1).orElse(Some(0L))
+      } else {
+        None
+      }
       val resultSet = blocking {
-        session.execute(bindUpdateStatement(state, modifiedDate))
+        session.execute(bindUpdateStatement(state, rowVersion))
       }
       if (persistenceConfig.optimisticLocking) {
         val updateSuccess = resultSet.one.getBool(0)
@@ -26,7 +29,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
           throw new WriteConflictException(state)
         }
       }
-      val newState = PState[P](state.id, modifiedDate, state.get)
+      val newState = PState[P](state.id, rowVersion, state.get)
       logger.debug(s"done calling CassandraRepo.update: $newState")
       newState
     }
@@ -47,21 +50,21 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
       s"""|
       |$noLockCql
       |IF
-      |  modified_date = :modified_date
+      |  row_version = :row_version
       |""".stripMargin
     } else {
       noLockCql
     }
   }
 
-  private def bindUpdateStatement(state: PState[P], modifiedDate: Option[DateTime]): BoundStatement = {
+  private def bindUpdateStatement(state: PState[P], rowVersion: Option[Long]): BoundStatement = {
     val uuid = state.id.asInstanceOf[CassandraId[P]].uuid
     val p = state.get
-    def dateCheck = state.modifiedDate.map(cassandraDate).orNull
+    def versionCheck = if (state.rowVersion.isEmpty) null else state.rowVersion.get.asInstanceOf[AnyRef]
     val columnBindings = if (persistenceConfig.optimisticLocking) {
-      updateColumnValues(uuid, modifiedDate, p, includeId = false) :+ uuid :+ dateCheck
+      updateColumnValues(uuid, rowVersion, p, includeId = false) :+ uuid :+ versionCheck
     } else {
-      updateColumnValues(uuid, modifiedDate, p, includeId = false) :+ uuid
+      updateColumnValues(uuid, rowVersion, p, includeId = false) :+ uuid
     }
     logger.debug(s"invoking CQL: ${updateStatement.getQueryString} with bindings: $columnBindings")
     updateStatement.bind(columnBindings: _*)

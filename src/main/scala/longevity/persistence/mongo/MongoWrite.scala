@@ -9,7 +9,6 @@ import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
 import longevity.subdomain.persistent.Persistent
-import org.joda.time.DateTime
 
 /** utilities for writing to a mongo collection. used by [[MongoCreate]] and
  * [[MongoUpdate]]
@@ -20,11 +19,11 @@ private[mongo] trait MongoWrite[P <: Persistent] {
   protected lazy val persistentToCasbahTranslator =
     new PersistentToCasbahTranslator(subdomain.emblematic)
 
-  protected def casbahForP(p: P, id: ObjectId, modifiedDate: Option[DateTime]): DBObject = {
+  protected def casbahForP(p: P, id: ObjectId, rowVersion: Option[Long]): DBObject = {
     val builder = new MongoDBObjectBuilder()
     builder ++= translate(p)
     builder += "_id" -> id
-    builder += "_modifiedDate" -> modifiedDate
+    builder += "_rowVersion" -> rowVersion
     builder.result()
   }
 

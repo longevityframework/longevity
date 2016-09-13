@@ -93,22 +93,22 @@ with LazyLogging {
   protected def updateColumnNames(includeId: Boolean = true): Seq[String] = {
     val realizedPropColumnNames = actualizedComponents.map(columnName).toSeq.sorted
     (includeId, persistenceConfig.optimisticLocking) match {
-      case (true,  true)  => "id" +: "modified_date" +: "p" +: realizedPropColumnNames
-      case (false, true)  => "modified_date" +: "p" +: realizedPropColumnNames
+      case (true,  true)  => "id" +: "row_version" +: "p" +: realizedPropColumnNames
+      case (false, true)  => "row_version" +: "p" +: realizedPropColumnNames
       case (true,  false) => "id" +: "p" +: realizedPropColumnNames
       case (false, false) => "p" +: realizedPropColumnNames
     }
   }
 
-  protected def updateColumnValues(uuid: UUID, modifiedDate: Option[DateTime], p: P, includeId: Boolean = true)
+  protected def updateColumnValues(uuid: UUID, rowVersion: Option[Long], p: P, includeId: Boolean = true)
   : Seq[AnyRef] = {
     val actualizedComponentValues = actualizedComponents.toSeq.sortBy(columnName).map { component =>
       propValBinding(component, p)
     }
-    def modDate = cassandraDate(modifiedDate.get)
+    def rv = rowVersion.get.asInstanceOf[AnyRef]
     (includeId, persistenceConfig.optimisticLocking) match {
-      case (true,  true)  => uuid +: modDate +: jsonStringForP(p) +: actualizedComponentValues
-      case (false, true)  => modDate +: jsonStringForP(p) +: actualizedComponentValues
+      case (true,  true)  => uuid +: rv +: jsonStringForP(p) +: actualizedComponentValues
+      case (false, true)  => rv +: jsonStringForP(p) +: actualizedComponentValues
       case (true,  false) => uuid +: jsonStringForP(p) +: actualizedComponentValues
       case (false, false) => jsonStringForP(p) +: actualizedComponentValues
     }
@@ -131,15 +131,15 @@ with LazyLogging {
 
   protected def retrieveFromRow(row: Row): PState[P] = {
     val id = CassandraId[P](row.getUUID("id"))
-    val modifiedDate = if (persistenceConfig.optimisticLocking) {
-      Option(row.getString("modified_date")).map(dateTimeFormatter.parseDateTime)
+    val rowVersion = if (persistenceConfig.optimisticLocking) {
+      Option(row.getLong("row_version"))
     } else {
       None
     }
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("p"))
     val p = jsonToEmblematicTranslator.translate[P](json)(pTypeKey)
-    PState[P](id, modifiedDate, p)
+    PState[P](id, rowVersion, p)
   }
 
   private var preparedStatements = Map[String, PreparedStatement]()

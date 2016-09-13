@@ -34,7 +34,7 @@ private[mongo] trait MongoDelete[P <: Persistent] {
     val builder = new MongoDBObjectBuilder()
     builder += "_id" -> mongoId(state)
     if (persistenceConfig.optimisticLocking) {
-      builder += "_modifiedDate" -> state.modifiedDate
+      builder += "_rowVersion" -> state.rowVersion
     }
     builder.result()
   }

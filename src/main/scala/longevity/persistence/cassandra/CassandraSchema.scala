@@ -13,7 +13,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
     createTable()
     createIndexes()
     if (persistenceConfig.optimisticLocking) {
-      addColumn("modified_date", "text")
+      addColumn("row_version", "bigint")
     }
     logger.debug(s"done creating schema for table $tableName")
   }

@@ -15,8 +15,8 @@ private[mongo] trait MongoCreate[P <: Persistent] {
   def create(p: P)(implicit context: ExecutionContext) = Future {
     logger.debug(s"calling MongoRepo.create: $p")
     val id = new ObjectId()
-    val modifiedDate = persistenceConfig.modifiedDate
-    val casbah = casbahForP(p, id, modifiedDate)
+    val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
+    val casbah = casbahForP(p, id, rowVersion)
     logger.debug(s"calling MongoCollection.insert: $casbah")
     val writeResult = blocking {
       try {
@@ -25,7 +25,7 @@ private[mongo] trait MongoCreate[P <: Persistent] {
         case e: DuplicateKeyException => throwDuplicateKeyValException(p, e)
       }
     }
-    val state = PState(MongoId[P](id), modifiedDate, p)
+    val state = PState(MongoId[P](id), rowVersion, p)
     logger.debug(s"done calling MongoRepo.create: $state")
     state
   }

@@ -29,7 +29,7 @@ private[inmem] trait InMemWrite[P <: Persistent] {
   protected[inmem] def assertNoWriteConflict(state: PState[P]) = {
     if (persistenceConfig.optimisticLocking) {
       val id = state.id
-      if (!idToPStateMap.contains(id) || idToPStateMap(id).modifiedDate != state.modifiedDate) {
+      if (!idToPStateMap.contains(id) || idToPStateMap(id).rowVersion != state.rowVersion) {
         throw new WriteConflictException(state)
       }
     }
