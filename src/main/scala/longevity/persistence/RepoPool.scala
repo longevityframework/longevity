@@ -47,4 +47,8 @@ class RepoPool(private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseRe
     Future.sequence(fpStates)
   }
 
+  /** closes any open session from the underlying database */
+  def closeSession()(implicit executionContext: ExecutionContext): Future[Unit] =
+    baseRepoMap.values.headOption.map(_.close()).getOrElse(Future.successful(()))
+
 }

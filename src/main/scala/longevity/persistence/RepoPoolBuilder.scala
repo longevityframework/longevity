@@ -1,24 +1,24 @@
 package longevity.persistence
 
-import com.datastax.driver.core.Session
-import com.mongodb.casbah.MongoDB
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.typeBound.TypeBoundPair
 import longevity.context.Cassandra
 import longevity.context.InMem
+import longevity.context.LongevityConfig
 import longevity.context.Mongo
 import longevity.context.PersistenceConfig
 import longevity.context.PersistenceStrategy
-import longevity.context.LongevityConfig
 import longevity.persistence.cassandra.CassandraRepo
+import longevity.persistence.cassandra.CassandraRepo.CassandraSessionInfo
 import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.mongo.MongoRepo
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PolyPType
+import longevity.persistence.mongo.MongoRepo.MongoSessionInfo
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
+import longevity.subdomain.ptype.PolyPType
 
 /** builds repo pools for LongevityContextImpl */
 private[longevity] object RepoPoolBuilder {
@@ -34,10 +34,10 @@ private[longevity] object RepoPoolBuilder {
         inMemTestRepoPool(subdomain, config)
       case Mongo =>
         val mongoConfig = if (test) config.test.mongodb else config.mongodb
-        mongoRepoPool(subdomain, MongoRepo.mongoDbFromConfig(mongoConfig), config)
+        mongoRepoPool(subdomain, MongoSessionInfo(mongoConfig), config)
       case Cassandra =>
         val cassandraConfig = if (test) config.test.cassandra else config.cassandra
-        cassandraRepoPool(subdomain, CassandraRepo.sessionFromConfig(cassandraConfig), config)
+        cassandraRepoPool(subdomain, CassandraSessionInfo(cassandraConfig), config)
     }
 
   private trait StockRepoFactory[R[P <: Persistent] <: BaseRepo[P]] {
@@ -60,7 +60,7 @@ private[longevity] object RepoPoolBuilder {
 
   private def mongoRepoPool(
     subdomain: Subdomain,
-    mongoDB: MongoDB,
+    session: MongoSessionInfo,
     persistenceConfig: PersistenceConfig)
   : RepoPool = {
     object repoFactory extends StockRepoFactory[MongoRepo] {
@@ -68,14 +68,14 @@ private[longevity] object RepoPoolBuilder {
         pType: PType[P],
         polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
       : MongoRepo[P] =
-        MongoRepo[P](pType, subdomain, mongoDB, persistenceConfig, polyRepoOpt)
+        MongoRepo[P](pType, subdomain, session, persistenceConfig, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory)
   }
 
   private def cassandraRepoPool(
     subdomain: Subdomain,
-    session: Session,
+    session: CassandraSessionInfo,
     persistenceConfig: PersistenceConfig)
   : RepoPool = {
     object repoFactory extends StockRepoFactory[CassandraRepo] {

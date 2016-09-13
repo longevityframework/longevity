@@ -3,8 +3,6 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
-import com.datastax.driver.core.Session
-import com.datastax.driver.core.Session
 import emblem.TypeKey
 import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
@@ -26,6 +24,8 @@ import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.realized.RealizedPropComponent
 import org.joda.time.DateTime
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
 /** a Cassandra repository for persistent entities of type `P`.
  *
@@ -37,7 +37,7 @@ import org.joda.time.DateTime
 private[longevity] class CassandraRepo[P <: Persistent] private (
   pType: PType[P],
   subdomain: Subdomain,
-  protected val session: Session,
+  private val sessionInfo: CassandraRepo.CassandraSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends BaseRepo[P](pType, subdomain)
 with CassandraSchema[P]
@@ -46,6 +46,8 @@ with CassandraRetrieve[P]
 with CassandraQuery[P]
 with CassandraUpdate[P]
 with CassandraDelete[P] {
+
+  protected lazy val session = sessionInfo.session
 
   protected[cassandra] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
 
@@ -73,7 +75,8 @@ with CassandraDelete[P] {
 
   protected def columnName(prop: RealizedPropComponent[_, _, _]) = "prop_" + scoredPath(prop)
 
-  protected def scoredPath(prop: RealizedPropComponent[_, _, _]) = prop.outerPropPath.inlinedPath.replace('.', '_')
+  protected def scoredPath(prop: RealizedPropComponent[_, _, _]) =
+    prop.outerPropPath.inlinedPath.replace('.', '_')
 
   protected def jsonStringForP(p: P): String = {
     try {
@@ -148,35 +151,45 @@ with CassandraDelete[P] {
     preparedStatements(cql)
   }
 
+  override protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
+    session.close()
+    session.getCluster.close()
+    ()
+  }
+
   override def toString = s"CassandraRepo[${pTypeKey.name}]"
 
 }
 
 private[persistence] object CassandraRepo {
 
-  def sessionFromConfig(config: CassandraConfig): Session = {
-    val builder = Cluster.builder.addContactPoint(config.address)
-    config.credentials.map { creds =>
-      builder.withCredentials(creds.username, creds.password)
+  case class CassandraSessionInfo(config: CassandraConfig) {
+    lazy val cluster = {
+      val builder = Cluster.builder.addContactPoint(config.address)
+      config.credentials.map { creds =>
+        builder.withCredentials(creds.username, creds.password)
+      }
+      builder.build
     }
-    val cluster = builder.build
-    val session = cluster.connect()
-    session.execute(
-      s"""|
-      |CREATE KEYSPACE IF NOT EXISTS ${config.keyspace}
-      |WITH replication = {
-      |  'class': 'SimpleStrategy',
-      |  'replication_factor': ${config.replicationFactor}
-      |};
-      |""".stripMargin)
-    session.execute(s"use ${config.keyspace}")
-    session
+    lazy val session = {
+      val session = cluster.connect()
+      session.execute(
+        s"""|
+        |CREATE KEYSPACE IF NOT EXISTS ${config.keyspace}
+        |WITH replication = {
+        |  'class': 'SimpleStrategy',
+        |  'replication_factor': ${config.replicationFactor}
+        |};
+        |""".stripMargin)
+      session.execute(s"use ${config.keyspace}")
+      session
+    }
   }
 
   def apply[P <: Persistent](
     pType: PType[P],
     subdomain: Subdomain,
-    session: Session,
+    session: CassandraSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[CassandraRepo[_ >: P <: Persistent]])
   : CassandraRepo[P] = {

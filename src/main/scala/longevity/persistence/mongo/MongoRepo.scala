@@ -12,6 +12,8 @@ import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PolyPType
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
 /** a MongoDB repository for persistent entities of type `P`.
  *
@@ -23,7 +25,7 @@ import longevity.subdomain.ptype.PolyPType
 private[longevity] class MongoRepo[P <: Persistent] private[persistence] (
   pType: PType[P],
   subdomain: Subdomain,
-  mongoDb: MongoDB,
+  session: MongoRepo.MongoSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends BaseRepo[P](pType, subdomain)
 with MongoCreate[P]
@@ -36,8 +38,15 @@ with MongoUpdate[P]
 with MongoWrite[P] {
   repo =>
 
+  private lazy val mongoDb: MongoDB = session.mongoDb
+
   private def collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
   protected[mongo] val mongoCollection = mongoDb(collectionName)
+
+  override protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
+    session.mongoClient.close()
+    ()
+  }
 
   override def toString = s"MongoRepo[${pTypeKey.name}]"
 
@@ -45,20 +54,22 @@ with MongoWrite[P] {
 
 private[persistence] object MongoRepo {
 
-  def mongoDbFromConfig(config: MongoConfig): MongoDB = {
-    val mongoClient = MongoClient(config.uri)
-    val mongoDb = mongoClient.getDB(config.db)
+  case class MongoSessionInfo(config: MongoConfig) {
+    lazy val mongoClient = MongoClient(config.uri)
+    lazy val mongoDb = {
+      val mongoDb = mongoClient.getDB(config.db)
 
-    import com.mongodb.casbah.commons.conversions.scala._
-    RegisterJodaTimeConversionHelpers()
-
-    mongoDb
+      import com.mongodb.casbah.commons.conversions.scala._
+      RegisterJodaTimeConversionHelpers()
+      
+      mongoDb
+    }
   }
 
   def apply[P <: Persistent](
     pType: PType[P],
     subdomain: Subdomain,
-    session: MongoDB,
+    session: MongoSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
   : MongoRepo[P] = {

@@ -25,6 +25,8 @@ import longevity.subdomain.ptype.Query.NeqOp
 import longevity.subdomain.ptype.Query.OrOp
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.realized.RealizedPType
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
 /** an in-memory repository for persistent entities of type `P`
  * 
@@ -51,6 +53,9 @@ with InMemWrite[P] {
 
   protected var idToPStateMap = Map[DatabaseId[_ <: Persistent], PState[P]]()
   protected var keyValToPStateMap = Map[AnyKeyValAtAll, PState[P]]()
+
+  override protected[persistence] def close()(implicit executionContext: ExecutionContext): Future[Unit] =
+    Future.successful(())
 
   override def toString = s"InMemRepo[${pTypeKey.name}]"
 

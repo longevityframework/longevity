@@ -1,5 +1,13 @@
 # Longevity Changelog
 
+## [0.12.0] - 2016.09.13 - Polish
+
+- 2016.09.13 - Add API method RepoPool.closeSession(). This was added
+  because leaving the Cassandra session open can cause user programs
+  to fail to terminate under certain circumstances, If your main
+  program is hanging when using Cassandra, please call this method at
+  the end of your program.
+	
 ## [0.11.0] - 2016.08.29 - API Simplifications
 
 - 2016.08.29 - Add factory methods for `EType` and all its
