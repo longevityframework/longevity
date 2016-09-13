@@ -1,5 +1,6 @@
 package longevity.persistence.inmem
 
+import com.typesafe.scalalogging.LazyLogging
 import longevity.context.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
@@ -45,7 +46,8 @@ with InMemQuery[P]
 with InMemRead[P]
 with InMemRetrieve[P]
 with InMemUpdate[P]
-with InMemWrite[P] {
+with InMemWrite[P]
+with LazyLogging {
   repo =>
 
   // i wish i could type this tighter, but compiler is giving me problems..

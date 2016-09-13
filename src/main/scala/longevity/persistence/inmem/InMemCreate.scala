@@ -12,11 +12,13 @@ private[inmem] trait InMemCreate[P <: Persistent] {
 
   def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
     blocking {
+      logger.debug(s"calling InMemRepo.create: $unpersisted")
       repo.synchronized {
         val state = PState(IntId[P](nextId), persistenceConfig.modifiedDate, unpersisted)
         assertUniqueKeyVals(state)
         registerById(state)
         registerByKeyVals(state)
+        logger.debug(s"done calling InMemRepo.create: $state")
         state
       }
     }

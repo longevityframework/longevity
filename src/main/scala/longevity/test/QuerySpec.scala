@@ -2,6 +2,7 @@ package longevity.test
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
+import com.typesafe.scalalogging.LazyLogging
 import emblem.TypeKey
 import longevity.context.LongevityContext
 import longevity.persistence.PState
@@ -48,6 +49,7 @@ extends {
 with FlatSpec
 with BeforeAndAfterAll
 with GivenWhenThen
+with LazyLogging
 with Matchers
 with ScalaFutures
 with ScaledTimeSpans {
@@ -111,7 +113,10 @@ with ScaledTimeSpans {
     val expected = entitiesMatchingQuery(query, entities)
 
     if (actual != expected) {
-      println(s"failure for query ${query}")
+      logger.debug(s"failure for query ${query}")
+      logger.debug(s"  exerciseQuery actual = $actual")
+      logger.debug(s"  exerciseQuery expected = $expected")
+      logger.debug(s"  exerciseQuery extras = ${actual -- expected}")
     }
     actual.size should equal (expected.size)
     actual should equal (expected)
@@ -127,10 +132,10 @@ with ScaledTimeSpans {
     val actual = pStates.map(_.get).toSet intersect results
 
     if (actual != expected) {
-      println(s"failure for query ${query}")
-      println(s"  exerciseStream actual = $actual")
-      println(s"  exerciseStream expected = $expected")
-      println(s"  exerciseStream extras = ${actual -- expected}")
+      logger.debug(s"failure for query ${query}")
+      logger.debug(s"  exerciseStream actual = $actual")
+      logger.debug(s"  exerciseStream expected = $expected")
+      logger.debug(s"  exerciseStream extras = ${actual -- expected}")
     }
     actual.size should equal (expected.size)
     actual should equal (expected)

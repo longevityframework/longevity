@@ -16,6 +16,7 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
 
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] =
     Future {
+      logger.debug(s"calling CassandraRepo.delete: $state")
       val resultSet = blocking {
         session.execute(bindDeleteStatement(state))
       }
@@ -25,7 +26,9 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
           throw new WriteConflictException(state)
         }
       }
-      new Deleted(state.get)
+      val deleted = new Deleted(state.get)
+      logger.debug(s"done calling CassandraRepo.delete: $deleted")
+      deleted
     }
 
   private lazy val deleteStatement: PreparedStatement = preparedStatement(deleteStatementCql)
@@ -39,6 +42,7 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
   private def bindDeleteStatement(state: PState[P]): BoundStatement = {
     val boundStatement = deleteStatement.bind
     val uuid = state.id.asInstanceOf[CassandraId[P]].uuid
+    logger.debug(s"invoking CQL: ${deleteStatement.getQueryString} with uuid $uuid")
     if (persistenceConfig.optimisticLocking) {
       boundStatement.bind(uuid, state.modifiedDate.map(cassandraDate).orNull)
     } else {

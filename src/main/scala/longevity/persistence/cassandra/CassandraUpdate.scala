@@ -15,6 +15,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
 
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
+      logger.debug(s"calling CassandraRepo.update: $state")
       val modifiedDate = persistenceConfig.modifiedDate
       val resultSet = blocking {
         session.execute(bindUpdateStatement(state, modifiedDate))
@@ -25,7 +26,9 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
           throw new WriteConflictException(state)
         }
       }
-      PState[P](state.id, modifiedDate, state.get)
+      val newState = PState[P](state.id, modifiedDate, state.get)
+      logger.debug(s"done calling CassandraRepo.update: $newState")
+      newState
     }
 
   private lazy val updateStatement = preparedStatement(updateCql)
@@ -60,6 +63,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
     } else {
       updateColumnValues(uuid, modifiedDate, p, includeId = false) :+ uuid
     }
+    logger.debug(s"invoking CQL: ${updateStatement.getQueryString} with bindings: $columnBindings")
     updateStatement.bind(columnBindings: _*)
   }
 

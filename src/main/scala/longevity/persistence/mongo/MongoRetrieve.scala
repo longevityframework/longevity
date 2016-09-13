@@ -14,11 +14,14 @@ private[mongo] trait MongoRetrieve[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   override def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext) = Future {
+    logger.debug(s"calling MongoRepo.retrieve: $keyVal")
     val query = keyValQuery(keyVal)
     val resultOption = blocking {
       mongoCollection.findOne(query)
     }
-    resultOption.map(dbObjectToPState)
+    val stateOption = resultOption.map(dbObjectToPState)
+    logger.debug(s"done calling MongoRepo.retrieve: $stateOption")
+    stateOption
   }
 
   protected def keyValQuery[V <: KeyVal[P, V]](keyVal: V): MongoDBObject = {

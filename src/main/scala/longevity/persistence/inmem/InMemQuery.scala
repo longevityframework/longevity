@@ -14,10 +14,19 @@ private[inmem] trait InMemQuery[P <: Persistent] {
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
   : Future[Seq[PState[P]]] =
-    Future.successful(queryResults(query))
+    Future.successful {
+      logger.debug(s"calling InMemRepo.retrieveByQuery: $query")
+      val states = queryResults(query)
+      logger.debug(s"done calling InMemRepo.retrieveByQuery: $states")
+      states
+    }
 
-  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] =
-    Source.fromIterator { () => queryResults(query).iterator }
+  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
+    logger.debug(s"calling InMemRepo.streamByQuery: $query")
+    val source = Source.fromIterator { () => queryResults(query).iterator }
+    logger.debug(s"done calling InMemRepo.streamByQuery: $source")
+    source
+  }
 
   private def queryResults(query: Query[P]): Seq[PState[P]] =
     allPStates.filter { s => InMemRepo.queryMatches(query, s.get, realizedPType) }

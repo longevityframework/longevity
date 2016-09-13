@@ -13,12 +13,14 @@ private[inmem] trait InMemUpdate[P <: Persistent] {
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {
       repo.synchronized {
+        logger.debug(s"calling InMemRepo.update: $state")
         assertNoWriteConflict(state)
         assertUniqueKeyVals(state)
         unregisterByKeyVals(state.orig)
         val newState = state.copy(orig = state.get, modifiedDate = persistenceConfig.modifiedDate)
         registerById(newState)
         registerByKeyVals(newState)
+        logger.debug(s"done calling InMemRepo.update: $newState")
         newState
       }
     }

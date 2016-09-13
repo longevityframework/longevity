@@ -12,6 +12,8 @@ private[mongo] trait MongoSchema[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   protected def createSchema(): Unit = {
+    logger.debug(s"creating schema for collection $collectionName")
+
     var indexNames = Set[String]()
 
     realizedPType.keySet.foreach { key =>
@@ -31,11 +33,15 @@ private[mongo] trait MongoSchema[P <: Persistent] {
         createIndex(paths, name, false)
       }
     }
+
+    logger.debug(s"done creating schema for collection $collectionName")
   }
 
   protected def createIndex(paths: Seq[String], indexName: String, unique: Boolean): Unit = {
     val mongoPaths = paths map (_ -> 1)
-    mongoCollection.createIndex(MongoDBObject(mongoPaths.toList), indexName, unique)
+    val bson = MongoDBObject(mongoPaths.toList)
+    logger.debug(s"calling MongoCollection.createIndex: $bson $indexName $unique")
+    mongoCollection.createIndex(bson, indexName, unique)
   }
 
   protected def indexName(key: RealizedKey[P, _]): String =

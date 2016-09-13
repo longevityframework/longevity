@@ -10,6 +10,11 @@ private[inmem] trait InMemRetrieve[P <: Persistent] {
   repo: InMemRepo[P] =>
 
   override def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext) =
-    Future.successful(lookupPStateByKeyVal(keyVal))
+    Future.successful {
+      logger.debug(s"calling InMemRepo.retrieve: $keyVal")
+      val stateOption = lookupPStateByKeyVal(keyVal)
+      logger.debug(s"done calling InMemRepo.retrieve: $stateOption")
+      stateOption
+    }
 
 }

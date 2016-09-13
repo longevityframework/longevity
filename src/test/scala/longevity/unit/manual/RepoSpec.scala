@@ -1,5 +1,6 @@
 package longevity.unit.manual
 
+import com.typesafe.scalalogging.LazyLogging
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -16,7 +17,7 @@ object RepoSpec {
  *
  * @see http://longevityframework.github.io/longevity/manual/repo/
  */
-class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
+class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLogging {
 
   import longevity.integration.quickStart.QuickStartSpec._
 
@@ -98,14 +99,14 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers {
       implicit val system = ActorSystem("blogging")
       implicit val materializer = ActorMaterializer()
 
-      recentPosts.runForeach { blogPostState => println(s"query returned ${blogPostState.get}") }
+      recentPosts.runForeach { blogPostState => logger.debug(s"query returned ${blogPostState.get}") }
 
       import akka.stream.scaladsl.Sink
 
-      recentPosts.to(Sink.foreach { state => println(s"query returned ${state.get}") })
+      recentPosts.to(Sink.foreach { state => logger.debug(s"query returned ${state.get}") })
 
       recentPosts.map(_.get).runForeach {
-        post: BlogPost => println(s"query returned ${post}")
+        post: BlogPost => logger.debug(s"query returned ${post}")
       }
 
       import akka.stream.scaladsl.Keep

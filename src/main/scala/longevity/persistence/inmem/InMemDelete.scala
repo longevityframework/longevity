@@ -13,12 +13,15 @@ private[inmem] trait InMemDelete[P <: Persistent] {
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {
+      logger.debug(s"calling InMemRepo.delete: $state")
       repo.synchronized {
         assertNoWriteConflict(state)
         unregisterById(state)
         unregisterByKeyVals(state.orig)
       }
-      new Deleted(state.get)
+      val deleted = new Deleted(state.get)
+      logger.debug(s"done calling InMemRepo.delete: $deleted")
+      deleted
     }
   }
 

@@ -9,11 +9,13 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
   repo: CassandraRepo[P] =>
 
   protected def createSchema(): Unit = {
+    logger.debug(s"creating schema for table $tableName")
     createTable()
     createIndexes()
     if (persistenceConfig.optimisticLocking) {
       addColumn("modified_date", "text")
     }
+    logger.debug(s"done creating schema for table $tableName")
   }
 
   protected def createTable(): Unit = {
@@ -30,11 +32,13 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
     |)
     |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
     |""".stripMargin
+    logger.debug(s"executing CQL: $createTable")
     session.execute(createTable)
   }
 
   protected def addColumn(columnName: String, columnType: String): Unit = {
     val cql = s"ALTER TABLE $tableName ADD $columnName $columnType"
+    logger.debug(s"executing CQL: $cql")
     try {
       session.execute(cql)
     } catch {
@@ -59,6 +63,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
 
   protected def createIndex(indexName: String, columnName: String): Unit = {
     val createIndex = s"CREATE INDEX IF NOT EXISTS $indexName ON $tableName ($columnName);"
+    logger.debug(s"executing CQL: $createIndex")
     session.execute(createIndex)
   }
 

@@ -31,16 +31,25 @@ private[mongo] trait MongoQuery[P <: Persistent] {
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
   : Future[Seq[PState[P]]] = Future {
-    blocking {
+    logger.debug(s"calling MongoRepo.retrieveByQuery: $query")
+    val states = blocking {
       queryCursor(query).toSeq.map(dbObjectToPState)
     }
+    logger.debug(s"done calling MongoRepo.retrieveByQuery: $states")
+    states
   }
 
-  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = 
-    Source.fromIterator { () => queryCursor(query).map(dbObjectToPState) }
+  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
+    logger.debug(s"calling MongoRepo.streamByQuery: $query")
+    val source = Source.fromIterator { () => queryCursor(query).map(dbObjectToPState) }
+    logger.debug(s"done calling MongoRepo.streamByQuery: $source")
+    source
+  }
 
   private def queryCursor(query: Query[P]): MongoCursor = {
-    mongoCollection.find(mongoQuery(query))
+    val casbah = mongoQuery(query)
+    logger.debug(s"calling MongoCollection.find: $casbah")
+    mongoCollection.find(casbah)
   }
 
   protected def mongoQuery(query: Query[P]): MongoDBObject = {

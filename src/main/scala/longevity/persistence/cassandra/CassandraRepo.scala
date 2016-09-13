@@ -3,6 +3,7 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
+import com.typesafe.scalalogging.LazyLogging
 import emblem.TypeKey
 import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
@@ -45,7 +46,8 @@ with CassandraCreate[P]
 with CassandraRetrieve[P]
 with CassandraQuery[P]
 with CassandraUpdate[P]
-with CassandraDelete[P] {
+with CassandraDelete[P]
+with LazyLogging {
 
   protected lazy val session = sessionInfo.session
 

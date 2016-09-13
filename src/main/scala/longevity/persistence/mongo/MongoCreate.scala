@@ -13,16 +13,21 @@ private[mongo] trait MongoCreate[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   def create(p: P)(implicit context: ExecutionContext) = Future {
+    logger.debug(s"calling MongoRepo.create: $p")
     val id = new ObjectId()
     val modifiedDate = persistenceConfig.modifiedDate
+    val casbah = casbahForP(p, id, modifiedDate)
+    logger.debug(s"calling MongoCollection.insert: $casbah")
     val writeResult = blocking {
       try {
-        mongoCollection.insert(casbahForP(p, id, modifiedDate))
+        mongoCollection.insert(casbah)
       } catch {
         case e: DuplicateKeyException => throwDuplicateKeyValException(p, e)
       }
     }
-    PState(MongoId[P](id), modifiedDate, p)
+    val state = PState(MongoId[P](id), modifiedDate, p)
+    logger.debug(s"done calling MongoRepo.create: $state")
+    state
   }
 
 }

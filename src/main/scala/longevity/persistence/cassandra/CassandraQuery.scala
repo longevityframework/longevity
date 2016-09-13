@@ -35,13 +35,17 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext): Future[Seq[PState[P]]] =
     Future {
+      logger.debug(s"calling CassandraRepo.retrieveByQuery: $query")
       val resultSet = blocking {
         queryResultSet(query)
       }
-      resultSet.all.toList.map(retrieveFromRow)
+      val states = resultSet.all.toList.map(retrieveFromRow)
+      logger.debug(s"done calling CassandraRepo.retrieveByQuery: $states")
+      states
     }
 
   def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
+    logger.debug(s"calling CassandraRepo.streamByQuery: $query")
     def iterator(): Iterator[PState[P]] = {
       val resultSet = queryResultSet(query)
       import scala.collection.JavaConversions.asScalaIterator
@@ -49,14 +53,18 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
     }
     // no need (or option) to clean up resources once stream terminates, because
     // Cassandra result set is paged, and does not support any close() operation
-    Source.fromIterator(iterator)
+    val source = Source.fromIterator(iterator)
+    logger.debug(s"done calling CassandraRepo.streamByQuery: $source")
+    source
   }
 
   private def queryResultSet(query: Query[P]): ResultSet = {
     val info = queryInfo(query)
     val conjunction = retrieveByQueryConjunction(info)
     val cql = s"SELECT * FROM $tableName WHERE $conjunction ALLOW FILTERING"
-    val boundStatement = preparedStatement(cql).bind(info.bindValues: _*)
+    val bindings = info.bindValues
+    logger.debug(s"executing CQL: $cql with bindings: $bindings")
+    val boundStatement = preparedStatement(cql).bind(bindings: _*)
     session.execute(boundStatement)
   }
 

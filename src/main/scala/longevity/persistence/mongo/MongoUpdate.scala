@@ -14,9 +14,11 @@ private[mongo] trait MongoUpdate[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
+    logger.debug(s"calling MongoRepo.update: $state")
     val query = buildQuery(state)
     val modifiedDate = persistenceConfig.modifiedDate
     val casbah = casbahForP(state.get, mongoId(state), modifiedDate)
+    logger.debug(s"calling MongoCollection.update: $casbah")
     val writeResult = try {
       blocking {
         mongoCollection.update(query, casbah)
@@ -27,7 +29,9 @@ private[mongo] trait MongoUpdate[P <: Persistent] {
     if (persistenceConfig.optimisticLocking && writeResult.getN == 0) {
       throw new WriteConflictException(state)
     }
-    PState[P](state.id, modifiedDate, state.get)
+    val newState = PState[P](state.id, modifiedDate, state.get)
+    logger.debug(s"done calling MongoRepo.update: $newState")
+    newState
   }
 
   private def buildQuery(state: PState[P]) = {

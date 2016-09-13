@@ -15,12 +15,15 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
   repo: CassandraRepo[P] =>
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
+    logger.debug(s"calling CassandraRepo.create: $p")
     val uuid = UUID.randomUUID
     val modifiedDate = persistenceConfig.modifiedDate
     blocking {
       session.execute(bindInsertStatement(uuid, modifiedDate, p))
     }
-    PState(CassandraId[P](uuid), modifiedDate, p)
+    val state = PState(CassandraId[P](uuid), modifiedDate, p)
+    logger.debug(s"done calling CassandraRepo.create: $state")
+    state
   }
   
   private lazy val insertStatement: PreparedStatement = {
@@ -40,6 +43,7 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
 
   private def bindInsertStatement(uuid: UUID, modifiedDate: Option[DateTime], p: P): BoundStatement = {
     val bindings = updateColumnValues(uuid, modifiedDate, p, includeId = true)
+    logger.debug(s"invoking CQL: $insertStatement with bindings: $bindings")
     insertStatement.bind(bindings: _*)
   }
 

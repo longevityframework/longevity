@@ -2,6 +2,7 @@ package longevity.persistence.mongo
 
 import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.MongoDB
+import com.typesafe.scalalogging.LazyLogging
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import longevity.context.MongoConfig
@@ -35,12 +36,13 @@ with MongoRead[P]
 with MongoRetrieve[P]
 with MongoSchema[P]
 with MongoUpdate[P]
-with MongoWrite[P] {
+with MongoWrite[P]
+with LazyLogging {
   repo =>
 
   private lazy val mongoDb: MongoDB = session.mongoDb
 
-  private def collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
+  protected def collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
   protected[mongo] val mongoCollection = mongoDb(collectionName)
 
   override protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {

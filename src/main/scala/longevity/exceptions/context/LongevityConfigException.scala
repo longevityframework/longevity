@@ -1,5 +1,6 @@
 package longevity.exceptions.context
 
+import longevity.exceptions.UnrecoverableLongevityException
 import longevity.exceptions.LongevityException
 import com.typesafe.config.ConfigException
 
@@ -8,3 +9,4 @@ import com.typesafe.config.ConfigException
  */
 class LongevityConfigException(cause: ConfigException)
 extends LongevityException(cause.getMessage, cause)
+with UnrecoverableLongevityException

@@ -17,6 +17,7 @@ private[mongo] trait MongoDelete[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
+    logger.debug(s"calling MongoRepo.delete: $state")
     val query = deleteQuery(state)
     val writeResult = blocking {
       mongoCollection.remove(query)
@@ -24,7 +25,9 @@ private[mongo] trait MongoDelete[P <: Persistent] {
     if (persistenceConfig.optimisticLocking && writeResult.getN == 0) {
       throw new WriteConflictException(state)
     }
-    new Deleted(state.get)
+    val deleted = new Deleted(state.get)
+    logger.debug(s"done calling MongoRepo.delete: $deleted")
+    deleted
   }
 
   protected def deleteQuery(state: PState[P]): MongoDBObject = {

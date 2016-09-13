@@ -14,8 +14,12 @@ import scala.concurrent.blocking
 private[cassandra] trait CassandraRetrieve[P <: Persistent] {
   repo: CassandraRepo[P] =>
 
-  def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext) =
-    retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
+  def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext) = {
+    logger.debug(s"calling CassandraRepo.retrieve: $keyVal")
+    val stateOption = retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
+    logger.debug(s"done calling CassandraRepo.retrieve: $stateOption")
+    stateOption
+  }
 
   protected def retrieveFromBoundStatement(
     statement: BoundStatement)(
@@ -50,6 +54,7 @@ private[cassandra] trait CassandraRetrieve[P <: Persistent] {
       cassandraValue(component.innerPropPath.get(keyVal))
     }
     val preparedStatement = keyValSelectStatement(realizedKey)
+    logger.debug(s"invoking CQL: ${preparedStatement.getQueryString} with bindings: $propVals")
     preparedStatement.bind(propVals: _*)
   }
 

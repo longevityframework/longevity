@@ -109,23 +109,27 @@ object LongevityBuild extends Build with BuildSettings {
     id = "longevity",
     base = file("."),
     settings = buildSettings ++ Seq(
+
+      // non-optional library dependencies:
       libraryDependencies += "com.typesafe" % "config" % "1.3.0",
       libraryDependencies += "com.github.kxbmap" %% "configs" % "0.4.2",
+      libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.4.0",
+
+      // optional library dependencies:
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
+
+      // test-only dependencies:
       libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.21" % Test,
 
       // for streaming api:
-
       libraryDependencies += akkaStreamDep % Optional,
       libraryDependencies += akkaStreamDep % Test,
 
       // for mongo:
-
       libraryDependencies += casbahDep % Optional,
       libraryDependencies += casbahDep % Test,
 
       // for cassandra:
-
       libraryDependencies += cassandraDep % Optional,
       libraryDependencies += cassandraDep % Test,
       libraryDependencies += json4sDep % Optional,
