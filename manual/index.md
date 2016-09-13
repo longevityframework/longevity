@@ -61,6 +61,7 @@ glance through the chapters on [the basics of DDD](./ddd-basics/).
   - [Partition Keys](translation/keys.html)
   - [MongoDB Translation](translation/mongo.html)
   - [Cassandra Translation](translation/cassandra.html)
+- [Managing Logging](logging.html)
 - [A Primer on Domain Driven Design](ddd-basics)
   - [Ubiquitous Language](ddd-basics/ubiquitous-language.html)
   - [Subdomains and Bounded Contexts](ddd-basics/subdomains-and-bounded-contexts.html)

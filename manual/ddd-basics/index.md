@@ -16,8 +16,8 @@ relevant to using longevity:
 - [Subdomains and Bounded Contexts](subdomains-and-bounded-contexts.html)
 - [Aggregates and Entities](aggregates-and-entities.html)
 
-{% assign prevTitle = "cassandra translation" %}
-{% assign prevLink = "../translation/cassandra.html" %}
+{% assign prevTitle = "managing logging" %}
+{% assign prevLink = "../logging.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "ubiquitous language" %}
