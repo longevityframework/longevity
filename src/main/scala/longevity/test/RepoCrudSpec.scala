@@ -75,8 +75,6 @@ with ScaledTimeSpans {
     case None => ""
   }}"
 
-  repoPool.createSchema().futureValue
-
   repoPool.baseRepoMap.foreach { pair =>
     def repoSpec[P <: Persistent](pair: TypeBoundPair[Persistent, TypeKey, BaseRepo, P]): Unit = {
       new RepoSpec(pair._2, pair._1)
