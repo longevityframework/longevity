@@ -74,6 +74,7 @@ with ScaledTimeSpans {
   protected final var pStates: Seq[PState[P]] = _
 
   override def beforeAll(): Unit = {
+    repoPool.createSchema().futureValue
     val rootStateSeq = for (i <- 0.until(numEntities)) yield repo.create(generateP())
     pStates = Future.sequence(rootStateSeq).futureValue
     entities = pStates.map(_.get).toSet

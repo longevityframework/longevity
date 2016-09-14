@@ -11,6 +11,7 @@ import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.realized.RealizedKey
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FeatureSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -56,6 +57,7 @@ extends {
   protected val longevityContext = context
 }
 with FeatureSpec
+with BeforeAndAfterAll
 with GivenWhenThen
 with Matchers
 with ScalaFutures
@@ -65,11 +67,15 @@ with ScaledTimeSpans {
     timeout = scaled(4000 millis),
     interval = scaled(50 millis))
 
+  override def beforeAll = repoPool.createSchema().futureValue
+
   private def subdomainName = longevityContext.subdomain.name
   override val suiteName = s"RepoCrudSpec for ${subdomainName}${suiteNameSuffix match {
     case Some(suffix) => s" $suffix"
     case None => ""
   }}"
+
+  repoPool.createSchema().futureValue
 
   repoPool.baseRepoMap.foreach { pair =>
     def repoSpec[P <: Persistent](pair: TypeBoundPair[Persistent, TypeKey, BaseRepo, P]): Unit = {

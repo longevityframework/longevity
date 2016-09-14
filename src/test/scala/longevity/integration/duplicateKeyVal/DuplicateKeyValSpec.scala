@@ -6,6 +6,7 @@ import longevity.integration.subdomain.basics.BasicsId
 import longevity.integration.subdomain.basics.mongoContext
 import longevity.persistence.Repo
 import org.joda.time.DateTime
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -24,6 +25,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 class DuplicateKeyValSpec
 extends FlatSpec
+with BeforeAndAfterAll
 with GivenWhenThen
 with Matchers
 with ScalaFutures {
@@ -31,6 +33,8 @@ with ScalaFutures {
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000 millis),
     interval = scaled(50 millis))
+
+  override def beforeAll() = mongoContext.testRepoPool.createSchema().futureValue
 
   assertDuplicateKeyValBehavior(mongoContext.testRepoPool[Basics], "MongoRepo")
   assertDuplicateKeyValBehavior(mongoContext.inMemTestRepoPool[Basics], "InMemRepo")

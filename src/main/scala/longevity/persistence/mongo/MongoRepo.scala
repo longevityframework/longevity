@@ -45,7 +45,7 @@ with LazyLogging {
   protected def collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
   protected[mongo] val mongoCollection = mongoDb(collectionName)
 
-  override protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
+  protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
     session.mongoClient.close()
     ()
   }
@@ -90,7 +90,6 @@ private[persistence] object MongoRepo {
       case _ =>
         new MongoRepo(pType, subdomain, session, config)
     }
-    repo.createSchema()
     repo
   }
 

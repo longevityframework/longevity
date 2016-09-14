@@ -4,6 +4,9 @@ import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.realized.RealizedPropComponent
 import longevity.subdomain.realized.RealizedKey
 import java.util.UUID
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+import scala.concurrent.blocking
 
 private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Persistent] extends CassandraRepo[P] {
 
@@ -25,9 +28,11 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     myActualizedComponents ++ polyRepo.actualizedComponents
   }
 
-  override protected def createSchema(): Unit = {
-    createActualizedPropColumns()
-    createIndexes()
+  override protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
+    blocking {
+      createActualizedPropColumns()
+      createIndexes()
+    }
   }
 
   private def createActualizedPropColumns(): Unit = {

@@ -56,7 +56,10 @@ with LazyLogging {
   protected var idToPStateMap = Map[DatabaseId[_ <: Persistent], PState[P]]()
   protected var keyValToPStateMap = Map[AnyKeyValAtAll, PState[P]]()
 
-  override protected[persistence] def close()(implicit executionContext: ExecutionContext): Future[Unit] =
+ protected[persistence] def close()(implicit context: ExecutionContext): Future[Unit] =
+    Future.successful(())
+
+  protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] =
     Future.successful(())
 
   override def toString = s"InMemRepo[${pTypeKey.name}]"

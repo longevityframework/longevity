@@ -6,6 +6,7 @@ import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.integration.subdomain.derivedEntities
 import longevity.persistence.RepoPool
 import longevity.subdomain.ptype.Query
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -27,9 +28,12 @@ abstract class PolyReposSpec(
   protected val longevityContext: LongevityContext,
   protected val repoPool: RepoPool)
 extends FlatSpec
+with BeforeAndAfterAll
 with GivenWhenThen
 with Matchers
 with ScalaFutures {
+
+  override def beforeAll = repoPool.createSchema().futureValue
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(4000.millis),

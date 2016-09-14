@@ -1,5 +1,6 @@
 package longevity.unit.context
 
+import longevity.context.Cassandra
 import longevity.context.LongevityContext
 import longevity.context.Mongo
 import longevity.subdomain.KeyVal
@@ -30,7 +31,8 @@ object LongevityContextSpec {
     }
 
     val subdomain = Subdomain("subtypePropType", PTypePool(A))
-    val context = LongevityContext(subdomain, Mongo)
+    val mongoContext = LongevityContext(subdomain, Mongo)
+    val cassandraContext = LongevityContext(subdomain, Cassandra)
   }
 
 }
@@ -38,27 +40,33 @@ object LongevityContextSpec {
 /** unit tests for the proper [[LongevityContext]] construction */
 class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  val context = LongevityContextSpec.sample.context
+  val contextStratPairs = Seq(
+    (LongevityContextSpec.sample.mongoContext, Mongo),
+    (LongevityContextSpec.sample.cassandraContext, Cassandra))
 
-  behavior of "LongevityContext creation"
+  for ((context, strat) <- contextStratPairs) {
 
-  it should "produce a context with the right subdomain" in {
-    context.subdomain should equal (LongevityContextSpec.sample.subdomain)
-  }
+    behavior of s"LongevityContext creation for ${context.persistenceStrategy}"
 
-  it should "produce a context with the right persistence strategy" in {
-    context.persistenceStrategy should equal (Mongo)
-  }
+    it should "produce a context with the right subdomain" in {
+      context.subdomain should equal (LongevityContextSpec.sample.subdomain)
+    }
 
-  it should "produce repo pools of the right size" in {
-    context.repoPool.values.size should equal (1)
-    context.testRepoPool.values.size should equal (1)
-    context.inMemTestRepoPool.values.size should equal (1)
-  }
+    it should "produce a context with the right persistence strategy" in {
+      context.persistenceStrategy should equal (strat)
+    }
 
-  it should "provide RepoCrudSpecs against both test repo pools" in {
-    context.repoCrudSpec should not be (null)
-    context.inMemRepoCrudSpec should not be (null)
+    it should "produce repo pools of the right size" in {
+      context.repoPool.values.size should equal (1)
+      context.testRepoPool.values.size should equal (1)
+      context.inMemTestRepoPool.values.size should equal (1)
+    }
+
+    it should "provide RepoCrudSpecs against both test repo pools" in {
+      context.repoCrudSpec should not be (null)
+      context.inMemRepoCrudSpec should not be (null)
+    }
+
   }
 
 }

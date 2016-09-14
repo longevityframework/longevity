@@ -7,7 +7,9 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a collection of repositories */
-class RepoPool(private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseRepo]) {
+class RepoPool(
+  private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseRepo],
+  private[this] val schemaCreator: SchemaCreator) {
 
   /** a `TypeKeyMap` of [[longevity.subdomain.persistent.Persistent]] to [[Repo]] */
   private val typeKeyMap: TypeKeyMap[Persistent, Repo] = baseRepoMap.widen
@@ -50,5 +52,17 @@ class RepoPool(private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseRe
   /** closes any open session from the underlying database */
   def closeSession()(implicit executionContext: ExecutionContext): Future[Unit] =
     baseRepoMap.values.headOption.map(_.close()).getOrElse(Future.successful(()))
+
+  /** non-desctructively creates any needed database constructs */
+  def createSchema()(implicit context: ExecutionContext): Future[Unit] =
+    schemaCreator.createSchema().flatMap { _ =>
+      def isPolyRepo(repo: BaseRepo[_ <: Persistent]) = repo.isInstanceOf[BasePolyRepo[_]]
+      def createSchemas(repoTest: (BaseRepo[_ <: Persistent]) => Boolean) =
+        Future.sequence(baseRepoMap.values.filter(repoTest).map(_.createSchema()))
+      for {
+        units1 <- createSchemas(isPolyRepo)
+        units2 <- createSchemas(repo => !isPolyRepo(repo))
+      } yield ()
+    }
 
 }

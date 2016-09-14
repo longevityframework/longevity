@@ -1,7 +1,8 @@
 package longevity.integration.noTranslation
 
-import longevity.persistence.RepoPool
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import longevity.persistence.RepoPool
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -20,6 +21,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 class NoTranslationSpec(val repoPool: RepoPool)
 extends FlatSpec
+with BeforeAndAfterAll
 with GivenWhenThen
 with Matchers
 with ScalaFutures
@@ -28,6 +30,8 @@ with ScaledTimeSpans {
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(Span(2000, Millis)),
     interval = scaled(Span(50, Millis)))
+
+  override def beforeAll = repoPool.createSchema().futureValue
 
   behavior of "Repo.create in the face of a untranslatable objects"
 

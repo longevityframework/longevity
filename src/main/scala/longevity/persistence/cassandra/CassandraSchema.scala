@@ -3,19 +3,24 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.realized.RealizedPropComponent
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.createSchema */
 private[cassandra] trait CassandraSchema[P <: Persistent] {
   repo: CassandraRepo[P] =>
 
-  protected def createSchema(): Unit = {
-    logger.debug(s"creating schema for table $tableName")
-    createTable()
-    createIndexes()
-    if (persistenceConfig.optimisticLocking) {
-      addColumn("row_version", "bigint")
+  protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
+    blocking {
+      logger.debug(s"creating schema for table $tableName")
+      createTable()
+      createIndexes()
+      if (persistenceConfig.optimisticLocking) {
+        addColumn("row_version", "bigint")
+      }
+      logger.debug(s"done creating schema for table $tableName")
     }
-    logger.debug(s"done creating schema for table $tableName")
   }
 
   protected def createTable(): Unit = {

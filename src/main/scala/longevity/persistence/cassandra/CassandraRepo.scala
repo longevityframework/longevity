@@ -3,6 +3,7 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
+import com.datastax.driver.core.exceptions.InvalidQueryException
 import com.typesafe.scalalogging.LazyLogging
 import emblem.TypeKey
 import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
@@ -16,8 +17,10 @@ import java.util.UUID
 import longevity.context.CassandraConfig
 import longevity.context.PersistenceConfig
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
+import longevity.persistence.SchemaCreator
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
@@ -27,6 +30,7 @@ import longevity.subdomain.realized.RealizedPropComponent
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import scala.concurrent.blocking
 
 /** a Cassandra repository for persistent entities of type `P`.
  *
@@ -165,7 +169,8 @@ with LazyLogging {
 
 private[persistence] object CassandraRepo {
 
-  case class CassandraSessionInfo(config: CassandraConfig) {
+  case class CassandraSessionInfo(config: CassandraConfig) extends SchemaCreator {
+
     lazy val cluster = {
       val builder = Cluster.builder.addContactPoint(config.address)
       config.credentials.map { creds =>
@@ -173,19 +178,34 @@ private[persistence] object CassandraRepo {
       }
       builder.build
     }
+
     lazy val session = {
-      val session = cluster.connect()
-      session.execute(
-        s"""|
-        |CREATE KEYSPACE IF NOT EXISTS ${config.keyspace}
-        |WITH replication = {
-        |  'class': 'SimpleStrategy',
-        |  'replication_factor': ${config.replicationFactor}
-        |};
-        |""".stripMargin)
-      session.execute(s"use ${config.keyspace}")
-      session
+      try {
+        underlyingSession.execute(s"use ${config.keyspace}")
+      } catch {
+        case e: InvalidQueryException if
+          e.getMessage.startsWith("Keyspace '") &&
+          e.getMessage.endsWith("' does not exist") =>
+          throw new KeyspaceDoesNotExistException(config, e)
+      }
+      underlyingSession
     }
+
+    private lazy val underlyingSession = cluster.connect()
+
+    def createSchema()(implicit context: ExecutionContext) = Future {
+      blocking {
+        underlyingSession.execute(
+          s"""|
+          |CREATE KEYSPACE IF NOT EXISTS ${config.keyspace}
+          |WITH replication = {
+          |  'class': 'SimpleStrategy',
+          |  'replication_factor': ${config.replicationFactor}
+          |};
+          |""".stripMargin)
+      }
+    }
+
   }
 
   def apply[P <: Persistent](
@@ -210,7 +230,6 @@ private[persistence] object CassandraRepo {
       case _ =>
         new CassandraRepo(pType, subdomain, session, config)
     }
-    repo.createSchema()
     repo
   }
 

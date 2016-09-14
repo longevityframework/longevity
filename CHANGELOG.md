@@ -1,13 +1,15 @@
 # Longevity Changelog
 
-## [0.12.0] - 2016.09.13 - Polish
+## [0.12.0] - 2016.09.13 - Flotsam and Jetsam
 
+- 2016.09.14 - Add `RepoPool.createSchema()` and configuration flag
+  `autogenerateSchema`.
 - 2016.09.13 - Add logging for all `Repo` methods and database calls.
-- 2016.09.13 - Add API method RepoPool.closeSession(). This was added
-  because leaving the Cassandra session open can cause user programs
-  to fail to terminate under certain circumstances, If your main
-  program is hanging when using Cassandra, please call this method at
-  the end of your program.
+- 2016.09.13 - Add API method `RepoPool.closeSession()`. This was
+  added because leaving the Cassandra session open can cause user
+  programs to fail to terminate under certain circumstances, If your
+  main program is hanging when using Cassandra, please call this
+  method at the end of your program.
 	
 ## [0.11.0] - 2016.08.29 - API Simplifications
 

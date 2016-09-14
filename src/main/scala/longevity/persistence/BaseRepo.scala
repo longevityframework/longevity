@@ -37,6 +37,8 @@ extends Repo[P] {
 
   def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed]
 
-  protected[persistence] def close()(implicit executionContext: ExecutionContext): Future[Unit]
+  protected[persistence] def close()(implicit context: ExecutionContext): Future[Unit]
+
+  protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit]
 
 }
