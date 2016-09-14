@@ -5,9 +5,7 @@ layout: page
 
 Welcome to longevity! This user manual will show you all you need to
 know in order to use it. We recommend you read through the manual
-once, and then come back to it as a reference. If you are new to
-Domain Driven Design, or feel that you might need a refresher, please
-glance through the chapters on [the basics of DDD](./ddd-basics/).
+once, and then come back to it as a reference.
 
 ## Table of Contents
 
