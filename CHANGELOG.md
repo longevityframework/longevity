@@ -1,7 +1,16 @@
 # Longevity Changelog
 
-## [0.12.0] - 2016.09.13 - Flotsam and Jetsam
+## [0.13-SNAPSHOT] - Jetsam
 
+Some odds and ends that have been accumulating in the backlog.
+
+## [0.12.0] - 2016.09.13 - Flotsam
+
+Some odds and ends that have been accumulating in the backlog.
+
+- 2016.09.15 - Remove `PState.dirty`. We are taking this out because
+  there we may decide to stop keeping track of the original version
+  of the persistent object, in order to reduce memory usage.
 - 2016.09.14 - Add `RepoPool.createSchema()` and configuration flag
   `autogenerateSchema`.
 - 2016.09.13 - Add logging for all `Repo` methods and database calls.

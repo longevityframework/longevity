@@ -20,10 +20,6 @@ case class PState[P <: Persistent] private (
    */
   def map(f: P => P): PState[P] = PState(id, rowVersion, orig, f(p))
 
-  /** returns true iff there are unpersisted changes to the persistent object */
-  // we may want to consider === here if we allow for non-case class persistents
-  def dirty = orig == p
-
   /** returns a copy of this persistent state with a wider type bound */
   def widen[Q >: P <: Persistent]: PState[Q] = new PState[Q](id.widen[Q], rowVersion, orig, p)
 
