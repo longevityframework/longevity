@@ -64,7 +64,7 @@ with ScalaFutures
 with ScaledTimeSpans {
 
   override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(4000 millis),
+    timeout = scaled(5000 millis),
     interval = scaled(50 millis))
 
   override def beforeAll = repoPool.createSchema().futureValue
