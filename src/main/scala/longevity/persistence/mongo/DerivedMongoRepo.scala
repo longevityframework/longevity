@@ -11,7 +11,7 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
 
   protected val polyRepo: MongoRepo[Poly]
 
-  override protected[mongo] val mongoCollection = polyRepo.mongoCollection
+  override protected[mongo] lazy val mongoCollection = polyRepo.mongoCollection
 
   override protected def createIndex(paths: Seq[String], indexName: String, unique: Boolean): Unit =
     super.createIndex("discriminator" +: paths, indexName, unique)
