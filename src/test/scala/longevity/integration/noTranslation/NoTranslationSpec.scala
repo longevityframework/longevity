@@ -30,7 +30,7 @@ with ScaledTimeSpans
 with LazyLogging {
 
   override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(Span(2000, Millis)),
+    timeout = scaled(Span(5000, Millis)),
     interval = scaled(Span(50, Millis)))
 
   override def beforeAll = {
