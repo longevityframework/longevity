@@ -13,6 +13,7 @@ to maintain your back-end store.
 - [Configuring your Longevity Context](config.html)
 - [Optimistic Locking](opt-lock.html)
 - [Repo Pools](repo-pools.html)
+- [Schema Creation](schema-creation.html)
 - [Persistent State](persistent-state.html)
 
 {% assign prevTitle = "controlled vocabularies" %}

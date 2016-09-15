@@ -37,11 +37,11 @@ class TestPersistenceModule extends Module {
 }
 ```
 
-The `Repo` API makes heavy use of the persistent state, or `PState`,
-so we will take a look at that before moving on to repositories.
+We'll look at schema creation next, since that responsibility falls to
+the `RepoPool`.
 
-{% assign prevTitle = "optimistic locking" %}
-{% assign prevLink = "opt-lock.html" %}
+{% assign prevTitle = "schema creation" %}
+{% assign prevLink = "schema-creation.html" %}
 {% assign upTitle = "the longevity context" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "persistent state" %}

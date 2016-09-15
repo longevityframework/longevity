@@ -36,6 +36,7 @@ once, and then come back to it as a reference.
   - [Configuring your Longevity Context](context/config.html)
   - [Optimistic Locking](context/opt-lock.html)
   - [Repo Pools](context/repo-pools.html)
+  - [Schema Creation](context/schema-creation.html)
   - [Persistent State](context/persistent-state.html)
 - [Repositories](repo/index.html)
   - [The Repo API](repo/repo-api.html)
