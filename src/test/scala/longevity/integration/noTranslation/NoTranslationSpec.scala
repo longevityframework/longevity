@@ -1,5 +1,6 @@
 package longevity.integration.noTranslation
 
+import com.typesafe.scalalogging.LazyLogging
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.persistence.RepoPool
 import org.scalatest.BeforeAndAfterAll
@@ -25,13 +26,20 @@ with BeforeAndAfterAll
 with GivenWhenThen
 with Matchers
 with ScalaFutures
-with ScaledTimeSpans {
+with ScaledTimeSpans
+with LazyLogging {
 
   override implicit def patienceConfig = PatienceConfig(
     timeout = scaled(Span(2000, Millis)),
     interval = scaled(Span(50, Millis)))
 
-  override def beforeAll = repoPool.createSchema().futureValue
+  override def beforeAll = {
+    val createSchemaFuture = repoPool.createSchema()
+    createSchemaFuture.onFailure {
+      case t: Throwable => logger.error("failed to create schema", t)
+    }
+    createSchemaFuture.futureValue
+  }
 
   behavior of "Repo.create in the face of a untranslatable objects"
 
