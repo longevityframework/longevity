@@ -28,7 +28,7 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with Matchers with Scal
     Cassandra,
     CustomGeneratorPool.empty,
     LongevityConfig(
-      autogenerateSchema = false,
+      autocreateSchema = false,
       optimisticLocking = false,
       mongodb = null,
       cassandra = CassandraConfig(

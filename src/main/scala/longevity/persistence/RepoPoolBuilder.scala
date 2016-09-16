@@ -42,7 +42,7 @@ private[longevity] object RepoPoolBuilder {
         val cassandraConfig = if (test) config.test.cassandra else config.cassandra
         cassandraRepoPool(subdomain, CassandraSessionInfo(cassandraConfig), config)
     }
-    if (config.autogenerateSchema) {
+    if (config.autocreateSchema) {
       Await.result(pool.createSchema()(ExecutionContext.global), Duration(1, "seconds"))
     }
     pool
@@ -63,7 +63,7 @@ private[longevity] object RepoPoolBuilder {
       : InMemRepo[P] =
         InMemRepo[P](pType, subdomain, persistenceConfig, polyRepoOpt)
     }
-    buildRepoPool(subdomain, repoFactory, SchemaCreator.empty)
+    buildRepoPool(subdomain, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
   private def mongoRepoPool(
@@ -78,7 +78,7 @@ private[longevity] object RepoPoolBuilder {
       : MongoRepo[P] =
         MongoRepo[P](pType, subdomain, session, persistenceConfig, polyRepoOpt)
     }
-    buildRepoPool(subdomain, repoFactory, SchemaCreator.empty)
+    buildRepoPool(subdomain, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
   private def cassandraRepoPool(
@@ -93,13 +93,14 @@ private[longevity] object RepoPoolBuilder {
       : CassandraRepo[P] =
         CassandraRepo[P](pType, subdomain, session, persistenceConfig, polyRepoOpt)
     }
-    buildRepoPool(subdomain, repoFactory, session)
+    buildRepoPool(subdomain, repoFactory, session, persistenceConfig)
   }
 
   private def buildRepoPool[R[P <: Persistent] <: BaseRepo[P]](
     subdomain: Subdomain,
     stockRepoFactory: StockRepoFactory[R],
-    schemaCreator: SchemaCreator)
+    schemaCreator: SchemaCreator,
+    persistenceConfig: PersistenceConfig)
   : RepoPool = {
     var keyToRepoMap = TypeKeyMap[Persistent, R]
     type Pair[P <: Persistent] = TypeBoundPair[Persistent, TypeKey, PType, P]
@@ -120,6 +121,7 @@ private[longevity] object RepoPoolBuilder {
     subdomain.pTypePool.filterNot(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
     val repoPool = new RepoPool(keyToRepoMap.widen[BaseRepo], schemaCreator)
     finishRepoInitialization(repoPool)
+    autocreateSchema(repoPool, persistenceConfig)
     repoPool
   }
 
@@ -129,6 +131,15 @@ private[longevity] object RepoPoolBuilder {
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
     repoPool.baseRepoMap.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
+  }
+
+  private def autocreateSchema(repoPool: RepoPool, persistenceConfig: PersistenceConfig): Unit = {
+    if (persistenceConfig.autocreateSchema) {
+      import scala.concurrent.Await
+      import scala.concurrent.duration.Duration
+      import scala.concurrent.ExecutionContext.Implicits.global
+      Await.result(repoPool.createSchema(), Duration(5, "seconds"))
+    }
   }
 
 }

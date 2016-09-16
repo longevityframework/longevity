@@ -55,7 +55,7 @@ object ContextSpec {
     import longevity.context.CassandraConfig
 
     val longevityConfig = LongevityConfig(
-      autogenerateSchema = false,
+      autocreateSchema = false,
       optimisticLocking = true,
       mongodb = MongoConfig(
         uri = "localhost:27017",
