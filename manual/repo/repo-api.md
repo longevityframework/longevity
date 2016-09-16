@@ -9,8 +9,6 @@ operations, as follows:
 ```scala
 package longevity.persistence
 
-import akka.NotUsed
-import akka.stream.scaladsl.Source
 import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Query
@@ -47,21 +45,15 @@ trait Repo[P <: Persistent] {
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext): Future[PState[P]]
+  def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext)
+  : Future[PState[P]]
 
   /** retrieves multiple persistent objects matching a query
    * 
    * @param query the query to execute
    * @param executionContext the execution context
    */
-  def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext)
-  : Future[Seq[PState[P]]]
-
-  /** streams persistent objects matching a query
-   * 
-   * @param query the query to execute
-   */
-  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed]
+  def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext): Future[Seq[PState[P]]]
 
   /** updates the persistent object
    * 
@@ -83,16 +75,44 @@ trait Repo[P <: Persistent] {
 Don't worry about the complicated type parameters on the `retrieve`
 and `retrieveOne` methods - they can easily be inferred by the compiler.
 
-Because all of the methods in `Repo` are potentially blocking, they
-all return some kind of asynchronous construct - either a [Scala
-`Future`](http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future),
-or, in the case of `streamByQuery`, an [Akka
-Stream](http://doc.akka.io/docs/akka/current/scala/stream/index.html).
-
 Methods returning a Scala `Future` require an implicit execution
 context argument. The easiest way to provide this is to include
 `import scala.concurrent.ExecutionContext.Implicits.global` at the top
 of the file.
+
+The streaming query API is provided by an implicit conversion from
+`Repo[P]` to `StreamingRepo[P]`, which looks something like this:
+
+```scala
+package longevity.persistence
+
+import akka.NotUsed
+import akka.stream.scaladsl.Source
+import longevity.subdomain.ptype.Query
+import longevity.subdomain.persistent.Persistent
+
+/** provides repository methods that use Akka Streams for repository streaming
+ * API.
+ * 
+ * `StreamingRepo` is provided by an implicit conversion from `Repo`, so that
+ * Akka Streams can remain an optional dependency for longevity users.
+ * otherwise, it would have been included as part of the [[Repo]].
+ */
+implicit class StreamingRepo[P <: Persistent](repo: Repo[P]) {
+
+  /** streams persistent objects matching a query
+   * 
+   * @param query the query to execute
+   */
+  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] =
+      repo.asInstanceOf[BaseRepo[P]].streamByQueryImpl(query)
+
+}
+```
+
+The `streamByQuery` method is provided implicitly, rather than
+directly within the `Repo` API, so that Akka streams can be an
+optional dependency.
 
 We will will discuss the `Repo` API methods in turn, but it's helpful
 to cover one point up front: the `retrieveOne` method is a simple
