@@ -1,6 +1,6 @@
-// longevity/bin/ReleaseStage2.scala
+// longevity/bin/ReleaseStage3.scala
 
-// covers step 2 in this doc:
+// covers step 3 in this doc:
 // https://docs.google.com/document/d/1RisEp9o0825YJaYjKu4AM9W8wIYNgEO2jt0RxmioJMo/edit?usp=sharing
 
 // - pass `sbt clean test doc`
@@ -10,14 +10,15 @@
 import scala.sys.process._
 import java.io.File
 
-object ReleaseStage2 extends App {
+object ReleaseStage3 extends App {
 
-  if (args.length != 2) {
-    sys.error("usage: ReleaseStage2 oldVersion newVersion")
+  if (args.length != 1) {
+    sys.error("usage: ReleaseStage3 x.y")
   }
 
-  val oldVersion = args(0)
-  val newVersion = args(1)
+  val majorMinor = args(0)
+  val oldVersion = majorMinor + "-SNAPSHOT"
+  val newVersion = majorMinor + ".0"
 
   def run(processBuilder: ProcessBuilder): Unit = {
     val exitCode = processBuilder.!
