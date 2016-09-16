@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Mongo - longevity 0.13-SNAPSHOT API - longevity.context.Mongo</title>
-          <meta name="description" content="Mongo - longevity 0.13 - SNAPSHOT API - longevity.context.Mongo" />
-          <meta name="keywords" content="Mongo longevity 0.13 SNAPSHOT API longevity.context.Mongo" />
+          <title>UnrecoverableLongevityException - longevity 0.13-SNAPSHOT API - longevity.exceptions.UnrecoverableLongevityException</title>
+          <meta name="description" content="UnrecoverableLongevityException - longevity 0.13 - SNAPSHOT API - longevity.exceptions.UnrecoverableLongevityException" />
+          <meta name="keywords" content="UnrecoverableLongevityException longevity 0.13 SNAPSHOT API longevity.exceptions.UnrecoverableLongevityException" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../index.html';
-            var hash = 'longevity.context.Mongo';
+            var hash = 'longevity.exceptions.UnrecoverableLongevityException';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,14 +28,12 @@
         </head>
         <body class="type">
       <div id="definition">
-        <a href="Mongo$.html" title="See companion object"><img alt="Trait/Object" src="../../lib/trait_to_object_big.png" /></a>
-        <p id="owner"><a href="../package.html" class="extype" name="longevity">longevity</a>.<a href="package.html" class="extype" name="longevity.context">context</a></p>
-        <h1><a href="Mongo$.html" title="See companion object">Mongo</a></h1><h3><span class="morelinks"><div>
-            Related Docs:
-            <a href="Mongo$.html" title="See companion object">object Mongo</a>
-            | <a href="package.html" class="extype" name="longevity.context">package context</a>
+        <img alt="Trait" src="../../lib/trait_big.png" />
+        <p id="owner"><a href="../package.html" class="extype" name="longevity">longevity</a>.<a href="package.html" class="extype" name="longevity.exceptions">exceptions</a></p>
+        <h1>UnrecoverableLongevityException</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="longevity.exceptions">package exceptions</a>
           </div></span></h3><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -43,23 +41,25 @@
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier">sealed </span>
+        <span class="modifier"></span>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">Mongo</span><span class="result"> extends <a href="PersistenceStrategy.html" class="extype" name="longevity.context.PersistenceStrategy">PersistenceStrategy</a></span>
+        <span class="name">UnrecoverableLongevityException</span><span class="result"> extends <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a persistence strategy indicating that entities live in MongoDB</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/84326fb24941a53fef397373a11da159ece0df5e/src/main/scala/longevity/context/PersistenceStrategy.scala" target="_blank">PersistenceStrategy.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception that logs itself at warn level. this is for exceptions that
+indicate API misuse. these exceptions are intended to be unrecoverable.
+</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> with <span class="extype" name="scala.Throwable">Throwable</span></dd><dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/84326fb24941a53fef397373a11da159ece0df5e/src/main/scala/longevity/exceptions/UnrecoverableLongevityException.scala" target="_blank">UnrecoverableLongevityException.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="PersistenceStrategy.html" class="extype" name="longevity.context.PersistenceStrategy">PersistenceStrategy</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="Mongo$.html" class="extype" name="longevity.context.Mongo">Mongo</a></div>
+            <div class="subClasses hiddenContent"><a href="persistence/cassandra/AllInQueryException.html" class="extype" name="longevity.exceptions.persistence.cassandra.AllInQueryException">AllInQueryException</a>, <a href="persistence/cassandra/CassandraPersistenceException.html" class="extype" name="longevity.exceptions.persistence.cassandra.CassandraPersistenceException">CassandraPersistenceException</a>, <a href="persistence/cassandra/CompoundPropInOrderingQuery.html" class="extype" name="longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery">CompoundPropInOrderingQuery</a>, <a href="subdomain/DerivedHasNoPolyException.html" class="extype" name="longevity.exceptions.subdomain.DerivedHasNoPolyException">DerivedHasNoPolyException</a>, <a href="subdomain/DuplicateETypesException.html" class="extype" name="longevity.exceptions.subdomain.DuplicateETypesException">DuplicateETypesException</a>, <a href="subdomain/DuplicatePTypesException.html" class="extype" name="longevity.exceptions.subdomain.DuplicatePTypesException">DuplicatePTypesException</a>, <a href="persistence/cassandra/KeyspaceDoesNotExistException.html" class="extype" name="longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException">KeyspaceDoesNotExistException</a>, <a href="context/LongevityConfigException.html" class="extype" name="longevity.exceptions.context.LongevityConfigException">LongevityConfigException</a>, <a href="persistence/cassandra/NeqInQueryException.html" class="extype" name="longevity.exceptions.persistence.cassandra.NeqInQueryException">NeqInQueryException</a>, <a href="subdomain/ptype/NoKeysForPTypeException.html" class="extype" name="longevity.exceptions.subdomain.ptype.NoKeysForPTypeException">NoKeysForPTypeException</a>, <a href="subdomain/ptype/NoPropsForPTypeException.html" class="extype" name="longevity.exceptions.subdomain.ptype.NoPropsForPTypeException">NoPropsForPTypeException</a>, <a href="subdomain/NoSuchPropPathException.html" class="extype" name="longevity.exceptions.subdomain.NoSuchPropPathException">NoSuchPropPathException</a>, <a href="persistence/NotInSubdomainTranslationException.html" class="extype" name="longevity.exceptions.persistence.NotInSubdomainTranslationException">NotInSubdomainTranslationException</a>, <a href="persistence/cassandra/OrInQueryException.html" class="extype" name="longevity.exceptions.persistence.cassandra.OrInQueryException">OrInQueryException</a>, <a href="persistence/PStateChangesDerivedPTypeException.html" class="extype" name="longevity.exceptions.persistence.PStateChangesDerivedPTypeException">PStateChangesDerivedPTypeException</a>, <a href="subdomain/ptype/PTypeException.html" class="extype" name="longevity.exceptions.subdomain.ptype.PTypeException">PTypeException</a>, <a href="subdomain/PropTypeException.html" class="extype" name="longevity.exceptions.subdomain.PropTypeException">PropTypeException</a>, <a href="subdomain/SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException">SubdomainException</a>, <a href="persistence/TranslationException.html" class="extype" name="longevity.exceptions.persistence.TranslationException">TranslationException</a>, <a href="subdomain/UnsupportedPropTypeException.html" class="extype" name="longevity.exceptions.subdomain.UnsupportedPropTypeException">UnsupportedPropTypeException</a></div>
           </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 141.00 155.00" height="155pt" width="141pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 151)" class="graph" id="graph0"><polygon points="-4,4 -4,-151 137,-151 137,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.context.Mongo (this trait)" xlink:href="#inheritance-diagram"><polygon points="103.5,-86 29.5,-86 29.5,-61 103.5,-61 103.5,-86" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-80.5" x="39.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="60.3228" text-anchor="start">Mongo</text></a></g></g><!-- node1 --><g class="node object" id="graph1_1"><g id="a_object|graph1_1"><a xlink:title="longevity.context.Mongo" xlink:href="Mongo$.html#inheritance-diagram"><polygon points="103.5,-25 29.5,-25 29.5,-0 103.5,-0 103.5,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../lib/object_diagram.png" y="-19.5" x="39.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="60.3228" text-anchor="start">Mongo</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="Mongo is a subtype of Mongo"><path d="M66.5,-55.6874C66.5,-45.9173 66.5,-33.8534 66.5,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="64.7501,-55.8435 66.5,-60.8435 68.2501,-55.8435 64.7501,-55.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="longevity.context.PersistenceStrategy" xlink:href="PersistenceStrategy.html#inheritance-diagram"><polygon points="133,-147 0,-147 0,-122 133,-122 133,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-141.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="31.3672" text-anchor="start">PersistenceStrategy</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge inheritance" id="graph1_2_0"><g id="a_inheritance|graph1_2_0"><a xlink:title="Mongo is a subtype of PersistenceStrategy"><path d="M66.5,-116.687C66.5,-106.917 66.5,-94.8534 66.5,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="64.7501,-116.843 66.5,-121.843 68.2501,-116.844 64.7501,-116.843" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 922.00 155.00" height="155pt" width="922pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 151)" class="graph" id="graph0"><polygon points="-4,4 -4,-151 918,-151 918,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.exceptions.UnrecoverableLongevityException (this trait)" xlink:href="#inheritance-diagram"><polygon points="591.5,-86 396.5,-86 396.5,-61 591.5,-61 591.5,-86" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-80.5" x="407" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="427.732" text-anchor="start">UnrecoverableLongevityException</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.exceptions.persistence.cassandra.CassandraPersistenceException" xlink:href="persistence/cassandra/CassandraPersistenceException.html#inheritance-diagram"><polygon points="188,-25 -1.42109e-14,-25 -1.42109e-14,-0 188,-0 188,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-19.5" x="10" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="30.8501" text-anchor="start">CassandraPersistenceException</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="CassandraPersistenceException is a subtype of UnrecoverableLongevityException"><path d="M410.926,-60.2466C340.752,-49.8959 240.979,-35.1794 172.218,-25.0371" stroke="#d4d4d4" fill="none"></path><polygon points="410.725,-61.9857 415.926,-60.9841 411.235,-58.5232 410.725,-61.9857" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node class" id="graph1_2"><g id="a_class|graph1_2"><a xlink:title="longevity.exceptions.context.LongevityConfigException" xlink:href="context/LongevityConfigException.html#inheritance-diagram"><polygon points="365.5,-25 206.5,-25 206.5,-0 365.5,-0 365.5,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-19.5" x="217" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="237.796" text-anchor="start">LongevityConfigException</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge inheritance" id="graph1_0_2"><g id="a_inheritance|graph1_0_2"><a xlink:title="LongevityConfigException is a subtype of UnrecoverableLongevityException"><path d="M448.157,-59.4964C411.9,-49.2119 361.744,-34.9851 326.851,-25.0875" stroke="#d4d4d4" fill="none"></path><polygon points="448.114,-61.3032 453.402,-60.9841 449.069,-57.9361 448.114,-61.3032" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node class" id="graph1_3"><g id="a_class|graph1_3"><a xlink:title="longevity.exceptions.persistence.PStateChangesDerivedPTypeException" xlink:href="persistence/PStateChangesDerivedPTypeException.html#inheritance-diagram"><polygon points="604,-25 384,-25 384,-0 604,-0 604,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-19.5" x="394" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="414.725" text-anchor="start">PStateChangesDerivedPTypeException</text></a></g></g><!-- node0&#45;&gt;node3 --><g class="edge inheritance" id="graph1_0_3"><g id="a_inheritance|graph1_0_3"><a xlink:title="PStateChangesDerivedPTypeException is a subtype of UnrecoverableLongevityException"><path d="M494,-55.6874C494,-45.9173 494,-33.8534 494,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="492.25,-55.8435 494,-60.8435 495.75,-55.8435 492.25,-55.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node4 --><g class="node class" id="graph1_4"><g id="a_class|graph1_4"><a xlink:title="longevity.exceptions.subdomain.SubdomainException" xlink:href="subdomain/SubdomainException.html#inheritance-diagram"><polygon points="760,-25 622,-25 622,-0 760,-0 760,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-19.5" x="632" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="652.857" text-anchor="start">SubdomainException</text></a></g></g><!-- node0&#45;&gt;node4 --><g class="edge inheritance" id="graph1_0_4"><g id="a_inheritance|graph1_0_4"><a xlink:title="SubdomainException is a subtype of UnrecoverableLongevityException"><path d="M537.419,-59.4964C571.759,-49.2119 619.262,-34.9851 652.31,-25.0875" stroke="#d4d4d4" fill="none"></path><polygon points="536.739,-57.8731 532.451,-60.9841 537.743,-61.226 536.739,-57.8731" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node5 --><g class="node class" id="graph1_5"><g id="a_class|graph1_5"><a xlink:title="longevity.exceptions.persistence.TranslationException" xlink:href="persistence/TranslationException.html#inheritance-diagram"><polygon points="914,-25 778,-25 778,-0 914,-0 914,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-19.5" x="788" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="808.604" text-anchor="start">TranslationException</text></a></g></g><!-- node0&#45;&gt;node5 --><g class="edge inheritance" id="graph1_0_5"><g id="a_inheritance|graph1_0_5"><a xlink:title="TranslationException is a subtype of UnrecoverableLongevityException"><path d="M567.864,-60.1193C629.781,-49.7413 717.486,-35.0406 777.768,-24.9366" stroke="#d4d4d4" fill="none"></path><polygon points="567.347,-58.4316 562.705,-60.9841 567.925,-61.8835 567.347,-58.4316" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6 --><g class="node trait" id="graph1_6"><g id="a_trait|graph1_6"><a xlink:title="com.typesafe.scalalogging.LazyLogging"><polygon points="544,-147 444,-147 444,-122 544,-122 544,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-141.5" x="454" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="474.754" text-anchor="start">LazyLogging</text></a></g></g><!-- node6&#45;&gt;node0 --><g class="edge inheritance" id="graph1_6_0"><g id="a_inheritance|graph1_6_0"><a xlink:title="UnrecoverableLongevityException is a subtype of LazyLogging"><path d="M494,-116.687C494,-106.917 494,-94.8534 494,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="492.25,-116.843 494,-121.843 495.75,-116.844 492.25,-116.843" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -77,7 +77,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.context.Mongo"><span>Mongo</span></li><li class="in" name="longevity.context.PersistenceStrategy"><span>PersistenceStrategy</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.exceptions.UnrecoverableLongevityException"><span>UnrecoverableLongevityException</span></li><li class="in" name="com.typesafe.scalalogging.LazyLogging"><span>LazyLogging</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -119,7 +119,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -136,7 +136,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@##():Int" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@##():Int" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -153,34 +153,34 @@
         <span title="gt4s: $plus" class="implicit">+</span><span class="params">(<span name="other">other: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@+(other:String):String" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@+(other:String):String" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
-      <a id="-&gt;[B](B):(Mongo,B)"></a>
+      <a id="-&gt;[B](B):(UnrecoverableLongevityException,B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>, <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>, <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -198,7 +198,7 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -215,7 +215,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -232,7 +232,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@clone():Object" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@clone():Object" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -245,86 +245,86 @@
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring((Mongo)⇒Boolean,⇒Any):Mongo"></a>
+      <a id="ensuring((UnrecoverableLongevityException)⇒Boolean,⇒Any):UnrecoverableLongevityException"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.context.Mongo">Mongo</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean):A"></a>
-      <a id="ensuring((Mongo)⇒Boolean):Mongo"></a>
+      <a id="ensuring((UnrecoverableLongevityException)⇒Boolean):UnrecoverableLongevityException"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.context.Mongo">Mongo</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring(Boolean,⇒Any):Mongo"></a>
+      <a id="ensuring(Boolean,⇒Any):UnrecoverableLongevityException"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.context.Mongo">Mongo</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean):A"></a>
-      <a id="ensuring(Boolean):Mongo"></a>
+      <a id="ensuring(Boolean):UnrecoverableLongevityException"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.context.Mongo">Mongo</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@ensuring(cond:Boolean):A" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@ensuring(cond:Boolean):A" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -339,7 +339,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -356,7 +356,7 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -373,7 +373,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@finalize():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -396,13 +396,13 @@
         <span class="implicit">formatted</span><span class="params">(<span name="fmtstr">fmtstr: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@formatted(fmtstr:String):String" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@formatted(fmtstr:String):String" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -420,7 +420,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -437,7 +437,7 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@hashCode():Int" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -454,28 +454,28 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="longevity.context.Mongo#name" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="name:String"></a>
-      <a id="name:String"></a>
+    </li><li name="com.typesafe.scalalogging.LazyLogging#logger" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logger:com.typesafe.scalalogging.Logger"></a>
+      <a id="logger:Logger"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">lazy val</span>
       </span>
       <span class="symbol">
-        <span class="name">name</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+        <span class="name">logger</span><span class="result">: <span class="extype" name="com.typesafe.scalalogging.Logger">Logger</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@name:String" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@logger:com.typesafe.scalalogging.Logger" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">the name of the persistence strategy</p><div class="fullcomment"><div class="comment cmt"><p>the name of the persistence strategy</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.context.Mongo">Mongo</a> → <a href="PersistenceStrategy.html" class="extype" name="longevity.context.PersistenceStrategy">PersistenceStrategy</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>LazyLogging</dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -488,7 +488,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -505,7 +505,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@notify():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@notify():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -522,7 +522,7 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -539,7 +539,7 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -556,7 +556,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@toString():String" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@toString():String" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -573,7 +573,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@wait():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@wait():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -596,7 +596,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -619,7 +619,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -632,23 +632,23 @@
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
-      <a id="→[B](B):(Mongo,B)"></a>
+      <a id="→[B](B):(UnrecoverableLongevityException,B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>, <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>, <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.Mongo@→[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.exceptions.UnrecoverableLongevityException@→[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li></ol>
@@ -660,8 +660,8 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="longevity.context.PersistenceStrategy">
-              <h3>Inherited from <a href="PersistenceStrategy.html" class="extype" name="longevity.context.PersistenceStrategy">PersistenceStrategy</a></h3>
+        <div class="parent" name="com.typesafe.scalalogging.LazyLogging">
+              <h3>Inherited from <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
@@ -669,19 +669,19 @@
             </div>
         <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>]
+                <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>]
+                <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>]
+                <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.context.Mongo">Mongo</a> to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.context.Mongo">Mongo</a>]
+                <a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a> to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>]
               </h3>
             </div>
         </div>
