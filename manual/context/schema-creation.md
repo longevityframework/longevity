@@ -22,7 +22,7 @@ repositories. It returns a `Future[Unit]` - that is, the completion of
 the future will only indicate success or failure.
 
 An alternative way to generate schema is to set the [configuration
-flag](config.html) `longevity.autogenerateSchema` to true. In this
+flag](config.html) `longevity.autocreateSchema` to true. In this
 case, schema will be generated when the `RepoPool` is first
 accessed. Unlike calling `RepoPool.createSchema()`, schema
 autogeneration happens in a synchronous (i.e., blocking)

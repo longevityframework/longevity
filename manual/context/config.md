@@ -64,7 +64,7 @@ import longevity.context.TestConfig
 import longevity.context.CassandraConfig
 
 val longevityConfig = LongevityConfig(
-  autogenerateSchema = false,
+  autocreateSchema = false,
   optimisticLocking = false,
   mongodb = MongoConfig(
     uri = "localhost:27017",
