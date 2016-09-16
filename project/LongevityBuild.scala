@@ -89,7 +89,7 @@ trait BuildSettings {
 
     // common dependencies
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-    libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.12.0",
+    libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.14.0",
     libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test
     
   )
@@ -100,7 +100,7 @@ trait BuildSettings {
 
 object LongevityBuild extends Build with BuildSettings {
 
-  val akkaStreamDep: ModuleID = "com.typesafe.akka" %% "akka-stream" % "2.4.9"
+  val akkaStreamDep: ModuleID = "com.typesafe.akka" %% "akka-stream" % "2.4.10"
   val casbahDep: ModuleID = "org.mongodb" %% "casbah" % "3.1.1"
   val cassandraDep: ModuleID = "com.datastax.cassandra" % "cassandra-driver-core" % "3.1.0"
   val json4sDep: ModuleID = "org.json4s" %% "json4s-native" % "3.4.0"
