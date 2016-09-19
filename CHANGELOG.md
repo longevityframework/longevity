@@ -4,6 +4,7 @@
 
 Some odds and ends that have been accumulating in the backlog.
 
+- 2016.09.19 - Add `OPState` to go along with `FPState` and `FOPState`.
 - 2016.09.19 - Add JSON marshallers at
   `LongevityContext.jsonMarshaller` and
   `LongevityContext.jsonUnmarshaller`.
