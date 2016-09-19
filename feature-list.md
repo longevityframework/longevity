@@ -37,6 +37,7 @@ manual](manual). They include:
 - Fully featured in-memory repositories for use in other integration
   testing.
 - Test data generation.
+- JSON marshallers.
 
 ## Features planned for 1.0 release
 
