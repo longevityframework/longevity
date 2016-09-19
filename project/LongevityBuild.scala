@@ -117,12 +117,12 @@ object LongevityBuild extends Build with BuildSettings {
 
       // optional library dependencies:
       libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
-
-      // test-only dependencies:
-      libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.21" % Test,
-
-      // for streaming api:
+      libraryDependencies += json4sDep % Optional,
       libraryDependencies += akkaStreamDep % Optional,
+
+      // test dependencies:
+      libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.21" % Test,
+      libraryDependencies += json4sDep % Test,
       libraryDependencies += akkaStreamDep % Test,
 
       // for mongo:

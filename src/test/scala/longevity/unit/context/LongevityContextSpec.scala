@@ -8,6 +8,8 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
+import org.json4s.JsonAST.JObject
+import org.json4s.JsonAST.JString
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -65,6 +67,24 @@ class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
     it should "provide RepoCrudSpecs against both test repo pools" in {
       context.repoCrudSpec should not be (null)
       context.inMemRepoCrudSpec should not be (null)
+    }
+
+    it should "provide a working JSON marshaller" in {
+      import LongevityContextSpec.sample.AId
+      val marshaller = context.jsonMarshaller
+      val jvalue = marshaller.marshall(AId("foo"))
+      jvalue shouldBe a [JObject]
+      val jobject = jvalue.asInstanceOf[JObject]
+      jobject.values.size should equal (1)
+      jobject.values.contains("id") should be (true)
+      jobject.values("id") should equal ("foo")
+    }
+
+    it should "provide a working JSON unmarshaller" in {
+      import LongevityContextSpec.sample.AId
+      val unmarshaller = context.jsonUnmarshaller
+      val aid = unmarshaller.unmarshall[AId](JObject(("id", JString("foo")) :: Nil))
+      aid should equal (AId("foo"))
     }
 
   }
