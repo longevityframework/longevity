@@ -9,6 +9,109 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** code samples found in the repo chapter of the user manual */
 object RepoSpec {
 
+  import org.joda.time.DateTime
+  import longevity.subdomain.KeyVal
+  import longevity.subdomain.Subdomain
+  import longevity.subdomain.embeddable.Entity
+  import longevity.subdomain.embeddable.EntityType
+  import longevity.subdomain.embeddable.ETypePool
+  import longevity.subdomain.embeddable.ValueObject
+  import longevity.subdomain.embeddable.ValueType
+  import longevity.subdomain.persistent.Root
+  import longevity.subdomain.ptype.PTypePool
+  import longevity.subdomain.ptype.RootType
+
+  case class Markdown(markdown: String) extends ValueObject
+  case class Uri(uri: String) extends ValueObject
+
+  import longevity.subdomain.KeyVal
+
+  case class Username(username: String)
+  extends KeyVal[User, Username](User.keys.username)
+
+  case class Email(email: String)
+  extends KeyVal[User, Email](User.keys.email)
+
+  case class User(
+    username: Username,
+    fullname: String,
+    email: Email,
+    profile: Option[UserProfile] = None)
+  extends Root
+
+  object User extends RootType[User] {
+    object props {
+      val username = prop[Username]("username")
+      val email = prop[Email]("email")
+    }
+    object keys {
+      val username = key(props.username)
+      val email = key(props.email)
+    }
+  }
+
+  case class UserProfile(
+    tagline: String,
+    imageUri: Uri,
+    description: Markdown)
+  extends Entity
+
+  case class BlogUri(uri: Uri)
+  extends KeyVal[Blog, BlogUri](Blog.keys.uri)
+
+  case class Blog(
+    uri: BlogUri,
+    title: String,
+    description: Markdown,
+    authors: Set[Username])
+  extends Root
+
+  object Blog extends RootType[Blog] {
+    object props {
+      val uri = prop[BlogUri]("uri")
+    }
+    object keys {
+      val uri = key(props.uri)
+    }
+  }
+
+  case class BlogPostUri(uri: Uri)
+  extends KeyVal[BlogPost, BlogPostUri](BlogPost.keys.uri)
+
+  case class BlogPost(
+    uri: BlogPostUri,
+    title: String,
+    slug: Option[Markdown] = None,
+    content: Markdown,
+    labels: Set[String] = Set(),
+    postDate: DateTime,
+    blog: BlogUri,
+    authors: Set[Username])
+  extends Root
+
+  object BlogPost extends RootType[BlogPost] {
+    object props {
+      val uri = prop[BlogPostUri]("uri")
+      val blog = prop[BlogUri]("blog")
+      val postDate = prop[DateTime]("postDate")
+    }
+    object keys {
+      val uri = key(props.uri)
+    }
+    object indexes {
+      val recentPosts = index(props.blog, props.postDate)
+    }
+  }
+
+  val blogCore = Subdomain(
+    "blogging",
+    PTypePool(User, Blog, BlogPost),
+    ETypePool(ValueType[Markdown], ValueType[Uri], EntityType[UserProfile]))
+
+  import longevity.context._
+
+  val context = LongevityContext(blogCore, Mongo)
+
 }
 
 /** exercises code samples found in the repo chapter of the user manual.
@@ -19,7 +122,7 @@ object RepoSpec {
  */
 class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLogging {
 
-  import longevity.integration.quickStart.QuickStartSpec._
+  import RepoSpec._
 
   protected val repos = context.testRepoPool
   protected val userRepo = repos[User]
