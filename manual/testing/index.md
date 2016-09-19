@@ -12,6 +12,8 @@ box. And you can subclass `QuerySpec` to easily exercise any queries
 you rely on.
 
 - [In Memory Repositories](in-mem-repos.html)
+- [Generating Test Data](test-data.html)
+- [Enforcing Constraints](constraints.html)
 - [RepoCrudSpec](repo-crud-spec.html)
 - [QuerySpec](query-spec.html)
 

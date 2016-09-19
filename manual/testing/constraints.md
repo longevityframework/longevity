@@ -3,12 +3,10 @@ title: enforcing constraints
 layout: page
 ---
 
-After having read about [RepoCrudSpec](testing/repo-crud-spec.html)
-and [QuerySpec](testing/query-spec.html), you may have been left
-wondering how we go about generating the test data. The answer is, you
-gave us nearly all the information we need to do so in your
-[subdomain](subdomain.html). The only thing we cannot handle out of
-the box is when exceptions are thrown in the constructors of your
+The test data generator described in the [previous
+section](test-data.html) will handle most anything you put in your
+domain. The only thing we cannot handle out of the box is when
+exceptions are thrown in the constructors of your
 [persistent](persistent) and [embeddable](embeddable) classes.
 
 A class constructor is a great place to enforce domain constraints,
@@ -56,11 +54,11 @@ val cassandraContext = LongevityContext(
 The `customGeneratorPool` is an optional parameter that defaults to an
 empty set.
 
-{% assign prevTitle = "query spec" %}
-{% assign prevLink = "testing/query-spec.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = "./" %}
-{% assign nextTitle = "translating persistents to the database" %}
-{% assign nextLink = "translation" %}
+{% assign prevTitle = "generating test data" %}
+{% assign prevLink = "test-data.html" %}
+{% assign upTitle = "testing your subdomain" %}
+{% assign upLink = "." %}
+{% assign nextTitle = "repo crud spec" %}
+{% assign nextLink = "repo-crud-spec.html" %}
 {% include navigate.html %}
 

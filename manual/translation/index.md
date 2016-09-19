@@ -16,8 +16,8 @@ This treatment is broken down into the following sections:
 - [MongoDB Translation](mongo.html)
 - [Cassandra Translation](cassandra.html)
 
-{% assign prevTitle = "enforcing constraints" %}
-{% assign prevLink = "../constraints.html" %}
+{% assign prevTitle = "query spec" %}
+{% assign prevLink = "../testing/query-spec.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "persistent to json" %}

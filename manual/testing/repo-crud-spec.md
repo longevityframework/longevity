@@ -61,10 +61,10 @@ The default test data generator will not work out of the box in the
 face of constraint violations causing exceptions to be thrown from
 your persistent and embeddable constructors. In this case, you need to
 provide custom generators for your types. This is described in the
-section on [enforcing constraints](../constraints.html).
+section on [enforcing constraints](constraints.html).
 
-{% assign prevTitle = "in memory repositories" %}
-{% assign prevLink = "in-mem-repos.html" %}
+{% assign prevTitle = "enforcing constraints" %}
+{% assign prevLink = "constraints.html" %}
 {% assign upTitle = "testing" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "query spec" %}

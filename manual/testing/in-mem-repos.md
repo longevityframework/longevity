@@ -34,6 +34,6 @@ val userService = new UserService(longevityContext.inMemRepoPool[User])
 {% assign prevLink = "." %}
 {% assign upTitle = "testing your subdomain" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "repo crud spec" %}
-{% assign nextLink = "repo-crud-spec.html" %}
+{% assign nextTitle = "generating test data" %}
+{% assign nextLink = "test-data.html" %}
 {% include navigate.html %}

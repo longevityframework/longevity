@@ -42,12 +42,12 @@ Please note that the default test data generator will not work out of
 the box in the face of constraint violations causing exceptions to be
 thrown from your constructor. In this case, you need to provide custom
 generators for your types. This is described in the [next
-section](../constraints.html).
+section](constraints.html).
 
 {% assign prevTitle = "repo crud spec" %}
 {% assign prevLink = "repo-crud-spec.html" %}
 {% assign upTitle = "testing" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "enforcing constraints" %}
-{% assign nextLink = "../constraints.html" %}
+{% assign nextTitle = "translating persistents to the database" %}
+{% assign nextLink = "../translation" %}
 {% include navigate.html %}
