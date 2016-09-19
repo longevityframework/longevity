@@ -4,6 +4,10 @@
 
 Some odds and ends that have been accumulating in the backlog.
 
+- 2016.09.19 - Add JSON marshallers at
+  `LongevityContext.jsonMarshaller` and
+  `LongevityContext.jsonUnmarshaller`.
+
 ## [0.12.0] - 2016.09.13 - Flotsam
 
 Some odds and ends that have been accumulating in the backlog.
