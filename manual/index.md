@@ -38,6 +38,7 @@ once, and then come back to it as a reference.
   - [Repo Pools](context/repo-pools.html)
   - [Schema Creation](context/schema-creation.html)
   - [Persistent State](context/persistent-state.html)
+  - [Persistent State Wrappers](context/pstate-wrappers.html)
 - [Repositories](repo/index.html)
   - [The Repo API](repo/repo-api.html)
   - [Repo.create](repo/create.html)

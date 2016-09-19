@@ -18,8 +18,8 @@ the overall API, then discuss each of the API methods in turn.
 - [Repo.delete](delete.html)
 - [Polymorphic Repositories](poly.html)
 
-{% assign prevTitle = "persistent state" %}
-{% assign prevLink = "../context/persistent-state.html" %}
+{% assign prevTitle = "persistent state wrappers" %}
+{% assign prevLink = "../context/pstate-wrappers.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
 {% assign nextTitle = "the repo api" %}

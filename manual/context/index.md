@@ -15,6 +15,7 @@ to maintain your back-end store.
 - [Repo Pools](repo-pools.html)
 - [Schema Creation](schema-creation.html)
 - [Persistent State](persistent-state.html)
+- [Persistent State Wrappers](pstate-wrappers.html)
 
 {% assign prevTitle = "controlled vocabularies" %}
 {% assign prevLink = "../poly/cv.html" %}
