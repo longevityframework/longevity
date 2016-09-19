@@ -55,6 +55,22 @@ package object persistence {
 
   }
 
+  /** an optional persistent state */
+  type OPState[P <: Persistent] = Option[PState[P]]
+
+  /** extension methods for an [[OPState]] */
+  implicit class LiftOPState[P <: Persistent](opState: OPState[P]) {
+
+    /** map the optional PState by mapping the Persistent inside */
+    def mapP(f: P => P): OPState[P] =
+      opState.map { pState => pState.map { p => f(p) } }
+
+    /** flatMap the optional PState by flat-mapping the Persistent inside */
+    def flatMapP(f: P => Option[P]): OPState[P] =
+      opState.flatMap { pState => f(pState.get) map { p => pState.set(p) } }
+
+  }
+
   /** a future option persistent state */
   type FOPState[P <: Persistent] = Future[Option[PState[P]]]
 
