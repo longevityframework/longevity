@@ -15,7 +15,7 @@ trait LongevityFuturesSpec extends Matchers with ScalaFutures with ScaledTimeSpa
   protected implicit val executionContext: ExecutionContext
 
   override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(4000.millis),
+    timeout = scaled(10000.millis),
     interval = scaled(50.millis))
 
 }
