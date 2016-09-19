@@ -11,13 +11,7 @@ import longevity.persistence.inmem.InMemRepo
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.Query
-import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
-import org.scalatest.GivenWhenThen
-import org.scalatest.Matchers
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.concurrent.ScaledTimeSpans
-import org.scalatest.time.SpanSugar.convertIntToGrainOfTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -39,24 +33,10 @@ import scala.concurrent.Future
  * @param executionContext the execution context
  */
 abstract class QuerySpec[P <: Persistent : TypeKey](
-  context: LongevityContext,
-  pool: RepoPool)(
-  implicit executionContext: ExecutionContext)
-extends {
-  protected val longevityContext = context
-  protected val repoPool = pool
-}
-with FlatSpec
-with BeforeAndAfterAll
-with GivenWhenThen
-with LazyLogging
-with Matchers
-with ScalaFutures
-with ScaledTimeSpans {
-
-  override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(4000.millis),
-    interval = scaled(50.millis))
+  protected val longevityContext: LongevityContext,
+  protected val repoPool: RepoPool)(
+  protected implicit val executionContext: ExecutionContext)
+extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
 
   /** the number of entities to run queries against */
   protected val numEntities = 10
@@ -74,7 +54,7 @@ with ScaledTimeSpans {
   protected final var pStates: Seq[PState[P]] = _
 
   override def beforeAll(): Unit = {
-    repoPool.createSchema().futureValue
+    super.beforeAll()
     val rootStateSeq = for (i <- 0.until(numEntities)) yield repo.create(generateP())
     pStates = Future.sequence(rootStateSeq).futureValue
     entities = pStates.map(_.get).toSet

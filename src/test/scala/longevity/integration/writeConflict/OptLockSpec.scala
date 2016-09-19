@@ -4,32 +4,20 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.integration.subdomain.basics
 import longevity.persistence.RepoPool
-import org.scalatest.BeforeAndAfterAll
+import longevity.test.LongevityIntegrationSpec
 import org.scalatest.FlatSpec
-import org.scalatest.GivenWhenThen
-import org.scalatest.Matchers
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.time.SpanSugar._
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 /** base class for testing optimistic locking */
 abstract class OptLockSpec(
   protected val longevityContext: LongevityContext,
   protected val repoPool: RepoPool)
-extends FlatSpec
-with BeforeAndAfterAll
-with GivenWhenThen
-with Matchers
-with ScalaFutures {
+extends FlatSpec with LongevityIntegrationSpec {
+
+  override protected implicit val executionContext = globalExecutionContext
 
   private val generator = longevityContext.testDataGenerator
   private val repo = repoPool[basics.Basics]
-
-  override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(4000.millis),
-    interval = scaled(50.millis))
-
-  override def beforeAll() = repoPool.createSchema().futureValue
 
   behavior of "Repo.{update,delete} when the original PState comes from a create"
 

@@ -3,15 +3,11 @@ package longevity.integration.noTranslation
 import com.typesafe.scalalogging.LazyLogging
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.persistence.RepoPool
+import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
-import org.scalatest.Matchers
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.concurrent.ScaledTimeSpans
-import org.scalatest.time.Millis
-import org.scalatest.time.Span
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 /** integration tests for things in the subdomain that don't have mongo
  * transations. this indicates a "bug" in the subdomain - some kind of shorthand
@@ -22,24 +18,18 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 class NoTranslationSpec(val repoPool: RepoPool)
 extends FlatSpec
+with LongevityFuturesSpec
 with BeforeAndAfterAll
 with GivenWhenThen
-with Matchers
-with ScalaFutures
-with ScaledTimeSpans
 with LazyLogging {
 
-  override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(Span(5000, Millis)),
-    interval = scaled(Span(50, Millis)))
+  override protected implicit val executionContext = globalExecutionContext
 
-  override def beforeAll = {
-    val createSchemaFuture = repoPool.createSchema()
-    createSchemaFuture.onFailure {
-      case t: Throwable => logger.error("failed to create schema", t)
-    }
-    createSchemaFuture.futureValue
-  }
+  override def beforeAll = repoPool.createSchema().recover({
+    case t: Throwable =>
+      logger.error("failed to create schema", t)
+      throw t
+  }).futureValue
 
   behavior of "Repo.create in the face of a untranslatable objects"
 

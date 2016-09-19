@@ -7,21 +7,17 @@ import longevity.context.LongevityConfig
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
 import longevity.integration.subdomain.basics
+import longevity.test.LongevityFuturesSpec
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
-import org.scalatest.Matchers
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.time.SpanSugar._
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 /** integration test to make sure cassandra throws the right exception when
  * trying to use a repository and the keyspace hasnt been created yet
  */
-class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with Matchers with ScalaFutures {
+class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSpec {
 
-  override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(4000.millis),
-    interval = scaled(50.millis))
+  override protected implicit val executionContext = globalExecutionContext
 
   val context = new LongevityContext(
     basics.subdomain,

@@ -11,15 +11,10 @@ import longevity.subdomain.KeyVal
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.realized.RealizedKey
-import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FeatureSpec
 import org.scalatest.GivenWhenThen
-import org.scalatest.Matchers
 import org.scalatest.OptionValues.convertOptionToValuable
 import org.scalatest.Tag
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.concurrent.ScaledTimeSpans
-import org.scalatest.time.SpanSugar._
 import scala.concurrent.ExecutionContext
 
 /** a [[http://www.scalatest.org/ ScalaTest]] fixture to test a
@@ -49,25 +44,11 @@ import scala.concurrent.ExecutionContext
  * @param executionContext the execution context
  */
 class RepoCrudSpec private[longevity] (
-  context: LongevityContext,
-  repoPool: RepoPool,
+  protected val longevityContext: LongevityContext,
+  protected val repoPool: RepoPool,
   suiteNameSuffix: Option[String] = None)(
-  implicit executionContext: ExecutionContext)
-extends {
-  protected val longevityContext = context
-}
-with FeatureSpec
-with BeforeAndAfterAll
-with GivenWhenThen
-with Matchers
-with ScalaFutures
-with ScaledTimeSpans {
-
-  override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(5000 millis),
-    interval = scaled(50 millis))
-
-  override def beforeAll = repoPool.createSchema().futureValue
+  protected implicit val executionContext: ExecutionContext)
+extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
 
   private def subdomainName = longevityContext.subdomain.name
   override val suiteName = s"RepoCrudSpec for ${subdomainName}${suiteNameSuffix match {
@@ -189,14 +170,14 @@ with ScaledTimeSpans {
         case polyPType: PolyPType[P] =>
           val union = longevityContext.subdomain.emblematic.unions(pTypeKey)
           val derivedTypeKeys = union.constituentKeys.toSeq
-          val randomIndex = math.abs(context.testDataGenerator.generate[Int]) % derivedTypeKeys.size
+          val randomIndex = math.abs(longevityContext.testDataGenerator.generate[Int]) % derivedTypeKeys.size
           derivedTypeKeys(randomIndex)
         case _ =>
           pTypeKey
       }
     }
 
-    private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = context.testDataGenerator.generate(key)
+    private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = longevityContext.testDataGenerator.generate(key)
 
     private def retrieveByKey[V <: KeyVal[P, V]](key: RealizedKey[P, V], p: P): PState[P] = {
       repo.retrieve(key.keyValForP(p)).futureValue.value

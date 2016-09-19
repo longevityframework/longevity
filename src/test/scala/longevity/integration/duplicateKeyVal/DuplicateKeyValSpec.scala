@@ -5,14 +5,12 @@ import longevity.integration.subdomain.basics.Basics
 import longevity.integration.subdomain.basics.BasicsId
 import longevity.integration.subdomain.basics.mongoContext
 import longevity.persistence.Repo
+import longevity.test.LongevityFuturesSpec
 import org.joda.time.DateTime
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
-import org.scalatest.Matchers
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.time.SpanSugar._
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 /** expect mongo to throw DuplicateKeyValException in non-partitioned database
  * setup such as our test database. expect the same out of inmem back end.
@@ -23,16 +21,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
  * such guarantee. but Mongo does guarantee to catch this in a single
  * partition database.
  */
-class DuplicateKeyValSpec
-extends FlatSpec
-with BeforeAndAfterAll
-with GivenWhenThen
-with Matchers
-with ScalaFutures {
+class DuplicateKeyValSpec extends FlatSpec with LongevityFuturesSpec with BeforeAndAfterAll with GivenWhenThen {
 
-  override implicit def patienceConfig = PatienceConfig(
-    timeout = scaled(4000 millis),
-    interval = scaled(50 millis))
+  override protected implicit val executionContext = globalExecutionContext
 
   override def beforeAll() = mongoContext.testRepoPool.createSchema().futureValue
 
