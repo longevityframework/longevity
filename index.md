@@ -16,14 +16,15 @@ database, as well as in-memory repositories for other tests.
 
 - [Feature List](feature-list.html)
 - [Getting Started Guide](getting-started)
-- [Activator Tutorial](activator.html)
 - [User Manual](manual)
 - [Scaladocs](scaladocs)
+- [Activator Tutorial](activator.html)
 
 - [Questions, Comments, Problems, and Discussions](discussions.html)
 - [Contributing](contributing.html)
 - [License](license.html)
 - [Consulting Services](by-design.html)
+- [Story Board](https://www.pivotaltracker.com/n/projects/1231978)
 
 For the latest longevity news, please check out the [longevity tag on
 the scabl blog](http://scabl.blogspot.com/search/label/longevity).
