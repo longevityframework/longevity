@@ -20,7 +20,7 @@ database, as well as in-memory repositories for other tests.
 - [Scaladocs](scaladocs)
 - [Activator Tutorial](activator.html)
 
-- [Questions, Comments, Problems, and Discussions](discussions.html)
+- [Questions, Comments, Problems, and Discussions](https://groups.google.com/forum/#!forum/longevity-users)
 - [Contributing](contributing.html)
 - [License](license.html)
 - [Consulting Services](by-design.html)
