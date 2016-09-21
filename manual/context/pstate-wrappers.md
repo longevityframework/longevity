@@ -17,19 +17,51 @@ would look something like this:
 ```scala
 class OPState[P <: Persistent] {
 
-  /** map the optional PState by mapping the Persistent inside */
+  /** map the optional `PState` by mapping the `Persistent` inside */
   def mapP(f: P => P): OPState[P]
 
-  /** flatMap the optional PState by flat-mapping the Persistent inside */
+  /** flatMap the optional `PState` by flat-mapping the `Persistent` inside */
   def flatMapP(f: P => Option[P]): OPState[P]
 
 }
 ```
 
-These convenience methods will save you the hassle of nested calls to
-`map` for the multiple containers wrapping your `PState`. If you tend
-to work with for comprehensions, you probably won't find them very
-useful, except for perhaps `OPState`.
+`FOPState[P]` also has convenience methods `mapState` and
+`flatMapState` for opening up the enclosed option:
+
+```scala
+class FOPState[P <: Persistent] {
+
+  /** map the `FOPState` by mapping the `Persistent` inside the `PState` */
+  def mapP(f: P => P): FOPState[P]
+
+  /** flatMap the `FOPState` by flat-mapping the `Persistent` inside */
+  def flatMapP(f: P => Future[P]): FOPState[P]
+
+  /** map the `FOPState` by mapping the `PState` inside */
+  def mapState(f: PState[P] => PState[P]): FOPState[P]
+
+  /** flatMap the `FOPState` by flat-mapping the `PState` inside */
+  def flatMapState(f: PState[P] => FPState[P]): FOPState[P]
+
+}
+```
+
+Consider the following method, where we are tasked with attempting to
+retrieve a user by username, modifying the last name _if_ we find such
+a user, and persisting the result. We return `true` if we updated a
+user, and `false` if not. We can use `FOPState` extension methods to
+our advantage here. The type ascriptions would normally be left out,
+but we include them to make the example easier to read:
+
+```scala
+def updateLastName(username: Username, newLastName: String): Future[Boolean] = {
+  val retrieved: FOPState[User] = userRepo.retrieve(username)
+  val modified: FOPState[User] = retrieved.mapP(_.copy(lastName = newLastName))
+  val updated: FOPState[User] = modified.flatMapState(userRepo.update)
+  updated.map(_.nonEmpty)
+}
+```
 
 {% assign prevTitle = "persistent state" %}
 {% assign prevLink = "persistent-state.html" %}
