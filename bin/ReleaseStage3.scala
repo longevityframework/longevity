@@ -27,8 +27,6 @@ object ReleaseStage3 extends App {
     }
   }
 
-  val isLive = true
-
   val longevityDir = new File("/Users/jsmscs/ws/lf/longevity")
   val projectDir =  new File("/Users/jsmscs/ws/lf/longevity/project")
 
@@ -37,37 +35,27 @@ object ReleaseStage3 extends App {
   run("git diff --cached --exit-code")
 
   // make sure the build is clean
-  if (isLive) {
-    run(Process("sbt clean test doc", longevityDir))
-  }
+  run(Process("sbt clean test doc", longevityDir))
 
   // make sure the oldVersion matches whats in the build
-  if (isLive) {
-    run(Process(
-      Seq("grep", "-q", s"""version := "$oldVersion"""", "LongevityBuild.scala"),
-      projectDir))
-  }
+  run(Process(
+    Seq("grep", "-q", s"""version := "$oldVersion"""", "LongevityBuild.scala"),
+    projectDir))
 
   // update to newVersion in the build
-  if (isLive) {
-    run(Process(
-      Seq(
-        "sed", "-i", "",
-        "-e", s"""s/version := "$oldVersion"/version := "$newVersion"/""",
-        "LongevityBuild.scala"),
-      projectDir))
-  }
+  run(Process(
+    Seq(
+      "sed", "-i", "",
+      "-e", s"""s/version := "$oldVersion"/version := "$newVersion"/""",
+      "LongevityBuild.scala"),
+    projectDir))
 
   // commit and push the new version of the build
-  if (isLive) {
-    run(Process("git stage LongevityBuild.scala", projectDir))
-    run(Process(Seq("git", "commit", "-m", s"up build version to $newVersion"), longevityDir))
-    run(Process("git push", longevityDir))
-  }
+  run(Process("git stage LongevityBuild.scala", projectDir))
+  run(Process(Seq("git", "commit", "-m", s"up build version to $newVersion"), longevityDir))
+  run(Process("git push", longevityDir))
 
   // publish signed
-  if (isLive) {
-    run(Process("sbt publish-signed", longevityDir) #< java.lang.System.in)
-  }
+  run(Process("sbt publish-signed", longevityDir) #< java.lang.System.in)
 
 }

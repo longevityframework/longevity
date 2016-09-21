@@ -36,11 +36,11 @@ object ReleaseStage6 extends App {
   val projectDir =  new File("/Users/jsmscs/ws/lf/longevity/project")
 
   // make sure no outstanding changes
-  // run("git diff --exit-code")
-  // run("git diff --cached --exit-code")
+  run("git diff --exit-code")
+  run("git diff --cached --exit-code")
 
   // make sure the build is clean
-  // run(Process("sbt clean test doc", longevityDir))
+  run(Process("sbt clean test doc", longevityDir))
 
   // make sure the oldVersion matches whats in the build
   run(Process(
@@ -48,13 +48,12 @@ object ReleaseStage6 extends App {
     projectDir))
 
   // create branch x.y
-
-  // run(Process(Seq("git", "checkout", "-b", majorMinor), longevityDir))
-  // run(Process(Seq("git", "push", "-u", "origin", majorMinor), longevityDir))
+  run(Process(Seq("git", "checkout", "-b", majorMinor), longevityDir))
+  run(Process(Seq("git", "push", "-u", "origin", majorMinor), longevityDir))
 
   // create tag x.y.0
-  // run(Process(Seq("git", "tag", "-a", oldVersion, "-m", s"create tag $oldVersion"), longevityDir))
-  // run(Process(Seq("git", "push", "origin", oldVersion), longevityDir))
+  run(Process(Seq("git", "tag", "-a", oldVersion, "-m", s"create tag $oldVersion"), longevityDir))
+  run(Process(Seq("git", "push", "origin", oldVersion), longevityDir))
 
   run(Process(
     Seq(
