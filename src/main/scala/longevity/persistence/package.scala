@@ -45,11 +45,11 @@ package object persistence {
     fpState: FPState[P])(
     implicit executionContext: ExecutionContext) {
 
-    /** map the future PState by mapping the Persistent inside the PState */
+    /** map the future `PState` by mapping the `Persistent` inside */
     def mapP(f: P => P): FPState[P] =
       fpState.map { pState => pState.map { p => f(p) } }
 
-    /** flatMap the future PState by mapping the Persistent inside the PState into a `Future[P]` */
+    /** flatMap the future `PState` by flat-mapping the `Persistent` inside */
     def flatMapP(f: P => Future[P]): FPState[P] =
       fpState.flatMap { pState => f(pState.get) map { p => pState.set(p) } }
 
@@ -61,11 +61,11 @@ package object persistence {
   /** extension methods for an [[OPState]] */
   implicit class LiftOPState[P <: Persistent](opState: OPState[P]) {
 
-    /** map the optional PState by mapping the Persistent inside */
+    /** map the optional `PState` by mapping the `Persistent` inside */
     def mapP(f: P => P): OPState[P] =
       opState.map { pState => pState.map { p => f(p) } }
 
-    /** flatMap the optional PState by flat-mapping the Persistent inside */
+    /** flatMap the optional `PState` by flat-mapping the `Persistent` inside */
     def flatMapP(f: P => Option[P]): OPState[P] =
       opState.flatMap { pState => f(pState.get) map { p => pState.set(p) } }
 
@@ -85,7 +85,7 @@ package object persistence {
         opState.map { pState => pState.map { p => f(p) } }
       }
 
-    /** flatMap the `FOPState` by mapping the `Persistent` inside the `PState` into a `Future[P]` */
+    /** flatMap the `FOPState` by flat-mapping the `Persistent` inside */
     def flatMapP(f: P => Future[P]): FOPState[P] =
       fopState.flatMap { opState =>
         opState match {
@@ -94,11 +94,11 @@ package object persistence {
         }
       }
 
-    /** map the `FOPState` by mapping the `PState` inside the `Option` */
+    /** map the `FOPState` by mapping the `PState` inside */
     def mapState(f: PState[P] => PState[P]): FOPState[P] =
       fopState.map { opState => opState.map(f(_)) }
 
-    /** flatMap the `FOPState` by mapping the `PState` inside the `Option` into a `FPState[P]` */
+    /** flatMap the `FOPState` by flat-mapping the `PState` inside */
     def flatMapState(f: PState[P] => FPState[P]): FOPState[P] =
       fopState.flatMap { opState =>
         opState match {
