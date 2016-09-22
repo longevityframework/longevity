@@ -28,11 +28,11 @@ private[longevity] object RepoPoolBuilder {
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
-    persistenceStrategy: BackEnd,
+    backEnd: BackEnd,
     config: LongevityConfig,
     test: Boolean)
   : RepoPool = {
-    val pool = persistenceStrategy match {
+    val pool = backEnd match {
       case InMem =>
         inMemTestRepoPool(subdomain, config)
       case Mongo =>

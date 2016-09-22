@@ -42,20 +42,20 @@ object LongevityContextSpec {
 /** unit tests for the proper [[LongevityContext]] construction */
 class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  val contextStratPairs = Seq(
+  val contextBackEndPairs = Seq(
     (LongevityContextSpec.sample.mongoContext, Mongo),
     (LongevityContextSpec.sample.cassandraContext, Cassandra))
 
-  for ((context, strat) <- contextStratPairs) {
+  for ((context, backEnd) <- contextBackEndPairs) {
 
-    behavior of s"LongevityContext creation for ${context.persistenceStrategy}"
+    behavior of s"LongevityContext creation for ${context.backEnd}"
 
     it should "produce a context with the right subdomain" in {
       context.subdomain should equal (LongevityContextSpec.sample.subdomain)
     }
 
     it should "produce a context with the right back end" in {
-      context.persistenceStrategy should equal (strat)
+      context.backEnd should equal (backEnd)
     }
 
     it should "produce repo pools of the right size" in {

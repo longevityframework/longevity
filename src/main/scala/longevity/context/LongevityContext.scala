@@ -16,7 +16,7 @@ object LongevityContext {
   /** constructs and returns a [[LongevityContext]]
    * 
    * @param subdomain the subdomain
-   * @param persistenceStrategy the back end for this longevity
+   * @param backEnd the back end for this longevity
    * context. defaults to [[Mongo]]
    * @param customGeneratorPool a collection of custom generators to use when
    * generating test data. defaults to empty
@@ -27,7 +27,7 @@ object LongevityContext {
    */
   def apply(
     subdomain: Subdomain,
-    persistenceStrategy: BackEnd = Mongo,
+    backEnd: BackEnd = Mongo,
     customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty,
     typesafeConfig: Config = ConfigFactory.load())
   : LongevityContext = {
@@ -39,7 +39,7 @@ object LongevityContext {
     }
     new LongevityContext(
       subdomain,
-      persistenceStrategy,
+      backEnd,
       customGeneratorPool,
       config)
   }
@@ -54,7 +54,7 @@ object LongevityContext {
  * subdomain.
  * 
  * @param subdomain the subdomain
- * @param persistenceStrategy the back end for this longevity
+ * @param backEnd the back end for this longevity
  * context. defaults to [[Mongo]]
  * @param customGeneratorPool a collection of custom generators to use when
  * generating test data. defaults to empty
@@ -62,14 +62,14 @@ object LongevityContext {
  */
 final class LongevityContext(
   val subdomain: Subdomain,
-  val persistenceStrategy: BackEnd = Mongo,
+  val backEnd: BackEnd = Mongo,
   val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty,
   val config: LongevityConfig)
 extends PersistenceContext with TestContext with JsonContext {
 
-  lazy val repoPool = buildRepoPool(subdomain, persistenceStrategy, config, false)
+  lazy val repoPool = buildRepoPool(subdomain, backEnd, config, false)
 
-  lazy val testRepoPool = buildRepoPool(subdomain, persistenceStrategy, config, true)
+  lazy val testRepoPool = buildRepoPool(subdomain, backEnd, config, true)
   lazy val inMemTestRepoPool = buildRepoPool(subdomain, InMem, config, true)
   lazy val testDataGenerator = new TestDataGenerator(subdomain.emblematic, customGeneratorPool)
 

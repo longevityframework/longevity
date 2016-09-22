@@ -6,7 +6,7 @@ import longevity.persistence.RepoPool
 trait PersistenceContext {
 
   /** the back end used */
-  val persistenceStrategy: BackEnd
+  val backEnd: BackEnd
 
   /** a pool of the repositories for this persistence context */
   val repoPool: RepoPool
