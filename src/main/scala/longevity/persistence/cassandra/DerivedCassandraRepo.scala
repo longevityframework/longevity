@@ -28,7 +28,8 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     myActualizedComponents ++ polyRepo.actualizedComponents
   }
 
-  override protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
+  override protected[persistence] def createSchema()(implicit context: ExecutionContext)
+  : Future[Unit] = Future {
     blocking {
       createActualizedPropColumns()
       createIndexes()

@@ -54,7 +54,8 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
     }
   }
 
-  protected def componentToCassandraType[A](component: RealizedPropComponent[_ >: P <: Persistent, _, A])
+  protected def componentToCassandraType[A](
+    component: RealizedPropComponent[_ >: P <: Persistent, _, A])
   : String = {
     CassandraRepo.basicToCassandraType(component.componentTypeKey)
   }
