@@ -18,7 +18,7 @@ val blog: Blog = getBlogState().get
 
 val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
   Query.and(
-    Query.eqs(BlogPost.props.blog, blog.blogUri),
+    Query.eqs(BlogPost.props.blogUri, blog.blogUri),
     Query.gt(BlogPost.props.postDate, DateTime.now - 1.week)))
 ```
 
@@ -35,7 +35,7 @@ val blog: Blog = getBlogState().get
 
 import BlogPost.queryDsl._
 val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
-  BlogPost.props.blog eqs blog.blogUri and
+  BlogPost.props.blogUri eqs blog.blogUri and
   BlogPost.props.postDate gt DateTime.now - 1.week)
 ```
 
@@ -53,7 +53,7 @@ val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
-  blog eqs blog.blogUri and postDate gt DateTime.now - 1.week
+  blogUri eqs blog.blogUri and postDate gt DateTime.now - 1.week
 }
 ```
 

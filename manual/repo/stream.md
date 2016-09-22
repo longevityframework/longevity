@@ -15,13 +15,13 @@ import akka.NotUsed
 import akka.stream.scaladsl.Source
 import longevity.persistence.PState
 
-val blogState: PState[Blog] = ???
+val blog: Blog = ???
 
 val recentPosts: Source[PState[BlogPost], NotUsed] = blogPostRepo.streamByQuery {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
-  blog eqs blogState.assoc and postDate gt DateTime.now - 1.week
+  blogUri eqs blog.blogUri and postDate gt DateTime.now - 1.week
 }
 ```
 
