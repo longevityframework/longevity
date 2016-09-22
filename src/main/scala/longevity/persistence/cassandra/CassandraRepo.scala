@@ -37,7 +37,7 @@ import scala.concurrent.blocking
  * @param pType the type of the persistent entities this repository handles
  * @param subdomain the subdomain containing the persistent that this repo persists
  * @param session the connection to the cassandra database
- * @param persistenceConfig persistence configuration that is persistence strategy agnostic
+ * @param persistenceConfig persistence configuration that is back end agnostic
  */
 private[longevity] class CassandraRepo[P <: Persistent] private (
   pType: PType[P],

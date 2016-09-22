@@ -54,7 +54,7 @@ class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
       context.subdomain should equal (LongevityContextSpec.sample.subdomain)
     }
 
-    it should "produce a context with the right persistence strategy" in {
+    it should "produce a context with the right back end" in {
       context.persistenceStrategy should equal (strat)
     }
 

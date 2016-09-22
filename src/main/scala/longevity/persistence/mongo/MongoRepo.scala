@@ -20,7 +20,7 @@ import scala.concurrent.Future
  * @param pType the persistent type of the entities this repository handles
  * @param subdomain the subdomain containing the entities that this repo persists
  * @param mongoDb the connection to the mongo database
- * @param persistenceConfig persistence configuration that is persistence strategy agnostic
+ * @param persistenceConfig persistence configuration that is back end agnostic
  */
 private[longevity] class MongoRepo[P <: Persistent] private[persistence] (
   pType: PType[P],

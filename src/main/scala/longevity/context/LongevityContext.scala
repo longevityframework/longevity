@@ -16,7 +16,7 @@ object LongevityContext {
   /** constructs and returns a [[LongevityContext]]
    * 
    * @param subdomain the subdomain
-   * @param persistenceStrategy the persistence strategy for this longevity
+   * @param persistenceStrategy the back end for this longevity
    * context. defaults to [[Mongo]]
    * @param customGeneratorPool a collection of custom generators to use when
    * generating test data. defaults to empty
@@ -27,7 +27,7 @@ object LongevityContext {
    */
   def apply(
     subdomain: Subdomain,
-    persistenceStrategy: PersistenceStrategy = Mongo,
+    persistenceStrategy: BackEnd = Mongo,
     customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty,
     typesafeConfig: Config = ConfigFactory.load())
   : LongevityContext = {
@@ -54,7 +54,7 @@ object LongevityContext {
  * subdomain.
  * 
  * @param subdomain the subdomain
- * @param persistenceStrategy the persistence strategy for this longevity
+ * @param persistenceStrategy the back end for this longevity
  * context. defaults to [[Mongo]]
  * @param customGeneratorPool a collection of custom generators to use when
  * generating test data. defaults to empty
@@ -62,7 +62,7 @@ object LongevityContext {
  */
 final class LongevityContext(
   val subdomain: Subdomain,
-  val persistenceStrategy: PersistenceStrategy = Mongo,
+  val persistenceStrategy: BackEnd = Mongo,
   val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty,
   val config: LongevityConfig)
 extends PersistenceContext with TestContext with JsonContext {

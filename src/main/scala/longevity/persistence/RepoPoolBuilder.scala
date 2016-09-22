@@ -8,7 +8,7 @@ import longevity.context.InMem
 import longevity.context.LongevityConfig
 import longevity.context.Mongo
 import longevity.context.PersistenceConfig
-import longevity.context.PersistenceStrategy
+import longevity.context.BackEnd
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.cassandra.CassandraRepo.CassandraSessionInfo
 import longevity.persistence.inmem.InMemRepo
@@ -28,7 +28,7 @@ private[longevity] object RepoPoolBuilder {
 
   private[longevity] def buildRepoPool(
     subdomain: Subdomain,
-    persistenceStrategy: PersistenceStrategy,
+    persistenceStrategy: BackEnd,
     config: LongevityConfig,
     test: Boolean)
   : RepoPool = {
