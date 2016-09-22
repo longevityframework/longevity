@@ -108,9 +108,9 @@ object RepoSpec {
     PTypePool(User, Blog, BlogPost),
     ETypePool(ValueType[Markdown], ValueType[Uri], EntityType[UserProfile]))
 
-  import longevity.context._
+  import longevity.context.LongevityContext
 
-  val context = LongevityContext(blogCore, Mongo)
+  val context = LongevityContext(blogCore)
 
 }
 

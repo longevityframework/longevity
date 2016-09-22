@@ -2,9 +2,7 @@ package longevity.integration.subdomain
 
 import emblem.emblematic.traversors.sync.CustomGenerator
 import emblem.emblematic.traversors.sync.CustomGeneratorPool
-import longevity.context.Cassandra
-import longevity.context.LongevityContext
-import longevity.context.Mongo
+import longevity.TestLongevityConfigs
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.embeddable.ValueType
@@ -23,7 +21,6 @@ package object simpleConstraint {
   }
   val generators = CustomGeneratorPool.empty + emailGenerator
 
-  val mongoContext = LongevityContext(subdomain, Mongo, customGeneratorPool = generators)
-  val cassandraContext = LongevityContext(subdomain, Cassandra, customGeneratorPool = generators)
+  val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain, generators)
 
 }

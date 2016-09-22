@@ -10,9 +10,10 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 /** base class for testing optimistic locking */
 abstract class OptLockSpec(
-  protected val longevityContext: LongevityContext,
-  protected val repoPool: RepoPool)
+  protected val longevityContext: LongevityContext)
 extends FlatSpec with LongevityIntegrationSpec {
+
+  override protected val repoPool: RepoPool = longevityContext.testRepoPool
 
   override protected implicit val executionContext = globalExecutionContext
 

@@ -25,18 +25,14 @@ import scala.concurrent.Future
  *
  * @param context the longevity context under test
  * 
- * @param repoPool the repo pool under test. this may be different than the
- * `context.repoPool`, as users may want to test against other repo pools. (for
- * instance, they may want a spec for in-memory repo pools if other parts of
- * their test suite rely on them.)
- * 
  * @param executionContext the execution context
  */
 abstract class QuerySpec[P <: Persistent : TypeKey](
-  protected val longevityContext: LongevityContext,
-  protected val repoPool: RepoPool)(
+  protected val longevityContext: LongevityContext)(
   protected implicit val executionContext: ExecutionContext)
 extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
+
+  override protected val repoPool: RepoPool = longevityContext.testRepoPool
 
   /** the number of entities to run queries against */
   protected val numEntities = 10

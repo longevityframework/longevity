@@ -1,11 +1,17 @@
 package longevity.integration.queries
 
+import longevity.ConfigMatrixKey
+import longevity.TestLongevityConfigs
+import longevity.context.LongevityContext
+import longevity.context.InMem
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.component._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class ComponentInMemQuerySpec
-extends QuerySpec[WithComponent](mongoContext, mongoContext.inMemTestRepoPool) {
+class ComponentInMemQuerySpec extends QuerySpec[WithComponent](
+  new LongevityContext(
+    subdomain,
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, false, false)))) {
 
   lazy val sample = randomP
 

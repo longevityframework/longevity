@@ -1,9 +1,11 @@
 package longevity.integration.duplicateKeyVal
 
+import longevity.TestLongevityConfigs
+import longevity.context.LongevityContext
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.integration.subdomain.basics.Basics
 import longevity.integration.subdomain.basics.BasicsId
-import longevity.integration.subdomain.basics.mongoContext
+import longevity.integration.subdomain.basics.subdomain
 import longevity.persistence.Repo
 import longevity.test.LongevityFuturesSpec
 import org.joda.time.DateTime
@@ -21,14 +23,18 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
  * such guarantee. but Mongo does guarantee to catch this in a single
  * partition database.
  */
-class DuplicateKeyValSpec extends FlatSpec with LongevityFuturesSpec with BeforeAndAfterAll with GivenWhenThen {
+class DuplicateKeyValSpec extends FlatSpec with LongevityFuturesSpec
+with BeforeAndAfterAll
+with GivenWhenThen {
 
   override protected implicit val executionContext = globalExecutionContext
 
-  override def beforeAll() = mongoContext.testRepoPool.createSchema().futureValue
+  val context = new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)
 
-  assertDuplicateKeyValBehavior(mongoContext.testRepoPool[Basics], "MongoRepo")
-  assertDuplicateKeyValBehavior(mongoContext.inMemTestRepoPool[Basics], "InMemRepo")
+  override def beforeAll() = context.testRepoPool.createSchema().futureValue
+
+  assertDuplicateKeyValBehavior(context.testRepoPool[Basics], "MongoRepo")
+  assertDuplicateKeyValBehavior(context.inMemTestRepoPool[Basics], "InMemRepo")
 
   def assertDuplicateKeyValBehavior(repo: Repo[Basics], repoName: String): Unit = {
 

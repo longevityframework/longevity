@@ -1,8 +1,6 @@
 package longevity.integration.subdomain
 
-import longevity.context.Cassandra
-import longevity.context.LongevityContext
-import longevity.context.Mongo
+import longevity.TestLongevityConfigs
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.embeddable.ValueType
@@ -15,7 +13,7 @@ package object keyWithMultipleProperties {
     "Key With Foreign Key",
     PTypePool(KeyWithMultipleProperties),
     ETypePool(ValueType[Uri]))
-  val mongoContext = LongevityContext(subdomain, Mongo)
-  val cassandraContext = LongevityContext(subdomain, Cassandra)
+
+  val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 
 }

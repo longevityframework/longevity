@@ -1,9 +1,9 @@
 package longevity.unit.persistence
 
-import longevity.context.Cassandra
-import longevity.context.InMem
+import longevity.TestLongevityConfigs.cassandraConfig
+import longevity.TestLongevityConfigs.inMemConfig
+import longevity.TestLongevityConfigs.mongoConfig
 import longevity.context.LongevityContext
-import longevity.context.Mongo
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.persistent.Root
@@ -39,8 +39,8 @@ object messageFriend {
   }
 
   val subdomain = Subdomain("blog", PTypePool(Friend, Message))
-  val inMemLongevityContext = LongevityContext(subdomain, InMem)
-  val mongoLongevityContext = LongevityContext(subdomain, Mongo)
-  val cassandraLongevityContext = LongevityContext(subdomain, Cassandra)
+  val inMemLongevityContext = new LongevityContext(subdomain, inMemConfig)
+  val mongoLongevityContext = new LongevityContext(subdomain, mongoConfig)
+  val cassandraLongevityContext = new LongevityContext(subdomain, cassandraConfig)
 
 }

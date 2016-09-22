@@ -1,5 +1,7 @@
 package longevity.unit.context
 
+import longevity.TestLongevityConfigs.cassandraConfig
+import longevity.TestLongevityConfigs.mongoConfig
 import longevity.context.Cassandra
 import longevity.context.LongevityContext
 import longevity.context.Mongo
@@ -33,8 +35,8 @@ object LongevityContextSpec {
     }
 
     val subdomain = Subdomain("subtypePropType", PTypePool(A))
-    val mongoContext = LongevityContext(subdomain, Mongo)
-    val cassandraContext = LongevityContext(subdomain, Cassandra)
+    val mongoContext = new LongevityContext(subdomain, mongoConfig)
+    val cassandraContext = new LongevityContext(subdomain, cassandraConfig)
   }
 
 }
@@ -48,14 +50,14 @@ class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   for ((context, backEnd) <- contextBackEndPairs) {
 
-    behavior of s"LongevityContext creation for ${context.backEnd}"
+    behavior of s"LongevityContext creation for ${context.config.backEnd}"
 
     it should "produce a context with the right subdomain" in {
       context.subdomain should equal (LongevityContextSpec.sample.subdomain)
     }
 
     it should "produce a context with the right back end" in {
-      context.backEnd should equal (backEnd)
+      context.config.backEnd should equal (backEnd)
     }
 
     it should "produce repo pools of the right size" in {

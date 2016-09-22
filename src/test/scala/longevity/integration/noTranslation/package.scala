@@ -1,8 +1,7 @@
 package longevity.integration
 
+import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.context.Cassandra
-import longevity.context.Mongo
 import longevity.subdomain.Subdomain
 import longevity.subdomain.ptype.PTypePool
 
@@ -17,7 +16,8 @@ package object noTranslation {
     WithNoTranslationSet)
 
   val subdomain = Subdomain("No Translation", pTypes)
-  val mongoContext = LongevityContext(subdomain, Mongo)
-  val cassandraContext = LongevityContext(subdomain, Cassandra)
+  val inMemContext = new LongevityContext(subdomain, TestLongevityConfigs.inMemConfig)
+  val mongoContext = new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)
+  val cassandraContext = new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)
 
 }

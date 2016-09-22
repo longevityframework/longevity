@@ -1,11 +1,17 @@
 package longevity.integration.queries
 
+import longevity.ConfigMatrixKey
+import longevity.TestLongevityConfigs
+import longevity.context.Cassandra
+import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.keyWithShorthand._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class KeyWithShorthandCassandraQuerySpec
-extends QuerySpec[KeyWithShorthand](cassandraContext, cassandraContext.testRepoPool) {
+class KeyWithShorthandCassandraQuerySpec extends QuerySpec[KeyWithShorthand](
+  new LongevityContext(
+    subdomain,
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(Cassandra, false, false)))) {
 
   lazy val sample = randomP
 

@@ -4,7 +4,6 @@ import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 import emblem.emblematic.traversors.sync.CustomGeneratorPool
 import emblem.emblematic.traversors.sync.TestDataGenerator
-import longevity.exceptions.context.LongevityConfigException
 import longevity.json.JsonMarshaller
 import longevity.json.JsonUnmarshaller
 import longevity.persistence.RepoPoolBuilder.buildRepoPool
@@ -16,32 +15,24 @@ object LongevityContext {
   /** constructs and returns a [[LongevityContext]]
    * 
    * @param subdomain the subdomain
-   * @param backEnd the back end for this longevity
-   * context. defaults to [[Mongo]]
+   * @param typesafeConfig the typesafe configuration. defaults to typesafe
+   * config's `ConfigFactory.load()`
    * @param customGeneratorPool a collection of custom generators to use when
    * generating test data. defaults to empty
-   * @param typesafeConfig the typesafe configuration
    * 
    * @throws longevity.exceptions.context.LongevityConfigException if the
    * typesafe configuration does not adequately specify the LongevityConfig
    */
   def apply(
     subdomain: Subdomain,
-    backEnd: BackEnd = Mongo,
-    customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty,
-    typesafeConfig: Config = ConfigFactory.load())
+    typesafeConfig: Config = ConfigFactory.load(),
+    customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
   : LongevityContext = {
-    val config = {
-      import configs.syntax._
-      typesafeConfig.get[LongevityConfig]("longevity").valueOrThrow {
-        error => new LongevityConfigException(error.configException)
-      }
-    }
+    val config = LongevityConfig(typesafeConfig)
     new LongevityContext(
       subdomain,
-      backEnd,
-      customGeneratorPool,
-      config)
+      config,
+      customGeneratorPool)
   }
 
 }
@@ -54,22 +45,19 @@ object LongevityContext {
  * subdomain.
  * 
  * @param subdomain the subdomain
- * @param backEnd the back end for this longevity
- * context. defaults to [[Mongo]]
+ * @param config the longevity configuration
  * @param customGeneratorPool a collection of custom generators to use when
  * generating test data. defaults to empty
- * @param config the longevity configuration
  */
 final class LongevityContext(
   val subdomain: Subdomain,
-  val backEnd: BackEnd = Mongo,
-  val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty,
-  val config: LongevityConfig)
+  val config: LongevityConfig,
+  val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
 extends PersistenceContext with TestContext with JsonContext {
 
-  lazy val repoPool = buildRepoPool(subdomain, backEnd, config, false)
+  lazy val repoPool = buildRepoPool(subdomain, config.backEnd, config, false)
 
-  lazy val testRepoPool = buildRepoPool(subdomain, backEnd, config, true)
+  lazy val testRepoPool = buildRepoPool(subdomain, config.backEnd, config, true)
   lazy val inMemTestRepoPool = buildRepoPool(subdomain, InMem, config, true)
   lazy val testDataGenerator = new TestDataGenerator(subdomain.emblematic, customGeneratorPool)
 

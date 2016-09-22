@@ -1,8 +1,13 @@
 package longevity.integration.poly
 
+import longevity.ConfigMatrixKey
+import longevity.TestLongevityConfigs
+import longevity.context.Cassandra
+import longevity.context.LongevityContext
 import longevity.integration.subdomain.derivedEntities
 
 /** tests for cassandra repos that share tables in the presence of [[PolyType]] */
 class CassandraPolyReposSpec extends PolyReposSpec(
-  derivedEntities.context.cassandraContext,
-  derivedEntities.context.cassandraContext.testRepoPool)
+  new LongevityContext(
+    derivedEntities.subdomain,
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(Cassandra, false, false))))

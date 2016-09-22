@@ -13,9 +13,7 @@ object ContextSpec {
   object config1 {
 
     import com.typesafe.config.Config
-    import longevity.context.Cassandra
     import longevity.context.LongevityContext
-    import longevity.context.Mongo
     import longevity.subdomain.CoreDomain
     import longevity.subdomain.SupportingSubdomain
     import longevity.subdomain.ptype.PTypePool
@@ -25,16 +23,14 @@ object ContextSpec {
     val bloggingConfig: Config = loadBloggingConfig()
     val bloggingContext = LongevityContext(
       bloggingDomain,
-      Mongo,
-      typesafeConfig = bloggingConfig)
+      bloggingConfig)
 
     val accountsSubdomain: SupportingSubdomain =
       SupportingSubdomain("accounts", PTypePool.empty)
     val accountsConfig: Config = loadAccountsConfig()
     val accountsContext = LongevityContext(
       accountsSubdomain,
-      Cassandra,
-      typesafeConfig = accountsConfig)
+      accountsConfig)
 
     import com.typesafe.config.ConfigFactory
     def loadBloggingConfig(): Config = ConfigFactory.load()
@@ -78,12 +74,10 @@ object ContextSpec {
           replicationFactor = 1)))
 
     import longevity.context.LongevityContext
-    import longevity.context.Mongo
 
     val bloggingContext = new LongevityContext(
       bloggingDomain,
-      Mongo,
-      config = longevityConfig)
+      longevityConfig)
   }
 
 }

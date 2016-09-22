@@ -1,6 +1,5 @@
 package longevity.integration.noKeyspace
 
-import emblem.emblematic.traversors.sync.CustomGeneratorPool
 import longevity.context.Cassandra
 import longevity.context.CassandraConfig
 import longevity.context.LongevityConfig
@@ -21,8 +20,6 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
 
   val context = new LongevityContext(
     basics.subdomain,
-    Cassandra,
-    CustomGeneratorPool.empty,
     LongevityConfig(
       backEnd = Cassandra,
       autocreateSchema = false,

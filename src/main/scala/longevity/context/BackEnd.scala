@@ -17,6 +17,14 @@ sealed trait BackEnd {
   val name: String
 }
 
+/** contains a list of all the available back ends */
+object BackEnd {
+
+  /** a list of all the available back ends */
+  val values = InMem :: Mongo :: Cassandra :: Nil
+
+}
+
 /** a back end indicating that persistent objects live in-memory. when the
  * application exits, they are gone.
  */
