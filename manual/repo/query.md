@@ -14,11 +14,11 @@ import longevity.subdomain.ptype.Query
 import scala.concurrent.Future
 
 def getBlogState(): PState[Blog] = ???
-val blogState: PState[Blog] = getBlogState()
+val blog: Blog = getBlogState().get
 
 val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
   Query.and(
-    Query.eqs(BlogPost.props.blog, blogState.assoc),
+    Query.eqs(BlogPost.props.blog, blog.blogUri),
     Query.gt(BlogPost.props.postDate, DateTime.now - 1.week)))
 ```
 
@@ -31,11 +31,11 @@ import longevity.persistence.PState
 import scala.concurrent.Future
 
 def getBlogState(): PState[Blog] = ???
-val blogState: PState[Blog] = getBlogState()
+val blog: Blog = getBlogState().get
 
 import BlogPost.queryDsl._
 val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
-  BlogPost.props.blog eqs blogState.assoc and
+  BlogPost.props.blog eqs blog.blogUri and
   BlogPost.props.postDate gt DateTime.now - 1.week)
 ```
 
@@ -47,13 +47,13 @@ import longevity.persistence.PState
 import scala.concurrent.Future
 
 def getBlogState(): PState[Blog] = ???
-val blogState: PState[Blog] = getBlogState()
+val blog: Blog = getBlogState().get
 
 val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
-  blog eqs blogState.assoc and postDate gt DateTime.now - 1.week
+  blog eqs blog.blogUri and postDate gt DateTime.now - 1.week
 }
 ```
 
