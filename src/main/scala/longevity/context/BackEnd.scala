@@ -1,6 +1,6 @@
 package longevity.context
 
-/** the back end used by a longevity context. right now, you have
+/** the back end used by the longevity context. right now, you have
  * three options:
  *
  *   - [[InMem]]

@@ -24,6 +24,7 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
     Cassandra,
     CustomGeneratorPool.empty,
     LongevityConfig(
+      backEnd = Cassandra,
       autocreateSchema = false,
       optimisticLocking = false,
       mongodb = null,
