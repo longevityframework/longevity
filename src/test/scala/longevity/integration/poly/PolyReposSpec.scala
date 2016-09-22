@@ -24,7 +24,7 @@ abstract class PolyReposSpec(
   protected val longevityContext: LongevityContext)
 extends FlatSpec with LongevityIntegrationSpec {
 
-  override protected val repoPool: RepoPool = longevityContext.testRepoPool
+  private val repoPool: RepoPool = longevityContext.testRepoPool
 
   override protected implicit val executionContext = globalExecutionContext
 

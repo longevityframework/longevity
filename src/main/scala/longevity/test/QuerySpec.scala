@@ -32,7 +32,7 @@ abstract class QuerySpec[P <: Persistent : TypeKey](
   protected implicit val executionContext: ExecutionContext)
 extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
 
-  override protected val repoPool: RepoPool = longevityContext.testRepoPool
+  protected val repoPool: RepoPool = longevityContext.testRepoPool
 
   /** the number of entities to run queries against */
   protected val numEntities = 10

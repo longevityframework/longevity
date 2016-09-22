@@ -3,7 +3,6 @@ package longevity.integration.writeConflict
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.integration.subdomain.basics
-import longevity.persistence.RepoPool
 import longevity.test.LongevityIntegrationSpec
 import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
@@ -13,12 +12,10 @@ abstract class OptLockSpec(
   protected val longevityContext: LongevityContext)
 extends FlatSpec with LongevityIntegrationSpec {
 
-  override protected val repoPool: RepoPool = longevityContext.testRepoPool
-
   override protected implicit val executionContext = globalExecutionContext
 
   private val generator = longevityContext.testDataGenerator
-  private val repo = repoPool[basics.Basics]
+  private val repo = longevityContext.repoPool[basics.Basics]
 
   behavior of "Repo.{update,delete} when the original PState comes from a create"
 
