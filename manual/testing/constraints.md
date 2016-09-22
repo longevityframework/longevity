@@ -47,7 +47,6 @@ context:
 ```scala
 val cassandraContext = LongevityContext(
   subdomain,
-  Cassandra,
   customGeneratorPool = generators)
 ```
 

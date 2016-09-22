@@ -21,9 +21,7 @@ separate `com.typesafe.config.Config` objects to the
 
 ```scala
 import com.typesafe.config.Config
-import longevity.context.Cassandra
 import longevity.context.LongevityContext
-import longevity.context.Mongo
 import longevity.subdomain.CoreDomain
 import longevity.subdomain.SupportingSubdomain
 import longevity.subdomain.ptype.PTypePool
@@ -33,16 +31,14 @@ val bloggingDomain: CoreDomain =
 val bloggingConfig: Config = loadBloggingConfig()
 val bloggingContext = LongevityContext(
   bloggingDomain,
-  Mongo,
-  config = bloggingConfig)
+  bloggingConfig)
 
 val accountsSubdomain: SupportingSubdomain =
   SupportingSubdomain("accounts", PTypePool.empty)
 val accountsConfig: Config = loadAccountsConfig()
 val accountsContext = LongevityContext(
   accountsSubdomain,
-  Cassandra,
-  config = accountsConfig)
+  accountsConfig)
 ```
 
 Please see the [Typesafe Config
@@ -58,12 +54,14 @@ the `LongevityConfig` case class to define the same configuration as
 found in the `reference.conf` file:
 
 ```scala
+import longevity.context.InMem
 import longevity.context.LongevityConfig
 import longevity.context.MongoConfig
 import longevity.context.TestConfig
 import longevity.context.CassandraConfig
 
 val longevityConfig = LongevityConfig(
+  backEnd = InMem, // one of InMem, Mongo, Cassandra
   autocreateSchema = false,
   optimisticLocking = false,
   mongodb = MongoConfig(
@@ -86,12 +84,15 @@ val longevityConfig = LongevityConfig(
 
 val bloggingContext = new LongevityContext(
   bloggingDomain,
-  Mongo,
-  config = longevityConfig)
+  longevityConfig)
 ```
 
-{% assign prevTitle = "persistence strategy" %}
-{% assign prevLink = "pstrat.html" %}
+The most important configuration setting is `longevity.backEnd`. This
+is where you choose your database. Right now, the options are `InMem`,
+`Mongo`, and `Cassandra`.
+
+{% assign prevTitle = "the longevity context" %}
+{% assign prevLink = "." %}
 {% assign upTitle = "the longevity context" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "optimistic locking" %}

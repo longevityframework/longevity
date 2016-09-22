@@ -32,7 +32,6 @@ once, and then come back to it as a reference.
   - [Polymorphic Persistents](poly/persistents.html)
   - [Controlled Vocabularies](poly/cv.html)
 - [The Longevity Context](context)
-  - [Persistence Strategy](context/pstrat.html)
   - [Configuring your Longevity Context](context/config.html)
   - [Optimistic Locking](context/opt-lock.html)
   - [Repo Pools](context/repo-pools.html)

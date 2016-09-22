@@ -90,10 +90,9 @@ repositories for all three persistent types:
 
 ```scala
 import longevity.context.LongevityContext
-import longevity.context.Cassandra
 import longevity.persistence.Repo
 
-val context = LongevityContext(subdomain, Cassandra)
+val context = LongevityContext(subdomain)
 
 val userRepo: Repo[User] = context.repoPool[User]
 val memberRepo: Repo[Member] = context.repoPool[Member]
