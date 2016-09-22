@@ -52,7 +52,7 @@ retrieve a user by username, modifying the last name _if_ we find such
 a user, and persisting the result. We return `true` if we updated a
 user, and `false` if not. We can use `FOPState` extension methods to
 our advantage here. The type ascriptions would normally be left out,
-but we include them to make the example easier to read:
+but we include them to make the example easier to follow:
 
 ```scala
 def updateLastName(username: Username, newLastName: String): Future[Boolean] = {
