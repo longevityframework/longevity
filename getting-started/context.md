@@ -8,10 +8,9 @@ Once we have your subdomain in place, we are ready to build our
 
 ```scala
 import longevity.context.LongevityContext
-import longevity.context.InMem
 
 val coreDomain = new SimblCoreDomain
-val longevityContext = LongevityContext(coreDomain, InMem)
+val longevityContext = LongevityContext(coreDomain)
 ```
 
 The longevity context provides a variety of tools that are tailored to
@@ -21,13 +20,6 @@ repositories to do standard CRUD operations
 (create/retrieve/update/delete), as well as executing queries that
 return more than one result.
 
-Apart from the subdomain itself, we have to provide a
-`PersistenceStrategy` when building the longevity context. Your
-choices are currently `InMem`, `Mongo`, and `Cassandra`. We use
-`InMem` out of the box, so that the application will work out of the
-box, even if you don't have a MongoDB or Cassandra database set up for
-use.
-
 Longevity uses [Typesafe
 Config](https://github.com/typesafehub/config) to configure the
 longevity context. Typically, the configuration is drawn from the
@@ -35,6 +27,10 @@ longevity context. Typically, the configuration is drawn from the
 Simple Blogging looks this:
 
 ```prop
+longevity.backEnd = InMem
+longevity.autocreateSchema = true
+longevity.optimisticLocking = false
+
 longevity.mongodb.uri = "localhost:27017"
 longevity.mongodb.db = simbl_main
 longevity.test.mongodb.uri = "localhost:27017"
@@ -55,10 +51,16 @@ longevity.test.cassandra.keyspace = simbl_test
 longevity.test.cassandra.replicationFactor = 1
 ```
 
-Here, you can find configurations for main and test databases for both
-Mongo and Cassandra. If you want to experiment with adjusting the
-persistence strategy to use a real database, you may need to tweak
-this configuration.
+Here, you need to specify the back end in configuration property
+`longevity.backEnd`. Your choices are currently `InMem`, `Mongo`, and
+`Cassandra`. We use `InMem` out of the box, so that this tutorial will
+work even if you don't have a MongoDB or Cassandra database set up for
+use.
+
+You can find configurations for main and test databases for both Mongo
+and Cassandra in the config file. If you want to experiment with
+adjusting the persistence strategy to use a real database, you may
+need to tweak this configuration.
 
 {% assign prevTitle = "building the subdomain" %}
 {% assign prevLink = "building.html" %}
