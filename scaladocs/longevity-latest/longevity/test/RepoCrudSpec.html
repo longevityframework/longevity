@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>RepoCrudSpec - longevity 0.13-SNAPSHOT API - longevity.test.RepoCrudSpec</title>
-          <meta name="description" content="RepoCrudSpec - longevity 0.13 - SNAPSHOT API - longevity.test.RepoCrudSpec" />
-          <meta name="keywords" content="RepoCrudSpec longevity 0.13 SNAPSHOT API longevity.test.RepoCrudSpec" />
+          <title>RepoCrudSpec - longevity 0.14-SNAPSHOT API - longevity.test.RepoCrudSpec</title>
+          <meta name="description" content="RepoCrudSpec - longevity 0.14 - SNAPSHOT API - longevity.test.RepoCrudSpec" />
+          <meta name="keywords" content="RepoCrudSpec longevity 0.14 SNAPSHOT API longevity.test.RepoCrudSpec" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -45,7 +45,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">RepoCrudSpec</span><span class="result"> extends <span class="extype" name="org.scalatest.FeatureSpec">FeatureSpec</span> with <span class="extype" name="org.scalatest.BeforeAndAfterAll">BeforeAndAfterAll</span> with <span class="extype" name="org.scalatest.GivenWhenThen">GivenWhenThen</span> with <span class="extype" name="org.scalatest.Matchers">Matchers</span> with <span class="extype" name="org.scalatest.concurrent.ScalaFutures">ScalaFutures</span> with <span class="extype" name="org.scalatest.concurrent.ScaledTimeSpans">ScaledTimeSpans</span></span>
+        <span class="name">RepoCrudSpec</span><span class="result"> extends <span class="extype" name="org.scalatest.FeatureSpec">FeatureSpec</span> with <a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a> with <span class="extype" name="org.scalatest.GivenWhenThen">GivenWhenThen</span></span>
       </span>
       </h4>
       
@@ -57,12 +57,12 @@ implicit conversion from <code>LongevityContext</code> to
 <a href="../context/TestContext$$ScalaTestSpecs.html" class="extype" name="longevity.context.TestContext.ScalaTestSpecs">ScalaTestSpecs</a>.</p><p>the repo CRUD spec exercises create/retrieve/update/delete for all the repos
 in your repo pool.</p><p>pardon the nasty ScalaDocs for this class. we haven't figured out how to
 remove the methods inherited from ScalaTest classes yet.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/84326fb24941a53fef397373a11da159ece0df5e/src/main/scala/longevity/test/RepoCrudSpec.scala" target="_blank">RepoCrudSpec.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/c9e8395a28fdd68e15c9510a50837bae7cb695b9/src/main/scala/longevity/test/RepoCrudSpec.scala" target="_blank">RepoCrudSpec.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="org.scalatest.concurrent.ScalaFutures">ScalaFutures</span>, <span class="extype" name="org.scalatest.concurrent.Futures">Futures</span>, <span class="extype" name="org.scalatest.concurrent.PatienceConfiguration">PatienceConfiguration</span>, <span class="extype" name="org.scalatest.concurrent.AbstractPatienceConfiguration">AbstractPatienceConfiguration</span>, <span class="extype" name="org.scalatest.concurrent.ScaledTimeSpans">ScaledTimeSpans</span>, <span class="extype" name="org.scalatest.Matchers">Matchers</span>, <span class="extype" name="org.scalactic.Explicitly">Explicitly</span>, <span class="extype" name="org.scalatest.words.MatcherWords">MatcherWords</span>, <span class="extype" name="org.scalatest.words.ShouldVerb">ShouldVerb</span>, <span class="extype" name="org.scalactic.Tolerance">Tolerance</span>, <span class="extype" name="org.scalatest.GivenWhenThen">GivenWhenThen</span>, <span class="extype" name="org.scalatest.BeforeAndAfterAll">BeforeAndAfterAll</span>, <span class="extype" name="org.scalatest.SuiteMixin">SuiteMixin</span>, <span class="extype" name="org.scalatest.FeatureSpec">FeatureSpec</span>, <span class="extype" name="org.scalatest.FeatureSpecLike">FeatureSpecLike</span>, <span class="extype" name="org.scalatest.Documenting">Documenting</span>, <span class="extype" name="org.scalatest.Alerting">Alerting</span>, <span class="extype" name="org.scalatest.Notifying">Notifying</span>, <span class="extype" name="org.scalatest.Informing">Informing</span>, <span class="extype" name="org.scalatest.TestRegistration">TestRegistration</span>, <span class="extype" name="org.scalatest.Suite">Suite</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.scalatest.AbstractSuite">AbstractSuite</span>, <span class="extype" name="org.scalatest.Assertions">Assertions</span>, <span class="extype" name="org.scalactic.TripleEquals">TripleEquals</span>, <span class="extype" name="org.scalactic.TripleEqualsSupport">TripleEqualsSupport</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="org.scalatest.GivenWhenThen">GivenWhenThen</span>, <a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a>, <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span>, <span class="extype" name="org.scalatest.BeforeAndAfterAll">BeforeAndAfterAll</span>, <span class="extype" name="org.scalatest.SuiteMixin">SuiteMixin</span>, <a href="LongevityFuturesSpec.html" class="extype" name="longevity.test.LongevityFuturesSpec">LongevityFuturesSpec</a>, <span class="extype" name="org.scalatest.concurrent.ScalaFutures">ScalaFutures</span>, <span class="extype" name="org.scalatest.concurrent.Futures">Futures</span>, <span class="extype" name="org.scalatest.concurrent.PatienceConfiguration">PatienceConfiguration</span>, <span class="extype" name="org.scalatest.concurrent.AbstractPatienceConfiguration">AbstractPatienceConfiguration</span>, <span class="extype" name="org.scalatest.concurrent.ScaledTimeSpans">ScaledTimeSpans</span>, <span class="extype" name="org.scalatest.Matchers">Matchers</span>, <span class="extype" name="org.scalactic.Explicitly">Explicitly</span>, <span class="extype" name="org.scalatest.words.MatcherWords">MatcherWords</span>, <span class="extype" name="org.scalatest.words.ShouldVerb">ShouldVerb</span>, <span class="extype" name="org.scalactic.Tolerance">Tolerance</span>, <span class="extype" name="org.scalatest.FeatureSpec">FeatureSpec</span>, <span class="extype" name="org.scalatest.FeatureSpecLike">FeatureSpecLike</span>, <span class="extype" name="org.scalatest.Documenting">Documenting</span>, <span class="extype" name="org.scalatest.Alerting">Alerting</span>, <span class="extype" name="org.scalatest.Notifying">Notifying</span>, <span class="extype" name="org.scalatest.Informing">Informing</span>, <span class="extype" name="org.scalatest.TestRegistration">TestRegistration</span>, <span class="extype" name="org.scalatest.Suite">Suite</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.scalatest.AbstractSuite">AbstractSuite</span>, <span class="extype" name="org.scalatest.Assertions">Assertions</span>, <span class="extype" name="org.scalactic.TripleEquals">TripleEquals</span>, <span class="extype" name="org.scalactic.TripleEqualsSupport">TripleEqualsSupport</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 1705.50 125.00" height="125pt" width="1706pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 1701.5,-121 1701.5,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><!-- node10 --><g class="node implicit-outgoing class" id="graph1_10"><g id="a_implicit-outgoing class|graph1_10"><a xlink:title="longevity.test.RepoCrudSpec can be implicitly converted to org.scalatest.Matchers.Equalizer[RepoCrudSpec] by the implicit method convertToEqualizer in trait org.scalactic.TripleEquals"><polygon points="1673.5,-49 1411.5,-49 1411.5,-24 1673.5,-24 1673.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="1421.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="1442.11" text-anchor="start">org.scalatest.Matchers.Equalizer[RepoCrudSpec]</text></a></g></g><!-- node9 --><g class="node implicit-outgoing class" id="graph1_9"><g id="a_implicit-outgoing class|graph1_9"><a xlink:title="longevity.test.RepoCrudSpec can be implicitly converted to org.scalatest.Matchers.AnyShouldWrapper[RepoCrudSpec] by the implicit method convertToAnyShouldWrapper in trait org.scalatest.Matchers"><polygon points="1393,-49 1086,-49 1086,-24 1393,-24 1393,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="1096.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="1117.19" text-anchor="start">org.scalatest.Matchers.AnyShouldWrapper[RepoCrudSpec]</text></a></g></g><!-- node9&#45;&gt;node10 --><!-- node8 --><g class="node implicit-outgoing class" id="graph1_8"><g id="a_implicit-outgoing class|graph1_8"><a xlink:title="longevity.test.RepoCrudSpec can be implicitly converted to org.scalactic.TripleEquals.Equalizer[RepoCrudSpec] by the implicit method convertToEqualizer in trait org.scalactic.TripleEquals"><polygon points="1068,-49 793,-49 793,-24 1068,-24 1068,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="803.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="824.129" text-anchor="start">org.scalactic.TripleEquals.Equalizer[RepoCrudSpec]</text></a></g></g><!-- node8&#45;&gt;node9 --><!-- node7 --><g class="node implicit-outgoing class" id="graph1_7"><g id="a_implicit-outgoing class|graph1_7"><a xlink:title="longevity.test.RepoCrudSpec can be implicitly converted to org.scalatest.Assertions.Equalizer[RepoCrudSpec] by the implicit method convertToEqualizer in trait org.scalactic.TripleEquals"><polygon points="774.5,-49 506.5,-49 506.5,-24 774.5,-24 774.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="516.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="537.333" text-anchor="start">org.scalatest.Assertions.Equalizer[RepoCrudSpec]</text></a></g></g><!-- node7&#45;&gt;node8 --><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.test.RepoCrudSpec (this class)" xlink:href="#inheritance-diagram"><polygon points="434.5,-49 322.5,-49 322.5,-24 434.5,-24 434.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="332.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="353.424" text-anchor="start">RepoCrudSpec</text></a></g></g><!-- node0&#45;&gt;node7 --><g class="edge implicit-outgoing" id="0_7"><g id="a_implicit-outgoing|0_7"><a xlink:title="RepoCrudSpec can be implicitly converted to org.scalatest.Assertions.Equalizer[RepoCrudSpec], org.scalactic.TripleEquals.Equalizer[RepoCrudSpec], org.scalatest.Matchers.AnyShouldWrapper[RepoCrudSpec], org.scalatest.Matchers.Equalizer[RepoCrudSpec]"><path d="M442.289,-36.5C458.039,-36.5 475.568,-36.5 493.502,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="493.531,-38.2501 498.531,-36.5 493.531,-34.7501 493.531,-38.2501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="470.5" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="org.scalatest.FeatureSpec"><polygon points="101,-117 0,-117 0,-92 101,-92 101,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-111.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="31.4829" text-anchor="start">FeatureSpec</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="RepoCrudSpec is a subtype of FeatureSpec"><path d="M106.027,-92.3269C166.278,-80.2032 261.944,-60.9533 322.413,-48.7857" stroke="#d4d4d4" fill="none"></path><polygon points="105.588,-90.6301 101.031,-93.3321 106.278,-94.0613 105.588,-90.6301" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="org.scalatest.BeforeAndAfterAll"><polygon points="242,-117 119,-117 119,-92 242,-92 242,-117" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-111.5" x="129.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="150.367" text-anchor="start">BeforeAndAfterAll</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge inheritance" id="graph1_2_0"><g id="a_inheritance|graph1_2_0"><a xlink:title="RepoCrudSpec is a subtype of BeforeAndAfterAll"><path d="M220.216,-90.2614C256.428,-78.1906 309.393,-60.5355 343.907,-49.0311" stroke="#d4d4d4" fill="none"></path><polygon points="219.633,-88.611 215.443,-91.8525 220.739,-91.9314 219.633,-88.611" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node trait" id="graph1_3"><g id="a_trait|graph1_3"><a xlink:title="org.scalatest.GivenWhenThen"><polygon points="378.5,-117 260.5,-117 260.5,-92 378.5,-92 378.5,-117" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-111.5" x="270.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="291.091" text-anchor="start">GivenWhenThen</text></a></g></g><!-- node3&#45;&gt;node0 --><g class="edge inheritance" id="graph1_3_0"><g id="a_inheritance|graph1_3_0"><a xlink:title="RepoCrudSpec is a subtype of GivenWhenThen"><path d="M333.488,-87.8527C344.089,-75.9941 358.425,-59.9572 368.043,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="332.076,-86.8065 330.048,-91.7005 334.685,-89.1391 332.076,-86.8065" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node4 --><g class="node trait" id="graph1_4"><g id="a_trait|graph1_4"><a xlink:title="org.scalatest.Matchers"><polygon points="480.5,-117 396.5,-117 396.5,-92 480.5,-92 480.5,-117" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-111.5" x="406.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="427.049" text-anchor="start">Matchers</text></a></g></g><!-- node4&#45;&gt;node0 --><g class="edge inheritance" id="graph1_4_0"><g id="a_inheritance|graph1_4_0"><a xlink:title="RepoCrudSpec is a subtype of Matchers"><path d="M424.275,-87.8527C413.495,-75.9941 398.916,-59.9572 389.134,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="423.115,-89.178 427.773,-91.7005 425.705,-86.8236 423.115,-89.178" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node5 --><g class="node trait" id="graph1_5"><g id="a_trait|graph1_5"><a xlink:title="org.scalatest.concurrent.ScalaFutures"><polygon points="600.5,-117 498.5,-117 498.5,-92 600.5,-92 600.5,-117" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-111.5" x="508.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="529.153" text-anchor="start">ScalaFutures</text></a></g></g><!-- node5&#45;&gt;node0 --><g class="edge inheritance" id="graph1_5_0"><g id="a_inheritance|graph1_5_0"><a xlink:title="RepoCrudSpec is a subtype of ScalaFutures"><path d="M514.431,-89.9647C483.18,-77.9028 437.94,-60.4416 408.376,-49.0311" stroke="#d4d4d4" fill="none"></path><polygon points="514.027,-91.6846 519.322,-91.8525 515.288,-88.4194 514.027,-91.6846" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6 --><g class="node trait" id="graph1_6"><g id="a_trait|graph1_6"><a xlink:title="org.scalatest.concurrent.ScaledTimeSpans"><polygon points="742.5,-117 618.5,-117 618.5,-92 742.5,-92 742.5,-117" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-111.5" x="628.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="649.22" text-anchor="start">ScaledTimeSpans</text></a></g></g><!-- node6&#45;&gt;node0 --><g class="edge inheritance" id="graph1_6_0"><g id="a_inheritance|graph1_6_0"><a xlink:title="RepoCrudSpec is a subtype of ScaledTimeSpans"><path d="M617.355,-90.8974C581.31,-83.5865 535.309,-74.0589 494.5,-65 471.87,-59.9766 446.838,-54.085 425.838,-49.0464" stroke="#d4d4d4" fill="none"></path><polygon points="617.351,-92.682 622.599,-91.9596 618.046,-89.2517 617.351,-92.682" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 1524.50 125.00" height="125pt" width="1525pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 1520.5,-121 1520.5,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><!-- node7 --><g class="node implicit-outgoing class" id="graph1_7"><g id="a_implicit-outgoing class|graph1_7"><a xlink:title="longevity.test.RepoCrudSpec can be implicitly converted to org.scalactic.TripleEquals.Equalizer[RepoCrudSpec] by the implicit method convertToEqualizer in trait org.scalactic.TripleEquals"><polygon points="1492,-49 1217,-49 1217,-24 1492,-24 1492,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="1227.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="1248.13" text-anchor="start">org.scalactic.TripleEquals.Equalizer[RepoCrudSpec]</text></a></g></g><!-- node6 --><g class="node implicit-outgoing class" id="graph1_6"><g id="a_implicit-outgoing class|graph1_6"><a xlink:title="longevity.test.RepoCrudSpec can be implicitly converted to org.scalatest.Assertions.Equalizer[RepoCrudSpec] by the implicit method convertToEqualizer in trait org.scalactic.TripleEquals"><polygon points="1198.5,-49 930.5,-49 930.5,-24 1198.5,-24 1198.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="940.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="961.333" text-anchor="start">org.scalatest.Assertions.Equalizer[RepoCrudSpec]</text></a></g></g><!-- node6&#45;&gt;node7 --><!-- node5 --><g class="node implicit-outgoing class" id="graph1_5"><g id="a_implicit-outgoing class|graph1_5"><a xlink:title="longevity.test.RepoCrudSpec can be implicitly converted to org.scalatest.Matchers.Equalizer[RepoCrudSpec] by the implicit method convertToEqualizer in trait org.scalactic.TripleEquals"><polygon points="912.5,-49 650.5,-49 650.5,-24 912.5,-24 912.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="660.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="681.114" text-anchor="start">org.scalatest.Matchers.Equalizer[RepoCrudSpec]</text></a></g></g><!-- node5&#45;&gt;node6 --><!-- node4 --><g class="node implicit-outgoing class" id="graph1_4"><g id="a_implicit-outgoing class|graph1_4"><a xlink:title="longevity.test.RepoCrudSpec can be implicitly converted to org.scalatest.Matchers.AnyShouldWrapper[RepoCrudSpec] by the implicit method convertToAnyShouldWrapper in trait org.scalatest.Matchers"><polygon points="632,-49 325,-49 325,-24 632,-24 632,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="335.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="356.192" text-anchor="start">org.scalatest.Matchers.AnyShouldWrapper[RepoCrudSpec]</text></a></g></g><!-- node4&#45;&gt;node5 --><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.test.RepoCrudSpec (this class)" xlink:href="#inheritance-diagram"><polygon points="253.5,-49 141.5,-49 141.5,-24 253.5,-24 253.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="151.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="172.424" text-anchor="start">RepoCrudSpec</text></a></g></g><!-- node0&#45;&gt;node4 --><g class="edge implicit-outgoing" id="0_4"><g id="a_implicit-outgoing|0_4"><a xlink:title="RepoCrudSpec can be implicitly converted to org.scalatest.Matchers.AnyShouldWrapper[RepoCrudSpec], org.scalatest.Matchers.Equalizer[RepoCrudSpec], org.scalatest.Assertions.Equalizer[RepoCrudSpec], org.scalactic.TripleEquals.Equalizer[RepoCrudSpec]"><path d="M261.138,-36.5C276.616,-36.5 293.892,-36.5 311.755,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="311.769,-38.2501 316.769,-36.5 311.769,-34.7501 311.769,-38.2501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="289.25" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="org.scalatest.FeatureSpec"><polygon points="101,-117 0,-117 0,-92 101,-92 101,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-111.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="31.4829" text-anchor="start">FeatureSpec</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="RepoCrudSpec is a subtype of FeatureSpec"><path d="M81.3126,-89.6658C108.151,-77.6158 146.612,-60.3477 171.817,-49.0311" stroke="#d4d4d4" fill="none"></path><polygon points="80.2868,-88.208 76.4423,-91.8525 81.7204,-91.4009 80.2868,-88.208" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="longevity.test.LongevityIntegrationSpec" xlink:href="LongevityIntegrationSpec.html#inheritance-diagram"><polygon points="275.5,-117 119.5,-117 119.5,-92 275.5,-92 275.5,-117" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-111.5" x="129.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="150.183" text-anchor="start">LongevityIntegrationSpec</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge inheritance" id="graph1_2_0"><g id="a_inheritance|graph1_2_0"><a xlink:title="RepoCrudSpec is a subtype of LongevityIntegrationSpec"><path d="M197.5,-86.6005C197.5,-74.8849 197.5,-59.583 197.5,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="195.75,-86.7005 197.5,-91.7005 199.25,-86.7006 195.75,-86.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node trait" id="graph1_3"><g id="a_trait|graph1_3"><a xlink:title="org.scalatest.GivenWhenThen"><polygon points="411.5,-117 293.5,-117 293.5,-92 411.5,-92 411.5,-117" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-111.5" x="303.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="324.091" text-anchor="start">GivenWhenThen</text></a></g></g><!-- node3&#45;&gt;node0 --><g class="edge inheritance" id="graph1_3_0"><g id="a_inheritance|graph1_3_0"><a xlink:title="RepoCrudSpec is a subtype of GivenWhenThen"><path d="M320.362,-89.8155C292.048,-77.7592 251.268,-60.3947 224.581,-49.0311" stroke="#d4d4d4" fill="none"></path><polygon points="319.86,-91.5037 325.146,-91.8525 321.231,-88.2834 319.86,-91.5037" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -80,12 +80,12 @@ remove the methods inherited from ScalaTest classes yet.
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.test.RepoCrudSpec"><span>RepoCrudSpec</span></li><li class="in" name="org.scalatest.concurrent.ScalaFutures"><span>ScalaFutures</span></li><li class="in" name="org.scalatest.concurrent.Futures"><span>Futures</span></li><li class="in" name="org.scalatest.concurrent.PatienceConfiguration"><span>PatienceConfiguration</span></li><li class="in" name="org.scalatest.concurrent.AbstractPatienceConfiguration"><span>AbstractPatienceConfiguration</span></li><li class="in" name="org.scalatest.concurrent.ScaledTimeSpans"><span>ScaledTimeSpans</span></li><li class="in" name="org.scalatest.Matchers"><span>Matchers</span></li><li class="in" name="org.scalactic.Explicitly"><span>Explicitly</span></li><li class="in" name="org.scalatest.words.MatcherWords"><span>MatcherWords</span></li><li class="in" name="org.scalatest.words.ShouldVerb"><span>ShouldVerb</span></li><li class="in" name="org.scalactic.Tolerance"><span>Tolerance</span></li><li class="in" name="org.scalatest.GivenWhenThen"><span>GivenWhenThen</span></li><li class="in" name="org.scalatest.BeforeAndAfterAll"><span>BeforeAndAfterAll</span></li><li class="in" name="org.scalatest.SuiteMixin"><span>SuiteMixin</span></li><li class="in" name="org.scalatest.FeatureSpec"><span>FeatureSpec</span></li><li class="in" name="org.scalatest.FeatureSpecLike"><span>FeatureSpecLike</span></li><li class="in" name="org.scalatest.Documenting"><span>Documenting</span></li><li class="in" name="org.scalatest.Alerting"><span>Alerting</span></li><li class="in" name="org.scalatest.Notifying"><span>Notifying</span></li><li class="in" name="org.scalatest.Informing"><span>Informing</span></li><li class="in" name="org.scalatest.TestRegistration"><span>TestRegistration</span></li><li class="in" name="org.scalatest.Suite"><span>Suite</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.scalatest.AbstractSuite"><span>AbstractSuite</span></li><li class="in" name="org.scalatest.Assertions"><span>Assertions</span></li><li class="in" name="org.scalactic.TripleEquals"><span>TripleEquals</span></li><li class="in" name="org.scalactic.TripleEqualsSupport"><span>TripleEqualsSupport</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.test.RepoCrudSpec"><span>RepoCrudSpec</span></li><li class="in" name="org.scalatest.GivenWhenThen"><span>GivenWhenThen</span></li><li class="in" name="longevity.test.LongevityIntegrationSpec"><span>LongevityIntegrationSpec</span></li><li class="in" name="com.typesafe.scalalogging.LazyLogging"><span>LazyLogging</span></li><li class="in" name="org.scalatest.BeforeAndAfterAll"><span>BeforeAndAfterAll</span></li><li class="in" name="org.scalatest.SuiteMixin"><span>SuiteMixin</span></li><li class="in" name="longevity.test.LongevityFuturesSpec"><span>LongevityFuturesSpec</span></li><li class="in" name="org.scalatest.concurrent.ScalaFutures"><span>ScalaFutures</span></li><li class="in" name="org.scalatest.concurrent.Futures"><span>Futures</span></li><li class="in" name="org.scalatest.concurrent.PatienceConfiguration"><span>PatienceConfiguration</span></li><li class="in" name="org.scalatest.concurrent.AbstractPatienceConfiguration"><span>AbstractPatienceConfiguration</span></li><li class="in" name="org.scalatest.concurrent.ScaledTimeSpans"><span>ScaledTimeSpans</span></li><li class="in" name="org.scalatest.Matchers"><span>Matchers</span></li><li class="in" name="org.scalactic.Explicitly"><span>Explicitly</span></li><li class="in" name="org.scalatest.words.MatcherWords"><span>MatcherWords</span></li><li class="in" name="org.scalatest.words.ShouldVerb"><span>ShouldVerb</span></li><li class="in" name="org.scalactic.Tolerance"><span>Tolerance</span></li><li class="in" name="org.scalatest.FeatureSpec"><span>FeatureSpec</span></li><li class="in" name="org.scalatest.FeatureSpecLike"><span>FeatureSpecLike</span></li><li class="in" name="org.scalatest.Documenting"><span>Documenting</span></li><li class="in" name="org.scalatest.Alerting"><span>Alerting</span></li><li class="in" name="org.scalatest.Notifying"><span>Notifying</span></li><li class="in" name="org.scalatest.Informing"><span>Informing</span></li><li class="in" name="org.scalatest.TestRegistration"><span>TestRegistration</span></li><li class="in" name="org.scalatest.Suite"><span>Suite</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.scalatest.AbstractSuite"><span>AbstractSuite</span></li><li class="in" name="org.scalatest.Assertions"><span>Assertions</span></li><li class="in" name="org.scalactic.TripleEquals"><span>TripleEquals</span></li><li class="in" name="org.scalactic.TripleEqualsSupport"><span>TripleEqualsSupport</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
                 </span>
-                <ol id="implicits"> <li class="in" name="org.scalactic.TripleEquals.convertToEqualizer" data-hidden="false"><span>by convertToEqualizer</span></li><li class="in" name="org.scalactic.TripleEquals.convertToEqualizer" data-hidden="false"><span>by convertToEqualizer</span></li><li class="in" name="org.scalatest.Matchers.convertToAnyShouldWrapper" data-hidden="false"><span>by convertToAnyShouldWrapper</span></li><li class="in" name="org.scalactic.TripleEquals.convertToEqualizer" data-hidden="false"><span>by convertToEqualizer</span></li><li class="in" name="scala.Predef.any2stringadd" data-hidden="true"><span>by any2stringadd</span></li><li class="in" name="scala.Predef.StringFormat" data-hidden="true"><span>by StringFormat</span></li><li class="in" name="scala.Predef.Ensuring" data-hidden="true"><span>by Ensuring</span></li><li class="in" name="scala.Predef.ArrowAssoc" data-hidden="true"><span>by ArrowAssoc</span></li>
+                <ol id="implicits"> <li class="in" name="org.scalatest.Matchers.convertToAnyShouldWrapper" data-hidden="false"><span>by convertToAnyShouldWrapper</span></li><li class="in" name="org.scalactic.TripleEquals.convertToEqualizer" data-hidden="false"><span>by convertToEqualizer</span></li><li class="in" name="org.scalactic.TripleEquals.convertToEqualizer" data-hidden="false"><span>by convertToEqualizer</span></li><li class="in" name="org.scalactic.TripleEquals.convertToEqualizer" data-hidden="false"><span>by convertToEqualizer</span></li><li class="in" name="scala.Predef.any2stringadd" data-hidden="true"><span>by any2stringadd</span></li><li class="in" name="scala.Predef.StringFormat" data-hidden="true"><span>by StringFormat</span></li><li class="in" name="scala.Predef.Ensuring" data-hidden="true"><span>by Ensuring</span></li><li class="in" name="scala.Predef.ArrowAssoc" data-hidden="true"><span>by ArrowAssoc</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -1705,7 +1705,7 @@ remove the methods inherited from ScalaTest classes yet.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>MatcherWords</dd></dl></div>
-    </li><li name="longevity.test.RepoCrudSpec#beforeAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="longevity.test.LongevityIntegrationSpec#beforeAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeAll():Unit"></a>
       <a id="beforeAll():Unit"></a>
       <h4 class="signature">
@@ -1721,7 +1721,7 @@ remove the methods inherited from ScalaTest classes yet.
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> → BeforeAndAfterAll</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a> → BeforeAndAfterAll</dd></dl></div>
     </li><li name="org.scalatest.Matchers#between" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="between(from:&lt;?&gt;,upTo:&lt;?&gt;,xs:&lt;?&gt;)(implicitcollecting:&lt;?&gt;):Matchers.this.ResultOfCollectedAny[Char]"></a>
       <a id="between(Int,Int,String)(Collecting[Char,String]):ResultOfCollectedAny[Char]"></a>
@@ -2577,6 +2577,23 @@ remove the methods inherited from ScalaTest classes yet.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Suite</dd></dl></div>
+    </li><li name="longevity.test.RepoCrudSpec#executionContext" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="executionContext:scala.concurrent.ExecutionContext"></a>
+      <a id="executionContext:ExecutionContext"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">executionContext</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.ExecutionContext" class="extype" target="_top">ExecutionContext</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@executionContext:scala.concurrent.ExecutionContext" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">the execution context</p><div class="fullcomment"><div class="comment cmt"><p>the execution context</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> → <a href="LongevityFuturesSpec.html" class="extype" name="longevity.test.LongevityFuturesSpec">LongevityFuturesSpec</a></dd></dl></div>
     </li><li name="org.scalatest.words.MatcherWords#exist" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="exist:org.scalatest.words.ExistWord"></a>
       <a id="exist:ExistWord"></a>
@@ -3019,6 +3036,23 @@ remove the methods inherited from ScalaTest classes yet.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>MatcherWords</dd></dl></div>
+    </li><li name="com.typesafe.scalalogging.LazyLogging#logger" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logger:com.typesafe.scalalogging.Logger"></a>
+      <a id="logger:Logger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logger</span><span class="result">: <span class="extype" name="com.typesafe.scalalogging.Logger">Logger</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@logger:com.typesafe.scalalogging.Logger" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>LazyLogging</dd></dl></div>
     </li><li name="longevity.test.RepoCrudSpec#longevityContext" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="longevityContext:longevity.context.LongevityContext"></a>
       <a id="longevityContext:LongevityContext"></a>
@@ -3035,7 +3069,7 @@ remove the methods inherited from ScalaTest classes yet.
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> → <a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a></dd></dl></div>
     </li><li name="org.scalactic.TripleEquals#lowPriorityConversionCheckedConstraint" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lowPriorityConversionCheckedConstraint[A,B](implicitequivalenceOfB:org.scalactic.Equivalence[B],implicitcnv:A=&gt;B):org.scalactic.Constraint[A,B]"></a>
       <a id="lowPriorityConversionCheckedConstraint[A,B](Equivalence[B],(A)⇒B):Constraint[A,B]"></a>
@@ -3359,8 +3393,8 @@ remove the methods inherited from ScalaTest classes yet.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Matchers</dd></dl></div>
-    </li><li name="longevity.test.RepoCrudSpec#patienceConfig" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="patienceConfig:RepoCrudSpec.this.PatienceConfig"></a>
+    </li><li name="longevity.test.LongevityFuturesSpec#patienceConfig" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="patienceConfig:LongevityFuturesSpec.this.PatienceConfig"></a>
       <a id="patienceConfig:PatienceConfig"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -3371,11 +3405,11 @@ remove the methods inherited from ScalaTest classes yet.
         <span class="name">patienceConfig</span><span class="result">: <a href="#PatienceConfigextendsProductwithSerializable" class="extmbr" name="longevity.test.RepoCrudSpec.PatienceConfig">PatienceConfig</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.RepoCrudSpec@patienceConfig:RepoCrudSpec.this.PatienceConfig" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@patienceConfig:LongevityFuturesSpec.this.PatienceConfig" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> → PatienceConfiguration → AbstractPatienceConfiguration</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LongevityFuturesSpec.html" class="extype" name="longevity.test.LongevityFuturesSpec">LongevityFuturesSpec</a> → PatienceConfiguration → AbstractPatienceConfiguration</dd></dl></div>
     </li><li name="org.scalatest.Suite#pending" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="pending:org.scalatest.PendingNothing"></a>
       <a id="pending:PendingNothing"></a>
@@ -3495,6 +3529,26 @@ remove the methods inherited from ScalaTest classes yet.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>FeatureSpecLike → TestRegistration</dd></dl></div>
+    </li><li name="longevity.test.RepoCrudSpec#repoPool" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="repoPool:longevity.persistence.RepoPool"></a>
+      <a id="repoPool:RepoPool"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">repoPool</span><span class="result">: <a href="../persistence/RepoPool.html" class="extype" name="longevity.persistence.RepoPool">RepoPool</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@repoPool:longevity.persistence.RepoPool" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">the repo pool under test.</p><div class="fullcomment"><div class="comment cmt"><p>the repo pool under test. this may be different than the
+<code>longevityContext.repoPool</code>, as users may want to test against other repo
+pools. (for instance, they may want a spec for in-memory repo pools if other
+parts of their test suite rely on them.)</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.scalatest.Suite#rerunner" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="rerunner:Option[String]"></a>
       <a id="rerunner:Option[String]"></a>
@@ -5279,6 +5333,69 @@ remove the methods inherited from ScalaTest classes yet.
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
             This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
+            <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
+            
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).!==(literalNull)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
+    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#!==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!==(spread:org.scalactic.TripleEqualsSupport.Spread[L]):Boolean"></a>
+      <a id="!==(Spread[RepoCrudSpec]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq$eq" class="implicit shadowed">!==</span><span class="params">(<span name="spread">spread: <span class="extype" name="org.scalactic.TripleEqualsSupport.Spread">Spread</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@!==(spread:org.scalactic.TripleEqualsSupport.Spread[L]):Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
+            <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
+            
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).!==(spread)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
+    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#!==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!==(rightSide:Any)(implicitequality:org.scalactic.Equality[L]):Boolean"></a>
+      <a id="!==(Any)(Equality[RepoCrudSpec]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq$eq" class="implicit shadowed">!==</span><span class="params">(<span name="rightSide">rightSide: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="equality">equality: <span class="extype" name="org.scalactic.Equality">Equality</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@!==(rightSide:Any)(implicitequality:org.scalactic.Equality[L]):Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
+            <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
+            
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).!==(rightSide)(equality)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
+    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#!==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!==(literalNull:Null):Boolean"></a>
+      <a id="!==(Null):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq$eq" class="implicit shadowed">!==</span><span class="params">(<span name="literalNull">literalNull: <span class="extype" name="scala.Null">Null</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@!==(literalNull:Null):Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
             <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Assertions.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
             
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Assertions.Equalizer[RepoCrudSpec]).!==(literalNull)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
@@ -5387,19 +5504,19 @@ remove the methods inherited from ScalaTest classes yet.
             <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalactic.TripleEquals.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
             
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalactic.TripleEquals.Equalizer[RepoCrudSpec]).!==(rightSide)(equality)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
-    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#!==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="!==(literalNull:Null):Boolean"></a>
-      <a id="!==(Null):Boolean"></a>
+    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#===" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="===(literalNull:Null):Boolean"></a>
+      <a id="===(Null):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq$eq" class="implicit shadowed">!==</span><span class="params">(<span name="literalNull">literalNull: <span class="extype" name="scala.Null">Null</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span title="gt4s: $eq$eq$eq" class="implicit shadowed">===</span><span class="params">(<span name="literalNull">literalNull: <span class="extype" name="scala.Null">Null</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.RepoCrudSpec@!==(literalNull:Null):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@===(literalNull:Null):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -5407,20 +5524,20 @@ remove the methods inherited from ScalaTest classes yet.
             This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
             <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).!==(literalNull)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
-    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#!==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="!==(spread:org.scalactic.TripleEqualsSupport.Spread[L]):Boolean"></a>
-      <a id="!==(Spread[RepoCrudSpec]):Boolean"></a>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).===(literalNull)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
+    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#===" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="===(spread:org.scalactic.TripleEqualsSupport.Spread[L]):Boolean"></a>
+      <a id="===(Spread[RepoCrudSpec]):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq$eq" class="implicit shadowed">!==</span><span class="params">(<span name="spread">spread: <span class="extype" name="org.scalactic.TripleEqualsSupport.Spread">Spread</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span title="gt4s: $eq$eq$eq" class="implicit shadowed">===</span><span class="params">(<span name="spread">spread: <span class="extype" name="org.scalactic.TripleEqualsSupport.Spread">Spread</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.RepoCrudSpec@!==(spread:org.scalactic.TripleEqualsSupport.Spread[L]):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@===(spread:org.scalactic.TripleEqualsSupport.Spread[L]):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -5428,20 +5545,20 @@ remove the methods inherited from ScalaTest classes yet.
             This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
             <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).!==(spread)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
-    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#!==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="!==(rightSide:Any)(implicitequality:org.scalactic.Equality[L]):Boolean"></a>
-      <a id="!==(Any)(Equality[RepoCrudSpec]):Boolean"></a>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).===(spread)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
+    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#===" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="===(rightSide:Any)(implicitequality:org.scalactic.Equality[L]):Boolean"></a>
+      <a id="===(Any)(Equality[RepoCrudSpec]):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq$eq" class="implicit shadowed">!==</span><span class="params">(<span name="rightSide">rightSide: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="equality">equality: <span class="extype" name="org.scalactic.Equality">Equality</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span title="gt4s: $eq$eq$eq" class="implicit shadowed">===</span><span class="params">(<span name="rightSide">rightSide: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="equality">equality: <span class="extype" name="org.scalactic.Equality">Equality</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.RepoCrudSpec@!==(rightSide:Any)(implicitequality:org.scalactic.Equality[L]):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@===(rightSide:Any)(implicitequality:org.scalactic.Equality[L]):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -5449,7 +5566,7 @@ remove the methods inherited from ScalaTest classes yet.
             This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
             <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).!==(rightSide)(equality)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).===(rightSide)(equality)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
     </li><li name="org.scalactic.TripleEquals.convertToEqualizer#===" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="===(literalNull:Null):Boolean"></a>
       <a id="===(Null):Boolean"></a>
@@ -5576,19 +5693,19 @@ remove the methods inherited from ScalaTest classes yet.
             <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalactic.TripleEquals.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
             
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalactic.TripleEquals.Equalizer[RepoCrudSpec]).===(rightSide)(equality)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
-    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#===" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="===(literalNull:Null):Boolean"></a>
-      <a id="===(Null):Boolean"></a>
+    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#leftSide" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="leftSide:L"></a>
+      <a id="leftSide:RepoCrudSpec"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq$eq" class="implicit shadowed">===</span><span class="params">(<span name="literalNull">literalNull: <span class="extype" name="scala.Null">Null</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="implicit shadowed">leftSide</span><span class="result">: <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.RepoCrudSpec@===(literalNull:Null):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.RepoCrudSpec@leftSide:L" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -5596,49 +5713,7 @@ remove the methods inherited from ScalaTest classes yet.
             This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
             <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
             
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).===(literalNull)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
-    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#===" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="===(spread:org.scalactic.TripleEqualsSupport.Spread[L]):Boolean"></a>
-      <a id="===(Spread[RepoCrudSpec]):Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span title="gt4s: $eq$eq$eq" class="implicit shadowed">===</span><span class="params">(<span name="spread">spread: <span class="extype" name="org.scalactic.TripleEqualsSupport.Spread">Spread</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.RepoCrudSpec@===(spread:org.scalactic.TripleEqualsSupport.Spread[L]):Boolean" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
-            <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
-            
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).===(spread)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
-    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#===" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="===(rightSide:Any)(implicitequality:org.scalactic.Equality[L]):Boolean"></a>
-      <a id="===(Any)(Equality[RepoCrudSpec]):Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span title="gt4s: $eq$eq$eq" class="implicit shadowed">===</span><span class="params">(<span name="rightSide">rightSide: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="equality">equality: <span class="extype" name="org.scalactic.Equality">Equality</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.RepoCrudSpec@===(rightSide:Any)(implicitequality:org.scalactic.Equality[L]):Boolean" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
-            <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
-            
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is shadowed by one or more members in this class.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).===(rightSide)(equality)</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
+          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).leftSide</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
     </li><li name="org.scalactic.TripleEquals.convertToEqualizer#leftSide" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="leftSide:L"></a>
       <a id="leftSide:RepoCrudSpec"></a>
@@ -5681,27 +5756,6 @@ remove the methods inherited from ScalaTest classes yet.
             <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalactic.TripleEquals.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
             
           </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalactic.TripleEquals.Equalizer[RepoCrudSpec]).leftSide</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
-    </li><li name="org.scalactic.TripleEquals.convertToEqualizer#leftSide" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="leftSide:L"></a>
-      <a id="leftSide:RepoCrudSpec"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="implicit shadowed">leftSide</span><span class="result">: <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.RepoCrudSpec@leftSide:L" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to
-            <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>] performed by method convertToEqualizer in org.scalactic.TripleEquals.
-            
-          </dd><dt class="implicit">Shadowing</dt><dd>This implicitly inherited member is ambiguous. One or more implicitly inherited members have similar signatures, so calling this member may produce an ambiguous implicit conversion compiler error.<br />To access this member you can use a <a href="http://stackoverflow.com/questions/2087250/what-is-the-purpose-of-type-ascription-in-scala" target="_blank">type ascription</a>:<br /><div class="cmt"><pre>(repoCrudSpec: org.scalatest.Matchers.Equalizer[RepoCrudSpec]).leftSide</pre></div></dd><dt>Definition Classes</dt><dd>Equalizer</dd></dl></div>
     </li></ol>
             </div>
 
@@ -6012,7 +6066,19 @@ remove the methods inherited from ScalaTest classes yet.
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="org.scalatest.concurrent.ScalaFutures">
+        <div class="parent" name="org.scalatest.GivenWhenThen">
+              <h3>Inherited from <span class="extype" name="org.scalatest.GivenWhenThen">GivenWhenThen</span></h3>
+            </div><div class="parent" name="longevity.test.LongevityIntegrationSpec">
+              <h3>Inherited from <a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a></h3>
+            </div><div class="parent" name="com.typesafe.scalalogging.LazyLogging">
+              <h3>Inherited from <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span></h3>
+            </div><div class="parent" name="org.scalatest.BeforeAndAfterAll">
+              <h3>Inherited from <span class="extype" name="org.scalatest.BeforeAndAfterAll">BeforeAndAfterAll</span></h3>
+            </div><div class="parent" name="org.scalatest.SuiteMixin">
+              <h3>Inherited from <span class="extype" name="org.scalatest.SuiteMixin">SuiteMixin</span></h3>
+            </div><div class="parent" name="longevity.test.LongevityFuturesSpec">
+              <h3>Inherited from <a href="LongevityFuturesSpec.html" class="extype" name="longevity.test.LongevityFuturesSpec">LongevityFuturesSpec</a></h3>
+            </div><div class="parent" name="org.scalatest.concurrent.ScalaFutures">
               <h3>Inherited from <span class="extype" name="org.scalatest.concurrent.ScalaFutures">ScalaFutures</span></h3>
             </div><div class="parent" name="org.scalatest.concurrent.Futures">
               <h3>Inherited from <span class="extype" name="org.scalatest.concurrent.Futures">Futures</span></h3>
@@ -6032,12 +6098,6 @@ remove the methods inherited from ScalaTest classes yet.
               <h3>Inherited from <span class="extype" name="org.scalatest.words.ShouldVerb">ShouldVerb</span></h3>
             </div><div class="parent" name="org.scalactic.Tolerance">
               <h3>Inherited from <span class="extype" name="org.scalactic.Tolerance">Tolerance</span></h3>
-            </div><div class="parent" name="org.scalatest.GivenWhenThen">
-              <h3>Inherited from <span class="extype" name="org.scalatest.GivenWhenThen">GivenWhenThen</span></h3>
-            </div><div class="parent" name="org.scalatest.BeforeAndAfterAll">
-              <h3>Inherited from <span class="extype" name="org.scalatest.BeforeAndAfterAll">BeforeAndAfterAll</span></h3>
-            </div><div class="parent" name="org.scalatest.SuiteMixin">
-              <h3>Inherited from <span class="extype" name="org.scalatest.SuiteMixin">SuiteMixin</span></h3>
             </div><div class="parent" name="org.scalatest.FeatureSpec">
               <h3>Inherited from <span class="extype" name="org.scalatest.FeatureSpec">FeatureSpec</span></h3>
             </div><div class="parent" name="org.scalatest.FeatureSpecLike">
@@ -6069,21 +6129,21 @@ remove the methods inherited from ScalaTest classes yet.
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
             </div>
-        <div class="conversion" name="org.scalactic.TripleEquals.convertToEqualizer">
-              <h3>Inherited by implicit conversion convertToEqualizer from
-                <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Assertions.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]
-              </h3>
-            </div><div class="conversion" name="org.scalactic.TripleEquals.convertToEqualizer">
-              <h3>Inherited by implicit conversion convertToEqualizer from
-                <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalactic.TripleEquals.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]
-              </h3>
-            </div><div class="conversion" name="org.scalatest.Matchers.convertToAnyShouldWrapper">
+        <div class="conversion" name="org.scalatest.Matchers.convertToAnyShouldWrapper">
               <h3>Inherited by implicit conversion convertToAnyShouldWrapper from
                 <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to <span class="extype" name="org.scalatest.Matchers.AnyShouldWrapper">org.scalatest.Matchers.AnyShouldWrapper</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]
               </h3>
             </div><div class="conversion" name="org.scalactic.TripleEquals.convertToEqualizer">
               <h3>Inherited by implicit conversion convertToEqualizer from
                 <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Matchers.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]
+              </h3>
+            </div><div class="conversion" name="org.scalactic.TripleEquals.convertToEqualizer">
+              <h3>Inherited by implicit conversion convertToEqualizer from
+                <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalatest.Assertions.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]
+              </h3>
+            </div><div class="conversion" name="org.scalactic.TripleEquals.convertToEqualizer">
+              <h3>Inherited by implicit conversion convertToEqualizer from
+                <a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a> to <span class="extype" name="org.scalactic.TripleEqualsSupport.Equalizer">org.scalactic.TripleEquals.Equalizer</span>[<a href="" class="extype" name="longevity.test.RepoCrudSpec">RepoCrudSpec</a>]
               </h3>
             </div><div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from

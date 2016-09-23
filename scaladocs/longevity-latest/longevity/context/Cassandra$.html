@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Cassandra - longevity 0.13-SNAPSHOT API - longevity.context.Cassandra</title>
-          <meta name="description" content="Cassandra - longevity 0.13 - SNAPSHOT API - longevity.context.Cassandra" />
-          <meta name="keywords" content="Cassandra longevity 0.13 SNAPSHOT API longevity.context.Cassandra" />
+          <title>Cassandra - longevity 0.14-SNAPSHOT API - longevity.context.Cassandra</title>
+          <meta name="description" content="Cassandra - longevity 0.14 - SNAPSHOT API - longevity.context.Cassandra" />
+          <meta name="keywords" content="Cassandra longevity 0.14 SNAPSHOT API longevity.context.Cassandra" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,12 +28,10 @@
         </head>
         <body class="value">
       <div id="definition">
-        <a href="Cassandra.html" title="See companion trait"><img alt="Object/Trait" src="../../lib/object_to_trait_big.png" /></a>
+        <img alt="Object" src="../../lib/object_big.png" />
         <p id="owner"><a href="../package.html" class="extype" name="longevity">longevity</a>.<a href="package.html" class="extype" name="longevity.context">context</a></p>
-        <h1><a href="Cassandra.html" title="See companion trait">Cassandra</a></h1><h3><span class="morelinks"><div>
-            Related Docs:
-            <a href="Cassandra.html" title="See companion trait">trait Cassandra</a>
-            | <a href="package.html" class="extype" name="longevity.context">package context</a>
+        <h1>Cassandra</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="longevity.context">package context</a>
           </div></span></h3><span class="permalink">
       <a href="../../index.html#longevity.context.Cassandra$" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
@@ -47,13 +45,13 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">Cassandra</span><span class="result"> extends <a href="Cassandra.html" class="extype" name="longevity.context.Cassandra">Cassandra</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+        <span class="name">Cassandra</span><span class="result"> extends <a href="BackEnd.html" class="extype" name="longevity.context.BackEnd">BackEnd</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a persistence strategy indicating that entities live in Cassandra</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/84326fb24941a53fef397373a11da159ece0df5e/src/main/scala/longevity/context/PersistenceStrategy.scala" target="_blank">PersistenceStrategy.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a back end indicating that persistent objects live in Cassandra</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/c9e8395a28fdd68e15c9510a50837bae7cb695b9/src/main/scala/longevity/context/BackEnd.scala" target="_blank">BackEnd.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="Cassandra.html" class="extype" name="longevity.context.Cassandra">Cassandra</a>, <a href="PersistenceStrategy.html" class="extype" name="longevity.context.PersistenceStrategy">PersistenceStrategy</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="BackEnd.html" class="extype" name="longevity.context.BackEnd">BackEnd</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
         
 
@@ -71,7 +69,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.context.Cassandra"><span>Cassandra</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="longevity.context.Cassandra"><span>Cassandra</span></li><li class="in" name="longevity.context.PersistenceStrategy"><span>PersistenceStrategy</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.context.Cassandra"><span>Cassandra</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="longevity.context.BackEnd"><span>BackEnd</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -294,7 +292,7 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">the name of the persistence strategy</p><div class="fullcomment"><div class="comment cmt"><p>the name of the persistence strategy</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Cassandra.html" class="extype" name="longevity.context.Cassandra">Cassandra</a> → <a href="PersistenceStrategy.html" class="extype" name="longevity.context.PersistenceStrategy">PersistenceStrategy</a></dd></dl></div>
+      <p class="shortcomment cmt">the name of the back end</p><div class="fullcomment"><div class="comment cmt"><p>the name of the back end</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.context.Cassandra">Cassandra</a> → <a href="BackEnd.html" class="extype" name="longevity.context.BackEnd">BackEnd</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -449,10 +447,8 @@
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a></h3>
             </div><div class="parent" name="scala.Equals">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Equals" class="extype" target="_top">Equals</a></h3>
-            </div><div class="parent" name="longevity.context.Cassandra">
-              <h3>Inherited from <a href="Cassandra.html" class="extype" name="longevity.context.Cassandra">Cassandra</a></h3>
-            </div><div class="parent" name="longevity.context.PersistenceStrategy">
-              <h3>Inherited from <a href="PersistenceStrategy.html" class="extype" name="longevity.context.PersistenceStrategy">PersistenceStrategy</a></h3>
+            </div><div class="parent" name="longevity.context.BackEnd">
+              <h3>Inherited from <a href="BackEnd.html" class="extype" name="longevity.context.BackEnd">BackEnd</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">

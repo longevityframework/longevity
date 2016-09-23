@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>persistence - longevity 0.13-SNAPSHOT API - longevity.persistence</title>
-          <meta name="description" content="persistence - longevity 0.13 - SNAPSHOT API - longevity.persistence" />
-          <meta name="keywords" content="persistence longevity 0.13 SNAPSHOT API longevity.persistence" />
+          <title>persistence - longevity 0.14-SNAPSHOT API - longevity.persistence</title>
+          <meta name="description" content="persistence - longevity 0.14 - SNAPSHOT API - longevity.persistence" />
+          <meta name="keywords" content="persistence longevity 0.14 SNAPSHOT API longevity.persistence" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>manages entity persistence operations</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/84326fb24941a53fef397373a11da159ece0df5e/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>manages entity persistence operations</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/c9e8395a28fdd68e15c9510a50837bae7cb695b9/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -174,6 +174,40 @@
       </a>
     </span>
       <p class="shortcomment cmt">extension methods for an <a href="#FPState[P&lt;:longevity.subdomain.persistent.Persistent]=scala.concurrent.Future[longevity.persistence.PState[P]]" class="extmbr" name="longevity.persistence.FPState">FPState</a></p>
+    </li><li name="longevity.persistence.LiftOPState" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LiftOPState[P&lt;:longevity.subdomain.persistent.Persistent]extendsAnyRef"></a>
+      <a id="LiftOPState[P&lt;:Persistent]:LiftOPState[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="package$$LiftOPState.html"><span class="name">LiftOPState</span></a><span class="tparams">[<span name="P">P &lt;: <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.persistence.package@LiftOPState[P&lt;:longevity.subdomain.persistent.Persistent]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">extension methods for an <a href="#OPState[P&lt;:longevity.subdomain.persistent.Persistent]=Option[longevity.persistence.PState[P]]" class="extmbr" name="longevity.persistence.OPState">OPState</a></p>
+    </li><li name="longevity.persistence.OPState" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="OPState[P&lt;:longevity.subdomain.persistent.Persistent]=Option[longevity.persistence.PState[P]]"></a>
+      <a id="OPState[P&lt;:Persistent]:OPState[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">OPState</span><span class="tparams">[<span name="P">P &lt;: <a href="../subdomain/persistent/Persistent.html" class="extype" name="longevity.subdomain.persistent.Persistent">Persistent</a></span>]</span><span class="result"> = <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.OPState.P">P</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.persistence.package@OPState[P&lt;:longevity.subdomain.persistent.Persistent]=Option[longevity.persistence.PState[P]]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">an optional persistent state</p>
     </li><li name="longevity.persistence.PState" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="PState[P&lt;:longevity.subdomain.persistent.Persistent]extendsProductwithSerializable"></a>
       <a id="PState[P&lt;:Persistent]:PState[P]"></a>
