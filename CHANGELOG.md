@@ -4,6 +4,10 @@
 
 Some odds and ends that have been accumulating in the backlog.
 
+- 2016.09.22 - Rename `PersistenceStrategy` to `BackEnd`. Move
+  `BackEnd` from being a separate argument to `LongevityContext`
+  creator methods, to being part of the config, under config property
+  `longevity.backEnd`.
 - 2016.09.19 - Add `OPState` to go along with `FPState` and `FOPState`.
 - 2016.09.19 - Add JSON marshallers at
   `LongevityContext.jsonMarshaller` and
