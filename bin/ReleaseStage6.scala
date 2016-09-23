@@ -55,6 +55,10 @@ object ReleaseStage6 extends App {
   run(Process(Seq("git", "tag", "-a", oldVersion, "-m", s"create tag $oldVersion"), longevityDir))
   run(Process(Seq("git", "push", "origin", oldVersion), longevityDir))
 
+  // back to master branch
+  run(Process(Seq("git", "checkout", "master"), longevityDir))
+
+  // update build to snapshot version
   run(Process(
     Seq(
       "sed", "-i", "",
