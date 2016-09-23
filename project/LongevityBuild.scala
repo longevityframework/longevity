@@ -1,7 +1,25 @@
 import sbt._
 import Keys._
 
-trait BuildSettings {
+trait Deps {
+
+  val scalaVersionString = "2.11.8"
+
+  val akkaStreamDep:     ModuleID = "com.typesafe.akka"          %% "akka-stream"           % "2.4.10"
+  val casbahDep:         ModuleID = "org.mongodb"                %% "casbah"                % "3.1.1"
+  val cassandraDep:      ModuleID = "com.datastax.cassandra"     %  "cassandra-driver-core" % "3.1.0"
+  val json4sDep:         ModuleID = "org.json4s"                 %% "json4s-native"         % "3.4.1"
+  val kxbmapConfigsDep:  ModuleID = "com.github.kxbmap"          %% "configs"               % "0.4.2"
+  val nScalaTimeDep:     ModuleID = "com.github.nscala-time"     %% "nscala-time"           % "2.14.0"
+  val scalaLoggingDep:   ModuleID = "com.typesafe.scala-logging" %% "scala-logging"         % "3.5.0"
+  val scalaReflectDep:   ModuleID = "org.scala-lang"             %  "scala-reflect"         % scalaVersionString
+  val scalaTestDep:      ModuleID = "org.scalatest"              %% "scalatest"             % "2.2.6"
+  val slf4jSimpleDep:    ModuleID = "org.slf4j"                  %  "slf4j-simple"          % "1.7.21"
+  val typesafeConfigDep: ModuleID = "com.typesafe"               %  "config"                % "1.3.0"
+
+}
+
+trait BuildSettings extends Deps {
 
   val githubUrl = "https://github.com/longevityframework/longevity"
 
@@ -24,8 +42,8 @@ trait BuildSettings {
 
   val publishSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
-    version := "0.12.0",
-    scalaVersion := "2.11.8",
+    version := "0.13-SNAPSHOT",
+    scalaVersion := scalaVersionString,
 
     publishMavenStyle := true,
     pomIncludeRepository := { _ => false },
@@ -88,9 +106,9 @@ trait BuildSettings {
     // test-only longevity.integration.subdomain.allAttributes.AllAttributesSpec -- -n Create
 
     // common dependencies
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-    libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.14.0",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test
+    libraryDependencies += scalaReflectDep,
+    libraryDependencies += nScalaTimeDep,
+    libraryDependencies += scalaTestDep % Test
     
   )
 
@@ -98,12 +116,7 @@ trait BuildSettings {
 
 }
 
-object LongevityBuild extends Build with BuildSettings {
-
-  val akkaStreamDep: ModuleID = "com.typesafe.akka" %% "akka-stream" % "2.4.10"
-  val casbahDep: ModuleID = "org.mongodb" %% "casbah" % "3.1.1"
-  val cassandraDep: ModuleID = "com.datastax.cassandra" % "cassandra-driver-core" % "3.1.0"
-  val json4sDep: ModuleID = "org.json4s" %% "json4s-native" % "3.4.0"
+object LongevityBuild extends Build with BuildSettings with Deps {
 
   lazy val longevity = Project(
     id = "longevity",
@@ -111,17 +124,17 @@ object LongevityBuild extends Build with BuildSettings {
     settings = buildSettings ++ Seq(
 
       // non-optional library dependencies:
-      libraryDependencies += "com.typesafe" % "config" % "1.3.0",
-      libraryDependencies += "com.github.kxbmap" %% "configs" % "0.4.2",
-      libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.4.0",
+      libraryDependencies += typesafeConfigDep,
+      libraryDependencies += kxbmapConfigsDep,
+      libraryDependencies += scalaLoggingDep,
 
       // optional library dependencies:
-      libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Optional,
+      libraryDependencies += scalaTestDep % Optional,
       libraryDependencies += json4sDep % Optional,
       libraryDependencies += akkaStreamDep % Optional,
 
       // test dependencies:
-      libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.21" % Test,
+      libraryDependencies += slf4jSimpleDep % Test,
       libraryDependencies += json4sDep % Test,
       libraryDependencies += akkaStreamDep % Test,
 
@@ -146,7 +159,7 @@ object LongevityBuild extends Build with BuildSettings {
     id = "emblem",
     base = file("emblem"),
     settings = buildSettings ++ Seq(
-      libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0" % Optional,
+      libraryDependencies += json4sDep % Optional,
       homepage := Some(url("https://github.com/longevityframework/emblem")),
       pomExtra := (
         <scm>
@@ -159,8 +172,7 @@ object LongevityBuild extends Build with BuildSettings {
             <name>John Sullivan</name>
             <url>https://github.com/sullivan-</url>
           </developer>
-        </developers>),
-      libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0" % Optional
+        </developers>)
     )
   )
 
