@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.13-SNAPSHOT] - Jetsam
+## [0.13.0] - 2016.09.22 - Jetsam
 
 Some odds and ends that have been accumulating in the backlog.
 
