@@ -3,7 +3,6 @@ package emblem.reflectionUtil
 import emblem.TypeKey
 import emblem.exceptions.CaseClassIsInnerClassException
 import emblem.exceptions.TypeIsNotCaseClassException
-import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe.ClassSymbol
 import scala.reflect.runtime.universe.ModuleMirror
 import scala.reflect.runtime.universe.ModuleSymbol
@@ -36,9 +35,9 @@ private[emblem] abstract class TypeReflector[A : TypeKey] {
     val instanceMirror = {
       val classSymbol: ClassSymbol = tpe.typeSymbol.asClass
       val moduleSymbol: ModuleSymbol = classSymbol.companion.asModule
-      val moduleMirror: ModuleMirror = currentMirror.reflectModule(moduleSymbol)
+      val moduleMirror: ModuleMirror = tag.mirror.reflectModule(moduleSymbol)
       val instance: Any = moduleMirror.instance
-      currentMirror.reflect(instance)
+      tag.mirror.reflect(instance)
     }
 
     /** the companion object type signature */
@@ -66,7 +65,7 @@ private[emblem] abstract class TypeReflector[A : TypeKey] {
   protected def getFunction[U : TypeKey](name: TermName): (A) => U = {
     val getter = tpe.decl(name).asMethod
     val getFunction = { a: A =>
-      val instanceMirror = currentMirror.reflect(a)
+      val instanceMirror = tag.mirror.reflect(a)
       val methodMirror = instanceMirror.reflectMethod(getter)
       methodMirror().asInstanceOf[U]
     }

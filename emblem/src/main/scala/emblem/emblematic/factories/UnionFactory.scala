@@ -35,7 +35,10 @@ private[emblem] class UnionFactory[A : TypeKey] extends TypeReflector[A] {
     lookup: UnionConstituentLookup[A])
   : UnionProp[A, _] = {
     val propType: Type = tpe.member(name).asTerm.typeSignature.resultType
-    val propTypeTag = makeTypeTag[Any](propType) // the Any here is bogus. it comes back as something else
+
+    // the Any here is bogus. it comes back as something else
+    val propTypeTag = makeTypeTag[Any](propType, tag.mirror)
+
     val propKey = TypeKey(propTypeTag)
     assertConstituentsHaveSupportingProp(name.toString, propKey, lookup)
     makeUnionProp(name, lookup)(propKey)
