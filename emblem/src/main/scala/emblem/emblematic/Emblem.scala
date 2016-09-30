@@ -37,6 +37,7 @@ extends Reflective[A] {
 
     /** builds and returns the instance */
     def build(): A = creator(map)
+
   }
 
   /** creates and returns a new builder for constructing new instances */

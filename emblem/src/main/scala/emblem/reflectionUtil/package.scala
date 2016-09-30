@@ -5,7 +5,6 @@ import scala.reflect.ClassTag
 import scala.reflect.api.Mirror
 import scala.reflect.api.TypeCreator
 import scala.reflect.api.Universe
-import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe.InstanceMirror
 import scala.reflect.runtime.universe.ModuleMirror
 import scala.reflect.runtime.universe.ModuleSymbol
@@ -15,6 +14,7 @@ import scala.reflect.runtime.universe.TermSymbol
 import scala.reflect.runtime.universe.Type
 import scala.reflect.runtime.universe.TypeTag
 import scala.reflect.runtime.universe.typeTag
+import scala.reflect.runtime.universe.RuntimeMirror
 
 /** generally useful utility functions for working with Scala reflection library */
 package object reflectionUtil {
@@ -23,19 +23,16 @@ package object reflectionUtil {
   // https://github.com/scala/scala/blob/2.11.x/src/reflect/scala/reflect/internal/StdCreators.scala
 
   /** makes a type tag for a term */
-  def makeTypeTag[A](term: Symbol): TypeTag[A] = makeTypeTag(term.typeSignature)
+  def makeTypeTag[A](term: Symbol, runtimeMirror: RuntimeMirror): TypeTag[A] =
+    makeTypeTag(term.typeSignature, runtimeMirror)
 
   /** makes a type tag for a type */
-  def makeTypeTag[A](tpe: Type): TypeTag[A] = {
+  def makeTypeTag[A](tpe: Type, mirror: RuntimeMirror): TypeTag[A] = {
     val typeCreator = new TypeCreator {
       def apply[U <: Universe with Singleton](m: Mirror[U]): U # Type =
-        if (m eq currentMirror)
-          tpe.asInstanceOf[U # Type]
-        else
-          throw new IllegalArgumentException(
-            s"Type tag defined in $currentMirror cannot be migrated to other mirrors.")
+        tpe.asInstanceOf[U # Type]
     }
-    TypeTag[A](currentMirror, typeCreator)
+    TypeTag[A](mirror, typeCreator)
   }
 
   /** makes a class tag for a type tag */
@@ -52,11 +49,12 @@ package object reflectionUtil {
    * @return the inner module instance, if it exists
    */
   def innerModule(container: Any, moduleName: String): Option[Any] = {
-    val instanceMirror: InstanceMirror = currentMirror.reflect(container)
+    val containerMirror = scala.reflect.runtime.universe.runtimeMirror(container.getClass.getClassLoader)
+    val instanceMirror: InstanceMirror = containerMirror.reflect(container)
     if (instanceMirror.symbol.isStatic) {
       try {
-        val symbol: ModuleSymbol = currentMirror.staticModule(s"${instanceMirror.symbol.fullName}.$moduleName")
-        val mirror: ModuleMirror = currentMirror.reflectModule(symbol)
+        val symbol: ModuleSymbol = containerMirror.staticModule(s"${instanceMirror.symbol.fullName}.$moduleName")
+        val mirror: ModuleMirror = containerMirror.reflectModule(symbol)
         Some(mirror.instance)
       } catch {
         case e: ScalaReflectionException => None
@@ -80,7 +78,8 @@ package object reflectionUtil {
    * @param instance the instance to search for terms with matching type
    */
   def termsWithType[A : TypeKey](instance: Any): Set[A] = {
-    val instanceMirror: InstanceMirror = currentMirror.reflect(instance)
+    val runtimeMirror =  scala.reflect.runtime.universe.runtimeMirror(instance.getClass.getClassLoader)
+    val instanceMirror: InstanceMirror = runtimeMirror.reflect(instance)
     val symbols: Set[Symbol] = instanceMirror.symbol.selfType.decls.toSet
     val termSymbols: Set[TermSymbol] = symbols.collect {
       case s if s.isTerm => s.asTerm

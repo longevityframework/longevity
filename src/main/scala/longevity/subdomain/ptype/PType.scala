@@ -64,7 +64,8 @@ abstract class PType[P <: Persistent : TypeKey] {
     val props: Any = innerModule(this, "props").getOrElse {
       throw new NoPropsForPTypeException
     }
-    implicit val tag = pTypeKey.tag
+    implicit val pTypeTag = pTypeKey.tag
+    implicit val propTypeKey = typeKey[Prop[P, _]].inMirrorOf(pTypeKey)
     termsWithType[Prop[P, _]](props)
   }
 
@@ -72,12 +73,14 @@ abstract class PType[P <: Persistent : TypeKey] {
     val keys: Any = innerModule(this, "keys").getOrElse {
       throw new NoKeysForPTypeException
     }
-    implicit val tag = pTypeKey.tag
+    implicit val pTypeTag = pTypeKey.tag
+    implicit val anyKeyTypeKey = typeKey[AnyKey[P]].inMirrorOf(pTypeKey)
     termsWithType[AnyKey[P]](keys)
   }
 
   private def iscan(containerName: String): Set[Index[P]] = {
-    implicit val tag = pTypeKey.tag
+    implicit val pTypeTag = pTypeKey.tag
+    implicit val indexTypeKey = typeKey[Index[P]].inMirrorOf(pTypeKey)
     innerModule(this, "indexes").map(termsWithType[Index[P]]).getOrElse(Set[Index[P]]())
   }
 

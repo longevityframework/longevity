@@ -237,7 +237,7 @@ trait Traversor {
     promise.future
   }
 
-  private def traverseEmblemProp[A, B](
+  private def traverseEmblemProp[A : TypeKey, B](
     emblem: Emblem[A],
     prop: EmblemProp[A, B],
     input: Future[TraverseInput[B]])

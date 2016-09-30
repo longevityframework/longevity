@@ -6,7 +6,6 @@ import emblem.TypeKey
 import emblem.exceptions.CaseClassHasMultipleParamListsException
 import emblem.exceptions.RequiredPropertyNotSetException
 import emblem.reflectionUtil.makeTypeTag
-import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe.MethodSymbol
 import scala.reflect.runtime.universe.NoSymbol
 import scala.reflect.runtime.universe.TermName
@@ -23,7 +22,10 @@ private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
 
   private def emblemProp(name: TermName, isOnlyChild: Boolean): EmblemProp[A, _] = {
     val memberTerm: TermSymbol = tpe.member(name).asTerm.accessed.asTerm
-    val propTypeTag = makeTypeTag[Any](memberTerm) // the Any here is bogus. it comes back as something else
+
+    // the Any here is bogus. it comes back as something else
+    val propTypeTag = makeTypeTag[Any](memberTerm, tag.mirror)
+
     val propKey = TypeKey(propTypeTag)
     makeEmblemProp(name, isOnlyChild)(propKey)
   }
@@ -47,7 +49,7 @@ private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
         }
         else {
           val getter = tpe.decl(param.name).asMethod
-          val getterMirror = currentMirror.reflect(a).reflectMethod(getter)
+          val getterMirror = tag.mirror.reflect(a).reflectMethod(getter)
           getterMirror()
         }
       }
@@ -66,7 +68,7 @@ private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
 
   private def makeCreator(): Map[String, Any] => A = {
     def caseObjectCreator = {
-      val moduleMirror = currentMirror.reflectModule(symbol.module.asModule)
+      val moduleMirror = tag.mirror.reflectModule(symbol.module.asModule)
       val instance = moduleMirror.instance.asInstanceOf[A]
 
       { map: Map[String, Any] => instance }
@@ -74,7 +76,7 @@ private[emblem] class EmblemFactory[A : TypeKey] extends ReflectiveFactory[A] {
     def caseClassCreator = { map: Map[String, Any] =>
       val args = params.zipWithIndex.map {
         case (param, index) =>
-        val paramName: String = param.name.toString          
+        val paramName: String = param.name.toString
         val value: Option[Any] = map.get(paramName)
         value match {
           case Some(a) => a
