@@ -18,7 +18,7 @@ database, as well as in-memory repositories for other tests.
 - [Getting Started Guide](getting-started)
 - [User Manual](manual)
 - [Scaladocs](scaladocs)
-- [Activator Tutorial](activator.html)
+- [Activator Tutorials](activator.html)
 
 - [Discussion Forum](https://groups.google.com/forum/#!forum/longevity-users)
 - [Contributing](contributing.html)

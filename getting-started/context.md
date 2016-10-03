@@ -9,7 +9,7 @@ Once we have your subdomain in place, we are ready to build our
 ```scala
 import longevity.context.LongevityContext
 
-val coreDomain = new SimblCoreDomain
+val coreDomain = new SimblSubdomain
 val longevityContext = LongevityContext(coreDomain)
 ```
 

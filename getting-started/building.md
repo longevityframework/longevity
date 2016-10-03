@@ -6,27 +6,26 @@ layout: page
 Once the elements of our
 [subdomain](../manual/ddd-basics/subdomains-and-bounded-contexts.html)
 have been created, we gather them all together into a `Subdomain`
-object. We do this in `SimblCoreDomain`:
+object. We do this in `SimblSubdomain`:
 
 ```scala
 package simbl.domain
 
-import longevity.subdomain.CoreDomain
+import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
-import longevity.subdomain.embeddable.EntityType
-import longevity.subdomain.embeddable.ValueType
+import longevity.subdomain.embeddable.EType
 import longevity.subdomain.ptype.PTypePool
 
-class SimblCoreDomain extends CoreDomain(
+class SimblSubdomain extends Subdomain(
   "Simple Blogging",
   PTypePool(User, Blog, BlogPost),
   ETypePool(
-    ValueType[Markdown],
-    ValueType[Uri],
-    EntityType[UserProfile]))   
+    EType[Markdown],
+    EType[Uri],
+    EType[UserProfile]))   
 ```
 
-`SimblCoreDomain` extends abstract class `CoreDomain`, which is a
+`SimblSubdomain` extends abstract class `Subdomain`, which is a
 kind of `Subdomain` that contains the core elements of your enterprise
 domain.
 

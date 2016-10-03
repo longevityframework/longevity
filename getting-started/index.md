@@ -13,11 +13,11 @@ that could be used by a web client. You can find the source code here:
 
 [https://github.com/longevityframework/simbl](https://github.com/longevityframework/simbl)
 
-The simbl project (short for "Simple Blogging") also doubles as a
-[Lightbend Activator tutorial](../activator.html). The tutorial and
-this guide cover roughly the same material. We created this guide for
-people who couldn't be bothered to install and learn [Lightbend
-Activator](https://www.lightbend.com/community/core-tools/activator-and-sbt).
+The simbl project (short for "Simple Blogging") doubles as a
+[Lightbend Activator tutorial](../activator.html). We've also ported
+the Akka HTTP tutorial into Play. The tutorials and this guide cover
+roughly the same material, with this guide following the Akka HTTP
+version.
 
 We will only have the chance to cover a portion of the blogging
 application code, so please feel free to explore the codebase further

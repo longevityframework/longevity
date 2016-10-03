@@ -30,7 +30,7 @@ case class BlogPost(
   postDate: DateTime,
   blog: BlogUri,
   authors: Set[Username])
-extends Root
+extends Persistent
 ```
 
 {% assign prevTitle = "the user profile" %}
