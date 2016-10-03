@@ -1,5 +1,21 @@
 # Longevity Changelog
 
+## [0.14-SNAPSHOT] - Query Enhancements
+
+
+
+## [0.13.1] - 2016.10.03 - Reflection Bugfix
+
+There was a bug in our use of Scala reflection. In brief, we were
+using the class loader (i.e., scala reflection `Mirror`) that was used
+to load the longevity library. This is bogus, as we are reflecting
+against user classes! We changed things to reflect on the mirror of
+the `TypeTags` (they get wrapped in `TypeKeys`) that the user library
+provides to use.
+
+End result is that projects that do funky things with class loaders
+will not get reflection exceptions when using longevity.
+
 ## [0.13.0] - 2016.09.22 - Jetsam
 
 Some odds and ends that have been accumulating in the backlog.
