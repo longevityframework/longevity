@@ -120,7 +120,7 @@ object LongevityBuild extends Build with BuildSettings with Deps {
 
   lazy val root = Project(id = "root", base = file("."))
     .settings(publish := {})
-    .aggregate(emblem, longevityMongoDeps, longevityCassandraDeps, longevityDDD)
+    .aggregate(emblem, longevity, longevityMongoDeps, longevityCassandraDeps, longevityDDD)
 
   lazy val longevity = Project(
     id = "longevity",
