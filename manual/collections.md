@@ -16,9 +16,9 @@ the user to have multiple emails:
 
 ```scala
 import longevity.subdomain.Subdomain
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.PTypePool
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PTypePool
+import longevity.subdomain.PType
 
 case class User(
   username: String,
@@ -26,9 +26,9 @@ case class User(
   firstName: String,
   lastName: String,
   emails: Set[String])
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
   }
   object keys {

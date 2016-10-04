@@ -13,8 +13,8 @@ extend `Embeddable`:
 
 ```scala
 import longevity.subdomain.embeddable.Embeddable
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PType
 
 case class FullName(
   firstName: String,
@@ -24,9 +24,9 @@ extends Embeddable
 case class User(
   username: String,
   fullName: FullName)
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
   }
   object keys {
@@ -42,7 +42,7 @@ type pool_, or `ETypePool`:
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.EType
 import longevity.subdomain.embeddable.ETypePool
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EType[FullName]))
 ```
@@ -62,8 +62,8 @@ You can put embeddables in embeddables, and embeddables into
 
 ```scala
 import longevity.subdomain.embeddable.Embeddable
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PType
 
 case class Email(email: String) extends Embeddable
 
@@ -81,9 +81,9 @@ case class User(
   username: String,
   emails: EmailPreferences,
   addresses: Set[Address])
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
   }
   object keys {
@@ -93,7 +93,7 @@ object User extends RootType[User] {
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.EType
 import longevity.subdomain.embeddable.ETypePool
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 val subdomain = Subdomain(
   "blogging",

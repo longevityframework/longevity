@@ -23,14 +23,14 @@ extends Entity
 object UserProfile extends EntityType[UserProfile]
 
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Root
+import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PolyPType
 
 case class Username(username: String)
 extends KeyVal[User, Username](User.keys.username)
 
-trait User extends Root {
+trait User extends Persistent {
   val username: Username
   val email: Email
 }
@@ -77,7 +77,7 @@ object Commenter extends DerivedPType[Commenter, User] {
 
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 val subdomain = Subdomain(
   "blogging",

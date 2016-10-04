@@ -16,17 +16,17 @@ import longevity.subdomain.KeyVal
 case class Username(username: String)
 extends KeyVal[User, Username](User.keys.username)
 
-import longevity.subdomain.persistent.Root
+import longevity.subdomain.persistent.Persistent
 
 case class User(
   username: Username,
   firstName: String,
   lastName: String)
-extends Root
+extends Persistent
 
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.PType
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
     val username = prop[Username]("username")
   }
@@ -52,14 +52,14 @@ import longevity.subdomain.KeyVal
 case class Username(username: String)
 extends KeyVal[User, Username](User.keys.username)
 
-import longevity.subdomain.persistent.Root
+import longevity.subdomain.persistent.Persistent
 
 case class User(
   username: Username,
   firstName: String,
   lastName: String,
   sponsor: Option[Username])
-extends Root
+extends Persistent
 ```
 
 This `sponsor` field represents a relationship between two persistent

@@ -23,7 +23,7 @@ They would clearly care that an account number is unique, but they
 _should not_ care about how that maps into a database schema.
 
 The `PType` trait has child traits that match the `Persistent`
-hierarchy. `RootType` corresponds to `Root`, `EventType` corresponds
+hierarchy. `PType` corresponds to `Persistent`, `EventType` corresponds
 to `Event`, and `View` corresponds to `ViewItem`. At present, they all
 have the same behavior.
 

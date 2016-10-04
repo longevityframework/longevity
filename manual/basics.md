@@ -34,9 +34,9 @@ case class User(
   dateJoined: DateTime,
   numCats: Int,
   accountSuspended: Boolean = false)
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
   }
   object keys {

@@ -42,7 +42,7 @@ aggregational relationships are modeled with using
 
 For a text-book example of DDD aggregates, please see this blog post
 on [The Entity and the Aggregate
-Root](http://scabl.blogspot.com/2015/03/aeddd-5.html)
+Persistent](http://scabl.blogspot.com/2015/03/aeddd-5.html)
 
 {% assign prevTitle = "subdomains and bounded contexts" %}
 {% assign prevLink = "subdomains-and-bounded-contexts.html" %}

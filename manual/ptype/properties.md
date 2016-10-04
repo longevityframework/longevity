@@ -13,8 +13,8 @@ typically define them in a singleton object `props` inside the
 
 ```scala
 import longevity.subdomain.embeddable.Entity
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PType
 
 case class UserProfile(
   tagline: String,
@@ -26,9 +26,9 @@ case class User(
   username: String,
   email: Email,
   profile: UserProfile)
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
 
     // fully typed:

@@ -19,11 +19,11 @@ case class UserProfile(
   description: Markdown)
 extends Entity
 
-import longevity.subdomain.persistent.Root
+import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PolyPType
 
-trait User extends Root {
+trait User extends Persistent {
   val username: String
   val email: Email
 }

@@ -33,15 +33,15 @@ We are now free to use this controlled vocabulary in our domain, such
 as:
 
 ```scala
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PType
 
 case class Account(
   name: String,
   accountStatus: AccountStatus)
-extends Root
+extends Persistent
 
-object Account extends RootType[Account] {
+object Account extends PType[Account] {
   object keys {
   }
   object indexes {
@@ -57,7 +57,7 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.DerivedType
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.embeddable.PolyType
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 val subdomain = Subdomain(
   "accounts",

@@ -38,7 +38,7 @@ case class BlogPost(
   postDate: DateTime,
   blog: BlogUri,
   authors: Set[Username])
-extends Root
+extends Persistent
 ```
 
 Let's retrieve all the authors for a blog post:

@@ -9,8 +9,8 @@ value](../key-values.html) for the `Persistent`. We define them in our
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PType
 
 case class Username(username: String)
 extends KeyVal[User, Username](User.keys.username)
@@ -19,9 +19,9 @@ case class User(
   username: Username,
   firstName: String,
   lastName: String)
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
     val username = prop[Username]("username")
   }
@@ -40,8 +40,8 @@ easily. Here, for instance, we add an ill-advised composite key on a
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PType
 
 case class Username(username: String)
 extends KeyVal[User, Username](User.keys.username)
@@ -52,9 +52,9 @@ extends KeyVal[User, FullName](User.keys.fullName)
 case class User(
   username: Username,
   fullName: FullName)
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
     val username = prop[Username]("username")
     val fullName = prop[FullName]("fullName")

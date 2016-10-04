@@ -44,16 +44,16 @@ Let's add the profile to the user. They may not have created their
 profile yet, so it should be optional:
 
 ```scala
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PType
 
 case class User(
   username: String,
   email: Email,
   profile: Option[UserProfile])
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
   }
   object keys {
@@ -67,7 +67,7 @@ Finally, we need to add our new entity into the `ETypePool`:
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.embeddable.EntityType
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 val subdomain = Subdomain(
   "blogging",

@@ -32,9 +32,9 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.embeddable.ValueObject
 import longevity.subdomain.embeddable.ValueType
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.PTypePool
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PTypePool
+import longevity.subdomain.PType
 
 case class Email(email: String) extends ValueObject
 case class StateCode(stateCode: String) extends ValueObject
@@ -51,9 +51,9 @@ case class User(
   username: String,
   email: Email,
   address: Address)
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
   }
   object keys {

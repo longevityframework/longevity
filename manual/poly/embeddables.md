@@ -43,13 +43,13 @@ In our `User` aggregate, we want to keep track of all the user's
 successful verification attempts:
 
 ```scala
-import longevity.subdomain.persistent.Root
+import longevity.subdomain.persistent.Persistent
 
 case class User(
   username: String,
   email: Email,
   verifications: List[UserVerification])
-extends Root
+extends Persistent
 ```
 
 For this to work, all we need to do is to make longevity aware of our
@@ -86,7 +86,7 @@ import longevity.subdomain.embeddable.DerivedType
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.embeddable.PolyType
 import longevity.subdomain.embeddable.ValueType
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 val subdomain = Subdomain(
   "blogging",

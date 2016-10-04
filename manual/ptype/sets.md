@@ -4,7 +4,7 @@ layout: page
 ---
 
 If you look at the [API for
-`PType`](http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.ptype.PType),
+`PType`](http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.PType),
 you will find that a `PType` has members `propSet`, `keySet`, and
 `indexSet`: sets of [properties](properties.html), [keys](keys.html),
 and [indexes](indexes.html) of the appropriate type. The default
@@ -14,9 +14,9 @@ type to build these sets. So in effect, a `PType` definition such as
 this:
 
 ```scala
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.PType
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
   }
   object keys {
@@ -32,9 +32,9 @@ Is functionally equivalent to this:
 import longevity.subdomain.ptype.Index
 import longevity.subdomain.ptype.AnyKey
 import longevity.subdomain.ptype.Prop
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.PType
 
-object User extends RootType[User] {
+object User extends PType[User] {
   override lazy val propSet = Set.empty[Prop[User, _]]
   override lazy val keySet = Set.empty[AnyKey[User]]
   override lazy val indexSet = Set.empty[Index[User]]
@@ -50,7 +50,7 @@ your keys and indexes in the inner objects, you can always do so like
 this:
 
 ```scala
-object User extends RootType[User] {
+object User extends PType[User] {
   val usernameProp = prop[Username]("username")
   val emailProp = prop[Email]("email")
   val firstNameProp = prop[String]("firstName")

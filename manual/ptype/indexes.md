@@ -12,8 +12,8 @@ index. To do this, we declare our index in a singleton object
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.PType
 
 case class Username(username: String)
 extends KeyVal[User, Username](User.keys.username)
@@ -22,9 +22,9 @@ case class User(
   username: Username,
   firstName: String,
   lastName: String)
-extends Root
+extends Persistent
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
     val username = prop[Username]("username")
     val firstName = prop[String]("firstName")
