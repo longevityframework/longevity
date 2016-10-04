@@ -19,7 +19,7 @@ object PolyReposSpec {
 
 }
 
-/** base class for testing repos that share tables in the presence of [[PolyType]] */
+/** base class for testing repos that share tables in the presence of [[PolyEType]] */
 abstract class PolyReposSpec(
   protected val longevityContext: LongevityContext)
 extends FlatSpec with LongevityIntegrationSpec {

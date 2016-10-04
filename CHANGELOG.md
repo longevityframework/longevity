@@ -2,7 +2,12 @@
 
 ## [0.14-SNAPSHOT] - Query Enhancements
 
-
+- 2016.10.04 - Rename `DerivedType` to `DerivedEType`. Rename
+  `PolyType` to `PolyEType`.
+- 2016.10.04 - 
+- 2016.10.04 - 
+- 2016.10.04 - 
+- 2016.10.04 - 
 
 ## [0.13.1] - 2016.10.03 - Reflection Bugfix
 

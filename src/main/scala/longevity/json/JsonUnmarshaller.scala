@@ -10,7 +10,7 @@ import org.json4s.JsonAST.JValue
  * 
  * expects JSON for [[longevity.subdomain.embeddable.Embeddable Embeddables]]
  * with a single member to be inlined in the JSON. expects
- * [[longevity.subdomain.embeddable.PolyType PolyTypes]] to not be inlined.
+ * [[longevity.subdomain.embeddable.PolyEType PolyETypes]] to not be inlined.
  */
 class JsonUnmarshaller(subdomain: Subdomain) {
 

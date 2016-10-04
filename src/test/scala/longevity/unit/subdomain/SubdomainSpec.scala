@@ -8,13 +8,13 @@ import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.UnsupportedPropTypeException
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
-import longevity.subdomain.embeddable.DerivedType
+import longevity.subdomain.embeddable.DerivedEType
 import longevity.subdomain.embeddable.EType
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.embeddable.Embeddable
 import longevity.subdomain.embeddable.Entity
 import longevity.subdomain.embeddable.EntityType
-import longevity.subdomain.embeddable.PolyType
+import longevity.subdomain.embeddable.PolyEType
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.persistent.Root
 import longevity.subdomain.ptype.DerivedPType
@@ -132,7 +132,7 @@ object SubdomainSpec {
     def subdomain = Subdomain(
       "propPathWithTerminalPoly",
       PTypePool(A),
-      ETypePool(PolyType[B], DerivedType[C, B]))
+      ETypePool(PolyEType[B], DerivedEType[C, B]))
   }
 
   object propPathWithInternalList {
@@ -190,7 +190,7 @@ object SubdomainSpec {
     def subdomain = Subdomain(
       "propPathWithInternalPoly",
       PTypePool(A),
-      ETypePool(PolyType[B], DerivedType[C, B]))
+      ETypePool(PolyEType[B], DerivedEType[C, B]))
   }
 
   object incompatiblePropType {
@@ -259,7 +259,7 @@ object SubdomainSpec {
   object derivedETypeHasNoPoly {
     trait Poly extends Embeddable { val id: String }
     case class Derived(id: String) extends Poly
-    def subdomain = Subdomain("derivedETypeHasNoPoly", PTypePool(), ETypePool(DerivedType[Derived, Poly]))
+    def subdomain = Subdomain("derivedETypeHasNoPoly", PTypePool(), ETypePool(DerivedEType[Derived, Poly]))
   }
 
   object duplicateETypes {
@@ -387,7 +387,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  it should "throw exception when the PolyType is missing from the ETypePool" in {
+  it should "throw exception when the PolyEType is missing from the ETypePool" in {
     intercept[DerivedHasNoPolyException] {
       SubdomainSpec.derivedETypeHasNoPoly.subdomain
     }

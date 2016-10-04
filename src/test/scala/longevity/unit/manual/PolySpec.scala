@@ -54,9 +54,9 @@ object PolySpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.DerivedType
+    import longevity.subdomain.embeddable.DerivedEType
     import longevity.subdomain.embeddable.ETypePool
-    import longevity.subdomain.embeddable.PolyType
+    import longevity.subdomain.embeddable.PolyEType
     import longevity.subdomain.embeddable.ValueType
     import longevity.subdomain.ptype.PTypePool
 
@@ -66,10 +66,10 @@ object PolySpec {
       ETypePool(
         ValueType[Email],
         ValueType[PhoneNumber],
-        PolyType[UserVerification],
-        DerivedType[EmailVerification, UserVerification],
-        DerivedType[SmsVerification, UserVerification],
-        DerivedType[GoogleSignIn, UserVerification]))
+        PolyEType[UserVerification],
+        DerivedEType[EmailVerification, UserVerification],
+        DerivedEType[SmsVerification, UserVerification],
+        DerivedEType[GoogleSignIn, UserVerification]))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/poly/persistent.html
@@ -271,19 +271,19 @@ object PolySpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.DerivedType
+    import longevity.subdomain.embeddable.DerivedEType
     import longevity.subdomain.embeddable.ETypePool
-    import longevity.subdomain.embeddable.PolyType
+    import longevity.subdomain.embeddable.PolyEType
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
       "accounts",
       PTypePool(Account),
       ETypePool(
-        PolyType[AccountStatus],
-        DerivedType[Active.type, AccountStatus],
-        DerivedType[Suspended.type, AccountStatus],
-        DerivedType[Cancelled.type, AccountStatus]))
+        PolyEType[AccountStatus],
+        DerivedEType[Active.type, AccountStatus],
+        DerivedEType[Suspended.type, AccountStatus],
+        DerivedEType[Cancelled.type, AccountStatus]))
 
   }
 

@@ -9,11 +9,11 @@ import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
 import emblem.typeBound.WideningTypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
-import longevity.subdomain.embeddable.DerivedType
+import longevity.subdomain.embeddable.DerivedEType
 import longevity.subdomain.embeddable.EType
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.embeddable.Embeddable
-import longevity.subdomain.embeddable.PolyType
+import longevity.subdomain.embeddable.PolyEType
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
@@ -70,7 +70,7 @@ class Subdomain(
   }
 
   private def entityEmblems = {
-    val eTypesWithEmblems = eTypePool.filterValues(!_.isInstanceOf[PolyType[_]])
+    val eTypesWithEmblems = eTypePool.filterValues(!_.isInstanceOf[PolyEType[_]])
     eTypesWithEmblems.mapValuesWiden[Any, Emblem] {
       new WideningTypeBoundFunction[Embeddable, Any, EType, Emblem] {
         def apply[TypeParam <: Embeddable](eType: EType[TypeParam]): Emblem[TypeParam] =
@@ -90,9 +90,9 @@ class Subdomain(
   private def unionPool = entityUnions ++ pUnions
 
   private def entityUnions = {
-    val polyTypes = eTypePool.filterValues(_.isInstanceOf[PolyType[_]])
+    val polyTypes = eTypePool.filterValues(_.isInstanceOf[PolyEType[_]])
 
-    type DerivedFrom[E <: Embeddable] = DerivedType[E, Poly] forSome { type Poly >: E <: Embeddable }
+    type DerivedFrom[E <: Embeddable] = DerivedEType[E, Poly] forSome { type Poly >: E <: Embeddable }
 
     val derivedTypes =
       eTypePool
@@ -103,7 +103,7 @@ class Subdomain(
     val baseToDerivedsMap: TypeKeyMap[Embeddable, DerivedList] =
       derivedTypes.values.foldLeft(TypeKeyMap[Embeddable, DerivedList]) { (map, derivedType) =>
 
-        def fromDerivedType[E <: Embeddable, Poly >: E <: Embeddable](derivedType: DerivedType[E, Poly])
+        def fromDerivedEType[E <: Embeddable, Poly >: E <: Embeddable](derivedType: DerivedEType[E, Poly])
         : TypeKeyMap[Embeddable, DerivedList] = {
           implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyTypeKey
           if (!polyTypes.contains[Poly]) {
@@ -115,7 +115,7 @@ class Subdomain(
           map.+[Poly](emblem :: derivedList)
         }
 
-        fromDerivedType(derivedType)
+        fromDerivedEType(derivedType)
       }
 
     polyTypes.mapValuesWiden[Any, Union] {
@@ -140,7 +140,7 @@ class Subdomain(
     val baseToDerivedsMap: TypeKeyMap[Persistent, DerivedList] =
       derivedTypes.values.foldLeft(TypeKeyMap[Persistent, DerivedList]) { (map, derivedType) =>
 
-        def fromDerivedType[P <: Persistent, Poly >: P <: Persistent](derivedPType: DerivedPType[P, Poly])
+        def fromDerivedPType[P <: Persistent, Poly >: P <: Persistent](derivedPType: DerivedPType[P, Poly])
         : TypeKeyMap[Persistent, DerivedList] = {
           implicit val polyTypeKey = derivedPType.polyPTypeKey
 
@@ -153,7 +153,7 @@ class Subdomain(
           map.+[Poly] (emblem :: derivedList)
         }
 
-        fromDerivedType(derivedType)
+        fromDerivedPType(derivedType)
       }
 
     polyTypes.mapValuesWiden[Any, Union] {
@@ -186,7 +186,7 @@ object Subdomain {
    * @throws longevity.exceptions.subdomain.UnsupportedPropTypeException
    * if a [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
    * [[longevity.subdomain.ptype.PType persistent types]] has a property path
-   * that contains a collection or a [[longevity.subdomain.embeddable.PolyType
+   * that contains a collection or a [[longevity.subdomain.embeddable.PolyEType
    * polymorphic type]]
    * 
    * @throws longevity.exceptions.subdomain.PropTypeException if a

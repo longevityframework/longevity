@@ -6,7 +6,7 @@ import longevity.context.LongevityContext
 import longevity.context.InMem
 import longevity.integration.subdomain.derivedEntities
 
-/** tests for in-memory repos that share tables in the presence of [[PolyType]] */
+/** tests for in-memory repos that share tables in the presence of [[PolyEType]] */
 class InMemPolyReposSpec extends PolyReposSpec(
   new LongevityContext(
     derivedEntities.subdomain,
