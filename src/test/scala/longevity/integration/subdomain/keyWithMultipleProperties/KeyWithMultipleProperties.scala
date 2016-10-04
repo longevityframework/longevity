@@ -1,14 +1,14 @@
 package longevity.integration.subdomain.keyWithMultipleProperties
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class KeyWithMultipleProperties(
   id: KeyWithMultiplePropertiesId,
   secondaryKey: SecondaryKey)
 extends Root
 
-object KeyWithMultipleProperties extends RootType[KeyWithMultipleProperties] {
+object KeyWithMultipleProperties extends PType[KeyWithMultipleProperties] {
   object props {
     val id = prop[KeyWithMultiplePropertiesId]("id")
     val secondaryKey = prop[SecondaryKey]("secondaryKey")

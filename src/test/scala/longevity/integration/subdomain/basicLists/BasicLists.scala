@@ -2,7 +2,7 @@ package longevity.integration.subdomain.basicLists
 
 import com.github.nscala_time.time.Imports._
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class BasicLists(
   id: BasicListsId,
@@ -16,7 +16,7 @@ case class BasicLists(
   dateTime: List[DateTime])
 extends Root
 
-object BasicLists extends RootType[BasicLists] {
+object BasicLists extends PType[BasicLists] {
   object props {
     val id = prop[BasicListsId]("id")
   }

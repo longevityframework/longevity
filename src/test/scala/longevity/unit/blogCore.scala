@@ -11,7 +11,7 @@ package object blogCore {
   import longevity.subdomain.Subdomain
   import longevity.ddd.subdomain.Root
   import longevity.subdomain.ptype.PTypePool
-  import longevity.subdomain.ptype.RootType
+  import longevity.subdomain.ptype.PType
 
   case class Email(email: String)
   extends KeyVal[User, Email](User.keys.email)
@@ -35,7 +35,7 @@ package object blogCore {
     profile: Option[UserProfile] = None)
   extends Root
 
-  object User extends RootType[User] {
+  object User extends PType[User] {
     object props {
       val username = prop[Username]("username")
       val email = prop[Email]("email")
@@ -62,7 +62,7 @@ package object blogCore {
     authors: Set[Username])
   extends Root
 
-  object Blog extends RootType[Blog] {
+  object Blog extends PType[Blog] {
     object props {
       val uri = prop[BlogUri]("uri")
     }
@@ -84,7 +84,7 @@ package object blogCore {
     authors: Set[Username])
   extends Root
 
-  object BlogPost extends RootType[BlogPost] {
+  object BlogPost extends PType[BlogPost] {
     object props {
       val uri = prop[BlogPostUri]("uri")
       val blog = prop[BlogUri]("blog")

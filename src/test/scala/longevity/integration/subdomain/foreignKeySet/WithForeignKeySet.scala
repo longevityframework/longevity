@@ -1,14 +1,14 @@
 package longevity.integration.subdomain.foreignKeySet
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class WithForeignKeySet(
   id: WithForeignKeySetId,
   associated: Set[AssociatedId])
 extends Root
 
-object WithForeignKeySet extends RootType[WithForeignKeySet] {
+object WithForeignKeySet extends PType[WithForeignKeySet] {
   object props {
     val id = prop[WithForeignKeySetId]("id")
   }

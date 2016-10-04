@@ -5,7 +5,7 @@ import longevity.subdomain.Subdomain
 import longevity.ddd.subdomain.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -16,7 +16,7 @@ object QueryDslSpec {
   private case class DslRoot(path1: Int, path2: Double, path3: String, path4: AssociatedId)
   extends Root
 
-  private object DslRoot extends RootType[DslRoot] {
+  private object DslRoot extends PType[DslRoot] {
     object props {
       val path1 = prop[Int]("path1")
       val path2 = prop[Double]("path2")
@@ -32,7 +32,7 @@ object QueryDslSpec {
 
   private case class Associated(id: AssociatedId) extends Root
 
-  private object Associated extends RootType[Associated] {
+  private object Associated extends PType[Associated] {
     object props {
       val id = prop[AssociatedId]("id")
     }

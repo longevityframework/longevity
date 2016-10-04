@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.shorthandOptions
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class ShorthandOptions(
   id: ShorthandOptionsId,
@@ -15,7 +15,7 @@ case class ShorthandOptions(
   dateTime: Option[DateTimeShorthand])
 extends Root
 
-object ShorthandOptions extends RootType[ShorthandOptions] {
+object ShorthandOptions extends PType[ShorthandOptions] {
   object props {
     val id = prop[ShorthandOptionsId]("id")
   }

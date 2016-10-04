@@ -21,7 +21,7 @@ object PTypeSpec {
 
     import longevity.subdomain.Embeddable
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class UserProfile(
       tagline: String,
@@ -35,7 +35,7 @@ object PTypeSpec {
       profile: UserProfile)
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
 
        // fully typed:
@@ -67,7 +67,7 @@ object PTypeSpec {
 
     import longevity.subdomain.KeyVal
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class Username(username: String)
     extends KeyVal[User, Username](User.keys.username)
@@ -78,7 +78,7 @@ object PTypeSpec {
       lastName: String)
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
         val username = prop[Username]("username")
       }
@@ -98,7 +98,7 @@ object PTypeSpec {
 
     import longevity.subdomain.KeyVal
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class Username(username: String)
     extends KeyVal[User, Username](User.keys.username)
@@ -111,7 +111,7 @@ object PTypeSpec {
       fullName: FullName)
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
         val username = prop[Username]("username")
         val fullName = prop[FullName]("fullName")
@@ -133,7 +133,7 @@ object PTypeSpec {
 
     import longevity.subdomain.KeyVal
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class Username(username: String)
     extends KeyVal[User, Username](User.keys.username)
@@ -144,7 +144,7 @@ object PTypeSpec {
       lastName: String)
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
         val username = prop[Username]("username")
         val firstName = prop[String]("firstName")
@@ -178,9 +178,9 @@ object PTypeSpec {
     import longevity.subdomain.ptype.Index
     import longevity.subdomain.ptype.AnyKey
     import longevity.subdomain.ptype.Prop
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       override lazy val propSet = Set.empty[Prop[User, _]]
       override lazy val keySet = Set.empty[AnyKey[User]]
       override lazy val indexSet = Set.empty[Index[User]]
@@ -199,7 +199,7 @@ object PTypeSpec {
     import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.AnyKey
     import longevity.subdomain.ptype.Prop
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class Username(username: String)
     extends KeyVal[User, Username](User.usernameKey)
@@ -214,7 +214,7 @@ object PTypeSpec {
       lastName: String)
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       val usernameProp = prop[Username]("username")
       val emailProp = prop[Email]("email")
       val firstNameProp = prop[String]("firstName")

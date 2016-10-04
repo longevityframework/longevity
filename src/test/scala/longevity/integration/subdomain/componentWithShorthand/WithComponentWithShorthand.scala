@@ -1,14 +1,14 @@
 package longevity.integration.subdomain.componentShorthands
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class WithComponentWithShorthand(
   id: WithComponentWithShorthandId,
   component: ComponentWithShorthand)
 extends Root
 
-object WithComponentWithShorthand extends RootType[WithComponentWithShorthand] {
+object WithComponentWithShorthand extends PType[WithComponentWithShorthand] {
   object props {
     val id = prop[WithComponentWithShorthandId]("id")
   }

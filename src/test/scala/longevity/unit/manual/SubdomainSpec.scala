@@ -39,9 +39,9 @@ object SubdomainSpec {
       lastName: String)
     extends Root
 
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
       }
       object keys {
@@ -60,7 +60,7 @@ object SubdomainSpec {
     import longevity.subdomain.Subdomain
     import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.PTypePool
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
     import org.joda.time.DateTime
 
     case class User(
@@ -72,7 +72,7 @@ object SubdomainSpec {
       isSuspended: Boolean = false)
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
       }
       object keys {
@@ -88,7 +88,7 @@ object SubdomainSpec {
     import longevity.subdomain.Subdomain
     import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.PTypePool
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class User(
       username: String,
@@ -98,7 +98,7 @@ object SubdomainSpec {
       emails: Set[String])
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
       }
       object keys {
@@ -113,7 +113,7 @@ object SubdomainSpec {
 
     import longevity.subdomain.Embeddable
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class FullName(
       firstName: String,
@@ -125,7 +125,7 @@ object SubdomainSpec {
       fullName: FullName)
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
       }
       object keys {
@@ -150,7 +150,7 @@ object SubdomainSpec {
 
     import longevity.subdomain.Embeddable
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class Email(email: String) extends Embeddable
 
@@ -170,7 +170,7 @@ object SubdomainSpec {
       addresses: Set[Address])
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
       }
       object keys {
@@ -201,7 +201,7 @@ object SubdomainSpec {
     extends Embeddable
 
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class User(
       username: String,
@@ -209,7 +209,7 @@ object SubdomainSpec {
       profile: Option[UserProfile])
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
       }
       object keys {
@@ -233,7 +233,7 @@ object SubdomainSpec {
     import longevity.subdomain.EType
     import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.PTypePool
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class Email(email: String) extends Embeddable
     case class StateCode(stateCode: String) extends Embeddable
@@ -252,7 +252,7 @@ object SubdomainSpec {
       address: Address)
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
       }
       object keys {

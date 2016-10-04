@@ -13,6 +13,8 @@
 - 2016.10.04 - Move `Event`, `Root`, and `ViewItem` from package
   `longevity.subdomain.persistent` to package
   `longevity.ddd.subdomain`.
+- 2016.10.04 - Move `EventType`, `RootType`, and `View` from package
+  `longevity.subdomain.ptype` to package `longevity.ddd.subdomain`.
 - 2016.10.04 - Move `DerivedEType`, `EType`, `ETypePool`,
   `Embeddable`, and `PolyEType` from package
   `longevity.subdomain.embeddable` to `longevity.subdomain`.

@@ -23,9 +23,9 @@ object KeyValSpec {
       lastName: String)
     extends Root
 
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
         val username = prop[Username]("username")
       }
@@ -58,9 +58,9 @@ object KeyValSpec {
       sponsor: Option[Username])
     extends Root
 
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
         val username = prop[Username]("username")
       }

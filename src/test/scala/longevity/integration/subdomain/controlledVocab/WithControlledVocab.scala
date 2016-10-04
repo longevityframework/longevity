@@ -1,14 +1,14 @@
 package longevity.integration.subdomain.controlledVocab
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class WithControlledVocab(
   id: WithControlledVocabId,
   vocab: ControlledVocab)
 extends Root 
 
-object WithControlledVocab extends RootType[WithControlledVocab] {
+object WithControlledVocab extends PType[WithControlledVocab] {
   object props {
     val id = prop[WithControlledVocabId]("id")
   }

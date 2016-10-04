@@ -1,7 +1,7 @@
 package longevity.unit.subdomain.ptype
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -18,7 +18,7 @@ object IndexSpec {
     long: Long)
   extends Root
 
-  object IndexSampler extends RootType[IndexSampler] {
+  object IndexSampler extends PType[IndexSampler] {
     val booleanProp = IndexSampler.prop[Boolean]("boolean")
     val charProp = IndexSampler.prop[Char]("char")
     val doubleProp = IndexSampler.prop[Double]("double")

@@ -38,7 +38,7 @@ object PolySpec {
     extends UserVerification
 
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class User(
       username: String,
@@ -46,7 +46,7 @@ object PolySpec {
       verifications: List[UserVerification])
     extends Root
 
-    object User extends RootType[User] {
+    object User extends PType[User] {
       object props {
       }
       object keys {
@@ -256,14 +256,14 @@ object PolySpec {
     case object Cancelled extends AccountStatus
 
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.RootType
+    import longevity.subdomain.ptype.PType
 
     case class Account(
       name: String,
       accountStatus: AccountStatus)
     extends Root
 
-    object Account extends RootType[Account] {
+    object Account extends PType[Account] {
       object keys {
       }
       object indexes {

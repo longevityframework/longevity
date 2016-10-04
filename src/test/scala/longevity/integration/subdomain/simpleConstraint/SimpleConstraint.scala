@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.simpleConstraint
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class SimpleConstraint(
   id: SimpleConstraintId,
@@ -9,7 +9,7 @@ case class SimpleConstraint(
   emails: Set[Email])
 extends Root
 
-object SimpleConstraint extends RootType[SimpleConstraint] {
+object SimpleConstraint extends PType[SimpleConstraint] {
   object props {
     val id = prop[SimpleConstraintId]("id")    
   }

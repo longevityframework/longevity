@@ -2,7 +2,7 @@ package longevity.integration.subdomain.basics
 
 import org.joda.time.DateTime
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class Basics(
   id: BasicsId,
@@ -16,7 +16,7 @@ case class Basics(
   dateTime: DateTime)
 extends Root
 
-object Basics extends RootType[Basics] {
+object Basics extends PType[Basics] {
   object props {
     val id = prop[BasicsId]("id")
     val boolean = prop[Boolean]("boolean")

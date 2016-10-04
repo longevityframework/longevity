@@ -8,7 +8,7 @@ import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.ddd.subdomain.Root
 import longevity.subdomain.ptype.PTypePool
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 object messageFriend {
 
@@ -16,7 +16,7 @@ object messageFriend {
 
   case class Friend(id: FriendId, name: String) extends Root
 
-  object Friend extends RootType[Friend] {
+  object Friend extends PType[Friend] {
     object props {
       val id = prop[FriendId]("id")
     }
@@ -29,7 +29,7 @@ object messageFriend {
 
   case class Message(id: MessageId, author: FriendId, content: String) extends Root
 
-  object Message extends RootType[Message] {
+  object Message extends PType[Message] {
     object props {
       val id = prop[MessageId]("id")
     }

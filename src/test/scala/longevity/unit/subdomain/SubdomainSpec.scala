@@ -21,7 +21,7 @@ import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.PolyPType
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -31,7 +31,7 @@ object SubdomainSpec {
 
   object emptyPropPath {
     case class A(id: String) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[String]("")
       }
@@ -43,7 +43,7 @@ object SubdomainSpec {
 
   object noSuchPropPath {
     case class A(id: String) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[String]("noSuchPropPath")
       }
@@ -55,7 +55,7 @@ object SubdomainSpec {
 
   object noSuchPropPathInComponent {
     case class A(b: B) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[String]("b.noSuchPropPath")
       }
@@ -69,7 +69,7 @@ object SubdomainSpec {
   object propPathWithNonEmbeddable {
     import java.util.UUID
     case class A(id: UUID) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[UUID]("id")
       }
@@ -81,7 +81,7 @@ object SubdomainSpec {
 
   object propPathWithTerminalList {
     case class A(id: List[String]) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[List[String]]("id")
       }
@@ -93,7 +93,7 @@ object SubdomainSpec {
 
   object propPathWithTerminalOption {
     case class A(id: Option[String]) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[Option[String]]("id")
       }
@@ -105,7 +105,7 @@ object SubdomainSpec {
 
   object propPathWithTerminalSet {
     case class A(id: Set[String]) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[Set[String]]("id")
       }
@@ -117,7 +117,7 @@ object SubdomainSpec {
 
   object propPathWithTerminalPoly {
     case class A(b: B) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[B]("b")
       }
@@ -137,7 +137,7 @@ object SubdomainSpec {
 
   object propPathWithInternalList {
     case class A(id: List[B]) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[String]("id.id")
       }
@@ -150,7 +150,7 @@ object SubdomainSpec {
 
   object propPathWithInternalOption {
     case class A(id: Option[B]) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[String]("id.id")
       }
@@ -163,7 +163,7 @@ object SubdomainSpec {
 
   object propPathWithInternalSet {
     case class A(id: Set[B]) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[String]("id.id")
       }
@@ -176,7 +176,7 @@ object SubdomainSpec {
 
   object propPathWithInternalPoly {
     case class A(b: B) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[String]("b.id")
       }
@@ -195,7 +195,7 @@ object SubdomainSpec {
 
   object incompatiblePropType {
     case class A(id: String) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[Double]("id")
       }
@@ -207,7 +207,7 @@ object SubdomainSpec {
 
   object supertypePropType {
     case class A(id: String) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[AnyRef]("id")
       }
@@ -222,7 +222,7 @@ object SubdomainSpec {
     case class AId(id: String) extends KeyVal[A, AId](A.keys.id)
 
     case class A(id: AId) extends Root
-    object A extends RootType[A] {
+    object A extends PType[A] {
       object props {
         val id = prop[AId]("id")
         val id2 = prop[KeyVal[A, _ <: KeyVal[A, _]]]("id") // this is the problematic prop

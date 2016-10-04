@@ -1,7 +1,7 @@
-package longevity.subdomain.ptype
+package longevity.ddd.subdomain
 
 import emblem.TypeKey
-import longevity.ddd.subdomain.Event
+import longevity.subdomain.ptype.PType
 
 /** a type class for events */
 abstract class EventType[E <: Event](implicit eventTypeKey: TypeKey[E])

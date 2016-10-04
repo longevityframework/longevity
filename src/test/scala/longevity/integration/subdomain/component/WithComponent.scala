@@ -1,14 +1,14 @@
 package longevity.integration.subdomain.component
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class WithComponent(
   id: WithComponentId,
   component: Component)
 extends Root
 
-object WithComponent extends RootType[WithComponent] {
+object WithComponent extends PType[WithComponent] {
   object props {
     val id = prop[WithComponentId]("id")
     val component = prop[Component]("component")

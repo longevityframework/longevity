@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.complexConstraint
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.ptype.PType
 
 case class ComplexConstraint(
   id: ComplexConstraintId,
@@ -12,7 +12,7 @@ extends Root {
     throw new ConstraintValidationException("primary email is not in emails")
 }
 
-object ComplexConstraint extends RootType[ComplexConstraint] {
+object ComplexConstraint extends PType[ComplexConstraint] {
   object props {
     val id = prop[ComplexConstraintId]("id")
   }
