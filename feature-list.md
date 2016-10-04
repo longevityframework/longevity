@@ -12,9 +12,6 @@ layout: page
   [Akka
   streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html). 
 - Agnostic about what kinds of data you want to persist.
-  - That said, longevity provides built-in support for common [Domain
-    Driven Design](manual/ddd-basics) persistence patterns such as
-    aggregate roots, events, and read views.
 
 ## Current Features
 
