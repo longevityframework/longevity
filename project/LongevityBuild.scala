@@ -193,4 +193,12 @@ object LongevityBuild extends Build with BuildSettings with Deps {
       homepage := longevityHomepage,
       pomExtra := longevityPomExtra))
 
+  lazy val longevityDDD = Project(
+    id = "longevity-ddd",
+    base = file("longevity-ddd"),
+    settings = publishSettings ++ Seq(
+      homepage := longevityHomepage,
+      pomExtra := longevityPomExtra))
+  .dependsOn(emblem, longevity)
+
 }
