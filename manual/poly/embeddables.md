@@ -43,7 +43,7 @@ In our `User` aggregate, we want to keep track of all the user's
 successful verification attempts:
 
 ```scala
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 case class User(
   username: String,
@@ -83,7 +83,7 @@ extends UserVerification
 
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.DerivedType
-import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.ETypePool
 import longevity.subdomain.embeddable.PolyType
 import longevity.subdomain.embeddable.ValueType
 import longevity.subdomain.PTypePool

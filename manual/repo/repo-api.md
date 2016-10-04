@@ -10,7 +10,7 @@ operations, as follows:
 package longevity.persistence
 
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -89,7 +89,7 @@ package longevity.persistence
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import longevity.subdomain.ptype.Query
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** provides repository methods that use Akka Streams for repository streaming
  * API.

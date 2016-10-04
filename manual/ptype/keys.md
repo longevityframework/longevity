@@ -9,7 +9,7 @@ value](../key-values.html) for the `Persistent`. We define them in our
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class Username(username: String)
@@ -40,7 +40,7 @@ easily. Here, for instance, we add an ill-advised composite key on a
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class Username(username: String)

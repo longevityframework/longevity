@@ -13,7 +13,7 @@ typically define them in a singleton object `props` inside the
 
 ```scala
 import longevity.subdomain.embeddable.Entity
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class UserProfile(

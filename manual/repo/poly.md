@@ -23,7 +23,7 @@ extends Entity
 object UserProfile extends EntityType[UserProfile]
 
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PolyPType
 
@@ -76,7 +76,7 @@ object Commenter extends DerivedPType[Commenter, User] {
 }
 
 import longevity.subdomain.Subdomain
-import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.ETypePool
 import longevity.subdomain.PTypePool
 
 val subdomain = Subdomain(

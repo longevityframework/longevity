@@ -17,8 +17,6 @@ once, and then come back to it as a reference.
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
 - [Embeddables](embeddable)
-  - [Entities](embeddable/entities.html)
-  - [Value Objects](embeddable/value-objects.html)
 - [Key Values](key-values.html)
 - [Limitations on Persistents, Embeddables, and Key Values](limitations.html)
 - [The Persistent Type](ptype)

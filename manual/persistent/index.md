@@ -15,7 +15,7 @@ criteria. Those criteria are laid out in the chapters that follow.
 Here's a simple example:
 
 ``` scala
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import org.joda.time.DateTime
 
 case class Note(

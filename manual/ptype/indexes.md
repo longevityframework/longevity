@@ -12,7 +12,7 @@ index. To do this, we declare our index in a singleton object
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class Username(username: String)

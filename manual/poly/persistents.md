@@ -19,7 +19,7 @@ case class UserProfile(
   description: Markdown)
 extends Entity
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PolyPType
 

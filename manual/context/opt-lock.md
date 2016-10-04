@@ -15,7 +15,7 @@ setting the title that disallows overwriting an existing title:
 case class User(
   username: Username,
   title: Option[String])
-extends longevity.subdomain.persistent.Persistent {
+extends longevity.subdomain.Persistent {
 
   def addTitle(newTitle: String): User = {
     if (title.nonEmpty) throw new ValidationException

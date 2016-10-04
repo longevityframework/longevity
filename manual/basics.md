@@ -21,10 +21,10 @@ allowing you to put in properties with a number of simple types:
 For example, we might add a few fields to our `User` like so:
 
 ```scala
-import longevity.subdomain.Subdomain
-import longevity.subdomain.Persistent
-import longevity.subdomain.PTypePool
 import longevity.subdomain.PType
+import longevity.subdomain.PTypePool
+import longevity.subdomain.Persistent
+import longevity.subdomain.Subdomain
 import org.joda.time.DateTime
 
 case class User(

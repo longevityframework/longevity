@@ -15,10 +15,10 @@ hold values like "Mr.", "Mrs.", "Sir", and "Brother". And we can allow
 the user to have multiple emails:
 
 ```scala
-import longevity.subdomain.Subdomain
-import longevity.subdomain.persistent.Persistent
-import longevity.subdomain.PTypePool
 import longevity.subdomain.PType
+import longevity.subdomain.PTypePool
+import longevity.subdomain.Persistent
+import longevity.subdomain.Subdomain
 
 case class User(
   username: String,

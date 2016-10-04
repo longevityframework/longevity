@@ -21,7 +21,7 @@ directly translates into a longevity-enabled subdomain. We simply have
 to mark the top of the hierarchy as `Embeddable`:
 
 ```scala
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 
 sealed trait AccountStatus extends Embeddable
 case object Active extends AccountStatus
@@ -33,7 +33,7 @@ We are now free to use this controlled vocabulary in our domain, such
 as:
 
 ```scala
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class Account(
@@ -55,7 +55,7 @@ We just need to add the members of our controlled vocabulary to the
 ```scala
 import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.DerivedType
-import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.ETypePool
 import longevity.subdomain.embeddable.PolyType
 import longevity.subdomain.PTypePool
 

@@ -16,7 +16,7 @@ import longevity.subdomain.KeyVal
 case class Username(username: String)
 extends KeyVal[User, Username](User.keys.username)
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 case class User(
   username: Username,
@@ -52,7 +52,7 @@ import longevity.subdomain.KeyVal
 case class Username(username: String)
 extends KeyVal[User, Username](User.keys.username)
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 case class User(
   username: Username,
@@ -80,8 +80,8 @@ We can always look up a persistent object by `KeyVal` using
 [repository method `Repo.retrieve`](repo/retrieve.html), as we
 will discuss in a later section.
 
-{% assign prevTitle = "value objects" %}
-{% assign prevLink = "embeddable/value-objects.html" %}
+{% assign prevTitle = "embeddables" %}
+{% assign prevLink = "embeddable" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "limitations on persistents, embeddables, and key values" %}

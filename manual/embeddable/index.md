@@ -12,9 +12,9 @@ For example, let's suppose we want to group the user's `firstName` and
 extend `Embeddable`:
 
 ```scala
-import longevity.subdomain.embeddable.Embeddable
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Embeddable
 import longevity.subdomain.PType
+import longevity.subdomain.Persistent
 
 case class FullName(
   firstName: String,
@@ -39,10 +39,10 @@ type_, or `EType`, for `FullName`, and include it in the _embeddable
 type pool_, or `ETypePool`:
 
 ```scala
-import longevity.subdomain.Subdomain
-import longevity.subdomain.embeddable.EType
-import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.EType
+import longevity.subdomain.ETypePool
 import longevity.subdomain.PTypePool
+import longevity.subdomain.Subdomain
 
 val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EType[FullName]))
 ```
@@ -61,8 +61,8 @@ You can put embeddables in embeddables, and embeddables into
 `List`, collections into embeddables. For example:
 
 ```scala
-import longevity.subdomain.embeddable.Embeddable
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Embeddable
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class Email(email: String) extends Embeddable
@@ -91,8 +91,8 @@ object User extends PType[User] {
 }
 
 import longevity.subdomain.Subdomain
-import longevity.subdomain.embeddable.EType
-import longevity.subdomain.embeddable.ETypePool
+import longevity.subdomain.EType
+import longevity.subdomain.ETypePool
 import longevity.subdomain.PTypePool
 
 val subdomain = Subdomain(
@@ -106,19 +106,11 @@ subdomain is a bit of unfortunate boilerplate. We plan to address this
 soon by [supporting classpath
 scanning](https://www.pivotaltracker.com/story/show/127406543).
 
-Typically, embeddables are entities or value objects when doing
-traditional DDD modelling. We provide `Embeddable` sub-traits `Entity`
-and `ValueObject`, and you can use whatever terminology suits you.
-The more generic `Embeddable` is probably a better term for things
-that are embedded in `Persistents`, `Events`, or `ViewItems`. So far
-as longevity is concerned, you can use `Embeddable`, `Entity`, and
-`ValueObject` interchangeably.
-
 {% assign prevTitle = "collections" %}
 {% assign prevLink = "../collections.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
-{% assign nextTitle = "entities" %}
-{% assign nextLink = "entities.html" %}
+{% assign nextTitle = "key values" %}
+{% assign nextLink = "../key-values.html" %}
 {% include navigate.html %}
 
