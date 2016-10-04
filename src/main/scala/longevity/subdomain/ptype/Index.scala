@@ -1,6 +1,6 @@
 package longevity.subdomain.ptype
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** an index for a persistent type
  *

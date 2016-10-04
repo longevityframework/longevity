@@ -15,7 +15,7 @@ import longevity.subdomain.Embeddable
 import longevity.subdomain.Embeddable
 import longevity.subdomain.EType
 import longevity.subdomain.PolyEType
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.ddd.subdomain.Root
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType

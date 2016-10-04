@@ -1,7 +1,6 @@
 package longevity
 
 import emblem.TypeKeyMap
-import longevity.subdomain.persistent.Persistent
 
 /** provides tools for constructing your subdomain */
 package object subdomain {

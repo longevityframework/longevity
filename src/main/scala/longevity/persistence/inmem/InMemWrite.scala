@@ -4,7 +4,7 @@ import longevity.exceptions.persistence.WriteConflictException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
 import longevity.subdomain.AnyKeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.realized.AnyRealizedKey
 
 /** support for InMemRepo methods that modify persistent collection. used by

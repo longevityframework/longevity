@@ -7,7 +7,7 @@ import emblem.reflectionUtil.termsWithType
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** a type class for a domain element that is stored in a persistent collection
  *

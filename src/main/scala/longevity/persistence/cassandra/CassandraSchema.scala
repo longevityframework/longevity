@@ -1,7 +1,7 @@
 package longevity.persistence.cassandra
 
 import com.datastax.driver.core.exceptions.InvalidQueryException
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.realized.RealizedPropComponent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

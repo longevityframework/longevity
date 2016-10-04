@@ -3,7 +3,7 @@ package longevity.persistence.inmem
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import longevity.persistence.PState
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

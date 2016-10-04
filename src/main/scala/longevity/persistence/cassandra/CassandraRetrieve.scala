@@ -4,7 +4,7 @@ import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

@@ -4,7 +4,7 @@ import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import java.util.UUID
 import longevity.persistence.PState
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking

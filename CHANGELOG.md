@@ -16,8 +16,8 @@
 - 2016.10.04 - Move `DerivedEType`, `EType`, `ETypePool`,
   `Embeddable`, and `PolyEType` from package
   `longevity.subdomain.embeddable` to `longevity.subdomain`.
-
-- 2016.10.04 - 
+- 2016.10.04 - Move `Persistent` from package
+  `longevity.subdomain.persistent` to `longevity.subdomain`.
 - 2016.10.04 - 
 - 2016.10.04 - 
 - 2016.10.04 - 

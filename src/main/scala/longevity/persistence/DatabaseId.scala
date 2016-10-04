@@ -1,6 +1,6 @@
 package longevity.persistence
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** a database identifier */
 private[longevity] trait DatabaseId[P <: Persistent] {

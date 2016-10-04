@@ -5,7 +5,7 @@ import com.datastax.driver.core.PreparedStatement
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.Deleted
 import longevity.persistence.PState
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

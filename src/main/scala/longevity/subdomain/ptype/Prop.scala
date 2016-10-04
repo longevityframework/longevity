@@ -1,7 +1,7 @@
 package longevity.subdomain.ptype
 
 import emblem.TypeKey
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** a property for this persistent type. properties map to underlying members
  * within the [Persistent persistent object], at any depth.

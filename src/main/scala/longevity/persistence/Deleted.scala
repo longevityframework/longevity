@@ -1,6 +1,6 @@
 package longevity.persistence
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** the result of deleting a persistent object
  * 

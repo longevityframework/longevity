@@ -8,7 +8,7 @@ import com.mongodb.casbah.commons.MongoDBObject
 import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** utilities for writing to a mongo collection. used by [[MongoCreate]] and
  * [[MongoUpdate]]

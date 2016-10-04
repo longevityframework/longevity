@@ -1,7 +1,7 @@
 package longevity.persistence.cassandra
 
 import longevity.persistence.BasePolyRepo
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 private[cassandra] trait PolyCassandraRepo[P <: Persistent] extends CassandraRepo[P] with BasePolyRepo[P] {
 

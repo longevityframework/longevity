@@ -1,7 +1,7 @@
 package longevity.persistence.mongo
 
 import com.mongodb.casbah.commons.MongoDBObject
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Index
 import longevity.subdomain.realized.RealizedKey
 import scala.concurrent.ExecutionContext

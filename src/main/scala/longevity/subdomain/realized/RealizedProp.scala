@@ -14,7 +14,7 @@ import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.UnsupportedPropTypeException
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Embeddable
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 
 private[longevity] class RealizedProp[P <: Persistent, A](

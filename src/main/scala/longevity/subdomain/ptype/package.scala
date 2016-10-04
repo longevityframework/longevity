@@ -1,7 +1,6 @@
 package longevity.subdomain
 
 import emblem.TypeKeyMap
-import longevity.subdomain.persistent.Persistent
 
 /** provides tools for defining the types for your persistent classes */
 package object ptype {

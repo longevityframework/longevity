@@ -1,6 +1,6 @@
 package longevity.persistence.cassandra
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.realized.RealizedPropComponent
 import longevity.subdomain.realized.RealizedKey
 import java.util.UUID

@@ -1,7 +1,7 @@
 package longevity.persistence.inmem
 
 import longevity.persistence.PState
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** support for InMemRepo methods that read from persistent collection. used by
  * [[InMemRetrieve]] and [[InMemQuery]].

@@ -4,7 +4,7 @@ import emblem.TypeKey
 import emblem.emblematic.Emblem
 import emblem.typeKey
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** a natural key for this persistent type. wraps a [[Prop property]] that,
  * given specific a property value, will match the corresponding member of no

@@ -4,7 +4,7 @@ import emblem.TypeKey
 import emblem.emblematic.Emblematic
 import emblem.typeKey
 import longevity.subdomain.KeyVal
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Key
 
 private[longevity] case class RealizedKey[

@@ -3,7 +3,7 @@ package longevity.persistence.mongo
 import com.mongodb.DBObject
 import com.mongodb.casbah.commons.Implicits.wrapDBObj
 import longevity.persistence.PState
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 import org.bson.types.ObjectId
 

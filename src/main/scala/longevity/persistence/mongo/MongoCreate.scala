@@ -2,7 +2,7 @@ package longevity.persistence.mongo
 
 import com.mongodb.DuplicateKeyException
 import longevity.persistence.PState
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

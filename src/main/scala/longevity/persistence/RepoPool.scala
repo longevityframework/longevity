@@ -2,7 +2,7 @@ package longevity.persistence
 
 import emblem.TypeKey
 import emblem.TypeKeyMap
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

@@ -1,6 +1,6 @@
 package longevity.persistence
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** the persistent state of a persistent object of type `P` */
 case class PState[P <: Persistent] private (

@@ -1,7 +1,7 @@
 package longevity.exceptions.subdomain
 
 import emblem.TypeKey
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** thrown on attempt to create a property with a type that longevity does not
  * now support, such as property paths that contain any collections or terminate

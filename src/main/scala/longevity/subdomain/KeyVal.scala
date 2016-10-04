@@ -1,6 +1,5 @@
 package longevity.subdomain
 
-import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Key
 
 /** a key value.

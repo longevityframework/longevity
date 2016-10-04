@@ -7,7 +7,7 @@ import com.mongodb.casbah.commons.Implicits.unwrapDBObj
 import com.mongodb.casbah.commons.Implicits.wrapDBObj
 import com.mongodb.casbah.commons.MongoDBObject
 import longevity.persistence.PState
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
 import longevity.subdomain.ptype.EqualityQuery
 import longevity.subdomain.ptype.OrderingQuery

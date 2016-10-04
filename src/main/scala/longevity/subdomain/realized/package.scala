@@ -1,7 +1,5 @@
 package longevity.subdomain
 
-import longevity.subdomain.persistent.Persistent
-
 /** contains subdomain realizations of PTypes, Props and Keys */
 package object realized {
 

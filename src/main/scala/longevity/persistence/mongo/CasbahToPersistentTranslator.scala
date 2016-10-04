@@ -12,7 +12,7 @@ import emblem.emblematic.traversors.sync.Traversor
 import emblem.typeKey
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.subdomain.Embeddable
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import scala.reflect.runtime.universe.typeOf
 
 /** translates

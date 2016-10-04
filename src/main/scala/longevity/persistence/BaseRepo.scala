@@ -5,7 +5,7 @@ import akka.stream.scaladsl.Source
 import emblem.TypeKey
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.realized.RealizedPType

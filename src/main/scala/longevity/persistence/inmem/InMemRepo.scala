@@ -7,7 +7,7 @@ import longevity.persistence.PState
 import longevity.persistence.DatabaseId
 import longevity.subdomain.AnyKeyVal
 import longevity.subdomain.Subdomain
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
 import longevity.subdomain.ptype.EqualityQuery
 import longevity.subdomain.ptype.OrderingQuery

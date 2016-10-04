@@ -8,7 +8,7 @@ import longevity.context.LongevityContext
 import longevity.persistence.PState
 import longevity.persistence.RepoPool
 import longevity.persistence.inmem.InMemRepo
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.Query
 import org.scalatest.FlatSpec

@@ -1,7 +1,7 @@
 package longevity.persistence.inmem
 
 import longevity.persistence.DatabaseId
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 private case class IntId[P <: Persistent](i: Int) extends DatabaseId[P] {
   private[longevity] val _lock = 0

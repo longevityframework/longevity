@@ -1,7 +1,7 @@
 package longevity.persistence.cassandra
 
 import java.util.UUID
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.persistence.DatabaseId
 
 private[cassandra] case class CassandraId[P <: Persistent](uuid: UUID) extends DatabaseId[P] {

@@ -1,7 +1,7 @@
 package longevity.exceptions.subdomain.ptype
 
 import emblem.TypeKey
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 /** an exception thrown when [[longevity.subdomain.ptype.PType persistent type]]
  * neither overrides `propSet`, nor defines an inner object `props`

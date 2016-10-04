@@ -1,6 +1,6 @@
 package longevity.exceptions.persistence
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.AnyKey
 
 /** an attempt to create or update a persistent object has failed because the

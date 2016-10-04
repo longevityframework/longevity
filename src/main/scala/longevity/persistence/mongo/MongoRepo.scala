@@ -8,7 +8,7 @@ import longevity.context.MongoConfig
 import longevity.context.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.subdomain.Subdomain
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType
 import longevity.subdomain.ptype.PolyPType
