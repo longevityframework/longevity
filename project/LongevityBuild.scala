@@ -118,9 +118,13 @@ trait BuildSettings extends Deps {
 
 object LongevityBuild extends Build with BuildSettings with Deps {
 
+  lazy val root = Project(id = "root", base = file("."))
+    .settings(publish := {})
+    .aggregate(emblem, longevityMongoDeps, longevityCassandraDeps, longevityDDD)
+
   lazy val longevity = Project(
     id = "longevity",
-    base = file("."),
+    base = file("longevity"),
     settings = buildSettings ++ Seq(
 
       // non-optional library dependencies:
@@ -152,7 +156,6 @@ object LongevityBuild extends Build with BuildSettings with Deps {
       pomExtra := longevityPomExtra
     )
   )
-  .aggregate(emblem, longevityMongoDeps, longevityCassandraDeps)
   .dependsOn(emblem)
 
   lazy val emblem = Project(
