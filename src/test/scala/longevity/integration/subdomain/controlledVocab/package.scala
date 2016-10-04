@@ -5,7 +5,7 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.DerivedEType
 import longevity.subdomain.ETypePool
 import longevity.subdomain.PolyEType
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 /** covers a controlled vocab created with a poly type and multiple derived case objects */
 package object controlledVocab {

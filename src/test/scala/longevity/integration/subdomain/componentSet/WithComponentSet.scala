@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.componentSet
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 
 case class WithComponentSet(
   id: WithComponentSetId,

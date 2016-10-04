@@ -9,9 +9,9 @@ import longevity.context.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.subdomain.Subdomain
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PType
-import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PType
+import longevity.subdomain.PolyPType
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

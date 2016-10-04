@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.subdomain.Subdomain
 import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 package object shorthandSets {
 

@@ -38,7 +38,7 @@ object PolySpec {
     extends UserVerification
 
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class User(
       username: String,
@@ -58,7 +58,7 @@ object PolySpec {
     import longevity.subdomain.ETypePool
     import longevity.subdomain.PolyEType
     import longevity.subdomain.EType
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
@@ -90,8 +90,8 @@ object PolySpec {
     extends Embeddable
 
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.DerivedPType
-    import longevity.subdomain.ptype.PolyPType
+    import longevity.subdomain.DerivedPType
+    import longevity.subdomain.PolyPType
 
     trait User extends Root {
       val username: String
@@ -134,7 +134,7 @@ object PolySpec {
     import longevity.subdomain.ETypePool
     import longevity.subdomain.EType
     import longevity.subdomain.EType
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
@@ -181,8 +181,8 @@ object PolySpec {
       profile: UserProfile)
     extends User
 
-    import longevity.subdomain.ptype.DerivedPType
-    import longevity.subdomain.ptype.PolyPType
+    import longevity.subdomain.DerivedPType
+    import longevity.subdomain.PolyPType
 
     object User extends PolyPType[User] {
       object props {
@@ -224,7 +224,7 @@ object PolySpec {
     import longevity.subdomain.ETypePool
     import longevity.subdomain.EType
     import longevity.subdomain.EType
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
@@ -256,7 +256,7 @@ object PolySpec {
     case object Cancelled extends AccountStatus
 
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class Account(
       name: String,
@@ -274,7 +274,7 @@ object PolySpec {
     import longevity.subdomain.DerivedEType
     import longevity.subdomain.ETypePool
     import longevity.subdomain.PolyEType
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "accounts",

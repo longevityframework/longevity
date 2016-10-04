@@ -9,7 +9,7 @@ import longevity.persistence.PState
 import longevity.persistence.RepoPool
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.PolyPType
 import longevity.subdomain.realized.RealizedKey
 import org.scalatest.FeatureSpec
 import org.scalatest.GivenWhenThen

@@ -17,11 +17,11 @@ import longevity.subdomain.EType
 import longevity.subdomain.PolyEType
 import longevity.subdomain.Persistent
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PType
-import longevity.subdomain.ptype.PTypePool
-import longevity.subdomain.ptype.PolyPType
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PType
+import longevity.subdomain.PTypePool
+import longevity.subdomain.PolyPType
+import longevity.subdomain.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

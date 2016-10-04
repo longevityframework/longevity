@@ -1,8 +1,8 @@
 package longevity.integration.subdomain.derived
 
-import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.PolyPType
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 
 trait PolyRoot extends Root {
   val id: PolyRootId

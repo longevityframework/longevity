@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.shorthandWithComponent
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 
 case class WithShorthandWithComponent(
   id: WithShorthandWithComponentId,

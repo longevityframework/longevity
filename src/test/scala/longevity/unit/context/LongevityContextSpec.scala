@@ -8,8 +8,8 @@ import longevity.context.Mongo
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.PTypePool
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PTypePool
+import longevity.subdomain.PType
 import org.json4s.JsonAST.JObject
 import org.json4s.JsonAST.JString
 import org.scalatest.FlatSpec

@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.derived
 
-import longevity.subdomain.ptype.DerivedPType
+import longevity.subdomain.DerivedPType
 
 case class SecondDerivedRoot(
   id: PolyRootId,

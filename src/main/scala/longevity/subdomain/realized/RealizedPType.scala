@@ -6,9 +6,9 @@ import emblem.typeBound.TypeBoundMap
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.AnyKey
-import longevity.subdomain.ptype.DerivedPType
+import longevity.subdomain.DerivedPType
 import longevity.subdomain.ptype.Key
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 import longevity.subdomain.ptype.Prop
 
 private[longevity] class RealizedPType[P <: Persistent](

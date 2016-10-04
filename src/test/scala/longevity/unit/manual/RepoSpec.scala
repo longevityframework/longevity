@@ -18,8 +18,8 @@ object RepoSpec {
   import longevity.subdomain.Embeddable
   import longevity.subdomain.EType
   import longevity.ddd.subdomain.Root
-  import longevity.subdomain.ptype.PTypePool
-  import longevity.subdomain.ptype.PType
+  import longevity.subdomain.PTypePool
+  import longevity.subdomain.PType
 
   case class Markdown(markdown: String) extends Embeddable
   case class Uri(uri: String) extends Embeddable

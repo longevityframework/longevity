@@ -23,7 +23,7 @@ object KeyValSpec {
       lastName: String)
     extends Root
 
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     object User extends PType[User] {
       object props {
@@ -35,7 +35,7 @@ object KeyValSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User))    
 
@@ -58,7 +58,7 @@ object KeyValSpec {
       sponsor: Option[Username])
     extends Root
 
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     object User extends PType[User] {
       object props {
@@ -70,7 +70,7 @@ object KeyValSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User))    
 

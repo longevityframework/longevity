@@ -2,7 +2,7 @@ package longevity.integration.subdomain.basics
 
 import org.joda.time.DateTime
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 
 case class Basics(
   id: BasicsId,

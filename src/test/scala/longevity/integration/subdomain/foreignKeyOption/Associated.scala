@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.foreignKeyOption
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 
 case class Associated(id: AssociatedId) extends Root
 

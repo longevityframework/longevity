@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
 import longevity.subdomain.Subdomain
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 /** covers a root entity with an optional component entity */
 package object componentOption {

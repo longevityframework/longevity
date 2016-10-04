@@ -15,7 +15,7 @@ object ContextSpec {
     import com.typesafe.config.Config
     import longevity.context.LongevityContext
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val bloggingDomain = Subdomain("blogging", PTypePool.empty)
     val bloggingConfig: Config = loadBloggingConfig()
@@ -37,7 +37,7 @@ object ContextSpec {
   object config2 {
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val bloggingDomain = Subdomain("blogging", PTypePool.empty)
 

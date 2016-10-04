@@ -39,7 +39,7 @@ object SubdomainSpec {
       lastName: String)
     extends Root
 
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     object User extends PType[User] {
       object props {
@@ -49,7 +49,7 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User))
   }
@@ -59,8 +59,8 @@ object SubdomainSpec {
 
     import longevity.subdomain.Subdomain
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PTypePool
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PTypePool
+    import longevity.subdomain.PType
     import org.joda.time.DateTime
 
     case class User(
@@ -87,8 +87,8 @@ object SubdomainSpec {
 
     import longevity.subdomain.Subdomain
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PTypePool
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PTypePool
+    import longevity.subdomain.PType
 
     case class User(
       username: String,
@@ -113,7 +113,7 @@ object SubdomainSpec {
 
     import longevity.subdomain.Embeddable
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class FullName(
       firstName: String,
@@ -135,7 +135,7 @@ object SubdomainSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.EType
     import longevity.subdomain.ETypePool
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EType[FullName]))
 
@@ -150,7 +150,7 @@ object SubdomainSpec {
 
     import longevity.subdomain.Embeddable
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class Email(email: String) extends Embeddable
 
@@ -180,7 +180,7 @@ object SubdomainSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.EType
     import longevity.subdomain.ETypePool
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
@@ -201,7 +201,7 @@ object SubdomainSpec {
     extends Embeddable
 
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class User(
       username: String,
@@ -219,7 +219,7 @@ object SubdomainSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.EType
     import longevity.subdomain.ETypePool
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EType[UserProfile]))
   }
@@ -232,8 +232,8 @@ object SubdomainSpec {
     import longevity.subdomain.Embeddable
     import longevity.subdomain.EType
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PTypePool
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PTypePool
+    import longevity.subdomain.PType
 
     case class Email(email: String) extends Embeddable
     case class StateCode(stateCode: String) extends Embeddable

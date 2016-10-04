@@ -23,9 +23,9 @@ import longevity.persistence.PState
 import longevity.persistence.SchemaCreator
 import longevity.subdomain.Subdomain
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PType
-import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PType
+import longevity.subdomain.PolyPType
 import longevity.subdomain.realized.RealizedPropComponent
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext

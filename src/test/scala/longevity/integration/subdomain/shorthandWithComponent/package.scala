@@ -5,7 +5,7 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
 import longevity.subdomain.EType
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 /** covers a root entity with a single component entity */
 package object shorthandWithComponent {

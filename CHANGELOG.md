@@ -20,7 +20,9 @@
   `longevity.subdomain.embeddable` to `longevity.subdomain`.
 - 2016.10.04 - Move `Persistent` from package
   `longevity.subdomain.persistent` to `longevity.subdomain`.
-- 2016.10.04 - 
+- 2016.10.04 - Move `DerivedPType`, `PType`, `PTypePool`, and
+  `PolyPType` from package `longevity.subdomain.ptype` to
+  `longevity.subdomain`.
 - 2016.10.04 - 
 - 2016.10.04 - 
 

@@ -2,7 +2,7 @@ package longevity.unit.subdomain.ptype
 
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

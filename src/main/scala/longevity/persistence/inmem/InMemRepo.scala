@@ -11,9 +11,9 @@ import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
 import longevity.subdomain.ptype.EqualityQuery
 import longevity.subdomain.ptype.OrderingQuery
-import longevity.subdomain.ptype.PType
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.PType
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PolyPType
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.Query.All
 import longevity.subdomain.ptype.Query.AndOp

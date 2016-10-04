@@ -16,9 +16,9 @@ import longevity.persistence.mongo.MongoRepo
 import longevity.persistence.mongo.MongoRepo.MongoSessionInfo
 import longevity.subdomain.Subdomain
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PType
-import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PType
+import longevity.subdomain.PolyPType
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration

@@ -5,7 +5,7 @@ import longevity.subdomain.DerivedEType
 import longevity.subdomain.ETypePool
 import longevity.subdomain.PolyEType
 import longevity.subdomain.Subdomain
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 /** covers a root entity with a poly type and multiple derived types */
 package object derived {

@@ -2,7 +2,7 @@ package longevity.ddd.subdomain
 
 import longevity.subdomain.Subdomain
 import longevity.subdomain.ETypePool
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 /** a supporting subdomain. functionally equivalent to a [[Subdomain]].
  *

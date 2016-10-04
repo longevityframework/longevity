@@ -1,13 +1,16 @@
-package longevity.subdomain.ptype
+package longevity.subdomain
 
 import emblem.TypeKey
-import emblem.typeKey
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
+import emblem.typeKey
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
-import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
+import longevity.subdomain.ptype.AnyKey
+import longevity.subdomain.ptype.Index
+import longevity.subdomain.ptype.Key
+import longevity.subdomain.ptype.Prop
+import longevity.subdomain.ptype.QueryDsl
 
 /** a type class for a domain element that is stored in a persistent collection
  *

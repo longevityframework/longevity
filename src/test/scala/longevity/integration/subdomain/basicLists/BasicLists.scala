@@ -2,7 +2,7 @@ package longevity.integration.subdomain.basicLists
 
 import com.github.nscala_time.time.Imports._
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 
 case class BasicLists(
   id: BasicListsId,

@@ -5,7 +5,7 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
 import longevity.subdomain.EType
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 /** covers a persistent with an embeddable with an embeddable with a single property  */
 package object componentShorthands {

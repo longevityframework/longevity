@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.simpleConstraint
 
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 
 case class SimpleConstraint(
   id: SimpleConstraintId,

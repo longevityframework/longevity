@@ -21,7 +21,7 @@ object PTypeSpec {
 
     import longevity.subdomain.Embeddable
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class UserProfile(
       tagline: String,
@@ -53,7 +53,7 @@ object PTypeSpec {
     import longevity.subdomain.ETypePool
     import longevity.subdomain.EType
     import longevity.subdomain.EType
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
@@ -67,7 +67,7 @@ object PTypeSpec {
 
     import longevity.subdomain.KeyVal
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class Username(username: String)
     extends KeyVal[User, Username](User.keys.username)
@@ -88,7 +88,7 @@ object PTypeSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User))
   }
@@ -98,7 +98,7 @@ object PTypeSpec {
 
     import longevity.subdomain.KeyVal
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class Username(username: String)
     extends KeyVal[User, Username](User.keys.username)
@@ -123,7 +123,7 @@ object PTypeSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User))
   }
@@ -133,7 +133,7 @@ object PTypeSpec {
 
     import longevity.subdomain.KeyVal
     import longevity.ddd.subdomain.Root
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class Username(username: String)
     extends KeyVal[User, Username](User.keys.username)
@@ -159,7 +159,7 @@ object PTypeSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User))
   }
@@ -178,7 +178,7 @@ object PTypeSpec {
     import longevity.subdomain.ptype.Index
     import longevity.subdomain.ptype.AnyKey
     import longevity.subdomain.ptype.Prop
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     object User extends PType[User] {
       override lazy val propSet = Set.empty[Prop[User, _]]
@@ -187,7 +187,7 @@ object PTypeSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User))
   }
@@ -199,7 +199,7 @@ object PTypeSpec {
     import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.AnyKey
     import longevity.subdomain.ptype.Prop
-    import longevity.subdomain.ptype.PType
+    import longevity.subdomain.PType
 
     case class Username(username: String)
     extends KeyVal[User, Username](User.usernameKey)
@@ -230,7 +230,7 @@ object PTypeSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ptype.PTypePool
+    import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User))
   }

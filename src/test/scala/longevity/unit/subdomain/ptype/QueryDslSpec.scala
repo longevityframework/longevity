@@ -3,9 +3,9 @@ package longevity.unit.subdomain.ptype
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.ddd.subdomain.Root
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
