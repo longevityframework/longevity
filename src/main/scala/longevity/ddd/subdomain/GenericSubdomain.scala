@@ -1,5 +1,6 @@
-package longevity.subdomain
+package longevity.ddd.subdomain
 
+import longevity.subdomain.Subdomain
 import longevity.subdomain.embeddable.ETypePool
 import longevity.subdomain.ptype.PTypePool
 

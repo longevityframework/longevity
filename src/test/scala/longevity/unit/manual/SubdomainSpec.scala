@@ -11,23 +11,11 @@ object SubdomainSpec {
     import longevity.subdomain.Subdomain
 
     val subdomain = Subdomain("blogging")
-
-    // you can also use these synonyms freely:
-    import longevity.subdomain.CoreDomain
-    import longevity.subdomain.GenericSubdomain
-    import longevity.subdomain.SupportingSubdomain
-
-    val coreDomain: CoreDomain = CoreDomain("blogging")
-    val supportingSubdomain: SupportingSubdomain = SupportingSubdomain("accounts")
-    val genericSubdomain: GenericSubdomain = GenericSubdomain("search")
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain.html
   object subdomain2 {
-    import longevity.subdomain.CoreDomain
-    import longevity.subdomain.GenericSubdomain
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.SupportingSubdomain
 
     // create your own domain type:
 
@@ -37,9 +25,7 @@ object SubdomainSpec {
 
     // or put your subdomains in companion objects:
 
-    object BloggingCore extends CoreDomain("blogging")
-    object AccountsSubdomain extends SupportingSubdomain("accounts")
-    object SearchSubdomain extends GenericSubdomain("search")
+    object BloggingDomain extends Subdomain("blogging")
   }
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/ptypes.html
@@ -303,14 +289,9 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       }
 
       subdomainShould(subdomain1.subdomain, "blogging")
-      subdomainShould(subdomain1.coreDomain, "blogging")
-      subdomainShould(subdomain1.supportingSubdomain, "accounts")
-      subdomainShould(subdomain1.genericSubdomain, "search")
 
       subdomainShould(subdomain2.bloggingDomain, "blogging")
-      subdomainShould(subdomain2.BloggingCore, "blogging")
-      subdomainShould(subdomain2.AccountsSubdomain, "accounts")
-      subdomainShould(subdomain2.SearchSubdomain, "search")
+      subdomainShould(subdomain2.BloggingDomain, "blogging")
     }
 
     {

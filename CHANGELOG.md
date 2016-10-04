@@ -4,7 +4,10 @@
 
 - 2016.10.04 - Rename `DerivedType` to `DerivedEType`. Rename
   `PolyType` to `PolyEType`.
-- 2016.10.04 - 
+- 2016.10.04 - Move `CoreDomain`, `GenericSubdomain`, and
+  `SupportingSubdomain` from package `longevity.subdomain` to
+  `longevity.ddd.subdomain`.
+
 - 2016.10.04 - 
 - 2016.10.04 - 
 - 2016.10.04 - 
