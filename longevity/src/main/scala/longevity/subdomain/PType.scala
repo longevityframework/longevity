@@ -35,7 +35,7 @@ abstract class PType[P <: Persistent : TypeKey] {
    *
    * the provided type `A` should match the type of the actual property in the
    * `Persistent`. type `A` should not contain any collections, or terminate
-   * with [[longevity.subdomain.embeddable.PolyEType polymorphic embeddable]].
+   * with [[longevity.subdomain.PolyEType polymorphic embeddable]].
    * violations will cause an exception to be thrown on
    * [[longevity.subdomain.Subdomain Subdomain construction]].
    *

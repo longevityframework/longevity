@@ -5,8 +5,7 @@ import emblem.TypeKeyMap
 /** provides tools for constructing your subdomain */
 package object subdomain {
 
-  /** a type key map of [[longevity.subdomain.persistent.Persistent
-   * Persistent]] to [[PType]]
+  /** a type key map of [[Persistent]] to [[PType]]
    * @see emblem.TypeKeyMap
    */
   type PTypePool = TypeKeyMap[Persistent, PType]

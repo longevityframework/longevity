@@ -10,7 +10,7 @@ import org.json4s.JsonAST.JValue
  * 
  * [[longevity.subdomain.Embeddable Embeddables]] with a single
  * member will be inlined in the JSON. Does not inline
- * [[longevity.subdomain.embeddable.PolyEType PolyETypes]].
+ * [[longevity.subdomain.PolyEType PolyETypes]].
  */
 class JsonMarshaller(subdomain: Subdomain) {
 

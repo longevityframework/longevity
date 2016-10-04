@@ -12,8 +12,8 @@ import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.realized.RealizedPType
 
 /** a specification of a subdomain of a project's domain. contains a pool of
- * all the [[ptype.PType persistent types]] in the subdomain, as well as
- * all the [[embeddable.EType embeddable types]].
+ * all the [[PType persistent types]] in the subdomain, as well as
+ * all the [[EType embeddable types]].
  *
  * @param name the name of the subdomain
  * @param pTypePool a complete set of the persistent types in the subdomain.
@@ -169,21 +169,21 @@ object Subdomain {
    *
    * @throws longevity.exceptions.subdomain.NoSuchPropPathException if a
    * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
-   * [[longevity.subdomain.ptype.PType persistent types]] has a property path
-   * that does not exist in the [[longevity.subdomain.persistent.Persistent
+   * [[PType persistent types]] has a property path
+   * that does not exist in the [[longevity.subdomain.Persistent
    * persistent]] being reflected on
    * 
    * @throws longevity.exceptions.subdomain.UnsupportedPropTypeException
    * if a [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
-   * [[longevity.subdomain.ptype.PType persistent types]] has a property path
-   * that contains a collection or a [[longevity.subdomain.embeddable.PolyEType
+   * [[PType persistent types]] has a property path
+   * that contains a collection or a [[PolyEType
    * polymorphic type]]
    * 
    * @throws longevity.exceptions.subdomain.PropTypeException if a
    * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
-   * [[longevity.subdomain.ptype.PType persistent types]] has a property whose
+   * [[PType persistent types]] has a property whose
    * specified type does not match the type of the corresponding path in the
-   * [[longevity.subdomain.persistent.Persistent persistent]] being reflected on
+   * [[Persistent persistent]] being reflected on
    */
   def apply(
     name: String,

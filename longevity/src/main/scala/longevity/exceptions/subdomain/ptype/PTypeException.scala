@@ -2,7 +2,7 @@ package longevity.exceptions.subdomain.ptype
 
 import longevity.exceptions.subdomain.SubdomainException
 
-/** an exception involving [[longevity.subdomain.ptype.PType persistent type]]
+/** an exception involving [[longevity.subdomain.PType persistent type]]
  * creation or use
  */
 class PTypeException(message: String, cause: Exception) extends SubdomainException(message, cause) {

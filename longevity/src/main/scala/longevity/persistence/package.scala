@@ -30,7 +30,7 @@ package object persistence {
 
   }
 
-  /** packages a [[longevity.subdomain.persistent.Persistent persistent object]]
+  /** packages a [[longevity.subdomain.Persistent persistent object]]
    * with a `TypeKey` for the object's type. used by [[RepoPool.createMany]].
    */
   implicit class PWithTypeKey[P <: Persistent : TypeKey](val p: P) {
