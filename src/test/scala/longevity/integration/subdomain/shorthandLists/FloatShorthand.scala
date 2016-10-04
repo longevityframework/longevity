@@ -1,5 +1,5 @@
 package longevity.integration.subdomain.shorthandLists
 
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 
 case class FloatShorthand(float: Float) extends Embeddable

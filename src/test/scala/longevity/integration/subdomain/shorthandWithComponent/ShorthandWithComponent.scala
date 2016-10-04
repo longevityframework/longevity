@@ -1,5 +1,5 @@
 package longevity.integration.subdomain.shorthandWithComponent
 
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 
 case class ShorthandWithComponent(component: Component) extends Embeddable

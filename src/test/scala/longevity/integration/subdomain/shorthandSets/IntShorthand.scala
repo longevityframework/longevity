@@ -1,5 +1,5 @@
 package longevity.integration.subdomain.shorthandSets
 
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 
 case class IntShorthand(int: Int) extends Embeddable

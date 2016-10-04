@@ -1,4 +1,4 @@
-package longevity.subdomain.embeddable
+package longevity.subdomain
 
 import emblem.TypeKey
 import emblem.typeKey

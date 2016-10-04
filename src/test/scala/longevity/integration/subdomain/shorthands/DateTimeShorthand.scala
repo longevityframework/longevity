@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.shorthands
 
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 import org.joda.time.DateTime
 
 case class DateTimeShorthand(dateTime: DateTime) extends Embeddable

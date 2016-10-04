@@ -6,7 +6,7 @@ import longevity.TestLongevityConfigs.mongoConfig
 import longevity.context.LongevityContext
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
-import longevity.subdomain.persistent.Root
+import longevity.ddd.subdomain.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.RootType
 

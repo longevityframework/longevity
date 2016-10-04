@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.basicSets
 
 import com.github.nscala_time.time.Imports._
-import longevity.subdomain.persistent.Root
+import longevity.ddd.subdomain.Root
 import longevity.subdomain.ptype.RootType
 
 case class BasicSets(

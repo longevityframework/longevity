@@ -12,12 +12,12 @@ object RepoSpec {
   import org.joda.time.DateTime
   import longevity.subdomain.KeyVal
   import longevity.subdomain.Subdomain
-  import longevity.subdomain.embeddable.Embeddable
-  import longevity.subdomain.embeddable.EType
-  import longevity.subdomain.embeddable.ETypePool
-  import longevity.subdomain.embeddable.Embeddable
-  import longevity.subdomain.embeddable.EType
-  import longevity.subdomain.persistent.Root
+  import longevity.subdomain.Embeddable
+  import longevity.subdomain.EType
+  import longevity.subdomain.ETypePool
+  import longevity.subdomain.Embeddable
+  import longevity.subdomain.EType
+  import longevity.ddd.subdomain.Root
   import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
 

@@ -11,7 +11,7 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.emblematic.traversors.sync.Traversor
 import emblem.typeKey
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 import longevity.subdomain.persistent.Persistent
 import scala.reflect.runtime.universe.typeOf
 

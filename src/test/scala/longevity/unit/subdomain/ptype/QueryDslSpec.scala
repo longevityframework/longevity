@@ -2,7 +2,7 @@ package longevity.unit.subdomain.ptype
 
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
-import longevity.subdomain.persistent.Root
+import longevity.ddd.subdomain.Root
 import longevity.subdomain.ptype.PTypePool
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.RootType

@@ -1,7 +1,7 @@
 package longevity.ddd.subdomain
 
 import emblem.TypeKey
-import longevity.subdomain.embeddable.EType
+import longevity.subdomain.EType
 
 /** a value type. functionally equivalent to an [[EntityType]] */
 abstract class ValueType[A <: ValueObject : TypeKey] extends EType[A]

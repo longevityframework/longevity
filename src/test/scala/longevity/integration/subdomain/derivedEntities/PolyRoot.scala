@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.derived
 
 import longevity.subdomain.ptype.PolyPType
-import longevity.subdomain.persistent.Root
+import longevity.ddd.subdomain.Root
 import longevity.subdomain.ptype.RootType
 
 trait PolyRoot extends Root {

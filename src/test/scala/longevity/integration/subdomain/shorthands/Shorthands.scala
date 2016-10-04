@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.shorthands
 
-import longevity.subdomain.persistent.Root
+import longevity.ddd.subdomain.Root
 import longevity.subdomain.ptype.RootType
 
 case class Shorthands(

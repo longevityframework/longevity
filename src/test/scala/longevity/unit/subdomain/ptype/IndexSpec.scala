@@ -1,6 +1,6 @@
 package longevity.unit.subdomain.ptype
 
-import longevity.subdomain.persistent.Root
+import longevity.ddd.subdomain.Root
 import longevity.subdomain.ptype.RootType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen

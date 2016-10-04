@@ -13,7 +13,7 @@ import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.UnsupportedPropTypeException
 import longevity.subdomain.KeyVal
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.Prop
 

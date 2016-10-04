@@ -31,7 +31,7 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/ptype/ptypes.html
   object ptypes {
 
-    import longevity.subdomain.persistent.Root
+    import longevity.ddd.subdomain.Root
 
     case class User(
       username: String,
@@ -58,7 +58,7 @@ object SubdomainSpec {
   object basics {
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.persistent.Root
+    import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
     import org.joda.time.DateTime
@@ -86,7 +86,7 @@ object SubdomainSpec {
   object collections {
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.persistent.Root
+    import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
@@ -111,8 +111,8 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/index.html
   object embeddables1 {
 
-    import longevity.subdomain.embeddable.Embeddable
-    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.Embeddable
+    import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.RootType
 
     case class FullName(
@@ -133,8 +133,8 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EType
-    import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.EType
+    import longevity.subdomain.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EType[FullName]))
@@ -148,8 +148,8 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/index.html
   object embeddables2 {
 
-    import longevity.subdomain.embeddable.Embeddable
-    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.Embeddable
+    import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.RootType
 
     case class Email(email: String) extends Embeddable
@@ -178,8 +178,8 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EType
-    import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.EType
+    import longevity.subdomain.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain(
@@ -192,7 +192,7 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/entities.html
   object entities {
 
-    import longevity.subdomain.embeddable.Embeddable
+    import longevity.subdomain.Embeddable
 
     case class UserProfile(
       tagline: String,
@@ -200,7 +200,7 @@ object SubdomainSpec {
       description: String)
     extends Embeddable
 
-    import longevity.subdomain.persistent.Root
+    import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.RootType
 
     case class User(
@@ -217,8 +217,8 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EType
-    import longevity.subdomain.embeddable.ETypePool
+    import longevity.subdomain.EType
+    import longevity.subdomain.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
     val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EType[UserProfile]))
@@ -228,10 +228,10 @@ object SubdomainSpec {
   object valueObjects {
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.ETypePool
-    import longevity.subdomain.embeddable.Embeddable
-    import longevity.subdomain.embeddable.EType
-    import longevity.subdomain.persistent.Root
+    import longevity.subdomain.ETypePool
+    import longevity.subdomain.Embeddable
+    import longevity.subdomain.EType
+    import longevity.ddd.subdomain.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 

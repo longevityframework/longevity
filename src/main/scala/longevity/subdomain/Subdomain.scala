@@ -9,11 +9,6 @@ import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
 import emblem.typeBound.WideningTypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
-import longevity.subdomain.embeddable.DerivedEType
-import longevity.subdomain.embeddable.EType
-import longevity.subdomain.embeddable.ETypePool
-import longevity.subdomain.embeddable.Embeddable
-import longevity.subdomain.embeddable.PolyEType
 import longevity.subdomain.persistent.Persistent
 import longevity.subdomain.ptype.DerivedPType
 import longevity.subdomain.ptype.PType

@@ -2,9 +2,9 @@ package longevity.integration.subdomain
 
 import longevity.TestLongevityConfigs
 import longevity.subdomain.Subdomain
-import longevity.subdomain.embeddable.DerivedEType
-import longevity.subdomain.embeddable.ETypePool
-import longevity.subdomain.embeddable.PolyEType
+import longevity.subdomain.DerivedEType
+import longevity.subdomain.ETypePool
+import longevity.subdomain.PolyEType
 import longevity.subdomain.ptype.PTypePool
 
 /** covers a controlled vocab created with a poly type and multiple derived case objects */

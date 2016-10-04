@@ -8,7 +8,7 @@ import org.json4s.JsonAST.JValue
 /** translates from your subdomain objects into JSON.
  * translates objects into [[https://github.com/json4s/json4s json4s AST]].
  * 
- * [[longevity.subdomain.embeddable.Embeddable Embeddables]] with a single
+ * [[longevity.subdomain.Embeddable Embeddables]] with a single
  * member will be inlined in the JSON. Does not inline
  * [[longevity.subdomain.embeddable.PolyEType PolyETypes]].
  */

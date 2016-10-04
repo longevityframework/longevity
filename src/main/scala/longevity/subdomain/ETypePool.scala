@@ -1,4 +1,4 @@
-package longevity.subdomain.embeddable
+package longevity.subdomain
 
 import emblem.TypeKeyMap
 import longevity.exceptions.subdomain.DuplicateETypesException

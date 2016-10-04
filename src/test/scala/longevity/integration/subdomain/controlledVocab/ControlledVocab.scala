@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.controlledVocab
 
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 
 sealed trait ControlledVocab extends Embeddable
 
