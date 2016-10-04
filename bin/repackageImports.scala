@@ -27,13 +27,13 @@ object repackageImports extends App {
       }
     }
 
-    runSed(s"s/^import $original\\.({ *)?$classname( *})?/import $replacement.$classname/g")
+    runSed(s"s/import $original\\.({ *)?$classname( *})?/import $replacement.$classname/g")
 
-    runSed(s"""|/^import $original\\.{.*$classname.*}/ {
-               |  s/, *$classname//
-               |  s/$classname, *//
-               |  p
-               |  s/.*/import $replacement.$classname/
+    runSed(s"""|/import $original\\.{.*$classname.*}/ {
+               | s/, *$classname//
+               | s/$classname, *//
+               | p
+               | s/.*/import $replacement.$classname/
                |}""".stripMargin)
 
   }
