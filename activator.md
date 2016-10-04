@@ -1,5 +1,5 @@
 ---
-title: longevity activator tutorial
+title: longevity activator tutorials
 layout: page
 ---
 
