@@ -2,11 +2,11 @@ package longevity.unit
 
 package object blogCore {
 
-  import longevity.subdomain.embeddable.Entity
-  import longevity.subdomain.embeddable.EntityType
+  import longevity.subdomain.embeddable.Embeddable
+  import longevity.subdomain.embeddable.EType
   import longevity.subdomain.embeddable.ETypePool
-  import longevity.subdomain.embeddable.ValueObject
-  import longevity.subdomain.embeddable.ValueType
+  import longevity.subdomain.embeddable.Embeddable
+  import longevity.subdomain.embeddable.EType
   import longevity.subdomain.KeyVal
   import longevity.subdomain.Subdomain
   import longevity.subdomain.persistent.Root
@@ -19,9 +19,9 @@ package object blogCore {
   case class Username(username: String)
   extends KeyVal[User, Username](User.keys.username)
 
-  case class Markdown(markdown: String) extends ValueObject
+  case class Markdown(markdown: String) extends Embeddable
 
-  case class Uri(uri: String) extends ValueObject
+  case class Uri(uri: String) extends Embeddable
 
   implicit def toEmail(email: String) = Email(email)
   implicit def toUsername(username: String) = Username(username)
@@ -50,7 +50,7 @@ package object blogCore {
     tagline: String,
     imageUri: Uri,
     description: Markdown)
-  extends Entity
+  extends Embeddable
 
   case class BlogUri(uri: Uri)
   extends KeyVal[Blog, BlogUri](Blog.keys.uri)
@@ -100,6 +100,6 @@ package object blogCore {
   object BlogCore extends Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    ETypePool(ValueType[Markdown], ValueType[Uri], EntityType[UserProfile]))
+    ETypePool(EType[Markdown], EType[Uri], EType[UserProfile]))
 
 }

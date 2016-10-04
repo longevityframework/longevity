@@ -1,5 +1,5 @@
 package longevity.integration.subdomain.shorthandSets
 
-import longevity.subdomain.embeddable.ValueObject
+import longevity.subdomain.embeddable.Embeddable
 
-case class CharShorthand(char: Char) extends ValueObject
+case class CharShorthand(char: Char) extends Embeddable

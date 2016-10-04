@@ -1,4 +1,6 @@
-package longevity.subdomain.embeddable
+package longevity.ddd.subdomain
+
+import longevity.subdomain.embeddable.Embeddable
 
 /** a domain entity. this is an empty, marker trait */
 trait Entity extends Embeddable

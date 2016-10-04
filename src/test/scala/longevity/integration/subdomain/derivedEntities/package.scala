@@ -8,15 +8,15 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.ptype.PTypePool
 
 /** covers a root entity with a poly type and multiple derived types */
-package object derivedEntities {
+package object derived {
 
   val subdomain = Subdomain(
-    "Derived Entities",
+    "Derived",
     PTypePool(PolyRoot, FirstDerivedRoot, SecondDerivedRoot),
     ETypePool(
-      PolyEType[PolyEntity],
-      DerivedEType[FirstDerivedEntity, PolyEntity],
-      DerivedEType[SecondDerivedEntity, PolyEntity]))
+      PolyEType[PolyEmbeddable],
+      DerivedEType[FirstDerivedEmbeddable, PolyEmbeddable],
+      DerivedEType[SecondDerivedEmbeddable, PolyEmbeddable]))
 
   val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 

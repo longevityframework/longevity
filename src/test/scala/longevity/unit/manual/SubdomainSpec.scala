@@ -192,13 +192,13 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/entities.html
   object entities {
 
-    import longevity.subdomain.embeddable.Entity
+    import longevity.subdomain.embeddable.Embeddable
 
     case class UserProfile(
       tagline: String,
       imageUri: String,
       description: String)
-    extends Entity
+    extends Embeddable
 
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.RootType
@@ -217,11 +217,11 @@ object SubdomainSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.embeddable.EntityType
+    import longevity.subdomain.embeddable.EType
     import longevity.subdomain.embeddable.ETypePool
     import longevity.subdomain.ptype.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EntityType[UserProfile]))
+    val subdomain = Subdomain("blogging", PTypePool(User), ETypePool(EType[UserProfile]))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/embeddables/value-objects.html
@@ -229,22 +229,22 @@ object SubdomainSpec {
 
     import longevity.subdomain.Subdomain
     import longevity.subdomain.embeddable.ETypePool
-    import longevity.subdomain.embeddable.ValueObject
-    import longevity.subdomain.embeddable.ValueType
+    import longevity.subdomain.embeddable.Embeddable
+    import longevity.subdomain.embeddable.EType
     import longevity.subdomain.persistent.Root
     import longevity.subdomain.ptype.PTypePool
     import longevity.subdomain.ptype.RootType
 
-    case class Email(email: String) extends ValueObject
-    case class StateCode(stateCode: String) extends ValueObject
-    case class ZipCode(zipCode: String) extends ValueObject
+    case class Email(email: String) extends Embeddable
+    case class StateCode(stateCode: String) extends Embeddable
+    case class ZipCode(zipCode: String) extends Embeddable
 
     case class Address(
       street: String,
       city: String,
       state: StateCode,
       zip: ZipCode)
-    extends ValueObject
+    extends Embeddable
 
     case class User(
       username: String,
@@ -262,7 +262,7 @@ object SubdomainSpec {
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      ETypePool(ValueType[Email], ValueType[StateCode], ValueType[ZipCode], ValueType[Address]))
+      ETypePool(EType[Email], EType[StateCode], EType[ZipCode], EType[Address]))
   }
 
 }

@@ -1,5 +1,5 @@
 package longevity.integration.subdomain.componentWithList
 
-import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.embeddable.Embeddable
 
-case class Component(id: String, tags: List[String]) extends Entity
+case class Component(id: String, tags: List[String]) extends Embeddable

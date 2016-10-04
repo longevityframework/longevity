@@ -1,11 +1,11 @@
-package longevity.integration.subdomain.derivedEntities
+package longevity.integration.subdomain.derived
 
 import longevity.subdomain.ptype.DerivedPType
 
 case class SecondDerivedRoot(
   id: PolyRootId,
   second: String,
-  component: PolyEntity)
+  component: PolyEmbeddable)
 extends PolyRoot
 
 object SecondDerivedRoot extends DerivedPType[SecondDerivedRoot, PolyRoot] {

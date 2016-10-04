@@ -1,5 +1,5 @@
 package longevity.integration.subdomain.componentShorthands
 
-import longevity.subdomain.embeddable.ValueObject
+import longevity.subdomain.embeddable.Embeddable
 
-case class Uri(id: String) extends ValueObject
+case class Uri(id: String) extends Embeddable

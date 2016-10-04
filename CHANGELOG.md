@@ -7,8 +7,9 @@
 - 2016.10.04 - Move `CoreDomain`, `GenericSubdomain`, and
   `SupportingSubdomain` from package `longevity.subdomain` to
   `longevity.ddd.subdomain`.
-
-- 2016.10.04 - 
+- 2016.10.04 - Move `Entity`, `EntityType`, `ValueObject`, and
+  `ValueType` from package `longevity.subdomain.embeddable` to
+  `longevity.ddd.subdomain`.
 - 2016.10.04 - 
 - 2016.10.04 - 
 

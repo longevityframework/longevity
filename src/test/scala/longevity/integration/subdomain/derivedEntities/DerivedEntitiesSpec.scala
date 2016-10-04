@@ -1,4 +1,4 @@
-package longevity.integration.subdomain.derivedEntities
+package longevity.integration.subdomain.derived
 
 import org.scalatest.Suites
 import scala.concurrent.ExecutionContext.Implicits.global

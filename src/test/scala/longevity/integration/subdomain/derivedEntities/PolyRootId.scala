@@ -1,4 +1,4 @@
-package longevity.integration.subdomain.derivedEntities
+package longevity.integration.subdomain.derived
 
 import longevity.subdomain.KeyVal
 

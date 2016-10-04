@@ -12,17 +12,17 @@ object RepoSpec {
   import org.joda.time.DateTime
   import longevity.subdomain.KeyVal
   import longevity.subdomain.Subdomain
-  import longevity.subdomain.embeddable.Entity
-  import longevity.subdomain.embeddable.EntityType
+  import longevity.subdomain.embeddable.Embeddable
+  import longevity.subdomain.embeddable.EType
   import longevity.subdomain.embeddable.ETypePool
-  import longevity.subdomain.embeddable.ValueObject
-  import longevity.subdomain.embeddable.ValueType
+  import longevity.subdomain.embeddable.Embeddable
+  import longevity.subdomain.embeddable.EType
   import longevity.subdomain.persistent.Root
   import longevity.subdomain.ptype.PTypePool
   import longevity.subdomain.ptype.RootType
 
-  case class Markdown(markdown: String) extends ValueObject
-  case class Uri(uri: String) extends ValueObject
+  case class Markdown(markdown: String) extends Embeddable
+  case class Uri(uri: String) extends Embeddable
 
   import longevity.subdomain.KeyVal
 
@@ -54,7 +54,7 @@ object RepoSpec {
     tagline: String,
     imageUri: Uri,
     description: Markdown)
-  extends Entity
+  extends Embeddable
 
   case class BlogUri(uri: Uri)
   extends KeyVal[Blog, BlogUri](Blog.keys.uri)
@@ -106,7 +106,7 @@ object RepoSpec {
   val blogCore = Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    ETypePool(ValueType[Markdown], ValueType[Uri], EntityType[UserProfile]))
+    ETypePool(EType[Markdown], EType[Uri], EType[UserProfile]))
 
   import longevity.context.LongevityContext
 

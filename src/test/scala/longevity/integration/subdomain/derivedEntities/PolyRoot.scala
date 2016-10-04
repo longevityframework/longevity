@@ -1,4 +1,4 @@
-package longevity.integration.subdomain.derivedEntities
+package longevity.integration.subdomain.derived
 
 import longevity.subdomain.ptype.PolyPType
 import longevity.subdomain.persistent.Root
@@ -6,7 +6,7 @@ import longevity.subdomain.ptype.RootType
 
 trait PolyRoot extends Root {
   val id: PolyRootId
-  val component: PolyEntity
+  val component: PolyEmbeddable
 }
 
 object PolyRoot extends RootType[PolyRoot] with PolyPType[PolyRoot] {

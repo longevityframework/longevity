@@ -3,7 +3,7 @@ package longevity.integration.poly
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
-import longevity.integration.subdomain.derivedEntities
+import longevity.integration.subdomain.derived
 import longevity.persistence.RepoPool
 import longevity.subdomain.ptype.Query
 import longevity.test.LongevityIntegrationSpec
@@ -13,9 +13,9 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 object PolyReposSpec {
 
   case class DerivedNotInSubdomain(
-    id: derivedEntities.PolyRootId,
-    component: derivedEntities.PolyEntity)
-  extends derivedEntities.PolyRoot
+    id: derived.PolyRootId,
+    component: derived.PolyEmbeddable)
+  extends derived.PolyRoot
 
 }
 
@@ -33,10 +33,10 @@ extends FlatSpec with LongevityIntegrationSpec {
   behavior of "Repo[PolyRoot].retrieve"
 
   it should "retrieve by KeyVal a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
+    val firstDerivedRoot = testDataGenerator.generate[derived.FirstDerivedRoot]
+    val createdPState = repoPool[derived.FirstDerivedRoot].create(firstDerivedRoot).futureValue
 
-    val retrievedPStateOpt = repoPool[derivedEntities.PolyRoot].retrieve(firstDerivedRoot.id).futureValue
+    val retrievedPStateOpt = repoPool[derived.PolyRoot].retrieve(firstDerivedRoot.id).futureValue
     retrievedPStateOpt should be ('nonEmpty)
     retrievedPStateOpt.get.get should equal (firstDerivedRoot)
   } 
@@ -44,10 +44,10 @@ extends FlatSpec with LongevityIntegrationSpec {
   behavior of "Repo[FirstDerivedRoot].retrieve"
 
   it should "retrieve by KeyVal a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+    val firstDerivedRoot = testDataGenerator.generate[derived.FirstDerivedRoot]
+    val createdPState = repoPool[derived.PolyRoot].create(firstDerivedRoot).futureValue
 
-    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(
+    val retrievedPStateOpt = repoPool[derived.FirstDerivedRoot].retrieve(
       firstDerivedRoot.component.id
     ).futureValue
     retrievedPStateOpt should be ('nonEmpty)
@@ -55,10 +55,10 @@ extends FlatSpec with LongevityIntegrationSpec {
   } 
 
   it should "not retrieve a SecondDerivedRoot by KeyVal[FirstDerivedRoot]" in {
-    val secondDerivedRoot = testDataGenerator.generate[derivedEntities.SecondDerivedRoot]
-    val createdPState = repoPool[derivedEntities.SecondDerivedRoot].create(secondDerivedRoot).futureValue
+    val secondDerivedRoot = testDataGenerator.generate[derived.SecondDerivedRoot]
+    val createdPState = repoPool[derived.SecondDerivedRoot].create(secondDerivedRoot).futureValue
 
-    val retrievedPStateOpt = repoPool[derivedEntities.FirstDerivedRoot].retrieve(
+    val retrievedPStateOpt = repoPool[derived.FirstDerivedRoot].retrieve(
       secondDerivedRoot.component.id
     ).futureValue
     retrievedPStateOpt should be ('empty)
@@ -67,13 +67,13 @@ extends FlatSpec with LongevityIntegrationSpec {
   behavior of "Repo[PolyRoot].retrieveByQuery"
 
   it should "retrieve a FirstDerivedRoot persisted by Repo[FirstDerivedRoot]" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.FirstDerivedRoot].create(firstDerivedRoot).futureValue
+    val firstDerivedRoot = testDataGenerator.generate[derived.FirstDerivedRoot]
+    val createdPState = repoPool[derived.FirstDerivedRoot].create(firstDerivedRoot).futureValue
 
-    val query: Query[derivedEntities.PolyRoot] =
-      Query.eqs(derivedEntities.PolyRoot.props.id, firstDerivedRoot.id)
+    val query: Query[derived.PolyRoot] =
+      Query.eqs(derived.PolyRoot.props.id, firstDerivedRoot.id)
 
-    val retrievedPStateSeq = repoPool[derivedEntities.PolyRoot].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.PolyRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedRoot)
   } 
@@ -81,52 +81,52 @@ extends FlatSpec with LongevityIntegrationSpec {
   behavior of "Repo[FirstDerivedRoot].retrieveByQuery"
 
   it should "retrieve a FirstDerivedRoot persisted by Repo[PolyRoot]" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+    val firstDerivedRoot = testDataGenerator.generate[derived.FirstDerivedRoot]
+    val createdPState = repoPool[derived.PolyRoot].create(firstDerivedRoot).futureValue
 
-    val query: Query[derivedEntities.FirstDerivedRoot] =
-      Query.eqs(derivedEntities.FirstDerivedRoot.props.componentId, firstDerivedRoot.component.id)
+    val query: Query[derived.FirstDerivedRoot] =
+      Query.eqs(derived.FirstDerivedRoot.props.componentId, firstDerivedRoot.component.id)
 
-    val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.FirstDerivedRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedRoot)
   } 
 
   it should "not retrieve a SecondDerivedRoot" in {
-    val secondDerivedRoot = testDataGenerator.generate[derivedEntities.SecondDerivedRoot]
-    val createdPState = repoPool[derivedEntities.PolyRoot].create(secondDerivedRoot).futureValue
+    val secondDerivedRoot = testDataGenerator.generate[derived.SecondDerivedRoot]
+    val createdPState = repoPool[derived.PolyRoot].create(secondDerivedRoot).futureValue
 
-    val query: Query[derivedEntities.FirstDerivedRoot] =
-      Query.eqs(derivedEntities.FirstDerivedRoot.props.componentId, secondDerivedRoot.component.id)
+    val query: Query[derived.FirstDerivedRoot] =
+      Query.eqs(derived.FirstDerivedRoot.props.componentId, secondDerivedRoot.component.id)
 
-    val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.FirstDerivedRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (0)
   } 
 
   it should "retrieve a FirstDerivedRoot by Query with mixed props" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+    val firstDerivedRoot = testDataGenerator.generate[derived.FirstDerivedRoot]
+    val createdPState = repoPool[derived.PolyRoot].create(firstDerivedRoot).futureValue
 
-    val query: Query[derivedEntities.FirstDerivedRoot] =
+    val query: Query[derived.FirstDerivedRoot] =
       Query.and(
-        Query.eqs(derivedEntities.FirstDerivedRoot.props.componentId, firstDerivedRoot.component.id),
-        Query.eqs(derivedEntities.PolyRoot.props.id, firstDerivedRoot.id))
+        Query.eqs(derived.FirstDerivedRoot.props.componentId, firstDerivedRoot.component.id),
+        Query.eqs(derived.PolyRoot.props.id, firstDerivedRoot.id))
 
-    val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.FirstDerivedRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedRoot)
   } 
 
   it should "retrieve a FirstDerivedRoot by Query DSL with mixed props" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+    val firstDerivedRoot = testDataGenerator.generate[derived.FirstDerivedRoot]
+    val createdPState = repoPool[derived.PolyRoot].create(firstDerivedRoot).futureValue
 
-    import derivedEntities.FirstDerivedRoot.queryDsl._
-    val query: Query[derivedEntities.FirstDerivedRoot] =
-      derivedEntities.FirstDerivedRoot.props.componentId eqs firstDerivedRoot.component.id and
-      derivedEntities.PolyRoot.props.id eqs firstDerivedRoot.id
+    import derived.FirstDerivedRoot.queryDsl._
+    val query: Query[derived.FirstDerivedRoot] =
+      derived.FirstDerivedRoot.props.componentId eqs firstDerivedRoot.component.id and
+      derived.PolyRoot.props.id eqs firstDerivedRoot.id
 
-    val retrievedPStateSeq = repoPool[derivedEntities.FirstDerivedRoot].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.FirstDerivedRoot].retrieveByQuery(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedRoot)
   } 
@@ -137,27 +137,27 @@ extends FlatSpec with LongevityIntegrationSpec {
     val derivedNotInSubdomain = generateDerivedNotInSubdomain
 
     intercept[NotInSubdomainTranslationException] {
-      repoPool[derivedEntities.PolyRoot].create(derivedNotInSubdomain)
+      repoPool[derived.PolyRoot].create(derivedNotInSubdomain)
     }
   } 
 
   behavior of "Repo[PolyRoot].update"
 
   it should "throw exception on attempt to change the derived type of the PState" in {
-    val firstDerivedRoot = testDataGenerator.generate[derivedEntities.FirstDerivedRoot]
-    val createdPState = repoPool[derivedEntities.PolyRoot].create(firstDerivedRoot).futureValue
+    val firstDerivedRoot = testDataGenerator.generate[derived.FirstDerivedRoot]
+    val createdPState = repoPool[derived.PolyRoot].create(firstDerivedRoot).futureValue
 
-    val secondDerivedRoot = testDataGenerator.generate[derivedEntities.SecondDerivedRoot]
+    val secondDerivedRoot = testDataGenerator.generate[derived.SecondDerivedRoot]
     val modifiedPState = createdPState.set(secondDerivedRoot)
 
     intercept[PStateChangesDerivedPTypeException] {
-      repoPool[derivedEntities.PolyRoot].update(modifiedPState)
+      repoPool[derived.PolyRoot].update(modifiedPState)
     }
   } 
 
   private def generateDerivedNotInSubdomain =
     PolyReposSpec.DerivedNotInSubdomain(
-      testDataGenerator.generate[derivedEntities.PolyRootId],
-      testDataGenerator.generate[derivedEntities.PolyEntity])
+      testDataGenerator.generate[derived.PolyRootId],
+      testDataGenerator.generate[derived.PolyEmbeddable])
 
 }
