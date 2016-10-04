@@ -3,35 +3,22 @@ title: persistent types
 layout: page
 ---
 
-Every one of the traits in the `Persistent` hierarchy has a
-corresponding type-class. That type hierarchy looks like so:
-
-- `PType`
-  - `RootType`
-  - `EventType`
-  - `View`
-
-The persistent types contain meta-information about those
-entities. Let's look at a simple example to see how this works.
-
-We're building a blogging application, and our earliest user stories
-to implement revolve around creating and setting up user accounts. The
-first part of our domain that we want to flesh out is the User
-aggregate. We start out by giving the user three basic fields:
-`username`, `firstName`, and `lastName`. When we create our aggregate
-root, we need to mark it as a `Root`:
+Every `Persistent` type you create should have a corresponding
+persistent type, or `PType`. Persistent types contain
+meta-information about those entities. Let's look at a simple example
+to see how this works. For example, here we have a simple `User` class:
 
 ```scala
-import longevity.subdomain.persistent.Root
+import longevity.subdomain.Persistent
 
 case class User(
   username: String,
   firstName: String,
   lastName: String)
-extends Root
+extends Persistent
 ```
 
-Now we need to build a corresponding `RootType`. By convention, we
+We need to build a corresponding `PType` for the `User`. By convention, we
 designate the companion object as the `PType`. For now, we won't
 provide any information in our persistent type, but we still need to
 declare our [properties](../ptype/properties.html) and
@@ -39,9 +26,9 @@ declare our [properties](../ptype/properties.html) and
 providing empty `props` and `keys` objects inside the `PType`:
 
 ```scala
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.PType
 
-object User extends RootType[User] {
+object User extends PType[User] {
   object props {
   }
   object keys {
@@ -54,7 +41,7 @@ subdomain](../subdomain.html), so that longevity is aware of them:
 
 ```scala
 import longevity.subdomain.Subdomain
-import longevity.subdomain.ptype.PTypePool
+import longevity.subdomain.PTypePool
 
 val subdomain = Subdomain("blogging", PTypePool(User))
 ```
@@ -63,10 +50,10 @@ All we need to do now is to [slap our `Subdomain` into a
 `LongevityContext`](../context), and we are ready to start persisting
 users, as we will see in a [later chapter](../repo).
 
-{% assign prevTitle = "kinds of persistent objects" %}
-{% assign prevLink = "kinds.html" %}
-{% assign upTitle = "persistent objects" %}
-{% assign upLink = "." %}
+{% assign prevTitle = "persistent objects" %}
+{% assign prevLink = "." %}
+{% assign upTitle = "user manual" %}
+{% assign upLink = ".." %}
 {% assign nextTitle = "basic properties" %}
 {% assign nextLink = "../basics.html" %}
 {% include navigate.html %}

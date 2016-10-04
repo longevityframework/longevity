@@ -22,9 +22,9 @@ For example, we might add a few fields to our `User` like so:
 
 ```scala
 import longevity.subdomain.Subdomain
-import longevity.subdomain.persistent.Root
-import longevity.subdomain.ptype.PTypePool
-import longevity.subdomain.ptype.RootType
+import longevity.subdomain.Persistent
+import longevity.subdomain.PTypePool
+import longevity.subdomain.PType
 import org.joda.time.DateTime
 
 case class User(

@@ -34,15 +34,15 @@ repository CRUD operations. And we provide you with a framework for
 testing any queries that are important to your application.
 
 We borrow "subdomain" and "context" terminology from [Domain Driven
-Design](http://dddcommunity.org/), and we support DDD concepts and
-terminology in many other places. But it's important to note that
-longevity is primarily a persistence framework, and you don't have to
-be doing DDD to use it. The key principle that we take from DDD is
-that our domain classes should express our domain model as closely as
-possible, and should be isolated from application-level
-concerns. Whether or not you are doing DDD, we think you will find
-that this kind of separation of concerns will help you build solid,
-long-lasting applications.
+Design](http://dddcommunity.org/), and the concepts of DDD have
+influenced the design of longevity itself. But it's important to note
+that longevity is primarily a persistence framework, and you don't
+have to know or care about DDD to use it. The key principle that we
+take from DDD is that our domain classes should express our domain
+model as closely as possible, and should be isolated from
+application-level concerns. Whether or not you are doing DDD, we think
+you will find that this kind of separation of concerns will help you
+build solid, long-lasting applications.
 
 {% assign prevTitle = "user manual" %}
 {% assign prevLink = "./" %}
