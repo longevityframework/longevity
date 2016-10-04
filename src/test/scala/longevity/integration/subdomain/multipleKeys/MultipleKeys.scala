@@ -1,12 +1,12 @@
 package longevity.integration.subdomain.multipleKeys
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class MultipleKeys(
   id: MultipleKeysId,
   username: Username)
-extends Root
+extends Persistent
 
 object MultipleKeys extends PType[MultipleKeys] {
   object props {

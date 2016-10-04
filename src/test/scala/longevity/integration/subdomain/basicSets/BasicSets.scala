@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.basicSets
 
 import com.github.nscala_time.time.Imports._
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class BasicSets(
@@ -14,7 +14,7 @@ case class BasicSets(
   long: Set[Long],
   string: Set[String],
   dateTime: Set[DateTime])
-extends Root
+extends Persistent
 
 object BasicSets extends PType[BasicSets] {
   object props {

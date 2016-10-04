@@ -12,7 +12,7 @@ package object derived {
 
   val subdomain = Subdomain(
     "Derived",
-    PTypePool(PolyRoot, FirstDerivedRoot, SecondDerivedRoot),
+    PTypePool(PolyPersistent, FirstDerivedPersistent, SecondDerivedPersistent),
     ETypePool(
       PolyEType[PolyEmbeddable],
       DerivedEType[FirstDerivedEmbeddable, PolyEmbeddable],

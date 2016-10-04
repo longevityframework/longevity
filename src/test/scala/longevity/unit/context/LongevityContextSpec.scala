@@ -7,7 +7,7 @@ import longevity.context.LongevityContext
 import longevity.context.Mongo
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PTypePool
 import longevity.subdomain.PType
 import org.json4s.JsonAST.JObject
@@ -24,7 +24,7 @@ object LongevityContextSpec {
 
     case class AId(id: String) extends KeyVal[A, AId](A.keys.id)
 
-    case class A(id: AId) extends Root
+    case class A(id: AId) extends Persistent
     object A extends PType[A] {
       object props {
         val id = prop[AId]("id")

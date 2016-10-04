@@ -1,12 +1,12 @@
 package longevity.integration.noTranslation
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class WithNoTranslationList(
   uri: String,
   noTranslationList: List[NoTranslation])
-extends Root
+extends Persistent
 
 object WithNoTranslationList extends PType[WithNoTranslationList] {
   object props {

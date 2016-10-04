@@ -20,7 +20,7 @@ object PTypeSpec {
     case class Uri(uri: String) extends Embeddable
 
     import longevity.subdomain.Embeddable
-    import longevity.ddd.subdomain.Root
+    import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class UserProfile(
@@ -33,7 +33,7 @@ object PTypeSpec {
       username: String,
       email: Email,
       profile: UserProfile)
-    extends Root
+    extends Persistent
 
     object User extends PType[User] {
       object props {
@@ -66,7 +66,7 @@ object PTypeSpec {
   object keys1 {
 
     import longevity.subdomain.KeyVal
-    import longevity.ddd.subdomain.Root
+    import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class Username(username: String)
@@ -76,7 +76,7 @@ object PTypeSpec {
       username: Username,
       firstName: String,
       lastName: String)
-    extends Root
+    extends Persistent
 
     object User extends PType[User] {
       object props {
@@ -97,7 +97,7 @@ object PTypeSpec {
   object keys2 {
 
     import longevity.subdomain.KeyVal
-    import longevity.ddd.subdomain.Root
+    import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class Username(username: String)
@@ -109,7 +109,7 @@ object PTypeSpec {
     case class User(
       username: Username,
       fullName: FullName)
-    extends Root
+    extends Persistent
 
     object User extends PType[User] {
       object props {
@@ -132,7 +132,7 @@ object PTypeSpec {
   object indexes1 {
 
     import longevity.subdomain.KeyVal
-    import longevity.ddd.subdomain.Root
+    import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class Username(username: String)
@@ -142,7 +142,7 @@ object PTypeSpec {
       username: Username,
       firstName: String,
       lastName: String)
-    extends Root
+    extends Persistent
 
     object User extends PType[User] {
       object props {
@@ -167,13 +167,13 @@ object PTypeSpec {
   // used in http://longevityframework.github.io/longevity/manual/root-type/key-sets-and-index-sets.html
   object sets1 {
 
-    import longevity.ddd.subdomain.Root
+    import longevity.subdomain.Persistent
 
     case class User(
       username: String,
       firstName: String,
       lastName: String)
-    extends Root
+    extends Persistent
 
     import longevity.subdomain.ptype.Index
     import longevity.subdomain.ptype.AnyKey
@@ -196,7 +196,7 @@ object PTypeSpec {
   object sets2 {
 
     import longevity.subdomain.KeyVal
-    import longevity.ddd.subdomain.Root
+    import longevity.subdomain.Persistent
     import longevity.subdomain.ptype.AnyKey
     import longevity.subdomain.ptype.Prop
     import longevity.subdomain.PType
@@ -212,7 +212,7 @@ object PTypeSpec {
       email: Email,
       firstName: String,
       lastName: String)
-    extends Root
+    extends Persistent
 
     object User extends PType[User] {
       val usernameProp = prop[Username]("username")

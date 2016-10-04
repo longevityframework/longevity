@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.shorthandLists
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class ShorthandLists(
@@ -13,7 +13,7 @@ case class ShorthandLists(
   long: List[LongShorthand],
   string: List[StringShorthand],
   dateTime: List[DateTimeShorthand])
-extends Root
+extends Persistent
 
 object ShorthandLists extends PType[ShorthandLists] {
   object props {

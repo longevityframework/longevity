@@ -1,12 +1,12 @@
 package longevity.integration.subdomain.indexWithMultipleProperties
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class IndexWithMultipleProperties(
   realm: String,
   name: String)
-extends Root
+extends Persistent
 
 object IndexWithMultipleProperties extends PType[IndexWithMultipleProperties] {
   object props {

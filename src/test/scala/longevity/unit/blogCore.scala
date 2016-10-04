@@ -9,7 +9,7 @@ package object blogCore {
   import longevity.subdomain.EType
   import longevity.subdomain.KeyVal
   import longevity.subdomain.Subdomain
-  import longevity.ddd.subdomain.Root
+  import longevity.subdomain.Persistent
   import longevity.subdomain.PTypePool
   import longevity.subdomain.PType
 
@@ -33,7 +33,7 @@ package object blogCore {
     email: Email,
     fullname: String,
     profile: Option[UserProfile] = None)
-  extends Root
+  extends Persistent
 
   object User extends PType[User] {
     object props {
@@ -60,7 +60,7 @@ package object blogCore {
     title: String,
     description: Markdown,
     authors: Set[Username])
-  extends Root
+  extends Persistent
 
   object Blog extends PType[Blog] {
     object props {
@@ -82,7 +82,7 @@ package object blogCore {
     labels: Set[String] = Set(),
     blog: BlogUri,
     authors: Set[Username])
-  extends Root
+  extends Persistent
 
   object BlogPost extends PType[BlogPost] {
     object props {

@@ -15,13 +15,13 @@ object KeyValSpec {
     case class Username(username: String)
     extends KeyVal[User, Username](User.keys.username)
 
-    import longevity.ddd.subdomain.Root
+    import longevity.subdomain.Persistent
 
     case class User(
       username: Username,
       firstName: String,
       lastName: String)
-    extends Root
+    extends Persistent
 
     import longevity.subdomain.PType
 
@@ -49,14 +49,14 @@ object KeyValSpec {
     case class Username(username: String)
     extends KeyVal[User, Username](User.keys.username)
 
-    import longevity.ddd.subdomain.Root
+    import longevity.subdomain.Persistent
 
     case class User(
       username: Username,
       firstName: String,
       lastName: String,
       sponsor: Option[Username])
-    extends Root
+    extends Persistent
 
     import longevity.subdomain.PType
 

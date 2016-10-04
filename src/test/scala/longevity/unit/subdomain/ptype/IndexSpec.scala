@@ -1,6 +1,6 @@
 package longevity.unit.subdomain.ptype
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -16,7 +16,7 @@ object IndexSpec {
     float: Float,
     int: Int,
     long: Long)
-  extends Root
+  extends Persistent
 
   object IndexSampler extends PType[IndexSampler] {
     val booleanProp = IndexSampler.prop[Boolean]("boolean")

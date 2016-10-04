@@ -18,7 +18,7 @@ class QueryDsl[P <: Persistent] {
   /** gathering the rest of a relational expression on a property, such as
    *
    * ```
-   * object User extends RootType[User] {
+   * object User extends PType[User] {
    *   object props {
    *     val accountNumber = prop[String]("account.number")
    *   }

@@ -1,13 +1,13 @@
 package longevity.integration.subdomain.complexConstraint
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class ComplexConstraint(
   id: ComplexConstraintId,
   primaryEmail: Email,
   emails: Set[Email])
-extends Root {
+extends Persistent {
   if (!emails.contains(primaryEmail))
     throw new ConstraintValidationException("primary email is not in emails")
 }

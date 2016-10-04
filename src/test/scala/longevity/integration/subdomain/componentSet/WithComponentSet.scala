@@ -1,12 +1,12 @@
 package longevity.integration.subdomain.componentSet
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class WithComponentSet(
   id: WithComponentSetId,
   components: Set[Component])
-extends Root
+extends Persistent
 
 object WithComponentSet extends PType[WithComponentSet] {
   object props {

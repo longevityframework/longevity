@@ -1,12 +1,12 @@
 package longevity.integration.subdomain.foreignKeyOption
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class WithForeignKeyOption(
   id: WithForeignKeyOptionId,
   associated: Option[AssociatedId])
-extends Root
+extends Persistent
 
 object WithForeignKeyOption extends PType[WithForeignKeyOption] {
   object props {

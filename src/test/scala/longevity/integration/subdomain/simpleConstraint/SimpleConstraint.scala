@@ -1,13 +1,13 @@
 package longevity.integration.subdomain.simpleConstraint
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class SimpleConstraint(
   id: SimpleConstraintId,
   primaryEmail: Email,
   emails: Set[Email])
-extends Root
+extends Persistent
 
 object SimpleConstraint extends PType[SimpleConstraint] {
   object props {

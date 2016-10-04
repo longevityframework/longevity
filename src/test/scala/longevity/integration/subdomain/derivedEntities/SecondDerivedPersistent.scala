@@ -2,13 +2,13 @@ package longevity.integration.subdomain.derived
 
 import longevity.subdomain.DerivedPType
 
-case class SecondDerivedRoot(
-  id: PolyRootId,
+case class SecondDerivedPersistent(
+  id: PolyPersistentId,
   second: String,
   component: PolyEmbeddable)
-extends PolyRoot
+extends PolyPersistent
 
-object SecondDerivedRoot extends DerivedPType[SecondDerivedRoot, PolyRoot] {
+object SecondDerivedPersistent extends DerivedPType[SecondDerivedPersistent, PolyPersistent] {
   object props {
     val second = prop[String]("second")
   }

@@ -1,12 +1,12 @@
 package longevity.integration.subdomain.shorthandWithComponent
 
-import longevity.ddd.subdomain.Root
+import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class WithShorthandWithComponent(
   id: WithShorthandWithComponentId,
   shorthandWithComponent: ShorthandWithComponent)
-extends Root
+extends Persistent
 
 object WithShorthandWithComponent extends PType[WithShorthandWithComponent] {
   object props {
