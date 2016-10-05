@@ -23,8 +23,11 @@
 - 2016.10.04 - Move `DerivedPType`, `PType`, `PTypePool`, and
   `PolyPType` from package `longevity.subdomain.ptype` to
   `longevity.subdomain`.
-- 2016.10.04 - 
-- 2016.10.04 - 
+- 2016.10.04 - Move package `longevity.ddd.subdomain` into a separate
+  project called `longevity-ddd`. If you want to continue using the
+  wrapper classes found there, please add the following dependency to
+  your project: `libraryDependencies += "org.longevityframework" %%
+  "longevity" % "x.y.z"`.
 
 ## [0.13.1] - 2016.10.03 - Reflection Bugfix
 
