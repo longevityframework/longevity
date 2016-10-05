@@ -27,7 +27,7 @@
   project called `longevity-ddd`. If you want to continue using the
   wrapper classes found there, please add the following dependency to
   your project: `libraryDependencies += "org.longevityframework" %%
-  "longevity" % "x.y.z"`.
+  "longevity-ddd" % "x.y.z"`.
 
 ## [0.13.1] - 2016.10.03 - Reflection Bugfix
 
