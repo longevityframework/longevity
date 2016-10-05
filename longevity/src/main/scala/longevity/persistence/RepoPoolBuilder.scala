@@ -138,7 +138,7 @@ private[longevity] object RepoPoolBuilder {
       import scala.concurrent.Await
       import scala.concurrent.duration.Duration
       import scala.concurrent.ExecutionContext.Implicits.global
-      Await.result(repoPool.createSchema(), Duration(5, "seconds"))
+      Await.result(repoPool.createSchema(), Duration(10, "seconds"))
     }
   }
 

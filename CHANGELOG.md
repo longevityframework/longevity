@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.14-SNAPSHOT] - Query Enhancements
+## [0.14-SNAPSHOT] - Subdomain Repackaging
 
 - 2016.10.04 - Rename `DerivedType` to `DerivedEType`. Rename
   `PolyType` to `PolyEType`.
