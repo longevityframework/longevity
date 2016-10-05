@@ -1,16 +1,16 @@
 ---
-title: building the user aggregate
+title: building the user
 layout: page
 ---
 
-The user aggregate has four parts: the `User`, the `UserProfile`, and
-two natural keys: the `Username` and the `Email`.  Let's focus on the
-`User` first, since that is the heart of the aggregate:
+The user has four parts: the `User`, the `UserProfile`, and two
+natural keys: the `Username` and the `Email`.  Let's focus on the
+`User` first:
 
 ```scala
 package simbl.domain
 
-import longevity.subdomain.persistent.Persistent
+import longevity.subdomain.Persistent
 
 case class User(
   username: Username,
@@ -40,7 +40,7 @@ information that pertains not to an individual user, but to a
 collection of them:
 
 ```scala
-import longevity.subdomain.ptype.PType
+import longevity.subdomain.PType
 
 object User extends PType[User] {
   object props {

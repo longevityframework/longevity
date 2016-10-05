@@ -12,15 +12,15 @@ typically define them in a singleton object `props` inside the
 `PType`. Here's an example defining a couple of properties:
 
 ```scala
-import longevity.subdomain.embeddable.Entity
-import longevity.subdomain.Persistent
+import longevity.subdomain.Embeddable
 import longevity.subdomain.PType
+import longevity.subdomain.Persistent
 
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
   description: Markdown)
-extends Entity
+extends Embeddable
 
 case class User(
   username: String,
@@ -52,15 +52,12 @@ currently support property types that can boiled down to a distinct
 sequence of [basic values](../basics.html). You cannot currently use
 collection types such as `Option`, `Set`, and `List` anywhere along
 the property path, and the property path cannot terminate with a
-[polymorphic entity](../poly).
+[polymorphic object](../poly).
 
-Properties are used to build [keys](keys.html),
-[indexes](indexes.html), and [queries](../repo/query.html). We're
-interested in looking at a more fluent API for creating properties,
-possibly using
-[dynamics](http://www.scala-lang.org/api/current/index.html#scala.Dynamic)
-and/or
-[macros](http://docs.scala-lang.org/overviews/macros/overview.html).
+We're planning on building these properties for you using
+[macros](http://docs.scala-lang.org/overviews/macros/overview.html). This
+will remove the hassle of declaring properties by hand, and get rid of
+the runtime type check.
 
 {% assign prevTitle = "the persistent type" %}
 {% assign prevLink = "." %}

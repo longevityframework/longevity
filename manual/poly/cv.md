@@ -53,20 +53,20 @@ We just need to add the members of our controlled vocabulary to the
 `ETypePool`:
 
 ```scala
-import longevity.subdomain.Subdomain
-import longevity.subdomain.embeddable.DerivedType
+import longevity.subdomain.DerivedEType
 import longevity.subdomain.ETypePool
-import longevity.subdomain.embeddable.PolyType
 import longevity.subdomain.PTypePool
+import longevity.subdomain.PolyEType
+import longevity.subdomain.Subdomain
 
 val subdomain = Subdomain(
   "accounts",
   PTypePool(Account),
   ETypePool(
-    PolyType[AccountStatus],
-    DerivedType[Active.type, AccountStatus],
-    DerivedType[Suspended.type, AccountStatus],
-    DerivedType[Cancelled.type, AccountStatus]))
+    PolyEType[AccountStatus],
+    DerivedEType[Active.type, AccountStatus],
+    DerivedEType[Suspended.type, AccountStatus],
+    DerivedEType[Cancelled.type, AccountStatus]))
 ```
 
 Having to list all the members of the controlled vocabulary here is

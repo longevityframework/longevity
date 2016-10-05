@@ -6,8 +6,8 @@ layout: page
 The `retrieveByQuery` method we just looked at returns a
 `Future[Seq[PState[P]]]`, which may be convenient in some situations,
 but will certainly not do in a reactive setting, or when your query
-result is too large to store in memory all at once. For most purposes,
-it is probably better to use `streamByQuery` instead. This method
+result is too large to store in memory all at once. In many cases, it
+would probably be better to use `streamByQuery` instead. This method
 returns an `akka.stream.scaladsl.Source`:
 
 ```scala
@@ -15,7 +15,7 @@ import akka.NotUsed
 import akka.stream.scaladsl.Source
 import longevity.persistence.PState
 
-val blog: Blog = ???
+val blog: Blog = getBlogFromSomewhere()
 
 val recentPosts: Source[PState[BlogPost], NotUsed] = blogPostRepo.streamByQuery {
   import com.github.nscala_time.time.Imports._
@@ -91,7 +91,7 @@ declare the dependency in your own project to use the
 `Repo.streamByQuery` method:
 
 ```scala
-libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.8"
+libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.10"
 ```
 
 {% assign prevTitle = "retrieval by query" %}

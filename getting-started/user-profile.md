@@ -3,12 +3,12 @@ title: the user profile
 layout: page
 ---
 
-The user profile is an entity that is part of the user aggregate:
+Here is what our user profile looks like in Scala:
 
 ```scala
 package simbl.domain
 
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 
 case class UserProfile(
   tagline: String,
@@ -28,7 +28,7 @@ here:
 ```scala
 package simbl.domain
 
-import longevity.subdomain.embeddable.Embeddable
+import longevity.subdomain.Embeddable
 
 case class Uri(uri: String) extends Embeddable
 ```

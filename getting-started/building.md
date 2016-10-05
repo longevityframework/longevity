@@ -3,18 +3,17 @@ title: building the subdomain
 layout: page
 ---
 
-Once the elements of our
-[subdomain](../manual/ddd-basics/subdomains-and-bounded-contexts.html)
-have been created, we gather them all together into a `Subdomain`
-object. We do this in `SimblSubdomain`:
+Once all the elements we want to persist have been created, we gather
+them all together into a `Subdomain` object. We do this in
+`SimblSubdomain`:
 
 ```scala
 package simbl.domain
 
+import longevity.subdomain.EType
+import longevity.subdomain.ETypePool
+import longevity.subdomain.PTypePool
 import longevity.subdomain.Subdomain
-import longevity.subdomain.embeddable.ETypePool
-import longevity.subdomain.embeddable.EType
-import longevity.subdomain.ptype.PTypePool
 
 class SimblSubdomain extends Subdomain(
   "Simple Blogging",
@@ -24,10 +23,6 @@ class SimblSubdomain extends Subdomain(
     EType[Uri],
     EType[UserProfile]))   
 ```
-
-`SimblSubdomain` extends abstract class `Subdomain`, which is a
-kind of `Subdomain` that contains the core elements of your enterprise
-domain.
 
 We need to gather up all our `PTypes` into a `PTypePool`. We also
 create `ETypes` for our `Embeddables`, and gather them into an

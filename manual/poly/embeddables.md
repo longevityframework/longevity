@@ -54,14 +54,14 @@ extends Persistent
 
 For this to work, all we need to do is to make longevity aware of our
 polymorphic type `UserVerification`, and its children. All four will
-be embeddables, but we mark the `EType` of the parent as a `PolyType`,
-and that of the children as `DerivedType`:
+be embeddables, but we mark the `EType` of the parent as a `PolyEType`,
+and that of the children as `DerivedEType`:
 
 ```scala
-import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.Embeddable
 import org.joda.time.DateTime
 
-trait UserVerification extends Entity {
+trait UserVerification extends Embeddable {
   val verificationDate: DateTime
 }
 
@@ -81,23 +81,23 @@ case class GoogleSignIn(
   verificationDate: DateTime)
 extends UserVerification
 
-import longevity.subdomain.Subdomain
-import longevity.subdomain.embeddable.DerivedType
+import longevity.subdomain.DerivedEType
+import longevity.subdomain.EType
 import longevity.subdomain.ETypePool
-import longevity.subdomain.embeddable.PolyType
-import longevity.subdomain.embeddable.ValueType
 import longevity.subdomain.PTypePool
+import longevity.subdomain.PolyEType
+import longevity.subdomain.Subdomain
 
 val subdomain = Subdomain(
   "blogging",
   PTypePool(User),
   ETypePool(
-    ValueType[Email],
-    ValueType[PhoneNumber],
-    PolyType[UserVerification],
-    DerivedType[EmailVerification, UserVerification],
-    DerivedType[SmsVerification, UserVerification],
-    DerivedType[GoogleSignIn, UserVerification]))
+    EType[Email],
+    EType[PhoneNumber],
+    PolyEType[UserVerification],
+    DerivedEType[EmailVerification, UserVerification],
+    DerivedEType[SmsVerification, UserVerification],
+    DerivedEType[GoogleSignIn, UserVerification]))
 ```
 
 {% assign prevTitle = "subtype polymorphism" %}

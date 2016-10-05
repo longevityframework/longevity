@@ -58,10 +58,6 @@ once, and then come back to it as a reference.
   - [MongoDB Translation](translation/mongo.html)
   - [Cassandra Translation](translation/cassandra.html)
 - [Managing Logging](logging.html)
-- [A Primer on Domain Driven Design](ddd-basics)
-  - [Ubiquitous Language](ddd-basics/ubiquitous-language.html)
-  - [Subdomains and Bounded Contexts](ddd-basics/subdomains-and-bounded-contexts.html)
-  - [Aggregates and Entities](ddd-basics/aggregates-and-entities.html)
 
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}

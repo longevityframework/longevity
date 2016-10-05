@@ -53,7 +53,7 @@ def getAuthorsForPost(blogPost: BlogPost): Future[Seq[PState[User]]] = {
 ```
 
 Once you get back your `PState`, you can of course use it to examine
-the persistent itself with `PState.get`. You can modify it with
+the persistent object itself with `PState.get`. You can modify it with
 `PState.map`, and you can pass the state on to
 [`Repo.update`](repo-update.html) or
 [`Repo.delete`](repo-delete.html).

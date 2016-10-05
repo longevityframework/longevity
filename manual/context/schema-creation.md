@@ -5,12 +5,12 @@ layout: page
 
 Most back ends will need to perform some sort of schema creation
 routine before the repositories are ready to use. The behavior of
-using the repositories with the existing back ends varies
-dramatically. The cassandra back end will not run at all. MongoDB is
-more forgiving, and the repositories will function without any schema
-creation, but performance will suffer due to the lack of indexes. (You
-will also fail to get any exceptions due to duplicate key values, as
-discussed in the [section on method
+using the repositories without schema creation will vary dramatically,
+depending on the back end. The cassandra back end will not run at
+all. MongoDB is more forgiving, and the repositories will function
+without any schema creation, but performance will suffer due to the
+lack of indexes. (You will also fail to get any exceptions due to
+duplicate key values, as discussed in the [section on method
 `Repo.create`](../repo/create.html).) For the in-memory back end,
 schema creation is a no-op.
 

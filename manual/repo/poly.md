@@ -11,21 +11,18 @@ a `User` trait with two inheriting subclasses, `Member` and
 
 
 ```scala
-import longevity.subdomain.embeddable.Entity
-import longevity.subdomain.embeddable.EntityType
+import longevity.subdomain.Embeddable
 
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
   description: Markdown)
-extends Entity
+extends Embeddable
 
-object UserProfile extends EntityType[UserProfile]
-
+import longevity.subdomain.DerivedPType
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.PolyPType
 
 case class Username(username: String)
 extends KeyVal[User, Username](User.keys.username)
@@ -75,14 +72,15 @@ object Commenter extends DerivedPType[Commenter, User] {
   }
 }
 
-import longevity.subdomain.Subdomain
+import longevity.subdomain.EType
 import longevity.subdomain.ETypePool
 import longevity.subdomain.PTypePool
+import longevity.subdomain.Subdomain
 
 val subdomain = Subdomain(
   "blogging",
   PTypePool(User, Member, Commenter),
-  ETypePool(UserProfile))
+  ETypePool(EType[UserProfile]))
 ```
 
 When we construct our [longevity context](../context), we can get

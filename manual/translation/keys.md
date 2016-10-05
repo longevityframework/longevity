@@ -28,16 +28,11 @@ This is not a permanent state of affairs.
 
 We plan to give users full control over the partition key in a future
 story, found [here on our story
-board](https://www.pivotaltracker.com/story/show/108382016). The
-position of this story in our backlog (a few months out) is not an
-indication of the importance we attribute to this story. It is more a
-reflection of immediate need. We figure that users will not need this
-feature for the first few months of project development, and that it
-will be trivial to migrate an application to use this feature when it
-is implemented. Consequently, this feature will gain a lot of
-importance when adoption is higher. As always, please remember to [let
-us know](https://groups.google.com/forum/#!forum/longevity-users) what
-unimplemented features are important to you!
+board](https://www.pivotaltracker.com/story/show/108382016). It's
+currently on schedule to be done in the next few weeks. If you _need_
+this feature, we recommend you go ahead and get started using
+longevity now. It will be ready for you soon, and it will be trivial
+to migrate your application to use this feature when it is available.
 
 {% assign prevTitle = "persistent to json" %}
 {% assign prevLink = "json.html" %}

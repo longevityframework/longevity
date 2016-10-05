@@ -13,8 +13,7 @@ import longevity.persistence.PState
 import longevity.subdomain.ptype.Query
 import scala.concurrent.Future
 
-def getBlogState(): PState[Blog] = ???
-val blog: Blog = getBlogState().get
+val blog: Blog = getBlogFromSomewhere()
 
 val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
   Query.and(
@@ -30,8 +29,7 @@ import com.github.nscala_time.time.Imports._
 import longevity.persistence.PState
 import scala.concurrent.Future
 
-def getBlogState(): PState[Blog] = ???
-val blog: Blog = getBlogState().get
+val blog: Blog = getBlogFromSomewhere()
 
 import BlogPost.queryDsl._
 val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
@@ -46,8 +44,7 @@ your program, it is quite easy to localize them:
 import longevity.persistence.PState
 import scala.concurrent.Future
 
-def getBlogState(): PState[Blog] = ???
-val blog: Blog = getBlogState().get
+val blog: Blog = getBlogFromSomewhere()
 
 val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
   import com.github.nscala_time.time.Imports._
@@ -57,7 +54,7 @@ val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
 }
 ```
 
-The query syntax is currently quite limited, and is a [focal point of
+The query API is still being developed, and is a [focal point of
 future
 work](https://www.pivotaltracker.com/epic/show/2253386). Currently,
 the following query keywords are supported:

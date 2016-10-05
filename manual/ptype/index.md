@@ -22,11 +22,6 @@ determination is, "would a domain expert care about such things"?
 They would clearly care that an account number is unique, but they
 _should not_ care about how that maps into a database schema.
 
-The `PType` trait has child traits that match the `Persistent`
-hierarchy. `PType` corresponds to `Persistent`, `EventType` corresponds
-to `Event`, and `View` corresponds to `ViewItem`. At present, they all
-have the same behavior.
-
 Because we build our keys and indexes up out of properties, we will
 discuss properties first.
 

@@ -11,17 +11,17 @@ profile. With persistent types, we inherit from `PolyPType` and
 for entities.
 
 ```scala
-import longevity.subdomain.embeddable.Entity
+import longevity.subdomain.Embeddable
 
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
   description: Markdown)
-extends Entity
+extends Embeddable
 
+import longevity.subdomain.DerivedPType
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.PolyPType
 
 trait User extends Persistent {
   val username: String
@@ -68,8 +68,8 @@ of properties, keys, and indexes. We could, for example, put in a
 `Member.profile.tagline`, like so:
 
 ```scala
-import longevity.subdomain.ptype.DerivedPType
-import longevity.subdomain.ptype.PolyPType
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.PolyPType
 
 object User extends PolyPType[User] {
   object props {

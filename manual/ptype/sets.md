@@ -29,10 +29,10 @@ object User extends PType[User] {
 Is functionally equivalent to this:
 
 ```scala
-import longevity.subdomain.ptype.Index
-import longevity.subdomain.ptype.AnyKey
-import longevity.subdomain.ptype.Prop
 import longevity.subdomain.PType
+import longevity.subdomain.ptype.AnyKey
+import longevity.subdomain.ptype.Index
+import longevity.subdomain.ptype.Prop
 
 object User extends PType[User] {
   override lazy val propSet = Set.empty[Prop[User, _]]
@@ -69,20 +69,19 @@ object User extends PType[User] {
 If you do not override `propSet`, or `keySet`, and do not provide
 inner objects `props` or `keys`, you will get a
 `NoPropsForPTypeException` or `NoKeysForPTypeException`,
-respectively. (It would not be hard to have a macro that turns this
-into a compile-time error.) If you do not override `indexSet` and do
-not provide an inner object `indexes`, you will get no indexes. While
-we expect nearly every persistent type to contain keys, we expect many
-users will have no need for indexes. In NoSQL, indexes are vaguely
-frowned upon. A preferred approach would be to maintain a [secondary
-view table](http://martinfowler.com/bliki/CQRS.html) that will bypass
-the need for an index.
+respectively. If you do not override `indexSet` and do not provide an
+inner object `indexes`, you will get no indexes. While we expect
+nearly every persistent type to contain keys, we expect many users
+will have no need for indexes. In NoSQL, indexes are vaguely frowned
+upon. A preferred approach would be to maintain a [secondary view
+table](http://martinfowler.com/bliki/CQRS.html) that will bypass the
+need for an index.
 
 Longevity needs access to these sets in order to initialize your
-database, among other things. But at the same time, you need to be
-able to access the keys easily yourself, in order to construct key
-values to perform lookups. So you don't want your keys in a set. You
-want each key to have its own name.
+database, among other things. But at the same time, you want to be
+able to access the properties and keys easily yourself, in order to
+build queries and define key value types. So you don't want your keys
+and properties in a set. You want them each to have their own name.
 
 We scan the inner objects for your convenience. We could ask you to
 just build the set yourself, but then you would end up repeating

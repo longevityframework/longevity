@@ -8,7 +8,7 @@ Config](https://github.com/typesafehub/config) to help you configure
 your `LongevityContext`. The default configuration settings are found
 in the `reference.conf` file included in the longevity jar. (Here's
 the [latest version on
-GitHub](https://github.com/longevityframework/longevity/blob/master/src/main/resources/reference.conf).)
+GitHub](https://github.com/longevityframework/longevity/blob/master/longevity/src/main/resources/reference.conf).)
 
 The typical way to supply configuration to your application is to
 override these defaults in your `application.conf` file, located on
@@ -22,19 +22,16 @@ separate `com.typesafe.config.Config` objects to the
 ```scala
 import com.typesafe.config.Config
 import longevity.context.LongevityContext
-import longevity.subdomain.CoreDomain
-import longevity.subdomain.SupportingSubdomain
 import longevity.subdomain.PTypePool
+import longevity.subdomain.Subdomain
 
-val bloggingDomain: CoreDomain =
-  CoreDomain("blogging", PTypePool.empty)
+val bloggingDomain = Subdomain("blogging", PTypePool.empty)
 val bloggingConfig: Config = loadBloggingConfig()
 val bloggingContext = LongevityContext(
   bloggingDomain,
   bloggingConfig)
 
-val accountsSubdomain: SupportingSubdomain =
-  SupportingSubdomain("accounts", PTypePool.empty)
+val accountsSubdomain = Subdomain("accounts", PTypePool.empty)
 val accountsConfig: Config = loadAccountsConfig()
 val accountsContext = LongevityContext(
   accountsSubdomain,
