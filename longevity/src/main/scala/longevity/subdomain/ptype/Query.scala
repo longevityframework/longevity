@@ -9,33 +9,26 @@ object Query {
   /** a query that filters nothing and returns everything */
   sealed case class All[P <: Persistent]() extends Query[P]
 
-  /** those relational operators - namely, ''equals'' and ''not equals'' - that
-   * apply, regardless of the types of the operands. this is in contrast to
-   * relational operators such ''greater than'', which only apply to types that
-   * have a ordering.
-   */
-  sealed trait EqualityOp
+  /** a query relational operator. compares a persistent property to a raw value */
+  sealed trait RelationalOp
 
   /** the equals operator */
-  case object EqOp extends EqualityOp
+  case object EqOp extends RelationalOp
 
   /** the not equals operator */
-  case object NeqOp extends EqualityOp
-
-  /** relational operators that only apply to types that have an ordering */
-  sealed trait OrderingOp
+  case object NeqOp extends RelationalOp
 
   /** the less than operator */
-  case object LtOp extends OrderingOp
+  case object LtOp extends RelationalOp
 
   /** the less than equals operator */
-  case object LteOp extends OrderingOp
+  case object LteOp extends RelationalOp
 
   /** the greater than operator */
-  case object GtOp extends OrderingOp
+  case object GtOp extends RelationalOp
 
   /** the greater than equals operator */
-  case object GteOp extends OrderingOp
+  case object GteOp extends RelationalOp
 
   /** either of the binary logical operators ''and'' and ''or'' */
   sealed trait LogicalOp
@@ -46,29 +39,29 @@ object Query {
   /** the or operator */
   case object OrOp extends LogicalOp
 
-  /** a factory method for producing a [[EqualityQuery]] with an [[EqOp]] */
+  /** a factory method for producing a [[RelationalQuery]] with an [[EqOp]] */
   def eqs[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
-    EqualityQuery[P, A](prop, EqOp, value)
+    RelationalQuery[P, A](prop, EqOp, value)
 
-  /** a factory method for producing a [[EqualityQuery]] with an [[NeqOp]] */
+  /** a factory method for producing a [[RelationalQuery]] with an [[NeqOp]] */
   def neq[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
-    EqualityQuery[P, A](prop, NeqOp, value)
+    RelationalQuery[P, A](prop, NeqOp, value)
 
-  /** a factory method for producing a [[OrderingQuery]] with a [[LtOp]] */
+  /** a factory method for producing a [[RelationalQuery]] with a [[LtOp]] */
   def lt[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
-    OrderingQuery[P, A](prop, LtOp, value)
+    RelationalQuery[P, A](prop, LtOp, value)
 
-  /** a factory method for producing a [[OrderingQuery]] with a [[LteOp]] */
+  /** a factory method for producing a [[RelationalQuery]] with a [[LteOp]] */
   def lte[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
-    OrderingQuery[P, A](prop, LteOp, value)
+    RelationalQuery[P, A](prop, LteOp, value)
 
-  /** a factory method for producing a [[OrderingQuery]] with a [[GtOp]] */
+  /** a factory method for producing a [[RelationalQuery]] with a [[GtOp]] */
   def gt[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
-    OrderingQuery[P, A](prop, GtOp, value)
+    RelationalQuery[P, A](prop, GtOp, value)
 
-  /** a factory method for producing a [[OrderingQuery]] with a [[LteOp]] */
+  /** a factory method for producing a [[RelationalQuery]] with a [[LteOp]] */
   def gte[P <: Persistent, A](prop: Prop[_ >: P <: Persistent, A], value: A) =
-    OrderingQuery[P, A](prop, GteOp, value)
+    RelationalQuery[P, A](prop, GteOp, value)
 
   /** a factory method for producing a conditional [[Query]] with an [[AndOp]] */
   def and[P <: Persistent](lhs: Query[P], rhs: Query[P]) =
@@ -83,29 +76,16 @@ object Query {
 /** a query for looking up persistent entities of type `P` */
 sealed trait Query[P <: Persistent]
 
-/** an equality query. compares a property to a value with an `eq` or an `neq`
- * operator.
+/** an equality query. compares a property to a value with an `eq`, `neq`, `lt`,
+ * `lte`, `gt`, or `gte` operator.
  *
  * @param prop the property to compare
- * @param op the `eq` or `neq` operator
+ * @param op the relational operator
  * @param value the value to compare
  */
-sealed case class EqualityQuery[P <: Persistent, A](
+sealed case class RelationalQuery[P <: Persistent, A](
   val prop: Prop[_ >: P <: Persistent, A],
-  op: EqualityOp,
-  value: A)
-extends Query[P]
-
-/** an ordering query. compares a property to a value with a `lt`, `lte`, `gt`,
- * or `gte` operator.
- *
- * @param prop the property to compare
- * @param op the ordering operator
- * @param value the value to compare
- */
-sealed case class OrderingQuery[P <: Persistent, A](
-  val prop: Prop[_ >: P <: Persistent, A],
-  op: OrderingOp,
+  op: RelationalOp,
   value: A)
 extends Query[P]
 

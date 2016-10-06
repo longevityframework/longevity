@@ -10,8 +10,7 @@ import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
-import longevity.subdomain.ptype.EqualityQuery
-import longevity.subdomain.ptype.OrderingQuery
+import longevity.subdomain.ptype.RelationalQuery
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.Query.All
@@ -79,8 +78,9 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
 
   private def queryInfo(query: Query[P]): QueryInfo = query match {
     case All() => throw new AllInQueryException
-    case q: EqualityQuery[_, _] => equalityQueryQueryInfo(q)
-    case q: OrderingQuery[_, _] => orderingQueryQueryInfo(q)
+    case q: RelationalQuery[_, _] if q.op == NeqOp => throw new NeqInQueryException
+    case q: RelationalQuery[_, _] if q.op == EqOp => equalityQueryQueryInfo(q)
+    case q: RelationalQuery[_, _] => orderingQueryQueryInfo(q)
     case ConditionalQuery(lhs, op, rhs) => op match {
       case AndOp =>
         QueryInfo.and(queryInfo(lhs), queryInfo(rhs))
@@ -88,17 +88,15 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
     }
   }
 
-  private def equalityQueryQueryInfo[A](query: EqualityQuery[P, A]): QueryInfo = query.op match {
-    case EqOp =>
-      val infos: Seq[QueryInfo] = toComponents(query.prop).map { component =>
-        val componentValue = cassandraValue(component.innerPropPath.get(query.value))
-        QueryInfo(s"${columnName(component)} = :${columnName(component)}", Seq(componentValue))
-      }
-      infos.tail.fold(infos.head)(QueryInfo.and)
-    case NeqOp => throw new NeqInQueryException
+  private def equalityQueryQueryInfo[A](query: RelationalQuery[P, A]): QueryInfo = {
+    val infos: Seq[QueryInfo] = toComponents(query.prop).map { component =>
+      val componentValue = cassandraValue(component.innerPropPath.get(query.value))
+      QueryInfo(s"${columnName(component)} = :${columnName(component)}", Seq(componentValue))
+    }
+    infos.tail.fold(infos.head)(QueryInfo.and)
   }
 
-  private def orderingQueryQueryInfo[A](query: OrderingQuery[P, A]): QueryInfo = {
+  private def orderingQueryQueryInfo[A](query: RelationalQuery[P, A]): QueryInfo = {
     val components = toComponents(query.prop)
     def componentsToQueryInfo(components: Seq[RealizedPropComponent[_ >: P <: Persistent, A, _]]): QueryInfo = {
       if (components.size == 1) {
@@ -109,6 +107,7 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
             case LteOp => "<="
             case GtOp => ">"
             case GteOp => ">="
+            case _ => "***"
           }
           QueryInfo(s"${columnName(component)} $opString :${columnName(component)}", Seq(componentValue))
         }

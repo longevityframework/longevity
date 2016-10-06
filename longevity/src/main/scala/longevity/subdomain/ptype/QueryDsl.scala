@@ -36,42 +36,42 @@ class QueryDsl[P <: Persistent] {
 
     /** gather an `eqs` expression, and prepare for an `and` or an `or` */
     def eqs(a: A) = {
-      val rhs = EqualityQuery[P, A](prop, EqOp, a)
+      val rhs = RelationalQuery[P, A](prop, EqOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     /** gather an `neq` expression, and prepare for an `and` or an `or` */
     def neq(a: A) = {
-      val rhs = EqualityQuery[P, A](prop, NeqOp, a)
+      val rhs = RelationalQuery[P, A](prop, NeqOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     /** gather an `lt` expression, and prepare for an `and` or an `or` */
     def lt(a: A) = {
-      val rhs = OrderingQuery[P, A](prop, LtOp, a)
+      val rhs = RelationalQuery[P, A](prop, LtOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     /** gather an `lte` expression, and prepare for an `and` or an `or` */
     def lte(a: A) = {
-      val rhs = OrderingQuery[P, A](prop, LteOp, a)
+      val rhs = RelationalQuery[P, A](prop, LteOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     /** gather a `gt` expression, and prepare for an `and` or an `or` */
     def gt(a: A) = {
-      val rhs = OrderingQuery[P, A](prop, GtOp, a)
+      val rhs = RelationalQuery[P, A](prop, GtOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }
 
     /** gather a `gte` expression, and prepare for an `and` or an `or` */
     def gte(a: A) = {
-      val rhs = OrderingQuery[P, A](prop, GteOp, a)
+      val rhs = RelationalQuery[P, A](prop, GteOp, a)
       val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
       new GatherLogical(query)
     }

@@ -9,8 +9,7 @@ import com.mongodb.casbah.commons.MongoDBObject
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
-import longevity.subdomain.ptype.EqualityQuery
-import longevity.subdomain.ptype.OrderingQuery
+import longevity.subdomain.ptype.RelationalQuery
 import longevity.subdomain.ptype.Query
 import longevity.subdomain.ptype.Query.All
 import longevity.subdomain.ptype.Query.AndOp
@@ -55,19 +54,17 @@ private[mongo] trait MongoQuery[P <: Persistent] {
   protected def mongoQuery(query: Query[P]): MongoDBObject = {
     query match {
       case All() => MongoDBObject("$comment" -> "matching Query.All")
-      case EqualityQuery(prop, op, value) => op match {
-        case EqOp => MongoDBObject(prop.path -> propValToMongo(value, prop))
+      case RelationalQuery(prop, op, value) => op match {
+        case EqOp  => MongoDBObject(prop.path -> propValToMongo(value, prop))
         case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> propValToMongo(value, prop)))
-      }
-      case OrderingQuery(prop, op, value) => op match {
-        case LtOp => MongoDBObject(prop.path -> MongoDBObject("$lt" -> propValToMongo(value, prop)))
+        case LtOp  => MongoDBObject(prop.path -> MongoDBObject("$lt" -> propValToMongo(value, prop)))
         case LteOp => MongoDBObject(prop.path -> MongoDBObject("$lte" -> propValToMongo(value, prop)))
-        case GtOp => MongoDBObject(prop.path -> MongoDBObject("$gt" -> propValToMongo(value, prop)))
+        case GtOp  => MongoDBObject(prop.path -> MongoDBObject("$gt" -> propValToMongo(value, prop)))
         case GteOp => MongoDBObject(prop.path -> MongoDBObject("$gte" -> propValToMongo(value, prop)))
       }
       case ConditionalQuery(lhs, op, rhs) => op match {
         case AndOp => MongoDBObject("$and" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
-        case OrOp => MongoDBObject("$or" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
+        case OrOp  => MongoDBObject("$or" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
       }
     }
   }

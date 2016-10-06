@@ -9,8 +9,7 @@ import longevity.subdomain.AnyKeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.ConditionalQuery
-import longevity.subdomain.ptype.EqualityQuery
-import longevity.subdomain.ptype.OrderingQuery
+import longevity.subdomain.ptype.RelationalQuery
 import longevity.subdomain.PType
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PolyPType
@@ -100,9 +99,11 @@ private[longevity] object InMemRepo {
 
     def toRealized[A](prop: Prop[_ >: P <: Persistent, A]) = realizedPType.realizedProps(prop)
 
-    def orderingQueryMatches[A](query: OrderingQuery[_ >: P <: Persistent, A]) = {
+    def relationalQueryMatches[A](query: RelationalQuery[_ >: P <: Persistent, A]) = {
       val realizedProp = toRealized(query.prop)
       query.op match {
+        case EqOp => realizedProp.propVal(p) == query.value
+        case NeqOp => realizedProp.propVal(p) != query.value
         case LtOp => realizedProp.ordering.lt(realizedProp.propVal(p), query.value)
         case LteOp => realizedProp.ordering.lteq(realizedProp.propVal(p), query.value)
         case GtOp => realizedProp.ordering.gt(realizedProp.propVal(p), query.value)
@@ -112,11 +113,7 @@ private[longevity] object InMemRepo {
 
     query match {
       case All() => true
-      case EqualityQuery(prop, op, value) => op match {
-        case EqOp => toRealized(prop).propVal(p) == value
-        case NeqOp => toRealized(prop).propVal(p) != value
-      }
-      case q: OrderingQuery[_, _] => orderingQueryMatches(q)
+      case q: RelationalQuery[_, _] => relationalQueryMatches(q)
       case ConditionalQuery(lhs, op, rhs) => op match {
         case AndOp => queryMatches(lhs, p, realizedPType) && queryMatches(rhs, p, realizedPType)
         case OrOp => queryMatches(lhs, p, realizedPType) || queryMatches(rhs, p, realizedPType)
