@@ -15,8 +15,8 @@ import longevity.subdomain.query.NeqOp
 import longevity.subdomain.query.OrOp
 import longevity.subdomain.query.RelationalFilter
 
-/** a DSL for creating [[Query queries]]. you can find it in your persistent
- * type at `PType.queryDsl`
+/** a DSL for creating [[longevity.subdomain.query.Query queries]]. you can find
+ * it in your persistent type at `PType.queryDsl`
  */
 class QueryDsl[P <: Persistent] {
 
@@ -28,7 +28,8 @@ class QueryDsl[P <: Persistent] {
   }
 
   /** in the query DSL, we have just parsed a property. next we need to parse a
-   * [[RelationalOp relational operator]] and a right-hand side value.
+   * [[longevity.subdomain.query.RelationalOp relational operator]] and a
+   * right-hand side value.
    */
   class DslPostProp[A] private[QueryDsl] (
     private val prop: Prop[_ >: P <: Persistent, A],
@@ -79,16 +80,19 @@ class QueryDsl[P <: Persistent] {
   }
 
   /** in the query DSL, we have just parsed a (partial or complete)
-   * [[QueryFilter]]. there are multiple possibilities for what comes next:
+   * [[longevity.subdomain.query.QueryFilter QueryFilter]]. there are multiple
+   * possibilities for what comes next:
    *
-   * 1. if we see a [[ConditionalOp]] followed by a
-   * property, then we need to parse another [[RelationalFilter]].
+   * 1. if we see a [[longevity.subdomain.query.RelationalOp RelationalOp]]
+   * followed by a property, then we need to parse another
+   * [[longevity.subdomain.query.RelationalFilter RelationalFilter]].
    *
-   * 2. if we see a [[ConditionalOp]] followed by another
-   * [[QueryFilter]], then we combine the two query filters with the
-   * conditional op.
+   * 2. if we see a [[longevity.subdomain.query.LogicalOp LogicalOp]]
+   * followed by another [[longevity.subdomain.query.QueryFilter QueryFilter]],
+   * then we combine the two query filters with the logical op.
    * 
-   * 3. we could be done parsing the complete [[QueryFilter]].
+   * 3. we could be done parsing the complete
+   * [[longevity.subdomain.query.QueryFilter QueryFilter]].
    */
   class DslPostQueryFilter private[QueryDsl] (private[QueryDsl] val prefix: QueryFilter[P]) {
 
@@ -110,10 +114,10 @@ class QueryDsl[P <: Persistent] {
 
   }
 
-  /** we are done parsing a complete [[QueryFilter]] */
+  /** we are done parsing a complete [[longevity.subdomain.query.QueryFilter QueryFilter]] */
   implicit def toQueryFilter(postFilter: DslPostQueryFilter): QueryFilter[P] = postFilter.prefix
 
-  /** we are done parsing a complete [[Query]] */
+  /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
   implicit def toQuery(postFilter: DslPostQueryFilter): Query[P] = Query(postFilter.prefix)
 
 }
