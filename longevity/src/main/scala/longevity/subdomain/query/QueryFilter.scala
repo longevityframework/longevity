@@ -2,6 +2,7 @@ package longevity.subdomain.query
 
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
+import longevity.subdomain.realized.RealizedPType
 
 /** a query filter for looking up persistent entities of type `P` */
 sealed trait QueryFilter[P <: Persistent]
@@ -69,5 +70,35 @@ object QueryFilter {
   /** a factory method for producing a conditional [[QueryFilter]] with an [[OrOp]] */
   def or[P <: Persistent](lhs: QueryFilter[P], rhs: QueryFilter[P]) =
     ConditionalFilter[P](lhs, OrOp, rhs)
+
+  private[longevity] def matches[P <: Persistent](
+    filter: QueryFilter[P],
+    p: P,
+    realizedPType: RealizedPType[P])
+  : Boolean = {
+
+    def toRealized[A](prop: Prop[_ >: P <: Persistent, A]) = realizedPType.realizedProps(prop)
+
+    def relationalQueryMatches[A](filter: RelationalFilter[_ >: P <: Persistent, A]) = {
+      val realizedProp = toRealized(filter.prop)
+      filter.op match {
+        case EqOp  => realizedProp.propVal(p) == filter.value
+        case NeqOp => realizedProp.propVal(p) != filter.value
+        case LtOp  => realizedProp.ordering.lt  (realizedProp.propVal(p), filter.value)
+        case LteOp => realizedProp.ordering.lteq(realizedProp.propVal(p), filter.value)
+        case GtOp  => realizedProp.ordering.gt  (realizedProp.propVal(p), filter.value)
+        case GteOp => realizedProp.ordering.gteq(realizedProp.propVal(p), filter.value)
+      }
+    }
+
+    filter match {
+      case FilterAll() => true
+      case q: RelationalFilter[_, _] => relationalQueryMatches(q)
+      case ConditionalFilter(lhs, op, rhs) => op match {
+        case AndOp => matches(lhs, p, realizedPType) && matches(rhs, p, realizedPType)
+        case OrOp  => matches(lhs, p, realizedPType) || matches(rhs, p, realizedPType)
+      }
+    }
+  }
 
 }

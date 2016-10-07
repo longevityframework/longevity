@@ -5,6 +5,7 @@ import akka.stream.scaladsl.Source
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
 import longevity.subdomain.query.Query
+import longevity.subdomain.query.QueryFilter
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -28,8 +29,9 @@ private[inmem] trait InMemQuery[P <: Persistent] {
     source
   }
 
-  private def queryResults(query: Query[P]): Seq[PState[P]] =
-    allPStates.filter { s => InMemRepo.queryFilterMatches(query.filter, s.get, realizedPType) }
+  private def queryResults(query: Query[P]): Seq[PState[P]] = allPStates.filter { s =>
+    QueryFilter.matches(query.filter, s.get, realizedPType)
+  }
 
   protected[inmem] def allPStates: Seq[PState[P]] = idToPStateMap.values.view.toSeq
 

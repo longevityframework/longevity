@@ -3,28 +3,14 @@ package longevity.persistence.inmem
 import com.typesafe.scalalogging.LazyLogging
 import longevity.context.PersistenceConfig
 import longevity.persistence.BaseRepo
-import longevity.persistence.PState
 import longevity.persistence.DatabaseId
+import longevity.persistence.PState
 import longevity.subdomain.AnyKeyVal
-import longevity.subdomain.Subdomain
-import longevity.subdomain.Persistent
-import longevity.subdomain.query.ConditionalFilter
-import longevity.subdomain.query.RelationalFilter
-import longevity.subdomain.PType
 import longevity.subdomain.DerivedPType
+import longevity.subdomain.PType
+import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
-import longevity.subdomain.query.QueryFilter
-import longevity.subdomain.query.FilterAll
-import longevity.subdomain.query.AndOp
-import longevity.subdomain.query.EqOp
-import longevity.subdomain.query.GtOp
-import longevity.subdomain.query.GteOp
-import longevity.subdomain.query.LtOp
-import longevity.subdomain.query.LteOp
-import longevity.subdomain.query.NeqOp
-import longevity.subdomain.query.OrOp
-import longevity.subdomain.ptype.Prop
-import longevity.subdomain.realized.RealizedPType
+import longevity.subdomain.Subdomain
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -89,36 +75,6 @@ private[longevity] object InMemRepo {
         new InMemRepo(pType, subdomain, persistenceConfig)
     }
     repo
-  }
-
-  private[longevity] def queryFilterMatches[P <: Persistent](
-    filter: QueryFilter[P],
-    p: P,
-    realizedPType: RealizedPType[P])
-  : Boolean = {
-
-    def toRealized[A](prop: Prop[_ >: P <: Persistent, A]) = realizedPType.realizedProps(prop)
-
-    def relationalQueryMatches[A](filter: RelationalFilter[_ >: P <: Persistent, A]) = {
-      val realizedProp = toRealized(filter.prop)
-      filter.op match {
-        case EqOp => realizedProp.propVal(p) == filter.value
-        case NeqOp => realizedProp.propVal(p) != filter.value
-        case LtOp => realizedProp.ordering.lt(realizedProp.propVal(p), filter.value)
-        case LteOp => realizedProp.ordering.lteq(realizedProp.propVal(p), filter.value)
-        case GtOp => realizedProp.ordering.gt(realizedProp.propVal(p), filter.value)
-        case GteOp => realizedProp.ordering.gteq(realizedProp.propVal(p), filter.value)
-      }
-    }
-
-    filter match {
-      case FilterAll() => true
-      case q: RelationalFilter[_, _] => relationalQueryMatches(q)
-      case ConditionalFilter(lhs, op, rhs) => op match {
-        case AndOp => queryFilterMatches(lhs, p, realizedPType) && queryFilterMatches(rhs, p, realizedPType)
-        case OrOp => queryFilterMatches(lhs, p, realizedPType) || queryFilterMatches(rhs, p, realizedPType)
-      }
-    }
   }
 
 }
