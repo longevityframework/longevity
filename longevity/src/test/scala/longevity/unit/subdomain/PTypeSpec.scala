@@ -1,4 +1,4 @@
-package longevity.unit.subdomain.ptype
+package longevity.unit.subdomain
 
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
