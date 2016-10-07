@@ -1,7 +1,19 @@
 package longevity.subdomain.ptype
 
-import QueryFilter._
 import longevity.subdomain.Persistent
+import longevity.subdomain.query.ConditionalFilter
+import longevity.subdomain.query.Query
+import longevity.subdomain.query.QueryFilter
+import longevity.subdomain.query.AndOp
+import longevity.subdomain.query.EqOp
+import longevity.subdomain.query.GtOp
+import longevity.subdomain.query.GteOp
+import longevity.subdomain.query.LogicalOp
+import longevity.subdomain.query.LtOp
+import longevity.subdomain.query.LteOp
+import longevity.subdomain.query.NeqOp
+import longevity.subdomain.query.OrOp
+import longevity.subdomain.query.RelationalFilter
 
 /** a DSL for creating [[Query queries]]. you can find it in your persistent
  * type at `PType.queryDsl`

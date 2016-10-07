@@ -3,26 +3,26 @@ package longevity.persistence.cassandra
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import com.datastax.driver.core.ResultSet
-import longevity.exceptions.persistence.cassandra.AllInQueryException
+import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
 import longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.ConditionalFilter
-import longevity.subdomain.ptype.RelationalFilter
 import longevity.subdomain.ptype.Prop
-import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.QueryFilter
-import longevity.subdomain.ptype.QueryFilter.All
-import longevity.subdomain.ptype.QueryFilter.AndOp
-import longevity.subdomain.ptype.QueryFilter.EqOp
-import longevity.subdomain.ptype.QueryFilter.GtOp
-import longevity.subdomain.ptype.QueryFilter.GteOp
-import longevity.subdomain.ptype.QueryFilter.LtOp
-import longevity.subdomain.ptype.QueryFilter.LteOp
-import longevity.subdomain.ptype.QueryFilter.NeqOp
-import longevity.subdomain.ptype.QueryFilter.OrOp
+import longevity.subdomain.query.AndOp
+import longevity.subdomain.query.ConditionalFilter
+import longevity.subdomain.query.EqOp
+import longevity.subdomain.query.GtOp
+import longevity.subdomain.query.GteOp
+import longevity.subdomain.query.LtOp
+import longevity.subdomain.query.LteOp
+import longevity.subdomain.query.NeqOp
+import longevity.subdomain.query.OrOp
+import longevity.subdomain.query.Query
+import longevity.subdomain.query.QueryFilter
+import longevity.subdomain.query.FilterAll
+import longevity.subdomain.query.RelationalFilter
 import longevity.subdomain.realized.RealizedPropComponent
 import scala.collection.JavaConversions.asScalaBuffer
 import scala.concurrent.ExecutionContext
@@ -76,18 +76,18 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
     FilterInfo(s"${lhs.whereClause} AND ${rhs.whereClause}", lhs.bindValues ++ rhs.bindValues)    
 
   private def filterInfo(filter: QueryFilter[P]): FilterInfo = filter match {
-    case All()   => throw new AllInQueryException
+    case FilterAll() => throw new FilterAllInQueryException
     case RelationalFilter(lhs, op, rhs) => op match {
-      case EqOp  => equalityQueryFilterInfo(lhs, rhs)
-      case NeqOp => throw new NeqInQueryException
-      case LtOp  => orderingQueryFilterInfo(lhs, "<",  rhs)
-      case LteOp => orderingQueryFilterInfo(lhs, "<=", rhs)
-      case GtOp  => orderingQueryFilterInfo(lhs, ">",  rhs)
-      case GteOp => orderingQueryFilterInfo(lhs, ">=", rhs)
+      case EqOp      => equalityQueryFilterInfo(lhs, rhs)
+      case NeqOp     => throw new NeqInQueryException
+      case LtOp      => orderingQueryFilterInfo(lhs, "<",  rhs)
+      case LteOp     => orderingQueryFilterInfo(lhs, "<=", rhs)
+      case GtOp      => orderingQueryFilterInfo(lhs, ">",  rhs)
+      case GteOp     => orderingQueryFilterInfo(lhs, ">=", rhs)
     }
     case ConditionalFilter(lhs, op, rhs) => op match {
-      case AndOp => andFilterInfos(filterInfo(lhs), filterInfo(rhs))
-      case OrOp  => throw new OrInQueryException
+      case AndOp     => andFilterInfos(filterInfo(lhs), filterInfo(rhs))
+      case OrOp      => throw new OrInQueryException
     }
   }
 

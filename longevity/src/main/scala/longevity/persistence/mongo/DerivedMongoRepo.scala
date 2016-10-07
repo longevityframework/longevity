@@ -5,7 +5,7 @@ import com.mongodb.casbah.commons.MongoDBObject
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.QueryFilter
+import longevity.subdomain.query.QueryFilter
 
 private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] extends MongoRepo[P] {
 

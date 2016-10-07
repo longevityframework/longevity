@@ -4,7 +4,7 @@ import akka.NotUsed
 import akka.stream.scaladsl.Source
 import emblem.TypeKey
 import emblem.typeKey
-import longevity.subdomain.ptype.Query
+import longevity.subdomain.query.Query
 import longevity.subdomain.Persistent
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext

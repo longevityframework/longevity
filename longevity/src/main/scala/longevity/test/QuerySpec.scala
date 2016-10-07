@@ -10,7 +10,7 @@ import longevity.persistence.RepoPool
 import longevity.persistence.inmem.InMemRepo
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
-import longevity.subdomain.ptype.Query
+import longevity.subdomain.query.Query
 import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

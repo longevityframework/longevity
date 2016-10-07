@@ -8,19 +8,19 @@ import com.mongodb.casbah.commons.Implicits.wrapDBObj
 import com.mongodb.casbah.commons.MongoDBObject
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.ConditionalFilter
-import longevity.subdomain.ptype.RelationalFilter
-import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.QueryFilter
-import longevity.subdomain.ptype.QueryFilter.All
-import longevity.subdomain.ptype.QueryFilter.AndOp
-import longevity.subdomain.ptype.QueryFilter.EqOp
-import longevity.subdomain.ptype.QueryFilter.GtOp
-import longevity.subdomain.ptype.QueryFilter.GteOp
-import longevity.subdomain.ptype.QueryFilter.LtOp
-import longevity.subdomain.ptype.QueryFilter.LteOp
-import longevity.subdomain.ptype.QueryFilter.NeqOp
-import longevity.subdomain.ptype.QueryFilter.OrOp
+import longevity.subdomain.query.AndOp
+import longevity.subdomain.query.ConditionalFilter
+import longevity.subdomain.query.EqOp
+import longevity.subdomain.query.GtOp
+import longevity.subdomain.query.GteOp
+import longevity.subdomain.query.LtOp
+import longevity.subdomain.query.LteOp
+import longevity.subdomain.query.NeqOp
+import longevity.subdomain.query.OrOp
+import longevity.subdomain.query.Query
+import longevity.subdomain.query.QueryFilter
+import longevity.subdomain.query.FilterAll
+import longevity.subdomain.query.RelationalFilter
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -54,7 +54,7 @@ private[mongo] trait MongoQuery[P <: Persistent] {
 
   protected def mongoQuery(filter: QueryFilter[P]): MongoDBObject = {
     filter match {
-      case All() => MongoDBObject("$comment" -> "matching QueryFilter.All")
+      case FilterAll() => MongoDBObject("$comment" -> "matching FilterAll")
       case RelationalFilter(prop, op, value) => op match {
         case EqOp  => MongoDBObject(prop.path -> propValToMongo(value, prop))
         case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> propValToMongo(value, prop)))

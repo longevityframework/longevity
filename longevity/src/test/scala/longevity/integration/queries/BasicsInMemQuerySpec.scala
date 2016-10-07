@@ -6,8 +6,8 @@ import longevity.context.LongevityContext
 import longevity.context.InMem
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.basics._
-import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.QueryFilter.All
+import longevity.subdomain.query.Query
+import longevity.subdomain.query.FilterAll
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class BasicsInMemQuerySpec extends QuerySpec[Basics](
@@ -30,8 +30,8 @@ class BasicsInMemQuerySpec extends QuerySpec[Basics](
 
   behavior of "InMemRepo.retrieveByQuery"
 
-  it should "produce expected results for Query.All" in {
-    exerciseQuery(Query(All()), true)
+  it should "produce expected results for Query.FilterAll" in {
+    exerciseQuery(Query(FilterAll()), true)
   }
 
   it should "produce expected results for simple equality queries" in {
@@ -52,8 +52,8 @@ class BasicsInMemQuerySpec extends QuerySpec[Basics](
     exerciseQuery(stringProp eqs sample.string, true)
     exerciseQuery(stringProp neq sample.string, true)
 
-    // make sure Query.All() can occur inside greater expression
-    exerciseQuery(stringProp neq sample.string and All(), true)
+    // make sure Query.FilterAll() can occur inside greater expression
+    exerciseQuery(stringProp neq sample.string and FilterAll(), true)
   }
 
   behavior of "InMemRepo.retrieveByQuery"

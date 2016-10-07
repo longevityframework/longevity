@@ -136,8 +136,8 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLoggin
 
       import com.github.nscala_time.time.Imports._
       import longevity.persistence.PState
-      import longevity.subdomain.ptype.Query
-      import longevity.subdomain.ptype.QueryFilter
+      import longevity.subdomain.query.Query
+      import longevity.subdomain.query.QueryFilter
       import scala.concurrent.Future
 
       val blog: Blog = ???

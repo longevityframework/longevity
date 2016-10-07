@@ -1,4 +1,4 @@
-package longevity.subdomain.ptype
+package longevity.subdomain.query
 
 import longevity.subdomain.Persistent
 

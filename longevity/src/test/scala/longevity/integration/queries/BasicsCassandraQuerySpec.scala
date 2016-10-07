@@ -5,12 +5,12 @@ import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
 import longevity.context.Cassandra
 import longevity.context.LongevityContext
-import longevity.exceptions.persistence.cassandra.AllInQueryException
+import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.integration.subdomain.basics._
-import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.QueryFilter.All
+import longevity.subdomain.query.Query
+import longevity.subdomain.query.FilterAll
 import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -34,8 +34,8 @@ class BasicsCassandraQuerySpec extends QuerySpec[Basics](
 
   behavior of "CassandraRepo.retrieveByQuery"
 
-  it should "produce expected results for Query.All" in {
-    repo.retrieveByQuery(Query(All())).failed.futureValue shouldBe a [AllInQueryException]
+  it should "produce expected results for Query.FilterAll" in {
+    repo.retrieveByQuery(Query(FilterAll())).failed.futureValue shouldBe a [FilterAllInQueryException]
   }
 
   it should "produce expected results for simple equality queries" in {
@@ -50,9 +50,9 @@ class BasicsCassandraQuerySpec extends QuerySpec[Basics](
     exerciseQuery(stringProp eqs sample.string, true)
 
 
-    // make sure Query.All() can occur inside greater expression
-    val query: Query[Basics] = stringProp eqs sample.string and All()
-    repo.retrieveByQuery(query).failed.futureValue shouldBe a [AllInQueryException]
+    // make sure Query.FilterAll() can occur inside greater expression
+    val query: Query[Basics] = stringProp eqs sample.string and FilterAll()
+    repo.retrieveByQuery(query).failed.futureValue shouldBe a [FilterAllInQueryException]
   }
 
   it should "produce expected results for simple conditional queries" in {

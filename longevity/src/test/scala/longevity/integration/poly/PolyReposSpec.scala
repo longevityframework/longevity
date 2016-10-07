@@ -5,8 +5,8 @@ import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.integration.subdomain.derived
 import longevity.persistence.RepoPool
-import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.QueryFilter
+import longevity.subdomain.query.Query
+import longevity.subdomain.query.QueryFilter
 import longevity.test.LongevityIntegrationSpec
 import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }

@@ -4,8 +4,8 @@ import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.Persistent
 import longevity.subdomain.PTypePool
-import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.QueryFilter
+import longevity.subdomain.query.Query
+import longevity.subdomain.query.QueryFilter
 import longevity.subdomain.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen

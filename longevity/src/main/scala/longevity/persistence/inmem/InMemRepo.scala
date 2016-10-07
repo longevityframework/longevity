@@ -8,21 +8,21 @@ import longevity.persistence.DatabaseId
 import longevity.subdomain.AnyKeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.ConditionalFilter
-import longevity.subdomain.ptype.RelationalFilter
+import longevity.subdomain.query.ConditionalFilter
+import longevity.subdomain.query.RelationalFilter
 import longevity.subdomain.PType
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PolyPType
-import longevity.subdomain.ptype.QueryFilter
-import longevity.subdomain.ptype.QueryFilter.All
-import longevity.subdomain.ptype.QueryFilter.AndOp
-import longevity.subdomain.ptype.QueryFilter.EqOp
-import longevity.subdomain.ptype.QueryFilter.GtOp
-import longevity.subdomain.ptype.QueryFilter.GteOp
-import longevity.subdomain.ptype.QueryFilter.LtOp
-import longevity.subdomain.ptype.QueryFilter.LteOp
-import longevity.subdomain.ptype.QueryFilter.NeqOp
-import longevity.subdomain.ptype.QueryFilter.OrOp
+import longevity.subdomain.query.QueryFilter
+import longevity.subdomain.query.FilterAll
+import longevity.subdomain.query.AndOp
+import longevity.subdomain.query.EqOp
+import longevity.subdomain.query.GtOp
+import longevity.subdomain.query.GteOp
+import longevity.subdomain.query.LtOp
+import longevity.subdomain.query.LteOp
+import longevity.subdomain.query.NeqOp
+import longevity.subdomain.query.OrOp
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.realized.RealizedPType
 import scala.concurrent.ExecutionContext
@@ -112,7 +112,7 @@ private[longevity] object InMemRepo {
     }
 
     filter match {
-      case All() => true
+      case FilterAll() => true
       case q: RelationalFilter[_, _] => relationalQueryMatches(q)
       case ConditionalFilter(lhs, op, rhs) => op match {
         case AndOp => queryFilterMatches(lhs, p, realizedPType) && queryFilterMatches(rhs, p, realizedPType)
