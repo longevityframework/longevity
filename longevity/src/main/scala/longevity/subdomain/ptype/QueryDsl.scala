@@ -1,6 +1,6 @@
 package longevity.subdomain.ptype
 
-import Query._
+import QueryFilter._
 import longevity.subdomain.Persistent
 
 /** a DSL for creating [[Query queries]]. you can find it in your persistent
@@ -8,100 +8,100 @@ import longevity.subdomain.Persistent
  */
 class QueryDsl[P <: Persistent] {
 
-  /** start building a query with a [[Prop]] */
-  implicit def where[A](prop: Prop[_ >: P <: Persistent, A]) = new GatherRelational(prop)
+  /** begin parsing a query filter with a [[Prop]] */
+  implicit def where[A](prop: Prop[_ >: P <: Persistent, A]) = new DslPostProp(prop)
 
-  private[QueryDsl] case class CondPrefix(lhs: Query[P], op: LogicalOp) {
-    def buildCond(rhs: Query[P]) = ConditionalQuery[P](lhs, op, rhs)
+  private[QueryDsl] case class CondPrefix(lhs: QueryFilter[P], op: LogicalOp) {
+    def buildCond(rhs: QueryFilter[P]) = ConditionalFilter[P](lhs, op, rhs)
   }
 
-  /** gathering the rest of a relational expression on a property, such as
-   *
-   * ```
-   * object User extends PType[User] {
-   *   object props {
-   *     val accountNumber = prop[String]("account.number")
-   *   }
-   *   object keys {
-   *   }
-   *   object indexes {
-   *   }
-   * }
-   * User.props.accountNumber eqs "D85330"`
-   * ```
+  /** in the query DSL, we have just parsed a property. next we need to parse a
+   * [[RelationalOp relational operator]] and a right-hand side value.
    */
-  class GatherRelational[A] private[QueryDsl] (
+  class DslPostProp[A] private[QueryDsl] (
     private val prop: Prop[_ >: P <: Persistent, A],
     private val prefix: Option[CondPrefix] = None) {
 
-    /** gather an `eqs` expression, and prepare for an `and` or an `or` */
+    /** parse an `eqs` expression, and prepare for an `and` or an `or` */
     def eqs(a: A) = {
-      val rhs = RelationalQuery[P, A](prop, EqOp, a)
-      val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
-      new GatherLogical(query)
+      val rhs = RelationalFilter[P, A](prop, EqOp, a)
+      val filter = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
+      new DslPostQueryFilter(filter)
     }
 
-    /** gather an `neq` expression, and prepare for an `and` or an `or` */
+    /** parse an `neq` expression, and prepare for an `and` or an `or` */
     def neq(a: A) = {
-      val rhs = RelationalQuery[P, A](prop, NeqOp, a)
-      val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
-      new GatherLogical(query)
+      val rhs = RelationalFilter[P, A](prop, NeqOp, a)
+      val filter = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
+      new DslPostQueryFilter(filter)
     }
 
-    /** gather an `lt` expression, and prepare for an `and` or an `or` */
+    /** parse a `lt` expression, and prepare for an `and` or an `or` */
     def lt(a: A) = {
-      val rhs = RelationalQuery[P, A](prop, LtOp, a)
-      val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
-      new GatherLogical(query)
+      val rhs = RelationalFilter[P, A](prop, LtOp, a)
+      val filter = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
+      new DslPostQueryFilter(filter)
     }
 
-    /** gather an `lte` expression, and prepare for an `and` or an `or` */
+    /** parse a `lte` expression, and prepare for an `and` or an `or` */
     def lte(a: A) = {
-      val rhs = RelationalQuery[P, A](prop, LteOp, a)
-      val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
-      new GatherLogical(query)
+      val rhs = RelationalFilter[P, A](prop, LteOp, a)
+      val filter = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
+      new DslPostQueryFilter(filter)
     }
 
-    /** gather a `gt` expression, and prepare for an `and` or an `or` */
+    /** parse a `gt` expression, and prepare for an `and` or an `or` */
     def gt(a: A) = {
-      val rhs = RelationalQuery[P, A](prop, GtOp, a)
-      val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
-      new GatherLogical(query)
+      val rhs = RelationalFilter[P, A](prop, GtOp, a)
+      val filter = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
+      new DslPostQueryFilter(filter)
     }
 
-    /** gather a `gte` expression, and prepare for an `and` or an `or` */
+    /** parse a `gte` expression, and prepare for an `and` or an `or` */
     def gte(a: A) = {
-      val rhs = RelationalQuery[P, A](prop, GteOp, a)
-      val query = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
-      new GatherLogical(query)
+      val rhs = RelationalFilter[P, A](prop, GteOp, a)
+      val filter = prefix.map(_.buildCond(rhs)).getOrElse(rhs)
+      new DslPostQueryFilter(filter)
     }
 
   }
 
-  /** gathering the rest of a logical expression, combining two expressions with
-   * and `and` or an `or`
+  /** in the query DSL, we have just parsed a (partial or complete)
+   * [[QueryFilter]]. there are multiple possibilities for what comes next:
+   *
+   * 1. if we see a [[ConditionalOp]] followed by a
+   * property, then we need to parse another [[RelationalFilter]].
+   *
+   * 2. if we see a [[ConditionalOp]] followed by another
+   * [[QueryFilter]], then we combine the two query filters with the
+   * conditional op.
+   * 
+   * 3. we could be done parsing the complete [[QueryFilter]].
    */
-  class GatherLogical private[QueryDsl] (private[QueryDsl] val prefix: Query[P]) {
+  class DslPostQueryFilter private[QueryDsl] (private[QueryDsl] val prefix: QueryFilter[P]) {
 
-    /** gather an `and` token and the next property, and prepare for a relational operator */
+    /** parse an `and` token and the next property, and prepare for a relational operator */
     def and[A](prop: Prop[_ >: P <: Persistent, A]) =
-      new GatherRelational(prop, Some(CondPrefix(prefix, AndOp)))
+      new DslPostProp(prop, Some(CondPrefix(prefix, AndOp)))
 
-    /** gather an `and` token a (possibly parenthesized) query, and prepare for a logical operator */
-    def and(query: Query[P]) =
-      new GatherLogical(ConditionalQuery(prefix, AndOp, query))
+    /** parse an `and` token a (possibly parenthesized) query, and prepare for a logical operator */
+    def and(filter: QueryFilter[P]) =
+      new DslPostQueryFilter(ConditionalFilter(prefix, AndOp, filter))
 
-    /** gather an `or` token and the next property, and prepare for a relational operator */
+    /** parse an `or` token and the next property, and prepare for a relational operator */
     def or[A](prop: Prop[_ >: P <: Persistent, A]) =
-      new GatherRelational(prop, Some(CondPrefix(prefix, OrOp)))
+      new DslPostProp(prop, Some(CondPrefix(prefix, OrOp)))
 
-    /** gather an `or` token a (possibly parenthesized) query, and prepare for a logical operator */
-    def or(query: Query[P]) =
-      new GatherLogical(ConditionalQuery(prefix, OrOp, query))
+    /** parse an `or` token a (possibly parenthesized) query, and prepare for a logical operator */
+    def or(filter: QueryFilter[P]) =
+      new DslPostQueryFilter(ConditionalFilter(prefix, OrOp, filter))
 
   }
 
-  /** terminate gathering the expression and produce it */
-  implicit def queryProduce(gather: GatherLogical): Query[P] = gather.prefix
+  /** we are done parsing a complete [[QueryFilter]] */
+  implicit def toQueryFilter(postFilter: DslPostQueryFilter): QueryFilter[P] = postFilter.prefix
+
+  /** we are done parsing a complete [[Query]] */
+  implicit def toQuery(postFilter: DslPostQueryFilter): Query[P] = Query(postFilter.prefix)
 
 }

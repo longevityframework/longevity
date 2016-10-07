@@ -9,19 +9,20 @@ import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.ConditionalQuery
-import longevity.subdomain.ptype.RelationalQuery
+import longevity.subdomain.ptype.ConditionalFilter
+import longevity.subdomain.ptype.RelationalFilter
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.Query.All
-import longevity.subdomain.ptype.Query.AndOp
-import longevity.subdomain.ptype.Query.EqOp
-import longevity.subdomain.ptype.Query.GtOp
-import longevity.subdomain.ptype.Query.GteOp
-import longevity.subdomain.ptype.Query.LtOp
-import longevity.subdomain.ptype.Query.LteOp
-import longevity.subdomain.ptype.Query.NeqOp
-import longevity.subdomain.ptype.Query.OrOp
+import longevity.subdomain.ptype.QueryFilter
+import longevity.subdomain.ptype.QueryFilter.All
+import longevity.subdomain.ptype.QueryFilter.AndOp
+import longevity.subdomain.ptype.QueryFilter.EqOp
+import longevity.subdomain.ptype.QueryFilter.GtOp
+import longevity.subdomain.ptype.QueryFilter.GteOp
+import longevity.subdomain.ptype.QueryFilter.LtOp
+import longevity.subdomain.ptype.QueryFilter.LteOp
+import longevity.subdomain.ptype.QueryFilter.NeqOp
+import longevity.subdomain.ptype.QueryFilter.OrOp
 import longevity.subdomain.realized.RealizedPropComponent
 import scala.collection.JavaConversions.asScalaBuffer
 import scala.concurrent.ExecutionContext
@@ -58,8 +59,8 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
   }
 
   private def queryResultSet(query: Query[P]): ResultSet = {
-    val info = queryInfo(query)
-    val conjunction = retrieveByQueryConjunction(info)
+    val info = filterInfo(query.filter)
+    val conjunction = queryWhereClause(info)
     val cql = s"SELECT * FROM $tableName WHERE $conjunction ALLOW FILTERING"
     val bindings = info.bindValues
     logger.debug(s"executing CQL: $cql with bindings: $bindings")
@@ -67,62 +68,57 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
     session.execute(boundStatement)
   }
 
-  protected def retrieveByQueryConjunction(queryInfo: QueryInfo): String = queryInfo.whereClause
+  protected def queryWhereClause(filterInfo: FilterInfo): String = filterInfo.whereClause
 
-  protected case class QueryInfo(whereClause: String, bindValues: Seq[AnyRef])
+  protected case class FilterInfo(whereClause: String, bindValues: Seq[AnyRef])
 
-  private object QueryInfo {
-    def and(lhs: QueryInfo, rhs: QueryInfo) =
-      QueryInfo(s"${lhs.whereClause} AND ${rhs.whereClause}", lhs.bindValues ++ rhs.bindValues)    
-  }
+  private def andFilterInfos(lhs: FilterInfo, rhs: FilterInfo) =
+    FilterInfo(s"${lhs.whereClause} AND ${rhs.whereClause}", lhs.bindValues ++ rhs.bindValues)    
 
-  private def queryInfo(query: Query[P]): QueryInfo = query match {
-    case All() => throw new AllInQueryException
-    case q: RelationalQuery[_, _] if q.op == NeqOp => throw new NeqInQueryException
-    case q: RelationalQuery[_, _] if q.op == EqOp => equalityQueryQueryInfo(q)
-    case q: RelationalQuery[_, _] => orderingQueryQueryInfo(q)
-    case ConditionalQuery(lhs, op, rhs) => op match {
-      case AndOp =>
-        QueryInfo.and(queryInfo(lhs), queryInfo(rhs))
-      case OrOp => throw new OrInQueryException
+  private def filterInfo(filter: QueryFilter[P]): FilterInfo = filter match {
+    case All()   => throw new AllInQueryException
+    case RelationalFilter(lhs, op, rhs) => op match {
+      case EqOp  => equalityQueryFilterInfo(lhs, rhs)
+      case NeqOp => throw new NeqInQueryException
+      case LtOp  => orderingQueryFilterInfo(lhs, "<",  rhs)
+      case LteOp => orderingQueryFilterInfo(lhs, "<=", rhs)
+      case GtOp  => orderingQueryFilterInfo(lhs, ">",  rhs)
+      case GteOp => orderingQueryFilterInfo(lhs, ">=", rhs)
+    }
+    case ConditionalFilter(lhs, op, rhs) => op match {
+      case AndOp => andFilterInfos(filterInfo(lhs), filterInfo(rhs))
+      case OrOp  => throw new OrInQueryException
     }
   }
 
-  private def equalityQueryQueryInfo[A](query: RelationalQuery[P, A]): QueryInfo = {
-    val infos: Seq[QueryInfo] = toComponents(query.prop).map { component =>
-      val componentValue = cassandraValue(component.innerPropPath.get(query.value))
-      QueryInfo(s"${columnName(component)} = :${columnName(component)}", Seq(componentValue))
+  private def equalityQueryFilterInfo[A](prop: Prop[_ >: P <: Persistent, A], value: A): FilterInfo = {
+    val infos: Seq[FilterInfo] = toComponents(prop).map { component =>
+      val componentValue = cassandraValue(component.innerPropPath.get(value))
+      FilterInfo(s"${columnName(component)} = :${columnName(component)}", Seq(componentValue))
     }
-    infos.tail.fold(infos.head)(QueryInfo.and)
+    infos.tail.fold(infos.head)(andFilterInfos)
   }
 
-  private def orderingQueryQueryInfo[A](query: RelationalQuery[P, A]): QueryInfo = {
-    val components = toComponents(query.prop)
-    def componentsToQueryInfo(components: Seq[RealizedPropComponent[_ >: P <: Persistent, A, _]]): QueryInfo = {
+  private def orderingQueryFilterInfo[A](prop: Prop[_ >: P <: Persistent, A], opString: String, value: A)
+  : FilterInfo = {
+    val components = toComponents(prop)
+    def componentsToFilterInfo(components: Seq[RealizedPropComponent[_ >: P <: Persistent, A, _]]): FilterInfo = {
       if (components.size == 1) {
         def info[B](component: RealizedPropComponent[_ >: P <: Persistent, A, B]) = {
-          val componentValue = cassandraValue(component.innerPropPath.get(query.value))
-          val opString = query.op match {
-            case LtOp => "<"
-            case LteOp => "<="
-            case GtOp => ">"
-            case GteOp => ">="
-            case _ => "***"
-          }
-          QueryInfo(s"${columnName(component)} $opString :${columnName(component)}", Seq(componentValue))
+          val componentValue = cassandraValue(component.innerPropPath.get(value))
+          FilterInfo(s"${columnName(component)} $opString :${columnName(component)}", Seq(componentValue))
         }
         info(components.head)
       } else {
         throw new CompoundPropInOrderingQuery
       }
     }
-    componentsToQueryInfo(components)
+    componentsToFilterInfo(components)
   }
 
   def toComponents[A](prop: Prop[_ >: P <: Persistent, A])
   : Seq[RealizedPropComponent[_ >: P <: Persistent, A, _]] = {
     realizedPType.realizedProps(prop).realizedPropComponents
   }
-
 
 }

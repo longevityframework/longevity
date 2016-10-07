@@ -5,6 +5,7 @@ import longevity.subdomain.Subdomain
 import longevity.subdomain.Persistent
 import longevity.subdomain.PTypePool
 import longevity.subdomain.ptype.Query
+import longevity.subdomain.ptype.QueryFilter
 import longevity.subdomain.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -56,27 +57,27 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     import DslPersistent._
     val value = 7
 
-    var expected: Query[DslPersistent] = Query.eqs(props.path1, value)
+    var expected: Query[DslPersistent] = Query(QueryFilter.eqs(props.path1, value))
     var actual: Query[DslPersistent] = props.path1 eqs value
     actual should equal (expected)
 
-    expected = Query.neq(props.path1, value)
+    expected = Query(QueryFilter.neq(props.path1, value))
     actual = props.path1 neq value
     actual should equal (expected)
 
-    expected = Query.lt(props.path1, value)
+    expected = Query(QueryFilter.lt(props.path1, value))
     actual = props.path1 lt value
     actual should equal (expected)
 
-    expected = Query.lte(props.path1, value)
+    expected = Query(QueryFilter.lte(props.path1, value))
     actual = props.path1 lte value
     actual should equal (expected)
 
-    expected = Query.gt(props.path1, value)
+    expected = Query(QueryFilter.gt(props.path1, value))
     actual = props.path1 gt value
     actual should equal (expected)
 
-    expected = Query.gte(props.path1, value)
+    expected = Query(QueryFilter.gte(props.path1, value))
     actual = props.path1 gte value
     actual should equal (expected)
 
@@ -87,7 +88,11 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     val value1 = 7
     val value2 = 1.2
 
-    var expected: Query[DslPersistent] = Query.and(Query.eqs(props.path1, value1), Query.eqs(props.path2, value2))
+    var expected: Query[DslPersistent] =
+      Query(
+        QueryFilter.and(
+          QueryFilter.eqs(props.path1, value1),
+          QueryFilter.eqs(props.path2, value2)))
     var actual: Query[DslPersistent] = props.path1 eqs value1 and props.path2 eqs value2
     actual should equal (expected)
 
@@ -100,7 +105,11 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     actual = (props.path1 eqs value1) and (props.path2 eqs value2)
     actual should equal (expected)
 
-    expected = Query.or(Query.eqs(props.path1, value1), Query.eqs(props.path2, value2))
+    expected =
+      Query(
+        QueryFilter.or(
+          QueryFilter.eqs(props.path1, value1),
+          QueryFilter.eqs(props.path2, value2)))
     actual = props.path1 eqs value1 or props.path2 eqs value2
     actual should equal (expected)
 
@@ -122,12 +131,14 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     val value3 = "string"
 
     var expected: Query[DslPersistent] =
-      Query.and(
-        Query.and(
-          Query.eqs(props.path1, value1),
-          Query.eqs(props.path2, value2)),
-        Query.eqs(props.path3, value3))
-    var actual: Query[DslPersistent] = props.path1 eqs value1 and props.path2 eqs value2 and props.path3 eqs value3
+      Query(
+        QueryFilter.and(
+          QueryFilter.and(
+            QueryFilter.eqs(props.path1, value1),
+            QueryFilter.eqs(props.path2, value2)),
+          QueryFilter.eqs(props.path3, value3)))
+    var actual: Query[DslPersistent] =
+        props.path1 eqs value1 and props.path2 eqs value2 and props.path3 eqs value3
     actual should equal (expected)
 
     actual = (props.path1 eqs value1) and props.path2 eqs value2 and props.path3 eqs value3
@@ -152,11 +163,12 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     actual should equal (expected)
 
     expected =
-      Query.or(
-        Query.or(
-          Query.eqs(props.path1, value1),
-          Query.eqs(props.path2, value2)),
-        Query.eqs(props.path3, value3))
+      Query(
+        QueryFilter.or(
+          QueryFilter.or(
+            QueryFilter.eqs(props.path1, value1),
+            QueryFilter.eqs(props.path2, value2)),
+          QueryFilter.eqs(props.path3, value3)))
     actual = props.path1 eqs value1 or props.path2 eqs value2 or props.path3 eqs value3
     actual should equal (expected)
 
@@ -182,11 +194,12 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
     actual should equal (expected)
 
     expected =
-      Query.and(
-        Query.eqs(props.path1, value1),
-        Query.or(
-          Query.eqs(props.path2, value2),
-          Query.eqs(props.path3, value3)))
+      Query(
+        QueryFilter.and(
+          QueryFilter.eqs(props.path1, value1),
+          QueryFilter.or(
+            QueryFilter.eqs(props.path2, value2),
+            QueryFilter.eqs(props.path3, value3))))
     actual = props.path1 eqs value1 and (props.path2 eqs value2 or props.path3 eqs value3)
     actual should equal (expected)
 

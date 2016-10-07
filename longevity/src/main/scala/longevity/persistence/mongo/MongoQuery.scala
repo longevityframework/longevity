@@ -8,18 +8,19 @@ import com.mongodb.casbah.commons.Implicits.wrapDBObj
 import com.mongodb.casbah.commons.MongoDBObject
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.ConditionalQuery
-import longevity.subdomain.ptype.RelationalQuery
+import longevity.subdomain.ptype.ConditionalFilter
+import longevity.subdomain.ptype.RelationalFilter
 import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.Query.All
-import longevity.subdomain.ptype.Query.AndOp
-import longevity.subdomain.ptype.Query.EqOp
-import longevity.subdomain.ptype.Query.GtOp
-import longevity.subdomain.ptype.Query.GteOp
-import longevity.subdomain.ptype.Query.LtOp
-import longevity.subdomain.ptype.Query.LteOp
-import longevity.subdomain.ptype.Query.NeqOp
-import longevity.subdomain.ptype.Query.OrOp
+import longevity.subdomain.ptype.QueryFilter
+import longevity.subdomain.ptype.QueryFilter.All
+import longevity.subdomain.ptype.QueryFilter.AndOp
+import longevity.subdomain.ptype.QueryFilter.EqOp
+import longevity.subdomain.ptype.QueryFilter.GtOp
+import longevity.subdomain.ptype.QueryFilter.GteOp
+import longevity.subdomain.ptype.QueryFilter.LtOp
+import longevity.subdomain.ptype.QueryFilter.LteOp
+import longevity.subdomain.ptype.QueryFilter.NeqOp
+import longevity.subdomain.ptype.QueryFilter.OrOp
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -46,15 +47,15 @@ private[mongo] trait MongoQuery[P <: Persistent] {
   }
 
   private def queryCursor(query: Query[P]): MongoCursor = {
-    val casbah = mongoQuery(query)
+    val casbah = mongoQuery(query.filter)
     logger.debug(s"calling MongoCollection.find: $casbah")
     mongoCollection.find(casbah)
   }
 
-  protected def mongoQuery(query: Query[P]): MongoDBObject = {
-    query match {
-      case All() => MongoDBObject("$comment" -> "matching Query.All")
-      case RelationalQuery(prop, op, value) => op match {
+  protected def mongoQuery(filter: QueryFilter[P]): MongoDBObject = {
+    filter match {
+      case All() => MongoDBObject("$comment" -> "matching QueryFilter.All")
+      case RelationalFilter(prop, op, value) => op match {
         case EqOp  => MongoDBObject(prop.path -> propValToMongo(value, prop))
         case NeqOp => MongoDBObject(prop.path -> MongoDBObject("$ne" -> propValToMongo(value, prop)))
         case LtOp  => MongoDBObject(prop.path -> MongoDBObject("$lt" -> propValToMongo(value, prop)))
@@ -62,7 +63,7 @@ private[mongo] trait MongoQuery[P <: Persistent] {
         case GtOp  => MongoDBObject(prop.path -> MongoDBObject("$gt" -> propValToMongo(value, prop)))
         case GteOp => MongoDBObject(prop.path -> MongoDBObject("$gte" -> propValToMongo(value, prop)))
       }
-      case ConditionalQuery(lhs, op, rhs) => op match {
+      case ConditionalFilter(lhs, op, rhs) => op match {
         case AndOp => MongoDBObject("$and" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
         case OrOp  => MongoDBObject("$or" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
       }

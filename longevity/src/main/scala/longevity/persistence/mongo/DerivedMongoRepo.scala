@@ -5,7 +5,7 @@ import com.mongodb.casbah.commons.MongoDBObject
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.Query
+import longevity.subdomain.ptype.QueryFilter
 
 private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] extends MongoRepo[P] {
 
@@ -25,7 +25,7 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
     super.keyValQuery(keyVal) ++ MongoDBObject("_discriminator" -> discriminatorValue)
   }
 
-  override protected def mongoQuery(query: Query[P]): MongoDBObject = {
+  override protected def mongoQuery(query: QueryFilter[P]): MongoDBObject = {
     super.mongoQuery(query) ++ MongoDBObject("_discriminator" -> discriminatorValue)
   }
 

@@ -29,7 +29,7 @@ private[inmem] trait InMemQuery[P <: Persistent] {
   }
 
   private def queryResults(query: Query[P]): Seq[PState[P]] =
-    allPStates.filter { s => InMemRepo.queryMatches(query, s.get, realizedPType) }
+    allPStates.filter { s => InMemRepo.queryFilterMatches(query.filter, s.get, realizedPType) }
 
   protected[inmem] def allPStates: Seq[PState[P]] = idToPStateMap.values.view.toSeq
 

@@ -6,7 +6,8 @@ import longevity.context.LongevityContext
 import longevity.context.Mongo
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.basics._
-import longevity.subdomain.ptype.Query.All
+import longevity.subdomain.ptype.Query
+import longevity.subdomain.ptype.QueryFilter.All
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class BasicsMongoQuerySpec extends QuerySpec[Basics](
@@ -30,7 +31,7 @@ class BasicsMongoQuerySpec extends QuerySpec[Basics](
   behavior of "MongoRepo.retrieveByQuery"
 
   it should "produce expected results for Query.All" in {
-    exerciseQuery(All(), true)
+    exerciseQuery(Query(All()), true)
   }
 
   it should "produce expected results for simple equality queries" in {

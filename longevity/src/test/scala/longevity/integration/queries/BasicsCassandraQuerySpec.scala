@@ -10,7 +10,7 @@ import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.integration.subdomain.basics._
 import longevity.subdomain.ptype.Query
-import longevity.subdomain.ptype.Query.All
+import longevity.subdomain.ptype.QueryFilter.All
 import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -35,7 +35,7 @@ class BasicsCassandraQuerySpec extends QuerySpec[Basics](
   behavior of "CassandraRepo.retrieveByQuery"
 
   it should "produce expected results for Query.All" in {
-    repo.retrieveByQuery(All()).failed.futureValue shouldBe a [AllInQueryException]
+    repo.retrieveByQuery(Query(All())).failed.futureValue shouldBe a [AllInQueryException]
   }
 
   it should "produce expected results for simple equality queries" in {

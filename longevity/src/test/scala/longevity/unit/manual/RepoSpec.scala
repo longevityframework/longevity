@@ -137,14 +137,16 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLoggin
       import com.github.nscala_time.time.Imports._
       import longevity.persistence.PState
       import longevity.subdomain.ptype.Query
+      import longevity.subdomain.ptype.QueryFilter
       import scala.concurrent.Future
 
       val blog: Blog = ???
 
       val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
-        Query.and(
-          Query.eqs(BlogPost.props.blog, blog.uri),
-          Query.gt(BlogPost.props.postDate, DateTime.now - 1.week)))
+        Query(
+          QueryFilter.and(
+            QueryFilter.eqs(BlogPost.props.blog, blog.uri),
+            QueryFilter.gt(BlogPost.props.postDate, DateTime.now - 1.week))))
     }
 
     if (false) { // don't run, just compile

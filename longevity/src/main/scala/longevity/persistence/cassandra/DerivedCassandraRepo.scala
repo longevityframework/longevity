@@ -55,8 +55,8 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
   override protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String =
     super.keyValSelectStatementConjunction(key) + s"\nAND\n  discriminator = '$discriminatorValue'"
 
-  override protected def retrieveByQueryConjunction(queryInfo: QueryInfo): String =
-    super.retrieveByQueryConjunction(queryInfo) + s"\nAND\n  discriminator = '$discriminatorValue'"
+  override protected def queryWhereClause(filterInfo: FilterInfo): String =
+    super.queryWhereClause(filterInfo) + s"\nAND\n  discriminator = '$discriminatorValue'"
 
   private def discriminatorValue = pTypeKey.name
 

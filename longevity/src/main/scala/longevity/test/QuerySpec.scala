@@ -121,7 +121,7 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
   private def generateP(): P = longevityContext.testDataGenerator.generate[P]
 
   private def entitiesMatchingQuery(query: Query[P], entities: Set[P]): Set[P] = {
-    entities.filter(InMemRepo.queryMatches(query, _, repo.realizedPType))
+    entities.filter(InMemRepo.queryFilterMatches(query.filter, _, repo.realizedPType))
   }
 
 }
