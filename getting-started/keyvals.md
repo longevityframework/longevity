@@ -12,9 +12,11 @@ package simbl.domain
 
 import longevity.subdomain.KeyVal
 
-case class Username(username: String)
-extends KeyVal[User, Username](User.keys.username)
+case class Username(username: String) extends KeyVal[User, Username]
 ```
+
+Like `Persistent` and `Embeddable`, `KeyVal` is just an empty marker
+trait that we use for type-safety.
 
 Aside from being parts of our user aggregate, we can also embed them
 in other classes. For instance, `BlogPost` contains a `Set[Username]`

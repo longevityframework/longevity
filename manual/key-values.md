@@ -13,8 +13,7 @@ this in longevity like so:
 ```scala
 import longevity.subdomain.KeyVal
 
-case class Username(username: String)
-extends KeyVal[User, Username](User.keys.username)
+case class Username(username: String) extends KeyVal[User, Username]
 
 import longevity.subdomain.Persistent
 
@@ -36,9 +35,9 @@ object User extends PType[User] {
 }
 ```
 
-As you can see, we have to define the [key](ptype/keys.html) in order
-to define our `KeyVal`. We will go into the details of keys in a later
-section, but we will include them here so that the examples are
+The `User.keys.username` field defines the [key](ptype/keys.html) for
+our key value type `Username`. We will go into the details of keys in
+a later section, but we include them here so that the examples are
 correct.
 
 The second way we can embed a `KeyVal` in a persistent object is as a
@@ -49,8 +48,7 @@ specify the sponsor by providing the sponsor's username, like so:
 ```scala
 import longevity.subdomain.KeyVal
 
-case class Username(username: String)
-extends KeyVal[User, Username](User.keys.username)
+case class Username(username: String) extends KeyVal[User, Username]
 
 import longevity.subdomain.Persistent
 

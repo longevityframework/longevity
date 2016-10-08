@@ -15,8 +15,7 @@ import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
-case class Username(username: String)
-extends KeyVal[User, Username](User.keys.username)
+case class Username(username: String) extends KeyVal[User, Username]
 
 case class User(
   username: Username,
