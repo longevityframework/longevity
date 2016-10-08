@@ -168,7 +168,7 @@ object PolySpec {
     import longevity.subdomain.Persistent
 
     case class Username(username: String)
-    extends KeyVal[User, Username](User.keys.username)
+    extends KeyVal[User, Username]
 
     trait User extends Persistent {
       val username: Username

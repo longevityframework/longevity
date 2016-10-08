@@ -5,5 +5,4 @@ import longevity.subdomain.KeyVal
 case class SecondaryKey(
   id: String,
   associated: AssociatedId)
-extends KeyVal[KeyWithForeignKey, SecondaryKey](
-  KeyWithForeignKey.keys.secondaryKey)
+extends KeyVal[KeyWithForeignKey, SecondaryKey]

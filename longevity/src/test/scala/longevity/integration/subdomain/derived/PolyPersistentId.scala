@@ -2,7 +2,5 @@ package longevity.integration.subdomain.derived
 
 import longevity.subdomain.KeyVal
 
-case class PolyPersistentId(
-  id: String)
-extends KeyVal[PolyPersistent, PolyPersistentId](
-  PolyPersistent.keys.id)
+case class PolyPersistentId(id: String)
+extends KeyVal[PolyPersistent, PolyPersistentId]

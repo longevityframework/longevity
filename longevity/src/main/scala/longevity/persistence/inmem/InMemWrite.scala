@@ -49,13 +49,15 @@ private[inmem] trait InMemWrite[P <: Persistent] {
     keyValToPStateMap += ((keyVal, state)) // Scala compiler gripes on -> pair syntax here
 
   protected[inmem] def assertUniqueKeyVals(state: PState[P]): Unit = keys.foreach { key =>
-    assertUniqueKeyVal(key.keyValForP(state.get), state)
+    assertUniqueKeyVal(key, key.keyValForP(state.get), state)
   }
 
-  protected[inmem] def assertUniqueKeyVal(keyVal: AnyKeyVal[_ <: Persistent], state: PState[P]): Unit = {
-    if (keyValToPStateMap.contains(keyVal) &&
-        keyValToPStateMap(keyVal).id != state.id) {
-      throw new DuplicateKeyValException[P](state.get, keyVal.key)
+  protected[inmem] def assertUniqueKeyVal(
+    realizedKey: AnyRealizedKey[_ >: P <: Persistent],
+    keyVal: AnyKeyVal[_ <: Persistent],
+    state: PState[P]): Unit = {
+    if (keyValToPStateMap.contains(keyVal) && keyValToPStateMap(keyVal).id != state.id) {
+      throw new DuplicateKeyValException[P](state.get, realizedKey.key)
     }
   }
 

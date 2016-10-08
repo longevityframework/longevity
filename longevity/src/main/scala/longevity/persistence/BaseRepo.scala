@@ -32,7 +32,7 @@ extends Repo[P] {
   /** the type key for the persistent entities this repository handles */
   protected[persistence] val pTypeKey: TypeKey[P] = pType.pTypeKey
 
-  def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
+  def retrieveOne[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
 
   def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed]

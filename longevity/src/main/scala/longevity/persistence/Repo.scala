@@ -1,5 +1,6 @@
 package longevity.persistence
 
+import emblem.TypeKey
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Query
@@ -23,7 +24,7 @@ trait Repo[P <: Persistent] {
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieve[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[Option[PState[P]]]
 
   /** retrieves an optional persistent object from a
@@ -36,7 +37,7 @@ trait Repo[P <: Persistent] {
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieveOne[V <: KeyVal[P, V]](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieveOne[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[PState[P]]
 
   /** retrieves multiple persistent objects matching a query

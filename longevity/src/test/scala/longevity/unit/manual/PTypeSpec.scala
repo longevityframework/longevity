@@ -70,7 +70,7 @@ object PTypeSpec {
     import longevity.subdomain.PType
 
     case class Username(username: String)
-    extends KeyVal[User, Username](User.keys.username)
+    extends KeyVal[User, Username]
 
     case class User(
       username: Username,
@@ -101,10 +101,10 @@ object PTypeSpec {
     import longevity.subdomain.PType
 
     case class Username(username: String)
-    extends KeyVal[User, Username](User.keys.username)
+    extends KeyVal[User, Username]
 
     case class FullName(first: String, last: String)
-    extends KeyVal[User, FullName](User.keys.fullName)
+    extends KeyVal[User, FullName]
 
     case class User(
       username: Username,
@@ -136,7 +136,7 @@ object PTypeSpec {
     import longevity.subdomain.PType
 
     case class Username(username: String)
-    extends KeyVal[User, Username](User.keys.username)
+    extends KeyVal[User, Username]
 
     case class User(
       username: Username,
@@ -202,10 +202,10 @@ object PTypeSpec {
     import longevity.subdomain.PType
 
     case class Username(username: String)
-    extends KeyVal[User, Username](User.usernameKey)
+    extends KeyVal[User, Username]
 
     case class Email(email: String)
-    extends KeyVal[User, Email](User.emailKey)
+    extends KeyVal[User, Email]
 
     case class User(
       username: Username,

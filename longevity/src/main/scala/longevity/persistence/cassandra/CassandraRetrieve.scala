@@ -2,6 +2,7 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
+import emblem.TypeKey
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
@@ -14,7 +15,7 @@ import scala.concurrent.blocking
 private[cassandra] trait CassandraRetrieve[P <: Persistent] {
   repo: CassandraRepo[P] =>
 
-  def retrieve[V <: KeyVal[P, V]](keyVal: V)(implicit context: ExecutionContext) = {
+  def retrieve[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = {
     logger.debug(s"calling CassandraRepo.retrieve: $keyVal")
     val stateOption = retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
     logger.debug(s"done calling CassandraRepo.retrieve: $stateOption")
@@ -48,8 +49,8 @@ private[cassandra] trait CassandraRetrieve[P <: Persistent] {
     key.realizedProp.realizedPropComponents.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
   }
 
-  private def bindKeyValSelectStatement[V <: KeyVal[P, V]](keyVal: V): BoundStatement = {
-    val realizedKey: RealizedKey[P, V] = realizedPType.realizedKeys(keyVal.key)
+  private def bindKeyValSelectStatement[V <: KeyVal[P, V] : TypeKey](keyVal: V): BoundStatement = {
+    val realizedKey: RealizedKey[P, V] = realizedPType.realizedKey[V]
     val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
       cassandraValue(component.innerPropPath.get(keyVal))
     }

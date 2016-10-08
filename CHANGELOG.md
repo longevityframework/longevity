@@ -1,5 +1,9 @@
 # Longevity Changelog
 
+- 2016.10.08 - Remove `KeyVal.key` and change `KeyVal` from an
+  abstract class into a trait. To migrate existing code, you will need
+  to remove the `Key` argument supplied to each of your `KeyVal` types.
+
 ## [0.14-SNAPSHOT] - Subdomain Repackaging
 
 - 2016.10.04 - Rename `DerivedType` to `DerivedEType`. Rename

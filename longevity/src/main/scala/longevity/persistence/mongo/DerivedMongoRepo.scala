@@ -2,6 +2,7 @@ package longevity.persistence.mongo
 
 import com.mongodb.casbah.commons.Implicits.wrapDBObj
 import com.mongodb.casbah.commons.MongoDBObject
+import emblem.TypeKey
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
@@ -21,7 +22,7 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
     anyToMongoDBObject(persistentToCasbahTranslator.translate[Poly](p, false)(polyRepo.pTypeKey))
   }
 
-  override protected def keyValQuery[V <: KeyVal[P, V]](keyVal: V): MongoDBObject = {
+  override protected def keyValQuery[V <: KeyVal[P, V] : TypeKey](keyVal: V): MongoDBObject = {
     super.keyValQuery(keyVal) ++ MongoDBObject("_discriminator" -> discriminatorValue)
   }
 

@@ -28,7 +28,7 @@ object QueryDslSpec {
   }
 
   private case class AssociatedId(id: String)
-  extends KeyVal[Associated, AssociatedId](Associated.keys.id)
+  extends KeyVal[Associated, AssociatedId]
 
   private case class Associated(id: AssociatedId) extends Persistent
 
