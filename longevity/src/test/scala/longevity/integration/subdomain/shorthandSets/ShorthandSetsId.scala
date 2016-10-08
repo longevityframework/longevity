@@ -2,7 +2,5 @@ package longevity.integration.subdomain.shorthandSets
 
 import longevity.subdomain.KeyVal
 
-case class ShorthandSetsId(
-  id: String)
-extends KeyVal[ShorthandSets, ShorthandSetsId](
-  ShorthandSets.keys.id)
+case class ShorthandSetsId(id: String)
+extends KeyVal[ShorthandSets, ShorthandSetsId]

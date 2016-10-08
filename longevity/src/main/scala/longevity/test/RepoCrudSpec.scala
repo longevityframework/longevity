@@ -89,7 +89,7 @@ extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
 
         And(s"further retrieval operations should retrieve the same $pName")
         repo.realizedPType.keySet.foreach { key =>
-          val retrieved: PState[P] = retrieveByKey(key, created.get)
+          val retrieved: PState[P] = retrieveByKey(key, created.get).value
           retrieved.get should equal (p)
         }
 
@@ -106,7 +106,7 @@ extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
         When(s"we retrieve the $pName by any of its keys")
         Then(s"we get back the same $pName persistent state")
         repo.realizedPType.keySet.foreach { key =>
-          val retrieved: PState[P] = retrieveByKey(key, created.get)
+          val retrieved: PState[P] = retrieveByKey(key, created.get).value
           retrieved.get should equal (p)
         }
       }
@@ -137,8 +137,7 @@ extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
 
         And(s"further retrieval operations should retrieve the updated copy")
         repo.realizedPType.keySet.foreach { key =>
-          val keyValForP = key.keyValForP(created.get)
-          val retrieved: PState[P] = repo.retrieve(keyValForP).futureValue.value
+          val retrieved: PState[P] = retrieveByKey(key, modifiedP).value
           retrieved.get should equal (modifiedP)
         }
       }
@@ -158,8 +157,7 @@ extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
 
         And(s"we should no longer be able to retrieve the $pName")
         repo.realizedPType.keySet.foreach { key =>
-          val keyValForP = key.keyValForP(created.get)
-          val retrieved: Option[PState[P]] = repo.retrieve(keyValForP).futureValue
+          val retrieved: Option[PState[P]] = retrieveByKey(key, created.get)
           retrieved.isEmpty should be (true)
         }
       }
@@ -179,8 +177,10 @@ extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
 
     private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = longevityContext.testDataGenerator.generate(key)
 
-    private def retrieveByKey[V <: KeyVal[P, V]](key: RealizedKey[P, V], p: P): PState[P] = {
-      repo.retrieve(key.keyValForP(p)).futureValue.value
+    private def retrieveByKey[V <: KeyVal[P, V]](key: RealizedKey[P, V], p: P): Option[PState[P]] = {
+      val keyValForP = key.keyValForP(p)
+      implicit val keyValTypeKey = key.keyValTypeKey
+      repo.retrieve(key.keyValForP(p)).futureValue
     }
 
   }

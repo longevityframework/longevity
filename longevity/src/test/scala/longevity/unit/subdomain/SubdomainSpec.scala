@@ -2,26 +2,27 @@ package longevity.unit.subdomain
 
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.exceptions.subdomain.DuplicateETypesException
+import longevity.exceptions.subdomain.DuplicateKeyException
 import longevity.exceptions.subdomain.DuplicatePTypesException
 import longevity.exceptions.subdomain.NoSuchPropPathException
 import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.UnsupportedPropTypeException
-import longevity.subdomain.KeyVal
-import longevity.subdomain.Subdomain
 import longevity.subdomain.DerivedEType
+import longevity.subdomain.DerivedPType
+import longevity.subdomain.EType
 import longevity.subdomain.EType
 import longevity.subdomain.ETypePool
 import longevity.subdomain.Embeddable
 import longevity.subdomain.Embeddable
-import longevity.subdomain.EType
-import longevity.subdomain.PolyEType
-import longevity.subdomain.Persistent
-import longevity.subdomain.Persistent
-import longevity.subdomain.DerivedPType
+import longevity.subdomain.KeyVal
+import longevity.subdomain.PType
 import longevity.subdomain.PType
 import longevity.subdomain.PTypePool
+import longevity.subdomain.Persistent
+import longevity.subdomain.Persistent
+import longevity.subdomain.PolyEType
 import longevity.subdomain.PolyPType
-import longevity.subdomain.PType
+import longevity.subdomain.Subdomain
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -219,7 +220,7 @@ object SubdomainSpec {
 
   object subtypePropType {
 
-    case class AId(id: String) extends KeyVal[A, AId](A.keys.id)
+    case class AId(id: String) extends KeyVal[A, AId]
 
     case class A(id: AId) extends Persistent
     object A extends PType[A] {
@@ -233,6 +234,26 @@ object SubdomainSpec {
     }
 
     def subdomain = Subdomain("subtypePropType", PTypePool(A))
+  }
+
+  object duplicateKey {
+
+    case class AId(id: String) extends KeyVal[A, AId]
+
+    case class A(id1: AId, id2: AId) extends Persistent
+    object A extends PType[A] {
+      object props {
+        val id1 = prop[AId]("id1")
+        val id2 = prop[AId]("id2")
+      }
+      object keys {
+        val id1 = key(props.id1)
+        val id2 = key(props.id2)
+      }
+    }
+
+    def subdomain = Subdomain("subtypePropType", PTypePool(A))
+
   }
 
   object derivedPTypeHasNoPoly {
@@ -378,6 +399,12 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "throw exception when the specified prop type is a subtype of the actual type" in {
     intercept[PropTypeException] {
       SubdomainSpec.subtypePropType.subdomain
+    }
+  }
+
+  it should "throw exception when the PType has multiple keys with the same key value type" in {
+    intercept[DuplicateKeyException[_, _]] {
+      SubdomainSpec.duplicateKey.subdomain
     }
   }
 

@@ -2,7 +2,5 @@ package longevity.integration.subdomain.componentWithList
 
 import longevity.subdomain.KeyVal
 
-case class WithComponentWithListId(
-  id: String)
-extends KeyVal[WithComponentWithList, WithComponentWithListId](
-  WithComponentWithList.keys.id)
+case class WithComponentWithListId(id: String)
+extends KeyVal[WithComponentWithList, WithComponentWithListId]

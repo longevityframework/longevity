@@ -3,12 +3,13 @@ package longevity.subdomain.realized
 import emblem.TypeKey
 import emblem.emblematic.Emblematic
 import emblem.typeBound.TypeBoundMap
-import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
-import longevity.subdomain.ptype.AnyKey
+import emblem.typeKey
+import longevity.exceptions.subdomain.DuplicateKeyException
 import longevity.subdomain.DerivedPType
-import longevity.subdomain.ptype.Key
+import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
+import longevity.subdomain.Persistent
+import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.Prop
 
 private[longevity] class RealizedPType[P <: Persistent](
@@ -53,23 +54,28 @@ private[longevity] class RealizedPType[P <: Persistent](
     }
   }
 
-  private val realizedKeyMap: Map[AnyKey[P], AnyRealizedKey[P]] = {
-    val empty = Map[AnyKey[P], AnyRealizedKey[P]]()
+  private val realizedKeyMap: Map[TypeKey[_], AnyRealizedKey[P]] = {
+    val empty = Map[TypeKey[_], AnyRealizedKey[P]]()
     pType.keySet.foldLeft(empty) { (acc, key) =>
       def accumulate[A <: KeyVal[P, A]](key: Key[P, A]) = {
         val prop: Prop[P, A] = key.keyValProp
+        val keyValTypeKey = prop.propTypeKey
         val realizedKey = RealizedKey[P, A](key)(
           myRealizedProps(prop),
           emblematic)(
-          prop.propTypeKey)
-        acc + (key -> realizedKey)
+          keyValTypeKey)
+        if (acc.contains(keyValTypeKey)) {
+          throw new DuplicateKeyException()(pType.pTypeKey, keyValTypeKey)
+        }
+        acc + (keyValTypeKey -> realizedKey)
       }
       accumulate(key)
     }
   }
 
-  def realizedKeys[V <: KeyVal[P, V]](key: Key[P, V]): RealizedKey[P, V] =
-    realizedKeyMap(key).asInstanceOf[RealizedKey[P, V]]
+  def realizedKey[V <: KeyVal[P, V] : TypeKey]: RealizedKey[P, V] = {
+    realizedKeyMap(typeKey[V]).asInstanceOf[RealizedKey[P, V]]
+  }
 
   val keySet: Set[AnyRealizedKey[P]] = realizedKeyMap.values.toSet
 

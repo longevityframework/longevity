@@ -14,10 +14,10 @@ package object blogCore {
   import longevity.subdomain.PType
 
   case class Email(email: String)
-  extends KeyVal[User, Email](User.keys.email)
+  extends KeyVal[User, Email]
 
   case class Username(username: String)
-  extends KeyVal[User, Username](User.keys.username)
+  extends KeyVal[User, Username]
 
   case class Markdown(markdown: String) extends Embeddable
 
@@ -53,7 +53,7 @@ package object blogCore {
   extends Embeddable
 
   case class BlogUri(uri: Uri)
-  extends KeyVal[Blog, BlogUri](Blog.keys.uri)
+  extends KeyVal[Blog, BlogUri]
 
   case class Blog(
     uri: BlogUri,
@@ -72,7 +72,7 @@ package object blogCore {
   }
 
   case class BlogPostUri(uri: Uri)
-  extends KeyVal[BlogPost, BlogPostUri](BlogPost.keys.uri)
+  extends KeyVal[BlogPost, BlogPostUri]
 
   case class BlogPost(
     uri: BlogPostUri,
