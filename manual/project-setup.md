@@ -29,7 +29,7 @@ dependencies for the back end of your choice:
 ```scala
 libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.14.0"
 
-libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.13.1"
+libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.14.0"
 ```
 
 ## Building the Artifacts Yourself
