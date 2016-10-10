@@ -1,10 +1,10 @@
 package longevity.subdomain.ptype
 
 import longevity.subdomain.Persistent
-import longevity.subdomain.query.ConditionalFilter
-import longevity.subdomain.query.Query
-import longevity.subdomain.query.QueryFilter
 import longevity.subdomain.query.AndOp
+import longevity.subdomain.query.Ascending
+import longevity.subdomain.query.ConditionalFilter
+import longevity.subdomain.query.Descending
 import longevity.subdomain.query.EqOp
 import longevity.subdomain.query.GtOp
 import longevity.subdomain.query.GteOp
@@ -13,6 +13,10 @@ import longevity.subdomain.query.LtOp
 import longevity.subdomain.query.LteOp
 import longevity.subdomain.query.NeqOp
 import longevity.subdomain.query.OrOp
+import longevity.subdomain.query.Query
+import longevity.subdomain.query.QueryFilter
+import longevity.subdomain.query.QueryOrderBy
+import longevity.subdomain.query.QuerySortExpr
 import longevity.subdomain.query.RelationalFilter
 
 /** a DSL for creating [[longevity.subdomain.query.Query queries]]. you can find
@@ -83,15 +87,17 @@ class QueryDsl[P <: Persistent] {
    * [[longevity.subdomain.query.QueryFilter QueryFilter]]. there are multiple
    * possibilities for what comes next:
    *
-   * 1. if we see a [[longevity.subdomain.query.RelationalOp RelationalOp]]
-   * followed by a property, then we need to parse another
-   * [[longevity.subdomain.query.RelationalFilter RelationalFilter]].
-   *
-   * 2. if we see a [[longevity.subdomain.query.LogicalOp LogicalOp]]
+   * 1. if we see a [[longevity.subdomain.query.LogicalOp LogicalOp]]
    * followed by another [[longevity.subdomain.query.QueryFilter QueryFilter]],
    * then we combine the two query filters with the logical op.
    * 
-   * 3. we could be done parsing the complete
+   * 2. we parse an order-by clause
+   * 
+   * 3. we parse an offset clause
+   * 
+   * 4. we parse a limit clause
+   * 
+   * 5. we are done parsing the complete
    * [[longevity.subdomain.query.QueryFilter QueryFilter]].
    */
   class DslPostQueryFilter private[QueryDsl] (private[QueryDsl] val prefix: QueryFilter[P]) {
@@ -112,12 +118,105 @@ class QueryDsl[P <: Persistent] {
     def or(filter: QueryFilter[P]) =
       new DslPostQueryFilter(ConditionalFilter(prefix, OrOp, filter))
 
+    /** parse an `orderBy` clause, and prepare for optional offset and limit clauses */
+    def orderBy[A](ses: QuerySortExpr[P]*) = new DslPostOrderBy(
+      prefix,
+      QueryOrderBy(ses))
+
+    /** parse an `offset` clause, and prepare for an optional limit clause */
+    def offset(o: Long) = new DslPostOffset(prefix, QueryOrderBy(Seq()), Some(o))
+
+    /** parse a `limit` clause, and prepare for whatever comes after the offset (spoiler: nothing) */
+    def limit(o: Long) = new DslPostLimit(prefix, QueryOrderBy(Seq()), None, Some(o))
+
   }
 
   /** we are done parsing a complete [[longevity.subdomain.query.QueryFilter QueryFilter]] */
   implicit def toQueryFilter(postFilter: DslPostQueryFilter): QueryFilter[P] = postFilter.prefix
-
+ 
   /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
   implicit def toQuery(postFilter: DslPostQueryFilter): Query[P] = Query(postFilter.prefix)
+
+  /** we parse a `Prop` into a `QuerySortExpr` as needed */
+  implicit def toQuerySortExpr[A](prop: Prop[_ >: P <: Persistent, A]) = new QuerySortExpr[P](prop, Ascending)
+
+  /** we have parsed a `Prop` for a `QuerySortExpr`, now we are ready to parse an `asc` or `desc` qualifier */
+  class UnqualifiedSortExpr(val prop: Prop[_ >: P <: Persistent, _]) {
+    def asc = new QuerySortExpr[P](prop, Ascending)
+    def desc = new QuerySortExpr[P](prop, Descending)
+  }
+
+  /** parse a `Prop` and prepare to parse an `asc` or `desc` qualified */
+  implicit def toUnqualifiedSortExpr(prop: Prop[_ >: P <: Persistent, _]) = new UnqualifiedSortExpr(prop)
+
+  /** in the query DSL, we have just parsed a
+   * [[longevity.subdomain.query.QueryFilter QueryFilter]] and a
+   * [[longevity.subdomain.query.QueryOrderBy QueryOrderBy]]. there are multiple
+   * possibilities for what comes next:
+   *
+   * 1. we parse an offset clause
+   * 
+   * 2. we parse a limit clause
+   * 
+   * 3. we are done parsing the complete
+   * [[longevity.subdomain.query.QueryFilter QueryFilter]].
+   */
+  class DslPostOrderBy private[QueryDsl] (
+    private[QueryDsl] val prefix: QueryFilter[P],
+    private[QueryDsl] val orderBy: QueryOrderBy[P]) {
+
+    /** parse an `offset` clause, and prepare for an optional limit clause */
+    def offset(o: Long) = new DslPostOffset(prefix, orderBy, Some(o))
+
+    /** parse a `limit` clause, and prepare for whatever comes after the offset (spoiler: nothing) */
+    def limit(o: Long) = new DslPostLimit(prefix, orderBy, None, Some(o))
+
+  }
+
+  /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
+  implicit def toQuery(postOrderBy: DslPostOrderBy): Query[P] =
+    Query(postOrderBy.prefix, postOrderBy.orderBy)
+
+  /** in the query DSL, we have parsed a
+   * [[longevity.subdomain.query.QueryFilter QueryFilter]], a
+   * [[longevity.subdomain.query.QueryOrderBy QueryOrderBy]], and an offset
+   * clause. there are two possibilities for what comes next:
+   *
+   * 1. we parse a limit clause
+   * 
+   * 2. we are done parsing the complete
+   * [[longevity.subdomain.query.QueryFilter QueryFilter]].
+   */
+  class DslPostOffset private[QueryDsl] (
+    private[QueryDsl] val prefix: QueryFilter[P],
+    private[QueryDsl] val orderBy: QueryOrderBy[P],
+    private[QueryDsl] val offset: Option[Long]) {
+
+    /** parse a `limit` clause, and prepare for whatever comes after the offset (spoiler: nothing) */
+    def limit(o: Long) = new DslPostLimit(prefix, orderBy, offset, Some(o))
+
+  }
+
+  /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
+  implicit def toQuery(postOffset: DslPostOffset): Query[P] =
+    Query(postOffset.prefix, postOffset.orderBy, postOffset.offset)
+
+  /** in the query DSL, we have parsed a
+   * [[longevity.subdomain.query.QueryFilter QueryFilter]], a
+   * [[longevity.subdomain.query.QueryOrderBy QueryOrderBy]], an offset
+   * and a limit clause. there is one possibility for what comes next:
+   * 
+   * 1. we are done parsing the complete
+   * [[longevity.subdomain.query.QueryFilter QueryFilter]].
+   */
+  class DslPostLimit private[QueryDsl] (
+    private[QueryDsl] val prefix: QueryFilter[P],
+    private[QueryDsl] val orderBy: QueryOrderBy[P],
+    private[QueryDsl] val offset: Option[Long],
+    private[QueryDsl] val limit: Option[Long])
+
+  /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
+  implicit def toQuery(postLimit: DslPostLimit): Query[P] =
+    Query(postLimit.prefix, postLimit.orderBy, postLimit.offset, postLimit.limit)
 
 }

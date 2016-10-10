@@ -1,12 +1,16 @@
 package longevity.unit.subdomain.ptype
 
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Subdomain
-import longevity.subdomain.Persistent
-import longevity.subdomain.PTypePool
-import longevity.subdomain.query.Query
-import longevity.subdomain.query.QueryFilter
 import longevity.subdomain.PType
+import longevity.subdomain.PTypePool
+import longevity.subdomain.Persistent
+import longevity.subdomain.Subdomain
+import longevity.subdomain.query.Query
+import longevity.subdomain.query.Ascending
+import longevity.subdomain.query.Descending
+import longevity.subdomain.query.QueryFilter
+import longevity.subdomain.query.QueryOrderBy
+import longevity.subdomain.query.QuerySortExpr
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -201,6 +205,148 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
             QueryFilter.eqs(props.path2, value2),
             QueryFilter.eqs(props.path3, value3))))
     actual = props.path1 eqs value1 and (props.path2 eqs value2 or props.path3 eqs value3)
+    actual should equal (expected)
+
+  }
+
+  it should "support order-by clauses" in {
+    import DslPersistent._
+    val value = 7
+    var actual: Query[DslPersistent] = props.path1 eqs value orderBy props.path2
+
+    val singleAscendingOrder = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq(
+        QuerySortExpr(props.path2, Ascending))))
+
+    actual = props.path1 eqs value orderBy props.path2
+    actual should equal (singleAscendingOrder)
+
+    actual = props.path1 eqs value orderBy (props.path2)
+    actual should equal (singleAscendingOrder)
+
+    actual = props.path1 eqs value orderBy props.path2.asc
+    actual should equal (singleAscendingOrder)
+
+    actual = props.path1 eqs value orderBy (props.path2.asc)
+    actual should equal (singleAscendingOrder)
+
+    val singleDescendingOrder = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq(
+        QuerySortExpr(props.path2, Descending))))
+
+    actual = props.path1 eqs value orderBy props.path2.desc
+    actual should equal (singleDescendingOrder)
+
+    actual = props.path1 eqs value orderBy (props.path2.desc)
+    actual should equal (singleDescendingOrder)
+
+    val doubleAscendingOrder = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq(
+        QuerySortExpr(props.path2, Ascending),
+        QuerySortExpr(props.path3, Ascending))))
+
+    actual = props.path1 eqs value orderBy (props.path2, props.path3)
+    actual should equal (doubleAscendingOrder)
+
+    actual = props.path1 eqs value orderBy (props.path2.asc, props.path3.asc)
+    actual should equal (doubleAscendingOrder)
+
+    actual = props.path1 eqs value orderBy (props.path2.asc, props.path3)
+    actual should equal (doubleAscendingOrder)
+
+    import scala.language.postfixOps
+    actual = props.path1 eqs value orderBy (props.path2 asc, props.path3 asc)
+    actual should equal (doubleAscendingOrder)
+
+  }
+
+  it should "support offset clauses" in {
+    import DslPersistent._
+    val value = 7
+    var actual: Query[DslPersistent] = null
+
+    var expected = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq()),
+      Some(10))
+
+    actual = props.path1 eqs value offset 10
+    actual should equal (expected)
+
+    expected = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq(
+        QuerySortExpr(props.path2, Ascending))),
+      Some(10))
+
+    actual = props.path1 eqs value orderBy props.path2 offset 10
+    actual should equal (expected)
+
+    expected = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq(
+        QuerySortExpr(props.path2, Descending))),
+      Some(10))
+
+    actual = props.path1 eqs value orderBy props.path2.desc offset 10
+    actual should equal (expected)
+
+  }
+
+  it should "support limit clauses" in {
+    import DslPersistent._
+    val value = 7
+    var actual: Query[DslPersistent] = null
+
+    var expected = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq()),
+      None,
+      Some(10))
+
+    actual = props.path1 eqs value limit 10
+    actual should equal (expected)
+
+    expected = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq()),
+      Some(10),
+      Some(12))
+
+    actual = props.path1 eqs value offset 10 limit 12
+    actual should equal (expected)
+
+    expected = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq(
+        QuerySortExpr(props.path2, Ascending))),
+      None,
+      Some(10))
+
+    actual = props.path1 eqs value orderBy props.path2 limit 10
+    actual should equal (expected)
+
+    expected = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq(
+        QuerySortExpr(props.path2, Descending))),
+      None,
+      Some(10))
+
+    actual = props.path1 eqs value orderBy props.path2.desc limit 10
+    actual should equal (expected)
+
+    expected = Query(
+      QueryFilter.eqs(props.path1, value),
+      QueryOrderBy(Seq(
+        QuerySortExpr(props.path2, Descending))),
+      Some(10),
+      Some(12))
+
+    actual = props.path1 eqs value orderBy props.path2.desc offset 10 limit 12
     actual should equal (expected)
 
   }
