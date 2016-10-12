@@ -128,10 +128,10 @@ class QueryDsl[P <: Persistent] {
       QueryOrderBy(ses))
 
     /** parse an `offset` clause, and prepare for an optional limit clause */
-    def offset(o: Long) = new DslPostOffset(prefix, QueryOrderBy.empty, Some(o))
+    def offset(i: Int) = new DslPostOffset(prefix, QueryOrderBy.empty, Some(i))
 
     /** parse a `limit` clause, and prepare for whatever comes after the offset (spoiler: nothing) */
-    def limit(o: Long) = new DslPostLimit(prefix, QueryOrderBy.empty, None, Some(o))
+    def limit(i: Int) = new DslPostLimit(prefix, QueryOrderBy.empty, None, Some(i))
 
   }
 
@@ -170,10 +170,10 @@ class QueryDsl[P <: Persistent] {
     private[QueryDsl] val orderBy: QueryOrderBy[P]) {
 
     /** parse an `offset` clause, and prepare for an optional limit clause */
-    def offset(o: Long) = new DslPostOffset(prefix, orderBy, Some(o))
+    def offset(i: Int) = new DslPostOffset(prefix, orderBy, Some(i))
 
     /** parse a `limit` clause, and prepare for whatever comes after the offset (spoiler: nothing) */
-    def limit(o: Long) = new DslPostLimit(prefix, orderBy, None, Some(o))
+    def limit(i: Int) = new DslPostLimit(prefix, orderBy, None, Some(i))
 
   }
 
@@ -194,10 +194,10 @@ class QueryDsl[P <: Persistent] {
   class DslPostOffset private[QueryDsl] (
     private[QueryDsl] val prefix: QueryFilter[P],
     private[QueryDsl] val orderBy: QueryOrderBy[P],
-    private[QueryDsl] val offset: Option[Long]) {
+    private[QueryDsl] val offset: Option[Int]) {
 
     /** parse a `limit` clause, and prepare for whatever comes after the offset (spoiler: nothing) */
-    def limit(o: Long) = new DslPostLimit(prefix, orderBy, offset, Some(o))
+    def limit(i: Int) = new DslPostLimit(prefix, orderBy, offset, Some(i))
 
   }
 
@@ -216,8 +216,8 @@ class QueryDsl[P <: Persistent] {
   class DslPostLimit private[QueryDsl] (
     private[QueryDsl] val prefix: QueryFilter[P],
     private[QueryDsl] val orderBy: QueryOrderBy[P],
-    private[QueryDsl] val offset: Option[Long],
-    private[QueryDsl] val limit: Option[Long])
+    private[QueryDsl] val offset: Option[Int],
+    private[QueryDsl] val limit: Option[Int])
 
   /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
   implicit def toQuery(postLimit: DslPostLimit): Query[P] =

@@ -1,10 +1,19 @@
 # Longevity Changelog
 
+## [0.15-SNAPSHOT] - Query Enhancements
+
 - 2016.10.08 - Remove `KeyVal.key` and change `KeyVal` from an
   abstract class into a trait. To migrate existing code, you will need
   to remove the `Key` argument supplied to each of your `KeyVal` types.
+- 2016.10.12 - Queries have been extended with "order-by", "offset",
+  and "limit" clauses. The query DSL has likewise been extended.
+- 2016.10.12 - Many of the classes used to build queries have been
+  re-organized into new package `longevity.subdomain.query`. This
+  should not affect you if you are only using the query DSL.
 
-## [0.14-SNAPSHOT] - Subdomain Repackaging
+Please refer to the user manual for the latest on the query API.
+
+## [0.14.0] - Subdomain Repackaging
 
 - 2016.10.04 - Rename `DerivedType` to `DerivedEType`. Rename
   `PolyType` to `PolyEType`.

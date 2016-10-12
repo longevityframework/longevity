@@ -26,8 +26,8 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
     super.keyValQuery(keyVal) ++ MongoDBObject("_discriminator" -> discriminatorValue)
   }
 
-  override protected def mongoQuery(query: QueryFilter[P]): MongoDBObject = {
-    super.mongoQuery(query) ++ MongoDBObject("_discriminator" -> discriminatorValue)
+  override protected def mongoFilter(query: QueryFilter[P]): MongoDBObject = {
+    super.mongoFilter(query) ++ MongoDBObject("_discriminator" -> discriminatorValue)
   }
 
   override protected def deleteQuery(state: PState[P]): MongoDBObject = {

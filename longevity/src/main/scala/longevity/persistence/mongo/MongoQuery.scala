@@ -6,11 +6,15 @@ import com.mongodb.casbah.MongoCursor
 import com.mongodb.casbah.commons.Implicits.unwrapDBObj
 import com.mongodb.casbah.commons.Implicits.wrapDBObj
 import com.mongodb.casbah.commons.MongoDBObject
+import com.mongodb.casbah.commons.MongoDBObjectBuilder
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
 import longevity.subdomain.query.AndOp
+import longevity.subdomain.query.Ascending
 import longevity.subdomain.query.ConditionalFilter
+import longevity.subdomain.query.Descending
 import longevity.subdomain.query.EqOp
+import longevity.subdomain.query.FilterAll
 import longevity.subdomain.query.GtOp
 import longevity.subdomain.query.GteOp
 import longevity.subdomain.query.LtOp
@@ -19,7 +23,7 @@ import longevity.subdomain.query.NeqOp
 import longevity.subdomain.query.OrOp
 import longevity.subdomain.query.Query
 import longevity.subdomain.query.QueryFilter
-import longevity.subdomain.query.FilterAll
+import longevity.subdomain.query.QueryOrderBy
 import longevity.subdomain.query.RelationalFilter
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -47,12 +51,19 @@ private[mongo] trait MongoQuery[P <: Persistent] {
   }
 
   private def queryCursor(query: Query[P]): MongoCursor = {
-    val casbah = mongoQuery(query.filter)
-    logger.debug(s"calling MongoCollection.find: $casbah")
-    mongoCollection.find(casbah)
+    val filter         = mongoFilter(query.filter)
+    val filteredCursor = mongoCollection.find(filter)
+    val orderBy        = mongoOrderBy(query.orderBy)
+    val orderByCursor  = orderBy.map(o => filteredCursor.sort(o)).getOrElse(filteredCursor)
+    val offsetCursor   = query.offset.map(orderByCursor.skip).getOrElse(orderByCursor)
+    val limitCursor    = query.limit.map(offsetCursor.limit).getOrElse(offsetCursor)
+    logger.debug(
+      s"calling MongoCollection.find: filter = $filter orderBy = $orderBy " +
+      s"offset = ${query.offset} limit = ${query.limit}")
+    limitCursor
   }
 
-  protected def mongoQuery(filter: QueryFilter[P]): MongoDBObject = {
+  protected def mongoFilter(filter: QueryFilter[P]): MongoDBObject = {
     filter match {
       case FilterAll() => MongoDBObject("$comment" -> "matching FilterAll")
       case RelationalFilter(prop, op, value) => op match {
@@ -64,9 +75,24 @@ private[mongo] trait MongoQuery[P <: Persistent] {
         case GteOp => MongoDBObject(prop.path -> MongoDBObject("$gte" -> propValToMongo(value, prop)))
       }
       case ConditionalFilter(lhs, op, rhs) => op match {
-        case AndOp => MongoDBObject("$and" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
-        case OrOp  => MongoDBObject("$or" -> Seq(mongoQuery(lhs), mongoQuery(rhs)))
+        case AndOp => MongoDBObject("$and" -> Seq(mongoFilter(lhs), mongoFilter(rhs)))
+        case OrOp  => MongoDBObject("$or" -> Seq(mongoFilter(lhs), mongoFilter(rhs)))
       }
+    }
+  }
+
+  private def mongoOrderBy(orderBy: QueryOrderBy[P]): Option[MongoDBObject] = {
+    if (orderBy == QueryOrderBy.empty) None else {
+      val builder = new MongoDBObjectBuilder()
+      orderBy.sortExprs.foreach { sortExpr =>
+        val propPath = sortExpr.prop.path
+        val direction = sortExpr.direction match {
+          case Ascending => 1
+          case Descending => -1
+        }
+        builder += propPath -> direction
+      }
+      Some(builder.result())
     }
   }
 

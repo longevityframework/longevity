@@ -6,5 +6,5 @@ import longevity.subdomain.Persistent
 case class Query[P <: Persistent](
   filter: QueryFilter[P],
   orderBy: QueryOrderBy[P] = QueryOrderBy.empty[P],
-  offset: Option[Long] = None,
-  limit: Option[Long] = None)
+  offset: Option[Int] = None,
+  limit: Option[Int] = None)
