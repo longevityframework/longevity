@@ -30,15 +30,30 @@ object OffsetLimitQuerySpec {
     }
     object keys {
     }
+    object indexes {
+      val i = index(props.i)
+    }
   }
 
   val subdomain = Subdomain("limit offset test", PTypePool(OffsetLimit))
 
 }
 
-/** abstract superclass for tests of query limit/offset clauses */
+/** abstract superclass for tests of query limit/offset clauses
+ *
+ * @param longevityContext the context to use. it must be built from
+ * `OffsetLimitQuerySpec.subdomain`
+ *
+ * @param testOffsets if false, we avoid order by and offset clauses
+ * in our tests. this is a concession to Cassandra back end. once we
+ * implement partition indexes, we might want to rework this test to use
+ * order by clause, which will allow for more precise results.
+ *
+ * @see https://www.pivotaltracker.com/story/show/127406611
+ */
 class OffsetLimitQuerySpec(
-  protected val longevityContext: LongevityContext)
+  protected val longevityContext: LongevityContext,
+  private val testOffsets: Boolean = true)
 extends FlatSpec with LongevityIntegrationSpec {
 
   protected implicit val executionContext = ExecutionContext.global
@@ -47,7 +62,7 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   val ps = for (i <- 0 until 10) yield OffsetLimit(i)
 
-  val repo = longevityContext.repoPool[OffsetLimit]
+  val repo = longevityContext.testRepoPool[OffsetLimit]
   var states: Seq[PState[OffsetLimit]] = _
 
   override def beforeAll = {
@@ -64,58 +79,76 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   behavior of "Repo.retrieveByQuery"
 
-  it should "return correct results for queries with offset clauses" in {
-    var query: Query[OffsetLimit] = null
-    var results: Seq[PState[OffsetLimit]] = null
-
-    query = props.i neq 3 orderBy props.i
-    results = repo.retrieveByQuery(query).futureValue
-    results.size should equal (9)
-    results(0).get.i should equal (0)
-
-    query = props.i neq 3 orderBy props.i offset 1
-    results = repo.retrieveByQuery(query).futureValue
-    results.size should equal (8)
-    results(0).get.i should equal (1)
-
-    query = props.i neq 3 orderBy props.i offset 9
-    results = repo.retrieveByQuery(query).futureValue
-    results.size should equal (0)
-
-    query = props.i neq 3 orderBy props.i offset 10
-    results = repo.retrieveByQuery(query).futureValue
-    results.size should equal (0)
-
-  }
-
   it should "return correct results for queries with limit clauses" in {
     var query: Query[OffsetLimit] = null
     var results: Seq[PState[OffsetLimit]] = null
 
-    query = props.i neq 3 orderBy props.i limit 5
+    query = props.i gt 1 limit 5
     results = repo.retrieveByQuery(query).futureValue
     results.size should equal (5)
-    results(0).get.i should equal (0)
+    results should not contain (OffsetLimit(0))
+    results should not contain (OffsetLimit(1))
 
-    query = props.i neq 3 orderBy props.i limit 50
+    query = props.i gt 1 limit 50
     results = repo.retrieveByQuery(query).futureValue
-    results.size should equal (9)
-    results(0).get.i should equal (0)
+    results.map(_.get.i).toSet should equal (Set(2, 3, 4, 5, 6, 7, 8, 9))
+  }
 
-    query = props.i neq 3 orderBy props.i offset 1 limit 5
-    results = repo.retrieveByQuery(query).futureValue
-    results.size should equal (5)
-    results(0).get.i should equal (1)
+  if (testOffsets) {
 
-    query = props.i neq 3 orderBy props.i offset 1 limit 50
-    results = repo.retrieveByQuery(query).futureValue
-    results.size should equal (8)
-    results(0).get.i should equal (1)
+    it should "return correct results for queries with offset clauses" in {
+      var query: Query[OffsetLimit] = null
+      var results: Seq[PState[OffsetLimit]] = null
 
-    query = props.i neq 3 orderBy props.i offset 10 limit 5
-    results = repo.retrieveByQuery(query).futureValue
-    results.size should equal (0)
+      query = props.i neq 3 orderBy props.i
+      results = repo.retrieveByQuery(query).futureValue
+      results.size should equal (9)
+      results(0).get.i should equal (0)
 
+      query = props.i neq 3 orderBy props.i offset 1
+      results = repo.retrieveByQuery(query).futureValue
+      results.size should equal (8)
+      results(0).get.i should equal (1)
+
+      query = props.i neq 3 orderBy props.i offset 9
+      results = repo.retrieveByQuery(query).futureValue
+      results.size should equal (0)
+
+      query = props.i neq 3 orderBy props.i offset 10
+      results = repo.retrieveByQuery(query).futureValue
+      results.size should equal (0)
+
+    }
+
+    it should "return correct results for queries with limit and offset clauses" in {
+      var query: Query[OffsetLimit] = null
+      var results: Seq[PState[OffsetLimit]] = null
+
+      query = props.i neq 3 orderBy props.i limit 5
+      results = repo.retrieveByQuery(query).futureValue
+      results.size should equal (5)
+      results(0).get.i should equal (0)
+
+      query = props.i neq 3 orderBy props.i limit 50
+      results = repo.retrieveByQuery(query).futureValue
+      results.size should equal (9)
+      results(0).get.i should equal (0)
+
+      query = props.i neq 3 orderBy props.i offset 1 limit 5
+      results = repo.retrieveByQuery(query).futureValue
+      results.size should equal (5)
+      results(0).get.i should equal (1)
+
+      query = props.i neq 3 orderBy props.i offset 1 limit 50
+      results = repo.retrieveByQuery(query).futureValue
+      results.size should equal (8)
+      results(0).get.i should equal (1)
+
+      query = props.i neq 3 orderBy props.i offset 10 limit 5
+      results = repo.retrieveByQuery(query).futureValue
+      results.size should equal (0)
+
+    }
   }
 
 }

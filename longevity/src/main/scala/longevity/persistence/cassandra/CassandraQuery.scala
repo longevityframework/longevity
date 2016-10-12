@@ -6,7 +6,9 @@ import com.datastax.driver.core.ResultSet
 import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
 import longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
+import longevity.exceptions.persistence.cassandra.OffsetInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
+import longevity.exceptions.persistence.cassandra.OrderByInQueryException
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
@@ -21,6 +23,7 @@ import longevity.subdomain.query.NeqOp
 import longevity.subdomain.query.OrOp
 import longevity.subdomain.query.Query
 import longevity.subdomain.query.QueryFilter
+import longevity.subdomain.query.QueryOrderBy
 import longevity.subdomain.query.FilterAll
 import longevity.subdomain.query.RelationalFilter
 import longevity.subdomain.realized.RealizedPropComponent
@@ -59,9 +62,13 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
   }
 
   private def queryResultSet(query: Query[P]): ResultSet = {
+    if (query.orderBy != QueryOrderBy.empty) throw new OrderByInQueryException
+    if (query.offset.nonEmpty) throw new OffsetInQueryException
+
     val info = filterInfo(query.filter)
     val conjunction = queryWhereClause(info)
-    val cql = s"SELECT * FROM $tableName WHERE $conjunction ALLOW FILTERING"
+    val limit = query.limit.map(i => s" LIMIT $i").getOrElse("")
+    val cql = s"SELECT * FROM $tableName WHERE $conjunction$limit ALLOW FILTERING"
     val bindings = info.bindValues
     logger.debug(s"executing CQL: $cql with bindings: $bindings")
     val boundStatement = preparedStatement(cql).bind(bindings: _*)

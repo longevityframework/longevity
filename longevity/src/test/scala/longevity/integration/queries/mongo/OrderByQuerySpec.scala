@@ -14,7 +14,7 @@ class OrderByQuerySpec extends QuerySpec[Basics](
   import Basics.queryDsl._
   import Basics.props
 
-  behavior of "InMemRepo.retrieveByQuery"
+  behavior of "MongoRepo.retrieveByQuery"
 
   // ive commented out some of these because test really takes a long time
 
