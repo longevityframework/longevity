@@ -67,6 +67,10 @@ private[longevity] class RealizedProp[P <: Persistent, A](
     }
   }
 
+  lazy val pOrdering = new Ordering[P] {
+    def compare(p1: P, p2: P) = ordering.compare(propVal(p1), propVal(p2))
+  }
+
   override def toString: String = prop.path
   
 }

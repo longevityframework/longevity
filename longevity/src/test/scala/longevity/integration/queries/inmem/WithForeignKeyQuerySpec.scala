@@ -1,17 +1,13 @@
-package longevity.integration.queries
+package longevity.integration.queries.inmem
 
-import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.context.InMem
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.foreignKey._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class WithForeignKeyInMemQuerySpec extends QuerySpec[WithForeignKey](
-  new LongevityContext(
-    subdomain,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, false, false)))) {
+class WithForeignKeyQuerySpec extends QuerySpec[WithForeignKey](
+  new LongevityContext(subdomain, TestLongevityConfigs.inMemConfig)) {
 
   lazy val sample = randomP
 

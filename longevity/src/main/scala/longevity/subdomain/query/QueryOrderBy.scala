@@ -1,6 +1,8 @@
 package longevity.subdomain.query
 
 import longevity.subdomain.Persistent
+import longevity.subdomain.ptype.Prop
+import longevity.subdomain.realized.RealizedPType
 
 /** a query order by clause
  * 
@@ -14,5 +16,26 @@ object QueryOrderBy {
 
   /** an empty order by clause */
   def empty[P <: Persistent] = QueryOrderBy(Seq.empty[QuerySortExpr[P]])
+
+  def ordering[P <: Persistent](
+    orderBy: QueryOrderBy[P],
+    realizedPType: RealizedPType[P])
+  : scala.math.Ordering[P] = {
+    val unitOrdering = new Ordering[P] { def compare(p1: P, p2: P) = 0 }
+    orderBy.sortExprs.foldLeft(unitOrdering) { (ordering, sortExpr) =>
+      new Ordering[P]() {
+
+        def toRealized[A](prop: Prop[_ >: P <: Persistent, A]) = realizedPType.realizedProps(prop)
+        
+        def compare(p1: P, p2: P) = {
+          val i = ordering.compare(p1, p2)
+          if (i != 0) i else {
+            val raw = toRealized(sortExpr.prop).pOrdering.compare(p1, p2)
+            if (sortExpr.direction == Ascending) raw else raw * -1
+          }
+        }
+      }
+    }
+  }
 
 }

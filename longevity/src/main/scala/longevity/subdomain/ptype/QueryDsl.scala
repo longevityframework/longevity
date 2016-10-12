@@ -6,6 +6,7 @@ import longevity.subdomain.query.Ascending
 import longevity.subdomain.query.ConditionalFilter
 import longevity.subdomain.query.Descending
 import longevity.subdomain.query.EqOp
+import longevity.subdomain.query.FilterAll
 import longevity.subdomain.query.GtOp
 import longevity.subdomain.query.GteOp
 import longevity.subdomain.query.LogicalOp
@@ -26,6 +27,9 @@ class QueryDsl[P <: Persistent] {
 
   /** begin parsing a query filter with a [[Prop]] */
   implicit def where[A](prop: Prop[_ >: P <: Persistent, A]) = new DslPostProp(prop)
+
+  /** begin parsing with a `FilterAll` query filter */
+  def filterAll = new DslPostQueryFilter(FilterAll())
 
   private[QueryDsl] case class CondPrefix(lhs: QueryFilter[P], op: LogicalOp) {
     def buildCond(rhs: QueryFilter[P]) = ConditionalFilter[P](lhs, op, rhs)
@@ -124,10 +128,10 @@ class QueryDsl[P <: Persistent] {
       QueryOrderBy(ses))
 
     /** parse an `offset` clause, and prepare for an optional limit clause */
-    def offset(o: Long) = new DslPostOffset(prefix, QueryOrderBy(Seq()), Some(o))
+    def offset(o: Long) = new DslPostOffset(prefix, QueryOrderBy.empty, Some(o))
 
     /** parse a `limit` clause, and prepare for whatever comes after the offset (spoiler: nothing) */
-    def limit(o: Long) = new DslPostLimit(prefix, QueryOrderBy(Seq()), None, Some(o))
+    def limit(o: Long) = new DslPostLimit(prefix, QueryOrderBy.empty, None, Some(o))
 
   }
 

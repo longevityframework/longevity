@@ -270,7 +270,7 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     var expected = Query(
       QueryFilter.eqs(props.path1, value),
-      QueryOrderBy(Seq()),
+      QueryOrderBy.empty,
       Some(10))
 
     actual = props.path1 eqs value offset 10
@@ -303,7 +303,7 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     var expected = Query(
       QueryFilter.eqs(props.path1, value),
-      QueryOrderBy(Seq()),
+      QueryOrderBy.empty,
       None,
       Some(10))
 
@@ -312,7 +312,7 @@ class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     expected = Query(
       QueryFilter.eqs(props.path1, value),
-      QueryOrderBy(Seq()),
+      QueryOrderBy.empty,
       Some(10),
       Some(12))
 

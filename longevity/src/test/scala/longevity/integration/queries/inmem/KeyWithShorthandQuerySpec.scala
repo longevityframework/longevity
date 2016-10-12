@@ -1,23 +1,19 @@
-package longevity.integration.queries
+package longevity.integration.queries.inmem
 
-import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.context.InMem
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.keyWithComponent._
+import longevity.integration.subdomain.keyWithShorthand._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class KeyWithComponentInMemQuerySpec extends QuerySpec[KeyWithComponent](
-  new LongevityContext(
-    subdomain,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, false, false)))) {
+class KeyWithShorthandQuerySpec extends QuerySpec[KeyWithShorthand](
+  new LongevityContext(subdomain, TestLongevityConfigs.inMemConfig)) {
 
   lazy val sample = randomP
 
-  val secondaryKeyProp = KeyWithComponent.props.secondaryKey
+  val secondaryKeyProp = KeyWithShorthand.props.secondaryKey
 
-  import KeyWithComponent.queryDsl._
+  import KeyWithShorthand.queryDsl._
 
   behavior of "InMemRepo.retrieveByQuery"
 

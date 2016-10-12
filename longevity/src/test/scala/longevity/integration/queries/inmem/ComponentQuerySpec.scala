@@ -1,17 +1,13 @@
-package longevity.integration.queries
+package longevity.integration.queries.inmem
 
-import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.context.Mongo
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.component._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class ComponentMongoQuerySpec extends QuerySpec[WithComponent](
-  new LongevityContext(
-    subdomain,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(Mongo, false, false)))) {
+class ComponentQuerySpec extends QuerySpec[WithComponent](
+  new LongevityContext(subdomain, TestLongevityConfigs.inMemConfig)) {
 
   lazy val sample = randomP
 
@@ -19,7 +15,7 @@ class ComponentMongoQuerySpec extends QuerySpec[WithComponent](
 
   import WithComponent.queryDsl._
 
-  behavior of "MongoRepo.retrieveByQuery"
+  behavior of "InMemRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(componentProp eqs sample.component)

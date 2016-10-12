@@ -1,9 +1,7 @@
-package longevity.integration.queries
+package longevity.integration.queries.cassandra
 
 import com.github.nscala_time.time.Imports._
-import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
-import longevity.context.Cassandra
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
@@ -14,10 +12,8 @@ import longevity.subdomain.query.FilterAll
 import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class BasicsCassandraQuerySpec extends QuerySpec[Basics](
-  new LongevityContext(
-    subdomain,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(Cassandra, false, false)))) {
+class BasicsQuerySpec extends QuerySpec[Basics](
+  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)) {
 
   lazy val sample = randomP
 

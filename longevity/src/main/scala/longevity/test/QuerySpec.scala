@@ -11,6 +11,7 @@ import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.query.Query
 import longevity.subdomain.query.QueryFilter
+import longevity.subdomain.query.QueryOrderBy
 import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -49,6 +50,8 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
   /** the persistent states of the entities we are querying against */
   protected final var pStates: Seq[PState[P]] = _
 
+  private val realizedPType = longevityContext.subdomain.realizedPTypes(pType)
+
   override def beforeAll(): Unit = {
     super.beforeAll()
     val rootStateSeq = for (i <- 0.until(numEntities)) yield repo.create(generateP())
@@ -76,16 +79,27 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
    * @param k the order statistic to select
    */
   protected def orderStatPropVal[A](prop: Prop[P, A], k: Int): A = {
-    val realizedProp = repo.realizedPType.realizedProps(prop)
+    val realizedProp = realizedPType.realizedProps(prop)
     implicit val ordering = realizedProp.ordering
     entities.view.map(root => realizedProp.propVal(root)).toSeq.sorted.apply(k)
   }
 
   /** runs the query against the test data, and checks if the results are correct.
    * generates a test failure if they are not.
+   *
+   * due to the possibility of data in the table put in by other tests, it is not
+   * possible to test queries with `offset` or `limit` clauses here. do not despair,
+   * offset and limit clauses are tested independently in the longevity test suite
+   * for every longevity back end. (see
+   * `longevity.integration.queries.offsetLimit.OffsetLimitQuerySpec`)
    */
   protected def exerciseQuery(query: Query[P], exerciseStreamByQuery: Boolean = false): Unit = {
-    val results: Set[P] = repo.retrieveByQuery(query).futureValue.map(_.get).toSet
+    if (query.offset.nonEmpty || query.limit.nonEmpty) {
+      fail("QuerySpec.exerciseQuery cannot be used to test queries with offset and limit clauses")
+    }
+
+    val orderedResults = repo.retrieveByQuery(query).futureValue.map(_.get)
+    val results: Set[P] = orderedResults.toSet
     val actual = pStates.map(_.get).toSet intersect results // remove any entities not put in by this test
     val expected = entitiesMatchingQuery(query, entities)
 
@@ -97,6 +111,13 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
     }
     actual.size should equal (expected.size)
     actual should equal (expected)
+
+    if (query.orderBy.sortExprs.nonEmpty) {
+      val ordering = QueryOrderBy.ordering(query.orderBy, realizedPType)
+      orderedResults.sliding(2).foreach { consecutive =>
+        ordering.compare(consecutive(0), consecutive(1)) should be <= 0
+      }
+    }
 
     if (exerciseStreamByQuery) exerciseStream(query, actual)
   }
@@ -121,7 +142,7 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
   private def generateP(): P = longevityContext.testDataGenerator.generate[P]
 
   private def entitiesMatchingQuery(query: Query[P], entities: Set[P]): Set[P] = {
-    entities.filter(QueryFilter.matches(query.filter, _, repo.realizedPType))
+    entities.filter(QueryFilter.matches(query.filter, _, realizedPType))
   }
 
 }

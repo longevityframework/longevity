@@ -1,17 +1,13 @@
-package longevity.integration.queries
+package longevity.integration.queries.mongo
 
-import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.context.Mongo
 import longevity.integration.subdomain.foreignKey._
 import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class WithForeignKeyMongoQuerySpec extends QuerySpec[WithForeignKey](
-  new LongevityContext(
-    subdomain,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(Mongo, false, false)))) {
+class WithForeignKeyQuerySpec extends QuerySpec[WithForeignKey](
+  new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)) {
 
   lazy val sample = randomP
 
