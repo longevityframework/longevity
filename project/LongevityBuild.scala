@@ -42,7 +42,7 @@ trait BuildSettings extends Deps {
 
   val publishSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
-    version := "0.15-SNAPSHOT",
+    version := "0.15.0",
     scalaVersion := scalaVersionString,
 
     publishMavenStyle := true,
