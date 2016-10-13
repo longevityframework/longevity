@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Repo - longevity 0.15-SNAPSHOT API - longevity.persistence.Repo</title>
-          <meta name="description" content="Repo - longevity 0.15 - SNAPSHOT API - longevity.persistence.Repo" />
-          <meta name="keywords" content="Repo longevity 0.15 SNAPSHOT API longevity.persistence.Repo" />
+          <title>Repo - longevity 0.15.0 API - longevity.persistence.Repo</title>
+          <meta name="description" content="Repo - longevity 0.15.0 API - longevity.persistence.Repo" />
+          <meta name="keywords" content="Repo longevity 0.15.0 API longevity.persistence.Repo" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a repository for persistent objects of type <code>P</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/d9e7b6f4fdf08beae8a6465477c893c22a27dec6/src/main/scala/longevity/persistence/Repo.scala" target="_blank">Repo.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a repository for persistent objects of type <code>P</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.15.0/src/main/scala/longevity/persistence/Repo.scala" target="_blank">Repo.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -139,18 +139,18 @@
 </p><div class="fullcomment"><div class="comment cmt"><p>deletes the persistent object
 </p></div><dl class="paramcmts block"><dt class="param">state</dt><dd class="cmt"><p>the persistent state of the persistent object to delete</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
     </li><li name="longevity.persistence.Repo#retrieve" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="retrieve[V&lt;:longevity.subdomain.KeyVal[P,V]](keyVal:V)(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Option[longevity.persistence.PState[P]]]"></a>
-      <a id="retrieve[V&lt;:KeyVal[P,V]](V)(ExecutionContext):Future[Option[PState[P]]]"></a>
+      <a id="retrieve[V&lt;:longevity.subdomain.KeyVal[P,V]](keyVal:V)(implicitevidence$1:emblem.TypeKey[V],implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Option[longevity.persistence.PState[P]]]"></a>
+      <a id="retrieve[V&lt;:KeyVal[P,V]](V)(TypeKey[V],ExecutionContext):Future[Option[PState[P]]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">retrieve</span><span class="tparams">[<span name="V">V &lt;: <a href="../subdomain/KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>, <span class="extype" name="longevity.persistence.Repo.retrieve.V">V</span>]</span>]</span><span class="params">(<span name="keyVal">keyVal: <span class="extype" name="longevity.persistence.Repo.retrieve.V">V</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="executionContext">executionContext: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.ExecutionContext" class="extype" target="_top">ExecutionContext</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]]]</span>
+        <span class="name">retrieve</span><span class="tparams">[<span name="V">V &lt;: <a href="../subdomain/KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>, <span class="extype" name="longevity.persistence.Repo.retrieve.V">V</span>]</span>]</span><span class="params">(<span name="keyVal">keyVal: <span class="extype" name="longevity.persistence.Repo.retrieve.V">V</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.persistence.Repo.retrieve.V">V</span>]</span>, <span name="executionContext">executionContext: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.ExecutionContext" class="extype" target="_top">ExecutionContext</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.Repo@retrieve[V&lt;:longevity.subdomain.KeyVal[P,V]](keyVal:V)(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Option[longevity.persistence.PState[P]]]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.Repo@retrieve[V&lt;:longevity.subdomain.KeyVal[P,V]](keyVal:V)(implicitevidence$1:emblem.TypeKey[V],implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Option[longevity.persistence.PState[P]]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -160,7 +160,7 @@
 <a href="../subdomain/KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">key value</a>
 </p></div><dl class="paramcmts block"><dt class="tparam">V</dt><dd class="cmt"><p>the type of the key value</p></dd><dt class="param">keyVal</dt><dd class="cmt"><p>the key value to use to look up the persistent object</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
     </li><li name="longevity.persistence.Repo#retrieveByQuery" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="retrieveByQuery(query:longevity.subdomain.ptype.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]"></a>
+      <a id="retrieveByQuery(query:longevity.subdomain.query.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]"></a>
       <a id="retrieveByQuery(Query[P])(ExecutionContext):Future[Seq[PState[P]]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -168,10 +168,10 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">retrieveByQuery</span><span class="params">(<span name="query">query: <a href="../subdomain/ptype/Query.html" class="extype" name="longevity.subdomain.ptype.Query">Query</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="executionContext">executionContext: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.ExecutionContext" class="extype" target="_top">ExecutionContext</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<span class="extype" name="scala.Seq">Seq</span>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]]]</span>
+        <span class="name">retrieveByQuery</span><span class="params">(<span name="query">query: <a href="../subdomain/query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="executionContext">executionContext: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.ExecutionContext" class="extype" target="_top">ExecutionContext</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<span class="extype" name="scala.Seq">Seq</span>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.Repo@retrieveByQuery(query:longevity.subdomain.ptype.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.Repo@retrieveByQuery(query:longevity.subdomain.query.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -179,18 +179,18 @@
 </p><div class="fullcomment"><div class="comment cmt"><p>retrieves multiple persistent objects matching a query
 </p></div><dl class="paramcmts block"><dt class="param">query</dt><dd class="cmt"><p>the query to execute</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl></div>
     </li><li name="longevity.persistence.Repo#retrieveOne" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="retrieveOne[V&lt;:longevity.subdomain.KeyVal[P,V]](keyVal:V)(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[longevity.persistence.PState[P]]"></a>
-      <a id="retrieveOne[V&lt;:KeyVal[P,V]](V)(ExecutionContext):Future[PState[P]]"></a>
+      <a id="retrieveOne[V&lt;:longevity.subdomain.KeyVal[P,V]](keyVal:V)(implicitevidence$2:emblem.TypeKey[V],implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[longevity.persistence.PState[P]]"></a>
+      <a id="retrieveOne[V&lt;:KeyVal[P,V]](V)(TypeKey[V],ExecutionContext):Future[PState[P]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">retrieveOne</span><span class="tparams">[<span name="V">V &lt;: <a href="../subdomain/KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>, <span class="extype" name="longevity.persistence.Repo.retrieveOne.V">V</span>]</span>]</span><span class="params">(<span name="keyVal">keyVal: <span class="extype" name="longevity.persistence.Repo.retrieveOne.V">V</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="executionContext">executionContext: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.ExecutionContext" class="extype" target="_top">ExecutionContext</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]]</span>
+        <span class="name">retrieveOne</span><span class="tparams">[<span name="V">V &lt;: <a href="../subdomain/KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>, <span class="extype" name="longevity.persistence.Repo.retrieveOne.V">V</span>]</span>]</span><span class="params">(<span name="keyVal">keyVal: <span class="extype" name="longevity.persistence.Repo.retrieveOne.V">V</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.persistence.Repo.retrieveOne.V">V</span>]</span>, <span name="executionContext">executionContext: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.ExecutionContext" class="extype" target="_top">ExecutionContext</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.Repo@retrieveOne[V&lt;:longevity.subdomain.KeyVal[P,V]](keyVal:V)(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[longevity.persistence.PState[P]]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.Repo@retrieveOne[V&lt;:longevity.subdomain.KeyVal[P,V]](keyVal:V)(implicitevidence$2:emblem.TypeKey[V],implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[longevity.persistence.PState[P]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -627,7 +627,7 @@ to a persistent object in the repository
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="longevity.persistence.StreamingRepo#streamByQuery" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="streamByQuery(query:longevity.subdomain.ptype.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]"></a>
+      <a id="streamByQuery(query:longevity.subdomain.query.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]"></a>
       <a id="streamByQuery(Query[P]):Source[PState[P],NotUsed]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -635,10 +635,10 @@ to a persistent object in the repository
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">streamByQuery</span><span class="params">(<span name="query">query: <a href="../subdomain/ptype/Query.html" class="extype" name="longevity.subdomain.ptype.Query">Query</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]</span>)</span><span class="result">: <span class="extype" name="akka.stream.scaladsl.Source">Source</span>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>], <span class="extype" name="akka.NotUsed">NotUsed</span>]</span>
+        <span class="implicit">streamByQuery</span><span class="params">(<span name="query">query: <a href="../subdomain/query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>]</span>)</span><span class="result">: <span class="extype" name="akka.stream.scaladsl.Source">Source</span>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.P">P</span>], <span class="extype" name="akka.NotUsed">NotUsed</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.Repo@streamByQuery(query:longevity.subdomain.ptype.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.persistence.Repo@streamByQuery(query:longevity.subdomain.query.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

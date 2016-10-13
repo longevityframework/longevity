@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>LogicalOp - longevity 0.15-SNAPSHOT API - longevity.subdomain.ptype.Query.LogicalOp</title>
-          <meta name="description" content="LogicalOp - longevity 0.15 - SNAPSHOT API - longevity.subdomain.ptype.Query.LogicalOp" />
-          <meta name="keywords" content="LogicalOp longevity 0.15 SNAPSHOT API longevity.subdomain.ptype.Query.LogicalOp" />
+          <title>DslPostOffset - longevity 0.15.0 API - longevity.subdomain.ptype.QueryDsl.DslPostOffset</title>
+          <meta name="description" content="DslPostOffset - longevity 0.15.0 API - longevity.subdomain.ptype.QueryDsl.DslPostOffset" />
+          <meta name="keywords" content="DslPostOffset longevity 0.15.0 API longevity.subdomain.ptype.QueryDsl.DslPostOffset" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../index.html';
-            var hash = 'longevity.subdomain.ptype.Query$$LogicalOp';
+            var hash = 'longevity.subdomain.ptype.QueryDsl$DslPostOffset';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,12 +28,12 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Trait" src="../../../lib/trait_big.png" />
-        <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.subdomain">subdomain</a>.<a href="package.html" class="extype" name="longevity.subdomain.ptype">ptype</a>.<a href="Query$.html" class="extype" name="longevity.subdomain.ptype.Query">Query</a></p>
-        <h1>LogicalOp</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="Query$.html" class="extype" name="longevity.subdomain.ptype.Query">package Query</a>
+        <img alt="Class" src="../../../lib/class_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.subdomain">subdomain</a>.<a href="package.html" class="extype" name="longevity.subdomain.ptype">ptype</a>.<a href="QueryDsl.html" class="extype" name="longevity.subdomain.ptype.QueryDsl">QueryDsl</a></p>
+        <h1>DslPostOffset</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="QueryDsl.html" class="extype" name="longevity.subdomain.ptype.QueryDsl">package QueryDsl</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -41,23 +41,25 @@
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier">sealed </span>
-        <span class="kind">trait</span>
+        <span class="modifier"></span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">LogicalOp</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">DslPostOffset</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>either of the binary logical operators <i>and</i> and <i>or</i></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/d9e7b6f4fdf08beae8a6465477c893c22a27dec6/src/main/scala/longevity/subdomain/ptype/Query.scala" target="_blank">Query.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>in the query DSL, we have parsed a
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>, a
+<a href="../query/QueryOrderBy.html" class="extype" name="longevity.subdomain.query.QueryOrderBy">QueryOrderBy</a>, and an offset
+clause. there are two possibilities for what comes next:</p><p>1. we parse a limit clause</p><p>2. we are done parsing the complete
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>.
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.15.0/src/main/scala/longevity/subdomain/ptype/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
-        </div><div class="toggleContainer block">
-            <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="Query$$AndOp$.html" class="extype" name="longevity.subdomain.ptype.Query.AndOp">AndOp</a>, <a href="Query$$OrOp$.html" class="extype" name="longevity.subdomain.ptype.Query.OrOp">OrOp</a></div>
-          </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+        </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 168.00 155.00" height="155pt" width="168pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 151)" class="graph" id="graph0"><polygon points="-4,4 -4,-151 164,-151 164,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.subdomain.ptype.Query.LogicalOp (this trait)" xlink:href="#inheritance-diagram"><polygon points="125,-86 37,-86 37,-61 125,-61 125,-86" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-80.5" x="47" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="67.5962" text-anchor="start">LogicalOp</text></a></g></g><!-- node1 --><g class="node object" id="graph1_1"><g id="a_object|graph1_1"><a xlink:title="longevity.subdomain.ptype.Query.AndOp" xlink:href="Query$$AndOp$.html#inheritance-diagram"><polygon points="74,-25 0,-25 0,-0 74,-0 74,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="10" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="30.5444" text-anchor="start">AndOp</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="AndOp is a subtype of LogicalOp"><path d="M69.2641,-56.7633C61.8454,-46.8155 52.4197,-34.1764 45.6749,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="67.915,-57.8815 72.307,-60.8435 70.7207,-55.7891 67.915,-57.8815" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node object" id="graph1_2"><g id="a_object|graph1_2"><a xlink:title="longevity.subdomain.ptype.Query.OrOp" xlink:href="Query$$OrOp$.html#inheritance-diagram"><polygon points="160,-25 92,-25 92,-0 160,-0 160,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="102" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="122.887" text-anchor="start">OrOp</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge inheritance" id="graph1_0_2"><g id="a_inheritance|graph1_0_2"><a xlink:title="OrOp is a subtype of LogicalOp"><path d="M93.0026,-56.7633C100.59,-46.8155 110.23,-34.1764 117.128,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="91.5314,-55.8066 89.8906,-60.8435 94.3143,-57.9292 91.5314,-55.8066" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node class" id="graph1_3"><g id="a_class|graph1_3"><a xlink:title="scala.AnyRef"><polygon points="119,-147 43,-147 43,-122 119,-122 119,-147" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-141.5" x="53" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="73.7144" text-anchor="start">AnyRef</text></a></g></g><!-- node3&#45;&gt;node0 --><g class="edge inheritance" id="graph1_3_0"><g id="a_inheritance|graph1_3_0"><a xlink:title="LogicalOp is a subtype of AnyRef"><path d="M81,-116.687C81,-106.917 81,-94.8534 81,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="79.2501,-116.843 81,-121.843 82.7501,-116.844 79.2501,-116.843" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 160.00 118.00" height="118pt" width="160pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 156,-114 156,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.subdomain.ptype.QueryDsl.DslPostOffset (this class)" xlink:href="#inheritance-diagram"><polygon points="128,-49 24,-49 24,-24 128,-24 128,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="34" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="54.6372" text-anchor="start">DslPostOffset</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><polygon points="114,-110 38,-110 38,-85 114,-85 114,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-104.5" x="48" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="68.7144" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="DslPostOffset is a subtype of AnyRef"><path d="M76,-79.6874C76,-69.9173 76,-57.8534 76,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="74.2501,-79.8435 76,-84.8435 77.7501,-79.8435 74.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -75,7 +77,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.subdomain.ptype.Query.LogicalOp"><span>LogicalOp</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset"><span>DslPostOffset</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -117,7 +119,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -134,7 +136,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@##():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@##():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -151,34 +153,34 @@
         <span title="gt4s: $plus" class="implicit">+</span><span class="params">(<span name="other">other: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@+(other:String):String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@+(other:String):String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
-      <a id="-&gt;[B](B):(LogicalOp,B)"></a>
+      <a id="-&gt;[B](B):(DslPostOffset,B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>, <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>, <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -196,7 +198,7 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -213,7 +215,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -230,7 +232,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@clone():Object" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@clone():Object" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -243,86 +245,86 @@
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring((LogicalOp)⇒Boolean,⇒Any):LogicalOp"></a>
+      <a id="ensuring((DslPostOffset)⇒Boolean,⇒Any):DslPostOffset"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean):A"></a>
-      <a id="ensuring((LogicalOp)⇒Boolean):LogicalOp"></a>
+      <a id="ensuring((DslPostOffset)⇒Boolean):DslPostOffset"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring(Boolean,⇒Any):LogicalOp"></a>
+      <a id="ensuring(Boolean,⇒Any):DslPostOffset"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean):A"></a>
-      <a id="ensuring(Boolean):LogicalOp"></a>
+      <a id="ensuring(Boolean):DslPostOffset"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@ensuring(cond:Boolean):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@ensuring(cond:Boolean):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -337,7 +339,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -354,7 +356,7 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -371,7 +373,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -394,13 +396,13 @@
         <span class="implicit">formatted</span><span class="params">(<span name="fmtstr">fmtstr: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@formatted(fmtstr:String):String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@formatted(fmtstr:String):String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -418,7 +420,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -435,7 +437,7 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -452,11 +454,28 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="longevity.subdomain.ptype.QueryDsl.DslPostOffset#limit" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="limit(i:Int):QueryDsl.this.DslPostLimit"></a>
+      <a id="limit(Int):DslPostLimit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">limit</span><span class="params">(<span name="i">i: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="QueryDsl$DslPostLimit.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostLimit">DslPostLimit</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@limit(i:Int):QueryDsl.this.DslPostLimit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">parse a <code>limit</code> clause, and prepare for whatever comes after the offset (spoiler: nothing)</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -469,7 +488,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -486,7 +505,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@notify():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -503,7 +522,7 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -520,7 +539,7 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -537,7 +556,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@toString():String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@toString():String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -554,7 +573,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@wait():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -577,7 +596,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -600,7 +619,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -613,23 +632,23 @@
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
-      <a id="→[B](B):(LogicalOp,B)"></a>
+      <a id="→[B](B):(DslPostOffset,B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>, <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>, <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.Query$$LogicalOp@→[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostOffset@→[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li></ol>
@@ -648,19 +667,19 @@
             </div>
         <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>]
+                <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>]
+                <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>]
+                <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a> to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.ptype.Query.LogicalOp">LogicalOp</a>]
+                <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a> to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a>]
               </h3>
             </div>
         </div>

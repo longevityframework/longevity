@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>GatherRelational - longevity 0.15-SNAPSHOT API - longevity.subdomain.ptype.QueryDsl.GatherRelational</title>
-          <meta name="description" content="GatherRelational - longevity 0.15 - SNAPSHOT API - longevity.subdomain.ptype.QueryDsl.GatherRelational" />
-          <meta name="keywords" content="GatherRelational longevity 0.15 SNAPSHOT API longevity.subdomain.ptype.QueryDsl.GatherRelational" />
+          <title>QueryFilter - longevity 0.15.0 API - longevity.subdomain.query.QueryFilter</title>
+          <meta name="description" content="QueryFilter - longevity 0.15.0 API - longevity.subdomain.query.QueryFilter" />
+          <meta name="keywords" content="QueryFilter longevity 0.15.0 API longevity.subdomain.query.QueryFilter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../index.html';
-            var hash = 'longevity.subdomain.ptype.QueryDsl$GatherRelational';
+            var hash = 'longevity.subdomain.query.QueryFilter';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,12 +28,14 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Class" src="../../../lib/class_big.png" />
-        <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.subdomain">subdomain</a>.<a href="package.html" class="extype" name="longevity.subdomain.ptype">ptype</a>.<a href="QueryDsl.html" class="extype" name="longevity.subdomain.ptype.QueryDsl">QueryDsl</a></p>
-        <h1>GatherRelational</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="QueryDsl.html" class="extype" name="longevity.subdomain.ptype.QueryDsl">package QueryDsl</a>
+        <a href="QueryFilter$.html" title="See companion object"><img alt="Trait/Object" src="../../../lib/trait_to_object_big.png" /></a>
+        <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.subdomain">subdomain</a>.<a href="package.html" class="extype" name="longevity.subdomain.query">query</a></p>
+        <h1><a href="QueryFilter$.html" title="See companion object">QueryFilter</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="QueryFilter$.html" title="See companion object">object QueryFilter</a>
+            | <a href="package.html" class="extype" name="longevity.subdomain.query">package query</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -41,32 +43,23 @@
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">class</span>
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">GatherRelational</span><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">QueryFilter</span><span class="tparams">[<span name="P">P &lt;: <a href="../Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a></span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>gathering the rest of a relational expression on a property, such as</p><p><code><code><code>
-object User extends PType[User] {
-  object props {
-    val accountNumber = prop[String](&quot;account.number&quot;)
-  }
-  object keys {
-  }
-  object indexes {
-  }
-}
-User.props.accountNumber eqs &quot;D85330&quot;</code>
-<code><code><code>
-</code></code></code></code></code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/d9e7b6f4fdf08beae8a6465477c893c22a27dec6/src/main/scala/longevity/subdomain/ptype/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a query filter for looking up persistent entities of type <code>P</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.15.0/src/main/scala/longevity/subdomain/query/QueryFilter.scala" target="_blank">QueryFilter.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
-        </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="ConditionalFilter.html" class="extype" name="longevity.subdomain.query.ConditionalFilter">ConditionalFilter</a>, <a href="FilterAll.html" class="extype" name="longevity.subdomain.query.FilterAll">FilterAll</a>, <a href="RelationalFilter.html" class="extype" name="longevity.subdomain.query.RelationalFilter">RelationalFilter</a></div>
+          </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 188.00 118.00" height="118pt" width="188pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 184,-114 184,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.subdomain.ptype.QueryDsl.GatherRelational (this class)" xlink:href="#inheritance-diagram"><polygon points="155.5,-49 24.5,-49 24.5,-24 155.5,-24 155.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.9756" text-anchor="start">GatherRelational[A]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><polygon points="128,-110 52,-110 52,-85 128,-85 128,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-104.5" x="62" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="82.7144" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="GatherRelational[A] is a subtype of AnyRef"><path d="M90,-79.6874C90,-69.9173 90,-57.8534 90,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="88.2501,-79.8435 90,-84.8435 91.7501,-79.8435 88.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 394.50 155.00" height="155pt" width="395pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 151)" class="graph" id="graph0"><polygon points="-4,4 -4,-151 390.5,-151 390.5,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.subdomain.query.QueryFilter (this trait)" xlink:href="#inheritance-diagram"><polygon points="243.5,-86 138.5,-86 138.5,-61 243.5,-61 243.5,-86" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-80.5" x="149" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="169.771" text-anchor="start">QueryFilter[P]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.subdomain.query.ConditionalFilter" xlink:href="ConditionalFilter.html#inheritance-diagram"><polygon points="128,-25 0,-25 0,-0 128,-0 128,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="10" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="30.8696" text-anchor="start">ConditionalFilter[P]</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="ConditionalFilter[P] is a subtype of QueryFilter[P]"><path d="M161.653,-58.8663C139.71,-48.6725 110.022,-34.8805 89.1599,-25.1884" stroke="#d4d4d4" fill="none"></path><polygon points="160.94,-60.4646 166.212,-60.9841 162.414,-57.2904 160.94,-60.4646" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node class" id="graph1_2"><g id="a_class|graph1_2"><a xlink:title="longevity.subdomain.query.FilterAll" xlink:href="FilterAll.html#inheritance-diagram"><polygon points="235.5,-25 146.5,-25 146.5,-0 235.5,-0 235.5,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="157" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="177.83" text-anchor="start">FilterAll[P]</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge inheritance" id="graph1_0_2"><g id="a_inheritance|graph1_0_2"><a xlink:title="FilterAll[P] is a subtype of QueryFilter[P]"><path d="M191,-55.6874C191,-45.9173 191,-33.8534 191,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="189.25,-55.8435 191,-60.8435 192.75,-55.8435 189.25,-55.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node class" id="graph1_3"><g id="a_class|graph1_3"><a xlink:title="longevity.subdomain.query.RelationalFilter" xlink:href="RelationalFilter.html#inheritance-diagram"><polygon points="386.5,-25 253.5,-25 253.5,-0 386.5,-0 386.5,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="264" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="284.958" text-anchor="start">RelationalFilter[P, A]</text></a></g></g><!-- node0&#45;&gt;node3 --><g class="edge inheritance" id="graph1_0_3"><g id="a_inheritance|graph1_0_3"><a xlink:title="RelationalFilter[P, A] is a subtype of QueryFilter[P]"><path d="M220.809,-58.8663C243.097,-48.6725 273.253,-34.8805 294.444,-25.1884" stroke="#d4d4d4" fill="none"></path><polygon points="219.998,-57.313 216.179,-60.9841 221.454,-60.4959 219.998,-57.313" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node4 --><g class="node class" id="graph1_4"><g id="a_class|graph1_4"><a xlink:title="scala.AnyRef"><polygon points="229,-147 153,-147 153,-122 229,-122 229,-147" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-141.5" x="163" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="183.714" text-anchor="start">AnyRef</text></a></g></g><!-- node4&#45;&gt;node0 --><g class="edge inheritance" id="graph1_4_0"><g id="a_inheritance|graph1_4_0"><a xlink:title="QueryFilter[P] is a subtype of AnyRef"><path d="M191,-116.687C191,-106.917 191,-94.8534 191,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="189.25,-116.843 191,-121.843 192.75,-116.844 189.25,-116.843" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -84,7 +77,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.subdomain.ptype.QueryDsl.GatherRelational"><span>GatherRelational</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.subdomain.query.QueryFilter"><span>QueryFilter</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -126,7 +119,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -143,7 +136,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@##():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@##():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -160,34 +153,34 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span title="gt4s: $plus" class="implicit">+</span><span class="params">(<span name="other">other: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@+(other:String):String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@+(other:String):String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
-      <a id="-&gt;[B](B):(GatherRelational[A],B)"></a>
+      <a id="-&gt;[B](B):(QueryFilter[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -205,7 +198,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -222,7 +215,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -239,7 +232,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@clone():Object" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@clone():Object" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -252,86 +245,86 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring((GatherRelational[A])⇒Boolean,⇒Any):GatherRelational[A]"></a>
+      <a id="ensuring((QueryFilter[P])⇒Boolean,⇒Any):QueryFilter[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean):A"></a>
-      <a id="ensuring((GatherRelational[A])⇒Boolean):GatherRelational[A]"></a>
+      <a id="ensuring((QueryFilter[P])⇒Boolean):QueryFilter[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring(Boolean,⇒Any):GatherRelational[A]"></a>
+      <a id="ensuring(Boolean,⇒Any):QueryFilter[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean):A"></a>
-      <a id="ensuring(Boolean):GatherRelational[A]"></a>
+      <a id="ensuring(Boolean):QueryFilter[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@ensuring(cond:Boolean):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@ensuring(cond:Boolean):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -346,28 +339,11 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="longevity.subdomain.ptype.QueryDsl.GatherRelational#eqs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="eqs(a:A):QueryDsl.this.GatherLogical"></a>
-      <a id="eqs(A):GatherLogical"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">eqs</span><span class="params">(<span name="a">a: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span></span>)</span><span class="result">: <a href="QueryDsl$GatherLogical.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical">GatherLogical</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@eqs(a:A):QueryDsl.this.GatherLogical" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">gather an <code>eqs</code> expression, and prepare for an <code>and</code> or an <code>or</code></p>
     </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="equals(x$1:Any):Boolean"></a>
       <a id="equals(Any):Boolean"></a>
@@ -380,7 +356,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -397,7 +373,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -420,13 +396,13 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="implicit">formatted</span><span class="params">(<span name="fmtstr">fmtstr: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@formatted(fmtstr:String):String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@formatted(fmtstr:String):String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -444,45 +420,11 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="longevity.subdomain.ptype.QueryDsl.GatherRelational#gt" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="gt(a:A):QueryDsl.this.GatherLogical"></a>
-      <a id="gt(A):GatherLogical"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">gt</span><span class="params">(<span name="a">a: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span></span>)</span><span class="result">: <a href="QueryDsl$GatherLogical.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical">GatherLogical</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@gt(a:A):QueryDsl.this.GatherLogical" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">gather a <code>gt</code> expression, and prepare for an <code>and</code> or an <code>or</code></p>
-    </li><li name="longevity.subdomain.ptype.QueryDsl.GatherRelational#gte" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="gte(a:A):QueryDsl.this.GatherLogical"></a>
-      <a id="gte(A):GatherLogical"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">gte</span><span class="params">(<span name="a">a: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span></span>)</span><span class="result">: <a href="QueryDsl$GatherLogical.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical">GatherLogical</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@gte(a:A):QueryDsl.this.GatherLogical" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">gather a <code>gte</code> expression, and prepare for an <code>and</code> or an <code>or</code></p>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -495,7 +437,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -512,45 +454,11 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="longevity.subdomain.ptype.QueryDsl.GatherRelational#lt" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lt(a:A):QueryDsl.this.GatherLogical"></a>
-      <a id="lt(A):GatherLogical"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">lt</span><span class="params">(<span name="a">a: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span></span>)</span><span class="result">: <a href="QueryDsl$GatherLogical.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical">GatherLogical</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@lt(a:A):QueryDsl.this.GatherLogical" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">gather an <code>lt</code> expression, and prepare for an <code>and</code> or an <code>or</code></p>
-    </li><li name="longevity.subdomain.ptype.QueryDsl.GatherRelational#lte" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lte(a:A):QueryDsl.this.GatherLogical"></a>
-      <a id="lte(A):GatherLogical"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">lte</span><span class="params">(<span name="a">a: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span></span>)</span><span class="result">: <a href="QueryDsl$GatherLogical.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical">GatherLogical</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@lte(a:A):QueryDsl.this.GatherLogical" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">gather an <code>lte</code> expression, and prepare for an <code>and</code> or an <code>or</code></p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -563,28 +471,11 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="longevity.subdomain.ptype.QueryDsl.GatherRelational#neq" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="neq(a:A):QueryDsl.this.GatherLogical"></a>
-      <a id="neq(A):GatherLogical"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">neq</span><span class="params">(<span name="a">a: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span></span>)</span><span class="result">: <a href="QueryDsl$GatherLogical.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical">GatherLogical</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@neq(a:A):QueryDsl.this.GatherLogical" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">gather an <code>neq</code> expression, and prepare for an <code>and</code> or an <code>or</code></p>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -597,7 +488,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@notify():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -614,7 +505,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -631,7 +522,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -648,7 +539,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@toString():String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@toString():String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -665,7 +556,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@wait():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -688,7 +579,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -711,7 +602,7 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -724,23 +615,23 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
-      <a id="→[B](B):(GatherRelational[A],B)"></a>
+      <a id="→[B](B):(QueryFilter[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$GatherRelational@→[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.query.QueryFilter@→[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li></ol>
@@ -759,19 +650,19 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
             </div>
         <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]]
+                <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]]
+                <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]]
+                <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational.A">A</span>]]
+                <a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.query.QueryFilter.P">P</span>]]
               </h3>
             </div>
         </div>

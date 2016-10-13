@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>QueryDsl - longevity 0.15-SNAPSHOT API - longevity.subdomain.ptype.QueryDsl</title>
-          <meta name="description" content="QueryDsl - longevity 0.15 - SNAPSHOT API - longevity.subdomain.ptype.QueryDsl" />
-          <meta name="keywords" content="QueryDsl longevity 0.15 SNAPSHOT API longevity.subdomain.ptype.QueryDsl" />
+          <title>QueryDsl - longevity 0.15.0 API - longevity.subdomain.ptype.QueryDsl</title>
+          <meta name="description" content="QueryDsl - longevity 0.15.0 API - longevity.subdomain.ptype.QueryDsl" />
+          <meta name="keywords" content="QueryDsl longevity 0.15.0 API longevity.subdomain.ptype.QueryDsl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,9 +49,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a DSL for creating <a href="Query.html" class="extype" name="longevity.subdomain.ptype.Query">queries</a>. you can find it in your persistent
-type at <code>PType.queryDsl</code>
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/d9e7b6f4fdf08beae8a6465477c893c22a27dec6/src/main/scala/longevity/subdomain/ptype/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a DSL for creating <a href="../query/Query.html" class="extype" name="longevity.subdomain.query.Query">queries</a>. you can find
+it in your persistent type at <code>PType.queryDsl</code>
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.15.0/src/main/scala/longevity/subdomain/ptype/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -120,54 +120,141 @@ type at <code>PType.queryDsl</code>
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="longevity.subdomain.ptype.QueryDsl.GatherLogical" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="GatherLogicalextendsAnyRef"></a>
-      <a id="GatherLogical:GatherLogical"></a>
+              <ol><li name="longevity.subdomain.ptype.QueryDsl.DslPostLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DslPostLimitextendsAnyRef"></a>
+      <a id="DslPostLimit:DslPostLimit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="QueryDsl$GatherLogical.html"><span class="name">GatherLogical</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <a href="QueryDsl$DslPostLimit.html"><span class="name">DslPostLimit</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@GatherLogicalextendsAnyRef" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@DslPostLimitextendsAnyRef" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">gathering the rest of a logical expression, combining two expressions with
-and <code>and</code> or an <code>or</code>
-</p>
-    </li><li name="longevity.subdomain.ptype.QueryDsl.GatherRelational" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="GatherRelational[A]extendsAnyRef"></a>
-      <a id="GatherRelational[A]:GatherRelational[A]"></a>
+      <p class="shortcomment cmt">in the query DSL, we have parsed a
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>, a
+<a href="../query/QueryOrderBy.html" class="extype" name="longevity.subdomain.query.QueryOrderBy">QueryOrderBy</a>, an offset
+and a limit clause.</p><div class="fullcomment"><div class="comment cmt"><p>in the query DSL, we have parsed a
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>, a
+<a href="../query/QueryOrderBy.html" class="extype" name="longevity.subdomain.query.QueryOrderBy">QueryOrderBy</a>, an offset
+and a limit clause. there is one possibility for what comes next:</p><p>1. we are done parsing the complete
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>.
+</p></div></div>
+    </li><li name="longevity.subdomain.ptype.QueryDsl.DslPostOffset" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DslPostOffsetextendsAnyRef"></a>
+      <a id="DslPostOffset:DslPostOffset"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="QueryDsl$GatherRelational.html"><span class="name">GatherRelational</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <a href="QueryDsl$DslPostOffset.html"><span class="name">DslPostOffset</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@GatherRelational[A]extendsAnyRef" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@DslPostOffsetextendsAnyRef" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">gathering the rest of a relational expression on a property, such as</p><div class="fullcomment"><div class="comment cmt"><p>gathering the rest of a relational expression on a property, such as</p><p><code><code><code>
-object User extends PType[User] {
-  object props {
-    val accountNumber = prop[String](&quot;account.number&quot;)
-  }
-  object keys {
-  }
-  object indexes {
-  }
-}
-User.props.accountNumber eqs &quot;D85330&quot;</code>
-<code><code><code>
-</code></code></code></code></code></p></div></div>
+      <p class="shortcomment cmt">in the query DSL, we have parsed a
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>, a
+<a href="../query/QueryOrderBy.html" class="extype" name="longevity.subdomain.query.QueryOrderBy">QueryOrderBy</a>, and an offset
+clause.</p><div class="fullcomment"><div class="comment cmt"><p>in the query DSL, we have parsed a
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>, a
+<a href="../query/QueryOrderBy.html" class="extype" name="longevity.subdomain.query.QueryOrderBy">QueryOrderBy</a>, and an offset
+clause. there are two possibilities for what comes next:</p><p>1. we parse a limit clause</p><p>2. we are done parsing the complete
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>.
+</p></div></div>
+    </li><li name="longevity.subdomain.ptype.QueryDsl.DslPostOrderBy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DslPostOrderByextendsAnyRef"></a>
+      <a id="DslPostOrderBy:DslPostOrderBy"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="QueryDsl$DslPostOrderBy.html"><span class="name">DslPostOrderBy</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@DslPostOrderByextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">in the query DSL, we have just parsed a
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a> and a
+<a href="../query/QueryOrderBy.html" class="extype" name="longevity.subdomain.query.QueryOrderBy">QueryOrderBy</a>.</p><div class="fullcomment"><div class="comment cmt"><p>in the query DSL, we have just parsed a
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a> and a
+<a href="../query/QueryOrderBy.html" class="extype" name="longevity.subdomain.query.QueryOrderBy">QueryOrderBy</a>. there are multiple
+possibilities for what comes next:</p><p>1. we parse an offset clause</p><p>2. we parse a limit clause</p><p>3. we are done parsing the complete
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>.
+</p></div></div>
+    </li><li name="longevity.subdomain.ptype.QueryDsl.DslPostProp" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DslPostProp[A]extendsAnyRef"></a>
+      <a id="DslPostProp[A]:DslPostProp[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="QueryDsl$DslPostProp.html"><span class="name">DslPostProp</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@DslPostProp[A]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">in the query DSL, we have just parsed a property.</p><div class="fullcomment"><div class="comment cmt"><p>in the query DSL, we have just parsed a property. next we need to parse a
+<a href="../query/RelationalOp.html" class="extype" name="longevity.subdomain.query.RelationalOp">relational operator</a> and a
+right-hand side value.
+</p></div></div>
+    </li><li name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DslPostQueryFilterextendsAnyRef"></a>
+      <a id="DslPostQueryFilter:DslPostQueryFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="QueryDsl$DslPostQueryFilter.html"><span class="name">DslPostQueryFilter</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@DslPostQueryFilterextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">in the query DSL, we have just parsed a (partial or complete)
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>.</p><div class="fullcomment"><div class="comment cmt"><p>in the query DSL, we have just parsed a (partial or complete)
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>. there are multiple
+possibilities for what comes next:</p><p>1. if we see a <a href="../query/LogicalOp.html" class="extype" name="longevity.subdomain.query.LogicalOp">LogicalOp</a>
+followed by another <a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>,
+then we combine the two query filters with the logical op.</p><p>2. we parse an order-by clause</p><p>3. we parse an offset clause</p><p>4. we parse a limit clause</p><p>5. we are done parsing the complete
+<a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>.
+</p></div></div>
+    </li><li name="longevity.subdomain.ptype.QueryDsl.UnqualifiedSortExpr" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="UnqualifiedSortExprextendsAnyRef"></a>
+      <a id="UnqualifiedSortExpr:UnqualifiedSortExpr"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="QueryDsl$UnqualifiedSortExpr.html"><span class="name">UnqualifiedSortExpr</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@UnqualifiedSortExprextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">we have parsed a <code>Prop</code> for a <code>QuerySortExpr</code>, now we are ready to parse an <code>asc</code> or <code>desc</code> qualifier</p>
     </li></ol>
             </div>
 
@@ -429,6 +516,23 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="longevity.subdomain.ptype.QueryDsl#filterAll" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="filterAll:QueryDsl.this.DslPostQueryFilter"></a>
+      <a id="filterAll:DslPostQueryFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filterAll</span><span class="result">: <a href="QueryDsl$DslPostQueryFilter.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter">DslPostQueryFilter</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@filterAll:QueryDsl.this.DslPostQueryFilter" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">begin parsing with a <code>FilterAll</code> query filter</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -578,23 +682,6 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="longevity.subdomain.ptype.QueryDsl#queryProduce" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="queryProduce(gather:QueryDsl.this.GatherLogical):longevity.subdomain.ptype.Query[P]"></a>
-      <a id="queryProduce(GatherLogical):Query[P]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">queryProduce</span><span class="params">(<span name="gather">gather: <a href="QueryDsl$GatherLogical.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherLogical">GatherLogical</a></span>)</span><span class="result">: <a href="Query.html" class="extype" name="longevity.subdomain.ptype.Query">Query</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@queryProduce(gather:QueryDsl.this.GatherLogical):longevity.subdomain.ptype.Query[P]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">terminate gathering the expression and produce it</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -612,6 +699,108 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="longevity.subdomain.ptype.QueryDsl#toQuery" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toQuery(postLimit:QueryDsl.this.DslPostLimit):longevity.subdomain.query.Query[P]"></a>
+      <a id="toQuery(DslPostLimit):Query[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toQuery</span><span class="params">(<span name="postLimit">postLimit: <a href="QueryDsl$DslPostLimit.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostLimit">DslPostLimit</a></span>)</span><span class="result">: <a href="../query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@toQuery(postLimit:QueryDsl.this.DslPostLimit):longevity.subdomain.query.Query[P]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">we are done parsing a complete <a href="../query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a></p>
+    </li><li name="longevity.subdomain.ptype.QueryDsl#toQuery" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toQuery(postOffset:QueryDsl.this.DslPostOffset):longevity.subdomain.query.Query[P]"></a>
+      <a id="toQuery(DslPostOffset):Query[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toQuery</span><span class="params">(<span name="postOffset">postOffset: <a href="QueryDsl$DslPostOffset.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOffset">DslPostOffset</a></span>)</span><span class="result">: <a href="../query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@toQuery(postOffset:QueryDsl.this.DslPostOffset):longevity.subdomain.query.Query[P]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">we are done parsing a complete <a href="../query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a></p>
+    </li><li name="longevity.subdomain.ptype.QueryDsl#toQuery" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toQuery(postOrderBy:QueryDsl.this.DslPostOrderBy):longevity.subdomain.query.Query[P]"></a>
+      <a id="toQuery(DslPostOrderBy):Query[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toQuery</span><span class="params">(<span name="postOrderBy">postOrderBy: <a href="QueryDsl$DslPostOrderBy.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostOrderBy">DslPostOrderBy</a></span>)</span><span class="result">: <a href="../query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@toQuery(postOrderBy:QueryDsl.this.DslPostOrderBy):longevity.subdomain.query.Query[P]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">we are done parsing a complete <a href="../query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a></p>
+    </li><li name="longevity.subdomain.ptype.QueryDsl#toQuery" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toQuery(postFilter:QueryDsl.this.DslPostQueryFilter):longevity.subdomain.query.Query[P]"></a>
+      <a id="toQuery(DslPostQueryFilter):Query[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toQuery</span><span class="params">(<span name="postFilter">postFilter: <a href="QueryDsl$DslPostQueryFilter.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter">DslPostQueryFilter</a></span>)</span><span class="result">: <a href="../query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@toQuery(postFilter:QueryDsl.this.DslPostQueryFilter):longevity.subdomain.query.Query[P]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">we are done parsing a complete <a href="../query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a></p>
+    </li><li name="longevity.subdomain.ptype.QueryDsl#toQueryFilter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toQueryFilter(postFilter:QueryDsl.this.DslPostQueryFilter):longevity.subdomain.query.QueryFilter[P]"></a>
+      <a id="toQueryFilter(DslPostQueryFilter):QueryFilter[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toQueryFilter</span><span class="params">(<span name="postFilter">postFilter: <a href="QueryDsl$DslPostQueryFilter.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter">DslPostQueryFilter</a></span>)</span><span class="result">: <a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@toQueryFilter(postFilter:QueryDsl.this.DslPostQueryFilter):longevity.subdomain.query.QueryFilter[P]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">we are done parsing a complete <a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a></p>
+    </li><li name="longevity.subdomain.ptype.QueryDsl#toQuerySortExpr" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toQuerySortExpr[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):longevity.subdomain.query.QuerySortExpr[P]"></a>
+      <a id="toQuerySortExpr[A](Prop[_&gt;:P&lt;:Persistent,A]):QuerySortExpr[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toQuerySortExpr</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span> &lt;: <a href="../Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.toQuerySortExpr.A">A</span>]</span>)</span><span class="result">: <a href="../query/QuerySortExpr.html" class="extype" name="longevity.subdomain.query.QuerySortExpr">QuerySortExpr</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@toQuerySortExpr[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):longevity.subdomain.query.QuerySortExpr[P]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">we parse a <code>Prop</code> into a <code>QuerySortExpr</code> as needed</p>
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -629,6 +818,23 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="longevity.subdomain.ptype.QueryDsl#toUnqualifiedSortExpr" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toUnqualifiedSortExpr(prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,_]):QueryDsl.this.UnqualifiedSortExpr"></a>
+      <a id="toUnqualifiedSortExpr(Prop[_&gt;:P&lt;:Persistent,_]):UnqualifiedSortExpr"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toUnqualifiedSortExpr</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span> &lt;: <a href="../Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a>, _]</span>)</span><span class="result">: <a href="QueryDsl$UnqualifiedSortExpr.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.UnqualifiedSortExpr">UnqualifiedSortExpr</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@toUnqualifiedSortExpr(prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,_]):QueryDsl.this.UnqualifiedSortExpr" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">parse a <code>Prop</code> and prepare to parse an <code>asc</code> or <code>desc</code> qualified</p>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -699,22 +905,22 @@ User.props.accountNumber eqs &quot;D85330&quot;</code>
               
         </dd></dl></div>
     </li><li name="longevity.subdomain.ptype.QueryDsl#where" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="where[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):QueryDsl.this.GatherRelational[A]"></a>
-      <a id="where[A](Prop[_&gt;:P&lt;:Persistent,A]):GatherRelational[A]"></a>
+      <a id="where[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):QueryDsl.this.DslPostProp[A]"></a>
+      <a id="where[A](Prop[_&gt;:P&lt;:Persistent,A]):DslPostProp[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">where</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span> &lt;: <a href="../Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.where.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$GatherRelational.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.GatherRelational">GatherRelational</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.where.A">A</span>]</span>
+        <span class="name">where</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span> &lt;: <a href="../Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.where.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$DslPostProp.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostProp">DslPostProp</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.where.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@where[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):QueryDsl.this.GatherRelational[A]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl@where[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):QueryDsl.this.DslPostProp[A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">start building a query with a <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a></p>
+      <p class="shortcomment cmt">begin parsing a query filter with a <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a></p>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
       <a id="→[B](B):(QueryDsl[P],B)"></a>

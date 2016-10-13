@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>KeyVal - longevity 0.15-SNAPSHOT API - longevity.subdomain.KeyVal</title>
-          <meta name="description" content="KeyVal - longevity 0.15 - SNAPSHOT API - longevity.subdomain.KeyVal" />
-          <meta name="keywords" content="KeyVal longevity 0.15 SNAPSHOT API longevity.subdomain.KeyVal" />
+          <title>KeyVal - longevity 0.15.0 API - longevity.subdomain.KeyVal</title>
+          <meta name="description" content="KeyVal - longevity 0.15.0 API - longevity.subdomain.KeyVal" />
+          <meta name="keywords" content="KeyVal longevity 0.15.0 API longevity.subdomain.KeyVal" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Class" src="../../lib/class_big.png" />
+        <img alt="Trait" src="../../lib/trait_big.png" />
         <p id="owner"><a href="../package.html" class="extype" name="longevity">longevity</a>.<a href="package.html" class="extype" name="longevity.subdomain">subdomain</a></p>
         <h1>KeyVal</h1><h3><span class="morelinks"><div>Related Doc:
             <a href="package.html" class="extype" name="longevity.subdomain">package subdomain</a>
@@ -41,23 +41,23 @@
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">class</span>
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
       </span>
       <span class="symbol">
         <span class="name">KeyVal</span><span class="tparams">[<span name="P">P &lt;: <a href="Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a></span>, <span name="V">V &lt;: <a href="" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.subdomain.KeyVal.P">P</span>, <span class="extype" name="longevity.subdomain.KeyVal.V">V</span>]</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a key value.</p><p>use this abstract class to extend the case class you want to use as a key
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a key value.</p><p>use this trait to extend the case class you want to use as a key
 value.
 </p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the key value type. a
-<a href="http://ktoso.github.io/scala-types-of-types/#self-recursive-type" target="_blank">self-recursive type</a></p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/d9e7b6f4fdf08beae8a6465477c893c22a27dec6/src/main/scala/longevity/subdomain/KeyVal.scala" target="_blank">KeyVal.scala</a></dd></dl><div class="toggleContainer block">
+<a href="http://ktoso.github.io/scala-types-of-types/#self-recursive-type" target="_blank">self-recursive type</a></p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.15.0/src/main/scala/longevity/subdomain/KeyVal.scala" target="_blank">KeyVal.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 154.00 118.00" height="118pt" width="154pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 150,-114 150,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.subdomain.KeyVal (this class)" xlink:href="#inheritance-diagram"><polygon points="121.5,-49 24.5,-49 24.5,-24 121.5,-24 121.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.5576" text-anchor="start">KeyVal[P, V]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><polygon points="111,-110 35,-110 35,-85 111,-85 111,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-104.5" x="45" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="65.7144" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="KeyVal[P, V] is a subtype of AnyRef"><path d="M73,-79.6874C73,-69.9173 73,-57.8534 73,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="71.2501,-79.8435 73,-84.8435 74.7501,-79.8435 71.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 154.00 118.00" height="118pt" width="154pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 150,-114 150,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.subdomain.KeyVal (this trait)" xlink:href="#inheritance-diagram"><polygon points="121.5,-49 24.5,-49 24.5,-24 121.5,-24 121.5,-49" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../lib/trait_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.5576" text-anchor="start">KeyVal[P, V]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><polygon points="111,-110 35,-110 35,-85 111,-85 111,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../lib/class_diagram.png" y="-104.5" x="45" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="65.7144" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="KeyVal[P, V] is a subtype of AnyRef"><path d="M73,-79.6874C73,-69.9173 73,-57.8534 73,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="71.2501,-79.8435 73,-84.8435 74.7501,-79.8435 71.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -97,27 +97,7 @@ value.
 
       <div id="template">
         <div id="allMembers">
-        <div id="constructors" class="members">
-              <h3>Instance Constructors</h3>
-              <ol><li name="longevity.subdomain.KeyVal#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(key:longevity.subdomain.ptype.Key[P,V]):longevity.subdomain.KeyVal[P,V]"></a>
-      <a id="&lt;init&gt;:KeyVal[P,V]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">new</span>
-      </span>
-      <span class="symbol">
-        <span class="name">KeyVal</span><span class="params">(<span name="key">key: <a href="ptype/Key.html" class="extype" name="longevity.subdomain.ptype.Key">Key</a>[<span class="extype" name="longevity.subdomain.KeyVal.P">P</span>, <span class="extype" name="longevity.subdomain.KeyVal.V">V</span>]</span>)</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.KeyVal@&lt;init&gt;(key:longevity.subdomain.ptype.Key[P,V]):longevity.subdomain.KeyVal[P,V]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">key</dt><dd class="cmt"><p>the key that this is a value for</p></dd></dl></div>
-    </li></ol>
-            </div>
+        
 
         
 
@@ -477,23 +457,6 @@ value.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="longevity.subdomain.KeyVal#key" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="key:longevity.subdomain.ptype.Key[P,V]"></a>
-      <a id="key:Key[P,V]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">key</span><span class="result">: <a href="ptype/Key.html" class="extype" name="longevity.subdomain.ptype.Key">Key</a>[<span class="extype" name="longevity.subdomain.KeyVal.P">P</span>, <span class="extype" name="longevity.subdomain.KeyVal.V">V</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.KeyVal@key:longevity.subdomain.ptype.Key[P,V]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">the key that this is a value for</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>

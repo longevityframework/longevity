@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>QuerySpec - longevity 0.15-SNAPSHOT API - longevity.test.QuerySpec</title>
-          <meta name="description" content="QuerySpec - longevity 0.15 - SNAPSHOT API - longevity.test.QuerySpec" />
-          <meta name="keywords" content="QuerySpec longevity 0.15 SNAPSHOT API longevity.test.QuerySpec" />
+          <title>QuerySpec - longevity 0.15.0 API - longevity.test.QuerySpec</title>
+          <meta name="description" content="QuerySpec - longevity 0.15.0 API - longevity.test.QuerySpec" />
+          <meta name="keywords" content="QuerySpec longevity 0.15.0 API longevity.test.QuerySpec" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,9 +49,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains common code for testing different <a href="../subdomain/ptype/Query.html" class="extype" name="longevity.subdomain.ptype.Query">Query</a> instances against <a href="../persistence/Repo.html#retrieveByQuery(query:longevity.subdomain.ptype.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]" class="extmbr" name="longevity.persistence.Repo#retrieveByQuery">Repo.retrieveByQuery</a> and <a href="../persistence/package$$StreamingRepo.html#streamByQuery(query:longevity.subdomain.ptype.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]" class="extmbr" name="longevity.persistence.StreamingRepo#streamByQuery">Repo.streamByQuery</a>.</p><p>pardon the nasty ScalaDocs for this class. we haven't figured out how to
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains common code for testing different <a href="../subdomain/query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a> instances against <a href="../persistence/Repo.html#retrieveByQuery(query:longevity.subdomain.query.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]" class="extmbr" name="longevity.persistence.Repo#retrieveByQuery">Repo.retrieveByQuery</a> and <a href="../persistence/package$$StreamingRepo.html#streamByQuery(query:longevity.subdomain.query.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]" class="extmbr" name="longevity.persistence.StreamingRepo#streamByQuery">Repo.streamByQuery</a>.</p><p>pardon the nasty ScalaDocs for this class. we haven't figured out how to
 remove the methods inherited from ScalaTest classes yet.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/d9e7b6f4fdf08beae8a6465477c893c22a27dec6/src/main/scala/longevity/test/QuerySpec.scala" target="_blank">QuerySpec.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.15.0/src/main/scala/longevity/test/QuerySpec.scala" target="_blank">QuerySpec.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a>, <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span>, <span class="extype" name="org.scalatest.BeforeAndAfterAll">BeforeAndAfterAll</span>, <span class="extype" name="org.scalatest.SuiteMixin">SuiteMixin</span>, <a href="LongevityFuturesSpec.html" class="extype" name="longevity.test.LongevityFuturesSpec">LongevityFuturesSpec</a>, <span class="extype" name="org.scalatest.concurrent.ScalaFutures">ScalaFutures</span>, <span class="extype" name="org.scalatest.concurrent.Futures">Futures</span>, <span class="extype" name="org.scalatest.concurrent.PatienceConfiguration">PatienceConfiguration</span>, <span class="extype" name="org.scalatest.concurrent.AbstractPatienceConfiguration">AbstractPatienceConfiguration</span>, <span class="extype" name="org.scalatest.concurrent.ScaledTimeSpans">ScaledTimeSpans</span>, <span class="extype" name="org.scalatest.Matchers">Matchers</span>, <span class="extype" name="org.scalactic.Explicitly">Explicitly</span>, <span class="extype" name="org.scalatest.words.MatcherWords">MatcherWords</span>, <span class="extype" name="org.scalactic.Tolerance">Tolerance</span>, <span class="extype" name="org.scalatest.FlatSpec">FlatSpec</span>, <span class="extype" name="org.scalatest.FlatSpecLike">FlatSpecLike</span>, <span class="extype" name="org.scalatest.Documenting">Documenting</span>, <span class="extype" name="org.scalatest.Alerting">Alerting</span>, <span class="extype" name="org.scalatest.Notifying">Notifying</span>, <span class="extype" name="org.scalatest.Informing">Informing</span>, <span class="extype" name="org.scalatest.words.CanVerb">CanVerb</span>, <span class="extype" name="org.scalatest.words.MustVerb">MustVerb</span>, <span class="extype" name="org.scalatest.words.ShouldVerb">ShouldVerb</span>, <span class="extype" name="org.scalatest.TestRegistration">TestRegistration</span>, <span class="extype" name="org.scalatest.Suite">Suite</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.scalatest.AbstractSuite">AbstractSuite</span>, <span class="extype" name="org.scalatest.Assertions">Assertions</span>, <span class="extype" name="org.scalactic.TripleEquals">TripleEquals</span>, <span class="extype" name="org.scalactic.TripleEqualsSupport">TripleEqualsSupport</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -2898,7 +2898,7 @@ remove the methods inherited from ScalaTest classes yet.
     </span>
       <p class="shortcomment cmt">the execution context</p><div class="fullcomment"><div class="comment cmt"><p>the execution context</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.test.QuerySpec">QuerySpec</a> → <a href="LongevityFuturesSpec.html" class="extype" name="longevity.test.LongevityFuturesSpec">LongevityFuturesSpec</a></dd></dl></div>
     </li><li name="longevity.test.QuerySpec#exerciseQuery" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="exerciseQuery(query:longevity.subdomain.ptype.Query[P],exerciseStreamByQuery:Boolean):Unit"></a>
+      <a id="exerciseQuery(query:longevity.subdomain.query.Query[P],exerciseStreamByQuery:Boolean):Unit"></a>
       <a id="exerciseQuery(Query[P],Boolean):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2906,15 +2906,19 @@ remove the methods inherited from ScalaTest classes yet.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">exerciseQuery</span><span class="params">(<span name="query">query: <a href="../subdomain/ptype/Query.html" class="extype" name="longevity.subdomain.ptype.Query">Query</a>[<span class="extype" name="longevity.test.QuerySpec.P">P</span>]</span>, <span name="exerciseStreamByQuery">exerciseStreamByQuery: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol">false</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">exerciseQuery</span><span class="params">(<span name="query">query: <a href="../subdomain/query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a>[<span class="extype" name="longevity.test.QuerySpec.P">P</span>]</span>, <span name="exerciseStreamByQuery">exerciseStreamByQuery: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol">false</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.QuerySpec@exerciseQuery(query:longevity.subdomain.ptype.Query[P],exerciseStreamByQuery:Boolean):Unit" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.QuerySpec@exerciseQuery(query:longevity.subdomain.query.Query[P],exerciseStreamByQuery:Boolean):Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">runs the query against the test data, and checks if the results are correct.</p><div class="fullcomment"><div class="comment cmt"><p>runs the query against the test data, and checks if the results are correct.
-generates a test failure if they are not.
+generates a test failure if they are not.</p><p>due to the possibility of data in the table put in by other tests, it is not
+possible to test queries with <code>offset</code> or <code>limit</code> clauses here. do not despair,
+offset and limit clauses are tested independently in the longevity test suite
+for every longevity back end. (see
+<code>longevity.integration.queries.offsetLimit.OffsetLimitQuerySpec</code>)
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.scalatest.words.MatcherWords#exist" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="exist:org.scalatest.words.ExistWord"></a>
