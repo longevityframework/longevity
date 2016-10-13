@@ -22,16 +22,18 @@ object OffsetLimitQuerySpec {
   import longevity.subdomain.PTypePool
   import longevity.subdomain.Subdomain
 
-  case class OffsetLimit(i: Int) extends Persistent
+  case class OffsetLimit(i: Int, j: Int) extends Persistent
 
   object OffsetLimit extends PType[OffsetLimit] {
     object props {
       val i = prop[Int]("i")
+      val j = prop[Int]("j")
     }
     object keys {
     }
     object indexes {
       val i = index(props.i)
+      val j = index(props.j)
     }
   }
 
@@ -60,7 +62,7 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   import OffsetLimitQuerySpec._
 
-  val ps = for (i <- 0 until 10) yield OffsetLimit(i)
+  val ps = for (i <- 0 until 10) yield OffsetLimit(i, 0)
 
   val repo = longevityContext.testRepoPool[OffsetLimit]
   var states: Seq[PState[OffsetLimit]] = _
@@ -83,13 +85,13 @@ extends FlatSpec with LongevityIntegrationSpec {
     var query: Query[OffsetLimit] = null
     var results: Seq[PState[OffsetLimit]] = null
 
-    query = props.i gt 1 limit 5
+    query = props.j eqs 0 and props.i gt 1 limit 5
     results = repo.retrieveByQuery(query).futureValue
     results.size should equal (5)
-    results should not contain (OffsetLimit(0))
-    results should not contain (OffsetLimit(1))
+    results should not contain (OffsetLimit(0, 0))
+    results should not contain (OffsetLimit(1, 0))
 
-    query = props.i gt 1 limit 50
+    query = props.j eqs 0 and props.i gt 1 limit 50
     results = repo.retrieveByQuery(query).futureValue
     results.map(_.get.i).toSet should equal (Set(2, 3, 4, 5, 6, 7, 8, 9))
   }
