@@ -44,7 +44,7 @@ queries where `lastName` is fixed and `firstName` is filtered. It will
 not assure performance for a search on `firstName` alone.
 
 Indexes are used by `Repo.retrieveByQuery`, which is described in a [later
-section](../repo/query.html).
+section](../query/retrieve-by.html).
 
 {% assign prevTitle = "keys" %}
 {% assign prevLink = "keys.html" %}

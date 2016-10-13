@@ -27,7 +27,7 @@ Cassandra columns. These columns all have names prefixed with `prop_`,
 
 The property component columns are used to back calls to
 [Repo.retrieve](../repo/retrieve.html), as well as [query
-retrievals](../repo/query.html). Please note that queries constructed
+retrievals](../query/retrieve-by.html). Please note that queries constructed
 using properties that are not part of a longevity key or index [will
 fail](../repo/cassandra-query-limits.html).
 

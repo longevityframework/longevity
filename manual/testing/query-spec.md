@@ -4,7 +4,7 @@ layout: page
 ---
 
 The query spec is a useful tool for testing any
-[queries](../repo/query.html) that you depend on in your
+[queries](../query/retrieve-by.html) that you depend on in your
 application. The way it works is this:
 
 1. You subclass `longevity.test.QuerySpec`, providing the persistent

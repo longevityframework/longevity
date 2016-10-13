@@ -72,7 +72,7 @@ persistence layer, as we will see in the [section on
 `Repo.retrieve`](../repo/retrieve.html). You are most likely
 going to want to define at least one key per persistent type, or you
 will only be able to retrieve collections of persistent objects [by
-query](../repo/query.html). It is possible that you have a persistent
+query](../query/retrieve-by.html). It is possible that you have a persistent
 type - perhaps representing an entry in a log file - for which there
 are no natural keys. You may be satisfied to confine yourself to
 looking up collections of these objects via range searches.
