@@ -112,7 +112,7 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
     actual.size should equal (expected.size)
     actual should equal (expected)
 
-    if (query.orderBy.sortExprs.nonEmpty) {
+    if (query.orderBy.sortExprs.nonEmpty && orderedResults.size > 1) {
       val ordering = QueryOrderBy.ordering(query.orderBy, realizedPType)
       orderedResults.sliding(2).foreach { consecutive =>
         ordering.compare(consecutive(0), consecutive(1)) should be <= 0
