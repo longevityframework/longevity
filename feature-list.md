@@ -5,8 +5,8 @@ layout: page
 
 ## Design Principles
 
-- Built to support multiple NoSQL back ends.
 - Fully encapsulates persistence concerns.
+- Built to support multiple NoSQL back ends.
 - [Asynchronous persistence API](manual/repo/repo-api.html) using [Scala
   futures](http://docs.scala-lang.org/overviews/core/futures.html) and
   [Akka
