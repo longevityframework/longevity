@@ -44,6 +44,5 @@ label [longevity
 1.0](https://www.pivotaltracker.com/epic/show/1769462) (please follow
 the "add/view stories" link on the right side of the linked page):
 
-- Enhanced query support.
 - User control of [sharding](https://docs.mongodb.com/manual/sharding/#shard-keys)/[partitioning](https://docs.datastax.com/en/cql/3.1/cql/cql_reference/refCompositePk.html).
 - Eliminate boilerplate for building a subdomain with reflective techniques.
