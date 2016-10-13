@@ -1,5 +1,6 @@
 import sbt._
 import Keys._
+import com.typesafe.sbt.pgp.PgpKeys._
 
 trait Deps {
 
@@ -112,17 +113,22 @@ trait BuildSettings extends Deps {
     
   )
 
+  val noPublishSettings = Defaults.coreDefaultSettings ++ Seq(
+    packagedArtifacts := Map.empty,
+    publishLocal := (),
+    publishSigned := (),
+    publish := ())
+
   private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
 
 }
 
 object LongevityBuild extends Build with BuildSettings with Deps {
 
-  lazy val root = Project(id = "root", base = file("."))
-    .settings(publish := {})
+  lazy val root = Project(id = "root", base = file("."), settings = noPublishSettings)
     .aggregate(bin, emblem, longevity, longevityMongoDeps, longevityCassandraDeps, longevityDDD)
 
-  lazy val bin = Project(id = "bin", base = file("bin")).settings(publish := {})
+  lazy val bin = Project(id = "bin", base = file("bin"), settings = noPublishSettings)
 
   lazy val longevity = Project(
     id = "longevity",
