@@ -142,6 +142,6 @@ val queryResults = memberRepo.retrieveByQuery(query)
 {% assign prevLink = "../repo/delete.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "testing your subdomain" %}
-{% assign nextLink = "../testing" %}
+{% assign nextTitle = "queries" %}
+{% assign nextLink = "../query" %}
 {% include navigate.html %}

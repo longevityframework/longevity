@@ -70,6 +70,6 @@ cache, if need be.
 {% assign prevLink = "create-many.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "retrieval by query" %}
-{% assign nextLink = "query.html" %}
+{% assign nextTitle = "repo.update" %}
+{% assign nextLink = "update.html" %}
 {% include navigate.html %}

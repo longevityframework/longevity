@@ -25,12 +25,18 @@ this is that to construct an ordering query for a compound property
 requires the use of the _not-equals_ operator, which is not supported
 by Cassandra CQL.
 
-The `Query.All()` query is not supported by Cassandra.
+The `filterAll` query filter is not supported by Cassandra.
+
+Cassandra queries do not support offset clauses.
+
+Currently, Cassandra queries do not support order-by clauses. This
+will change when we implement [partition
+keys](../translation/keys.html).
 
 {% assign prevTitle = "stream by query" %}
-{% assign prevLink = "stream.html" %}
-{% assign upTitle = "repositories" %}
+{% assign prevLink = "stream-by.html" %}
+{% assign upTitle = "queries" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "repo.update" %}
-{% assign nextLink = "update.html" %}
+{% assign nextTitle = "testing your subdomain" %}
+{% assign nextLink = "../testing" %}
 {% include navigate.html %}

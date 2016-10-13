@@ -49,8 +49,8 @@ been updated. In this case, re-using (or continuing to use) the input
 `PState` could result in an optimistic locking failure. In general,
 you should consider a `PState` passed to `Repo.update` as no longer valid.
 
-{% assign prevTitle = "limitations on cassandra queries" %}
-{% assign prevLink = "cassandra-query-limits.html" %}
+{% assign prevTitle = "retrieval by key value" %}
+{% assign prevLink = "retrieve.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "repo.delete" %}

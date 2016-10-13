@@ -95,7 +95,7 @@ libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.10"
 ```
 
 {% assign prevTitle = "retrieval by query" %}
-{% assign prevLink = "query.html" %}
+{% assign prevLink = "retrieve-by.html" %}
 {% assign upTitle = "repositories" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "cassandra query limitations" %}
