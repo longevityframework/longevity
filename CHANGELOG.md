@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.15-SNAPSHOT] - Query Enhancements
+## [0.15.0] - Query Enhancements
 
 - 2016.10.08 - Remove `KeyVal.key` and change `KeyVal` from an
   abstract class into a trait. To migrate existing code, you will need
@@ -11,7 +11,9 @@
   re-organized into new package `longevity.subdomain.query`. This
   should not affect you if you are only using the query DSL.
 
-Please refer to the user manual for the latest on the query API.
+Please refer to the [user
+manual](http://longevityframework.github.io/longevity/manual/query/)
+for the latest on the query API.
 
 ## [0.14.0] - Subdomain Repackaging
 
