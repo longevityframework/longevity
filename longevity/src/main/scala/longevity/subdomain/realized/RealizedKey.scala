@@ -1,18 +1,16 @@
 package longevity.subdomain.realized
 
 import emblem.TypeKey
-import emblem.emblematic.Emblematic
 import emblem.typeKey
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Key
 
-private[longevity] case class RealizedKey[
+private[longevity] class RealizedKey[
   P <: Persistent,
   V <: KeyVal[P, V] : TypeKey] private [subdomain](
-  key: Key[P, V])(
-  val realizedProp: RealizedProp[P, V],
-  emblematic: Emblematic) {
+  val key: Key[P, V],
+  val realizedProp: RealizedProp[P, V]) {
 
   val keyValTypeKey = typeKey[V]
 
@@ -27,5 +25,10 @@ private[longevity] case class RealizedKey[
   }
 
   override def toString = s"Realized$key"
+
+  override def hashCode = key.hashCode
+
+  override def equals(that: Any) =
+    that.isInstanceOf[RealizedKey[_, _]] && key == that.asInstanceOf[RealizedKey[_, _]].key
 
 }

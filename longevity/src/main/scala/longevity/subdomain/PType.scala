@@ -4,11 +4,15 @@ import emblem.TypeKey
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import emblem.typeKey
+import longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.subdomain.ptype.AnyKey
+import longevity.subdomain.ptype.AnyPartitionKey
 import longevity.subdomain.ptype.Index
 import longevity.subdomain.ptype.Key
+import longevity.subdomain.ptype.Partition
+import longevity.subdomain.ptype.PartitionKey
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.QueryDsl
 
@@ -26,6 +30,13 @@ abstract class PType[P <: Persistent : TypeKey] {
 
   /** the keys for this persistent type */
   lazy val keySet: Set[AnyKey[P]] = kscan("keys")
+
+  /** TODO */
+  lazy val partitionKey: Option[AnyPartitionKey[P]] = {
+    val partitionKeys = keySet.collect { case pk: AnyPartitionKey[P] => pk }
+    if (partitionKeys.size > 1) throw new MultiplePartitionKeysForPType[P]
+    partitionKeys.headOption
+  }
 
   /** the indexes for this persistent type */
   lazy val indexSet: Set[Index[P]] = iscan("indexes")
@@ -49,7 +60,38 @@ abstract class PType[P <: Persistent : TypeKey] {
    * @tparam V the type of the key value
    * @param keyValProp a property for the key
    */
-  def key[V <: KeyVal[P, V] : TypeKey](keyValProp: Prop[P, V]): Key[P, V] = Key(keyValProp)
+  def key[V <: KeyVal[P, V] : TypeKey](keyValProp: Prop[P, V]): Key[P, V] = new Key(keyValProp)
+
+  /** constructs a partition key for this persistent type. the full key value
+   * is used to determine the partition
+   *
+   * @tparam V the type of the key value
+   * @param keyValProp a property for the primary key
+   */
+  def partitionKey[V <: KeyVal[P, V] : TypeKey](keyValProp: Prop[P, V]): PartitionKey[P, V] =
+    partitionKey(keyValProp, partition(keyValProp))
+
+  /** constructs a partition key for this persistent type
+   *
+   * @tparam V the type of the key value
+   * @param keyValProp a property for the primary key
+   * @param partition describes the portion of the key value to use to determine
+   * which node in the partition the data belongs to. this must form a prefix of
+   * the `keyValProp`
+   */
+  def partitionKey[V <: KeyVal[P, V] : TypeKey](
+    keyValProp: Prop[P, V],
+    partition: Partition[P])
+  : PartitionKey[P, V]
+  = new PartitionKey(keyValProp, partition)
+
+  /** a series of properties that determines the partitioning used by the
+   * underlying database to distribute data across multiple nodes. used to form a
+   * [[longevity.subdomain.ptype.PartitionKey partition key]]
+   *
+   * @param props the properties that determine the partition
+   */
+  def partition(props: Prop[P, _]*): Partition[P] = Partition(props)
 
   /** constructs an index for this persistent type based on the supplied set of
    * index props

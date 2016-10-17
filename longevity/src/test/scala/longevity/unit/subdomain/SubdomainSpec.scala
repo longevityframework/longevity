@@ -4,6 +4,7 @@ import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.exceptions.subdomain.DuplicateETypesException
 import longevity.exceptions.subdomain.DuplicateKeyException
 import longevity.exceptions.subdomain.DuplicatePTypesException
+import longevity.exceptions.subdomain.InvalidPartitionException
 import longevity.exceptions.subdomain.NoSuchPropPathException
 import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.UnsupportedPropTypeException
@@ -256,6 +257,25 @@ object SubdomainSpec {
 
   }
 
+  object invalidPartition {
+
+    case class AId(id1: String, id2: String) extends KeyVal[A, AId]
+
+    case class A(id: AId) extends Persistent
+    object A extends PType[A] {
+      object props {
+        val id = prop[AId]("id")
+        val id2 = prop[String]("id.id2")
+      }
+      object keys {
+        val id = partitionKey(props.id, partition(props.id2))
+      }
+    }
+
+    def subdomain = Subdomain("invalidPartition", PTypePool(A))
+
+  }
+
   object derivedPTypeHasNoPoly {
 
     trait Poly extends Persistent { val id: String }
@@ -405,6 +425,12 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "throw exception when the PType has multiple keys with the same key value type" in {
     intercept[DuplicateKeyException[_, _]] {
       SubdomainSpec.duplicateKey.subdomain
+    }
+  }
+
+  it should "throw exception if the partition key declares an invalid partition" in {
+    intercept[InvalidPartitionException[_]] {
+      SubdomainSpec.invalidPartition.subdomain
     }
   }
 

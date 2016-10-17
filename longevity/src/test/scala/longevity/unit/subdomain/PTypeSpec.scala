@@ -1,5 +1,6 @@
 package longevity.unit.subdomain
 
+import longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.subdomain.PType
@@ -100,6 +101,22 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       }
     }
     User.keySet should equal (Set(User.keys.username, User.keys.email))
+  }
+
+  it should "throw exception if more than one partition key is defined" in {
+    object User extends PType[User] {
+      object props {
+        val username = prop[Username]("username")
+        val email = prop[Email]("email")
+      }
+      object keys {
+        val username = partitionKey(props.username)
+        val email = partitionKey(props.email)
+      }
+    }
+    intercept[MultiplePartitionKeysForPType[_]] {
+      User.partitionKey
+    }
   }
 
   it should "produce an empty `indexSet` when the `indexSet` is not overridden, " +

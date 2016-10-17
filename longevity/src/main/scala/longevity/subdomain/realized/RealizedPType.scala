@@ -10,6 +10,7 @@ import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Key
+import longevity.subdomain.ptype.PartitionKey
 import longevity.subdomain.ptype.Prop
 
 private[longevity] class RealizedPType[P <: Persistent](
@@ -57,19 +58,34 @@ private[longevity] class RealizedPType[P <: Persistent](
   private val realizedKeyMap: Map[TypeKey[_], AnyRealizedKey[P]] = {
     val empty = Map[TypeKey[_], AnyRealizedKey[P]]()
     pType.keySet.foldLeft(empty) { (acc, key) =>
-      def accumulate[A <: KeyVal[P, A]](key: Key[P, A]) = {
-        val prop: Prop[P, A] = key.keyValProp
-        val keyValTypeKey = prop.propTypeKey
-        val realizedKey = RealizedKey[P, A](key)(
-          myRealizedProps(prop),
-          emblematic)(
-          keyValTypeKey)
+      def accumulate[V <: KeyVal[P, V]](key: Key[P, V]) = {
+        val realizedKey = realizedKeyForKey(key)
+        def keyValTypeKey = key.keyValProp.propTypeKey
         if (acc.contains(keyValTypeKey)) {
           throw new DuplicateKeyException()(pType.pTypeKey, keyValTypeKey)
         }
         acc + (keyValTypeKey -> realizedKey)
       }
       accumulate(key)
+    }
+  }
+
+  private def realizedKeyForKey[V <: KeyVal[P, V]](key: Key[P, V]): RealizedKey[P, V] = {
+    val prop: Prop[P, V] = key.keyValProp
+    key match {
+      case pk: PartitionKey[P, V] =>
+        val partitionProps = pk.partition.props.map { prop => myRealizedProps(prop) }
+        new RealizedPartitionKey[P, V](
+          pk,
+          myRealizedProps(prop),
+          partitionProps)(
+          pType.pTypeKey,          
+          prop.propTypeKey)
+      case _ =>
+        new RealizedKey[P, V](
+          key,
+          myRealizedProps(prop))(
+          prop.propTypeKey)
     }
   }
 
