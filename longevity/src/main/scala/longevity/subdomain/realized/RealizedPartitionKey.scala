@@ -9,7 +9,7 @@ import longevity.subdomain.ptype.PartitionKey
 private[longevity] class RealizedPartitionKey[
   P <: Persistent : TypeKey,
   V <: KeyVal[P, V] : TypeKey] private [subdomain](
-  key: PartitionKey[P, V],
+  override val key: PartitionKey[P, V],
   realizedProp: RealizedProp[P, V],
   val partitionProps: Seq[RealizedProp[P, _]])
 extends RealizedKey[P, V](key, realizedProp) {

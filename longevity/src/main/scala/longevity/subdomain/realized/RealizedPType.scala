@@ -95,4 +95,8 @@ private[longevity] class RealizedPType[P <: Persistent](
 
   val keySet: Set[AnyRealizedKey[P]] = realizedKeyMap.values.toSet
 
+  val partitionKey: Option[AnyRealizedPartitionKey[P]] = realizedKeyMap.values.collectFirst {
+    case pk: AnyRealizedPartitionKey[P] => pk
+  }
+
 }

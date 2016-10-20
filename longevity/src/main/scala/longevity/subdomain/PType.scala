@@ -67,9 +67,14 @@ abstract class PType[P <: Persistent : TypeKey] {
    *
    * @tparam V the type of the key value
    * @param keyValProp a property for the primary key
+   * @param hashed if `true`, then used a hashed partition (as opposed to a
+   * ranged partition) when possible. defaults to `false`.
    */
-  def partitionKey[V <: KeyVal[P, V] : TypeKey](keyValProp: Prop[P, V]): PartitionKey[P, V] =
-    partitionKey(keyValProp, partition(keyValProp))
+  def partitionKey[V <: KeyVal[P, V] : TypeKey](
+    keyValProp: Prop[P, V],
+    hashed: Boolean = false)
+  : PartitionKey[P, V] =
+    partitionKey(keyValProp, partition(keyValProp), hashed)
 
   /** constructs a partition key for this persistent type
    *
@@ -83,7 +88,14 @@ abstract class PType[P <: Persistent : TypeKey] {
     keyValProp: Prop[P, V],
     partition: Partition[P])
   : PartitionKey[P, V]
-  = new PartitionKey(keyValProp, partition)
+  = partitionKey(keyValProp, partition, false)
+
+  private def partitionKey[V <: KeyVal[P, V] : TypeKey](
+    keyValProp: Prop[P, V],
+    partition: Partition[P],
+    hashed: Boolean)
+  : PartitionKey[P, V]
+  = new PartitionKey(keyValProp, partition, hashed)
 
   /** a series of properties that determines the partitioning used by the
    * underlying database to distribute data across multiple nodes. used to form a

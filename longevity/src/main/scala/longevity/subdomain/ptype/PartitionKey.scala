@@ -17,11 +17,16 @@ import longevity.subdomain.Persistent
  * @param keyValProp a property for the key
  * @param partition describes the portion of the key value to use to determine
  * which node in the partition the data belongs to
+ * @param hashed if `true`, then used a hashed partition (as opposed to a
+ * ranged partition) when possible
  */
 class PartitionKey[P <: Persistent : TypeKey, V <: KeyVal[P, V] : TypeKey] private [subdomain] (
   keyValProp: Prop[P, V],
-  val partition: Partition[P])
+  val partition: Partition[P],
+  val hashed: Boolean)
 extends Key[P, V](keyValProp) {
+
+  def fullyPartitioned = partition.props.size == 1 && keyValProp == partition.props.head
 
   override def toString = s"PartitionKey[${typeKey[P].name},${typeKey[V].name}]"
 
