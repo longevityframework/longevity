@@ -63,6 +63,8 @@ extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
     repoSpec(pair)
   }
 
+  override def afterAll = repoPool.closeSession().futureValue
+
   private class RepoSpec[P <: Persistent](
     private val repo: BaseRepo[P],
     private val pTypeKey: TypeKey[P]) {
