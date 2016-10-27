@@ -25,6 +25,14 @@ case class PState[P <: Persistent] private (
 
   override def toString = s"PState($p)"
 
+  /** produces a new PState that represents the changes in the current PState
+   * having been committed to the database
+   */
+  private[persistence] def update(optimisticLocking: Boolean): PState[P] = {
+    val newRowVersion = if (optimisticLocking) rowVersion.map(_ + 1).orElse(Some(0L)) else None
+    copy(orig = p, rowVersion = newRowVersion)
+  }
+
 }
 
 object PState {

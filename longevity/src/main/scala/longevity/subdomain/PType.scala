@@ -4,6 +4,7 @@ import emblem.TypeKey
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import emblem.typeKey
+import longevity.exceptions.subdomain.DuplicateKeyOrIndexException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.subdomain.ptype.AnyKey
@@ -85,6 +86,23 @@ abstract class PType[P <: Persistent : TypeKey] {
     implicit val pTypeTag = pTypeKey.tag
     implicit val indexTypeKey = typeKey[Index[P]].inMirrorOf(pTypeKey)
     innerModule(this, "indexes").map(termsWithType[Index[P]]).getOrElse(Set[Index[P]]())
+  }
+
+  private[subdomain] def validateKeysAndIndexes(): Unit = {
+    var indexed = Set.empty[Seq[Prop[P, _]]]
+    keySet.foreach { key =>
+      val propList = key.keyValProp :: Nil
+      if (indexed.contains(propList)) {
+        throw new DuplicateKeyOrIndexException(pTypeKey)
+      }
+      indexed += propList
+    }
+    indexSet.foreach { index =>
+      if (indexed.contains(index.props)) {
+        throw new DuplicateKeyOrIndexException(pTypeKey)
+      }
+      indexed += index.props
+    }
   }
 
   override def toString = s"PType[${pTypeKey.name}]"

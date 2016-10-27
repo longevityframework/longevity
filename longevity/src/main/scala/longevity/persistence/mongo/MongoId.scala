@@ -1,8 +1,8 @@
 package longevity.persistence.mongo
 
-import com.mongodb.casbah.Imports.ObjectId
 import longevity.persistence.DatabaseId
 import longevity.subdomain.Persistent
+import org.bson.types.ObjectId
 
 private[persistence] case class MongoId[P <: Persistent](objectId: ObjectId)
 extends DatabaseId[P] {

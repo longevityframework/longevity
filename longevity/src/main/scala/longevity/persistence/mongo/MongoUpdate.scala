@@ -1,10 +1,12 @@
 package longevity.persistence.mongo
 
-import com.mongodb.DuplicateKeyException
-import com.mongodb.casbah.commons.MongoDBObjectBuilder
+import com.mongodb.MongoWriteException
+import com.mongodb.client.model.Filters
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
+import org.bson.BsonInt64
+import org.bson.BsonObjectId
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -14,37 +16,36 @@ private[mongo] trait MongoUpdate[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
-    logger.debug(s"calling MongoRepo.update: $state")
-    val query = buildQuery(state)
-    val rowVersion = if (persistenceConfig.optimisticLocking) {
-      state.rowVersion.map(_ + 1).orElse(Some(0L))
-    } else {
-      None
-    }
-    val casbah = casbahForP(state.get, mongoId(state), rowVersion)
-    logger.debug(s"calling MongoCollection.update: $casbah")
-    val writeResult = try {
-      blocking {
-        mongoCollection.update(query, casbah)
+    blocking {
+      logger.debug(s"calling MongoRepo.update: $state")
+      val query = updateQuery(state)
+      val updatedState = state.update(persistenceConfig.optimisticLocking)
+      val document = bsonForState(updatedState)
+      logger.debug(s"calling MongoCollection.replaceOne: $query $document")
+      val updateResult = try {
+        mongoCollection.replaceOne(query, document)
+      } catch {
+        case e: MongoWriteException => throwDuplicateKeyValException(state.get, e)
       }
-    } catch {
-      case e: DuplicateKeyException => throwDuplicateKeyValException(state.get, e)
+      if (persistenceConfig.optimisticLocking && updateResult.getModifiedCount == 0) {
+        throw new WriteConflictException(state)
+      }
+      logger.debug(s"done calling MongoRepo.update: $updatedState")
+      updatedState
     }
-    if (persistenceConfig.optimisticLocking && writeResult.getN == 0) {
-      throw new WriteConflictException(state)
-    }
-    val newState = PState[P](state.id, rowVersion, state.get)
-    logger.debug(s"done calling MongoRepo.update: $newState")
-    newState
   }
 
-  private def buildQuery(state: PState[P]) = {
-    val builder = new MongoDBObjectBuilder()
-    builder += "_id" -> mongoId(state)
+  private def updateQuery(state: PState[P]) = {
+    val idBson = Filters.eq("_id", new BsonObjectId(mongoId(state)))
     if (persistenceConfig.optimisticLocking) {
-      builder += "_rowVersion" -> state.rowVersion
+      val rvBson = state.rowVersion match {
+        case Some(rv) => Filters.eq("_rowVersion", new BsonInt64(rv))
+        case None => Filters.exists("_rowVersion", false)
+      }
+      Filters.and(idBson, rvBson)
+    } else {
+      idBson
     }
-    builder.result()
   }
 
 }

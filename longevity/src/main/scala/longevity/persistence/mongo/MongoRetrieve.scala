@@ -1,8 +1,6 @@
 package longevity.persistence.mongo
 
-import com.mongodb.casbah.commons.Implicits.unwrapDBObj
-import com.mongodb.casbah.commons.Implicits.wrapDBObj
-import com.mongodb.casbah.commons.MongoDBObject
+import org.bson.BsonDocument
 import emblem.TypeKey
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
@@ -15,23 +13,25 @@ private[mongo] trait MongoRetrieve[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   override def retrieve[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = Future {
-    logger.debug(s"calling MongoRepo.retrieve: $keyVal")
-    val query = keyValQuery(keyVal)
-    val resultOption = blocking {
-      mongoCollection.findOne(query)
-    }
-    val stateOption = resultOption.map(dbObjectToPState)
-    logger.debug(s"done calling MongoRepo.retrieve: $stateOption")
-    stateOption
-  }
+    blocking {
+      logger.debug(s"calling MongoRepo.retrieve: $keyVal")
+    
+      val query = keyValQuery(keyVal)
+      val result = mongoCollection.find(query).first
+      val resultOption = Option(result)
+      val stateOption = resultOption.map(dbObjectToPState)
 
-  protected def keyValQuery[V <: KeyVal[P, V] : TypeKey](keyVal: V): MongoDBObject = {
-    val builder = MongoDBObject.newBuilder
-    val realizedKey = realizedPType.realizedKey[V]
-    realizedKey.realizedProp.realizedPropComponents.foreach { component =>
-      builder += component.outerPropPath.inlinedPath -> component.innerPropPath.get(keyVal)
+      logger.debug(s"done calling MongoRepo.retrieve: $stateOption")
+      stateOption
     }
-    builder.result
+  }
+ 
+  protected def keyValQuery[V <: KeyVal[P, V] : TypeKey](keyVal: V): BsonDocument = {
+    val document = new BsonDocument
+    val keyPath = realizedPType.realizedKey[V].realizedProp.inlinedPath
+    val keyValBson = subdomainToBsonTranslator.translate(keyVal, false)
+    document.append(keyPath, keyValBson)
+    document
   }
 
 }

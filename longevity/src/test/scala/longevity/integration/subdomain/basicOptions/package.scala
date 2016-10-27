@@ -11,4 +11,10 @@ package object basicOptions {
 
   val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 
+  // nice test-only drop-in for debugging:
+  // val contexts = {
+  //   import longevity.context.LongevityContext
+  //   Seq(new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig))
+  // }
+
 }

@@ -17,7 +17,6 @@ object WithForeignKey extends PType[WithForeignKey] {
     val id = key(props.id)
   }
   object indexes {
-    val id = index(props.id)
     val associated = index(props.associated)
   }
 }

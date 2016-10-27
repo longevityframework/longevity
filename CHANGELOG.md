@@ -1,5 +1,18 @@
 # Longevity Changelog
 
+## [0,16-SNAPSHOT] - Partition Keys
+
+- 2016.10.27 - Replace Casbah with Java driver in MongoDB back end. We
+  are now using the [vanilla Java driver for
+  Mongo](http://mongodb.github.io/mongo-java-driver/3.2/driver/). This
+  change should not affect users.
+- 2016.10.27 - Fix MongoDB URIs so they work in a sharded environment.
+- 2016.10.27 - Disallow keys and indexes that duplicate the properties
+  of other keys or indexes. This may cause existing code to break. Fix
+  is to root out the duplicates. If you have a key and an index that
+  duplicate each other, you can safely remove the index, as it is
+  entirely redundant with the key.
+
 ## [0.15.0] - Query Enhancements
 
 - 2016.10.08 - Remove `KeyVal.key` and change `KeyVal` from an
