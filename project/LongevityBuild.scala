@@ -7,10 +7,10 @@ trait Deps {
   val scalaVersionString = "2.11.8"
 
   val akkaStreamDep:     ModuleID = "com.typesafe.akka"          %% "akka-stream"           % "2.4.11"
-  val casbahDep:         ModuleID = "org.mongodb"                %% "casbah"                % "3.1.1"
   val cassandraDep:      ModuleID = "com.datastax.cassandra"     %  "cassandra-driver-core" % "3.1.1"
   val json4sDep:         ModuleID = "org.json4s"                 %% "json4s-native"         % "3.4.1"
   val kxbmapConfigsDep:  ModuleID = "com.github.kxbmap"          %% "configs"               % "0.4.3"
+  val mongodbDep:        ModuleID = "org.mongodb"                %  "mongodb-driver"        % "3.3.0"
   val nScalaTimeDep:     ModuleID = "com.github.nscala-time"     %% "nscala-time"           % "2.14.0"
   val scalaLoggingDep:   ModuleID = "com.typesafe.scala-logging" %% "scala-logging"         % "3.5.0"
   val scalaReflectDep:   ModuleID = "org.scala-lang"             %  "scala-reflect"         % scalaVersionString
@@ -25,8 +25,8 @@ trait BuildSettings extends Deps {
   val githubUrl = "https://github.com/longevityframework/longevity"
 
   val nonConsoleScalacOptions = Seq(
-    "-Xfatal-warnings",
-    "-Ywarn-unused-import")
+    "-Xfatal-warnings")//,
+  //"-Ywarn-unused-import")
 
   val otherScalacOptions = Seq(
     "-Xfuture",
@@ -151,8 +151,8 @@ object LongevityBuild extends Build with BuildSettings with Deps {
       libraryDependencies += akkaStreamDep % Test,
 
       // for mongo:
-      libraryDependencies += casbahDep % Optional,
-      libraryDependencies += casbahDep % Test,
+      libraryDependencies += mongodbDep % Optional,
+      libraryDependencies += mongodbDep % Test,
 
       // for cassandra:
       libraryDependencies += cassandraDep % Optional,
@@ -191,7 +191,7 @@ object LongevityBuild extends Build with BuildSettings with Deps {
     id = "longevity-mongo-deps",
     base = file("longevity-mongo-deps"),
     settings = publishSettings ++ Seq(
-      libraryDependencies += casbahDep,
+      libraryDependencies += mongodbDep,
       homepage := longevityHomepage,
       pomExtra := longevityPomExtra))
 

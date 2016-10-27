@@ -31,6 +31,7 @@ class Subdomain(
   private[longevity] val realizedPTypes: TypeBoundMap[Persistent, PType, RealizedPType] = {
     pTypePool.values.foldLeft(TypeBoundMap[Persistent, PType, RealizedPType]()) { (acc, pType) =>
       def addPair[P <: Persistent](pType: PType[P]) = {
+        pType.validateKeysAndIndexes()
         val polyPTypeOpt = pType match {
           case derivedPType: DerivedPType[P, _] =>
             if (!pTypePool.contains(derivedPType.polyPTypeKey)) {

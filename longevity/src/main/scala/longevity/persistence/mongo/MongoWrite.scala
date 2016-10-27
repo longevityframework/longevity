@@ -1,14 +1,12 @@
 package longevity.persistence.mongo
 
-import com.mongodb.DBObject
-import com.mongodb.DuplicateKeyException
-import com.mongodb.casbah.Imports.ObjectId
-import com.mongodb.casbah.commons.Implicits.wrapDBObj
-import com.mongodb.casbah.commons.MongoDBObject
-import com.mongodb.casbah.commons.MongoDBObjectBuilder
+import com.mongodb.MongoWriteException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
+import org.bson.BsonDocument
+import org.bson.BsonInt64
+import org.bson.BsonObjectId
 
 /** utilities for writing to a mongo collection. used by [[MongoCreate]] and
  * [[MongoUpdate]]
@@ -16,25 +14,22 @@ import longevity.subdomain.Persistent
 private[mongo] trait MongoWrite[P <: Persistent] {
   repo: MongoRepo[P] =>
 
-  protected lazy val persistentToCasbahTranslator =
-    new PersistentToCasbahTranslator(subdomain.emblematic)
+  protected lazy val subdomainToBsonTranslator =
+    new SubdomainToBsonTranslator(subdomain.emblematic)
 
-  protected def casbahForP(p: P, id: ObjectId, rowVersion: Option[Long]): DBObject = {
-    val builder = new MongoDBObjectBuilder()
-    builder ++= translate(p)
-    builder += "_id" -> id
-    builder += "_rowVersion" -> rowVersion
-    builder.result()
+  protected def bsonForState(state: PState[P]): BsonDocument = {
+    val document = translate(state.get)
+    document.append("_id", new BsonObjectId(mongoId(state)))
+    state.rowVersion.foreach { v =>
+      document.append("_rowVersion", new BsonInt64(v))
+    }
+    document
   }
 
-  protected def translate(p: P): MongoDBObject = 
-    anyToMongoDBObject(persistentToCasbahTranslator.translate(p, true)(pTypeKey))
+  protected def translate(p: P): BsonDocument =
+    subdomainToBsonTranslator.translate(p, true)(pTypeKey).asDocument
 
-  protected def anyToMongoDBObject(any: Any): MongoDBObject =
-    if (any.isInstanceOf[MongoDBObject]) any.asInstanceOf[MongoDBObject]
-    else any.asInstanceOf[DBObject]
-
-  protected def throwDuplicateKeyValException(p: P, cause: DuplicateKeyException): Nothing = {
+  protected def throwDuplicateKeyValException(p: P, cause: MongoWriteException): Nothing = {
     val indexRegex = """index: (?:[\w\.]*\$)?(\S+)\s+dup key: \{ :""".r.unanchored
     val name = cause.getMessage match {
       case indexRegex(name) => name

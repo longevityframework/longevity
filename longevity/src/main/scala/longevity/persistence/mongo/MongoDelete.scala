@@ -1,13 +1,13 @@
 package longevity.persistence.mongo
 
-import com.mongodb.casbah.commons.Implicits.unwrapDBObj
-import com.mongodb.casbah.commons.Implicits.wrapDBObj
-import com.mongodb.casbah.commons.MongoDBObject
-import com.mongodb.casbah.commons.MongoDBObjectBuilder
+import com.mongodb.client.model.Filters
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
+import org.bson.BsonInt64
+import org.bson.BsonObjectId
+import org.bson.conversions.Bson
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -19,10 +19,10 @@ private[mongo] trait MongoDelete[P <: Persistent] {
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
     logger.debug(s"calling MongoRepo.delete: $state")
     val query = deleteQuery(state)
-    val writeResult = blocking {
-      mongoCollection.remove(query)
+    val deleteResult = blocking {
+      mongoCollection.deleteOne(query)
     }
-    if (persistenceConfig.optimisticLocking && writeResult.getN == 0) {
+    if (persistenceConfig.optimisticLocking && deleteResult.getDeletedCount == 0) {
       throw new WriteConflictException(state)
     }
     val deleted = new Deleted(state.get)
@@ -30,13 +30,18 @@ private[mongo] trait MongoDelete[P <: Persistent] {
     deleted
   }
 
-  protected def deleteQuery(state: PState[P]): MongoDBObject = {
-    val builder = new MongoDBObjectBuilder()
-    builder += "_id" -> mongoId(state)
-    if (persistenceConfig.optimisticLocking) {
-      builder += "_rowVersion" -> state.rowVersion
+  protected def deleteQuery(state: PState[P]): Bson = {
+    val idFilter = Filters.eq("_id", new BsonObjectId(mongoId(state)))
+    val filter = if (persistenceConfig.optimisticLocking) {
+      val rvFilter = state.rowVersion match {
+        case Some(rv) => Filters.eq("_rowVersion", new BsonInt64(rv))
+        case None => Filters.not(Filters.exists("_rowVersion"))
+      }
+      Filters.and(idFilter, rvFilter)
+    } else {
+      idFilter
     }
-    builder.result()
+    filter
   }
 
 }

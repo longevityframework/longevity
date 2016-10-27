@@ -1,12 +1,14 @@
 package longevity.persistence.mongo
 
-import com.mongodb.casbah.commons.Implicits.wrapDBObj
-import com.mongodb.casbah.commons.MongoDBObject
+import com.mongodb.client.model.Filters
 import emblem.TypeKey
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
 import longevity.subdomain.query.QueryFilter
+import org.bson.BsonDocument
+import org.bson.BsonString
+import org.bson.conversions.Bson
 
 private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] extends MongoRepo[P] {
 
@@ -17,23 +19,27 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
   override protected def createIndex(paths: Seq[String], indexName: String, unique: Boolean): Unit =
     super.createIndex("discriminator" +: paths, indexName, unique)
 
-  override protected def translate(p: P): MongoDBObject = {
-    // we use the poly type key here so we get the discriminator in the casbah
-    anyToMongoDBObject(persistentToCasbahTranslator.translate[Poly](p, false)(polyRepo.pTypeKey))
+  override protected def translate(p: P): BsonDocument = {
+    // we use the poly type key here so we get the discriminator in the BSON
+    subdomainToBsonTranslator.translate[Poly](p, false)(polyRepo.pTypeKey).asDocument
   }
 
-  override protected def keyValQuery[V <: KeyVal[P, V] : TypeKey](keyVal: V): MongoDBObject = {
-    super.keyValQuery(keyVal) ++ MongoDBObject("_discriminator" -> discriminatorValue)
+  override protected def keyValQuery[V <: KeyVal[P, V] : TypeKey](keyVal: V): BsonDocument = {
+    super.keyValQuery(keyVal).append("_discriminator", discriminatorValue)
   }
 
-  override protected def mongoFilter(query: QueryFilter[P]): MongoDBObject = {
-    super.mongoFilter(query) ++ MongoDBObject("_discriminator" -> discriminatorValue)
+  override protected def mongoFilter(query: QueryFilter[P]): Bson = {
+    Filters.and(
+      super.mongoFilter(query),
+      Filters.eq("_discriminator", discriminatorValue))
   }
 
-  override protected def deleteQuery(state: PState[P]): MongoDBObject = {
-    super.deleteQuery(state) ++ MongoDBObject("_discriminator" -> discriminatorValue)
+  override protected def deleteQuery(state: PState[P]): Bson = {
+    Filters.and(
+      super.deleteQuery(state),
+      Filters.eq("_discriminator", discriminatorValue))
   }
 
-  private def discriminatorValue = pTypeKey.name
+  private def discriminatorValue = new BsonString(pTypeKey.name)
 
 }

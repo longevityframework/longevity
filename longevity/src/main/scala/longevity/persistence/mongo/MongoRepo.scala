@@ -1,19 +1,22 @@
 package longevity.persistence.mongo
 
-import com.mongodb.casbah.MongoClient
+import com.mongodb.MongoClient
+import com.mongodb.MongoClientURI
 import com.typesafe.scalalogging.LazyLogging
-import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
+import emblem.stringUtil.uncapitalize
 import longevity.context.MongoConfig
 import longevity.context.PersistenceConfig
 import longevity.persistence.BaseRepo
-import longevity.subdomain.Subdomain
-import longevity.subdomain.Persistent
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PType
+import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
+import longevity.subdomain.Subdomain
+import org.bson.BsonDocument
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import scala.concurrent.blocking
 
 /** a MongoDB repository for persistent entities of type `P`.
  *
@@ -39,11 +42,11 @@ with MongoWrite[P]
 with LazyLogging {
   repo =>
 
-  protected def collectionName = camelToUnderscore(typeName(pTypeKey.tpe))
-  protected[mongo] lazy val mongoCollection = session.mongoDb(collectionName)
+  protected def collectionName = uncapitalize(typeName(pTypeKey.tpe))
+  protected[mongo] lazy val mongoCollection = session.db.getCollection(collectionName, classOf[BsonDocument])
 
   protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
-    session.mongoClient.close()
+    blocking { session.client.close() }
     ()
   }
 
@@ -54,15 +57,8 @@ with LazyLogging {
 private[persistence] object MongoRepo {
 
   case class MongoSessionInfo(config: MongoConfig) {
-    lazy val mongoClient = MongoClient(config.uri)
-    lazy val mongoDb = {
-      val mongoDb = mongoClient.getDB(config.db)
-
-      import com.mongodb.casbah.commons.conversions.scala._
-      RegisterJodaTimeConversionHelpers()
-      
-      mongoDb
-    }
+    lazy val client = new MongoClient(new MongoClientURI(config.uri))
+    lazy val db = client.getDatabase(config.db)
   }
 
   def apply[P <: Persistent](

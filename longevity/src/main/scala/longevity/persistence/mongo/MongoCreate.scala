@@ -1,6 +1,6 @@
 package longevity.persistence.mongo
 
-import com.mongodb.DuplicateKeyException
+import com.mongodb.MongoWriteException
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
 import org.bson.types.ObjectId
@@ -13,21 +13,21 @@ private[mongo] trait MongoCreate[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   def create(p: P)(implicit context: ExecutionContext) = Future {
-    logger.debug(s"calling MongoRepo.create: $p")
-    val id = new ObjectId()
-    val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
-    val casbah = casbahForP(p, id, rowVersion)
-    logger.debug(s"calling MongoCollection.insert: $casbah")
-    val writeResult = blocking {
+    blocking {
+      logger.debug(s"calling MongoRepo.create: $p")
+      val id = new ObjectId()
+      val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
+      val state = PState(MongoId[P](id), rowVersion, p)
+      val document = bsonForState(state)
+      logger.debug(s"calling MongoCollection.insertOne: $document")
       try {
-        mongoCollection.insert(casbah)
+        mongoCollection.insertOne(document)
       } catch {
-        case e: DuplicateKeyException => throwDuplicateKeyValException(p, e)
+        case e: MongoWriteException => throwDuplicateKeyValException(p, e)
       }
+      logger.debug(s"done calling MongoRepo.create: $state")
+      state
     }
-    val state = PState(MongoId[P](id), rowVersion, p)
-    logger.debug(s"done calling MongoRepo.create: $state")
-    state
   }
 
 }

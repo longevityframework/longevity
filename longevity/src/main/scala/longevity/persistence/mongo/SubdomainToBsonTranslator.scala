@@ -1,32 +1,42 @@
 package longevity.persistence.mongo
 
-import com.github.nscala_time.time.Imports._
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.MongoDBObjectBuilder
+import emblem.TypeKey
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemProp
 import emblem.emblematic.Emblematic
-import emblem.TypeKey
 import emblem.emblematic.Union
-import emblem.exceptions.CouldNotTraverseException
 import emblem.emblematic.traversors.sync.Traversor
+import emblem.exceptions.CouldNotTraverseException
 import emblem.typeKey
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import org.bson.BsonArray
+import org.bson.BsonBoolean
+import org.bson.BsonDateTime
+import org.bson.BsonDocument
+import org.bson.BsonDouble
+import org.bson.BsonInt32
+import org.bson.BsonInt64
+import org.bson.BsonNull
+import org.bson.BsonString
+import org.bson.BsonValue
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import scala.collection.JavaConverters.seqAsJavaListConverter
 import scala.reflect.runtime.universe.typeOf
 
-/** translates [[Persistent persistents]] into
- * [[http://mongodb.github.io/casbah/api/#com.mongodb.casbah.commons.MongoDBObject
- * casbah MongoDBObjects]].
+/** translates [[longevity.subdomain.Subdomain subdomain elements]] such as
+ * [[Persistent persistent objects]] into
+ * [[http://mongodb.github.io/mongo-java-driver/3.2/bson/documents/ BSON]].
  * 
  * embeddables and key values with a single property will be inlined in the BSON.
  *
  * @param emblematic the emblematic types to use
  */
-private[persistence] class PersistentToCasbahTranslator(
+private[persistence] class SubdomainToBsonTranslator(
   private val emblematic: Emblematic) {
 
-  /** translates a Scala object into casbah */
-  def translate[A : TypeKey](a: A, isUnionOrTopLevel: Boolean): Any = try {
+  /** translates a subdomain element into BSON */
+  def translate[A : TypeKey](a: A, isUnionOrTopLevel: Boolean): BsonValue = try {
     traversor.traverse[A](WrappedInput(a, isUnionOrTopLevel))
   } catch {
     case e: CouldNotTraverseException =>
@@ -40,25 +50,33 @@ private[persistence] class PersistentToCasbahTranslator(
   private val traversor = new Traversor {
 
     type TraverseInput[A] = WrappedInput[A]
-    type TraverseResult[A] = Any
+    type TraverseResult[A] = BsonValue
 
-    override protected val emblematic = PersistentToCasbahTranslator.this.emblematic
+    override protected val emblematic = SubdomainToBsonTranslator.this.emblematic
 
-    override protected def traverseBoolean(input: WrappedInput[Boolean]): Any = input.value
+    override protected def traverseBoolean(input: WrappedInput[Boolean]): BsonValue =
+      new BsonBoolean(input.value)
 
-    override protected def traverseChar(input: WrappedInput[Char]): Any = input.value.toString
+    override protected def traverseChar(input: WrappedInput[Char]): BsonValue =
+      new BsonString(input.value.toString)
 
-    override protected def traverseDateTime(input: WrappedInput[DateTime]): Any = input.value
+    override protected def traverseDateTime(input: WrappedInput[DateTime]): BsonValue =
+      new BsonDateTime(input.value.toDateTime(DateTimeZone.UTC).getMillis)
 
-    override protected def traverseDouble(input: WrappedInput[Double]): Any = input.value
+    override protected def traverseDouble(input: WrappedInput[Double]): BsonValue =
+      new BsonDouble(input.value)
 
-    override protected def traverseFloat(input: WrappedInput[Float]): Any = input.value
+    override protected def traverseFloat(input: WrappedInput[Float]): BsonValue =
+      new BsonDouble(input.value.toDouble)
 
-    override protected def traverseInt(input: WrappedInput[Int]): Any = input.value
+    override protected def traverseInt(input: WrappedInput[Int]): BsonValue =
+      new BsonInt32(input.value)
 
-    override protected def traverseLong(input: WrappedInput[Long]): Any = input.value
+    override protected def traverseLong(input: WrappedInput[Long]): BsonValue =
+      new BsonInt64(input.value)
 
-    override protected def traverseString(input: WrappedInput[String]): Any = input.value
+    override protected def traverseString(input: WrappedInput[String]): BsonValue =
+      new BsonString(input.value)
 
     override protected def constituentTypeKey[A : TypeKey](
       union: Union[A],
@@ -75,9 +93,9 @@ private[persistence] class PersistentToCasbahTranslator(
     override protected def unstageUnion[A : TypeKey, B <: A : TypeKey](
       union: Union[A],
       input: WrappedInput[A],
-      result: Iterable[Any])
-    : Any =
-      result.head.asInstanceOf[DBObject] + ("_discriminator" -> typeKey[B].name)
+      result: Iterable[BsonValue])
+    : BsonValue =
+      result.head.asDocument.append("_discriminator", new BsonString(typeKey[B].name))
 
     override protected def stageEmblemProps[A : TypeKey](
       emblem: Emblem[A],
@@ -95,14 +113,14 @@ private[persistence] class PersistentToCasbahTranslator(
       if (emblem.props.size == 1 && !input.isUnionOrTopLevel) {
         result.head._2
       } else {
-        val builder = new MongoDBObjectBuilder()
+        val document = new BsonDocument
         result.foreach {
           case (prop, propResult) =>
             if (!(prop.typeKey <:< optionAnyType) || propResult != None) {
-              builder += prop.name -> propResult
+              document.append(prop.name, propResult)
             }
         }
-        builder.result()
+        document
       }
     }
 
@@ -115,7 +133,7 @@ private[persistence] class PersistentToCasbahTranslator(
       input: WrappedInput[Option[A]],
       result: Iterable[TraverseResult[A]])
     : TraverseResult[Option[A]] =
-      result.headOption
+      result.headOption.getOrElse(BsonNull.VALUE)
 
     override protected def stageSetElements[A : TypeKey](
       input: WrappedInput[Set[A]])
@@ -126,7 +144,7 @@ private[persistence] class PersistentToCasbahTranslator(
       input: WrappedInput[Set[A]],
       result: Iterable[TraverseResult[A]])
     : TraverseResult[Set[A]] =
-      result.toSet
+      new BsonArray(result.toList.asJava)
 
     override protected def stageListElements[A : TypeKey](
       input: WrappedInput[List[A]])
@@ -137,7 +155,7 @@ private[persistence] class PersistentToCasbahTranslator(
       input: WrappedInput[List[A]],
       result: Iterable[TraverseResult[A]])
     : TraverseResult[List[A]] =
-      result.toList
+      new BsonArray(result.toList.asJava)
 
   }
 

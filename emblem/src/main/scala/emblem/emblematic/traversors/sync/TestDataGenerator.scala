@@ -6,6 +6,7 @@ import emblem.TypeKey
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone.UTC
 
 /** generates test data for a pool of extractors, a pool of emblems, and some
  * custom generators. you can generate any kind of data you like by providing
@@ -67,7 +68,7 @@ extends Generator {
   }
 
   /** generates a date-time */
-  def dateTime = DateTime.now + (random.nextInt % 10000).millis
+  def dateTime = DateTime.now(UTC) + (random.nextInt % 10000).millis
 
   /** generates a double */
   def double: Double = random.nextDouble() 

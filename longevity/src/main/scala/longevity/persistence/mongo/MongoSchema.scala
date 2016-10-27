@@ -1,14 +1,14 @@
 package longevity.persistence.mongo
 
-import com.mongodb.casbah.commons.MongoDBObject
+import com.mongodb.client.model.IndexOptions
+import org.bson.BsonInt32
+import org.bson.BsonDocument
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Index
 import longevity.subdomain.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
-
-// this will find a better home in pt #106611128
 
 /** implementation of MongoRepo.createSchema */
 private[mongo] trait MongoSchema[P <: Persistent] {
@@ -18,24 +18,16 @@ private[mongo] trait MongoSchema[P <: Persistent] {
     blocking {
       logger.debug(s"creating schema for collection $collectionName")
 
-      var indexNames = Set[String]()
-
-      realizedPType.keySet.foreach { key =>
+      realizedPType.keySet.map { key =>
         val paths = Seq(key.realizedProp.inlinedPath)
         val name = indexName(key)
-        if (!indexNames.contains(name)) {
-          indexNames += name
-          createIndex(paths, name, true)
-        }
+        createIndex(paths, name, true)
       }
 
-      pType.indexSet.foreach { index =>
+      pType.indexSet.map { index =>
         val paths = index.props.map(realizedPType.realizedProps(_).inlinedPath)
         val name = indexName(index)
-        if (!indexNames.contains(name)) {
-          indexNames += name
-          createIndex(paths, name, false)
-        }
+        createIndex(paths, name, false)
       }
 
       logger.debug(s"done creating schema for collection $collectionName")
@@ -43,10 +35,13 @@ private[mongo] trait MongoSchema[P <: Persistent] {
   }
 
   protected def createIndex(paths: Seq[String], indexName: String, unique: Boolean): Unit = {
-    val mongoPaths = paths map (_ -> 1)
-    val bson = MongoDBObject(mongoPaths.toList)
-    logger.debug(s"calling MongoCollection.createIndex: $bson $indexName $unique")
-    mongoCollection.createIndex(bson, indexName, unique)
+    val document = new BsonDocument
+    paths.foreach { path => document.append(path, new BsonInt32(1)) }
+
+    val options = new IndexOptions().name(indexName).unique(unique)
+
+    logger.debug(s"calling MongoCollection.createIndex: $document $options")
+    mongoCollection.createIndex(document, options)
   }
 
   protected def indexName(key: RealizedKey[P, _]): String =
