@@ -3,6 +3,7 @@ package longevity.unit.subdomain
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.exceptions.subdomain.DuplicateETypesException
 import longevity.exceptions.subdomain.DuplicateKeyException
+import longevity.exceptions.subdomain.DuplicateKeyOrIndexException
 import longevity.exceptions.subdomain.DuplicatePTypesException
 import longevity.exceptions.subdomain.InvalidPartitionException
 import longevity.exceptions.subdomain.NoSuchPropPathException
@@ -11,15 +12,11 @@ import longevity.exceptions.subdomain.UnsupportedPropTypeException
 import longevity.subdomain.DerivedEType
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.EType
-import longevity.subdomain.EType
 import longevity.subdomain.ETypePool
-import longevity.subdomain.Embeddable
 import longevity.subdomain.Embeddable
 import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
-import longevity.subdomain.PType
 import longevity.subdomain.PTypePool
-import longevity.subdomain.Persistent
 import longevity.subdomain.Persistent
 import longevity.subdomain.PolyEType
 import longevity.subdomain.PolyPType
@@ -253,8 +250,65 @@ object SubdomainSpec {
       }
     }
 
-    def subdomain = Subdomain("subtypePropType", PTypePool(A))
+    def subdomain = Subdomain("duplicateKey", PTypePool(A))
 
+  }
+
+  object duplicateKeyOrIndex1 {
+
+    case class AId(id: String) extends KeyVal[A, AId]
+
+    case class A(id: AId) extends Persistent
+    object A extends PType[A] {
+      object props {
+        val id = prop[AId]("id")
+      }
+      object keys {
+        val id1 = key(props.id)
+        val id2 = key(props.id)
+      }
+    }
+
+    def subdomain = Subdomain("duplicateKeyOrIndex1", PTypePool(A))
+
+  }
+
+  object duplicateKeyOrIndex2 {
+
+    case class AId(id: String) extends KeyVal[A, AId]
+
+    case class A(id: AId) extends Persistent
+    object A extends PType[A] {
+      object props {
+        val id = prop[AId]("id")
+      }
+      object keys {
+        val id = key(props.id)
+      }
+      object indexes {
+        val id = index(props.id)
+      }
+    }
+
+    def subdomain = Subdomain("duplicateKeyOrIndex2", PTypePool(A))
+
+  }
+
+  object duplicateKeyOrIndex3 {
+    case class A(id: String) extends Persistent
+    object A extends PType[A] {
+      object props {
+        val id = prop[String]("id")
+      }
+      object keys {
+      }
+      object indexes {
+        val id1 = index(props.id)
+        val id2 = index(props.id)
+      }
+    }
+
+    def subdomain = Subdomain("duplicateKeyOrIndex3", PTypePool(A))
   }
 
   object invalidPartition {
@@ -425,6 +479,18 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "throw exception when the PType has multiple keys with the same key value type" in {
     intercept[DuplicateKeyException[_, _]] {
       SubdomainSpec.duplicateKey.subdomain
+    }
+  }
+
+  it should "throw exception when the PType has two or more keys or indexes defined over the same properties" in {
+    intercept[DuplicateKeyOrIndexException] {
+      SubdomainSpec.duplicateKeyOrIndex1.subdomain
+    }
+    intercept[DuplicateKeyOrIndexException] {
+      SubdomainSpec.duplicateKeyOrIndex2.subdomain
+    }
+    intercept[DuplicateKeyOrIndexException] {
+      SubdomainSpec.duplicateKeyOrIndex3.subdomain
     }
   }
 

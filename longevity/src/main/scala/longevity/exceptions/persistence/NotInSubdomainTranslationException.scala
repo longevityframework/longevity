@@ -8,7 +8,7 @@ import emblem.exceptions.TraversorException
  * persistent, entity, or key value defined by the subdomain.
  *
  * ideally, we would catch this kind of problem as early as possible. it could
- * be in a unit test, or perhaps in a macro. see pt 91466438
+ * be in a unit test, or perhaps in a macro.
  */
 class NotInSubdomainTranslationException(val typeName: String, cause: TraversorException)
 extends TranslationException(s"don't know how to translate type $typeName", cause) {

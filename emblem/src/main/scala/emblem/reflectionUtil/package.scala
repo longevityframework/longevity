@@ -10,7 +10,6 @@ import scala.reflect.runtime.universe.ModuleMirror
 import scala.reflect.runtime.universe.ModuleSymbol
 import scala.reflect.runtime.universe.Symbol
 import scala.reflect.runtime.universe.TermName
-import scala.reflect.runtime.universe.TermSymbol
 import scala.reflect.runtime.universe.Type
 import scala.reflect.runtime.universe.TypeTag
 import scala.reflect.runtime.universe.typeTag
@@ -77,17 +76,17 @@ package object reflectionUtil {
    * @tparam A the type of the terms we are searching for
    * @param instance the instance to search for terms with matching type
    */
-  def termsWithType[A : TypeKey](instance: Any): Set[A] = {
+  def termsWithType[A : TypeKey](instance: Any): Seq[A] = {
     val runtimeMirror =  scala.reflect.runtime.universe.runtimeMirror(instance.getClass.getClassLoader)
     val instanceMirror: InstanceMirror = runtimeMirror.reflect(instance)
-    val symbols: Set[Symbol] = instanceMirror.symbol.selfType.decls.toSet
-    val termSymbols: Set[TermSymbol] = symbols.collect {
+    val symbols = instanceMirror.symbol.selfType.decls.toSeq
+    val termSymbols = symbols.collect {
       case s if s.isTerm => s.asTerm
     }
-    val valOrVarSymbols: Set[TermSymbol] = termSymbols.filter {
+    val valOrVarSymbols = termSymbols.filter {
       s => s.isVal || s.isVar
     }
-    val matchingSymbols: Set[TermSymbol] = valOrVarSymbols.filter { symbol =>
+    val matchingSymbols = valOrVarSymbols.filter { symbol =>
       val tpe: Type = symbol.typeSignature
       tpe <:< typeKey[A].tpe
     }

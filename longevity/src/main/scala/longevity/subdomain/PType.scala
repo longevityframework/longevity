@@ -124,7 +124,7 @@ abstract class PType[P <: Persistent : TypeKey] {
     }
     implicit val pTypeTag = pTypeKey.tag
     implicit val propTypeKey = typeKey[Prop[P, _]].inMirrorOf(pTypeKey)
-    termsWithType[Prop[P, _]](props)
+    termsWithType[Prop[P, _]](props).toSet
   }
 
   private def kscan(containerName: String): Set[AnyKey[P]] = {
@@ -133,29 +133,31 @@ abstract class PType[P <: Persistent : TypeKey] {
     }
     implicit val pTypeTag = pTypeKey.tag
     implicit val anyKeyTypeKey = typeKey[AnyKey[P]].inMirrorOf(pTypeKey)
-    termsWithType[AnyKey[P]](keys)
+    val keySeq = termsWithType[AnyKey[P]](keys)
+    val keySet = keySeq.toSet
+    if (keySeq.size != keySet.size) {
+      throw new DuplicateKeyOrIndexException(pTypeKey)
+    }
+    keySet
   }
 
   private def iscan(containerName: String): Set[Index[P]] = {
     implicit val pTypeTag = pTypeKey.tag
     implicit val indexTypeKey = typeKey[Index[P]].inMirrorOf(pTypeKey)
-    innerModule(this, "indexes").map(termsWithType[Index[P]]).getOrElse(Set[Index[P]]())
+    val indexSeq = innerModule(this, "indexes").map(termsWithType[Index[P]]).getOrElse(Seq.empty[Index[P]])
+    val indexSet = indexSeq.toSet
+    if (indexSeq.size != indexSet.size) {
+      throw new DuplicateKeyOrIndexException(pTypeKey)
+    }
+    indexSet
   }
 
   private[subdomain] def validateKeysAndIndexes(): Unit = {
-    var indexed = Set.empty[Seq[Prop[P, _]]]
-    keySet.foreach { key =>
-      val propList = key.keyValProp :: Nil
-      if (indexed.contains(propList)) {
-        throw new DuplicateKeyOrIndexException(pTypeKey)
-      }
-      indexed += propList
-    }
+    var keyValProps: Set[Prop[P, _]] = keySet.map(_.keyValProp)
     indexSet.foreach { index =>
-      if (indexed.contains(index.props)) {
+      if (index.props.size == 1 && keyValProps.contains(index.props.head)) {
         throw new DuplicateKeyOrIndexException(pTypeKey)
       }
-      indexed += index.props
     }
   }
 
