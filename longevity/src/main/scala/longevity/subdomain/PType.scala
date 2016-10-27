@@ -32,7 +32,7 @@ abstract class PType[P <: Persistent : TypeKey] {
   /** the keys for this persistent type */
   lazy val keySet: Set[AnyKey[P]] = kscan("keys")
 
-  /** TODO */
+  /** the optional partition key for this persistent type */
   lazy val partitionKey: Option[AnyPartitionKey[P]] = {
     val partitionKeys = keySet.collect { case pk: AnyPartitionKey[P] => pk }
     if (partitionKeys.size > 1) throw new MultiplePartitionKeysForPType[P]

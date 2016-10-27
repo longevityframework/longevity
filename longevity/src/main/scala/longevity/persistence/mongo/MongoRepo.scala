@@ -28,7 +28,7 @@ import scala.concurrent.blocking
 private[longevity] class MongoRepo[P <: Persistent] private[persistence] (
   pType: PType[P],
   subdomain: Subdomain,
-  session: MongoRepo.MongoSessionInfo,
+  protected val session: MongoRepo.MongoSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends BaseRepo[P](pType, subdomain)
 with MongoCreate[P]

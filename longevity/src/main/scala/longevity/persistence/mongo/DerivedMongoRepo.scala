@@ -16,8 +16,12 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
 
   override protected[mongo] lazy val mongoCollection = polyRepo.mongoCollection
 
-  override protected def createIndex(paths: Seq[String], indexName: String, unique: Boolean): Unit =
-    super.createIndex("discriminator" +: paths, indexName, unique)
+  override protected def createIndex(
+    paths: Seq[String],
+    indexName: String,
+    unique: Boolean,
+    hashed: Boolean = false): Unit =
+    super.createIndex("discriminator" +: paths, indexName, unique, hashed)
 
   override protected def translate(p: P): BsonDocument = {
     // we use the poly type key here so we get the discriminator in the BSON
