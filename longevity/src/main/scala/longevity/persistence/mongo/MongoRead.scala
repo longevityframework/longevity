@@ -15,7 +15,7 @@ private[mongo] trait MongoRead[P <: Persistent] {
   private lazy val bsonToSubdomainTranslator =
     new BsonToSubdomainTranslator(subdomain.emblematic)
 
-  protected def dbObjectToPState(document: BsonDocument): PState[P] = {
+  protected def bsonToState(document: BsonDocument): PState[P] = {
     val id = document.getObjectId("_id").getValue
     val rv = if (document.isInt64("_rowVersion")) {
       Some(document.getInt64("_rowVersion").longValue)

@@ -19,7 +19,7 @@ private[mongo] trait MongoRetrieve[P <: Persistent] {
       val query = keyValQuery(keyVal)
       val result = mongoCollection.find(query).first
       val resultOption = Option(result)
-      val stateOption = resultOption.map(dbObjectToPState)
+      val stateOption = resultOption.map(bsonToState)
 
       logger.debug(s"done calling MongoRepo.retrieve: $stateOption")
       stateOption

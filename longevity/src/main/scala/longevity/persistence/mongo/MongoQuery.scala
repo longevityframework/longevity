@@ -44,7 +44,7 @@ private[mongo] trait MongoQuery[P <: Persistent] {
       val cursor = queryCursor(query)
       val builder = new VectorBuilder[PState[P]]()
       while (cursor.hasNext) {
-        builder += dbObjectToPState(cursor.next)
+        builder += bsonToState(cursor.next)
       }
       builder.result()
     }
@@ -54,7 +54,7 @@ private[mongo] trait MongoQuery[P <: Persistent] {
 
   def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
     logger.debug(s"calling MongoRepo.streamByQuery: $query")
-    val source = Source.fromIterator { () => queryCursor(query).map(dbObjectToPState) }
+    val source = Source.fromIterator { () => queryCursor(query).map(bsonToState) }
     logger.debug(s"done calling MongoRepo.streamByQuery: $source")
     source
   }
