@@ -1,6 +1,6 @@
 language: scala
 before_script:
-  - sudo service mongodb start
+  #  - sudo service mongodb start
   - sudo service cassandra start
 script:
   - sbt -J-Xmx4G clean test doc
@@ -8,3 +8,13 @@ scala:
   - 2.11.7
 jdk:
   - oraclejdk8
+
+sudo: required
+services:
+  - mongodb
+addons:
+  apt:
+    sources:
+      - mongodb-3.2-precise
+    packages:
+      - mongodb-org-server
