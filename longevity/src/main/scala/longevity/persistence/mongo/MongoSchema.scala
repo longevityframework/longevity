@@ -42,7 +42,11 @@ private[mongo] trait MongoSchema[P <: Persistent] {
         case p: RealizedPartitionKey[P, _] if p.key.hashed => true
         case _ => false
       }
-      MongoSchema.this.createIndex(paths, name, true, hashed)
+
+      // if there is a partition key, no other keys can be unique
+      def unique = !hasPartitionKey || key == realizedPType.partitionKey.get
+
+      MongoSchema.this.createIndex(paths, name, unique, hashed)
     }
 
     private def createIndex(index: Index[P]): Unit = {
