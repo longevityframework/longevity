@@ -16,14 +16,17 @@ private[mongo] trait MongoRead[P <: Persistent] {
     new BsonToSubdomainTranslator(subdomain.emblematic)
 
   protected def bsonToState(document: BsonDocument): PState[P] = {
-    val id = document.getObjectId("_id").getValue
+    val id = if (hasPartitionKey) None else {
+      val objectId = document.getObjectId("_id").getValue
+      Some(MongoId[P](objectId))
+    }
     val rv = if (document.isInt64("_rowVersion")) {
       Some(document.getInt64("_rowVersion").longValue)
     } else {
       None
     }
     val p  = bsonToSubdomainTranslator.translate(document)(pTypeKey)
-    PState(MongoId[P](id), rv, p)
+    PState(id, rv, p)
   }
 
   protected def propValToMongo[A](value: A, prop: Prop[_ >: P <: Persistent, A]): BsonValue = {

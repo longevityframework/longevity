@@ -58,7 +58,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
   }
 
   private def bindUpdateStatement(state: PState[P], rowVersion: Option[Long]): BoundStatement = {
-    val uuid = state.id.asInstanceOf[CassandraId[P]].uuid
+    val uuid = state.id.get.asInstanceOf[CassandraId[P]].uuid
     val p = state.get
     def versionCheck = if (state.rowVersion.isEmpty) null else state.rowVersion.get.asInstanceOf[AnyRef]
     val columnBindings = if (persistenceConfig.optimisticLocking) {

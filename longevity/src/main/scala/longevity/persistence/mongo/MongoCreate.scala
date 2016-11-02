@@ -15,9 +15,9 @@ private[mongo] trait MongoCreate[P <: Persistent] {
   def create(p: P)(implicit context: ExecutionContext) = Future {
     blocking {
       logger.debug(s"calling MongoRepo.create: $p")
-      val id = new ObjectId()
+      val id = if (hasPartitionKey) None else Some(MongoId[P](new ObjectId()))
       val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
-      val state = PState(MongoId[P](id), rowVersion, p)
+      val state = PState(id, rowVersion, p)
       val document = bsonForState(state)
       logger.debug(s"calling MongoCollection.insertOne: $document")
       try {

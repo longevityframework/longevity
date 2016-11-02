@@ -9,9 +9,6 @@ package object partitionKey {
 
   val subdomain = Subdomain("Partition Key", PTypePool(PartitionKey))
 
-  // TODO put sparse matrix back in place
-  //val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
-  import longevity.context.LongevityContext
-  val contexts = Seq(new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig))
+  val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 
 }

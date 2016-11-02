@@ -28,7 +28,7 @@ private[inmem] trait InMemWrite[P <: Persistent] {
 
   protected[inmem] def assertNoWriteConflict(state: PState[P]) = {
     if (persistenceConfig.optimisticLocking) {
-      val id = state.id
+      val id = state.id.get
       if (!idToPStateMap.contains(id) || idToPStateMap(id).rowVersion != state.rowVersion) {
         throw new WriteConflictException(state)
       }
@@ -36,10 +36,10 @@ private[inmem] trait InMemWrite[P <: Persistent] {
   }
 
   protected[inmem] def registerById(state: PState[P]): Unit =
-    idToPStateMap += (state.id -> state)
+    idToPStateMap += (state.id.get -> state)
 
   protected[inmem] def unregisterById(state: PState[P]): Unit =
-    idToPStateMap -= state.id
+    idToPStateMap -= state.id.get
 
   protected def registerByKeyVals(state: PState[P]) = keys.foreach { key =>
     registerByKeyVal(key.keyValForP(state.get), state)

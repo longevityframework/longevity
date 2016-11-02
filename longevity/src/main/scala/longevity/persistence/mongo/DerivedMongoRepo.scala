@@ -38,9 +38,9 @@ private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] 
       Filters.eq("_discriminator", discriminatorValue))
   }
 
-  override protected def deleteQuery(state: PState[P]): Bson = {
+  override protected def writeQuery(state: PState[P]): Bson = {
     Filters.and(
-      super.deleteQuery(state),
+      super.writeQuery(state),
       Filters.eq("_discriminator", discriminatorValue))
   }
 

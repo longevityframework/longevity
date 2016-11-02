@@ -41,7 +41,7 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
 
   private def bindDeleteStatement(state: PState[P]): BoundStatement = {
     val boundStatement = deleteStatement.bind
-    val uuid = state.id.asInstanceOf[CassandraId[P]].uuid
+    val uuid = state.id.get.asInstanceOf[CassandraId[P]].uuid
     logger.debug(s"invoking CQL: ${deleteStatement.getQueryString} with uuid $uuid")
     if (persistenceConfig.optimisticLocking) {
       val version = if (state.rowVersion.isEmpty) null else state.rowVersion.get.asInstanceOf[AnyRef]

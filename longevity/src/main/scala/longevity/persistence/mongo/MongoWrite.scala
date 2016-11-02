@@ -1,9 +1,12 @@
 package longevity.persistence.mongo
 
 import com.mongodb.MongoWriteException
+import com.mongodb.client.model.Filters
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
+import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
+import longevity.subdomain.realized.RealizedKey
 import org.bson.BsonDocument
 import org.bson.BsonInt64
 import org.bson.BsonObjectId
@@ -19,7 +22,7 @@ private[mongo] trait MongoWrite[P <: Persistent] {
 
   protected def bsonForState(state: PState[P]): BsonDocument = {
     val document = translate(state.get)
-    document.append("_id", new BsonObjectId(mongoId(state)))
+    document.append("_id", idBson(state))
     state.rowVersion.foreach { v =>
       document.append("_rowVersion", new BsonInt64(v))
     }
@@ -39,6 +42,33 @@ private[mongo] trait MongoWrite[P <: Persistent] {
     throw new DuplicateKeyValException(p, realizedKey.key, cause)
   }
 
-  protected def mongoId(state: PState[P]) = state.id.asInstanceOf[MongoId[P]].objectId
+  protected def mongoId(state: PState[P]) = state.id.map(_.asInstanceOf[MongoId[P]].objectId)
+
+  /** a query that identifies the document to update or delete */
+  protected def writeQuery(state: PState[P]) = {
+    val keyFilter = Filters.eq("_id", idBson(state))
+    if (persistenceConfig.optimisticLocking) {
+      val rvBson = state.rowVersion match {
+        case Some(rv) => Filters.eq("_rowVersion", new BsonInt64(rv))
+        case None => Filters.exists("_rowVersion", false)
+      }
+      Filters.and(keyFilter, rvBson)
+    } else {
+      keyFilter
+    }
+  }
+
+  private def idBson(state: PState[P]) = {
+    if (realizedPType.partitionKey.isEmpty) {
+      new BsonObjectId(mongoId(state).get)
+    } else {
+      def keyValBson[V <: KeyVal[P, V]](key: RealizedKey[P, V]) = {
+        val keyVal = key.keyValForP(state.get)
+        val fieldName = key.realizedProp.inlinedPath
+        subdomainToBsonTranslator.translate(keyVal, false)(key.keyValTypeKey)
+      }
+      keyValBson(realizedPType.partitionKey.get)
+    }
+  }
 
 }

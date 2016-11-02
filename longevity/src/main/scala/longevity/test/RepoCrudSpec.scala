@@ -52,7 +52,7 @@ extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
 
   private def subdomainName = longevityContext.subdomain.name
   override val suiteName = s"RepoCrudSpec for ${subdomainName}${suiteNameSuffix match {
-    case Some(suffix) => s" $suffix"
+    case Some(suffix) => suffix
     case None => ""
   }}"
 

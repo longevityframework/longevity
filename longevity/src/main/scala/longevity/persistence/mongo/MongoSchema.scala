@@ -59,11 +59,26 @@ private[mongo] trait MongoSchema[P <: Persistent] {
     val shardKey = new BsonDocument
     shardPaths.foreach { shardPath => shardKey.append(shardPath, shardType) }
 
-    try {
-      val dbName = session.config.db
-      val adminDb = session.client.getDatabase("admin")
-      adminDb.runCommand(new BsonDocument("enableSharding", new BsonString(dbName)))
+    val dbName = session.config.db
+    val adminDb = session.client.getDatabase("admin")
 
+    try {
+      adminDb.runCommand(new BsonDocument("enableSharding", new BsonString(dbName)))
+    } catch {
+      case e: MongoCommandException if e.getCode == 59 =>
+        logger.info(
+          s"could not run enableSharding command on admin database. this is likely because you are using " +
+          s"partition keys on an unsharded database. this is perfectly fine, nothing to worry about. " +
+          s"here's the nested message: ${e.getMessage}")
+      case e: MongoCommandException if e.getCode == 23 =>
+        logger.info(
+          s"could not run enableSharding command on admin database. this is likely because sharding has " +
+          s"already been enabled, e.g., by a previous run of Repo.createSchema. this is perfectly fine, " +
+          s"nothing to worry about. " +
+          s"here's the nested message: ${e.getMessage}")
+    }
+
+    try {
       val shardCommand = new BsonDocument
       shardCommand.append("shardCollection", new BsonString(s"$dbName.$collectionName"))
       shardCommand.append("key", shardKey)
@@ -73,8 +88,14 @@ private[mongo] trait MongoSchema[P <: Persistent] {
     } catch {
       case e: MongoCommandException if e.getCode == 59 =>
         logger.info(
-          s"could not run shard commands on admin database. this is likely because you are using " +
+          s"could not run shardCollection command on admin database. this is likely because you are using " +
           s"partition keys on an unsharded database. this is perfectly fine, nothing to worry about. " +
+          s"here's the nested message: ${e.getMessage}")
+      case e: MongoCommandException if e.getCode == 20 =>
+        logger.info(
+          s"could not run shardCollection command on admin database. this is likely because the collection " +
+          s"has already been sharded, e.g., by a previous run of Repo.createSchema. assuming that the " +
+          s"sharding matches your partition key this is perfectly fine, nothing to worry about. " +
           s"here's the nested message: ${e.getMessage}")
     }
   }
@@ -111,7 +132,6 @@ private[mongo] trait MongoSchema[P <: Persistent] {
     unique: Boolean,
     hashed: Boolean = false)
   : Unit = {
-    logger.warn(s"ZZZZ createIndex $paths $indexName $unique $hashed")
     val shardType = if (hashed) new BsonString("hashed") else new BsonInt32(1)
     val document = new BsonDocument
     paths.foreach { path => document.append(path, shardType) }
