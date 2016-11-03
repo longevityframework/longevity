@@ -77,7 +77,7 @@ private[mongo] trait MongoSchema[P <: Persistent] {
       case e: MongoCommandException if e.getCode == 23 =>
         logger.info(
           s"could not run enableSharding command on admin database. this is likely because sharding has " +
-          s"already been enabled, e.g., by a previous run of Repo.createSchema. this is perfectly fine, " +
+          s"already been enabled, e.g., by a previous run of RepoPool.createSchema. this is perfectly fine, " +
           s"nothing to worry about. " +
           s"here's the nested message: ${e.getMessage}")
     }
@@ -98,7 +98,7 @@ private[mongo] trait MongoSchema[P <: Persistent] {
       case e: MongoCommandException if e.getCode == 20 =>
         logger.info(
           s"could not run shardCollection command on admin database. this is likely because the collection " +
-          s"has already been sharded, e.g., by a previous run of Repo.createSchema. assuming that the " +
+          s"has already been sharded, e.g., by a previous run of RepoPool.createSchema. assuming that the " +
           s"sharding matches your partition key this is perfectly fine, nothing to worry about. " +
           s"here's the nested message: ${e.getMessage}")
     }
