@@ -44,7 +44,7 @@ private[mongo] trait MongoSchema[P <: Persistent] {
       }
 
       // if there is a partition key, no other keys can be unique
-      def unique = !hasPartitionKey || key == realizedPType.partitionKey.get
+      def unique = realizedPType.partitionKey.map(pk => pk == key && !pk.hashed).getOrElse(true)
 
       MongoSchema.this.createIndex(paths, name, unique, hashed)
     }
@@ -57,9 +57,9 @@ private[mongo] trait MongoSchema[P <: Persistent] {
 
   }
 
-  private def createPartitionKey(realizedPartitionKey: RealizedPartitionKey[P, _]): Unit = {
-    val shardPaths = realizedPartitionKey.key.partition.props.map(realizedPType.realizedProps(_).inlinedPath)
-    val shardType = if (realizedPartitionKey.key.hashed) new BsonString("hashed") else new BsonInt32(1)
+  private def createPartitionKey(key: RealizedPartitionKey[P, _]): Unit = {
+    val shardPaths = key.partition.props.map(realizedPType.realizedProps(_).inlinedPath)
+    val shardType = if (key.hashed) new BsonString("hashed") else new BsonInt32(1)
     val shardKey = new BsonDocument
     shardPaths.foreach { shardPath => shardKey.append(shardPath, shardType) }
 
@@ -86,7 +86,7 @@ private[mongo] trait MongoSchema[P <: Persistent] {
       val shardCommand = new BsonDocument
       shardCommand.append("shardCollection", new BsonString(s"$dbName.$collectionName"))
       shardCommand.append("key", shardKey)
-      shardCommand.append("unique", new BsonBoolean(realizedPartitionKey.key.fullyPartitioned))
+      shardCommand.append("unique", new BsonBoolean(key.fullyPartitioned && !key.hashed))
 
       adminDb.runCommand(shardCommand)
     } catch {

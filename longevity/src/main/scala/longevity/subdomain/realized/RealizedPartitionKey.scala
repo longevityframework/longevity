@@ -14,6 +14,10 @@ private[longevity] class RealizedPartitionKey[
   val partitionProps: Seq[RealizedProp[P, _]])
 extends RealizedKey[P, V](key, realizedProp) {
 
+  def hashed = key.hashed
+  def partition = key.partition
+  def fullyPartitioned = key.fullyPartitioned
+
   validatePartition()
 
   private def validatePartition() = {
