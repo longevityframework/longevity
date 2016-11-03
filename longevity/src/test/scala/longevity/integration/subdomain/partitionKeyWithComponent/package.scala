@@ -6,7 +6,7 @@ import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
 import longevity.subdomain.PTypePool
 
-/** covers a root entity with a key that contains a shorthand */
+/** covers a root entity with a partition key that contains a component */
 package object partitionKeyWithComponent {
 
   val subdomain = Subdomain(
