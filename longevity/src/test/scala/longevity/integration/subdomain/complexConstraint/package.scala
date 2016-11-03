@@ -8,7 +8,7 @@ import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
 import longevity.subdomain.PTypePool
 
-/** covers a root entity with a simple shorthand constraint */
+/** covers a persistent with a simple shorthand constraint */
 package object complexConstraint {
 
   val subdomain = Subdomain(

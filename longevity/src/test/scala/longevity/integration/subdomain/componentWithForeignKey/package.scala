@@ -6,7 +6,7 @@ import longevity.subdomain.EType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.PTypePool
 
-/** covers a root entity with a single component entity with an association to another root entity */
+/** covers a persistent with a single component entity with an association to another persistent */
 package object componentWithForeignKey {
 
   val subdomain = Subdomain(

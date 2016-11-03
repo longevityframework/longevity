@@ -6,7 +6,7 @@ import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
 import longevity.subdomain.PTypePool
 
-/** covers a root entity with a single component entity */
+/** covers a persistent with a single component entity */
 package object componentWithOption {
 
   val subdomain = Subdomain(

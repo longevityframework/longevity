@@ -7,7 +7,7 @@ import longevity.subdomain.PolyEType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.PTypePool
 
-/** covers a root entity with a poly type and multiple derived types */
+/** covers a persistent with a poly type and multiple derived types */
 package object derived {
 
   val subdomain = Subdomain(

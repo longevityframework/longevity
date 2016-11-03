@@ -6,7 +6,7 @@ import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
 import longevity.subdomain.PTypePool
 
-/** covers a root entity with a partition key that contains multiple properties */
+/** covers a persistent with a partition key that contains multiple properties */
 package object partitionKeyWithMultipleProperties {
 
   val subdomain = Subdomain(

@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.subdomain.Subdomain
 import longevity.subdomain.PTypePool
 
-/** covers a root entity with option attributes for every supported basic type */
+/** covers a persistent with option attributes for every supported basic type */
 package object basicOptions {
 
   val subdomain = Subdomain("Basic Options", PTypePool(BasicOptions))

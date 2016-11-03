@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.subdomain.Subdomain
 import longevity.subdomain.PTypePool
 
-/** covers a root entity with a single association to another root entity */
+/** covers a persistent with a single association to another persistent */
 package object foreignKey {
 
   val subdomain = Subdomain("Foreign Key", PTypePool(WithForeignKey, Associated))

@@ -6,7 +6,7 @@ import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
 import longevity.subdomain.PTypePool
 
-/** covers a root entity with a key that contains a foreign key value */
+/** covers a persistent with a key that contains a foreign key value */
 package object keyWithForeignKey {
 
   val subdomain = Subdomain(
