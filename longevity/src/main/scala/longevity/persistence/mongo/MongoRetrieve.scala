@@ -1,9 +1,10 @@
 package longevity.persistence.mongo
 
-import org.bson.BsonDocument
 import emblem.TypeKey
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
+import longevity.subdomain.query.EqOp
+import org.bson.conversions.Bson
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -26,12 +27,8 @@ private[mongo] trait MongoRetrieve[P <: Persistent] {
     }
   }
  
-  protected def keyValQuery[V <: KeyVal[P, V] : TypeKey](keyVal: V): BsonDocument = {
-    val document = new BsonDocument
-    val keyPath = realizedPType.realizedKey[V].realizedProp.inlinedPath
-    val keyValBson = subdomainToBsonTranslator.translate(keyVal, false)
-    document.append(keyPath, keyValBson)
-    document
+  protected def keyValQuery[V <: KeyVal[P, V] : TypeKey](keyVal: V): Bson = {
+    mongoRelationalFilter[V](realizedPType.realizedKey[V].realizedProp.prop, EqOp, keyVal)
   }
 
 }

@@ -36,7 +36,11 @@ private[mongo] trait MongoSchema[P <: Persistent] {
     }
 
     private def createKey(key: RealizedKey[P, _]): Unit = {
-      val paths = Seq(key.realizedProp.inlinedPath)
+      val paths = key match {
+        case p: RealizedPartitionKey[P, _] if !p.fullyPartitioned => p.props.map(_.inlinedPath)
+        case _ => Seq(key.realizedProp.inlinedPath)
+      }
+
       val name = indexName(key)
       val hashed = key match {
         case p: RealizedPartitionKey[P, _] if p.key.hashed => true

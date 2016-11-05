@@ -21,22 +21,36 @@ object TestLongevityConfigs {
 
   val sparseConfigMatrix = ConfigMatrixKey.sparseValues.map(key => key -> configForKey(key)).toMap
 
+  def contexts(
+    configKeys: Seq[ConfigMatrixKey],
+    subdomain: Subdomain,
+    generators: CustomGeneratorPool = CustomGeneratorPool.empty)
+  : Seq[LongevityContext] =
+    configKeys.map { key =>
+      new LongevityContext(subdomain, configForKey(key), generators)
+    }
+
   def contextMatrix(
     subdomain: Subdomain,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    configMatrix.values.toSeq.map { config =>
-      new LongevityContext(subdomain, config, generators)
-    }
+    contexts(ConfigMatrixKey.values, subdomain, generators)
 
   def sparseContextMatrix(
     subdomain: Subdomain,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    sparseConfigMatrix.values.toSeq.map { config =>
-      new LongevityContext(subdomain, config, generators)
-    }
+    contexts(ConfigMatrixKey.sparseValues, subdomain, generators)
 
-  val inMemConfig = configMatrix(ConfigMatrixKey(InMem, false, false))
-  val mongoConfig = configMatrix(ConfigMatrixKey(Mongo, false, false))
-  val cassandraConfig = configMatrix(ConfigMatrixKey(Cassandra, false, false))
+  def mongoOnlyContextMatrix(
+    subdomain: Subdomain,
+    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
+    contexts(Seq(mongoConfigKey), subdomain, generators)    
+
+  val inMemConfigKey = ConfigMatrixKey(InMem, false, false)
+  val mongoConfigKey = ConfigMatrixKey(Mongo, false, false)
+  val cassandraConfigKey = ConfigMatrixKey(Cassandra, false, false)
+
+  val inMemConfig = configMatrix(inMemConfigKey)
+  val mongoConfig = configMatrix(mongoConfigKey)
+  val cassandraConfig = configMatrix(cassandraConfigKey)
 
 }

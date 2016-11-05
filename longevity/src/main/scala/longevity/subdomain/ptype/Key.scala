@@ -18,6 +18,7 @@ class Key[P <: Persistent : TypeKey, V <: KeyVal[P, V] : TypeKey] private [subdo
   val keyValProp: Prop[P, V]) {
 
   private[subdomain] val keyValEmblem = Emblem[V]
+  private[subdomain] def keyValTypeKey = keyValEmblem.typeKey
 
   override def toString = s"Key[${typeKey[P].name},${typeKey[V].name}]"
 

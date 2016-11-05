@@ -10,6 +10,8 @@ private[longevity] case class RealizedPropComponent[P <: Persistent, A, B](
   innerPropPath: EmblematicPropPath[A, B],
   outerPropPath: EmblematicPropPath[P, B]) {
 
+  def inlinedPath = outerPropPath.inlinedPath
+
   val componentTypeKey: TypeKey[B] = innerPropPath.typeKey
 
   val ordering: Ordering[B] = basicTypeOrderings(componentTypeKey)

@@ -18,7 +18,7 @@ import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 
 private[longevity] class RealizedProp[P <: Persistent, A](
-  private[realized] val prop: Prop[P, A],
+  private[longevity] val prop: Prop[P, A],
   private val emblematic: Emblematic,
   private[realized] val emblematicPropPath: EmblematicPropPath[P, A]) {
 
