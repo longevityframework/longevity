@@ -11,7 +11,7 @@
   of other keys or indexes. This may cause existing code to break. Fix
   is to root out the duplicates. If you have a key and an index that
   duplicate each other, you can safely remove the index, as it is
-  entirely redundant with the key.
+  redundant with the key.
 
 ## [0.15.0] - Query Enhancements
 
