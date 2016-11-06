@@ -27,7 +27,9 @@ private[mongo] trait MongoWrite[P <: Persistent] {
    */
   protected def bsonForState(state: PState[P]): BsonDocument = {
     val document = translate(state.get)
-    document.append("_id", idBson(state))
+    if (!hasPartitionKey) {
+      document.append("_id", idBson(state))
+    }
     state.rowVersion.foreach { v =>
       document.append("_rowVersion", new BsonInt64(v))
     }
@@ -51,29 +53,32 @@ private[mongo] trait MongoWrite[P <: Persistent] {
 
   /** a query that identifies the document to update or delete */
   protected def writeQuery(state: PState[P]) = {
-    val keyFilter = Filters.eq("_id", idBson(state))
     if (persistenceConfig.optimisticLocking) {
       val rvBson = state.rowVersion match {
         case Some(rv) => Filters.eq("_rowVersion", new BsonInt64(rv))
         case None => Filters.exists("_rowVersion", false)
       }
-      Filters.and(keyFilter, rvBson)
+      Filters.and(keyFilter(state), rvBson)
     } else {
-      keyFilter
+      keyFilter(state)
     }
   }
 
-  private def idBson(state: PState[P]) = {
-    if (realizedPType.partitionKey.isEmpty) {
-      new BsonObjectId(mongoId(state).get)
-    } else {
-      def keyValBson[V <: KeyVal[P, V]](key: RealizedKey[P, V]) = {
-        val keyVal = key.keyValForP(state.get)
-        val fieldName = key.realizedProp.inlinedPath
-        subdomainToBsonTranslator.translate(keyVal, false)(key.keyValTypeKey)
-      }
-      keyValBson(realizedPType.partitionKey.get)
+  private def keyFilter(state: PState[P]) = {
+    realizedPType.partitionKey match {
+      case Some(key) =>
+        def pkFilter[V <: KeyVal[P, V]](key: RealizedKey[P, V]) = {
+          val fieldName = key.realizedProp.inlinedPath
+          val keyVal = key.keyValForP(state.get)
+          val bson = subdomainToBsonTranslator.translate(keyVal, false)(key.keyValTypeKey)
+          Filters.eq(fieldName, bson)
+        }
+        pkFilter(key)
+      case None =>
+        Filters.eq("_id", idBson(state))
     }
   }
+
+  private def idBson(state: PState[P]) = new BsonObjectId(mongoId(state).get)
 
 }
