@@ -137,16 +137,6 @@ private[mongo] trait MongoQuery[P <: Persistent] {
     def lt = diff { pp => ltPP(pp) }
     def gt = diff { pp => gtPP(pp) }
 
-    println(op)
-    println(op match {
-      case EqOp  => eq
-      case NeqOp => ne
-      case LtOp  => lt
-      case LteOp => Filters.or(lt, eq)
-      case GtOp  => gt
-      case GteOp => Filters.or(gt, eq)
-    })
-
     op match {
       case EqOp  => eq
       case NeqOp => ne
