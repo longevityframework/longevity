@@ -116,6 +116,7 @@ private[mongo] trait MongoQuery[P <: Persistent] {
       subdomainToBsonTranslator.translate(pp.get(value), false)(pp.typeKey)
 
     def eqPP[B](pp: key.QueryInfo[B]) = Filters.eq(pp.inlinedPath, translate(pp, value))
+    def nePP[B](pp: key.QueryInfo[B]) = Filters.ne(pp.inlinedPath, translate(pp, value))
     def ltPP[B](pp: key.QueryInfo[B]) = Filters.lt(pp.inlinedPath, translate(pp, value))
     def gtPP[B](pp: key.QueryInfo[B]) = Filters.gt(pp.inlinedPath, translate(pp, value))
 
@@ -123,11 +124,12 @@ private[mongo] trait MongoQuery[P <: Persistent] {
     def or (fs: Seq[Bson]) = Filters.or (fs: _*)
 
     def eq = and { propPaths.map { pp => eqPP(pp) } }
+    def ne = or  { propPaths.map { pp => nePP(pp) } }
 
     def diff(f: (key.QueryInfo[_]) => Bson) = or {      
-      for { i <- 0 to propPaths.length } yield {
+      for { i <- 0 until propPaths.length } yield {
         and {
-          propPaths.take(i).map(f) :+ ltPP(propPaths(i))
+          propPaths.take(i).map(f) :+ f(propPaths(i))
         }
       }
     }
@@ -135,13 +137,23 @@ private[mongo] trait MongoQuery[P <: Persistent] {
     def lt = diff { pp => ltPP(pp) }
     def gt = diff { pp => gtPP(pp) }
 
+    println(op)
+    println(op match {
+      case EqOp  => eq
+      case NeqOp => ne
+      case LtOp  => lt
+      case LteOp => Filters.or(lt, eq)
+      case GtOp  => gt
+      case GteOp => Filters.or(gt, eq)
+    })
+
     op match {
       case EqOp  => eq
-      case NeqOp => Filters.not(eq)
+      case NeqOp => ne
       case LtOp  => lt
-      case LteOp => Filters.and(lt, eq)
+      case LteOp => Filters.or(lt, eq)
       case GtOp  => gt
-      case GteOp => Filters.and(gt, eq)
+      case GteOp => Filters.or(gt, eq)
     }
 
   }
