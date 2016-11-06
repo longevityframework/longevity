@@ -6,13 +6,13 @@ import longevity.subdomain.ETypePool
 import longevity.subdomain.EType
 import longevity.subdomain.PTypePool
 
-/** covers a persistent with a partition key that contains multiple properties */
-package object partitionKeyWithPartialPartition {
+/** covers a persistent with a key that contains a component */
+package object partitionKeyInComponentWithPartialPartition {
 
   val subdomain = Subdomain(
-    "Partition Key With Partial Partition",
-    PTypePool(PartitionKeyWithPartialPartition),
-    ETypePool(EType[Uri]))
+    "Partition Key In Component With Partial Partition",
+    PTypePool(PKInComponentWithPartialPartition),
+    ETypePool(EType[Component]))
 
   val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 
