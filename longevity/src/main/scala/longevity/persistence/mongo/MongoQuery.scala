@@ -129,7 +129,7 @@ private[mongo] trait MongoQuery[P <: Persistent] {
     def diff(f: (key.QueryInfo[_]) => Bson) = or {      
       for { i <- 0 until propPaths.length } yield {
         and {
-          propPaths.take(i).map(f) :+ f(propPaths(i))
+          propPaths.take(i).map(pp => eqPP(pp)) :+ f(propPaths(i))
         }
       }
     }
