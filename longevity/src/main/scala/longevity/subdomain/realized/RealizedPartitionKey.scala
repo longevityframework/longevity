@@ -11,13 +11,15 @@ private[longevity] case class RealizedPartitionKey[
   V <: KeyVal[P, V] : TypeKey] private [subdomain](
   override val key: PartitionKey[P, V],
   prop: RealizedProp[P, V],
-  val props: Seq[RealizedProp[P, _]],
+  val partitionProps: Seq[RealizedProp[P, _]],
+  val postPartitionProps: Seq[RealizedProp[P, _]],
   val emblematicPropPaths: Seq[EmblematicPropPath[V, _]])
 extends RealizedKey[P, V](key, prop) {
 
   def hashed = key.hashed
   def partition = key.partition
   def fullyPartitioned = key.fullyPartitioned
+  def props = partitionProps ++ postPartitionProps
 
   case class QueryInfo[B](inlinedPath: String, get: (V) => B, typeKey: TypeKey[B])
 

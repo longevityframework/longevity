@@ -24,22 +24,34 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
   }
 
   protected def createTable(): Unit = {
-    def columnDefs(component: RealizedPropComponent[_ >: P <: Persistent, _, _]) = {
-      s"${columnName(component)} ${componentToCassandraType(component)}"
-    }
-    val actualizedComponentColumnDefs = actualizedComponents.map(columnDefs).mkString(",\n  ")
     val createTable = s"""|
-    |CREATE TABLE IF NOT EXISTS $tableName (
-    |  id uuid,
+    |CREATE TABLE IF NOT EXISTS $tableName ($idDef
     |  p text,
     |  $actualizedComponentColumnDefs,
-    |  PRIMARY KEY (id)
+    |  $primaryKeyDef
     |)
     |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
     |""".stripMargin
     logger.debug(s"executing CQL: $createTable")
     session.execute(createTable)
   }
+
+  private def idDef = if (hasPartitionKey) "" else "\n  id uuid,"
+
+  private def actualizedComponentColumnDefs = actualizedComponents.map(columnDef).mkString(",\n  ")
+
+  private def primaryKeyDef = (hasPartitionKey, postPartitionComponents.nonEmpty) match {
+    case (true, true)  => s"PRIMARY KEY (($partitionColumns), $postPartitionColumns)"
+    case (true, false) => s"PRIMARY KEY ($partitionColumns)"
+    case _             => s"PRIMARY KEY (id)"
+  }
+
+  private def partitionColumns = partitionComponents.map(columnName).mkString(", ")
+
+  private def postPartitionColumns = postPartitionComponents.map(columnName).mkString(", ")
+
+  private def columnDef(component: RealizedPropComponent[_ >: P <: Persistent, _, _]) =
+    s"${columnName(component)} ${componentToCassandraType(component)}"
 
   protected def addColumn(columnName: String, columnType: String): Unit = {
     val cql = s"ALTER TABLE $tableName ADD $columnName $columnType"
@@ -60,7 +72,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
     CassandraRepo.basicToCassandraType(component.componentTypeKey)
   }
 
-  protected def createIndexes(): Unit = actualizedComponents.foreach(createIndex)
+  protected def createIndexes(): Unit = indexedComponents.foreach(createIndex)
 
   protected def createIndex(component: RealizedPropComponent[_ >: P <: Persistent, _, _]): Unit = {
     val indexName = s"${tableName}_${scoredPath(component)}"

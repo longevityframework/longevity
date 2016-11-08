@@ -32,6 +32,8 @@ extends Repo[P] {
   /** the type key for the persistent entities this repository handles */
   protected[persistence] val pTypeKey: TypeKey[P] = pType.pTypeKey
 
+  protected def hasPartitionKey = realizedPType.partitionKey.nonEmpty
+
   def retrieveOne[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
 

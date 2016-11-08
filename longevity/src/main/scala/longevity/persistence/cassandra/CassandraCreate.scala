@@ -15,19 +15,26 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
     logger.debug(s"calling CassandraRepo.create: $p")
-    val uuid = UUID.randomUUID
-    val rowVersion = Some(0L)
+    val id = if (hasPartitionKey) None else Some(CassandraId[P](UUID.randomUUID))
+    val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
+    val state = PState(id, rowVersion, p)
     blocking {
-      session.execute(bindInsertStatement(uuid, rowVersion, p))
+      session.execute(bindInsertStatement(state))
     }
-    val state = PState(CassandraId[P](uuid), rowVersion, p)
     logger.debug(s"done calling CassandraRepo.create: $state")
     state
   }
-  
+
+  private def bindInsertStatement(state: PState[P]): BoundStatement = {
+    val bindings = updateColumnValues(state, isCreate = true)
+    logger.debug(s"invoking CQL: $insertStatement with bindings: $bindings")
+    insertStatement.bind(bindings: _*)
+  }
+
   private lazy val insertStatement: PreparedStatement = {
-    val columns = updateColumnNames(includeId = true).mkString(",\n  ")
-    val substitutionPatterns = updateColumnNames(includeId = true).map(c => s":$c").mkString(",\n  ")
+    val names = updateColumnNames(isCreate = true)
+    val columns = names.mkString(",\n  ")
+    val substitutionPatterns = names.map(c => s":$c").mkString(",\n  ")
 
     val cql = s"""|
     |INSERT INTO $tableName (
@@ -38,12 +45,6 @@ private[cassandra] trait CassandraCreate[P <: Persistent] {
     |""".stripMargin
 
     preparedStatement(cql)
-  }
-
-  private def bindInsertStatement(uuid: UUID, rowVersion: Option[Long], p: P): BoundStatement = {
-    val bindings = updateColumnValues(uuid, rowVersion, p, includeId = true)
-    logger.debug(s"invoking CQL: $insertStatement with bindings: $bindings")
-    insertStatement.bind(bindings: _*)
   }
 
 }

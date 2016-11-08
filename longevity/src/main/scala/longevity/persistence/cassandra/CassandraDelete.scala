@@ -1,7 +1,6 @@
 package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
-import com.datastax.driver.core.PreparedStatement
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.Deleted
 import longevity.persistence.PState
@@ -31,24 +30,49 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
       deleted
     }
 
-  private lazy val deleteStatement: PreparedStatement = preparedStatement(deleteStatementCql)
-
-  protected def deleteStatementCql: String = if (persistenceConfig.optimisticLocking) {
-    s"DELETE FROM $tableName WHERE id = :id IF row_version = :row_version"
-  } else {
-    s"DELETE FROM $tableName WHERE id = :id"
-  }
-
   private def bindDeleteStatement(state: PState[P]): BoundStatement = {
     val boundStatement = deleteStatement.bind
-    val uuid = state.id.get.asInstanceOf[CassandraId[P]].uuid
-    logger.debug(s"invoking CQL: ${deleteStatement.getQueryString} with uuid $uuid")
-    if (persistenceConfig.optimisticLocking) {
-      val version = if (state.rowVersion.isEmpty) null else state.rowVersion.get.asInstanceOf[AnyRef]
-      boundStatement.bind(uuid, version)
+    val bindings = if (persistenceConfig.optimisticLocking) {
+      whereBindings(state) :+ state.rowVersionOrNull
     } else {
-      boundStatement.bind(uuid)
+      whereBindings(state)
     }
+    logger.debug(s"invoking CQL: ${deleteStatement.getQueryString} with bindings $bindings")
+    boundStatement.bind(bindings: _*)
+  }
+
+  protected[cassandra] def deleteStatement = deleteStatementPreparedOnce
+
+  private lazy val deleteStatementPreparedOnce = preparedStatement(deleteStatementCql)
+
+  private def deleteStatementCql: String = if (persistenceConfig.optimisticLocking) {
+    s"""|
+    |DELETE FROM $tableName
+    |WHERE
+    |  $whereAssignments
+    |IF
+    |  row_version = :row_version
+    |""".stripMargin
+  } else {
+    s"""|
+    |DELETE FROM $tableName
+    |WHERE
+    |  $whereAssignments
+    |""".stripMargin
+  }
+
+  // TODO duplicated in CassandraUpdate
+  private def whereAssignments = if (hasPartitionKey) {
+    partitionKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
+  } else {
+    "id = :id"
+  }    
+
+  // TODO duplicated in CassandraUpdate
+  private def whereBindings(state: PState[P]) = if (hasPartitionKey) {
+    partitionKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
+  } else {
+    Seq(state.id.get.asInstanceOf[CassandraId[P]].uuid)
   }
 
 }

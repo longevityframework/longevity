@@ -45,8 +45,6 @@ with LazyLogging {
   protected def collectionName = uncapitalize(typeName(pTypeKey.tpe))
   protected[mongo] lazy val mongoCollection = session.db.getCollection(collectionName, classOf[BsonDocument])
 
-  protected def hasPartitionKey = realizedPType.partitionKey.nonEmpty
-
   protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
     blocking { session.client.close() }
     ()

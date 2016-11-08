@@ -3,9 +3,7 @@ package longevity.integration.subdomain.partitionKeyWithForeignKey
 import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
-case class PartitionKeyWithForeignKey(
-  key: Key)
-extends Persistent
+case class PartitionKeyWithForeignKey(key: Key) extends Persistent
 
 object PartitionKeyWithForeignKey extends PType[PartitionKeyWithForeignKey] {
   object props {

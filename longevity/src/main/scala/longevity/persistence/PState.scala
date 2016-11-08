@@ -33,6 +33,8 @@ case class PState[P <: Persistent] private (
     copy(orig = p, rowVersion = newRowVersion)
   }
 
+  private[persistence] def rowVersionOrNull = rowVersion.asInstanceOf[Option[AnyRef]].orNull
+
 }
 
 object PState {

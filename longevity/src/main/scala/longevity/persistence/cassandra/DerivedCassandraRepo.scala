@@ -1,9 +1,9 @@
 package longevity.persistence.cassandra
 
+import longevity.persistence.PState
 import longevity.subdomain.Persistent
 import longevity.subdomain.realized.RealizedPropComponent
 import longevity.subdomain.realized.RealizedKey
-import java.util.UUID
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -20,13 +20,11 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     compact(render(emblematicToJsonTranslator.translate[Poly](p)(polyRepo.pTypeKey)))
   }
 
-  private def myActualizedComponents: List[RealizedPropComponent[_ >: P <: Persistent, _, _]] =
-    super.actualizedComponents
-
-  override protected[cassandra] def actualizedComponents
-  : List[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
-    myActualizedComponents ++ polyRepo.actualizedComponents
+  override protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
+    myIndexedComponents ++ polyRepo.indexedComponents
   }
+
+  private def myIndexedComponents = super.indexedComponents
 
   override protected[persistence] def createSchema()(implicit context: ExecutionContext)
   : Future[Unit] = Future {
@@ -42,14 +40,13 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     }
   }
 
-  override protected def updateColumnNames(includeId: Boolean = true): Seq[String] = {
-    super.updateColumnNames(includeId) :+ "discriminator"
+  override protected def updateColumnNames(isCreate: Boolean = true): Seq[String] = {
+    super.updateColumnNames(isCreate) :+ "discriminator"
   }
 
-  override protected def updateColumnValues(
-    uuid: UUID, rowVersion: Option[Long], p: P, includeId: Boolean = true): Seq[AnyRef] = {
-    val discriminatorValue = p.getClass.getSimpleName
-    super.updateColumnValues(uuid, rowVersion, p, includeId) :+ discriminatorValue
+  override protected def updateColumnValues(state: PState[P], isCreate: Boolean = true): Seq[AnyRef] = {
+    val discriminatorValue = state.get.getClass.getSimpleName
+    super.updateColumnValues(state, isCreate) :+ discriminatorValue
   }
 
   override protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String =
@@ -57,6 +54,8 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
 
   override protected def queryWhereClause(filterInfo: FilterInfo): String =
     super.queryWhereClause(filterInfo) + s"\nAND\n  discriminator = '$discriminatorValue'"
+
+  override protected[cassandra] def deleteStatement = polyRepo.deleteStatement
 
   private def discriminatorValue = pTypeKey.name
 

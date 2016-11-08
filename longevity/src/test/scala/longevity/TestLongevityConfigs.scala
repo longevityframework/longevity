@@ -45,6 +45,11 @@ object TestLongevityConfigs {
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
     contexts(Seq(mongoConfigKey), subdomain, generators)    
 
+  def cassandraOnlyContextMatrix(
+    subdomain: Subdomain,
+    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
+    contexts(Seq(cassandraConfigKey), subdomain, generators)    
+
   val inMemConfigKey = ConfigMatrixKey(InMem, false, false)
   val mongoConfigKey = ConfigMatrixKey(Mongo, false, false)
   val cassandraConfigKey = ConfigMatrixKey(Cassandra, false, false)

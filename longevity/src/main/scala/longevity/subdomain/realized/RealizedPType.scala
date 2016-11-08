@@ -103,11 +103,8 @@ private[longevity] class RealizedPType[P <: Persistent](
     val vTypeKey = key.keyValTypeKey
     val prop = myRealizedProps(key.keyValProp)
     val pppis = postPartitionPropInfos(key)(vTypeKey)
-    val realizedProps = {
-      def rpps  = key.partition.props.map(myRealizedProps(_)) 
-      def rppps = pppis.map(_.prop).map(myRealizedProps(_))
-      rpps ++ rppps
-    }
+    val realizedPartitionProps = key.partition.props.map(myRealizedProps(_)) 
+    val realizedPostPartitionProps = pppis.map(_.prop).map(myRealizedProps(_))
     val emblematicPropPaths = {
       def p2ppi[B](prop: Prop[P, B]) = {
         if (prop == key.keyValProp) {
@@ -121,7 +118,14 @@ private[longevity] class RealizedPType[P <: Persistent](
       def ppepps = pppis.map(_.emblematicPropPath)
       pepps ++ ppepps
     }
-    RealizedPartitionKey[P, V](key, prop, realizedProps, emblematicPropPaths)(pType.pTypeKey, prop.propTypeKey)
+    RealizedPartitionKey[P, V](
+      key,
+      prop,
+      realizedPartitionProps,
+      realizedPostPartitionProps,
+      emblematicPropPaths)(
+      pType.pTypeKey,
+      prop.propTypeKey)
   }
 
   /** what we need to know about a properties that are within the partition key,

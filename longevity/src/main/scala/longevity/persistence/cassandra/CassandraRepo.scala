@@ -13,7 +13,6 @@ import emblem.jsonUtil.dateTimeFormatter
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
-import java.util.UUID
 import longevity.context.CassandraConfig
 import longevity.context.PersistenceConfig
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
@@ -21,11 +20,12 @@ import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
 import longevity.persistence.SchemaCreator
-import longevity.subdomain.Subdomain
-import longevity.subdomain.Persistent
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PType
+import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
+import longevity.subdomain.Subdomain
+import longevity.subdomain.realized.RealizedPartitionKey
 import longevity.subdomain.realized.RealizedPropComponent
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
@@ -57,8 +57,27 @@ with LazyLogging {
 
   protected[cassandra] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
 
-  protected[cassandra] def actualizedComponents: List[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
-    val keyComponents = realizedPType.keySet.flatMap {
+  protected val partitionComponents = realizedPType.partitionKey match {
+    case Some(key) => key.partitionProps.flatMap {
+      _.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]
+    }
+    case None => Seq.empty
+  }
+
+  protected val postPartitionComponents = realizedPType.partitionKey match {
+    case Some(key) => key.postPartitionProps.flatMap {
+      _.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]
+    }
+    case None => Seq.empty
+  }
+
+  protected val partitionKeyComponents = partitionComponents ++ postPartitionComponents
+
+  protected val actualizedComponents =
+    indexedComponents ++ (partitionKeyComponents: Seq[RealizedPropComponent[_ >: P <: Persistent, _, _]])
+
+  protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
+    val keyComponents = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPartitionKey[_, _]]).flatMap {
       _.realizedProp.realizedPropComponents: Seq[RealizedPropComponent[_ >: P <: Persistent, _, _]]
     }
 
@@ -68,7 +87,7 @@ with LazyLogging {
       realizedProps.map(_.realizedPropComponents).flatten
     }
 
-    (keyComponents ++ indexComponents).toList
+    keyComponents ++ indexComponents
   }
 
   protected val emblematicToJsonTranslator = new EmblematicToJsonTranslator {
@@ -94,29 +113,32 @@ with LazyLogging {
     }
   }
 
-  protected def updateColumnNames(includeId: Boolean = true): Seq[String] = {
-    val realizedPropColumnNames = actualizedComponents.map(columnName).toSeq.sorted
-    (includeId, persistenceConfig.optimisticLocking) match {
-      case (true,  true)  => "id" +: "row_version" +: "p" +: realizedPropColumnNames
-      case (false, true)  => "row_version" +: "p" +: realizedPropColumnNames
-      case (true,  false) => "id" +: "p" +: realizedPropColumnNames
-      case (false, false) => "p" +: realizedPropColumnNames
+  protected def updateColumnNames(isCreate: Boolean = true): Seq[String] = {
+    def names(components: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]]) =
+      components.map(columnName).toSeq.sorted
+    val componentColumnNames = if (isCreate) names(actualizedComponents) else names(indexedComponents)
+    (isCreate && !hasPartitionKey, persistenceConfig.optimisticLocking) match {
+      case (true,  true)  => "id" +: "row_version" +: "p" +: componentColumnNames
+      case (true,  false) => "id" +:                  "p" +: componentColumnNames
+      case (false, true)  =>         "row_version" +: "p" +: componentColumnNames
+      case (false, false) =>                          "p" +: componentColumnNames
     }
   }
 
-  protected def updateColumnValues(uuid: UUID, rowVersion: Option[Long], p: P, includeId: Boolean = true)
-  : Seq[AnyRef] = {
-    val actualizedComponentValues = actualizedComponents.toSeq.sortBy(columnName).map { component =>
-      propValBinding(component, p)
-    }
-    def rv = rowVersion.get.asInstanceOf[AnyRef]
-    (includeId, persistenceConfig.optimisticLocking) match {
-      case (true,  true)  => uuid +: rv +: jsonStringForP(p) +: actualizedComponentValues
-      case (false, true)  => rv +: jsonStringForP(p) +: actualizedComponentValues
-      case (true,  false) => uuid +: jsonStringForP(p) +: actualizedComponentValues
-      case (false, false) => jsonStringForP(p) +: actualizedComponentValues
+  protected def updateColumnValues(state: PState[P], isCreate: Boolean = true): Seq[AnyRef] = {
+    def values(components: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]]) =
+      components.toSeq.sortBy(columnName).map { component => propValBinding(component, state.get) }
+    val componentColumnValues = if (isCreate) values(actualizedComponents) else values(indexedComponents)
+    def rv = state.rowVersionOrNull
+    (isCreate && !hasPartitionKey, persistenceConfig.optimisticLocking) match {
+      case (true,  true)  => uuid(state) +: rv +: jsonStringForP(state.get) +: componentColumnValues
+      case (false, true)  =>                rv +: jsonStringForP(state.get) +: componentColumnValues
+      case (true,  false) => uuid(state)       +: jsonStringForP(state.get) +: componentColumnValues
+      case (false, false) =>                      jsonStringForP(state.get) +: componentColumnValues
     }
   }
+
+  protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[CassandraId[P]].uuid
 
   private def propValBinding[PP >: P <: Persistent, A](
     component: RealizedPropComponent[PP, _, A],
@@ -134,7 +156,11 @@ with LazyLogging {
   protected def cassandraDate(d: DateTime): String = dateTimeFormatter.print(d)
 
   protected def retrieveFromRow(row: Row): PState[P] = {
-    val id = CassandraId[P](row.getUUID("id"))
+    val id = if (!hasPartitionKey) {
+      Some(CassandraId[P](row.getUUID("id")))
+    } else {
+      None
+    }
     val rowVersion = if (persistenceConfig.optimisticLocking) {
       Option(row.getLong("row_version"))
     } else {

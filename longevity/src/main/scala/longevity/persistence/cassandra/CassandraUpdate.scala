@@ -15,13 +15,9 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
       logger.debug(s"calling CassandraRepo.update: $state")
-      val rowVersion = if (persistenceConfig.optimisticLocking) {
-        state.rowVersion.map(_ + 1).orElse(Some(0L))
-      } else {
-        None
-      }
+      val newState = state.update(persistenceConfig.optimisticLocking)
       val resultSet = blocking {
-        session.execute(bindUpdateStatement(state, rowVersion))
+        session.execute(bindUpdateStatement(newState, state.rowVersionOrNull))
       }
       if (persistenceConfig.optimisticLocking) {
         val updateSuccess = resultSet.one.getBool(0)
@@ -29,45 +25,53 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
           throw new WriteConflictException(state)
         }
       }
-      val newState = PState[P](state.id, rowVersion, state.get)
       logger.debug(s"done calling CassandraRepo.update: $newState")
       newState
     }
 
-  private lazy val updateStatement = preparedStatement(updateCql)
-
-  private def updateCql = {
-    val columnAssignments = updateColumnNames(includeId = false).map(c => s"$c = :$c").mkString(",\n  ")
-    val noLockCql = s"""|
-    |UPDATE $tableName
-    |SET
-    |  $columnAssignments
-    |WHERE
-    |  id = :id
-    |""".stripMargin
-
-    if (persistenceConfig.optimisticLocking) {
-      s"""|
-      |$noLockCql
-      |IF
-      |  row_version = :row_version
-      |""".stripMargin
-    } else {
-      noLockCql
-    }
-  }
-
-  private def bindUpdateStatement(state: PState[P], rowVersion: Option[Long]): BoundStatement = {
-    val uuid = state.id.get.asInstanceOf[CassandraId[P]].uuid
-    val p = state.get
-    def versionCheck = if (state.rowVersion.isEmpty) null else state.rowVersion.get.asInstanceOf[AnyRef]
+  private def bindUpdateStatement(state: PState[P], rowVersion: AnyRef): BoundStatement = {
     val columnBindings = if (persistenceConfig.optimisticLocking) {
-      updateColumnValues(uuid, rowVersion, p, includeId = false) :+ uuid :+ versionCheck
+      updateColumnValues(state, isCreate = false) ++: whereBindings(state) :+ rowVersion
     } else {
-      updateColumnValues(uuid, rowVersion, p, includeId = false) :+ uuid
+      updateColumnValues(state, isCreate = false) ++: whereBindings(state)
     }
     logger.debug(s"invoking CQL: ${updateStatement.getQueryString} with bindings: $columnBindings")
     updateStatement.bind(columnBindings: _*)
   }
+
+  private def whereBindings(state: PState[P]) = if (hasPartitionKey) {
+    partitionKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
+  } else {
+    Seq(state.id.get.asInstanceOf[CassandraId[P]].uuid)
+  }    
+
+  private lazy val updateStatement = preparedStatement(updateCql)
+
+  private def updateCql = if (persistenceConfig.optimisticLocking) {
+    withLockingUpdateCql
+  } else {
+    withoutLockingUpdateCql
+  }
+
+  private def columnAssignments = updateColumnNames(isCreate = false).map(c => s"$c = :$c").mkString(",\n  ")
+
+  private def whereAssignments = if (hasPartitionKey) {
+    partitionKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
+  } else {
+    "id = :id"
+  }    
+
+  private def withoutLockingUpdateCql = s"""|
+  |UPDATE $tableName
+  |SET
+  |  $columnAssignments
+  |WHERE
+  |  $whereAssignments
+  |""".stripMargin
+
+  private def withLockingUpdateCql = s"""|$withoutLockingUpdateCql
+  |IF
+  |  row_version = :row_version
+  |""".stripMargin
 
 }
