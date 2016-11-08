@@ -3,10 +3,49 @@ package longevity.unit.subdomain
 import longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
+import longevity.exceptions.subdomain.ptype.PartitionKeyForDerivedPTypeException
 import longevity.subdomain.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
+
+/** holds domain objects for special case PartitionKeyForDerivedPTypeException */
+object PTypeSpec {
+
+  import longevity.subdomain.KeyVal
+  import longevity.subdomain.Persistent
+  import longevity.subdomain.DerivedPType
+  import longevity.subdomain.PolyPType
+
+  case class Username(username: String) extends KeyVal[User, Username]
+
+  trait User extends Persistent {
+    val username: Username
+  }
+
+  object User extends PolyPType[User] {
+    object props {
+      val username = prop[Username]("username")
+    }
+    object keys {
+      val username = partitionKey(props.username)
+    }
+  }
+
+  case class Email(email: String) extends KeyVal[EmailedUser, Email]
+
+  case class EmailedUser(username: Username, email: Email) extends User
+
+  object EmailedUser extends DerivedPType[EmailedUser, User] {
+    object props {
+      val email = prop[Email]("email")
+    }
+    object keys {
+      val email = partitionKey(props.email)
+    }
+  }
+
+}
 
 /** unit tests for the proper construction and behavior of a [[PType persistent type]] */
 class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
@@ -116,6 +155,12 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
     intercept[MultiplePartitionKeysForPType[_]] {
       User.partitionKey
+    }
+  }
+
+  it should "throw exception if a derived ptype defines partition key" in {
+    intercept[PartitionKeyForDerivedPTypeException[_]] {
+      PTypeSpec.EmailedUser.partitionKey
     }
   }
 

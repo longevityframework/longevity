@@ -8,6 +8,7 @@ import longevity.exceptions.subdomain.DuplicateKeyOrIndexException
 import longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
+import longevity.exceptions.subdomain.ptype.PartitionKeyForDerivedPTypeException
 import longevity.subdomain.ptype.AnyKey
 import longevity.subdomain.ptype.AnyPartitionKey
 import longevity.subdomain.ptype.Index
@@ -35,6 +36,9 @@ abstract class PType[P <: Persistent : TypeKey] {
   /** the optional partition key for this persistent type */
   lazy val partitionKey: Option[AnyPartitionKey[P]] = {
     val partitionKeys = keySet.collect { case pk: AnyPartitionKey[P] => pk }
+    if (this.isInstanceOf[DerivedPType[_, _]] && partitionKeys.nonEmpty) {
+      throw new PartitionKeyForDerivedPTypeException[P]
+    }
     if (partitionKeys.size > 1) throw new MultiplePartitionKeysForPType[P]
     partitionKeys.headOption
   }
