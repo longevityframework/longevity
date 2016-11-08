@@ -114,6 +114,7 @@ trait BuildSettings extends Deps {
   )
 
   val noPublishSettings = Defaults.coreDefaultSettings ++ Seq(
+    scalaVersion := scalaVersionString,
     packagedArtifacts := Map.empty,
     publishLocal := (),
     publishSigned := (),
