@@ -13,12 +13,11 @@ import scala.concurrent.Future
 private[cassandra] trait CassandraDelete[P <: Persistent] {
   repo: CassandraRepo[P] =>
 
-  override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] =
-    Future {
+  override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = Future {
+    blocking {
       logger.debug(s"calling CassandraRepo.delete: $state")
-      val resultSet = blocking {
-        session.execute(bindDeleteStatement(state))
-      }
+      validateStablePartitionKey(state)
+      val resultSet = session.execute(bindDeleteStatement(state))
       if (persistenceConfig.optimisticLocking) {
         val deleteSuccess = resultSet.one.getBool(0)
         if (!deleteSuccess) {
@@ -29,6 +28,7 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
       logger.debug(s"done calling CassandraRepo.delete: $deleted")
       deleted
     }
+  }
 
   private def bindDeleteStatement(state: PState[P]): BoundStatement = {
     val boundStatement = deleteStatement.bind

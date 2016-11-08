@@ -13,17 +13,18 @@ private[mongo] trait MongoDelete[P <: Persistent] {
   repo: MongoRepo[P] =>
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
-    logger.debug(s"calling MongoRepo.delete: $state")
-    val query = writeQuery(state)
-    val deleteResult = blocking {
-      mongoCollection.deleteOne(query)
+    blocking {
+      logger.debug(s"calling MongoRepo.delete: $state")
+      validateStablePartitionKey(state)
+      val query = writeQuery(state)
+      val deleteResult = mongoCollection.deleteOne(query)
+      if (persistenceConfig.optimisticLocking && deleteResult.getDeletedCount == 0) {
+        throw new WriteConflictException(state)
+      }
+      val deleted = new Deleted(state.get)
+      logger.debug(s"done calling MongoRepo.delete: $deleted")
+      deleted
     }
-    if (persistenceConfig.optimisticLocking && deleteResult.getDeletedCount == 0) {
-      throw new WriteConflictException(state)
-    }
-    val deleted = new Deleted(state.get)
-    logger.debug(s"done calling MongoRepo.delete: $deleted")
-    deleted
   }
 
 }

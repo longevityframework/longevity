@@ -15,6 +15,7 @@ private[mongo] trait MongoUpdate[P <: Persistent] {
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {
       logger.debug(s"calling MongoRepo.update: $state")
+      validateStablePartitionKey(state)
       val query = writeQuery(state)
       val updatedState = state.update(persistenceConfig.optimisticLocking)
       val document = bsonForState(updatedState)

@@ -14,6 +14,7 @@ private[inmem] trait InMemUpdate[P <: Persistent] {
     blocking {
       repo.synchronized {
         logger.debug(s"calling InMemRepo.update: $state")
+        validateStablePartitionKey(state)
         assertNoWriteConflict(state)
         assertUniqueKeyVals(state)
         unregisterByKeyVals(state.orig)

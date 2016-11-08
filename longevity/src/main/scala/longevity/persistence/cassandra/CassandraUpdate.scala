@@ -15,6 +15,7 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
       logger.debug(s"calling CassandraRepo.update: $state")
+      validateStablePartitionKey(state)
       val newState = state.update(persistenceConfig.optimisticLocking)
       val resultSet = blocking {
         session.execute(bindUpdateStatement(newState, state.rowVersionOrNull))
