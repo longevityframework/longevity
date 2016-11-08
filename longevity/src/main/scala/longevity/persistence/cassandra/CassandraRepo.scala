@@ -140,6 +140,18 @@ with LazyLogging {
 
   protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[CassandraId[P]].uuid
 
+  protected def whereAssignments = if (hasPartitionKey) {
+    partitionKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
+  } else {
+    "id = :id"
+  }    
+
+  protected def whereBindings(state: PState[P]) = if (hasPartitionKey) {
+    partitionKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
+  } else {
+    Seq(state.id.get.asInstanceOf[CassandraId[P]].uuid)
+  }
+
   private def propValBinding[PP >: P <: Persistent, A](
     component: RealizedPropComponent[PP, _, A],
     p: P)

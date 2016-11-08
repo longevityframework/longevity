@@ -40,12 +40,6 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
     updateStatement.bind(columnBindings: _*)
   }
 
-  private def whereBindings(state: PState[P]) = if (hasPartitionKey) {
-    partitionKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
-  } else {
-    Seq(state.id.get.asInstanceOf[CassandraId[P]].uuid)
-  }    
-
   private lazy val updateStatement = preparedStatement(updateCql)
 
   private def updateCql = if (persistenceConfig.optimisticLocking) {
@@ -55,12 +49,6 @@ private[cassandra] trait CassandraUpdate[P <: Persistent] {
   }
 
   private def columnAssignments = updateColumnNames(isCreate = false).map(c => s"$c = :$c").mkString(",\n  ")
-
-  private def whereAssignments = if (hasPartitionKey) {
-    partitionKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
-  } else {
-    "id = :id"
-  }    
 
   private def withoutLockingUpdateCql = s"""|
   |UPDATE $tableName

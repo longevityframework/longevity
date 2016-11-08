@@ -61,18 +61,4 @@ private[cassandra] trait CassandraDelete[P <: Persistent] {
     |""".stripMargin
   }
 
-  // TODO duplicated in CassandraUpdate
-  private def whereAssignments = if (hasPartitionKey) {
-    partitionKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
-  } else {
-    "id = :id"
-  }    
-
-  // TODO duplicated in CassandraUpdate
-  private def whereBindings(state: PState[P]) = if (hasPartitionKey) {
-    partitionKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
-  } else {
-    Seq(state.id.get.asInstanceOf[CassandraId[P]].uuid)
-  }
-
 }
