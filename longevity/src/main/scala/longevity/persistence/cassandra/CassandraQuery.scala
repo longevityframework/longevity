@@ -3,18 +3,20 @@ package longevity.persistence.cassandra
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import com.datastax.driver.core.ResultSet
-import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
 import longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery
+import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OffsetInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
-import longevity.exceptions.persistence.cassandra.OrderByInQueryException
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.query.AndOp
+import longevity.subdomain.query.Ascending
 import longevity.subdomain.query.ConditionalFilter
+import longevity.subdomain.query.Descending
 import longevity.subdomain.query.EqOp
+import longevity.subdomain.query.FilterAll
 import longevity.subdomain.query.GtOp
 import longevity.subdomain.query.GteOp
 import longevity.subdomain.query.LtOp
@@ -24,7 +26,6 @@ import longevity.subdomain.query.OrOp
 import longevity.subdomain.query.Query
 import longevity.subdomain.query.QueryFilter
 import longevity.subdomain.query.QueryOrderBy
-import longevity.subdomain.query.FilterAll
 import longevity.subdomain.query.RelationalFilter
 import longevity.subdomain.realized.RealizedPropComponent
 import scala.collection.JavaConversions.asScalaBuffer
@@ -62,17 +63,40 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
   }
 
   private def queryResultSet(query: Query[P]): ResultSet = {
-    if (query.orderBy != QueryOrderBy.empty) throw new OrderByInQueryException
     if (query.offset.nonEmpty) throw new OffsetInQueryException
 
     val info = filterInfo(query.filter)
     val conjunction = queryWhereClause(info)
-    val limit = query.limit.map(i => s" LIMIT $i").getOrElse("")
-    val cql = s"SELECT * FROM $tableName WHERE $conjunction$limit ALLOW FILTERING"
+    val orderBy = queryOrderByClause(query.orderBy)
+    val limit = query.limit.map(i => s"\nLIMIT $i").getOrElse("")
+    val cql = s"""|
+    |SELECT * FROM $tableName
+    |WHERE
+    |  $conjunction$orderBy$limit
+    |ALLOW FILTERING
+    |""".stripMargin
     val bindings = info.bindValues
     logger.debug(s"executing CQL: $cql with bindings: $bindings")
     val boundStatement = preparedStatement(cql).bind(bindings: _*)
     session.execute(boundStatement)
+  }
+
+  private def queryOrderByClause(orderBy: QueryOrderBy[P]): String = {
+    if (orderBy == QueryOrderBy.empty) {
+      ""
+    } else {
+      val orderings = orderBy.sortExprs.flatMap { sortExpr =>
+        val direction = sortExpr.direction match {
+          case Ascending => "asc"
+          case Descending => "desc"
+        }
+        toComponents(sortExpr.prop).map { component =>
+          s"${columnName(component)} $direction"
+        }
+      }
+      val orderingsString = orderings.mkString(", ")
+      s"\nORDER BY\n  $orderingsString"
+    }
   }
 
   protected def queryWhereClause(filterInfo: FilterInfo): String = filterInfo.whereClause

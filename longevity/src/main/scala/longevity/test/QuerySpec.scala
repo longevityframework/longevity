@@ -139,7 +139,7 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
     actual should equal (expected)
   }
 
-  private def generateP(): P = longevityContext.testDataGenerator.generate[P]
+  protected def generateP(): P = longevityContext.testDataGenerator.generate[P]
 
   private def entitiesMatchingQuery(query: Query[P], entities: Set[P]): Set[P] = {
     entities.filter(QueryFilter.matches(query.filter, _, realizedPType))
