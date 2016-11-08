@@ -42,7 +42,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
 
   private def primaryKeyDef = (hasPartitionKey, postPartitionComponents.nonEmpty) match {
     case (true, true)  => s"PRIMARY KEY (($partitionColumns), $postPartitionColumns)"
-    case (true, false) => s"PRIMARY KEY ($partitionColumns)"
+    case (true, false) => s"PRIMARY KEY (($partitionColumns))"
     case _             => s"PRIMARY KEY (id)"
   }
 
