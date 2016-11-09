@@ -90,8 +90,10 @@ trait BuildSettings extends Deps {
       val projectVersion = (version in (Compile, doc)).value
       Seq("-doc-title", s"$projectName $projectVersion API")
     },
-    scalacOptions in (Compile, doc) <++= (baseDirectory in LocalProject("longevity"), version) map {
-      (bd, v) =>
+    scalacOptions in (Compile, doc) ++= {
+      val bd = (baseDirectory in LocalProject("longevity")).value
+      val v = version.value
+
       val tagOrBranch = if (v endsWith "SNAPSHOT") gitHash else ("v" + v)
       Seq("-sourcepath", bd.getAbsolutePath,
           "-doc-source-url", s"$githubUrl/tree/$tagOrBranch€{FILE_PATH}.scala")
