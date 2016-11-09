@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCursor
 import com.mongodb.client.model.Filters
 import longevity.persistence.PState
 import longevity.subdomain.Persistent
+import longevity.subdomain.ptype.Prop
 import longevity.subdomain.query.AndOp
 import longevity.subdomain.query.Ascending
 import longevity.subdomain.query.ConditionalFilter
@@ -83,12 +84,18 @@ private[mongo] trait MongoQuery[P <: Persistent] {
     if (orderBy == QueryOrderBy.empty) None else {
       val document = new BsonDocument()
       orderBy.sortExprs.foreach { sortExpr =>
-        val propPath = sortExpr.prop.path
         val direction = sortExpr.direction match {
           case Ascending => 1
           case Descending => -1
         }
-        document.append(propPath, new BsonInt32(direction))
+        val prop = sortExpr.prop
+        def appendProp(prop: Prop[_, _]) = document.append(prop.path, new BsonInt32(direction))
+        realizedPType.partitionKey match {
+          case Some(key) if key.prop.prop == prop && !key.fullyPartitioned =>
+            key.props.map(_.prop).map(appendProp)
+          case _ =>
+            appendProp(prop)
+        }
       }
       Some(document)
     }
