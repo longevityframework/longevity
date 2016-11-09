@@ -7,8 +7,7 @@ object BuildSettings {
   val githubUrl = "https://github.com/longevityframework/longevity"
 
   val nonConsoleScalacOptions = Seq(
-    "-Xfatal-warnings")//,
-  //"-Ywarn-unused-import")
+    "-Xfatal-warnings")
 
   val otherScalacOptions = Seq(
     "-Xfuture",
