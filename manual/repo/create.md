@@ -30,9 +30,13 @@ and pass to [`Repo.update`](repo-update.html) and
 
 When you attempt to create a persistent object that has matching
 values to an existing entity for a key defined in the `PType`, the
-results are currently backend-specific. MongoDB on a single node will
-throw a longevity `DuplicateKeyValException`. On multiple nodes, it
-may or may not. On Cassandra, no such check is made. We
+results are currently backend-specific. For MongoDB, in the absence of
+a [partition key](../ptype/partition-keys.html), a
+`DuplicateKeyValException` will be thrown. If you have a partition
+key, a `DuplicateKeyValException` will only be thrown for the
+partition key, and only when the partition key is not hashed.
+
+On Cassandra, no check for duplicate key values is made. We
 [plan](https://www.pivotaltracker.com/story/show/107958610) to give
 the user finer control over this behavior in the future.
 

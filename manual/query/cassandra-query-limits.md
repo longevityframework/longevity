@@ -29,9 +29,13 @@ The `filterAll` query filter is not supported by Cassandra.
 
 Cassandra queries do not support offset clauses.
 
-Currently, Cassandra queries do not support order-by clauses. This
-will change when we implement [partition
-keys](../translation/keys.html).
+Cassandra queries only support `orderBy` clauses in very limited
+circumstances:
+
+- The entire partition of the partition key has to be in the query filter with `eqs`.
+- Only post partition properties of a partial partition key can be mentioned in the `orderBy` clause.
+- They must be included in order.
+- Either everything is ascending or everything is descending.
 
 {% assign prevTitle = "stream by query" %}
 {% assign prevLink = "stream-by.html" %}

@@ -39,6 +39,6 @@ feature like this.
 {% assign prevLink = "." %}
 {% assign upTitle = "translating persistents to the database" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "partition keys" %}
-{% assign nextLink = "keys.html" %}
+{% assign nextTitle = "mongodb translation" %}
+{% assign nextLink = "mongo.html" %}
 {% include navigate.html %}

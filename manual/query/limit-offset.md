@@ -22,18 +22,20 @@ have to occur in the right order, so variations such as these will not
 work:
 
 ```scala
-  filterAll offset pageNum * pageSize limit pageSize orderBy username
+// these combinations won't work:
 
-  filterAll orderBy username limit pageSize offset pageNum * pageSize
+filterAll offset pageNum * pageSize limit pageSize orderBy username
+
+filterAll orderBy username limit pageSize offset pageNum * pageSize
 ```
 
 The `offset` and `limit` clauses will affect performance. A large
 offset will see performance degrade, as the back end generally has to
 collect all the results with an offset less than the offset you
 supplied. The limit clause will only improve performace for unordered
-queries. Once we implement [partition keys](../translation/keys.html),
-it should also improve performance of ordered queries in some
-circumstances.
+queries, or when the back end is able to collect the ordered results
+in place. See the section of [ordered queries](order-by.html) for a
+description of when this is possible.
 
 {% assign prevTitle = "ordered queries" %}
 {% assign prevLink = "order-by.html" %}

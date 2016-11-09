@@ -12,9 +12,10 @@ your application in production.
 This treatment is broken down into the following sections:
 
 - [Persistent to JSON](json.html)
-- [Partition Keys](keys.html)
 - [MongoDB Translation](mongo.html)
+- [MongoDB Keys](mongo-keys.html)
 - [Cassandra Translation](cassandra.html)
+- [Cassandra Keys](cassandra-keys.html)
 
 {% assign prevTitle = "query spec" %}
 {% assign prevLink = "../testing/query-spec.html" %}

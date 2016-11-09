@@ -22,6 +22,7 @@ once, and then come back to it as a reference.
 - [The Persistent Type](ptype)
   - [Properties](ptype/properties.html)
   - [Keys](ptype/keys.html)
+  - [Partition Keys](ptype/partition-keys.html)
   - [Indexes](ptype/indexes.html)
   - [Prop Sets, Key Sets, and Index Sets](ptype/sets.html)
 - [Subtype Polymorphism](poly)
@@ -59,9 +60,10 @@ once, and then come back to it as a reference.
   - [QuerySpec](testing/query-spec.html)
 - [Translating Persistents to the Database](translation)
   - [Persistent to JSON](translation/json.html)
-  - [Partition Keys](translation/keys.html)
   - [MongoDB Translation](translation/mongo.html)
+  - [MongoDB Keys](translation/mongo-keys.html)
   - [Cassandra Translation](translation/cassandra.html)
+  - [Cassandra Keys](translation/cassandra-keys.html)
 - [Managing Logging](logging.html)
 
 {% assign upTitle = "longevity site" %}

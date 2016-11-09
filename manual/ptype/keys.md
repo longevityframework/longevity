@@ -30,8 +30,11 @@ object User extends PType[User] {
 }
 ```
 
-The key value uniquely identifies a persistent object. So in
-the above example, no two users can have the same username.
+Keys play two important roles in your domain model. First, they
+indicate that a key value should uniquely identify a persistent
+object. So in the above example, no two users can have the same
+username. Second, they indicate that looking up a persistent object by
+key value should be fast.
 
 We can declare multiple keys, and composite keys, just as
 easily. Here, for instance, we add an ill-advised composite key on a
@@ -45,7 +48,7 @@ import longevity.subdomain.PType
 case class Username(username: String)
 extends KeyVal[User, Username]
 
-case class FullName(first: String, last: String)
+case class FullName(last: String, first: String)
 extends KeyVal[User, FullName]
 
 case class User(
@@ -77,17 +80,11 @@ type - perhaps representing an entry in a log file - for which there
 are no natural keys. You may be satisfied to confine yourself to
 looking up collections of these objects via range searches.
 
-It's worth reiterating that the keys that we define in our domain
-model are not database keys, but design constraints that live within
-the domain model itself. That being said, they do map to database keys
-in predictable ways. See the chapter on [translating persistents to
-the database](../translation) for more information.
-
 {% assign prevTitle = "properties" %}
 {% assign prevLink = "properties.html" %}
 {% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "indexes" %}
-{% assign nextLink = "indexes.html" %}
+{% assign nextTitle = "partition keys" %}
+{% assign nextLink = "partition-keys.html" %}
 {% include navigate.html %}
 

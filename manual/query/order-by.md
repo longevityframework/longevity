@@ -80,12 +80,16 @@ postDate gt DateTime.now - 1.week orderBy (blogUri, postDate.desc)
 ```
 
 The `orderBy` clauses are fully processed by your back end, and
-consequently, will affect the performance of your queries. As of now,
-the back end will probably not be able to make use of your
-[keys](../ptype/keys.html) to collect your query results in the right
-order in place. This means that ordered queries that return a large
-number of results are going to be costly. This will change when we
-implement [partition keys](../translation/keys.html).
+consequently, will affect the performance of your queries. Only in
+limited circumstances will the back end will be able to collect
+your query results in the right order in place. This means that
+ordered queries that return a large number of results may be costly.
+
+For MongoDB, ordered results can be assembled in place only when the
+`orderBy` clause matches the partition key property. For Cassandra,
+any accepted `orderBy` clause will assemble the ordered results in
+place. However, the `orderBy` clauses accepted by Cassandra are
+limited, as [explained here](cassandra-query-limits.html).
 
 {% assign prevTitle = "query filters" %}
 {% assign prevLink = "filters.html" %}

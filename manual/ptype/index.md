@@ -27,6 +27,7 @@ discuss properties first.
 
 - [Properties](properties.html)
 - [Keys](keys.html)
+- [Partition Keys](partition-keys.html)
 - [Indexes](indexes.html)
 - [Prop Sets, Key Sets, and Index Sets](sets.html)
 

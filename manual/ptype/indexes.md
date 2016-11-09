@@ -46,8 +46,8 @@ not assure performance for a search on `firstName` alone.
 Indexes are used by `Repo.retrieveByQuery`, which is described in a [later
 section](../query/retrieve-by.html).
 
-{% assign prevTitle = "keys" %}
-{% assign prevLink = "keys.html" %}
+{% assign prevTitle = "partition keys" %}
+{% assign prevLink = "partition-keys.html" %}
 {% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "prop sets, key sets, and index sets" %}
