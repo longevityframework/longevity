@@ -5,10 +5,12 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.component._
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 class ComponentQuerySpec extends QuerySpec[WithComponent](
-  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)) {
+  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig))(
+  WithComponent.pTypeKey,
+  globalExecutionContext) {
 
   lazy val sample = randomP
 

@@ -8,10 +8,12 @@ import longevity.subdomain.query.Query
 import longevity.test.QuerySpec
 import partitionKeyWithComplexPartialPartition.PartitionKeyWithComplexPartialPartition
 import partitionKeyWithComplexPartialPartition.subdomain
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 class OrderByQuerySpec extends QuerySpec[PartitionKeyWithComplexPartialPartition](
-  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)) {
+  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig))(
+  PartitionKeyWithComplexPartialPartition.pTypeKey,
+  globalExecutionContext) {
 
   lazy val keyProp1 = longevityContext.testDataGenerator.generate[String]
   lazy val subKeyProp1 = longevityContext.testDataGenerator.generate[String]

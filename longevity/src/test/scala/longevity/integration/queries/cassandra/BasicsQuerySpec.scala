@@ -10,10 +10,12 @@ import longevity.integration.subdomain.basics._
 import longevity.subdomain.query.Query
 import longevity.subdomain.query.FilterAll
 import longevity.test.QuerySpec
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 class BasicsQuerySpec extends QuerySpec[Basics](
-  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)) {
+  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig))(
+  Basics.pTypeKey,
+  globalExecutionContext) {
 
   lazy val sample = randomP
 

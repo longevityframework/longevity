@@ -15,7 +15,7 @@ import org.bson.BsonNull
 import org.bson.BsonValue
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import scala.collection.JavaConversions.asScalaBuffer
+import scala.collection.JavaConverters.asScalaBufferConverter
 import scala.reflect.runtime.universe.typeOf
 
 /** translates [[http://mongodb.github.io/mongo-java-driver/3.2/bson/documents/
@@ -135,7 +135,7 @@ private[persistence] class BsonToSubdomainTranslator(
     protected def stageSetElements[A : TypeKey](
       input: WrappedInput)
     : Iterable[WrappedInput] = {
-      input.value.asArray.map(WrappedInput(_, false))
+      input.value.asArray.asScala.map(WrappedInput(_, false))
     }
 
     protected def unstageSetElements[A : TypeKey](
@@ -147,7 +147,7 @@ private[persistence] class BsonToSubdomainTranslator(
     protected def stageListElements[A : TypeKey](
       input: WrappedInput)
     : Iterable[TraverseInput[A]] = {
-      input.value.asArray.map(WrappedInput(_, false))
+      input.value.asArray.asScala.map(WrappedInput(_, false))
     }
 
     protected def unstageListElements[A : TypeKey](

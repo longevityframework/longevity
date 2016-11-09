@@ -13,6 +13,8 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.Promise
 import scala.reflect.runtime.universe.typeOf
+import scala.util.Failure
+import scala.util.Success
 
 /** asynchronously traverses a recursive data structure. the inputs and the
  * outputs of the traversal are abstract here, and specified by the implementing
@@ -161,8 +163,10 @@ trait Traversor {
         }
 
         val futureIterableTraverseInputB = stageUnion[A, B](union, input)
-        futureIterableTraverseInputB onSuccess { case i => completeIterableTraverseInput(i) }
-        futureIterableTraverseInputB onFailure { case e => promise.failure(e) }
+        futureIterableTraverseInputB onComplete {
+          case Success(i) => completeIterableTraverseInput(i)
+          case Failure(e) => promise.failure(e)
+        }
         promise.future
 
       }
@@ -232,8 +236,10 @@ trait Traversor {
     }
 
     val futureIterablePropInput = stageEmblemProps(emblem, input)
-    futureIterablePropInput onSuccess { case i => completeIterablePropInput(i) }
-    futureIterablePropInput onFailure { case e => promise.failure(e) }
+    futureIterablePropInput  onComplete {
+      case Success(i) => completeIterablePropInput(i)
+      case Failure(e) => promise.failure(e)
+    }
     promise.future
   }
 
@@ -309,8 +315,10 @@ trait Traversor {
     }
 
     val futureIterableTraverseInput = stageOptionValue[A](futureTraverseInputOption)
-    futureIterableTraverseInput onSuccess { case i => completeIterableTraverseInput(i) }
-    futureIterableTraverseInput onFailure { case e => promise.failure(e) }
+    futureIterableTraverseInput onComplete {
+      case Success(i) => completeIterableTraverseInput(i)
+      case Failure(e) => promise.failure(e)
+    }
     promise.future
   }
 
@@ -365,8 +373,10 @@ trait Traversor {
     }
 
     val futureIterableTraverseInput = stageSetElements[A](futureTraverseInputSet)
-    futureIterableTraverseInput onSuccess { case i => completeIterableTraverseInput(i) }
-    futureIterableTraverseInput onFailure { case e => promise.failure(e) }
+    futureIterableTraverseInput onComplete {
+      case Success(i) => completeIterableTraverseInput(i)
+      case Failure(e) => promise.failure(e)
+    }
     promise.future
   }
 
@@ -427,8 +437,10 @@ trait Traversor {
     }
 
     val futureIterableTraverseInput = stageListElements[A](futureTraverseInputList)
-    futureIterableTraverseInput onSuccess { case i => completeIterableTraverseInput(i) }
-    futureIterableTraverseInput onFailure { case e => promise.failure(e) }
+    futureIterableTraverseInput onComplete {
+      case Success(i) => completeIterableTraverseInput(i)
+      case Failure(e) => promise.failure(e)
+    }
     promise.future
   }
 

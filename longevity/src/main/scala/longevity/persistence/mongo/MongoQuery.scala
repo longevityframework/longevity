@@ -21,7 +21,7 @@ import org.bson.BsonInt32
 import org.bson.BsonString
 import org.bson.BsonValue
 import org.bson.conversions.Bson
-import scala.collection.JavaConversions.asScalaIterator
+import scala.collection.JavaConverters.asScalaIteratorConverter
 import scala.collection.immutable.VectorBuilder
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -48,7 +48,7 @@ private[mongo] trait MongoQuery[P <: Persistent] {
 
   def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
     logger.debug(s"calling MongoRepo.streamByQuery: $query")
-    val source = Source.fromIterator { () => queryCursor(query).map(bsonToState) }
+    val source = Source.fromIterator { () => queryCursor(query).asScala.map(bsonToState) }
     logger.debug(s"done calling MongoRepo.streamByQuery: $source")
     source
   }

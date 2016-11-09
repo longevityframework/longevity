@@ -28,7 +28,8 @@ import longevity.subdomain.query.QueryFilter
 import longevity.subdomain.query.QueryOrderBy
 import longevity.subdomain.query.RelationalFilter
 import longevity.subdomain.realized.RealizedPropComponent
-import scala.collection.JavaConversions.asScalaBuffer
+import scala.collection.JavaConverters.asScalaBufferConverter
+import scala.collection.JavaConverters.asScalaIteratorConverter
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -43,17 +44,16 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
       val resultSet = blocking {
         queryResultSet(query)
       }
-      val states = resultSet.all.toList.map(retrieveFromRow)
+      val states = resultSet.all.asScala.map(retrieveFromRow)
       logger.debug(s"done calling CassandraRepo.retrieveByQuery: $states")
       states
     }
 
   def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
     logger.debug(s"calling CassandraRepo.streamByQuery: $query")
-    def iterator(): Iterator[PState[P]] = {
+    val iterator: () => Iterator[PState[P]] = { () =>
       val resultSet = queryResultSet(query)
-      import scala.collection.JavaConversions.asScalaIterator
-      resultSet.iterator.map(retrieveFromRow)
+      resultSet.iterator.asScala.map(retrieveFromRow)
     }
     // no need (or option) to clean up resources once stream terminates, because
     // Cassandra result set is paged, and does not support any close() operation
