@@ -14,7 +14,7 @@ object Dependencies {
   val nScalaTimeDep:     ModuleID = "com.github.nscala-time"     %% "nscala-time"           % "2.14.0"
   val scalaLoggingDep:   ModuleID = "com.typesafe.scala-logging" %% "scala-logging"         % "3.5.0"
   val scalaReflectDep:   ModuleID = "org.scala-lang"             %  "scala-reflect"         % scalaVersionString
-  val scalaTestDep:      ModuleID = "org.scalatest"              %% "scalatest"             % "3.0.0"
+  val scalaTestDep:      ModuleID = "org.scalatest"              %% "scalatest"             % "2.2.6"
   val slf4jSimpleDep:    ModuleID = "org.slf4j"                  %  "slf4j-simple"          % "1.7.21"
   val typesafeConfigDep: ModuleID = "com.typesafe"               %  "config"                % "1.3.1"
 
