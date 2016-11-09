@@ -26,6 +26,8 @@ manual](manual). They include:
   - Polymorphic traits.
   - Controlled vocabularies.
 - Domain-level keys and indexes.
+- User control of [sharding](https://docs.mongodb.com/manual/sharding/#shard-keys)/[partitioning](https://docs.datastax.com/en/cql/3.1/cql/cql_reference/refCompositePk.html).
+
 - Pre-built repositories with simple, reactive APIs.
 - Configuration-level optimistic locking.
 - Query DSL for retrieval or streaming of multiple records.
@@ -44,5 +46,6 @@ label [longevity
 1.0](https://www.pivotaltracker.com/epic/show/1769462) (please follow
 the "add/view stories" link on the right side of the linked page):
 
-- User control of [sharding](https://docs.mongodb.com/manual/sharding/#shard-keys)/[partitioning](https://docs.datastax.com/en/cql/3.1/cql/cql_reference/refCompositePk.html).
+- Allow for the persistence of any types, including non-case classes
+  and classes from third-party libraries.
 - Eliminate boilerplate for building a subdomain with reflective techniques.
