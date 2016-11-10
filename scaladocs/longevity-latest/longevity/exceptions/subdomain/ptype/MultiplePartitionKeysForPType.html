@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>OrderByInQueryException - longevity 0.15.0 API - longevity.exceptions.persistence.cassandra.OrderByInQueryException</title>
-          <meta name="description" content="OrderByInQueryException - longevity 0.15.0 API - longevity.exceptions.persistence.cassandra.OrderByInQueryException" />
-          <meta name="keywords" content="OrderByInQueryException longevity 0.15.0 API longevity.exceptions.persistence.cassandra.OrderByInQueryException" />
+          <title>MultiplePartitionKeysForPType - longevity 0.16.0 API - longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType</title>
+          <meta name="description" content="MultiplePartitionKeysForPType - longevity 0.16.0 API - longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType" />
+          <meta name="keywords" content="MultiplePartitionKeysForPType longevity 0.16.0 API longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../index.html';
-            var hash = 'longevity.exceptions.persistence.cassandra.OrderByInQueryException';
+            var hash = 'longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -29,11 +29,11 @@
         <body class="type">
       <div id="definition">
         <img alt="Class" src="../../../../lib/class_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="longevity">longevity</a>.<a href="../../package.html" class="extype" name="longevity.exceptions">exceptions</a>.<a href="../package.html" class="extype" name="longevity.exceptions.persistence">persistence</a>.<a href="package.html" class="extype" name="longevity.exceptions.persistence.cassandra">cassandra</a></p>
-        <h1>OrderByInQueryException</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="longevity.exceptions.persistence.cassandra">package cassandra</a>
+        <p id="owner"><a href="../../../package.html" class="extype" name="longevity">longevity</a>.<a href="../../package.html" class="extype" name="longevity.exceptions">exceptions</a>.<a href="../package.html" class="extype" name="longevity.exceptions.subdomain">subdomain</a>.<a href="package.html" class="extype" name="longevity.exceptions.subdomain.ptype">ptype</a></p>
+        <h1>MultiplePartitionKeysForPType</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="longevity.exceptions.subdomain.ptype">package ptype</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -45,20 +45,18 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">OrderByInQueryException</span><span class="result"> extends <a href="CassandraPersistenceException.html" class="extype" name="longevity.exceptions.persistence.cassandra.CassandraPersistenceException">CassandraPersistenceException</a></span>
+        <span class="name">MultiplePartitionKeysForPType</span><span class="tparams">[<span name="P">P &lt;: <a href="../../../subdomain/Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a></span>]</span><span class="result"> extends <a href="PTypeException.html" class="extype" name="longevity.exceptions.subdomain.ptype.PTypeException">PTypeException</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception thrown when a Cassandra <a href="../../../persistence/Repo.html" class="extype" name="longevity.persistence.Repo">repository</a> encounters a query that contains an <code>order by</code> clause.</p><p>once we implement partition indexes, we will support order by clauses for
-Cassandra. but please be aware that Cassandra <code>ORDER BY</code> clauses are
-limited to a single column, and it must be the second column in a compound
-Cassandra <code>PRIMARY KEY</code>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.15.0/src/main/scala/longevity/exceptions/persistence/cassandra/OrderByInQueryException.scala" target="_blank">OrderByInQueryException.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p>https://www.pivotaltracker.com/story/show/127406611</p></span><span class="cmt"><p>https://docs.datastax.com/en/cql/3.1/cql/cql_reference/select_r.html</p></span></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception thrown when <a href="../../../subdomain/PType.html" class="extype" name="longevity.subdomain.PType">persistent type</a>
+contains more than one <a href="../../../subdomain/ptype/PartitionKey.html" class="extype" name="longevity.subdomain.ptype.PartitionKey">partition key</a>
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.16.0/src/main/scala/longevity/exceptions/subdomain/ptype/MultiplePartitionKeysForPType.scala" target="_blank">MultiplePartitionKeysForPType.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="CassandraPersistenceException.html" class="extype" name="longevity.exceptions.persistence.cassandra.CassandraPersistenceException">CassandraPersistenceException</a>, <a href="../../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>, <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span>, <a href="../PersistenceException.html" class="extype" name="longevity.exceptions.persistence.PersistenceException">PersistenceException</a>, <a href="../../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="PTypeException.html" class="extype" name="longevity.exceptions.subdomain.ptype.PTypeException">PTypeException</a>, <a href="../SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException">SubdomainException</a>, <a href="../../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>, <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span>, <a href="../../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 395.00 125.00" height="125pt" width="395pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 391,-121 391,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><!-- node2 --><g class="node implicit-outgoing class" id="graph1_2"><g id="a_implicit-outgoing class|graph1_2"><a xlink:title="longevity.exceptions.persistence.cassandra.OrderByInQueryException can be implicitly converted to RichException by the implicit method RichException in object scala.Predef"><polygon points="362.5,-49 255.5,-49 255.5,-24 362.5,-24 362.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-43.5" x="266" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="286.65" text-anchor="start">RichException</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.exceptions.persistence.cassandra.OrderByInQueryException (this class)" xlink:href="#inheritance-diagram"><polygon points="184,-49 24,-49 24,-24 184,-24 184,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-43.5" x="34" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="54.7515" text-anchor="start">OrderByInQueryException</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge implicit-outgoing" id="0_2"><g id="a_implicit-outgoing|0_2"><a xlink:title="OrderByInQueryException can be implicitly converted to RichException"><path d="M191.845,-36.5C208.714,-36.5 226.124,-36.5 242.196,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="242.374,-38.2501 247.374,-36.5 242.374,-34.7501 242.374,-38.2501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="219.75" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.exceptions.persistence.cassandra.CassandraPersistenceException" xlink:href="CassandraPersistenceException.html#inheritance-diagram"><polygon points="198,-117 10,-117 10,-92 198,-92 198,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-111.5" x="20" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="40.8501" text-anchor="start">CassandraPersistenceException</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="OrderByInQueryException is a subtype of CassandraPersistenceException"><path d="M104,-86.6005C104,-74.8849 104,-59.583 104,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="102.25,-86.7005 104,-91.7005 105.75,-86.7006 102.25,-86.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 427.00 125.00" height="125pt" width="427pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 423,-121 423,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust3"></g><g class="cluster" id="clust2"></g><!-- node2 --><g class="node implicit-outgoing class" id="graph1_2"><g id="a_implicit-outgoing class|graph1_2"><a xlink:title="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType can be implicitly converted to RichException by the implicit method RichException in object scala.Predef"><polygon points="131.5,-49 24.5,-49 24.5,-24 131.5,-24 131.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="55.6504" text-anchor="start">RichException</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType (this class)" xlink:href="#inheritance-diagram"><polygon points="395,-49 203,-49 203,-24 395,-24 395,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-43.5" x="213" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="233.636" text-anchor="start">MultiplePartitionKeysForPType[P]</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge implicit-outgoing" id="0_2"><g id="a_implicit-outgoing|0_2"><a xlink:title="MultiplePartitionKeysForPType[P] can be implicitly converted to RichException"><path d="M195.272,-36.5C178.11,-36.5 160.729,-36.5 144.794,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="144.71,-34.7501 139.709,-36.5 144.709,-38.2501 144.71,-34.7501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="167.25" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.exceptions.subdomain.ptype.PTypeException" xlink:href="PTypeException.html#inheritance-diagram"><polygon points="357,-117 241,-117 241,-92 357,-92 357,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-111.5" x="251" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="271.978" text-anchor="start">PTypeException</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="MultiplePartitionKeysForPType[P] is a subtype of PTypeException"><path d="M299,-86.6005C299,-74.8849 299,-59.583 299,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="297.25,-86.7005 299,-91.7005 300.75,-86.7006 297.25,-86.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -76,7 +74,7 @@ Cassandra <code>PRIMARY KEY</code>.
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException"><span>OrderByInQueryException</span></li><li class="in" name="longevity.exceptions.persistence.cassandra.CassandraPersistenceException"><span>CassandraPersistenceException</span></li><li class="in" name="longevity.exceptions.UnrecoverableLongevityException"><span>UnrecoverableLongevityException</span></li><li class="in" name="com.typesafe.scalalogging.LazyLogging"><span>LazyLogging</span></li><li class="in" name="longevity.exceptions.persistence.PersistenceException"><span>PersistenceException</span></li><li class="in" name="longevity.exceptions.LongevityException"><span>LongevityException</span></li><li class="in" name="java.lang.Exception"><span>Exception</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType"><span>MultiplePartitionKeysForPType</span></li><li class="in" name="longevity.exceptions.subdomain.ptype.PTypeException"><span>PTypeException</span></li><li class="in" name="longevity.exceptions.subdomain.SubdomainException"><span>SubdomainException</span></li><li class="in" name="longevity.exceptions.UnrecoverableLongevityException"><span>UnrecoverableLongevityException</span></li><li class="in" name="com.typesafe.scalalogging.LazyLogging"><span>LazyLogging</span></li><li class="in" name="longevity.exceptions.LongevityException"><span>LongevityException</span></li><li class="in" name="java.lang.Exception"><span>Exception</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -100,19 +98,19 @@ Cassandra <code>PRIMARY KEY</code>.
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="longevity.exceptions.persistence.cassandra.OrderByInQueryException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;():longevity.exceptions.persistence.cassandra.OrderByInQueryException"></a>
-      <a id="&lt;init&gt;:OrderByInQueryException"></a>
+              <ol><li name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType[P]"></a>
+      <a id="&lt;init&gt;:MultiplePartitionKeysForPType[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">OrderByInQueryException</span><span class="params">()</span>
+        <span class="name">MultiplePartitionKeysForPType</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@&lt;init&gt;():longevity.exceptions.persistence.cassandra.OrderByInQueryException" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType[P]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -138,7 +136,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -155,7 +153,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@##():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@##():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -172,34 +170,34 @@ Cassandra <code>PRIMARY KEY</code>.
         <span title="gt4s: $plus" class="implicit">+</span><span class="params">(<span name="other">other: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@+(other:String):String" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@+(other:String):String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
-      <a id="-&gt;[B](B):(OrderByInQueryException,B)"></a>
+      <a id="-&gt;[B](B):(MultiplePartitionKeysForPType[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>, <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -217,7 +215,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -234,7 +232,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">addSuppressed</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@addSuppressed(x$1:Throwable):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@addSuppressed(x$1:Throwable):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -251,7 +249,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -268,7 +266,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@clone():Object" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@clone():Object" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -281,86 +279,86 @@ Cassandra <code>PRIMARY KEY</code>.
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring((OrderByInQueryException)⇒Boolean,⇒Any):OrderByInQueryException"></a>
+      <a id="ensuring((MultiplePartitionKeysForPType[P])⇒Boolean,⇒Any):MultiplePartitionKeysForPType[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean):A"></a>
-      <a id="ensuring((OrderByInQueryException)⇒Boolean):OrderByInQueryException"></a>
+      <a id="ensuring((MultiplePartitionKeysForPType[P])⇒Boolean):MultiplePartitionKeysForPType[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring(Boolean,⇒Any):OrderByInQueryException"></a>
+      <a id="ensuring(Boolean,⇒Any):MultiplePartitionKeysForPType[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean):A"></a>
-      <a id="ensuring(Boolean):OrderByInQueryException"></a>
+      <a id="ensuring(Boolean):MultiplePartitionKeysForPType[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@ensuring(cond:Boolean):A" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@ensuring(cond:Boolean):A" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -375,7 +373,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -392,7 +390,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -409,7 +407,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">fillInStackTrace</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@fillInStackTrace():Throwable" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@fillInStackTrace():Throwable" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -426,7 +424,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -449,13 +447,13 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="implicit">formatted</span><span class="params">(<span name="fmtstr">fmtstr: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@formatted(fmtstr:String):String" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@formatted(fmtstr:String):String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -473,7 +471,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">getCause</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@getCause():Throwable" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@getCause():Throwable" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -490,7 +488,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -507,7 +505,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">getLocalizedMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@getLocalizedMessage():String" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@getLocalizedMessage():String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -524,7 +522,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">getMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@getMessage():String" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@getMessage():String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -541,7 +539,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">getStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@getStackTrace():Array[StackTraceElement]" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@getStackTrace():Array[StackTraceElement]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -558,7 +556,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">getSuppressed</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.Throwable">Throwable</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@getSuppressed():Array[Throwable]" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@getSuppressed():Array[Throwable]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -575,7 +573,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -592,7 +590,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">initCause</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@initCause(x$1:Throwable):Throwable" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@initCause(x$1:Throwable):Throwable" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -609,7 +607,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -626,7 +624,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">logger</span><span class="result">: <span class="extype" name="com.typesafe.scalalogging.Logger">Logger</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@logger:com.typesafe.scalalogging.Logger" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@logger:com.typesafe.scalalogging.Logger" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -643,7 +641,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -660,7 +658,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@notify():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -677,7 +675,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -694,7 +692,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintWriter">PrintWriter</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -711,7 +709,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintStream">PrintStream</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -728,7 +726,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">printStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@printStackTrace():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@printStackTrace():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -745,7 +743,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">setStackTrace</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -762,7 +760,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -779,7 +777,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@toString():String" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@toString():String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -796,7 +794,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@wait():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -819,7 +817,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -842,7 +840,7 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -855,23 +853,23 @@ Cassandra <code>PRIMARY KEY</code>.
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
-      <a id="→[B](B):(OrderByInQueryException,B)"></a>
+      <a id="→[B](B):(MultiplePartitionKeysForPType[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>, <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@→[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@→[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li></ol>
@@ -893,12 +891,12 @@ Cassandra <code>PRIMARY KEY</code>.
         <span class="implicit deprecated" title="Deprecated: (Since version 2.11.0) Use Throwable#getStackTrace">getStackTraceString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#longevity.exceptions.persistence.cassandra.OrderByInQueryException@getStackTraceString:String" title="Permalink" target="_top">
+      <a href="../../../../index.html#longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType@getStackTraceString:String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to
             <span class="extype" name="scala.Predef.RichException">RichException</span> performed by method RichException in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>RichException</dd><dt>Annotations</dt><dd>
@@ -910,14 +908,14 @@ Cassandra <code>PRIMARY KEY</code>.
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="longevity.exceptions.persistence.cassandra.CassandraPersistenceException">
-              <h3>Inherited from <a href="CassandraPersistenceException.html" class="extype" name="longevity.exceptions.persistence.cassandra.CassandraPersistenceException">CassandraPersistenceException</a></h3>
+        <div class="parent" name="longevity.exceptions.subdomain.ptype.PTypeException">
+              <h3>Inherited from <a href="PTypeException.html" class="extype" name="longevity.exceptions.subdomain.ptype.PTypeException">PTypeException</a></h3>
+            </div><div class="parent" name="longevity.exceptions.subdomain.SubdomainException">
+              <h3>Inherited from <a href="../SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException">SubdomainException</a></h3>
             </div><div class="parent" name="longevity.exceptions.UnrecoverableLongevityException">
               <h3>Inherited from <a href="../../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a></h3>
             </div><div class="parent" name="com.typesafe.scalalogging.LazyLogging">
               <h3>Inherited from <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span></h3>
-            </div><div class="parent" name="longevity.exceptions.persistence.PersistenceException">
-              <h3>Inherited from <a href="../PersistenceException.html" class="extype" name="longevity.exceptions.persistence.PersistenceException">PersistenceException</a></h3>
             </div><div class="parent" name="longevity.exceptions.LongevityException">
               <h3>Inherited from <a href="../../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a></h3>
             </div><div class="parent" name="java.lang.Exception">
@@ -933,23 +931,23 @@ Cassandra <code>PRIMARY KEY</code>.
             </div>
         <div class="conversion" name="scala.Predef.RichException">
               <h3>Inherited by implicit conversion RichException from
-                <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to <span class="extype" name="scala.Predef.RichException">RichException</span>
+                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to <span class="extype" name="scala.Predef.RichException">RichException</span>
               </h3>
             </div><div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>]
+                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>]
+                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>]
+                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a> to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.persistence.cassandra.OrderByInQueryException">OrderByInQueryException</a>]
+                <a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType">MultiplePartitionKeysForPType</a>[<span class="extype" name="longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType.P">P</span>]]
               </h3>
             </div>
         </div>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Key - longevity 0.15.0 API - longevity.subdomain.ptype.Key</title>
-          <meta name="description" content="Key - longevity 0.15.0 API - longevity.subdomain.ptype.Key" />
-          <meta name="keywords" content="Key longevity 0.15.0 API longevity.subdomain.ptype.Key" />
+          <title>Key - longevity 0.16.0 API - longevity.subdomain.ptype.Key</title>
+          <meta name="description" content="Key - longevity 0.16.0 API - longevity.subdomain.ptype.Key" />
+          <meta name="keywords" content="Key longevity 0.16.0 API longevity.subdomain.ptype.Key" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -42,22 +42,25 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">case class</span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">Key</span><span class="tparams">[<span name="P">P &lt;: <a href="../Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a></span>, <span name="V">V &lt;: <a href="../KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.subdomain.ptype.Key.P">P</span>, <span class="extype" name="longevity.subdomain.ptype.Key.V">V</span>]</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+        <span class="name">Key</span><span class="tparams">[<span name="P">P &lt;: <a href="../Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a></span>, <span name="V">V &lt;: <a href="../KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.subdomain.ptype.Key.P">P</span>, <span class="extype" name="longevity.subdomain.ptype.Key.V">V</span>]</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a natural key for this persistent type. wraps a <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">property</a> that,
 given specific a property value, will match the corresponding member of no
 more than one persistent object.
-</p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the key value type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.15.0/src/main/scala/longevity/subdomain/ptype/Key.scala" target="_blank">Key.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the key value type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.16.0/src/main/scala/longevity/subdomain/ptype/Key.scala" target="_blank">Key.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
-        </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="PartitionKey.html" class="extype" name="longevity.subdomain.ptype.PartitionKey">PartitionKey</a></div>
+          </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 199.50 118.00" height="118pt" width="200pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 195.5,-114 195.5,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.subdomain.ptype.Key (this class)" xlink:href="#inheritance-diagram"><polygon points="133,-49 49,-49 49,-24 133,-24 133,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="59" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="79.9131" text-anchor="start">Key[P, V]</text></a></g></g><!-- node1 --><g class="node trait" id="graph1_1"><g id="a_trait|graph1_1"><a xlink:title="scala.Product"><polygon points="78,-110 0,-110 0,-85 78,-85 78,-110" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-104.5" x="10" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="30.8794" text-anchor="start">Product</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="Key[P, V] is a subtype of Product"><path d="M52.6354,-81.0291C61.438,-71.0415 72.7055,-58.2572 80.7478,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="51.2667,-79.9353 49.2735,-84.8435 53.8924,-82.2495 51.2667,-79.9353" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="scala.Serializable"><polygon points="191.5,-110 96.5,-110 96.5,-85 191.5,-85 191.5,-110" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-104.5" x="107" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="127.764" text-anchor="start">Serializable</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge inheritance" id="graph1_2_0"><g id="a_inheritance|graph1_2_0"><a xlink:title="Key[P, V] is a subtype of Serializable"><path d="M130.102,-81.0291C121.13,-71.0415 109.646,-58.2572 101.449,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="128.886,-82.2933 133.529,-84.8435 131.489,-79.9544 128.886,-82.2933" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 140.00 155.00" height="155pt" width="140pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 151)" class="graph" id="graph0"><polygon points="-4,4 -4,-151 136,-151 136,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.subdomain.ptype.Key (this class)" xlink:href="#inheritance-diagram"><polygon points="108,-86 24,-86 24,-61 108,-61 108,-86" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-80.5" x="34" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="54.9131" text-anchor="start">Key[P, V]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.subdomain.ptype.PartitionKey" xlink:href="PartitionKey.html#inheritance-diagram"><polygon points="126,-25 6,-25 6,-0 126,-0 126,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="16" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="36.5708" text-anchor="start">PartitionKey[P, V]</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="PartitionKey[P, V] is a subtype of Key[P, V]"><path d="M66,-55.6874C66,-45.9173 66,-33.8534 66,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="64.2501,-55.8435 66,-60.8435 67.7501,-55.8435 64.2501,-55.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node class" id="graph1_2"><g id="a_class|graph1_2"><a xlink:title="scala.AnyRef"><polygon points="104,-147 28,-147 28,-122 104,-122 104,-147" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-141.5" x="38" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="58.7144" text-anchor="start">AnyRef</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge inheritance" id="graph1_2_0"><g id="a_inheritance|graph1_2_0"><a xlink:title="Key[P, V] is a subtype of AnyRef"><path d="M66,-116.687C66,-106.917 66,-94.8534 66,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="64.2501,-116.843 66,-121.843 67.7501,-116.844 64.2501,-116.843" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -75,7 +78,7 @@ more than one persistent object.
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.subdomain.ptype.Key"><span>Key</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.subdomain.ptype.Key"><span>Key</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -342,6 +345,23 @@ more than one persistent object.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="longevity.subdomain.ptype.Key#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(that:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="that">that: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.Key@equals(that:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.subdomain.ptype.Key">Key</a> → AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -406,6 +426,23 @@ more than one persistent object.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="longevity.subdomain.ptype.Key#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.ptype.Key@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.subdomain.ptype.Key">Key</a> → AnyRef → Any</dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -624,15 +661,7 @@ more than one persistent object.
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.Serializable">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></h3>
-            </div><div class="parent" name="java.io.Serializable">
-              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
-            </div><div class="parent" name="scala.Product">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a></h3>
-            </div><div class="parent" name="scala.Equals">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Equals" class="extype" target="_top">Equals</a></h3>
-            </div><div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
