@@ -2,6 +2,13 @@
 
 ## [0,16-SNAPSHOT] - Partition Keys
 
+- 2016.11.09 - Uniformly convert `DateTime` to UTC time zone. This
+  seems like the best approach right now, as both Cassandra and
+  MongoDB back ends support timestamps without time zone
+  information. It also resolves issues with sorting dates.
+- 2016.11.09 - Implement partition keys. Please see the [user
+  manual](http://longevityframework.github.io/longevity/manual/ptype/partition-keys.html)
+  for details.
 - 2016.10.27 - Replace Casbah with Java driver in MongoDB back end. We
   are now using the [vanilla Java driver for
   Mongo](http://mongodb.github.io/mongo-java-driver/3.2/driver/). This
