@@ -30,17 +30,17 @@ object ReleaseStage3 extends App {
   val longevityDir = new File("/Users/jsmscs/ws/lf/longevity")
   val projectDir =  new File("/Users/jsmscs/ws/lf/longevity/project")
 
+  // make sure the oldVersion matches whats in the build
+  run(Process(
+    Seq("grep", "-q", s"""version := "$oldVersion"""", "BuildSettings.scala"),
+    projectDir))
+
   // make sure no outstanding changes
   run("git diff --exit-code")
   run("git diff --cached --exit-code")
 
   // make sure the build is clean
   run(Process("sbt clean test doc", longevityDir))
-
-  // make sure the oldVersion matches whats in the build
-  run(Process(
-    Seq("grep", "-q", s"""version := "$oldVersion"""", "BuildSettings.scala"),
-    projectDir))
 
   // update to newVersion in the build
   run(Process(
