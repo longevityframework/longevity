@@ -62,8 +62,9 @@ with partition keys and MongoDB:
 
 - MongoDB shard keys cannot exceed 512 bytes, so do not use a
   partition key if the key values might exceed this length.
-- Avoid monotonically changing keys such as counters with non-hashed keys.
-- Hashed partition keys will perform worse with range operations.
+- Avoid monotonically changing key values such as counters with non-hashed keys.
+- Hashed partition keys will perform worse with range operations and
+  ordered queries.
 - Hashed partition keys will not enforce uniqueness.
 - Using any kind of partition key will prevent MongoDB from enforcing
   uniqueness for any other key.
