@@ -17,7 +17,7 @@ package object simpleConstraint {
     ETypePool(EType[Email]))
 
   val emailGenerator = CustomGenerator.simpleGenerator[Email] { generator =>
-    Email(s"{generator.generate[String]}@{generate.generate[String]")
+    Email(s"${generator.generate[String]}@${generator.generate[String]}")
   }
   val generators = CustomGeneratorPool.empty + emailGenerator
 
