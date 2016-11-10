@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0,16-SNAPSHOT] - Partition Keys
+## [0.16.0] - 2016.11.10 - Partition Keys
 
 - 2016.11.09 - Uniformly convert `DateTime` to UTC time zone. This
   seems like the best approach right now, as both Cassandra and
