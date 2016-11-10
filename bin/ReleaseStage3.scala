@@ -39,7 +39,7 @@ object ReleaseStage3 extends App {
 
   // make sure the oldVersion matches whats in the build
   run(Process(
-    Seq("grep", "-q", s"""version := "$oldVersion"""", "LongevityBuild.scala"),
+    Seq("grep", "-q", s"""version := "$oldVersion"""", "BuildSettings.scala"),
     projectDir))
 
   // update to newVersion in the build
@@ -47,11 +47,11 @@ object ReleaseStage3 extends App {
     Seq(
       "sed", "-i", "",
       "-e", s"""s/version := "$oldVersion"/version := "$newVersion"/""",
-      "LongevityBuild.scala"),
+      "BuildSettings.scala"),
     projectDir))
 
   // commit and push the new version of the build
-  run(Process("git stage LongevityBuild.scala", projectDir))
+  run(Process("git stage BuildSettings.scala", projectDir))
   run(Process(Seq("git", "commit", "-m", s"up build version to $newVersion"), longevityDir))
   run(Process("git push", longevityDir))
 
