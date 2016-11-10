@@ -48,4 +48,5 @@ the "add/view stories" link on the right side of the linked page):
 
 - Allow for the persistence of any types, including non-case classes
   and classes from third-party libraries.
+- Eliminate the need to manually enumerate properties with Scala macros.
 - Eliminate boilerplate for building a subdomain with reflective techniques.
