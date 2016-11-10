@@ -9,7 +9,6 @@ import emblem.TypeKey
 import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
 import emblem.exceptions.CouldNotTraverseException
-import emblem.jsonUtil.dateTimeFormatter
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
@@ -165,7 +164,7 @@ with LazyLogging {
     case _ => value.asInstanceOf[AnyRef]
   }
 
-  protected def cassandraDate(d: DateTime): String = dateTimeFormatter.print(d)
+  protected def cassandraDate(d: DateTime) = new java.util.Date(d.getMillis)
 
   protected def retrieveFromRow(row: Row): PState[P] = {
     val id = if (!hasPartitionKey) {
@@ -272,13 +271,13 @@ private[persistence] object CassandraRepo {
   }
 
   private[cassandra] val basicToCassandraType = Map[TypeKey[_], String](
-    typeKey[Boolean] -> "boolean",
-    typeKey[Char] -> "text",
-    typeKey[DateTime] -> "text",
-    typeKey[Double] -> "double",
-    typeKey[Float] -> "float",
-    typeKey[Int] -> "int",
-    typeKey[Long] -> "bigint",
-    typeKey[String] -> "text")
+    typeKey[Boolean]  -> "boolean",
+    typeKey[Char]     -> "text",
+    typeKey[DateTime] -> "timestamp",
+    typeKey[Double]   -> "double",
+    typeKey[Float]    -> "float",
+    typeKey[Int]      -> "int",
+    typeKey[Long]     -> "bigint",
+    typeKey[String]   -> "text")
 
 }

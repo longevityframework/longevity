@@ -1,8 +1,9 @@
 package emblem.emblematic.traversors.sync
 
-import com.github.nscala_time.time.Imports._
 import emblem.jsonUtil.dateTimeFormatter
 import emblem.testData.geometry
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone.UTC
 import org.json4s.JsonAST._
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -24,7 +25,7 @@ class EmblematicToJsonTranslatorSpec extends FlatSpec with GivenWhenThen with Ma
     translator.translate(true) should equal (JBool(true))
     translator.translate(false) should equal (JBool(false))
     translator.translate('q') should equal (JString("q"))
-    val dt = DateTime.now
+    val dt = DateTime.now.withZoneRetainFields(UTC)
     translator.translate(dt) should equal (JString(dateTimeFormatter.print(dt)))
     translator.translate(0.7d) should equal (JDouble(0.7d))
     translator.translate(0.7f) should equal (JDouble(0.7f))

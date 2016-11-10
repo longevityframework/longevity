@@ -7,6 +7,7 @@ import emblem.emblematic.Union
 import emblem.jsonUtil.dateTimeFormatter
 import emblem.typeKey
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone.UTC
 import org.json4s.JsonAST.JArray
 import org.json4s.JsonAST.JBool
 import org.json4s.JsonAST.JDouble
@@ -36,7 +37,7 @@ class EmblematicToJsonTranslator extends Traversor {
   override protected def traverseChar(input: WrappedInput[Char]): JValue = JString(input.value.toString)
 
   override protected def traverseDateTime(input: WrappedInput[DateTime]): JValue =
-    JString(dateTimeFormatter.print(input.value))
+    JString(dateTimeFormatter.print(input.value.withZoneRetainFields(UTC)))
 
   override protected def traverseDouble(input: WrappedInput[Double]): JValue = JDouble(input.value)
 
