@@ -42,16 +42,6 @@ ScalaTest is an optional dependency in longevity, so you'll need to
 declare a dependency on ScalaTest in your own project to use the repo
 crud specs.
 
-<div class = "blue-side-bar">
-
-Please note that due to a regression in ScalaTest 3.0.0, test suites
-defined as shown here will still run, but won't produce the expected
-output. We are looking into a fix, but for now, if you are using
-<code>LongevityContext.repoCrudSpec</code>, you'll probably want to
-use ScalaTest version 2.2.6.
-
-</div>
-
 You need to provide an execution context when calling
 `LongevityContext.repoCrudSpec`. The easiest way to do this is to
 include `import scala.concurrent.ExecutionContext.Implicits.global` at
