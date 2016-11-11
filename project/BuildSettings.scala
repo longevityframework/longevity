@@ -22,11 +22,13 @@ object BuildSettings {
     "-language:implicitConversions",
     "-unchecked")
 
-  val publishSettings = Defaults.coreDefaultSettings ++ Seq(
+  val commonSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
     version := "0.16.0",
     scalaVersion := Dependencies.scalaVersionString,
+    crossScalaVersions := Seq("2.11.8", "2.12.0"))
 
+  val publishSettings = commonSettings ++ Seq(
     publishMavenStyle := true,
     pomIncludeRepository := { _ => false },
     publishTo := {
@@ -90,14 +92,13 @@ object BuildSettings {
     // test-only longevity.integration.subdomain.allAttributes.AllAttributesSpec -- -n Create
 
     // common dependencies
-    libraryDependencies += Dependencies.scalaReflectDep,
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     libraryDependencies += Dependencies.nScalaTimeDep,
     libraryDependencies += Dependencies.scalaTestDep % Test
-    
+
   )
 
-  val noPublishSettings = Defaults.coreDefaultSettings ++ Seq(
-    scalaVersion := Dependencies.scalaVersionString,
+  val noPublishSettings = commonSettings ++ Seq(
     packagedArtifacts := Map.empty,
     publishLocal := (),
     publishSigned := (),
