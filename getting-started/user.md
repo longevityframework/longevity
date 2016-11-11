@@ -48,7 +48,7 @@ object User extends PType[User] {
     val email = prop[Email]("email")
   }
   object keys {
-    val username = key(props.username)
+    val username = partitionKey(props.username)
     val email = key(props.email)
   }
 }
@@ -59,6 +59,12 @@ We first specify two properties, `User.props.username` and
 instances. Then we define two keys: `User.keys.username` and
 `User.keys.email`, that specify that these two member are to be
 unique: no two users should have the same username or email.
+
+You can have as many keys as you like, but only one of the keys - in
+our case, `username` - can be a partition key. Partition keys perform
+better than other keys when you are using a distributed database,
+since the database can determine the node that holds the data by
+examining the key.
 
 The `User` companion object extends `PType`, which is a type class for
 a `Persistent`. Every `PType` defines its `props`, `keys`, and
