@@ -5,12 +5,18 @@ layout: page
 
 ## Preliminarys - Scala version
 
-We're currently only publishing artifacts for Scala 2.11.x, so be sure
-your project is using a 2.11 version of Scala. For example, your
-`build.sbt` file may have:
+We currently publish artifacts for Scala versions 2.11 and 2.12, so be
+sure your project is using a compatible Scala version. For example,
+your `build.sbt` file may have:
 
 ```scala
 scalaVersion := "2.11.8"
+```
+
+Or:
+
+```scala
+scalaVersion := "2.12.0"
 ```
 
 ## Using Sonatype Artifacts
@@ -20,16 +26,16 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
 
-libraryDependencies += "org.longevityframework" %% "longevity" % "0.16.0"
+libraryDependencies += "org.longevityframework" %% "longevity" % "0.16.1"
 ```
 
 Include one of the following lines to bring in the library
 dependencies for the back end of your choice:
 
 ```scala
-libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.16.0"
+libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.16.1"
 
-libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.16.0"
+libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.16.1"
 ```
 
 ## Building the Artifacts Yourself
