@@ -8,9 +8,8 @@ import org.json4s.JsonAST.JValue
 /** translates from your subdomain objects into JSON.
  * translates objects into [[https://github.com/json4s/json4s json4s AST]].
  * 
- * [[longevity.subdomain.Embeddable Embeddables]] with a single
- * member will be inlined in the JSON. Does not inline
- * [[longevity.subdomain.PolyEType PolyETypes]].
+ * persistent components with a single member will be inlined in the JSON. does
+ * not inline [[longevity.subdomain.PolyEType PolyETypes]].
  */
 class JsonMarshaller(subdomain: Subdomain) {
 

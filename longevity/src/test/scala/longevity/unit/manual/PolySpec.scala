@@ -9,15 +9,13 @@ object PolySpec {
   // used in http://longevityframework.github.io/longevity/manual/poly/index.html
   object poly {
 
-    import longevity.subdomain.Embeddable
 
-    case class Email(email: String) extends Embeddable
-    case class PhoneNumber(phoneNumber: String) extends Embeddable
+    case class Email(email: String)
+    case class PhoneNumber(phoneNumber: String)
 
-    import longevity.subdomain.Embeddable
     import org.joda.time.DateTime
 
-    trait UserVerification extends Embeddable {
+    trait UserVerification {
       val verificationDate: DateTime
     }
 
@@ -75,19 +73,17 @@ object PolySpec {
   // used in http://longevityframework.github.io/longevity/manual/poly/persistent.html
   object persistent1 {
 
-    import longevity.subdomain.Embeddable
 
-    case class Email(email: String) extends Embeddable
-    case class Markdown(markdown: String) extends Embeddable
-    case class Uri(uri: String) extends Embeddable
+    case class Email(email: String)
+    case class Markdown(markdown: String)
+    case class Uri(uri: String)
 
-    import longevity.subdomain.Embeddable
 
     case class UserProfile(
       tagline: String,
       imageUri: Uri,
       description: Markdown)
-    extends Embeddable
+   
 
     import longevity.subdomain.Persistent
     import longevity.subdomain.DerivedPType
@@ -150,19 +146,17 @@ object PolySpec {
   // used in http://longevityframework.github.io/longevity/manual/poly/persistent.html
   object persistent2 {
 
-    import longevity.subdomain.Embeddable
 
-    case class Email(email: String) extends Embeddable
-    case class Markdown(markdown: String) extends Embeddable
-    case class Uri(uri: String) extends Embeddable
+    case class Email(email: String)
+    case class Markdown(markdown: String)
+    case class Uri(uri: String)
 
-    import longevity.subdomain.Embeddable
 
     case class UserProfile(
       tagline: String,
       imageUri: Uri,
       description: Markdown)
-    extends Embeddable
+   
 
     import longevity.subdomain.KeyVal
     import longevity.subdomain.Persistent
@@ -248,9 +242,8 @@ object PolySpec {
   // used in http://longevityframework.github.io/longevity/manual/poly/cv.html
   object cv2 {
 
-    import longevity.subdomain.Embeddable
 
-    sealed trait AccountStatus extends Embeddable
+    sealed trait AccountStatus
     case object Active extends AccountStatus
     case object Suspended extends AccountStatus
     case object Cancelled extends AccountStatus

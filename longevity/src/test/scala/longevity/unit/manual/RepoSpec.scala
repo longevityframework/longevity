@@ -12,17 +12,15 @@ object RepoSpec {
   import org.joda.time.DateTime
   import longevity.subdomain.KeyVal
   import longevity.subdomain.Subdomain
-  import longevity.subdomain.Embeddable
   import longevity.subdomain.EType
   import longevity.subdomain.ETypePool
-  import longevity.subdomain.Embeddable
   import longevity.subdomain.EType
   import longevity.subdomain.Persistent
   import longevity.subdomain.PTypePool
   import longevity.subdomain.PType
 
-  case class Markdown(markdown: String) extends Embeddable
-  case class Uri(uri: String) extends Embeddable
+  case class Markdown(markdown: String)
+  case class Uri(uri: String)
 
   import longevity.subdomain.KeyVal
 
@@ -54,7 +52,7 @@ object RepoSpec {
     tagline: String,
     imageUri: Uri,
     description: Markdown)
-  extends Embeddable
+ 
 
   case class BlogUri(uri: Uri)
   extends KeyVal[Blog, BlogUri]

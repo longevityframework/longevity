@@ -8,17 +8,18 @@ import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
 import emblem.typeBound.WideningTypeBoundFunction
+import emblem.typeBound.TypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.realized.RealizedPType
 
 /** a specification of a subdomain of a project's domain. contains a pool of
  * all the [[PType persistent types]] in the subdomain, as well as
- * all the [[EType embeddable types]].
+ * all the [[EType component types]].
  *
  * @param name the name of the subdomain
  * @param pTypePool a complete set of the persistent types in the subdomain.
  * defaults to empty
- * @param eTypePool a complete set of the entity types within the
+ * @param eTypePool a complete set of the component types within the
  * subdomain. defaults to empty
  */
 class Subdomain(
@@ -62,9 +63,9 @@ class Subdomain(
 
   private def entityEmblems = {
     val eTypesWithEmblems = eTypePool.filterValues(!_.isInstanceOf[PolyEType[_]])
-    eTypesWithEmblems.mapValuesWiden[Any, Emblem] {
-      new WideningTypeBoundFunction[Embeddable, Any, EType, Emblem] {
-        def apply[TypeParam <: Embeddable](eType: EType[TypeParam]): Emblem[TypeParam] =
+    eTypesWithEmblems.mapValues[Emblem] {
+      new TypeBoundFunction[Any, EType, Emblem] {
+        def apply[TypeParam](eType: EType[TypeParam]): Emblem[TypeParam] =
           Emblem(eType.eTypeKey)
       }
     }
@@ -83,19 +84,18 @@ class Subdomain(
   private def entityUnions = {
     val polyTypes = eTypePool.filterValues(_.isInstanceOf[PolyEType[_]])
 
-    type DerivedFrom[E <: Embeddable] = DerivedEType[E, Poly] forSome { type Poly >: E <: Embeddable }
+    type DerivedFrom[E] = DerivedEType[E, Poly] forSome { type Poly >: E }
 
     val derivedTypes =
       eTypePool
         .filterValues(_.isInstanceOf[DerivedFrom[_]])
-        .asInstanceOf[TypeKeyMap[Embeddable, DerivedFrom]]
+        .asInstanceOf[TypeKeyMap[Any, DerivedFrom]]
 
-    type DerivedList[E <: Embeddable] = List[Emblem[_ <: E]]
-    val baseToDerivedsMap: TypeKeyMap[Embeddable, DerivedList] =
-      derivedTypes.values.foldLeft(TypeKeyMap[Embeddable, DerivedList]) { (map, derivedType) =>
+    type DerivedList[E] = List[Emblem[_ <: E]]
+    val baseToDerivedsMap: TypeKeyMap[Any, DerivedList] =
+      derivedTypes.values.foldLeft(TypeKeyMap[Any, DerivedList]) { (map, derivedType) =>
 
-        def fromDerivedEType[E <: Embeddable, Poly >: E <: Embeddable](derivedType: DerivedEType[E, Poly])
-        : TypeKeyMap[Embeddable, DerivedList] = {
+        def fromDerivedEType[E, Poly >: E](derivedType: DerivedEType[E, Poly]): TypeKeyMap[Any, DerivedList] = {
           implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyTypeKey
           if (!polyTypes.contains[Poly]) {
             throw new DerivedHasNoPolyException(polyTypeKey.name, isPType = false)
@@ -109,9 +109,9 @@ class Subdomain(
         fromDerivedEType(derivedType)
       }
 
-    polyTypes.mapValuesWiden[Any, Union] {
-      new WideningTypeBoundFunction[Embeddable, Any, EType, Union] {
-        def apply[TypeParam <: Embeddable](eType: EType[TypeParam]): Union[TypeParam] = {
+    polyTypes.mapValues[Union] {
+      new TypeBoundFunction[Any, EType, Union] {
+        def apply[TypeParam](eType: EType[TypeParam]): Union[TypeParam] = {
           val constituents = baseToDerivedsMap(eType.eTypeKey)
           Union[TypeParam](constituents: _*)(eType.eTypeKey)
         }
@@ -165,8 +165,12 @@ object Subdomain {
   /** constructs a new subdomain
    * 
    * @param name the name of the subdomain
-   * @param pTypePool a complete set of the persistent types in the subdomain. defaults to empty
-   * @param eTypePool a complete set of the embeddable types within the subdomain. defaults to empty
+   *
+   * @param pTypePool a complete set of the persistent types in the subdomain.
+   * defaults to empty
+   *
+   * @param eTypePool a complete set of the component types within the
+   * subdomain. defaults to empty
    *
    * @throws longevity.exceptions.subdomain.NoSuchPropPathException if a
    * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's

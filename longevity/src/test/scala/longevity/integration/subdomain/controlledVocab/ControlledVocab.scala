@@ -1,8 +1,7 @@
 package longevity.integration.subdomain.controlledVocab
 
-import longevity.subdomain.Embeddable
 
-sealed trait ControlledVocab extends Embeddable
+sealed trait ControlledVocab
 
 case class VocabTerm1() extends ControlledVocab
 

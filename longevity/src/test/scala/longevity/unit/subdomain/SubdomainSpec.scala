@@ -13,7 +13,6 @@ import longevity.subdomain.DerivedEType
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.EType
 import longevity.subdomain.ETypePool
-import longevity.subdomain.Embeddable
 import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
 import longevity.subdomain.PTypePool
@@ -61,7 +60,7 @@ object SubdomainSpec {
       object keys {
       }
     }
-    case class B(id: String) extends Embeddable
+    case class B(id: String)
     def subdomain = Subdomain("noSuchPropPathInComponent", PTypePool(A), ETypePool(EType[B]))
   }
 
@@ -124,7 +123,7 @@ object SubdomainSpec {
       }
     }
 
-    trait B extends Embeddable { val id: String }
+    trait B { val id: String }
 
     case class C(id: String) extends B
 
@@ -143,7 +142,7 @@ object SubdomainSpec {
       object keys {
       }
     }
-    case class B(id: String) extends Embeddable
+    case class B(id: String)
     def subdomain = Subdomain("propPathWithInternalList", PTypePool(A), ETypePool(EType[B]))
   }
 
@@ -156,7 +155,7 @@ object SubdomainSpec {
       object keys {
       }
     }
-    case class B(id: String) extends Embeddable
+    case class B(id: String)
     def subdomain = Subdomain("propPathWithInternalOption", PTypePool(A), ETypePool(EType[B]))
   }
 
@@ -169,7 +168,7 @@ object SubdomainSpec {
       object keys {
       }
     }
-    case class B(id: String) extends Embeddable
+    case class B(id: String)
     def subdomain = Subdomain("propPathWithInternalSet", PTypePool(A), ETypePool(EType[B]))
   }
 
@@ -183,7 +182,7 @@ object SubdomainSpec {
       }
     }
 
-    trait B extends Embeddable { val id: String }
+    trait B { val id: String }
     case class C(id: String) extends B
 
     def subdomain = Subdomain(
@@ -352,13 +351,13 @@ object SubdomainSpec {
   }
 
   object derivedETypeHasNoPoly {
-    trait Poly extends Embeddable { val id: String }
+    trait Poly { val id: String }
     case class Derived(id: String) extends Poly
     def subdomain = Subdomain("derivedETypeHasNoPoly", PTypePool(), ETypePool(DerivedEType[Derived, Poly]))
   }
 
   object duplicateETypes {
-    case class A(id: String) extends Embeddable
+    case class A(id: String)
     def subdomain = Subdomain("duplicateETypes", PTypePool(), ETypePool(EType[A], EType[A]))
   }
 

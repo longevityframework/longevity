@@ -8,9 +8,9 @@ import org.json4s.JsonAST.JValue
 /** translates from JSON into objects from your subdomain.
  * translates from [[https://github.com/json4s/json4s json4s AST]].
  * 
- * expects JSON for [[longevity.subdomain.Embeddable Embeddables]]
- * with a single member to be inlined in the JSON. expects
- * [[longevity.subdomain.PolyEType PolyETypes]] to not be inlined.
+ * expects JSON for persistent components with a single member to be inlined in
+ * the JSON. expects [[longevity.subdomain.PolyEType PolyETypes]] to not be
+ * inlined.
  */
 class JsonUnmarshaller(subdomain: Subdomain) {
 

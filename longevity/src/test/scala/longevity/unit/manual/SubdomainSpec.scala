@@ -111,14 +111,13 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/index.html
   object embeddables1 {
 
-    import longevity.subdomain.Embeddable
     import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class FullName(
       firstName: String,
       lastName: String)
-    extends Embeddable
+   
 
     case class User(
       username: String,
@@ -148,21 +147,20 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/index.html
   object embeddables2 {
 
-    import longevity.subdomain.Embeddable
     import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
-    case class Email(email: String) extends Embeddable
+    case class Email(email: String)
 
     case class EmailPreferences(
       primaryEmail: Email,
       emails: Set[Email])
-    extends Embeddable
+   
 
     case class Address(
       street: String,
       city: String)
-    extends Embeddable
+   
 
     case class User(
       username: String,
@@ -192,13 +190,12 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/entities.html
   object entities {
 
-    import longevity.subdomain.Embeddable
 
     case class UserProfile(
       tagline: String,
       imageUri: String,
       description: String)
-    extends Embeddable
+   
 
     import longevity.subdomain.Persistent
     import longevity.subdomain.PType
@@ -229,22 +226,21 @@ object SubdomainSpec {
 
     import longevity.subdomain.Subdomain
     import longevity.subdomain.ETypePool
-    import longevity.subdomain.Embeddable
     import longevity.subdomain.EType
     import longevity.subdomain.Persistent
     import longevity.subdomain.PTypePool
     import longevity.subdomain.PType
 
-    case class Email(email: String) extends Embeddable
-    case class StateCode(stateCode: String) extends Embeddable
-    case class ZipCode(zipCode: String) extends Embeddable
+    case class Email(email: String)
+    case class StateCode(stateCode: String)
+    case class ZipCode(zipCode: String)
 
     case class Address(
       street: String,
       city: String,
       state: StateCode,
       zip: ZipCode)
-    extends Embeddable
+   
 
     case class User(
       username: String,

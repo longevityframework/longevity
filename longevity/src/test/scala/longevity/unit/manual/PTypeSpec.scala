@@ -13,13 +13,11 @@ object PTypeSpec {
   // used in http://longevityframework.github.io/longevity/manual/ptype/properties.html
   object properties {
 
-    import longevity.subdomain.Embeddable
 
-    case class Email(email: String) extends Embeddable
-    case class Markdown(markdown: String) extends Embeddable
-    case class Uri(uri: String) extends Embeddable
+    case class Email(email: String)
+    case class Markdown(markdown: String)
+    case class Uri(uri: String)
 
-    import longevity.subdomain.Embeddable
     import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
@@ -27,7 +25,7 @@ object PTypeSpec {
       tagline: String,
       imageUri: Uri,
       description: Markdown)
-    extends Embeddable
+   
 
     case class User(
       username: String,

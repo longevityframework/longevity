@@ -13,7 +13,6 @@ import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.UnsupportedPropTypeException
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Embeddable
 import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 
@@ -100,7 +99,7 @@ private[subdomain] object RealizedProp {
       def validateLeafEmblemProp(leafEmblemProp: ReflectiveProp[_, _]): Unit = {
         val key = leafEmblemProp.typeKey
         def isBasic = isBasicType(key)
-        def isNonPolyEmbeddable = key <:< typeKey[Embeddable] && ! (emblematic.unions.contains(key))
+        def isNonPolyEmbeddable = emblematic.emblems.contains(key)
         def isKeyVal = key <:< keyValTypeKey
         if (! (isBasic || isNonPolyEmbeddable || isKeyVal)) {
           throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, key)

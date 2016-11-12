@@ -3,10 +3,10 @@ package longevity.subdomain
 import emblem.TypeKey
 import emblem.typeKey
 
-/** a type class for an [[Embeddable]] */
-abstract class EType[E <: Embeddable : TypeKey] {
+/** a type class for a persistent component */
+abstract class EType[E : TypeKey] {
 
-  /** a `TypeKey` for the domain entity
+  /** a `TypeKey` for the component
    * @see `emblem.TypeKey`
    */
   val eTypeKey: TypeKey[E] = typeKey[E]
@@ -17,7 +17,6 @@ abstract class EType[E <: Embeddable : TypeKey] {
 object EType {
 
   /** create and return an `EType` for type `E` */
-  def apply[E <: Embeddable : TypeKey] = new EType[E] {
-  }
+  def apply[E : TypeKey] = new EType[E] {}
 
 }

@@ -3,19 +3,18 @@ package longevity.subdomain
 import emblem.TypeKeyMap
 import longevity.exceptions.subdomain.DuplicateETypesException
 
-/** contains a factory methods for creating an [[ETypePool embeddable type
- * pool]]
+/** contains a factory methods for creating a [[ETypePool component type pool]]
  */
 object ETypePool {
 
-  /** Collects a sequence of [[EType embeddable types]] into a [[ETypePool]].
-   * @param embeddableTypes the sequence of embeddable types stored in the pool
+  /** Collects a sequence of [[EType component types]] into a [[ETypePool]].
+   * @param eTypes the sequence of component types stored in the pool
    * @throws longevity.exceptions.subdomain.DuplicateETypesException when two
-   * `ETypes` have the same `Embeddable` type
+   * `ETypes` refer to the same component type
    */
-  @throws[DuplicateETypesException]("when two ETypes have the same Embeddable type")
-  def apply(eTypes: EType[_ <: Embeddable]*): ETypePool = {
-    val map: TypeKeyMap[Embeddable, EType] = eTypes.foldLeft(TypeKeyMap[Embeddable, EType]()) {
+  @throws[DuplicateETypesException]("when two ETypes refer to the same component type")
+  def apply(eTypes: EType[_]*): ETypePool = {
+    val map: TypeKeyMap[Any, EType] = eTypes.foldLeft(TypeKeyMap[Any, EType]()) {
       case (map, eType) => map + (eType.eTypeKey -> eType)
     }
     if (eTypes.size != map.size) throw new DuplicateETypesException
