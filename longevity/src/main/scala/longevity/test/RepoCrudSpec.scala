@@ -11,7 +11,7 @@ import longevity.subdomain.KeyVal
 import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
 import longevity.subdomain.realized.RealizedKey
-import org.scalatest.FeatureSpec
+import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.OptionValues.convertOptionToValuable
 import org.scalatest.Tag
@@ -48,7 +48,7 @@ class RepoCrudSpec private[longevity] (
   protected val repoPool: RepoPool,
   suiteNameSuffix: Option[String] = None)(
   protected implicit val executionContext: ExecutionContext)
-extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
+extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
   private def subdomainName = longevityContext.subdomain.name
   override val suiteName = s"RepoCrudSpec for ${subdomainName}${suiteNameSuffix match {
@@ -76,92 +76,61 @@ extends FeatureSpec with LongevityIntegrationSpec with GivenWhenThen {
     object Update extends Tag("Update")
     object Delete extends Tag("Delete")
 
-    feature(s"${pName}Repo.create") {
-      scenario(s"should produce a persisted $pName", Create) {
+    s"${pName}Repo.create" should s"produce a persisted $pName" taggedAs(Create) in {
+      val p = randomP()
+      val created: PState[P] = repo.create(p).futureValue
+      created.get should equal (p)
 
-        Given(s"an unpersisted $pName")
-        val p = randomP()
-
-        When(s"we create the $pName")
-        Then(s"we get back the $pName persistent state")
-        val created: PState[P] = repo.create(p).futureValue
-
-        And(s"the persisted $pName should should match the original, unpersisted $pName")
-        created.get should equal (p)
-
-        And(s"further retrieval operations should retrieve the same $pName")
-        repo.realizedPType.keySet.foreach { key =>
-          val retrieved: PState[P] = retrieveByKey(key, created.get).value
-          retrieved.get should equal (p)
-        }
-
+      repo.realizedPType.keySet.foreach { key =>
+        val retrieved: PState[P] = retrieveByKey(key, created.get).value
+        retrieved.get should equal (p)
       }
     }
 
-    feature(s"${pName}Repo.retrieve") {
-      scenario(s"should produce the same persisted $pName", Retrieve) {
+    s"${pName}Repo.retrieve" should s"should produce the same persisted $pName" taggedAs(Retrieve) in {
+      val p = randomP()
+      val created = repo.create(p).futureValue
 
-        Given(s"a persisted $pName")
-        val p = randomP()
-        val created = repo.create(p).futureValue
-
-        When(s"we retrieve the $pName by any of its keys")
-        Then(s"we get back the same $pName persistent state")
-        repo.realizedPType.keySet.foreach { key =>
-          val retrieved: PState[P] = retrieveByKey(key, created.get).value
-          retrieved.get should equal (p)
-        }
+      repo.realizedPType.keySet.foreach { key =>
+        val retrieved: PState[P] = retrieveByKey(key, created.get).value
+        retrieved.get should equal (p)
       }
     }
 
-    feature(s"${pName}Repo.update") {
-      scenario(s"should produce an updated persisted $pName", Update) {
-
-        Given(s"a persisted $pName")
-        val key = randomPTypeKey
-        val originalP = randomP(key)
-        val modifiedP = repo.realizedPType.keySet.foldLeft(randomP(key)) { (modified, key) =>
-          def updateByOriginalKeyVal[V <: KeyVal[P, V]](key: RealizedKey[P, V]) = {
-            val originalKeyVal = key.keyValForP(originalP)
-            key.updateKeyVal(modified, originalKeyVal)
-          }
-          updateByOriginalKeyVal(key)
+    s"${pName}Repo.update" should s"should produce an updated persisted $pName" taggedAs(Update) in {
+      val key = randomPTypeKey
+      val originalP = randomP(key)
+      val modifiedP = repo.realizedPType.keySet.foldLeft(randomP(key)) { (modified, key) =>
+        def updateByOriginalKeyVal[V <: KeyVal[P, V]](key: RealizedKey[P, V]) = {
+          val originalKeyVal = key.keyValForP(originalP)
+          key.updateKeyVal(modified, originalKeyVal)
         }
+        updateByOriginalKeyVal(key)
+      }
 
-        val created: PState[P] = repo.create(originalP).futureValue
+      val created: PState[P] = repo.create(originalP).futureValue
 
-        When(s"we update the persisted $pName")
-        val modified: PState[P] = created.map(e => modifiedP)
-        val updated: PState[P] = repo.update(modified).futureValue
+      val modified: PState[P] = created.map(e => modifiedP)
+      val updated: PState[P] = repo.update(modified).futureValue
 
-        Then(s"we get back the updated $pName persistent state")
-        updated.get should equal (modifiedP)
+      updated.get should equal (modifiedP)
 
-        And(s"further retrieval operations should retrieve the updated copy")
-        repo.realizedPType.keySet.foreach { key =>
-          val retrieved: PState[P] = retrieveByKey(key, modifiedP).value
-          retrieved.get should equal (modifiedP)
-        }
+      repo.realizedPType.keySet.foreach { key =>
+        val retrieved: PState[P] = retrieveByKey(key, modifiedP).value
+        retrieved.get should equal (modifiedP)
       }
     }
 
-    feature(s"${pName}Repo.delete") {
-      scenario(s"should delete a persisted $pName", Delete) {
-        Given(s"a persisted $pName")
-        val p = randomP()
-        val created: PState[P] = repo.create(p).futureValue
+    s"${pName}Repo.delete" should s"delete a persisted $pName" taggedAs(Delete) in {
+      val p = randomP()
+      val created: PState[P] = repo.create(p).futureValue
 
-        When(s"we delete the persisted $pName")
-        val deleted: Deleted[P] = repo.delete(created).futureValue
+      val deleted: Deleted[P] = repo.delete(created).futureValue
+      deleted.get should equal (p)
 
-        Then(s"we get back a Deleted persistent state")
-        deleted.get should equal (p)
-
-        And(s"we should no longer be able to retrieve the $pName")
-        repo.realizedPType.keySet.foreach { key =>
-          val retrieved: Option[PState[P]] = retrieveByKey(key, created.get)
-          retrieved.isEmpty should be (true)
-        }
+      repo.realizedPType.keySet.foreach { key =>
+        val retrieved: Option[PState[P]] = retrieveByKey(key, created.get)
+        retrieved.isEmpty should be (true)
       }
     }
 
