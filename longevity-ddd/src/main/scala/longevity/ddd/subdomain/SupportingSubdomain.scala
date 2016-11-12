@@ -1,7 +1,7 @@
 package longevity.ddd.subdomain
 
 import longevity.subdomain.Subdomain
-import longevity.subdomain.ETypePool
+import longevity.subdomain.CTypePool
 import longevity.subdomain.PTypePool
 
 /** a supporting subdomain. functionally equivalent to a `Subdomain`.
@@ -15,7 +15,7 @@ import longevity.subdomain.PTypePool
 class SupportingSubdomain(
   name: String,
   pTypePool: PTypePool = PTypePool.empty,
-  entityTypePool: ETypePool = ETypePool.empty)
+  entityTypePool: CTypePool = CTypePool.empty)
 extends Subdomain(name, pTypePool, entityTypePool)
 
 /** provides a factory method for constructing [[SupportingSubdomain supporting
@@ -36,7 +36,7 @@ object SupportingSubdomain {
   def apply(
     name: String,
     pTypePool: PTypePool = PTypePool.empty,
-    entityTypePool: ETypePool = ETypePool.empty)
+    entityTypePool: CTypePool = CTypePool.empty)
   : SupportingSubdomain = 
     new SupportingSubdomain(name, pTypePool, entityTypePool)
 

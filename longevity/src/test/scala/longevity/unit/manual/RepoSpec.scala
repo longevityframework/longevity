@@ -12,9 +12,9 @@ object RepoSpec {
   import org.joda.time.DateTime
   import longevity.subdomain.KeyVal
   import longevity.subdomain.Subdomain
-  import longevity.subdomain.EType
-  import longevity.subdomain.ETypePool
-  import longevity.subdomain.EType
+  import longevity.subdomain.CType
+  import longevity.subdomain.CTypePool
+  import longevity.subdomain.CType
   import longevity.subdomain.PTypePool
   import longevity.subdomain.PType
 
@@ -103,7 +103,7 @@ object RepoSpec {
   val blogCore = Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    ETypePool(EType[Markdown], EType[Uri], EType[UserProfile]))
+    CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
 
   import longevity.context.LongevityContext
 

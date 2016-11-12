@@ -7,7 +7,7 @@ import emblem.TypeKey
  *
  * - properties with non-basic, non-embeddable, non-key-val types
  * - property paths that contain any collections
- * - property paths that terminate with a [[longevity.subdomain.PolyEType polymorphic type]].
+ * - property paths that terminate with a [[longevity.subdomain.PolyCType polymorphic type]].
  */
 class UnsupportedPropTypeException[P : TypeKey, U : TypeKey](val path: String)
 extends SubdomainException(

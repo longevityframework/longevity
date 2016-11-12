@@ -6,7 +6,7 @@ import longevity.context.LongevityContext
 import longevity.context.Mongo
 import longevity.integration.subdomain.derived
 
-/** tests for mongo repos that share tables in the presence of [[PolyEType]] */
+/** tests for mongo repos that share tables in the presence of [[PolyCType]] */
 class MongoPolyReposSpec extends PolyReposSpec(
   new LongevityContext(
     derived.subdomain,

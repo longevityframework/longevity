@@ -9,7 +9,7 @@ import org.json4s.JsonAST.JValue
  * translates objects into [[https://github.com/json4s/json4s json4s AST]].
  * 
  * persistent components with a single member will be inlined in the JSON. does
- * not inline [[longevity.subdomain.PolyEType PolyETypes]].
+ * not inline [[longevity.subdomain.PolyCType PolyCTypes]].
  */
 class JsonMarshaller(subdomain: Subdomain) {
 

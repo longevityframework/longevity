@@ -9,7 +9,7 @@ import org.json4s.JsonAST.JValue
  * translates from [[https://github.com/json4s/json4s json4s AST]].
  * 
  * expects JSON for persistent components with a single member to be inlined in
- * the JSON. expects [[longevity.subdomain.PolyEType PolyETypes]] to not be
+ * the JSON. expects [[longevity.subdomain.PolyCType PolyCTypes]] to not be
  * inlined.
  */
 class JsonUnmarshaller(subdomain: Subdomain) {

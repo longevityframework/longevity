@@ -10,7 +10,7 @@ import emblem.TypeKey
  * descend from the root into child entities at any depth.
  *
  * at present, a property cannot pass through any collections or terminate with
- * a [[longevity.subdomain.PolyEType polymorphic embeddable]].
+ * a [[longevity.subdomain.PolyCType polymorphic embeddable]].
  * violations will cause an exception to be thrown on
  * [[longevity.subdomain.Subdomain Subdomain construction]].
  * 

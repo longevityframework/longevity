@@ -1,7 +1,7 @@
 package longevity.unit.subdomain
 
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
-import longevity.exceptions.subdomain.DuplicateETypesException
+import longevity.exceptions.subdomain.DuplicateCTypesException
 import longevity.exceptions.subdomain.DuplicateKeyException
 import longevity.exceptions.subdomain.DuplicateKeyOrIndexException
 import longevity.exceptions.subdomain.DuplicatePTypesException
@@ -9,14 +9,14 @@ import longevity.exceptions.subdomain.InvalidPartitionException
 import longevity.exceptions.subdomain.NoSuchPropPathException
 import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.UnsupportedPropTypeException
-import longevity.subdomain.DerivedEType
+import longevity.subdomain.DerivedCType
 import longevity.subdomain.DerivedPType
-import longevity.subdomain.EType
-import longevity.subdomain.ETypePool
+import longevity.subdomain.CType
+import longevity.subdomain.CTypePool
 import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
 import longevity.subdomain.PTypePool
-import longevity.subdomain.PolyEType
+import longevity.subdomain.PolyCType
 import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
 import org.scalatest.FlatSpec
@@ -60,7 +60,7 @@ object SubdomainSpec {
       }
     }
     case class B(id: String)
-    def subdomain = Subdomain("noSuchPropPathInComponent", PTypePool(A), ETypePool(EType[B]))
+    def subdomain = Subdomain("noSuchPropPathInComponent", PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithNonEmbeddable {
@@ -129,7 +129,7 @@ object SubdomainSpec {
     def subdomain = Subdomain(
       "propPathWithTerminalPoly",
       PTypePool(A),
-      ETypePool(PolyEType[B], DerivedEType[C, B]))
+      CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
 
   object propPathWithInternalList {
@@ -142,7 +142,7 @@ object SubdomainSpec {
       }
     }
     case class B(id: String)
-    def subdomain = Subdomain("propPathWithInternalList", PTypePool(A), ETypePool(EType[B]))
+    def subdomain = Subdomain("propPathWithInternalList", PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalOption {
@@ -155,7 +155,7 @@ object SubdomainSpec {
       }
     }
     case class B(id: String)
-    def subdomain = Subdomain("propPathWithInternalOption", PTypePool(A), ETypePool(EType[B]))
+    def subdomain = Subdomain("propPathWithInternalOption", PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalSet {
@@ -168,7 +168,7 @@ object SubdomainSpec {
       }
     }
     case class B(id: String)
-    def subdomain = Subdomain("propPathWithInternalSet", PTypePool(A), ETypePool(EType[B]))
+    def subdomain = Subdomain("propPathWithInternalSet", PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalPoly {
@@ -187,7 +187,7 @@ object SubdomainSpec {
     def subdomain = Subdomain(
       "propPathWithInternalPoly",
       PTypePool(A),
-      ETypePool(PolyEType[B], DerivedEType[C, B]))
+      CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
 
   object incompatiblePropType {
@@ -349,15 +349,15 @@ object SubdomainSpec {
     def subdomain = Subdomain("derivedPTypeHasNoPoly", PTypePool(Derived))
   }
 
-  object derivedETypeHasNoPoly {
+  object derivedCTypeHasNoPoly {
     trait Poly { val id: String }
     case class Derived(id: String) extends Poly
-    def subdomain = Subdomain("derivedETypeHasNoPoly", PTypePool(), ETypePool(DerivedEType[Derived, Poly]))
+    def subdomain = Subdomain("derivedCTypeHasNoPoly", PTypePool(), CTypePool(DerivedCType[Derived, Poly]))
   }
 
-  object duplicateETypes {
+  object duplicateCTypes {
     case class A(id: String)
-    def subdomain = Subdomain("duplicateETypes", PTypePool(), ETypePool(EType[A], EType[A]))
+    def subdomain = Subdomain("duplicateCTypes", PTypePool(), CTypePool(CType[A], CType[A]))
   }
 
   object duplicatePTypes {
@@ -504,15 +504,15 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  it should "throw exception when the PolyEType is missing from the ETypePool" in {
+  it should "throw exception when the PolyCType is missing from the CTypePool" in {
     intercept[DerivedHasNoPolyException] {
-      SubdomainSpec.derivedETypeHasNoPoly.subdomain
+      SubdomainSpec.derivedCTypeHasNoPoly.subdomain
     }
   }
 
-  it should "throw exception when there is a duplicate EType in the ETypePool" in {
-    intercept[DuplicateETypesException] {
-      SubdomainSpec.duplicateETypes.subdomain
+  it should "throw exception when there is a duplicate CType in the CTypePool" in {
+    intercept[DuplicateCTypesException] {
+      SubdomainSpec.duplicateCTypes.subdomain
     }
   }
 

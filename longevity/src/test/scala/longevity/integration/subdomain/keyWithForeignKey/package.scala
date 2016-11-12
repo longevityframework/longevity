@@ -2,8 +2,8 @@ package longevity.integration.subdomain
 
 import longevity.TestLongevityConfigs
 import longevity.subdomain.Subdomain
-import longevity.subdomain.ETypePool
-import longevity.subdomain.EType
+import longevity.subdomain.CTypePool
+import longevity.subdomain.CType
 import longevity.subdomain.PTypePool
 
 /** covers a persistent with a key that contains a foreign key value */
@@ -12,7 +12,7 @@ package object keyWithForeignKey {
   val subdomain = Subdomain(
     "Key With Foreign Key",
     PTypePool(KeyWithForeignKey, Associated),
-    ETypePool(EType[Uri]))
+    CTypePool(CType[Uri]))
 
   val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 

@@ -13,7 +13,7 @@ import longevity.subdomain.realized.RealizedPType
 
 /** a specification of a subdomain of a project's domain. contains a pool of
  * all the [[PType persistent types]] in the subdomain, as well as
- * all the [[EType component types]].
+ * all the [[CType component types]].
  *
  * @param name the name of the subdomain
  * @param pTypePool a complete set of the persistent types in the subdomain.
@@ -24,7 +24,7 @@ import longevity.subdomain.realized.RealizedPType
 class Subdomain(
   val name: String,
   val pTypePool: PTypePool = PTypePool.empty,
-  val eTypePool: ETypePool = ETypePool.empty) {
+  val eTypePool: CTypePool = CTypePool.empty) {
 
   private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
 
@@ -61,10 +61,10 @@ class Subdomain(
   }
 
   private def entityEmblems = {
-    val eTypesWithEmblems = eTypePool.filterValues(!_.isInstanceOf[PolyEType[_]])
+    val eTypesWithEmblems = eTypePool.filterValues(!_.isInstanceOf[PolyCType[_]])
     eTypesWithEmblems.mapValues[Emblem] {
-      new TypeBoundFunction[Any, EType, Emblem] {
-        def apply[TypeParam](eType: EType[TypeParam]): Emblem[TypeParam] =
+      new TypeBoundFunction[Any, CType, Emblem] {
+        def apply[TypeParam](eType: CType[TypeParam]): Emblem[TypeParam] =
           Emblem(eType.eTypeKey)
       }
     }
@@ -81,9 +81,9 @@ class Subdomain(
   private def unionPool = entityUnions ++ pUnions
 
   private def entityUnions = {
-    val polyTypes = eTypePool.filterValues(_.isInstanceOf[PolyEType[_]])
+    val polyTypes = eTypePool.filterValues(_.isInstanceOf[PolyCType[_]])
 
-    type DerivedFrom[E] = DerivedEType[E, Poly] forSome { type Poly >: E }
+    type DerivedFrom[E] = DerivedCType[E, Poly] forSome { type Poly >: E }
 
     val derivedTypes =
       eTypePool
@@ -94,7 +94,7 @@ class Subdomain(
     val baseToDerivedsMap: TypeKeyMap[Any, DerivedList] =
       derivedTypes.values.foldLeft(TypeKeyMap[Any, DerivedList]) { (map, derivedType) =>
 
-        def fromDerivedEType[E, Poly >: E](derivedType: DerivedEType[E, Poly]): TypeKeyMap[Any, DerivedList] = {
+        def fromDerivedCType[E, Poly >: E](derivedType: DerivedCType[E, Poly]): TypeKeyMap[Any, DerivedList] = {
           implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyTypeKey
           if (!polyTypes.contains[Poly]) {
             throw new DerivedHasNoPolyException(polyTypeKey.name, isPType = false)
@@ -105,12 +105,12 @@ class Subdomain(
           map.+[Poly](emblem :: derivedList)
         }
 
-        fromDerivedEType(derivedType)
+        fromDerivedCType(derivedType)
       }
 
     polyTypes.mapValues[Union] {
-      new TypeBoundFunction[Any, EType, Union] {
-        def apply[TypeParam](eType: EType[TypeParam]): Union[TypeParam] = {
+      new TypeBoundFunction[Any, CType, Union] {
+        def apply[TypeParam](eType: CType[TypeParam]): Union[TypeParam] = {
           val constituents = baseToDerivedsMap(eType.eTypeKey)
           Union[TypeParam](constituents: _*)(eType.eTypeKey)
         }
@@ -179,7 +179,7 @@ object Subdomain {
    * @throws longevity.exceptions.subdomain.UnsupportedPropTypeException
    * if a [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
    * [[PType persistent types]] has a property path
-   * that contains a collection or a [[PolyEType
+   * that contains a collection or a [[PolyCType
    * polymorphic type]]
    * 
    * @throws longevity.exceptions.subdomain.PropTypeException if a
@@ -191,7 +191,7 @@ object Subdomain {
   def apply(
     name: String,
     pTypePool: PTypePool = PTypePool.empty,
-    eTypePool: ETypePool = ETypePool.empty)
+    eTypePool: CTypePool = CTypePool.empty)
   : Subdomain =
     new Subdomain(name, pTypePool, eTypePool)
 

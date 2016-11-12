@@ -10,10 +10,10 @@ package object subdomain {
    */
   type PTypePool = TypeKeyMap[Any, PType]
 
-  /** a type key map for [[EType component types]]
+  /** a type key map for [[CType component types]]
    * @see emblem.TypeKeyMap
    */
-  type ETypePool = TypeKeyMap[Any, EType]
+  type CTypePool = TypeKeyMap[Any, CType]
 
   /** an arbitrary [[KeyVal key value]] type for a given persistent type `P` */
   type AnyKeyVal[P] = KeyVal[P, V] forSome { type V <: KeyVal[P, V] }

@@ -2,9 +2,9 @@ package longevity.unit
 
 package object blogCore {
 
-  import longevity.subdomain.EType
-  import longevity.subdomain.ETypePool
-  import longevity.subdomain.EType
+  import longevity.subdomain.CType
+  import longevity.subdomain.CTypePool
+  import longevity.subdomain.CType
   import longevity.subdomain.KeyVal
   import longevity.subdomain.Subdomain
   import longevity.subdomain.PTypePool
@@ -97,6 +97,6 @@ package object blogCore {
   object BlogCore extends Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
-    ETypePool(EType[Markdown], EType[Uri], EType[UserProfile]))
+    CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
 
 }

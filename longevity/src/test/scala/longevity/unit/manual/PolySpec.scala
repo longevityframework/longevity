@@ -51,22 +51,22 @@ object PolySpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.DerivedEType
-    import longevity.subdomain.ETypePool
-    import longevity.subdomain.PolyEType
-    import longevity.subdomain.EType
+    import longevity.subdomain.DerivedCType
+    import longevity.subdomain.CTypePool
+    import longevity.subdomain.PolyCType
+    import longevity.subdomain.CType
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      ETypePool(
-        EType[Email],
-        EType[PhoneNumber],
-        PolyEType[UserVerification],
-        DerivedEType[EmailVerification, UserVerification],
-        DerivedEType[SmsVerification, UserVerification],
-        DerivedEType[GoogleSignIn, UserVerification]))
+      CTypePool(
+        CType[Email],
+        CType[PhoneNumber],
+        PolyCType[UserVerification],
+        DerivedCType[EmailVerification, UserVerification],
+        DerivedCType[SmsVerification, UserVerification],
+        DerivedCType[GoogleSignIn, UserVerification]))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/poly/persistent.html
@@ -125,19 +125,19 @@ object PolySpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ETypePool
-    import longevity.subdomain.EType
-    import longevity.subdomain.EType
+    import longevity.subdomain.CTypePool
+    import longevity.subdomain.CType
+    import longevity.subdomain.CType
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User, Member, Commenter),
-      ETypePool(
-        EType[Email],
-        EType[Markdown],
-        EType[Uri],
-        EType[UserProfile]))
+      CTypePool(
+        CType[Email],
+        CType[Markdown],
+        CType[Uri],
+        CType[UserProfile]))
 
   }
 
@@ -212,19 +212,19 @@ object PolySpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ETypePool
-    import longevity.subdomain.EType
-    import longevity.subdomain.EType
+    import longevity.subdomain.CTypePool
+    import longevity.subdomain.CType
+    import longevity.subdomain.CType
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User, Member, Commenter),
-      ETypePool(
-        EType[Email],
-        EType[Markdown],
-        EType[Uri],
-        EType[UserProfile]))
+      CTypePool(
+        CType[Email],
+        CType[Markdown],
+        CType[Uri],
+        CType[UserProfile]))
 
   }
 
@@ -260,19 +260,19 @@ object PolySpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.DerivedEType
-    import longevity.subdomain.ETypePool
-    import longevity.subdomain.PolyEType
+    import longevity.subdomain.DerivedCType
+    import longevity.subdomain.CTypePool
+    import longevity.subdomain.PolyCType
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "accounts",
       PTypePool(Account),
-      ETypePool(
-        PolyEType[AccountStatus],
-        DerivedEType[Active.type, AccountStatus],
-        DerivedEType[Suspended.type, AccountStatus],
-        DerivedEType[Cancelled.type, AccountStatus]))
+      CTypePool(
+        PolyCType[AccountStatus],
+        DerivedCType[Active.type, AccountStatus],
+        DerivedCType[Suspended.type, AccountStatus],
+        DerivedCType[Cancelled.type, AccountStatus]))
 
   }
 

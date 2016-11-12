@@ -1,7 +1,7 @@
 package longevity.ddd.subdomain
 
 import longevity.subdomain.Subdomain
-import longevity.subdomain.ETypePool
+import longevity.subdomain.CTypePool
 import longevity.subdomain.PTypePool
 
 /** a generic subdomain. functionally equivalent to a `Subdomain`.
@@ -15,7 +15,7 @@ import longevity.subdomain.PTypePool
 class GenericSubdomain(
   name: String,
   pTypePool: PTypePool = PTypePool.empty,
-  entityTypePool: ETypePool = ETypePool.empty)
+  entityTypePool: CTypePool = CTypePool.empty)
 extends Subdomain(name, pTypePool, entityTypePool)
 
 /** provides a factory method for constructing [[GenericSubdomain generic subdomains]] */
@@ -34,7 +34,7 @@ object GenericSubdomain {
   def apply(
     name: String,
     pTypePool: PTypePool = PTypePool.empty,
-    entityTypePool: ETypePool = ETypePool.empty)
+    entityTypePool: CTypePool = CTypePool.empty)
   : GenericSubdomain = 
     new GenericSubdomain(name, pTypePool, entityTypePool)
 

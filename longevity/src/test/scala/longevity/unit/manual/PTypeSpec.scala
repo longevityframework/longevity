@@ -47,15 +47,15 @@ object PTypeSpec {
     }
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.ETypePool
-    import longevity.subdomain.EType
-    import longevity.subdomain.EType
+    import longevity.subdomain.CTypePool
+    import longevity.subdomain.CType
+    import longevity.subdomain.CType
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
       "blogging",
       PTypePool(User),
-      ETypePool(EType[Email], EType[Markdown], EType[Uri], EType[UserProfile]))
+      CTypePool(CType[Email], CType[Markdown], CType[Uri], CType[UserProfile]))
 
   }
 

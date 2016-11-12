@@ -4,7 +4,7 @@ import emblem.TypeKey
 import emblem.typeKey
 
 /** a type class for a persistent component */
-abstract class EType[E : TypeKey] {
+abstract class CType[E : TypeKey] {
 
   /** a `TypeKey` for the component
    * @see `emblem.TypeKey`
@@ -13,10 +13,10 @@ abstract class EType[E : TypeKey] {
 
 }
 
-/** contains a factory method for creating `ETypes` */
-object EType {
+/** contains a factory method for creating `CTypes` */
+object CType {
 
-  /** create and return an `EType` for type `E` */
-  def apply[E : TypeKey] = new EType[E] {}
+  /** create and return an `CType` for type `E` */
+  def apply[E : TypeKey] = new CType[E] {}
 
 }

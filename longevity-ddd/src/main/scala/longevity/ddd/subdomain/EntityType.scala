@@ -1,10 +1,10 @@
 package longevity.ddd.subdomain
 
 import emblem.TypeKey
-import longevity.subdomain.EType
+import longevity.subdomain.CType
 
 /** a type class for a domain entity */
-abstract class EntityType[E : TypeKey] extends EType[E]
+abstract class EntityType[E : TypeKey] extends CType[E]
 
 /** contains a factory method for creating `EntityTypes` */
 object EntityType {

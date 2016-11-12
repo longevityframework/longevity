@@ -1,7 +1,7 @@
 package longevity.ddd.subdomain
 
 import longevity.subdomain.Subdomain
-import longevity.subdomain.ETypePool
+import longevity.subdomain.CTypePool
 import longevity.subdomain.PTypePool
 
 /** a core domain. functionally equivalent to a `Subdomain`
@@ -15,7 +15,7 @@ import longevity.subdomain.PTypePool
 class CoreDomain(
   name: String,
   pTypePool: PTypePool = PTypePool.empty,
-  entityTypePool: ETypePool = ETypePool.empty)
+  entityTypePool: CTypePool = CTypePool.empty)
 extends Subdomain(name, pTypePool, entityTypePool)
 
 /** provides a factory method for constructing [[CoreDomain core domains]] */
@@ -34,7 +34,7 @@ object CoreDomain {
   def apply(
     name: String,
     pTypePool: PTypePool = PTypePool.empty,
-    entityTypePool: ETypePool = ETypePool.empty)
+    entityTypePool: CTypePool = CTypePool.empty)
   : CoreDomain = 
     new CoreDomain(name, pTypePool, entityTypePool)
 

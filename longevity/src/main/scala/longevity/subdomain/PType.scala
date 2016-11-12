@@ -51,7 +51,7 @@ abstract class PType[P : TypeKey] {
    *
    * the provided type `A` should match the type of the actual member in the
    * persistent class. type `A` should not contain any collections, or terminate
-   * with [[longevity.subdomain.PolyEType polymorphic component]].
+   * with [[longevity.subdomain.PolyCType polymorphic component]].
    * violations will cause an exception to be thrown on
    * [[longevity.subdomain.Subdomain Subdomain construction]].
    *
