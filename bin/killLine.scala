@@ -22,7 +22,7 @@ object killLine extends App {
 
   findCmd.lineStream.foreach { sourceFile =>
     val exitCode = Process(
-      Seq("sed", "-e", s"/$lineToKill/d", "-i", "", sourceFile),
+      Seq("sed", "-e", s"/^$lineToKill$$/d", "-i", "", sourceFile),
       baseDir).!
     if (exitCode != 0) {
       println(s"non-zero exit code for sed /$lineToKill/d $sourceFile")
