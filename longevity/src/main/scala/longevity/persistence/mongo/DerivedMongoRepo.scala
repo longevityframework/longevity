@@ -4,13 +4,12 @@ import com.mongodb.client.model.Filters
 import emblem.TypeKey
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.query.QueryFilter
 import org.bson.BsonDocument
 import org.bson.BsonString
 import org.bson.conversions.Bson
 
-private[mongo] trait DerivedMongoRepo[P <: Persistent, Poly >: P <: Persistent] extends MongoRepo[P] {
+private[mongo] trait DerivedMongoRepo[P, Poly >: P] extends MongoRepo[P] {
 
   protected val polyRepo: MongoRepo[Poly]
 

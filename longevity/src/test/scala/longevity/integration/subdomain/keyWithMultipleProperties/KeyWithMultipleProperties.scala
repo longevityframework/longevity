@@ -1,12 +1,10 @@
 package longevity.integration.subdomain.keyWithMultipleProperties
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class KeyWithMultipleProperties(
   id: KeyWithMultiplePropertiesId,
   secondaryKey: SecondaryKey)
-extends Persistent
 
 object KeyWithMultipleProperties extends PType[KeyWithMultipleProperties] {
   object props {

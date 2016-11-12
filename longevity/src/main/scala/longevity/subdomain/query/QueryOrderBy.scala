@@ -1,6 +1,5 @@
 package longevity.subdomain.query
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.realized.RealizedPType
 
@@ -8,25 +7,21 @@ import longevity.subdomain.realized.RealizedPType
  * 
  * @param sortExprs the sort expressions that make up the order by clause
  */
-case class QueryOrderBy[P <: Persistent](
-  sortExprs: Seq[QuerySortExpr[P]])
+case class QueryOrderBy[P](sortExprs: Seq[QuerySortExpr[P]])
 
 /** contains a factory method for an empty order by clause */
 object QueryOrderBy {
 
   /** an empty order by clause */
-  def empty[P <: Persistent] = QueryOrderBy(Seq.empty[QuerySortExpr[P]])
+  def empty[P] = QueryOrderBy(Seq.empty[QuerySortExpr[P]])
 
-  def ordering[P <: Persistent](
-    orderBy: QueryOrderBy[P],
-    realizedPType: RealizedPType[P])
-  : scala.math.Ordering[P] = {
+  def ordering[P](orderBy: QueryOrderBy[P], realizedPType: RealizedPType[P]): scala.math.Ordering[P] = {
     val unitOrdering = new Ordering[P] { def compare(p1: P, p2: P) = 0 }
     orderBy.sortExprs.foldLeft(unitOrdering) { (ordering, sortExpr) =>
       new Ordering[P]() {
 
-        def toRealized[A](prop: Prop[_ >: P <: Persistent, A]) = realizedPType.realizedProps(prop)
-        
+        def toRealized[A](prop: Prop[_ >: P, A]) = realizedPType.realizedProps(prop)
+
         def compare(p1: P, p2: P) = {
           val i = ordering.compare(p1, p2)
           if (i != 0) i else {

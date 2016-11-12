@@ -1,6 +1,5 @@
 package longevity.integration.subdomain.shorthandOptions
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class ShorthandOptions(
@@ -13,7 +12,6 @@ case class ShorthandOptions(
   long: Option[LongShorthand],
   string: Option[StringShorthand],
   dateTime: Option[DateTimeShorthand])
-extends Persistent
 
 object ShorthandOptions extends PType[ShorthandOptions] {
   object props {

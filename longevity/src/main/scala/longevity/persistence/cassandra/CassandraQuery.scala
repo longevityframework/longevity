@@ -9,7 +9,6 @@ import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OffsetInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.query.AndOp
 import longevity.subdomain.query.Ascending
@@ -35,7 +34,7 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.retrieveByQuery */
-private[cassandra] trait CassandraQuery[P <: Persistent] {
+private[cassandra] trait CassandraQuery[P] {
   repo: CassandraRepo[P] =>
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext): Future[Seq[PState[P]]] =
@@ -122,7 +121,7 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
     }
   }
 
-  private def equalityQueryFilterInfo[A](prop: Prop[_ >: P <: Persistent, A], value: A): FilterInfo = {
+  private def equalityQueryFilterInfo[A](prop: Prop[_ >: P, A], value: A): FilterInfo = {
     val infos: Seq[FilterInfo] = toComponents(prop).map { component =>
       val componentValue = cassandraValue(component.innerPropPath.get(value))
       FilterInfo(s"${columnName(component)} = :${columnName(component)}", Seq(componentValue))
@@ -130,12 +129,12 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
     infos.tail.fold(infos.head)(andFilterInfos)
   }
 
-  private def orderingQueryFilterInfo[A](prop: Prop[_ >: P <: Persistent, A], opString: String, value: A)
+  private def orderingQueryFilterInfo[A](prop: Prop[_ >: P, A], opString: String, value: A)
   : FilterInfo = {
     val components = toComponents(prop)
-    def componentsToFilterInfo(components: Seq[RealizedPropComponent[_ >: P <: Persistent, A, _]]): FilterInfo = {
+    def componentsToFilterInfo(components: Seq[RealizedPropComponent[_ >: P, A, _]]): FilterInfo = {
       if (components.size == 1) {
-        def info[B](component: RealizedPropComponent[_ >: P <: Persistent, A, B]) = {
+        def info[B](component: RealizedPropComponent[_ >: P, A, B]) = {
           val componentValue = cassandraValue(component.innerPropPath.get(value))
           FilterInfo(s"${columnName(component)} $opString :${columnName(component)}", Seq(componentValue))
         }
@@ -147,8 +146,7 @@ private[cassandra] trait CassandraQuery[P <: Persistent] {
     componentsToFilterInfo(components)
   }
 
-  def toComponents[A](prop: Prop[_ >: P <: Persistent, A])
-  : Seq[RealizedPropComponent[_ >: P <: Persistent, A, _]] = {
+  def toComponents[A](prop: Prop[_ >: P, A]): Seq[RealizedPropComponent[_ >: P, A, _]] = {
     realizedPType.realizedProps(prop).realizedPropComponents
   }
 

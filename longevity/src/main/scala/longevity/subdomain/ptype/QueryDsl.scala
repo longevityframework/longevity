@@ -1,6 +1,5 @@
 package longevity.subdomain.ptype
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.query.AndOp
 import longevity.subdomain.query.Ascending
 import longevity.subdomain.query.ConditionalFilter
@@ -23,10 +22,10 @@ import longevity.subdomain.query.RelationalFilter
 /** a DSL for creating [[longevity.subdomain.query.Query queries]]. you can find
  * it in your persistent type at `PType.queryDsl`
  */
-class QueryDsl[P <: Persistent] {
+class QueryDsl[P] {
 
   /** begin parsing a query filter with a [[Prop]] */
-  implicit def where[A](prop: Prop[_ >: P <: Persistent, A]) = new DslPostProp(prop)
+  implicit def where[A](prop: Prop[_ >: P, A]) = new DslPostProp(prop)
 
   /** begin parsing with a `FilterAll` query filter */
   def filterAll = new DslPostQueryFilter(FilterAll())
@@ -40,7 +39,7 @@ class QueryDsl[P <: Persistent] {
    * right-hand side value.
    */
   class DslPostProp[A] private[QueryDsl] (
-    private val prop: Prop[_ >: P <: Persistent, A],
+    private val prop: Prop[_ >: P, A],
     private val prefix: Option[CondPrefix] = None) {
 
     /** parse an `eqs` expression, and prepare for an `and` or an `or` */
@@ -107,7 +106,7 @@ class QueryDsl[P <: Persistent] {
   class DslPostQueryFilter private[QueryDsl] (private[QueryDsl] val prefix: QueryFilter[P]) {
 
     /** parse an `and` token and the next property, and prepare for a relational operator */
-    def and[A](prop: Prop[_ >: P <: Persistent, A]) =
+    def and[A](prop: Prop[_ >: P, A]) =
       new DslPostProp(prop, Some(CondPrefix(prefix, AndOp)))
 
     /** parse an `and` token a (possibly parenthesized) query, and prepare for a logical operator */
@@ -115,7 +114,7 @@ class QueryDsl[P <: Persistent] {
       new DslPostQueryFilter(ConditionalFilter(prefix, AndOp, filter))
 
     /** parse an `or` token and the next property, and prepare for a relational operator */
-    def or[A](prop: Prop[_ >: P <: Persistent, A]) =
+    def or[A](prop: Prop[_ >: P, A]) =
       new DslPostProp(prop, Some(CondPrefix(prefix, OrOp)))
 
     /** parse an `or` token a (possibly parenthesized) query, and prepare for a logical operator */
@@ -142,16 +141,16 @@ class QueryDsl[P <: Persistent] {
   implicit def toQuery(postFilter: DslPostQueryFilter): Query[P] = Query(postFilter.prefix)
 
   /** we parse a `Prop` into a `QuerySortExpr` as needed */
-  implicit def toQuerySortExpr[A](prop: Prop[_ >: P <: Persistent, A]) = new QuerySortExpr[P](prop, Ascending)
+  implicit def toQuerySortExpr[A](prop: Prop[_ >: P, A]) = new QuerySortExpr[P](prop, Ascending)
 
   /** we have parsed a `Prop` for a `QuerySortExpr`, now we are ready to parse an `asc` or `desc` qualifier */
-  class UnqualifiedSortExpr(val prop: Prop[_ >: P <: Persistent, _]) {
+  class UnqualifiedSortExpr(val prop: Prop[_ >: P, _]) {
     def asc = new QuerySortExpr[P](prop, Ascending)
     def desc = new QuerySortExpr[P](prop, Descending)
   }
 
   /** parse a `Prop` and prepare to parse an `asc` or `desc` qualified */
-  implicit def toUnqualifiedSortExpr(prop: Prop[_ >: P <: Persistent, _]) = new UnqualifiedSortExpr(prop)
+  implicit def toUnqualifiedSortExpr(prop: Prop[_ >: P, _]) = new UnqualifiedSortExpr(prop)
 
   /** in the query DSL, we have just parsed a
    * [[longevity.subdomain.query.QueryFilter QueryFilter]] and a

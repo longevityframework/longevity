@@ -10,4 +10,4 @@ package longevity.subdomain
  * [[http://ktoso.github.io/scala-types-of-types/#self-recursive-type
  * self-recursive type]]
  */
-trait KeyVal[P <: Persistent, V <: KeyVal[P, V]]
+trait KeyVal[P, V <: KeyVal[P, V]]

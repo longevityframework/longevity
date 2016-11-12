@@ -3,11 +3,10 @@ package longevity.subdomain.realized
 import emblem.TypeKey
 import emblem.emblematic.EmblematicPropPath
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.PartitionKey
 
 private[longevity] case class RealizedPartitionKey[
-  P <: Persistent : TypeKey,
+  P : TypeKey,
   V <: KeyVal[P, V] : TypeKey] private [subdomain](
   override val key: PartitionKey[P, V],
   prop: RealizedProp[P, V],

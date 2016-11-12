@@ -1,11 +1,10 @@
 package longevity.persistence.mongo
 
 import longevity.persistence.BasePolyRepo
-import longevity.subdomain.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-private[mongo] trait PolyMongoRepo[P <: Persistent] extends MongoRepo[P] with BasePolyRepo[P] {
+private[mongo] trait PolyMongoRepo[P] extends MongoRepo[P] with BasePolyRepo[P] {
 
   override protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = {
     super.createSchema()

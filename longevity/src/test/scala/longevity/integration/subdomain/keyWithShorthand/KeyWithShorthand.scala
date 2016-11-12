@@ -1,12 +1,10 @@
 package longevity.integration.subdomain.keyWithShorthand
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class KeyWithShorthand(
   id: KeyWithShorthandId,
   secondaryKey: SecondaryKey)
-extends Persistent
 
 object KeyWithShorthand extends PType[KeyWithShorthand] {
   object props {

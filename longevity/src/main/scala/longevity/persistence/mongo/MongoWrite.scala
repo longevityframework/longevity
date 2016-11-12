@@ -5,7 +5,6 @@ import com.mongodb.client.model.Filters
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.realized.RealizedKey
 import org.bson.BsonDocument
 import org.bson.BsonInt64
@@ -14,7 +13,7 @@ import org.bson.BsonObjectId
 /** utilities for writing to a mongo collection. used by [[MongoCreate]] and
  * [[MongoUpdate]]
  */
-private[mongo] trait MongoWrite[P <: Persistent] {
+private[mongo] trait MongoWrite[P] {
   repo: MongoRepo[P] =>
 
   protected lazy val subdomainToBsonTranslator = new SubdomainToBsonTranslator(subdomain.emblematic)

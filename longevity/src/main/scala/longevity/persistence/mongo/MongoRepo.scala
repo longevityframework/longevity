@@ -10,7 +10,6 @@ import longevity.context.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PType
-import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
 import org.bson.BsonDocument
@@ -25,7 +24,7 @@ import scala.concurrent.blocking
  * @param mongoDb the connection to the mongo database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
-private[longevity] class MongoRepo[P <: Persistent] private[persistence] (
+private[longevity] class MongoRepo[P] private[persistence] (
   pType: PType[P],
   subdomain: Subdomain,
   protected val session: MongoRepo.MongoSessionInfo,
@@ -61,18 +60,18 @@ private[persistence] object MongoRepo {
     lazy val db = client.getDatabase(config.db)
   }
 
-  def apply[P <: Persistent](
+  def apply[P](
     pType: PType[P],
     subdomain: Subdomain,
     session: MongoSessionInfo,
     config: PersistenceConfig,
-    polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
+    polyRepoOpt: Option[MongoRepo[_ >: P]])
   : MongoRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
         new MongoRepo(pType, subdomain, session, config) with PolyMongoRepo[P]
       case pt: DerivedPType[_, _] =>
-        def withPoly[Poly >: P <: Persistent](poly: MongoRepo[Poly]) = {
+        def withPoly[Poly >: P](poly: MongoRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: MongoRepo[Poly] = poly
           }

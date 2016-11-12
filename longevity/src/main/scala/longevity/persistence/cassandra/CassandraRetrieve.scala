@@ -4,14 +4,13 @@ import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import emblem.TypeKey
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.retrieve(KeyVal) */
-private[cassandra] trait CassandraRetrieve[P <: Persistent] {
+private[cassandra] trait CassandraRetrieve[P] {
   repo: CassandraRepo[P] =>
 
   def retrieve[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = {

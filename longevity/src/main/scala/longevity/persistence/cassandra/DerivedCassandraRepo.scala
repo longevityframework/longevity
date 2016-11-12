@@ -1,14 +1,13 @@
 package longevity.persistence.cassandra
 
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import longevity.subdomain.realized.RealizedPropComponent
 import longevity.subdomain.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Persistent] extends CassandraRepo[P] {
+private[cassandra] trait DerivedCassandraRepo[P, Poly >: P] extends CassandraRepo[P] {
 
   protected val polyRepo: CassandraRepo[Poly]
 
@@ -20,7 +19,7 @@ private[cassandra] trait DerivedCassandraRepo[P <: Persistent, Poly >: P <: Pers
     compact(render(emblematicToJsonTranslator.translate[Poly](p)(polyRepo.pTypeKey)))
   }
 
-  override protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
+  override protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
     myIndexedComponents ++ polyRepo.indexedComponents
   }
 

@@ -1,7 +1,6 @@
 package longevity.integration.subdomain.basicLists
 
 import com.github.nscala_time.time.Imports._
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class BasicLists(
@@ -14,7 +13,6 @@ case class BasicLists(
   long: List[Long],
   string: List[String],
   dateTime: List[DateTime])
-extends Persistent
 
 object BasicLists extends PType[BasicLists] {
   object props {

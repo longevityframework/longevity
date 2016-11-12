@@ -7,7 +7,6 @@ import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
-import emblem.typeBound.WideningTypeBoundFunction
 import emblem.typeBound.TypeBoundFunction
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.realized.RealizedPType
@@ -29,9 +28,9 @@ class Subdomain(
 
   private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
 
-  private[longevity] val realizedPTypes: TypeBoundMap[Persistent, PType, RealizedPType] = {
-    pTypePool.values.foldLeft(TypeBoundMap[Persistent, PType, RealizedPType]()) { (acc, pType) =>
-      def addPair[P <: Persistent](pType: PType[P]) = {
+  private[longevity] val realizedPTypes: TypeBoundMap[Any, PType, RealizedPType] = {
+    pTypePool.values.foldLeft(TypeBoundMap[Any, PType, RealizedPType]()) { (acc, pType) =>
+      def addPair[P](pType: PType[P]) = {
         pType.validateKeysAndIndexes()
         val polyPTypeOpt = pType match {
           case derivedPType: DerivedPType[P, _] =>
@@ -53,9 +52,9 @@ class Subdomain(
 
   private def pEmblems = {
     val pTypesWithEmblems = pTypePool.filterValues(!_.isInstanceOf[PolyPType[_]])
-    pTypesWithEmblems.mapValuesWiden[Any, Emblem] {
-      new WideningTypeBoundFunction[Persistent, Any, PType, Emblem] {
-        def apply[TypeParam <: Persistent](pType: PType[TypeParam]): Emblem[TypeParam] =
+    pTypesWithEmblems.mapValues[Emblem] {
+      new TypeBoundFunction[Any, PType, Emblem] {
+        def apply[TypeParam](pType: PType[TypeParam]): Emblem[TypeParam] =
           Emblem(pType.pTypeKey)
       }
     }
@@ -122,17 +121,17 @@ class Subdomain(
   private def pUnions = {
     val polyTypes = pTypePool.filterValues(_.isInstanceOf[PolyPType[_]])
 
-    type DerivedFrom[P <: Persistent] = DerivedPType[P, Poly] forSome { type Poly >: P <: Persistent }
+    type DerivedFrom[P] = DerivedPType[P, Poly] forSome { type Poly >: P }
 
-    val derivedTypes: TypeKeyMap[Persistent, DerivedFrom] =
-      pTypePool.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Persistent, DerivedFrom]]
+    val derivedTypes: TypeKeyMap[Any, DerivedFrom] =
+      pTypePool.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Any, DerivedFrom]]
 
-    type DerivedList[P <: Persistent] = List[Emblem[_ <: P]]
-    val baseToDerivedsMap: TypeKeyMap[Persistent, DerivedList] =
-      derivedTypes.values.foldLeft(TypeKeyMap[Persistent, DerivedList]) { (map, derivedType) =>
+    type DerivedList[P] = List[Emblem[_ <: P]]
+    val baseToDerivedsMap: TypeKeyMap[Any, DerivedList] =
+      derivedTypes.values.foldLeft(TypeKeyMap[Any, DerivedList]) { (map, derivedType) =>
 
-        def fromDerivedPType[P <: Persistent, Poly >: P <: Persistent](derivedPType: DerivedPType[P, Poly])
-        : TypeKeyMap[Persistent, DerivedList] = {
+        def fromDerivedPType[P, Poly >: P](derivedPType: DerivedPType[P, Poly])
+        : TypeKeyMap[Any, DerivedList] = {
           implicit val polyTypeKey = derivedPType.polyPTypeKey
 
           if (!polyTypes.contains[Poly]) {
@@ -147,9 +146,9 @@ class Subdomain(
         fromDerivedPType(derivedType)
       }
 
-    polyTypes.mapValuesWiden[Any, Union] {
-      new WideningTypeBoundFunction[Persistent, Any, PType, Union] {
-        def apply[TypeParam <: Persistent](pType: PType[TypeParam]): Union[TypeParam] = {
+    polyTypes.mapValues[Union] {
+      new TypeBoundFunction[Any, PType, Union] {
+        def apply[TypeParam](pType: PType[TypeParam]): Union[TypeParam] = {
           val constituents = baseToDerivedsMap.getOrElse(List[Emblem[TypeParam]]())(pType.pTypeKey)
           Union[TypeParam](constituents: _*)(pType.pTypeKey)
         }
@@ -174,9 +173,8 @@ object Subdomain {
    *
    * @throws longevity.exceptions.subdomain.NoSuchPropPathException if a
    * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
-   * [[PType persistent types]] has a property path
-   * that does not exist in the [[longevity.subdomain.Persistent
-   * persistent]] being reflected on
+   * [[PType persistent types]] has a property path that does not exist in the
+   * persistent type being reflected on
    * 
    * @throws longevity.exceptions.subdomain.UnsupportedPropTypeException
    * if a [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
@@ -188,7 +186,7 @@ object Subdomain {
    * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
    * [[PType persistent types]] has a property whose
    * specified type does not match the type of the corresponding path in the
-   * [[Persistent persistent]] being reflected on
+   * persistent being reflected on
    */
   def apply(
     name: String,

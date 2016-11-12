@@ -35,14 +35,13 @@ object PolySpec {
       verificationDate: DateTime)
     extends UserVerification
 
-    import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class User(
       username: String,
       email: Email,
       verifications: List[UserVerification])
-    extends Persistent
+   
 
     object User extends PType[User] {
       object props {
@@ -85,11 +84,10 @@ object PolySpec {
       description: Markdown)
    
 
-    import longevity.subdomain.Persistent
     import longevity.subdomain.DerivedPType
     import longevity.subdomain.PolyPType
 
-    trait User extends Persistent {
+    trait User {
       val username: String
       val email: Email
     }
@@ -159,12 +157,11 @@ object PolySpec {
    
 
     import longevity.subdomain.KeyVal
-    import longevity.subdomain.Persistent
 
     case class Username(username: String)
     extends KeyVal[User, Username]
 
-    trait User extends Persistent {
+    trait User {
       val username: Username
       val email: Email
     }
@@ -248,13 +245,12 @@ object PolySpec {
     case object Suspended extends AccountStatus
     case object Cancelled extends AccountStatus
 
-    import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class Account(
       name: String,
       accountStatus: AccountStatus)
-    extends Persistent
+   
 
     object Account extends PType[Account] {
       object keys {

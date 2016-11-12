@@ -13,10 +13,9 @@ import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.PropTypeException
 import longevity.exceptions.subdomain.UnsupportedPropTypeException
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 
-private[longevity] class RealizedProp[P <: Persistent, A](
+private[longevity] class RealizedProp[P, A](
   private[longevity] val prop: Prop[P, A],
   private val emblematic: Emblematic,
   private[realized] val emblematicPropPath: EmblematicPropPath[P, A]) {
@@ -77,11 +76,11 @@ private[longevity] class RealizedProp[P <: Persistent, A](
 private[subdomain] object RealizedProp {
 
   private val keyValTypeKey = typeKey[KeyVal[P, V] forSome {
-    type P <: Persistent
+    type P
     type V <: KeyVal[P, V]
   }]
 
-  def apply[P <: Persistent, A](prop: Prop[P, A], emblematic: Emblematic): RealizedProp[P, A] = {
+  def apply[P, A](prop: Prop[P, A], emblematic: Emblematic): RealizedProp[P, A] = {
 
     val emblematicPropPath: EmblematicPropPath[P, A] = {
       def validatePath(): EmblematicPropPath[P, _] =

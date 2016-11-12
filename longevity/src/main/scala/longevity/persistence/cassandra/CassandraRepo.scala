@@ -21,7 +21,6 @@ import longevity.persistence.PState
 import longevity.persistence.SchemaCreator
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PType
-import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.realized.RealizedPartitionKey
@@ -38,7 +37,7 @@ import scala.concurrent.blocking
  * @param session the connection to the cassandra database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
-private[longevity] class CassandraRepo[P <: Persistent] private (
+private[longevity] class CassandraRepo[P] private (
   pType: PType[P],
   subdomain: Subdomain,
   private val sessionInfo: CassandraRepo.CassandraSessionInfo,
@@ -73,14 +72,14 @@ with LazyLogging {
   protected val partitionKeyComponents = partitionComponents ++ postPartitionComponents
 
   protected val actualizedComponents =
-    indexedComponents ++ (partitionKeyComponents: Seq[RealizedPropComponent[_ >: P <: Persistent, _, _]])
+    indexedComponents ++ (partitionKeyComponents: Seq[RealizedPropComponent[_ >: P, _, _]])
 
-  protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
+  protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
     val keyComponents = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPartitionKey[_, _]]).flatMap {
-      _.realizedProp.realizedPropComponents: Seq[RealizedPropComponent[_ >: P <: Persistent, _, _]]
+      _.realizedProp.realizedPropComponents: Seq[RealizedPropComponent[_ >: P, _, _]]
     }
 
-    val indexComponents: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]] = {
+    val indexComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
       val props = pType.indexSet.flatMap(_.props)
       val realizedProps = props.map(realizedPType.realizedProps(_))
       realizedProps.map(_.realizedPropComponents).flatten
@@ -113,7 +112,7 @@ with LazyLogging {
   }
 
   protected def updateColumnNames(isCreate: Boolean = true): Seq[String] = {
-    def names(components: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]]) =
+    def names(components: Set[RealizedPropComponent[_ >: P, _, _]]) =
       components.map(columnName).toSeq.sorted
     val componentColumnNames = if (isCreate) names(actualizedComponents) else names(indexedComponents)
     (isCreate && !hasPartitionKey, persistenceConfig.optimisticLocking) match {
@@ -125,7 +124,7 @@ with LazyLogging {
   }
 
   protected def updateColumnValues(state: PState[P], isCreate: Boolean = true): Seq[AnyRef] = {
-    def values(components: Set[RealizedPropComponent[_ >: P <: Persistent, _, _]]) =
+    def values(components: Set[RealizedPropComponent[_ >: P, _, _]]) =
       components.toSeq.sortBy(columnName).map { component => propValBinding(component, state.get) }
     val componentColumnValues = if (isCreate) values(actualizedComponents) else values(indexedComponents)
     def rv = state.rowVersionOrNull
@@ -151,10 +150,7 @@ with LazyLogging {
     Seq(state.id.get.asInstanceOf[CassandraId[P]].uuid)
   }
 
-  private def propValBinding[PP >: P <: Persistent, A](
-    component: RealizedPropComponent[PP, _, A],
-    p: P)
-  : AnyRef = {
+  private def propValBinding[PP >: P, A](component: RealizedPropComponent[PP, _, A], p: P): AnyRef = {
     cassandraValue(component.outerPropPath.get(p))
   }
 
@@ -245,18 +241,18 @@ private[persistence] object CassandraRepo {
 
   }
 
-  def apply[P <: Persistent](
+  def apply[P](
     pType: PType[P],
     subdomain: Subdomain,
     session: CassandraSessionInfo,
     config: PersistenceConfig,
-    polyRepoOpt: Option[CassandraRepo[_ >: P <: Persistent]])
+    polyRepoOpt: Option[CassandraRepo[_ >: P]])
   : CassandraRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
         new CassandraRepo(pType, subdomain, session, config) with PolyCassandraRepo[P]
       case pt: DerivedPType[_, _] =>
-        def withPoly[Poly >: P <: Persistent](poly: CassandraRepo[Poly]) = {
+        def withPoly[Poly >: P](poly: CassandraRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: CassandraRepo[Poly] = poly
           }

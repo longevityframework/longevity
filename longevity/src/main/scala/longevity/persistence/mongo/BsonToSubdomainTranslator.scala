@@ -9,7 +9,6 @@ import emblem.emblematic.traversors.sync.Traversor
 import emblem.exceptions.CouldNotTraverseException
 import emblem.typeKey
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
-import longevity.subdomain.Persistent
 import org.bson.BsonDocument
 import org.bson.BsonNull
 import org.bson.BsonValue
@@ -31,7 +30,7 @@ private[persistence] class BsonToSubdomainTranslator(
   private val emblematic: Emblematic) {
 
   /** translates a `MongoDBObject` into a [[Persistent persistent object]] */
-  def translate[P <: Persistent : TypeKey](bson: BsonDocument): P = try {
+  def translate[P : TypeKey](bson: BsonDocument): P = try {
     traversor.traverse[P](WrappedInput(bson, true))
   } catch {
     case e: CouldNotTraverseException =>

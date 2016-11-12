@@ -17,12 +17,11 @@ import scala.concurrent.Future
  */
 object OffsetLimitQuerySpec {
 
-  import longevity.subdomain.Persistent
   import longevity.subdomain.PType
   import longevity.subdomain.PTypePool
   import longevity.subdomain.Subdomain
 
-  case class OffsetLimit(i: Int, j: Int) extends Persistent
+  case class OffsetLimit(i: Int, j: Int)
 
   object OffsetLimit extends PType[OffsetLimit] {
     object props {

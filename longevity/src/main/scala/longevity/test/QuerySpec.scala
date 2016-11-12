@@ -7,7 +7,6 @@ import emblem.TypeKey
 import longevity.context.LongevityContext
 import longevity.persistence.PState
 import longevity.persistence.RepoPool
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.query.Query
 import longevity.subdomain.query.QueryFilter
@@ -28,7 +27,7 @@ import scala.concurrent.Future
  * 
  * @param executionContext the execution context
  */
-abstract class QuerySpec[P <: Persistent : TypeKey](
+abstract class QuerySpec[P : TypeKey](
   protected val longevityContext: LongevityContext)(
   protected implicit val executionContext: ExecutionContext)
 extends FlatSpec with LongevityIntegrationSpec with LazyLogging {

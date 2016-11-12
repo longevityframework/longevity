@@ -11,14 +11,13 @@ import longevity.exceptions.subdomain.InvalidPartitionException
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.PartitionKey
 import longevity.subdomain.ptype.Prop
 
-private[longevity] class RealizedPType[P <: Persistent](
+private[longevity] class RealizedPType[P](
   pType: PType[P],
-  polyPTypeOpt: Option[PType[_ >: P <: Persistent]],
+  polyPTypeOpt: Option[PType[_ >: P]],
   emblematic: Emblematic) {
 
   private val postPartitionProps: Seq[Prop[P, _]] = pType.partitionKey match {
@@ -38,19 +37,19 @@ private[longevity] class RealizedPType[P <: Persistent](
     }
   }
 
-  type PProp[A] = Prop[_ >: P <: Persistent, A]
-  type PRealizedProp[A] = RealizedProp[_ >: P <: Persistent, A]
+  type PProp[A] = Prop[_ >: P, A]
+  type PRealizedProp[A] = RealizedProp[_ >: P, A]
 
   val realizedProps: TypeBoundMap[Any, PProp, PRealizedProp] = {
     def myWidenedProps = myRealizedProps.widen[PProp, PRealizedProp]
     pType match {
       case derivedPType: DerivedPType[P, _] =>
-        def polyProps[PP >: P <: Persistent](polyPTypeKey: TypeKey[PP]) = {
+        def polyProps[PP >: P](polyPTypeKey: TypeKey[PP]) = {
           val empty = TypeBoundMap[Any, PProp, PRealizedProp]()
           polyPTypeOpt match {
             case None => empty
             case Some(polyPType) => polyPType.propSet.foldLeft(empty) { (acc, prop) =>
-              def pair[PP >: P <: Persistent, A](prop: Prop[PP, A]) = {
+              def pair[PP >: P, A](prop: Prop[PP, A]) = {
                 acc + (prop -> RealizedProp(prop, emblematic))
               }
               pair(prop)

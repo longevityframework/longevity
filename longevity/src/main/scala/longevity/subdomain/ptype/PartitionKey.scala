@@ -3,7 +3,6 @@ package longevity.subdomain.ptype
 import emblem.TypeKey
 import emblem.typeKey
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 
 /** the partition key for this persistent type. partition keys are used by the
  * underlying database to partition data across multiple nodes of a distributed
@@ -20,7 +19,7 @@ import longevity.subdomain.Persistent
  * @param hashed if `true`, then used a hashed partition (as opposed to a
  * ranged partition) when possible
  */
-class PartitionKey[P <: Persistent : TypeKey, V <: KeyVal[P, V] : TypeKey] private [subdomain] (
+class PartitionKey[P : TypeKey, V <: KeyVal[P, V] : TypeKey] private [subdomain] (
   keyValProp: Prop[P, V],
   val partition: Partition[P],
   val hashed: Boolean)

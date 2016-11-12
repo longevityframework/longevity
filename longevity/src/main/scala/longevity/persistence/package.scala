@@ -5,7 +5,6 @@ import akka.stream.scaladsl.Source
 import emblem.TypeKey
 import emblem.typeKey
 import longevity.subdomain.query.Query
-import longevity.subdomain.Persistent
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 
@@ -19,7 +18,7 @@ package object persistence {
    * Akka Streams can remain an optional dependency for longevity users.
    * otherwise, it would have been included as part of the [[Repo]].
    */
-  implicit class StreamingRepo[P <: Persistent](repo: Repo[P]) {
+  implicit class StreamingRepo[P](repo: Repo[P]) {
 
     /** streams persistent objects matching a query
      * 
@@ -33,15 +32,15 @@ package object persistence {
   /** packages a [[longevity.subdomain.Persistent persistent object]]
    * with a `TypeKey` for the object's type. used by [[RepoPool.createMany]].
    */
-  implicit class PWithTypeKey[P <: Persistent : TypeKey](val p: P) {
+  implicit class PWithTypeKey[P : TypeKey](val p: P) {
     val pTypeKey = typeKey[P]
   }
 
   /** a future persistent state */
-  type FPState[P <: Persistent] = Future[PState[P]]
+  type FPState[P] = Future[PState[P]]
 
   /** extension methods for an [[FPState]] */
-  implicit class LiftFPState[P <: Persistent](
+  implicit class LiftFPState[P](
     fpState: FPState[P])(
     implicit executionContext: ExecutionContext) {
 
@@ -56,10 +55,10 @@ package object persistence {
   }
 
   /** an optional persistent state */
-  type OPState[P <: Persistent] = Option[PState[P]]
+  type OPState[P] = Option[PState[P]]
 
   /** extension methods for an [[OPState]] */
-  implicit class LiftOPState[P <: Persistent](opState: OPState[P]) {
+  implicit class LiftOPState[P](opState: OPState[P]) {
 
     /** map the optional `PState` by mapping the `Persistent` inside */
     def mapP(f: P => P): OPState[P] =
@@ -72,10 +71,10 @@ package object persistence {
   }
 
   /** a future option persistent state */
-  type FOPState[P <: Persistent] = Future[Option[PState[P]]]
+  type FOPState[P] = Future[Option[PState[P]]]
 
   /** extension methods for an [[FOPState]] */
-  implicit class LiftFOPState[P <: Persistent](
+  implicit class LiftFOPState[P](
     fopState: FOPState[P])(
     implicit executionContext: ExecutionContext) {
 

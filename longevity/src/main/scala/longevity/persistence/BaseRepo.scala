@@ -6,7 +6,6 @@ import emblem.TypeKey
 import longevity.exceptions.persistence.UnstablePartitionKeyException
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 import longevity.subdomain.query.Query
 import longevity.subdomain.realized.RealizedPType
@@ -18,7 +17,7 @@ import scala.concurrent.Future
  * @param pType the entity type for the persistent entities this repository handles
  * @param subdomain the subdomain containing the persistent entities that this repo persists
  */
-private[longevity] abstract class BaseRepo[P <: Persistent] private[persistence] (
+private[longevity] abstract class BaseRepo[P] private[persistence] (
   protected[longevity] val pType: PType[P],
   protected[longevity] val subdomain: Subdomain)
 extends Repo[P] {

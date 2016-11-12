@@ -6,7 +6,6 @@ import org.bson.BsonInt32
 import org.bson.BsonString
 import org.bson.BsonBoolean
 import org.bson.BsonDocument
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Index
 import longevity.subdomain.ptype.Partition
 import longevity.subdomain.realized.RealizedKey
@@ -16,7 +15,7 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of MongoRepo.createSchema */
-private[mongo] trait MongoSchema[P <: Persistent] {
+private[mongo] trait MongoSchema[P] {
   repo: MongoRepo[P] =>
 
   protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {

@@ -3,7 +3,6 @@ package longevity.persistence.mongo
 import com.mongodb.client.model.Filters
 import longevity.persistence.PState
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.query.EqOp
 import longevity.subdomain.query.GtOp
@@ -20,7 +19,7 @@ import org.bson.conversions.Bson
 /** utilities for reading from a mongo collection. used by [[MongoRetrieve]] and
  * [[MongoQuery]]
  */
-private[mongo] trait MongoRead[P <: Persistent] {
+private[mongo] trait MongoRead[P] {
   repo: MongoRepo[P] =>
 
   private lazy val bsonToSubdomainTranslator =
@@ -40,11 +39,11 @@ private[mongo] trait MongoRead[P <: Persistent] {
     PState(id, rv, p)
   }
 
-  protected def propValToMongo[A](value: A, prop: Prop[_ >: P <: Persistent, A]): BsonValue = {
+  protected def propValToMongo[A](value: A, prop: Prop[_ >: P, A]): BsonValue = {
     subdomainToBsonTranslator.translate(value, false)(prop.propTypeKey)
   }
 
-  protected def mongoRelationalFilter[A](prop: Prop[_ >: P <: Persistent, A], op: RelationalOp, value: A) = {
+  protected def mongoRelationalFilter[A](prop: Prop[_ >: P, A], op: RelationalOp, value: A) = {
     realizedPType.partitionKey match {
       case Some(k) if !k.fullyPartitioned && k.key.keyValProp == prop =>
         def f[V <: KeyVal[P, V]](k: RealizedPartitionKey[P, V]) =

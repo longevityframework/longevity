@@ -31,13 +31,12 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/ptype/ptypes.html
   object ptypes {
 
-    import longevity.subdomain.Persistent
 
     case class User(
       username: String,
       firstName: String,
       lastName: String)
-    extends Persistent
+   
 
     import longevity.subdomain.PType
 
@@ -58,7 +57,6 @@ object SubdomainSpec {
   object basics {
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.Persistent
     import longevity.subdomain.PTypePool
     import longevity.subdomain.PType
     import org.joda.time.DateTime
@@ -70,7 +68,7 @@ object SubdomainSpec {
       dateJoined: DateTime,
       numCats: Int,
       isSuspended: Boolean = false)
-    extends Persistent
+   
 
     object User extends PType[User] {
       object props {
@@ -86,7 +84,6 @@ object SubdomainSpec {
   object collections {
 
     import longevity.subdomain.Subdomain
-    import longevity.subdomain.Persistent
     import longevity.subdomain.PTypePool
     import longevity.subdomain.PType
 
@@ -96,7 +93,7 @@ object SubdomainSpec {
       firstName: String,
       lastName: String,
       emails: Set[String])
-    extends Persistent
+   
 
     object User extends PType[User] {
       object props {
@@ -111,7 +108,6 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/index.html
   object embeddables1 {
 
-    import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class FullName(
@@ -122,7 +118,7 @@ object SubdomainSpec {
     case class User(
       username: String,
       fullName: FullName)
-    extends Persistent
+   
 
     object User extends PType[User] {
       object props {
@@ -147,7 +143,6 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/index.html
   object embeddables2 {
 
-    import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class Email(email: String)
@@ -166,7 +161,7 @@ object SubdomainSpec {
       username: String,
       emails: EmailPreferences,
       addresses: Set[Address])
-    extends Persistent
+   
 
     object User extends PType[User] {
       object props {
@@ -197,14 +192,13 @@ object SubdomainSpec {
       description: String)
    
 
-    import longevity.subdomain.Persistent
     import longevity.subdomain.PType
 
     case class User(
       username: String,
       email: String,
       profile: Option[UserProfile])
-    extends Persistent
+   
 
     object User extends PType[User] {
       object props {
@@ -227,7 +221,6 @@ object SubdomainSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.ETypePool
     import longevity.subdomain.EType
-    import longevity.subdomain.Persistent
     import longevity.subdomain.PTypePool
     import longevity.subdomain.PType
 
@@ -246,7 +239,7 @@ object SubdomainSpec {
       username: String,
       email: Email,
       address: Address)
-    extends Persistent
+   
 
     object User extends PType[User] {
       object props {

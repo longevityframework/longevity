@@ -3,13 +3,12 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.BoundStatement
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.update */
-private[cassandra] trait CassandraUpdate[P <: Persistent] {
+private[cassandra] trait CassandraUpdate[P] {
   repo: CassandraRepo[P] =>
 
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =

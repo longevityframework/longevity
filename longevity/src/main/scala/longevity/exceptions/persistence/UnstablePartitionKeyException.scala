@@ -1,10 +1,9 @@
 package longevity.exceptions.persistence
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.AnyKeyVal
 
 /** an exception thrown on attempt to persist an object with a modified partition key */
-class UnstablePartitionKeyException[P <: Persistent](
+class UnstablePartitionKeyException[P](
   val orig: P,
   val origKeyVal: AnyKeyVal[P],
   val newKeyVal: AnyKeyVal[P])

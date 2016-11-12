@@ -2,23 +2,24 @@ package longevity.persistence
 
 import emblem.TypeKey
 import emblem.TypeKeyMap
-import longevity.subdomain.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a collection of repositories */
 class RepoPool(
-  private[longevity] val baseRepoMap: TypeKeyMap[Persistent, BaseRepo],
+  private[longevity] val baseRepoMap: TypeKeyMap[Any, BaseRepo],
   private[this] val schemaCreator: SchemaCreator) {
 
-  /** a `TypeKeyMap` of [[longevity.subdomain.persistent.Persistent]] to [[Repo]] */
-  private val typeKeyMap: TypeKeyMap[Persistent, Repo] = baseRepoMap.widen
+  /** a type key map for [[Repo repositories]]
+   * @see emblem.TypeKeyMap
+   */
+  private val typeKeyMap: TypeKeyMap[Any, Repo] = baseRepoMap.widen
 
   /** select a repository by the type of persistent object */
-  def apply[P <: Persistent : TypeKey]: Repo[P] = typeKeyMap[P]
+  def apply[P : TypeKey]: Repo[P] = typeKeyMap[P]
 
   /** an iterable collection of the repositories */
-  def values: collection.Iterable[Repo[_ <: Persistent]] = typeKeyMap.values
+  def values: collection.Iterable[Repo[_]] = typeKeyMap.values
 
   /** creates many persistent objects at once.
    *
@@ -38,11 +39,11 @@ class RepoPool(
    * @see [Assoc.apply]
    */
   def createMany(
-    keyedPs: PWithTypeKey[_ <: Persistent]*)(
+    keyedPs: PWithTypeKey[_]*)(
     implicit executionContext: ExecutionContext)
-  : Future[Seq[PState[_ <: Persistent]]] = {
+  : Future[Seq[PState[_]]] = {
     val fpStates = keyedPs.map { keyedP =>
-      def fpState[P <: Persistent](keyedP: PWithTypeKey[P]): Future[PState[_ <: Persistent]] =
+      def fpState[P](keyedP: PWithTypeKey[P]): Future[PState[_]] =
         typeKeyMap(keyedP.pTypeKey).create(keyedP.p)
       fpState(keyedP)
     }
@@ -56,8 +57,8 @@ class RepoPool(
   /** non-desctructively creates any needed database constructs */
   def createSchema()(implicit context: ExecutionContext): Future[Unit] =
     schemaCreator.createSchema().flatMap { _ =>
-      def isPolyRepo(repo: BaseRepo[_ <: Persistent]) = repo.isInstanceOf[BasePolyRepo[_]]
-      def createSchemas(repoTest: (BaseRepo[_ <: Persistent]) => Boolean) =
+      def isPolyRepo(repo: BaseRepo[_]) = repo.isInstanceOf[BasePolyRepo[_]]
+      def createSchemas(repoTest: (BaseRepo[_]) => Boolean) =
         Future.sequence(baseRepoMap.values.filter(repoTest).map(_.createSchema()))
       for {
         units1 <- createSchemas(isPolyRepo)

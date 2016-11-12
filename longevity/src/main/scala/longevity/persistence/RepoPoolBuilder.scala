@@ -15,7 +15,6 @@ import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.persistence.mongo.MongoRepo.MongoSessionInfo
 import longevity.subdomain.Subdomain
-import longevity.subdomain.Persistent
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PType
 import longevity.subdomain.PolyPType
@@ -48,18 +47,18 @@ private[longevity] object RepoPoolBuilder {
     pool
   }
 
-  private trait StockRepoFactory[R[P <: Persistent] <: BaseRepo[P]] {
-    def build[P <: Persistent](
+  private trait StockRepoFactory[R[P] <: BaseRepo[P]] {
+    def build[P](
       pType: PType[P],
-      polyRepoOpt: Option[R[_ >: P <: Persistent]] = None)
+      polyRepoOpt: Option[R[_ >: P]] = None)
     : R[P]
   }
 
   private def inMemTestRepoPool(subdomain: Subdomain, persistenceConfig: PersistenceConfig): RepoPool = {
     object repoFactory extends StockRepoFactory[InMemRepo] {
-      def build[P <: Persistent](
+      def build[P](
         pType: PType[P],
-        polyRepoOpt: Option[InMemRepo[_ >: P <: Persistent]])
+        polyRepoOpt: Option[InMemRepo[_ >: P]])
       : InMemRepo[P] =
         InMemRepo[P](pType, subdomain, persistenceConfig, polyRepoOpt)
     }
@@ -72,9 +71,9 @@ private[longevity] object RepoPoolBuilder {
     persistenceConfig: PersistenceConfig)
   : RepoPool = {
     object repoFactory extends StockRepoFactory[MongoRepo] {
-      def build[P <: Persistent](
+      def build[P](
         pType: PType[P],
-        polyRepoOpt: Option[MongoRepo[_ >: P <: Persistent]])
+        polyRepoOpt: Option[MongoRepo[_ >: P]])
       : MongoRepo[P] =
         MongoRepo[P](pType, subdomain, session, persistenceConfig, polyRepoOpt)
     }
@@ -87,28 +86,28 @@ private[longevity] object RepoPoolBuilder {
     persistenceConfig: PersistenceConfig)
   : RepoPool = {
     object repoFactory extends StockRepoFactory[CassandraRepo] {
-      def build[P <: Persistent](
+      def build[P](
         pType: PType[P],
-        polyRepoOpt: Option[CassandraRepo[_ >: P <: Persistent]])
+        polyRepoOpt: Option[CassandraRepo[_ >: P]])
       : CassandraRepo[P] =
         CassandraRepo[P](pType, subdomain, session, persistenceConfig, polyRepoOpt)
     }
     buildRepoPool(subdomain, repoFactory, session, persistenceConfig)
   }
 
-  private def buildRepoPool[R[P <: Persistent] <: BaseRepo[P]](
+  private def buildRepoPool[R[P] <: BaseRepo[P]](
     subdomain: Subdomain,
     stockRepoFactory: StockRepoFactory[R],
     schemaCreator: SchemaCreator,
     persistenceConfig: PersistenceConfig)
   : RepoPool = {
-    var keyToRepoMap = TypeKeyMap[Persistent, R]
-    type Pair[P <: Persistent] = TypeBoundPair[Persistent, TypeKey, PType, P]
-    def createRepoFromPair[P <: Persistent](pair: Pair[P]): Unit = {
+    var keyToRepoMap = TypeKeyMap[Any, R]
+    type Pair[P] = TypeBoundPair[Any, TypeKey, PType, P]
+    def createRepoFromPair[P](pair: Pair[P]): Unit = {
       val pTypeKey = pair._1
       val pType = pair._2
 
-      val polyKey: Option[TypeKey[_ >: P <: Persistent]] = pType match {
+      val polyKey: Option[TypeKey[_ >: P]] = pType match {
         case dpt: DerivedPType[_, _] => Some(dpt.polyPTypeKey)
         case _ => None
       }
@@ -125,7 +124,7 @@ private[longevity] object RepoPoolBuilder {
     repoPool
   }
 
-  private def isPolyPType(pair: TypeBoundPair[Persistent, TypeKey, PType, _ <: Persistent]): Boolean = {
+  private def isPolyPType(pair: TypeBoundPair[Any, TypeKey, PType, _]): Boolean = {
     pair._2.isInstanceOf[PolyPType[_]]
   }
 

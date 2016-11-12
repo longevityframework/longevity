@@ -4,13 +4,12 @@ import com.datastax.driver.core.BoundStatement
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.Deleted
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.delete */
-private[cassandra] trait CassandraDelete[P <: Persistent] {
+private[cassandra] trait CassandraDelete[P] {
   repo: CassandraRepo[P] =>
 
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = Future {

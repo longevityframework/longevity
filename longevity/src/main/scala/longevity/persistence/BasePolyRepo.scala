@@ -4,11 +4,10 @@ import emblem.TypeKey
 import emblem.emblematic.Union
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
-import longevity.subdomain.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-private[persistence] trait BasePolyRepo[P <: Persistent] extends BaseRepo[P] {
+private[persistence] trait BasePolyRepo[P] extends BaseRepo[P] {
 
   private val union: Union[P] = subdomain.emblematic.unions(pTypeKey)
 

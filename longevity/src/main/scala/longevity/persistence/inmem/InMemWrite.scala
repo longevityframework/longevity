@@ -4,13 +4,12 @@ import longevity.exceptions.persistence.WriteConflictException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
 import longevity.subdomain.AnyKeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.realized.AnyRealizedKey
 
 /** support for InMemRepo methods that modify persistent collection. used by
  * [[InMemCreate]], [[InMemDelete]] and [[InMemUpdate]].
  */
-private[inmem] trait InMemWrite[P <: Persistent] {
+private[inmem] trait InMemWrite[P] {
   repo: InMemRepo[P] =>
 
   private var idCounter = 0
@@ -22,9 +21,9 @@ private[inmem] trait InMemWrite[P <: Persistent] {
     id
   }
 
-  protected[inmem] def keys: Seq[AnyRealizedKey[_ >: P <: Persistent]] = myKeys
+  protected[inmem] def keys: Seq[AnyRealizedKey[_ >: P]] = myKeys
 
-  protected def myKeys: Seq[AnyRealizedKey[_ >: P <: Persistent]] = realizedPType.keySet.toSeq
+  protected def myKeys: Seq[AnyRealizedKey[_ >: P]] = realizedPType.keySet.toSeq
 
   protected[inmem] def assertNoWriteConflict(state: PState[P]) = {
     if (persistenceConfig.optimisticLocking) {
@@ -53,8 +52,8 @@ private[inmem] trait InMemWrite[P <: Persistent] {
   }
 
   protected[inmem] def assertUniqueKeyVal(
-    realizedKey: AnyRealizedKey[_ >: P <: Persistent],
-    keyVal: AnyKeyVal[_ <: Persistent],
+    realizedKey: AnyRealizedKey[_ >: P],
+    keyVal: AnyKeyVal[_],
     state: PState[P]): Unit = {
     if (keyValToPStateMap.contains(keyVal) && keyValToPStateMap(keyVal).id != state.id) {
       throw new DuplicateKeyValException[P](state.get, realizedKey.key)

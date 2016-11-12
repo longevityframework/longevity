@@ -8,7 +8,6 @@ import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.RepoPool
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
 import longevity.subdomain.realized.RealizedKey
 import org.scalatest.FlatSpec
@@ -57,7 +56,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
   }}"
 
   repoPool.baseRepoMap.foreach { pair =>
-    def repoSpec[P <: Persistent](pair: TypeBoundPair[Persistent, TypeKey, BaseRepo, P]): Unit = {
+    def repoSpec[P](pair: TypeBoundPair[Any, TypeKey, BaseRepo, P]): Unit = {
       new RepoSpec(pair._2, pair._1)
     }
     repoSpec(pair)
@@ -65,7 +64,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
   override def afterAll = repoPool.closeSession().futureValue
 
-  private class RepoSpec[P <: Persistent](
+  private class RepoSpec[P](
     private val repo: BaseRepo[P],
     private val pTypeKey: TypeKey[P]) {
 

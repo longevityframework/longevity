@@ -1,7 +1,6 @@
 package longevity.integration.subdomain.basics
 
 import org.joda.time.DateTime
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class Basics(
@@ -14,7 +13,6 @@ case class Basics(
   long: Long,
   string: String,
   dateTime: DateTime)
-extends Persistent
 
 object Basics extends PType[Basics] {
   object props {

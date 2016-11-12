@@ -1,7 +1,6 @@
 package longevity.subdomain.ptype
 
 import emblem.TypeKey
-import longevity.subdomain.Persistent
 
 /** a property for this persistent type. properties map to underlying members
  * within the [Persistent persistent object], at any depth.
@@ -20,7 +19,7 @@ import longevity.subdomain.Persistent
  * @param pTypeKey the `TypeKey` for the enclosing [[PType persistent type]]
  * @param propTypeKey the `TypeKey` for the property value type
  */
-case class Prop[P <: Persistent, A] private[ptype] (
+case class Prop[P, A] private[ptype] (
   path: String,
   pTypeKey: TypeKey[P],
   propTypeKey: TypeKey[A]) {

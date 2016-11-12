@@ -1,14 +1,13 @@
 package longevity.persistence.cassandra
 
 import com.datastax.driver.core.exceptions.InvalidQueryException
-import longevity.subdomain.Persistent
 import longevity.subdomain.realized.RealizedPropComponent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.createSchema */
-private[cassandra] trait CassandraSchema[P <: Persistent] {
+private[cassandra] trait CassandraSchema[P] {
   repo: CassandraRepo[P] =>
 
   protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
@@ -50,7 +49,7 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
 
   private def postPartitionColumns = postPartitionComponents.map(columnName).mkString(", ")
 
-  private def columnDef(component: RealizedPropComponent[_ >: P <: Persistent, _, _]) =
+  private def columnDef(component: RealizedPropComponent[_ >: P, _, _]) =
     s"${columnName(component)} ${componentToCassandraType(component)}"
 
   protected def addColumn(columnName: String, columnType: String): Unit = {
@@ -67,14 +66,14 @@ private[cassandra] trait CassandraSchema[P <: Persistent] {
   }
 
   protected def componentToCassandraType[A](
-    component: RealizedPropComponent[_ >: P <: Persistent, _, A])
+    component: RealizedPropComponent[_ >: P, _, A])
   : String = {
     CassandraRepo.basicToCassandraType(component.componentTypeKey)
   }
 
   protected def createIndexes(): Unit = indexedComponents.foreach(createIndex)
 
-  protected def createIndex(component: RealizedPropComponent[_ >: P <: Persistent, _, _]): Unit = {
+  protected def createIndex(component: RealizedPropComponent[_ >: P, _, _]): Unit = {
     val indexName = s"${tableName}_${scoredPath(component)}"
     createIndex(indexName, columnName(component))
   }

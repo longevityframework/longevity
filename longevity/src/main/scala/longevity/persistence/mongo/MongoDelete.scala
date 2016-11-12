@@ -3,13 +3,12 @@ package longevity.persistence.mongo
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.Deleted
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of MongoRepo.delete */
-private[mongo] trait MongoDelete[P <: Persistent] {
+private[mongo] trait MongoDelete[P] {
   repo: MongoRepo[P] =>
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {

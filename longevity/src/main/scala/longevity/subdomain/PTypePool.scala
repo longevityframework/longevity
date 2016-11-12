@@ -13,15 +13,11 @@ object PTypePool {
    * two `PTypes` have the same `Persistent` type
    */
   @throws[DuplicatePTypesException]("when two PTypes have the same Persistent type")
-  def apply(pTypes: PType[_ <: Persistent]*): PTypePool = {
-
-    val map: TypeKeyMap[Persistent, PType] =
-      pTypes.foldLeft(TypeKeyMap[Persistent, PType]()) {
-        case (map, pType) => map + (pType.pTypeKey -> pType)
-      }
-
+  def apply(pTypes: PType[_]*): PTypePool = {
+    val map: TypeKeyMap[Any, PType] = pTypes.foldLeft(TypeKeyMap[Any, PType]()) {
+      case (map, pType) => map + (pType.pTypeKey -> pType)
+    }
     if (pTypes.size != map.size) throw new DuplicatePTypesException
-
     map
   }
 

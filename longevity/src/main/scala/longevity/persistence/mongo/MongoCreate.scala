@@ -2,14 +2,13 @@ package longevity.persistence.mongo
 
 import com.mongodb.MongoWriteException
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import org.bson.types.ObjectId
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of MongoRepo.create */
-private[mongo] trait MongoCreate[P <: Persistent] {
+private[mongo] trait MongoCreate[P] {
   repo: MongoRepo[P] =>
 
   def create(p: P)(implicit context: ExecutionContext) = Future {

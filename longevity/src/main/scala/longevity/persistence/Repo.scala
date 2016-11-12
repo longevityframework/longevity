@@ -2,13 +2,12 @@ package longevity.persistence
 
 import emblem.TypeKey
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.query.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a repository for persistent objects of type `P` */
-trait Repo[P <: Persistent] {
+trait Repo[P] {
 
   /** creates the persistent object
    * 

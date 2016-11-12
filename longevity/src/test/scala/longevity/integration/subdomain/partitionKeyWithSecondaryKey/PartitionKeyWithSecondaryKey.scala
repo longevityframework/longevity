@@ -1,12 +1,10 @@
 package longevity.integration.subdomain.partitionKeyWithSecondaryKey
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class PartitionKeyWithSecondaryKey(
   primary: Key,
   secondary: SecondaryKey)
-extends Persistent
 
 object PartitionKeyWithSecondaryKey extends PType[PartitionKeyWithSecondaryKey] {
   object props {

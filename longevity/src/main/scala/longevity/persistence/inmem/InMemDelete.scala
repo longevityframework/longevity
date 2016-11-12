@@ -2,13 +2,12 @@ package longevity.persistence.inmem
 
 import longevity.persistence.Deleted
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of InMemRepo.delete */
-private[inmem] trait InMemDelete[P <: Persistent] {
+private[inmem] trait InMemDelete[P] {
   repo: InMemRepo[P] =>
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {

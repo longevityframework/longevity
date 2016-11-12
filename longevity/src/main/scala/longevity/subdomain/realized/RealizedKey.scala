@@ -3,11 +3,10 @@ package longevity.subdomain.realized
 import emblem.TypeKey
 import emblem.typeKey
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Key
 
 private[longevity] class RealizedKey[
-  P <: Persistent,
+  P,
   V <: KeyVal[P, V] : TypeKey] private [subdomain](
   val key: Key[P, V],
   val realizedProp: RealizedProp[P, V]) {

@@ -6,7 +6,7 @@ import emblem.TypeKey
  * youe [[PType persistent type]] when it represents a concrete subtype of a
  * [[PolyPType]].
  */
-abstract class DerivedPType[P <: Persistent : TypeKey, Poly >: P <: Persistent : TypeKey] extends PType[P] {
+abstract class DerivedPType[P : TypeKey, Poly >: P : TypeKey] extends PType[P] {
 
   private[longevity] val polyPTypeKey: TypeKey[Poly] = implicitly[TypeKey[Poly]]
 

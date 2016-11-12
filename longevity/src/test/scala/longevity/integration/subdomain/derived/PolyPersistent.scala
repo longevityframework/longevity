@@ -1,10 +1,9 @@
 package longevity.integration.subdomain.derived
 
 import longevity.subdomain.PolyPType
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
-trait PolyPersistent extends Persistent {
+trait PolyPersistent {
   val id: PolyPersistentId
   val component: PolyEmbeddable
 }

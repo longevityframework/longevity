@@ -5,7 +5,6 @@ import akka.stream.scaladsl.Source
 import com.mongodb.client.MongoCursor
 import com.mongodb.client.model.Filters
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.query.AndOp
 import longevity.subdomain.query.Ascending
@@ -29,7 +28,7 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of MongoRepo.retrieveByQuery and MongoRepo.streamByQuery */
-private[mongo] trait MongoQuery[P <: Persistent] {
+private[mongo] trait MongoQuery[P] {
   repo: MongoRepo[P] =>
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)

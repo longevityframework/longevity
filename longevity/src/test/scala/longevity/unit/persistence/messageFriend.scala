@@ -6,7 +6,6 @@ import longevity.TestLongevityConfigs.mongoConfig
 import longevity.context.LongevityContext
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
-import longevity.subdomain.Persistent
 import longevity.subdomain.PTypePool
 import longevity.subdomain.PType
 
@@ -14,7 +13,7 @@ object messageFriend {
 
   case class FriendId(id: String) extends KeyVal[Friend, FriendId]
 
-  case class Friend(id: FriendId, name: String) extends Persistent
+  case class Friend(id: FriendId, name: String)
 
   object Friend extends PType[Friend] {
     object props {
@@ -27,7 +26,7 @@ object messageFriend {
 
   case class MessageId(id: String) extends KeyVal[Message, MessageId]
 
-  case class Message(id: MessageId, author: FriendId, content: String) extends Persistent
+  case class Message(id: MessageId, author: FriendId, content: String)
 
   object Message extends PType[Message] {
     object props {

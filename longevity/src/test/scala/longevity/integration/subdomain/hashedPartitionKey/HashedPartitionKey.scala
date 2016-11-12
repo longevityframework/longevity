@@ -1,9 +1,8 @@
 package longevity.integration.subdomain.hashedPartitionKey
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
-case class HashedPartitionKey(key: Key) extends Persistent
+case class HashedPartitionKey(key: Key)
 
 object HashedPartitionKey extends PType[HashedPartitionKey] {
   object props {

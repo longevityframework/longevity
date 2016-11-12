@@ -1,13 +1,12 @@
 package longevity.persistence.inmem
 
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of InMemRepo.create */
-private[inmem] trait InMemCreate[P <: Persistent] {
+private[inmem] trait InMemCreate[P] {
   repo: InMemRepo[P] =>
 
   def create(unpersisted: P)(implicit context: ExecutionContext) = Future {

@@ -15,7 +15,6 @@ object RepoSpec {
   import longevity.subdomain.EType
   import longevity.subdomain.ETypePool
   import longevity.subdomain.EType
-  import longevity.subdomain.Persistent
   import longevity.subdomain.PTypePool
   import longevity.subdomain.PType
 
@@ -35,7 +34,7 @@ object RepoSpec {
     fullname: String,
     email: Email,
     profile: Option[UserProfile] = None)
-  extends Persistent
+ 
 
   object User extends PType[User] {
     object props {
@@ -62,7 +61,7 @@ object RepoSpec {
     title: String,
     description: Markdown,
     authors: Set[Username])
-  extends Persistent
+ 
 
   object Blog extends PType[Blog] {
     object props {
@@ -85,7 +84,7 @@ object RepoSpec {
     postDate: DateTime,
     blog: BlogUri,
     authors: Set[Username])
-  extends Persistent
+ 
 
   object BlogPost extends PType[BlogPost] {
     object props {

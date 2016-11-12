@@ -16,7 +16,6 @@ import longevity.subdomain.ETypePool
 import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
 import longevity.subdomain.PTypePool
-import longevity.subdomain.Persistent
 import longevity.subdomain.PolyEType
 import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
@@ -28,7 +27,7 @@ import org.scalatest.Matchers
 object SubdomainSpec {
 
   object emptyPropPath {
-    case class A(id: String) extends Persistent
+    case class A(id: String)
     object A extends PType[A] {
       object props {
         val id = prop[String]("")
@@ -40,7 +39,7 @@ object SubdomainSpec {
   }
 
   object noSuchPropPath {
-    case class A(id: String) extends Persistent
+    case class A(id: String)
     object A extends PType[A] {
       object props {
         val id = prop[String]("noSuchPropPath")
@@ -52,7 +51,7 @@ object SubdomainSpec {
   }
 
   object noSuchPropPathInComponent {
-    case class A(b: B) extends Persistent
+    case class A(b: B)
     object A extends PType[A] {
       object props {
         val id = prop[String]("b.noSuchPropPath")
@@ -66,7 +65,7 @@ object SubdomainSpec {
 
   object propPathWithNonEmbeddable {
     import java.util.UUID
-    case class A(id: UUID) extends Persistent
+    case class A(id: UUID)
     object A extends PType[A] {
       object props {
         val id = prop[UUID]("id")
@@ -78,7 +77,7 @@ object SubdomainSpec {
   }
 
   object propPathWithTerminalList {
-    case class A(id: List[String]) extends Persistent
+    case class A(id: List[String])
     object A extends PType[A] {
       object props {
         val id = prop[List[String]]("id")
@@ -90,7 +89,7 @@ object SubdomainSpec {
   }
 
   object propPathWithTerminalOption {
-    case class A(id: Option[String]) extends Persistent
+    case class A(id: Option[String])
     object A extends PType[A] {
       object props {
         val id = prop[Option[String]]("id")
@@ -102,7 +101,7 @@ object SubdomainSpec {
   }
 
   object propPathWithTerminalSet {
-    case class A(id: Set[String]) extends Persistent
+    case class A(id: Set[String])
     object A extends PType[A] {
       object props {
         val id = prop[Set[String]]("id")
@@ -114,7 +113,7 @@ object SubdomainSpec {
   }
 
   object propPathWithTerminalPoly {
-    case class A(b: B) extends Persistent
+    case class A(b: B)
     object A extends PType[A] {
       object props {
         val id = prop[B]("b")
@@ -134,7 +133,7 @@ object SubdomainSpec {
   }
 
   object propPathWithInternalList {
-    case class A(id: List[B]) extends Persistent
+    case class A(id: List[B])
     object A extends PType[A] {
       object props {
         val id = prop[String]("id.id")
@@ -147,7 +146,7 @@ object SubdomainSpec {
   }
 
   object propPathWithInternalOption {
-    case class A(id: Option[B]) extends Persistent
+    case class A(id: Option[B])
     object A extends PType[A] {
       object props {
         val id = prop[String]("id.id")
@@ -160,7 +159,7 @@ object SubdomainSpec {
   }
 
   object propPathWithInternalSet {
-    case class A(id: Set[B]) extends Persistent
+    case class A(id: Set[B])
     object A extends PType[A] {
       object props {
         val id = prop[String]("id.id")
@@ -173,7 +172,7 @@ object SubdomainSpec {
   }
 
   object propPathWithInternalPoly {
-    case class A(b: B) extends Persistent
+    case class A(b: B)
     object A extends PType[A] {
       object props {
         val id = prop[String]("b.id")
@@ -192,7 +191,7 @@ object SubdomainSpec {
   }
 
   object incompatiblePropType {
-    case class A(id: String) extends Persistent
+    case class A(id: String)
     object A extends PType[A] {
       object props {
         val id = prop[Double]("id")
@@ -204,7 +203,7 @@ object SubdomainSpec {
   }
 
   object supertypePropType {
-    case class A(id: String) extends Persistent
+    case class A(id: String)
     object A extends PType[A] {
       object props {
         val id = prop[AnyRef]("id")
@@ -219,7 +218,7 @@ object SubdomainSpec {
 
     case class AId(id: String) extends KeyVal[A, AId]
 
-    case class A(id: AId) extends Persistent
+    case class A(id: AId)
     object A extends PType[A] {
       object props {
         val id = prop[AId]("id")
@@ -237,7 +236,7 @@ object SubdomainSpec {
 
     case class AId(id: String) extends KeyVal[A, AId]
 
-    case class A(id1: AId, id2: AId) extends Persistent
+    case class A(id1: AId, id2: AId)
     object A extends PType[A] {
       object props {
         val id1 = prop[AId]("id1")
@@ -257,7 +256,7 @@ object SubdomainSpec {
 
     case class AId(id: String) extends KeyVal[A, AId]
 
-    case class A(id: AId) extends Persistent
+    case class A(id: AId)
     object A extends PType[A] {
       object props {
         val id = prop[AId]("id")
@@ -276,7 +275,7 @@ object SubdomainSpec {
 
     case class AId(id: String) extends KeyVal[A, AId]
 
-    case class A(id: AId) extends Persistent
+    case class A(id: AId)
     object A extends PType[A] {
       object props {
         val id = prop[AId]("id")
@@ -294,7 +293,7 @@ object SubdomainSpec {
   }
 
   object duplicateKeyOrIndex3 {
-    case class A(id: String) extends Persistent
+    case class A(id: String)
     object A extends PType[A] {
       object props {
         val id = prop[String]("id")
@@ -314,7 +313,7 @@ object SubdomainSpec {
 
     case class AId(id1: String, id2: String) extends KeyVal[A, AId]
 
-    case class A(id: AId) extends Persistent
+    case class A(id: AId)
     object A extends PType[A] {
       object props {
         val id = prop[AId]("id")
@@ -331,7 +330,7 @@ object SubdomainSpec {
 
   object derivedPTypeHasNoPoly {
 
-    trait Poly extends Persistent { val id: String }
+    trait Poly { val id: String }
     object Poly extends PolyPType[Poly] {
       object props {
       }
@@ -362,7 +361,7 @@ object SubdomainSpec {
   }
 
   object duplicatePTypes {
-    case class A(id: String) extends Persistent
+    case class A(id: String)
     object A extends PType[A] {
       object props {
       }

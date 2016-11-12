@@ -3,7 +3,6 @@ package longevity.persistence.inmem
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import longevity.persistence.PState
-import longevity.subdomain.Persistent
 import longevity.subdomain.query.Query
 import longevity.subdomain.query.QueryFilter
 import longevity.subdomain.query.QueryOrderBy
@@ -11,7 +10,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of InMemRepo.retrieveByQuery and streamByQuery */
-private[inmem] trait InMemQuery[P <: Persistent] {
+private[inmem] trait InMemQuery[P] {
   repo: InMemRepo[P] =>
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)

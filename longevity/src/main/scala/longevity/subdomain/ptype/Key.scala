@@ -4,7 +4,6 @@ import emblem.TypeKey
 import emblem.emblematic.Emblem
 import emblem.typeKey
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 
 /** a natural key for this persistent type. wraps a [[Prop property]] that,
  * given specific a property value, will match the corresponding member of no
@@ -14,7 +13,7 @@ import longevity.subdomain.Persistent
  * @tparam V the key value type
  * @param keyValProp a property for the key
  */
-class Key[P <: Persistent : TypeKey, V <: KeyVal[P, V] : TypeKey] private [subdomain] (
+class Key[P : TypeKey, V <: KeyVal[P, V] : TypeKey] private [subdomain] (
   val keyValProp: Prop[P, V]) {
 
   private[subdomain] val keyValEmblem = Emblem[V]

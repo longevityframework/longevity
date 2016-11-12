@@ -5,10 +5,10 @@ import emblem.TypeKeyMap
 /** provides tools for constructing your subdomain */
 package object subdomain {
 
-  /** a type key map of [[Persistent]] to [[PType]]
+  /** a type key map for [[PType persistent types]]
    * @see emblem.TypeKeyMap
    */
-  type PTypePool = TypeKeyMap[Persistent, PType]
+  type PTypePool = TypeKeyMap[Any, PType]
 
   /** a type key map for [[EType component types]]
    * @see emblem.TypeKeyMap
@@ -16,7 +16,7 @@ package object subdomain {
   type ETypePool = TypeKeyMap[Any, EType]
 
   /** an arbitrary [[KeyVal key value]] type for a given persistent type `P` */
-  type AnyKeyVal[P <: Persistent] = KeyVal[P, V] forSome { type V <: KeyVal[P, V] }
+  type AnyKeyVal[P] = KeyVal[P, V] forSome { type V <: KeyVal[P, V] }
 
 }
 

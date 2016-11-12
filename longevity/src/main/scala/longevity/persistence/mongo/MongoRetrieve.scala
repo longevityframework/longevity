@@ -2,7 +2,6 @@ package longevity.persistence.mongo
 
 import emblem.TypeKey
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.query.EqOp
 import org.bson.conversions.Bson
 import scala.concurrent.ExecutionContext
@@ -10,7 +9,7 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of MongoRepo.retrieve */
-private[mongo] trait MongoRetrieve[P <: Persistent] {
+private[mongo] trait MongoRetrieve[P] {
   repo: MongoRepo[P] =>
 
   override def retrieve[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = Future {

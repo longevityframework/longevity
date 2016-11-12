@@ -1,11 +1,9 @@
 package longevity.integration.subdomain.partitionKeyWithComponent
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class PartitionKeyWithComponent(
   key: Key)
-extends Persistent
 
 object PartitionKeyWithComponent extends PType[PartitionKeyWithComponent] {
   object props {

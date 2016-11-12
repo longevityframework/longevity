@@ -8,7 +8,6 @@ import longevity.persistence.PState
 import longevity.subdomain.AnyKeyVal
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PType
-import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
 import scala.concurrent.ExecutionContext
@@ -20,7 +19,7 @@ import scala.concurrent.Future
  * @param subdomain the subdomain containing the entities that this repo persists
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
-private[longevity] class InMemRepo[P <: Persistent] private[persistence] (
+private[longevity] class InMemRepo[P] private[persistence] (
   pType: PType[P],
   subdomain: Subdomain,
   protected val persistenceConfig: PersistenceConfig)
@@ -36,9 +35,9 @@ with LazyLogging {
   repo =>
 
   // i wish i could type this tighter, but compiler is giving me problems..
-  protected type AnyKeyValAtAll = AnyKeyVal[P] forSome { type P <: Persistent }
+  protected type AnyKeyValAtAll = AnyKeyVal[P] forSome { type P }
 
-  protected var idToPStateMap = Map[DatabaseId[_ <: Persistent], PState[P]]()
+  protected var idToPStateMap = Map[DatabaseId[_], PState[P]]()
   protected var keyValToPStateMap = Map[AnyKeyValAtAll, PState[P]]()
 
  protected[persistence] def close()(implicit context: ExecutionContext): Future[Unit] =
@@ -53,17 +52,17 @@ with LazyLogging {
 
 private[longevity] object InMemRepo {
 
-  private[persistence] def apply[P <: Persistent](
+  private[persistence] def apply[P](
     pType: PType[P],
     subdomain: Subdomain,
     persistenceConfig: PersistenceConfig,
-    polyRepoOpt: Option[InMemRepo[_ >: P <: Persistent]])
+    polyRepoOpt: Option[InMemRepo[_ >: P]])
   : InMemRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
         new InMemRepo(pType, subdomain, persistenceConfig) with PolyInMemRepo[P]
       case pt: DerivedPType[_, _] =>
-        def withPoly[Poly >: P <: Persistent](poly: InMemRepo[Poly]) = {
+        def withPoly[Poly >: P](poly: InMemRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: InMemRepo[Poly] = poly
           }

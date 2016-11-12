@@ -18,11 +18,11 @@ import longevity.subdomain.ptype.PartitionKey
 import longevity.subdomain.ptype.Prop
 import longevity.subdomain.ptype.QueryDsl
 
-/** a type class for a domain element that is stored in a persistent collection
+/** a type class for a persistent object
  *
  * @tparam P the persistent type
  */
-abstract class PType[P <: Persistent : TypeKey] {
+abstract class PType[P : TypeKey] {
 
   /** the type key for the persistent type */
   val pTypeKey = typeKey[P]
@@ -49,9 +49,9 @@ abstract class PType[P <: Persistent : TypeKey] {
   /** constructs a [[longevity.subdomain.ptype.Prop Prop]] of type `A` from the
    * provided property path.
    *
-   * the provided type `A` should match the type of the actual property in the
-   * `Persistent`. type `A` should not contain any collections, or terminate
-   * with [[longevity.subdomain.PolyEType polymorphic embeddable]].
+   * the provided type `A` should match the type of the actual member in the
+   * persistent class. type `A` should not contain any collections, or terminate
+   * with [[longevity.subdomain.PolyEType polymorphic component]].
    * violations will cause an exception to be thrown on
    * [[longevity.subdomain.Subdomain Subdomain construction]].
    *

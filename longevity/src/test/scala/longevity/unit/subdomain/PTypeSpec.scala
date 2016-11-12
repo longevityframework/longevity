@@ -13,13 +13,12 @@ import org.scalatest.Matchers
 object PTypeSpec {
 
   import longevity.subdomain.KeyVal
-  import longevity.subdomain.Persistent
   import longevity.subdomain.DerivedPType
   import longevity.subdomain.PolyPType
 
   case class Username(username: String) extends KeyVal[User, Username]
 
-  trait User extends Persistent {
+  trait User {
     val username: Username
   }
 

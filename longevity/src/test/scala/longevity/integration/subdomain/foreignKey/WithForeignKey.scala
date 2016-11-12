@@ -1,12 +1,10 @@
 package longevity.integration.subdomain.foreignKey
 
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class WithForeignKey(
   id: WithForeignKeyId,
   associated: AssociatedId)
-extends Persistent
 
 object WithForeignKey extends PType[WithForeignKey] {
   object props {

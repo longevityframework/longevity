@@ -1,9 +1,8 @@
 package longevity.persistence
 
-import longevity.subdomain.Persistent
 
 /** the persistent state of a persistent object of type `P` */
-case class PState[P <: Persistent] private (
+case class PState[P] private (
   private[persistence] val id: Option[DatabaseId[P]],
   private[persistence] val rowVersion: Option[Long],
   private[persistence] val orig: P,
@@ -21,7 +20,7 @@ case class PState[P <: Persistent] private (
   def map(f: P => P): PState[P] = PState(id, rowVersion, orig, f(p))
 
   /** returns a copy of this persistent state with a wider type bound */
-  def widen[Q >: P <: Persistent]: PState[Q] = new PState[Q](id.map(_.widen[Q]), rowVersion, orig, p)
+  def widen[Q >: P]: PState[Q] = new PState[Q](id.map(_.widen[Q]), rowVersion, orig, p)
 
   override def toString = s"PState($p)"
 
@@ -40,11 +39,11 @@ case class PState[P <: Persistent] private (
 object PState {
 
   private[persistence]
-  def apply[P <: Persistent](id: DatabaseId[P], rowVersion: Option[Long], p: P): PState[P] =
+  def apply[P](id: DatabaseId[P], rowVersion: Option[Long], p: P): PState[P] =
     PState(Some(id), rowVersion, p, p)
 
   private[persistence]
-  def apply[P <: Persistent](id: Option[DatabaseId[P]], rowVersion: Option[Long], p: P): PState[P] =
+  def apply[P](id: Option[DatabaseId[P]], rowVersion: Option[Long], p: P): PState[P] =
     PState(id, rowVersion, p, p)
 
 }

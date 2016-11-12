@@ -3,7 +3,6 @@ package longevity.unit.subdomain.ptype
 import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
 import longevity.subdomain.PTypePool
-import longevity.subdomain.Persistent
 import longevity.subdomain.Subdomain
 import longevity.subdomain.query.Query
 import longevity.subdomain.query.Ascending
@@ -19,7 +18,7 @@ import org.scalatest.Matchers
 object QueryDslSpec {
 
   private case class DslPersistent(path1: Int, path2: Double, path3: String, path4: AssociatedId)
-  extends Persistent
+ 
 
   private object DslPersistent extends PType[DslPersistent] {
     object props {
@@ -35,7 +34,7 @@ object QueryDslSpec {
   private case class AssociatedId(id: String)
   extends KeyVal[Associated, AssociatedId]
 
-  private case class Associated(id: AssociatedId) extends Persistent
+  private case class Associated(id: AssociatedId)
 
   private object Associated extends PType[Associated] {
     object props {
