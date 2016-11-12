@@ -3,6 +3,7 @@ package longevity.test
 import emblem.typeBound.TypeBoundPair
 import emblem.TypeKey
 import longevity.context.LongevityContext
+import longevity.context.BackEnd
 import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState
@@ -36,24 +37,23 @@ import scala.concurrent.ExecutionContext
  * pools. (for instance, they may want a spec for in-memory repo pools if other
  * parts of their test suite rely on them.)
  * 
- * @param suiteNameSuffix a short string to add to the suite name, to help
- * differentiate between suites for longevity contexts with the same name, when
- * reading scalatest output
+ * @param backEnd the back end we are running against. used to name tests so we
+ * can distinguish different back ends in test output
  *
  * @param executionContext the execution context
  */
 class RepoCrudSpec private[longevity] (
   protected val longevityContext: LongevityContext,
   protected val repoPool: RepoPool,
-  suiteNameSuffix: Option[String] = None)(
+  private val backEnd: BackEnd)(
   protected implicit val executionContext: ExecutionContext)
 extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
   private def subdomainName = longevityContext.subdomain.name
-  override val suiteName = s"RepoCrudSpec for ${subdomainName}${suiteNameSuffix match {
-    case Some(suffix) => suffix
-    case None => ""
-  }}"
+
+  private val suiteNameSuffix = s"for $subdomainName - $backEnd"
+
+  override val suiteName = s"RepoCrudSpec $suiteNameSuffix"
 
   repoPool.baseRepoMap.foreach { pair =>
     def repoSpec[P](pair: TypeBoundPair[Any, TypeKey, BaseRepo, P]): Unit = {
@@ -75,7 +75,9 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
     object Update extends Tag("Update")
     object Delete extends Tag("Delete")
 
-    s"${pName}Repo.create" should s"produce a persisted $pName" taggedAs(Create) in {
+    behavior of s"${pName}Repo.create $suiteNameSuffix"
+
+    it should s"produce a persisted $pName" taggedAs(Create) in {
       val p = randomP()
       val created: PState[P] = repo.create(p).futureValue
       created.get should equal (p)
@@ -86,7 +88,9 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
       }
     }
 
-    s"${pName}Repo.retrieve" should s"should produce the same persisted $pName" taggedAs(Retrieve) in {
+    behavior of s"${pName}Repo.retrieve $suiteNameSuffix"
+
+    it should s"should produce the same persisted $pName" taggedAs(Retrieve) in {
       val p = randomP()
       val created = repo.create(p).futureValue
 
@@ -96,7 +100,9 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
       }
     }
 
-    s"${pName}Repo.update" should s"should produce an updated persisted $pName" taggedAs(Update) in {
+    behavior of s"${pName}Repo.update $suiteNameSuffix"
+
+    it should s"should produce an updated persisted $pName" taggedAs(Update) in {
       val key = randomPTypeKey
       val originalP = randomP(key)
       val modifiedP = repo.realizedPType.keySet.foldLeft(randomP(key)) { (modified, key) =>
@@ -120,7 +126,9 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
       }
     }
 
-    s"${pName}Repo.delete" should s"delete a persisted $pName" taggedAs(Delete) in {
+    behavior of s"${pName}Repo.delete $suiteNameSuffix"
+
+    it should s"delete a persisted $pName" taggedAs(Delete) in {
       val p = randomP()
       val created: PState[P] = repo.create(p).futureValue
 

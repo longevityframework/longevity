@@ -53,7 +53,7 @@ object TestContext {
     def repoCrudSpec(implicit executionContext: ExecutionContext) = new RepoCrudSpec(
       longevityContext,
       longevityContext.testRepoPool,
-      Some(s" - ${longevityContext.config.backEnd}"))
+      longevityContext.config.backEnd)
 
     /** a simple [[http://www.scalatest.org/ ScalaTest]] spec to test your
      * [[longevity.context.LongevityContext.inMemTestRepoPool in-memory repo
@@ -68,7 +68,7 @@ object TestContext {
      * @param executionContext the execution context
      */
     def inMemRepoCrudSpec(implicit executionContext: ExecutionContext) =
-      new RepoCrudSpec(longevityContext, longevityContext.inMemTestRepoPool, Some(" - InMem"))    
+      new RepoCrudSpec(longevityContext, longevityContext.inMemTestRepoPool, InMem)
 
   }
 
