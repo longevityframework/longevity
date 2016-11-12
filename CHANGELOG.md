@@ -1,5 +1,14 @@
 # Longevity Changelog
 
+## [0.17] - API Simplifications
+
+- 2016.11.12 - Change `RepoCrudSpec` from a `FeatureSpec` to a
+  `FlatSpec`. Users using `LongevityContext.repoCrudSpec` will notice
+  significantly less verbose test output.
+- 2016.11.12 - Remove traits `Embeddable` and `Persistent`. Users no
+  longer need to extend their subdomain classes with these empty
+  marker traits.
+
 ## [0.16.0] - 2016.11.10 - Partition Keys
 
 - 2016.11.09 - Uniformly convert `DateTime` to UTC time zone. This
