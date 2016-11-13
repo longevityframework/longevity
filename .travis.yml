@@ -1,12 +1,15 @@
 language: scala
 
 before_script:
+  - sudo update-java-alternatives -s java-8-oracle
+  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - java -version
   - which cassandra
   - sudo rm -rf /var/lib/cassandra/*
   - wget http://www.us.apache.org/dist/cassandra/3.9/apache-cassandra-3.9-bin.tar.gz && tar -xvzf apache-cassandra-3.9-bin.tar.gz
   - sudo sh ./apache-cassandra-3.9/bin/cassandra -R -E cassandra-error.txt
-  - tail -f cassandra-error.txt &
   - sleep 20
+  - tail -f cassandra-error.txt &
 
 script:
   - sbt -J-Xmx4G clean test doc
@@ -18,11 +21,14 @@ jdk:
   - oraclejdk8
 
 sudo: required
+
 services:
   - mongodb
+
 addons:
   apt:
     sources:
       - mongodb-3.2-precise
     packages:
       - mongodb-org-server
+      - oracle-java8-installer
