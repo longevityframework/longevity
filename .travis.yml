@@ -1,9 +1,11 @@
 language: scala
 
 before_script:
+  - which cassandra
   - sudo rm -rf /var/lib/cassandra/*
   - wget http://www.us.apache.org/dist/cassandra/3.9/apache-cassandra-3.9-bin.tar.gz && tar -xvzf apache-cassandra-3.9-bin.tar.gz
-  - sudo sh ./apache-cassandra-3.9/bin/cassandra -R
+  - sudo sh ./apache-cassandra-3.9/bin/cassandra -R -E cassandra-error.txt
+  - tail -f cassandra-error.txt &
   - sleep 20
 
 script:
