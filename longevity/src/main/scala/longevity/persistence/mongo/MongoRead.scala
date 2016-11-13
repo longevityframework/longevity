@@ -46,7 +46,7 @@ private[mongo] trait MongoRead[P] {
   protected def mongoRelationalFilter[A](prop: Prop[_ >: P, A], op: RelationalOp, value: A) = {
     realizedPType.partitionKey match {
       case Some(k) if !k.fullyPartitioned && k.key.keyValProp == prop =>
-        def f[V <: KeyVal[P, V]](k: RealizedPartitionKey[P, V]) =
+        def f[V <: KeyVal[P]](k: RealizedPartitionKey[P, V]) =
           mongoRelationalFilterForPartitionKey[V](k, op, value.asInstanceOf[V])
         f(k)
       case _ =>
@@ -61,7 +61,7 @@ private[mongo] trait MongoRead[P] {
     }
   }
 
-  private def mongoRelationalFilterForPartitionKey[V <: KeyVal[P, V]](
+  private def mongoRelationalFilterForPartitionKey[V <: KeyVal[P]](
     key: RealizedPartitionKey[P, V],
     op: RelationalOp,
     value: V) = {

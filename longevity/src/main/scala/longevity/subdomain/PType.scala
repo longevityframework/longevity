@@ -65,7 +65,7 @@ abstract class PType[P : TypeKey] {
    * @tparam V the type of the key value
    * @param keyValProp a property for the key
    */
-  def key[V <: KeyVal[P, V] : TypeKey](keyValProp: Prop[P, V]): Key[P, V] = new Key(keyValProp)
+  def key[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V]): Key[P, V] = new Key(keyValProp)
 
   /** constructs a partition key for this persistent type. the full key value
    * is used to determine the partition
@@ -75,7 +75,7 @@ abstract class PType[P : TypeKey] {
    * @param hashed if `true`, then used a hashed partition (as opposed to a
    * ranged partition) when possible. defaults to `false`.
    */
-  def partitionKey[V <: KeyVal[P, V] : TypeKey](
+  def partitionKey[V <: KeyVal[P] : TypeKey](
     keyValProp: Prop[P, V],
     hashed: Boolean = false)
   : PartitionKey[P, V] =
@@ -89,13 +89,13 @@ abstract class PType[P : TypeKey] {
    * which node in the partition the data belongs to. this must form a prefix of
    * the `keyValProp`
    */
-  def partitionKey[V <: KeyVal[P, V] : TypeKey](
+  def partitionKey[V <: KeyVal[P] : TypeKey](
     keyValProp: Prop[P, V],
     partition: Partition[P])
   : PartitionKey[P, V]
   = partitionKey(keyValProp, partition, false)
 
-  private def partitionKey[V <: KeyVal[P, V] : TypeKey](
+  private def partitionKey[V <: KeyVal[P] : TypeKey](
     keyValProp: Prop[P, V],
     partition: Partition[P],
     hashed: Boolean)

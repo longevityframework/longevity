@@ -5,4 +5,4 @@ import longevity.subdomain.KeyVal
 case class Key(
   id: String,
   uri: Uri)
-extends KeyVal[PartitionKeyWithShorthand, Key]
+extends KeyVal[PartitionKeyWithShorthand]

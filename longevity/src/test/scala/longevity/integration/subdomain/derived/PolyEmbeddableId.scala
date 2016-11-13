@@ -2,5 +2,4 @@ package longevity.integration.subdomain.derived
 
 import longevity.subdomain.KeyVal
 
-case class PolyEmbeddableId(id: String)
-extends KeyVal[FirstDerivedPersistent, PolyEmbeddableId]
+case class PolyEmbeddableId(id: String) extends KeyVal[FirstDerivedPersistent]

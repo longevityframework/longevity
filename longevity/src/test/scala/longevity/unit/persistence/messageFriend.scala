@@ -11,7 +11,7 @@ import longevity.subdomain.PType
 
 object messageFriend {
 
-  case class FriendId(id: String) extends KeyVal[Friend, FriendId]
+  case class FriendId(id: String) extends KeyVal[Friend]
 
   case class Friend(id: FriendId, name: String)
 
@@ -24,7 +24,7 @@ object messageFriend {
     }
   }
 
-  case class MessageId(id: String) extends KeyVal[Message, MessageId]
+  case class MessageId(id: String) extends KeyVal[Message]
 
   case class Message(id: MessageId, author: FriendId, content: String)
 

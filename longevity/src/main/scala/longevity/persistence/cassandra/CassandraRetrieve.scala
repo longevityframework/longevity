@@ -13,7 +13,7 @@ import scala.concurrent.blocking
 private[cassandra] trait CassandraRetrieve[P] {
   repo: CassandraRepo[P] =>
 
-  def retrieve[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = {
+  def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = {
     logger.debug(s"calling CassandraRepo.retrieve: $keyVal")
     val stateOption = retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
     logger.debug(s"done calling CassandraRepo.retrieve: $stateOption")
@@ -27,7 +27,7 @@ private[cassandra] trait CassandraRetrieve[P] {
       rowOption.map(retrieveFromRow)
     }
 
-  private def bindKeyValSelectStatement[V <: KeyVal[P, V] : TypeKey](keyVal: V): BoundStatement = {
+  private def bindKeyValSelectStatement[V <: KeyVal[P] : TypeKey](keyVal: V): BoundStatement = {
     val realizedKey: RealizedKey[P, V] = realizedPType.realizedKey[V]
     val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
       cassandraValue(component.innerPropPath.get(keyVal))

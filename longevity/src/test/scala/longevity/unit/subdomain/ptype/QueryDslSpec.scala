@@ -17,8 +17,7 @@ import org.scalatest.Matchers
 /** sample domain for the QueryDslSpec */
 object QueryDslSpec {
 
-  private case class DslPersistent(path1: Int, path2: Double, path3: String, path4: AssociatedId)
- 
+  private case class DslPersistent(path1: Int, path2: Double, path3: String, path4: AssociatedId) 
 
   private object DslPersistent extends PType[DslPersistent] {
     object props {
@@ -31,8 +30,7 @@ object QueryDslSpec {
     }
   }
 
-  private case class AssociatedId(id: String)
-  extends KeyVal[Associated, AssociatedId]
+  private case class AssociatedId(id: String) extends KeyVal[Associated]
 
   private case class Associated(id: AssociatedId)
 

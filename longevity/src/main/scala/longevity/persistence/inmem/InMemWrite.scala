@@ -3,7 +3,7 @@ package longevity.persistence.inmem
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
-import longevity.subdomain.AnyKeyVal
+import longevity.subdomain.KeyVal
 import longevity.subdomain.realized.AnyRealizedKey
 
 /** support for InMemRepo methods that modify persistent collection. used by
@@ -44,7 +44,7 @@ private[inmem] trait InMemWrite[P] {
     registerByKeyVal(key.keyValForP(state.get), state)
   }
 
-  protected[inmem] def registerByKeyVal(keyVal: AnyKeyValAtAll, state: PState[P]) =
+  protected[inmem] def registerByKeyVal(keyVal: KeyVal[_], state: PState[P]) =
     keyValToPStateMap += ((keyVal, state)) // Scala compiler gripes on -> pair syntax here
 
   protected[inmem] def assertUniqueKeyVals(state: PState[P]): Unit = keys.foreach { key =>
@@ -53,7 +53,7 @@ private[inmem] trait InMemWrite[P] {
 
   protected[inmem] def assertUniqueKeyVal(
     realizedKey: AnyRealizedKey[_ >: P],
-    keyVal: AnyKeyVal[_],
+    keyVal: KeyVal[_],
     state: PState[P]): Unit = {
     if (keyValToPStateMap.contains(keyVal) && keyValToPStateMap(keyVal).id != state.id) {
       throw new DuplicateKeyValException[P](state.get, realizedKey.key)

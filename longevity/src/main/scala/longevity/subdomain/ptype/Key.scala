@@ -13,7 +13,7 @@ import longevity.subdomain.KeyVal
  * @tparam V the key value type
  * @param keyValProp a property for the key
  */
-class Key[P : TypeKey, V <: KeyVal[P, V] : TypeKey] private [subdomain] (
+class Key[P : TypeKey, V <: KeyVal[P] : TypeKey] private [subdomain] (
   val keyValProp: Prop[P, V]) {
 
   private[subdomain] val keyValEmblem = Emblem[V]

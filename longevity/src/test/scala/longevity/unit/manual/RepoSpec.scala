@@ -14,20 +14,15 @@ object RepoSpec {
   import longevity.subdomain.Subdomain
   import longevity.subdomain.CType
   import longevity.subdomain.CTypePool
-  import longevity.subdomain.CType
   import longevity.subdomain.PTypePool
   import longevity.subdomain.PType
 
   case class Markdown(markdown: String)
   case class Uri(uri: String)
 
-  import longevity.subdomain.KeyVal
+  case class Username(username: String) extends KeyVal[User]
 
-  case class Username(username: String)
-  extends KeyVal[User, Username]
-
-  case class Email(email: String)
-  extends KeyVal[User, Email]
+  case class Email(email: String) extends KeyVal[User]
 
   case class User(
     username: Username,
@@ -53,8 +48,7 @@ object RepoSpec {
     description: Markdown)
  
 
-  case class BlogUri(uri: Uri)
-  extends KeyVal[Blog, BlogUri]
+  case class BlogUri(uri: Uri) extends KeyVal[Blog]
 
   case class Blog(
     uri: BlogUri,
@@ -72,8 +66,7 @@ object RepoSpec {
     }
   }
 
-  case class BlogPostUri(uri: Uri)
-  extends KeyVal[BlogPost, BlogPostUri]
+  case class BlogPostUri(uri: Uri) extends KeyVal[BlogPost]
 
   case class BlogPost(
     uri: BlogPostUri,

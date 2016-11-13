@@ -21,7 +21,7 @@ object LongevityContextSpec {
 
   object sample {
 
-    case class AId(id: String) extends KeyVal[A, AId]
+    case class AId(id: String) extends KeyVal[A]
 
     case class A(id: AId)
     object A extends PType[A] {

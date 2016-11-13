@@ -75,9 +75,9 @@ private[longevity] class RealizedProp[P, A](
 
 private[subdomain] object RealizedProp {
 
-  private val keyValTypeKey = typeKey[KeyVal[P, V] forSome {
+  private val keyValTypeKey = typeKey[KeyVal[P] forSome {
     type P
-    type V <: KeyVal[P, V]
+    type V <: KeyVal[P]
   }]
 
   def apply[P, A](prop: Prop[P, A], emblematic: Emblematic): RealizedProp[P, A] = {

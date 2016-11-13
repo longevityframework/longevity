@@ -67,9 +67,9 @@ private[longevity] class RealizedPType[P](
       def kvtk = key.keyValProp.propTypeKey
       if (acc.contains(kvtk)) throw new DuplicateKeyException()(pType.pTypeKey, kvtk)
 
-      def accumulateKey[V <: KeyVal[P, V]](key: Key[P, V]) = acc + (kvtk -> realizedKeyForKey(key))
+      def accumulateKey[V <: KeyVal[P]](key: Key[P, V]) = acc + (kvtk -> realizedKeyForKey(key))
 
-      def accumulatePKey[V <: KeyVal[P, V]](key: PartitionKey[P, V]) =
+      def accumulatePKey[V <: KeyVal[P]](key: PartitionKey[P, V]) =
         acc + (kvtk -> realizedKeyForPartitionKey(key))
 
       pType.partitionKey match {
@@ -79,7 +79,7 @@ private[longevity] class RealizedPType[P](
     }
   }
 
-  def realizedKey[V <: KeyVal[P, V] : TypeKey]: RealizedKey[P, V] = {
+  def realizedKey[V <: KeyVal[P] : TypeKey]: RealizedKey[P, V] = {
     realizedKeyMap(typeKey[V]).asInstanceOf[RealizedKey[P, V]]
   }
 
@@ -89,16 +89,16 @@ private[longevity] class RealizedPType[P](
     case pk: AnyRealizedPartitionKey[P] => pk
   }
 
-  private def postPartitionProps[V  <: KeyVal[P, V]](key: PartitionKey[P, V]): Seq[Prop[P, _]] = {
+  private def postPartitionProps[V <: KeyVal[P]](key: PartitionKey[P, V]): Seq[Prop[P, _]] = {
     postPartitionPropInfos[V](key)(key.keyValTypeKey).map(_.prop)
   }
 
-  private def realizedKeyForKey[V <: KeyVal[P, V]](key: Key[P, V]): RealizedKey[P, V] = {
+  private def realizedKeyForKey[V <: KeyVal[P]](key: Key[P, V]): RealizedKey[P, V] = {
     val prop: Prop[P, V] = key.keyValProp
     new RealizedKey[P, V](key, myRealizedProps(prop))(prop.propTypeKey)
   }
 
-  private def realizedKeyForPartitionKey[V <: KeyVal[P, V]](key: PartitionKey[P, V]): RealizedKey[P, V] = {
+  private def realizedKeyForPartitionKey[V <: KeyVal[P]](key: PartitionKey[P, V]): RealizedKey[P, V] = {
     val vTypeKey = key.keyValTypeKey
     val prop = myRealizedProps(key.keyValProp)
     val pppis = postPartitionPropInfos(key)(vTypeKey)
@@ -130,7 +130,7 @@ private[longevity] class RealizedPType[P](
   /** what we need to know about a properties that are within the partition key,
    * but are not part of the partition
    */
-  private def postPartitionPropInfos[V <: KeyVal[P, V] : TypeKey](
+  private def postPartitionPropInfos[V <: KeyVal[P] : TypeKey](
     key: PartitionKey[P, V])
   : Seq[PostPartitionPropInfo[V, _]] = {
 
@@ -171,7 +171,7 @@ private[longevity] class RealizedPType[P](
   /** what we need to know about a property that is within the partition key,
    * but is not part of the partition
    */
-  private case class PostPartitionPropInfo[V <: KeyVal[P, V], B](
+  private case class PostPartitionPropInfo[V <: KeyVal[P], B](
     prop: Prop[P, B],
     emblematicPropPath: EmblematicPropPath[V, B])
 

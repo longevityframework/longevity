@@ -6,4 +6,4 @@ case class Key(
   prop1: String,
   subKey: SubKey,
   prop2: String)
-extends KeyVal[PartitionKeyWithComplexPartialPartition, Key]
+extends KeyVal[PartitionKeyWithComplexPartialPartition]

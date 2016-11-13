@@ -16,7 +16,7 @@ object PTypeSpec {
   import longevity.subdomain.DerivedPType
   import longevity.subdomain.PolyPType
 
-  case class Username(username: String) extends KeyVal[User, Username]
+  case class Username(username: String) extends KeyVal[User]
 
   trait User {
     val username: Username
@@ -31,7 +31,7 @@ object PTypeSpec {
     }
   }
 
-  case class Email(email: String) extends KeyVal[EmailedUser, Email]
+  case class Email(email: String) extends KeyVal[EmailedUser]
 
   case class EmailedUser(username: Username, email: Email) extends User
 

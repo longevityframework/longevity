@@ -5,9 +5,7 @@ import emblem.typeKey
 import longevity.subdomain.KeyVal
 import longevity.subdomain.ptype.Key
 
-private[longevity] class RealizedKey[
-  P,
-  V <: KeyVal[P, V] : TypeKey] private [subdomain](
+private[longevity] class RealizedKey[P, V <: KeyVal[P] : TypeKey] private [subdomain](
   val key: Key[P, V],
   val realizedProp: RealizedProp[P, V]) {
 

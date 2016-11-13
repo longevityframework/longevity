@@ -2,6 +2,8 @@
 
 ## [0.17] - API Simplifications
 
+- 2016.11.13 - Remove second type parameter from
+  `longevity.subdomain.KeyVal`.
 - 2016.11.12 - Rename `longevity.subdomain.EType` (for "embeddable
   type") to `longevity.subdomain.CType` (for "component type").
 - 2016.11.12 - Remove traits `longevity.subdomain.Embeddable` and

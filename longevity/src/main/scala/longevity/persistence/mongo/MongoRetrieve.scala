@@ -12,7 +12,7 @@ import scala.concurrent.blocking
 private[mongo] trait MongoRetrieve[P] {
   repo: MongoRepo[P] =>
 
-  override def retrieve[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = Future {
+  override def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = Future {
     blocking {
       logger.debug(s"calling MongoRepo.retrieve: $keyVal")
     
@@ -26,7 +26,7 @@ private[mongo] trait MongoRetrieve[P] {
     }
   }
  
-  protected def keyValQuery[V <: KeyVal[P, V] : TypeKey](keyVal: V): Bson = {
+  protected def keyValQuery[V <: KeyVal[P] : TypeKey](keyVal: V): Bson = {
     mongoRelationalFilter[V](realizedPType.realizedKey[V].realizedProp.prop, EqOp, keyVal)
   }
 

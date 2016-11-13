@@ -19,7 +19,7 @@ import longevity.subdomain.KeyVal
  * @param hashed if `true`, then used a hashed partition (as opposed to a
  * ranged partition) when possible
  */
-class PartitionKey[P : TypeKey, V <: KeyVal[P, V] : TypeKey] private [subdomain] (
+class PartitionKey[P : TypeKey, V <: KeyVal[P] : TypeKey] private [subdomain] (
   keyValProp: Prop[P, V],
   val partition: Partition[P],
   val hashed: Boolean)

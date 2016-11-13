@@ -5,8 +5,8 @@ import longevity.context.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.persistence.DatabaseId
 import longevity.persistence.PState
-import longevity.subdomain.AnyKeyVal
 import longevity.subdomain.DerivedPType
+import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
 import longevity.subdomain.PolyPType
 import longevity.subdomain.Subdomain
@@ -35,7 +35,7 @@ with LazyLogging {
   repo =>
 
   // i wish i could type this tighter, but compiler is giving me problems..
-  protected type AnyKeyValAtAll = AnyKeyVal[P] forSome { type P }
+  protected type AnyKeyValAtAll = KeyVal[P] forSome { type P }
 
   protected var idToPStateMap = Map[DatabaseId[_], PState[P]]()
   protected var keyValToPStateMap = Map[AnyKeyValAtAll, PState[P]]()

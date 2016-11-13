@@ -66,7 +66,7 @@ private[mongo] trait MongoWrite[P] {
   private def keyFilter(state: PState[P]) = {
     realizedPType.partitionKey match {
       case Some(key) =>
-        def pkFilter[V <: KeyVal[P, V]](key: RealizedKey[P, V]) = {
+        def pkFilter[V <: KeyVal[P]](key: RealizedKey[P, V]) = {
           val fieldName = key.realizedProp.inlinedPath
           val keyVal = key.keyValForP(state.get)
           val bson = subdomainToBsonTranslator.translate(keyVal, false)(key.keyValTypeKey)

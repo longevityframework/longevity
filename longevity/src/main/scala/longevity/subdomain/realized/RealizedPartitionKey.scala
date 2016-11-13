@@ -5,9 +5,7 @@ import emblem.emblematic.EmblematicPropPath
 import longevity.subdomain.KeyVal
 import longevity.subdomain.ptype.PartitionKey
 
-private[longevity] case class RealizedPartitionKey[
-  P : TypeKey,
-  V <: KeyVal[P, V] : TypeKey] private [subdomain](
+private[longevity] case class RealizedPartitionKey[P : TypeKey, V <: KeyVal[P] : TypeKey] private [subdomain](
   override val key: PartitionKey[P, V],
   prop: RealizedProp[P, V],
   val partitionProps: Seq[RealizedProp[P, _]],

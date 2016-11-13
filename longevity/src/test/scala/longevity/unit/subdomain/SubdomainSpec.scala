@@ -216,13 +216,13 @@ object SubdomainSpec {
 
   object subtypePropType {
 
-    case class AId(id: String) extends KeyVal[A, AId]
+    case class AId(id: String) extends KeyVal[A]
 
     case class A(id: AId)
     object A extends PType[A] {
       object props {
         val id = prop[AId]("id")
-        val id2 = prop[KeyVal[A, _ <: KeyVal[A, _]]]("id") // this is the problematic prop
+        val id2 = prop[KeyVal[A]]("id") // this is the problematic prop
       }
       object keys {
         val id = key(props.id)
@@ -234,7 +234,7 @@ object SubdomainSpec {
 
   object duplicateKey {
 
-    case class AId(id: String) extends KeyVal[A, AId]
+    case class AId(id: String) extends KeyVal[A]
 
     case class A(id1: AId, id2: AId)
     object A extends PType[A] {
@@ -254,7 +254,7 @@ object SubdomainSpec {
 
   object duplicateKeyOrIndex1 {
 
-    case class AId(id: String) extends KeyVal[A, AId]
+    case class AId(id: String) extends KeyVal[A]
 
     case class A(id: AId)
     object A extends PType[A] {
@@ -273,7 +273,7 @@ object SubdomainSpec {
 
   object duplicateKeyOrIndex2 {
 
-    case class AId(id: String) extends KeyVal[A, AId]
+    case class AId(id: String) extends KeyVal[A]
 
     case class A(id: AId)
     object A extends PType[A] {
@@ -311,7 +311,7 @@ object SubdomainSpec {
 
   object invalidPartition {
 
-    case class AId(id1: String, id2: String) extends KeyVal[A, AId]
+    case class AId(id1: String, id2: String) extends KeyVal[A]
 
     case class A(id: AId)
     object A extends PType[A] {

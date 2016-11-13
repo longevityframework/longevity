@@ -9,6 +9,6 @@ import longevity.subdomain.KeyVal
  * [[longevity.subdomain.ptype.Key key]] for a single kind of
  * [[longevity.subdomain.KeyVal KeyVal]]
  */
-class DuplicateKeyException[P : TypeKey, V <: KeyVal[P, V] : TypeKey]
+class DuplicateKeyException[P : TypeKey, V <: KeyVal[P] : TypeKey]
 extends SubdomainException(
   s"PType ${typeKey[P].name} contains multiple keys with same type ${typeKey[V].name}")

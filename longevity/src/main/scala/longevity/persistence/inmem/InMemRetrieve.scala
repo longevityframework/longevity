@@ -9,7 +9,7 @@ import scala.concurrent.Future
 private[inmem] trait InMemRetrieve[P] {
   repo: InMemRepo[P] =>
 
-  override def retrieve[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext) =
+  override def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) =
     Future.successful {
       logger.debug(s"calling InMemRepo.retrieve: $keyVal")
       val stateOption = lookupPStateByKeyVal(keyVal)

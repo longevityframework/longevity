@@ -10,11 +10,9 @@ package object blogCore {
   import longevity.subdomain.PTypePool
   import longevity.subdomain.PType
 
-  case class Email(email: String)
-  extends KeyVal[User, Email]
+  case class Email(email: String) extends KeyVal[User]
 
-  case class Username(username: String)
-  extends KeyVal[User, Username]
+  case class Username(username: String) extends KeyVal[User]
 
   case class Markdown(markdown: String)
 
@@ -49,8 +47,7 @@ package object blogCore {
     description: Markdown)
  
 
-  case class BlogUri(uri: Uri)
-  extends KeyVal[Blog, BlogUri]
+  case class BlogUri(uri: Uri) extends KeyVal[Blog]
 
   case class Blog(
     uri: BlogUri,
@@ -68,8 +65,7 @@ package object blogCore {
     }
   }
 
-  case class BlogPostUri(uri: Uri)
-  extends KeyVal[BlogPost, BlogPostUri]
+  case class BlogPostUri(uri: Uri) extends KeyVal[BlogPost]
 
   case class BlogPost(
     uri: BlogPostUri,

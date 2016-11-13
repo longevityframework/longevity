@@ -34,7 +34,7 @@ extends Repo[P] {
 
   protected def hasPartitionKey = realizedPType.partitionKey.nonEmpty
 
-  def retrieveOne[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
+  def retrieveOne[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
 
   def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed]

@@ -2,5 +2,4 @@ package longevity.integration.subdomain.multipleKeys
 
 import longevity.subdomain.KeyVal
 
-case class MultipleKeysId(id: String)
-extends KeyVal[MultipleKeys, MultipleKeysId]
+case class MultipleKeysId(id: String) extends KeyVal[MultipleKeys]

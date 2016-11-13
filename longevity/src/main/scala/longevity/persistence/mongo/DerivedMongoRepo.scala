@@ -27,7 +27,7 @@ private[mongo] trait DerivedMongoRepo[P, Poly >: P] extends MongoRepo[P] {
     subdomainToBsonTranslator.translate[Poly](p, false)(polyRepo.pTypeKey).asDocument
   }
 
-  override protected def keyValQuery[V <: KeyVal[P, V] : TypeKey](keyVal: V): Bson = {
+  override protected def keyValQuery[V <: KeyVal[P] : TypeKey](keyVal: V): Bson = {
     Filters.and(
       super.keyValQuery(keyVal),
       Filters.eq("_discriminator", discriminatorValue))

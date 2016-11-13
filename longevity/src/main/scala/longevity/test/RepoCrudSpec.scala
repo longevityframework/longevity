@@ -90,7 +90,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
     behavior of s"${pName}Repo.retrieve $suiteNameSuffix"
 
-    it should s"should produce the same persisted $pName" taggedAs(Retrieve) in {
+    it should s"produce the same persisted $pName" taggedAs(Retrieve) in {
       val p = randomP()
       val created = repo.create(p).futureValue
 
@@ -102,11 +102,11 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
     behavior of s"${pName}Repo.update $suiteNameSuffix"
 
-    it should s"should produce an updated persisted $pName" taggedAs(Update) in {
+    it should s"produce an updated persisted $pName" taggedAs(Update) in {
       val key = randomPTypeKey
       val originalP = randomP(key)
       val modifiedP = repo.realizedPType.keySet.foldLeft(randomP(key)) { (modified, key) =>
-        def updateByOriginalKeyVal[V <: KeyVal[P, V]](key: RealizedKey[P, V]) = {
+        def updateByOriginalKeyVal[V <: KeyVal[P]](key: RealizedKey[P, V]) = {
           val originalKeyVal = key.keyValForP(originalP)
           key.updateKeyVal(modified, originalKeyVal)
         }
@@ -155,7 +155,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
     private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = longevityContext.testDataGenerator.generate(key)
 
-    private def retrieveByKey[V <: KeyVal[P, V]](key: RealizedKey[P, V], p: P): Option[PState[P]] = {
+    private def retrieveByKey[V <: KeyVal[P]](key: RealizedKey[P, V], p: P): Option[PState[P]] = {
       val keyValForP = key.keyValForP(p)
       implicit val keyValTypeKey = key.keyValTypeKey
       repo.retrieve(key.keyValForP(p)).futureValue
