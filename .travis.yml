@@ -1,11 +1,15 @@
 language: scala
 before_script:
-  #  - sudo service mongodb start
-  - sudo service cassandra start
+  - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+  - curl -L https://debian.datastax.com/debian/repo_key | sudo apt-key add -
+  - sudo apt-get update
+  - sudo apt-get install dsc39
+#  - sudo service cassandra start
+  - java -version
 script:
   - sbt -J-Xmx4G clean test doc
 scala:
-  - 2.11.7
+  - 2.12.0
 jdk:
   - oraclejdk8
 
