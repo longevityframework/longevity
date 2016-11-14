@@ -3,30 +3,26 @@ title: properties
 layout: page
 ---
 
-In our `PType`, when we talk about the fields of the `Persistent`
-type, we talk about properties, or `Props`. Properties map to
+In our `PType`, when we talk about the fields of our persistent
+object, we talk about properties, or `Props`. Properties map to
 underlying members within the [persistent object](../persistent), at
-any depth. They follow a path from the root of the persistent
-object, and take on the type of that member in the persistent. We
-typically define them in a singleton object `props` inside the
-`PType`. Here's an example defining a couple of properties:
+any depth. They follow a path from the root of the persistent object,
+and take on the type of that member in the persistent. We typically
+define them in a singleton object `props` inside the `PType`. Here's
+an example defining a couple of properties:
 
 ```scala
-import longevity.subdomain.Embeddable
 import longevity.subdomain.PType
-import longevity.subdomain.Persistent
 
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
   description: Markdown)
-extends Embeddable
 
 case class User(
   username: String,
   email: Email,
   profile: UserProfile)
-extends Persistent
 
 object User extends PType[User] {
   object props {
@@ -36,7 +32,7 @@ object User extends PType[User] {
       prop[Markdown]("profile.description")
 
     // brief:
-    val usernameProp = prop[String]("username")
+    val username = prop[String]("username")
   }
   object keys {
   }

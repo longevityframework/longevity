@@ -17,29 +17,15 @@ case object Cancelled extends AccountStatus
 ```
 
 Because longevity supports case objects and polymorphism, this pattern
-directly translates into a longevity-enabled subdomain. We simply have
-to mark the top of the hierarchy as `Embeddable`:
+directly translates into a longevity-enabled subdomain. We are free to
+use this controlled vocabulary in our domain, such as:
 
 ```scala
-import longevity.subdomain.Embeddable
-
-sealed trait AccountStatus extends Embeddable
-case object Active extends AccountStatus
-case object Suspended extends AccountStatus
-case object Cancelled extends AccountStatus
-```
-
-We are now free to use this controlled vocabulary in our domain, such
-as:
-
-```scala
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
 case class Account(
   name: String,
   accountStatus: AccountStatus)
-extends Persistent
 
 object Account extends PType[Account] {
   object keys {
@@ -50,23 +36,23 @@ object Account extends PType[Account] {
 ```
 
 We just need to add the members of our controlled vocabulary to the
-`ETypePool`:
+`CTypePool`:
 
 ```scala
-import longevity.subdomain.DerivedEType
-import longevity.subdomain.ETypePool
+import longevity.subdomain.DerivedCType
+import longevity.subdomain.CTypePool
 import longevity.subdomain.PTypePool
-import longevity.subdomain.PolyEType
+import longevity.subdomain.PolyCType
 import longevity.subdomain.Subdomain
 
 val subdomain = Subdomain(
   "accounts",
   PTypePool(Account),
-  ETypePool(
-    PolyEType[AccountStatus],
-    DerivedEType[Active.type, AccountStatus],
-    DerivedEType[Suspended.type, AccountStatus],
-    DerivedEType[Cancelled.type, AccountStatus]))
+  CTypePool(
+    PolyCType[AccountStatus],
+    DerivedCType[Active.type, AccountStatus],
+    DerivedCType[Suspended.type, AccountStatus],
+    DerivedCType[Cancelled.type, AccountStatus]))
 ```
 
 Having to list all the members of the controlled vocabulary here is

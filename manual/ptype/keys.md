@@ -4,21 +4,19 @@ layout: page
 ---
 
 Keys are composed of a single property whose type is [key
-value](../key-values.html) for the `Persistent`. We define them in our
-`PType` like so:
+value](../key-values.html) for the persistent object. We define them
+in our `PType` like so:
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
-case class Username(username: String) extends KeyVal[User, Username]
+case class Username(username: String) extends KeyVal[User]
 
 case class User(
   username: Username,
   firstName: String,
   lastName: String)
-extends Persistent
 
 object User extends PType[User] {
   object props {
@@ -42,19 +40,15 @@ easily. Here, for instance, we add an ill-advised composite key on a
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
-case class Username(username: String)
-extends KeyVal[User, Username]
+case class Username(username: String) extends KeyVal[User]
 
-case class FullName(last: String, first: String)
-extends KeyVal[User, FullName]
+case class FullName(last: String, first: String) extends KeyVal[User]
 
 case class User(
   username: Username,
   fullName: FullName)
-extends Persistent
 
 object User extends PType[User] {
   object props {

@@ -43,7 +43,7 @@ object User extends PType[User] {
 
 Type `AnyKey[User]` is a convenient way of saying "keys for `User`,
 regardless of the type of the key value". It's a little less onerous
-than saying `Key[User, V] forSome { type V <: KeyVal[User, V] }`.
+than saying `Key[User, V] forSome { type V <: KeyVal[User] }`.
 
 If you would rather eschew the conventional practice of defining
 your keys and indexes in the inner objects, you can always do so like

@@ -39,29 +39,25 @@ case class GoogleSignIn(
 extends UserVerification
 ```
 
-In our `User` aggregate, we want to keep track of all the user's
+In our `User` object, we want to keep track of all the user's
 successful verification attempts:
 
 ```scala
-import longevity.subdomain.Persistent
-
 case class User(
   username: String,
   email: Email,
   verifications: List[UserVerification])
-extends Persistent
 ```
 
 For this to work, all we need to do is to make longevity aware of our
-polymorphic type `UserVerification`, and its children. All four will
-be embeddables, but we mark the `EType` of the parent as a `PolyEType`,
-and that of the children as `DerivedEType`:
+polymorphic type `UserVerification`, and its children. When building
+our `Subdomain`, we define the `CType` of the parent as a `PolyCType`,
+and that of the children as `DerivedCTypes`:
 
 ```scala
-import longevity.subdomain.Embeddable
 import org.joda.time.DateTime
 
-trait UserVerification extends Embeddable {
+trait UserVerification {
   val verificationDate: DateTime
 }
 
@@ -81,23 +77,23 @@ case class GoogleSignIn(
   verificationDate: DateTime)
 extends UserVerification
 
-import longevity.subdomain.DerivedEType
-import longevity.subdomain.EType
-import longevity.subdomain.ETypePool
+import longevity.subdomain.DerivedCType
+import longevity.subdomain.CType
+import longevity.subdomain.CTypePool
 import longevity.subdomain.PTypePool
-import longevity.subdomain.PolyEType
+import longevity.subdomain.PolyCType
 import longevity.subdomain.Subdomain
 
 val subdomain = Subdomain(
   "blogging",
   PTypePool(User),
-  ETypePool(
-    EType[Email],
-    EType[PhoneNumber],
-    PolyEType[UserVerification],
-    DerivedEType[EmailVerification, UserVerification],
-    DerivedEType[SmsVerification, UserVerification],
-    DerivedEType[GoogleSignIn, UserVerification]))
+  CTypePool(
+    CType[Email],
+    CType[PhoneNumber],
+    PolyCType[UserVerification],
+    DerivedCType[EmailVerification, UserVerification],
+    DerivedCType[SmsVerification, UserVerification],
+    DerivedCType[GoogleSignIn, UserVerification]))
 ```
 
 {% assign prevTitle = "subtype polymorphism" %}

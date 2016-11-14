@@ -3,27 +3,23 @@ title: polymorphic persistents
 layout: page
 ---
 
-We can use polymorphism with our [persistent types](../persistent) as
-well. For example, let's say our blogging system has two kinds of
-users: members and commenters. Only members can have a user
-profile. With persistent types, we inherit from `PolyPType` and
-`DerivedPType`, in place of the `PolyType` and `DerivedType` we used
-for entities.
+We can use polymorphism with our [persistent
+objects](../subdomain/persistents.html) as well. For example, let's
+say our blogging system has two kinds of users: members and
+commenters. Only members can have a user profile. With persistent
+types, we inherit from `PolyPType` and `DerivedPType`, in place of the
+`PolyType` and `DerivedType` we used for entities.
 
 ```scala
-import longevity.subdomain.Embeddable
-
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
   description: Markdown)
-extends Embeddable
 
 import longevity.subdomain.DerivedPType
-import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
 
-trait User extends Persistent {
+trait User {
   val username: String
   val email: Email
 }

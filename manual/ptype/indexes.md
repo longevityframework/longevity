@@ -12,16 +12,14 @@ index. To do this, we declare our index in a singleton object
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
-case class Username(username: String) extends KeyVal[User, Username]
+case class Username(username: String) extends KeyVal[User]
 
 case class User(
   username: Username,
   firstName: String,
   lastName: String)
-extends Persistent
 
 object User extends PType[User] {
   object props {

@@ -71,15 +71,15 @@ object Commenter extends DerivedPType[Commenter, User] {
   }
 }
 
-import longevity.subdomain.EType
-import longevity.subdomain.ETypePool
+import longevity.subdomain.CType
+import longevity.subdomain.CTypePool
 import longevity.subdomain.PTypePool
 import longevity.subdomain.Subdomain
 
 val subdomain = Subdomain(
   "blogging",
   PTypePool(User, Member, Commenter),
-  ETypePool(EType[UserProfile]))
+  CTypePool(CType[UserProfile]))
 ```
 
 When we construct our [longevity context](../context), we can get

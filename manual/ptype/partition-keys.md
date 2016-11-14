@@ -18,9 +18,9 @@ As partition keys are a critical tool for working effectively with
 NoSQL databases, longevity provides a variation on the keys discussed
 in the [last section](keys.html) called a partition key. As various
 NoSQL databases provide different mechanisms for defining and working
-with partition keys, longevity needs to strike a delicate balance
-between providing full access to the power of the underlying database,
-and providing an intuitive API for our users.
+with partition keys, longevity needs to strike a balance between
+providing full access to the power of the underlying database, and
+providing an intuitive API for our users.
 
 While we anticipate most users will be satisfied with the basic usage
 of partition keys, which is quite simple and intuitive, a few
@@ -38,16 +38,14 @@ the `key(props.username)` in object `User.keys` to
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
-case class Username(username: String) extends KeyVal[User, Username]
+case class Username(username: String) extends KeyVal[User]
 
 case class User(
   username: Username,
   firstName: String,
   lastName: String)
-extends Persistent
 
 object User extends PType[User] {
   object props {
@@ -111,19 +109,15 @@ only partition on the last name. We would do this like so:
 
 ```scala
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.PType
 
-case class Username(username: String)
-extends KeyVal[User, Username]
+case class Username(username: String) extends KeyVal[User]
 
-case class FullName(last: String, first: String)
-extends KeyVal[User, FullName]
+case class FullName(last: String, first: String) extends KeyVal[User]
 
 case class User(
   username: Username,
   fullName: FullName)
-extends Persistent
 
 object User extends PType[User] {
   object props {
@@ -142,7 +136,7 @@ In this case, we can know that every user with the same last name will
 be located on the same database node.
 
 Because Cassandra does not support hashed keys, and MongoDB does not
-support hashed keys in the face of partion partitions, longevity does
+support hashed keys in the face of partial partitions, longevity does
 not currently support combining these two features.
 
 {% assign prevTitle = "keys" %}
