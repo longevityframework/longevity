@@ -13,15 +13,12 @@ this in longevity like so:
 ```scala
 import longevity.subdomain.KeyVal
 
-case class Username(username: String) extends KeyVal[User, Username]
-
-import longevity.subdomain.Persistent
+case class Username(username: String) extends KeyVal[User]
 
 case class User(
   username: Username,
   firstName: String,
   lastName: String)
-extends Persistent
 
 import longevity.subdomain.PType
 
@@ -68,18 +65,18 @@ independent.
 
 As we can see in the previous example, `KeyVals` can appear inside
 [collections](collections.html). They can also appear within
-[embeddables](embeddable). `KeyVals` can have multiple fields in
+[components](components.html). `KeyVals` can have multiple fields in
 them, and they can even embed other `KeyVals`. But they cannot contain
-any collections or [polymorphic objects](poly).
+any collections or [polymorphic objects](../poly).
 
 We can always look up a persistent object by `KeyVal` using
-[repository method `Repo.retrieve`](repo/retrieve.html), as we
+[repository method `Repo.retrieve`](../repo/retrieve.html), as we
 will discuss in a later section.
 
 {% assign prevTitle = "components" %}
 {% assign prevLink  = "components.html" %}
 {% assign upTitle   = "the subdomain" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "limitations on persistents, embeddables, and key values" %}
+{% assign nextTitle = "limitations on persistents, components, and key values" %}
 {% assign nextLink  = "limitations.html" %}
 {% include navigate.html %}

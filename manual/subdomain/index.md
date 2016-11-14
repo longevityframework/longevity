@@ -14,11 +14,11 @@ Here are two ways to build an empty `Subdomain`:
 ```scala
 import longevity.subdomain.Subdomain
 
-// create your own domain type:
+// put your subdomain in a local val:
 
 val subdomain = Subdomain("blogging")
 
-// or put your subdomain in a companion object:
+// or define your subdomain as a singleton object:
 
 object BloggingDomain extends Subdomain("blogging")
 ```

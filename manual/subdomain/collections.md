@@ -17,7 +17,6 @@ the user to have multiple emails:
 ```scala
 import longevity.subdomain.PType
 import longevity.subdomain.PTypePool
-import longevity.subdomain.Persistent
 import longevity.subdomain.Subdomain
 
 case class User(
@@ -26,7 +25,6 @@ case class User(
   firstName: String,
   lastName: String,
   emails: Set[String])
-extends Persistent
 
 object User extends PType[User] {
   object props {
@@ -45,9 +43,9 @@ needs. If you are itching to use another collection type in your
 subdomain, please [let us
 know](http://longevityframework.github.io/longevity/discussions.html)!
 But please note that we will only ever support immutable
-collections. It is important for the aggregates to be entirely
+collections. It is important that the persistent objects are
 immutable, so that longevity can [keep track of any
-changes](context/persistent-state.html).
+changes](../repo/persistent-state.html).
 
 {% assign prevTitle = "basic properties" %}
 {% assign prevLink  = "basics.html" %}

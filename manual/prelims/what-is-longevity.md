@@ -14,16 +14,16 @@ To accomplish this, we ask you to build your _domain objects_ - those
 data that you want to persist - according to certain rules. We hope
 you agree that these rules are not overly restrictive. And we ask you
 to tell longevity about your domain objects by constructing a
-longevity [subdomain](subdomain.html). The first half of this user
+longevity [subdomain](../subdomain). The first half of this user
 manual, more or less, describes how to build your `Subdomain`.
 
 Once you build your `Subdomain`, you pass it back to longevity to get
 your `LongevityContext`. The main thing we provide to you with the
-[longevity context](context) is a [pool](context/repo-pools.html) of
-[repositories](repo) for you to use. These repositories present with a
-complete persistence API, including CRUD operations
-(create/retrieve/update/delete), and queries that return multiple
-results.
+[longevity context](../context) is a
+[pool](../context/repo-pools.html) of [repositories](../repo) for you
+to use. These repositories present with a complete persistence API,
+including CRUD operations (create/retrieve/update/delete), and
+[queries](../query) that return multiple results.
 
 The longevity context provides you with other tools that we generally
 consider part of the persistence layer. We provide you with a set of

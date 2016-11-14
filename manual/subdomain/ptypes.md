@@ -3,19 +3,16 @@ title: persistent types
 layout: page
 ---
 
-Every `Persistent` type you create should have a corresponding
-persistent type, or `PType`. Persistent types contain
-meta-information about those entities. Let's look at a simple example
-to see how this works. For example, here we have a simple `User` class:
+Every persistent object you define should have a corresponding
+persistent type, or `PType`. Persistent types contain meta-information
+about those entities. Let's look at a simple example to see how this
+works. For example, here we have a simple `User` class:
 
 ```scala
-import longevity.subdomain.Persistent
-
 case class User(
   username: String,
   firstName: String,
   lastName: String)
-extends Persistent
 ```
 
 We need to build a corresponding `PType` for the `User`. By convention, we
@@ -37,7 +34,7 @@ object User extends PType[User] {
 ```
 
 You pass longevity a collection of your `PTypes` when [building your
-subdomain](../subdomain.html), so that longevity is aware of them:
+subdomain](.), so that longevity is aware of them:
 
 ```scala
 import longevity.subdomain.Subdomain

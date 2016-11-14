@@ -3,11 +3,11 @@ title: basic properties
 layout: page
 ---
 
-In the previous example, we saw how to build a `Persistent` with a few
-`String` properties. Of course, we can build persistent objects with
-other kinds of properties than that. The simplest kinds are ["basic
-properties"](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/#emblem.emblematic.basicTypes$),
-allowing you to put in properties with a number of simple types:
+In the previous example, we saw how to build a persistent object with
+a few `String` members. Of course, we can build persistent objects
+with other kinds of members than that. The simplest kinds are ["basic
+types"](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/#emblem.emblematic.basicTypes$),
+allowing you to put in members with a number of simple types:
 
 - `java.lang.String`
 - `org.joda.time.DateTime`
@@ -23,7 +23,6 @@ For example, we might add a few fields to our `User` like so:
 ```scala
 import longevity.subdomain.PType
 import longevity.subdomain.PTypePool
-import longevity.subdomain.Persistent
 import longevity.subdomain.Subdomain
 import org.joda.time.DateTime
 
@@ -34,7 +33,6 @@ case class User(
   dateJoined: DateTime,
   numCats: Int,
   accountSuspended: Boolean = false)
-extends Persistent
 
 object User extends PType[User] {
   object props {
