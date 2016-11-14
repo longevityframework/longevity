@@ -1,6 +1,6 @@
 
 lazy val root = Project(id = "root", base = file("."), settings = BuildSettings.noPublishSettings)
-  .aggregate(bin, emblem, longevity, longevityMongoDeps, longevityCassandraDeps, longevityDDD)
+  .aggregate(bin, emblem, longevity, longevityMongoDeps, longevityCassandraDeps)
 
 lazy val bin = Project(id = "bin", base = file("bin"), settings = BuildSettings.noPublishSettings)
 
@@ -77,11 +77,3 @@ lazy val longevityCassandraDeps = Project(
     libraryDependencies += Dependencies.json4sDep,
     homepage := BuildSettings.longevityHomepage,
     pomExtra := BuildSettings.longevityPomExtra))
-
-lazy val longevityDDD = Project(
-  id = "longevity-ddd",
-  base = file("longevity-ddd"),
-  settings = BuildSettings.publishSettings ++ Seq(
-    homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra))
-      .dependsOn(emblem, longevity)
