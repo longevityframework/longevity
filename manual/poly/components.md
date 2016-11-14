@@ -1,5 +1,5 @@
 ---
-title: polymorphic embeddables
+title: polymorphic components
 layout: page
 ---
 

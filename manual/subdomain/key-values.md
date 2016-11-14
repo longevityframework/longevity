@@ -76,8 +76,8 @@ We can always look up a persistent object by `KeyVal` using
 [repository method `Repo.retrieve`](repo/retrieve.html), as we
 will discuss in a later section.
 
-{% assign prevTitle = "embeddables" %}
-{% assign prevLink  = "embeddables.html" %}
+{% assign prevTitle = "components" %}
+{% assign prevLink  = "components.html" %}
 {% assign upTitle   = "the subdomain" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "limitations on persistents, embeddables, and key values" %}

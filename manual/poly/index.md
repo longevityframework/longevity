@@ -11,7 +11,7 @@ objects](embeddable). Polymorphism for embeddable objects
 allows us to create and use controlled vocabularies in a standard
 Scala idiom. This chapter is broken up into the following pages:
 
-- [Polymorphic Embeddables](embeddables.html)
+- [Polymorphic Components](components.html)
 - [Polymorphic Persistents](persistents.html)
 - [Controlled Vocabularies](cv.html)
 
@@ -19,7 +19,7 @@ Scala idiom. This chapter is broken up into the following pages:
 {% assign prevLink = "../ptype/sets.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}
-{% assign nextTitle = "polymorphic embeddables" %}
-{% assign nextLink = "embeddables.html" %}
+{% assign nextTitle = "polymorphic components" %}
+{% assign nextLink = "components.html" %}
 {% include navigate.html %}
 

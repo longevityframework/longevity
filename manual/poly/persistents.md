@@ -106,11 +106,11 @@ all types of `Users`, whereas keys and indexes declared in `object
 Member` will only apply to members. For more information, see the
 section on [polymorphic repositories](../repo/poly.html).
 
-{% assign prevTitle = "polymorphic embeddables" %}
-{% assign prevLink = "embeddables.html" %}
-{% assign upTitle = "subtype polymorphism" %}
-{% assign upLink = "." %}
+{% assign prevTitle = "polymorphic components" %}
+{% assign prevLink  = "components.html" %}
+{% assign upTitle   = "subtype polymorphism" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "controlled vocabularies" %}
-{% assign nextLink = "cv.html" %}
+{% assign nextLink  = "cv.html" %}
 {% include navigate.html %}
 

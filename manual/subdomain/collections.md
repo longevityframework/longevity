@@ -53,6 +53,6 @@ changes](context/persistent-state.html).
 {% assign prevLink  = "basics.html" %}
 {% assign upTitle   = "the subdomain" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "embeddables" %}
-{% assign nextLink  = "embeddables.html" %}
+{% assign nextTitle = "components" %}
+{% assign nextLink  = "components.html" %}
 {% include navigate.html %}

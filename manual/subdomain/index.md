@@ -31,7 +31,7 @@ the classes you want to persist:
 - [Persistent Types](ptypes.html)
 - [Basic Properties](basics.html)
 - [Collections](collections.html)
-- [Embeddables](embeddables.html)
+- [Components](components.html)
 - [Key Values](key-values.html)
 - [Limitations on Persistents, Embeddables, and Key Values](limitations.html)
 

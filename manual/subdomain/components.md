@@ -1,5 +1,5 @@
 ---
-title: embeddables
+title: components
 layout: page
 ---
 
