@@ -32,10 +32,10 @@ discuss properties first.
 - [Prop Sets, Key Sets, and Index Sets](sets.html)
 
 {% assign prevTitle = "limitations on persistents, embeddables, and key values" %}
-{% assign prevLink = "../limitations.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = ".." %}
+{% assign prevLink  = "../subdomain/limitations.html" %}
+{% assign upTitle   = "user manual" %}
+{% assign upLink    = ".." %}
 {% assign nextTitle = "properties" %}
-{% assign nextLink = "properties.html" %}
+{% assign nextLink  = "properties.html" %}
 {% include navigate.html %}
 

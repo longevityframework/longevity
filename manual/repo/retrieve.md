@@ -1,5 +1,5 @@
 ---
-title: retrieval by key value
+title: repo.retrieve
 layout: page
 ---
 
@@ -66,10 +66,10 @@ collision. We may revisit this in the future, but we do not consider
 it an excessive burden on the longevity user to employ their own
 cache, if need be.
 
-{% assign prevTitle = "creating many aggregates at once" %}
-{% assign prevLink = "create-many.html" %}
-{% assign upTitle = "repositories" %}
-{% assign upLink = "." %}
+{% assign prevTitle = "repo.create" %}
+{% assign prevLink  = "create.html" %}
+{% assign upTitle   = "repositories" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "repo.update" %}
-{% assign nextLink = "update.html" %}
+{% assign nextLink  = "update.html" %}
 {% include navigate.html %}

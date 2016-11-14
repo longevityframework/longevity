@@ -37,9 +37,9 @@ into the subdomain. You can track this [on the story
 board](https://www.pivotaltracker.com/story/show/133617199).
 
 {% assign prevTitle = "key values" %}
-{% assign prevLink = "key-values.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = "." %}
+{% assign prevLink  = "key-values.html" %}
+{% assign upTitle   = "the subdomain" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "the persistent type" %}
-{% assign nextLink = "ptype" %}
+{% assign nextLink  = "../ptype" %}
 {% include navigate.html %}

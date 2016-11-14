@@ -36,9 +36,9 @@ The `Repo` API makes heavy use of the persistent state, or `PState`,
 so we will take a look at that before moving on to repositories.
 
 {% assign prevTitle = "repo pools" %}
-{% assign prevLink = "repo-pools.html" %}
-{% assign upTitle = "the longevity context" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "persistent state" %}
-{% assign nextLink = "persistent-state.html" %}
+{% assign prevLink  = "repo-pools.html" %}
+{% assign upTitle   = "the longevity context" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "creating many aggregates at once" %}
+{% assign nextLink  = "create-many.html" %}
 {% include navigate.html %}

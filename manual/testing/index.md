@@ -29,10 +29,10 @@ to see these, and we will adjust the priority.
 
 </div>
 
-{% assign prevTitle = "limitations on cassandra queries" %}
-{% assign prevLink = "../query/cassandra-query-limits.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = ".." %}
+{% assign prevTitle = "creating many aggregates at once" %}
+{% assign prevLink  = "../context/create-many.html" %}
+{% assign upTitle   = "user manual" %}
+{% assign upLink    = ".." %}
 {% assign nextTitle = "in memory repositories" %}
-{% assign nextLink = "in-mem-repos.html" %}
+{% assign nextLink  = "in-mem-repos.html" %}
 {% include navigate.html %}

@@ -64,9 +64,9 @@ def updateLastName(username: Username, newLastName: String): Future[Boolean] = {
 ```
 
 {% assign prevTitle = "persistent state" %}
-{% assign prevLink = "persistent-state.html" %}
-{% assign upTitle = "the longevity context" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "repositories" %}
-{% assign nextLink = "../repo" %}
+{% assign prevLink  = "persistent-state.html" %}
+{% assign upTitle   = "repositories" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "the repo api" %}
+{% assign nextLink  = "repo-api.html" %}
 {% include navigate.html %}

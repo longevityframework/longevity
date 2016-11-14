@@ -70,9 +70,9 @@ with partition keys and MongoDB:
   uniqueness for any other key.
 
 {% assign prevTitle = "mongodb translation" %}
-{% assign prevLink = "mongodb.html" %}
-{% assign upTitle = "translating persistents to the database" %}
-{% assign upLink = "." %}
+{% assign prevLink  = "mongo.html" %}
+{% assign upTitle   = "translating persistents to the database" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "cassandra translation" %}
-{% assign nextLink = "cassandra.html" %}
+{% assign nextLink  = "cassandra.html" %}
 {% include navigate.html %}

@@ -38,9 +38,9 @@ circumstances:
 - Either everything is ascending or everything is descending.
 
 {% assign prevTitle = "stream by query" %}
-{% assign prevLink = "stream-by.html" %}
-{% assign upTitle = "queries" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "testing your subdomain" %}
-{% assign nextLink = "../testing" %}
+{% assign prevLink  = "stream-by.html" %}
+{% assign upTitle   = "queries" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "the longevity context" %}
+{% assign nextLink  = "../context" %}
 {% include navigate.html %}

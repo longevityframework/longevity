@@ -44,10 +44,10 @@ application-level concerns. Whether or not you are doing DDD, we think
 you will find that this kind of separation of concerns will help you
 build solid, long-lasting applications.
 
-{% assign prevTitle = "user manual" %}
-{% assign prevLink = "./" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = "./" %}
+{% assign prevTitle = "preliminaries" %}
+{% assign prevLink  = "." %}
+{% assign upTitle   = "preliminaries" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "project setup" %}
-{% assign nextLink = "project-setup.html" %}
+{% assign nextLink  = "project-setup.html" %}
 {% include navigate.html %}

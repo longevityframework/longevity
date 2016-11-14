@@ -49,10 +49,10 @@ been updated. In this case, re-using (or continuing to use) the input
 `PState` could result in an optimistic locking failure. In general,
 you should consider a `PState` passed to `Repo.update` as no longer valid.
 
-{% assign prevTitle = "retrieval by key value" %}
-{% assign prevLink = "retrieve.html" %}
-{% assign upTitle = "repositories" %}
-{% assign upLink = "." %}
+{% assign prevTitle = "repo.retrieve" %}
+{% assign prevLink  = "retrieve.html" %}
+{% assign upTitle   = "repositories" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "repo.delete" %}
-{% assign nextLink = "delete.html" %}
+{% assign nextLink  = "delete.html" %}
 {% include navigate.html %}

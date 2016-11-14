@@ -13,14 +13,13 @@ to maintain your back-end store.
 - [Optimistic Locking](opt-lock.html)
 - [Repo Pools](repo-pools.html)
 - [Schema Creation](schema-creation.html)
-- [Persistent State](persistent-state.html)
-- [Persistent State Wrappers](pstate-wrappers.html)
+- [Creating Many Aggregates at Once](create-many.html)
 
-{% assign prevTitle = "controlled vocabularies" %}
-{% assign prevLink = "../poly/cv.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = ".." %}
+{% assign prevTitle = "limitations on cassandra queries" %}
+{% assign prevLink  = "../query/cassandra-query-limits.html" %}
+{% assign upTitle   = "user manual" %}
+{% assign upLink    = ".." %}
 {% assign nextTitle = "configuring your longevity context" %}
-{% assign nextLink = "config.html" %}
+{% assign nextLink  = "config.html" %}
 {% include navigate.html %}
 

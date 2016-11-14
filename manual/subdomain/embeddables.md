@@ -107,10 +107,10 @@ soon by [supporting classpath
 scanning](https://www.pivotaltracker.com/story/show/127406543).
 
 {% assign prevTitle = "collections" %}
-{% assign prevLink = "../collections.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = ".." %}
+{% assign prevLink  = "collections.html" %}
+{% assign upTitle   = "the subdomain" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "key values" %}
-{% assign nextLink = "../key-values.html" %}
+{% assign nextLink  = "key-values.html" %}
 {% include navigate.html %}
 

@@ -41,9 +41,9 @@ On Cassandra, no check for duplicate key values is made. We
 the user finer control over this behavior in the future.
 
 {% assign prevTitle = "the repo api" %}
-{% assign prevLink = "repo-api.html" %}
-{% assign upTitle = "repositories" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "creating many aggregates at once" %}
-{% assign nextLink = "create-many.html" %}
+{% assign prevLink  = "repo-api.html" %}
+{% assign upTitle   = "repositories" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "repo.retrieve" %}
+{% assign nextLink  = "retrieve.html" %}
 {% include navigate.html %}

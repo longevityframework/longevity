@@ -51,9 +51,9 @@ All we need to do now is to [slap our `Subdomain` into a
 users, as we will see in a [later chapter](../repo).
 
 {% assign prevTitle = "persistent objects" %}
-{% assign prevLink = "." %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = ".." %}
+{% assign prevLink  = "persistents.html" %}
+{% assign upTitle   = "the subdomain" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "basic properties" %}
-{% assign nextLink = "../basics.html" %}
+{% assign nextLink  = "basics.html" %}
 {% include navigate.html %}

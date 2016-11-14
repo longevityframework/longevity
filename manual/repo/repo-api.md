@@ -121,10 +121,10 @@ wrapper method for `retrieve`, that opens up the `Option[PState[R]]`
 for you. If the option is a `None`, this will result in a
 `NoSuchElementException`.
 
-{% assign prevTitle = "repositories" %}
-{% assign prevLink = "." %}
-{% assign upTitle = "repositories" %}
-{% assign upLink = "." %}
+{% assign prevTitle = "persistent state wrappers" %}
+{% assign prevLink  = "pstate-wrappers.html" %}
+{% assign upTitle   = "repositories" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "repo.create" %}
-{% assign nextLink = "create.html" %}
+{% assign nextLink  = "create.html" %}
 {% include navigate.html %}

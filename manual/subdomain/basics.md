@@ -56,10 +56,10 @@ a Scala-friendly wrapper.
 </div>
 
 {% assign prevTitle = "persistent types" %}
-{% assign prevLink = "persistent/ptypes.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = "." %}
+{% assign prevLink  = "ptypes.html" %}
+{% assign upTitle   = "the subdomain" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "collections" %}
-{% assign nextLink = "collections.html" %}
+{% assign nextLink  = "collections.html" %}
 {% include navigate.html %}
 

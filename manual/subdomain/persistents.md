@@ -25,10 +25,10 @@ case class Note(
 extends Persistent
 ```
 
-{% assign prevTitle = "building your subdomain" %}
-{% assign prevLink = "../subdomain.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = ".." %}
+{% assign prevTitle = "the subdomain" %}
+{% assign prevLink  = "." %}
+{% assign upTitle   = "the subdomain" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "persistent types" %}
-{% assign nextLink = "ptypes.html" %}
+{% assign nextLink  = "ptypes.html" %}
 {% include navigate.html %}

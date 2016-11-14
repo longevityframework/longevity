@@ -1,5 +1,5 @@
 ---
-title: building your subdomain
+title: the subdomain
 layout: page
 ---
 
@@ -23,11 +23,23 @@ val subdomain = Subdomain("blogging")
 object BloggingDomain extends Subdomain("blogging")
 ```
 
+Of course, we don't really want an empty subdomain. In the rest of
+this chapter, we will cover the basics of filling your subdomain with
+the classes you want to persist:
+
+- [Persistent Objects](persistents.html)
+- [Persistent Types](ptypes.html)
+- [Basic Properties](basics.html)
+- [Collections](collections.html)
+- [Embeddables](embeddables.html)
+- [Key Values](key-values.html)
+- [Limitations on Persistents, Embeddables, and Key Values](limitations.html)
+
 {% assign prevTitle = "project setup" %}
-{% assign prevLink = "project-setup.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = "." %}
+{% assign prevLink  = "../prelims/project-setup.html" %}
+{% assign upTitle   = "user manual" %}
+{% assign upLink    = ".." %}
 {% assign nextTitle = "persistent objects" %}
-{% assign nextLink = "persistent" %}
+{% assign nextLink  = "persistents.html" %}
 {% include navigate.html %}
 

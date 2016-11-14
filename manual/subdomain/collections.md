@@ -50,9 +50,9 @@ immutable, so that longevity can [keep track of any
 changes](context/persistent-state.html).
 
 {% assign prevTitle = "basic properties" %}
-{% assign prevLink = "basics.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = "." %}
+{% assign prevLink  = "basics.html" %}
+{% assign upTitle   = "the subdomain" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "embeddables" %}
-{% assign nextLink = "embeddable" %}
+{% assign nextLink  = "embeddables.html" %}
 {% include navigate.html %}

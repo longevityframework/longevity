@@ -82,10 +82,10 @@ interested, this would be a great user contribution, and we would be
 happy to support you in implementing it however we can.
 
 {% assign prevTitle = "polymorphic persistents" %}
-{% assign prevLink = "persistents.html" %}
-{% assign upTitle = "subtype polymorphism" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "the longevity context" %}
-{% assign nextLink = "../context" %}
+{% assign prevLink  = "persistents.html" %}
+{% assign upTitle   = "subtype polymorphism" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "repositories" %}
+{% assign nextLink  = "../repo" %}
 {% include navigate.html %}
 

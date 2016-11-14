@@ -83,10 +83,9 @@ libraryDependencies += "org.longevityframework" %% "longevity" % "0.17-SNAPSHOT"
 ```
 
 {% assign prevTitle = "what is longevity" %}
-{% assign prevLink = "what-is-longevity.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "building your subdomain" %}
-{% assign nextLink = "subdomain.html" %}
+{% assign prevLink  = "what-is-longevity.html" %}
+{% assign upTitle   = "preliminaries" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "the subdomain" %}
+{% assign nextLink  = "../subdomain/index.html" %}
 {% include navigate.html %}
-
