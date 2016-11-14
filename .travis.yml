@@ -1,15 +1,7 @@
 language: scala
 
 before_script:
-  - sudo service stop cassandra
-  - sudo update-java-alternatives -s java-8-oracle
-  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - which cassandra
-  - sudo rm -rf /usr/local/var/lib/cassandra/*
-  - wget http://www.us.apache.org/dist/cassandra/3.9/apache-cassandra-3.9-bin.tar.gz
-  - tar -xvzf apache-cassandra-3.9-bin.tar.gz
-  - sudo sh ./apache-cassandra-3.9/bin/cassandra -f &
-  - sleep 20
+  - sudo service cassandra start
 
 script:
   - sbt -J-Xmx4G clean test doc
