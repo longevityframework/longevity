@@ -11,22 +11,18 @@ a `User` trait with two inheriting subclasses, `Member` and
 
 
 ```scala
-import longevity.subdomain.Embeddable
-
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
   description: Markdown)
-extends Embeddable
 
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.PolyPType
 
-case class Username(username: String) extends KeyVal[User, Username]
+case class Username(username: String) extends KeyVal[User]
 
-trait User extends Persistent {
+trait User {
   val username: Username
   val email: Email
 }

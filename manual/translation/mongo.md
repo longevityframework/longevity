@@ -5,7 +5,7 @@ layout: page
 
 The persistent object is translated directly into a BSON document as
 described in the earlier section [Persistent to JSON](json.html). Some
-other persistence-related fields are added to the JSON. All these
+other persistence-related fields are added to the BSON. All these
 fields are prefixed with an underscore (`_`). For this reason, we
 **highly recommend against** writing [persistent
 objects](../persistent) with members whose names start with an

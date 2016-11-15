@@ -14,7 +14,7 @@ Two `RepoCrudSpecs` are provided for you in the `LongevityContext`:
 database. The former executes tests using a test database. The
 database connection details are specified in the [longevity
 config](../context/config.html). The database back end is specified by
-the longevity context's [persistence strategy](../context/pstrat.html).
+the longevity context's [configuration](../context/config.html).
 
 The repo crud specs are [ScalaTest](http://www.scalatest.org/) suites:
 

@@ -15,13 +15,12 @@ column will be used for [update](../repo/update.html) and
 If you do define a partition key, longevity will use the property
 columns described in the [previous section](cassandra.html) to build
 your Cassandra primary key. If you do not specify a partial partition,
-then all of the columns will become part of a [Cassandra compound
-primary
-key](https://docs.datastax.com/en/cql/3.3/cql/cql_using/useCompoundPrimaryKeyConcept.html). If
+then all of the columns will become part of a [Cassandra composite
+partition
+key](https://docs.datastax.com/en/cql/3.3/cql/cql_using/useCompositePartitionKeyConcept.html). If
 you do specify a partial partition, then those columns that make up
-your partial partition will become the [Cassandra partition
-key](https://docs.datastax.com/en/cql/3.3/cql/cql_using/useCompositePartitionKeyConcept.html),
-and the remaining columns will make up the remainder of your primary
+your partial partition will become the Cassandra partition key, and
+the remaining columns will make up the remainder of your primary
 key. Longevity will use these columns for updates and deletes.
 
 In Cassandra, the partition key is always hashed. Any remaining

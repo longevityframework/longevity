@@ -11,13 +11,12 @@ package longevity.persistence
 
 import emblem.TypeKey
 import longevity.subdomain.KeyVal
-import longevity.subdomain.Persistent
 import longevity.subdomain.ptype.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a repository for persistent objects of type `P` */
-trait Repo[P <: Persistent] {
+trait Repo[P] {
 
   /** creates the persistent object
    * 
@@ -33,7 +32,7 @@ trait Repo[P <: Persistent] {
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieve[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[Option[PState[P]]]
 
   /** retrieves an optional persistent object from a
@@ -46,7 +45,7 @@ trait Repo[P <: Persistent] {
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieveOne[V <: KeyVal[P, V] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieveOne[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[PState[P]]
 
   /** retrieves multiple persistent objects matching a query
@@ -90,23 +89,17 @@ package longevity.persistence
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import longevity.subdomain.ptype.Query
-import longevity.subdomain.Persistent
 
 /** provides repository methods that use Akka Streams for repository streaming
  * API.
- * 
- * `StreamingRepo` is provided by an implicit conversion from `Repo`, so that
- * Akka Streams can remain an optional dependency for longevity users.
- * otherwise, it would have been included as part of the [[Repo]].
  */
-implicit class StreamingRepo[P <: Persistent](repo: Repo[P]) {
+trait StreamingRepo[P](repo: Repo[P]) {
 
   /** streams persistent objects matching a query
    * 
    * @param query the query to execute
    */
-  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed] =
-      repo.asInstanceOf[BaseRepo[P]].streamByQueryImpl(query)
+  def streamByQuery(query: Query[P]): Source[PState[P], NotUsed]
 
 }
 ```
@@ -114,12 +107,6 @@ implicit class StreamingRepo[P <: Persistent](repo: Repo[P]) {
 The `streamByQuery` method is provided implicitly, rather than
 directly within the `Repo` API, so that Akka streams can be an
 optional dependency.
-
-We will will discuss the `Repo` API methods in turn, but it's helpful
-to cover one point up front: the `retrieveOne` method is a simple
-wrapper method for `retrieve`, that opens up the `Option[PState[R]]`
-for you. If the option is a `None`, this will result in a
-`NoSuchElementException`.
 
 {% assign prevTitle = "persistent state wrappers" %}
 {% assign prevLink  = "pstate-wrappers.html" %}

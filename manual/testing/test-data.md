@@ -21,8 +21,8 @@ will be `true` about half the time, and `false` about half the
 time. `Options` are non-empty about half the time. `Sets` and `Lists`
 have between 0 and 4 elements. Strings are composed of 8 random
 alphanumeric characters. You can use the generator to generate
-`Embeddables`, `KeyVals`, `Options`, `Sets`, `Lists`, and even basic
-types such as `String`. For instance:
+persistent components, `KeyVals`, `Options`, `Sets`, `Lists`, and even
+basic types such as `String`. For instance:
 
 ```scala
 val userId = generator.generate[UserId]

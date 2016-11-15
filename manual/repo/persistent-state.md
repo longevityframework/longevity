@@ -3,8 +3,8 @@ title: persistent state
 layout: page
 ---
 
-The persistent state is a container for your roots where the
-persistence information is stored. You might find database IDs,
+The persistent state is a container for your persistent objects where
+the persistence information is stored. You might find database IDs,
 optimistic locking counters, dirty flags, and created/modified columns
 in there. While you will be able to see some of these things when
 querying your database by hand, in your application, the persistent
@@ -16,9 +16,9 @@ val userState: PState[User] = getUserState()
 val user: User = userState.get
 ```
 
-Your aggregate is immutable and so is the `PState`. You "update" a
-persistent object by creating a new, modified object, for instance
-with method `copy`:
+Your persistent object is immutable and so is the `PState`. You
+"update" a persistent object by creating a new, modified object, for
+instance with method `copy`:
 
 ```scala
 val newTitle = "Dr."

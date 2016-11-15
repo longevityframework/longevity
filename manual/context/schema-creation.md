@@ -32,9 +32,6 @@ development work, but will incur an overhead for every program run.
 Schema generation is always a non-destructive process, and you will
 never lose any data when generating schema.
 
-The `Repo` API makes heavy use of the persistent state, or `PState`,
-so we will take a look at that before moving on to repositories.
-
 {% assign prevTitle = "repo pools" %}
 {% assign prevLink  = "repo-pools.html" %}
 {% assign upTitle   = "the longevity context" %}

@@ -91,7 +91,7 @@ declare the dependency in your own project to use the
 `Repo.streamByQuery` method:
 
 ```scala
-libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.10"
+libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.12"
 ```
 
 {% assign prevTitle = "retrieval by query" %}

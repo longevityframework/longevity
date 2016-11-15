@@ -7,7 +7,8 @@ The test data generator described in the [previous
 section](test-data.html) will handle most anything you put in your
 domain. The only thing we cannot handle out of the box is when
 exceptions are thrown in the constructors of your
-[persistent](persistent) and [embeddable](embeddable) classes.
+[persistent](../subdomain/persistents.html) and
+[component](../subdomain/components.html) objects.
 
 A class constructor is a great place to enforce domain constraints,
 such as requiring that an email has an at sign (`@`):
@@ -30,7 +31,7 @@ import emblem.traversors.sync.CustomGeneratorPool
 import emblem.traversors.sync.CustomGenerator
 
 val emailGenerator = CustomGenerator.simpleGenerator[Email] {
-  generator => Email(s"{generator.string}@{generator.string")
+  generator => Email(s"${generator.string}@${generator.string}")
 }
 val generators = CustomGeneratorPool.empty + emailGenerator
 ```

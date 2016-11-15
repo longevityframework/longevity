@@ -3,17 +3,18 @@ title: persistent to json
 layout: page
 ---
 
-As of now, all longevity [back ends](../context/pstrat.html) end up
-translating persistent objects in and out of some JSON
-variant. MongoDB uses BSON, whereas in Cassandra, the persistent
-object is stored in JSON form in one of the columns. The translation
-itself is quite straightforward:
+As of now, all longevity database back ends translate persistent
+objects in and out of some JSON variant. MongoDB uses BSON, whereas in
+Cassandra, the persistent object is stored in JSON form in one of the
+columns. The translation itself is quite straightforward:
 
-- [Persistents](../persistent), [Embeddables](../embeddable), and
-[KeyVals](../key-values.html) are translated into JSON Objects.
-  - If an `Embeddable` or `KeyVal` being translated only has a single
-member, that member value is inlined, so that the JSON produced is
-whatever JSON the member value produces.
+- [Persistent objects](../subdomain/persistents.html), [persistent
+components](../subdomain/components.html), and
+[key values](../subdomain/key-values.html) are translated into JSON
+Objects.
+- If a persistent component or a `KeyVal` being translated only has a
+single member, that member value is inlined, so that the JSON produced
+is whatever JSON the member value produces.
 - [Basic values](../basics.html) translate directly into JSON
 primitive types, with two exceptions:
   - `Chars` are translated into single-character strings.
