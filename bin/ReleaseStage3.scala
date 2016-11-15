@@ -56,6 +56,6 @@ object ReleaseStage3 extends App {
   run(Process("git push", longevityDir))
 
   // publish signed
-  run(Process("sbt publish-signed", longevityDir) #< java.lang.System.in)
+  run(Process(Seq("sbt", "+ publish-signed"), longevityDir) #< java.lang.System.in)
 
 }
