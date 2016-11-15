@@ -44,6 +44,10 @@ thrown from your constructor. In this case, you need to provide custom
 generators for your types. This is described in the section on
 [enforcing constraints](constraints.html).
 
+ScalaTest is an optional dependency in longevity, so you'll need to
+declare a dependency on ScalaTest in your own project to use the query
+specs. **Please use ScalaTest version 3.0.1 or later.**
+
 {% assign prevTitle = "repo crud spec" %}
 {% assign prevLink = "repo-crud-spec.html" %}
 {% assign upTitle = "testing" %}
