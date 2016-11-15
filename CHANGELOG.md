@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.17] - API Simplifications
+## [0.17.0] - 2016.11.15 - API Simplifications
 
 - 2016.11.13 - Remove second type parameter from
   `longevity.subdomain.KeyVal`.
