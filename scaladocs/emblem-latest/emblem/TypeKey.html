@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TypeKey - emblem 0.16.0 API - emblem.TypeKey</title>
-          <meta name="description" content="TypeKey - emblem 0.16.0 API - emblem.TypeKey" />
-          <meta name="keywords" content="TypeKey emblem 0.16.0 API emblem.TypeKey" />
+          <title>TypeKey - emblem 0.17.0 API - emblem.TypeKey</title>
+          <meta name="description" content="TypeKey - emblem 0.17.0 API - emblem.TypeKey" />
+          <meta name="keywords" content="TypeKey emblem 0.17.0 API emblem.TypeKey" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -58,7 +58,7 @@ with <a href="#equals(that:Any):Boolean" class="extmbr" name="emblem.TypeKey#equ
 you can get one implicitly like so:</p><pre><span class="kw">def</span> foo[A : TypeKey]() = {
   <span class="kw">val</span> key = implicitly[TypeKey[A]]
 }</pre><p>or you can get one explicitly like so:</p><pre><span class="kw">val</span> key = emblem.typeKey[<span class="std">List</span>[<span class="std">String</span>]]</pre><p>or if you already have a <code>TypeTag</code> at hand:</p><pre><span class="kw">val</span> tag: <span class="std">TypeTag</span>[A] = ???
-<span class="kw">val</span> key = TypeKey(tag)</pre></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type that we are keying one</p></dd><dt class="param">tag</dt><dd class="cmt"><p>the scala-reflect <code>TypeTag</code> for type <code>A</code></p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.16.0/Users/jsmscs/ws/lf/longevity/emblem/src/main/scala/emblem/TypeKey.scala" target="_blank">TypeKey.scala</a></dd></dl><div class="toggleContainer block">
+<span class="kw">val</span> key = TypeKey(tag)</pre></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type that we are keying one</p></dd><dt class="param">tag</dt><dd class="cmt"><p>the scala-reflect <code>TypeTag</code> for type <code>A</code></p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.17.0/Users/jsmscs/ws/lf/longevity/emblem/src/main/scala/emblem/TypeKey.scala" target="_blank">TypeKey.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">

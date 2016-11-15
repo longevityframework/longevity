@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>test - longevity 0.16.0 API - longevity.test</title>
-          <meta name="description" content="test - longevity 0.16.0 API - longevity.test" />
-          <meta name="keywords" content="test longevity 0.16.0 API longevity.test" />
+          <title>test - longevity 0.17.0 API - longevity.test</title>
+          <meta name="description" content="test - longevity 0.17.0 API - longevity.test" />
+          <meta name="keywords" content="test longevity 0.17.0 API longevity.test" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for testing your <a href="../subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">subdomain</a>
 and <a href="../context/LongevityContext.html" class="extype" name="longevity.context.LongevityContext">longevity context</a>
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.16.0/src/main/scala/longevity/test/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.17.0/src/main/scala/longevity/test/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="content-diagram-container">
@@ -128,18 +128,18 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
     </span>
       <p class="shortcomment cmt">common code for longevity specs that use a longevity context and a repo pool</p>
     </li><li name="longevity.test.QuerySpec" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="QuerySpec[P&lt;:longevity.subdomain.Persistent]extendsFlatSpecwithLongevityIntegrationSpecwithLazyLogging"></a>
-      <a id="QuerySpec[P&lt;:Persistent]:QuerySpec[P]"></a>
+      <a id="QuerySpec[P]extendsFlatSpecwithLongevityIntegrationSpecwithLazyLogging"></a>
+      <a id="QuerySpec[P]:QuerySpec[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="QuerySpec.html"><span class="name">QuerySpec</span></a><span class="tparams">[<span name="P">P &lt;: <a href="../subdomain/Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a></span>]</span><span class="result"> extends <span class="extype" name="org.scalatest.FlatSpec">FlatSpec</span> with <a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a> with <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span></span>
+        <a href="QuerySpec.html"><span class="name">QuerySpec</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <span class="extype" name="org.scalatest.FlatSpec">FlatSpec</span> with <a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a> with <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.package@QuerySpec[P&lt;:longevity.subdomain.Persistent]extendsFlatSpecwithLongevityIntegrationSpecwithLazyLogging" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.package@QuerySpec[P]extendsFlatSpecwithLongevityIntegrationSpecwithLazyLogging" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -147,7 +147,7 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
 remove the methods inherited from ScalaTest classes yet.
 </p></div></div>
     </li><li name="longevity.test.RepoCrudSpec" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RepoCrudSpecextendsFeatureSpecwithLongevityIntegrationSpecwithGivenWhenThen"></a>
+      <a id="RepoCrudSpecextendsFlatSpecwithLongevityIntegrationSpecwithGivenWhenThen"></a>
       <a id="RepoCrudSpec:RepoCrudSpec"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -155,10 +155,10 @@ remove the methods inherited from ScalaTest classes yet.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="RepoCrudSpec.html"><span class="name">RepoCrudSpec</span></a><span class="result"> extends <span class="extype" name="org.scalatest.FeatureSpec">FeatureSpec</span> with <a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a> with <span class="extype" name="org.scalatest.GivenWhenThen">GivenWhenThen</span></span>
+        <a href="RepoCrudSpec.html"><span class="name">RepoCrudSpec</span></a><span class="result"> extends <span class="extype" name="org.scalatest.FlatSpec">FlatSpec</span> with <a href="LongevityIntegrationSpec.html" class="extype" name="longevity.test.LongevityIntegrationSpec">LongevityIntegrationSpec</a> with <span class="extype" name="org.scalatest.GivenWhenThen">GivenWhenThen</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.test.package@RepoCrudSpecextendsFeatureSpecwithLongevityIntegrationSpecwithGivenWhenThen" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.test.package@RepoCrudSpecextendsFlatSpecwithLongevityIntegrationSpecwithGivenWhenThen" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

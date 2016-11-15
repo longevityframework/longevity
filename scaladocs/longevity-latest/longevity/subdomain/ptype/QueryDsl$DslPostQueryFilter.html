@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DslPostQueryFilter - longevity 0.16.0 API - longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter</title>
-          <meta name="description" content="DslPostQueryFilter - longevity 0.16.0 API - longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter" />
-          <meta name="keywords" content="DslPostQueryFilter longevity 0.16.0 API longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter" />
+          <title>DslPostQueryFilter - longevity 0.17.0 API - longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter</title>
+          <meta name="description" content="DslPostQueryFilter - longevity 0.17.0 API - longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter" />
+          <meta name="keywords" content="DslPostQueryFilter longevity 0.17.0 API longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -55,7 +55,7 @@ possibilities for what comes next:</p><p>1. if we see a <a href="../query/Logica
 followed by another <a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>,
 then we combine the two query filters with the logical op.</p><p>2. we parse an order-by clause</p><p>3. we parse an offset clause</p><p>4. we parse a limit clause</p><p>5. we are done parsing the complete
 <a href="../query/QueryFilter.html" class="extype" name="longevity.subdomain.query.QueryFilter">QueryFilter</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.16.0/src/main/scala/longevity/subdomain/ptype/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.17.0/src/main/scala/longevity/subdomain/ptype/QueryDsl.scala" target="_blank">QueryDsl.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -222,18 +222,18 @@ then we combine the two query filters with the logical op.</p><p>2. we parse an 
     </span>
       <p class="shortcomment cmt">parse an <code>and</code> token a (possibly parenthesized) query, and prepare for a logical operator</p>
     </li><li name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter#and" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="and[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):QueryDsl.this.DslPostProp[A]"></a>
-      <a id="and[A](Prop[_&gt;:P&lt;:Persistent,A]):DslPostProp[A]"></a>
+      <a id="and[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P,A]):QueryDsl.this.DslPostProp[A]"></a>
+      <a id="and[A](Prop[_&gt;:P,A]):DslPostProp[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">and</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span> &lt;: <a href="../Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter.and.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$DslPostProp.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostProp">DslPostProp</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter.and.A">A</span>]</span>
+        <span class="name">and</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter.and.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$DslPostProp.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostProp">DslPostProp</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter.and.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostQueryFilter@and[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):QueryDsl.this.DslPostProp[A]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostQueryFilter@and[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P,A]):QueryDsl.this.DslPostProp[A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -597,18 +597,18 @@ then we combine the two query filters with the logical op.</p><p>2. we parse an 
     </span>
       <p class="shortcomment cmt">parse an <code>or</code> token a (possibly parenthesized) query, and prepare for a logical operator</p>
     </li><li name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter#or" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="or[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):QueryDsl.this.DslPostProp[A]"></a>
-      <a id="or[A](Prop[_&gt;:P&lt;:Persistent,A]):DslPostProp[A]"></a>
+      <a id="or[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P,A]):QueryDsl.this.DslPostProp[A]"></a>
+      <a id="or[A](Prop[_&gt;:P,A]):DslPostProp[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">or</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span> &lt;: <a href="../Persistent.html" class="extype" name="longevity.subdomain.Persistent">Persistent</a>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter.or.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$DslPostProp.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostProp">DslPostProp</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter.or.A">A</span>]</span>
+        <span class="name">or</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.subdomain.ptype.QueryDsl.P">P</span>, <span class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter.or.A">A</span>]</span>)</span><span class="result">: <a href="QueryDsl$DslPostProp.html" class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostProp">DslPostProp</a>[<span class="extype" name="longevity.subdomain.ptype.QueryDsl.DslPostQueryFilter.or.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostQueryFilter@or[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P&lt;:longevity.subdomain.Persistent,A]):QueryDsl.this.DslPostProp[A]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.subdomain.ptype.QueryDsl$DslPostQueryFilter@or[A](prop:longevity.subdomain.ptype.Prop[_&gt;:P,A]):QueryDsl.this.DslPostProp[A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
