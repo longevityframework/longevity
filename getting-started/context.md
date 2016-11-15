@@ -60,12 +60,12 @@ use.
 You can find configurations for main and test databases for both Mongo
 and Cassandra in the config file. If you want to experiment with
 adjusting the persistence strategy to use a real database, you may
-need to tweak this configuration.
+need to adjust this configuration.
 
 {% assign prevTitle = "building the subdomain" %}
-{% assign prevLink = "building.html" %}
-{% assign upTitle = "getting started guide" %}
-{% assign upLink = "." %}
-{% assign nextTitle="the akka http routes" %}
-{% assign nextLink="routes.html" %}
+{% assign prevLink  = "building.html" %}
+{% assign upTitle   = "getting started guide" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "the akka http routes" %}
+{% assign nextLink  = "routes.html" %}
 {% include navigate.html %}

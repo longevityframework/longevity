@@ -10,14 +10,11 @@ natural keys: the `Username` and the `Email`.  Let's focus on the
 ```scala
 package simbl.domain
 
-import longevity.subdomain.Persistent
-
 case class User(
   username: Username,
   email: Email,
   fullname: String,
-  profile: Option[UserProfile])
-extends Persistent {
+  profile: Option[UserProfile]) {
 
   def updateProfile(profile: UserProfile): User = copy(profile = Some(profile))
 
@@ -26,14 +23,13 @@ extends Persistent {
 }
 ```
 
-The `User` is a simple case class that extends empty longevity trait
-`Persistent`, which we use to mark things we want to persist to the
-database.
-
 The `User` case class provides us with the four members we find in the
 UML in the [previous section](modelling.html), including the
 relationship between `User` and `UserProfile`. There are also a couple
 of business methods inside: `updateProfile` and `deleteProfile`.
+
+In longevity terminology, `Users` are _persistent objects_ - that is,
+objects we want to persist in their own table or collection.
 
 The `User` companion object provides metadata about the `User`:
 information that pertains not to an individual user, but to a
@@ -67,7 +63,7 @@ since the database can determine the node that holds the data by
 examining the key.
 
 The `User` companion object extends `PType`, which is a type class for
-a `Persistent`. Every `PType` defines its `props`, `keys`, and
+a persistent object. Every `PType` defines its `props`, `keys`, and
 `indexes`, as you see in this example.
 
 {% assign prevTitle = "modelling our subdomain" %}
