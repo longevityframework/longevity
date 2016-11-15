@@ -18,16 +18,3 @@ scala:
 
 jdk:
   - oraclejdk8
-
-sudo: required
-
-services:
-  - mongodb
-
-addons:
-  apt:
-    sources:
-      - mongodb-3.2-precise
-    packages:
-      - mongodb-org-server
-      - oracle-java8-installer
