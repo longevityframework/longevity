@@ -1,5 +1,6 @@
 package longevity.subdomain
 
+import org.joda.time.DateTime
 import scala.reflect.macros.whitebox.Context
 import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
@@ -76,31 +77,56 @@ object mprops {
 
     private def defObjectProps(parent: c.Tree) = {
       c.typecheck(parent, c.TYPEmode) match {
-        case tq"longevity.subdomain.PType[$p]" => q"""object props { ..${propsForType(p)} }"""
+        case tq"longevity.subdomain.PType[$p]" => q"object props { ..${propsForP(p)} }"
         case _                                 => misapplied()
       }
     }
 
-    private def propsForType(ptype: c.Tree) = {
-      // TODO this method is WIP. we currently only handle simple cases like `Basics`
-      val tpe = ptype.tpe
+    private def propsForP(p: c.Tree) = propsForType(p, "", p.tpe)
+
+    private def propsForType(p: c.Tree, pathPrefix: String, tpe: c.Type): Seq[c.Tree] = {
       val symbol = tpe.typeSymbol.asClass
       if (isCaseClass(symbol)) {
         val constructorSymbol = symbol.primaryConstructor.asMethod
-        val params: List[c.universe.TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
+        val params: List[TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
         params.map { param =>
-          q"""object ${param.name}
-              extends longevity.subdomain.ptype.Prop[$ptype, ${param.typeSignature}](${param.name.toString})
-           """
+          val paramTpe = param.typeSignature
+          val paramPath = s"$pathPrefix${param.name.toString}"
+          val stats = propsForType(p, s"$paramPath.", paramTpe)
+          (shouldExtendProp(param.typeSignature), stats.nonEmpty) match {
+            case (true, true) => q"""
+              object ${param.name} extends longevity.subdomain.ptype.Prop[$p, $paramTpe]($paramPath) {
+                ..$stats
+              }
+              """
+            case (true, false) => q"""
+              object ${param.name} extends longevity.subdomain.ptype.Prop[$p, $paramTpe]($paramPath)
+              """
+            case (false, true) => q"""
+              object ${param.name} { ..$stats }
+              """
+            case (false, false) => EmptyTree
+          }
         }
       } else {
         // TODO
-        misapplied()
         Seq()
       }
     }
 
-    private def isCaseClass(symbol: ClassSymbol) = symbol.isClass && symbol.asClass.isCaseClass
+    private def isCaseClass(symbol: Symbol) = symbol.isClass && symbol.asClass.isCaseClass
+
+    private def shouldExtendProp(tpe: c.Type) = {
+      isCaseClass(tpe.typeSymbol) ||
+      tpe =:= c.typeOf[Boolean ] ||
+      tpe =:= c.typeOf[Char    ] ||
+      tpe =:= c.typeOf[DateTime] ||
+      tpe =:= c.typeOf[Double  ] ||
+      tpe =:= c.typeOf[Float   ] ||
+      tpe =:= c.typeOf[Int     ] ||
+      tpe =:= c.typeOf[Long    ] ||
+      tpe =:= c.typeOf[String  ]
+    }
 
   }
 

@@ -1,5 +1,6 @@
 package emblem.emblematic
 
+import org.joda.time.DateTime
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.typeKey
@@ -22,7 +23,7 @@ object basicTypes {
   val basicTypeKeys = Set[TypeKey[_]](
     typeKey[Boolean],
     typeKey[Char],
-    typeKey[org.joda.time.DateTime],
+    typeKey[DateTime],
     typeKey[Double],
     typeKey[Float],
     typeKey[Int],

@@ -2,6 +2,7 @@ package longevity.integration.subdomain.basicSets
 
 import com.github.nscala_time.time.Imports._
 import longevity.subdomain.PType
+import longevity.subdomain.mprops
 
 case class BasicSets(
   id: BasicSetsId,
@@ -14,10 +15,7 @@ case class BasicSets(
   string: Set[String],
   dateTime: Set[DateTime])
 
-object BasicSets extends PType[BasicSets] {
-  object props {
-    val id = prop[BasicSetsId]("id")
-  }
+@mprops object BasicSets extends PType[BasicSets] {
   object keys {
     val id = key(props.id)
   }

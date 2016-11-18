@@ -19,7 +19,7 @@ case class Basics(
   object keys {
     val id = key(props.id)
   }
-  object indexes {
+  object indexes { // for cassandra.BasicsQuerySpec
     val boolean = index(props.boolean)
     val char = index(props.char)
     val double = index(props.double)

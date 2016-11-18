@@ -1,7 +1,8 @@
 package longevity.integration.subdomain.basicLists
 
-import com.github.nscala_time.time.Imports._
+import org.joda.time.DateTime
 import longevity.subdomain.PType
+import longevity.subdomain.mprops
 
 case class BasicLists(
   id: BasicListsId,
@@ -14,10 +15,7 @@ case class BasicLists(
   string: List[String],
   dateTime: List[DateTime])
 
-object BasicLists extends PType[BasicLists] {
-  object props {
-    val id = prop[BasicListsId]("id")
-  }
+@mprops object BasicLists extends PType[BasicLists] {
   object keys {
     val id = key(props.id)
   }
