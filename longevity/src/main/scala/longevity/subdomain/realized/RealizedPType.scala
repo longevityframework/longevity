@@ -155,7 +155,7 @@ private[longevity] class RealizedPType[P](
             val fullPropPath = s"${headProp.path}.${emblemProp.name}"
             val keyPropPath = fullPropPath.drop(key.keyValProp.path.size + 1)
             PostPartitionPropInfo[V, B](
-              Prop[P, B](fullPropPath, pTypeKey, emblemProp.typeKey),
+              new Prop[P, B](fullPropPath)(pTypeKey, emblemProp.typeKey),
               EmblematicPropPath[V, B](emblematic, keyPropPath)(vTypeKey, emblemProp.typeKey))
           }
           ppi(emblemProp)

@@ -10,6 +10,7 @@ import scala.reflect.runtime.universe.ModuleMirror
 import scala.reflect.runtime.universe.ModuleSymbol
 import scala.reflect.runtime.universe.Symbol
 import scala.reflect.runtime.universe.TermName
+import scala.reflect.runtime.universe.TermSymbol
 import scala.reflect.runtime.universe.Type
 import scala.reflect.runtime.universe.TypeTag
 import scala.reflect.runtime.universe.typeTag
@@ -70,30 +71,35 @@ package object reflectionUtil {
     }
   }
 
-  /** given an instance and a type, returns a set of all the `val` or `var`
-   * members of the instance that match the type.
+  /** given an instance and a type, returns a set of all the `val`, `var`, or
+   * `object` members of the instance that match the type.
    *
    * @tparam A the type of the terms we are searching for
    * @param instance the instance to search for terms with matching type
    */
   def termsWithType[A : TypeKey](instance: Any): Seq[A] = {
+    // TODO refactor
+    // TODO this is going to have to recursively traverse objects
     val runtimeMirror =  scala.reflect.runtime.universe.runtimeMirror(instance.getClass.getClassLoader)
     val instanceMirror: InstanceMirror = runtimeMirror.reflect(instance)
     val symbols = instanceMirror.symbol.selfType.decls.toSeq
     val termSymbols = symbols.collect {
       case s if s.isTerm => s.asTerm
     }
-    val valOrVarSymbols = termSymbols.filter {
-      s => s.isVal || s.isVar
-    }
-    val matchingSymbols = valOrVarSymbols.filter { symbol =>
-      val tpe: Type = symbol.typeSignature
-      tpe <:< typeKey[A].tpe
-    }
-    matchingSymbols.map { symbol =>
+    def valOrVar(symbol: TermSymbol) = symbol.isVal || symbol.isVar
+    def matchingType(symbol: TermSymbol) = symbol.typeSignature <:< typeKey[A].tpe
+    val valOrVarSymbols = termSymbols.filter(valOrVar).filter(matchingType)
+    val varOrVarTerms = valOrVarSymbols.map { symbol =>
       val fieldMirror = instanceMirror.reflectField(symbol)
       fieldMirror.get.asInstanceOf[A]
     }
+    val objectSymbols = termSymbols.collect {
+      case s if s.isModule && matchingType(s) => s.asModule
+    }
+    val objectTerms = objectSymbols map { symbol =>
+      runtimeMirror.reflectModule(symbol).instance.asInstanceOf[A]
+    }
+    varOrVarTerms ++ objectTerms
   }
 
 }

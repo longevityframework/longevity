@@ -58,7 +58,7 @@ abstract class PType[P : TypeKey] {
    * @tparam A the type of the property
    * @param path the property path
    */
-  def prop[A : TypeKey](path: String): Prop[P, A] = Prop(path, pTypeKey, typeKey[A])
+  def prop[A : TypeKey](path: String): Prop[P, A] = new Prop(path)
 
   /** constructs a key for this persistent type
    *

@@ -35,7 +35,9 @@ lazy val longevity = Project(
     libraryDependencies += Dependencies.json4sDep % Test,
 
     homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra
+    pomExtra := BuildSettings.longevityPomExtra,
+
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
   )
 )
 .dependsOn(emblem)
