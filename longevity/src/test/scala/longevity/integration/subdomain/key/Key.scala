@@ -1,13 +1,11 @@
 package longevity.integration.subdomain.key
 
 import longevity.subdomain.PType
+import longevity.subdomain.mprops
 
 case class Key(id: KeyId)
 
-object Key extends PType[Key] {
-  object props {
-    val id = prop[KeyId]("id")
-  }
+@mprops object Key extends PType[Key] {
   object keys {
     val id = key(props.id)
   }

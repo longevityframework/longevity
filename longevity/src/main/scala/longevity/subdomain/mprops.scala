@@ -17,7 +17,7 @@ import scala.annotation.compileTimeOnly
  * - traits are traversed according to the abstract public vals they define.
  *   the traits themselves, however, are not mirrored as a `Prop[P, A]`
  *
- * TODO example here
+ * TODO example here. or maybe just a link to the manual page
  *
  * NOTE: this traversal process will collect all valid properties for your `PType`.
  * but be aware that the traversal can collect properties that are not actually
@@ -57,8 +57,15 @@ object mprops {
       q"{ $expanded ; ${as.tail.head} }"
     }
 
+    // TODO rm commented out code
+
     private def expanded: c.Tree = {
       def props(ps: Seq[c.Tree]) = defObjectProps(ps.head)
+      // def props(ps: Seq[c.Tree]) = {
+      //   val p = defObjectProps(ps.head)
+      //   println(p)
+      //   p
+      // }
       as.head match {
         case q"$ms object $n                       extends {..$eds} with ..$ps { $s =>                ..$ss }" =>
              q"$ms object $n                       extends {..$eds} with ..$ps { $s => ${props(ps)} ; ..$ss }"
@@ -90,7 +97,7 @@ object mprops {
         val constructorSymbol = symbol.primaryConstructor.asMethod
         val params: List[TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
         params.map { param =>
-          val paramTpe = param.typeSignature
+          val paramTpe = param.typeSignature.etaExpand
           val paramPath = s"$pathPrefix${param.name.toString}"
           val stats = propsForType(p, s"$paramPath.", paramTpe)
           (shouldExtendProp(param.typeSignature), stats.nonEmpty) match {
@@ -118,14 +125,14 @@ object mprops {
 
     private def shouldExtendProp(tpe: c.Type) = {
       isCaseClass(tpe.typeSymbol) ||
-      tpe =:= c.typeOf[Boolean ] ||
-      tpe =:= c.typeOf[Char    ] ||
-      tpe =:= c.typeOf[DateTime] ||
-      tpe =:= c.typeOf[Double  ] ||
-      tpe =:= c.typeOf[Float   ] ||
-      tpe =:= c.typeOf[Int     ] ||
-      tpe =:= c.typeOf[Long    ] ||
-      tpe =:= c.typeOf[String  ]
+      tpe =:= c.typeOf[Boolean  ] ||
+      tpe =:= c.typeOf[Char     ] ||
+      tpe =:= c.typeOf[DateTime ] ||
+      tpe =:= c.typeOf[Double   ] ||
+      tpe =:= c.typeOf[Float    ] ||
+      tpe =:= c.typeOf[Int      ] ||
+      tpe =:= c.typeOf[Long     ] ||
+      tpe =:= c.typeOf[String   ]
     }
 
   }

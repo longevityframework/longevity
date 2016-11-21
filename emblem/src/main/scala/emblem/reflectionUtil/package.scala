@@ -79,7 +79,6 @@ package object reflectionUtil {
    */
   def termsWithType[A : TypeKey](instance: Any): Seq[A] = {
     // TODO refactor
-    // TODO this is going to have to recursively traverse objects
     val runtimeMirror =  scala.reflect.runtime.universe.runtimeMirror(instance.getClass.getClassLoader)
     val instanceMirror: InstanceMirror = runtimeMirror.reflect(instance)
     val symbols = instanceMirror.symbol.selfType.decls.toSeq
@@ -93,11 +92,14 @@ package object reflectionUtil {
       val fieldMirror = instanceMirror.reflectField(symbol)
       fieldMirror.get.asInstanceOf[A]
     }
-    val objectSymbols = termSymbols.collect {
-      case s if s.isModule && matchingType(s) => s.asModule
-    }
-    val objectTerms = objectSymbols map { symbol =>
-      runtimeMirror.reflectModule(symbol).instance.asInstanceOf[A]
+    val objectSymbols = termSymbols.collect { case s if s.isModule => s.asModule }
+    val objectTerms = objectSymbols flatMap { symbol =>
+      val i = runtimeMirror.reflectModule(symbol).instance
+      if (matchingType(symbol)) {
+        termsWithType[A](i) :+ i.asInstanceOf[A]
+      } else {
+        termsWithType[A](i)
+      }
     }
     varOrVarTerms ++ objectTerms
   }
