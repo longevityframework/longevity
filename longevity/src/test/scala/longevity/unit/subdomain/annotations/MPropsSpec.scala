@@ -1,4 +1,4 @@
-package longevity.unit.subdomain
+package longevity.unit.subdomain.annotations
 
 import org.joda.time.DateTime
 import longevity.integration.subdomain.component.Component

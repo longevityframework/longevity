@@ -30,7 +30,7 @@ import scala.annotation.compileTimeOnly
  * malformed subdomain, would have otherwise produced exceptions on subdomain
  * construction.
  */
-// TODO better error message here for no MP:
+// TODO better error messages for no MP:
 @compileTimeOnly("you must enable macro paradise for @mprops to work")
 class mprops extends StaticAnnotation {
 
@@ -61,11 +61,6 @@ object mprops {
 
     private def expanded: c.Tree = {
       def props(ps: Seq[c.Tree]) = defObjectProps(ps.head)
-      // def props(ps: Seq[c.Tree]) = {
-      //   val p = defObjectProps(ps.head)
-      //   println(p)
-      //   p
-      // }
       as.head match {
         case q"$ms object $n                       extends {..$eds} with ..$ps { $s =>                ..$ss }" =>
              q"$ms object $n                       extends {..$eds} with ..$ps { $s => ${props(ps)} ; ..$ss }"

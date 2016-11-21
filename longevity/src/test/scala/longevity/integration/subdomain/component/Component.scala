@@ -1,3 +1,5 @@
 package longevity.integration.subdomain.component
 
-case class Component(id: String, tag: String)
+import longevity.subdomain.annotations.component
+
+@component case class Component(id: String, tag: String)
