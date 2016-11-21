@@ -273,7 +273,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     {
       def subdomainShould(subdomain: Subdomain, name: String): Unit = {
         subdomain.name should equal (name)
-        subdomain.eTypePool should be ('empty)
+        subdomain.cTypePool should be ('empty)
         subdomain.pTypePool should be ('empty)
       }
 
@@ -287,7 +287,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       ptypes.subdomain.name should equal ("blogging")
       ptypes.subdomain.pTypePool.size should equal (1)
       ptypes.subdomain.pTypePool.values.head should equal (ptypes.User)
-      ptypes.subdomain.eTypePool should be ('empty)
+      ptypes.subdomain.cTypePool should be ('empty)
       ptypes.User.keySet should be ('empty)
     }
 
@@ -295,7 +295,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       basics.subdomain.name should equal ("blogging")
       basics.subdomain.pTypePool.size should equal (1)
       basics.subdomain.pTypePool.values.head should equal (basics.User)
-      basics.subdomain.eTypePool should be ('empty)
+      basics.subdomain.cTypePool should be ('empty)
       basics.User.keySet should be ('empty)
     }
 
@@ -303,7 +303,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       collections.subdomain.name should equal ("blogging")
       collections.subdomain.pTypePool.size should equal (1)
       collections.subdomain.pTypePool.values.head should equal (collections.User)
-      collections.subdomain.eTypePool should be ('empty)
+      collections.subdomain.cTypePool should be ('empty)
       collections.User.keySet should be ('empty)
     }
 
@@ -311,7 +311,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       embeddables1.subdomain.name should equal ("blogging")
       embeddables1.subdomain.pTypePool.size should equal (1)
       embeddables1.subdomain.pTypePool.values.head should equal (embeddables1.User)
-      embeddables1.subdomain.eTypePool.size should equal (1)
+      embeddables1.subdomain.cTypePool.size should equal (1)
       embeddables1.User.keySet should be ('empty)
     }
 
@@ -319,7 +319,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       embeddables2.subdomain.name should equal ("blogging")
       embeddables2.subdomain.pTypePool.size should equal (1)
       embeddables2.subdomain.pTypePool.values.head should equal (embeddables2.User)
-      embeddables2.subdomain.eTypePool.size should equal (3)
+      embeddables2.subdomain.cTypePool.size should equal (3)
       embeddables2.User.keySet should be ('empty)
     }
 
@@ -327,7 +327,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       entities.subdomain.name should equal ("blogging")
       entities.subdomain.pTypePool.size should equal (1)
       entities.subdomain.pTypePool.values.head should equal (entities.User)
-      entities.subdomain.eTypePool.size should equal (1)
+      entities.subdomain.cTypePool.size should equal (1)
       entities.User.keySet should be ('empty)
     }
 
@@ -335,7 +335,7 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
       valueObjects.subdomain.name should equal ("blogging")
       valueObjects.subdomain.pTypePool.size should equal (1)
       valueObjects.subdomain.pTypePool.values.head should equal (valueObjects.User)
-      valueObjects.subdomain.eTypePool.size should equal (4)
+      valueObjects.subdomain.cTypePool.size should equal (4)
       valueObjects.User.keySet should be ('empty)
     }
 

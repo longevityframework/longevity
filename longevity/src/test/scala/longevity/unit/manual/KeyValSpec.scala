@@ -84,7 +84,7 @@ class KeyValSpec extends FlatSpec with GivenWhenThen with Matchers {
       keyValues1.subdomain.name should equal ("blogging")
       keyValues1.subdomain.pTypePool.size should equal (1)
       keyValues1.subdomain.pTypePool.values.head should equal (keyValues1.User)
-      keyValues1.subdomain.eTypePool should be ('empty)
+      keyValues1.subdomain.cTypePool should be ('empty)
       keyValues1.User.keySet.size should equal (1)
       keyValues1.User.keySet.head should equal (keyValues1.User.keys.username)
     }
@@ -93,7 +93,7 @@ class KeyValSpec extends FlatSpec with GivenWhenThen with Matchers {
       keyValues2.subdomain.name should equal ("blogging")
       keyValues2.subdomain.pTypePool.size should equal (1)
       keyValues2.subdomain.pTypePool.values.head should equal (keyValues2.User)
-      keyValues2.subdomain.eTypePool should be ('empty)
+      keyValues2.subdomain.cTypePool should be ('empty)
       keyValues2.User.keySet.size should equal (1)
       keyValues2.User.keySet.head should equal (keyValues2.User.keys.username)
     }

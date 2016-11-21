@@ -294,14 +294,14 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
       poly.subdomain.name should equal ("blogging")
       poly.subdomain.pTypePool.size should equal (1)
       poly.subdomain.pTypePool.values.head should equal (poly.User)
-      poly.subdomain.eTypePool.size should equal (6)
+      poly.subdomain.cTypePool.size should equal (6)
       poly.User.keySet should be ('empty)
     }
 
     {
       persistent1.subdomain.name should equal ("blogging")
       persistent1.subdomain.pTypePool.size should equal (3)
-      persistent1.subdomain.eTypePool.size should equal (4)
+      persistent1.subdomain.cTypePool.size should equal (4)
       persistent1.User.keySet.size should equal (0)
       persistent1.Member.keySet.size should equal (0)
       persistent1.Commenter.keySet.size should equal (0)
@@ -310,7 +310,7 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
     {
       persistent2.subdomain.name should equal ("blogging")
       persistent2.subdomain.pTypePool.size should equal (3)
-      persistent2.subdomain.eTypePool.size should equal (4)
+      persistent2.subdomain.cTypePool.size should equal (4)
       persistent2.User.keySet.size should equal (1)
       persistent2.Member.keySet.size should equal (0)
       persistent2.Commenter.keySet.size should equal (0)

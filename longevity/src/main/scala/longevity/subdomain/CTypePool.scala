@@ -13,11 +13,11 @@ object CTypePool {
    * `CTypes` refer to the same component type
    */
   @throws[DuplicateCTypesException]("when two CTypes refer to the same component type")
-  def apply(eTypes: CType[_]*): CTypePool = {
-    val map: TypeKeyMap[Any, CType] = eTypes.foldLeft(TypeKeyMap[Any, CType]()) {
-      case (map, eType) => map + (eType.eTypeKey -> eType)
+  def apply(cTypes: CType[_]*): CTypePool = {
+    val map: TypeKeyMap[Any, CType] = cTypes.foldLeft(TypeKeyMap[Any, CType]()) {
+      case (map, cType) => map + (cType.cTypeKey -> cType)
     }
-    if (eTypes.size != map.size) throw new DuplicateCTypesException
+    if (cTypes.size != map.size) throw new DuplicateCTypesException
     map
   }
 

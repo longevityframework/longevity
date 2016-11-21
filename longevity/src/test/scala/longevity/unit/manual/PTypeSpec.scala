@@ -240,7 +240,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       properties.subdomain.name should equal ("blogging")
       properties.subdomain.pTypePool.size should equal (1)
       properties.subdomain.pTypePool.values.head should equal (properties.User)
-      properties.subdomain.eTypePool.size should equal (4)
+      properties.subdomain.cTypePool.size should equal (4)
       properties.User.keySet should be ('empty)
     }
 
@@ -248,7 +248,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys1.subdomain.name should equal ("blogging")
       keys1.subdomain.pTypePool.size should equal (1)
       keys1.subdomain.pTypePool.values.head should equal (keys1.User)
-      keys1.subdomain.eTypePool.size should equal (0)
+      keys1.subdomain.cTypePool.size should equal (0)
       keys1.User.keySet.size should equal (1)
       keys1.User.keySet.head should equal (keys1.User.keys.username)
     }
@@ -257,7 +257,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys2.subdomain.name should equal ("blogging")
       keys2.subdomain.pTypePool.size should equal (1)
       keys2.subdomain.pTypePool.values.head should equal (keys2.User)
-      keys2.subdomain.eTypePool.size should equal (0)
+      keys2.subdomain.cTypePool.size should equal (0)
       keys2.User.keySet.size should equal (2)
       keys2.User.keySet should contain (keys2.User.keys.username)
       keys2.User.keySet should contain (keys2.User.keys.fullName)
