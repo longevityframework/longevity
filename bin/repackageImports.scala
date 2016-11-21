@@ -6,7 +6,7 @@ import scala.sys.process._
 object repackageImports extends App {
 
   if (args.size != 3) {
-    println("usage: replaceAll <classname> <original package> <replacement package>")
+    println("usage: repackageImports <classname> <original package> <replacement package>")
   }
 
   // settings

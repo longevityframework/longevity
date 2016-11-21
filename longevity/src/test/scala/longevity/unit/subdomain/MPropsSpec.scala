@@ -7,7 +7,7 @@ import longevity.integration.subdomain.component.WithComponentId
 import longevity.integration.subdomain.basics.Basics
 import longevity.integration.subdomain.basics.BasicsId
 import longevity.subdomain.PType
-import longevity.subdomain.mprops
+import longevity.subdomain.annotations.mprops
 import longevity.subdomain.ptype.Prop
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen

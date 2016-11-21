@@ -2,7 +2,7 @@ package longevity.integration.subdomain.basicLists
 
 import org.joda.time.DateTime
 import longevity.subdomain.PType
-import longevity.subdomain.mprops
+import longevity.subdomain.annotations.mprops
 
 case class BasicLists(
   id: BasicListsId,

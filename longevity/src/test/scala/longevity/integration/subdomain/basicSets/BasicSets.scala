@@ -2,7 +2,7 @@ package longevity.integration.subdomain.basicSets
 
 import com.github.nscala_time.time.Imports._
 import longevity.subdomain.PType
-import longevity.subdomain.mprops
+import longevity.subdomain.annotations.mprops
 
 case class BasicSets(
   id: BasicSetsId,

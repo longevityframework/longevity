@@ -2,7 +2,7 @@ package longevity.integration.subdomain.basicOptions
 
 import com.github.nscala_time.time.Imports._
 import longevity.subdomain.PType
-import longevity.subdomain.mprops
+import longevity.subdomain.annotations.mprops
 
 case class BasicOptions(
   id: BasicOptionsId,

@@ -1,4 +1,4 @@
-package longevity.subdomain
+package longevity.subdomain.annotations
 
 import org.joda.time.DateTime
 import scala.reflect.macros.whitebox.Context

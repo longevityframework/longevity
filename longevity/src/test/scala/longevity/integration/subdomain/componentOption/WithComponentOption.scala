@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.componentOption
 
 import longevity.subdomain.PType
-import longevity.subdomain.mprops
+import longevity.subdomain.annotations.mprops
 
 case class WithComponentOption(
   id: WithComponentOptionId,
