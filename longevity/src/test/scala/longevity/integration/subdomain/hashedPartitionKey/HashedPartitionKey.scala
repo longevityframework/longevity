@@ -1,14 +1,7 @@
 package longevity.integration.subdomain.hashedPartitionKey
 
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(
+  partitionKey(props.key, hashed = true)))
 case class HashedPartitionKey(key: Key)
-
-object HashedPartitionKey extends PType[HashedPartitionKey] {
-  object props {
-    val key = prop[Key]("key")
-  }
-  object keys {
-    val key = partitionKey(props.key, hashed = true)
-  }
-}

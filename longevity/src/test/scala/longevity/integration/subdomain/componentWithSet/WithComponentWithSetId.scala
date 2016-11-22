@@ -1,5 +1,6 @@
 package longevity.integration.subdomain.componentWithSet
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class WithComponentWithSetId(id: String) extends KeyVal[WithComponentWithSet]
+@keyVal[WithComponentWithSet]
+case class WithComponentWithSetId(id: String)

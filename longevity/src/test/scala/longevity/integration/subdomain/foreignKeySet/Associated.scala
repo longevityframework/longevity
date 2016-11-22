@@ -1,14 +1,6 @@
 package longevity.integration.subdomain.foreignKeySet
 
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(key(props.id)))
 case class Associated(id: AssociatedId)
-
-object Associated extends PType[Associated] {
-  object props {
-    val id = prop[AssociatedId]("id")
-  }
-  object keys {
-    val id = key(props.id)
-  }
-}

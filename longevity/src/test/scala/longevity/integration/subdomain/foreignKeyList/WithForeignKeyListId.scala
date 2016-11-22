@@ -1,5 +1,6 @@
 package longevity.integration.subdomain.foreignKeyList
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class WithForeignKeyListId(id: String) extends KeyVal[WithForeignKeyList]
+@keyVal[WithForeignKeyList]
+case class WithForeignKeyListId(id: String)

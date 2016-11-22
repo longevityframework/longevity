@@ -1,19 +1,8 @@
 package longevity.integration.subdomain.indexWithMultipleProperties
 
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set.empty, indexSet = Set(index(props.realm, props.name)))
 case class IndexWithMultipleProperties(
   realm: String,
   name: String)
-
-object IndexWithMultipleProperties extends PType[IndexWithMultipleProperties] {
-  object props {
-    val realm = prop[String]("realm")
-    val name = prop[String]("name")
-  }
-  object keys {
-  }
-  object indexes {
-    val realmName = index(props.realm, props.name)
-  }
-}
