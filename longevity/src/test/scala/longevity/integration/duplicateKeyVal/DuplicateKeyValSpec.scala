@@ -56,7 +56,7 @@ with GivenWhenThen {
 
         val dkve = exception.asInstanceOf[DuplicateKeyValException[Basics]]
         dkve.p should equal (p2)
-        (dkve.key: AnyRef) should equal (Basics.keys.id)
+        (dkve.key: AnyRef) should equal (Basics.keySet.head)
       } finally {
         repo.delete(s1).futureValue
       }
@@ -81,7 +81,7 @@ with GivenWhenThen {
         exception shouldBe a [DuplicateKeyValException[_]]
         val dkve = exception.asInstanceOf[DuplicateKeyValException[Basics]]
         dkve.p should equal (s2_update.get)
-        (dkve.key: AnyRef) should equal (Basics.keys.id)
+        (dkve.key: AnyRef) should equal (Basics.keySet.head)
       } finally {
         repo.delete(s1).futureValue
         repo.delete(s2).futureValue

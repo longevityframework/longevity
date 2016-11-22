@@ -1,5 +1,6 @@
 package longevity.integration.subdomain.complexConstraint
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class ComplexConstraintId(id: String) extends KeyVal[ComplexConstraint]
+@keyVal[ComplexConstraint]
+case class ComplexConstraintId(id: String)

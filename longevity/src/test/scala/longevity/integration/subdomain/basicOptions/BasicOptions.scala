@@ -1,9 +1,9 @@
 package longevity.integration.subdomain.basicOptions
 
 import com.github.nscala_time.time.Imports._
-import longevity.subdomain.PType
-import longevity.subdomain.annotations.mprops
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(key(BasicOptions.props.id)))
 case class BasicOptions(
   id: BasicOptionsId,
   boolean: Option[Boolean],
@@ -14,9 +14,3 @@ case class BasicOptions(
   long: Option[Long],
   string: Option[String],
   dateTime: Option[DateTime])
-
-@mprops object BasicOptions extends PType[BasicOptions] {
-  object keys {
-    val id = key(props.id)
-  }
-}

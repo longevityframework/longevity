@@ -11,14 +11,14 @@ class KeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "produce a readable string containing type names for the persistent and the keyval" in {
     import longevity.integration.subdomain.basics._
-    Basics.keys.id.toString should equal ("Key[Basics,BasicsId]")
+    Basics.keySet.head.toString should equal ("Key[Basics,BasicsId]")
   }
 
   behavior of "Key.keyValProp"
 
   it should "produce the right property" in {
     import longevity.integration.subdomain.basics._
-    Basics.keys.id.keyValProp should equal (Basics.props.id)
+    Basics.keySet.head.keyValProp should equal (Basics.props.id)
   }
 
 }

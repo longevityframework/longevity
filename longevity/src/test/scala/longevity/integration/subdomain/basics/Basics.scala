@@ -1,9 +1,19 @@
 package longevity.integration.subdomain.basics
 
 import org.joda.time.DateTime
-import longevity.subdomain.PType
-import longevity.subdomain.annotations.mprops
+import longevity.subdomain.annotations.persistent
 
+@persistent(
+  keySet = Set(key(Basics.props.id)),
+  indexSet = Set( // for cassandra.BasicsQuerySpec
+    index(props.boolean),
+    index(props.char),
+    index(props.double),
+    index(props.float),
+    index(props.int),
+    index(props.long),
+    index(props.string),
+    index(props.dateTime)))
 case class Basics(
   id: BasicsId,
   boolean: Boolean,
@@ -14,19 +24,3 @@ case class Basics(
   long: Long,
   string: String,
   dateTime: DateTime)
-
-@mprops object Basics extends PType[Basics] {
-  object keys {
-    val id = key(props.id)
-  }
-  object indexes { // for cassandra.BasicsQuerySpec
-    val boolean = index(props.boolean)
-    val char = index(props.char)
-    val double = index(props.double)
-    val float = index(props.float)
-    val int = index(props.int)
-    val long = index(props.long)
-    val string = index(props.string)
-    val dateTime = index(props.dateTime)
-  }
-}
