@@ -29,7 +29,7 @@ the classes you want to persist:
 
 - [Persistent Objects](persistents.html)
 - [Persistent Types](ptypes.html)
-- [Basic Properties](basics.html)
+- [Basic Values](basics.html)
 - [Collections](collections.html)
 - [Components](components.html)
 - [Key Values](key-values.html)

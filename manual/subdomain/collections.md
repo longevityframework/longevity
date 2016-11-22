@@ -47,7 +47,7 @@ collections. It is important that the persistent objects are
 immutable, so that longevity can [keep track of any
 changes](../repo/persistent-state.html).
 
-{% assign prevTitle = "basic properties" %}
+{% assign prevTitle = "basic values" %}
 {% assign prevLink  = "basics.html" %}
 {% assign upTitle   = "the subdomain" %}
 {% assign upLink    = "." %}

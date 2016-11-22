@@ -15,7 +15,7 @@ once, and then come back to it as a reference.
 - [The Subdomain](subdomain)
   - [Persistent Objects](subdomain/persistents.html)
   - [Persistent Types](subdomain/ptypes.html)
-  - [Basic Properties](subdomain/basics.html)
+  - [Basic Values](subdomain/basics.html)
   - [Collections](subdomain/collections.html)
   - [Components](subdomain/components.html)
   - [Key Values](subdomain/key-values.html)

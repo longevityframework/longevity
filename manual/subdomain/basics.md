@@ -1,13 +1,13 @@
 ---
-title: basic properties
+title: basic values
 layout: page
 ---
 
 In the previous example, we saw how to build a persistent object with
 a few `String` members. Of course, we can build persistent objects
-with other kinds of members than that. The simplest kinds are ["basic
-types"](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/#emblem.emblematic.basicTypes$),
-allowing you to put in members with a number of simple types:
+with other kinds of members than that. The simplest kinds are _basic
+values_, allowing you to put in members with a number of [simple
+types](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/#emblem.emblematic.basicTypes$):
 
 - `java.lang.String`
 - `org.joda.time.DateTime`
