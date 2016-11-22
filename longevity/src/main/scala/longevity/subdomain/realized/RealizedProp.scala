@@ -1,9 +1,11 @@
 package longevity.subdomain.realized
 
+import emblem.TypeKey
 import emblem.emblematic.Emblematic
 import emblem.emblematic.EmblematicPropPath
 import emblem.emblematic.ReflectiveProp
 import emblem.emblematic.basicTypes.isBasicType
+import emblem.exceptions.EmblemNotComposedOfBasicsException
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblematicInPropPathException
@@ -28,7 +30,7 @@ private[longevity] class RealizedProp[P, A](
 
   def updatePropVal(p: P, a: A): P = emblematicPropPath.set(p, a)
 
-  val realizedPropComponents: Seq[RealizedPropComponent[P, A, _]] = {
+  lazy val realizedPropComponents: Seq[RealizedPropComponent[P, A, _]] = {
     if (isBasicType(propTypeKey)) {
       Seq(RealizedPropComponent[P, A, A](
         EmblematicPropPath.empty[A](propTypeKey),
@@ -47,7 +49,8 @@ private[longevity] class RealizedProp[P, A](
     }
   }
 
-  val ordering: Ordering[A] = {
+  // TODO i wanna know whos using this!
+  lazy val ordering: Ordering[A] = {
     val unitOrdering = new Ordering[A] { def compare(a1: A, a2: A) = 0 }
     realizedPropComponents.foldLeft(unitOrdering) { (ordering, realizedPropComponent) =>
       def accumulate[B](realizedPropComponent: RealizedPropComponent[P, A, B]) =
@@ -75,52 +78,68 @@ private[longevity] class RealizedProp[P, A](
 
 private[subdomain] object RealizedProp {
 
+  // TODO would it help if i put a Type V in KeyVal?
   private val keyValTypeKey = typeKey[KeyVal[P] forSome {
     type P
     type V <: KeyVal[P]
   }]
 
-  def apply[P, A](prop: Prop[P, A], emblematic: Emblematic): RealizedProp[P, A] = {
+  def apply[P, A](implicit prop: Prop[P, A], emblematic: Emblematic): RealizedProp[P, A] = {
+    val emblematicPropPath = validatePath().asInstanceOf[EmblematicPropPath[P, A]]
 
-    val emblematicPropPath: EmblematicPropPath[P, A] = {
-      def validatePath(): EmblematicPropPath[P, _] =
-        try {
-          EmblematicPropPath.unbounded(emblematic, prop.path)(prop.pTypeKey)
-        } catch {
-          case e: EmptyPropPathException =>
-            throw new NoSuchPropPathException(prop.path, prop.pTypeKey)
-          case e: NoSuchPropertyException =>
-            throw new NoSuchPropPathException(e.propName, prop.pTypeKey)
-          case e: NonEmblematicInPropPathException[_] =>
-            throw new UnsupportedPropTypeException(e.nonEmblematicPathSegment)(prop.pTypeKey, e.typeKey)
-        }
+    val leaf = emblematicPropPath.props.last
+    validateLeafEmblemProp(leaf)
 
-      def validateLeafEmblemProp(leafEmblemProp: ReflectiveProp[_, _]): Unit = {
-        val key = leafEmblemProp.typeKey
-        def isBasic = isBasicType(key)
-        def isNonPolyEmbeddable = emblematic.emblems.contains(key)
-        def isKeyVal = key <:< keyValTypeKey
-        if (! (isBasic || isNonPolyEmbeddable || isKeyVal)) {
-          throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, key)
-        }
-      }
-
-      val emblematicPropPath = validatePath()
-      val reflectiveProps = emblematicPropPath.props
-      val leaf = reflectiveProps.last
-
-      validateLeafEmblemProp(leaf)
-
-      val propPathTypeKey = leaf.typeKey
-
-      if (! (prop.propTypeKey =:= propPathTypeKey)) {
-        throw new PropTypeException(prop.path, prop.pTypeKey, prop.propTypeKey)
-      }
-
-      emblematicPropPath.asInstanceOf[EmblematicPropPath[P, A]]
-    }
+    val propPathTypeKey = leaf.typeKey
+    validatePropTypeMatches(propPathTypeKey)
+    validatePropTypeComposedOfBasics()
 
     new RealizedProp(prop, emblematic, emblematicPropPath)
+  }
+
+  // TODO there does seem to be some fnal duplication between Emblem.basicPropPaths and
+  // EmblematicPropPaths
+
+  private def validatePath[P, A]()(implicit prop: Prop[P, A], emblematic: Emblematic)
+  : EmblematicPropPath[P, _] = {
+    try {
+      EmblematicPropPath.unbounded(emblematic, prop.path)(prop.pTypeKey)
+    } catch {
+      case e: EmptyPropPathException =>
+        throw new NoSuchPropPathException(prop.path, prop.pTypeKey)
+      case e: NoSuchPropertyException =>
+        throw new NoSuchPropPathException(e.propName, prop.pTypeKey)
+      case e: NonEmblematicInPropPathException[_] =>
+        throw new UnsupportedPropTypeException(prop)
+    }
+  }
+
+  def validateLeafEmblemProp[P, A](leafEmblemProp: ReflectiveProp[_, _])(
+    implicit prop: Prop[P, A],
+    emblematic: Emblematic)
+  : Unit = {
+    val key = leafEmblemProp.typeKey
+    def isBasic = isBasicType(key)
+    def isNonPolyEmbeddable = emblematic.emblems.contains(key)
+    def isKeyVal = key <:< keyValTypeKey
+    if (! (isBasic || isNonPolyEmbeddable || isKeyVal)) {
+      throw new UnsupportedPropTypeException(prop)
+    }
+  }
+
+  private def validatePropTypeMatches[P, A](propPathTypeKey: TypeKey[_])(implicit prop: Prop[P, A]): Unit = {
+    if (! (prop.propTypeKey =:= propPathTypeKey)) {
+      throw new PropTypeException(prop.path, prop.pTypeKey, prop.propTypeKey)
+    }
+  }
+
+  private def validatePropTypeComposedOfBasics[P, A]()(implicit prop: Prop[P, A], emblematic: Emblematic)
+  : Unit = {
+    try {
+      emblematic.emblems.get(prop.propTypeKey).map(_.basicPropPaths(emblematic))
+    } catch {
+      case e: EmblemNotComposedOfBasicsException[_] => throw new UnsupportedPropTypeException(prop)
+    }
   }
 
 }

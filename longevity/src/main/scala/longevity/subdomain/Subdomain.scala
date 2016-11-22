@@ -178,9 +178,9 @@ object Subdomain {
    * 
    * @throws longevity.exceptions.subdomain.UnsupportedPropTypeException
    * if a [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
-   * [[PType persistent types]] has a property path
-   * that contains a collection or a [[PolyCType
-   * polymorphic type]]
+   * [[PType persistent types]] has a property type that is not currently
+   * supported. please see [[longevity.exceptions.subdomain.UnsupportedPropTypeException
+   * UnsupportedPropTypeException for details]].
    * 
    * @throws longevity.exceptions.subdomain.PropTypeException if a
    * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's

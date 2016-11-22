@@ -11,4 +11,4 @@ class EmblemNotComposedOfBasicsException[A](
   val emblem: Emblem[_],
   val prop: EmblemProp[_, _])
 extends EmblemException(
-  s"Emblem.basicPropPaths won't work for $emblem because it contains properties that are unions of collections")
+  s"Emblem.basicPropPaths won't work for $emblem because it contains properties that are unions or collections")

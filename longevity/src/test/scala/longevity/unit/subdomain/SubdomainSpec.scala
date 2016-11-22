@@ -50,6 +50,64 @@ object SubdomainSpec {
     def subdomain = Subdomain("noSuchPropPath", PTypePool(A))
   }
 
+  object propTypeWithInternalList {
+    case class A(id: List[B])
+    object A extends PType[A] {
+      object props {
+        val id = prop[A]("id")
+      }
+      object keys {
+      }
+    }
+    case class B(id: String)
+    def subdomain = Subdomain("propTypeWithInternalList", PTypePool(A), CTypePool(CType[B]))
+  }
+
+  object propTypeWithInternalOption {
+    case class A(id: Option[B])
+    object A extends PType[A] {
+      object props {
+        val id = prop[A]("id")
+      }
+      object keys {
+      }
+    }
+    case class B(id: String)
+    def subdomain = Subdomain("propTypeWithInternalOption", PTypePool(A), CTypePool(CType[B]))
+  }
+
+  object propTypeWithInternalSet {
+    case class A(id: Set[B])
+    object A extends PType[A] {
+      object props {
+        val id = prop[A]("id")
+      }
+      object keys {
+      }
+    }
+    case class B(id: String)
+    def subdomain = Subdomain("propTypeWithInternalSet", PTypePool(A), CTypePool(CType[B]))
+  }
+
+  object propTypeWithInternalPoly {
+    case class A(b: B)
+    object A extends PType[A] {
+      object props {
+        val id = prop[B]("b")
+      }
+      object keys {
+      }
+    }
+
+    trait B { val id: String }
+    case class C(id: String) extends B
+
+    def subdomain = Subdomain(
+      "propTypeWithInternalPoly",
+      PTypePool(A),
+      CTypePool(PolyCType[B], DerivedCType[C, B]))
+  }
+
   object noSuchPropPathInComponent {
     case class A(b: B)
     object A extends PType[A] {
@@ -402,50 +460,74 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
+  it should "throw exception when a PType contains a prop with a type that contains a list member" in {
+    intercept[UnsupportedPropTypeException] {
+      SubdomainSpec.propTypeWithInternalList.subdomain
+    }
+  }
+
+  it should "throw exception when a PType contains a prop with a type that contains an option member" in {
+    intercept[UnsupportedPropTypeException] {
+      SubdomainSpec.propTypeWithInternalOption.subdomain
+    }
+  }
+
+  it should "throw exception when a PType contains a prop with a type that contains a set member" in {
+    intercept[UnsupportedPropTypeException] {
+      SubdomainSpec.propTypeWithInternalSet.subdomain
+    }
+  }
+
+  it should "throw exception when a PType contains a prop with a type that contains a poly member" in {
+    intercept[UnsupportedPropTypeException] {
+      SubdomainSpec.propTypeWithInternalPoly.subdomain
+    }
+  }
+
   it should "throw exception when a PType contains a prop with a non-embeddable, non-collection, non-basic" in {
-    intercept[UnsupportedPropTypeException[_, _]] {
+    intercept[UnsupportedPropTypeException] {
       SubdomainSpec.propPathWithNonEmbeddable.subdomain
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path that terminates with a list" in {
-    intercept[UnsupportedPropTypeException[_, _]] {
+    intercept[UnsupportedPropTypeException] {
       SubdomainSpec.propPathWithTerminalList.subdomain
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path that terminates with a option" in {
-    intercept[UnsupportedPropTypeException[_, _]] {
+    intercept[UnsupportedPropTypeException] {
       SubdomainSpec.propPathWithTerminalOption.subdomain
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path that terminates with a set" in {
-    intercept[UnsupportedPropTypeException[_, _]] {
+    intercept[UnsupportedPropTypeException] {
       SubdomainSpec.propPathWithTerminalSet.subdomain
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path that terminates with a poly" in {
-    intercept[UnsupportedPropTypeException[_, _]] {
+    intercept[UnsupportedPropTypeException] {
       SubdomainSpec.propPathWithTerminalPoly.subdomain
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path with an intermediary list" in {
-    intercept[UnsupportedPropTypeException[_, _]] {
+    intercept[UnsupportedPropTypeException] {
       SubdomainSpec.propPathWithInternalList.subdomain
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path with an intermediary option" in {
-    intercept[UnsupportedPropTypeException[_, _]] {
+    intercept[UnsupportedPropTypeException] {
       SubdomainSpec.propPathWithInternalOption.subdomain
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path with an intermediary set" in {
-    intercept[UnsupportedPropTypeException[_, _]] {
+    intercept[UnsupportedPropTypeException] {
       SubdomainSpec.propPathWithInternalSet.subdomain
     }
   }

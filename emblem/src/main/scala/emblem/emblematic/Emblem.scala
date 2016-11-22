@@ -57,6 +57,7 @@ extends Reflective[A] {
     pathStrings.map(EmblematicPropPath.unbounded(emblematic, _)(typeKey))
   }
 
+  // TODO should i be caching this shit?
   private def basicPropPathStrings(emblems: EmblemPool): Seq[String] = {
     props.foldLeft(Seq[String]()) { (propPaths, prop) =>
       val key = prop.typeKey
