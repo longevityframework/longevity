@@ -21,7 +21,7 @@ import longevity.subdomain.ptype.Index
  * an internal `object ctype`.
  */
 @compileTimeOnly("you must enable macro paradise for @persistent to work")
-class persistent(keys: Set[Key[_, _]] = null, indexes: Set[Index[_]] = null) extends StaticAnnotation {
+class persistent(keys: Set[Key[_]] = null, indexes: Set[Index[_]] = null) extends StaticAnnotation {
 
   def macroTransform(annottees: Any*): Any = macro persistent.impl
 

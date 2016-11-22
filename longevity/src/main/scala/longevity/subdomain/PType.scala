@@ -9,8 +9,6 @@ import longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType
 import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.exceptions.subdomain.ptype.PartitionKeyForDerivedPTypeException
-import longevity.subdomain.ptype.AnyKey
-import longevity.subdomain.ptype.AnyPartitionKey
 import longevity.subdomain.ptype.Index
 import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.Partition
@@ -31,11 +29,11 @@ abstract class PType[P : TypeKey] {
   lazy val propSet: Set[Prop[P, _]] = pscan("props")
 
   /** the keys for this persistent type */
-  lazy val keySet: Set[AnyKey[P]] = kscan("keys")
+  lazy val keySet: Set[Key[P]] = kscan("keys")
 
   /** the optional partition key for this persistent type */
-  lazy val partitionKey: Option[AnyPartitionKey[P]] = {
-    val partitionKeys = keySet.collect { case pk: AnyPartitionKey[P] => pk }
+  lazy val partitionKey: Option[PartitionKey[P]] = {
+    val partitionKeys = keySet.collect { case pk: PartitionKey[P] => pk }
     if (this.isInstanceOf[DerivedPType[_, _]] && partitionKeys.nonEmpty) {
       throw new PartitionKeyForDerivedPTypeException[P]
     }
@@ -65,7 +63,15 @@ abstract class PType[P : TypeKey] {
    * @tparam V the type of the key value
    * @param keyValProp a property for the key
    */
-  def key[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V]): Key[P, V] = new Key(keyValProp)
+  def key[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V]): Key[P] = {
+    val keyValProp0 = keyValProp
+    type V0 = V
+    new {
+      val keyValProp = keyValProp0
+    } with Key[P]() {
+      type V = V0
+    }
+  }
 
   /** constructs a partition key for this persistent type. the full key value
    * is used to determine the partition
@@ -78,7 +84,7 @@ abstract class PType[P : TypeKey] {
   def partitionKey[V <: KeyVal[P] : TypeKey](
     keyValProp: Prop[P, V],
     hashed: Boolean = false)
-  : PartitionKey[P, V] =
+  : PartitionKey[P] =
     partitionKey(keyValProp, partition(keyValProp), hashed)
 
   /** constructs a partition key for this persistent type
@@ -92,15 +98,22 @@ abstract class PType[P : TypeKey] {
   def partitionKey[V <: KeyVal[P] : TypeKey](
     keyValProp: Prop[P, V],
     partition: Partition[P])
-  : PartitionKey[P, V]
+  : PartitionKey[P]
   = partitionKey(keyValProp, partition, false)
 
   private def partitionKey[V <: KeyVal[P] : TypeKey](
     keyValProp: Prop[P, V],
     partition: Partition[P],
     hashed: Boolean)
-  : PartitionKey[P, V]
-  = new PartitionKey(keyValProp, partition, hashed)
+  : PartitionKey[P] = {
+    val keyValProp0 = keyValProp
+    type V0 = V
+    new {
+      val keyValProp = keyValProp0
+    } with PartitionKey(partition, hashed) {
+      type V = V0
+    }
+  }
 
   /** a series of properties that determines the partitioning used by the
    * underlying database to distribute data across multiple nodes. used to form a
@@ -131,13 +144,13 @@ abstract class PType[P : TypeKey] {
     termsWithType[Prop[P, _]](props).toSet
   }
 
-  private def kscan(containerName: String): Set[AnyKey[P]] = {
+  private def kscan(containerName: String): Set[Key[P]] = {
     val keys: Any = innerModule(this, "keys").getOrElse {
       throw new NoKeysForPTypeException
     }
     implicit val pTypeTag = pTypeKey.tag
-    implicit val anyKeyTypeKey = typeKey[AnyKey[P]].inMirrorOf(pTypeKey)
-    val keySeq = termsWithType[AnyKey[P]](keys)
+    implicit val keyTypeKey = typeKey[Key[P]].inMirrorOf(pTypeKey)
+    val keySeq = termsWithType[Key[P]](keys)
     val keySet = keySeq.toSet
     if (keySeq.size != keySet.size) {
       throw new DuplicateKeyOrIndexException(pTypeKey)

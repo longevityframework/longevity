@@ -165,13 +165,13 @@ object PTypeSpec {
    
 
     import longevity.subdomain.ptype.Index
-    import longevity.subdomain.ptype.AnyKey
+    import longevity.subdomain.ptype.Key
     import longevity.subdomain.ptype.Prop
     import longevity.subdomain.PType
 
     object User extends PType[User] {
       override lazy val propSet = Set.empty[Prop[User, _]]
-      override lazy val keySet = Set.empty[AnyKey[User]]
+      override lazy val keySet = Set.empty[Key[User]]
       override lazy val indexSet = Set.empty[Index[User]]
     }
 
@@ -185,7 +185,7 @@ object PTypeSpec {
   object sets2 {
 
     import longevity.subdomain.KeyVal
-    import longevity.subdomain.ptype.AnyKey
+    import longevity.subdomain.ptype.Key
     import longevity.subdomain.ptype.Prop
     import longevity.subdomain.PType
 
@@ -211,7 +211,7 @@ object PTypeSpec {
       val fullnameIndex = index(lastNameProp, firstNameProp)
 
       override lazy val propSet = Set[Prop[User, _]](usernameProp, emailProp, firstNameProp, lastNameProp)
-      override lazy val keySet = Set[AnyKey[User]](usernameKey, emailKey)
+      override lazy val keySet = Set[Key[User]](usernameKey, emailKey)
       override lazy val indexSet = Set(fullnameIndex)
     }
 

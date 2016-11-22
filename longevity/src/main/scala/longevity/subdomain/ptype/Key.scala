@@ -10,20 +10,23 @@ import longevity.subdomain.KeyVal
  * more than one persistent object.
  * 
  * @tparam P the persistent type
- * @tparam V the key value type
- * @param keyValProp a property for the key
  */
-class Key[P : TypeKey, V <: KeyVal[P] : TypeKey] private[subdomain] (
-  val keyValProp: Prop[P, V]) {
+abstract class Key[P : TypeKey] private[subdomain]() {
 
-  private[subdomain] val keyValEmblem = Emblem[V]
-  private[longevity] def keyValTypeKey = keyValEmblem.typeKey
+  /** the key value type */
+  type V <: KeyVal[P]
 
-  override def toString = s"Key[${typeKey[P].name},${typeKey[V].name}]"
+  /** the property that defines the key */
+  val keyValProp: Prop[P, V]
+
+  private[longevity] val keyValTypeKey = keyValProp.propTypeKey
+  private[subdomain] val keyValEmblem = Emblem(keyValTypeKey)
+
+  override def toString = s"Key[${typeKey[P].name},${keyValTypeKey.name}]"
 
   override def hashCode = keyValProp.hashCode
 
   override def equals(that: Any) =
-    that.isInstanceOf[Key[_, _]] && keyValProp == that.asInstanceOf[Key[_, _]].keyValProp
+    that.isInstanceOf[Key[P]] && keyValProp == that.asInstanceOf[Key[P]].keyValProp
 
 }

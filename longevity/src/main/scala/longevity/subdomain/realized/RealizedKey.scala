@@ -1,15 +1,14 @@
 package longevity.subdomain.realized
 
 import emblem.TypeKey
-import emblem.typeKey
 import longevity.subdomain.KeyVal
 import longevity.subdomain.ptype.Key
 
 private[longevity] class RealizedKey[P, V <: KeyVal[P] : TypeKey] private [subdomain](
-  val key: Key[P, V],
+  val key: Key[P],
   val realizedProp: RealizedProp[P, V]) {
 
-  val keyValTypeKey = typeKey[V]
+  val keyValTypeKey = realizedProp.propTypeKey
 
   /** returns the [[KeyVal]] for the supplied persistent
    * @param p the persistent

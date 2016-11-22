@@ -1,5 +1,13 @@
 # Longevity Changelog
 
+## [0.18-SNAPSHOT] - Annotation Macros
+
+- 2016.11.22 - Remove second type parameter from
+  `longevity.subdomain.Key` and `longevity.subdomain.PartitionKey`.
+  Remove types `longevity.subdomain.AnyKey` and
+  `longevity.subdomain.AnyPartitionKey`, as they no longer serve any
+  purpose.
+
 ## [0.17.0] - 2016.11.15 - API Simplifications
 
 - 2016.11.13 - Remove second type parameter from
