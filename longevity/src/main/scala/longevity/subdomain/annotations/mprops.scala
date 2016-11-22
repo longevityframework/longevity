@@ -51,13 +51,7 @@ object mprops {
 
     import c.universe._
 
-    def impl = if (as.tail.isEmpty) {
-      expanded
-    } else {
-      q"{ $expanded ; ${as.tail.head} }"
-    }
-
-    // TODO rm commented out code
+    def impl = if (as.tail.isEmpty) expanded else q"{ $expanded ; ${as.tail.head} }"
 
     private def expanded: c.Tree = {
       def props(ps: Seq[c.Tree]) = defObjectProps(ps.head)
@@ -84,42 +78,52 @@ object mprops {
       }
     }
 
-    private def propsForP(p: c.Tree) = propsForType(p, "", p.tpe)
+    private def propsForP(p: c.Tree) = propsForType(p, "", p.tpe).trees
 
-    private def propsForType(p: c.Tree, pathPrefix: String, tpe: c.Type): Seq[c.Tree] = {
+    private case class PropsForType(trees: Seq[c.Tree], hasNonPropMembers: Boolean)
+
+    // TODO refactor
+    private def propsForType(p: c.Tree, pathPrefix: String, tpe: c.Type): PropsForType = {
       val symbol = tpe.typeSymbol.asClass
       if (isCaseClass(symbol)) {
         val constructorSymbol = symbol.primaryConstructor.asMethod
         val params: List[TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
-        params.map { param =>
-          val paramTpe = param.typeSignature.etaExpand
-          val paramPath = s"$pathPrefix${param.name.toString}"
-          val stats = propsForType(p, s"$paramPath.", paramTpe)
-          (shouldExtendProp(param.typeSignature), stats.nonEmpty) match {
-            case (true, true) => q"""
-              object ${param.name} extends longevity.subdomain.ptype.Prop[$p, $paramTpe]($paramPath) {
-                ..$stats
-              }
-              """
-            case (true, false) => q"""
-              object ${param.name} extends longevity.subdomain.ptype.Prop[$p, $paramTpe]($paramPath)
-              """
-            case (false, true) => q"""
-              object ${param.name} { ..$stats }
-              """
-            case (false, false) => EmptyTree
-          }
+        params.foldLeft(PropsForType(Seq.empty, false)) {
+          case (acc, param) =>
+            val paramTpe = param.typeSignature.etaExpand
+            val paramPath = s"$pathPrefix${param.name.toString}"
+            val PropsForType(stats, hasNonPropMembers) = propsForType(p, s"$paramPath.", paramTpe)
+
+            val tree = (shouldExtendProp(param.typeSignature, hasNonPropMembers), stats.nonEmpty) match {
+              case (true, true) => q"""
+                object ${param.name} extends longevity.subdomain.ptype.Prop[$p, $paramTpe]($paramPath) {
+                  ..$stats
+                }
+                """
+              case (true, false) => q"""
+                object ${param.name} extends longevity.subdomain.ptype.Prop[$p, $paramTpe]($paramPath)
+                """
+              case (false, true) => q"""
+                object ${param.name} { ..$stats }
+                """
+              case (false, false) => EmptyTree
+            }
+
+            PropsForType(acc.trees :+ tree, acc.hasNonPropMembers || hasNonPropMembers)
         }
       } else {
         // TODO
-        Seq()
+        PropsForType(Seq(), !isBasicType(tpe))
       }
     }
 
     private def isCaseClass(symbol: Symbol) = symbol.isClass && symbol.asClass.isCaseClass
 
-    private def shouldExtendProp(tpe: c.Type) = {
-      isCaseClass(tpe.typeSymbol) ||
+    private def shouldExtendProp(tpe: c.Type, hasNonPropMembers: Boolean) = {
+      !hasNonPropMembers && ( isCaseClass(tpe.typeSymbol) || isBasicType(tpe) )
+    }
+
+    private def isBasicType(tpe: c.Type) = {
       tpe =:= c.typeOf[Boolean  ] ||
       tpe =:= c.typeOf[Char     ] ||
       tpe =:= c.typeOf[DateTime ] ||
