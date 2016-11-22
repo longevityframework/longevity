@@ -5,7 +5,7 @@ import longevity.subdomain.ptype.Prop
 /** thrown on attempt to create a property with a type that longevity does not
  * now support, such as:
  *
- * - properties with types that are not basic, component, key value types
+ * - properties with collection types
  * - properties with types that (recursively) contain members with collection or polymorphic types
  * - properties with paths that contain collections
  * - properties with paths that terminate with a [[longevity.subdomain.PolyCType polymorphic type]].
