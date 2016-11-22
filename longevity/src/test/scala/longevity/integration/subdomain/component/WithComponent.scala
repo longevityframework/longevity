@@ -1,17 +1,11 @@
 package longevity.integration.subdomain.component
 
-import longevity.subdomain.PType
-import longevity.subdomain.annotations.mprops
+import longevity.subdomain.annotations.persistent
 
+@persistent(
+  keySet = Set(key(props.id)),
+  indexSet = Set(index(props.component), index(props.foo)))
 case class WithComponent(
   id: WithComponentId,
+  foo: String,
   component: Component)
-
-@mprops object WithComponent extends PType[WithComponent] {
-  object keys {
-    val id = key(props.id)
-  }
-  object indexes {
-    val component = index(props.component)
-  }
-}

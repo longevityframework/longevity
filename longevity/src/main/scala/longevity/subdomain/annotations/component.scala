@@ -56,7 +56,7 @@ object component {
       case _ => 
         c.error(
           c.enclosingPosition,
-          s"@longevity.subdomain.component can only be applied to classes and traits")
+          s"@longevity.subdomain.component can only be applied to classes, traits and objects")
         TermName("")
     }
 
