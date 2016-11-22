@@ -11,17 +11,16 @@ import longevity.subdomain.ptype.Index
 // TODO mos def a WIP
 
 /** macro annotation to mark a class as a persistent component. creates a
- * companion object for the class that extends [[longevity.subdomain.CType
- * CType]]. if the class already has a companion object, then adds a parent
- * class `CType` to the existing companion object. Note that this will not
+ * companion object for the class that extends [[longevity.subdomain.PType
+ * PType]]. if the class already has a companion object, then adds a parent
+ * class `PType` to the existing companion object. Note that this will not
  * work if your companion object already extends an abstract or concrete class,
- * as `CType` itself is an abstract class.
+ * as `PType` itself is an abstract class.
  *
- * if the annotated component is already an object, we create the `CType` as
- * an internal `object ctype`.
+ * TODO describe params keys & indexes
  */
 @compileTimeOnly("you must enable macro paradise for @persistent to work")
-class persistent(keys: Set[Key[_]] = null, indexes: Set[Index[_]] = null) extends StaticAnnotation {
+class persistent(keySet: Set[Key[_]] = null, indexSet: Set[Index[_]] = null) extends StaticAnnotation {
 
   def macroTransform(annottees: Any*): Any = macro persistent.impl
 
@@ -78,10 +77,17 @@ object persistent {
     }
 
     private lazy val (keySet, indexSet) = c.prefix.tree match {
-      case q"new persistent(keySet = $ks, indexSet = $is)" =>
-        (q"override lazy val keySet   = $ks ; object keys",
-         q"override lazy val indexSet = $is ; object indexes")
-      case _ => (EmptyTree, EmptyTree)
+      case q"new $persistent(keySet = $ks, indexSet = $is)" =>
+        (q"override lazy val keySet = $ks", q"override lazy val indexSet = $is")
+      case q"new $persistent(keySet = $ks)" =>
+        (q"override lazy val keySet = $ks", EmptyTree)
+      case q"new $persistent()" =>
+        (EmptyTree, EmptyTree)
+      case q"new $persistent(...$exprss)" =>
+        val argString = exprss.map(es => s"(${es.mkString(",")})").mkString
+        c.abort(
+          c.enclosingPosition,
+          s"@longevity.subdomain.persistent cannot take arguments $argString")
     }
 
   }

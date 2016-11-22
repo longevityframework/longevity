@@ -1,9 +1,9 @@
 package longevity.integration.subdomain.basicLists
 
 import org.joda.time.DateTime
-import longevity.subdomain.PType
-import longevity.subdomain.annotations.mprops
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(key(BasicLists.props.id)))
 case class BasicLists(
   id: BasicListsId,
   boolean: List[Boolean],
@@ -14,9 +14,3 @@ case class BasicLists(
   long: List[Long],
   string: List[String],
   dateTime: List[DateTime])
-
-@mprops object BasicLists extends PType[BasicLists] {
-  object keys {
-    val id = key(props.id)
-  }
-}
