@@ -95,7 +95,7 @@ object EmblematicPropPath {
 
     def lookupReflective[B : TypeKey](segment: String): Reflective[B] =
       emblematic.reflectives.getOrElse(
-        throw new NonEmblematicInPropPathException(emblematic, path, segment)(typeKeyA))(
+        throw new NonEmblematicInPropPathException(emblematic, path, segment)(typeKey[B]))(
         typeKey[B])
 
     // nope, not tail recursive!

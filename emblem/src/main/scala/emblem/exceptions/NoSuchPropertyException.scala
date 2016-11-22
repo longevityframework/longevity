@@ -4,5 +4,5 @@ package emblem.exceptions
  * [[emblem.emblematic.Emblem Emblem]] or a [[emblem.emblematic.Union Union]]
  * that doesn't exist
  */
-class NoSuchPropertyException(reflectiveName: String, propName: String)
+class NoSuchPropertyException(reflectiveName: String, val propName: String)
 extends ReflectiveException(s"no such property '$propName' in $reflectiveName")

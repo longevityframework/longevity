@@ -90,9 +90,9 @@ private[subdomain] object RealizedProp {
           case e: EmptyPropPathException =>
             throw new NoSuchPropPathException(prop.path, prop.pTypeKey)
           case e: NoSuchPropertyException =>
-            throw new NoSuchPropPathException(prop.path, prop.pTypeKey)
+            throw new NoSuchPropPathException(e.propName, prop.pTypeKey)
           case e: NonEmblematicInPropPathException[_] =>
-            throw new UnsupportedPropTypeException(prop.path)(prop.pTypeKey, e.typeKey)
+            throw new UnsupportedPropTypeException(e.nonEmblematicPathSegment)(prop.pTypeKey, e.typeKey)
         }
 
       def validateLeafEmblemProp(leafEmblemProp: ReflectiveProp[_, _]): Unit = {
