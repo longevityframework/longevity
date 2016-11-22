@@ -2,7 +2,6 @@ package longevity.integration.subdomain
 
 import longevity.TestLongevityConfigs
 import longevity.subdomain.CTypePool
-import longevity.subdomain.CType
 import longevity.subdomain.Subdomain
 import longevity.subdomain.PTypePool
 
@@ -12,8 +11,7 @@ package object componentWithForeignKey {
   val subdomain = Subdomain(
     "Component With Foreign Key",
     PTypePool(WithComponentWithForeignKey, Associated),
-    CTypePool(
-      CType[ComponentWithForeignKey]))
+    CTypePool(ComponentWithForeignKey))
 
   val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 
