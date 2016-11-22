@@ -13,7 +13,6 @@ object PTypeSpec {
   // used in http://longevityframework.github.io/longevity/manual/ptype/properties.html
   object properties {
 
-
     case class Email(email: String)
     case class Markdown(markdown: String)
     case class Uri(uri: String)
@@ -24,13 +23,11 @@ object PTypeSpec {
       tagline: String,
       imageUri: Uri,
       description: Markdown)
-   
 
     case class User(
       username: String,
       email: Email,
-      profile: UserProfile)
-   
+      profile: UserProfile)   
 
     object User extends PType[User] {
       object props {
@@ -70,8 +67,7 @@ object PTypeSpec {
     case class User(
       username: Username,
       firstName: String,
-      lastName: String)
-   
+      lastName: String)   
 
     object User extends PType[User] {
       object props {
@@ -100,8 +96,7 @@ object PTypeSpec {
 
     case class User(
       username: Username,
-      fullName: FullName)
-   
+      fullName: FullName)   
 
     object User extends PType[User] {
       object props {
@@ -132,7 +127,6 @@ object PTypeSpec {
       username: Username,
       firstName: String,
       lastName: String)
-   
 
     object User extends PType[User] {
       object props {
@@ -157,12 +151,10 @@ object PTypeSpec {
   // used in http://longevityframework.github.io/longevity/manual/root-type/key-sets-and-index-sets.html
   object sets1 {
 
-
     case class User(
       username: String,
       firstName: String,
       lastName: String)
-   
 
     import longevity.subdomain.ptype.Index
     import longevity.subdomain.ptype.Key
@@ -198,7 +190,6 @@ object PTypeSpec {
       email: Email,
       firstName: String,
       lastName: String)
-   
 
     object User extends PType[User] {
       val usernameProp = prop[Username]("username")
