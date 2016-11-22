@@ -43,17 +43,21 @@ You need to specify the type of the property yourself, and longevity
 will check that the type is correct when the `Subdomain` is created.
 
 In principle, properties could map through any path from the
-persistent object, and have a wide variety of types. In practice, we
-currently support property types that can boiled down to a distinct
-sequence of [basic values](../basics.html). You cannot currently use
-collection types such as `Option`, `Set`, and `List` anywhere along
-the property path, and the property path cannot terminate with a
-[polymorphic object](../poly).
+persistent object, and have a wide variety of types. In practice, the
+kinds of properties currently supported is somewhat limited. We do
+plan to address all of these limitations, and removing some of them is
+high priority. For more details, please see the ["remove restrictions
+on properties" epic](https://www.pivotaltracker.com/epic/show/2975505)
+on our story board. Here are there current limitations:
 
-We're planning on building these properties for you using
+  - No properties with collection types.
+  - No properties with types that (recursively) contain members with collection or polymorphic types.
+  - No properties with paths that contain collections.
+  - No properties with paths that terminate with a polymorphic type.
+
+We're working on building these properties for you using
 [macros](http://docs.scala-lang.org/overviews/macros/overview.html). This
-will remove the hassle of declaring properties by hand, and get rid of
-the runtime type check.
+will remove the hassle of declaring properties by hand.
 
 {% assign prevTitle = "the persistent type" %}
 {% assign prevLink = "." %}
