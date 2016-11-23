@@ -1,7 +1,8 @@
 package longevity.integration.subdomain.shorthandOptions
 
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(key(props.id)))
 case class ShorthandOptions(
   id: ShorthandOptionsId,
   boolean: Option[BooleanShorthand],
@@ -12,12 +13,3 @@ case class ShorthandOptions(
   long: Option[LongShorthand],
   string: Option[StringShorthand],
   dateTime: Option[DateTimeShorthand])
-
-object ShorthandOptions extends PType[ShorthandOptions] {
-  object props {
-    val id = prop[ShorthandOptionsId]("id")
-  }
-  object keys {
-    val id = key[ShorthandOptionsId](props.id)
-  }
-}

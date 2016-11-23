@@ -1,5 +1,6 @@
 package longevity.integration.subdomain.keyWithMultipleProperties
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class KeyWithMultiplePropertiesId(id: String) extends KeyVal[KeyWithMultipleProperties]
+@keyVal[KeyWithMultipleProperties]
+case class KeyWithMultiplePropertiesId(id: String)

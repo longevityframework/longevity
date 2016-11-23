@@ -1,15 +1,7 @@
 package longevity.integration.subdomain.partitionKeyWithShorthand
 
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(partitionKey(props.key)))
 case class PartitionKeyWithShorthand(
   key: Key)
-
-object PartitionKeyWithShorthand extends PType[PartitionKeyWithShorthand] {
-  object props {
-    val key = prop[Key]("key")
-  }
-  object keys {
-    val key = partitionKey(props.key)
-  }
-}

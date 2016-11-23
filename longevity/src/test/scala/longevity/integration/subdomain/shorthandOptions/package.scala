@@ -3,7 +3,6 @@ package longevity.integration.subdomain
 import longevity.TestLongevityConfigs
 import longevity.subdomain.Subdomain
 import longevity.subdomain.CTypePool
-import longevity.subdomain.CType
 import longevity.subdomain.PTypePool
 
 package object shorthandOptions {
@@ -12,14 +11,14 @@ package object shorthandOptions {
     "Shorthand Options",
     PTypePool(ShorthandOptions),
     CTypePool(
-      CType[BooleanShorthand],
-      CType[CharShorthand],
-      CType[DateTimeShorthand],
-      CType[DoubleShorthand],
-      CType[FloatShorthand],
-      CType[IntShorthand],
-      CType[LongShorthand],
-      CType[StringShorthand]))
+      BooleanShorthand,
+      CharShorthand,
+      DateTimeShorthand,
+      DoubleShorthand,
+      FloatShorthand,
+      IntShorthand,
+      LongShorthand,
+      StringShorthand))
 
   val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 

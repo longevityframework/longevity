@@ -1,8 +1,6 @@
 package longevity.integration.subdomain.keyWithComponent
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class SecondaryKey(
-  id: String,
-  component: Component)
-extends KeyVal[KeyWithComponent]
+@keyVal[KeyWithComponent]
+case class SecondaryKey(id: String, component: Component)

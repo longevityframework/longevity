@@ -1,15 +1,9 @@
 package longevity.integration.subdomain.simpleConstraint
 
-import longevity.subdomain.PType
-import longevity.subdomain.annotations.mprops
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(key(props.id)))
 case class SimpleConstraint(
   id: SimpleConstraintId,
   primaryEmail: Email,
   emails: Set[Email])
-
-@mprops object SimpleConstraint extends PType[SimpleConstraint] {
-  object keys {
-    val id = key(props.id)
-  }
-}

@@ -1,8 +1,6 @@
 package longevity.integration.subdomain.partitionKeyInComponentWithPartialPartition
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class Key(
-  part1: String,
-  part2: String)
-extends KeyVal[PKInComponentWithPartialPartition]
+@keyVal[PKInComponentWithPartialPartition]
+case class Key(part1: String, part2: String)

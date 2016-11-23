@@ -49,7 +49,7 @@ with GivenWhenThen {
 
         val dkve = exception.asInstanceOf[DuplicateKeyValException[PartitionKey]]
         dkve.p should equal (p1)
-        (dkve.key: AnyRef) should equal (PartitionKey.keys.key)
+        (dkve.key: AnyRef) should equal (PartitionKey.keySet.head)
       } finally {
         repo.delete(s1).futureValue
       }

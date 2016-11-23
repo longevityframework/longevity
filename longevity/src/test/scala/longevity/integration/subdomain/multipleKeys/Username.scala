@@ -1,5 +1,6 @@
 package longevity.integration.subdomain.multipleKeys
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class Username(username: String) extends KeyVal[MultipleKeys]
+@keyVal[MultipleKeys]
+case class Username(username: String)

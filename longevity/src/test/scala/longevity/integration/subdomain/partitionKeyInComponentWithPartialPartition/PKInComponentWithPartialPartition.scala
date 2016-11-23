@@ -1,17 +1,8 @@
 package longevity.integration.subdomain.partitionKeyInComponentWithPartialPartition
 
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(partitionKey(props.component.key, partition(props.component.key.part1))))
 case class PKInComponentWithPartialPartition(
   filler: String,
   component: Component)
-
-object PKInComponentWithPartialPartition extends PType[PKInComponentWithPartialPartition] {
-  object props {
-    val key = prop[Key]("component.key")
-    val partition = prop[String]("component.key.part1")
-  }
-  object keys {
-    val primaryKey = partitionKey(props.key, partition(props.partition))
-  }
-}

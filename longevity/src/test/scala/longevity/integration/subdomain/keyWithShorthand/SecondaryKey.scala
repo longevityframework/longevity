@@ -1,8 +1,6 @@
 package longevity.integration.subdomain.keyWithShorthand
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class SecondaryKey(
-  id: String,
-  uri: Uri)
-extends KeyVal[KeyWithShorthand]
+@keyVal[KeyWithShorthand]
+case class SecondaryKey(id: String, uri: Uri)

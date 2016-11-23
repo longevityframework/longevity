@@ -31,6 +31,18 @@ abstract class PType[P : TypeKey] {
   /** the keys for this persistent type */
   lazy val keySet: Set[Key[P]] = kscan("keys")
 
+  /** an empty key set. this is a convenience method for people using Scala 2.11
+   * who wish to declare an empty key set. you can always do it by hand with
+   * `Set.empty`, but you will have to declare the element type of the set
+   * yourself, like so:
+   *
+   * ```
+   * import longevity.subdomain.ptype.Key
+   * @perstent(keySet = Set.empty[Key[Foo]])
+   * ```
+   */
+  def emptyKeySet = Set.empty[Key[P]]
+
   /** the optional partition key for this persistent type */
   lazy val partitionKey: Option[PartitionKey[P]] = {
     val partitionKeys = keySet.collect { case pk: PartitionKey[P] => pk }
@@ -81,10 +93,7 @@ abstract class PType[P : TypeKey] {
    * @param hashed if `true`, then used a hashed partition (as opposed to a
    * ranged partition) when possible. defaults to `false`.
    */
-  def partitionKey[V <: KeyVal[P] : TypeKey](
-    keyValProp: Prop[P, V],
-    hashed: Boolean = false)
-  : PartitionKey[P] =
+  def partitionKey[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V], hashed: Boolean = false): Key[P] =
     partitionKey(keyValProp, partition(keyValProp), hashed)
 
   /** constructs a partition key for this persistent type
@@ -95,17 +104,14 @@ abstract class PType[P : TypeKey] {
    * which node in the partition the data belongs to. this must form a prefix of
    * the `keyValProp`
    */
-  def partitionKey[V <: KeyVal[P] : TypeKey](
-    keyValProp: Prop[P, V],
-    partition: Partition[P])
-  : PartitionKey[P]
-  = partitionKey(keyValProp, partition, false)
+  def partitionKey[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V], partition: Partition[P]): Key[P] =
+    partitionKey(keyValProp, partition, false)
 
   private def partitionKey[V <: KeyVal[P] : TypeKey](
     keyValProp: Prop[P, V],
     partition: Partition[P],
     hashed: Boolean)
-  : PartitionKey[P] = {
+  : Key[P] = {
     val keyValProp0 = keyValProp
     type V0 = V
     new {

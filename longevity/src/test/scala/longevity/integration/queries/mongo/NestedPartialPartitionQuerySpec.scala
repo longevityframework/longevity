@@ -10,7 +10,7 @@ class NestedPartialPartitionQuerySpec extends QuerySpec[PKInComponentWithPartial
   new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)) {
 
   lazy val sample = randomP
-  val keyProp = PKInComponentWithPartialPartition.props.key
+  val keyProp = PKInComponentWithPartialPartition.props.component.key
   import PKInComponentWithPartialPartition.queryDsl._
 
   behavior of "MongoRepo.retrieveByQuery"

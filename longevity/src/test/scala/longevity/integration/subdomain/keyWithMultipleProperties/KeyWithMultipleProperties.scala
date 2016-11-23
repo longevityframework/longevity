@@ -1,18 +1,8 @@
 package longevity.integration.subdomain.keyWithMultipleProperties
 
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(key(props.id), key(props.secondaryKey)))
 case class KeyWithMultipleProperties(
   id: KeyWithMultiplePropertiesId,
   secondaryKey: SecondaryKey)
-
-object KeyWithMultipleProperties extends PType[KeyWithMultipleProperties] {
-  object props {
-    val id = prop[KeyWithMultiplePropertiesId]("id")
-    val secondaryKey = prop[SecondaryKey]("secondaryKey")
-  }
-  object keys {
-    val id = key(props.id)
-    val secondaryKey = key(props.secondaryKey)
-  }
-}

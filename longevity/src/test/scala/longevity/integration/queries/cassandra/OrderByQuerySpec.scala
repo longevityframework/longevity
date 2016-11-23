@@ -41,28 +41,28 @@ class OrderByQuerySpec extends QuerySpec[PartitionKeyWithComplexPartialPartition
 
     var query: Query[PartitionKeyWithComplexPartialPartition] = null
 
-    query = props.keyProp1 eqs keyProp1 and props.subKeyProp1 eqs subKeyProp1 orderBy (props.subKeyProp2.asc)
+    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (props.key.subKey.prop2.asc)
     exerciseQuery(query)
 
     query =
-      props.keyProp1 eqs keyProp1 and
-      props.subKeyProp1 eqs subKeyProp1 and
-      props.subKeyProp2 lt sample.key.subKey.prop2 orderBy (props.subKeyProp2.asc)
+      props.key.prop1        eqs keyProp1    and
+      props.key.subKey.prop1 eqs subKeyProp1 and
+      props.key.subKey.prop2 lt  sample.key.subKey.prop2 orderBy (props.key.subKey.prop2.asc)
     exerciseQuery(query)
 
     // this one works on Cassandra 3.7 but not on the Cassandra 2 version found on Travis-ci.org:
     // query =
-    //   props.keyProp1 eqs keyProp1 and
-    //   props.subKeyProp1 eqs subKeyProp1 and
-    //   props.keyProp2 lt sample.key.prop2 orderBy (props.subKeyProp2.asc)
+    //   props.key.prop1 eqs keyProp1 and
+    //   props.key.subKey.prop1 eqs subKeyProp1 and
+    //   props.key.prop2 lt sample.key.prop2 orderBy (props.key.subKey.prop2.asc)
     // exerciseQuery(query)
 
-    query = props.keyProp1 eqs keyProp1 and props.subKeyProp1 eqs subKeyProp1 orderBy (props.subKeyProp2.desc)
+    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (props.key.subKey.prop2.desc)
     exerciseQuery(query)
 
-    query = props.keyProp1 eqs keyProp1 and props.subKeyProp1 eqs subKeyProp1 orderBy (
-      props.subKeyProp2.desc,
-      props.keyProp2.desc)
+    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (
+      props.key.subKey.prop2.desc,
+      props.key.prop2.desc)
     exerciseQuery(query)
 
   }
@@ -70,21 +70,21 @@ class OrderByQuerySpec extends QuerySpec[PartitionKeyWithComplexPartialPartition
   it should "throw cassandra exceptions on any number of invalid order by queries" in {
     var query: Query[PartitionKeyWithComplexPartialPartition] = null
 
-    query = props.keyProp1 eqs keyProp1 orderBy (props.subKeyProp2.asc)
+    query = props.key.prop1 eqs keyProp1 orderBy (props.key.subKey.prop2.asc)
     repo.retrieveByQuery(query).failed.futureValue shouldBe an [InvalidQueryException]
 
-    query = props.keyProp1 eqs keyProp1 and props.subKeyProp1 lt subKeyProp1 orderBy (props.subKeyProp2)
+    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 lt subKeyProp1 orderBy (props.key.subKey.prop2)
     repo.retrieveByQuery(query).failed.futureValue shouldBe an [InvalidQueryException]
 
-    query = props.keyProp1 eqs keyProp1 and props.subKeyProp1 eqs subKeyProp1 orderBy (props.subKeyProp1)
+    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (props.key.subKey.prop1)
     repo.retrieveByQuery(query).failed.futureValue shouldBe an [InvalidQueryException]
 
-    query = props.keyProp1 eqs keyProp1 and props.subKeyProp1 eqs subKeyProp1 orderBy (props.keyProp2)
+    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (props.key.prop2)
     repo.retrieveByQuery(query).failed.futureValue shouldBe an [InvalidQueryException]
 
-    query = props.keyProp1 eqs keyProp1 and props.subKeyProp1 eqs subKeyProp1 orderBy (
-      props.subKeyProp2.desc,
-      props.keyProp2.asc)
+    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (
+      props.key.subKey.prop2.desc,
+      props.key.prop2.asc)
     repo.retrieveByQuery(query).failed.futureValue shouldBe an [InvalidQueryException]
 
   }

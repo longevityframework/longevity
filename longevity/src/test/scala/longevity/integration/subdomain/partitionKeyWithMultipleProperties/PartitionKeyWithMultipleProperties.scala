@@ -1,15 +1,7 @@
 package longevity.integration.subdomain.partitionKeyWithMultipleProperties
 
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = Set(key(props.key)))
 case class PartitionKeyWithMultipleProperties(
   key: Key)
-
-object PartitionKeyWithMultipleProperties extends PType[PartitionKeyWithMultipleProperties] {
-  object props {
-    val key = prop[Key]("key")
-  }
-  object keys {
-    val key = partitionKey(props.key)
-  }
-}

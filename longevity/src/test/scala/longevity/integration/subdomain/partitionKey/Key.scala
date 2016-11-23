@@ -1,5 +1,6 @@
 package longevity.integration.subdomain.partitionKey
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class Key(id: String) extends KeyVal[PartitionKey]
+@keyVal[PartitionKey]
+case class Key(id: String)

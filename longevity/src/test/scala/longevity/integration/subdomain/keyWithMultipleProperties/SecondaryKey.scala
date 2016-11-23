@@ -1,8 +1,6 @@
 package longevity.integration.subdomain.keyWithMultipleProperties
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class SecondaryKey(
-  prop1: String,
-  prop2: String)
-extends KeyVal[KeyWithMultipleProperties]
+@keyVal[KeyWithMultipleProperties]
+case class SecondaryKey(prop1: String, prop2: String)

@@ -1,8 +1,6 @@
 package longevity.integration.subdomain.partitionKeyWithMultipleProperties
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class Key(
-  prop1: String,
-  prop2: String)
-extends KeyVal[PartitionKeyWithMultipleProperties]
+@keyVal[PartitionKeyWithMultipleProperties]
+case class Key(prop1: String, prop2: String)

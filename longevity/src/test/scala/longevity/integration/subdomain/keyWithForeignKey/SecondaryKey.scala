@@ -1,8 +1,6 @@
 package longevity.integration.subdomain.keyWithForeignKey
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class SecondaryKey(
-  id: String,
-  associated: AssociatedId)
-extends KeyVal[KeyWithForeignKey]
+@keyVal[KeyWithForeignKey]
+case class SecondaryKey(id: String, associated: AssociatedId)
