@@ -2,6 +2,7 @@
 
 ## [0.18-SNAPSHOT] - Annotation Macros
 
+- 2016.11.23 - Add method `PType.emptyKeySet`.
 - 2016.11.23 - Make `PType.partitionKey` methods return `Key[P]`
   instead of `PartitionKey[P]`. this is for convenience of Scala 2.11
   users, so they dont have to declare the full type of their keySet.

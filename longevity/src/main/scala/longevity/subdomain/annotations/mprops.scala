@@ -67,7 +67,7 @@ object mprops {
     private def misapplied() = {
       c.error(
         c.enclosingPosition,
-        s"@longevity.subdomain.mprop can only be applied to a longevity.subdomain.PType")
+        s"@longevity.subdomain.mprops can only be applied to a longevity.subdomain.PType")
       as.head
     }
 

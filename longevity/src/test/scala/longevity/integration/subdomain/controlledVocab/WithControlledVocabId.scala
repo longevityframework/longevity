@@ -1,5 +1,6 @@
 package longevity.integration.subdomain.controlledVocab
 
-import longevity.subdomain.KeyVal
+import longevity.subdomain.annotations.keyVal
 
-case class WithControlledVocabId(id: String) extends KeyVal[WithControlledVocab]
+@keyVal[WithControlledVocab]
+case class WithControlledVocabId(id: String)

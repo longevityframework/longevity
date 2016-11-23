@@ -36,10 +36,10 @@ abstract class PType[P : TypeKey] {
    * `Set.empty`, but you will have to declare the element type of the set
    * yourself, like so:
    *
-   * ```
+   * {{{
    * import longevity.subdomain.ptype.Key
    * @perstent(keySet = Set.empty[Key[Foo]])
-   * ```
+   * }}}
    */
   def emptyKeySet = Set.empty[Key[P]]
 

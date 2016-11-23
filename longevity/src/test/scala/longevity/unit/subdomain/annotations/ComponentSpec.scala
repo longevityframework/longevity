@@ -12,17 +12,11 @@ object ComponentSpec {
 
   @component class NoCompanionClass
 
-  @component object NoCompanionObject
-
-  @component trait NoCompanionTrait
-
   @component class WithCompanion
 
   object WithCompanion { val y = 7 }
 
   @component case class WithCompanionCaseClass()
-
-  // TODO companion object already extends class other than AnyRef
 
 }
 
@@ -34,18 +28,17 @@ class ComponentSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "@component"
 
   it should "cause a compiler error when annotating something other than a class, trait, or object" in {
-    "@component val x = 7"                shouldNot compile
-    "@component type X = Int"             shouldNot compile
-    "@component def foo = 7"              shouldNot compile
-    "def foo(@component x: Int) = 7"      shouldNot compile
+    "@component val x = 7"           shouldNot compile
+    "@component type X = Int"        shouldNot compile
+    "@component def foo = 7"         shouldNot compile
+    "def foo(@component x: Int) = 7" shouldNot compile
+    "@component trait Foo"           shouldNot compile
+    "@component object Foo"          shouldNot compile
   }
 
   it should "create a companion object that extends CType when there is no companion object" in {
     NoCompanionClass.isInstanceOf[CType[NoCompanionClass]] should be (true)
     NoCompanionClass.asInstanceOf[CType[NoCompanionClass]].cTypeKey should equal (typeKey[NoCompanionClass])
-
-    NoCompanionTrait.isInstanceOf[CType[NoCompanionTrait]] should be (true)
-    NoCompanionTrait.asInstanceOf[CType[NoCompanionTrait]].cTypeKey should equal (typeKey[NoCompanionTrait])
   }
 
   it should "augment an existing companion object to extend CType" in {
@@ -58,13 +51,6 @@ class ComponentSpec extends FlatSpec with GivenWhenThen with Matchers {
       typeKey[WithCompanionCaseClass]
     }
     WithCompanionCaseClass.apply() should equal (WithCompanionCaseClass())
-  }
-
-  it should "next the CType when the component is already an object" in {
-    NoCompanionObject.ctype.isInstanceOf[CType[NoCompanionObject.type]] should be (true)
-    NoCompanionObject.ctype.asInstanceOf[CType[NoCompanionObject.type]].cTypeKey should equal {
-      typeKey[NoCompanionObject.type]
-    }
   }
 
 }
