@@ -60,78 +60,106 @@ object mprops {
              q"$ms object $n                       extends {..$eds} with ..$ps { $s => ${props(ps)} ; ..$ss }"
         case q"$ms class  $n[..$tps] $cms(...$pss) extends {..$eds} with ..$ps { $s =>                ..$ss }" =>
              q"$ms class  $n[..$tps] $cms(...$pss) extends {..$eds} with ..$ps { $s => ${props(ps)} ; ..$ss }"
+        case q"$ms trait  $n[..$tps]               extends {..$eds} with ..$ps { $s =>                ..$ss }" =>
+             q"$ms trait  $n[..$tps]               extends {..$eds} with ..$ps { $s => ${props(ps)} ; ..$ss }"
         case _ => misapplied()
       }
     }
 
-    private def misapplied() = {
-      c.error(
+    private def misapplied() =
+      c.abort(
         c.enclosingPosition,
         s"@longevity.subdomain.mprops can only be applied to a longevity.subdomain.PType")
-      as.head
-    }
 
     private def defObjectProps(parent: c.Tree) = {
       c.typecheck(parent, c.TYPEmode) match {
-        case tq"longevity.subdomain.PType[$p]" => q"object props { ..${propsForP(p)} }"
-        case _                                 => misapplied()
+        case tq"longevity.subdomain.PType[$p]"            => q"object props { ..${propsForP(p)} }"
+        case tq"longevity.subdomain.PolyPType[$p]"        => q"object props { ..${propsForP(p)} }"
+        case tq"longevity.subdomain.DerivedPType[$p, $q]" => q"object props { ..${propsForP(p)} }"
+        case _                                            => misapplied()
       }
     }
 
     private def propsForP(p: c.Tree) = propsForType(p, "", p.tpe).trees
 
+    // TODO refactor
+
     private case class PropsForType(trees: Seq[c.Tree], hasNonPropMembers: Boolean)
 
-    // TODO refactor
     private def propsForType(p: c.Tree, pathPrefix: String, tpe: c.Type): PropsForType = {
       val symbol = tpe.typeSymbol.asClass
-      if (isCaseClass(symbol)) {
+      //TODO println(s"propsForType $pathPrefix $tpe ${symbol.isCaseClass} ${symbol.isTrait} ${isBasicType(tpe)} ${isCollectionType(tpe)}")
+      if (isBasicType(tpe)) {
+        PropsForType(Seq(), false)
+      } else if (isCollectionType(tpe)) {
+        PropsForType(Seq(), true)
+      } else if (symbol.isCaseClass) {
         val constructorSymbol = symbol.primaryConstructor.asMethod
-        val params: List[TermSymbol] = constructorSymbol.paramLists.head.map(_.asTerm)
-        params.foldLeft(PropsForType(Seq.empty, false)) {
-          case (acc, param) =>
-            val paramTpe = param.typeSignature.etaExpand
-            val paramPath = s"$pathPrefix${param.name.toString}"
-            val PropsForType(stats, hasNonPropMembers) = propsForType(p, s"$paramPath.", paramTpe)
-
-            val tree = (shouldExtendProp(param.typeSignature, hasNonPropMembers), stats.nonEmpty) match {
-              case (true, true) => q"""
-                object ${param.name} extends longevity.subdomain.ptype.Prop[$p, $paramTpe]($paramPath) {
-                  ..$stats
-                }
-                """
-              case (true, false) => q"""
-                object ${param.name} extends longevity.subdomain.ptype.Prop[$p, $paramTpe]($paramPath)
-                """
-              case (false, true) => q"""
-                object ${param.name} { ..$stats }
-                """
-              case (false, false) => EmptyTree
-            }
-
-            PropsForType(acc.trees :+ tree, acc.hasNonPropMembers || hasNonPropMembers)
-        }
+        val terms = constructorSymbol.paramLists.head.map(_.asTerm)
+        propsForTerms(p, pathPrefix, terms)
+      } else if (symbol.isTrait) {
+        val terms = abstractPublicVals(tpe)
+        propsForTerms(p, pathPrefix, terms)
       } else {
-        // TODO
-        PropsForType(Seq(), !isBasicType(tpe))
+        PropsForType(Seq(), true)
       }
     }
 
-    private def isCaseClass(symbol: Symbol) = symbol.isClass && symbol.asClass.isCaseClass
+    // TODO duplicated in TypeReflector.scala
+    private def abstractPublicVals(tpe: Type): Seq[TermSymbol] = {
+      def publicTerm(s: Symbol) = s.isTerm && s.isPublic
+      def isAbstract(s: TermSymbol) = s.isAbstract
+      def isValue(s: TermSymbol) = s.isVal
+      tpe.members.filter(publicTerm).map(_.asTerm).filter(isAbstract).filter(isValue).toSeq
+    }
+
+    private def propsForTerms(p: c.Tree, pathPrefix: String, terms: Seq[TermSymbol]) = {
+      terms.foldLeft(PropsForType(Seq.empty, false)) {
+        case (acc, term) =>
+          val termTpe = term.typeSignature.etaExpand.resultType.etaExpand
+          val termPath = s"$pathPrefix${term.name.toString}"
+          val PropsForType(stats, hasNonPropMembers) = propsForType(p, s"$termPath.", termTpe)
+
+          val tree = (shouldExtendProp(termTpe, hasNonPropMembers), stats.nonEmpty) match {
+            case (true, true) => q"""
+              object ${term.name} extends longevity.subdomain.ptype.Prop[$p, $termTpe]($termPath) {
+                ..$stats
+              }
+              """
+            case (true, false) => q"""
+              object ${term.name} extends longevity.subdomain.ptype.Prop[$p, $termTpe]($termPath)
+              """
+            case (false, true) => q"""
+              object ${term.name} { ..$stats }
+              """
+            case (false, false) => EmptyTree
+          }
+
+          PropsForType(acc.trees :+ tree, acc.hasNonPropMembers || hasNonPropMembers)
+      }
+    }
 
     private def shouldExtendProp(tpe: c.Type, hasNonPropMembers: Boolean) = {
       !hasNonPropMembers && ( isCaseClass(tpe.typeSymbol) || isBasicType(tpe) )
     }
 
+    private def isCaseClass(symbol: Symbol) = symbol.isClass && symbol.asClass.isCaseClass
+
+    private def isCollectionType(tpe: c.Type) = {
+      tpe.erasure =:= c.typeOf[List  [_]] ||
+      tpe.erasure =:= c.typeOf[Option[_]] ||
+      tpe.erasure =:= c.typeOf[Set   [_]]
+    }
+
     private def isBasicType(tpe: c.Type) = {
-      tpe =:= c.typeOf[Boolean  ] ||
-      tpe =:= c.typeOf[Char     ] ||
-      tpe =:= c.typeOf[DateTime ] ||
-      tpe =:= c.typeOf[Double   ] ||
-      tpe =:= c.typeOf[Float    ] ||
-      tpe =:= c.typeOf[Int      ] ||
-      tpe =:= c.typeOf[Long     ] ||
-      tpe =:= c.typeOf[String   ]
+      tpe =:= c.typeOf[Boolean ] ||
+      tpe =:= c.typeOf[Char    ] ||
+      tpe =:= c.typeOf[DateTime] ||
+      tpe =:= c.typeOf[Double  ] ||
+      tpe =:= c.typeOf[Float   ] ||
+      tpe =:= c.typeOf[Int     ] ||
+      tpe =:= c.typeOf[Long    ] ||
+      tpe =:= c.typeOf[String  ]
     }
 
   }

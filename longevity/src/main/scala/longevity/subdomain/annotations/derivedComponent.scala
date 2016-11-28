@@ -45,7 +45,7 @@ object derivedComponent {
       case _ => 
         c.abort(
           c.enclosingPosition,
-          s"@longevity.subdomain.derivedComponent can only be applied to classes and objects")
+          s"@longevity.subdomain.derivedComponent can only be applied to objects and classes")
     }
 
     protected def ctype = tq"longevity.subdomain.DerivedCType[$typeName, $polyTypeName]"
@@ -56,7 +56,6 @@ object derivedComponent {
     private lazy val polyTypeName = c.prefix.tree match {
       case q"new $derivedComponent[$poly]()" => poly
       case q"new $derivedComponent(...$exprss)" =>
-        // TODO am i not matching case with tparams? unit test
         c.abort(
           c.enclosingPosition,
           s"@longevity.subdomain.derivedComponent must take one type argument and no other arguments")

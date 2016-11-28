@@ -1,23 +1,12 @@
 package longevity.integration.subdomain.derived
 
-import longevity.subdomain.DerivedPType
+import longevity.subdomain.annotations.derivedPersistent
 
+@derivedPersistent[PolyPersistent](
+  keySet = Set(key(props.component.id)),
+  indexSet = Set(index(props.first)))
 case class FirstDerivedPersistent(
   id: PolyPersistentId,
   first: String,
   component: PolyEmbeddable)
 extends PolyPersistent
-
-object FirstDerivedPersistent extends DerivedPType[FirstDerivedPersistent, PolyPersistent] {
-  object props {
-    val first = prop[String]("first")
-    val componentId = prop[PolyEmbeddableId]("component.id")
-  }
-  object keys {
-    val componentId = key(props.componentId)
-  }
-  object indexes {
-    val first = index(props.first)
-  }
-}
-

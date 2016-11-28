@@ -8,7 +8,6 @@ import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.Index
 
 // TODO unit tests
-// TODO mos def a WIP
 
 /** macro annotation to mark a class as a persistent component. creates a
  * companion object for the class that extends [[longevity.subdomain.PType
@@ -35,62 +34,20 @@ object persistent {
     val as = annottees
   } .impl
 
-  private abstract class PersistentImpl {
-    val c: Context
-    val as: Seq[c.Tree]
-
+  private abstract class PersistentImpl extends AbstractPersistentImpl {
     import c.universe._
 
-    def impl = if (as.tail.isEmpty) {
-      q"{ ${as.head} ; $newCompanion }"
-    } else {
-      q"{ ${as.head} ; $augmentedCompanion }"
-    }
+    protected def name = name0
 
-    private lazy val name = as.head match {
-      case q"$_ class  $typeName[..$_] $_(...$_) extends {..$_} with ..$_ { $_ => ..$_ }" => typeName
-      case q"$_ trait  $typeName[..$_]           extends {..$_} with ..$_ { $_ => ..$_ }" => typeName
-      case _ => 
-        c.error(
-          c.enclosingPosition,
-          s"@longevity.subdomain.persistent can only be applied to classes and traits")
-        TermName("")
-    }
-
-    private lazy val termName = TermName(name.decodedName.toString)
-    private lazy val typeName = TypeName(name.decodedName.toString)
-
-    private def newCompanion =
-      q"@longevity.subdomain.annotations.mprops object $termName extends $ptype { ..$keySet ; ..$indexSet }"
-
-    private def ptype = tq"longevity.subdomain.PType[$typeName]"
-
-    private def augmentedCompanion = {
-      val q"$origMods object $n extends {..$eds} with ..$ps { $s => ..$ss }" = as.tail.head
-      val q"$mpropsAnnMods object foo" = c.parse("@longevity.subdomain.annotations.mprops object foo")
-      val mergedMods = Modifiers(
-        origMods.flags,
-        origMods.privateWithin,
-        mpropsAnnMods.annotations.head :: origMods.annotations)
-      q"""$mergedMods object $n extends {..$eds} with ..${ ptype +: ps.tail } {
-            $s => ..$keySet ; ..$indexSet ; ..$ss
-          }
-       """
-    }
-
-    private lazy val (keySet, indexSet) = c.prefix.tree match {
-      case q"new $persistent(keySet = $ks, indexSet = $is)" =>
-        (q"override lazy val keySet = $ks", q"override lazy val indexSet = $is")
-      case q"new $persistent(keySet = $ks)" =>
-        (q"override lazy val keySet = $ks", EmptyTree)
-      case q"new $persistent()" =>
-        (EmptyTree, EmptyTree)
-      case q"new $persistent(...$exprss)" =>
-        val argString = exprss.map(es => s"(${es.mkString(",")})").mkString
+    private lazy val name0 = as.head match {
+      case q"$_ class $typeName[..$_] $_(...$_) extends {..$_} with ..$_ { $_ => ..$_ }" => typeName
+      case _ =>
         c.abort(
           c.enclosingPosition,
-          s"@longevity.subdomain.persistent cannot take arguments $argString")
+          s"@longevity.subdomain.persistent can only be applied to classes")
     }
+
+    protected def ptype = tq"longevity.subdomain.PType[$typeName]"
 
   }
 

@@ -87,7 +87,7 @@ extends FlatSpec with LongevityIntegrationSpec {
 
     val query: Query[derived.FirstDerivedPersistent] =
       Query(QueryFilter.eqs(
-        derived.FirstDerivedPersistent.props.componentId,
+        derived.FirstDerivedPersistent.props.component.id,
         firstDerivedPersistent.component.id))
 
     val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].retrieveByQuery(query).futureValue
@@ -101,7 +101,7 @@ extends FlatSpec with LongevityIntegrationSpec {
 
     val query: Query[derived.FirstDerivedPersistent] =
       Query(QueryFilter.eqs(
-        derived.FirstDerivedPersistent.props.componentId,
+        derived.FirstDerivedPersistent.props.component.id,
         secondDerivedPersistent.component.id))
 
     val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].retrieveByQuery(query).futureValue
@@ -115,7 +115,7 @@ extends FlatSpec with LongevityIntegrationSpec {
     val query: Query[derived.FirstDerivedPersistent] =
       Query(
         QueryFilter.and(
-          QueryFilter.eqs(derived.FirstDerivedPersistent.props.componentId, firstDerivedPersistent.component.id),
+          QueryFilter.eqs(derived.FirstDerivedPersistent.props.component.id, firstDerivedPersistent.component.id),
           QueryFilter.eqs(derived.PolyPersistent.props.id, firstDerivedPersistent.id)))
 
     val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].retrieveByQuery(query).futureValue
@@ -129,7 +129,7 @@ extends FlatSpec with LongevityIntegrationSpec {
 
     import derived.FirstDerivedPersistent.queryDsl._
     val query: Query[derived.FirstDerivedPersistent] =
-      derived.FirstDerivedPersistent.props.componentId eqs firstDerivedPersistent.component.id and
+      derived.FirstDerivedPersistent.props.component.id eqs firstDerivedPersistent.component.id and
       derived.PolyPersistent.props.id eqs firstDerivedPersistent.id
 
     val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].retrieveByQuery(query).futureValue
