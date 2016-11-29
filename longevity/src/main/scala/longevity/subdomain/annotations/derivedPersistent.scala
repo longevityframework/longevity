@@ -53,11 +53,12 @@ object derivedPersistent {
     protected def ptype = tq"longevity.subdomain.DerivedPType[$typeName, $polyTypeName]"
 
     private lazy val polyTypeName = c.prefix.tree match {
+      case q"new $derivedPersistent[$poly]" => poly
       case q"new $derivedPersistent[$poly](..$params)" => poly
       case _ =>
         c.abort(
           c.enclosingPosition,
-          s"@longevity.subdomain.derivedComponent must take a single type argument")
+          s"@longevity.subdomain.derivedPersistent must take a single type argument")
     }
 
   }

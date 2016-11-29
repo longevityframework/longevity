@@ -72,7 +72,7 @@ object mprops {
         s"@longevity.subdomain.mprops can only be applied to a longevity.subdomain.PType")
 
     private def defObjectProps(parent: c.Tree) = {
-      c.typecheck(parent, c.TYPEmode) match {
+      c.typecheck(parent, c.TYPEmode, withMacrosDisabled = true) match {
         case tq"longevity.subdomain.PType[$p]"            => q"object props { ..${propsForP(p)} }"
         case tq"longevity.subdomain.PolyPType[$p]"        => q"object props { ..${propsForP(p)} }"
         case tq"longevity.subdomain.DerivedPType[$p, $q]" => q"object props { ..${propsForP(p)} }"
@@ -88,7 +88,6 @@ object mprops {
 
     private def propsForType(p: c.Tree, pathPrefix: String, tpe: c.Type): PropsForType = {
       val symbol = tpe.typeSymbol.asClass
-      //TODO println(s"propsForType $pathPrefix $tpe ${symbol.isCaseClass} ${symbol.isTrait} ${isBasicType(tpe)} ${isCollectionType(tpe)}")
       if (isBasicType(tpe)) {
         PropsForType(Seq(), false)
       } else if (isCollectionType(tpe)) {

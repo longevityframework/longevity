@@ -42,14 +42,14 @@ class DerivedComponentSpec extends FlatSpec with GivenWhenThen with Matchers {
     "@derivedComponent[Poly] trait T extends Poly"     shouldNot compile
   }
 
-  it should "create a companion object that extends CType when there is no companion object" in {
+  it should "create a companion object that extends DerivedCType when there is no companion object" in {
     NoCompanionClass.isInstanceOf[DerivedCType[NoCompanionClass, Poly]] should be (true)
     NoCompanionClass.asInstanceOf[DerivedCType[NoCompanionClass, Poly]].cTypeKey should equal {
       typeKey[NoCompanionClass]
     }
   }
 
-  it should "augment an existing companion object to extend CType" in {
+  it should "augment an existing companion object to extend DerivedCType" in {
     WithCompanion.isInstanceOf[DerivedCType[WithCompanion, Poly]] should be (true)
     WithCompanion.asInstanceOf[DerivedCType[WithCompanion, Poly]].cTypeKey should equal (typeKey[WithCompanion])
     WithCompanion.y should equal (7)

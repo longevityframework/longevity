@@ -26,7 +26,7 @@ private[annotations] abstract class AbstractPersistentImpl {
 
   private def augmentedCompanion = {
     val q"$origMods object $n extends {..$eds} with ..$ps { $s => ..$ss }" = as.tail.head
-    val q"$mpropsAnnMods object foo" = c.parse("@longevity.subdomain.annotations.mprops object foo")
+    val q"$mpropsAnnMods object $_" = q"@longevity.subdomain.annotations.mprops object $n"
     val mergedMods = Modifiers(
       origMods.flags,
       origMods.privateWithin,
