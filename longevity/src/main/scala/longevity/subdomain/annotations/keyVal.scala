@@ -11,6 +11,7 @@ import scala.meta._
  */
 @compileTimeOnly("you must enable macro paradise for @keyVal to work")
 class keyVal[P] extends StaticAnnotation {
+
   inline def apply(defn: Any): Any = meta {
 
     def newPs(ps: scala.collection.immutable.Seq[Ctor.Call]) =

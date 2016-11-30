@@ -8,6 +8,7 @@ import longevity.integration.subdomain.basics.Basics
 import longevity.integration.subdomain.basics.BasicsId
 import longevity.subdomain.PType
 import longevity.subdomain.annotations.mprops
+import longevity.subdomain.annotations.mprops2
 import longevity.subdomain.ptype.Prop
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -45,15 +46,14 @@ class MPropsSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "@mprops"
 
   it should "cause a compiler error when annotating something other than a class definition" in {
-    "@mprops val x = 7"           shouldNot compile
-    "@mprops type X = Int"        shouldNot compile
-    "@mprops def foo = 7"         shouldNot compile
-    "def foo(@mprops x: Int) = 7" shouldNot compile
+    "@mprops2 val x = 7"           shouldNot compile
+    "@mprops2 type X = Int"        shouldNot compile
+    "@mprops2 def foo = 7"         shouldNot compile
   }
 
   it should "cause a compiler error when annotating a class that is not a PType" in {
-    "@mprops          object Foo                                                            " shouldNot compile
-    "@mprops          object Foo         extends PType[MPropsSpec.Foo]                      " should compile
+    "@mprops2          object Foo                                                            " shouldNot compile
+    "@mprops2          object Foo         extends PType[MPropsSpec.Foo]                      " should compile
     "@mprops          object Foo         extends PType[MPropsSpec.Foo] with MPropsSpec.Extra" should compile
     "@mprops case     object Foo                                                            " shouldNot compile
     "@mprops case     object Foo         extends PType[MPropsSpec.Foo]                      " should compile
