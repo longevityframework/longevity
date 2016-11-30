@@ -4,11 +4,10 @@ package object blogCore {
 
   import longevity.subdomain.CType
   import longevity.subdomain.CTypePool
-  import longevity.subdomain.CType
   import longevity.subdomain.KeyVal
-  import longevity.subdomain.Subdomain
-  import longevity.subdomain.PTypePool
   import longevity.subdomain.PType
+  import longevity.subdomain.PTypePool
+  import longevity.subdomain.Subdomain
 
   case class Email(email: String) extends KeyVal[User]
 
