@@ -25,6 +25,9 @@ abstract class PType[P : TypeKey] {
   val pTypeKey = typeKey[P]
 
   /** the [Prop properties] for this persistent type */
+  // this has to be lazy because the PType must be initialized before we can
+  // scan the inner object props. because the inner object props will use PType
+  // method `prop` to build the props.
   lazy val propSet: Set[Prop[P, _]] = pscan("props")
 
   /** the keys for this persistent type */
