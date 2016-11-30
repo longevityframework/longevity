@@ -4,6 +4,8 @@ Status](https://travis-ci.org/longevityframework/longevity.svg?branch=master)](h
 
 # longevity
 
+[![Join the chat at https://gitter.im/longevityframework/longevity](https://badges.gitter.im/longevityframework/longevity.svg)](https://gitter.im/longevityframework/longevity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A Persistence Framework for Scala and NoSQL.
 
 Build your data model using standard Scala idioms such as case
