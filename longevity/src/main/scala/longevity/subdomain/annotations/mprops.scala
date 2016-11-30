@@ -100,7 +100,7 @@ object mprops {
     }
 
     private def abstractPublicVals(tpe: Type): Seq[TermSymbol] = {
-      def isPublicAbstractVal(s: TermSymbol) = s.isPublic && s.isAbstract && s.isVal
+      def isPublicAbstractVal(s: TermSymbol) = s.isPublic && s.isAbstract && s.isGetter && s.isStable
       tpe.members.filter(_.isTerm).map(_.asTerm).filter(isPublicAbstractVal).toSeq
     }
 
