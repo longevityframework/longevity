@@ -76,7 +76,7 @@ package object blogCore {
     override val indexSet = Set(index(props.blog))
   }
 
-  object BlogCore extends Subdomain(
+  def subdomain = Subdomain(
     "blogging",
     PTypePool(User, Blog, BlogPost),
     CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
