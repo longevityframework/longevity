@@ -49,7 +49,9 @@ private[longevity] class RealizedProp[P, A](
     }
   }
 
-  // TODO i wanna know whos using this!
+  // at the moment (2016.11.30), ordering and pOrdering below are used only by
+  // InMemQuery and QuerySpec for implementing & testing OrderBy query clauses
+
   lazy val ordering: Ordering[A] = {
     val unitOrdering = new Ordering[A] { def compare(a1: A, a2: A) = 0 }
     realizedPropComponents.foldLeft(unitOrdering) { (ordering, realizedPropComponent) =>
@@ -78,7 +80,6 @@ private[longevity] class RealizedProp[P, A](
 
 private[subdomain] object RealizedProp {
 
-  // TODO would it help if i put a Type V in KeyVal?
   private val keyValTypeKey = typeKey[KeyVal[P] forSome {
     type P
     type V <: KeyVal[P]
@@ -96,9 +97,6 @@ private[subdomain] object RealizedProp {
 
     new RealizedProp(prop, emblematic, emblematicPropPath)
   }
-
-  // TODO there does seem to be some fnal duplication between Emblem.basicPropPaths and
-  // EmblematicPropPaths
 
   private def validatePath[P, A]()(implicit prop: Prop[P, A], emblematic: Emblematic)
   : EmblematicPropPath[P, _] = {

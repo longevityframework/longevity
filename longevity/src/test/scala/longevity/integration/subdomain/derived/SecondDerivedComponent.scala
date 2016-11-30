@@ -2,8 +2,8 @@ package longevity.integration.subdomain.derived
 
 import longevity.subdomain.annotations.derivedComponent
 
-@derivedComponent[PolyEmbeddable]
-case class SecondDerivedEmbeddable(
-  id: PolyEmbeddableId,
+@derivedComponent[PolyComponent]
+case class SecondDerivedComponent(
+  id: PolyComponentId,
   second: String)
-extends PolyEmbeddable
+extends PolyComponent

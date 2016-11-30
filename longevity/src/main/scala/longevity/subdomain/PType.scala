@@ -152,8 +152,6 @@ abstract class PType[P : TypeKey] {
     termsWithType[Prop[P, _]](props).toSet
   }
 
-  // TODO rm NoKeysForPTypeException, IndexDuplicatesKeyException
-
   private[subdomain] def validateKeysAndIndexes(): Unit = {
     var keyValProps: Set[Prop[P, _]] = keySet.map(_.keyValProp)
     indexSet.foreach { index =>

@@ -71,6 +71,7 @@ package object reflectionUtil {
     }
   }
 
+  // TODO first, use this for subdomain package scanning. then, refactor
   /** given an instance and a type, returns a set of all the `val`, `var`, or
    * `object` members of the instance that match the type.
    *
@@ -78,7 +79,6 @@ package object reflectionUtil {
    * @param instance the instance to search for terms with matching type
    */
   def termsWithType[A : TypeKey](instance: Any): Seq[A] = {
-    // TODO refactor
     val runtimeMirror =  scala.reflect.runtime.universe.runtimeMirror(instance.getClass.getClassLoader)
     val instanceMirror: InstanceMirror = runtimeMirror.reflect(instance)
     val symbols = instanceMirror.symbol.selfType.decls.toSeq

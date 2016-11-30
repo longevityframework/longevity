@@ -17,8 +17,6 @@ import scala.annotation.compileTimeOnly
  * - traits are traversed according to the abstract public vals they define.
  *   the traits themselves, however, are not mirrored as a `Prop[P, A]`
  *
- * TODO example here. or maybe just a link to the manual page
- *
  * NOTE: this traversal process will collect all valid properties for your `PType`.
  * but be aware that the traversal can collect properties that are not actually
  * valid. for example, it will freely traverse case class elements that appear
@@ -30,7 +28,6 @@ import scala.annotation.compileTimeOnly
  * malformed subdomain, would have otherwise produced exceptions on subdomain
  * construction.
  */
-// TODO better error messages for no MP:
 @compileTimeOnly("you must enable macro paradise for @mprops to work")
 class mprops extends StaticAnnotation {
 
@@ -82,16 +79,14 @@ object mprops {
 
     private def propsForP(p: c.Tree) = propsForType(p, "", p.tpe).trees
 
-    // TODO refactor
-
-    private case class PropsForType(trees: Seq[c.Tree], hasNonPropMembers: Boolean)
+    private case class PropsForType(trees: Seq[c.Tree], parentCanBeProp: Boolean)
 
     private def propsForType(p: c.Tree, pathPrefix: String, tpe: c.Type): PropsForType = {
       val symbol = tpe.typeSymbol.asClass
       if (isBasicType(tpe)) {
-        PropsForType(Seq(), false)
-      } else if (isCollectionType(tpe)) {
         PropsForType(Seq(), true)
+      } else if (isCollectionType(tpe)) {
+        PropsForType(Seq(), false)
       } else if (symbol.isCaseClass) {
         val constructorSymbol = symbol.primaryConstructor.asMethod
         val terms = constructorSymbol.paramLists.head.map(_.asTerm)
@@ -100,26 +95,23 @@ object mprops {
         val terms = abstractPublicVals(tpe)
         propsForTerms(p, pathPrefix, terms)
       } else {
-        PropsForType(Seq(), true)
+        PropsForType(Seq(), false)
       }
     }
 
-    // TODO duplicated in TypeReflector.scala
     private def abstractPublicVals(tpe: Type): Seq[TermSymbol] = {
-      def publicTerm(s: Symbol) = s.isTerm && s.isPublic
-      def isAbstract(s: TermSymbol) = s.isAbstract
-      def isValue(s: TermSymbol) = s.isVal
-      tpe.members.filter(publicTerm).map(_.asTerm).filter(isAbstract).filter(isValue).toSeq
+      def isPublicAbstractVal(s: TermSymbol) = s.isPublic && s.isAbstract && s.isVal
+      tpe.members.filter(_.isTerm).map(_.asTerm).filter(isPublicAbstractVal).toSeq
     }
 
     private def propsForTerms(p: c.Tree, pathPrefix: String, terms: Seq[TermSymbol]) = {
-      terms.foldLeft(PropsForType(Seq.empty, false)) {
+      terms.foldLeft(PropsForType(Seq.empty, true)) {
         case (acc, term) =>
           val termTpe = term.typeSignature.etaExpand.resultType.etaExpand
           val termPath = s"$pathPrefix${term.name.toString}"
-          val PropsForType(stats, hasNonPropMembers) = propsForType(p, s"$termPath.", termTpe)
+          val PropsForType(stats, parentCanBeProp) = propsForType(p, s"$termPath.", termTpe)
 
-          val tree = (shouldExtendProp(termTpe, hasNonPropMembers), stats.nonEmpty) match {
+          val tree = (shouldExtendProp(termTpe, parentCanBeProp), stats.nonEmpty) match {
             case (true, true) => q"""
               object ${term.name} extends longevity.subdomain.ptype.Prop[$p, $termTpe]($termPath) {
                 ..$stats
@@ -134,12 +126,12 @@ object mprops {
             case (false, false) => EmptyTree
           }
 
-          PropsForType(acc.trees :+ tree, acc.hasNonPropMembers || hasNonPropMembers)
+          PropsForType(acc.trees :+ tree, acc.parentCanBeProp && parentCanBeProp)
       }
     }
 
-    private def shouldExtendProp(tpe: c.Type, hasNonPropMembers: Boolean) = {
-      !hasNonPropMembers && ( isCaseClass(tpe.typeSymbol) || isBasicType(tpe) )
+    private def shouldExtendProp(tpe: c.Type, parentCanBeProp: Boolean) = {
+      parentCanBeProp && ( isCaseClass(tpe.typeSymbol) || isBasicType(tpe) )
     }
 
     private def isCaseClass(symbol: Symbol) = symbol.isClass && symbol.asClass.isCaseClass

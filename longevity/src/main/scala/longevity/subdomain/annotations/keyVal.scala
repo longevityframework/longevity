@@ -5,8 +5,6 @@ import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.annotation.compileTimeOnly
 
-// TODO unit tests
-
 /** macro annotation to mark a class as a key value. extends the class with
  * `longevity.subdomain.KeyVal[P]`.
  *

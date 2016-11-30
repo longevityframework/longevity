@@ -8,5 +8,5 @@ import longevity.subdomain.annotations.derivedPersistent
 case class SecondDerivedPersistent(
   id: PolyPersistentId,
   second: String,
-  component: PolyEmbeddable)
+  component: PolyComponent)
 extends PolyPersistent

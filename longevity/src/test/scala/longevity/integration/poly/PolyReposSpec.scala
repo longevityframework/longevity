@@ -15,7 +15,7 @@ object PolyReposSpec {
 
   case class DerivedNotInSubdomain(
     id: derived.PolyPersistentId,
-    component: derived.PolyEmbeddable)
+    component: derived.PolyComponent)
   extends derived.PolyPersistent
 
 }
@@ -164,6 +164,6 @@ extends FlatSpec with LongevityIntegrationSpec {
   private def generateDerivedNotInSubdomain =
     PolyReposSpec.DerivedNotInSubdomain(
       testDataGenerator.generate[derived.PolyPersistentId],
-      testDataGenerator.generate[derived.PolyEmbeddable])
+      testDataGenerator.generate[derived.PolyComponent])
 
 }

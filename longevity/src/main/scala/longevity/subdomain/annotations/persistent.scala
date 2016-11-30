@@ -7,8 +7,6 @@ import scala.annotation.compileTimeOnly
 import longevity.subdomain.ptype.Key
 import longevity.subdomain.ptype.Index
 
-// TODO unit tests
-
 /** macro annotation to mark a class as a persistent component. creates a
  * companion object for the class that extends [[longevity.subdomain.PType
  * PType]]. if the class already has a companion object, then adds a parent
@@ -18,7 +16,8 @@ import longevity.subdomain.ptype.Index
  * happens, you will see a compiler error such as "class Foo needs to be a trait
  * to be mixed in".
  *
- * TODO describe params keys & indexes
+ * @param keySet the set of keys for the persistent type
+ * @param indexSet the set of indexes for the persistent type. defaults to the empty set
  */
 @compileTimeOnly("you must enable macro paradise for @persistent to work")
 class persistent(keySet: Set[Key[_]] = null, indexSet: Set[Index[_]] = null) extends StaticAnnotation {

@@ -12,9 +12,9 @@ package object derived {
     "Derived",
     PTypePool(PolyPersistent, FirstDerivedPersistent, SecondDerivedPersistent),
     CTypePool(
-      PolyEmbeddable,
-      FirstDerivedEmbeddable,
-      SecondDerivedEmbeddable))
+      PolyComponent,
+      FirstDerivedComponent,
+      SecondDerivedComponent))
 
   val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 
