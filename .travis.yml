@@ -24,3 +24,11 @@ addons:
     packages:
       - mongodb-org-server
       - oracle-java8-installer
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/e9d59e247d947e8f6410
+    on_success: change
+    on_failure: always
+    on_start: never
