@@ -37,7 +37,13 @@ lazy val longevity = Project(
     homepage := BuildSettings.longevityHomepage,
     pomExtra := BuildSettings.longevityPomExtra,
 
-    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+    // scala-meta stuff:
+    libraryDependencies += "org.scalameta" %% "scalameta" % "1.4.0.554",
+    resolvers += Resolver.bintrayIvyRepo("scalameta", "maven"),
+    addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0.138" cross CrossVersion.full),
+    scalacOptions += "-Xplugin-require:macroparadise"
+
+    //addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
   )
 )
 .dependsOn(emblem)
