@@ -28,25 +28,20 @@ object RepoSpec {
     username: Username,
     fullname: String,
     email: Email,
-    profile: Option[UserProfile] = None)
- 
+    profile: Option[UserProfile] = None) 
 
   object User extends PType[User] {
     object props {
       val username = prop[Username]("username")
       val email = prop[Email]("email")
     }
-    object keys {
-      val username = key(props.username)
-      val email = key(props.email)
-    }
+    val keySet = Set(key(props.username), key(props.email))
   }
 
   case class UserProfile(
     tagline: String,
     imageUri: Uri,
-    description: Markdown)
- 
+    description: Markdown) 
 
   case class BlogUri(uri: Uri) extends KeyVal[Blog]
 
@@ -54,16 +49,13 @@ object RepoSpec {
     uri: BlogUri,
     title: String,
     description: Markdown,
-    authors: Set[Username])
- 
+    authors: Set[Username]) 
 
   object Blog extends PType[Blog] {
     object props {
       val uri = prop[BlogUri]("uri")
     }
-    object keys {
-      val uri = key(props.uri)
-    }
+    val keySet = Set(key(props.uri))
   }
 
   case class BlogPostUri(uri: Uri) extends KeyVal[BlogPost]
@@ -76,8 +68,7 @@ object RepoSpec {
     labels: Set[String] = Set(),
     postDate: DateTime,
     blog: BlogUri,
-    authors: Set[Username])
- 
+    authors: Set[Username]) 
 
   object BlogPost extends PType[BlogPost] {
     object props {
@@ -85,12 +76,8 @@ object RepoSpec {
       val blog = prop[BlogUri]("blog")
       val postDate = prop[DateTime]("postDate")
     }
-    object keys {
-      val uri = key(props.uri)
-    }
-    object indexes {
-      val recentPosts = index(props.blog, props.postDate)
-    }
+    val keySet = Set(key(props.uri))
+    override val indexSet = Set(index(props.blog, props.postDate))
   }
 
   val blogCore = Subdomain(

@@ -39,8 +39,7 @@ object PTypeSpec {
        // brief:
        val usernameProp = prop[String]("username")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     import longevity.subdomain.Subdomain
@@ -73,9 +72,7 @@ object PTypeSpec {
       object props {
         val username = prop[Username]("username")
       }
-      object keys {
-        val username = key(props.username)  
-      }
+      val keySet = Set(key(props.username))
     }
 
     import longevity.subdomain.Subdomain
@@ -103,10 +100,7 @@ object PTypeSpec {
         val username = prop[Username]("username")
         val fullName = prop[FullName]("fullName")
       }
-      object keys {
-        val username = key(props.username)
-        val fullName = key(props.fullName)
-      }
+      val keySet = Set(key(props.username), key(props.fullName))
     }
 
     import longevity.subdomain.Subdomain
@@ -134,12 +128,8 @@ object PTypeSpec {
         val firstName = prop[String]("firstName")
         val lastName = prop[String]("lastName")
       }
-      object keys {
-        val username = key(props.username)
-      }
-      object indexes {
-        val fullname = index(props.lastName, props.firstName)
-      }
+      val keySet = Set(key(props.username))
+      override val indexSet = Set(index(props.lastName, props.firstName))
     }
 
     import longevity.subdomain.Subdomain
@@ -163,8 +153,8 @@ object PTypeSpec {
 
     object User extends PType[User] {
       override lazy val propSet = Set.empty[Prop[User, _]]
-      override lazy val keySet = Set.empty[Key[User]]
-      override lazy val indexSet = Set.empty[Index[User]]
+      override val keySet = Set.empty[Key[User]]
+      override val indexSet = Set.empty[Index[User]]
     }
 
     import longevity.subdomain.Subdomain
@@ -202,8 +192,8 @@ object PTypeSpec {
       val fullnameIndex = index(lastNameProp, firstNameProp)
 
       override lazy val propSet = Set[Prop[User, _]](usernameProp, emailProp, firstNameProp, lastNameProp)
-      override lazy val keySet = Set[Key[User]](usernameKey, emailKey)
-      override lazy val indexSet = Set(fullnameIndex)
+      override val keySet = Set[Key[User]](usernameKey, emailKey)
+      override val indexSet = Set(fullnameIndex)
     }
 
     import longevity.subdomain.Subdomain
@@ -241,7 +231,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys1.subdomain.pTypePool.values.head should equal (keys1.User)
       keys1.subdomain.cTypePool.size should equal (0)
       keys1.User.keySet.size should equal (1)
-      keys1.User.keySet.head should equal (keys1.User.keys.username)
     }
 
     {
@@ -250,8 +239,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
       keys2.subdomain.pTypePool.values.head should equal (keys2.User)
       keys2.subdomain.cTypePool.size should equal (0)
       keys2.User.keySet.size should equal (2)
-      keys2.User.keySet should contain (keys2.User.keys.username)
-      keys2.User.keySet should contain (keys2.User.keys.fullName)
     }
 
     indexes1.subdomain.name should equal ("blogging")

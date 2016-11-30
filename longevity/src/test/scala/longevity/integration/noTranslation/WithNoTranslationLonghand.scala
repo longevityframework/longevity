@@ -9,6 +9,5 @@ case class WithNoTranslationLonghand(
 object WithNoTranslationLonghand extends PType[WithNoTranslationLonghand] {
   object props {
   }
-  object keys {
-  }
+  val keySet = emptyKeySet
 }

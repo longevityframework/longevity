@@ -9,6 +9,5 @@ case class WithNoTranslation(
 object WithNoTranslation extends PType[WithNoTranslation] {
   object props {
   }
-  object keys {
-  }
+  val keySet = emptyKeySet
 }

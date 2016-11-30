@@ -19,9 +19,7 @@ object messageFriend {
     object props {
       val id = prop[FriendId]("id")
     }
-    object keys {
-      val id = key(props.id)
-    }
+    val keySet = Set(key(props.id))
   }
 
   case class MessageId(id: String) extends KeyVal[Message]
@@ -32,9 +30,7 @@ object messageFriend {
     object props {
       val id = prop[MessageId]("id")
     }
-    object keys {
-      val id = key(props.id)
-    }
+    val keySet = Set(key(props.id))
   }
 
   val subdomain = Subdomain("blog", PTypePool(Friend, Message))

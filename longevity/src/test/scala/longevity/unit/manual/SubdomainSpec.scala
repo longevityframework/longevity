@@ -31,20 +31,17 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/ptype/ptypes.html
   object ptypes {
 
-
     case class User(
       username: String,
       firstName: String,
-      lastName: String)
-   
+      lastName: String)   
 
     import longevity.subdomain.PType
 
     object User extends PType[User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     import longevity.subdomain.Subdomain
@@ -67,14 +64,12 @@ object SubdomainSpec {
       lastName: String,
       dateJoined: DateTime,
       numCats: Int,
-      isSuspended: Boolean = false)
-   
+      isSuspended: Boolean = false)   
 
     object User extends PType[User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     val subdomain = Subdomain("blogging", PTypePool(User))
@@ -92,14 +87,12 @@ object SubdomainSpec {
       title: Option[String],
       firstName: String,
       lastName: String,
-      emails: Set[String])
-   
+      emails: Set[String])   
 
     object User extends PType[User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     val subdomain = Subdomain("blogging", PTypePool(User))
@@ -112,19 +105,16 @@ object SubdomainSpec {
 
     case class FullName(
       firstName: String,
-      lastName: String)
-   
+      lastName: String)   
 
     case class User(
       username: String,
-      fullName: FullName)
-   
+      fullName: FullName)   
 
     object User extends PType[User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     import longevity.subdomain.Subdomain
@@ -149,25 +139,21 @@ object SubdomainSpec {
 
     case class EmailPreferences(
       primaryEmail: Email,
-      emails: Set[Email])
-   
+      emails: Set[Email])   
 
     case class Address(
       street: String,
-      city: String)
-   
+      city: String)   
 
     case class User(
       username: String,
       emails: EmailPreferences,
-      addresses: Set[Address])
-   
+      addresses: Set[Address])   
 
     object User extends PType[User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     import longevity.subdomain.Subdomain
@@ -185,12 +171,10 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/embeddables/entities.html
   object entities {
 
-
     case class UserProfile(
       tagline: String,
       imageUri: String,
-      description: String)
-   
+      description: String)   
 
     import longevity.subdomain.PType
 
@@ -199,12 +183,10 @@ object SubdomainSpec {
       email: String,
       profile: Option[UserProfile])
    
-
     object User extends PType[User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     import longevity.subdomain.Subdomain
@@ -232,20 +214,17 @@ object SubdomainSpec {
       street: String,
       city: String,
       state: StateCode,
-      zip: ZipCode)
-   
+      zip: ZipCode)   
 
     case class User(
       username: String,
       email: Email,
-      address: Address)
-   
+      address: Address)   
 
     object User extends PType[User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     val subdomain = Subdomain(

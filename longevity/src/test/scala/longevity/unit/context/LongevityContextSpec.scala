@@ -28,9 +28,7 @@ object LongevityContextSpec {
       object props {
         val id = prop[AId]("id")
       }
-      object keys {
-        val id = key(props.id)
-      }
+      val keySet = Set(key(props.id))
     }
 
     val subdomain = Subdomain("subtypePropType", PTypePool(A))

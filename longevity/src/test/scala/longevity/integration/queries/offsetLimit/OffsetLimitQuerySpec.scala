@@ -28,12 +28,8 @@ object OffsetLimitQuerySpec {
       val i = prop[Int]("i")
       val j = prop[Int]("j")
     }
-    object keys {
-    }
-    object indexes {
-      val i = index(props.i)
-      val j = index(props.j)
-    }
+    val keySet = emptyKeySet
+    override val indexSet = Set(index(props.i), index(props.j))
   }
 
   val subdomain = Subdomain("limit offset test", PTypePool(OffsetLimit))

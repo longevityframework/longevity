@@ -4,6 +4,7 @@ import longevity.subdomain.KeyVal
 import longevity.subdomain.PType
 import longevity.subdomain.PTypePool
 import longevity.subdomain.Subdomain
+import longevity.subdomain.ptype.Key
 import longevity.subdomain.query.Query
 import longevity.subdomain.query.Ascending
 import longevity.subdomain.query.Descending
@@ -26,8 +27,7 @@ object QueryDslSpec {
       val path3 = prop[String]("path3")
       val path4 = prop[AssociatedId]("path4")
     }
-    object keys {
-    }
+    val keySet = Set.empty[Key[DslPersistent]]
   }
 
   private case class AssociatedId(id: String) extends KeyVal[Associated]
@@ -38,9 +38,7 @@ object QueryDslSpec {
     object props {
       val id = prop[AssociatedId]("id")
     }
-    object keys {
-      val id = key(props.id)
-    }
+    val keySet = Set(key(props.id))
   }
 
 }

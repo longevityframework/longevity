@@ -4,9 +4,8 @@ import emblem.TypeKey
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import emblem.typeKey
-import longevity.exceptions.subdomain.DuplicateKeyOrIndexException
+import longevity.exceptions.subdomain.IndexDuplicatesKeyException
 import longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType
-import longevity.exceptions.subdomain.ptype.NoKeysForPTypeException
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.exceptions.subdomain.ptype.PartitionKeyForDerivedPTypeException
 import longevity.subdomain.ptype.Index
@@ -29,7 +28,7 @@ abstract class PType[P : TypeKey] {
   lazy val propSet: Set[Prop[P, _]] = pscan("props")
 
   /** the keys for this persistent type */
-  lazy val keySet: Set[Key[P]] = kscan("keys")
+  val keySet: Set[Key[P]]
 
   /** an empty key set. this is a convenience method for people using Scala 2.11
    * who wish to declare an empty key set. you can always do it by hand with
@@ -53,8 +52,8 @@ abstract class PType[P : TypeKey] {
     partitionKeys.headOption
   }
 
-  /** the indexes for this persistent type */
-  lazy val indexSet: Set[Index[P]] = iscan("indexes")
+  /** the indexes for this persistent type. defaults to the empty set */
+  val indexSet: Set[Index[P]] = Set.empty
 
   /** constructs a [[longevity.subdomain.ptype.Prop Prop]] of type `A` from the
    * provided property path.
@@ -150,36 +149,13 @@ abstract class PType[P : TypeKey] {
     termsWithType[Prop[P, _]](props).toSet
   }
 
-  private def kscan(containerName: String): Set[Key[P]] = {
-    val keys: Any = innerModule(this, "keys").getOrElse {
-      throw new NoKeysForPTypeException
-    }
-    implicit val pTypeTag = pTypeKey.tag
-    implicit val keyTypeKey = typeKey[Key[P]].inMirrorOf(pTypeKey)
-    val keySeq = termsWithType[Key[P]](keys)
-    val keySet = keySeq.toSet
-    if (keySeq.size != keySet.size) {
-      throw new DuplicateKeyOrIndexException(pTypeKey)
-    }
-    keySet
-  }
-
-  private def iscan(containerName: String): Set[Index[P]] = {
-    implicit val pTypeTag = pTypeKey.tag
-    implicit val indexTypeKey = typeKey[Index[P]].inMirrorOf(pTypeKey)
-    val indexSeq = innerModule(this, "indexes").map(termsWithType[Index[P]]).getOrElse(Seq.empty[Index[P]])
-    val indexSet = indexSeq.toSet
-    if (indexSeq.size != indexSet.size) {
-      throw new DuplicateKeyOrIndexException(pTypeKey)
-    }
-    indexSet
-  }
+  // TODO rm NoKeysForPTypeException, IndexDuplicatesKeyException
 
   private[subdomain] def validateKeysAndIndexes(): Unit = {
     var keyValProps: Set[Prop[P, _]] = keySet.map(_.keyValProp)
     indexSet.foreach { index =>
       if (index.props.size == 1 && keyValProps.contains(index.props.head)) {
-        throw new DuplicateKeyOrIndexException(pTypeKey)
+        throw new IndexDuplicatesKeyException(pTypeKey)
       }
     }
   }

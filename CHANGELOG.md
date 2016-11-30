@@ -2,6 +2,18 @@
 
 ## [0.18-SNAPSHOT] - Annotation Macros
 
+- 2016.11.30 - Add annotation macros `@component`,
+  `@derivedComponent`, `@derivedPersistent`, `@keyVal`, `@mprops`,
+  `@persistent`, `@polyComponent`, and `@polyPersistent` in package
+  `longevity.subdomain.annotations`.
+- 2016.11.30 - Remove scanning of `PType` inner objects `keys` and
+  `indexes` to look for keys and indexes. Users must now define
+  `PType.keySet`, and override `PType.indexSet`, to declare keys and
+  indexes. We made this change since the object scanning was
+  superfluous, and complicates the API. (In contrast, scanning for
+  properties is useful, as users need to be able to call properties by
+  name. However, users never really need to call keys and indexes by
+  name, so there is no advantage to naming them in an inner object.)
 - 2016.11.23 - Add method `PType.emptyKeySet`.
 - 2016.11.23 - Make `PType.partitionKey` methods return `Key[P]`
   instead of `PartitionKey[P]`. this is for convenience of Scala 2.11

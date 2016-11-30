@@ -3,7 +3,7 @@ package longevity.unit.subdomain
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.exceptions.subdomain.DuplicateCTypesException
 import longevity.exceptions.subdomain.DuplicateKeyException
-import longevity.exceptions.subdomain.DuplicateKeyOrIndexException
+import longevity.exceptions.subdomain.IndexDuplicatesKeyException
 import longevity.exceptions.subdomain.DuplicatePTypesException
 import longevity.exceptions.subdomain.InvalidPartitionException
 import longevity.exceptions.subdomain.NoSuchPropPathException
@@ -32,8 +32,7 @@ object SubdomainSpec {
       object props {
         val id = prop[String]("")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     def subdomain = Subdomain("emptyPropPath", PTypePool(A))
   }
@@ -44,8 +43,7 @@ object SubdomainSpec {
       object props {
         val id = prop[String]("noSuchPropPath")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     def subdomain = Subdomain("noSuchPropPath", PTypePool(A))
   }
@@ -56,8 +54,7 @@ object SubdomainSpec {
       object props {
         val id = prop[A]("id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     case class B(id: String)
     def subdomain = Subdomain("propTypeWithInternalList", PTypePool(A), CTypePool(CType[B]))
@@ -69,8 +66,7 @@ object SubdomainSpec {
       object props {
         val id = prop[A]("id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     case class B(id: String)
     def subdomain = Subdomain("propTypeWithInternalOption", PTypePool(A), CTypePool(CType[B]))
@@ -82,8 +78,7 @@ object SubdomainSpec {
       object props {
         val id = prop[A]("id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     case class B(id: String)
     def subdomain = Subdomain("propTypeWithInternalSet", PTypePool(A), CTypePool(CType[B]))
@@ -95,8 +90,7 @@ object SubdomainSpec {
       object props {
         val id = prop[B]("b")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     trait B { val id: String }
@@ -114,8 +108,7 @@ object SubdomainSpec {
       object props {
         val id = prop[String]("b.noSuchPropPath")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     case class B(id: String)
     def subdomain = Subdomain("noSuchPropPathInComponent", PTypePool(A), CTypePool(CType[B]))
@@ -128,8 +121,7 @@ object SubdomainSpec {
       object props {
         val id = prop[UUID]("id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     def subdomain = Subdomain("propPathWithNonEmbeddable", PTypePool(A))
   }
@@ -140,8 +132,7 @@ object SubdomainSpec {
       object props {
         val id = prop[List[String]]("id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     def subdomain = Subdomain("propPathWithTerminalList", PTypePool(A))
   }
@@ -152,8 +143,7 @@ object SubdomainSpec {
       object props {
         val id = prop[Option[String]]("id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     def subdomain = Subdomain("propPathWithTerminalOption", PTypePool(A))
   }
@@ -164,8 +154,7 @@ object SubdomainSpec {
       object props {
         val id = prop[Set[String]]("id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     def subdomain = Subdomain("propPathWithTerminalSet", PTypePool(A))
   }
@@ -176,8 +165,7 @@ object SubdomainSpec {
       object props {
         val id = prop[B]("b")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     trait B { val id: String }
@@ -196,8 +184,7 @@ object SubdomainSpec {
       object props {
         val id = prop[String]("id.id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     case class B(id: String)
     def subdomain = Subdomain("propPathWithInternalList", PTypePool(A), CTypePool(CType[B]))
@@ -209,8 +196,7 @@ object SubdomainSpec {
       object props {
         val id = prop[String]("id.id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     case class B(id: String)
     def subdomain = Subdomain("propPathWithInternalOption", PTypePool(A), CTypePool(CType[B]))
@@ -222,8 +208,7 @@ object SubdomainSpec {
       object props {
         val id = prop[String]("id.id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     case class B(id: String)
     def subdomain = Subdomain("propPathWithInternalSet", PTypePool(A), CTypePool(CType[B]))
@@ -235,8 +220,7 @@ object SubdomainSpec {
       object props {
         val id = prop[String]("b.id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     trait B { val id: String }
@@ -254,8 +238,7 @@ object SubdomainSpec {
       object props {
         val id = prop[Double]("id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     def subdomain = Subdomain("incompatiblePropType", PTypePool(A))
   }
@@ -266,8 +249,7 @@ object SubdomainSpec {
       object props {
         val id = prop[AnyRef]("id")
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     def subdomain = Subdomain("supertypePropType", PTypePool(A))
   }
@@ -282,9 +264,7 @@ object SubdomainSpec {
         val id = prop[AId]("id")
         val id2 = prop[KeyVal[A]]("id") // this is the problematic prop
       }
-      object keys {
-        val id = key(props.id)
-      }
+      val keySet = Set(key(props.id))
     }
 
     def subdomain = Subdomain("subtypePropType", PTypePool(A))
@@ -300,17 +280,14 @@ object SubdomainSpec {
         val id1 = prop[AId]("id1")
         val id2 = prop[AId]("id2")
       }
-      object keys {
-        val id1 = key(props.id1)
-        val id2 = key(props.id2)
-      }
+      val keySet = Set(key(props.id1), key(props.id2))
     }
 
     def subdomain = Subdomain("duplicateKey", PTypePool(A))
 
   }
 
-  object duplicateKeyOrIndex1 {
+  object duplicateKeyOrIndex {
 
     case class AId(id: String) extends KeyVal[A]
 
@@ -319,52 +296,12 @@ object SubdomainSpec {
       object props {
         val id = prop[AId]("id")
       }
-      object keys {
-        val id1 = key(props.id)
-        val id2 = key(props.id)
-      }
+      val keySet = Set(key(props.id))
+      override val indexSet = Set(index(props.id))
     }
 
-    def subdomain = Subdomain("duplicateKeyOrIndex1", PTypePool(A))
+    def subdomain = Subdomain("duplicateKeyOrIndex", PTypePool(A))
 
-  }
-
-  object duplicateKeyOrIndex2 {
-
-    case class AId(id: String) extends KeyVal[A]
-
-    case class A(id: AId)
-    object A extends PType[A] {
-      object props {
-        val id = prop[AId]("id")
-      }
-      object keys {
-        val id = key(props.id)
-      }
-      object indexes {
-        val id = index(props.id)
-      }
-    }
-
-    def subdomain = Subdomain("duplicateKeyOrIndex2", PTypePool(A))
-
-  }
-
-  object duplicateKeyOrIndex3 {
-    case class A(id: String)
-    object A extends PType[A] {
-      object props {
-        val id = prop[String]("id")
-      }
-      object keys {
-      }
-      object indexes {
-        val id1 = index(props.id)
-        val id2 = index(props.id)
-      }
-    }
-
-    def subdomain = Subdomain("duplicateKeyOrIndex3", PTypePool(A))
   }
 
   object invalidPartition {
@@ -377,9 +314,7 @@ object SubdomainSpec {
         val id = prop[AId]("id")
         val id2 = prop[String]("id.id2")
       }
-      object keys {
-        val id = partitionKey(props.id, partition(props.id2))
-      }
+      val keySet = Set(partitionKey(props.id, partition(props.id2)))
     }
 
     def subdomain = Subdomain("invalidPartition", PTypePool(A))
@@ -392,16 +327,14 @@ object SubdomainSpec {
     object Poly extends PolyPType[Poly] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     case class Derived(id: String) extends Poly
     object Derived extends DerivedPType[Derived, Poly] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     def subdomain = Subdomain("derivedPTypeHasNoPoly", PTypePool(Derived))
@@ -423,14 +356,12 @@ object SubdomainSpec {
     object A extends PType[A] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     object B extends PType[A] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
     def subdomain = Subdomain("duplicatePTypes", PTypePool(A, B))
   }
@@ -563,14 +494,8 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "throw exception when the PType has two or more keys or indexes defined over the same properties" in {
-    intercept[DuplicateKeyOrIndexException] {
-      SubdomainSpec.duplicateKeyOrIndex1.subdomain
-    }
-    intercept[DuplicateKeyOrIndexException] {
-      SubdomainSpec.duplicateKeyOrIndex2.subdomain
-    }
-    intercept[DuplicateKeyOrIndexException] {
-      SubdomainSpec.duplicateKeyOrIndex3.subdomain
+    intercept[IndexDuplicatesKeyException] {
+      SubdomainSpec.duplicateKeyOrIndex.subdomain
     }
   }
 

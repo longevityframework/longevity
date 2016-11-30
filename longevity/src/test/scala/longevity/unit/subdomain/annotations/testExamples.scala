@@ -32,7 +32,7 @@ trait PolyPWithCompanion
 
 object PolyPWithCompanion { val y = 7 }
 
-@polyPersistent
+@polyPersistent(keySet = emptyKeySet)
 trait Poly
 
 @derivedPersistent[Poly](keySet = emptyKeySet)

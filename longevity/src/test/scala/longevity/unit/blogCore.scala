@@ -27,25 +27,20 @@ package object blogCore {
     username: Username,
     email: Email,
     fullname: String,
-    profile: Option[UserProfile] = None)
- 
+    profile: Option[UserProfile] = None) 
 
   object User extends PType[User] {
     object props {
       val username = prop[Username]("username")
       val email = prop[Email]("email")
     }
-    object keys {
-      val username = key(props.username)
-      val email = key(props.email)
-    }
+    val keySet = Set(key(props.username), key(props.email))
   }
 
   case class UserProfile(
     tagline: String,
     imageUri: Uri,
-    description: Markdown)
- 
+    description: Markdown) 
 
   case class BlogUri(uri: Uri) extends KeyVal[Blog]
 
@@ -53,16 +48,13 @@ package object blogCore {
     uri: BlogUri,
     title: String,
     description: Markdown,
-    authors: Set[Username])
- 
+    authors: Set[Username]) 
 
   object Blog extends PType[Blog] {
     object props {
       val uri = prop[BlogUri]("uri")
     }
-    object keys {
-      val uri = key(props.uri)
-    }
+    val keySet = Set(key(props.uri))
   }
 
   case class BlogPostUri(uri: Uri) extends KeyVal[BlogPost]
@@ -74,20 +66,15 @@ package object blogCore {
     content: Markdown,
     labels: Set[String] = Set(),
     blog: BlogUri,
-    authors: Set[Username])
- 
+    authors: Set[Username]) 
 
   object BlogPost extends PType[BlogPost] {
     object props {
       val uri = prop[BlogPostUri]("uri")
       val blog = prop[BlogUri]("blog")
     }
-    object keys {
-      val uri = key(props.uri)
-    }
-    object indexes {
-      val blog = props.blog
-    }
+    val keySet = Set(key(props.uri))
+    override val indexSet = Set(index(props.blog))
   }
 
   object BlogCore extends Subdomain(

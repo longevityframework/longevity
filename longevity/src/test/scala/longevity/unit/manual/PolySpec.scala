@@ -41,13 +41,11 @@ object PolySpec {
       username: String,
       email: Email,
       verifications: List[UserVerification])
-   
 
     object User extends PType[User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     import longevity.subdomain.Subdomain
@@ -72,17 +70,14 @@ object PolySpec {
   // used in http://longevityframework.github.io/longevity/manual/poly/persistent.html
   object persistent1 {
 
-
     case class Email(email: String)
     case class Markdown(markdown: String)
     case class Uri(uri: String)
-
 
     case class UserProfile(
       tagline: String,
       imageUri: Uri,
       description: Markdown)
-   
 
     import longevity.subdomain.DerivedPType
     import longevity.subdomain.PolyPType
@@ -95,8 +90,7 @@ object PolySpec {
     object User extends PolyPType[User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     case class Member(
@@ -108,8 +102,7 @@ object PolySpec {
     object Member extends DerivedPType[Member, User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     case class Commenter(
@@ -120,8 +113,7 @@ object PolySpec {
     object Commenter extends DerivedPType[Commenter, User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     import longevity.subdomain.Subdomain
@@ -144,17 +136,14 @@ object PolySpec {
   // used in http://longevityframework.github.io/longevity/manual/poly/persistent.html
   object persistent2 {
 
-
     case class Email(email: String)
     case class Markdown(markdown: String)
     case class Uri(uri: String)
 
-
     case class UserProfile(
       tagline: String,
       imageUri: Uri,
-      description: Markdown)
-   
+      description: Markdown)   
 
     import longevity.subdomain.KeyVal
 
@@ -179,23 +168,16 @@ object PolySpec {
         val username = prop[Username]("username")
         val email = prop[Email]("email")
       }
-      object keys {
-        val username = key(props.username)
-      }
-      object indexes {
-        val email = index(props.email)
-      }
+      val keySet = Set(key(props.username))
+      override val indexSet = Set(index(props.email))
     }
 
     object Member extends DerivedPType[Member, User] {
       object props {
         val tagline = prop[String]("profile.tagline")
       }
-      object keys {
-      }
-      object indexes {
-        val tagline = index(props.tagline)
-      }
+      val keySet = emptyKeySet
+      override val indexSet = Set(index(props.tagline))
     }
 
     case class Commenter(
@@ -206,8 +188,7 @@ object PolySpec {
     object Commenter extends DerivedPType[Commenter, User] {
       object props {
       }
-      object keys {
-      }
+      val keySet = emptyKeySet
     }
 
     import longevity.subdomain.Subdomain
@@ -238,7 +219,6 @@ object PolySpec {
   // used in http://longevityframework.github.io/longevity/manual/poly/cv.html
   object cv2 {
 
-
     sealed trait AccountStatus
     case object Active extends AccountStatus
     case object Suspended extends AccountStatus
@@ -248,14 +228,10 @@ object PolySpec {
 
     case class Account(
       name: String,
-      accountStatus: AccountStatus)
-   
+      accountStatus: AccountStatus)   
 
     object Account extends PType[Account] {
-      object keys {
-      }
-      object indexes {
-      }
+      val keySet = emptyKeySet
     }
 
     import longevity.subdomain.Subdomain

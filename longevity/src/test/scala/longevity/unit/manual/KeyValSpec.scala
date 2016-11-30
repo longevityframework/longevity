@@ -25,9 +25,7 @@ object KeyValSpec {
       object props {
         val username = prop[Username]("username")
       }
-      object keys {
-        val username = key(props.username)
-      }
+      override val keySet = Set(key(props.username))
     }
 
     import longevity.subdomain.Subdomain
@@ -56,9 +54,7 @@ object KeyValSpec {
       object props {
         val username = prop[Username]("username")
       }
-      object keys {
-        val username = key(props.username)
-      }
+      override val keySet = Set(key(props.username))
     }
 
     import longevity.subdomain.Subdomain
@@ -86,7 +82,6 @@ class KeyValSpec extends FlatSpec with GivenWhenThen with Matchers {
       keyValues1.subdomain.pTypePool.values.head should equal (keyValues1.User)
       keyValues1.subdomain.cTypePool should be ('empty)
       keyValues1.User.keySet.size should equal (1)
-      keyValues1.User.keySet.head should equal (keyValues1.User.keys.username)
     }
 
     {
@@ -95,7 +90,6 @@ class KeyValSpec extends FlatSpec with GivenWhenThen with Matchers {
       keyValues2.subdomain.pTypePool.values.head should equal (keyValues2.User)
       keyValues2.subdomain.cTypePool should be ('empty)
       keyValues2.User.keySet.size should equal (1)
-      keyValues2.User.keySet.head should equal (keyValues2.User.keys.username)
     }
 
   }

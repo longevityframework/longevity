@@ -39,9 +39,9 @@ private[annotations] abstract class AbstractPersistentImpl {
 
   private lazy val (keySet, indexSet) = c.prefix.tree match {
     case q"new $persistent(keySet = $ks, indexSet = $is)" =>
-      (q"override lazy val keySet = $ks", q"override lazy val indexSet = $is")
+      (q"override val keySet = $ks", q"override val indexSet = $is")
     case q"new $persistent(keySet = $ks)" =>
-      (q"override lazy val keySet = $ks", EmptyTree)
+      (q"override val keySet = $ks", EmptyTree)
     case q"new $persistent(...$exprss)" if exprss.isEmpty =>
       (EmptyTree, EmptyTree)
     case q"new $persistent(...$exprss)" =>
