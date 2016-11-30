@@ -27,7 +27,7 @@ class ComponentSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "@component"
 
-  it should "cause a compiler error when annotating something other than a class, trait, or object" in {
+  it should "cause a compiler error when annotating something other than a class" in {
     "@component val x = 7"           shouldNot compile
     "@component type X = Int"        shouldNot compile
     "@component def foo = 7"         shouldNot compile

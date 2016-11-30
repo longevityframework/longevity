@@ -26,7 +26,9 @@ object MPropsSpec {
 
     case class Foo2()
 
-    // TODO: extends PType[Foo2] doesnt work here. document, if nothing else
+    // extends PType[Foo2] doesnt work here, for the same reason i have testExamples.scala.
+    // @mprops can't work on a type that is declared in the same object
+
     // help ensure macro application doesnt mess up companion object
     @mprops class WithCompanion extends PType[Foo]
 
