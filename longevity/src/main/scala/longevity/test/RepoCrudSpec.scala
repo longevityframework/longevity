@@ -49,11 +49,17 @@ class RepoCrudSpec private[longevity] (
   protected implicit val executionContext: ExecutionContext)
 extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
-  private def subdomainName = longevityContext.subdomain.name
-
-  private val suiteNameSuffix = s"for $subdomainName - $backEnd"
+  private val suiteNameSuffix = s"- $backEnd - optimisticLocking: ${longevityContext.config.optimisticLocking}"
 
   override val suiteName = s"RepoCrudSpec $suiteNameSuffix"
+
+  override def beforeAll = repoPool.createSchema().recover({
+    case t: Throwable =>
+      logger.error("failed to create schema", t)
+      throw t
+  }).futureValue
+
+  override def afterAll = repoPool.closeSession().futureValue
 
   repoPool.baseRepoMap.foreach { pair =>
     def repoSpec[P](pair: TypeBoundPair[Any, TypeKey, BaseRepo, P]): Unit = {
@@ -61,8 +67,6 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
     }
     repoSpec(pair)
   }
-
-  override def afterAll = repoPool.closeSession().futureValue
 
   private class RepoSpec[P](
     private val repo: BaseRepo[P],
@@ -77,7 +81,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
     behavior of s"${pName}Repo.create $suiteNameSuffix"
 
-    it should s"produce a persisted $pName" taggedAs(Create) in {
+    it should s"persist an unpersisted $pName" taggedAs(Create) in {
       val p = randomP()
       val created: PState[P] = repo.create(p).futureValue
       created.get should equal (p)
@@ -90,7 +94,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
     behavior of s"${pName}Repo.retrieve $suiteNameSuffix"
 
-    it should s"produce the same persisted $pName" taggedAs(Retrieve) in {
+    it should s"retrieve a persisted $pName" taggedAs(Retrieve) in {
       val p = randomP()
       val created = repo.create(p).futureValue
 
@@ -102,7 +106,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
 
     behavior of s"${pName}Repo.update $suiteNameSuffix"
 
-    it should s"produce an updated persisted $pName" taggedAs(Update) in {
+    it should s"persist updates to a persisted $pName" taggedAs(Update) in {
       val key = randomPTypeKey
       val originalP = randomP(key)
       val modifiedP = repo.realizedPType.keySet.foldLeft(randomP(key)) { (modified, key) =>
