@@ -23,6 +23,33 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
+package packageScanning {
+
+  package nesting {
+    case class A(id: String, b: B)
+    object A extends PType[A] {
+      object props {
+        val id = prop[String]("id")
+      }
+      val keySet = emptyKeySet
+    }
+  }
+
+  abstract class FakeoutA extends PType[nesting.A] {
+    object props {
+      val id = prop[String]("id")
+    }
+    val keySet = emptyKeySet
+  }
+
+  case class B(name: String)
+  object B extends CType[B]
+
+  class FakeoutB extends CType[B]
+
+  object subdomain extends Subdomain("longevity.unit.subdomain.packageScanning")
+}
+
 /** holds factory methods for sample subdomains used in [[SubdomainSpec]] */
 object SubdomainSpec {
 
@@ -370,6 +397,14 @@ object SubdomainSpec {
 
 /** unit tests for the proper [[Subdomain]] construction */
 class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
+
+  behavior of "Subdomain package scanning"
+
+  it should "collect objects containing PTypes and CTypes" in {
+    println(packageScanning.subdomain)
+    packageScanning.subdomain.pTypePool.size should equal (1)
+    packageScanning.subdomain.cTypePool.size should equal (1)
+  }
 
   behavior of "Subdomain creation"
 

@@ -9,6 +9,8 @@ abstract class DerivedCType[C : TypeKey, Poly >: C : TypeKey] extends CType[C] {
 
   private[longevity] val polyTypeKey: TypeKey[Poly] = implicitly[TypeKey[Poly]]
 
+  override def toString = s"DerivedCType[${cTypeKey.name}, ${polyTypeKey.name}]"
+
 }
 
 /** contains a factory method for creating `DerivedCTypes` */

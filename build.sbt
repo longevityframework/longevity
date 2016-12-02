@@ -10,9 +10,10 @@ lazy val longevity = Project(
   settings = BuildSettings.buildSettings ++ Seq(
 
     // non-optional library dependencies:
-    libraryDependencies += Dependencies.typesafeConfigDep,
     libraryDependencies += Dependencies.kxbmapConfigsDep,
+    libraryDependencies += Dependencies.reflectionsDep,
     libraryDependencies += Dependencies.scalaLoggingDep,
+    libraryDependencies += Dependencies.typesafeConfigDep,
 
     // optional library dependencies:
     libraryDependencies += Dependencies.scalaTestDep % Optional,

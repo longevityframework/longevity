@@ -4,4 +4,8 @@ package longevity.subdomain
  * [[PType persistent type]] when it represents an abstract persistent
  * type with concrete subtypes.
  */
-trait PolyPType[P] extends PType[P]
+trait PolyPType[P] extends PType[P] {
+
+  override def toString = s"PolyPType[${pTypeKey.name}]"
+
+}

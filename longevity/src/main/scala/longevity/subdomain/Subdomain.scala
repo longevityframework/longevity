@@ -2,29 +2,69 @@ package longevity.subdomain
 
 import emblem.TypeKey
 import emblem.TypeKeyMap
-import emblem.typeBound.TypeBoundMap
 import emblem.emblematic.Emblem
 import emblem.emblematic.EmblemPool
 import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
 import emblem.typeBound.TypeBoundFunction
+import emblem.typeBound.TypeBoundMap
 import longevity.exceptions.subdomain.DerivedHasNoPolyException
 import longevity.subdomain.realized.RealizedPType
+import org.reflections.Reflections
+import scala.collection.JavaConverters.asScalaSetConverter
+import scala.reflect.runtime.universe.NoType
+import scala.reflect.runtime.universe.runtimeMirror
 
-/** a specification of a subdomain of a project's domain. contains a pool of
- * all the [[PType persistent types]] in the subdomain, as well as
+/** a description of a project's domain model. contains a pool of
+ * all the [[PType persistent types]] in the model, as well as
  * all the [[CType component types]].
  *
+ * @constructor creates a subdomain from pools of [[PType persistent]] and
+ * [[CType component]] types
+ *
  * @param name the name of the subdomain
+ *
  * @param pTypePool a complete set of the persistent types in the subdomain.
- * defaults to empty
+ *
  * @param cTypePool a complete set of the component types within the
  * subdomain. defaults to empty
  */
 class Subdomain(
   val name: String,
-  val pTypePool: PTypePool = PTypePool.empty,
+  val pTypePool: PTypePool,
   val cTypePool: CTypePool = CTypePool.empty) {
+
+  private def this(pools: (PTypePool, CTypePool)) = this("", pools._1, pools._2)
+
+  /** creates a subdomain by scanning the named package for [[PType persistent
+   * types]] and [[CType component types]]
+   *
+   * @param packageName the name of the package to scan
+   */
+  def this(packageName: String) = this {
+    val reflections = new Reflections(packageName)
+
+    def subTypes[A](c: Class[A]): Set[Class[_ <: A]] = reflections.getSubTypesOf(c).asScala.toSet
+
+    val pTypeClasses =
+      subTypes(classOf[PType[_]]) ++ subTypes(classOf[PolyPType[_]]) ++ subTypes(classOf[DerivedPType[_, _]])
+    val cTypeClasses =
+      subTypes(classOf[CType[_]]) ++ subTypes(classOf[PolyCType[_]]) ++ subTypes(classOf[DerivedCType[_, _]])
+
+    def singletons[A](classes: Set[Class[_ <: A]]) = classes.flatMap { c =>
+      val r = runtimeMirror(c.getClassLoader)
+      val s = r.moduleSymbol(c)
+      s.typeSignature match {
+        case NoType => None // not actually a module, just a class or trait or something
+        case _      => Some(r.reflectModule(s).instance.asInstanceOf[A])
+      }
+    }
+
+    val pTypeObjects = singletons[PType[_]](pTypeClasses)
+    val cTypeObjects = singletons[CType[_]](cTypeClasses)
+
+    (PTypePool(pTypeObjects.toSeq: _*), CTypePool(cTypeObjects.toSeq: _*))
+  }
 
   private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
 
@@ -156,43 +196,39 @@ class Subdomain(
     }
   }
 
+  override def toString = s"""|Subdomain(
+                              |  PTypePool(
+                              |    ${pTypePool.values.mkString(",\n    ")}),
+                              |  CTypePool(
+                              |    ${cTypePool.values.mkString(",\n    ")}))""".stripMargin
+
 }
 
-/** provides a factory method for constructing [[Subdomain subdomains]] */
+/** provides factory methods for constructing [[Subdomain subdomains]] */
 object Subdomain {
 
-  /** constructs a new subdomain
+  /** creates a subdomain from pools of [[PType persistent]] and
+   * [[CType component]] types
    * 
    * @param name the name of the subdomain
    *
    * @param pTypePool a complete set of the persistent types in the subdomain.
-   * defaults to empty
    *
    * @param cTypePool a complete set of the component types within the
    * subdomain. defaults to empty
-   *
-   * @throws longevity.exceptions.subdomain.NoSuchPropPathException if a
-   * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
-   * [[PType persistent types]] has a property path that does not exist in the
-   * persistent type being reflected on
-   * 
-   * @throws longevity.exceptions.subdomain.UnsupportedPropTypeException
-   * if a [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
-   * [[PType persistent types]] has a property type that is not currently
-   * supported. please see [[longevity.exceptions.subdomain.UnsupportedPropTypeException
-   * UnsupportedPropTypeException for details]].
-   * 
-   * @throws longevity.exceptions.subdomain.PropTypeException if a
-   * [[longevity.subdomain.ptype.Prop property]] in any of the subdomain's
-   * [[PType persistent types]] has a property whose
-   * specified type does not match the type of the corresponding path in the
-   * persistent being reflected on
    */
   def apply(
     name: String,
-    pTypePool: PTypePool = PTypePool.empty,
+    pTypePool: PTypePool,
     cTypePool: CTypePool = CTypePool.empty)
   : Subdomain =
     new Subdomain(name, pTypePool, cTypePool)
+
+  /** creates a subdomain by scanning the named package for [[PType persistent
+   * types]] and [[CType component types]]
+   *
+   * @param packageName the name of the package to scan
+   */
+  def apply(packageName: String): Subdomain = Subdomain(packageName)
 
 }

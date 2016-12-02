@@ -11,6 +11,8 @@ abstract class CType[C : TypeKey] {
    */
   val cTypeKey: TypeKey[C] = typeKey[C]
 
+  override def toString = s"CType[${cTypeKey.name}]"
+
 }
 
 /** contains a factory method for creating `CTypes` */

@@ -9,23 +9,25 @@ object SubdomainSpec {
   // used in http://longevityframework.github.io/longevity/manual/subdomain.html
   object subdomain1 {
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging")
+    val subdomain = Subdomain("blogging", PTypePool.empty)
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain.html
   object subdomain2 {
     import longevity.subdomain.Subdomain
+    import longevity.subdomain.PTypePool
 
     // create your own domain type:
 
-    class BloggingDomain extends Subdomain("blogging")
+    class BloggingDomain extends Subdomain("blogging", PTypePool.empty)
 
     val bloggingDomain = new BloggingDomain
 
     // or put your subdomains in companion objects:
 
-    object BloggingDomain extends Subdomain("blogging")
+    object BloggingDomain extends Subdomain("blogging", PTypePool.empty)
   }
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/ptypes.html

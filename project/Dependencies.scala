@@ -11,6 +11,7 @@ object Dependencies {
   val kxbmapConfigsDep:  ModuleID = "com.github.kxbmap"          %% "configs"               % "0.4.4"
   val mongodbDep:        ModuleID = "org.mongodb"                %  "mongodb-driver"        % "3.3.0"
   val nScalaTimeDep:     ModuleID = "com.github.nscala-time"     %% "nscala-time"           % "2.14.0"
+  val reflectionsDep:    ModuleID = "org.reflections"            %  "reflections"           % "0.9.10"
   val scalaLoggingDep:   ModuleID = "com.typesafe.scala-logging" %% "scala-logging"         % "3.5.0"
   val scalaTestDep:      ModuleID = "org.scalatest"              %% "scalatest"             % "3.0.1"
   val slf4jSimpleDep:    ModuleID = "org.slf4j"                  %  "slf4j-simple"          % "1.7.21"

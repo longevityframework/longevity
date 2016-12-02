@@ -10,4 +10,6 @@ abstract class DerivedPType[P : TypeKey, Poly >: P : TypeKey] extends PType[P] {
 
   private[longevity] val polyPTypeKey: TypeKey[Poly] = implicitly[TypeKey[Poly]]
 
+  override def toString = s"DerivedPType[${pTypeKey.name}, ${polyPTypeKey.name}]"
+
 }
