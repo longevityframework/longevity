@@ -9,7 +9,7 @@ case class ConfigMatrixKey(
 
 object ConfigMatrixKey {
 
-  // this version gives 4x configs per back end:
+  /** all config combos per back end */
   def values = for {
     backEnd <- BackEnd.values
     autocreateSchema <- true :: false :: Nil
@@ -18,14 +18,7 @@ object ConfigMatrixKey {
     ConfigMatrixKey(backEnd, autocreateSchema, optimisticLocking)
   }
 
-  // cheat here and give 2x configs per back end. each config flag is still tested
-  def sparseValues = for {
-    backEnd <- BackEnd.values
-    key <- Seq(
-      ConfigMatrixKey(backEnd, true, false),
-      ConfigMatrixKey(backEnd, false, true))
-  } yield {
-    key
-  }
+  /** one config per back end */
+  def sparseValues = BackEnd.values.map(ConfigMatrixKey(_, false, false))
 
 }

@@ -8,6 +8,8 @@ package object basics {
 
   @subdomain object subdomain
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
+  // we use basics to cover all config possibilities. other subdomain tests
+  // use a sparse context matrix
+  val contexts = TestLongevityConfigs.contextMatrix(subdomain)
 
 }
