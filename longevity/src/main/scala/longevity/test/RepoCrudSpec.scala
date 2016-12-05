@@ -79,7 +79,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
     object Update extends Tag("Update")
     object Delete extends Tag("Delete")
 
-    behavior of s"${pName}Repo.create $suiteNameSuffix"
+    behavior of s"Repo[${pName}].create $suiteNameSuffix"
 
     it should s"persist an unpersisted $pName" taggedAs(Create) in {
       val p = randomP()
@@ -92,7 +92,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
       }
     }
 
-    behavior of s"${pName}Repo.retrieve $suiteNameSuffix"
+    behavior of s"Repo[${pName}].retrieve $suiteNameSuffix"
 
     it should s"retrieve a persisted $pName" taggedAs(Retrieve) in {
       val p = randomP()
@@ -104,7 +104,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
       }
     }
 
-    behavior of s"${pName}Repo.update $suiteNameSuffix"
+    behavior of s"Repo[${pName}].update $suiteNameSuffix"
 
     it should s"persist updates to a persisted $pName" taggedAs(Update) in {
       val key = randomPTypeKey
@@ -130,7 +130,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
       }
     }
 
-    behavior of s"${pName}Repo.delete $suiteNameSuffix"
+    behavior of s"Repo[${pName}].delete $suiteNameSuffix"
 
     it should s"delete a persisted $pName" taggedAs(Delete) in {
       val p = randomP()
