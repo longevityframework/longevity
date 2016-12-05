@@ -398,7 +398,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "Subdomain package scanning"
 
   it should "collect objects containing PTypes and CTypes" in {
-    println(packageScanning.subdomain)
     packageScanning.subdomain.pTypePool.size should equal (1)
     packageScanning.subdomain.cTypePool.size should equal (1)
   }
