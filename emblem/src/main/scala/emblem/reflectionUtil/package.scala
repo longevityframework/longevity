@@ -71,37 +71,41 @@ package object reflectionUtil {
     }
   }
 
-  // TODO first, use this for subdomain package scanning. then, refactor
   /** given an instance and a type, returns a set of all the `val`, `var`, or
-   * `object` members of the instance that match the type.
+   * `object` members of the instance that match the type. `object` members are
+   * also searched recursively.
    *
    * @tparam A the type of the terms we are searching for
    * @param instance the instance to search for terms with matching type
    */
   def termsWithType[A : TypeKey](instance: Any): Seq[A] = {
     val runtimeMirror =  scala.reflect.runtime.universe.runtimeMirror(instance.getClass.getClassLoader)
-    val instanceMirror: InstanceMirror = runtimeMirror.reflect(instance)
+    val instanceMirror = runtimeMirror.reflect(instance)
     val symbols = instanceMirror.symbol.selfType.decls.toSeq
-    val termSymbols = symbols.collect {
-      case s if s.isTerm => s.asTerm
-    }
+    val termSymbols = symbols.collect { case s if s.isTerm => s.asTerm }
+    valOrVarTerms(instanceMirror, termSymbols) ++ objectTerms(runtimeMirror, termSymbols)
+  }
+
+  private def valOrVarTerms[A : TypeKey](mirror: InstanceMirror, termSymbols: Seq[TermSymbol]): Seq[A] = {
     def valOrVar(symbol: TermSymbol) = symbol.isVal || symbol.isVar
-    def matchingType(symbol: TermSymbol) = symbol.typeSignature <:< typeKey[A].tpe
     val valOrVarSymbols = termSymbols.filter(valOrVar).filter(matchingType)
-    val varOrVarTerms = valOrVarSymbols.map { symbol =>
-      val fieldMirror = instanceMirror.reflectField(symbol)
-      fieldMirror.get.asInstanceOf[A]
+    valOrVarSymbols.map { symbol =>
+      mirror.reflectField(symbol).get.asInstanceOf[A]
     }
+  }
+
+  private def objectTerms[A : TypeKey](mirror: RuntimeMirror, termSymbols: Seq[TermSymbol]): Seq[A] = {
     val objectSymbols = termSymbols.collect { case s if s.isModule => s.asModule }
-    val objectTerms = objectSymbols flatMap { symbol =>
-      val i = runtimeMirror.reflectModule(symbol).instance
+    objectSymbols flatMap { symbol =>
+      val i = mirror.reflectModule(symbol).instance
       if (matchingType(symbol)) {
         termsWithType[A](i) :+ i.asInstanceOf[A]
       } else {
         termsWithType[A](i)
       }
     }
-    varOrVarTerms ++ objectTerms
   }
+
+  private def matchingType[A : TypeKey](symbol: TermSymbol) = symbol.typeSignature <:< typeKey[A].tpe
 
 }
