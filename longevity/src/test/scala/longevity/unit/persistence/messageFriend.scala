@@ -33,7 +33,7 @@ object messageFriend {
     val keySet = Set(key(props.id))
   }
 
-  val subdomain = Subdomain("blog", PTypePool(Friend, Message))
+  val subdomain = Subdomain(PTypePool(Friend, Message))
   val inMemLongevityContext = new LongevityContext(subdomain, inMemConfig)
   val mongoLongevityContext = new LongevityContext(subdomain, mongoConfig)
   val cassandraLongevityContext = new LongevityContext(subdomain, cassandraConfig)

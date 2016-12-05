@@ -49,7 +49,6 @@ object PTypeSpec {
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
-      "blogging",
       PTypePool(User),
       CTypePool(CType[Email], CType[Markdown], CType[Uri], CType[UserProfile]))
 
@@ -78,7 +77,7 @@ object PTypeSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(PTypePool(User))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/keys.html
@@ -106,7 +105,7 @@ object PTypeSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(PTypePool(User))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/indexes.html
@@ -135,7 +134,7 @@ object PTypeSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(PTypePool(User))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/root-type/key-sets-and-index-sets.html
@@ -160,7 +159,7 @@ object PTypeSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(PTypePool(User))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/root-type/key-sets-and-index-sets.html
@@ -199,7 +198,7 @@ object PTypeSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(PTypePool(User))
   }
 
 }
@@ -218,7 +217,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   "user manual example code" should "produce correct subdomains" in {
 
     {
-      properties.subdomain.name should equal ("blogging")
       properties.subdomain.pTypePool.size should equal (1)
       properties.subdomain.pTypePool.values.head should equal (properties.User)
       properties.subdomain.cTypePool.size should equal (4)
@@ -226,7 +224,6 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      keys1.subdomain.name should equal ("blogging")
       keys1.subdomain.pTypePool.size should equal (1)
       keys1.subdomain.pTypePool.values.head should equal (keys1.User)
       keys1.subdomain.cTypePool.size should equal (0)
@@ -234,16 +231,11 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      keys2.subdomain.name should equal ("blogging")
       keys2.subdomain.pTypePool.size should equal (1)
       keys2.subdomain.pTypePool.values.head should equal (keys2.User)
       keys2.subdomain.cTypePool.size should equal (0)
       keys2.User.keySet.size should equal (2)
     }
-
-    indexes1.subdomain.name should equal ("blogging")
-    sets1.subdomain.name should equal ("blogging")
-    sets2.subdomain.name should equal ("blogging")
 
   }
 

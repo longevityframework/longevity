@@ -56,7 +56,6 @@ object PolySpec {
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
-      "blogging",
       PTypePool(User),
       CTypePool(
         CType[Email],
@@ -123,7 +122,6 @@ object PolySpec {
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
-      "blogging",
       PTypePool(User, Member, Commenter),
       CTypePool(
         CType[Email],
@@ -198,7 +196,6 @@ object PolySpec {
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
-      "blogging",
       PTypePool(User, Member, Commenter),
       CTypePool(
         CType[Email],
@@ -241,7 +238,6 @@ object PolySpec {
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
-      "accounts",
       PTypePool(Account),
       CTypePool(
         PolyCType[AccountStatus],
@@ -267,7 +263,6 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
   "user manual example code" should "produce correct subdomains" in {
 
     {
-      poly.subdomain.name should equal ("blogging")
       poly.subdomain.pTypePool.size should equal (1)
       poly.subdomain.pTypePool.values.head should equal (poly.User)
       poly.subdomain.cTypePool.size should equal (6)
@@ -275,7 +270,6 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      persistent1.subdomain.name should equal ("blogging")
       persistent1.subdomain.pTypePool.size should equal (3)
       persistent1.subdomain.cTypePool.size should equal (4)
       persistent1.User.keySet.size should equal (0)
@@ -284,7 +278,6 @@ class PolySpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      persistent2.subdomain.name should equal ("blogging")
       persistent2.subdomain.pTypePool.size should equal (3)
       persistent2.subdomain.cTypePool.size should equal (4)
       persistent2.User.keySet.size should equal (1)

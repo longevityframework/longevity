@@ -17,13 +17,13 @@ object ContextSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val bloggingDomain = Subdomain("blogging", PTypePool.empty)
+    val bloggingDomain = Subdomain(PTypePool.empty)
     val bloggingConfig: Config = loadBloggingConfig()
     val bloggingContext = LongevityContext(
       bloggingDomain,
       bloggingConfig)
 
-    val accountsSubdomain = Subdomain("accounts", PTypePool.empty)
+    val accountsSubdomain = Subdomain(PTypePool.empty)
     val accountsConfig: Config = loadAccountsConfig()
     val accountsContext = LongevityContext(
       accountsSubdomain,
@@ -39,7 +39,7 @@ object ContextSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val bloggingDomain = Subdomain("blogging", PTypePool.empty)
+    val bloggingDomain = Subdomain(PTypePool.empty)
 
     import longevity.context.CassandraConfig
     import longevity.context.InMem
@@ -86,13 +86,5 @@ object ContextSpec {
  * @see http://longevityframework.github.io/longevity/manual/context
  */
 class ContextSpec extends FlatSpec with GivenWhenThen with Matchers {
-
-  import ContextSpec._
-
-  "user manual example code" should "compile" in {
-    config1.bloggingContext.subdomain.name should equal ("blogging")
-    config1.accountsContext.subdomain.name should equal ("accounts")
-    config2.bloggingContext.subdomain.name should equal ("blogging")
-  }
 
 }

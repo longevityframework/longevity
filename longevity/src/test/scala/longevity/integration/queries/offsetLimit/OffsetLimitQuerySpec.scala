@@ -32,7 +32,7 @@ object OffsetLimitQuerySpec {
     override val indexSet = Set(index(props.i), index(props.j))
   }
 
-  val subdomain = Subdomain("limit offset test", PTypePool(OffsetLimit))
+  val subdomain = Subdomain(PTypePool(OffsetLimit))
 
 }
 

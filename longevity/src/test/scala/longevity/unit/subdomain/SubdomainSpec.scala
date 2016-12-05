@@ -61,7 +61,7 @@ object SubdomainSpec {
       }
       val keySet = emptyKeySet
     }
-    def subdomain = Subdomain("emptyPropPath", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
   }
 
   object noSuchPropPath {
@@ -72,7 +72,7 @@ object SubdomainSpec {
       }
       val keySet = emptyKeySet
     }
-    def subdomain = Subdomain("noSuchPropPath", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
   }
 
   object propTypeWithInternalList {
@@ -84,7 +84,7 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def subdomain = Subdomain("propTypeWithInternalList", PTypePool(A), CTypePool(CType[B]))
+    def subdomain = Subdomain(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propTypeWithInternalOption {
@@ -96,7 +96,7 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def subdomain = Subdomain("propTypeWithInternalOption", PTypePool(A), CTypePool(CType[B]))
+    def subdomain = Subdomain(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propTypeWithInternalSet {
@@ -108,7 +108,7 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def subdomain = Subdomain("propTypeWithInternalSet", PTypePool(A), CTypePool(CType[B]))
+    def subdomain = Subdomain(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propTypeWithInternalPoly {
@@ -124,7 +124,6 @@ object SubdomainSpec {
     case class C(id: String) extends B
 
     def subdomain = Subdomain(
-      "propTypeWithInternalPoly",
       PTypePool(A),
       CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
@@ -138,7 +137,7 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def subdomain = Subdomain("noSuchPropPathInComponent", PTypePool(A), CTypePool(CType[B]))
+    def subdomain = Subdomain(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithNonEmbeddable {
@@ -150,7 +149,7 @@ object SubdomainSpec {
       }
       val keySet = emptyKeySet
     }
-    def subdomain = Subdomain("propPathWithNonEmbeddable", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
   }
 
   object propPathWithTerminalList {
@@ -161,7 +160,7 @@ object SubdomainSpec {
       }
       val keySet = emptyKeySet
     }
-    def subdomain = Subdomain("propPathWithTerminalList", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
   }
 
   object propPathWithTerminalOption {
@@ -172,7 +171,7 @@ object SubdomainSpec {
       }
       val keySet = emptyKeySet
     }
-    def subdomain = Subdomain("propPathWithTerminalOption", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
   }
 
   object propPathWithTerminalSet {
@@ -183,7 +182,7 @@ object SubdomainSpec {
       }
       val keySet = emptyKeySet
     }
-    def subdomain = Subdomain("propPathWithTerminalSet", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
   }
 
   object propPathWithTerminalPoly {
@@ -200,7 +199,6 @@ object SubdomainSpec {
     case class C(id: String) extends B
 
     def subdomain = Subdomain(
-      "propPathWithTerminalPoly",
       PTypePool(A),
       CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
@@ -214,7 +212,7 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def subdomain = Subdomain("propPathWithInternalList", PTypePool(A), CTypePool(CType[B]))
+    def subdomain = Subdomain(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalOption {
@@ -226,7 +224,7 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def subdomain = Subdomain("propPathWithInternalOption", PTypePool(A), CTypePool(CType[B]))
+    def subdomain = Subdomain(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalSet {
@@ -238,7 +236,7 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def subdomain = Subdomain("propPathWithInternalSet", PTypePool(A), CTypePool(CType[B]))
+    def subdomain = Subdomain(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalPoly {
@@ -254,7 +252,6 @@ object SubdomainSpec {
     case class C(id: String) extends B
 
     def subdomain = Subdomain(
-      "propPathWithInternalPoly",
       PTypePool(A),
       CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
@@ -267,7 +264,7 @@ object SubdomainSpec {
       }
       val keySet = emptyKeySet
     }
-    def subdomain = Subdomain("incompatiblePropType", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
   }
 
   object supertypePropType {
@@ -278,7 +275,7 @@ object SubdomainSpec {
       }
       val keySet = emptyKeySet
     }
-    def subdomain = Subdomain("supertypePropType", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
   }
 
   object subtypePropType {
@@ -294,7 +291,7 @@ object SubdomainSpec {
       val keySet = Set(key(props.id))
     }
 
-    def subdomain = Subdomain("subtypePropType", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
   }
 
   object duplicateKey {
@@ -310,7 +307,7 @@ object SubdomainSpec {
       val keySet = Set(key(props.id1), key(props.id2))
     }
 
-    def subdomain = Subdomain("duplicateKey", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
 
   }
 
@@ -327,7 +324,7 @@ object SubdomainSpec {
       override val indexSet = Set(index(props.id))
     }
 
-    def subdomain = Subdomain("duplicateKeyOrIndex", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
 
   }
 
@@ -344,7 +341,7 @@ object SubdomainSpec {
       val keySet = Set(partitionKey(props.id, partition(props.id2)))
     }
 
-    def subdomain = Subdomain("invalidPartition", PTypePool(A))
+    def subdomain = Subdomain(PTypePool(A))
 
   }
 
@@ -364,18 +361,18 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
 
-    def subdomain = Subdomain("derivedPTypeHasNoPoly", PTypePool(Derived))
+    def subdomain = Subdomain(PTypePool(Derived))
   }
 
   object derivedCTypeHasNoPoly {
     trait Poly { val id: String }
     case class Derived(id: String) extends Poly
-    def subdomain = Subdomain("derivedCTypeHasNoPoly", PTypePool(), CTypePool(DerivedCType[Derived, Poly]))
+    def subdomain = Subdomain(PTypePool(), CTypePool(DerivedCType[Derived, Poly]))
   }
 
   object duplicateCTypes {
     case class A(id: String)
-    def subdomain = Subdomain("duplicateCTypes", PTypePool(), CTypePool(CType[A], CType[A]))
+    def subdomain = Subdomain(PTypePool(), CTypePool(CType[A], CType[A]))
   }
 
   object duplicatePTypes {
@@ -390,7 +387,7 @@ object SubdomainSpec {
       }
       val keySet = emptyKeySet
     }
-    def subdomain = Subdomain("duplicatePTypes", PTypePool(A, B))
+    def subdomain = Subdomain(PTypePool(A, B))
   }
 
 }

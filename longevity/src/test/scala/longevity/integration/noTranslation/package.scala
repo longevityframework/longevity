@@ -15,7 +15,7 @@ package object noTranslation {
     WithNoTranslationOption,
     WithNoTranslationSet)
 
-  val subdomain = Subdomain("No Translation", pTypes)
+  val subdomain = Subdomain(pTypes)
   val inMemContext = new LongevityContext(subdomain, TestLongevityConfigs.inMemConfig)
   val mongoContext = new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)
   val cassandraContext = new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)

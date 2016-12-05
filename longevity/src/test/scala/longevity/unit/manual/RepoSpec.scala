@@ -81,7 +81,6 @@ object RepoSpec {
   }
 
   val blogCore = Subdomain(
-    "blogging",
     PTypePool(User, Blog, BlogPost),
     CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
 

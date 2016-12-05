@@ -46,7 +46,7 @@ object QueryDslSpec {
 /** unit tests for the proper construction of [[Query Queries]] using the [[QueryDsl]] */
 class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
   import QueryDslSpec._
-  private val subdomain = Subdomain("QueryDslSpec", PTypePool(DslPersistent, Associated))
+  private val subdomain = Subdomain(PTypePool(DslPersistent, Associated))
   private val dsl = DslPersistent.queryDsl
   import dsl._
 

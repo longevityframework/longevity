@@ -22,19 +22,16 @@ import scala.reflect.runtime.universe.runtimeMirror
  * @constructor creates a subdomain from pools of [[PType persistent]] and
  * [[CType component]] types
  *
- * @param name the name of the subdomain
- *
  * @param pTypePool a complete set of the persistent types in the subdomain.
  *
  * @param cTypePool a complete set of the component types within the
  * subdomain. defaults to empty
  */
 class Subdomain(
-  val name: String,
   val pTypePool: PTypePool,
   val cTypePool: CTypePool = CTypePool.empty) {
 
-  private def this(pools: (PTypePool, CTypePool)) = this("", pools._1, pools._2)
+  private def this(pools: (PTypePool, CTypePool)) = this(pools._1, pools._2)
 
   /** creates a subdomain by scanning the named package for [[PType persistent
    * types]] and [[CType component types]]
@@ -210,19 +207,16 @@ object Subdomain {
   /** creates a subdomain from pools of [[PType persistent]] and
    * [[CType component]] types
    * 
-   * @param name the name of the subdomain
-   *
    * @param pTypePool a complete set of the persistent types in the subdomain.
    *
    * @param cTypePool a complete set of the component types within the
    * subdomain. defaults to empty
    */
   def apply(
-    name: String,
     pTypePool: PTypePool,
     cTypePool: CTypePool = CTypePool.empty)
   : Subdomain =
-    new Subdomain(name, pTypePool, cTypePool)
+    new Subdomain(pTypePool, cTypePool)
 
   /** creates a subdomain by scanning the named package for [[PType persistent
    * types]] and [[CType component types]]

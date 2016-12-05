@@ -31,7 +31,7 @@ object LongevityContextSpec {
       val keySet = Set(key(props.id))
     }
 
-    val subdomain = Subdomain("subtypePropType", PTypePool(A))
+    val subdomain = Subdomain(PTypePool(A))
     val mongoContext = new LongevityContext(subdomain, mongoConfig)
     val cassandraContext = new LongevityContext(subdomain, cassandraConfig)
   }

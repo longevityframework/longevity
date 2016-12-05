@@ -31,7 +31,7 @@ object KeyValSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User))    
+    val subdomain = Subdomain(PTypePool(User))
 
   }
 
@@ -60,7 +60,7 @@ object KeyValSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User))    
+    val subdomain = Subdomain(PTypePool(User))
 
   }
 
@@ -77,7 +77,6 @@ class KeyValSpec extends FlatSpec with GivenWhenThen with Matchers {
   "user manual example code" should "produce correct subdomains" in {
 
     {
-      keyValues1.subdomain.name should equal ("blogging")
       keyValues1.subdomain.pTypePool.size should equal (1)
       keyValues1.subdomain.pTypePool.values.head should equal (keyValues1.User)
       keyValues1.subdomain.cTypePool should be ('empty)
@@ -85,7 +84,6 @@ class KeyValSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      keyValues2.subdomain.name should equal ("blogging")
       keyValues2.subdomain.pTypePool.size should equal (1)
       keyValues2.subdomain.pTypePool.values.head should equal (keyValues2.User)
       keyValues2.subdomain.cTypePool should be ('empty)

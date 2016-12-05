@@ -11,7 +11,7 @@ object SubdomainSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool.empty)
+    val subdomain = Subdomain(PTypePool.empty)
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain.html
@@ -21,13 +21,13 @@ object SubdomainSpec {
 
     // create your own domain type:
 
-    class BloggingDomain extends Subdomain("blogging", PTypePool.empty)
+    class BloggingDomain extends Subdomain(PTypePool.empty)
 
     val bloggingDomain = new BloggingDomain
 
     // or put your subdomains in companion objects:
 
-    object BloggingDomain extends Subdomain("blogging", PTypePool.empty)
+    object BloggingDomain extends Subdomain(PTypePool.empty)
   }
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/ptypes.html
@@ -49,7 +49,7 @@ object SubdomainSpec {
     import longevity.subdomain.Subdomain
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(PTypePool(User))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/basics.html
@@ -74,7 +74,7 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(PTypePool(User))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/collections.html
@@ -97,7 +97,7 @@ object SubdomainSpec {
       val keySet = emptyKeySet
     }
 
-    val subdomain = Subdomain("blogging", PTypePool(User))
+    val subdomain = Subdomain(PTypePool(User))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/embeddables/index.html
@@ -124,11 +124,11 @@ object SubdomainSpec {
     import longevity.subdomain.CTypePool
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User), CTypePool(CType[FullName]))
+    val subdomain = Subdomain(PTypePool(User), CTypePool(CType[FullName]))
 
     object FullName extends CType[FullName]
 
-    val subdomain2 = Subdomain("blogging", PTypePool(User), CTypePool(FullName))
+    val subdomain2 = Subdomain(PTypePool(User), CTypePool(FullName))
 
   }
 
@@ -164,7 +164,6 @@ object SubdomainSpec {
     import longevity.subdomain.PTypePool
 
     val subdomain = Subdomain(
-      "blogging",
       PTypePool(User),
       CTypePool(CType[Address], CType[Email], CType[EmailPreferences]))
 
@@ -196,7 +195,7 @@ object SubdomainSpec {
     import longevity.subdomain.CTypePool
     import longevity.subdomain.PTypePool
 
-    val subdomain = Subdomain("blogging", PTypePool(User), CTypePool(CType[UserProfile]))
+    val subdomain = Subdomain(PTypePool(User), CTypePool(CType[UserProfile]))
   }
 
   // used in http://longevityframework.github.io/longevity/manual/embeddables/value-objects.html
@@ -230,7 +229,6 @@ object SubdomainSpec {
     }
 
     val subdomain = Subdomain(
-      "blogging",
       PTypePool(User),
       CTypePool(CType[Email], CType[StateCode], CType[ZipCode], CType[Address]))
   }
@@ -252,20 +250,18 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
   "user manual example code" should "produce correct subdomains" in {
 
     {
-      def subdomainShould(subdomain: Subdomain, name: String): Unit = {
-        subdomain.name should equal (name)
+      def subdomainShould(subdomain: Subdomain): Unit = {
         subdomain.cTypePool should be ('empty)
         subdomain.pTypePool should be ('empty)
       }
 
-      subdomainShould(subdomain1.subdomain, "blogging")
+      subdomainShould(subdomain1.subdomain)
 
-      subdomainShould(subdomain2.bloggingDomain, "blogging")
-      subdomainShould(subdomain2.BloggingDomain, "blogging")
+      subdomainShould(subdomain2.bloggingDomain)
+      subdomainShould(subdomain2.BloggingDomain)
     }
 
     {
-      ptypes.subdomain.name should equal ("blogging")
       ptypes.subdomain.pTypePool.size should equal (1)
       ptypes.subdomain.pTypePool.values.head should equal (ptypes.User)
       ptypes.subdomain.cTypePool should be ('empty)
@@ -273,7 +269,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      basics.subdomain.name should equal ("blogging")
       basics.subdomain.pTypePool.size should equal (1)
       basics.subdomain.pTypePool.values.head should equal (basics.User)
       basics.subdomain.cTypePool should be ('empty)
@@ -281,7 +276,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      collections.subdomain.name should equal ("blogging")
       collections.subdomain.pTypePool.size should equal (1)
       collections.subdomain.pTypePool.values.head should equal (collections.User)
       collections.subdomain.cTypePool should be ('empty)
@@ -289,7 +283,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      embeddables1.subdomain.name should equal ("blogging")
       embeddables1.subdomain.pTypePool.size should equal (1)
       embeddables1.subdomain.pTypePool.values.head should equal (embeddables1.User)
       embeddables1.subdomain.cTypePool.size should equal (1)
@@ -297,7 +290,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      embeddables2.subdomain.name should equal ("blogging")
       embeddables2.subdomain.pTypePool.size should equal (1)
       embeddables2.subdomain.pTypePool.values.head should equal (embeddables2.User)
       embeddables2.subdomain.cTypePool.size should equal (3)
@@ -305,7 +297,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      entities.subdomain.name should equal ("blogging")
       entities.subdomain.pTypePool.size should equal (1)
       entities.subdomain.pTypePool.values.head should equal (entities.User)
       entities.subdomain.cTypePool.size should equal (1)
@@ -313,7 +304,6 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
 
     {
-      valueObjects.subdomain.name should equal ("blogging")
       valueObjects.subdomain.pTypePool.size should equal (1)
       valueObjects.subdomain.pTypePool.values.head should equal (valueObjects.User)
       valueObjects.subdomain.cTypePool.size should equal (4)
