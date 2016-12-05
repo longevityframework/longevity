@@ -1,8 +1,7 @@
 package longevity.persistence
 
-
 /** the persistent state of a persistent object of type `P` */
-case class PState[P] private (
+case class PState[P] private(
   private[persistence] val id: Option[DatabaseId[P]],
   private[persistence] val rowVersion: Option[Long],
   private[persistence] val orig: P,

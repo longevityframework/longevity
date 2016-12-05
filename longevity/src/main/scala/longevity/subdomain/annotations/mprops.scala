@@ -35,7 +35,7 @@ class mprops extends StaticAnnotation {
 
 }
 
-object mprops {
+private object mprops {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new MPropsImpl {
     val c: c0.type = c0

@@ -31,7 +31,7 @@ extends StaticAnnotation {
 
 }
 
-object derivedPersistent {
+private object derivedPersistent {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new DerivedPersistentImpl {
     val c: c0.type = c0

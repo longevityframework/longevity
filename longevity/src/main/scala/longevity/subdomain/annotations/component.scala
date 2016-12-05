@@ -21,7 +21,7 @@ class component extends StaticAnnotation {
 
 }
 
-object component {
+private object component {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new ComponentImpl {
     val c: c0.type = c0

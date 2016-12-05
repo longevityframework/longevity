@@ -2,6 +2,9 @@ package longevity.context
 
 /** the test configuration
  *
+ * @param mongodb the test configuration for MongoDB
+ * @param cassandra the test configuration for Cassandra
+ *
  * @see LongevityConfig
  */
 case class TestConfig(

@@ -16,7 +16,7 @@ class subdomain[P] extends StaticAnnotation {
 
 }
 
-object subdomain {
+private object subdomain {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new SubdomainImpl {
     val c: c0.type = c0

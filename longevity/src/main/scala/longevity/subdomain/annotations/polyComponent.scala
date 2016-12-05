@@ -20,7 +20,7 @@ class polyComponent extends StaticAnnotation {
 
 }
 
-object polyComponent {
+private object polyComponent {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new PolyComponentImpl {
     val c: c0.type = c0

@@ -35,6 +35,8 @@ object LongevityContext {
       customGeneratorPool)
   }
 
+  // TODO replicate ctors
+
 }
 
 /** the longevity managed portion of the
@@ -45,7 +47,9 @@ object LongevityContext {
  * subdomain.
  * 
  * @param subdomain the subdomain
+ *
  * @param config the longevity configuration
+ *
  * @param customGeneratorPool a collection of custom generators to use when
  * generating test data. defaults to empty
  */
@@ -63,5 +67,9 @@ extends PersistenceContext with TestContext with JsonContext {
 
   lazy val jsonMarshaller = new JsonMarshaller(subdomain)
   lazy val jsonUnmarshaller = new JsonUnmarshaller(subdomain)
+
+  override def toString = s"""|LongevityContext(
+                              |  $subdomain,
+                              |  $config)""".stripMargin
 
 }

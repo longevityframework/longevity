@@ -27,7 +27,7 @@ class derivedComponent[Poly] extends StaticAnnotation {
 
 }
 
-object derivedComponent {
+private object derivedComponent {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new DerivedComponentImpl {
     val c: c0.type = c0

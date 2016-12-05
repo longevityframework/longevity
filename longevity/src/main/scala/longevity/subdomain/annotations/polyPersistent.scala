@@ -26,7 +26,7 @@ class polyPersistent(keySet: Set[Key[_]] = null, indexSet: Set[Index[_]] = null)
 
 }
 
-object polyPersistent {
+private object polyPersistent {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new PolyPersistentImpl {
     val c: c0.type = c0

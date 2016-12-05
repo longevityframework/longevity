@@ -6,7 +6,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a collection of repositories */
-class RepoPool(
+class RepoPool private[persistence](
   private[longevity] val baseRepoMap: TypeKeyMap[Any, BaseRepo],
   private[this] val schemaCreator: SchemaCreator) {
 

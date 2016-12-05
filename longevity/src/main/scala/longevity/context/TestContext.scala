@@ -27,6 +27,7 @@ trait TestContext {
 
 }
 
+/** contains an implicit class for ScalaTest methods */
 object TestContext {
 
   /** contains [[http://www.scalatest.org/ ScalaTest]] specs for testing various

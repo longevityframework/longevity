@@ -17,7 +17,7 @@ class keyVal[P] extends StaticAnnotation {
 
 }
 
-object keyVal {
+private object keyVal {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new KeyValImpl {
     val c: c0.type = c0

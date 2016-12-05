@@ -26,7 +26,7 @@ class persistent(keySet: Set[Key[_]] = null, indexSet: Set[Index[_]] = null) ext
 
 }
 
-object persistent {
+private object persistent {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new PersistentImpl {
     val c: c0.type = c0
