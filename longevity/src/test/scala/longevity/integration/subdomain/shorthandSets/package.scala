@@ -1,24 +1,11 @@
 package longevity.integration.subdomain
 
 import longevity.TestLongevityConfigs
-import longevity.subdomain.Subdomain
-import longevity.subdomain.CTypePool
-import longevity.subdomain.PTypePool
+import longevity.subdomain.annotations.subdomain
 
 package object shorthandSets {
 
-  val subdomain = Subdomain(
-    "Shorthand Sets",
-    PTypePool(ShorthandSets),
-    CTypePool(
-      BooleanShorthand,
-      CharShorthand,
-      DateTimeShorthand,
-      DoubleShorthand,
-      FloatShorthand,
-      IntShorthand,
-      LongShorthand,
-      StringShorthand))
+  @subdomain object subdomain
 
   val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 

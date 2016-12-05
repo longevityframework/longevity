@@ -1,17 +1,12 @@
 package longevity.integration.subdomain
 
 import longevity.TestLongevityConfigs
-import longevity.subdomain.Subdomain
-import longevity.subdomain.CTypePool
-import longevity.subdomain.PTypePool
+import longevity.subdomain.annotations.subdomain
 
 /** covers a persistent with a partition key that contains multiple properties */
 package object partitionKeyWithPartialPartition {
 
-  val subdomain = Subdomain(
-    "Partition Key With Partial Partition",
-    PTypePool(PartitionKeyWithPartialPartition),
-    CTypePool(Uri))
+  @subdomain object subdomain
 
   val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
 

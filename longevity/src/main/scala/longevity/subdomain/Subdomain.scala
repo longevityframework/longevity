@@ -42,7 +42,7 @@ class Subdomain(
    * @param packageName the name of the package to scan
    */
   def this(packageName: String) = this {
-    val reflections = new Reflections(packageName)
+    val reflections = new Reflections(s"$packageName.")
 
     def subTypes[A](c: Class[A]): Set[Class[_ <: A]] = reflections.getSubTypesOf(c).asScala.toSet
 
