@@ -88,15 +88,17 @@ private object mprops {
       } else if (isCollectionType(tpe)) {
         PropsForType(Seq(), false)
       } else if (symbol.isCaseClass) {
-        val constructorSymbol = symbol.primaryConstructor.asMethod
-        val terms = constructorSymbol.paramLists.head.map(_.asTerm)
-        propsForTerms(p, pathPrefix, terms)
+        propsForTerms(p, pathPrefix, caseAccessors(tpe))
       } else if (symbol.isTrait) {
-        val terms = abstractPublicVals(tpe)
-        propsForTerms(p, pathPrefix, terms)
+        propsForTerms(p, pathPrefix, abstractPublicVals(tpe))
       } else {
         PropsForType(Seq(), false)
       }
+    }
+
+    private def caseAccessors(tpe: Type): Seq[TermSymbol] = {
+      def isCaseAccessor(s: TermSymbol) = s.isPublic && s.isGetter && s.isStable && s.isCaseAccessor
+      tpe.members.filter(_.isTerm).map(_.asTerm).filter(isCaseAccessor).toSeq
     }
 
     private def abstractPublicVals(tpe: Type): Seq[TermSymbol] = {

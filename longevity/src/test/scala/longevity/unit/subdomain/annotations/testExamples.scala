@@ -24,6 +24,9 @@ object PWithCompanion { val y = 7 }
 @persistent(keySet = emptyKeySet)
 case class PCaseClass()
 
+@persistent(keySet = emptyKeySet)
+case class PCaseClassWithDefaults(x: Int = 7)
+
 @polyPersistent(keySet = emptyKeySet)
 trait PolyPNoCompanion
 

@@ -17,7 +17,9 @@ abstract class Key[P : TypeKey] private[subdomain]() {
   type V <: KeyVal[P]
 
   /** the property that defines the key */
-  val keyValProp: Prop[P, V]
+  val prop: Prop[P, _] = keyValProp
+
+  private[longevity] val keyValProp: Prop[P, V]
 
   private[longevity] lazy val keyValTypeKey = keyValProp.propTypeKey
   private[subdomain] lazy val keyValEmblem = Emblem(keyValTypeKey)

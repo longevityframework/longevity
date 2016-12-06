@@ -6,6 +6,7 @@ import emblem.testData.exhaustive.withCollectionsEmblem
 import emblem.testData.exhaustive.withSinglePropEmblemsEmblem
 import emblem.testData.geometry.Point
 import emblem.testData.geometry.pointEmblem
+import emblem.testData.geometry.pointWithDefaultsEmblem
 import emblem.typeKey
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -20,6 +21,10 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
     pointEmblem.namePrefix should equal ("emblem.testData.geometry")
     pointEmblem.name should equal ("Point")
     pointEmblem.fullname should equal ("emblem.testData.geometry.Point")
+
+    pointWithDefaultsEmblem.namePrefix should equal ("emblem.testData.geometry")
+    pointWithDefaultsEmblem.name should equal ("PointWithDefaults")
+    pointWithDefaultsEmblem.fullname should equal ("emblem.testData.geometry.PointWithDefaults")
 
     withBasicsEmblem.namePrefix should equal ("emblem.testData.exhaustive")
     withBasicsEmblem.name should equal ("WithBasics")
@@ -42,6 +47,7 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "be the right size" in {
     pointEmblem.props.size should equal (2)
+    pointWithDefaultsEmblem.props.size should equal (2)
     withBasicsEmblem.props.size should equal (8)
     withSinglePropEmblemsEmblem.props.size should equal (3)
     withCollectionsEmblem.props.size should equal (3)

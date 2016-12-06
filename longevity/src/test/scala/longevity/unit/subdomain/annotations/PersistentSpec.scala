@@ -50,6 +50,13 @@ class PersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
       typeKey[PCaseClass]
     }
     PCaseClass.apply() should equal (PCaseClass())
+
+    PCaseClassWithDefaults.isInstanceOf[PType[PCaseClassWithDefaults]] should be (true)
+
+    PCaseClassWithDefaults.asInstanceOf[PType[PCaseClassWithDefaults]].pTypeKey should equal {
+      typeKey[PCaseClassWithDefaults]
+    }
+    PCaseClassWithDefaults.apply(3) should equal (PCaseClassWithDefaults(3))
   }
 
 }
