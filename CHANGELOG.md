@@ -2,6 +2,16 @@
 
 ## [0.18-SNAPSHOT] - Annotation Macros
 
+- 2016.12.06 - Prevent emblem leakage of `TestDataGenerator` and
+  `CustomGeneratorPool` by wrapping them in longevity
+  classes. Slightly simplified the API for adding a custom test data
+  generators.
+- 2016.12.06 - Add `LongevityContext` constructors and `apply` methods
+  that take either a `LongevityConfig` or a Typesafe config.
+- 2016.12.06 - Add annotation macro `@subdomain` in package
+  `longevity.subdomain.annotations`.
+- 2016.12.06 - Add `Subdomain` constructor and `apply` method that
+  collect all the `PTypes` and `CTypes` by package scanning.
 - 2016.11.30 - Add annotation macros `@component`,
   `@derivedComponent`, `@derivedPersistent`, `@keyVal`, `@mprops`,
   `@persistent`, `@polyComponent`, and `@polyPersistent` in package
