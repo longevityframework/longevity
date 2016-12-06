@@ -88,7 +88,7 @@ package object reflectionUtil {
 
   private def valOrVarTerms[A : TypeKey](mirror: InstanceMirror, termSymbols: Seq[TermSymbol]): Seq[A] = {
     def valOrVar(symbol: TermSymbol) = symbol.isVal || symbol.isVar
-    val valOrVarSymbols = termSymbols.filter(valOrVar).filter(matchingType)
+    val valOrVarSymbols = termSymbols.filter(valOrVar).filter { s => matchingType[A](s) }
     valOrVarSymbols.map { symbol =>
       mirror.reflectField(symbol).get.asInstanceOf[A]
     }
@@ -98,7 +98,7 @@ package object reflectionUtil {
     val objectSymbols = termSymbols.collect { case s if s.isModule => s.asModule }
     objectSymbols flatMap { symbol =>
       val i = mirror.reflectModule(symbol).instance
-      if (matchingType(symbol)) {
+      if (matchingType[A](symbol)) {
         termsWithType[A](i) :+ i.asInstanceOf[A]
       } else {
         termsWithType[A](i)
