@@ -1,9 +1,9 @@
 package longevity.context
 
-import emblem.emblematic.traversors.sync.CustomGeneratorPool
-import emblem.emblematic.traversors.sync.TestDataGenerator
 import longevity.persistence.RepoPool
+import longevity.test.CustomGeneratorPool
 import longevity.test.RepoCrudSpec
+import longevity.test.TestDataGenerator
 import scala.concurrent.ExecutionContext
 
 /** the portion of a [[LongevityContext]] that deals with testing */

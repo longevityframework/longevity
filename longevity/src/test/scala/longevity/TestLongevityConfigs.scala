@@ -1,12 +1,12 @@
 package longevity
 
-import emblem.emblematic.traversors.sync.CustomGeneratorPool
 import longevity.context.Cassandra
 import longevity.context.InMem
 import longevity.context.LongevityConfig
 import longevity.context.LongevityContext
 import longevity.context.Mongo
 import longevity.subdomain.Subdomain
+import longevity.test.CustomGeneratorPool
 
 object TestLongevityConfigs {
 

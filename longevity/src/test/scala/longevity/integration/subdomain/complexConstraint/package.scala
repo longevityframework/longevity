@@ -1,7 +1,7 @@
 package longevity.integration.subdomain
 
-import emblem.emblematic.traversors.sync.CustomGenerator
-import emblem.emblematic.traversors.sync.CustomGeneratorPool
+import longevity.test.TestDataGenerator
+import longevity.test.CustomGeneratorPool
 import longevity.TestLongevityConfigs
 import longevity.subdomain.annotations.subdomain
 
@@ -10,11 +10,11 @@ package object complexConstraint {
 
   @subdomain object subdomain
 
-  val emailGenerator = CustomGenerator.simpleGenerator[Email] { generator =>
+  val emailGenerator = { generator: TestDataGenerator =>
     Email(s"${generator.generate[String]}@${generator.generate[String]}")
   }
 
-  val complexConstraintGenerator = CustomGenerator.simpleGenerator[ComplexConstraint] { generator =>
+  val complexConstraintGenerator = { generator: TestDataGenerator =>
     val primaryEmail = generator.generate[Email]
     ComplexConstraint(
       generator.generate[ComplexConstraintId],

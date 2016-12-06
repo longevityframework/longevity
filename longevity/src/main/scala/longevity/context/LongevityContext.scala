@@ -2,12 +2,12 @@ package longevity.context
 
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
-import emblem.emblematic.traversors.sync.CustomGeneratorPool
-import emblem.emblematic.traversors.sync.TestDataGenerator
 import longevity.json.JsonMarshaller
 import longevity.json.JsonUnmarshaller
 import longevity.persistence.RepoPoolBuilder.buildRepoPool
 import longevity.subdomain.Subdomain
+import longevity.test.CustomGeneratorPool
+import longevity.test.TestDataGenerator
 
 /** contains a factory method for [[LongevityContext]] objects */
 object LongevityContext {
@@ -109,7 +109,7 @@ extends PersistenceContext with TestContext with JsonContext {
 
   lazy val testRepoPool = buildRepoPool(subdomain, config.backEnd, config, true)
   lazy val inMemTestRepoPool = buildRepoPool(subdomain, InMem, config, true)
-  lazy val testDataGenerator = new TestDataGenerator(subdomain.emblematic, customGeneratorPool)
+  lazy val testDataGenerator = TestDataGenerator(subdomain.emblematic, customGeneratorPool)
 
   lazy val jsonMarshaller = new JsonMarshaller(subdomain)
   lazy val jsonUnmarshaller = new JsonUnmarshaller(subdomain)
