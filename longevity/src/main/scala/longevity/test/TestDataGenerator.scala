@@ -10,8 +10,8 @@ import emblem.exceptions.{ CouldNotGenerateException => EmblemCouldNotGenE }
 import longevity.exceptions.test.CouldNotGenerateException
 
 /** generates test data for your subdomain. you can generate any kind of data
- * you like by calling [[TestDataGenerator.generate]] with the appropriate type
- * parameter.
+ * that occurs in your subdomain by calling [[TestDataGenerator.generate]] with
+ * the appropriate type parameter.
  */
 trait TestDataGenerator {
 
