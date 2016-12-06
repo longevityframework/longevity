@@ -12,11 +12,13 @@ import longevity.subdomain.Subdomain
 /** contains a factory method for [[LongevityContext]] objects */
 object LongevityContext {
 
-  /** constructs and returns a [[LongevityContext]]
+  /** constructs and returns a [[LongevityContext]] using a Typesafe config
    * 
    * @param subdomain the subdomain
+   *
    * @param typesafeConfig the typesafe configuration. defaults to typesafe
    * config's `ConfigFactory.load()`
+   *
    * @param customGeneratorPool a collection of custom generators to use when
    * generating test data. defaults to empty
    * 
@@ -27,15 +29,34 @@ object LongevityContext {
     subdomain: Subdomain,
     typesafeConfig: Config = ConfigFactory.load(),
     customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
-  : LongevityContext = {
-    val config = LongevityConfig(typesafeConfig)
-    new LongevityContext(
-      subdomain,
-      config,
-      customGeneratorPool)
-  }
+  : LongevityContext =
+    new LongevityContext(subdomain, LongevityConfig(typesafeConfig), customGeneratorPool)
 
-  // TODO replicate ctors
+  /** constructs and returns a [[LongevityContext]] using a [[LongevityConfig]]
+   * 
+   * @param subdomain the subdomain
+   *
+   * @param config the longevity configuration
+   *
+   * @param customGeneratorPool a collection of custom generators to use when
+   * generating test data. defaults to empty
+   */
+  def apply(
+    subdomain: Subdomain,
+    config: LongevityConfig,
+    customGeneratorPool: CustomGeneratorPool)
+  : LongevityContext =
+    new LongevityContext(subdomain, config, customGeneratorPool)
+
+  /** constructs and returns a [[LongevityContext]] using a [[LongevityConfig]].
+   * the context will have an empty set of custom generators
+   * 
+   * @param subdomain the subdomain
+   *
+   * @param config the longevity configuration
+   */
+  def apply(subdomain: Subdomain, config: LongevityConfig): LongevityContext = 
+    new LongevityContext(subdomain, config, CustomGeneratorPool.empty)
 
 }
 
@@ -58,6 +79,31 @@ final class LongevityContext(
   val config: LongevityConfig,
   val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
 extends PersistenceContext with TestContext with JsonContext {
+
+  /** constructs a [[LongevityContext]] using a Typesafe config
+   * 
+   * @param subdomain the subdomain
+   * 
+   * @param typesafeConfig the typesafe configuration
+   * 
+   * @param customGeneratorPool a collection of custom generators to use when
+   * generating test data
+   * 
+   * @throws longevity.exceptions.context.LongevityConfigException if the
+   * typesafe configuration does not adequately specify the LongevityConfig
+   */
+  def this(subdomain: Subdomain, typesafeConfig: Config, customGeneratorPool: CustomGeneratorPool) =
+    this(subdomain, LongevityConfig(typesafeConfig), customGeneratorPool)
+
+  /** constructs a [[LongevityContext]] with an empty set of custom generators
+   * using a Typesafe config
+   * 
+   * @param subdomain the subdomain
+   * 
+   * @param typesafeConfig the typesafe configuration
+   */
+  def this(subdomain: Subdomain, typesafeConfig: Config) =
+    this(subdomain, typesafeConfig, CustomGeneratorPool.empty)
 
   lazy val repoPool = buildRepoPool(subdomain, config.backEnd, config, false)
 
