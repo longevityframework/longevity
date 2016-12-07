@@ -3,7 +3,7 @@ title: project setup
 layout: page
 ---
 
-## Preliminarys - Scala version
+## scala version
 
 We currently publish artifacts for Scala versions 2.11 and 2.12, so be
 sure your project is using a compatible Scala version. For example,
@@ -19,7 +19,7 @@ or:
 scalaVersion := "2.12.1"
 ```
 
-## Using Sonatype Artifacts
+## using sonatype artifacts
 
 Include the following two lines in your `build.sbt` to declare the dependency:
 
@@ -38,9 +38,21 @@ libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % 
 libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.18.0"
 ```
 
-## Building the Artifacts Yourself
+## enabling macro annotations
 
-### Download the Source
+You will probably want to use the macro annotations provided in
+package `longevity.subdomain.annotations`. To do so, you will need to
+add [Macro
+Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html)
+to your build, like so:
+
+```scala
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+```
+
+## building the artifacts yourself
+
+### download the source
 
 The source code for longevity, and for dependency
 [emblem](https://github.com/longevityframework/emblem/wiki), is [housed in the
@@ -53,7 +65,7 @@ create a clone of that project:
 % cd longevity
 ```
 
-### Choose the Right Branch
+### choose the right branch
 
 You probably want to be on the `master` branch, as this holds the
 latest working version. You are probably already there, but just in
@@ -64,7 +76,7 @@ case:
 % git pull
 ```
 
-### Publish Local
+### publish local
 
 Now use SBT to publish the `emblem` and `longevity` artifacts
 locally. From the command line:
@@ -73,7 +85,7 @@ locally. From the command line:
 % sbt publishLocal
 ```
 
-### Include as a Library Dependency
+### include as a library dependency
 
 In the projects where you want to use longevity, include a library
 dependency. If you are on the `master` branch, use:
