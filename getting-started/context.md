@@ -8,9 +8,9 @@ Once we have your subdomain in place, we are ready to build our
 
 ```scala
 import longevity.context.LongevityContext
+import simbl.domain.SimblSubdomain
 
-val coreDomain = new SimblSubdomain
-val longevityContext = LongevityContext(coreDomain)
+val longevityContext = LongevityContext(SimblSubdomain)
 ```
 
 The longevity context provides a variety of tools that are tailored to

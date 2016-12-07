@@ -10,24 +10,13 @@ them all together into a `Subdomain` object. We do this in
 ```scala
 package simbl.domain
 
-import longevity.subdomain.CType
-import longevity.subdomain.CTypePool
-import longevity.subdomain.PTypePool
-import longevity.subdomain.Subdomain
+import longevity.subdomain.annotations.subdomain
 
-class SimblSubdomain extends Subdomain(
-  "Simple Blogging",
-  PTypePool(User, Blog, BlogPost),
-  CTypePool(
-    CType[Markdown],
-    CType[Uri],
-    CType[UserProfile]))   
+@subdomain object SimblSubdomain
 ```
 
-We need to gather up all our `PTypes` into a `PTypePool`. We also
-create `CTypes` for our `Embeddables`, and gather them into an
-`CTypePool`.  `PTypePool` and `CTypePool` are simple collections of
-`PTypes` and `CTypes`. You can think of them as sets.
+The `@subdomain` annotation uses package scanning to gather up all the
+types we have labelled as `@persistent` and `@component`.
 
 {% assign prevTitle = "username and email" %}
 {% assign prevLink = "keyvals.html" %}

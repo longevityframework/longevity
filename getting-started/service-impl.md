@@ -9,7 +9,7 @@ user repository, which is retrieved from the `LongevityContext` in
 `SimblContextImpl.scala` like so:
 
 ```scala
-val longevityContext = LongevityContext(coreDomain)
+val longevityContext = LongevityContext(SimblSubdomain)
 val repoPool = longevityContext.repoPool
 val userRepo = repoPool[User]
 ```

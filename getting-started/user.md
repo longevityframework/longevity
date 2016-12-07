@@ -1,5 +1,5 @@
 ---
-title: building the user
+title: building the user aggregate
 layout: page
 ---
 
@@ -29,42 +29,36 @@ relationship between `User` and `UserProfile`. There are also a couple
 of business methods inside: `updateProfile` and `deleteProfile`.
 
 In longevity terminology, `Users` are _persistent objects_ - that is,
-objects we want to persist in their own table or collection.
-
-The `User` companion object provides metadata about the `User`:
-information that pertains not to an individual user, but to a
-collection of them:
+objects we want to persist in their own table or collection. We tell
+longevity that we want to persist them by marking them with the
+`@persistent` annotation:
 
 ```scala
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
-object User extends PType[User] {
-  object props {
-    val username = prop[Username]("username")
-    val email = prop[Email]("email")
-  }
-  object keys {
-    val username = partitionKey(props.username)
-    val email = key(props.email)
-  }
-}
+@persistent(keySet = Set(
+  partitionKey(User.props.username),
+  key(User.props.email)))
+// case class User ...
 ```
 
-We first specify two properties, `User.props.username` and
-`User.props.email`, that we use to refer to members of `User`
-instances. Then we define two keys: `User.keys.username` and
-`User.keys.email`, that specify that these two member are to be
-unique: no two users should have the same username or email.
+When we annotate `User` as a persistent object, longevity creates a
+set of properties for us that we can use to reflect on `User`
+fields. It puts these properties in an inner object `props` in the
+`User` companion object. Now we can talk about `User` fields
+`username` and `email` with properties `User.props.username` and
+`User.props.email`.
+
+We use `keySet` parameter on the `@persistent` annotation to tell
+longevity about our keys. We define keys on the `username` and `email`
+fields, specifying that these two member are to be unique: no two
+users should have the same username or email.
 
 You can have as many keys as you like, but only one of the keys - in
-our case, `username` - can be a partition key. Partition keys perform
-better than other keys when you are using a distributed database,
-since the database can determine the node that holds the data by
-examining the key.
-
-The `User` companion object extends `PType`, which is a type class for
-a persistent object. Every `PType` defines its `props`, `keys`, and
-`indexes`, as you see in this example.
+our case, the username key - can be a partition key. Partition keys
+perform better than other keys when you are using a distributed
+database, since the database can determine the node that holds the
+data by examining the key.
 
 {% assign prevTitle = "modelling our subdomain" %}
 {% assign prevLink = "modelling.html" %}
