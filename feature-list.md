@@ -27,6 +27,10 @@ manual](manual). They include:
   - Controlled vocabularies.
 - Domain-level keys and indexes.
 - User control of [sharding](https://docs.mongodb.com/manual/sharding/#shard-keys)/[partitioning](https://docs.datastax.com/en/cql/3.1/cql/cql_reference/refCompositePk.html).
+- Optional [macro
+  annotations](http://docs.scala-lang.org/overviews/macros/annotations.html)
+  and package scanning to remove all boilerplate in describing your
+  domain model.
 
 - Pre-built repositories with simple, reactive APIs.
 - Configuration-level optimistic locking.
@@ -38,15 +42,10 @@ manual](manual). They include:
 - Test data generation.
 - JSON marshallers.
 
-## Features planned for 1.0 release
+## Upcoming Features
 
-These features are tracked on the [story
-board](https://www.pivotaltracker.com/n/projects/1231978) under the
-label [longevity
-1.0](https://www.pivotaltracker.com/epic/show/1769462) (please follow
-the "add/view stories" link on the right side of the linked page):
-
-- Allow for the persistence of any types, including non-case classes
-  and classes from third-party libraries.
-- Eliminate the need to manually enumerate properties with Scala macros.
-- Eliminate boilerplate for building a subdomain with reflective techniques.
+Known, upcoming features are tracked on the [story
+board](https://www.pivotaltracker.com/n/projects/1231978). You will
+find scheduled upcoming features in the "Current" and "Backlog"
+pages. Other future features can be found in the "Icebox", which is
+roughly ordered by current priorities.
