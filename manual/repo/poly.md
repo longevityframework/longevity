@@ -9,73 +9,38 @@ well as one for each of the derived subtypes. In our example, we have
 a `User` trait with two inheriting subclasses, `Member` and
 `Commenter`:
 
-
 ```scala
+import longevity.subdomain.annotations.component
+import longevity.subdomain.annotations.derivedPersistent
+import longevity.subdomain.annotations.polyPersistent
+import longevity.subdomain.annotations.subdomain
+
+@component
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
   description: Markdown)
 
-import longevity.subdomain.DerivedPType
-import longevity.subdomain.KeyVal
-import longevity.subdomain.PolyPType
-
-case class Username(username: String) extends KeyVal[User]
-
+@polyPersistent(keySet = emptyKeySet)
 trait User {
   val username: Username
   val email: Email
 }
 
-object User extends PolyPType[User] {
-  object props {
-    val username = prop[Username]("username")
-  }
-  object keys {
-    val username = key(props.username)
-  }
-}
-
+@derivedPersistent[User](keySet = emptyKeySet)
 case class Member(
-  username: String,
+  username: Username,
   email: Email,
   profile: UserProfile)
 extends User
 
-object Member extends DerivedPType[Member, User] {
-  val polyPType = User
-  object props {
-    val tagline = prop[String]("profile.tagline")
-  }
-  object keys {
-  }
-  object indexes {
-    val tagline = index(props.tagline)
-  }
-}
-
+@derivedPersistent[User](keySet = emptyKeySet)
 case class Commenter(
-  username: String,
+  username: Username,
   email: Email)
 extends User
 
-object Commenter extends DerivedPType[Commenter, User] {
-  val polyPType = User
-  object props {
-  }
-  object keys {
-  }
-}
-
-import longevity.subdomain.CType
-import longevity.subdomain.CTypePool
-import longevity.subdomain.PTypePool
-import longevity.subdomain.Subdomain
-
-val subdomain = Subdomain(
-  "blogging",
-  PTypePool(User, Member, Commenter),
-  CTypePool(CType[UserProfile]))
+@subdomain object domainModel
 ```
 
 When we construct our [longevity context](../context), we can get
@@ -85,7 +50,7 @@ repositories for all three persistent types:
 import longevity.context.LongevityContext
 import longevity.persistence.Repo
 
-val context = LongevityContext(subdomain)
+val context = LongevityContext(domainModel)
 
 val userRepo: Repo[User] = context.repoPool[User]
 val memberRepo: Repo[Member] = context.repoPool[Member]

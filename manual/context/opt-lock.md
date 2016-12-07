@@ -12,10 +12,12 @@ write issued on another thread. Suppose `User` has a method for
 setting the title that disallows overwriting an existing title:
 
 ```scala
+import longevity.subdomain.annotations.persistent
+
+@persistent(keySet = Set(key(props.username)))
 case class User(
   username: Username,
-  title: Option[String])
-extends longevity.subdomain.Persistent {
+  title: Option[String]) {
 
   def addTitle(newTitle: String): User = {
     if (title.nonEmpty) throw new ValidationException

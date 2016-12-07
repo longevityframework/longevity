@@ -22,16 +22,15 @@ separate `com.typesafe.config.Config` objects to the
 ```scala
 import com.typesafe.config.Config
 import longevity.context.LongevityContext
-import longevity.subdomain.PTypePool
 import longevity.subdomain.Subdomain
 
-val bloggingDomain = Subdomain("blogging", PTypePool.empty)
+val bloggingDomain = Subdomain("com.example.app.model.blogging")
 val bloggingConfig: Config = loadBloggingConfig()
 val bloggingContext = LongevityContext(
   bloggingDomain,
   bloggingConfig)
 
-val accountsSubdomain = Subdomain("accounts", PTypePool.empty)
+val accountsSubdomain = Subdomain("com.example.app.model.accounts")
 val accountsConfig: Config = loadAccountsConfig()
 val accountsContext = LongevityContext(
   accountsSubdomain,
@@ -45,10 +44,8 @@ configuration.
 
 Longevity converts the Typesafe Config into a `LongevityConfig` case
 class internally. You can use case class configuration if you
-prefer. Just use the `LongevityContext` constructor directly, instead
-of the `LongevityContext.apply` factory method used above. Here we use
-the `LongevityConfig` case class to define the same configuration as
-found in the `reference.conf` file:
+prefer. Here we use the `LongevityConfig` case class to define the
+same configuration as found in the `reference.conf` file:
 
 ```scala
 import longevity.context.InMem

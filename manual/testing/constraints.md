@@ -14,7 +14,10 @@ A class constructor is a great place to enforce domain constraints,
 such as requiring that an email has an at sign (`@`):
 
 ```scala
-case class Email(email: String) extends ValueObject {
+import longevity.subdomain.annotations.component
+
+@component
+case class Email(email: String) {
   if (!email.contains('@'))
     throw new ConstraintValidationException("no '@' in email")
 }
@@ -27,32 +30,30 @@ above example, we could build a custom `Email` generator so that we
 generate a nicely formed `Email` instead of just a random string:
 
 ```scala
-import emblem.traversors.sync.CustomGeneratorPool
-import emblem.traversors.sync.CustomGenerator
+import longevity.test.CustomGeneratorPool
+import longevity.test.TestDataGenerator
 
-val emailGenerator = CustomGenerator.simpleGenerator[Email] {
-  generator => Email(s"${generator.string}@${generator.string}")
+val emailGenerator = { generator: TestDataGenerator =>
+  Email(s"${generator.generate[String]}@${generator.generate[String]}")
 }
+
 val generators = CustomGeneratorPool.empty + emailGenerator
 ```
 
-In nearly all cases, you can get away with building a [simple
-generator](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/index.html#emblem.emblematic.traversors.sync.CustomGenerator$@simpleGenerator[A](underlying:emblem.emblematic.traversors.sync.Generator=>A)(implicitevidence$2:emblem.imports.TypeKey[A]):emblem.emblematictraversors.sync.CustomGenerator[A]),
-as above. You can recursively call the
-[test data generator](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/index.html#emblem.emblematic.traversors.sync.TestDataGenerator)
+As shown above, you can recursively call the [test data
+generator](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/index.html#emblem.emblematic.traversors.sync.TestDataGenerator)
 within your custom generator to construct your test data.
 
-You just pass in your custom generators when constructing your
-context:
+Pass in your custom generators when constructing your context like so:
 
 ```scala
-val cassandraContext = LongevityContext(
+val context = LongevityContext(
   subdomain,
   customGeneratorPool = generators)
 ```
 
 The `customGeneratorPool` is an optional parameter that defaults to an
-empty set.
+empty pool.
 
 {% assign prevTitle = "generating test data" %}
 {% assign prevLink = "test-data.html" %}
