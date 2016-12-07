@@ -15,25 +15,15 @@ hold values like "Mr.", "Mrs.", "Sir", and "Brother". And we can allow
 the user to have multiple emails:
 
 ```scala
-import longevity.subdomain.PType
-import longevity.subdomain.PTypePool
-import longevity.subdomain.Subdomain
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = emptyKeySet)
 case class User(
   username: String,
   title: Option[String],
   firstName: String,
   lastName: String,
   emails: Set[String])
-
-object User extends PType[User] {
-  object props {
-  }
-  object keys {
-  }
-}
-
-val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 It's on our TODO list to [handle a wider variety of collection

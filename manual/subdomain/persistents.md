@@ -14,19 +14,49 @@ criteria. Those criteria are laid out in the chapters that follow.
 
 Here's a simple example:
 
-``` scala
-import org.joda.time.DateTime
+```scala
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String)
+```
 
-case class Note(
-  author: String,
-  content: String,
-  dateCreated: DateTime)
+To tell longevity that this is a persistent object, we simply mark the
+class with a `persistent` annotation. At a minimum, we need to provide
+a `keySet` to the `persistent` annotation. For now, we can provide an
+empty set of keys, like so:
+
+```scala
+import longevity.subdomain.annotations.persistent
+
+@persistent(keySet = emptyKeySet)
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String)
+```
+
+Here is how you would do the same thing without the annotation:
+
+```scala
+import longevity.subdomain.PType
+
+case class User(
+  username: String,
+  firstName: String,
+  lastName: String)
+
+object User extends PType[User] {
+  object props {
+  }
+  val keySet = emptyKeySet
+}
 ```
 
 {% assign prevTitle = "the subdomain" %}
 {% assign prevLink  = "." %}
 {% assign upTitle   = "the subdomain" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "persistent types" %}
-{% assign nextLink  = "ptypes.html" %}
+{% assign nextTitle = "basic values" %}
+{% assign nextLink  = "basics.html" %}
 {% include navigate.html %}

@@ -40,6 +40,6 @@ board](https://www.pivotaltracker.com/story/show/133617199).
 {% assign prevLink  = "key-values.html" %}
 {% assign upTitle   = "the subdomain" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "the persistent type" %}
-{% assign nextLink  = "../ptype" %}
+{% assign nextTitle = "constructing a subdomain" %}
+{% assign nextLink  = "subdomain.html" %}
 {% include navigate.html %}

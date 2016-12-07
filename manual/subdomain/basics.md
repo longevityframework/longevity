@@ -21,11 +21,10 @@ types](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/#em
 For example, we might add a few fields to our `User` like so:
 
 ```scala
-import longevity.subdomain.PType
-import longevity.subdomain.PTypePool
-import longevity.subdomain.Subdomain
+import longevity.subdomain.annotations.persistent
 import org.joda.time.DateTime
 
+@persistent(keySet = emptyKeySet)
 case class User(
   username: String,
   firstName: String,
@@ -33,15 +32,6 @@ case class User(
   dateJoined: DateTime,
   numCats: Int,
   accountSuspended: Boolean = false)
-
-object User extends PType[User] {
-  object props {
-  }
-  object keys {
-  }
-}
-
-val subdomain = Subdomain("blogging", PTypePool(User))
 ```
 
 <div class="blue-side-bar">
@@ -53,8 +43,8 @@ a Scala-friendly wrapper.
 
 </div>
 
-{% assign prevTitle = "persistent types" %}
-{% assign prevLink  = "ptypes.html" %}
+{% assign prevTitle = "persistent objects" %}
+{% assign prevLink  = "persistents.html" %}
 {% assign upTitle   = "the subdomain" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "collections" %}

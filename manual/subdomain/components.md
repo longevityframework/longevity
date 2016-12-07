@@ -11,44 +11,33 @@ For example, let's suppose we want to group the user's `firstName` and
 `lastName` fields into a `FullName` case class:
 
 ```scala
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.component
+import longevity.subdomain.annotations.persistent
+
+@component
+case class FullName(
+  firstName: String,
+  lastName: String)
+
+@persistent(keySet = emptyKeySet)
+case class User(
+  username: String,
+  fullName: FullName)
+```
+
+The `@component` annotation creates a companion object that extends
+`longevity.subdomain.CType[FullName]`. If `FullName` already has a
+companion object, it will be augmented to extend `CType`. Here is the
+equivalent code without using annotations:
+
+```scala
+import longevity.subdomain.CType
 
 case class FullName(
   firstName: String,
   lastName: String)
 
-case class User(
-  username: String,
-  fullName: FullName)
-
-object User extends PType[User] {
-  object props {
-  }
-  object keys {
-  }
-}
-```
-
-Now when we create our subdomain, we need to provide a _component
-type_, or `CType`, for `FullName`, and include it in the _component
-type pool_, or `CTypePool`:
-
-```scala
-import longevity.subdomain.CType
-import longevity.subdomain.CTypePool
-import longevity.subdomain.PTypePool
-import longevity.subdomain.Subdomain
-
-val subdomain = Subdomain("blogging", PTypePool(User), CTypePool(CType[FullName]))
-```
-
-If you prefer, you can create your `CType` by extending the `FullName`
-companion object, like so:
-
-```scala
 object FullName extends CType[FullName]
-
-val subdomain = Subdomain("blogging", PTypePool(User), CTypePool(FullName))
 ```
 
 You can put components in components, and components in
@@ -56,45 +45,28 @@ You can put components in components, and components in
 example:
 
 ```scala
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.component
+import longevity.subdomain.annotations.persistent
 
+@component
 case class Email(email: String)
 
+@component
 case class EmailPreferences(
   primaryEmail: Email,
   emails: Set[Email])
 
+@component
 case class Address(
   street: String,
   city: String)
 
+@persistent(keySet = emptyKeySet)
 case class User(
   username: String,
   emails: EmailPreferences,
   addresses: Set[Address])
-
-object User extends PType[User] {
-  object props {
-  }
-  object keys {
-  }
-}
-
-import longevity.subdomain.Subdomain
-import longevity.subdomain.CType
-import longevity.subdomain.CTypePool
-import longevity.subdomain.PTypePool
-
-val subdomain = Subdomain(
-  "blogging",
-  PTypePool(User),
-  CTypePool(CType[Address], CType[Email], CType[EmailPreferences]))
 ```
-
-Having to list all the `PTypes` and `CTypes` to construct the
-subdomain is a bit of unfortunate boilerplate. We plan to address this
-soon by [supporting classpath
-scanning](https://www.pivotaltracker.com/story/show/127406543).
 
 {% assign prevTitle = "collections" %}
 {% assign prevLink  = "collections.html" %}
