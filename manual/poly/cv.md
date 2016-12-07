@@ -21,51 +21,39 @@ directly translates into a longevity-enabled subdomain. We are free to
 use this controlled vocabulary in our domain, such as:
 
 ```scala
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.persistent
 
+@persistent(keySet = emptyKeySet)
 case class Account(
   name: String,
   accountStatus: AccountStatus)
-
-object Account extends PType[Account] {
-  object keys {
-  }
-  object indexes {
-  }
-}
 ```
 
-We just need to add the members of our controlled vocabulary to the
-`CTypePool`:
+We just need to annotate the members of our controlled vocabulary with
+`@polyComponent` and `@derivedComponent`:
 
 ```scala
-import longevity.subdomain.DerivedCType
-import longevity.subdomain.CTypePool
-import longevity.subdomain.PTypePool
-import longevity.subdomain.PolyCType
-import longevity.subdomain.Subdomain
+import longevity.subdomain.annotations.polyComponent
+import longevity.subdomain.annotations.derivedComponent
 
-val subdomain = Subdomain(
-  "accounts",
-  PTypePool(Account),
-  CTypePool(
-    PolyCType[AccountStatus],
-    DerivedCType[Active.type, AccountStatus],
-    DerivedCType[Suspended.type, AccountStatus],
-    DerivedCType[Cancelled.type, AccountStatus]))
+@polyComponent
+sealed trait AccountStatus
+
+@derivedComponent[AccountStatus]
+case object Active extends AccountStatus
+
+@derivedComponent[AccountStatus]
+case object Suspended extends AccountStatus
+
+@derivedComponent[AccountStatus]
+case object Cancelled extends AccountStatus
 ```
 
-Having to list all the members of the controlled vocabulary here is
-less than ideal, and something we want to address. It is presently
-covered by the same [user
-story](https://www.pivotaltracker.com/story/show/127406543) on our
-story board.
-
 Support for `scala.Enumeration` would be a great addition, and is [on
-our story board as
-well](https://www.pivotaltracker.com/story/show/128589983). If you are
-interested, this would be a great user contribution, and we would be
-happy to support you in implementing it however we can.
+our story
+board](https://www.pivotaltracker.com/story/show/128589983). If you
+are interested, this would be a great user contribution, and we would
+be happy to support you in implementing it however we can.
 
 {% assign prevTitle = "polymorphic persistents" %}
 {% assign prevLink  = "persistents.html" %}

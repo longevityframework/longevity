@@ -50,26 +50,74 @@ case class User(
 ```
 
 For this to work, all we need to do is to make longevity aware of our
-polymorphic type `UserVerification`, and its children. When building
-our `Subdomain`, we define the `CType` of the parent as a `PolyCType`,
-and that of the children as `DerivedCTypes`:
+polymorphic component `UserVerification`, and its children. We do this
+using annotations `@polyComponent` and `@derivedComponent`:
 
 ```scala
+import longevity.subdomain.annotations.polyComponent
+import longevity.subdomain.annotations.derivedComponent
+import longevity.subdomain.annotations.persistent
+import org.joda.time.DateTime
+
+@polyComponent
+trait UserVerification {
+  val verificationDate: DateTime
+}
+
+@derivedComponent[UserVerification]
+case class EmailVerification(
+  email: Email,
+  verificationDate: DateTime)
+extends UserVerification
+
+@derivedComponent[UserVerification]
+case class SmsVerification(
+  phoneNumber: PhoneNumber,
+  verificationDate: DateTime)
+extends UserVerification
+
+@derivedComponent[UserVerification]
+case class GoogleSignIn(
+  email: Email,
+  idToken: String,
+  verificationDate: DateTime)
+extends UserVerification
+
+@persistent(keySet = emptyKeySet)
+case class User(
+  username: String,
+  email: Email,
+  verifications: List[UserVerification])
+```
+
+The non-annotation equivalent is as follows:
+
+
+```scala
+import longevity.subdomain.PolyCType
+import longevity.subdomain.DerivedCType
+import longevity.subdomain.PType
 import org.joda.time.DateTime
 
 trait UserVerification {
   val verificationDate: DateTime
 }
 
+object UserVerification extends PolyCType[UserVerification]
+
 case class EmailVerification(
   email: Email,
   verificationDate: DateTime)
 extends UserVerification
 
+object EmailVerification extends DerivedCType[EmailVerification, UserVerification]
+
 case class SmsVerification(
   phoneNumber: PhoneNumber,
   verificationDate: DateTime)
 extends UserVerification
+
+object SmsVerification extends DerivedCType[SmsVerification, UserVerification]
 
 case class GoogleSignIn(
   email: Email,
@@ -77,23 +125,19 @@ case class GoogleSignIn(
   verificationDate: DateTime)
 extends UserVerification
 
-import longevity.subdomain.DerivedCType
-import longevity.subdomain.CType
-import longevity.subdomain.CTypePool
-import longevity.subdomain.PTypePool
-import longevity.subdomain.PolyCType
-import longevity.subdomain.Subdomain
+object GoogleSignIn extends DerivedCType[GoogleSignIn, UserVerification]
 
-val subdomain = Subdomain(
-  "blogging",
-  PTypePool(User),
-  CTypePool(
-    CType[Email],
-    CType[PhoneNumber],
-    PolyCType[UserVerification],
-    DerivedCType[EmailVerification, UserVerification],
-    DerivedCType[SmsVerification, UserVerification],
-    DerivedCType[GoogleSignIn, UserVerification]))
+case class User(
+  username: String,
+  email: Email,
+  verifications: List[UserVerification])
+
+object User extends PType[User] {
+  object props {
+    // ...
+  }
+  val keySet = emptyKeySet
+}
 ```
 
 {% assign prevTitle = "subtype polymorphism" %}
