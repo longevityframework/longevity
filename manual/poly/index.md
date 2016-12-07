@@ -16,7 +16,7 @@ pages:
 - [Polymorphic Persistents](persistents.html)
 - [Controlled Vocabularies](cv.html)
 
-{% assign prevTitle = "prop sets, key sets, and index sets" %}
+{% assign prevTitle = "property sets" %}
 {% assign prevLink = "../ptype/sets.html" %}
 {% assign upTitle = "user manual" %}
 {% assign upLink = ".." %}

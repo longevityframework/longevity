@@ -4,8 +4,30 @@ layout: page
 ---
 
 Keys are composed of a single property whose type is [key
-value](../key-values.html) for the persistent object. We define them
-in our `PType` like so:
+value](../subdomain/key-values.html) for the persistent object. To declare a
+key, we use `PType` method `key`, and add it into our `PType.keySet`,
+like so:
+
+```scala
+import longevity.subdomain.annotations.keyVal
+import longevity.subdomain.annotations.persistent
+
+@keyVal[User]
+case class Username(username: String)
+
+@persistent(keySet = Set(
+  key(User.props.username)))
+case class User(
+  username: Username,
+  firstName: String,
+  lastName: String)
+```
+
+Because the `key(User.props.username)` definition will wind up inside
+our `User` companion object, we can say `key(props.username)`
+instead, leaving off the `User.` prefix.
+
+The non-annotation equivalent of the above is like so:
 
 ```scala
 import longevity.subdomain.KeyVal
@@ -21,10 +43,9 @@ case class User(
 object User extends PType[User] {
   object props {
     val username = prop[Username]("username")
+    // ...
   }
-  object keys {
-    val username = key(props.username)  
-  }
+  val keySet = Set(key(props.username))
 }
 ```
 
@@ -39,27 +60,21 @@ easily. Here, for instance, we add an ill-advised composite key on a
 `firstName`/`lastName` combination:
 
 ```scala
-import longevity.subdomain.KeyVal
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.keyVal
+import longevity.subdomain.annotations.persistent
 
-case class Username(username: String) extends KeyVal[User]
+@keyVal[User]
+case class Username(username: String)
 
-case class FullName(last: String, first: String) extends KeyVal[User]
+@keyVal[User]
+case class FullName(last: String, first: String)
 
+@persistent(keySet = Set(
+  key(props.username),
+  key(props.fullName)))
 case class User(
   username: Username,
   fullName: FullName)
-
-object User extends PType[User] {
-  object props {
-    val username = prop[Username]("username")
-    val fullName = prop[FullName]("fullName")
-  }
-  object keys {
-    val username = key(props.username)
-    val fullName = key(props.fullName)
-  }
-}
 ```
 
 Here, no two users can have the same first and last names.

@@ -48,6 +48,7 @@ case class User(
 
 object User extends PType[User] {
   object props {
+    // ...
   }
   val keySet = emptyKeySet
 }

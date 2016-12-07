@@ -33,28 +33,22 @@ database](../translation).
 
 Let's take the `User` example from the previous chapter, and change
 the `username` key into a partitioned key. All we need to do is change
-the `key(props.username)` in object `User.keys` to
+the `key(props.username)` in our `keySet` to
 `partitionKey(props.username)`:
 
 ```scala
-import longevity.subdomain.KeyVal
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.keyVal
+import longevity.subdomain.annotations.persistent
 
-case class Username(username: String) extends KeyVal[User]
+@keyVal[User]
+case class Username(username: String)
 
+@persistent(keySet = Set(
+  partitionKey(props.username)))
 case class User(
   username: Username,
   firstName: String,
   lastName: String)
-
-object User extends PType[User] {
-  object props {
-    val username = prop[Username]("username")
-  }
-  object keys {
-    val username = partitionKey(props.username)  
-  }
-}
 ```
 
 Now if our user table is distributed across 10 database nodes, a query
@@ -79,7 +73,7 @@ keys. The first is using a *hashed key*, which you can employ as
 follows:
 
 ```scala
-val username = partitionKey(props.username, hashed = true)
+partitionKey(props.username, hashed = true)
 ```
 
 Hashed partition keys determine the appropriate database node based on
@@ -108,28 +102,21 @@ the example in the [last section](keys.html) as a partition key, but
 only partition on the last name. We would do this like so:
 
 ```scala
-import longevity.subdomain.KeyVal
-import longevity.subdomain.PType
+import longevity.subdomain.annotations.keyVal
+import longevity.subdomain.annotations.persistent
 
-case class Username(username: String) extends KeyVal[User]
+@keyVal[User]
+case class Username(username: String)
 
-case class FullName(last: String, first: String) extends KeyVal[User]
+@keyVal[User]
+case class FullName(last: String, first: String)
 
+@persistent(keySet = Set(
+  key(props.username),
+  partitionKey(props.fullName, partition(props.fullName.last))))
 case class User(
   username: Username,
   fullName: FullName)
-
-object User extends PType[User] {
-  object props {
-    val username = prop[Username]("username")
-    val fullName = prop[FullName]("fullName")
-    val lastName = prop[String]("fullName.last")
-  }
-  object keys {
-    val username = key(props.username)
-    val fullName = partitionKey(props.fullName, partition(props.lastName))
-  }
-}
 ```
 
 In this case, we can know that every user with the same last name will
