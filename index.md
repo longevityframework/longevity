@@ -3,7 +3,7 @@ title: welcome to longevity
 layout: page
 ---
 
-Build your data model using standard Scala idioms such as case
+Build your domain model using standard Scala idioms such as case
 classes, companion objects, options, and immutable collections. Tell
 us about the types in your model, and we provide the persistence.
 
