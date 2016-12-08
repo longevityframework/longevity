@@ -20,40 +20,38 @@ object ReleaseStage3 extends App {
   val oldVersion = majorMinor + "-SNAPSHOT"
   val newVersion = majorMinor + ".0"
 
+  val longevityDir = new File("/Users/jsmscs/ws/lf/longevity")
+  val projectDir   = new File("/Users/jsmscs/ws/lf/longevity/project")
+
   def run(processBuilder: ProcessBuilder): Unit = {
     val exitCode = processBuilder.!
     if (exitCode != 0) {
       sys.error(processBuilder.toString)
     }
   }
-
-  val longevityDir = new File("/Users/jsmscs/ws/lf/longevity")
-  val projectDir =  new File("/Users/jsmscs/ws/lf/longevity/project")
+  def run(cmd: String): Unit = run(Process(cmd, longevityDir))
+  def run(cmdArgs: String*): Unit = run(Process(cmdArgs, longevityDir))
 
   // make sure the oldVersion matches whats in the build
-  run(Process(
-    Seq("grep", "-q", s"""version := "$oldVersion"""", "BuildSettings.scala"),
-    projectDir))
+  run("grep", "-q", s"""version := "$oldVersion"""", "BuildSettings.scala")
 
   // make sure no outstanding changes
   run("git diff --exit-code")
   run("git diff --cached --exit-code")
 
   // make sure the build is clean
-  run(Process("sbt clean test doc", longevityDir))
+  run("sbt clean test doc")
 
   // update to newVersion in the build
-  run(Process(
-    Seq(
-      "sed", "-i", "",
-      "-e", s"""s/version := "$oldVersion"/version := "$newVersion"/""",
-      "BuildSettings.scala"),
-    projectDir))
+  run(
+    "sed", "-i", "",
+    "-e", s"""s/version := "$oldVersion"/version := "$newVersion"/""",
+    "BuildSettings.scala")
 
   // commit and push the new version of the build
-  run(Process("git stage BuildSettings.scala", projectDir))
-  run(Process(Seq("git", "commit", "-m", s"up build version to $newVersion"), longevityDir))
-  run(Process("git push", longevityDir))
+  run("git stage BuildSettings.scala")
+  run("git", "commit", "-m", s"up build version to $newVersion")
+  run("git push")
 
   // publish signed
   run(Process(Seq("sbt", "+ publish-signed"), longevityDir) #< java.lang.System.in)
