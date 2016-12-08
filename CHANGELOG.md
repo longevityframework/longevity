@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.18-SNAPSHOT] - Annotation Macros
+## [0.18.0] - 2016.12.07 - Annotation Macros
 
 - 2016.12.06 - Prevent emblem leakage of `TestDataGenerator` and
   `CustomGeneratorPool` by wrapping them in longevity
