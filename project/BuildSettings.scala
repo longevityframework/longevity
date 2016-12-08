@@ -4,24 +4,6 @@ import com.typesafe.sbt.pgp.PgpKeys._
 
 object BuildSettings {
 
-  val githubUrl = "https://github.com/longevityframework/longevity"
-
-  val nonConsoleScalacOptions = Seq(
-    "-Xfatal-warnings")
-
-  val otherScalacOptions = Seq(
-    "-Xfuture",
-    "-Yno-adapted-args",
-    "-Ywarn-numeric-widen",
-    "-Ywarn-unused-import",
-    "-deprecation",
-    "-encoding", "UTF-8",
-    "-feature",
-    "-language:existentials",
-    "-language:higherKinds",
-    "-language:implicitConversions",
-    "-unchecked")
-
   val commonSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
     version := "0.18-SNAPSHOT",
@@ -41,21 +23,6 @@ object BuildSettings {
     licenses := Seq("Apache License, Version 2.0" ->
                     url("http://www.apache.org/licenses/LICENSE-2.0"))
   )
-
-  val longevityHomepage = Some(url("http://longevityframework.github.io/longevity/"))
-
-  val longevityPomExtra = (
-    <scm>
-      <url>git@github.com:longevityframework/longevity.git</url>
-      <connection>scm:git:git@github.com:longevityframework/longevity.git</connection>
-    </scm>
-    <developers>
-      <developer>
-        <id>sullivan-</id>
-        <name>John Sullivan</name>
-        <url>https://github.com/sullivan-</url>
-      </developer>
-    </developers>)
 
   val buildSettings = publishSettings ++ Seq(
 
@@ -103,6 +70,39 @@ object BuildSettings {
     publishLocal := (),
     publishSigned := (),
     publish := ())
+
+  def longevityHomepage = Some(url("http://longevityframework.github.io/longevity/"))
+
+  def longevityPomExtra = (
+    <scm>
+      <url>git@github.com:longevityframework/longevity.git</url>
+      <connection>scm:git:git@github.com:longevityframework/longevity.git</connection>
+    </scm>
+    <developers>
+      <developer>
+        <id>sullivan-</id>
+        <name>John Sullivan</name>
+        <url>https://github.com/sullivan-</url>
+      </developer>
+    </developers>)
+
+  private def githubUrl = "https://github.com/longevityframework/longevity"
+
+  private def nonConsoleScalacOptions = Seq(
+    "-Xfatal-warnings")
+
+  private def otherScalacOptions = Seq(
+    "-Xfuture",
+    "-Yno-adapted-args",
+    "-Ywarn-numeric-widen",
+    "-Ywarn-unused-import",
+    "-deprecation",
+    "-encoding", "UTF-8",
+    "-feature",
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-unchecked")
 
   private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
 
