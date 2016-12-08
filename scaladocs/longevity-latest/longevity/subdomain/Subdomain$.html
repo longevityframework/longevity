@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Subdomain - longevity 0.17.0 API - longevity.subdomain.Subdomain</title>
-          <meta name="description" content="Subdomain - longevity 0.17.0 API - longevity.subdomain.Subdomain" />
-          <meta name="keywords" content="Subdomain longevity 0.17.0 API longevity.subdomain.Subdomain" />
+          <title>Subdomain - longevity 0.18.0 API - longevity.subdomain.Subdomain</title>
+          <meta name="description" content="Subdomain - longevity 0.18.0 API - longevity.subdomain.Subdomain" />
+          <meta name="keywords" content="Subdomain longevity 0.18.0 API longevity.subdomain.Subdomain" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides a factory method for constructing <a href="Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">subdomains</a></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.17.0/src/main/scala/longevity/subdomain/Subdomain.scala" target="_blank">Subdomain.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides factory methods for constructing <a href="Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">subdomains</a></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.18.0/src/main/scala/longevity/subdomain/Subdomain.scala" target="_blank">Subdomain.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -148,36 +148,48 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.subdomain.Subdomain#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(name:String,pTypePool:longevity.subdomain.PTypePool,eTypePool:longevity.subdomain.CTypePool):longevity.subdomain.Subdomain"></a>
-      <a id="apply(String,PTypePool,CTypePool):Subdomain"></a>
+      <a id="apply(packageName:String):longevity.subdomain.Subdomain"></a>
+      <a id="apply(String):Subdomain"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="pTypePool">pTypePool: <a href="package.html#PTypePool=emblem.TypeKeyMap[Any,longevity.subdomain.PType]" class="extmbr" name="longevity.subdomain.PTypePool">PTypePool</a> = <span class="symbol"><span class="name"><a href="PTypePool$.html">PTypePool.empty</a></span></span></span>, <span name="eTypePool">eTypePool: <a href="package.html#CTypePool=emblem.TypeKeyMap[Any,longevity.subdomain.CType]" class="extmbr" name="longevity.subdomain.CTypePool">CTypePool</a> = <span class="symbol"><span class="name"><a href="CTypePool$.html">CTypePool.empty</a></span></span></span>)</span><span class="result">: <a href="Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a></span>
+        <span class="name">apply</span><span class="params">(<span name="packageName">packageName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.subdomain.Subdomain$@apply(name:String,pTypePool:longevity.subdomain.PTypePool,eTypePool:longevity.subdomain.CTypePool):longevity.subdomain.Subdomain" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.subdomain.Subdomain$@apply(packageName:String):longevity.subdomain.Subdomain" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">constructs a new subdomain
-</p><div class="fullcomment"><div class="comment cmt"><p>constructs a new subdomain
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the subdomain</p></dd><dt class="param">pTypePool</dt><dd class="cmt"><p>a complete set of the persistent types in the subdomain.
-defaults to empty</p></dd><dt class="param">eTypePool</dt><dd class="cmt"><p>a complete set of the component types within the
-subdomain. defaults to empty</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/subdomain/NoSuchPropPathException.html" class="extype" name="longevity.exceptions.subdomain.NoSuchPropPathException"><code>longevity.exceptions.subdomain.NoSuchPropPathException</code></a> if a
-<a href="ptype/Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">property</a> in any of the subdomain's
-<a href="PType.html" class="extype" name="longevity.subdomain.PType">persistent types</a> has a property path that does not exist in the
-persistent type being reflected on</p></span><span class="cmt"><p><a href="../exceptions/subdomain/PropTypeException.html" class="extype" name="longevity.exceptions.subdomain.PropTypeException"><code>longevity.exceptions.subdomain.PropTypeException</code></a> if a
-<a href="ptype/Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">property</a> in any of the subdomain's
-<a href="PType.html" class="extype" name="longevity.subdomain.PType">persistent types</a> has a property whose
-specified type does not match the type of the corresponding path in the
-persistent being reflected on</p></span><span class="cmt"><p><a href="../exceptions/subdomain/UnsupportedPropTypeException.html" class="extype" name="longevity.exceptions.subdomain.UnsupportedPropTypeException"><code>longevity.exceptions.subdomain.UnsupportedPropTypeException</code></a> 
-if a <a href="ptype/Prop.html" class="extype" name="longevity.subdomain.ptype.Prop">property</a> in any of the subdomain's
-<a href="PType.html" class="extype" name="longevity.subdomain.PType">persistent types</a> has a property path
-that contains a collection or a <a href="PolyCType.html" class="extype" name="longevity.subdomain.PolyCType">polymorphic type</a></p></span></dd></dl></div>
+      <p class="shortcomment cmt">creates a subdomain by scanning the named package for <a href="PType.html" class="extype" name="longevity.subdomain.PType">persistent
+types</a> and <a href="CType.html" class="extype" name="longevity.subdomain.CType">component types</a>
+</p><div class="fullcomment"><div class="comment cmt"><p>creates a subdomain by scanning the named package for <a href="PType.html" class="extype" name="longevity.subdomain.PType">persistent
+types</a> and <a href="CType.html" class="extype" name="longevity.subdomain.CType">component types</a>
+</p></div><dl class="paramcmts block"><dt class="param">packageName</dt><dd class="cmt"><p>the name of the package to scan</p></dd></dl></div>
+    </li><li name="longevity.subdomain.Subdomain#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="apply(pTypePool:longevity.subdomain.PTypePool,cTypePool:longevity.subdomain.CTypePool):longevity.subdomain.Subdomain"></a>
+      <a id="apply(PTypePool,CTypePool):Subdomain"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="params">(<span name="pTypePool">pTypePool: <a href="package.html#PTypePool=emblem.TypeKeyMap[Any,longevity.subdomain.PType]" class="extmbr" name="longevity.subdomain.PTypePool">PTypePool</a></span>, <span name="cTypePool">cTypePool: <a href="package.html#CTypePool=emblem.TypeKeyMap[Any,longevity.subdomain.CType]" class="extmbr" name="longevity.subdomain.CTypePool">CTypePool</a> = <span class="symbol"><span class="name"><a href="CTypePool$.html">CTypePool.empty</a></span></span></span>)</span><span class="result">: <a href="Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.subdomain.Subdomain$@apply(pTypePool:longevity.subdomain.PTypePool,cTypePool:longevity.subdomain.CTypePool):longevity.subdomain.Subdomain" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">creates a subdomain from pools of <a href="PType.html" class="extype" name="longevity.subdomain.PType">persistent</a> and
+<a href="CType.html" class="extype" name="longevity.subdomain.CType">component</a> types
+</p><div class="fullcomment"><div class="comment cmt"><p>creates a subdomain from pools of <a href="PType.html" class="extype" name="longevity.subdomain.PType">persistent</a> and
+<a href="CType.html" class="extype" name="longevity.subdomain.CType">component</a> types
+</p></div><dl class="paramcmts block"><dt class="param">pTypePool</dt><dd class="cmt"><p>a complete set of the persistent types in the subdomain.</p></dd><dt class="param">cTypePool</dt><dd class="cmt"><p>a complete set of the component types within the
+subdomain. defaults to empty</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>test - longevity 0.17.0 API - longevity.test</title>
-          <meta name="description" content="test - longevity 0.17.0 API - longevity.test" />
-          <meta name="keywords" content="test longevity 0.17.0 API longevity.test" />
+          <title>test - longevity 0.18.0 API - longevity.test</title>
+          <meta name="description" content="test - longevity 0.18.0 API - longevity.test" />
+          <meta name="keywords" content="test longevity 0.18.0 API longevity.test" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for testing your <a href="../subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">subdomain</a>
 and <a href="../context/LongevityContext.html" class="extype" name="longevity.context.LongevityContext">longevity context</a>
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.17.0/src/main/scala/longevity/test/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.18.0/src/main/scala/longevity/test/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="content-diagram-container">
@@ -93,7 +93,24 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="longevity.test.LongevityFuturesSpec" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+              <ol><li name="longevity.test.CustomGeneratorPool" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CustomGeneratorPoolextendsAnyRef"></a>
+      <a id="CustomGeneratorPool:CustomGeneratorPool"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="CustomGeneratorPool.html"><span class="name">CustomGeneratorPool</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.package@CustomGeneratorPoolextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">a collection of custom generators for <a href="TestDataGenerator.html" class="extype" name="longevity.test.TestDataGenerator">test data generation</a></p>
+    </li><li name="longevity.test.LongevityFuturesSpec" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="LongevityFuturesSpecextendsMatcherswithScalaFutureswithScaledTimeSpans"></a>
       <a id="LongevityFuturesSpec:LongevityFuturesSpec"></a>
       <h4 class="signature">
@@ -172,12 +189,52 @@ implicit conversion from <code>LongevityContext</code> to
 in your repo pool.</p><p>pardon the nasty ScalaDocs for this class. we haven't figured out how to
 remove the methods inherited from ScalaTest classes yet.
 </p></div></div>
+    </li><li name="longevity.test.TestDataGenerator" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="TestDataGeneratorextendsAnyRef"></a>
+      <a id="TestDataGenerator:TestDataGenerator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="TestDataGenerator.html"><span class="name">TestDataGenerator</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.package@TestDataGeneratorextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">generates test data for your subdomain.</p><div class="fullcomment"><div class="comment cmt"><p>generates test data for your subdomain. you can generate any kind of data
+that occurs in your subdomain by calling <a href="TestDataGenerator.html#generate[A](implicitevidence$1:emblem.TypeKey[A]):A" class="extmbr" name="longevity.test.TestDataGenerator#generate">TestDataGenerator.generate</a> with
+the appropriate type parameter.
+</p></div></div>
     </li></ol>
             </div>
 
         
 
-        
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="longevity.test.CustomGeneratorPool" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CustomGeneratorPool"></a>
+      <a id="CustomGeneratorPool:CustomGeneratorPool"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="CustomGeneratorPool$.html"><span class="name">CustomGeneratorPool</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.test.package@CustomGeneratorPool" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">provides a factory method for an empty pool of custom generators</p>
+    </li></ol>
+            </div>
 
         
 

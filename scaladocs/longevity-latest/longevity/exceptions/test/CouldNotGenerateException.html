@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DuplicateKeyOrIndexException - longevity 0.17.0 API - longevity.exceptions.subdomain.DuplicateKeyOrIndexException</title>
-          <meta name="description" content="DuplicateKeyOrIndexException - longevity 0.17.0 API - longevity.exceptions.subdomain.DuplicateKeyOrIndexException" />
-          <meta name="keywords" content="DuplicateKeyOrIndexException longevity 0.17.0 API longevity.exceptions.subdomain.DuplicateKeyOrIndexException" />
+          <title>CouldNotGenerateException - longevity 0.18.0 API - longevity.exceptions.test.CouldNotGenerateException</title>
+          <meta name="description" content="CouldNotGenerateException - longevity 0.18.0 API - longevity.exceptions.test.CouldNotGenerateException" />
+          <meta name="keywords" content="CouldNotGenerateException longevity 0.18.0 API longevity.exceptions.test.CouldNotGenerateException" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../index.html';
-            var hash = 'longevity.exceptions.subdomain.DuplicateKeyOrIndexException';
+            var hash = 'longevity.exceptions.test.CouldNotGenerateException';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -29,11 +29,11 @@
         <body class="type">
       <div id="definition">
         <img alt="Class" src="../../../lib/class_big.png" />
-        <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.exceptions">exceptions</a>.<a href="package.html" class="extype" name="longevity.exceptions.subdomain">subdomain</a></p>
-        <h1>DuplicateKeyOrIndexException</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="longevity.exceptions.subdomain">package subdomain</a>
+        <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.exceptions">exceptions</a>.<a href="package.html" class="extype" name="longevity.exceptions.test">test</a></p>
+        <h1>CouldNotGenerateException</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="longevity.exceptions.test">package test</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -45,20 +45,19 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">DuplicateKeyOrIndexException</span><span class="result"> extends <a href="SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException">SubdomainException</a></span>
+        <span class="name">CouldNotGenerateException</span><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <a href="../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a> with <a href="../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>thrown on attempt to construct a
-<a href="../../subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a> with a
-<a href="../../subdomain/PType.html" class="extype" name="longevity.subdomain.PType">PType</a> that has two or more keys or indexes
-defined over the same properties
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.17.0/src/main/scala/longevity/exceptions/subdomain/DuplicateKeyOrIndexException.scala" target="_blank">DuplicateKeyOrIndexException.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception that occurs when asking the
+<a href="../../test/TestDataGenerator.html" class="extype" name="longevity.test.TestDataGenerator">longevity.test.TestDataGenerator</a> to generate a type that is not part of
+the <a href="../../subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">longevity.subdomain.Subdomain</a>
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.18.0/src/main/scala/longevity/exceptions/test/CouldNotGenerateException.scala" target="_blank">CouldNotGenerateException.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException">SubdomainException</a>, <a href="../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>, <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span>, <a href="../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>, <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span>, <a href="../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 417.00 125.00" height="125pt" width="417pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 413,-121 413,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><!-- node2 --><g class="node implicit-outgoing class" id="graph1_2"><g id="a_implicit-outgoing class|graph1_2"><a xlink:title="longevity.exceptions.subdomain.DuplicateKeyOrIndexException can be implicitly converted to RichException by the implicit method RichException in object scala.Predef"><polygon points="384.5,-49 277.5,-49 277.5,-24 384.5,-24 384.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="288" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="308.65" text-anchor="start">RichException</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.exceptions.subdomain.DuplicateKeyOrIndexException (this class)" xlink:href="#inheritance-diagram"><polygon points="206,-49 24,-49 24,-24 206,-24 206,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="34" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="54.9067" text-anchor="start">DuplicateKeyOrIndexException</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge implicit-outgoing" id="0_2"><g id="a_implicit-outgoing|0_2"><a xlink:title="DuplicateKeyOrIndexException can be implicitly converted to RichException"><path d="M213.602,-36.5C230.721,-36.5 248.156,-36.5 264.171,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="264.282,-38.2501 269.282,-36.5 264.282,-34.7501 264.282,-38.2501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="241.75" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.exceptions.subdomain.SubdomainException" xlink:href="SubdomainException.html#inheritance-diagram"><polygon points="184,-117 46,-117 46,-92 184,-92 184,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-111.5" x="56" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="76.8574" text-anchor="start">SubdomainException</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="DuplicateKeyOrIndexException is a subtype of SubdomainException"><path d="M115,-86.6005C115,-74.8849 115,-59.583 115,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="113.25,-86.7005 115,-91.7005 116.75,-86.7006 113.25,-86.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 458.00 125.00" height="125pt" width="458pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 454,-121 454,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><!-- node3 --><g class="node implicit-outgoing class" id="graph1_3"><g id="a_implicit-outgoing class|graph1_3"><a xlink:title="longevity.exceptions.test.CouldNotGenerateException can be implicitly converted to RichException by the implicit method RichException in object scala.Predef"><polygon points="425.5,-49 318.5,-49 318.5,-24 425.5,-24 425.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="329" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="349.65" text-anchor="start">RichException</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.exceptions.test.CouldNotGenerateException (this class)" xlink:href="#inheritance-diagram"><polygon points="246.5,-49 63.5,-49 63.5,-24 246.5,-24 246.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="74" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="94.8477" text-anchor="start">CouldNotGenerateException[A]</text></a></g></g><!-- node0&#45;&gt;node3 --><g class="edge implicit-outgoing" id="0_3"><g id="a_implicit-outgoing|0_3"><a xlink:title="CouldNotGenerateException[A] can be implicitly converted to RichException"><path d="M254.557,-36.5C271.688,-36.5 289.118,-36.5 305.124,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="305.278,-38.2501 310.278,-36.5 305.278,-34.7501 305.278,-38.2501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="282.5" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.exceptions.LongevityException" xlink:href="../LongevityException.html#inheritance-diagram"><polygon points="130,-117 0,-117 0,-92 130,-92 130,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-111.5" x="10" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="30.749" text-anchor="start">LongevityException</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="CouldNotGenerateException[A] is a subtype of LongevityException"><path d="M85.4987,-88.4676C101.745,-76.5535 124.121,-60.1444 139.049,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="84.0873,-87.3325 81.0902,-91.7005 86.1571,-90.1549 84.0873,-87.3325" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="longevity.exceptions.UnrecoverableLongevityException" xlink:href="../UnrecoverableLongevityException.html#inheritance-diagram"><polygon points="343.5,-117 148.5,-117 148.5,-92 343.5,-92 343.5,-117" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-111.5" x="159" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="179.732" text-anchor="start">UnrecoverableLongevityException</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge inheritance" id="graph1_2_0"><g id="a_inheritance|graph1_2_0"><a xlink:title="CouldNotGenerateException[A] is a subtype of UnrecoverableLongevityException"><path d="M225.274,-88.4676C208.846,-76.5535 186.222,-60.1444 171.128,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="224.656,-90.1816 229.731,-91.7005 226.711,-87.3483 224.656,-90.1816" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -76,7 +75,7 @@ defined over the same properties
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException"><span>DuplicateKeyOrIndexException</span></li><li class="in" name="longevity.exceptions.subdomain.SubdomainException"><span>SubdomainException</span></li><li class="in" name="longevity.exceptions.UnrecoverableLongevityException"><span>UnrecoverableLongevityException</span></li><li class="in" name="com.typesafe.scalalogging.LazyLogging"><span>LazyLogging</span></li><li class="in" name="longevity.exceptions.LongevityException"><span>LongevityException</span></li><li class="in" name="java.lang.Exception"><span>Exception</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.exceptions.test.CouldNotGenerateException"><span>CouldNotGenerateException</span></li><li class="in" name="longevity.exceptions.UnrecoverableLongevityException"><span>UnrecoverableLongevityException</span></li><li class="in" name="com.typesafe.scalalogging.LazyLogging"><span>LazyLogging</span></li><li class="in" name="longevity.exceptions.LongevityException"><span>LongevityException</span></li><li class="in" name="java.lang.Exception"><span>Exception</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -100,19 +99,19 @@ defined over the same properties
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(pTypeKey:emblem.TypeKey[_]):longevity.exceptions.subdomain.DuplicateKeyOrIndexException"></a>
-      <a id="&lt;init&gt;:DuplicateKeyOrIndexException"></a>
+              <ol><li name="longevity.exceptions.test.CouldNotGenerateException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[A]):longevity.exceptions.test.CouldNotGenerateException[A]"></a>
+      <a id="&lt;init&gt;:CouldNotGenerateException[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">DuplicateKeyOrIndexException</span><span class="params">(<span name="pTypeKey">pTypeKey: <span class="extype" name="emblem.TypeKey">TypeKey</span>[_]</span>)</span>
+        <span class="name">CouldNotGenerateException</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@&lt;init&gt;(pTypeKey:emblem.TypeKey[_]):longevity.exceptions.subdomain.DuplicateKeyOrIndexException" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[A]):longevity.exceptions.test.CouldNotGenerateException[A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -138,7 +137,7 @@ defined over the same properties
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -155,7 +154,7 @@ defined over the same properties
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@##():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@##():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -172,34 +171,34 @@ defined over the same properties
         <span title="gt4s: $plus" class="implicit">+</span><span class="params">(<span name="other">other: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@+(other:String):String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@+(other:String):String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
-      <a id="-&gt;[B](B):(DuplicateKeyOrIndexException,B)"></a>
+      <a id="-&gt;[B](B):(CouldNotGenerateException[A],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>, <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -217,7 +216,7 @@ defined over the same properties
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -234,7 +233,7 @@ defined over the same properties
         <span class="name">addSuppressed</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@addSuppressed(x$1:Throwable):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@addSuppressed(x$1:Throwable):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -251,7 +250,7 @@ defined over the same properties
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -268,7 +267,7 @@ defined over the same properties
         <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@clone():Object" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@clone():Object" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -281,86 +280,86 @@ defined over the same properties
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring((DuplicateKeyOrIndexException)⇒Boolean,⇒Any):DuplicateKeyOrIndexException"></a>
+      <a id="ensuring((CouldNotGenerateException[A])⇒Boolean,⇒Any):CouldNotGenerateException[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean):A"></a>
-      <a id="ensuring((DuplicateKeyOrIndexException)⇒Boolean):DuplicateKeyOrIndexException"></a>
+      <a id="ensuring((CouldNotGenerateException[A])⇒Boolean):CouldNotGenerateException[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring(Boolean,⇒Any):DuplicateKeyOrIndexException"></a>
+      <a id="ensuring(Boolean,⇒Any):CouldNotGenerateException[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean):A"></a>
-      <a id="ensuring(Boolean):DuplicateKeyOrIndexException"></a>
+      <a id="ensuring(Boolean):CouldNotGenerateException[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@ensuring(cond:Boolean):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@ensuring(cond:Boolean):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -375,7 +374,7 @@ defined over the same properties
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -392,7 +391,7 @@ defined over the same properties
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -409,7 +408,7 @@ defined over the same properties
         <span class="name">fillInStackTrace</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@fillInStackTrace():Throwable" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@fillInStackTrace():Throwable" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -426,7 +425,7 @@ defined over the same properties
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -449,13 +448,13 @@ defined over the same properties
         <span class="implicit">formatted</span><span class="params">(<span name="fmtstr">fmtstr: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@formatted(fmtstr:String):String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@formatted(fmtstr:String):String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -473,7 +472,7 @@ defined over the same properties
         <span class="name">getCause</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@getCause():Throwable" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@getCause():Throwable" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -490,7 +489,7 @@ defined over the same properties
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -507,7 +506,7 @@ defined over the same properties
         <span class="name">getLocalizedMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@getLocalizedMessage():String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@getLocalizedMessage():String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -524,7 +523,7 @@ defined over the same properties
         <span class="name">getMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@getMessage():String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@getMessage():String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -541,7 +540,7 @@ defined over the same properties
         <span class="name">getStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@getStackTrace():Array[StackTraceElement]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@getStackTrace():Array[StackTraceElement]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -558,7 +557,7 @@ defined over the same properties
         <span class="name">getSuppressed</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.Throwable">Throwable</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@getSuppressed():Array[Throwable]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@getSuppressed():Array[Throwable]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -575,7 +574,7 @@ defined over the same properties
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -592,7 +591,7 @@ defined over the same properties
         <span class="name">initCause</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@initCause(x$1:Throwable):Throwable" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@initCause(x$1:Throwable):Throwable" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -609,7 +608,7 @@ defined over the same properties
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -626,7 +625,7 @@ defined over the same properties
         <span class="name">logger</span><span class="result">: <span class="extype" name="com.typesafe.scalalogging.Logger">Logger</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@logger:com.typesafe.scalalogging.Logger" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@logger:com.typesafe.scalalogging.Logger" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -643,7 +642,7 @@ defined over the same properties
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -660,7 +659,7 @@ defined over the same properties
         <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@notify():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -677,28 +676,11 @@ defined over the same properties
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException#pTypeKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="pTypeKey:emblem.TypeKey[_]"></a>
-      <a id="pTypeKey:TypeKey[_]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">pTypeKey</span><span class="result">: <span class="extype" name="emblem.TypeKey">TypeKey</span>[_]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@pTypeKey:emblem.TypeKey[_]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="java.lang.Throwable#printStackTrace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="printStackTrace(x$1:java.io.PrintWriter):Unit"></a>
       <a id="printStackTrace(PrintWriter):Unit"></a>
@@ -711,7 +693,7 @@ defined over the same properties
         <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintWriter">PrintWriter</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -728,7 +710,7 @@ defined over the same properties
         <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintStream">PrintStream</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -745,7 +727,7 @@ defined over the same properties
         <span class="name">printStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@printStackTrace():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@printStackTrace():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -762,7 +744,7 @@ defined over the same properties
         <span class="name">setStackTrace</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -779,7 +761,7 @@ defined over the same properties
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -796,7 +778,7 @@ defined over the same properties
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@toString():String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@toString():String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -813,7 +795,7 @@ defined over the same properties
         <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@wait():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -836,7 +818,7 @@ defined over the same properties
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -859,7 +841,7 @@ defined over the same properties
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -872,23 +854,23 @@ defined over the same properties
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
-      <a id="→[B](B):(DuplicateKeyOrIndexException,B)"></a>
+      <a id="→[B](B):(CouldNotGenerateException[A],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>, <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@→[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@→[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li></ol>
@@ -910,12 +892,12 @@ defined over the same properties
         <span class="implicit deprecated" title="Deprecated: (Since version 2.11.0) Use Throwable#getStackTrace">getStackTraceString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.subdomain.DuplicateKeyOrIndexException@getStackTraceString:String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.test.CouldNotGenerateException@getStackTraceString:String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to
             <span class="extype" name="scala.Predef.RichException">RichException</span> performed by method RichException in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>RichException</dd><dt>Annotations</dt><dd>
@@ -927,9 +909,7 @@ defined over the same properties
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="longevity.exceptions.subdomain.SubdomainException">
-              <h3>Inherited from <a href="SubdomainException.html" class="extype" name="longevity.exceptions.subdomain.SubdomainException">SubdomainException</a></h3>
-            </div><div class="parent" name="longevity.exceptions.UnrecoverableLongevityException">
+        <div class="parent" name="longevity.exceptions.UnrecoverableLongevityException">
               <h3>Inherited from <a href="../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a></h3>
             </div><div class="parent" name="com.typesafe.scalalogging.LazyLogging">
               <h3>Inherited from <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span></h3>
@@ -948,23 +928,23 @@ defined over the same properties
             </div>
         <div class="conversion" name="scala.Predef.RichException">
               <h3>Inherited by implicit conversion RichException from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to <span class="extype" name="scala.Predef.RichException">RichException</span>
+                <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to <span class="extype" name="scala.Predef.RichException">RichException</span>
               </h3>
             </div><div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>]
+                <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>]
+                <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>]
+                <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a> to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.subdomain.DuplicateKeyOrIndexException">DuplicateKeyOrIndexException</a>]
+                <a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.test.CouldNotGenerateException">CouldNotGenerateException</a>[<span class="extype" name="longevity.exceptions.test.CouldNotGenerateException.A">A</span>]]
               </h3>
             </div>
         </div>

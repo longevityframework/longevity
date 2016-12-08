@@ -1,0 +1,421 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>annotations - longevity 0.18.0 API - longevity.subdomain.annotations</title>
+          <meta name="description" content="annotations - longevity 0.18.0 API - longevity.subdomain.annotations" />
+          <meta name="keywords" content="annotations longevity 0.18.0 API longevity.subdomain.annotations" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'longevity.subdomain.annotations.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../lib/package_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.subdomain">subdomain</a></p>
+        <h1>annotations</h1><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">annotations</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="longevity.subdomain.annotations.component" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="componentextendsAnnotationwithStaticAnnotation"></a>
+      <a id="component:component"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">macro </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="component.html"><span class="name">component</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.Annotation" class="extype" target="_top">Annotation</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.StaticAnnotation" class="extype" target="_top">StaticAnnotation</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package@componentextendsAnnotationwithStaticAnnotation" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">macro annotation to mark a class as a persistent component.</p><div class="fullcomment"><div class="comment cmt"><p>macro annotation to mark a class as a persistent component. creates a
+companion object for the class that extends <a href="../CType.html" class="extype" name="longevity.subdomain.CType">CType</a>. if the class already has a companion object, then adds a parent
+class <code>CType</code> to the existing companion object. Note that this will not
+work if your companion object already extends an abstract or concrete class,
+as <code>CType</code> itself is an abstract class. if this
+happens, you will see a compiler error such as &quot;class Foo needs to be a trait
+to be mixed in&quot;.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;macro annotation could not be expanded (the most common reason for that is that you need to enable the macro paradise plugin; another possibility is that you try to use macro annotation in the same compilation run that defines it)&quot;">...</span>
+    </span>)</span>
+              
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;you must enable macro paradise for @component to work&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="longevity.subdomain.annotations.derivedComponent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="derivedComponent[Poly]extendsAnnotationwithStaticAnnotation"></a>
+      <a id="derivedComponent[Poly]:derivedComponent[Poly]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">macro </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="derivedComponent.html"><span class="name">derivedComponent</span></a><span class="tparams">[<span name="Poly">Poly</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.Annotation" class="extype" target="_top">Annotation</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.StaticAnnotation" class="extype" target="_top">StaticAnnotation</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package@derivedComponent[Poly]extendsAnnotationwithStaticAnnotation" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">macro annotation to mark a class or object as a derived persistent component.</p><div class="fullcomment"><div class="comment cmt"><p>macro annotation to mark a class or object as a derived persistent component. creates a
+companion object for the class that extends <a href="../DerivedCType.html" class="extype" name="longevity.subdomain.DerivedCType">DerivedCType</a>. if the class already has a companion object, then adds a parent
+class <code>DerivedCType</code> to the existing companion object. Note that
+this will not work if your companion object already extends an abstract
+or concrete class, as <code>DerivedCType</code> itself is an abstract class. if this
+happens, you will see a compiler error such as &quot;class Foo needs to be a trait
+to be mixed in&quot;.</p><p>if the annotated component is already an object, we create the <code>DerivedCType</code> as
+an internal <code>object ctype</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">Poly</dt><dd class="cmt"><p>the type of the polymorphic component that this component is
+derived from</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;macro annotation could not be expanded (the most common reason for that is that you need to enable the macro paradise plugin; another possibility is that you try to use macro annotation in the same compilation run that defines it)&quot;">...</span>
+    </span>)</span>
+              
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;you must enable macro paradise for @derivedComponent to work&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="longevity.subdomain.annotations.derivedPersistent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="derivedPersistent[Poly]extendsAnnotationwithStaticAnnotation"></a>
+      <a id="derivedPersistent[Poly]:derivedPersistent[Poly]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">macro </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="derivedPersistent.html"><span class="name">derivedPersistent</span></a><span class="tparams">[<span name="Poly">Poly</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.Annotation" class="extype" target="_top">Annotation</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.StaticAnnotation" class="extype" target="_top">StaticAnnotation</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package@derivedPersistent[Poly]extendsAnnotationwithStaticAnnotation" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">macro annotation to mark a class as a derived persistent component.</p><div class="fullcomment"><div class="comment cmt"><p>macro annotation to mark a class as a derived persistent component. creates a
+companion object for the class that extends <a href="../DerivedPType.html" class="extype" name="longevity.subdomain.DerivedPType">DerivedPType</a>. if the class already has a companion object, then adds a parent
+class <code>DerivedPType</code> to the existing companion object. Note that
+this will not work if your companion object already extends an abstract
+or concrete class, as <code>DerivedPType</code> itself is an abstract class. if this
+happens, you will see a compiler error such as &quot;class Foo needs to be a trait
+to be mixed in&quot;.
+</p></div><dl class="paramcmts block"><dt class="tparam">Poly</dt><dd class="cmt"><p>the type of the polymorphic persistent that this persistent is
+derived from</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;macro annotation could not be expanded (the most common reason for that is that you need to enable the macro paradise plugin; another possibility is that you try to use macro annotation in the same compilation run that defines it)&quot;">...</span>
+    </span>)</span>
+              
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;you must enable macro paradise for @derivedPersistent to work&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="longevity.subdomain.annotations.keyVal" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="keyVal[P]extendsAnnotationwithStaticAnnotation"></a>
+      <a id="keyVal[P]:keyVal[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">macro </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="keyVal.html"><span class="name">keyVal</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.Annotation" class="extype" target="_top">Annotation</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.StaticAnnotation" class="extype" target="_top">StaticAnnotation</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package@keyVal[P]extendsAnnotationwithStaticAnnotation" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">macro annotation to mark a class as a key value.</p><div class="fullcomment"><div class="comment cmt"><p>macro annotation to mark a class as a key value. extends the class with
+<code>longevity.subdomain.KeyVal[P]</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent object that this type serves as a key value for</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;macro annotation could not be expanded (the most common reason for that is that you need to enable the macro paradise plugin; another possibility is that you try to use macro annotation in the same compilation run that defines it)&quot;">...</span>
+    </span>)</span>
+              
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;you must enable macro paradise for @keyVal to work&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="longevity.subdomain.annotations.mprops" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="mpropsextendsAnnotationwithStaticAnnotation"></a>
+      <a id="mprops:mprops"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">macro </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="mprops.html"><span class="name">mprops</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.Annotation" class="extype" target="_top">Annotation</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.StaticAnnotation" class="extype" target="_top">StaticAnnotation</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package@mpropsextendsAnnotationwithStaticAnnotation" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">macro annotation to generate a inner object <code>props</code> for your <code>PType</code> for
+you.</p><div class="fullcomment"><div class="comment cmt"><p>macro annotation to generate a inner object <code>props</code> for your <code>PType</code> for
+you. Recursive members of the type <code>P</code> in <code>PType[P]</code> are mirrored in a
+structure of nested objects with type <code>Prop[P, A](path)</code> for appropriate
+values <code>A</code> and <code>path</code>.</p><p>- case classes are traversed according to the parameters of their primary
+  constructor
+- collection properties (<code>Options</code>, <code>Sets</code>, and <code>Lists</code>) are skipped
+- traits are traversed according to the abstract public vals they define.
+  the traits themselves, however, are not mirrored as a <code>Prop[P, A]</code></p><p>NOTE: this traversal process will collect all valid properties for your <code>PType</code>.
+but be aware that the traversal can collect properties that are not actually
+valid. for example, it will freely traverse case class elements that appear
+to be persistent components, but are not included in your <a href="../Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a>. it
+will also traverse persistent components that are otherwise illegal, such as
+those whose primary constructor has more than one parameter list. in all
+these cases, the property created by this macro will cause an exception to be
+thrown on subdomain construction. but all these cases, which represent a
+malformed subdomain, would have otherwise produced exceptions on subdomain
+construction.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;macro annotation could not be expanded (the most common reason for that is that you need to enable the macro paradise plugin; another possibility is that you try to use macro annotation in the same compilation run that defines it)&quot;">...</span>
+    </span>)</span>
+              
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;you must enable macro paradise for @mprops to work&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="longevity.subdomain.annotations.persistent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="persistentextendsAnnotationwithStaticAnnotation"></a>
+      <a id="persistent:persistent"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">macro </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="persistent.html"><span class="name">persistent</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.Annotation" class="extype" target="_top">Annotation</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.StaticAnnotation" class="extype" target="_top">StaticAnnotation</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package@persistentextendsAnnotationwithStaticAnnotation" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">macro annotation to mark a class as a persistent component.</p><div class="fullcomment"><div class="comment cmt"><p>macro annotation to mark a class as a persistent component. creates a
+companion object for the class that extends <a href="../PType.html" class="extype" name="longevity.subdomain.PType">PType</a>. if the class already has a companion object, then adds a parent
+class <code>PType</code> to the existing companion object. Note that
+this will not work if your companion object already extends an abstract
+or concrete class, as <code>PType</code> itself is an abstract class. if this
+happens, you will see a compiler error such as &quot;class Foo needs to be a trait
+to be mixed in&quot;.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;macro annotation could not be expanded (the most common reason for that is that you need to enable the macro paradise plugin; another possibility is that you try to use macro annotation in the same compilation run that defines it)&quot;">...</span>
+    </span>)</span>
+              
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;you must enable macro paradise for @persistent to work&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="longevity.subdomain.annotations.polyComponent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="polyComponentextendsAnnotationwithStaticAnnotation"></a>
+      <a id="polyComponent:polyComponent"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">macro </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="polyComponent.html"><span class="name">polyComponent</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.Annotation" class="extype" target="_top">Annotation</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.StaticAnnotation" class="extype" target="_top">StaticAnnotation</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package@polyComponentextendsAnnotationwithStaticAnnotation" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">macro annotation to mark a trait as a polymorphic persistent component.</p><div class="fullcomment"><div class="comment cmt"><p>macro annotation to mark a trait as a polymorphic persistent component.
+creates a companion object for the trait that extends
+<a href="../PolyCType.html" class="extype" name="longevity.subdomain.PolyCType">PolyCType</a>. if the trait already has a
+companion object, then adds a parent class <code>PolyCType</code> to the existing
+companion object. Note that this will not work if your companion object
+already extends an abstract or concrete class, as <code>PolyCType</code> itself is an
+abstract class.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;macro annotation could not be expanded (the most common reason for that is that you need to enable the macro paradise plugin; another possibility is that you try to use macro annotation in the same compilation run that defines it)&quot;">...</span>
+    </span>)</span>
+              
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;you must enable macro paradise for @polyComponent to work&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="longevity.subdomain.annotations.polyPersistent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="polyPersistentextendsAnnotationwithStaticAnnotation"></a>
+      <a id="polyPersistent:polyPersistent"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">macro </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="polyPersistent.html"><span class="name">polyPersistent</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.Annotation" class="extype" target="_top">Annotation</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.StaticAnnotation" class="extype" target="_top">StaticAnnotation</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package@polyPersistentextendsAnnotationwithStaticAnnotation" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">macro annotation to mark a trait as a polymorphic persistent component.</p><div class="fullcomment"><div class="comment cmt"><p>macro annotation to mark a trait as a polymorphic persistent component. creates a
+companion object for the class that extends <a href="../PolyPType.html" class="extype" name="longevity.subdomain.PolyPType">PolyPType</a>. if the class already has a companion object, then adds a parent
+class <code>PolyPType</code> to the existing companion object. Note that
+this will not work if your companion object already extends an abstract
+or concrete class, as <code>PolyPType</code> itself is an abstract class. if this
+happens, you will see a compiler error such as &quot;class Foo needs to be a trait
+to be mixed in&quot;.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;macro annotation could not be expanded (the most common reason for that is that you need to enable the macro paradise plugin; another possibility is that you try to use macro annotation in the same compilation run that defines it)&quot;">...</span>
+    </span>)</span>
+              
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;you must enable macro paradise for @polyPersistent to work&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="longevity.subdomain.annotations.subdomain" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="subdomain[P]extendsAnnotationwithStaticAnnotation"></a>
+      <a id="subdomain[P]:subdomain[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">macro </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="subdomain.html"><span class="name">subdomain</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.Annotation" class="extype" target="_top">Annotation</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.annotation.StaticAnnotation" class="extype" target="_top">StaticAnnotation</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#longevity.subdomain.annotations.package@subdomain[P]extendsAnnotationwithStaticAnnotation" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">macro annotation to mark an object as a subdomain.</p><div class="fullcomment"><div class="comment cmt"><p>macro annotation to mark an object as a subdomain. extends the class with
+<code>longevity.subdomain.Subdomain(currentPackage)</code>, where <code>currentPackage</code> is
+the name of the package in which this annotation was applied.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;macro annotation could not be expanded (the most common reason for that is that you need to enable the macro paradise plugin; another possibility is that you try to use macro annotation in the same compilation run that defines it)&quot;">...</span>
+    </span>)</span>
+              
+                <span class="name">@compileTimeOnly</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;you must enable macro paradise for @subdomain to work&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
