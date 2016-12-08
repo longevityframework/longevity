@@ -25,50 +25,48 @@ object ReleaseStage6 extends App {
   val oldVersion = majorMinor + ".0"
   val newVersion = s"$major.${minor+1}-SNAPSHOT"
 
+  val longevityDir = new File("/Users/jsmscs/ws/lf/longevity")
+  val projectDir =  new File("/Users/jsmscs/ws/lf/longevity/project")
+
   def run(processBuilder: ProcessBuilder): Unit = {
     val exitCode = processBuilder.!
     if (exitCode != 0) {
       sys.error(processBuilder.toString)
     }
   }
-
-  val longevityDir = new File("/Users/jsmscs/ws/lf/longevity")
-  val projectDir =  new File("/Users/jsmscs/ws/lf/longevity/project")
+  def run(cmd: String): Unit = run(Process(cmd, longevityDir))
+  def run(cmdArgs: String*): Unit = run(Process(cmdArgs, longevityDir))
 
   // make sure the oldVersion matches whats in the build
-  run(Process(
-    Seq("grep", "-q", s"""version := "$oldVersion"""", "BuildSettings.scala"),
-    projectDir))
+  run("grep", "-q", s"""version := "$oldVersion"""", "BuildSettings.scala")
 
   // make sure no outstanding changes
   run("git diff --exit-code")
   run("git diff --cached --exit-code")
 
   // make sure the build is clean
-  run(Process("sbt clean test doc", longevityDir))
+  run("sbt clean test doc")
 
   // create branch x.y
-  run(Process(Seq("git", "checkout", "-b", majorMinor), longevityDir))
-  run(Process(Seq("git", "push", "-u", "origin", majorMinor), longevityDir))
+  run("git", "checkout", "-b", majorMinor)
+  run("git", "push", "-u", "origin", majorMinor)
 
   // create tag x.y.0
-  run(Process(Seq("git", "tag", "-a", oldVersion, "-m", s"create tag $oldVersion"), longevityDir))
-  run(Process(Seq("git", "push", "origin", oldVersion), longevityDir))
+  run("git", "tag", "-a", oldVersion, "-m", s"create tag $oldVersion")
+  run("git", "push", "origin", oldVersion)
 
   // back to master branch
-  run(Process(Seq("git", "checkout", "master"), longevityDir))
+  run("git", "checkout", "master")
 
   // update build to snapshot version
-  run(Process(
-    Seq(
-      "sed", "-i", "",
-      "-e", s"""s/version := "$oldVersion"/version := "$newVersion"/""",
-      "BuildSettings.scala"),
-    projectDir))
+  run(
+    "sed", "-i", "",
+    "-e", s"""s/version := "$oldVersion"/version := "$newVersion"/""",
+    "BuildSettings.scala")
 
   // commit and push the new version of the build
-  run(Process("git stage BuildSettings.scala", projectDir))
-  run(Process(Seq("git", "commit", "-m", s"up build version to $newVersion"), longevityDir))
-  run(Process("git push", longevityDir))
+  run("git stage BuildSettings.scala")
+  run("git", "commit", "-m", s"up build version to $newVersion")
+  run("git push")
 
 }
