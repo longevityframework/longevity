@@ -31,7 +31,7 @@ abstract class PType[P : TypeKey] {
   lazy val propSet: Set[Prop[P, _]] = pscan("props")
 
   /** the keys for this persistent type */
-  val keySet: Set[Key[P]]
+  def keySet: Set[Key[P]]
 
   /** an empty key set. this is a convenience method for people using Scala 2.11
    * who wish to declare an empty key set. you can always do it by hand with
@@ -56,7 +56,7 @@ abstract class PType[P : TypeKey] {
   }
 
   /** the indexes for this persistent type. defaults to the empty set */
-  val indexSet: Set[Index[P]] = Set.empty
+  def indexSet: Set[Index[P]] = Set.empty
 
   /** constructs a [[longevity.subdomain.ptype.Prop Prop]] of type `A` from the
    * provided property path.
