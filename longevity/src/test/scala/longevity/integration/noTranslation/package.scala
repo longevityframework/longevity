@@ -5,7 +5,7 @@ import longevity.context.LongevityContext
 import longevity.model.Subdomain
 import longevity.model.PTypePool
 
-/** a malformed subdomain that manages to include objects that don't have mongo transations. */
+/** a malformed domain model that manages to include types outside the model */
 package object noTranslation {
 
   val pTypes = PTypePool(

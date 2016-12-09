@@ -74,7 +74,7 @@ class KeyValSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import KeyValSpec._
 
-  "user manual example code" should "produce correct subdomains" in {
+  "user manual example code" should "produce correct domain models" in {
 
     {
       keyValues1.subdomain.pTypePool.size should equal (1)

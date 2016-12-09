@@ -139,7 +139,7 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   behavior of "Repo[PolyPersistent].create"
 
-  it should "throw exception on a subclass of PolyPersistent that is not in the subdomain" in {
+  it should "throw exception on a subclass of PolyPersistent that is not in the domain model" in {
     val derivedNotInSubdomain = generateDerivedNotInSubdomain
 
     intercept[NotInSubdomainTranslationException] {

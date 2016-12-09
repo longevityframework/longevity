@@ -16,7 +16,7 @@ import scala.concurrent.Future
 /** an in-memory repository for persistent entities of type `P`
  * 
  * @param pType the persistent type for the entities this repository handles
- * @param subdomain the subdomain containing the entities that this repo persists
+ * @param subdomain the domain model containing the entities that this repo persists
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
 private[longevity] class InMemRepo[P] private[persistence] (

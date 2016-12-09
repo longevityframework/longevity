@@ -8,7 +8,7 @@ import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** we use special subdomain for limit/offset tests to prevent interference
+/** we use a special domain model for limit/offset tests to prevent interference
  * from other tests.
  *
  * please note that if for some reason afterAll fails to run, then future runs

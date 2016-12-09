@@ -16,7 +16,7 @@ object LongevityContext {
 
   /** creates and returns a [[LongevityContext]] using a Typesafe config
    * 
-   * @param subdomain the subdomain
+   * @param subdomain the domain model
    *
    * @param typesafeConfig the typesafe configuration. defaults to typesafe
    * config's `ConfigFactory.load()`
@@ -37,7 +37,7 @@ object LongevityContext {
   /** creates and returns a [[LongevityContext]] using a
    * [[longevity.config.LongevityConfig LongevityConfig]]
    * 
-   * @param subdomain the subdomain
+   * @param subdomain the domain model
    *
    * @param config the longevity configuration
    *
@@ -55,7 +55,7 @@ object LongevityContext {
    * [[longevity.config.LongevityConfig LongevityConfig]].
    * the context will have an empty set of custom generators
    * 
-   * @param subdomain the subdomain
+   * @param subdomain the domain model
    *
    * @param config the longevity configuration
    */
@@ -70,7 +70,7 @@ object LongevityContext {
  * @constructor creates a [[LongevityContext]] using a
  * [[longevity.config.LongevityConfig LongevityConfig]]
  * 
- * @param subdomain the subdomain
+ * @param subdomain the domain model
  *
  * @param config the longevity configuration
  *
@@ -85,7 +85,7 @@ extends PersistenceContext with TestContext with JsonContext {
 
   /** constructs a [[LongevityContext]] using a Typesafe config
    * 
-   * @param subdomain the subdomain
+   * @param subdomain the domain model
    * 
    * @param typesafeConfig the typesafe configuration
    * 
@@ -101,7 +101,7 @@ extends PersistenceContext with TestContext with JsonContext {
   /** constructs a [[LongevityContext]] with an empty set of custom generators
    * using a Typesafe config
    * 
-   * @param subdomain the subdomain
+   * @param subdomain the domain model
    * 
    * @param typesafeConfig the typesafe configuration
    */

@@ -2,7 +2,7 @@ package longevity.unit.manual
 
 package SubdomainSpec {
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/persistents.html
+  // used in http://longevityframework.github.io/longevity/manual/model/persistents.html
   package persistents1 {
     import longevity.model.annotations.persistent
 
@@ -13,7 +13,7 @@ package SubdomainSpec {
       lastName: String)
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/persistents.html
+  // used in http://longevityframework.github.io/longevity/manual/model/persistents.html
   package persistents2 {
     import longevity.model.PType
 
@@ -29,7 +29,7 @@ package SubdomainSpec {
     }
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/basics.html
+  // used in http://longevityframework.github.io/longevity/manual/model/basics.html
   package basics {
     import longevity.model.annotations.persistent
     import org.joda.time.DateTime
@@ -44,7 +44,7 @@ package SubdomainSpec {
       isSuspended: Boolean = false)   
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/collections.html
+  // used in http://longevityframework.github.io/longevity/manual/model/collections.html
   package collections {
     import longevity.model.annotations.persistent
 
@@ -57,7 +57,7 @@ package SubdomainSpec {
       emails: Set[String])   
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/components.html
+  // used in http://longevityframework.github.io/longevity/manual/model/components.html
   package components1 {
     import longevity.model.annotations.component
     import longevity.model.annotations.persistent
@@ -109,7 +109,7 @@ package SubdomainSpec {
       addresses: Set[Address])
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/key-values.html
+  // used in http://longevityframework.github.io/longevity/manual/model/key-values.html
   package keyValues1 {
     import longevity.model.annotations.keyVal
     import longevity.model.annotations.persistent
@@ -124,7 +124,7 @@ package SubdomainSpec {
       lastName: String)
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/key-values.html
+  // used in http://longevityframework.github.io/longevity/manual/model/key-values.html
   package keyValues2 {
     import longevity.model.annotations.keyVal
     import longevity.model.annotations.persistent
@@ -140,7 +140,7 @@ package SubdomainSpec {
       sponsor: Option[Username])
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/key-values.html
+  // used in http://longevityframework.github.io/longevity/manual/model/key-values.html
   package keyValues3 {
     import longevity.model.KeyVal
 
@@ -153,21 +153,21 @@ package SubdomainSpec {
       sponsor: Option[Username])
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/subdomain.html
+  // used in http://longevityframework.github.io/longevity/manual/model/subdomain.html
   package subdomain1 {
     import longevity.model.annotations.domainModel
 
     @domainModel object mySubdomain
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/subdomain.html
+  // used in http://longevityframework.github.io/longevity/manual/model/subdomain.html
   package subdomain2 {
     import longevity.model.Subdomain
 
     object mySubdomain extends Subdomain("myPackage")
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/subdomain/subdomain.html
+  // used in http://longevityframework.github.io/longevity/manual/model/subdomain.html
   package subdomain3 {
     import longevity.model.annotations.persistent
     import longevity.model.annotations.component

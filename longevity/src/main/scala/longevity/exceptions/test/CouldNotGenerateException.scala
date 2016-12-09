@@ -11,5 +11,5 @@ import longevity.exceptions.LongevityException
  */
 class CouldNotGenerateException[A : TypeKey]
 extends LongevityException(
-  s"could not generate ${typeKey[A].name} because it is not in the subdomain")
+  s"could not generate ${typeKey[A].name} because it is not in the domain model")
 with UnrecoverableLongevityException

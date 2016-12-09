@@ -23,7 +23,7 @@ trait TestContext {
   /** an in-memory set of repositories for this longevity context, for use in testing */
   val inMemTestRepoPool: RepoPool
 
-  /** a utility class for generating test data for the subdomain */
+  /** a utility class for generating test data for the domain model */
   val testDataGenerator: TestDataGenerator
 
 }

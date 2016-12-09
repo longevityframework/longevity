@@ -9,9 +9,9 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
-/** integration tests for things in the subdomain that don't have mongo
- * transations. this indicates a "bug" in the subdomain - some kind of shorthand
- * or entity is missing. this should really be tested for you on subdomain
+/** integration tests for things in the domain model that don't have mongo
+ * transations. this indicates a "bug" in the domain model - some kind of shorthand
+ * or entity is missing. this should really be tested for you on domain model
  * construction.
  * 
  * @see https://www.pivotaltracker.com/story/show/99755864
@@ -45,7 +45,7 @@ with LazyLogging {
   }
 
   // TODO pt-99755864 the fact that an empty list doesnt fail really speaks to the fact that we have to fail
-  // much earlier on malformed subdomains
+  // much earlier on malformed domain models
 
   it should "not fail for an empty list of untranslatable objects" in {
     val ps = repoPool[WithNoTranslationList].create(

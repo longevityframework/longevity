@@ -5,7 +5,7 @@ import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import longevity.model.Subdomain
 import org.json4s.JsonAST.JValue
 
-/** translates from your subdomain objects into JSON.
+/** translates from your domain objects into JSON.
  * translates objects into [[https://github.com/json4s/json4s json4s AST]].
  * 
  * persistent components with a single member will be inlined in the JSON. does

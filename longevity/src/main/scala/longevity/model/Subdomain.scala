@@ -19,13 +19,13 @@ import scala.reflect.runtime.universe.runtimeMirror
  * all the [[PType persistent types]] in the model, as well as
  * all the [[CType component types]].
  *
- * @constructor creates a subdomain from pools of [[PType persistent]] and
+ * @constructor creates a domain model from pools of [[PType persistent]] and
  * [[CType component]] types
  *
- * @param pTypePool a complete set of the persistent types in the subdomain.
+ * @param pTypePool a complete set of the persistent types in the domain model.
  *
  * @param cTypePool a complete set of the component types within the
- * subdomain. defaults to empty
+ * domain model. defaults to empty
  */
 class Subdomain(
   val pTypePool: PTypePool,
@@ -33,7 +33,7 @@ class Subdomain(
 
   private def this(pools: (PTypePool, CTypePool)) = this(pools._1, pools._2)
 
-  /** creates a subdomain by scanning the named package for [[PType persistent
+  /** creates a domain model by scanning the named package for [[PType persistent
    * types]] and [[CType component types]]
    *
    * @param packageName the name of the package to scan
@@ -201,16 +201,16 @@ class Subdomain(
 
 }
 
-/** provides factory methods for constructing [[Subdomain subdomains]] */
+/** provides factory methods for constructing [[Subdomain domain models]] */
 object Subdomain {
 
-  /** creates a subdomain from pools of [[PType persistent]] and
+  /** creates a domain model from pools of [[PType persistent]] and
    * [[CType component]] types
    * 
-   * @param pTypePool a complete set of the persistent types in the subdomain.
+   * @param pTypePool a complete set of the persistent types in the domain model.
    *
    * @param cTypePool a complete set of the component types within the
-   * subdomain. defaults to empty
+   * domain model. defaults to empty
    */
   def apply(
     pTypePool: PTypePool,
@@ -218,7 +218,7 @@ object Subdomain {
   : Subdomain =
     new Subdomain(pTypePool, cTypePool)
 
-  /** creates a subdomain by scanning the named package for [[PType persistent
+  /** creates a domain model by scanning the named package for [[PType persistent
    * types]] and [[CType component types]]
    *
    * @param packageName the name of the package to scan

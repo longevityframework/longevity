@@ -9,8 +9,8 @@ import emblem.emblematic.traversors.sync.{ TestDataGenerator => EmblemTestDataGe
 import emblem.exceptions.{ CouldNotGenerateException => EmblemCouldNotGenE }
 import longevity.exceptions.test.CouldNotGenerateException
 
-/** generates test data for your subdomain. you can generate any kind of data
- * that occurs in your subdomain by calling [[TestDataGenerator.generate]] with
+/** generates test data for your domain model. you can generate any kind of data
+ * that occurs in your domain model by calling [[TestDataGenerator.generate]] with
  * the appropriate type parameter.
  */
 trait TestDataGenerator {
@@ -22,7 +22,7 @@ trait TestDataGenerator {
    * @return the generated data
    * 
    * @throws longevity.exceptions.test.CouldNotGenerateException when attempting
-   * to generate data for a type that is not in the subdomain
+   * to generate data for a type that is not in the domain model
    */
   def generate[A : TypeKey]: A
 
