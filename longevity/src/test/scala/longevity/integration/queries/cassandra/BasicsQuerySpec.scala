@@ -6,7 +6,7 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
-import longevity.integration.subdomain.basics._
+import longevity.integration.model.basics._
 import longevity.model.query.Query
 import longevity.model.query.FilterAll
 import longevity.test.QuerySpec

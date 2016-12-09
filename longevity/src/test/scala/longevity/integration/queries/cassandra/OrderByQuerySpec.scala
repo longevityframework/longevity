@@ -3,7 +3,7 @@ package longevity.integration.queries.cassandra
 import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.integration.subdomain.partitionKeyWithComplexPartialPartition
+import longevity.integration.model.partitionKeyWithComplexPartialPartition
 import longevity.model.query.Query
 import longevity.test.QuerySpec
 import partitionKeyWithComplexPartialPartition.PartitionKeyWithComplexPartialPartition

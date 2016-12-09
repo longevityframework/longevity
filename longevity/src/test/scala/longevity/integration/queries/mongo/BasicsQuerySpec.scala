@@ -3,7 +3,7 @@ package longevity.integration.queries.mongo
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.basics._
+import longevity.integration.model.basics._
 import longevity.model.query.Query
 import longevity.model.query.FilterAll
 import scala.concurrent.ExecutionContext.Implicits.global

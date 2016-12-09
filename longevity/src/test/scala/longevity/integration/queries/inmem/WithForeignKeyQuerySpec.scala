@@ -3,7 +3,7 @@ package longevity.integration.queries.inmem
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.foreignKey._
+import longevity.integration.model.foreignKey._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class WithForeignKeyQuerySpec extends QuerySpec[WithForeignKey](

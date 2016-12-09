@@ -3,7 +3,7 @@ package longevity.integration.poly
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
-import longevity.integration.subdomain.derived
+import longevity.integration.model.derived
 import longevity.persistence.RepoPool
 import longevity.model.query.Query
 import longevity.model.query.QueryFilter

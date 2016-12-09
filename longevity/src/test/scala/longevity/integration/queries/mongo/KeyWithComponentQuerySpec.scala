@@ -3,7 +3,7 @@ package longevity.integration.queries.mongo
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.keyWithComponent._
+import longevity.integration.model.keyWithComponent._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class KeyWithComponentQuerySpec extends QuerySpec[KeyWithComponent](

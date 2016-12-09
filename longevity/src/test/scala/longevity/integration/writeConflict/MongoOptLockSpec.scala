@@ -4,7 +4,7 @@ import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.config.Mongo
-import longevity.integration.subdomain.basics
+import longevity.integration.model.basics
 
 /** optimistic locking tests for mongo back end */
 class MongoOptLockSpec extends OptLockSpec(

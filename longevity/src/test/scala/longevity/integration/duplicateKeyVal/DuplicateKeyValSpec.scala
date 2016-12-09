@@ -3,9 +3,9 @@ package longevity.integration.duplicateKeyVal
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.DuplicateKeyValException
-import longevity.integration.subdomain.basics.Basics
-import longevity.integration.subdomain.basics.BasicsId
-import longevity.integration.subdomain.basics.subdomain
+import longevity.integration.model.basics.Basics
+import longevity.integration.model.basics.BasicsId
+import longevity.integration.model.basics.subdomain
 import longevity.persistence.Repo
 import longevity.test.LongevityFuturesSpec
 import org.joda.time.DateTime

@@ -3,7 +3,7 @@ package longevity.integration.queries.cassandra
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.shorthands._
+import longevity.integration.model.shorthands._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class ShorthandsQuerySpec extends QuerySpec[Shorthands](

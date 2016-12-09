@@ -3,7 +3,7 @@ package longevity.integration.queries.inmem
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.component._
+import longevity.integration.model.component._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class ComponentQuerySpec extends QuerySpec[WithComponent](

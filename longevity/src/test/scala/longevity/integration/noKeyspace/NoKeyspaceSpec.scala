@@ -5,7 +5,7 @@ import longevity.config.CassandraConfig
 import longevity.config.LongevityConfig
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
-import longevity.integration.subdomain.basics
+import longevity.integration.model.basics
 import longevity.test.LongevityFuturesSpec
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen

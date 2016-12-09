@@ -3,9 +3,9 @@ package longevity.integration.unstablePartitionKey
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.UnstablePartitionKeyException
-import longevity.integration.subdomain.partitionKey.Key
-import longevity.integration.subdomain.partitionKey.PartitionKey
-import longevity.integration.subdomain.partitionKey.subdomain
+import longevity.integration.model.partitionKey.Key
+import longevity.integration.model.partitionKey.PartitionKey
+import longevity.integration.model.partitionKey.subdomain
 import longevity.persistence.Repo
 import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll

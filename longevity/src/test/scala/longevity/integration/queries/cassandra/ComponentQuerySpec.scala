@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.component._
+import longevity.integration.model.component._
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 class ComponentQuerySpec extends QuerySpec[WithComponent](

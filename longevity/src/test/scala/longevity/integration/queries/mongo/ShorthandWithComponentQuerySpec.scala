@@ -3,7 +3,7 @@ package longevity.integration.queries.mongo
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
-import longevity.integration.subdomain.shorthandWithComponent._
+import longevity.integration.model.shorthandWithComponent._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class ShorthandWithComponentQuerySpec extends QuerySpec[WithShorthandWithComponent](

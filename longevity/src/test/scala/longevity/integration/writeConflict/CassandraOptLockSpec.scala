@@ -4,7 +4,7 @@ import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
 import longevity.config.Cassandra
 import longevity.context.LongevityContext
-import longevity.integration.subdomain.basics
+import longevity.integration.model.basics
 
 /** optimistic locking tests for cassandra back end */
 class CassandraOptLockSpec extends OptLockSpec(

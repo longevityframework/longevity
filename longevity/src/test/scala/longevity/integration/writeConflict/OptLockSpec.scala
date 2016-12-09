@@ -2,7 +2,7 @@ package longevity.integration.writeConflict
 
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.WriteConflictException
-import longevity.integration.subdomain.basics
+import longevity.integration.model.basics
 import longevity.test.LongevityIntegrationSpec
 import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }

@@ -2,7 +2,7 @@ package longevity.integration.queries.cassandra
 
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.integration.subdomain.foreignKey._
+import longevity.integration.model.foreignKey._
 import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.Implicits.global
 
