@@ -45,7 +45,7 @@ object User extends PType[User] {
     val username = prop[Username]("username")
     // ...
   }
-  val keySet = Set(key(props.username))
+  lazy val keySet = Set(key(props.username))
 }
 ```
 

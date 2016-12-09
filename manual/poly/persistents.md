@@ -64,7 +64,7 @@ object User extends PolyPType[User] {
   object props {
     // ...
   }
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }
 
 case class Member(
@@ -77,7 +77,7 @@ object Member extends DerivedPType[Member, User] {
   object props {
     // ...
   }
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }
 
 case class Commenter(
@@ -89,7 +89,7 @@ object Commenter extends DerivedPType[Commenter, User] {
   object props {
     // ...
   }
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }
 ```
 

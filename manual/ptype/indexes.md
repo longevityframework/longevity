@@ -57,8 +57,8 @@ object User extends PType[User] {
     val lastName = prop[String]("fullName.last")
     val firstName = prop[String]("fullName.first")
   }
-  val keySet = Set(key(props.username))
-  override val indexSet = Set(index(props.lastName, props.firstName))
+  lazy val keySet = Set(key(props.username))
+  override lazy val indexSet = Set(index(props.lastName, props.firstName))
 }
 ```
 
