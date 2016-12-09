@@ -5,25 +5,25 @@ import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.annotation.compileTimeOnly
 
-/** macro annotation to mark an object as a subdomain. extends the class with
- * `longevity.model.Subdomain(currentPackage)`, where `currentPackage` is
+/** macro annotation to mark an object as a domain model. extends the class with
+ * `longevity.model.DomainModel(currentPackage)`, where `currentPackage` is
  * the name of the package in which this annotation was applied.
  */
-@compileTimeOnly("you must enable macro paradise for @subdomain to work")
-class subdomain[P] extends StaticAnnotation {
+@compileTimeOnly("you must enable macro paradise for @domainModel to work")
+class domainModel[P] extends StaticAnnotation {
 
-  def macroTransform(annottees: Any*): Any = macro subdomain.impl
+  def macroTransform(annottees: Any*): Any = macro domainModel.impl
 
 }
 
-private object subdomain {
+private object domainModel {
 
-  def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new SubdomainImpl {
+  def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new DomainModelImpl {
     val c: c0.type = c0
     val as = annottees
   } .impl
 
-  private abstract class SubdomainImpl {
+  private abstract class DomainModelImpl {
     val c: Context
     val as: Seq[c.Tree]
 
@@ -34,7 +34,7 @@ private object subdomain {
         case q"$ms object $n extends {..$eds} with ..$ps          { $s => ..$ss }" =>
              q"$ms object $n extends {..$eds} with ..${newPs(ps)} { $s => ..$ss }"
         case _ =>
-          c.abort(c.enclosingPosition, s"@longevity.model.annotations.subdomain can only be applied to objects")
+          c.abort(c.enclosingPosition, s"@longevity.model.annotations.domainModel can only be applied to objects")
       }
     }
 

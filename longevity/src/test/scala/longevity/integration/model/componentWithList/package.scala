@@ -1,12 +1,12 @@
 package longevity.integration.model
 
 import longevity.TestLongevityConfigs
-import longevity.model.annotations.subdomain
+import longevity.model.annotations.domainModel
 
 /** covers a persistent with a single component entity */
 package object componentWithList {
 
-  @subdomain object subdomain
+  @domainModel object subdomain
 
   val contexts = TestLongevityConfigs.mongoOnlyContextMatrix(subdomain)
 

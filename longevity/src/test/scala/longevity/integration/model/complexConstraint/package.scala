@@ -3,12 +3,12 @@ package longevity.integration.model
 import longevity.test.TestDataGenerator
 import longevity.test.CustomGeneratorPool
 import longevity.TestLongevityConfigs
-import longevity.model.annotations.subdomain
+import longevity.model.annotations.domainModel
 
 /** covers a persistent with a simple shorthand constraint */
 package object complexConstraint {
 
-  @subdomain object subdomain
+  @domainModel object subdomain
 
   val emailGenerator = { generator: TestDataGenerator =>
     Email(s"${generator.generate[String]}@${generator.generate[String]}")

@@ -155,9 +155,9 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/subdomain.html
   package subdomain1 {
-    import longevity.model.annotations.subdomain
+    import longevity.model.annotations.domainModel
 
-    @subdomain object mySubdomain
+    @domainModel object mySubdomain
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/subdomain.html

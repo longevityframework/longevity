@@ -24,8 +24,8 @@ import scala.annotation.compileTimeOnly
  * will also traverse persistent components that are otherwise illegal, such as
  * those whose primary constructor has more than one parameter list. in all
  * these cases, the property created by this macro will cause an exception to be
- * thrown on subdomain construction. but all these cases, which represent a
- * malformed subdomain, would have otherwise produced exceptions on subdomain
+ * thrown on domain model construction. but all these cases, which represent a
+ * malformed domain model, would have otherwise produced exceptions on domain model
  * construction.
  */
 @compileTimeOnly("you must enable macro paradise for @mprops to work")

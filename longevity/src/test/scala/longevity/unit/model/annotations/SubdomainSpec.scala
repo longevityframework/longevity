@@ -1,23 +1,23 @@
 package longevity.unit.model.annotations
 
 import longevity.model.Subdomain
-import longevity.model.annotations.subdomain
+import longevity.model.annotations.domainModel
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-/** unit tests for the proper behavior of [[mprops `@subdomain` macro annotation]] */
+/** unit tests for the proper behavior of [[mprops `@domainModel` macro annotation]] */
 class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "@subdomain"
+  behavior of "@domainModel"
 
   it should "cause a compiler error when applied to anything other than an object" in {
-    "@subdomain val x = 7"           shouldNot compile
-    "@subdomain type X = Int"        shouldNot compile
-    "@subdomain def foo = 7"         shouldNot compile
-    "def foo(@subdomain x: Int) = 7" shouldNot compile
-    "@subdomain trait Foo"           shouldNot compile
-    "@subdomain class Foo"           shouldNot compile
+    "@domainModel val x = 7"           shouldNot compile
+    "@domainModel type X = Int"        shouldNot compile
+    "@domainModel def foo = 7"         shouldNot compile
+    "def foo(@domainModel x: Int) = 7" shouldNot compile
+    "@domainModel trait Foo"           shouldNot compile
+    "@domainModel class Foo"           shouldNot compile
   }
 
   it should "extend the object with `Subdomain(currentPackage)`" in {
