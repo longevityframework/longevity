@@ -1,21 +1,21 @@
 ---
-title: building the subdomain
+title: building the domain model
 layout: page
 ---
 
 Once all the elements we want to persist have been created, we gather
-them all together into a `Subdomain` object. We do this in
-`SimblSubdomain`:
+them all together into a `DomainModel` object. We do this in
+`SimblDomainModel`:
 
 ```scala
 package simbl.domain
 
-import longevity.subdomain.annotations.subdomain
+import longevity.model.annotations.domainModel
 
-@subdomain object SimblSubdomain
+@domainModel object SimblDomainModel
 ```
 
-The `@subdomain` annotation uses package scanning to gather up all the
+The `@domainModel` annotation uses package scanning to gather up all the
 types we have labelled as `@persistent` and `@component`.
 
 {% assign prevTitle = "username and email" %}

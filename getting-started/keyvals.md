@@ -10,7 +10,7 @@ which are the key values for the two `User` keys. Here's the code for
 ```scala
 package simbl.domain
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[User]
 case class Username(username: String)
@@ -36,6 +36,6 @@ case class BlogPost(
 {% assign prevLink = "user-profile.html" %}
 {% assign upTitle = "getting started guide" %}
 {% assign upLink = "." %}
-{% assign nextTitle="building the subdomain" %}
+{% assign nextTitle="building the domain model" %}
 {% assign nextLink="building.html" %}
 {% include navigate.html %}

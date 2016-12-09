@@ -1,5 +1,5 @@
 ---
-title: modelling our subdomain
+title: modelling our domain
 layout: page
 ---
 

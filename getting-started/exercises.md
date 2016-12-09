@@ -11,7 +11,7 @@ will be happy to consider any pull requests you make that fill
 in missing features. Here are some ideas for experimentations
 you might try:
 
-- Add a `Comment` aggregate to the subdomain.
+- Add a `Comment` aggregate to the domain model.
 - Put in service methods and routes for `BlogPost` and `Blog`.
 - Write unit tests for the Akka HTTP routes.
 - Write unit tests for `UserServiceImpl`, preferably using a mock

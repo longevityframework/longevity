@@ -34,7 +34,7 @@ longevity that we want to persist them by marking them with the
 `@persistent` annotation:
 
 ```scala
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(
   partitionKey(User.props.username),
@@ -60,7 +60,7 @@ perform better than other keys when you are using a distributed
 database, since the database can determine the node that holds the
 data by examining the key.
 
-{% assign prevTitle = "modelling our subdomain" %}
+{% assign prevTitle = "modelling our domain" %}
 {% assign prevLink = "modelling.html" %}
 {% assign upTitle = "getting started guide" %}
 {% assign upLink = "." %}

@@ -26,11 +26,11 @@ more information.
 
 Here's a table of contents for the getting started guide:
 
-1. [Modelling our Subdomain](modelling.html)
+1. [Modelling our Domain](modelling.html)
 1. [Building the User Aggregate](user.html)
 1. [The User Profile](user-profile.html)
 1. [Username and Email](keyvals.html)
-1. [Building the Subdomain](building.html)
+1. [Building the Domain Model](building.html)
 1. [Building the Longevity Context](context.html)
 1. [The Akka HTTP Routes](routes.html)
 1. [The User Service](service.html)
@@ -44,6 +44,6 @@ Here's a table of contents for the getting started guide:
 
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}
-{% assign nextTitle = "modelling our subdomain" %}
+{% assign nextTitle = "modelling our domain" %}
 {% assign nextLink = "modelling.html" %}
 {% include navigate.html %}

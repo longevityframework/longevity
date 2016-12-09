@@ -8,7 +8,7 @@ Here is what our user profile looks like in Scala:
 ```scala
 package simbl.domain
 
-import longevity.subdomain.annotations.component
+import longevity.model.annotations.component
 
 @component
 case class UserProfile(
@@ -27,7 +27,7 @@ and `Markdown`:
 ```scala
 package simbl.domain
 
-import longevity.subdomain.annotations.component
+import longevity.model.annotations.component
 
 @component
 case class Uri(uri: String)

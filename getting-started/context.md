@@ -3,18 +3,18 @@ title: building the longevity context
 layout: page
 ---
 
-Once we have your subdomain in place, we are ready to build our
+Once we have your domain model in place, we are ready to build our
 `LongevityContext`, which we do in `SimblContextImpl.scala`:
 
 ```scala
 import longevity.context.LongevityContext
-import simbl.domain.SimblSubdomain
+import simbl.domain.SimblDomainModel
 
-val longevityContext = LongevityContext(SimblSubdomain)
+val longevityContext = LongevityContext(SimblDomainModel)
 ```
 
 The longevity context provides a variety of tools that are tailored to
-your subdomain. The most important of these is the `RepoPool`, which
+your model. The most important of these is the `RepoPool`, which
 contains repositories for your persistent objects. You can use these
 repositories to do standard CRUD operations
 (create/retrieve/update/delete), as well as executing queries that
@@ -62,7 +62,7 @@ and Cassandra in the config file. If you want to experiment with
 adjusting the persistence strategy to use a real database, you may
 need to adjust this configuration.
 
-{% assign prevTitle = "building the subdomain" %}
+{% assign prevTitle = "building the domain model" %}
 {% assign prevLink  = "building.html" %}
 {% assign upTitle   = "getting started guide" %}
 {% assign upLink    = "." %}
