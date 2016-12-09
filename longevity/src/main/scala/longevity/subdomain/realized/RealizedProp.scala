@@ -127,7 +127,7 @@ private[subdomain] object RealizedProp {
 
   private def validatePropTypeMatches[P, A](propPathTypeKey: TypeKey[_])(implicit prop: Prop[P, A]): Unit = {
     if (! (prop.propTypeKey =:= propPathTypeKey)) {
-      throw new PropTypeException(prop.path, prop.pTypeKey, prop.propTypeKey)
+      throw new PropTypeException(prop.path, prop.pTypeKey, prop.propTypeKey, propPathTypeKey)
     }
   }
 

@@ -7,6 +7,7 @@ import emblem.TypeKey
  * @param prop the key prop
  * @param propVal the key prop value
  */
-class PropTypeException(path: String, pTypeKey: TypeKey[_], propType: TypeKey[_])
+class PropTypeException(path: String, pTypeKey: TypeKey[_], propType: TypeKey[_], pathTypeKey: TypeKey[_])
 extends SubdomainException(
-  s"property '$path' for root ${pTypeKey.name} does not match type ${propType.name}")
+  s"property '$path' with type ${pathTypeKey.name} for root type ${pTypeKey.name} " +
+  s"does not match type ${propType.name}")
