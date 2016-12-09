@@ -13,8 +13,8 @@ When we use the `@persistent` annotation, the properties are generated
 for us automatically. For example, if we define `User` as follows:
 
 ```scala
-import longevity.subdomain.annotations.component
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.component
+import longevity.model.annotations.persistent
 
 @component case class Email(email: String)
 @component case class Markdown(markdown: String)
@@ -37,8 +37,8 @@ Longevity will generate a `User` companion object that looks something
 like this:
 
 ```scala
-import longevity.subdomain.PType
-import longevity.subdomain.ptype.Prop
+import longevity.model.PType
+import longevity.model.ptype.Prop
 
 object User extends PType[User] {
   object props {
@@ -59,14 +59,13 @@ would say `User.props.profile.markdown`.
 
 You can build the properties by hand if you like, but you will need to
 specify both the path, and the type of the property yourself. Longevity
-will check that the type is correct when the `Subdomain` is created.
+will check that the type is correct when the `DomainModel` is created.
 
 If you are actually writing out your properties by hand, the following
 style is much more compact:
 
-
 ```scala
-import longevity.subdomain.PType
+import longevity.model.PType
 
 object User extends PType[User] {
   object props {

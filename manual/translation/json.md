@@ -8,9 +8,9 @@ objects in and out of some JSON variant. MongoDB uses BSON, whereas in
 Cassandra, the persistent object is stored in JSON form in one of the
 columns. The translation itself is quite straightforward:
 
-- [Persistent objects](../subdomain/persistents.html), [persistent
-components](../subdomain/components.html), and
-[key values](../subdomain/key-values.html) are translated into JSON
+- [Persistent objects](../model/persistents.html), [persistent
+components](../model/components.html), and
+[key values](../model/key-values.html) are translated into JSON
 Objects.
 - If a persistent component or a `KeyVal` being translated only has a
 single member, that member value is inlined, so that the JSON produced

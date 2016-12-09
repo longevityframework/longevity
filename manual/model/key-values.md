@@ -6,13 +6,13 @@ layout: page
 Key values are used to uniquely identify a [persistent
 object](persistent). They can be embedded in persistents in two
 different ways. The first way to embed a key value is as a unique
-identifier for the persistent in question. For example, our subdomain
-may stipulate that every `User` has a unique `Username`. We can model
-this in longevity like so:
+identifier for the persistent in question. For example, we may want to
+stipulate that every `User` has a unique `Username`. We can model this
+in longevity like so:
 
 ```scala
-import longevity.subdomain.annotations.keyVal
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.keyVal
+import longevity.model.annotations.persistent
 
 @keyVal[User]
 case class Username(username: String)
@@ -35,8 +35,8 @@ suppose that the users in our domain have an optional sponsor. We can
 specify the sponsor by providing the sponsor's username, like so:
 
 ```scala
-import longevity.subdomain.annotations.keyVal
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.keyVal
+import longevity.model.annotations.persistent
 
 @keyVal[User]
 case class Username(username: String)
@@ -68,19 +68,19 @@ will discuss in a later section.
 The non-annotation equivalent for the key value looks like this:
 
 ```scala
-import longevity.subdomain.KeyVal
+import longevity.model.KeyVal
 
 case class Username(username: String) extends KeyVal[User]
 ```
 
 Clearly, the `keyVal` annotation is not providing any interesting
 functionality, or reducing any boilerplate. We include this annotation
-for consistency, so that it is possible to construct a subdomain only
+for consistency, so that it is possible to construct a domain model only
 using annotations.
 
 {% assign prevTitle = "components" %}
 {% assign prevLink  = "components.html" %}
-{% assign upTitle   = "the subdomain" %}
+{% assign upTitle   = "the domain model" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "limitations on persistents, components, and key values" %}
 {% assign nextLink  = "limitations.html" %}

@@ -18,7 +18,7 @@ More columns are added to support any [keys](../ptype/keys.html) or
 [indexes](../ptype/indexes.html) for the [persistent
 type](../ptype). Every [property](../ptype/properties.html) used in a
 key or index is expanded in to a sequence of property components that
-all have [basic types](../subdomain/basics.html). These property
+all have [basic types](../model/basics.html). These property
 components are stored in Cassandra columns, and all have names
 prefixed with `prop_`.  Those property components that do not belong
 to your partition key are

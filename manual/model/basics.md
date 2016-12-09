@@ -21,7 +21,7 @@ types](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/#em
 For example, we might add a few fields to our `User` like so:
 
 ```scala
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 import org.joda.time.DateTime
 
 @persistent(keySet = emptyKeySet)
@@ -45,7 +45,7 @@ a Scala-friendly wrapper.
 
 {% assign prevTitle = "persistent objects" %}
 {% assign prevLink  = "persistents.html" %}
-{% assign upTitle   = "the subdomain" %}
+{% assign upTitle   = "the domain model" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "collections" %}
 {% assign nextLink  = "collections.html" %}

@@ -22,15 +22,15 @@ separate `com.typesafe.config.Config` objects to the
 ```scala
 import com.typesafe.config.Config
 import longevity.context.LongevityContext
-import longevity.subdomain.Subdomain
+import longevity.model.DomainModel
 
-val bloggingDomain = Subdomain("com.example.app.model.blogging")
+val bloggingDomain = DomainModel("com.example.app.model.blogging")
 val bloggingConfig: Config = loadBloggingConfig()
 val bloggingContext = LongevityContext(
   bloggingDomain,
   bloggingConfig)
 
-val accountsSubdomain = Subdomain("com.example.app.model.accounts")
+val accountsSubdomain = DomainModel("com.example.app.model.accounts")
 val accountsConfig: Config = loadAccountsConfig()
 val accountsContext = LongevityContext(
   accountsSubdomain,

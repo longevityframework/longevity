@@ -54,9 +54,9 @@ polymorphic component `UserVerification`, and its children. We do this
 using annotations `@polyComponent` and `@derivedComponent`:
 
 ```scala
-import longevity.subdomain.annotations.polyComponent
-import longevity.subdomain.annotations.derivedComponent
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.polyComponent
+import longevity.model.annotations.derivedComponent
+import longevity.model.annotations.persistent
 import org.joda.time.DateTime
 
 @polyComponent
@@ -94,9 +94,9 @@ The non-annotation equivalent is as follows:
 
 
 ```scala
-import longevity.subdomain.PolyCType
-import longevity.subdomain.DerivedCType
-import longevity.subdomain.PType
+import longevity.model.PolyCType
+import longevity.model.DerivedCType
+import longevity.model.PType
 import org.joda.time.DateTime
 
 trait UserVerification {

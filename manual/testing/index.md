@@ -1,5 +1,5 @@
 ---
-title: testing your subdomain
+title: testing your domain model
 layout: page
 ---
 

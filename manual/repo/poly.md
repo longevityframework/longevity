@@ -10,10 +10,10 @@ a `User` trait with two inheriting subclasses, `Member` and
 `Commenter`:
 
 ```scala
-import longevity.subdomain.annotations.component
-import longevity.subdomain.annotations.derivedPersistent
-import longevity.subdomain.annotations.polyPersistent
-import longevity.subdomain.annotations.subdomain
+import longevity.model.annotations.component
+import longevity.model.annotations.derivedPersistent
+import longevity.model.annotations.polyPersistent
+import longevity.model.annotations.domainModel
 
 @component
 case class UserProfile(
@@ -40,7 +40,7 @@ case class Commenter(
   email: Email)
 extends User
 
-@subdomain object domainModel
+@domainModel object domainModel
 ```
 
 When we construct our [longevity context](../context), we can get

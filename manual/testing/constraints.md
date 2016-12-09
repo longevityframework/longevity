@@ -7,14 +7,14 @@ The test data generator described in the [previous
 section](test-data.html) will handle most anything you put in your
 domain. The only thing we cannot handle out of the box is when
 exceptions are thrown in the constructors of your
-[persistent](../subdomain/persistents.html) and
-[component](../subdomain/components.html) objects.
+[persistent](../model/persistents.html) and
+[component](../model/components.html) objects.
 
 A class constructor is a great place to enforce domain constraints,
 such as requiring that an email has an at sign (`@`):
 
 ```scala
-import longevity.subdomain.annotations.component
+import longevity.model.annotations.component
 
 @component
 case class Email(email: String) {
@@ -48,7 +48,7 @@ Pass in your custom generators when constructing your context like so:
 
 ```scala
 val context = LongevityContext(
-  subdomain,
+  domainModel,
   customGeneratorPool = generators)
 ```
 
@@ -57,7 +57,7 @@ empty pool.
 
 {% assign prevTitle = "generating test data" %}
 {% assign prevLink = "test-data.html" %}
-{% assign upTitle = "testing your subdomain" %}
+{% assign upTitle = "testing your domain model" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "repo crud spec" %}
 {% assign nextLink = "repo-crud-spec.html" %}

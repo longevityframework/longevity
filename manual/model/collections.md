@@ -4,7 +4,7 @@ layout: page
 ---
 
 Longevity supports the following "collection" types within your
-subdomain entities:
+domain objects:
 
 - `scala.Option`
 - `scala.collection.immutable.Set`
@@ -15,7 +15,7 @@ hold values like "Mr.", "Mrs.", "Sir", and "Brother". And we can allow
 the user to have multiple emails:
 
 ```scala
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = emptyKeySet)
 case class User(
@@ -30,7 +30,7 @@ It's on our TODO list to [handle a wider variety of collection
 types](https://www.pivotaltracker.com/story/show/88571474), including
 `Maps`. But this basic set of collections should satisfy your
 needs. If you are itching to use another collection type in your
-subdomain, please [let us
+domain model, please [let us
 know](http://longevityframework.github.io/longevity/discussions.html)!
 But please note that we will only ever support immutable
 collections. It is important that the persistent objects are
@@ -39,7 +39,7 @@ changes](../repo/persistent-state.html).
 
 {% assign prevTitle = "basic values" %}
 {% assign prevLink  = "basics.html" %}
-{% assign upTitle   = "the subdomain" %}
+{% assign upTitle   = "the domain model" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "components" %}
 {% assign nextLink  = "components.html" %}

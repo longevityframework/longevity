@@ -33,13 +33,13 @@ Update: It seems like we can achieve these requirements by asking
 users to provide `apply` and `unapply` methods for anything that is
 not a case class. This would also allow for bringing external classes
 (i.e., classes the user is not able to extend with an empty trait)
-into the subdomain. You can track this [on the story
+into the domain model. You can track this [on the story
 board](https://www.pivotaltracker.com/story/show/133617199).
 
 {% assign prevTitle = "key values" %}
 {% assign prevLink  = "key-values.html" %}
-{% assign upTitle   = "the subdomain" %}
+{% assign upTitle   = "the domain model" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "constructing a subdomain" %}
-{% assign nextLink  = "subdomain.html" %}
+{% assign nextTitle = "constructing a domain model" %}
+{% assign nextLink  = "model.html" %}
 {% include navigate.html %}

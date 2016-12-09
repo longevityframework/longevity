@@ -6,8 +6,8 @@ layout: page
 Sometimes, of course, we want to use [subtype
 polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)#Subtyping)
 in our domain models. Longevity supports polymorphism in both your
-[persistent objects](../subdomain/persistents.html) and your
-[persistent components](../subdomain/components.html). Polymorphism
+[persistent objects](../model/persistents.html) and your
+[persistent components](../model/components.html). Polymorphism
 for components allows us to create and use controlled vocabularies in
 a standard Scala idiom. This chapter is broken up into the following
 pages:

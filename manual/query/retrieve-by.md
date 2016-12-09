@@ -25,8 +25,8 @@ Here's an example of building the same query by hand:
 ```scala
 import com.github.nscala_time.time.Imports._
 import longevity.persistence.PState
-import longevity.subdomain.query.Query
-import longevity.subdomain.query.QueryFilter
+import longevity.model.query.Query
+import longevity.model.query.QueryFilter
 import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()

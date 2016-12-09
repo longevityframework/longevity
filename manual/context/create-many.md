@@ -52,6 +52,6 @@ the top of the file.
 {% assign prevLink  = "schema-creation.html" %}
 {% assign upTitle   = "the longevity context" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "testing your subdomain" %}
+{% assign nextTitle = "testing your domain model" %}
 {% assign nextLink  = "../testing" %}
 {% include navigate.html %}

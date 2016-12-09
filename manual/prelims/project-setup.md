@@ -41,7 +41,7 @@ libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.1
 ## enabling macro annotations
 
 You will probably want to use the macro annotations provided in
-package `longevity.subdomain.annotations`. To do so, you will need to
+package `longevity.model.annotations`. To do so, you will need to
 add [Macro
 Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html)
 to your build, like so:
@@ -98,6 +98,6 @@ libraryDependencies += "org.longevityframework" %% "longevity" % "0.19-SNAPSHOT"
 {% assign prevLink  = "what-is-longevity.html" %}
 {% assign upTitle   = "preliminaries" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "the subdomain" %}
-{% assign nextLink  = "../subdomain/index.html" %}
+{% assign nextTitle = "the domain model" %}
+{% assign nextLink  = "../model/index.html" %}
 {% include navigate.html %}

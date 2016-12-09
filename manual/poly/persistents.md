@@ -4,16 +4,16 @@ layout: page
 ---
 
 We can use polymorphism with our [persistent
-objects](../subdomain/persistents.html) as well. For example, let's
+objects](../model/persistents.html) as well. For example, let's
 say our blogging system has two kinds of users: members and
 commenters. Only members can have a user profile. Here, we use
 annotations `@polyPersistent` and `@derivedPersistent` in place of
 `@persistent`:
 
 ```scala
-import longevity.subdomain.annotations.component
-import longevity.subdomain.annotations.derivedPersistent
-import longevity.subdomain.annotations.polyPersistent
+import longevity.model.annotations.component
+import longevity.model.annotations.derivedPersistent
+import longevity.model.annotations.polyPersistent
 
 @component
 case class UserProfile(
@@ -44,9 +44,9 @@ extends User
 The non-annotation equivalent is as follows:
 
 ```scala
-import longevity.subdomain.CType
-import longevity.subdomain.DerivedPType
-import longevity.subdomain.PolyPType
+import longevity.model.CType
+import longevity.model.DerivedPType
+import longevity.model.PolyPType
 
 case class UserProfile(
   tagline: String,
@@ -100,8 +100,8 @@ properties, keys, and indexes. We could, for example, put in a
 `Member.profile.tagline`, like so:
 
 ```scala
-import longevity.subdomain.annotations.derivedPersistent
-import longevity.subdomain.annotations.polyPersistent
+import longevity.model.annotations.derivedPersistent
+import longevity.model.annotations.polyPersistent
 
 @polyPersistent(
   keySet = Set(key(props.username)),

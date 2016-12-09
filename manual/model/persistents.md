@@ -5,7 +5,7 @@ layout: page
 
 As longevity is primarily a persistence framework, the common currency
 of the longevity API is the _persistent object_. Persistent objects
-are part of your subdomain, and they are also the _persistence unit_ -
+are part of your domain model, and they are also the _persistence unit_ -
 something that you can create, retrieve, update or delete with a
 longevity [repository](../repo).
 
@@ -27,7 +27,7 @@ a `keySet` to the `persistent` annotation. For now, we can provide an
 empty set of keys, like so:
 
 ```scala
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = emptyKeySet)
 case class User(
@@ -39,7 +39,7 @@ case class User(
 Here is how you would do the same thing without the annotation:
 
 ```scala
-import longevity.subdomain.PType
+import longevity.model.PType
 
 case class User(
   username: String,
@@ -54,9 +54,9 @@ object User extends PType[User] {
 }
 ```
 
-{% assign prevTitle = "the subdomain" %}
+{% assign prevTitle = "the domain model" %}
 {% assign prevLink  = "." %}
-{% assign upTitle   = "the subdomain" %}
+{% assign upTitle   = "the domain model" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "basic values" %}
 {% assign nextLink  = "basics.html" %}

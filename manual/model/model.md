@@ -1,22 +1,22 @@
 ---
-title: constructing a subdomain
+title: constructing a domain model
 layout: page
 ---
 
 Now that we've built out the elements of our domain model, we need to
-collect them into a `longevity.subdomain.Subdomain` object. The
+collect them into a `longevity.model.DomainModel` object. The
 easiest way to do this is as follows:
 
 ```scala
 package myPackage
 
-import longevity.subdomain.annotations.subdomain
+import longevity.model.annotations.domainModel
 
-@subdomain
-object mySubdomain
+@domainModel
+object myDomainModel
 ```
 
-The `@subdomain` annotation scans the current package, recursively
+The `@domainModel` annotation scans the current package, recursively
 scanning any sub-packages, to gather your [persistent
 objects](persistents.html) and [components](components.html).
 
@@ -26,9 +26,9 @@ package name:
 ```scala
 package myPackage
 
-import longevity.subdomain.Subdomain
+import longevity.model.DomainModel
 
-object mySubdomain extends Subdomain("myPackage")
+object myDomainModel extends DomainModel("myPackage")
 ```
 
 The package scanning is a one-time cost and relatively cheap, but if
@@ -36,18 +36,18 @@ you would prefer to avoid it, you can enumerate your `PTypes` and
 `CTypes` by hand, like so:
 
 ```scala
-import longevity.subdomain.Subdomain
-import longevity.subdomain.CTypePool
-import longevity.subdomain.PTypePool
+import longevity.model.DomainModel
+import longevity.model.CTypePool
+import longevity.model.PTypePool
 
-object mySubdomain extends Subdomain(
+object myDomainModel extends DomainModel(
   PTypePool(User, BlogPost, Blog),
   CTypePool(UserProfile))
 ```
 
 {% assign prevTitle = "limitations on persistents, components, and key values" %}
 {% assign prevLink  = "limitations.html" %}
-{% assign upTitle   = "the subdomain" %}
+{% assign upTitle   = "the domain model" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "the persistent type" %}
 {% assign nextLink  = "../ptype" %}

@@ -5,14 +5,14 @@ layout: page
 
 Persistent components are a way of nesting case classes inside of your
 persistent objects. They never get persisted on their own, but rather
-as part of some other persistent type in your subdomain.
+as part of some other persistent type in your domain model.
 
 For example, let's suppose we want to group the user's `firstName` and
 `lastName` fields into a `FullName` case class:
 
 ```scala
-import longevity.subdomain.annotations.component
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.component
+import longevity.model.annotations.persistent
 
 @component
 case class FullName(
@@ -26,12 +26,12 @@ case class User(
 ```
 
 The `@component` annotation creates a companion object that extends
-`longevity.subdomain.CType[FullName]`. If `FullName` already has a
+`longevity.model.CType[FullName]`. If `FullName` already has a
 companion object, it will be augmented to extend `CType`. Here is the
 equivalent code without using annotations:
 
 ```scala
-import longevity.subdomain.CType
+import longevity.model.CType
 
 case class FullName(
   firstName: String,
@@ -45,8 +45,8 @@ You can put components in components, and components in
 example:
 
 ```scala
-import longevity.subdomain.annotations.component
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.component
+import longevity.model.annotations.persistent
 
 @component
 case class Email(email: String)
@@ -70,7 +70,7 @@ case class User(
 
 {% assign prevTitle = "collections" %}
 {% assign prevLink  = "collections.html" %}
-{% assign upTitle   = "the subdomain" %}
+{% assign upTitle   = "the domain model" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "key values" %}
 {% assign nextLink  = "key-values.html" %}

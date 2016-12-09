@@ -17,11 +17,11 @@ case object Cancelled extends AccountStatus
 ```
 
 Because longevity supports case objects and polymorphism, this pattern
-directly translates into a longevity-enabled subdomain. We are free to
+directly translates into a longevity domain model. We are free to
 use this controlled vocabulary in our domain, such as:
 
 ```scala
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = emptyKeySet)
 case class Account(
@@ -33,8 +33,8 @@ We just need to annotate the members of our controlled vocabulary with
 `@polyComponent` and `@derivedComponent`:
 
 ```scala
-import longevity.subdomain.annotations.polyComponent
-import longevity.subdomain.annotations.derivedComponent
+import longevity.model.annotations.polyComponent
+import longevity.model.annotations.derivedComponent
 
 @polyComponent
 sealed trait AccountStatus

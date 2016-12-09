@@ -31,8 +31,8 @@ discuss properties first.
 - [Indexes](indexes.html)
 - [Prop Sets, Key Sets, and Index Sets](sets.html)
 
-{% assign prevTitle = "constructing a subdomain" %}
-{% assign prevLink  = "../subdomain/subdomain.html" %}
+{% assign prevTitle = "constructing a domain model" %}
+{% assign prevLink  = "../model/model.html" %}
 {% assign upTitle   = "user manual" %}
 {% assign upLink    = ".." %}
 {% assign nextTitle = "properties" %}

@@ -4,13 +4,13 @@ layout: page
 ---
 
 Keys are composed of a single property whose type is [key
-value](../subdomain/key-values.html) for the persistent object. To declare a
+value](../model/key-values.html) for the persistent object. To declare a
 key, we use `PType` method `key`, and add it into our `PType.keySet`,
 like so:
 
 ```scala
-import longevity.subdomain.annotations.keyVal
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.keyVal
+import longevity.model.annotations.persistent
 
 @keyVal[User]
 case class Username(username: String)
@@ -30,8 +30,8 @@ instead, leaving off the `User.` prefix.
 The non-annotation equivalent of the above is like so:
 
 ```scala
-import longevity.subdomain.KeyVal
-import longevity.subdomain.PType
+import longevity.model.KeyVal
+import longevity.model.PType
 
 case class Username(username: String) extends KeyVal[User]
 
@@ -60,8 +60,8 @@ easily. Here, for instance, we add an ill-advised composite key on a
 `firstName`/`lastName` combination:
 
 ```scala
-import longevity.subdomain.annotations.keyVal
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.keyVal
+import longevity.model.annotations.persistent
 
 @keyVal[User]
 case class Username(username: String)

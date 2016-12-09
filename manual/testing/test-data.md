@@ -32,7 +32,7 @@ val sampleString = generator.generate[String]
 
 {% assign prevTitle = "in memory repositories" %}
 {% assign prevLink = "in-mem-repos.html" %}
-{% assign upTitle = "testing your subdomain" %}
+{% assign upTitle = "testing your domain model" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "enforcing constraints" %}
 {% assign nextLink = "constraints.html" %}

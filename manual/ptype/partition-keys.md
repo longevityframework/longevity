@@ -37,8 +37,8 @@ the `key(props.username)` in our `keySet` to
 `partitionKey(props.username)`:
 
 ```scala
-import longevity.subdomain.annotations.keyVal
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.keyVal
+import longevity.model.annotations.persistent
 
 @keyVal[User]
 case class Username(username: String)
@@ -102,8 +102,8 @@ the example in the [last section](keys.html) as a partition key, but
 only partition on the last name. We would do this like so:
 
 ```scala
-import longevity.subdomain.annotations.keyVal
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.keyVal
+import longevity.model.annotations.persistent
 
 @keyVal[User]
 case class Username(username: String)

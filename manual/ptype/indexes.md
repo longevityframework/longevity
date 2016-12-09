@@ -11,9 +11,9 @@ index. To do this, we declare our index in a singleton object
 `indexes` inside our `PType`:
 
 ```scala
-import longevity.subdomain.annotations.keyVal
-import longevity.subdomain.annotations.component
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.keyVal
+import longevity.model.annotations.component
+import longevity.model.annotations.persistent
 
 @keyVal[User]
 case class Username(username: String)
@@ -37,9 +37,9 @@ on `firstName` alone.
 The equivalent non-annotation version is like so:
 
 ```scala
-import longevity.subdomain.KeyVal
-import longevity.subdomain.CType
-import longevity.subdomain.PType
+import longevity.model.KeyVal
+import longevity.model.CType
+import longevity.model.PType
 
 case class Username(username: String) extends KeyVal[User]
 

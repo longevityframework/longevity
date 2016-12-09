@@ -4,14 +4,14 @@ layout: page
 ---
 
 If you look at the [API for
-`PType`](http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.subdomain.PType),
+`PType`](http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.model.PType),
 you will find that a `PType` has member `propSet: Set[Prop[P, _]]`.
 The default constructor for `PType` uses Scala reflection to
 recursively scan singleton object `props` for properties to build the
 set. So in effect, a `PType` definition such as this:
 
 ```scala
-import longevity.subdomain.PType
+import longevity.model.PType
 
 object User extends PType[User] {
   object props {
@@ -23,8 +23,8 @@ object User extends PType[User] {
 Is functionally equivalent to this:
 
 ```scala
-import longevity.subdomain.PType
-import longevity.subdomain.ptype.Prop
+import longevity.model.PType
+import longevity.model.ptype.Prop
 
 object User extends PType[User] {
   override lazy val propSet = Set.empty[Prop[User, _]]

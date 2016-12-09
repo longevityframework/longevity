@@ -10,8 +10,8 @@ operations, as follows:
 package longevity.persistence
 
 import emblem.TypeKey
-import longevity.subdomain.KeyVal
-import longevity.subdomain.ptype.Query
+import longevity.model.KeyVal
+import longevity.model.ptype.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -26,7 +26,7 @@ trait Repo[P] {
   def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
   /** retrieves an optional persistent object from a
-   * [[longevity.subdomain.KeyVal key value]]
+   * [[longevity.model.KeyVal key value]]
    *
    * @tparam V the type of the key value
    * @param keyVal the key value to use to look up the persistent object
@@ -36,7 +36,7 @@ trait Repo[P] {
   : Future[Option[PState[P]]]
 
   /** retrieves an optional persistent object from a
-   * [[longevity.subdomain.KeyVal key value]]
+   * [[longevity.model.KeyVal key value]]
    * 
    * throws NoSuchElementException whenever the persistent ref does not refer
    * to a persistent object in the repository
@@ -88,7 +88,7 @@ package longevity.persistence
 
 import akka.NotUsed
 import akka.stream.scaladsl.Source
-import longevity.subdomain.ptype.Query
+import longevity.model.ptype.Query
 
 /** provides repository methods that use Akka Streams for repository streaming
  * API.

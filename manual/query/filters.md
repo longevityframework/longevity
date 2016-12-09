@@ -56,7 +56,7 @@ blogPostRepo.retrieveByQuery(BlogPost.queryDsl.filterAll)
 [Keys](../ptype/keys.html) and [indexes](../ptype/indexes.html) will
 aid query performance in an intuitive manner. For finer details on
 just how your query will run, please see the chapter on how your
-subdomain is [translated to your NoSQL backend](../translation).
+domain model is [translated to your NoSQL backend](../translation).
 
 {% assign prevTitle = "using the query dsl" %}
 {% assign prevLink = "dsl.html" %}

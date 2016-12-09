@@ -12,7 +12,7 @@ write issued on another thread. Suppose `User` has a method for
 setting the title that disallows overwriting an existing title:
 
 ```scala
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(key(props.username)))
 case class User(

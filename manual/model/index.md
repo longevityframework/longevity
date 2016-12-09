@@ -1,13 +1,13 @@
 ---
-title: the subdomain
+title: the domain model
 layout: page
 ---
 
-In longevity, we use the term _subdomain_ to describe the classes you
-want to persist. Typically, these are the classes that make up your
-[domain model](https://en.wikipedia.org/wiki/Domain_model).
+In longevity, we use the term [_domain
+model_](https://en.wikipedia.org/wiki/Domain_model) to describe the
+classes you want to persist.
 
-There are two basic approaches you can take to describe your subdomain
+There are two basic approaches you can take to describe your domain model
 to longevity:
 
 - marking the classes you want to persist with
@@ -33,7 +33,7 @@ feature is presented.
 In this chapter, we will first look at how you can build all the
 elements of your domain model. In the final section, we will see how
 to gather all of these elements into a
-`longevity.subdomain.Subdomain`. Here's an overview:
+`longevity.model.DomainModel`. Here's an overview:
 
 - [Persistent Objects](persistents.html)
 - [Basic Values](basics.html)
@@ -41,7 +41,7 @@ to gather all of these elements into a
 - [Components](components.html)
 - [Key Values](key-values.html)
 - [Limitations on Persistents, Embeddables, and Key Values](limitations.html)
-- [Constructing a Subdomain](subdomain.html)
+- [Constructing a Domain Model](model.html)
 
 {% assign prevTitle = "project setup" %}
 {% assign prevLink  = "../prelims/project-setup.html" %}
