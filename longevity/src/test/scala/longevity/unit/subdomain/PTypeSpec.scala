@@ -1,8 +1,8 @@
 package longevity.unit.subdomain
 
-import longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType
-import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
-import longevity.exceptions.subdomain.ptype.PartitionKeyForDerivedPTypeException
+import longevity.exceptions.model.ptype.MultiplePartitionKeysForPType
+import longevity.exceptions.model.ptype.NoPropsForPTypeException
+import longevity.exceptions.model.ptype.PartitionKeyForDerivedPTypeException
 import longevity.model.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen

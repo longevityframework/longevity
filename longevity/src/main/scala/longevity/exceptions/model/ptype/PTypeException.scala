@@ -1,6 +1,6 @@
-package longevity.exceptions.subdomain.ptype
+package longevity.exceptions.model.ptype
 
-import longevity.exceptions.subdomain.SubdomainException
+import longevity.exceptions.model.SubdomainException
 
 /** an exception involving [[longevity.model.PType persistent type]]
  * creation or use

@@ -1,14 +1,14 @@
 package longevity.unit.subdomain
 
-import longevity.exceptions.subdomain.DerivedHasNoPolyException
-import longevity.exceptions.subdomain.DuplicateCTypesException
-import longevity.exceptions.subdomain.DuplicateKeyException
-import longevity.exceptions.subdomain.IndexDuplicatesKeyException
-import longevity.exceptions.subdomain.DuplicatePTypesException
-import longevity.exceptions.subdomain.InvalidPartitionException
-import longevity.exceptions.subdomain.NoSuchPropPathException
-import longevity.exceptions.subdomain.PropTypeException
-import longevity.exceptions.subdomain.UnsupportedPropTypeException
+import longevity.exceptions.model.DerivedHasNoPolyException
+import longevity.exceptions.model.DuplicateCTypesException
+import longevity.exceptions.model.DuplicateKeyException
+import longevity.exceptions.model.IndexDuplicatesKeyException
+import longevity.exceptions.model.DuplicatePTypesException
+import longevity.exceptions.model.InvalidPartitionException
+import longevity.exceptions.model.NoSuchPropPathException
+import longevity.exceptions.model.PropTypeException
+import longevity.exceptions.model.UnsupportedPropTypeException
 import longevity.model.DerivedCType
 import longevity.model.DerivedPType
 import longevity.model.CType

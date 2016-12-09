@@ -1,4 +1,4 @@
-package longevity.exceptions.subdomain
+package longevity.exceptions.model
 
 import emblem.TypeKey
 import longevity.model.ptype.PartitionKey

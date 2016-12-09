@@ -4,10 +4,10 @@ import emblem.TypeKey
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import emblem.typeKey
-import longevity.exceptions.subdomain.IndexDuplicatesKeyException
-import longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType
-import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
-import longevity.exceptions.subdomain.ptype.PartitionKeyForDerivedPTypeException
+import longevity.exceptions.model.IndexDuplicatesKeyException
+import longevity.exceptions.model.ptype.MultiplePartitionKeysForPType
+import longevity.exceptions.model.ptype.NoPropsForPTypeException
+import longevity.exceptions.model.ptype.PartitionKeyForDerivedPTypeException
 import longevity.model.ptype.Index
 import longevity.model.ptype.Key
 import longevity.model.ptype.Partition

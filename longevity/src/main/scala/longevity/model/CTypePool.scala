@@ -1,7 +1,7 @@
 package longevity.model
 
 import emblem.TypeKeyMap
-import longevity.exceptions.subdomain.DuplicateCTypesException
+import longevity.exceptions.model.DuplicateCTypesException
 
 /** contains factory methods for creating a [[CTypePool component type pool]] */
 object CTypePool {

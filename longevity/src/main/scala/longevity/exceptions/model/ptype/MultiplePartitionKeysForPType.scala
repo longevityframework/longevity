@@ -1,4 +1,4 @@
-package longevity.exceptions.subdomain.ptype
+package longevity.exceptions.model.ptype
 
 import emblem.TypeKey
 

@@ -6,8 +6,8 @@ import emblem.emblematic.Emblematic
 import emblem.emblematic.EmblematicPropPath
 import emblem.typeBound.TypeBoundMap
 import emblem.typeKey
-import longevity.exceptions.subdomain.DuplicateKeyException
-import longevity.exceptions.subdomain.InvalidPartitionException
+import longevity.exceptions.model.DuplicateKeyException
+import longevity.exceptions.model.InvalidPartitionException
 import longevity.model.DerivedPType
 import longevity.model.KeyVal
 import longevity.model.PType

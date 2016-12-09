@@ -10,10 +10,10 @@ import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblematicInPropPathException
 import emblem.typeKey
-import longevity.exceptions.subdomain.NoSuchPropPathException
-import longevity.exceptions.subdomain.PropTypeException
-import longevity.exceptions.subdomain.PropTypeException
-import longevity.exceptions.subdomain.UnsupportedPropTypeException
+import longevity.exceptions.model.NoSuchPropPathException
+import longevity.exceptions.model.PropTypeException
+import longevity.exceptions.model.PropTypeException
+import longevity.exceptions.model.UnsupportedPropTypeException
 import longevity.model.KeyVal
 import longevity.model.ptype.Prop
 

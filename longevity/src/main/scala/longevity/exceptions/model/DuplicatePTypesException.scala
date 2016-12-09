@@ -1,4 +1,4 @@
-package longevity.exceptions.subdomain
+package longevity.exceptions.model
 
 /** thrown on attempt to construct a
  * [[longevity.model.PTypePool PTypePool]] with more than one

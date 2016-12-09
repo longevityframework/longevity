@@ -1,4 +1,4 @@
-package longevity.exceptions.subdomain
+package longevity.exceptions.model
 
 import longevity.exceptions.UnrecoverableLongevityException
 import longevity.exceptions.LongevityException

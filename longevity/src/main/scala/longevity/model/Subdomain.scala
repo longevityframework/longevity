@@ -8,7 +8,7 @@ import emblem.emblematic.Emblematic
 import emblem.emblematic.Union
 import emblem.typeBound.TypeBoundFunction
 import emblem.typeBound.TypeBoundMap
-import longevity.exceptions.subdomain.DerivedHasNoPolyException
+import longevity.exceptions.model.DerivedHasNoPolyException
 import longevity.model.realized.RealizedPType
 import org.reflections.Reflections
 import scala.collection.JavaConverters.asScalaSetConverter

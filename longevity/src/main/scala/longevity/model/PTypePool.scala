@@ -1,7 +1,7 @@
 package longevity.model
 
 import emblem.TypeKeyMap
-import longevity.exceptions.subdomain.DuplicatePTypesException
+import longevity.exceptions.model.DuplicatePTypesException
 
 /** houses methods for constructing persistent type pools */
 object PTypePool {
