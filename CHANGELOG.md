@@ -1,5 +1,12 @@
 # Longevity Changelog
 
+@@ [0.19-SNAPSHOT] - Rename Subdomain to Domain Model
+
+- 2016.12.09 - Move config classes `LongevityConfig`, `BackEnd`,
+  `MongoConfig`, `CassandraConfig`, `TestConfig`, and
+  `PersistenceConfig` from package `longevity.context` to new package
+  `longevity.config`.
+
 ## [0.18.0] - 2016.12.07 - Annotation Macros
 
 - 2016.12.06 - Prevent emblem leakage of `TestDataGenerator` and

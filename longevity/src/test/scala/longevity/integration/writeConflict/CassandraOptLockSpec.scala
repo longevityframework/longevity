@@ -2,7 +2,7 @@ package longevity.integration.writeConflict
 
 import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
-import longevity.context.Cassandra
+import longevity.config.Cassandra
 import longevity.context.LongevityContext
 import longevity.integration.subdomain.basics
 

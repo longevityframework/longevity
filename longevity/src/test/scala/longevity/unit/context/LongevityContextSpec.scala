@@ -2,9 +2,9 @@ package longevity.unit.context
 
 import longevity.TestLongevityConfigs.cassandraConfig
 import longevity.TestLongevityConfigs.mongoConfig
-import longevity.context.Cassandra
+import longevity.config.Cassandra
 import longevity.context.LongevityContext
-import longevity.context.Mongo
+import longevity.config.Mongo
 import longevity.subdomain.KeyVal
 import longevity.subdomain.Subdomain
 import longevity.subdomain.PTypePool

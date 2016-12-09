@@ -1,7 +1,7 @@
 package longevity.exceptions.persistence.cassandra
 
 import com.datastax.driver.core.exceptions.InvalidQueryException
-import longevity.context.CassandraConfig
+import longevity.config.CassandraConfig
 
 /** an exception involving persistence using [[longevity.context.Cassandra
  * Cassandra back end]]

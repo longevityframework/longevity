@@ -1,4 +1,4 @@
-package longevity.context
+package longevity.config
 
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory

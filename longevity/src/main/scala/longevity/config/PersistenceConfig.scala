@@ -1,4 +1,4 @@
-package longevity.context
+package longevity.config
 
 /** configuration for persistence that is [[BackEnd back end]] agnostic */
 private[longevity] trait PersistenceConfig {

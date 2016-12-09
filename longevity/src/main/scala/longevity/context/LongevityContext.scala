@@ -2,6 +2,8 @@ package longevity.context
 
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
+import longevity.config.InMem
+import longevity.config.LongevityConfig
 import longevity.json.JsonMarshaller
 import longevity.json.JsonUnmarshaller
 import longevity.persistence.RepoPoolBuilder.buildRepoPool

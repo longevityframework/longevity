@@ -3,7 +3,7 @@ package longevity.integration.poly
 import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.context.Mongo
+import longevity.config.Mongo
 import longevity.integration.subdomain.derived
 
 /** tests for mongo repos that share tables in the presence of [[PolyCType]] */

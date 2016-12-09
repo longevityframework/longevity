@@ -41,11 +41,11 @@ object ContextSpec {
 
     val bloggingDomain = Subdomain(PTypePool.empty)
 
-    import longevity.context.CassandraConfig
-    import longevity.context.InMem
-    import longevity.context.LongevityConfig
-    import longevity.context.MongoConfig
-    import longevity.context.TestConfig
+    import longevity.config.CassandraConfig
+    import longevity.config.InMem
+    import longevity.config.LongevityConfig
+    import longevity.config.MongoConfig
+    import longevity.config.TestConfig
 
     val longevityConfig = LongevityConfig(
       backEnd = InMem,

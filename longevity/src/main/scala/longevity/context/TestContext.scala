@@ -1,5 +1,6 @@
 package longevity.context
 
+import longevity.config.InMem
 import longevity.persistence.RepoPool
 import longevity.test.CustomGeneratorPool
 import longevity.test.RepoCrudSpec

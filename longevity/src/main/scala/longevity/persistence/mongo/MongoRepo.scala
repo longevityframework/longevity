@@ -5,8 +5,8 @@ import com.mongodb.MongoClientURI
 import com.typesafe.scalalogging.LazyLogging
 import emblem.stringUtil.typeName
 import emblem.stringUtil.uncapitalize
-import longevity.context.MongoConfig
-import longevity.context.PersistenceConfig
+import longevity.config.MongoConfig
+import longevity.config.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.subdomain.DerivedPType
 import longevity.subdomain.PType

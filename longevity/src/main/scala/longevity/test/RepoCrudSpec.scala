@@ -3,7 +3,7 @@ package longevity.test
 import emblem.typeBound.TypeBoundPair
 import emblem.TypeKey
 import longevity.context.LongevityContext
-import longevity.context.BackEnd
+import longevity.config.BackEnd
 import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState

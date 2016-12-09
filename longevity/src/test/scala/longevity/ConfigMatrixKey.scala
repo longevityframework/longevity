@@ -1,6 +1,6 @@
 package longevity
 
-import longevity.context.BackEnd
+import longevity.config.BackEnd
 
 case class ConfigMatrixKey(
   backEnd: BackEnd,

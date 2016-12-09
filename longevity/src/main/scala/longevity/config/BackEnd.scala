@@ -1,4 +1,4 @@
-package longevity.context
+package longevity.config
 
 /** the back end used by the longevity context. right now, you have
  * three options:

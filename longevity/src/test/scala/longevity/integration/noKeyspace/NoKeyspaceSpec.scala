@@ -1,8 +1,8 @@
 package longevity.integration.noKeyspace
 
-import longevity.context.Cassandra
-import longevity.context.CassandraConfig
-import longevity.context.LongevityConfig
+import longevity.config.Cassandra
+import longevity.config.CassandraConfig
+import longevity.config.LongevityConfig
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
 import longevity.integration.subdomain.basics

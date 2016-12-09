@@ -12,8 +12,8 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
-import longevity.context.CassandraConfig
-import longevity.context.PersistenceConfig
+import longevity.config.CassandraConfig
+import longevity.config.PersistenceConfig
 import longevity.exceptions.persistence.NotInSubdomainTranslationException
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
 import longevity.persistence.BaseRepo

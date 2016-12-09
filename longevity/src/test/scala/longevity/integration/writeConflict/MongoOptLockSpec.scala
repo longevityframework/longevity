@@ -3,7 +3,7 @@ package longevity.integration.writeConflict
 import longevity.ConfigMatrixKey
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.context.Mongo
+import longevity.config.Mongo
 import longevity.integration.subdomain.basics
 
 /** optimistic locking tests for mongo back end */

@@ -1,4 +1,4 @@
-package longevity.context
+package longevity.config
 
 /** cassandra database credentials
  *

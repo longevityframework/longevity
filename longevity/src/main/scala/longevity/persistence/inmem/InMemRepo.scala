@@ -1,7 +1,7 @@
 package longevity.persistence.inmem
 
 import com.typesafe.scalalogging.LazyLogging
-import longevity.context.PersistenceConfig
+import longevity.config.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.persistence.DatabaseId
 import longevity.persistence.PState

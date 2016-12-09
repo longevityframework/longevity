@@ -1,10 +1,10 @@
 package longevity
 
-import longevity.context.Cassandra
-import longevity.context.InMem
-import longevity.context.LongevityConfig
+import longevity.config.Cassandra
+import longevity.config.InMem
+import longevity.config.LongevityConfig
 import longevity.context.LongevityContext
-import longevity.context.Mongo
+import longevity.config.Mongo
 import longevity.subdomain.Subdomain
 import longevity.test.CustomGeneratorPool
 
