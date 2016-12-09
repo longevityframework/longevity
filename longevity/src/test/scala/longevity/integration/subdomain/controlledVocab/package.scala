@@ -1,7 +1,7 @@
 package longevity.integration.subdomain
 
 import longevity.TestLongevityConfigs
-import longevity.subdomain.annotations.subdomain
+import longevity.model.annotations.subdomain
 
 /** covers a controlled vocab created with a poly type and multiple derived case objects */
 package object controlledVocab {

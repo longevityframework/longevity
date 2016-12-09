@@ -1,16 +1,16 @@
 package longevity.unit.subdomain.ptype
 
-import longevity.subdomain.KeyVal
-import longevity.subdomain.PType
-import longevity.subdomain.PTypePool
-import longevity.subdomain.Subdomain
-import longevity.subdomain.ptype.Key
-import longevity.subdomain.query.Query
-import longevity.subdomain.query.Ascending
-import longevity.subdomain.query.Descending
-import longevity.subdomain.query.QueryFilter
-import longevity.subdomain.query.QueryOrderBy
-import longevity.subdomain.query.QuerySortExpr
+import longevity.model.KeyVal
+import longevity.model.PType
+import longevity.model.PTypePool
+import longevity.model.Subdomain
+import longevity.model.ptype.Key
+import longevity.model.query.Query
+import longevity.model.query.Ascending
+import longevity.model.query.Descending
+import longevity.model.query.QueryFilter
+import longevity.model.query.QueryOrderBy
+import longevity.model.query.QuerySortExpr
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.keyWithForeignKey
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[Associated]
 case class AssociatedId(id: String)

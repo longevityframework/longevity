@@ -1,7 +1,7 @@
 package longevity.persistence.inmem
 
 import emblem.TypeKey
-import longevity.subdomain.KeyVal
+import longevity.model.KeyVal
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

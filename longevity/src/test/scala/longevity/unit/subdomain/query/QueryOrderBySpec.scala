@@ -3,10 +3,10 @@ package longevity.unit.subdomain.query
 import longevity.integration.subdomain.basics.Basics
 import longevity.integration.subdomain.basics.BasicsId
 import longevity.integration.subdomain.basics.subdomain
-import longevity.subdomain.query.Ascending
-import longevity.subdomain.query.Descending
-import longevity.subdomain.query.QueryOrderBy
-import longevity.subdomain.query.QuerySortExpr
+import longevity.model.query.Ascending
+import longevity.model.query.Descending
+import longevity.model.query.QueryOrderBy
+import longevity.model.query.QuerySortExpr
 import org.joda.time.DateTime
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers

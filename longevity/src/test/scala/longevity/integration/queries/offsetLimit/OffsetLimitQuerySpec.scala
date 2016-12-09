@@ -1,7 +1,7 @@
 package longevity.integration.queries.offsetLimit
 
 import longevity.context.LongevityContext
-import longevity.subdomain.query.Query
+import longevity.model.query.Query
 import longevity.persistence.PState
 import longevity.test.LongevityIntegrationSpec
 import org.scalatest.FlatSpec
@@ -17,9 +17,9 @@ import scala.concurrent.Future
  */
 object OffsetLimitQuerySpec {
 
-  import longevity.subdomain.PType
-  import longevity.subdomain.PTypePool
-  import longevity.subdomain.Subdomain
+  import longevity.model.PType
+  import longevity.model.PTypePool
+  import longevity.model.Subdomain
 
   case class OffsetLimit(i: Int, j: Int)
 

@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.partitionKeyWithComponent
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[PartitionKeyWithComponent]
 case class Key(id: String, component: Component)

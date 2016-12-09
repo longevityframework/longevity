@@ -10,12 +10,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object RepoSpec {
 
   import org.joda.time.DateTime
-  import longevity.subdomain.KeyVal
-  import longevity.subdomain.Subdomain
-  import longevity.subdomain.CType
-  import longevity.subdomain.CTypePool
-  import longevity.subdomain.PTypePool
-  import longevity.subdomain.PType
+  import longevity.model.KeyVal
+  import longevity.model.Subdomain
+  import longevity.model.CType
+  import longevity.model.CTypePool
+  import longevity.model.PTypePool
+  import longevity.model.PType
 
   case class Markdown(markdown: String)
   case class Uri(uri: String)
@@ -112,8 +112,8 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLoggin
 
       import com.github.nscala_time.time.Imports._
       import longevity.persistence.PState
-      import longevity.subdomain.query.Query
-      import longevity.subdomain.query.QueryFilter
+      import longevity.model.query.Query
+      import longevity.model.query.QueryFilter
       import scala.concurrent.Future
 
       val blog: Blog = ???

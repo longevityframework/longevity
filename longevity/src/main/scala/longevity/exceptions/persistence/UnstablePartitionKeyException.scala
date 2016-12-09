@@ -1,6 +1,6 @@
 package longevity.exceptions.persistence
 
-import longevity.subdomain.KeyVal
+import longevity.model.KeyVal
 
 /** an exception thrown on attempt to persist an object with a modified partition key */
 class UnstablePartitionKeyException[P](

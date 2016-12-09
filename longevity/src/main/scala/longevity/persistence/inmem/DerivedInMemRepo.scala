@@ -1,7 +1,7 @@
 package longevity.persistence.inmem
 
 import longevity.persistence.PState
-import longevity.subdomain.realized.AnyRealizedKey
+import longevity.model.realized.AnyRealizedKey
 
 private[inmem] trait DerivedInMemRepo[P, Poly >: P] extends InMemRepo[P] {
 

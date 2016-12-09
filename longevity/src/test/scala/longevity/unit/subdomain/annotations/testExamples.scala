@@ -1,8 +1,8 @@
 package longevity.unit.subdomain.annotations.testExamples
 
-import longevity.subdomain.annotations.derivedPersistent
-import longevity.subdomain.annotations.persistent
-import longevity.subdomain.annotations.polyPersistent
+import longevity.model.annotations.derivedPersistent
+import longevity.model.annotations.persistent
+import longevity.model.annotations.polyPersistent
 
 // normally i would put these test examples directly in the test. or, if they
 // needed to be stable, i would put them in the companion object for the test.

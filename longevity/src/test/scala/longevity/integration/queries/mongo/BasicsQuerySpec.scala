@@ -4,8 +4,8 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.subdomain.basics._
-import longevity.subdomain.query.Query
-import longevity.subdomain.query.FilterAll
+import longevity.model.query.Query
+import longevity.model.query.FilterAll
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class BasicsQuerySpec extends QuerySpec[Basics](

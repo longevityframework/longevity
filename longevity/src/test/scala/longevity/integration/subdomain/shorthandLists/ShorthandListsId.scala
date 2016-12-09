@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.shorthandLists
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[ShorthandLists]
 case class ShorthandListsId(id: String)

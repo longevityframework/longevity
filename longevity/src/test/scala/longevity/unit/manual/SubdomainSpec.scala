@@ -4,7 +4,7 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/persistents.html
   package persistents1 {
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.persistent
 
     @persistent(keySet = emptyKeySet)
     case class User(
@@ -15,7 +15,7 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/persistents.html
   package persistents2 {
-    import longevity.subdomain.PType
+    import longevity.model.PType
 
     case class User(
       username: String,
@@ -31,7 +31,7 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/basics.html
   package basics {
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.persistent
     import org.joda.time.DateTime
 
     @persistent(keySet = emptyKeySet)
@@ -46,7 +46,7 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/collections.html
   package collections {
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.persistent
 
     @persistent(keySet = emptyKeySet)
     case class User(
@@ -59,8 +59,8 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/components.html
   package components1 {
-    import longevity.subdomain.annotations.component
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.component
+    import longevity.model.annotations.persistent
 
     @component
     case class FullName(
@@ -75,7 +75,7 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/components/index.html
   package components2 {
-    import longevity.subdomain.CType
+    import longevity.model.CType
 
     case class FullName(
       firstName: String,
@@ -86,8 +86,8 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/components/index.html
   package components3 {
-    import longevity.subdomain.annotations.component
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.component
+    import longevity.model.annotations.persistent
 
     @component
     case class Email(email: String)
@@ -111,8 +111,8 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/key-values.html
   package keyValues1 {
-    import longevity.subdomain.annotations.keyVal
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.keyVal
+    import longevity.model.annotations.persistent
 
     @keyVal[User]
     case class Username(username: String)
@@ -126,8 +126,8 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/key-values.html
   package keyValues2 {
-    import longevity.subdomain.annotations.keyVal
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.keyVal
+    import longevity.model.annotations.persistent
 
     @keyVal[User]
     case class Username(username: String)
@@ -142,7 +142,7 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/key-values.html
   package keyValues3 {
-    import longevity.subdomain.KeyVal
+    import longevity.model.KeyVal
 
     case class Username(username: String) extends KeyVal[User]
 
@@ -155,31 +155,31 @@ package SubdomainSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/subdomain.html
   package subdomain1 {
-    import longevity.subdomain.annotations.subdomain
+    import longevity.model.annotations.subdomain
 
     @subdomain object mySubdomain
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/subdomain.html
   package subdomain2 {
-    import longevity.subdomain.Subdomain
+    import longevity.model.Subdomain
 
     object mySubdomain extends Subdomain("myPackage")
   }
 
   // used in http://longevityframework.github.io/longevity/manual/subdomain/subdomain.html
   package subdomain3 {
-    import longevity.subdomain.annotations.persistent
-    import longevity.subdomain.annotations.component
+    import longevity.model.annotations.persistent
+    import longevity.model.annotations.component
 
     @persistent(keySet = emptyKeySet) case class User()
     @persistent(keySet = emptyKeySet) case class BlogPost()
     @persistent(keySet = emptyKeySet) case class Blog()
     @component case class UserProfile()
 
-    import longevity.subdomain.Subdomain
-    import longevity.subdomain.CTypePool
-    import longevity.subdomain.PTypePool
+    import longevity.model.Subdomain
+    import longevity.model.CTypePool
+    import longevity.model.PTypePool
 
     object mySubdomain extends Subdomain(
       PTypePool(User, BlogPost, Blog),

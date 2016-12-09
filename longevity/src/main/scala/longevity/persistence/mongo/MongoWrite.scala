@@ -4,8 +4,8 @@ import com.mongodb.MongoWriteException
 import com.mongodb.client.model.Filters
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
-import longevity.subdomain.KeyVal
-import longevity.subdomain.realized.RealizedKey
+import longevity.model.KeyVal
+import longevity.model.realized.RealizedKey
 import org.bson.BsonDocument
 import org.bson.BsonInt64
 import org.bson.BsonObjectId

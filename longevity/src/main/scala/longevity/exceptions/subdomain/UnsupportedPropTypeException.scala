@@ -1,6 +1,6 @@
 package longevity.exceptions.subdomain
 
-import longevity.subdomain.ptype.Prop
+import longevity.model.ptype.Prop
 
 /** thrown on attempt to create a property with a type that longevity does not
  * now support, such as:

@@ -8,9 +8,9 @@ import longevity.persistence.BaseRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.RepoPool
-import longevity.subdomain.KeyVal
-import longevity.subdomain.PolyPType
-import longevity.subdomain.realized.RealizedKey
+import longevity.model.KeyVal
+import longevity.model.PolyPType
+import longevity.model.realized.RealizedKey
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.OptionValues.convertOptionToValuable

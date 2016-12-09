@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.derived
 
-import longevity.subdomain.annotations.derivedPersistent
+import longevity.model.annotations.derivedPersistent
 
 @derivedPersistent[PolyPersistent](
   keySet = Set(key(props.component.id)),

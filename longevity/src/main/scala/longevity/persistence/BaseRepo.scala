@@ -4,11 +4,11 @@ import akka.NotUsed
 import akka.stream.scaladsl.Source
 import emblem.TypeKey
 import longevity.exceptions.persistence.UnstablePartitionKeyException
-import longevity.subdomain.KeyVal
-import longevity.subdomain.Subdomain
-import longevity.subdomain.PType
-import longevity.subdomain.query.Query
-import longevity.subdomain.realized.RealizedPType
+import longevity.model.KeyVal
+import longevity.model.Subdomain
+import longevity.model.PType
+import longevity.model.query.Query
+import longevity.model.realized.RealizedPType
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

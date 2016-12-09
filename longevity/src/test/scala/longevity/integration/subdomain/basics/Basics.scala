@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.basics
 
 import org.joda.time.DateTime
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(
   keySet = Set(key(Basics.props.id)),

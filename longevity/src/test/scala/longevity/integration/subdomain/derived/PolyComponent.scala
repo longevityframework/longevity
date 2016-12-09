@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.derived
 
-import longevity.subdomain.annotations.polyComponent
+import longevity.model.annotations.polyComponent
 
 @polyComponent
 trait PolyComponent {

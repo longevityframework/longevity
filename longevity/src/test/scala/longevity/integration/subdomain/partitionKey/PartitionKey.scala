@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.partitionKey
 
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 // NOTE unfortunate name clash here with longevity.subdomain.ptype.PartitionKey
 

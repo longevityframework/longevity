@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.basicOptions
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[BasicOptions]
 case class BasicOptionsId(id: String)

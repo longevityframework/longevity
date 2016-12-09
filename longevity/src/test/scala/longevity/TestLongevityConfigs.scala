@@ -5,7 +5,7 @@ import longevity.config.InMem
 import longevity.config.LongevityConfig
 import longevity.context.LongevityContext
 import longevity.config.Mongo
-import longevity.subdomain.Subdomain
+import longevity.model.Subdomain
 import longevity.test.CustomGeneratorPool
 
 object TestLongevityConfigs {

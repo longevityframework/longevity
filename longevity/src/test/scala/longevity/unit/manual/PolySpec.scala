@@ -44,9 +44,9 @@ package PolySpec {
     case class Email(email: String)
     case class PhoneNumber(phoneNumber: String)
 
-    import longevity.subdomain.annotations.polyComponent
-    import longevity.subdomain.annotations.derivedComponent
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.polyComponent
+    import longevity.model.annotations.derivedComponent
+    import longevity.model.annotations.persistent
     import org.joda.time.DateTime
 
     @polyComponent
@@ -85,9 +85,9 @@ package PolySpec {
     case class Email(email: String)
     case class PhoneNumber(phoneNumber: String)
 
-    import longevity.subdomain.PolyCType
-    import longevity.subdomain.DerivedCType
-    import longevity.subdomain.PType
+    import longevity.model.PolyCType
+    import longevity.model.DerivedCType
+    import longevity.model.PType
     import org.joda.time.DateTime
 
     trait UserVerification {
@@ -137,11 +137,11 @@ package PolySpec {
     case class Markdown(markdown: String)
     case class Email(email: String)
 
-    @longevity.subdomain.annotations.keyVal[User] case class Username(username: String)
+    @longevity.model.annotations.keyVal[User] case class Username(username: String)
 
-    import longevity.subdomain.annotations.component
-    import longevity.subdomain.annotations.derivedPersistent
-    import longevity.subdomain.annotations.polyPersistent
+    import longevity.model.annotations.component
+    import longevity.model.annotations.derivedPersistent
+    import longevity.model.annotations.polyPersistent
 
     @component
     case class UserProfile(
@@ -175,11 +175,11 @@ package PolySpec {
     case class Markdown(markdown: String)
     case class Email(email: String)
 
-    @longevity.subdomain.annotations.keyVal[User] case class Username(username: String)
+    @longevity.model.annotations.keyVal[User] case class Username(username: String)
 
-    import longevity.subdomain.CType
-    import longevity.subdomain.DerivedPType
-    import longevity.subdomain.PolyPType
+    import longevity.model.CType
+    import longevity.model.DerivedPType
+    import longevity.model.PolyPType
 
     case class UserProfile(
       tagline: String,
@@ -232,11 +232,11 @@ package PolySpec {
     case class Markdown(markdown: String)
     case class Email(email: String)
 
-    @longevity.subdomain.annotations.keyVal[User] case class Username(username: String)
+    @longevity.model.annotations.keyVal[User] case class Username(username: String)
 
-    import longevity.subdomain.annotations.component
-    import longevity.subdomain.annotations.derivedPersistent
-    import longevity.subdomain.annotations.polyPersistent
+    import longevity.model.annotations.component
+    import longevity.model.annotations.derivedPersistent
+    import longevity.model.annotations.polyPersistent
 
     @component
     case class UserProfile(
@@ -278,15 +278,15 @@ package PolySpec {
 
   // used in http://longevityframework.github.io/longevity/manual/poly/cv.html
   package cv2 {
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.persistent
 
     @persistent(keySet = emptyKeySet)
     case class Account(
       name: String,
       accountStatus: AccountStatus)
 
-    import longevity.subdomain.annotations.polyComponent
-    import longevity.subdomain.annotations.derivedComponent
+    import longevity.model.annotations.polyComponent
+    import longevity.model.annotations.derivedComponent
 
     @polyComponent
     sealed trait AccountStatus

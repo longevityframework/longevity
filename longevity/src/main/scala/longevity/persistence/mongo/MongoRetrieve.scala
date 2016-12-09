@@ -1,8 +1,8 @@
 package longevity.persistence.mongo
 
 import emblem.TypeKey
-import longevity.subdomain.KeyVal
-import longevity.subdomain.query.EqOp
+import longevity.model.KeyVal
+import longevity.model.query.EqOp
 import org.bson.conversions.Bson
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.componentWithForeignKey
 
-import longevity.subdomain.annotations.component
+import longevity.model.annotations.component
 
 @component
 case class ComponentWithForeignKey(

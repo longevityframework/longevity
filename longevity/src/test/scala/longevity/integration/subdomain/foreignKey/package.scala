@@ -1,7 +1,7 @@
 package longevity.integration.subdomain
 
 import longevity.TestLongevityConfigs
-import longevity.subdomain.annotations.subdomain
+import longevity.model.annotations.subdomain
 
 /** covers a persistent with a single association to another persistent */
 package object foreignKey {

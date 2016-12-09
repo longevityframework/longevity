@@ -1,6 +1,6 @@
 package longevity.exceptions.persistence
 
-import longevity.subdomain.ptype.Key
+import longevity.model.ptype.Key
 
 /** an attempt to create or update a persistent object has failed because the
  * underlying database has detected a uniqueness violation for a key.

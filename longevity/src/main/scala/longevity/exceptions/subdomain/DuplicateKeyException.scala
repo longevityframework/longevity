@@ -2,7 +2,7 @@ package longevity.exceptions.subdomain
 
 import emblem.TypeKey
 import emblem.typeKey
-import longevity.subdomain.KeyVal
+import longevity.model.KeyVal
 
 /** thrown on attempt to construct a
  * [[longevity.subdomain.PType persistent type]] with more than one

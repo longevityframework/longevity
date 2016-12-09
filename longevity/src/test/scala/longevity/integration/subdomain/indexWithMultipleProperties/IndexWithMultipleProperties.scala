@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.indexWithMultipleProperties
 
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(
   keySet = emptyKeySet,

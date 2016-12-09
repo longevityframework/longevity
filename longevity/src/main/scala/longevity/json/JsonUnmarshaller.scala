@@ -2,7 +2,7 @@ package longevity.json
 
 import emblem.TypeKey
 import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
-import longevity.subdomain.Subdomain
+import longevity.model.Subdomain
 import org.json4s.JsonAST.JValue
 
 /** translates from JSON into objects from your subdomain.

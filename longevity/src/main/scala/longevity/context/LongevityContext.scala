@@ -7,7 +7,7 @@ import longevity.config.LongevityConfig
 import longevity.json.JsonMarshaller
 import longevity.json.JsonUnmarshaller
 import longevity.persistence.RepoPoolBuilder.buildRepoPool
-import longevity.subdomain.Subdomain
+import longevity.model.Subdomain
 import longevity.test.CustomGeneratorPool
 import longevity.test.TestDataGenerator
 

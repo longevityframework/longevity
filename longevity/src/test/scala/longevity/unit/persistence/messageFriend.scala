@@ -4,10 +4,10 @@ import longevity.TestLongevityConfigs.cassandraConfig
 import longevity.TestLongevityConfigs.inMemConfig
 import longevity.TestLongevityConfigs.mongoConfig
 import longevity.context.LongevityContext
-import longevity.subdomain.KeyVal
-import longevity.subdomain.Subdomain
-import longevity.subdomain.PTypePool
-import longevity.subdomain.PType
+import longevity.model.KeyVal
+import longevity.model.Subdomain
+import longevity.model.PTypePool
+import longevity.model.PType
 
 object messageFriend {
 

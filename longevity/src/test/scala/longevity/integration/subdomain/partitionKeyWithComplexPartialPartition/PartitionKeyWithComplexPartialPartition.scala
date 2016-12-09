@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.partitionKeyWithComplexPartialPartition
 
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(
   partitionKey(props.key, partition(props.key.prop1, props.key.subKey.prop1))))

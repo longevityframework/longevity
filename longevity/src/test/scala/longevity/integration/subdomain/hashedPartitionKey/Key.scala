@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.hashedPartitionKey
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[HashedPartitionKey]
 case class Key(id: String)

@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.componentList
 
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(key(WithComponentList.props.id)))
 case class WithComponentList(

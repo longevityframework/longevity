@@ -1,8 +1,8 @@
 package longevity.persistence.cassandra
 
 import longevity.persistence.PState
-import longevity.subdomain.realized.RealizedPropComponent
-import longevity.subdomain.realized.RealizedKey
+import longevity.model.realized.RealizedPropComponent
+import longevity.model.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking

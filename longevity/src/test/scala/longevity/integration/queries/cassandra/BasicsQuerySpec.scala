@@ -7,8 +7,8 @@ import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.integration.subdomain.basics._
-import longevity.subdomain.query.Query
-import longevity.subdomain.query.FilterAll
+import longevity.model.query.Query
+import longevity.model.query.FilterAll
 import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 

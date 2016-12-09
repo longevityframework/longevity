@@ -4,7 +4,7 @@ import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.integration.subdomain.partitionKeyWithComplexPartialPartition
-import longevity.subdomain.query.Query
+import longevity.model.query.Query
 import longevity.test.QuerySpec
 import partitionKeyWithComplexPartialPartition.PartitionKeyWithComplexPartialPartition
 import partitionKeyWithComplexPartialPartition.subdomain

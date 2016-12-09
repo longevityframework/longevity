@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.partitionKeyWithSecondaryKey
 
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(
   partitionKey(props.primary),

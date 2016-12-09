@@ -6,10 +6,10 @@ import org.bson.BsonInt32
 import org.bson.BsonString
 import org.bson.BsonBoolean
 import org.bson.BsonDocument
-import longevity.subdomain.ptype.Index
-import longevity.subdomain.ptype.Partition
-import longevity.subdomain.realized.RealizedKey
-import longevity.subdomain.realized.RealizedPartitionKey
+import longevity.model.ptype.Index
+import longevity.model.ptype.Partition
+import longevity.model.realized.RealizedKey
+import longevity.model.realized.RealizedPartitionKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking

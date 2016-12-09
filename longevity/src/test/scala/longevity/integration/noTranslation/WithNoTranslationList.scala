@@ -1,6 +1,6 @@
 package longevity.integration.noTranslation
 
-import longevity.subdomain.PType
+import longevity.model.PType
 
 case class WithNoTranslationList(
   uri: String,

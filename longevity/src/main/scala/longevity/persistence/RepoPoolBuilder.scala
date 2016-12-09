@@ -14,10 +14,10 @@ import longevity.persistence.cassandra.CassandraRepo.CassandraSessionInfo
 import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.persistence.mongo.MongoRepo.MongoSessionInfo
-import longevity.subdomain.Subdomain
-import longevity.subdomain.DerivedPType
-import longevity.subdomain.PType
-import longevity.subdomain.PolyPType
+import longevity.model.Subdomain
+import longevity.model.DerivedPType
+import longevity.model.PType
+import longevity.model.PolyPType
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration

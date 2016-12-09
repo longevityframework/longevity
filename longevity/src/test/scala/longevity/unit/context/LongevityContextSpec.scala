@@ -5,10 +5,10 @@ import longevity.TestLongevityConfigs.mongoConfig
 import longevity.config.Cassandra
 import longevity.context.LongevityContext
 import longevity.config.Mongo
-import longevity.subdomain.KeyVal
-import longevity.subdomain.Subdomain
-import longevity.subdomain.PTypePool
-import longevity.subdomain.PType
+import longevity.model.KeyVal
+import longevity.model.Subdomain
+import longevity.model.PTypePool
+import longevity.model.PType
 import org.json4s.JsonAST.JObject
 import org.json4s.JsonAST.JString
 import org.scalatest.FlatSpec

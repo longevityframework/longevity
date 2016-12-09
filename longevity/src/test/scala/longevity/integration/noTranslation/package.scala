@@ -2,8 +2,8 @@ package longevity.integration
 
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.subdomain.Subdomain
-import longevity.subdomain.PTypePool
+import longevity.model.Subdomain
+import longevity.model.PTypePool
 
 /** a malformed subdomain that manages to include objects that don't have mongo transations. */
 package object noTranslation {

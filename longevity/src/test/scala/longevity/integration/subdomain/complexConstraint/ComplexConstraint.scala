@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.complexConstraint
 
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(key(ComplexConstraint.props.id)))
 case class ComplexConstraint(

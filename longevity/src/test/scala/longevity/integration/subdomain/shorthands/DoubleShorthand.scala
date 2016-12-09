@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.shorthands
 
-import longevity.subdomain.annotations.component
+import longevity.model.annotations.component
 
 @component
 case class DoubleShorthand(double: Double)

@@ -3,8 +3,8 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import emblem.TypeKey
-import longevity.subdomain.KeyVal
-import longevity.subdomain.realized.RealizedKey
+import longevity.model.KeyVal
+import longevity.model.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking

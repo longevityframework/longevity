@@ -5,11 +5,11 @@ import longevity.config.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.persistence.DatabaseId
 import longevity.persistence.PState
-import longevity.subdomain.DerivedPType
-import longevity.subdomain.KeyVal
-import longevity.subdomain.PType
-import longevity.subdomain.PolyPType
-import longevity.subdomain.Subdomain
+import longevity.model.DerivedPType
+import longevity.model.KeyVal
+import longevity.model.PType
+import longevity.model.PolyPType
+import longevity.model.Subdomain
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

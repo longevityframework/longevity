@@ -3,8 +3,8 @@ package longevity.persistence.inmem
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
-import longevity.subdomain.KeyVal
-import longevity.subdomain.realized.AnyRealizedKey
+import longevity.model.KeyVal
+import longevity.model.realized.AnyRealizedKey
 
 /** support for InMemRepo methods that modify persistent collection. used by
  * [[InMemCreate]], [[InMemDelete]] and [[InMemUpdate]].

@@ -3,7 +3,7 @@ package longevity.unit.subdomain.query
 import longevity.integration.subdomain.basics.Basics
 import longevity.integration.subdomain.basics.BasicsId
 import longevity.integration.subdomain.basics.subdomain
-import longevity.subdomain.query.QueryFilter
+import longevity.model.query.QueryFilter
 import org.joda.time.DateTime
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen

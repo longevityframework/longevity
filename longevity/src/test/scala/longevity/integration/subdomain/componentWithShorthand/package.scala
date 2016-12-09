@@ -1,7 +1,7 @@
 package longevity.integration.subdomain
 
 import longevity.TestLongevityConfigs
-import longevity.subdomain.annotations.subdomain
+import longevity.model.annotations.subdomain
 
 /** covers a persistent with an embeddable with an embeddable with a single property  */
 package object componentShorthands {

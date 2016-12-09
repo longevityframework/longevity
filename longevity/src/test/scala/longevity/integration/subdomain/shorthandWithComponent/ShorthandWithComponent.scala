@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.shorthandWithComponent
 
-import longevity.subdomain.annotations.component
+import longevity.model.annotations.component
 
 @component
 case class ShorthandWithComponent(component: Component)

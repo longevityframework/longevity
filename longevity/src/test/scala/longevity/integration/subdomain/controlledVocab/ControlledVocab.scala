@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.controlledVocab
 
-import longevity.subdomain.annotations.derivedComponent
-import longevity.subdomain.annotations.polyComponent
+import longevity.model.annotations.derivedComponent
+import longevity.model.annotations.polyComponent
 
 @polyComponent
 sealed trait ControlledVocab

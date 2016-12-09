@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.partitionKeyWithComplexPartialPartition
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[PartitionKeyWithComplexPartialPartition]
 case class Key(

@@ -1,9 +1,9 @@
 package longevity.unit.subdomain.annotations
 
 import emblem.typeKey
-import longevity.subdomain.DerivedCType
-import longevity.subdomain.annotations.derivedComponent
-import longevity.subdomain.annotations.polyComponent
+import longevity.model.DerivedCType
+import longevity.model.annotations.derivedComponent
+import longevity.model.annotations.polyComponent
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

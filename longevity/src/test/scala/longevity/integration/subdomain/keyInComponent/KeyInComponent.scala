@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.keyInComponent
 
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(key(props.component.key)))
 case class KeyInComponent(

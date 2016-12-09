@@ -1,6 +1,6 @@
 package longevity.unit.subdomain.ptype
 
-import longevity.subdomain.PType
+import longevity.model.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

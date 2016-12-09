@@ -3,9 +3,9 @@ package longevity.persistence.inmem
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import longevity.persistence.PState
-import longevity.subdomain.query.Query
-import longevity.subdomain.query.QueryFilter
-import longevity.subdomain.query.QueryOrderBy
+import longevity.model.query.Query
+import longevity.model.query.QueryFilter
+import longevity.model.query.QueryOrderBy
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

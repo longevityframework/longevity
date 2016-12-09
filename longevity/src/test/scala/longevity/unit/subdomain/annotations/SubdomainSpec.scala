@@ -1,7 +1,7 @@
 package longevity.unit.subdomain.annotations
 
-import longevity.subdomain.Subdomain
-import longevity.subdomain.annotations.subdomain
+import longevity.model.Subdomain
+import longevity.model.annotations.subdomain
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

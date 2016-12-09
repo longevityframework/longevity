@@ -2,6 +2,8 @@
 
 @@ [0.19-SNAPSHOT] - Rename Subdomain to Domain Model
 
+- 2016.12.09 - Rename package `longevity.subdomain` to
+ `longevity.model`.
 - 2016.12.09 - Move config classes `LongevityConfig`, `BackEnd`,
   `MongoConfig`, `CassandraConfig`, `TestConfig`, and
   `PersistenceConfig` from package `longevity.context` to new package

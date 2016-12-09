@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.simpleConstraint
 
-import longevity.subdomain.annotations.component
+import longevity.model.annotations.component
 
 @component
 case class Email(email: String) {

@@ -3,7 +3,7 @@ package longevity.integration.subdomain
 import longevity.test.CustomGeneratorPool
 import longevity.test.TestDataGenerator
 import longevity.TestLongevityConfigs
-import longevity.subdomain.annotations.subdomain
+import longevity.model.annotations.subdomain
 
 /** covers a persistent with a simple shorthand constraint */
 package object simpleConstraint {

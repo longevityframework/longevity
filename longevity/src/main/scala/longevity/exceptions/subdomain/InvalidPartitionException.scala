@@ -1,7 +1,7 @@
 package longevity.exceptions.subdomain
 
 import emblem.TypeKey
-import longevity.subdomain.ptype.PartitionKey
+import longevity.model.ptype.PartitionKey
 
 /** an exception indicating an attempt to create a property with a prop path
  * that does not exist

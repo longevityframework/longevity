@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.componentShorthands
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[WithComponentWithShorthand]
 case class WithComponentWithShorthandId(id: String)

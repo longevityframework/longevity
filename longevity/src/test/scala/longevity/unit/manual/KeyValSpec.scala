@@ -10,7 +10,7 @@ object KeyValSpec {
   // duplicated at http://longevityframework.github.io/longevity/manual/key-values.html
   object keyValues1 {
 
-    import longevity.subdomain.KeyVal
+    import longevity.model.KeyVal
 
     case class Username(username: String) extends KeyVal[User]
 
@@ -19,7 +19,7 @@ object KeyValSpec {
       firstName: String,
       lastName: String)
 
-    import longevity.subdomain.PType
+    import longevity.model.PType
 
     object User extends PType[User] {
       object props {
@@ -28,8 +28,8 @@ object KeyValSpec {
       override val keySet = Set(key(props.username))
     }
 
-    import longevity.subdomain.Subdomain
-    import longevity.subdomain.PTypePool
+    import longevity.model.Subdomain
+    import longevity.model.PTypePool
 
     val subdomain = Subdomain(PTypePool(User))
 
@@ -38,7 +38,7 @@ object KeyValSpec {
   // duplicated at http://longevityframework.github.io/longevity/manual/key-values.html
   object keyValues2 {
 
-    import longevity.subdomain.KeyVal
+    import longevity.model.KeyVal
 
     case class Username(username: String) extends KeyVal[User]
 
@@ -48,7 +48,7 @@ object KeyValSpec {
       lastName: String,
       sponsor: Option[Username])   
 
-    import longevity.subdomain.PType
+    import longevity.model.PType
 
     object User extends PType[User] {
       object props {
@@ -57,8 +57,8 @@ object KeyValSpec {
       override val keySet = Set(key(props.username))
     }
 
-    import longevity.subdomain.Subdomain
-    import longevity.subdomain.PTypePool
+    import longevity.model.Subdomain
+    import longevity.model.PTypePool
 
     val subdomain = Subdomain(PTypePool(User))
 

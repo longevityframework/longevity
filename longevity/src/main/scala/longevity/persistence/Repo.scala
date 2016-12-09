@@ -1,8 +1,8 @@
 package longevity.persistence
 
 import emblem.TypeKey
-import longevity.subdomain.KeyVal
-import longevity.subdomain.query.Query
+import longevity.model.KeyVal
+import longevity.model.query.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 

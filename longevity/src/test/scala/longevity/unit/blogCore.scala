@@ -2,12 +2,12 @@ package longevity.unit
 
 package object blogCore {
 
-  import longevity.subdomain.CType
-  import longevity.subdomain.CTypePool
-  import longevity.subdomain.KeyVal
-  import longevity.subdomain.PType
-  import longevity.subdomain.PTypePool
-  import longevity.subdomain.Subdomain
+  import longevity.model.CType
+  import longevity.model.CTypePool
+  import longevity.model.KeyVal
+  import longevity.model.PType
+  import longevity.model.PTypePool
+  import longevity.model.Subdomain
 
   case class Email(email: String) extends KeyVal[User]
 

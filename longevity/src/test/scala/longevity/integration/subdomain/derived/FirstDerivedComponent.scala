@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.derived
 
-import longevity.subdomain.annotations.derivedComponent
+import longevity.model.annotations.derivedComponent
 
 @derivedComponent[PolyComponent]
 case class FirstDerivedComponent(

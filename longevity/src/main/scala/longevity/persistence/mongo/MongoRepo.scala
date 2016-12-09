@@ -8,10 +8,10 @@ import emblem.stringUtil.uncapitalize
 import longevity.config.MongoConfig
 import longevity.config.PersistenceConfig
 import longevity.persistence.BaseRepo
-import longevity.subdomain.DerivedPType
-import longevity.subdomain.PType
-import longevity.subdomain.PolyPType
-import longevity.subdomain.Subdomain
+import longevity.model.DerivedPType
+import longevity.model.PType
+import longevity.model.PolyPType
+import longevity.model.Subdomain
 import org.bson.BsonDocument
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future

@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.key
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[Key]
 case class KeyId(id: String)

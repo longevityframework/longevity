@@ -1,8 +1,8 @@
 package longevity.unit.subdomain.annotations
 
 import emblem.typeKey
-import longevity.subdomain.PType
-import longevity.subdomain.annotations.persistent
+import longevity.model.PType
+import longevity.model.annotations.persistent
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

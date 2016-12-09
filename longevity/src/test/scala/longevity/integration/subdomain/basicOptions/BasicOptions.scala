@@ -1,7 +1,7 @@
 package longevity.integration.subdomain.basicOptions
 
 import com.github.nscala_time.time.Imports._
-import longevity.subdomain.annotations.persistent
+import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(key(BasicOptions.props.id)))
 case class BasicOptions(

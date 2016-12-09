@@ -8,8 +8,8 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/properties.html
   package properties1 {
-    import longevity.subdomain.annotations.component
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.component
+    import longevity.model.annotations.persistent
 
     @component case class Email(email: String)
     @component case class Markdown(markdown: String)
@@ -30,7 +30,7 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/properties.html
   package properties2 {
-    import longevity.subdomain.annotations.component
+    import longevity.model.annotations.component
 
     @component case class Email(email: String)
     @component case class Markdown(markdown: String)
@@ -47,8 +47,8 @@ package PTypeSpec {
       email: Email,
       profile: UserProfile)
 
-    import longevity.subdomain.PType
-    import longevity.subdomain.ptype.Prop
+    import longevity.model.PType
+    import longevity.model.ptype.Prop
 
     object User extends PType[User] {
       object props {
@@ -66,7 +66,7 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/properties.html
   package properties3 {
-    import longevity.subdomain.annotations.component
+    import longevity.model.annotations.component
 
     @component case class Email(email: String)
     @component case class Markdown(markdown: String)
@@ -83,7 +83,7 @@ package PTypeSpec {
       email: Email,
       profile: UserProfile)
 
-    import longevity.subdomain.PType
+    import longevity.model.PType
 
     object User extends PType[User] {
       object props {
@@ -97,8 +97,8 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/keys.html
   package keys1 {
-    import longevity.subdomain.annotations.keyVal
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.keyVal
+    import longevity.model.annotations.persistent
 
     @keyVal[User]
     case class Username(username: String)
@@ -113,8 +113,8 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/keys.html
   package keys2 {
-    import longevity.subdomain.KeyVal
-    import longevity.subdomain.PType
+    import longevity.model.KeyVal
+    import longevity.model.PType
 
     case class Username(username: String) extends KeyVal[User]
 
@@ -134,8 +134,8 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/keys.html
   package keys3 {
-    import longevity.subdomain.annotations.keyVal
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.keyVal
+    import longevity.model.annotations.persistent
 
     @keyVal[User]
     case class Username(username: String)
@@ -153,8 +153,8 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/partition-keys.html
   package partitionKeys1 {
-    import longevity.subdomain.annotations.keyVal
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.keyVal
+    import longevity.model.annotations.persistent
 
     @keyVal[User]
     case class Username(username: String)  
@@ -169,8 +169,8 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/partition-keys.html
   package partitionKeys2 {
-    import longevity.subdomain.annotations.keyVal
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.keyVal
+    import longevity.model.annotations.persistent
 
     @keyVal[User]
     case class Username(username: String)
@@ -188,8 +188,8 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/indexes.html
   package indexes1 {
-    import longevity.subdomain.annotations.keyVal
-    import longevity.subdomain.annotations.persistent
+    import longevity.model.annotations.keyVal
+    import longevity.model.annotations.persistent
 
     @keyVal[User]
     case class Username(username: String)
@@ -207,9 +207,9 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/indexes.html
   package indexes2 {
-    import longevity.subdomain.KeyVal
-    import longevity.subdomain.CType
-    import longevity.subdomain.PType
+    import longevity.model.KeyVal
+    import longevity.model.CType
+    import longevity.model.PType
 
     case class Username(username: String) extends KeyVal[User]
 
@@ -239,7 +239,7 @@ package PTypeSpec {
       firstName: String,
       lastName: String)
 
-    import longevity.subdomain.PType
+    import longevity.model.PType
 
     object User extends PType[User] {
       object props {
@@ -255,8 +255,8 @@ package PTypeSpec {
       firstName: String,
       lastName: String)
 
-    import longevity.subdomain.PType
-    import longevity.subdomain.ptype.Prop
+    import longevity.model.PType
+    import longevity.model.ptype.Prop
 
     object User extends PType[User] {
       override lazy val propSet = Set.empty[Prop[User, _]]
@@ -266,7 +266,7 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/sets.html
   object sets3 {
-    import longevity.subdomain.KeyVal
+    import longevity.model.KeyVal
  
     case class Username(username: String) extends KeyVal[User]
     case class Email(email: String) extends KeyVal[User]
@@ -277,8 +277,8 @@ package PTypeSpec {
       firstName: String,
       lastName: String)
 
-    import longevity.subdomain.PType
-    import longevity.subdomain.ptype.Prop
+    import longevity.model.PType
+    import longevity.model.ptype.Prop
 
     object User extends PType[User] {
       val usernameProp = prop[Username]("username")

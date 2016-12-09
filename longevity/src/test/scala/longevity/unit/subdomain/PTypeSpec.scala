@@ -3,7 +3,7 @@ package longevity.unit.subdomain
 import longevity.exceptions.subdomain.ptype.MultiplePartitionKeysForPType
 import longevity.exceptions.subdomain.ptype.NoPropsForPTypeException
 import longevity.exceptions.subdomain.ptype.PartitionKeyForDerivedPTypeException
-import longevity.subdomain.PType
+import longevity.model.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -11,9 +11,9 @@ import org.scalatest.Matchers
 /** holds domain objects for special case PartitionKeyForDerivedPTypeException */
 object PTypeSpec {
 
-  import longevity.subdomain.KeyVal
-  import longevity.subdomain.DerivedPType
-  import longevity.subdomain.PolyPType
+  import longevity.model.KeyVal
+  import longevity.model.DerivedPType
+  import longevity.model.PolyPType
 
   case class Username(username: String) extends KeyVal[User]
 

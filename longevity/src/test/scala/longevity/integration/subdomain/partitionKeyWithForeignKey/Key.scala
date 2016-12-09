@@ -1,6 +1,6 @@
 package longevity.integration.subdomain.partitionKeyWithForeignKey
 
-import longevity.subdomain.annotations.keyVal
+import longevity.model.annotations.keyVal
 
 @keyVal[PartitionKeyWithForeignKey]
 case class Key(

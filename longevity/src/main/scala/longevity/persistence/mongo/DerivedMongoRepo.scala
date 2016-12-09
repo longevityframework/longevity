@@ -3,8 +3,8 @@ package longevity.persistence.mongo
 import com.mongodb.client.model.Filters
 import emblem.TypeKey
 import longevity.persistence.PState
-import longevity.subdomain.KeyVal
-import longevity.subdomain.query.QueryFilter
+import longevity.model.KeyVal
+import longevity.model.query.QueryFilter
 import org.bson.BsonDocument
 import org.bson.BsonString
 import org.bson.conversions.Bson

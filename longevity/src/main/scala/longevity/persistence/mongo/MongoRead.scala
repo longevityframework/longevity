@@ -2,16 +2,16 @@ package longevity.persistence.mongo
 
 import com.mongodb.client.model.Filters
 import longevity.persistence.PState
-import longevity.subdomain.KeyVal
-import longevity.subdomain.ptype.Prop
-import longevity.subdomain.query.EqOp
-import longevity.subdomain.query.GtOp
-import longevity.subdomain.query.GteOp
-import longevity.subdomain.query.LtOp
-import longevity.subdomain.query.LteOp
-import longevity.subdomain.query.NeqOp
-import longevity.subdomain.query.RelationalOp
-import longevity.subdomain.realized.RealizedPartitionKey
+import longevity.model.KeyVal
+import longevity.model.ptype.Prop
+import longevity.model.query.EqOp
+import longevity.model.query.GtOp
+import longevity.model.query.GteOp
+import longevity.model.query.LtOp
+import longevity.model.query.LteOp
+import longevity.model.query.NeqOp
+import longevity.model.query.RelationalOp
+import longevity.model.realized.RealizedPartitionKey
 import org.bson.BsonDocument
 import org.bson.BsonValue
 import org.bson.conversions.Bson
