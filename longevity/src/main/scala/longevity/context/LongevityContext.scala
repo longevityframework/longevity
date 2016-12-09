@@ -12,7 +12,7 @@ import longevity.test.TestDataGenerator
 /** contains a factory method for [[LongevityContext]] objects */
 object LongevityContext {
 
-  /** constructs and returns a [[LongevityContext]] using a Typesafe config
+  /** creates and returns a [[LongevityContext]] using a Typesafe config
    * 
    * @param subdomain the subdomain
    *
@@ -32,7 +32,7 @@ object LongevityContext {
   : LongevityContext =
     new LongevityContext(subdomain, LongevityConfig(typesafeConfig), customGeneratorPool)
 
-  /** constructs and returns a [[LongevityContext]] using a [[LongevityConfig]]
+  /** creates and returns a [[LongevityContext]] using a [[LongevityConfig]]
    * 
    * @param subdomain the subdomain
    *
@@ -48,7 +48,7 @@ object LongevityContext {
   : LongevityContext =
     new LongevityContext(subdomain, config, customGeneratorPool)
 
-  /** constructs and returns a [[LongevityContext]] using a [[LongevityConfig]].
+  /** creates and returns a [[LongevityContext]] using a [[LongevityConfig]].
    * the context will have an empty set of custom generators
    * 
    * @param subdomain the subdomain
@@ -60,12 +60,9 @@ object LongevityContext {
 
 }
 
-/** the longevity managed portion of the
- * [[http://martinfowler.com/bliki/BoundedContext.html bounded context]] for
- * your [[http://bit.ly/1BPZfIW subdomain]]. the bounded context is a capture
- * of the strategies and tools used by the applications relating to your
- * subdomain. in other words, those tools that speak the language of the
- * subdomain.
+/** a collection of longevity utilities applicable to a specific [[Subdomain]].
+ *
+ * @constructor creates a [[LongevityContext]] using a [[LongevityConfig]]
  * 
  * @param subdomain the subdomain
  *
