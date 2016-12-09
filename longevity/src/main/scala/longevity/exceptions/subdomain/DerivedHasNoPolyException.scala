@@ -1,11 +1,11 @@
 package longevity.exceptions.subdomain
 
 /** thrown on attempt to construct a
- * [[longevity.subdomain.Subdomain subdomain]] with a
- * [[longevity.subdomain.DerivedCType derived type]] that does not
- * have a corresponding [[longevity.subdomain.PolyCType poly type]],
- * or a [[longevity.subdomain.DerivedPType derived persistent type]] that
- * does not have a corresponding [[longevity.subdomain.PolyPType
+ * [[longevity.model.Subdomain subdomain]] with a
+ * [[longevity.model.DerivedCType derived type]] that does not
+ * have a corresponding [[longevity.model.PolyCType poly type]],
+ * or a [[longevity.model.DerivedPType derived persistent type]] that
+ * does not have a corresponding [[longevity.model.PolyPType
  * poly persistent type]]
  */
 class DerivedHasNoPolyException(typeName: String, isPType: Boolean)

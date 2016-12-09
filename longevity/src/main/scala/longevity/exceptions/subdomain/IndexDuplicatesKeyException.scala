@@ -3,8 +3,8 @@ package longevity.exceptions.subdomain
 import emblem.TypeKey
 
 /** thrown on attempt to construct a
- * [[longevity.subdomain.Subdomain Subdomain]] with a
- * [[longevity.subdomain.PType PType]] that has a key and an index
+ * [[longevity.model.Subdomain Subdomain]] with a
+ * [[longevity.model.PType PType]] that has a key and an index
  * defined over the same properties
  */
 class IndexDuplicatesKeyException(

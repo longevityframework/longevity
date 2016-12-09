@@ -2,8 +2,8 @@ package longevity.exceptions.subdomain.ptype
 
 import emblem.TypeKey
 
-/** an exception thrown when [[longevity.subdomain.DerivedPType derived
- * persistent type]] contains a [[longevity.subdomain.ptype.PartitionKey
+/** an exception thrown when [[longevity.model.DerivedPType derived
+ * persistent type]] contains a [[longevity.model.ptype.PartitionKey
  * partition key]]
  */
 class PartitionKeyForDerivedPTypeException[P : TypeKey] extends PTypeException(

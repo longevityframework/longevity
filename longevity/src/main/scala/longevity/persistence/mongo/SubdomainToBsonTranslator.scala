@@ -24,7 +24,7 @@ import org.joda.time.DateTimeZone
 import scala.collection.JavaConverters.seqAsJavaListConverter
 import scala.reflect.runtime.universe.typeOf
 
-/** translates [[longevity.subdomain.Subdomain subdomain elements]] such as
+/** translates [[longevity.model.Subdomain subdomain elements]] such as
  * [[Persistent persistent objects]] into
  * [[http://mongodb.github.io/mongo-java-driver/3.2/bson/documents/ BSON]].
  * 

@@ -7,7 +7,7 @@ import longevity.exceptions.LongevityException
 
 /** an exception that occurs when asking the
  * [[longevity.test.TestDataGenerator]] to generate a type that is not part of
- * the [[longevity.subdomain.Subdomain]]
+ * the [[longevity.model.Subdomain]]
  */
 class CouldNotGenerateException[A : TypeKey]
 extends LongevityException(

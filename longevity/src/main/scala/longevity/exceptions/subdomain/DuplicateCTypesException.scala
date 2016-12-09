@@ -1,8 +1,8 @@
 package longevity.exceptions.subdomain
 
 /** thrown on attempt to construct a
- * [[longevity.subdomain.CTypePool CTypePool]] with more than one
- * [[longevity.subdomain.CType CType]] for a single kind of
+ * [[longevity.model.CTypePool CTypePool]] with more than one
+ * [[longevity.model.CType CType]] for a single kind of
  * component
  */
 class DuplicateCTypesException

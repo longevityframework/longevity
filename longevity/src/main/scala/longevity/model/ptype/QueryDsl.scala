@@ -19,7 +19,7 @@ import longevity.model.query.QueryOrderBy
 import longevity.model.query.QuerySortExpr
 import longevity.model.query.RelationalFilter
 
-/** a DSL for creating [[longevity.subdomain.query.Query queries]]. you can find
+/** a DSL for creating [[longevity.model.query.Query queries]]. you can find
  * it in your persistent type at `PType.queryDsl`
  */
 class QueryDsl[P] {
@@ -35,7 +35,7 @@ class QueryDsl[P] {
   }
 
   /** in the query DSL, we have just parsed a property. next we need to parse a
-   * [[longevity.subdomain.query.RelationalOp relational operator]] and a
+   * [[longevity.model.query.RelationalOp relational operator]] and a
    * right-hand side value.
    */
   class DslPostProp[A] private[QueryDsl] (
@@ -87,11 +87,11 @@ class QueryDsl[P] {
   }
 
   /** in the query DSL, we have just parsed a (partial or complete)
-   * [[longevity.subdomain.query.QueryFilter QueryFilter]]. there are multiple
+   * [[longevity.model.query.QueryFilter QueryFilter]]. there are multiple
    * possibilities for what comes next:
    *
-   * 1. if we see a [[longevity.subdomain.query.LogicalOp LogicalOp]]
-   * followed by another [[longevity.subdomain.query.QueryFilter QueryFilter]],
+   * 1. if we see a [[longevity.model.query.LogicalOp LogicalOp]]
+   * followed by another [[longevity.model.query.QueryFilter QueryFilter]],
    * then we combine the two query filters with the logical op.
    * 
    * 2. we parse an order-by clause
@@ -101,7 +101,7 @@ class QueryDsl[P] {
    * 4. we parse a limit clause
    * 
    * 5. we are done parsing the complete
-   * [[longevity.subdomain.query.QueryFilter QueryFilter]].
+   * [[longevity.model.query.QueryFilter QueryFilter]].
    */
   class DslPostQueryFilter private[QueryDsl] (private[QueryDsl] val prefix: QueryFilter[P]) {
 
@@ -134,10 +134,10 @@ class QueryDsl[P] {
 
   }
 
-  /** we are done parsing a complete [[longevity.subdomain.query.QueryFilter QueryFilter]] */
+  /** we are done parsing a complete [[longevity.model.query.QueryFilter QueryFilter]] */
   implicit def toQueryFilter(postFilter: DslPostQueryFilter): QueryFilter[P] = postFilter.prefix
  
-  /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
+  /** we are done parsing a complete [[longevity.model.query.Query Query]] */
   implicit def toQuery(postFilter: DslPostQueryFilter): Query[P] = Query(postFilter.prefix)
 
   /** we parse a `Prop` into a `QuerySortExpr` as needed */
@@ -153,8 +153,8 @@ class QueryDsl[P] {
   implicit def toUnqualifiedSortExpr(prop: Prop[_ >: P, _]) = new UnqualifiedSortExpr(prop)
 
   /** in the query DSL, we have just parsed a
-   * [[longevity.subdomain.query.QueryFilter QueryFilter]] and a
-   * [[longevity.subdomain.query.QueryOrderBy QueryOrderBy]]. there are multiple
+   * [[longevity.model.query.QueryFilter QueryFilter]] and a
+   * [[longevity.model.query.QueryOrderBy QueryOrderBy]]. there are multiple
    * possibilities for what comes next:
    *
    * 1. we parse an offset clause
@@ -162,7 +162,7 @@ class QueryDsl[P] {
    * 2. we parse a limit clause
    * 
    * 3. we are done parsing the complete
-   * [[longevity.subdomain.query.QueryFilter QueryFilter]].
+   * [[longevity.model.query.QueryFilter QueryFilter]].
    */
   class DslPostOrderBy private[QueryDsl] (
     private[QueryDsl] val prefix: QueryFilter[P],
@@ -176,19 +176,19 @@ class QueryDsl[P] {
 
   }
 
-  /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
+  /** we are done parsing a complete [[longevity.model.query.Query Query]] */
   implicit def toQuery(postOrderBy: DslPostOrderBy): Query[P] =
     Query(postOrderBy.prefix, postOrderBy.orderBy)
 
   /** in the query DSL, we have parsed a
-   * [[longevity.subdomain.query.QueryFilter QueryFilter]], a
-   * [[longevity.subdomain.query.QueryOrderBy QueryOrderBy]], and an offset
+   * [[longevity.model.query.QueryFilter QueryFilter]], a
+   * [[longevity.model.query.QueryOrderBy QueryOrderBy]], and an offset
    * clause. there are two possibilities for what comes next:
    *
    * 1. we parse a limit clause
    * 
    * 2. we are done parsing the complete
-   * [[longevity.subdomain.query.QueryFilter QueryFilter]].
+   * [[longevity.model.query.QueryFilter QueryFilter]].
    */
   class DslPostOffset private[QueryDsl] (
     private[QueryDsl] val prefix: QueryFilter[P],
@@ -200,17 +200,17 @@ class QueryDsl[P] {
 
   }
 
-  /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
+  /** we are done parsing a complete [[longevity.model.query.Query Query]] */
   implicit def toQuery(postOffset: DslPostOffset): Query[P] =
     Query(postOffset.prefix, postOffset.orderBy, postOffset.offset)
 
   /** in the query DSL, we have parsed a
-   * [[longevity.subdomain.query.QueryFilter QueryFilter]], a
-   * [[longevity.subdomain.query.QueryOrderBy QueryOrderBy]], an offset
+   * [[longevity.model.query.QueryFilter QueryFilter]], a
+   * [[longevity.model.query.QueryOrderBy QueryOrderBy]], an offset
    * and a limit clause. there is one possibility for what comes next:
    * 
    * 1. we are done parsing the complete
-   * [[longevity.subdomain.query.QueryFilter QueryFilter]].
+   * [[longevity.model.query.QueryFilter QueryFilter]].
    */
   class DslPostLimit private[QueryDsl] (
     private[QueryDsl] val prefix: QueryFilter[P],
@@ -218,7 +218,7 @@ class QueryDsl[P] {
     private[QueryDsl] val offset: Option[Int],
     private[QueryDsl] val limit: Option[Int])
 
-  /** we are done parsing a complete [[longevity.subdomain.query.Query Query]] */
+  /** we are done parsing a complete [[longevity.model.query.Query Query]] */
   implicit def toQuery(postLimit: DslPostLimit): Query[P] =
     Query(postLimit.prefix, postLimit.orderBy, postLimit.offset, postLimit.limit)
 

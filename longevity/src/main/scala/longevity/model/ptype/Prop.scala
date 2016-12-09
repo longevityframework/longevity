@@ -7,13 +7,13 @@ import emblem.typeKey
  * within the [Persistent persistent object], at any depth.
  *
  * properties can be used to define [[Key keys]] and [[Index indexes]], as well
- * as for building [[longevity.subdomain.query.Query queries]]. a property can
+ * as for building [[longevity.model.query.Query queries]]. a property can
  * descend from the root into child entities at any depth.
  *
  * at present, a property cannot pass through any collections or terminate with
- * a [[longevity.subdomain.PolyCType polymorphic embeddable]].
+ * a [[longevity.model.PolyCType polymorphic embeddable]].
  * violations will cause an exception to be thrown on
- * [[longevity.subdomain.Subdomain Subdomain construction]].
+ * [[longevity.model.Subdomain Subdomain construction]].
  * 
  * @param path a dot-separated path of the persistent object member descending
  * from the root

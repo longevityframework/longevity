@@ -8,7 +8,7 @@ import longevity.model.ptype.Prop
  * - properties with collection types
  * - properties with types that (recursively) contain members with collection or polymorphic types
  * - properties with paths that contain collections
- * - properties with paths that terminate with a [[longevity.subdomain.PolyCType polymorphic type]].
+ * - properties with paths that terminate with a [[longevity.model.PolyCType polymorphic type]].
  */
 class UnsupportedPropTypeException(val prop: Prop[_, _])
 extends SubdomainException(

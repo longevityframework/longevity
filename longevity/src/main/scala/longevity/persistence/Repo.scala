@@ -17,7 +17,7 @@ trait Repo[P] {
   def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
   /** retrieves an optional persistent object from a
-   * [[longevity.subdomain.KeyVal key value]]
+   * [[longevity.model.KeyVal key value]]
    *
    * @tparam V the type of the key value
    * @param keyVal the key value to use to look up the persistent object
@@ -27,7 +27,7 @@ trait Repo[P] {
   : Future[Option[PState[P]]]
 
   /** retrieves an optional persistent object from a
-   * [[longevity.subdomain.KeyVal key value]]
+   * [[longevity.model.KeyVal key value]]
    * 
    * throws NoSuchElementException whenever the persistent ref does not refer
    * to a persistent object in the repository

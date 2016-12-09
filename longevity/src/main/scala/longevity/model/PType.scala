@@ -58,14 +58,14 @@ abstract class PType[P : TypeKey] {
   /** the indexes for this persistent type. defaults to the empty set */
   def indexSet: Set[Index[P]] = Set.empty
 
-  /** constructs a [[longevity.subdomain.ptype.Prop Prop]] of type `A` from the
+  /** constructs a [[longevity.model.ptype.Prop Prop]] of type `A` from the
    * provided property path.
    *
    * the provided type `A` should match the type of the actual member in the
    * persistent class. type `A` should not contain any collections, or terminate
-   * with [[longevity.subdomain.PolyCType polymorphic component]].
+   * with [[longevity.model.PolyCType polymorphic component]].
    * violations will cause an exception to be thrown on
-   * [[longevity.subdomain.Subdomain Subdomain construction]].
+   * [[longevity.model.Subdomain Subdomain construction]].
    *
    * @tparam A the type of the property
    * @param path the property path
@@ -125,7 +125,7 @@ abstract class PType[P : TypeKey] {
 
   /** a series of properties that determines the partitioning used by the
    * underlying database to distribute data across multiple nodes. used to form a
-   * [[longevity.subdomain.ptype.PartitionKey partition key]]
+   * [[longevity.model.ptype.PartitionKey partition key]]
    *
    * @param props the properties that determine the partition
    */

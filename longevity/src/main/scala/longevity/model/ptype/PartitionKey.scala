@@ -7,7 +7,7 @@ import emblem.typeKey
  * underlying database to partition data across multiple nodes of a distributed
  * database.
  *
- * a [[longevity.subdomain.PType persistent type]] can have zero or
+ * a [[longevity.model.PType persistent type]] can have zero or
  * one primary keys.
  * 
  * @tparam P the persistent type

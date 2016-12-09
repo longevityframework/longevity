@@ -34,7 +34,8 @@ object LongevityContext {
   : LongevityContext =
     new LongevityContext(subdomain, LongevityConfig(typesafeConfig), customGeneratorPool)
 
-  /** creates and returns a [[LongevityContext]] using a [[LongevityConfig]]
+  /** creates and returns a [[LongevityContext]] using a
+   * [[longevity.config.LongevityConfig LongevityConfig]]
    * 
    * @param subdomain the subdomain
    *
@@ -50,7 +51,8 @@ object LongevityContext {
   : LongevityContext =
     new LongevityContext(subdomain, config, customGeneratorPool)
 
-  /** creates and returns a [[LongevityContext]] using a [[LongevityConfig]].
+  /** creates and returns a [[LongevityContext]] using a
+   * [[longevity.config.LongevityConfig LongevityConfig]].
    * the context will have an empty set of custom generators
    * 
    * @param subdomain the subdomain
@@ -62,9 +64,11 @@ object LongevityContext {
 
 }
 
-/** a collection of longevity utilities applicable to a specific [[Subdomain]].
+/** a collection of longevity utilities applicable to a specific
+ * [[longevity.model.Subdomain Subdomain]].
  *
- * @constructor creates a [[LongevityContext]] using a [[LongevityConfig]]
+ * @constructor creates a [[LongevityContext]] using a
+ * [[longevity.config.LongevityConfig LongevityConfig]]
  * 
  * @param subdomain the subdomain
  *

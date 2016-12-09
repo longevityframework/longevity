@@ -15,7 +15,7 @@ import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** contains common code for testing different [[longevity.subdomain.query.Query
+/** contains common code for testing different [[longevity.model.query.Query
  * Query]] instances against [[longevity.persistence.Repo.retrieveByQuery
  * Repo.retrieveByQuery]] and [[longevity.persistence.StreamingRepo.streamByQuery
  * Repo.streamByQuery]].
