@@ -9,7 +9,7 @@ object PTypePool {
   /** collects a sequence of [[PType persistent types]] into a [[PTypePool]].
    * 
    * @param pTypes the sequence of persistent types stored in the pool
-   * @throws longevity.exceptions.subdomain.DuplicatePTypesException when
+   * @throws longevity.exceptions.model.DuplicatePTypesException when
    * two `PTypes` have the same `Persistent` type
    */
   @throws[DuplicatePTypesException]("when two PTypes have the same Persistent type")

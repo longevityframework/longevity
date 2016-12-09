@@ -10,7 +10,7 @@ object CTypePool {
    *
    * @param eTypes the sequence of component types stored in the pool
    *
-   * @throws longevity.exceptions.subdomain.DuplicateCTypesException when two
+   * @throws longevity.exceptions.model.DuplicateCTypesException when two
    * `CTypes` refer to the same component type
    */
   @throws[DuplicateCTypesException]("when two CTypes refer to the same component type")
