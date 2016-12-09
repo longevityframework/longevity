@@ -148,7 +148,7 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
     private def randomPTypeKey(): TypeKey[_ <: P] = {
       repo.pType match {
         case polyPType: PolyPType[P] =>
-          val union = longevityContext.subdomain.emblematic.unions(pTypeKey)
+          val union = longevityContext.domainModel.emblematic.unions(pTypeKey)
           val derivedTypeKeys = union.constituentKeys.toSeq
           val randomIndex = math.abs(longevityContext.testDataGenerator.generate[Int]) % derivedTypeKeys.size
           derivedTypeKeys(randomIndex)

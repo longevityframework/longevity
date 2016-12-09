@@ -5,7 +5,7 @@ import longevity.config.InMem
 import longevity.config.LongevityConfig
 import longevity.context.LongevityContext
 import longevity.config.Mongo
-import longevity.model.Subdomain
+import longevity.model.DomainModel
 import longevity.test.CustomGeneratorPool
 
 object TestLongevityConfigs {
@@ -23,32 +23,32 @@ object TestLongevityConfigs {
 
   def contexts(
     configKeys: Seq[ConfigMatrixKey],
-    subdomain: Subdomain,
+    domainModel: DomainModel,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty)
   : Seq[LongevityContext] =
     configKeys.map { key =>
-      new LongevityContext(subdomain, configForKey(key), generators)
+      new LongevityContext(domainModel, configForKey(key), generators)
     }
 
   def contextMatrix(
-    subdomain: Subdomain,
+    domainModel: DomainModel,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(ConfigMatrixKey.values, subdomain, generators)
+    contexts(ConfigMatrixKey.values, domainModel, generators)
 
   def sparseContextMatrix(
-    subdomain: Subdomain,
+    domainModel: DomainModel,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(ConfigMatrixKey.sparseValues, subdomain, generators)
+    contexts(ConfigMatrixKey.sparseValues, domainModel, generators)
 
   def mongoOnlyContextMatrix(
-    subdomain: Subdomain,
+    domainModel: DomainModel,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(Seq(mongoConfigKey), subdomain, generators)    
+    contexts(Seq(mongoConfigKey), domainModel, generators)    
 
   def cassandraOnlyContextMatrix(
-    subdomain: Subdomain,
+    domainModel: DomainModel,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(Seq(cassandraConfigKey), subdomain, generators)    
+    contexts(Seq(cassandraConfigKey), domainModel, generators)    
 
   val inMemConfigKey = ConfigMatrixKey(InMem, false, false)
   val mongoConfigKey = ConfigMatrixKey(Mongo, false, false)

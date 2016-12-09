@@ -7,7 +7,7 @@ import longevity.integration.model.shorthands._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class ShorthandsQuerySpec extends QuerySpec[Shorthands](
-  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)) {
 
   lazy val sample = randomP
 

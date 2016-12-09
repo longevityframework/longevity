@@ -8,7 +8,7 @@ import emblem.emblematic.Union
 import emblem.emblematic.traversors.sync.Traversor
 import emblem.exceptions.CouldNotTraverseException
 import emblem.typeKey
-import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import org.bson.BsonArray
 import org.bson.BsonBoolean
 import org.bson.BsonDateTime
@@ -24,7 +24,7 @@ import org.joda.time.DateTimeZone
 import scala.collection.JavaConverters.seqAsJavaListConverter
 import scala.reflect.runtime.universe.typeOf
 
-/** translates [[longevity.model.Subdomain domain model elements]] such as
+/** translates [[longevity.model.DomainModel domain model elements]] such as
  * [[Persistent persistent objects]] into
  * [[http://mongodb.github.io/mongo-java-driver/3.2/bson/documents/ BSON]].
  * 
@@ -32,7 +32,7 @@ import scala.reflect.runtime.universe.typeOf
  *
  * @param emblematic the emblematic types to use
  */
-private[persistence] class SubdomainToBsonTranslator(
+private[persistence] class DomainModelToBsonTranslator(
   private val emblematic: Emblematic) {
 
   /** translates a domain model element into BSON */
@@ -40,7 +40,7 @@ private[persistence] class SubdomainToBsonTranslator(
     traversor.traverse[A](WrappedInput(a, isUnionOrTopLevel))
   } catch {
     case e: CouldNotTraverseException =>
-      throw new NotInSubdomainTranslationException(e.typeKey.name, e)
+      throw new NotInDomainModelTranslationException(e.typeKey.name, e)
   }
 
   private val optionAnyType = typeOf[scala.Option[_]]
@@ -52,7 +52,7 @@ private[persistence] class SubdomainToBsonTranslator(
     type TraverseInput[A] = WrappedInput[A]
     type TraverseResult[A] = BsonValue
 
-    override protected val emblematic = SubdomainToBsonTranslator.this.emblematic
+    override protected val emblematic = DomainModelToBsonTranslator.this.emblematic
 
     override protected def traverseBoolean(input: WrappedInput[Boolean]): BsonValue =
       new BsonBoolean(input.value)

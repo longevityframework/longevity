@@ -5,7 +5,7 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.integration.model.basics.Basics
 import longevity.integration.model.basics.BasicsId
-import longevity.integration.model.basics.subdomain
+import longevity.integration.model.basics.domainModel
 import longevity.persistence.Repo
 import longevity.test.LongevityFuturesSpec
 import org.joda.time.DateTime
@@ -29,7 +29,7 @@ with GivenWhenThen {
 
   override protected implicit val executionContext = globalExecutionContext
 
-  val context = new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)
+  val context = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
 
   override def beforeAll() = context.testRepoPool.createSchema().futureValue
 

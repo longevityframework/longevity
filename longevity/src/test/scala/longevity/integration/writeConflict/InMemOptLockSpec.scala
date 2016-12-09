@@ -9,6 +9,6 @@ import longevity.integration.model.basics
 /** optimistic locking tests for inmem back end */
 class InMemOptLockSpec extends OptLockSpec(
   new LongevityContext(
-    basics.subdomain,
+    basics.domainModel,
     TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, true, true))))
 

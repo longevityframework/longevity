@@ -2,7 +2,7 @@ package longevity.json
 
 import emblem.TypeKey
 import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
-import longevity.model.Subdomain
+import longevity.model.DomainModel
 import org.json4s.JsonAST.JValue
 
 /** translates from JSON into objects from your domain model.
@@ -12,13 +12,13 @@ import org.json4s.JsonAST.JValue
  * the JSON. expects [[longevity.model.PolyCType PolyCTypes]] to not be
  * inlined.
  */
-class JsonUnmarshaller(subdomain: Subdomain) {
+class JsonUnmarshaller(domainModel: DomainModel) {
 
   private val translator = new JsonToEmblematicTranslator {
-    override protected val emblematic = subdomain.emblematic
+    override protected val emblematic = domainModel.emblematic
   }
 
-  /** unmarshalls a subdomain object from json4s AST */
+  /** unmarshalls a domainModel object from json4s AST */
   def unmarshall[A : TypeKey](input: JValue): A = translator.translate[A](input)
 
 }

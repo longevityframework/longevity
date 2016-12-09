@@ -7,7 +7,7 @@ import longevity.integration.model.basics._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class OrderByQuerySpec extends QuerySpec[Basics](
-  new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)) {
 
   lazy val sample = randomP
 

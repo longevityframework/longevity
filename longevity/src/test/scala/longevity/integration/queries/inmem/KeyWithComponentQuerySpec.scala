@@ -7,7 +7,7 @@ import longevity.integration.model.keyWithComponent._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class KeyWithComponentQuerySpec extends QuerySpec[KeyWithComponent](
-  new LongevityContext(subdomain, TestLongevityConfigs.inMemConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)) {
 
   lazy val sample = randomP
 

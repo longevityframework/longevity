@@ -44,7 +44,7 @@ private object domainModel {
       val model =
         Apply(
           Select(Select(Ident(TermName("longevity")), TermName("model")),
-                 TypeName("Subdomain")),
+                 TypeName("DomainModel")),
           List(Literal(Constant(p.fullName))))
       model +: ps.tail
     }

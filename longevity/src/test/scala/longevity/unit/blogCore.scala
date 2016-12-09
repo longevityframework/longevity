@@ -7,7 +7,7 @@ package object blogCore {
   import longevity.model.KeyVal
   import longevity.model.PType
   import longevity.model.PTypePool
-  import longevity.model.Subdomain
+  import longevity.model.DomainModel
 
   case class Email(email: String) extends KeyVal[User]
 
@@ -76,7 +76,7 @@ package object blogCore {
     override lazy val indexSet = Set(index(props.blog))
   }
 
-  def subdomain = Subdomain(
+  def domainModel = DomainModel(
     PTypePool(User, Blog, BlogPost),
     CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
 

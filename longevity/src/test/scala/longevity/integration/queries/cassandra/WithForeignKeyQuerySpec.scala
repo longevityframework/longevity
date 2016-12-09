@@ -7,7 +7,7 @@ import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class WithForeignKeyQuerySpec extends QuerySpec[WithForeignKey](
-  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)) {
 
   lazy val sample = randomP
 

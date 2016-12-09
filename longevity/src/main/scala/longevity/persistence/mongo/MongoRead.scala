@@ -22,8 +22,8 @@ import org.bson.conversions.Bson
 private[mongo] trait MongoRead[P] {
   repo: MongoRepo[P] =>
 
-  private lazy val bsonToSubdomainTranslator =
-    new BsonToSubdomainTranslator(subdomain.emblematic)
+  private lazy val bsonToDomainModelTranslator =
+    new BsonToDomainModelTranslator(domainModel.emblematic)
 
   protected def bsonToState(document: BsonDocument): PState[P] = {
     val id = if (hasPartitionKey) None else {
@@ -35,12 +35,12 @@ private[mongo] trait MongoRead[P] {
     } else {
       None
     }
-    val p  = bsonToSubdomainTranslator.translate(document)(pTypeKey)
+    val p  = bsonToDomainModelTranslator.translate(document)(pTypeKey)
     PState(id, rv, p)
   }
 
   protected def propValToMongo[A](value: A, prop: Prop[_ >: P, A]): BsonValue = {
-    subdomainToBsonTranslator.translate(value, false)(prop.propTypeKey)
+    domainModelToBsonTranslator.translate(value, false)(prop.propTypeKey)
   }
 
   protected def mongoRelationalFilter[A](prop: Prop[_ >: P, A], op: RelationalOp, value: A) = {
@@ -68,7 +68,7 @@ private[mongo] trait MongoRead[P] {
     val propPaths = key.queryInfos
 
     def translate[B](pp: key.QueryInfo[B], value: V) =
-      subdomainToBsonTranslator.translate(pp.get(value), false)(pp.typeKey)
+      domainModelToBsonTranslator.translate(pp.get(value), false)(pp.typeKey)
 
     def eqPP[B](pp: key.QueryInfo[B]) = Filters.eq(pp.inlinedPath, translate(pp, value))
     def nePP[B](pp: key.QueryInfo[B]) = Filters.ne(pp.inlinedPath, translate(pp, value))

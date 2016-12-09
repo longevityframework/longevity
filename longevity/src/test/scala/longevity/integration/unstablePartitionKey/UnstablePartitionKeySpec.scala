@@ -5,7 +5,7 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.UnstablePartitionKeyException
 import longevity.integration.model.partitionKey.Key
 import longevity.integration.model.partitionKey.PartitionKey
-import longevity.integration.model.partitionKey.subdomain
+import longevity.integration.model.partitionKey.domainModel
 import longevity.persistence.Repo
 import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll
@@ -21,8 +21,8 @@ with GivenWhenThen {
 
   override protected implicit val executionContext = globalExecutionContext
 
-  val mongoContext = new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)
-  val cassandraContext = new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)
+  val mongoContext = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
+  val cassandraContext = new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)
 
   override def beforeAll() = {
     mongoContext.testRepoPool.createSchema().futureValue

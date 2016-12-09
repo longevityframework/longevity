@@ -1,7 +1,7 @@
 package longevity.integration.poly
 
 import longevity.context.LongevityContext
-import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.integration.model.derived
 import longevity.persistence.RepoPool
@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 object PolyReposSpec {
 
-  case class DerivedNotInSubdomain(
+  case class DerivedNotInDomainModel(
     id: derived.PolyPersistentId,
     component: derived.PolyComponent)
   extends derived.PolyPersistent
@@ -140,10 +140,10 @@ extends FlatSpec with LongevityIntegrationSpec {
   behavior of "Repo[PolyPersistent].create"
 
   it should "throw exception on a subclass of PolyPersistent that is not in the domain model" in {
-    val derivedNotInSubdomain = generateDerivedNotInSubdomain
+    val derivedNotInDomainModel = generateDerivedNotInDomainModel
 
-    intercept[NotInSubdomainTranslationException] {
-      repoPool[derived.PolyPersistent].create(derivedNotInSubdomain)
+    intercept[NotInDomainModelTranslationException] {
+      repoPool[derived.PolyPersistent].create(derivedNotInDomainModel)
     }
   } 
 
@@ -161,8 +161,8 @@ extends FlatSpec with LongevityIntegrationSpec {
     }
   } 
 
-  private def generateDerivedNotInSubdomain =
-    PolyReposSpec.DerivedNotInSubdomain(
+  private def generateDerivedNotInDomainModel =
+    PolyReposSpec.DerivedNotInDomainModel(
       testDataGenerator.generate[derived.PolyPersistentId],
       testDataGenerator.generate[derived.PolyComponent])
 

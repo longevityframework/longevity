@@ -5,7 +5,7 @@ import longevity.TestLongevityConfigs.inMemConfig
 import longevity.TestLongevityConfigs.mongoConfig
 import longevity.context.LongevityContext
 import longevity.model.KeyVal
-import longevity.model.Subdomain
+import longevity.model.DomainModel
 import longevity.model.PTypePool
 import longevity.model.PType
 
@@ -33,9 +33,9 @@ object messageFriend {
     val keySet = Set(key(props.id))
   }
 
-  val subdomain = Subdomain(PTypePool(Friend, Message))
-  val inMemLongevityContext = new LongevityContext(subdomain, inMemConfig)
-  val mongoLongevityContext = new LongevityContext(subdomain, mongoConfig)
-  val cassandraLongevityContext = new LongevityContext(subdomain, cassandraConfig)
+  val domainModel = DomainModel(PTypePool(Friend, Message))
+  val inMemLongevityContext = new LongevityContext(domainModel, inMemConfig)
+  val mongoLongevityContext = new LongevityContext(domainModel, mongoConfig)
+  val cassandraLongevityContext = new LongevityContext(domainModel, cassandraConfig)
 
 }

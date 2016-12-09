@@ -8,7 +8,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class ShorthandWithComponentQuerySpec
 extends QuerySpec[WithShorthandWithComponent](
-  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)) {
 
   lazy val sample = randomP
 

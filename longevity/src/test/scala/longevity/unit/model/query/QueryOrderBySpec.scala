@@ -2,7 +2,7 @@ package longevity.unit.model.query
 
 import longevity.integration.model.basics.Basics
 import longevity.integration.model.basics.BasicsId
-import longevity.integration.model.basics.subdomain
+import longevity.integration.model.basics.domainModel
 import longevity.model.query.Ascending
 import longevity.model.query.Descending
 import longevity.model.query.QueryOrderBy
@@ -14,7 +14,7 @@ import org.scalatest.Matchers
 /** unit tests for [[QueryOrderBy.ordering]] */
 class QueryOrderBySpec extends FlatSpec with Matchers {
 
-  private val realizedPType = subdomain.realizedPTypes(Basics)
+  private val realizedPType = domainModel.realizedPTypes(Basics)
 
   val degenerate = Basics(BasicsId("id"), false, '0', 0D, 0F, 0, 0L, "", DateTime.now)
   def withInt(i: Int) = degenerate.copy(int = i)

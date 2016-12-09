@@ -1,13 +1,13 @@
 package longevity.unit.model.annotations
 
-import longevity.model.Subdomain
+import longevity.model.DomainModel
 import longevity.model.annotations.domainModel
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
 /** unit tests for the proper behavior of [[mprops `@domainModel` macro annotation]] */
-class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
+class DomainModelSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "@domainModel"
 
@@ -20,11 +20,11 @@ class SubdomainSpec extends FlatSpec with GivenWhenThen with Matchers {
     "@domainModel class Foo"           shouldNot compile
   }
 
-  it should "extend the object with `Subdomain(currentPackage)`" in {
-    subdomainExample.subdomain.isInstanceOf[Subdomain] should be (true)
-    subdomainExample.subdomain.asInstanceOf[Subdomain].pTypePool.size should equal (1)
-    subdomainExample.subdomain.asInstanceOf[Subdomain].pTypePool.values.head should equal (subdomainExample.User)
-    subdomainExample.subdomain.asInstanceOf[Subdomain].cTypePool.size should equal (0)
+  it should "extend the object with `DomainModel(currentPackage)`" in {
+    domainModelExample.domainModel.isInstanceOf[DomainModel] should be (true)
+    domainModelExample.domainModel.asInstanceOf[DomainModel].pTypePool.size should equal (1)
+    domainModelExample.domainModel.asInstanceOf[DomainModel].pTypePool.values.head should equal (domainModelExample.User)
+    domainModelExample.domainModel.asInstanceOf[DomainModel].cTypePool.size should equal (0)
   }
 
 }

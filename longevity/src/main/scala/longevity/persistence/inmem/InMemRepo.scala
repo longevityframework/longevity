@@ -9,21 +9,21 @@ import longevity.model.DerivedPType
 import longevity.model.KeyVal
 import longevity.model.PType
 import longevity.model.PolyPType
-import longevity.model.Subdomain
+import longevity.model.DomainModel
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** an in-memory repository for persistent entities of type `P`
  * 
  * @param pType the persistent type for the entities this repository handles
- * @param subdomain the domain model containing the entities that this repo persists
+ * @param domainModel the domain model containing the entities that this repo persists
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
 private[longevity] class InMemRepo[P] private[persistence] (
   pType: PType[P],
-  subdomain: Subdomain,
+  domainModel: DomainModel,
   protected val persistenceConfig: PersistenceConfig)
-extends BaseRepo[P](pType, subdomain)
+extends BaseRepo[P](pType, domainModel)
 with InMemCreate[P]
 with InMemDelete[P]
 with InMemQuery[P]
@@ -54,24 +54,24 @@ private[longevity] object InMemRepo {
 
   private[persistence] def apply[P](
     pType: PType[P],
-    subdomain: Subdomain,
+    domainModel: DomainModel,
     persistenceConfig: PersistenceConfig,
     polyRepoOpt: Option[InMemRepo[_ >: P]])
   : InMemRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
-        new InMemRepo(pType, subdomain, persistenceConfig) with PolyInMemRepo[P]
+        new InMemRepo(pType, domainModel, persistenceConfig) with PolyInMemRepo[P]
       case pt: DerivedPType[_, _] =>
         def withPoly[Poly >: P](poly: InMemRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: InMemRepo[Poly] = poly
           }
-          with InMemRepo(pType, subdomain, persistenceConfig) with DerivedInMemRepo[P, Poly]
+          with InMemRepo(pType, domainModel, persistenceConfig) with DerivedInMemRepo[P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new InMemRepo(pType, subdomain, persistenceConfig)
+        new InMemRepo(pType, domainModel, persistenceConfig)
     }
     repo
   }

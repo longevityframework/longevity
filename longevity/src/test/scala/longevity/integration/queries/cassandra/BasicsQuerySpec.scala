@@ -13,7 +13,7 @@ import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 class BasicsQuerySpec extends QuerySpec[Basics](
-  new LongevityContext(subdomain, TestLongevityConfigs.cassandraConfig))(
+  new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig))(
   Basics.pTypeKey,
   globalExecutionContext) {
 

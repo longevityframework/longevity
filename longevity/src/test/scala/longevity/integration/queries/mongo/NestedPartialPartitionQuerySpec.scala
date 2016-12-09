@@ -7,7 +7,7 @@ import longevity.integration.model.partitionKeyInComponentWithPartialPartition._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class NestedPartialPartitionQuerySpec extends QuerySpec[PKInComponentWithPartialPartition](
-  new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)) {
 
   lazy val sample = randomP
   val keyProp = PKInComponentWithPartialPartition.props.component.key

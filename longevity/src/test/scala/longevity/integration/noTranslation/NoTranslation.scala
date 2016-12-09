@@ -1,6 +1,6 @@
 package longevity.integration.noTranslation
 
-/** a type that should throw [[NotInSubdomainTranslationException]]
- * when encountered by [[SubdomainToBsonTranslator]]
+/** a type that should throw [[NotInDomainModelTranslationException]]
+ * when encountered by [[DomainModelToBsonTranslator]]
  */
 case class NoTranslation(name: String)

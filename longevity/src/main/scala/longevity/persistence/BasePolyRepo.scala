@@ -3,13 +3,13 @@ package longevity.persistence
 import emblem.TypeKey
 import emblem.emblematic.Union
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
-import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 private[persistence] trait BasePolyRepo[P] extends BaseRepo[P] {
 
-  private val union: Union[P] = subdomain.emblematic.unions(pTypeKey)
+  private val union: Union[P] = domainModel.emblematic.unions(pTypeKey)
 
   override def create(p: P)(implicit context: ExecutionContext) = {
     def createDerived[D <: P : TypeKey] = repoPool[D].create(p.asInstanceOf[D])(context)
@@ -33,7 +33,7 @@ private[persistence] trait BasePolyRepo[P] extends BaseRepo[P] {
   }
 
   private def derivedTypeKey(p: P): TypeKey[_ <: P] = union.typeKeyForInstance(p).getOrElse {
-    throw new NotInSubdomainTranslationException(p.getClass.getSimpleName)
+    throw new NotInDomainModelTranslationException(p.getClass.getSimpleName)
   }
 
 }

@@ -3,7 +3,7 @@ package longevity.unit.model.ptype
 import longevity.model.KeyVal
 import longevity.model.PType
 import longevity.model.PTypePool
-import longevity.model.Subdomain
+import longevity.model.DomainModel
 import longevity.model.ptype.Key
 import longevity.model.query.Query
 import longevity.model.query.Ascending
@@ -46,7 +46,7 @@ object QueryDslSpec {
 /** unit tests for the proper construction of [[Query Queries]] using the [[QueryDsl]] */
 class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
   import QueryDslSpec._
-  private val subdomain = Subdomain(PTypePool(DslPersistent, Associated))
+  private val domainModel = DomainModel(PTypePool(DslPersistent, Associated))
   private val dsl = DslPersistent.queryDsl
   import dsl._
 

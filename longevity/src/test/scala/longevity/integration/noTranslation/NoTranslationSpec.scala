@@ -1,7 +1,7 @@
 package longevity.integration.noTranslation
 
 import com.typesafe.scalalogging.LazyLogging
-import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.persistence.RepoPool
 import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll
@@ -35,13 +35,13 @@ with LazyLogging {
 
   it should "fail for untranslatable objects embedded directly in root" in {
     val ps = repoPool[WithNoTranslation].create(WithNoTranslation("uri", NoTranslation("name")))
-    ps.failed.futureValue shouldBe a [NotInSubdomainTranslationException]
+    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
 
   it should "fail for list of untranslatable objects" in {
     val ps = repoPool[WithNoTranslationList].create(
       WithNoTranslationList("uri", NoTranslation("name1") :: NoTranslation("name2") :: Nil))
-    ps.failed.futureValue shouldBe a [NotInSubdomainTranslationException]
+    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
 
   // TODO pt-99755864 the fact that an empty list doesnt fail really speaks to the fact that we have to fail
@@ -56,7 +56,7 @@ with LazyLogging {
   it should "fail for option of untranslatable objects" in {
     val ps = repoPool[WithNoTranslationOption].create(
       WithNoTranslationOption("uri", Option(NoTranslation("name1"))))
-    ps.failed.futureValue shouldBe a [NotInSubdomainTranslationException]
+    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
 
   it should "not fail for an empty option of untranslatable objects" in {
@@ -67,7 +67,7 @@ with LazyLogging {
   it should "fail for set of untranslatable objects" in {
     val ps = repoPool[WithNoTranslationSet].create(
       WithNoTranslationSet("uri", Set(NoTranslation("name1"), NoTranslation("name2"))))
-    ps.failed.futureValue shouldBe a [NotInSubdomainTranslationException]
+    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
 
   it should "not fail for an empty set of untranslatable objects" in {
@@ -78,7 +78,7 @@ with LazyLogging {
   it should "fail for longhand of untranslatable objects" in {
     val ps = repoPool[WithNoTranslationLonghand].create(
       WithNoTranslationLonghand("uri", NoTranslationLonghand(NoTranslation("name"))))
-    ps.failed.futureValue shouldBe a [NotInSubdomainTranslationException]
+    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
 
 }

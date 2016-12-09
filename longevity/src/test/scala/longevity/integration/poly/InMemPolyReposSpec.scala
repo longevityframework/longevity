@@ -9,5 +9,5 @@ import longevity.integration.model.derived
 /** tests for in-memory repos that share tables in the presence of [[PolyCType]] */
 class InMemPolyReposSpec extends PolyReposSpec(
   new LongevityContext(
-    derived.subdomain,
+    derived.domainModel,
     TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, false, false))))

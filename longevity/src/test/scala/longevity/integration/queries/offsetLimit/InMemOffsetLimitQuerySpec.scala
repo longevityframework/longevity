@@ -4,4 +4,4 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 
 class InMemOffsetLimitQuerySpec extends OffsetLimitQuerySpec(
-  new LongevityContext(OffsetLimitQuerySpec.subdomain, TestLongevityConfigs.inMemConfig))
+  new LongevityContext(OffsetLimitQuerySpec.domainModel, TestLongevityConfigs.inMemConfig))

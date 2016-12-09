@@ -6,5 +6,5 @@ package longevity.exceptions.model
  * component
  */
 class DuplicateCTypesException
-extends SubdomainException(
+extends DomainModelException(
   "an CTypePool cannot contain multiple CTypes for the same component")

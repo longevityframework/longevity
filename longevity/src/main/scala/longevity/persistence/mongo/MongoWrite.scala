@@ -16,7 +16,7 @@ import org.bson.BsonObjectId
 private[mongo] trait MongoWrite[P] {
   repo: MongoRepo[P] =>
 
-  protected lazy val subdomainToBsonTranslator = new SubdomainToBsonTranslator(subdomain.emblematic)
+  protected lazy val domainModelToBsonTranslator = new DomainModelToBsonTranslator(domainModel.emblematic)
 
   /** BSON for a persistent state. this puts the partition key in the `_id`
    * column, which may or may not be the best choice. alternative is to just put
@@ -36,7 +36,7 @@ private[mongo] trait MongoWrite[P] {
   }
 
   protected def translate(p: P): BsonDocument =
-    subdomainToBsonTranslator.translate(p, true)(pTypeKey).asDocument
+    domainModelToBsonTranslator.translate(p, true)(pTypeKey).asDocument
 
   protected def throwDuplicateKeyValException(p: P, cause: MongoWriteException): Nothing = {
     val indexRegex = """index: (?:[\w\.]*\$)?(\S+)\s+dup key: \{ :""".r.unanchored
@@ -69,7 +69,7 @@ private[mongo] trait MongoWrite[P] {
         def pkFilter[V <: KeyVal[P]](key: RealizedKey[P, V]) = {
           val fieldName = key.realizedProp.inlinedPath
           val keyVal = key.keyValForP(state.get)
-          val bson = subdomainToBsonTranslator.translate(keyVal, false)(key.keyValTypeKey)
+          val bson = domainModelToBsonTranslator.translate(keyVal, false)(key.keyValTypeKey)
           Filters.eq(fieldName, bson)
         }
         pkFilter(key)

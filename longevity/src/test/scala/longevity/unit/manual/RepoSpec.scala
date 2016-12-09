@@ -11,7 +11,7 @@ object RepoSpec {
 
   import org.joda.time.DateTime
   import longevity.model.KeyVal
-  import longevity.model.Subdomain
+  import longevity.model.DomainModel
   import longevity.model.CType
   import longevity.model.CTypePool
   import longevity.model.PTypePool
@@ -80,7 +80,7 @@ object RepoSpec {
     override val indexSet = Set(index(props.blog, props.postDate))
   }
 
-  val blogCore = Subdomain(
+  val blogCore = DomainModel(
     PTypePool(User, Blog, BlogPost),
     CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
 

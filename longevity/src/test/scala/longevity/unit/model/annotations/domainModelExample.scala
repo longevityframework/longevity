@@ -1,10 +1,10 @@
-package longevity.unit.model.annotations.subdomainExample
+package longevity.unit.model.annotations.domainModelExample
 
 import longevity.model.annotations.keyVal
 import longevity.model.annotations.persistent
 import longevity.model.annotations.{ domainModel => dm }
 
-@dm object subdomain
+@dm object domainModel
 
 @keyVal[User] case class Username(username: String)
 

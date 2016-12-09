@@ -14,7 +14,7 @@ import emblem.stringUtil.typeName
 import emblem.typeKey
 import longevity.config.CassandraConfig
 import longevity.config.PersistenceConfig
-import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
@@ -22,7 +22,7 @@ import longevity.persistence.SchemaCreator
 import longevity.model.DerivedPType
 import longevity.model.PType
 import longevity.model.PolyPType
-import longevity.model.Subdomain
+import longevity.model.DomainModel
 import longevity.model.realized.RealizedPartitionKey
 import longevity.model.realized.RealizedPropComponent
 import org.joda.time.DateTime
@@ -33,16 +33,16 @@ import scala.concurrent.blocking
 /** a Cassandra repository for persistent entities of type `P`.
  *
  * @param pType the type of the persistent entities this repository handles
- * @param subdomain the domain model containing the persistent that this repo persists
+ * @param domainModel the domain model containing the persistent that this repo persists
  * @param session the connection to the cassandra database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
 private[longevity] class CassandraRepo[P] private (
   pType: PType[P],
-  subdomain: Subdomain,
+  domainModel: DomainModel,
   private val sessionInfo: CassandraRepo.CassandraSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
-extends BaseRepo[P](pType, subdomain)
+extends BaseRepo[P](pType, domainModel)
 with CassandraSchema[P]
 with CassandraCreate[P]
 with CassandraRetrieve[P]
@@ -89,11 +89,11 @@ with LazyLogging {
   }
 
   protected val emblematicToJsonTranslator = new EmblematicToJsonTranslator {
-    override protected val emblematic = subdomain.emblematic
+    override protected val emblematic = domainModel.emblematic
   }
 
   protected val jsonToEmblematicTranslator = new JsonToEmblematicTranslator {
-    override protected val emblematic = subdomain.emblematic
+    override protected val emblematic = domainModel.emblematic
   }
 
   protected def columnName(prop: RealizedPropComponent[_, _, _]) = "prop_" + scoredPath(prop)
@@ -107,7 +107,7 @@ with LazyLogging {
       compact(render(emblematicToJsonTranslator.translate(p)(pTypeKey)))
     } catch {
       case e: CouldNotTraverseException =>
-        throw new NotInSubdomainTranslationException(e.typeKey.name, e)
+        throw new NotInDomainModelTranslationException(e.typeKey.name, e)
     }
   }
 
@@ -243,25 +243,25 @@ private[persistence] object CassandraRepo {
 
   def apply[P](
     pType: PType[P],
-    subdomain: Subdomain,
+    domainModel: DomainModel,
     session: CassandraSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[CassandraRepo[_ >: P]])
   : CassandraRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
-        new CassandraRepo(pType, subdomain, session, config) with PolyCassandraRepo[P]
+        new CassandraRepo(pType, domainModel, session, config) with PolyCassandraRepo[P]
       case pt: DerivedPType[_, _] =>
         def withPoly[Poly >: P](poly: CassandraRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: CassandraRepo[Poly] = poly
           }
-          with CassandraRepo(pType, subdomain, session, config) with DerivedCassandraRepo[P, Poly]
+          with CassandraRepo(pType, domainModel, session, config) with DerivedCassandraRepo[P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new CassandraRepo(pType, subdomain, session, config)
+        new CassandraRepo(pType, domainModel, session, config)
     }
     repo
   }

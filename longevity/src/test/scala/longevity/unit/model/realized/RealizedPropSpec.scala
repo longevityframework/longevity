@@ -10,7 +10,7 @@ class RealizedPropSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import longevity.unit.blogCore._
 
-  val userRealizedPType = subdomain.realizedPTypes(User)
+  val userRealizedPType = domainModel.realizedPTypes(User)
   val realizedProp = userRealizedPType.realizedProps(User.props.email)
 
   val email = Email("email28")
@@ -49,7 +49,7 @@ class RealizedPropSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "compare prop values correctly for compound properties" in {
     import longevity.integration.model.component._
 
-    val realizedPType = subdomain.realizedPTypes(WithComponent)
+    val realizedPType = domainModel.realizedPTypes(WithComponent)
     val realizedProp = realizedPType.realizedProps(WithComponent.props.component)
 
     val component1 = Component("id1", "tag")

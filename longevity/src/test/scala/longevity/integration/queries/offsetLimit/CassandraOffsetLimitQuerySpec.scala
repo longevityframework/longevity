@@ -4,5 +4,5 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 
 class CassandraOffsetLimitQuerySpec extends OffsetLimitQuerySpec(
-  new LongevityContext(OffsetLimitQuerySpec.subdomain, TestLongevityConfigs.cassandraConfig),
+  new LongevityContext(OffsetLimitQuerySpec.domainModel, TestLongevityConfigs.cassandraConfig),
   false)

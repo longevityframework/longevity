@@ -7,7 +7,7 @@ import longevity.integration.model.keyWithShorthand._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class KeyWithShorthandQuerySpec extends QuerySpec[KeyWithShorthand](
-  new LongevityContext(subdomain, TestLongevityConfigs.mongoConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)) {
 
   lazy val sample = randomP
 

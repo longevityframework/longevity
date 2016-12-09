@@ -6,8 +6,8 @@ import longevity.model.annotations.domainModel
 /** covers a persistent with set attributes for every supported basic type */
 package object basicSets {
 
-  @domainModel object subdomain
+  @domainModel object domainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
+  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel)
 
 }

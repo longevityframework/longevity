@@ -9,7 +9,7 @@ import longevity.model.query.FilterAll
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class BasicsQuerySpec extends QuerySpec[Basics](
-  new LongevityContext(subdomain, TestLongevityConfigs.inMemConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)) {
 
   lazy val sample = randomP
 

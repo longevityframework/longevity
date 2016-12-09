@@ -5,7 +5,7 @@ import akka.stream.scaladsl.Source
 import emblem.TypeKey
 import longevity.exceptions.persistence.UnstablePartitionKeyException
 import longevity.model.KeyVal
-import longevity.model.Subdomain
+import longevity.model.DomainModel
 import longevity.model.PType
 import longevity.model.query.Query
 import longevity.model.realized.RealizedPType
@@ -15,11 +15,11 @@ import scala.concurrent.Future
 /** an abstract base class for [[Repo]] implementations
  * 
  * @param pType the entity type for the persistent entities this repository handles
- * @param subdomain the domain model containing the persistent entities that this repo persists
+ * @param domainModel the domain model containing the persistent entities that this repo persists
  */
 private[longevity] abstract class BaseRepo[P] private[persistence] (
   protected[longevity] val pType: PType[P],
-  protected[longevity] val subdomain: Subdomain)
+  protected[longevity] val domainModel: DomainModel)
 extends Repo[P] {
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
@@ -27,7 +27,7 @@ extends Repo[P] {
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repoPool: RepoPool = _repoPoolOption.get
 
-  protected[longevity] val realizedPType: RealizedPType[P] = subdomain.realizedPTypes(pType)
+  protected[longevity] val realizedPType: RealizedPType[P] = domainModel.realizedPTypes(pType)
 
   /** the type key for the persistent entities this repository handles */
   protected[persistence] val pTypeKey: TypeKey[P] = pType.pTypeKey

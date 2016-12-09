@@ -6,7 +6,7 @@ import longevity.config.Cassandra
 import longevity.context.LongevityContext
 import longevity.config.Mongo
 import longevity.model.KeyVal
-import longevity.model.Subdomain
+import longevity.model.DomainModel
 import longevity.model.PTypePool
 import longevity.model.PType
 import org.json4s.JsonAST.JObject
@@ -31,9 +31,9 @@ object LongevityContextSpec {
       val keySet = Set(key(props.id))
     }
 
-    val subdomain = Subdomain(PTypePool(A))
-    val mongoContext = new LongevityContext(subdomain, mongoConfig)
-    val cassandraContext = new LongevityContext(subdomain, cassandraConfig)
+    val domainModel = DomainModel(PTypePool(A))
+    val mongoContext = new LongevityContext(domainModel, mongoConfig)
+    val cassandraContext = new LongevityContext(domainModel, cassandraConfig)
   }
 
 }
@@ -50,7 +50,7 @@ class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
     behavior of s"LongevityContext creation for ${context.config.backEnd}"
 
     it should "produce a context with the right domain model" in {
-      context.subdomain should equal (LongevityContextSpec.sample.subdomain)
+      context.domainModel should equal (LongevityContextSpec.sample.domainModel)
     }
 
     it should "produce a context with the right back end" in {

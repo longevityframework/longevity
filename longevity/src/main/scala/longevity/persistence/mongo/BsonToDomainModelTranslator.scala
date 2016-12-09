@@ -8,7 +8,7 @@ import emblem.emblematic.Union
 import emblem.emblematic.traversors.sync.Traversor
 import emblem.exceptions.CouldNotTraverseException
 import emblem.typeKey
-import longevity.exceptions.persistence.NotInSubdomainTranslationException
+import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import org.bson.BsonDocument
 import org.bson.BsonNull
 import org.bson.BsonValue
@@ -18,7 +18,7 @@ import scala.collection.JavaConverters.asScalaBufferConverter
 import scala.reflect.runtime.universe.typeOf
 
 /** translates [[http://mongodb.github.io/mongo-java-driver/3.2/bson/documents/
- * BSON]] into [[longevity.model.Subdomain subdomain elements]] such as
+ * BSON]] into [[longevity.model.DomainModel domainModel elements]] such as
  * [[Persistent persistent objects]].
  * 
  * expects BSON for embeddables and key values with a single property to inline
@@ -26,7 +26,7 @@ import scala.reflect.runtime.universe.typeOf
  *
  * @param emblematic the emblematic types to use
  */
-private[persistence] class BsonToSubdomainTranslator(
+private[persistence] class BsonToDomainModelTranslator(
   private val emblematic: Emblematic) {
 
   /** translates a `MongoDBObject` into a [[Persistent persistent object]] */
@@ -34,7 +34,7 @@ private[persistence] class BsonToSubdomainTranslator(
     traversor.traverse[P](WrappedInput(bson, true))
   } catch {
     case e: CouldNotTraverseException =>
-      throw new NotInSubdomainTranslationException(typeKey[P].name, e)
+      throw new NotInDomainModelTranslationException(typeKey[P].name, e)
   }
 
   private val optionAnyType = typeOf[scala.Option[_]]
@@ -46,7 +46,7 @@ private[persistence] class BsonToSubdomainTranslator(
     type TraverseInput[A] = WrappedInput
     type TraverseResult[A] = A
 
-    override protected val emblematic = BsonToSubdomainTranslator.this.emblematic
+    override protected val emblematic = BsonToDomainModelTranslator.this.emblematic
 
     override protected def traverseBoolean(input: WrappedInput): Boolean = input.value.asBoolean.getValue
 

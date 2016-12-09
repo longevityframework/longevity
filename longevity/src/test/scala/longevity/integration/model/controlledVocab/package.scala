@@ -6,8 +6,8 @@ import longevity.model.annotations.domainModel
 /** covers a controlled vocab created with a poly type and multiple derived case objects */
 package object controlledVocab {
 
-  @domainModel object subdomain
+  @domainModel object domainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
+  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel)
 
 }

@@ -6,8 +6,8 @@ import longevity.model.annotations.domainModel
 /** covers a persistent with an optional association to another persistent */
 package object foreignKeyOption {
 
-  @domainModel object subdomain
+  @domainModel object domainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain)
+  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel)
 
 }

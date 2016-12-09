@@ -6,5 +6,5 @@ package longevity.exceptions.model
  * persistent object
  */
 class DuplicatePTypesException
-extends SubdomainException(
+extends DomainModelException(
   "an PTypePool cannot contain multiple PTypes for the same Persistent")

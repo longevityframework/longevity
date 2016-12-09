@@ -1,6 +1,6 @@
 package longevity.unit.manual
 
-package SubdomainSpec {
+package DomainModelSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/persistents.html
   package persistents1 {
@@ -153,22 +153,22 @@ package SubdomainSpec {
       sponsor: Option[Username])
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/model/subdomain.html
-  package subdomain1 {
+  // used in http://longevityframework.github.io/longevity/manual/model/domainModel.html
+  package domainModel1 {
     import longevity.model.annotations.domainModel
 
-    @domainModel object mySubdomain
+    @domainModel object myDomainModel
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/model/subdomain.html
-  package subdomain2 {
-    import longevity.model.Subdomain
+  // used in http://longevityframework.github.io/longevity/manual/model/domainModel.html
+  package domainModel2 {
+    import longevity.model.DomainModel
 
-    object mySubdomain extends Subdomain("myPackage")
+    object myDomainModel extends DomainModel("myPackage")
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/model/subdomain.html
-  package subdomain3 {
+  // used in http://longevityframework.github.io/longevity/manual/model/domainModel.html
+  package domainModel3 {
     import longevity.model.annotations.persistent
     import longevity.model.annotations.component
 
@@ -177,11 +177,11 @@ package SubdomainSpec {
     @persistent(keySet = emptyKeySet) case class Blog()
     @component case class UserProfile()
 
-    import longevity.model.Subdomain
+    import longevity.model.DomainModel
     import longevity.model.CTypePool
     import longevity.model.PTypePool
 
-    object mySubdomain extends Subdomain(
+    object myDomainModel extends DomainModel(
       PTypePool(User, BlogPost, Blog),
       CTypePool(UserProfile))
   }

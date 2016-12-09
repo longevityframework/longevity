@@ -27,7 +27,7 @@ import scala.reflect.runtime.universe.runtimeMirror
  * @param cTypePool a complete set of the component types within the
  * domain model. defaults to empty
  */
-class Subdomain(
+class DomainModel(
   val pTypePool: PTypePool,
   val cTypePool: CTypePool = CTypePool.empty) {
 
@@ -193,7 +193,7 @@ class Subdomain(
     }
   }
 
-  override def toString = s"""|Subdomain(
+  override def toString = s"""|DomainModel(
                               |  PTypePool(
                               |    ${pTypePool.values.mkString(",\n    ")}),
                               |  CTypePool(
@@ -201,8 +201,8 @@ class Subdomain(
 
 }
 
-/** provides factory methods for constructing [[Subdomain domain models]] */
-object Subdomain {
+/** provides factory methods for constructing [[DomainModel domain models]] */
+object DomainModel {
 
   /** creates a domain model from pools of [[PType persistent]] and
    * [[CType component]] types
@@ -215,14 +215,14 @@ object Subdomain {
   def apply(
     pTypePool: PTypePool,
     cTypePool: CTypePool = CTypePool.empty)
-  : Subdomain =
-    new Subdomain(pTypePool, cTypePool)
+  : DomainModel =
+    new DomainModel(pTypePool, cTypePool)
 
   /** creates a domain model by scanning the named package for [[PType persistent
    * types]] and [[CType component types]]
    *
    * @param packageName the name of the package to scan
    */
-  def apply(packageName: String): Subdomain = Subdomain(packageName)
+  def apply(packageName: String): DomainModel = DomainModel(packageName)
 
 }

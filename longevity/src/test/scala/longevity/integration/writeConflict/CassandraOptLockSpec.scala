@@ -9,5 +9,5 @@ import longevity.integration.model.basics
 /** optimistic locking tests for cassandra back end */
 class CassandraOptLockSpec extends OptLockSpec(
   new LongevityContext(
-    basics.subdomain,
+    basics.domainModel,
     TestLongevityConfigs.configMatrix(ConfigMatrixKey(Cassandra, true, true))))

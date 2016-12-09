@@ -8,7 +8,7 @@ import longevity.model.annotations.domainModel
 /** covers a persistent with a simple shorthand constraint */
 package object complexConstraint {
 
-  @domainModel object subdomain
+  @domainModel object domainModel
 
   val emailGenerator = { generator: TestDataGenerator =>
     Email(s"${generator.generate[String]}@${generator.generate[String]}")
@@ -24,6 +24,6 @@ package object complexConstraint {
 
   val generators = CustomGeneratorPool.empty + emailGenerator + complexConstraintGenerator
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(subdomain, generators)
+  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel, generators)
 
 }

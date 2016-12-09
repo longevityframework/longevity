@@ -1,7 +1,7 @@
 package longevity.exceptions.model
 
 /** thrown on attempt to construct a
- * [[longevity.model.Subdomain subdomain]] with a
+ * [[longevity.model.DomainModel domainModel]] with a
  * [[longevity.model.DerivedCType derived type]] that does not
  * have a corresponding [[longevity.model.PolyCType poly type]],
  * or a [[longevity.model.DerivedPType derived persistent type]] that
@@ -9,6 +9,6 @@ package longevity.exceptions.model
  * poly persistent type]]
  */
 class DerivedHasNoPolyException(typeName: String, isPType: Boolean)
-extends SubdomainException(
+extends DomainModelException(
   if (isPType) "DerivedPType $typeName does not have a corresponding PolyPType"
   else "DerivedCType $typeName does not have a corresponding PolyPype")

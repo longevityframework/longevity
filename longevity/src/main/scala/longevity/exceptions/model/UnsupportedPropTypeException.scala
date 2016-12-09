@@ -11,7 +11,7 @@ import longevity.model.ptype.Prop
  * - properties with paths that terminate with a [[longevity.model.PolyCType polymorphic type]].
  */
 class UnsupportedPropTypeException(val prop: Prop[_, _])
-extends SubdomainException(
+extends DomainModelException(
   s"longevity doesn't currently support properties such as `$prop` in `${prop.pTypeKey.name}`. " +
   s"for details see http://longevityframework.github.io/longevity/manual/ptype/properties.html")
 
