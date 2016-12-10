@@ -26,16 +26,16 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
 
-libraryDependencies += "org.longevityframework" %% "longevity" % "0.18.0"
+libraryDependencies += "org.longevityframework" %% "longevity" % "0.19.0"
 ```
 
 Include one of the following lines to bring in the library
 dependencies for the back end of your choice:
 
 ```scala
-libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.18.0"
+libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.19.0"
 
-libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.18.0"
+libraryDependencies += "org.longevityframework" %% "longevity-mongo-deps" % "0.19.0"
 ```
 
 ## enabling macro annotations
@@ -91,7 +91,7 @@ In the projects where you want to use longevity, include a library
 dependency. If you are on the `master` branch, use:
 
 ```scala
-libraryDependencies += "org.longevityframework" %% "longevity" % "0.19-SNAPSHOT"
+libraryDependencies += "org.longevityframework" %% "longevity" % "0.20-SNAPSHOT"
 ```
 
 {% assign prevTitle = "what is longevity" %}
