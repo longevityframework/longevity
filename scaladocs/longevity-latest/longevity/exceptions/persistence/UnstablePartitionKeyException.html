@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>UnstablePartitionKeyException - longevity 0.18.0 API - longevity.exceptions.persistence.UnstablePartitionKeyException</title>
-          <meta name="description" content="UnstablePartitionKeyException - longevity 0.18.0 API - longevity.exceptions.persistence.UnstablePartitionKeyException" />
-          <meta name="keywords" content="UnstablePartitionKeyException longevity 0.18.0 API longevity.exceptions.persistence.UnstablePartitionKeyException" />
+          <title>UnstablePartitionKeyException - longevity 0.19.0 API - longevity.exceptions.persistence.UnstablePartitionKeyException</title>
+          <meta name="description" content="UnstablePartitionKeyException - longevity 0.19.0 API - longevity.exceptions.persistence.UnstablePartitionKeyException" />
+          <meta name="keywords" content="UnstablePartitionKeyException longevity 0.19.0 API longevity.exceptions.persistence.UnstablePartitionKeyException" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception thrown on attempt to persist an object with a modified partition key</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.18.0/src/main/scala/longevity/exceptions/persistence/UnstablePartitionKeyException.scala" target="_blank">UnstablePartitionKeyException.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception thrown on attempt to persist an object with a modified partition key</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.19.0/src/main/scala/longevity/exceptions/persistence/UnstablePartitionKeyException.scala" target="_blank">UnstablePartitionKeyException.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="PersistenceException.html" class="extype" name="longevity.exceptions.persistence.PersistenceException">PersistenceException</a>, <a href="../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -97,7 +97,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="longevity.exceptions.persistence.UnstablePartitionKeyException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(orig:P,origKeyVal:longevity.subdomain.KeyVal[P],newKeyVal:longevity.subdomain.KeyVal[P]):longevity.exceptions.persistence.UnstablePartitionKeyException[P]"></a>
+      <a id="&lt;init&gt;(orig:P,origKeyVal:longevity.model.KeyVal[P],newKeyVal:longevity.model.KeyVal[P]):longevity.exceptions.persistence.UnstablePartitionKeyException[P]"></a>
       <a id="&lt;init&gt;:UnstablePartitionKeyException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -105,10 +105,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">UnstablePartitionKeyException</span><span class="params">(<span name="orig">orig: <span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span></span>, <span name="origKeyVal">origKeyVal: <a href="../../subdomain/KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>, <span name="newKeyVal">newKeyVal: <a href="../../subdomain/KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>)</span>
+        <span class="name">UnstablePartitionKeyException</span><span class="params">(<span name="orig">orig: <span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span></span>, <span name="origKeyVal">origKeyVal: <a href="../../model/KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>, <span name="newKeyVal">newKeyVal: <a href="../../model/KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@&lt;init&gt;(orig:P,origKeyVal:longevity.subdomain.KeyVal[P],newKeyVal:longevity.subdomain.KeyVal[P]):longevity.exceptions.persistence.UnstablePartitionKeyException[P]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@&lt;init&gt;(orig:P,origKeyVal:longevity.model.KeyVal[P],newKeyVal:longevity.model.KeyVal[P]):longevity.exceptions.persistence.UnstablePartitionKeyException[P]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -628,7 +628,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="longevity.exceptions.persistence.UnstablePartitionKeyException#newKeyVal" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="newKeyVal:longevity.subdomain.KeyVal[P]"></a>
+      <a id="newKeyVal:longevity.model.KeyVal[P]"></a>
       <a id="newKeyVal:KeyVal[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -636,10 +636,10 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">newKeyVal</span><span class="result">: <a href="../../subdomain/KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
+        <span class="name">newKeyVal</span><span class="result">: <a href="../../model/KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@newKeyVal:longevity.subdomain.KeyVal[P]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@newKeyVal:longevity.model.KeyVal[P]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -696,7 +696,7 @@
     </span>
       
     </li><li name="longevity.exceptions.persistence.UnstablePartitionKeyException#origKeyVal" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="origKeyVal:longevity.subdomain.KeyVal[P]"></a>
+      <a id="origKeyVal:longevity.model.KeyVal[P]"></a>
       <a id="origKeyVal:KeyVal[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -704,10 +704,10 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">origKeyVal</span><span class="result">: <a href="../../subdomain/KeyVal.html" class="extype" name="longevity.subdomain.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
+        <span class="name">origKeyVal</span><span class="result">: <a href="../../model/KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@origKeyVal:longevity.subdomain.KeyVal[P]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@origKeyVal:longevity.model.KeyVal[P]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

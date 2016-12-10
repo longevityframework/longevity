@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>test - longevity 0.18.0 API - longevity.test</title>
-          <meta name="description" content="test - longevity 0.18.0 API - longevity.test" />
-          <meta name="keywords" content="test longevity 0.18.0 API longevity.test" />
+          <title>test - longevity 0.19.0 API - longevity.test</title>
+          <meta name="description" content="test - longevity 0.19.0 API - longevity.test" />
+          <meta name="keywords" content="test longevity 0.19.0 API longevity.test" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,9 +47,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for testing your <a href="../subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">subdomain</a>
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for testing your <a href="../model/DomainModel.html" class="extype" name="longevity.model.DomainModel">domainModel</a>
 and <a href="../context/LongevityContext.html" class="extype" name="longevity.context.LongevityContext">longevity context</a>
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.18.0/src/main/scala/longevity/test/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.19.0/src/main/scala/longevity/test/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="content-diagram-container">
@@ -160,7 +160,7 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">contains common code for testing different <a href="../subdomain/query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a> instances against <a href="../persistence/Repo.html#retrieveByQuery(query:longevity.subdomain.query.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]" class="extmbr" name="longevity.persistence.Repo#retrieveByQuery">Repo.retrieveByQuery</a> and <a href="../persistence/package$$StreamingRepo.html#streamByQuery(query:longevity.subdomain.query.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]" class="extmbr" name="longevity.persistence.StreamingRepo#streamByQuery">Repo.streamByQuery</a>.</p><div class="fullcomment"><div class="comment cmt"><p>contains common code for testing different <a href="../subdomain/query/Query.html" class="extype" name="longevity.subdomain.query.Query">Query</a> instances against <a href="../persistence/Repo.html#retrieveByQuery(query:longevity.subdomain.query.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]" class="extmbr" name="longevity.persistence.Repo#retrieveByQuery">Repo.retrieveByQuery</a> and <a href="../persistence/package$$StreamingRepo.html#streamByQuery(query:longevity.subdomain.query.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]" class="extmbr" name="longevity.persistence.StreamingRepo#streamByQuery">Repo.streamByQuery</a>.</p><p>pardon the nasty ScalaDocs for this class. we haven't figured out how to
+      <p class="shortcomment cmt">contains common code for testing different <a href="../model/query/Query.html" class="extype" name="longevity.model.query.Query">Query</a> instances against <a href="../persistence/Repo.html#retrieveByQuery(query:longevity.model.query.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]" class="extmbr" name="longevity.persistence.Repo#retrieveByQuery">Repo.retrieveByQuery</a> and <a href="../persistence/package$$StreamingRepo.html#streamByQuery(query:longevity.model.query.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]" class="extmbr" name="longevity.persistence.StreamingRepo#streamByQuery">Repo.streamByQuery</a>.</p><div class="fullcomment"><div class="comment cmt"><p>contains common code for testing different <a href="../model/query/Query.html" class="extype" name="longevity.model.query.Query">Query</a> instances against <a href="../persistence/Repo.html#retrieveByQuery(query:longevity.model.query.Query[P])(implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[Seq[longevity.persistence.PState[P]]]" class="extmbr" name="longevity.persistence.Repo#retrieveByQuery">Repo.retrieveByQuery</a> and <a href="../persistence/package$$StreamingRepo.html#streamByQuery(query:longevity.model.query.Query[P]):akka.stream.scaladsl.Source[longevity.persistence.PState[P],akka.NotUsed]" class="extmbr" name="longevity.persistence.StreamingRepo#streamByQuery">Repo.streamByQuery</a>.</p><p>pardon the nasty ScalaDocs for this class. we haven't figured out how to
 remove the methods inherited from ScalaTest classes yet.
 </p></div></div>
     </li><li name="longevity.test.RepoCrudSpec" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -205,8 +205,8 @@ remove the methods inherited from ScalaTest classes yet.
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">generates test data for your subdomain.</p><div class="fullcomment"><div class="comment cmt"><p>generates test data for your subdomain. you can generate any kind of data
-that occurs in your subdomain by calling <a href="TestDataGenerator.html#generate[A](implicitevidence$1:emblem.TypeKey[A]):A" class="extmbr" name="longevity.test.TestDataGenerator#generate">TestDataGenerator.generate</a> with
+      <p class="shortcomment cmt">generates test data for your domain model.</p><div class="fullcomment"><div class="comment cmt"><p>generates test data for your domain model. you can generate any kind of data
+that occurs in your domain model by calling <a href="TestDataGenerator.html#generate[A](implicitevidence$1:emblem.TypeKey[A]):A" class="extmbr" name="longevity.test.TestDataGenerator#generate">TestDataGenerator.generate</a> with
 the appropriate type parameter.
 </p></div></div>
     </li></ol>

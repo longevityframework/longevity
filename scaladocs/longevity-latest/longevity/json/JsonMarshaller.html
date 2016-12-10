@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>JsonMarshaller - longevity 0.18.0 API - longevity.json.JsonMarshaller</title>
-          <meta name="description" content="JsonMarshaller - longevity 0.18.0 API - longevity.json.JsonMarshaller" />
-          <meta name="keywords" content="JsonMarshaller longevity 0.18.0 API longevity.json.JsonMarshaller" />
+          <title>JsonMarshaller - longevity 0.19.0 API - longevity.json.JsonMarshaller</title>
+          <meta name="description" content="JsonMarshaller - longevity 0.19.0 API - longevity.json.JsonMarshaller" />
+          <meta name="keywords" content="JsonMarshaller longevity 0.19.0 API longevity.json.JsonMarshaller" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,10 +49,10 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>translates from your subdomain objects into JSON.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>translates from your domain objects into JSON.
 translates objects into <a href="https://github.com/json4s/json4s" target="_blank">json4s AST</a>.</p><p>persistent components with a single member will be inlined in the JSON. does
-not inline <a href="../subdomain/PolyCType.html" class="extype" name="longevity.subdomain.PolyCType">PolyCTypes</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.18.0/src/main/scala/longevity/json/JsonMarshaller.scala" target="_blank">JsonMarshaller.scala</a></dd></dl><div class="toggleContainer block">
+not inline <a href="../model/PolyCType.html" class="extype" name="longevity.model.PolyCType">PolyCTypes</a>.
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.19.0/src/main/scala/longevity/json/JsonMarshaller.scala" target="_blank">JsonMarshaller.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -100,7 +100,7 @@ not inline <a href="../subdomain/PolyCType.html" class="extype" name="longevity.
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="longevity.json.JsonMarshaller#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(subdomain:longevity.subdomain.Subdomain):longevity.json.JsonMarshaller"></a>
+      <a id="&lt;init&gt;(domainModel:longevity.model.DomainModel):longevity.json.JsonMarshaller"></a>
       <a id="&lt;init&gt;:JsonMarshaller"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -108,10 +108,10 @@ not inline <a href="../subdomain/PolyCType.html" class="extype" name="longevity.
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">JsonMarshaller</span><span class="params">(<span name="subdomain">subdomain: <a href="../subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a></span>)</span>
+        <span class="name">JsonMarshaller</span><span class="params">(<span name="domainModel">domainModel: <a href="../model/DomainModel.html" class="extype" name="longevity.model.DomainModel">DomainModel</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.json.JsonMarshaller@&lt;init&gt;(subdomain:longevity.subdomain.Subdomain):longevity.json.JsonMarshaller" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.json.JsonMarshaller@&lt;init&gt;(domainModel:longevity.model.DomainModel):longevity.json.JsonMarshaller" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -493,7 +493,7 @@ not inline <a href="../subdomain/PolyCType.html" class="extype" name="longevity.
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">marshalls a subdomain object into json4s AST</p>
+      <p class="shortcomment cmt">marshalls a domainModel object into json4s AST</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>

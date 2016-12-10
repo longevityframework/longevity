@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>LongevityContext - longevity 0.18.0 API - longevity.context.LongevityContext</title>
-          <meta name="description" content="LongevityContext - longevity 0.18.0 API - longevity.context.LongevityContext" />
-          <meta name="keywords" content="LongevityContext longevity 0.18.0 API longevity.context.LongevityContext" />
+          <title>LongevityContext - longevity 0.19.0 API - longevity.context.LongevityContext</title>
+          <meta name="description" content="LongevityContext - longevity 0.19.0 API - longevity.context.LongevityContext" />
+          <meta name="keywords" content="LongevityContext longevity 0.19.0 API longevity.context.LongevityContext" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains a factory method for <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> objects</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.18.0/src/main/scala/longevity/context/LongevityContext.scala" target="_blank">LongevityContext.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains a factory method for <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> objects</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.19.0/src/main/scala/longevity/context/LongevityContext.scala" target="_blank">LongevityContext.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -148,63 +148,67 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.context.LongevityContext#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(subdomain:longevity.subdomain.Subdomain,config:longevity.context.LongevityConfig):longevity.context.LongevityContext"></a>
-      <a id="apply(Subdomain,LongevityConfig):LongevityContext"></a>
+      <a id="apply(domainModel:longevity.model.DomainModel,config:longevity.config.LongevityConfig):longevity.context.LongevityContext"></a>
+      <a id="apply(DomainModel,LongevityConfig):LongevityContext"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="subdomain">subdomain: <a href="../subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a></span>, <span name="config">config: <a href="LongevityConfig.html" class="extype" name="longevity.context.LongevityConfig">LongevityConfig</a></span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a></span>
+        <span class="name">apply</span><span class="params">(<span name="domainModel">domainModel: <a href="../model/DomainModel.html" class="extype" name="longevity.model.DomainModel">DomainModel</a></span>, <span name="config">config: <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a></span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.LongevityContext$@apply(subdomain:longevity.subdomain.Subdomain,config:longevity.context.LongevityConfig):longevity.context.LongevityContext" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.context.LongevityContext$@apply(domainModel:longevity.model.DomainModel,config:longevity.config.LongevityConfig):longevity.context.LongevityContext" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">constructs and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a <a href="LongevityConfig.html" class="extype" name="longevity.context.LongevityConfig">LongevityConfig</a>.</p><div class="fullcomment"><div class="comment cmt"><p>constructs and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a <a href="LongevityConfig.html" class="extype" name="longevity.context.LongevityConfig">LongevityConfig</a>.
+      <p class="shortcomment cmt">creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a
+<a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a>.</p><div class="fullcomment"><div class="comment cmt"><p>creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a
+<a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a>.
 the context will have an empty set of custom generators
-</p></div><dl class="paramcmts block"><dt class="param">subdomain</dt><dd class="cmt"><p>the subdomain</p></dd><dt class="param">config</dt><dd class="cmt"><p>the longevity configuration</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">domainModel</dt><dd class="cmt"><p>the domain model</p></dd><dt class="param">config</dt><dd class="cmt"><p>the longevity configuration</p></dd></dl></div>
     </li><li name="longevity.context.LongevityContext#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(subdomain:longevity.subdomain.Subdomain,config:longevity.context.LongevityConfig,customGeneratorPool:longevity.test.CustomGeneratorPool):longevity.context.LongevityContext"></a>
-      <a id="apply(Subdomain,LongevityConfig,CustomGeneratorPool):LongevityContext"></a>
+      <a id="apply(domainModel:longevity.model.DomainModel,config:longevity.config.LongevityConfig,customGeneratorPool:longevity.test.CustomGeneratorPool):longevity.context.LongevityContext"></a>
+      <a id="apply(DomainModel,LongevityConfig,CustomGeneratorPool):LongevityContext"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="subdomain">subdomain: <a href="../subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a></span>, <span name="config">config: <a href="LongevityConfig.html" class="extype" name="longevity.context.LongevityConfig">LongevityConfig</a></span>, <span name="customGeneratorPool">customGeneratorPool: <a href="../test/CustomGeneratorPool.html" class="extype" name="longevity.test.CustomGeneratorPool">CustomGeneratorPool</a></span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a></span>
+        <span class="name">apply</span><span class="params">(<span name="domainModel">domainModel: <a href="../model/DomainModel.html" class="extype" name="longevity.model.DomainModel">DomainModel</a></span>, <span name="config">config: <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a></span>, <span name="customGeneratorPool">customGeneratorPool: <a href="../test/CustomGeneratorPool.html" class="extype" name="longevity.test.CustomGeneratorPool">CustomGeneratorPool</a></span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.LongevityContext$@apply(subdomain:longevity.subdomain.Subdomain,config:longevity.context.LongevityConfig,customGeneratorPool:longevity.test.CustomGeneratorPool):longevity.context.LongevityContext" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.context.LongevityContext$@apply(domainModel:longevity.model.DomainModel,config:longevity.config.LongevityConfig,customGeneratorPool:longevity.test.CustomGeneratorPool):longevity.context.LongevityContext" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">constructs and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a <a href="LongevityConfig.html" class="extype" name="longevity.context.LongevityConfig">LongevityConfig</a>
-</p><div class="fullcomment"><div class="comment cmt"><p>constructs and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a <a href="LongevityConfig.html" class="extype" name="longevity.context.LongevityConfig">LongevityConfig</a>
-</p></div><dl class="paramcmts block"><dt class="param">subdomain</dt><dd class="cmt"><p>the subdomain</p></dd><dt class="param">config</dt><dd class="cmt"><p>the longevity configuration</p></dd><dt class="param">customGeneratorPool</dt><dd class="cmt"><p>a collection of custom generators to use when
+      <p class="shortcomment cmt">creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a
+<a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a>
+</p><div class="fullcomment"><div class="comment cmt"><p>creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a
+<a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a>
+</p></div><dl class="paramcmts block"><dt class="param">domainModel</dt><dd class="cmt"><p>the domain model</p></dd><dt class="param">config</dt><dd class="cmt"><p>the longevity configuration</p></dd><dt class="param">customGeneratorPool</dt><dd class="cmt"><p>a collection of custom generators to use when
 generating test data. defaults to empty</p></dd></dl></div>
     </li><li name="longevity.context.LongevityContext#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(subdomain:longevity.subdomain.Subdomain,typesafeConfig:com.typesafe.config.Config,customGeneratorPool:longevity.test.CustomGeneratorPool):longevity.context.LongevityContext"></a>
-      <a id="apply(Subdomain,Config,CustomGeneratorPool):LongevityContext"></a>
+      <a id="apply(domainModel:longevity.model.DomainModel,typesafeConfig:com.typesafe.config.Config,customGeneratorPool:longevity.test.CustomGeneratorPool):longevity.context.LongevityContext"></a>
+      <a id="apply(DomainModel,Config,CustomGeneratorPool):LongevityContext"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="subdomain">subdomain: <a href="../subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">Subdomain</a></span>, <span name="typesafeConfig">typesafeConfig: <span class="extype" name="com.typesafe.config.Config">Config</span> = <span class="symbol">ConfigFactory.load()</span></span>, <span name="customGeneratorPool">customGeneratorPool: <a href="../test/CustomGeneratorPool.html" class="extype" name="longevity.test.CustomGeneratorPool">CustomGeneratorPool</a> = <span class="symbol"><span class="name"><a href="../package.html">CustomGeneratorPool.empty</a></span></span></span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a></span>
+        <span class="name">apply</span><span class="params">(<span name="domainModel">domainModel: <a href="../model/DomainModel.html" class="extype" name="longevity.model.DomainModel">DomainModel</a></span>, <span name="typesafeConfig">typesafeConfig: <span class="extype" name="com.typesafe.config.Config">Config</span> = <span class="symbol">ConfigFactory.load()</span></span>, <span name="customGeneratorPool">customGeneratorPool: <a href="../test/CustomGeneratorPool.html" class="extype" name="longevity.test.CustomGeneratorPool">CustomGeneratorPool</a> = <span class="symbol"><span class="name"><a href="../package.html">CustomGeneratorPool.empty</a></span></span></span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.context.LongevityContext$@apply(subdomain:longevity.subdomain.Subdomain,typesafeConfig:com.typesafe.config.Config,customGeneratorPool:longevity.test.CustomGeneratorPool):longevity.context.LongevityContext" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.context.LongevityContext$@apply(domainModel:longevity.model.DomainModel,typesafeConfig:com.typesafe.config.Config,customGeneratorPool:longevity.test.CustomGeneratorPool):longevity.context.LongevityContext" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">constructs and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a Typesafe config
-</p><div class="fullcomment"><div class="comment cmt"><p>constructs and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a Typesafe config
-</p></div><dl class="paramcmts block"><dt class="param">subdomain</dt><dd class="cmt"><p>the subdomain</p></dd><dt class="param">typesafeConfig</dt><dd class="cmt"><p>the typesafe configuration. defaults to typesafe
+      <p class="shortcomment cmt">creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a Typesafe config
+</p><div class="fullcomment"><div class="comment cmt"><p>creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a Typesafe config
+</p></div><dl class="paramcmts block"><dt class="param">domainModel</dt><dd class="cmt"><p>the domain model</p></dd><dt class="param">typesafeConfig</dt><dd class="cmt"><p>the typesafe configuration. defaults to typesafe
 config's <code>ConfigFactory.load()</code></p></dd><dt class="param">customGeneratorPool</dt><dd class="cmt"><p>a collection of custom generators to use when
 generating test data. defaults to empty</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/context/LongevityConfigException.html" class="extype" name="longevity.exceptions.context.LongevityConfigException"><code>longevity.exceptions.context.LongevityConfigException</code></a> if the
 typesafe configuration does not adequately specify the LongevityConfig</p></span></dd></dl></div>

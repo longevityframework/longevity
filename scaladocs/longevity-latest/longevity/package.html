@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>longevity - longevity 0.18.0 API - longevity</title>
-          <meta name="description" content="longevity - longevity 0.18.0 API - longevity" />
-          <meta name="keywords" content="longevity longevity 0.18.0 API longevity" />
+          <title>longevity - longevity 0.19.0 API - longevity</title>
+          <meta name="description" content="longevity - longevity 0.19.0 API - longevity" />
+          <meta name="keywords" content="longevity longevity 0.19.0 API longevity" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a persistence framework for Scala and NoSQL</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.18.0/src/main/scala/longevity/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a persistence framework for Scala and NoSQL</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.19.0/src/main/scala/longevity/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -92,7 +92,24 @@
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="longevity.context" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="longevity.config" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="config"></a>
+      <a id="config:config"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="config/package.html"><span class="name">config</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#longevity.package@config" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">contains the <a href="config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a> plus supporting types and classes</p>
+    </li><li name="longevity.context" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="context"></a>
       <a id="context:context"></a>
       <h4 class="signature">
@@ -143,8 +160,25 @@
       </a>
     </span>
       <p class="shortcomment cmt">contains JSON marshallers and unmarshallers for the elements of your
-subdomain
+domainModel
 </p>
+    </li><li name="longevity.model" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="model"></a>
+      <a id="model:model"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="model/package.html"><span class="name">model</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#longevity.package@model" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">provides tools for constructing your domain model</p>
     </li><li name="longevity.persistence" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="persistence"></a>
       <a id="persistence:persistence"></a>
@@ -162,23 +196,6 @@ subdomain
       </a>
     </span>
       <p class="shortcomment cmt">manages entity persistence operations</p>
-    </li><li name="longevity.subdomain" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="subdomain"></a>
-      <a id="subdomain:subdomain"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a href="subdomain/package.html"><span class="name">subdomain</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#longevity.package@subdomain" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">provides tools for constructing your subdomain</p>
     </li><li name="longevity.test" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="test"></a>
       <a id="test:test"></a>
@@ -195,7 +212,7 @@ subdomain
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">provides tools for testing your <a href="subdomain/Subdomain.html" class="extype" name="longevity.subdomain.Subdomain">subdomain</a>
+      <p class="shortcomment cmt">provides tools for testing your <a href="model/DomainModel.html" class="extype" name="longevity.model.DomainModel">domainModel</a>
 and <a href="context/LongevityContext.html" class="extype" name="longevity.context.LongevityContext">longevity context</a>
 </p>
     </li></ol>
