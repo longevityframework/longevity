@@ -32,23 +32,23 @@ object ReleaseStage3 extends App {
   def run(cmd: String): Unit = run(Process(cmd, longevityDir))
   def run(cmdArgs: String*): Unit = run(Process(cmdArgs, longevityDir))
 
-  // // make sure the oldVersion matches whats in the build
-  // run(Process(Seq("grep", "-q", s"""version := "$oldVersion"""", "BuildSettings.scala"), projectDir))
+  // make sure the oldVersion matches whats in the build
+  run(Process(Seq("grep", "-q", s"""version := "$oldVersion"""", "BuildSettings.scala"), projectDir))
 
-  // // make sure no outstanding changes
-  // run("git diff --exit-code")
-  // run("git diff --cached --exit-code")
+  // make sure no outstanding changes
+  run("git diff --exit-code")
+  run("git diff --cached --exit-code")
 
-  // // make sure the build is clean
-  // run("sbt clean test doc")
+  // make sure the build is clean
+  run("sbt clean test doc")
 
-  // // update to newVersion in the build
-  // run(Process(
-  //   Seq(
-  //     "sed", "-i", "",
-  //     "-e", s"""s/version := "$oldVersion"/version := "$newVersion"/""",
-  //     "BuildSettings.scala"),
-  //   projectDir))
+  // update to newVersion in the build
+  run(Process(
+    Seq(
+      "sed", "-i", "",
+      "-e", s"""s/version := "$oldVersion"/version := "$newVersion"/""",
+      "BuildSettings.scala"),
+    projectDir))
 
   // commit and push the new version of the build
   run("git stage project/BuildSettings.scala")
