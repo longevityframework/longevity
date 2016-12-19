@@ -13,7 +13,7 @@ classes you can use for your [persistents](persistents.html),
 
 We would like to relax these limitations in the future. If you find
 these limitations to be too cumbersome for you, please [let us
-know](http://longevityframework.github.io/longevity/discussions.html)
+know](http://longevityframework.org/discussions.html)
 what you are trying to do, and we will see what we can to do help.
 Just keep in mind that, whatever possibilities we allow for, longevity
 has the following requirements:

@@ -41,7 +41,7 @@ val generators = CustomGeneratorPool.empty + emailGenerator
 ```
 
 As shown above, you can recursively call the [test data
-generator](http://longevityframework.github.io/longevity/scaladocs/emblem-latest/index.html#emblem.emblematic.traversors.sync.TestDataGenerator)
+generator](http://longevityframework.org/scaladocs/emblem-latest/index.html#emblem.emblematic.traversors.sync.TestDataGenerator)
 within your custom generator to construct your test data.
 
 Pass in your custom generators when constructing your context like so:

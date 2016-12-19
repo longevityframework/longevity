@@ -4,7 +4,7 @@ layout: page
 ---
 
 If you look at the [API for
-`PType`](http://longevityframework.github.io/longevity/scaladocs/longevity-latest/#longevity.model.PType),
+`PType`](http://longevityframework.org/scaladocs/longevity-latest/#longevity.model.PType),
 you will find that a `PType` has member `propSet: Set[Prop[P, _]]`.
 The default constructor for `PType` uses Scala reflection to
 recursively scan singleton object `props` for properties to build the

@@ -21,7 +21,7 @@ object for the user repository.
 Thank you very much for working through this guide! We hope you enjoy
 longevity as much as we do. If you would like to investigate further,
 please take a look at our [user
-manual](http://longevityframework.github.io/longevity/manual/). Also,
+manual](http://longevityframework.org/manual/). Also,
 please write to our [discussion
 forum](https://groups.google.com/forum/#!forum/longevity-users) to
 tell us about about your experience with longevity, or to ask any

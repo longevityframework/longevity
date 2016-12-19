@@ -31,7 +31,7 @@ types](https://www.pivotaltracker.com/story/show/88571474), including
 `Maps`. But this basic set of collections should satisfy your
 needs. If you are itching to use another collection type in your
 domain model, please [let us
-know](http://longevityframework.github.io/longevity/discussions.html)!
+know](http://longevityframework.org/discussions.html)!
 But please note that we will only ever support immutable
 collections. It is important that the persistent objects are
 immutable, so that longevity can [keep track of any
