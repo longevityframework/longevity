@@ -15,11 +15,11 @@ class DerivedPersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "@derivedPersistent"
 
   it should "cause a compiler error when annotating something other than a class or object" in {
-    "@derivedPersistent[Poly] val x = 7"                shouldNot compile
-    "@derivedPersistent[Poly] type X = Int"             shouldNot compile
-    "@derivedPersistent[Poly] def foo = 7"              shouldNot compile
-    "def foo(@derivedPersistent[Poly] x: Int) = 7"      shouldNot compile
-    "@derivedPersistent[Poly] trait T extends Poly"     shouldNot compile
+    "@derivedPersistent[Poly](keySet = Set.empty) val x = 7"                shouldNot compile
+    "@derivedPersistent[Poly](keySet = Set.empty) type X = Int"             shouldNot compile
+    "@derivedPersistent[Poly](keySet = Set.empty) def foo = 7"              shouldNot compile
+    "def foo(@derivedPersistent[Poly](keySet = Set.empty) x: Int) = 7"      shouldNot compile
+    "@derivedPersistent[Poly](keySet = Set.empty) trait T extends Poly"     shouldNot compile
   }
 
   it should "create a companion object that extends DerivedPType when there is no companion object" in {

@@ -23,8 +23,8 @@ import longevity.model.ptype.Index
  */
 @compileTimeOnly("you must enable macro paradise for @derivedPersistent to work")
 class derivedPersistent[Poly](
-  keySet: Set[Key[_]] = null,
-  indexSet: Set[Index[_]] = null)
+  keySet: Set[Key[_]],
+  indexSet: Set[Index[_]] = Set.empty[Index[_]])
 extends StaticAnnotation {
 
   def macroTransform(annottees: Any*): Any = macro derivedPersistent.impl

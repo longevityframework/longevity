@@ -4,7 +4,7 @@ import emblem.TypeKey
 import emblem.typeKey
 
 /** a property for this persistent type. properties map to underlying members
- * within the [Persistent persistent object], at any depth.
+ * within the persistent object, at any depth.
  *
  * properties can be used to define [[Key keys]] and [[Index indexes]], as well
  * as for building [[longevity.model.query.Query queries]]. a property can

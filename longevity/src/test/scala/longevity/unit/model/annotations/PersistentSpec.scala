@@ -15,13 +15,6 @@ class PersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "@persistent"
 
   it should "cause a compiler error when annotating something other than a class, trait, or object" in {
-    "@persistent val x = 7"           shouldNot compile
-    "@persistent type X = Int"        shouldNot compile
-    "@persistent def foo = 7"         shouldNot compile
-    "def foo(@persistent x: Int) = 7" shouldNot compile
-    "@persistent trait Foo"           shouldNot compile
-    "@persistent object Foo"          shouldNot compile
-
     "@persistent(keySet = Set.empty) val x = 7"           shouldNot compile
     "@persistent(keySet = Set.empty) type X = Int"        shouldNot compile
     "@persistent(keySet = Set.empty) def foo = 7"         shouldNot compile

@@ -8,7 +8,7 @@ import emblem.typeKey
  * database.
  *
  * a [[longevity.model.PType persistent type]] can have zero or
- * one primary keys.
+ * one partition keys.
  * 
  * @tparam P the persistent type
  * @param partition describes the portion of the key value to use to determine

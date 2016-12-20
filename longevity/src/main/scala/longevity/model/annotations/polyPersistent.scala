@@ -20,7 +20,10 @@ import longevity.model.ptype.Index
  * @param indexSet the set of indexes for the persistent type. defaults to the empty set
  */
 @compileTimeOnly("you must enable macro paradise for @polyPersistent to work")
-class polyPersistent(keySet: Set[Key[_]] = null, indexSet: Set[Index[_]] = null) extends StaticAnnotation {
+class polyPersistent(
+  keySet: Set[Key[_]],
+  indexSet: Set[Index[_]] = Set.empty[Index[_]])
+extends StaticAnnotation {
 
   def macroTransform(annottees: Any*): Any = macro polyPersistent.impl
 

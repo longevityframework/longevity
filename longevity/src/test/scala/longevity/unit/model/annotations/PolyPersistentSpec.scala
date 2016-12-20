@@ -15,13 +15,6 @@ class PolyPersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "@polyPersistent"
 
   it should "cause a compiler error when annotating something other than a class, trait, or object" in {
-    "@polyPersistent val x = 7"           shouldNot compile
-    "@polyPersistent type X = Int"        shouldNot compile
-    "@polyPersistent def foo = 7"         shouldNot compile
-    "def foo(@polyPersistent x: Int) = 7" shouldNot compile
-    "@polyPersistent class Foo"           shouldNot compile
-    "@polyPersistent object Foo"          shouldNot compile
-
     "@polyPersistent(keySet = Set.empty) val x = 7"           shouldNot compile
     "@polyPersistent(keySet = Set.empty) type X = Int"        shouldNot compile
     "@polyPersistent(keySet = Set.empty) def foo = 7"         shouldNot compile
