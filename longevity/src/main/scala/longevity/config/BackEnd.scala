@@ -22,7 +22,7 @@ sealed trait BackEnd {
 object BackEnd {
 
   /** a list of all the available back ends */
-  val values = Cassandra :: InMem :: Mongo :: SQLite :: Nil
+  val values = Cassandra :: InMem :: Mongo :: /* SQLite :: */ Nil
 
 }
 
