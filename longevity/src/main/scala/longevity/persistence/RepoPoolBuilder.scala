@@ -3,21 +3,22 @@ package longevity.persistence
 import emblem.TypeKey
 import emblem.TypeKeyMap
 import emblem.typeBound.TypeBoundPair
+import longevity.config.BackEnd
 import longevity.config.Cassandra
 import longevity.config.InMem
 import longevity.config.LongevityConfig
 import longevity.config.Mongo
 import longevity.config.PersistenceConfig
-import longevity.config.BackEnd
+import longevity.config.SQLite
+import longevity.model.DerivedPType
+import longevity.model.DomainModel
+import longevity.model.PType
+import longevity.model.PolyPType
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.cassandra.CassandraRepo.CassandraSessionInfo
 import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.persistence.mongo.MongoRepo.MongoSessionInfo
-import longevity.model.DomainModel
-import longevity.model.DerivedPType
-import longevity.model.PType
-import longevity.model.PolyPType
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
@@ -32,14 +33,16 @@ private[longevity] object RepoPoolBuilder {
     test: Boolean)
   : RepoPool = {
     val pool = backEnd match {
+      case Cassandra =>
+        val cassandraConfig = if (test) config.test.cassandra else config.cassandra
+        cassandraRepoPool(domainModel, CassandraSessionInfo(cassandraConfig), config)
       case InMem =>
         inMemTestRepoPool(domainModel, config)
       case Mongo =>
         val mongoConfig = if (test) config.test.mongodb else config.mongodb
         mongoRepoPool(domainModel, MongoSessionInfo(mongoConfig), config)
-      case Cassandra =>
-        val cassandraConfig = if (test) config.test.cassandra else config.cassandra
-        cassandraRepoPool(domainModel, CassandraSessionInfo(cassandraConfig), config)
+      case SQLite =>
+        ???
     }
     if (config.autocreateSchema) {
       Await.result(pool.createSchema()(ExecutionContext.global), Duration(1, "seconds"))
