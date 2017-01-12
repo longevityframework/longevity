@@ -4,7 +4,7 @@ import longevity.config.Cassandra
 import longevity.config.InMem
 import longevity.config.LongevityConfig
 import longevity.context.LongevityContext
-import longevity.config.Mongo
+import longevity.config.MongoDB
 import longevity.model.DomainModel
 import longevity.test.CustomGeneratorPool
 
@@ -51,7 +51,7 @@ object TestLongevityConfigs {
     contexts(Seq(cassandraConfigKey), domainModel, generators)    
 
   val inMemConfigKey = ConfigMatrixKey(InMem, false, false)
-  val mongoConfigKey = ConfigMatrixKey(Mongo, false, false)
+  val mongoConfigKey = ConfigMatrixKey(MongoDB, false, false)
   val cassandraConfigKey = ConfigMatrixKey(Cassandra, false, false)
 
   val inMemConfig = configMatrix(inMemConfigKey)

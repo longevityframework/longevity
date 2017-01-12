@@ -44,14 +44,14 @@ object ContextSpec {
     import longevity.config.CassandraConfig
     import longevity.config.InMem
     import longevity.config.LongevityConfig
-    import longevity.config.MongoConfig
+    import longevity.config.MongoDBConfig
     import longevity.config.TestConfig
 
     val longevityConfig = LongevityConfig(
       backEnd = InMem,
       autocreateSchema = false,
       optimisticLocking = true,
-      mongodb = MongoConfig(
+      mongodb = MongoDBConfig(
         uri = "localhost:27017",
         db = "longevity_main"),
       cassandra = CassandraConfig(
@@ -60,7 +60,7 @@ object ContextSpec {
         keyspace = "longevity_main",
         replicationFactor = 1),
       test = TestConfig(
-        mongodb = MongoConfig(
+        mongodb = MongoDBConfig(
           uri = "localhost:27017",
           db = "longevity_test"),
         cassandra = CassandraConfig(

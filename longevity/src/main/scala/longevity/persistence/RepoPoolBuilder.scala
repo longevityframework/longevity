@@ -7,7 +7,7 @@ import longevity.config.BackEnd
 import longevity.config.Cassandra
 import longevity.config.InMem
 import longevity.config.LongevityConfig
-import longevity.config.Mongo
+import longevity.config.MongoDB
 import longevity.config.PersistenceConfig
 import longevity.config.SQLite
 import longevity.model.DerivedPType
@@ -38,7 +38,7 @@ private[longevity] object RepoPoolBuilder {
         cassandraRepoPool(domainModel, CassandraSessionInfo(cassandraConfig), config)
       case InMem =>
         inMemTestRepoPool(domainModel, config)
-      case Mongo =>
+      case MongoDB =>
         val mongoConfig = if (test) config.test.mongodb else config.mongodb
         mongoRepoPool(domainModel, MongoSessionInfo(mongoConfig), config)
       case SQLite =>

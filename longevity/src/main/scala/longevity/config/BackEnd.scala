@@ -5,7 +5,7 @@ package longevity.config
  *
  *   - [[Cassandra]]
  *   - [[InMem]]
- *   - [[Mongo]]
+ *   - [[MongoDB]]
  *   - [[SQLite]]
  * 
  * please note that the back end selected for your longevity context
@@ -22,7 +22,7 @@ sealed trait BackEnd {
 object BackEnd {
 
   /** a list of all the available back ends */
-  val values = Cassandra :: InMem :: Mongo :: /* SQLite :: */ Nil
+  val values = Cassandra :: InMem :: MongoDB :: /* SQLite :: */ Nil
 
 }
 
@@ -44,8 +44,8 @@ case object InMem extends BackEnd {
 }
 
 /** a back end indicating that persistent objects live in MongoDB */
-case object Mongo extends BackEnd {
-  val name = "Mongo"
+case object MongoDB extends BackEnd {
+  val name = "MongoDB"
 }
 
 /** a back end indicating that persistent objects live in SQLite */

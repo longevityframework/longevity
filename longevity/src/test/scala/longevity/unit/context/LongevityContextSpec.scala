@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs.cassandraConfig
 import longevity.TestLongevityConfigs.mongoConfig
 import longevity.config.Cassandra
 import longevity.context.LongevityContext
-import longevity.config.Mongo
+import longevity.config.MongoDB
 import longevity.model.KeyVal
 import longevity.model.DomainModel
 import longevity.model.PTypePool
@@ -42,7 +42,7 @@ object LongevityContextSpec {
 class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   val contextBackEndPairs = Seq(
-    (LongevityContextSpec.sample.mongoContext, Mongo),
+    (LongevityContextSpec.sample.mongoContext, MongoDB),
     (LongevityContextSpec.sample.cassandraContext, Cassandra))
 
   for ((context, backEnd) <- contextBackEndPairs) {

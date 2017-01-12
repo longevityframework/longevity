@@ -8,5 +8,5 @@ package longevity.config
  * @see LongevityConfig
  */
 case class TestConfig(
-  mongodb: MongoConfig,
+  mongodb: MongoDBConfig,
   cassandra: CassandraConfig)

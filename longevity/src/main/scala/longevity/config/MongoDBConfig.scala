@@ -7,4 +7,4 @@ package longevity.config
  *
  * @see LongevityConfig
  */
-case class MongoConfig(uri: String, db: String)
+case class MongoDBConfig(uri: String, db: String)

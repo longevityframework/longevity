@@ -5,7 +5,7 @@ import com.mongodb.MongoClientURI
 import com.typesafe.scalalogging.LazyLogging
 import emblem.stringUtil.typeName
 import emblem.stringUtil.uncapitalize
-import longevity.config.MongoConfig
+import longevity.config.MongoDBConfig
 import longevity.config.PersistenceConfig
 import longevity.persistence.BaseRepo
 import longevity.model.DerivedPType
@@ -55,7 +55,7 @@ with LazyLogging {
 
 private[persistence] object MongoRepo {
 
-  case class MongoSessionInfo(config: MongoConfig) {
+  case class MongoSessionInfo(config: MongoDBConfig) {
     lazy val client = new MongoClient(new MongoClientURI(config.uri))
     lazy val db = client.getDatabase(config.db)
   }

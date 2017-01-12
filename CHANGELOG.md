@@ -1,5 +1,11 @@
 # Longevity Changelog
 
+## [0.20-SNAP] - SQLite Back End
+
+- 2017.01.12 - Rename `longevity.config.Mongo` to
+  `longevity.config.MongoDB`. Rename `longevity.config.MongoConfig` to
+  `longevity.config.MongoBDConfig`.
+
 ## [0.19.0] - 2016.12.09 - Rename Subdomain to Domain Model
 
 - 2016.12.09 - Rename package `longevity.subdomain` to
@@ -9,7 +15,7 @@
 - 2016.12.09 - Rename annotation
   `longevity.model.annotations.subdomain` to `domainModel`.
 - 2016.12.09 - Move config classes `LongevityConfig`, `BackEnd`,
-  `MongoConfig`, `CassandraConfig`, `TestConfig`, and
+  `MongoDBConfig`, `CassandraConfig`, `TestConfig`, and
   `PersistenceConfig` from package `longevity.context` to new package
   `longevity.config`.
 
