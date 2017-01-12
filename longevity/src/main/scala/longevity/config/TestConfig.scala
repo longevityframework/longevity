@@ -8,5 +8,6 @@ package longevity.config
  * @see LongevityConfig
  */
 case class TestConfig(
+  cassandra: CassandraConfig,
   mongodb: MongoDBConfig,
-  cassandra: CassandraConfig)
+  sqlite: SQLiteConfig)

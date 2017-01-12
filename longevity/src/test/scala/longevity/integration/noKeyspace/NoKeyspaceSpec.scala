@@ -24,12 +24,13 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
       backEnd = Cassandra,
       autocreateSchema = false,
       optimisticLocking = false,
-      mongodb = null,
       cassandra = CassandraConfig(
         keyspace = "no_such_keyspace",
         address = "127.0.0.1",
         credentials = None,
         replicationFactor = 1),
+      mongodb = null,
+      sqlite = null,
       test = null))
 
   behavior of "Cassandra Repo methods when the keyspace is not defined"

@@ -1,6 +1,6 @@
 package longevity.config
 
-/** the cassandra configuration
+/** the Cassandra configuration
  *
  * @param keyspace the cassandra keyspace
  * @param address the contact point for the cassandra cluster

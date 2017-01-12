@@ -18,8 +18,9 @@ case class LongevityConfig(
   backEnd: BackEnd,
   autocreateSchema: Boolean,
   optimisticLocking: Boolean,
-  mongodb: MongoDBConfig,
   cassandra: CassandraConfig,
+  mongodb: MongoDBConfig,
+  sqlite: SQLiteConfig,
   test: TestConfig)
 extends PersistenceConfig
 

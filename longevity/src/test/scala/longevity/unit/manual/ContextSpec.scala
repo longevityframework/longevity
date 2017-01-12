@@ -45,29 +45,36 @@ object ContextSpec {
     import longevity.config.InMem
     import longevity.config.LongevityConfig
     import longevity.config.MongoDBConfig
+    import longevity.config.SQLiteConfig
     import longevity.config.TestConfig
 
     val longevityConfig = LongevityConfig(
       backEnd = InMem,
       autocreateSchema = false,
       optimisticLocking = true,
-      mongodb = MongoDBConfig(
-        uri = "localhost:27017",
-        db = "longevity_main"),
       cassandra = CassandraConfig(
         address = "localhost",
         credentials = None,
         keyspace = "longevity_main",
         replicationFactor = 1),
+      mongodb = MongoDBConfig(
+        uri = "localhost:27017",
+        db = "longevity_main"),
+      sqlite = SQLiteConfig(
+        jdbcDriverClass = "org.sqlite.JDBC",
+        jdbcUrl = "jdbc:sqlite:longevity_main.db"),
       test = TestConfig(
-        mongodb = MongoDBConfig(
-          uri = "localhost:27017",
-          db = "longevity_test"),
         cassandra = CassandraConfig(
           address = "localhost",
           credentials = None,
           keyspace = "longevity_test",
-          replicationFactor = 1)))
+          replicationFactor = 1),
+        mongodb = MongoDBConfig(
+          uri = "localhost:27017",
+          db = "longevity_test"),
+        sqlite = SQLiteConfig(
+          jdbcDriverClass = "org.sqlite.JDBC",
+          jdbcUrl = "jdbc:sqlite:longevity_test.db")))
 
     import longevity.context.LongevityContext
 
