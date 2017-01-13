@@ -11,5 +11,6 @@ package object basics {
   // we use basics to cover all config possibilities. other model tests
   // use a sparse context matrix
   val contexts = TestLongevityConfigs.contextMatrix(domainModel)
+  //val contexts = TestLongevityConfigs.sqliteOnlyContextMatrix(domainModel)
 
 }

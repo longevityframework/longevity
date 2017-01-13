@@ -8,6 +8,7 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
+import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
 import java.util.UUID
@@ -24,8 +25,10 @@ import longevity.model.realized.RealizedPropComponent
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
 import org.joda.time.DateTime
+import scala.collection.mutable.WeakHashMap
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import scala.concurrent.blocking
 
 /** a SQLite repository for persistent entities of type `P`.
  *
@@ -180,7 +183,7 @@ with LazyLogging {
   }
 
   override protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
-    connection.close()
+    SQLiteRepo.releaseSharedConn(sessionInfo.config)
   }
 
   override def toString = s"SQLiteRepo[${pTypeKey.name}]"
@@ -189,11 +192,55 @@ with LazyLogging {
 
 private[persistence] object SQLiteRepo {
 
-  case class SQLiteSessionInfo(config: SQLiteConfig) {
-    lazy val connection = {
-      Class.forName(config.jdbcDriverClass)
-      DriverManager.getConnection(config.jdbcUrl)
+  // it's bad news to create multiple connections against a single SQLite database. this
+  // is not a problem for typical programattic usage, where there is one LongevityContext,
+  // and thus one JDBC connection. but in my test suites it is a different story, as we
+  // have several tests running in parallel, hitting the same test database.
+  //
+  // ideally, we would craft the test suite to share LongevityContexts when possible, but
+  // even this would not be enough, because in the test suite, multiple contexts actually
+  // target the same database (e.g., contexts with optimistic locking turned on and off).
+  // so we would have to track the connections themselves, and figure out when to actually
+  // close the connection. aside from being a real pain, this would make for some
+  // convoluted tests. instead of doing this, we share the conns here. its a bit of an
+  // overhead, but it might actually come in useful for some user somewhere. and we could
+  // always hide it behind a configuration setting if any users complain about the
+  // overhead.
+
+  private case class SharedConn(numHolders: Int, conn: Connection)
+  private val sharedConns = WeakHashMap[SQLiteConfig, SharedConn]()
+
+  private def acquireSharedConn(config: SQLiteConfig): Connection = blocking {
+    SQLiteRepo.synchronized {
+      if (sharedConns.contains(config)) {
+        val sc = sharedConns(config)
+        sharedConns += config -> sc.copy(numHolders = sc.numHolders + 1)
+        sc.conn
+      } else {
+        Class.forName(config.jdbcDriverClass)
+        val conn = DriverManager.getConnection(config.jdbcUrl)
+        sharedConns += config -> SharedConn(1, conn)
+        conn
+      }
     }
+  }
+
+  private def releaseSharedConn(config: SQLiteConfig): Unit = blocking {
+    SQLiteRepo.synchronized {
+      if (sharedConns.contains(config)) {
+        val sc = sharedConns(config)
+        if (sc.numHolders == 1) {
+          sc.conn.close()
+          sharedConns -= config
+        } else {
+          sharedConns += config -> sc.copy(numHolders = sc.numHolders - 1)
+        }
+      }
+    }
+  }
+
+  case class SQLiteSessionInfo(val config: SQLiteConfig) {
+    lazy val connection = acquireSharedConn(config)
   }
 
   def apply[P](

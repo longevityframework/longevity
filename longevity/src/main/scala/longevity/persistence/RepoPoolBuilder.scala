@@ -19,6 +19,8 @@ import longevity.persistence.cassandra.CassandraRepo.CassandraSessionInfo
 import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.persistence.mongo.MongoRepo.MongoSessionInfo
+import longevity.persistence.sqlite.SQLiteRepo
+import longevity.persistence.sqlite.SQLiteRepo.SQLiteSessionInfo
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
@@ -43,7 +45,7 @@ private[longevity] object RepoPoolBuilder {
         mongoRepoPool(domainModel, MongoSessionInfo(mongoConfig), config)
       case SQLite =>
         val sqliteConfig = if (test) config.test.sqlite else config.sqlite
-        ???
+        sqliteRepoPool(domainModel, SQLiteSessionInfo(sqliteConfig), config)
     }
     if (config.autocreateSchema) {
       Await.result(pool.createSchema()(ExecutionContext.global), Duration(1, "seconds"))
@@ -56,6 +58,21 @@ private[longevity] object RepoPoolBuilder {
       pType: PType[P],
       polyRepoOpt: Option[R[_ >: P]] = None)
     : R[P]
+  }
+
+  private def cassandraRepoPool(
+    domainModel: DomainModel,
+    session: CassandraSessionInfo,
+    persistenceConfig: PersistenceConfig)
+  : RepoPool = {
+    object repoFactory extends StockRepoFactory[CassandraRepo] {
+      def build[P](
+        pType: PType[P],
+        polyRepoOpt: Option[CassandraRepo[_ >: P]])
+      : CassandraRepo[P] =
+        CassandraRepo[P](pType, domainModel, session, persistenceConfig, polyRepoOpt)
+    }
+    buildRepoPool(domainModel, repoFactory, session, persistenceConfig)
   }
 
   private def inMemTestRepoPool(domainModel: DomainModel, persistenceConfig: PersistenceConfig): RepoPool = {
@@ -84,19 +101,19 @@ private[longevity] object RepoPoolBuilder {
     buildRepoPool(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def cassandraRepoPool(
+  private def sqliteRepoPool(
     domainModel: DomainModel,
-    session: CassandraSessionInfo,
+    session: SQLiteSessionInfo,
     persistenceConfig: PersistenceConfig)
   : RepoPool = {
-    object repoFactory extends StockRepoFactory[CassandraRepo] {
+    object repoFactory extends StockRepoFactory[SQLiteRepo] {
       def build[P](
         pType: PType[P],
-        polyRepoOpt: Option[CassandraRepo[_ >: P]])
-      : CassandraRepo[P] =
-        CassandraRepo[P](pType, domainModel, session, persistenceConfig, polyRepoOpt)
+        polyRepoOpt: Option[SQLiteRepo[_ >: P]])
+      : SQLiteRepo[P] =
+        SQLiteRepo[P](pType, domainModel, session, persistenceConfig, polyRepoOpt)
     }
-    buildRepoPool(domainModel, repoFactory, session, persistenceConfig)
+    buildRepoPool(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
   private def buildRepoPool[R[P] <: BaseRepo[P]](

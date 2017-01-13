@@ -37,6 +37,7 @@ private[cassandra] trait CassandraRetrieve[P] {
     preparedStatement.bind(propVals: _*)
   }
 
+  // TODO you think u r memoizing here but ur really not
   private lazy val keyValSelectStatement: Map[RealizedKey[P, _], PreparedStatement] = Map().withDefault { key =>
     val conjunction = keyValSelectStatementConjunction(key)
     val cql = s"""|

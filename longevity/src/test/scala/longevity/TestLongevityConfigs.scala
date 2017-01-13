@@ -3,8 +3,9 @@ package longevity
 import longevity.config.Cassandra
 import longevity.config.InMem
 import longevity.config.LongevityConfig
-import longevity.context.LongevityContext
 import longevity.config.MongoDB
+import longevity.config.SQLite
+import longevity.context.LongevityContext
 import longevity.model.DomainModel
 import longevity.test.CustomGeneratorPool
 
@@ -40,22 +41,29 @@ object TestLongevityConfigs {
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
     contexts(ConfigMatrixKey.sparseValues, domainModel, generators)
 
+  def cassandraOnlyContextMatrix(
+    domainModel: DomainModel,
+    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
+    contexts(Seq(cassandraConfigKey), domainModel, generators)
+
   def mongoOnlyContextMatrix(
     domainModel: DomainModel,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
     contexts(Seq(mongoConfigKey), domainModel, generators)    
 
-  def cassandraOnlyContextMatrix(
+  def sqliteOnlyContextMatrix(
     domainModel: DomainModel,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(Seq(cassandraConfigKey), domainModel, generators)    
+    contexts(Seq(sqliteConfigKey), domainModel, generators)
 
   val inMemConfigKey = ConfigMatrixKey(InMem, false, false)
-  val mongoConfigKey = ConfigMatrixKey(MongoDB, false, false)
   val cassandraConfigKey = ConfigMatrixKey(Cassandra, false, false)
+  val mongoConfigKey = ConfigMatrixKey(MongoDB, false, false)
+  val sqliteConfigKey = ConfigMatrixKey(SQLite, false, true)
 
   val inMemConfig = configMatrix(inMemConfigKey)
-  val mongoConfig = configMatrix(mongoConfigKey)
   val cassandraConfig = configMatrix(cassandraConfigKey)
+  val mongoConfig = configMatrix(mongoConfigKey)
+  val sqliteConfig = configMatrix(sqliteConfigKey)
 
 }

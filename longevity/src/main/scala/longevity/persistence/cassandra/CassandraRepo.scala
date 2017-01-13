@@ -191,9 +191,11 @@ with LazyLogging {
   }
 
   override protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
-    session.close()
-    session.getCluster.close()
-    ()
+    blocking {
+      session.close()
+      session.getCluster.close()
+      ()
+    }
   }
 
   override def toString = s"CassandraRepo[${pTypeKey.name}]"

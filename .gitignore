@@ -23,3 +23,4 @@ project/plugins/project/
 /emblem/.gitignore
 /emblem/.project
 /longevity_test.db
+/longevity_main.db

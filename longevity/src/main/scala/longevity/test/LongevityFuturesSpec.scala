@@ -9,7 +9,6 @@ import scala.concurrent.ExecutionContext
 
 /** common code for longevity specs that use futures */
 trait LongevityFuturesSpec extends Matchers with ScalaFutures with ScaledTimeSpans {
-
   self: Suite =>
 
   protected implicit val executionContext: ExecutionContext

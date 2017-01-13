@@ -55,7 +55,7 @@ private[sqlite] trait SQLiteSchema[P] {
       connection.prepareStatement(sql).execute()
     } catch {
       // ignoring this exception is best approximation of ALTER TABLE ADD IF NOT EXISTS
-      case e: SQLiteException if e.getMessage.contains("duplicate column name: row_version") =>
+      case e: SQLiteException if e.getMessage.contains("duplicate column name: ") =>
     }
   }
 
