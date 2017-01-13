@@ -27,7 +27,7 @@ private[sqlite] trait SQLiteCreate[P] {
     val bindings = updateColumnValues(state, isCreate = true)
     logger.debug(s"invoking SQL: $insertStatement with bindings: $bindings")
     bindings.zipWithIndex.foreach { case (binding, index) =>
-      insertStatement.setObject(index, binding)
+      insertStatement.setObject(index + 1, binding)
     }
     insertStatement
   }

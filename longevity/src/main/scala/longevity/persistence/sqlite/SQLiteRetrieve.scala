@@ -38,7 +38,7 @@ private[sqlite] trait SQLiteRetrieve[P] {
     val preparedStatement = connection.prepareStatement(sql)
     logger.debug(s"invoking SQL: $sql with bindings: $propVals")
     propVals.zipWithIndex.foreach { case (propVal, index) =>
-      preparedStatement.setObject(index, propVal)
+      preparedStatement.setObject(index + 1, propVal)
     }
     preparedStatement
   }

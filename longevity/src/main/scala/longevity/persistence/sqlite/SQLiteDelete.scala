@@ -34,7 +34,7 @@ private[sqlite] trait SQLiteDelete[P] {
     }
     logger.debug(s"invoking SQL: $deleteStatementSql with bindings $bindings")
     bindings.zipWithIndex.foreach { case (binding, index) =>
-      preparedStatement.setObject(index, binding)
+      preparedStatement.setObject(index + 1, binding)
     }
     preparedStatement
   }

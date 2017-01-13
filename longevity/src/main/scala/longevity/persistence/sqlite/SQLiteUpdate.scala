@@ -34,12 +34,12 @@ private[sqlite] trait SQLiteUpdate[P] {
     logger.debug(s"invoking SQL: $updateSql with bindings: $columnBindings")
     val preparedStatement = connection.prepareStatement(updateSql)
     columnBindings.zipWithIndex.foreach { case (binding, index) =>
-      preparedStatement.setObject(index, binding)
+      preparedStatement.setObject(index + 1, binding)
     }
     preparedStatement
   }
 
-  private val updateSql = if (persistenceConfig.optimisticLocking) {
+  private def updateSql = if (persistenceConfig.optimisticLocking) {
     withLockingUpdateSql
   } else {
     withoutLockingUpdateSql
@@ -57,7 +57,7 @@ private[sqlite] trait SQLiteUpdate[P] {
 
   private def withLockingUpdateSql = s"""|$withoutLockingUpdateSql
   |AND
-  |  row_version = :row_version
+  |  row_version = :old_row_version
   |""".stripMargin
 
 }

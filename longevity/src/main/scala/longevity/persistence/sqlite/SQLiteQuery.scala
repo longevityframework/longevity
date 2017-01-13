@@ -74,7 +74,7 @@ private[sqlite] trait SQLiteQuery[P] {
     logger.debug(s"executing SQL: $sql with bindings: $bindings")
     val statement = connection.prepareStatement(sql)
     bindings.zipWithIndex.foreach { case (binding, index) =>
-      statement.setObject(index, binding)
+      statement.setObject(index + 1, binding)
     }
     statement.executeQuery()
   }
