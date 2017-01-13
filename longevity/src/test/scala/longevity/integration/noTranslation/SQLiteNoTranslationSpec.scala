@@ -1,0 +1,3 @@
+package longevity.integration.noTranslation
+
+class SQLiteNoTranslationSpec extends NoTranslationSpec(sqliteContext.testRepoPool)

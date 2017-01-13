@@ -16,8 +16,9 @@ package object noTranslation {
     WithNoTranslationSet)
 
   val domainModel = DomainModel(pTypes)
-  val inMemContext = new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)
-  val mongoContext = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
   val cassandraContext = new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)
+  val inMemContext     = new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)
+  val mongoContext     = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
+  val sqliteContext    = new LongevityContext(domainModel, TestLongevityConfigs.sqliteConfig)
 
 }

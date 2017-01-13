@@ -1,5 +1,6 @@
 package longevity.persistence.sqlite
 
+import org.sqlite.SQLiteException
 import java.util.UUID
 import longevity.persistence.PState
 import scala.concurrent.ExecutionContext
@@ -16,7 +17,12 @@ private[sqlite] trait SQLiteCreate[P] {
     val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
     val state = PState(id, rowVersion, p)
     blocking {
-      bindInsertStatement(state).executeUpdate()
+      try {
+        bindInsertStatement(state).executeUpdate()
+      } catch {
+        case e: SQLiteException if e.getMessage.contains("UNIQUE constraint failed") =>
+          throwDuplicateKeyValException(p, e)
+      }
     }
     logger.debug(s"done calling SQLiteRepo.create: $state")
     state

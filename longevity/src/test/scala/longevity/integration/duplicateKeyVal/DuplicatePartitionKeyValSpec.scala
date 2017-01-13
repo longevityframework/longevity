@@ -23,12 +23,19 @@ with GivenWhenThen {
 
   override protected implicit val executionContext = globalExecutionContext
 
+  val inMemContext = new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)
   val mongoContext = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
+  val sqliteContext = new LongevityContext(domainModel, TestLongevityConfigs.sqliteConfig)
 
-  override def beforeAll() = mongoContext.testRepoPool.createSchema().futureValue
+  override def beforeAll() = {
+    inMemContext.testRepoPool.createSchema().futureValue
+    mongoContext.testRepoPool.createSchema().futureValue
+    sqliteContext.testRepoPool.createSchema().futureValue
+  }
 
-  assertDuplicateKeyValBehavior(mongoContext.inMemTestRepoPool[PartitionKey], "InMemRepo")
+  assertDuplicateKeyValBehavior(inMemContext.testRepoPool[PartitionKey], "InMemRepo")
   assertDuplicateKeyValBehavior(mongoContext.testRepoPool[PartitionKey], "MongoRepo")
+  assertDuplicateKeyValBehavior(sqliteContext.testRepoPool[PartitionKey], "SQLiteRepo")
 
   def assertDuplicateKeyValBehavior(repo: Repo[PartitionKey], repoName: String): Unit = {
 

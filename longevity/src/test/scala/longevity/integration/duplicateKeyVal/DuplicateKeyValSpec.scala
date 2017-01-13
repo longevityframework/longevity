@@ -14,8 +14,9 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
-/** expect mongo to throw DuplicateKeyValException in non-partitioned database
- * setup such as our test database. expect the same out of inmem back end.
+/** expect InMem, MongoDB, and SQLite back ends to throw
+ * DuplicateKeyValException in non-partitioned database setup such as
+ * our test database.
  *
  * we do not necessarily expect the same behavior out of other
  * back ends. we provide no guarantee that duplicate key vals will be
@@ -29,16 +30,23 @@ with GivenWhenThen {
 
   override protected implicit val executionContext = globalExecutionContext
 
-  val context = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
+  val inMemContext = new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)
+  val mongoContext = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
+  val sqliteContext = new LongevityContext(domainModel, TestLongevityConfigs.sqliteConfig)
 
-  override def beforeAll() = context.testRepoPool.createSchema().futureValue
+  override def beforeAll() = {
+    inMemContext.testRepoPool.createSchema().futureValue
+    mongoContext.testRepoPool.createSchema().futureValue
+    sqliteContext.testRepoPool.createSchema().futureValue
+  }
 
-  assertDuplicateKeyValBehavior(context.testRepoPool[Basics], "MongoRepo")
-  assertDuplicateKeyValBehavior(context.inMemTestRepoPool[Basics], "InMemRepo")
+  assertDuplicateKeyValBehavior(inMemContext.testRepoPool[Basics], "InMemRepo")
+  assertDuplicateKeyValBehavior(mongoContext.testRepoPool[Basics], "MongoRepo")
+  assertDuplicateKeyValBehavior(sqliteContext.testRepoPool[Basics], "SQLiteRepo")
 
   def assertDuplicateKeyValBehavior(repo: Repo[Basics], repoName: String): Unit = {
 
-    behavior of s"$repoName.create with a single partitioned database"
+    behavior of s"$repoName with a single partitioned database"
 
     it should "throw exception on attempt to insert duplicate key val" in {
 

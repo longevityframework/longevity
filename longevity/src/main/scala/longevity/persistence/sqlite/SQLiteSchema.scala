@@ -29,7 +29,7 @@ private[sqlite] trait SQLiteSchema[P] {
     val createTable = s"""|
     |CREATE TABLE IF NOT EXISTS $tableName ($idDef
     |  p text,
-    |  $actualizedComponentColumnDefs,
+    |  $actualizedComponentColumnDefs
     |  $primaryKeyDef
     |)
     |""".stripMargin
@@ -39,7 +39,10 @@ private[sqlite] trait SQLiteSchema[P] {
 
   private def idDef = if (hasPartitionKey) "" else "\n  id text,"
 
-  private def actualizedComponentColumnDefs = actualizedComponents.map(columnDef).mkString(",\n  ")
+  private def actualizedComponentColumnDefs = {
+    val s = actualizedComponents.map(columnDef).mkString(",\n  ")
+    if (s.isEmpty) s else s"$s,"
+  }
 
   private def primaryKeyDef = if (hasPartitionKey) s"PRIMARY KEY ($partitionColumns)" else s"PRIMARY KEY (id)"
 

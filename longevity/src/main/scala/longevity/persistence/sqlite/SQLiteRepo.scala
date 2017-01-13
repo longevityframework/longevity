@@ -14,6 +14,7 @@ import java.sql.ResultSet
 import java.util.UUID
 import longevity.config.PersistenceConfig
 import longevity.config.SQLiteConfig
+import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.model.DerivedPType
 import longevity.model.DomainModel
@@ -25,6 +26,7 @@ import longevity.model.realized.RealizedPropComponent
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
 import org.joda.time.DateTime
+import org.sqlite.SQLiteException
 import scala.collection.mutable.WeakHashMap
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -180,6 +182,18 @@ with LazyLogging {
     val json = parse(resultSet.getString("p"))
     val p = jsonToEmblematicTranslator.translate[P](json)(pTypeKey)
     PState[P](id, rowVersion, p)
+  }
+
+  protected def throwDuplicateKeyValException(p: P, cause: SQLiteException): Nothing = {
+    val columnRegex = """UNIQUE constraint failed: (?:\w+)\.(\w+)""".r.unanchored
+    val name = cause.getMessage match {
+      case columnRegex(name) => name
+      case _ => throw cause
+    }
+    val realizedKey = realizedPType.keySet.find(key =>
+      columnName(key.realizedProp.realizedPropComponents.head) == name
+    ).getOrElse(throw cause)
+    throw new DuplicateKeyValException(p, realizedKey.key, cause)
   }
 
   override protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {

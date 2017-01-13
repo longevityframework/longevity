@@ -2,6 +2,7 @@ package longevity.persistence.sqlite
 
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
+import org.sqlite.SQLiteException
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -16,7 +17,12 @@ private[sqlite] trait SQLiteUpdate[P] {
       validateStablePartitionKey(state)
       val newState = state.update(persistenceConfig.optimisticLocking)
       val rowCount = blocking {
-        bindUpdateStatement(newState, state.rowVersionOrNull).executeUpdate()
+        try {
+          bindUpdateStatement(newState, state.rowVersionOrNull).executeUpdate()
+        } catch {
+          case e: SQLiteException if e.getMessage.contains("UNIQUE constraint failed") =>
+            throwDuplicateKeyValException(state.get, e)
+        }
       }
       if (persistenceConfig.optimisticLocking && rowCount != 1) {
         throw new WriteConflictException(state)

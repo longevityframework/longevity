@@ -68,7 +68,6 @@ private[sqlite] trait SQLiteQuery[P] {
     |SELECT * FROM $tableName
     |WHERE
     |  $conjunction$orderBy$limit
-    |ALLOW FILTERING
     |""".stripMargin
     val bindings = info.bindValues
     logger.debug(s"executing SQL: $sql with bindings: $bindings")
