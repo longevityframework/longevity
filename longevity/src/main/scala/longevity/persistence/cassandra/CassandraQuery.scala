@@ -146,7 +146,7 @@ private[cassandra] trait CassandraQuery[P] {
     componentsToFilterInfo(components)
   }
 
-  def toComponents[A](prop: Prop[_ >: P, A]): Seq[RealizedPropComponent[_ >: P, A, _]] = {
+  private def toComponents[A](prop: Prop[_ >: P, A]): Seq[RealizedPropComponent[_ >: P, A, _]] = {
     realizedPType.realizedProps(prop).realizedPropComponents
   }
 

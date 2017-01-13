@@ -3,12 +3,6 @@ package longevity.persistence.sqlite
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import java.sql.ResultSet
-import longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery
-import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
-import longevity.exceptions.persistence.cassandra.NeqInQueryException
-import longevity.exceptions.persistence.cassandra.OffsetInQueryException
-import longevity.exceptions.persistence.cassandra.OrInQueryException
-import longevity.persistence.PState
 import longevity.model.ptype.Prop
 import longevity.model.query.AndOp
 import longevity.model.query.Ascending
@@ -26,7 +20,10 @@ import longevity.model.query.Query
 import longevity.model.query.QueryFilter
 import longevity.model.query.QueryOrderBy
 import longevity.model.query.RelationalFilter
+import longevity.model.query.RelationalOp
 import longevity.model.realized.RealizedPropComponent
+import longevity.persistence.PState
+import scala.collection.immutable.VectorBuilder
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -39,12 +36,12 @@ private[sqlite] trait SQLiteQuery[P] {
     Future {
       logger.debug(s"calling SQLiteRepo.retrieveByQuery: $query")
       val resultSet = blocking { queryResultSet(query) }
-      var states = Seq[PState[P]]()
+      val states = new VectorBuilder[PState[P]]()
       while (resultSet.next()) {
-        states +:= retrieveFromResultSet(resultSet)
+        states += retrieveFromResultSet(resultSet)
       }
       logger.debug(s"done calling SQLiteRepo.retrieveByQuery: $states")
-      states
+      states.result()
     }
 
   def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
@@ -58,16 +55,16 @@ private[sqlite] trait SQLiteQuery[P] {
   }
 
   private def queryResultSet(query: Query[P]): ResultSet = {
-    if (query.offset.nonEmpty) throw new OffsetInQueryException
-
     val info = filterInfo(query.filter)
     val conjunction = queryWhereClause(info)
     val orderBy = queryOrderByClause(query.orderBy)
     val limit = query.limit.map(i => s"\nLIMIT $i").getOrElse("")
+    val offset = query.offset.map(i => s"\OFFSET $i").getOrElse("")
+
     val sql = s"""|
     |SELECT * FROM $tableName
     |WHERE
-    |  $conjunction$orderBy$limit
+    |  $conjunction$orderBy$limit$offset
     |""".stripMargin
     val bindings = info.bindValues
     logger.debug(s"executing SQL: $sql with bindings: $bindings")
@@ -84,8 +81,8 @@ private[sqlite] trait SQLiteQuery[P] {
     } else {
       val orderings = orderBy.sortExprs.flatMap { sortExpr =>
         val direction = sortExpr.direction match {
-          case Ascending => "asc"
-          case Descending => "desc"
+          case Ascending => "ASC"
+          case Descending => "DESC"
         }
         toComponents(sortExpr.prop).map { component =>
           s"${columnName(component)} $direction"
@@ -101,50 +98,78 @@ private[sqlite] trait SQLiteQuery[P] {
   protected case class FilterInfo(whereClause: String, bindValues: Seq[AnyRef])
 
   private def andFilterInfos(lhs: FilterInfo, rhs: FilterInfo) =
-    FilterInfo(s"${lhs.whereClause} AND ${rhs.whereClause}", lhs.bindValues ++ rhs.bindValues)    
+    FilterInfo(s"(${lhs.whereClause} AND ${rhs.whereClause})", lhs.bindValues ++ rhs.bindValues)    
+
+  private def orFilterInfos(lhs: FilterInfo, rhs: FilterInfo) =
+    FilterInfo(s"(${lhs.whereClause} OR ${rhs.whereClause})", lhs.bindValues ++ rhs.bindValues)    
 
   private def filterInfo(filter: QueryFilter[P]): FilterInfo = filter match {
-    case FilterAll() => throw new FilterAllInQueryException
+    case FilterAll() => FilterInfo("1 = 1", Seq())
     case RelationalFilter(lhs, op, rhs) => op match {
-      case EqOp      => equalityQueryFilterInfo(lhs, rhs)
-      case NeqOp     => throw new NeqInQueryException
-      case LtOp      => orderingQueryFilterInfo(lhs, "<",  rhs)
-      case LteOp     => orderingQueryFilterInfo(lhs, "<=", rhs)
-      case GtOp      => orderingQueryFilterInfo(lhs, ">",  rhs)
-      case GteOp     => orderingQueryFilterInfo(lhs, ">=", rhs)
+      case EqOp      => equalityQueryFilterInfo(lhs, rhs, false)
+      case NeqOp     => equalityQueryFilterInfo(lhs, rhs, true)
+      case LtOp      => orderingQueryFilterInfo(lhs, LtOp,  rhs)
+      case LteOp     => orderingQueryFilterInfo(lhs, LteOp, rhs)
+      case GtOp      => orderingQueryFilterInfo(lhs, GtOp,  rhs)
+      case GteOp     => orderingQueryFilterInfo(lhs, GteOp, rhs)
     }
     case ConditionalFilter(lhs, op, rhs) => op match {
       case AndOp     => andFilterInfos(filterInfo(lhs), filterInfo(rhs))
-      case OrOp      => throw new OrInQueryException
+      case OrOp      => orFilterInfos(filterInfo(lhs), filterInfo(rhs))
     }
   }
 
-  private def equalityQueryFilterInfo[A](prop: Prop[_ >: P, A], value: A): FilterInfo = {
+  private def equalityQueryFilterInfo[A](prop: Prop[_ >: P, A], value: A, neq: Boolean): FilterInfo = {
     val infos: Seq[FilterInfo] = toComponents(prop).map { component =>
       val componentValue = sqliteValue(component.innerPropPath.get(value))
-      FilterInfo(s"${columnName(component)} = :${columnName(component)}", Seq(componentValue))
+      val op = if (neq) "!=" else "="
+      FilterInfo(s"${columnName(component)} $op ?", Seq(componentValue))
     }
     infos.tail.fold(infos.head)(andFilterInfos)
   }
 
-  private def orderingQueryFilterInfo[A](prop: Prop[_ >: P, A], opString: String, value: A)
-  : FilterInfo = {
+  private def orderingQueryFilterInfo[A](prop: Prop[_ >: P, A], op: RelationalOp, value: A): FilterInfo = {
+    type Component = RealizedPropComponent[_ >: P, A, _]
     val components = toComponents(prop)
-    def componentsToFilterInfo(components: Seq[RealizedPropComponent[_ >: P, A, _]]): FilterInfo = {
-      if (components.size == 1) {
-        def info[B](component: RealizedPropComponent[_ >: P, A, B]) = {
-          val componentValue = sqliteValue(component.innerPropPath.get(value))
-          FilterInfo(s"${columnName(component)} $opString :${columnName(component)}", Seq(componentValue))
+
+    def cname(c: Component) = columnName(c)
+    def cval(c: Component) = Seq(sqliteValue(c.innerPropPath.get(value)))
+
+    def eqC(c: Component) = FilterInfo(s"${cname(c)} = ?",  cval(c))
+    def neC(c: Component) = FilterInfo(s"${cname(c)} != ?", cval(c))
+    def ltC(c: Component) = FilterInfo(s"${cname(c)} < ?",  cval(c))
+    def gtC(c: Component) = FilterInfo(s"${cname(c)} > ?",  cval(c))
+
+    def wheres(fs: Seq[FilterInfo], conj: String) = s"(${fs.map(_.whereClause).mkString(conj)})"
+    def binds(fs: Seq[FilterInfo]) = fs.map(_.bindValues).flatten
+    def and(fs: Seq[FilterInfo]) = FilterInfo(wheres(fs, " AND "), binds(fs))
+    def or (fs: Seq[FilterInfo]) = FilterInfo(wheres(fs, " OR "),  binds(fs))
+
+    def eq = and { components.map(eqC) }
+    def ne = or  { components.map(neC) }
+
+    def diff(f: (Component) => FilterInfo) = or {      
+      for { i <- 0 until components.length } yield {
+        and {
+          components.take(i).map(eqC) :+ f(components(i))
         }
-        info(components.head)
-      } else {
-        throw new CompoundPropInOrderingQuery
       }
     }
-    componentsToFilterInfo(components)
+ 
+    def lt = diff(ltC)
+    def gt = diff(gtC)
+
+    op match {
+      case EqOp  => eq
+      case NeqOp => ne
+      case LtOp  => lt
+      case LteOp => or(Seq(lt, eq))
+      case GtOp  => gt
+      case GteOp => or(Seq(gt, eq))
+    }
   }
 
-  def toComponents[A](prop: Prop[_ >: P, A]): Seq[RealizedPropComponent[_ >: P, A, _]] = {
+  private def toComponents[A](prop: Prop[_ >: P, A]): Seq[RealizedPropComponent[_ >: P, A, _]] = {
     realizedPType.realizedProps(prop).realizedPropComponents
   }
 

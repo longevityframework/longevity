@@ -1,4 +1,4 @@
-package longevity.integration.queries.mongo
+package longevity.integration.queries.sqlite
 
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
@@ -7,7 +7,7 @@ import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class WithForeignKeyQuerySpec extends QuerySpec[WithForeignKey](
-  new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.sqliteConfig)) {
 
   lazy val sample = randomP
 
@@ -16,13 +16,13 @@ class WithForeignKeyQuerySpec extends QuerySpec[WithForeignKey](
 
   import WithForeignKey.queryDsl._
 
-  behavior of "MongoRepo.retrieveByQuery"
+  behavior of "SQLiteRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries with foreign keys" in {
     exerciseQuery(associatedProp eqs sample.associated)
     exerciseQuery(associatedProp neq sample.associated)
   }
 
-  behavior of "MongoRepo.retrieveByQuery"
+  behavior of "SQLiteRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
     exerciseQuery(idProp eqs sample.id or associatedProp eqs sample.associated)
     exerciseQuery(idProp lt sample.id and associatedProp neq sample.associated)

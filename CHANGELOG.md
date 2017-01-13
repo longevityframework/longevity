@@ -5,6 +5,8 @@
 - 2017.01.12 - Rename `longevity.config.Mongo` to
   `longevity.config.MongoDB`. Rename `longevity.config.MongoConfig` to
   `longevity.config.MongoBDConfig`.
+- 2017.01.14 - Add SQLite back end. See `longevity.config.SQLite` and
+  `longevity.config.SQLiteConfig`. See also new config settings 
 
 ## [0.19.0] - 2016.12.09 - Rename Subdomain to Domain Model
 

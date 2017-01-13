@@ -21,17 +21,22 @@ with GivenWhenThen {
 
   override protected implicit val executionContext = globalExecutionContext
 
-  val mongoContext = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
   val cassandraContext = new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)
+  val inmemContext = new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)
+  val mongoContext = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
+  val sqliteContext = new LongevityContext(domainModel, TestLongevityConfigs.sqliteConfig)
 
   override def beforeAll() = {
-    mongoContext.testRepoPool.createSchema().futureValue
     cassandraContext.testRepoPool.createSchema().futureValue
+    inmemContext.testRepoPool.createSchema().futureValue
+    mongoContext.testRepoPool.createSchema().futureValue
+    sqliteContext.testRepoPool.createSchema().futureValue
   }
 
-  assertUnstablePartitionKeyBehavior(mongoContext.inMemTestRepoPool[PartitionKey], "InMemRepo")
-  assertUnstablePartitionKeyBehavior(mongoContext.testRepoPool[PartitionKey], "MongoRepo")
   assertUnstablePartitionKeyBehavior(cassandraContext.testRepoPool[PartitionKey], "CassandraRepo")
+  assertUnstablePartitionKeyBehavior(inmemContext.testRepoPool[PartitionKey], "InMemRepo")
+  assertUnstablePartitionKeyBehavior(mongoContext.testRepoPool[PartitionKey], "MongoRepo")
+  assertUnstablePartitionKeyBehavior(sqliteContext.testRepoPool[PartitionKey], "SQLiteRepo")
 
   def assertUnstablePartitionKeyBehavior(repo: Repo[PartitionKey], repoName: String): Unit = {
 

@@ -27,18 +27,27 @@ private[cassandra] trait CassandraRetrieve[P] {
       rowOption.map(retrieveFromRow)
     }
 
+  private var keyValSelectStatements = Map[RealizedKey[P, _], PreparedStatement]()
+
   private def bindKeyValSelectStatement[V <: KeyVal[P] : TypeKey](keyVal: V): BoundStatement = {
     val realizedKey: RealizedKey[P, V] = realizedPType.realizedKey[V]
     val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
       cassandraValue(component.innerPropPath.get(keyVal))
     }
-    val preparedStatement = keyValSelectStatement(realizedKey)
+    val preparedStatement = synchronized {
+      if (keyValSelectStatements.contains(realizedKey)) {
+        keyValSelectStatements(realizedKey)
+      } else {
+        val statement = keyValSelectStatement(realizedKey)
+        keyValSelectStatements += realizedKey -> statement
+        statement
+      }
+    }
     logger.debug(s"invoking CQL: ${preparedStatement.getQueryString} with bindings: $propVals")
     preparedStatement.bind(propVals: _*)
   }
 
-  // TODO you think u r memoizing here but ur really not
-  private lazy val keyValSelectStatement: Map[RealizedKey[P, _], PreparedStatement] = Map().withDefault { key =>
+  private def keyValSelectStatement(key: RealizedKey[P, _]): PreparedStatement = {
     val conjunction = keyValSelectStatementConjunction(key)
     val cql = s"""|
     |SELECT * FROM $tableName
