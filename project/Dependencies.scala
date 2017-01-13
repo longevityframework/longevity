@@ -15,7 +15,7 @@ object Dependencies {
   val scalaLoggingDep:   ModuleID = "com.typesafe.scala-logging" %% "scala-logging"         % "3.5.0"
   val scalaTestDep:      ModuleID = "org.scalatest"              %% "scalatest"             % "3.0.1"
   val slf4jSimpleDep:    ModuleID = "org.slf4j"                  %  "slf4j-simple"          % "1.7.21"
-  val sqliteDep:         ModuleID = "org.xerial"                 %  "sqlite-jdbc"           % "3.15.1"
+  val sqliteDep:         ModuleID = "org.xerial"                 %  "sqlite-jdbc"           % "3.16.1"
   val typesafeConfigDep: ModuleID = "com.typesafe"               %  "config"                % "1.3.1"
 
 }
