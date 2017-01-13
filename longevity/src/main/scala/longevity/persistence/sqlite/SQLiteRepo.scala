@@ -1,9 +1,5 @@
-package longevity.persistence.cassandra
+package longevity.persistence.sqlite
 
-import com.datastax.driver.core.Cluster
-import com.datastax.driver.core.PreparedStatement
-import com.datastax.driver.core.Row
-import com.datastax.driver.core.exceptions.InvalidQueryException
 import com.typesafe.scalalogging.LazyLogging
 import emblem.TypeKey
 import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
@@ -12,48 +8,49 @@ import emblem.exceptions.CouldNotTraverseException
 import emblem.stringUtil.camelToUnderscore
 import emblem.stringUtil.typeName
 import emblem.typeKey
-import longevity.config.CassandraConfig
+import java.sql.DriverManager
+import java.sql.ResultSet
+import java.util.UUID
 import longevity.config.PersistenceConfig
+import longevity.config.SQLiteConfig
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
-import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
-import longevity.persistence.BaseRepo
-import longevity.persistence.PState
-import longevity.persistence.SchemaCreator
 import longevity.model.DerivedPType
+import longevity.model.DomainModel
 import longevity.model.PType
 import longevity.model.PolyPType
-import longevity.model.DomainModel
 import longevity.model.realized.RealizedPartitionKey
+import longevity.model.realized.RealizedProp
 import longevity.model.realized.RealizedPropComponent
+import longevity.persistence.BaseRepo
+import longevity.persistence.PState
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import scala.concurrent.blocking
 
-/** a Cassandra repository for persistent entities of type `P`.
+/** a SQLite repository for persistent entities of type `P`.
  *
  * @param pType the type of the persistent entities this repository handles
  * @param domainModel the domain model containing the persistent that this repo persists
- * @param sessionInfo the connection to the cassandra database
+ * @param session the connection to the sqlite database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
-private[longevity] class CassandraRepo[P] private (
+private[longevity] class SQLiteRepo[P] private (
   pType: PType[P],
   domainModel: DomainModel,
-  private val sessionInfo: CassandraRepo.CassandraSessionInfo,
+  private val sessionInfo: SQLiteRepo.SQLiteSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends BaseRepo[P](pType, domainModel)
-with CassandraSchema[P]
-with CassandraCreate[P]
-with CassandraRetrieve[P]
-with CassandraQuery[P]
-with CassandraUpdate[P]
-with CassandraDelete[P]
+with SQLiteSchema[P]
+with SQLiteCreate[P]
+with SQLiteRetrieve[P]
+with SQLiteQuery[P]
+with SQLiteUpdate[P]
+with SQLiteDelete[P]
 with LazyLogging {
 
-  protected lazy val session = sessionInfo.session
+  protected lazy val connection = sessionInfo.connection
 
-  protected[cassandra] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
+  protected[sqlite] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
 
   protected val partitionComponents = realizedPType.partitionKey match {
     case Some(key) => key.partitionProps.flatMap {
@@ -74,7 +71,7 @@ with LazyLogging {
   protected val actualizedComponents =
     indexedComponents ++ (partitionKeyComponents: Seq[RealizedPropComponent[_ >: P, _, _]])
 
-  protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
+  protected[sqlite] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
     val keyComponents = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPartitionKey[_, _]]).flatMap {
       _.realizedProp.realizedPropComponents: Seq[RealizedPropComponent[_ >: P, _, _]]
     }
@@ -97,6 +94,8 @@ with LazyLogging {
   }
 
   protected def columnName(prop: RealizedPropComponent[_, _, _]) = "prop_" + scoredPath(prop)
+
+  protected def scoredPath(prop: RealizedProp[_, _]) = prop.inlinedPath.replace('.', '_')
 
   protected def scoredPath(prop: RealizedPropComponent[_, _, _]) =
     prop.outerPropPath.inlinedPath.replace('.', '_')
@@ -136,7 +135,7 @@ with LazyLogging {
     }
   }
 
-  protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[CassandraId[P]].uuid
+  protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[SQLiteId[P]].uuid
 
   protected def whereAssignments = if (hasPartitionKey) {
     partitionKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
@@ -147,126 +146,82 @@ with LazyLogging {
   protected def whereBindings(state: PState[P]) = if (hasPartitionKey) {
     partitionKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
   } else {
-    Seq(state.id.get.asInstanceOf[CassandraId[P]].uuid)
+    Seq(state.id.get.asInstanceOf[SQLiteId[P]].uuid)
   }
 
   private def propValBinding[PP >: P, A](component: RealizedPropComponent[PP, _, A], p: P): AnyRef = {
-    cassandraValue(component.outerPropPath.get(p))
+    sqliteValue(component.outerPropPath.get(p))
   }
 
-  protected def cassandraValue(value: Any): AnyRef = value match {
+  protected def sqliteValue(value: Any): AnyRef = value match {
     case char: Char => char.toString
-    case d: DateTime => cassandraDate(d)
+    case d: DateTime => sqliteDate(d)
     case _ => value.asInstanceOf[AnyRef]
   }
 
-  protected def cassandraDate(d: DateTime) = new java.util.Date(d.getMillis)
+  protected def sqliteDate(d: DateTime) = new java.util.Date(d.getMillis)
 
-  protected def retrieveFromRow(row: Row): PState[P] = {
+  // totally assumes you already called resultSet.next() and it returned true
+  protected def retrieveFromResultSet(resultSet: ResultSet): PState[P] = {
     val id = if (!hasPartitionKey) {
-      Some(CassandraId[P](row.getUUID("id")))
+      Some(SQLiteId[P](UUID.fromString(resultSet.getString("id"))))
     } else {
       None
     }
     val rowVersion = if (persistenceConfig.optimisticLocking) {
-      Option(row.getLong("row_version"))
+      Option(resultSet.getLong("row_version"))
     } else {
       None
     }
     import org.json4s.native.JsonMethods._    
-    val json = parse(row.getString("p"))
+    val json = parse(resultSet.getString("p"))
     val p = jsonToEmblematicTranslator.translate[P](json)(pTypeKey)
     PState[P](id, rowVersion, p)
   }
 
-  private var preparedStatements = Map[String, PreparedStatement]()
-
-  protected def preparedStatement(cql: String): PreparedStatement = {
-    synchronized {
-      if (!preparedStatements.contains(cql)) {
-        preparedStatements += cql -> session.prepare(cql)
-      }
-    }
-    preparedStatements(cql)
-  }
-
   override protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
-    session.close()
-    session.getCluster.close()
-    ()
+    connection.close()
   }
 
-  override def toString = s"CassandraRepo[${pTypeKey.name}]"
+  override def toString = s"SQLiteRepo[${pTypeKey.name}]"
 
 }
 
-private[persistence] object CassandraRepo {
+private[persistence] object SQLiteRepo {
 
-  case class CassandraSessionInfo(config: CassandraConfig) extends SchemaCreator {
-
-    lazy val cluster = {
-      val builder = Cluster.builder.addContactPoint(config.address)
-      config.credentials.map { creds =>
-        builder.withCredentials(creds.username, creds.password)
-      }
-      builder.build
+  case class SQLiteSessionInfo(config: SQLiteConfig) {
+    lazy val connection = {
+      Class.forName(config.jdbcDriverClass)
+      DriverManager.getConnection(config.jdbcUrl)
     }
-
-    lazy val session = {
-      try {
-        underlyingSession.execute(s"use ${config.keyspace}")
-      } catch {
-        case e: InvalidQueryException if
-          e.getMessage.startsWith("Keyspace '") &&
-          e.getMessage.endsWith("' does not exist") =>
-          throw new KeyspaceDoesNotExistException(config, e)
-      }
-      underlyingSession
-    }
-
-    private lazy val underlyingSession = cluster.connect()
-
-    def createSchema()(implicit context: ExecutionContext) = Future {
-      blocking {
-        underlyingSession.execute(
-          s"""|
-          |CREATE KEYSPACE IF NOT EXISTS ${config.keyspace}
-          |WITH replication = {
-          |  'class': 'SimpleStrategy',
-          |  'replication_factor': ${config.replicationFactor}
-          |};
-          |""".stripMargin)
-      }
-    }
-
   }
 
   def apply[P](
     pType: PType[P],
     domainModel: DomainModel,
-    session: CassandraSessionInfo,
+    session: SQLiteSessionInfo,
     config: PersistenceConfig,
-    polyRepoOpt: Option[CassandraRepo[_ >: P]])
-  : CassandraRepo[P] = {
+    polyRepoOpt: Option[SQLiteRepo[_ >: P]])
+  : SQLiteRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
-        new CassandraRepo(pType, domainModel, session, config) with PolyCassandraRepo[P]
+        new SQLiteRepo(pType, domainModel, session, config) with PolySQLiteRepo[P]
       case pt: DerivedPType[_, _] =>
-        def withPoly[Poly >: P](poly: CassandraRepo[Poly]) = {
+        def withPoly[Poly >: P](poly: SQLiteRepo[Poly]) = {
           class DerivedRepo extends {
-            override protected val polyRepo: CassandraRepo[Poly] = poly
+            override protected val polyRepo: SQLiteRepo[Poly] = poly
           }
-          with CassandraRepo(pType, domainModel, session, config) with DerivedCassandraRepo[P, Poly]
+          with SQLiteRepo(pType, domainModel, session, config) with DerivedSQLiteRepo[P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new CassandraRepo(pType, domainModel, session, config)
+        new SQLiteRepo(pType, domainModel, session, config)
     }
     repo
   }
 
-  private[cassandra] val basicToCassandraType = Map[TypeKey[_], String](
+  private[sqlite] val basicToSQLiteType = Map[TypeKey[_], String](
     typeKey[Boolean]  -> "boolean",
     typeKey[Char]     -> "text",
     typeKey[DateTime] -> "timestamp",
