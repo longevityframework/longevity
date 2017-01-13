@@ -3,6 +3,7 @@ package longevity.persistence.sqlite
 import longevity.model.realized.RealizedPartitionKey
 import longevity.model.realized.RealizedProp
 import longevity.model.realized.RealizedPropComponent
+import org.sqlite.SQLiteException
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -53,11 +54,8 @@ private[sqlite] trait SQLiteSchema[P] {
     try {
       connection.prepareStatement(sql).execute()
     } catch {
-      // TODO: what happens in SQLite when we have an ALTER TABLE ADD and the column already exists?
-      case e: Exception
-        if e.getMessage.contains("because it conflicts with an existing column") =>
-        // ignoring this exception is recommended ALTER TABLE ADD IF NOT EXISTS
-        // http://stackoverflow.com/questions/25728944/sqlite-add-column-if-not-exists
+      // ignoring this exception is best approximation of ALTER TABLE ADD IF NOT EXISTS
+      case e: SQLiteException if e.getMessage.contains("duplicate column name: row_version") =>
     }
   }
 
