@@ -338,7 +338,7 @@ object DomainModelSpec {
         val id = prop[AId]("id")
         val id2 = prop[String]("id.id2")
       }
-      val keySet = Set(partitionKey(props.id, partition(props.id2)))
+      val keySet = Set(primaryKey(props.id, partition(props.id2)))
     }
 
     def domainModel = DomainModel(PTypePool(A))
@@ -530,7 +530,7 @@ class DomainModelSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
   }
 
-  it should "throw exception if the partition key declares an invalid partition" in {
+  it should "throw exception if the primary key declares an invalid partition" in {
     intercept[InvalidPartitionException[_]] {
       DomainModelSpec.invalidPartition.domainModel
     }

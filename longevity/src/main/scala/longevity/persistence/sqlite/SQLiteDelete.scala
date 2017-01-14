@@ -14,7 +14,7 @@ private[sqlite] trait SQLiteDelete[P] {
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = Future {
     blocking {
       logger.debug(s"calling SQLiteRepo.delete: $state")
-      validateStablePartitionKey(state)
+      validateStablePrimaryKey(state)
       val rowCount = bindDeleteStatement(state).executeUpdate()
       if (persistenceConfig.optimisticLocking && rowCount != 1) {
         throw new WriteConflictException(state)

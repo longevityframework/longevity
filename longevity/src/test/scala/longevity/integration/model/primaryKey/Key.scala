@@ -1,0 +1,6 @@
+package longevity.integration.model.primaryKey
+
+import longevity.model.annotations.keyVal
+
+@keyVal[PrimaryKey]
+case class Key(id: String)

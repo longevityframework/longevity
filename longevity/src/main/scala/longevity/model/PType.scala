@@ -5,13 +5,13 @@ import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import emblem.typeKey
 import longevity.exceptions.model.IndexDuplicatesKeyException
-import longevity.exceptions.model.ptype.MultiplePartitionKeysForPType
+import longevity.exceptions.model.ptype.MultiplePrimaryKeysForPType
 import longevity.exceptions.model.ptype.NoPropsForPTypeException
-import longevity.exceptions.model.ptype.PartitionKeyForDerivedPTypeException
+import longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException
 import longevity.model.ptype.Index
 import longevity.model.ptype.Key
 import longevity.model.ptype.Partition
-import longevity.model.ptype.PartitionKey
+import longevity.model.ptype.PrimaryKey
 import longevity.model.ptype.Prop
 import longevity.model.ptype.QueryDsl
 
@@ -45,14 +45,14 @@ abstract class PType[P : TypeKey] {
    */
   def emptyKeySet = Set.empty[Key[P]]
 
-  /** the optional partition key for this persistent type */
-  lazy val partitionKey: Option[PartitionKey[P]] = {
-    val partitionKeys = keySet.collect { case pk: PartitionKey[P] => pk }
-    if (this.isInstanceOf[DerivedPType[_, _]] && partitionKeys.nonEmpty) {
-      throw new PartitionKeyForDerivedPTypeException[P]
+  /** the optional primary key for this persistent type */
+  lazy val primaryKey: Option[PrimaryKey[P]] = {
+    val primaryKeys = keySet.collect { case pk: PrimaryKey[P] => pk }
+    if (this.isInstanceOf[DerivedPType[_, _]] && primaryKeys.nonEmpty) {
+      throw new PrimaryKeyForDerivedPTypeException[P]
     }
-    if (partitionKeys.size > 1) throw new MultiplePartitionKeysForPType[P]
-    partitionKeys.headOption
+    if (primaryKeys.size > 1) throw new MultiplePrimaryKeysForPType[P]
+    primaryKeys.headOption
   }
 
   /** the indexes for this persistent type. defaults to the empty set */
@@ -87,7 +87,7 @@ abstract class PType[P : TypeKey] {
     }
   }
 
-  /** constructs a partition key for this persistent type. the full key value
+  /** constructs a primary key for this persistent type. the full key value
    * is used to determine the partition
    *
    * @tparam V the type of the key value
@@ -95,10 +95,10 @@ abstract class PType[P : TypeKey] {
    * @param hashed if `true`, then used a hashed partition (as opposed to a
    * ranged partition) when possible. defaults to `false`.
    */
-  def partitionKey[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V], hashed: Boolean = false): Key[P] =
-    partitionKey(keyValProp, partition(keyValProp), hashed)
+  def primaryKey[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V], hashed: Boolean = false): Key[P] =
+    primaryKey(keyValProp, partition(keyValProp), hashed)
 
-  /** constructs a partition key for this persistent type
+  /** constructs a primary key for this persistent type
    *
    * @tparam V the type of the key value
    * @param keyValProp a property for the primary key
@@ -106,10 +106,10 @@ abstract class PType[P : TypeKey] {
    * which node in the partition the data belongs to. this must form a prefix of
    * the `keyValProp`
    */
-  def partitionKey[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V], partition: Partition[P]): Key[P] =
-    partitionKey(keyValProp, partition, false)
+  def primaryKey[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V], partition: Partition[P]): Key[P] =
+    primaryKey(keyValProp, partition, false)
 
-  private def partitionKey[V <: KeyVal[P] : TypeKey](
+  private def primaryKey[V <: KeyVal[P] : TypeKey](
     keyValProp: Prop[P, V],
     partition: Partition[P],
     hashed: Boolean)
@@ -118,14 +118,14 @@ abstract class PType[P : TypeKey] {
     type V0 = V
     new {
       val keyValProp = keyValProp0
-    } with PartitionKey(partition, hashed) {
+    } with PrimaryKey(partition, hashed) {
       type V = V0
     }
   }
 
   /** a series of properties that determines the partitioning used by the
    * underlying database to distribute data across multiple nodes. used to form a
-   * [[longevity.model.ptype.PartitionKey partition key]]
+   * [[longevity.model.ptype.PrimaryKey primary key]]
    *
    * @param props the properties that determine the partition
    */

@@ -3,22 +3,22 @@ package longevity.integration.queries.cassandra
 import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.integration.model.partitionKeyWithComplexPartialPartition
+import longevity.integration.model.primaryKeyWithComplexPartialPartition
 import longevity.model.query.Query
 import longevity.test.QuerySpec
-import partitionKeyWithComplexPartialPartition.PartitionKeyWithComplexPartialPartition
-import partitionKeyWithComplexPartialPartition.domainModel
+import primaryKeyWithComplexPartialPartition.PrimaryKeyWithComplexPartialPartition
+import primaryKeyWithComplexPartialPartition.domainModel
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
-class OrderByQuerySpec extends QuerySpec[PartitionKeyWithComplexPartialPartition](
+class OrderByQuerySpec extends QuerySpec[PrimaryKeyWithComplexPartialPartition](
   new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig))(
-  PartitionKeyWithComplexPartialPartition.pTypeKey,
+  PrimaryKeyWithComplexPartialPartition.pTypeKey,
   globalExecutionContext) {
 
   lazy val keyProp1 = longevityContext.testDataGenerator.generate[String]
   lazy val subKeyProp1 = longevityContext.testDataGenerator.generate[String]
 
-  override protected def generateP(): PartitionKeyWithComplexPartialPartition = {
+  override protected def generateP(): PrimaryKeyWithComplexPartialPartition = {
     val raw = super.generateP()
     val subKey = raw.key.subKey.copy(prop1 = subKeyProp1)
     val key = raw.key.copy(prop1 = keyProp1, subKey = subKey)
@@ -27,19 +27,19 @@ class OrderByQuerySpec extends QuerySpec[PartitionKeyWithComplexPartialPartition
 
   lazy val sample = randomP
 
-  import PartitionKeyWithComplexPartialPartition.queryDsl._
-  import PartitionKeyWithComplexPartialPartition.props
+  import PrimaryKeyWithComplexPartialPartition.queryDsl._
+  import PrimaryKeyWithComplexPartialPartition.props
 
   behavior of "CassandraRepo.retrieveByQuery"
 
   it should "handle order by clauses in very limited circumstances" in {
     // those circumstances are:
-    //   - the entire partition of the partition key has to be in the filter with eqs
+    //   - the entire partition of the primary key has to be in the filter with eqs
     //   - only post partition props can be mentioned in the order by clause
     //   - they must be included in post partition prop order
     //   - either everything is ascending or everything is descending
 
-    var query: Query[PartitionKeyWithComplexPartialPartition] = null
+    var query: Query[PrimaryKeyWithComplexPartialPartition] = null
 
     query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (props.key.subKey.prop2.asc)
     exerciseQuery(query)
@@ -68,7 +68,7 @@ class OrderByQuerySpec extends QuerySpec[PartitionKeyWithComplexPartialPartition
   }
 
   it should "throw cassandra exceptions on any number of invalid order by queries" in {
-    var query: Query[PartitionKeyWithComplexPartialPartition] = null
+    var query: Query[PrimaryKeyWithComplexPartialPartition] = null
 
     query = props.key.prop1 eqs keyProp1 orderBy (props.key.subKey.prop2.asc)
     repo.retrieveByQuery(query).failed.futureValue shouldBe an [InvalidQueryException]

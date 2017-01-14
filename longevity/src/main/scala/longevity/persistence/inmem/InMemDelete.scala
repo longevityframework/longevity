@@ -13,7 +13,7 @@ private[inmem] trait InMemDelete[P] {
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {
       logger.debug(s"calling InMemRepo.delete: $state")
-      validateStablePartitionKey(state)
+      validateStablePrimaryKey(state)
       repo.synchronized {
         assertNoWriteConflict(state)
         unregisterById(state)

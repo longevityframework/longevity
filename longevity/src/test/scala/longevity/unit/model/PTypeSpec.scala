@@ -1,14 +1,14 @@
 package longevity.unit.model
 
-import longevity.exceptions.model.ptype.MultiplePartitionKeysForPType
+import longevity.exceptions.model.ptype.MultiplePrimaryKeysForPType
 import longevity.exceptions.model.ptype.NoPropsForPTypeException
-import longevity.exceptions.model.ptype.PartitionKeyForDerivedPTypeException
+import longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException
 import longevity.model.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-/** holds domain objects for special case PartitionKeyForDerivedPTypeException */
+/** holds domain objects for special case PrimaryKeyForDerivedPTypeException */
 object PTypeSpec {
 
   import longevity.model.KeyVal
@@ -25,7 +25,7 @@ object PTypeSpec {
     object props {
       val username = prop[Username]("username")
     }
-    val keySet = Set(partitionKey(props.username))
+    val keySet = Set(primaryKey(props.username))
   }
 
   case class Email(email: String) extends KeyVal[EmailedUser]
@@ -36,7 +36,7 @@ object PTypeSpec {
     object props {
       val email = prop[Email]("email")
     }
-    val keySet = Set(partitionKey(props.email))
+    val keySet = Set(primaryKey(props.email))
   }
 
 }
@@ -77,22 +77,22 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     User.propSet should equal (Set(User.props.username, User.props.email))
   }
 
-  it should "throw exception if more than one partition key is defined" in {
+  it should "throw exception if more than one primary key is defined" in {
     object User extends PType[User] {
       object props {
         val username = prop[Username]("username")
         val email = prop[Email]("email")
       }
-      val keySet = Set(partitionKey(props.username), partitionKey(props.email))
+      val keySet = Set(primaryKey(props.username), primaryKey(props.email))
     }
-    intercept[MultiplePartitionKeysForPType[_]] {
-      User.partitionKey
+    intercept[MultiplePrimaryKeysForPType[_]] {
+      User.primaryKey
     }
   }
 
-  it should "throw exception if a derived ptype defines partition key" in {
-    intercept[PartitionKeyForDerivedPTypeException[_]] {
-      PTypeSpec.EmailedUser.partitionKey
+  it should "throw exception if a derived ptype defines primary key" in {
+    intercept[PrimaryKeyForDerivedPTypeException[_]] {
+      PTypeSpec.EmailedUser.primaryKey
     }
   }
 

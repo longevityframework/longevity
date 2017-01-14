@@ -18,7 +18,7 @@ private[mongo] trait MongoWrite[P] {
 
   protected lazy val domainModelToBsonTranslator = new DomainModelToBsonTranslator(domainModel.emblematic)
 
-  /** BSON for a persistent state. this puts the partition key in the `_id`
+  /** BSON for a persistent state. this puts the primary key in the `_id`
    * column, which may or may not be the best choice. alternative is to just put
    * in an `ObjectId`, either chosen here, or chosen by mongoDB if we leave out
    * the column here. the document is going to have the `_id` column whatever we
@@ -26,7 +26,7 @@ private[mongo] trait MongoWrite[P] {
    */
   protected def bsonForState(state: PState[P]): BsonDocument = {
     val document = translate(state.get)
-    if (!hasPartitionKey) {
+    if (!hasPrimaryKey) {
       document.append("_id", idBson(state))
     }
     state.rowVersion.foreach { v =>
@@ -64,7 +64,7 @@ private[mongo] trait MongoWrite[P] {
   }
 
   private def keyFilter(state: PState[P]) = {
-    realizedPType.partitionKey match {
+    realizedPType.primaryKey match {
       case Some(key) =>
         def pkFilter[V <: KeyVal[P]](key: RealizedKey[P, V]) = {
           val fieldName = key.realizedProp.inlinedPath

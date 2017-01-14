@@ -3,15 +3,15 @@ package longevity.integration.queries.mongo
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
-import longevity.integration.model.partitionKeyWithPartialPartition._
+import longevity.integration.model.primaryKeyWithPartialPartition._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class PartialPartitionQuerySpec extends QuerySpec[PartitionKeyWithPartialPartition](
+class PartialPartitionQuerySpec extends QuerySpec[PrimaryKeyWithPartialPartition](
   new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)) {
 
   lazy val sample = randomP
-  val keyProp = PartitionKeyWithPartialPartition.props.key
-  import PartitionKeyWithPartialPartition.queryDsl._
+  val keyProp = PrimaryKeyWithPartialPartition.props.key
+  import PrimaryKeyWithPartialPartition.queryDsl._
 
   behavior of "MongoRepo.retrieveByQuery"
 

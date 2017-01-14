@@ -1,7 +1,7 @@
-package longevity.integration.model.hashedPartitionKey
+package longevity.integration.model.hashedPrimaryKey
 
 import org.scalatest.Suites
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class HashedPartitionKeySpec extends Suites(contexts.map(_.repoCrudSpec): _*)
+class HashedPrimaryKeySpec extends Suites(contexts.map(_.repoCrudSpec): _*)
 

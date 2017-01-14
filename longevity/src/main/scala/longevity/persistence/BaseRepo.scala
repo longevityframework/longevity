@@ -3,7 +3,7 @@ package longevity.persistence
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import emblem.TypeKey
-import longevity.exceptions.persistence.UnstablePartitionKeyException
+import longevity.exceptions.persistence.UnstablePrimaryKeyException
 import longevity.model.KeyVal
 import longevity.model.DomainModel
 import longevity.model.PType
@@ -32,7 +32,7 @@ extends Repo[P] {
   /** the type key for the persistent entities this repository handles */
   protected[persistence] val pTypeKey: TypeKey[P] = pType.pTypeKey
 
-  protected def hasPartitionKey = realizedPType.partitionKey.nonEmpty
+  protected def hasPrimaryKey = realizedPType.primaryKey.nonEmpty
 
   def retrieveOne[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
@@ -43,12 +43,12 @@ extends Repo[P] {
 
   protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit]
 
-  protected def validateStablePartitionKey(state: PState[P]): Unit = {
-    realizedPType.partitionKey.map { key =>
+  protected def validateStablePrimaryKey(state: PState[P]): Unit = {
+    realizedPType.primaryKey.map { key =>
       val origKeyVal = key.keyValForP(state.orig)
       val newKeyVal = key.keyValForP(state.get)
       if (origKeyVal != newKeyVal) {
-        throw new UnstablePartitionKeyException(state.orig, origKeyVal, newKeyVal)
+        throw new UnstablePrimaryKeyException(state.orig, origKeyVal, newKeyVal)
       }
     }
   }

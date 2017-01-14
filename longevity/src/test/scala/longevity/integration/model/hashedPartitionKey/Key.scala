@@ -1,6 +1,6 @@
-package longevity.integration.model.hashedPartitionKey
+package longevity.integration.model.hashedPrimaryKey
 
 import longevity.model.annotations.keyVal
 
-@keyVal[HashedPartitionKey]
+@keyVal[HashedPrimaryKey]
 case class Key(id: String)

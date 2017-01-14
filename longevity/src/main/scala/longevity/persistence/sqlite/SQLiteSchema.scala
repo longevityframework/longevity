@@ -1,6 +1,6 @@
 package longevity.persistence.sqlite
 
-import longevity.model.realized.RealizedPartitionKey
+import longevity.model.realized.RealizedPrimaryKey
 import longevity.model.realized.RealizedProp
 import longevity.model.realized.RealizedPropComponent
 import org.sqlite.SQLiteException
@@ -37,14 +37,14 @@ private[sqlite] trait SQLiteSchema[P] {
     connection.prepareStatement(createTable).execute()
   }
 
-  private def idDef = if (hasPartitionKey) "" else "\n  id text,"
+  private def idDef = if (hasPrimaryKey) "" else "\n  id text,"
 
   private def actualizedComponentColumnDefs = {
     val s = actualizedComponents.map(columnDef).mkString(",\n  ")
     if (s.isEmpty) s else s"$s,"
   }
 
-  private def primaryKeyDef = if (hasPartitionKey) s"PRIMARY KEY ($partitionColumns)" else s"PRIMARY KEY (id)"
+  private def primaryKeyDef = if (hasPrimaryKey) s"PRIMARY KEY ($partitionColumns)" else s"PRIMARY KEY (id)"
 
   private def partitionColumns = partitionComponents.map(columnName).mkString(", ")
 
@@ -69,8 +69,8 @@ private[sqlite] trait SQLiteSchema[P] {
   }
 
   protected def createUniqueIndexes(): Unit = {
-    val nonPartitionKeys = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPartitionKey[_, _]])
-    nonPartitionKeys.foreach { key =>
+    val nonPrimaryKeys = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPrimaryKey[_, _]])
+    nonPrimaryKeys.foreach { key =>
       val indexName = s"${tableName}__${scoredPath(key.realizedProp)}"
       val columnsNames = key.realizedProp.realizedPropComponents.map(columnName)
       createIndex(true, indexName, columnsNames)
@@ -96,5 +96,7 @@ private[sqlite] trait SQLiteSchema[P] {
     logger.debug(s"executing SQL: $createIndex")
     connection.prepareStatement(createIndex).execute()
   }
+
+  private def scoredPath(prop: RealizedProp[_, _]) = prop.inlinedPath.replace('.', '_')
 
 }

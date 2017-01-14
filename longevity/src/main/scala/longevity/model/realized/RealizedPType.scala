@@ -12,7 +12,7 @@ import longevity.model.DerivedPType
 import longevity.model.KeyVal
 import longevity.model.PType
 import longevity.model.ptype.Key
-import longevity.model.ptype.PartitionKey
+import longevity.model.ptype.PrimaryKey
 import longevity.model.ptype.Prop
 
 private[longevity] class RealizedPType[P](
@@ -20,7 +20,7 @@ private[longevity] class RealizedPType[P](
   polyPTypeOpt: Option[PType[_ >: P]],
   emblematic: Emblematic) {
 
-  private val postPartitionProps: Seq[Prop[P, _]] = pType.partitionKey match {
+  private val postPartitionProps: Seq[Prop[P, _]] = pType.primaryKey match {
     case Some(key) => postPartitionProps(key)
     case None => Seq()
   }
@@ -69,10 +69,10 @@ private[longevity] class RealizedPType[P](
 
       def accumulateKey[V <: KeyVal[P]](key: Key[P]) = acc + (kvtk -> realizedKeyForKey(key))
 
-      def accumulatePKey[V <: KeyVal[P]](key: PartitionKey[P]) =
-        acc + (kvtk -> realizedKeyForPartitionKey(key))
+      def accumulatePKey[V <: KeyVal[P]](key: PrimaryKey[P]) =
+        acc + (kvtk -> realizedKeyForPrimaryKey(key))
 
-      pType.partitionKey match {
+      pType.primaryKey match {
         case Some(pk) if pk == key => accumulatePKey(pk)
         case _ => accumulateKey(key)
       }
@@ -85,11 +85,11 @@ private[longevity] class RealizedPType[P](
 
   val keySet: Set[AnyRealizedKey[P]] = realizedKeyMap.values.toSet
 
-  val partitionKey: Option[AnyRealizedPartitionKey[P]] = realizedKeyMap.values.collectFirst {
-    case pk: AnyRealizedPartitionKey[P] => pk
+  val primaryKey: Option[AnyRealizedPrimaryKey[P]] = realizedKeyMap.values.collectFirst {
+    case pk: AnyRealizedPrimaryKey[P] => pk
   }
 
-  private def postPartitionProps(key: PartitionKey[P]): Seq[Prop[P, _]] =
+  private def postPartitionProps(key: PrimaryKey[P]): Seq[Prop[P, _]] =
     postPartitionPropInfos(key).map(_.prop)
 
   private def realizedKeyForKey(key: Key[P]): AnyRealizedKey[P] = {
@@ -97,7 +97,7 @@ private[longevity] class RealizedPType[P](
     new RealizedKey[P, key.V](key, myRealizedProps(prop))(prop.propTypeKey)
   }
 
-  private def realizedKeyForPartitionKey(key: PartitionKey[P]): AnyRealizedKey[P] = {
+  private def realizedKeyForPrimaryKey(key: PrimaryKey[P]): AnyRealizedKey[P] = {
     val vTypeKey = key.keyValTypeKey
     val prop = myRealizedProps(key.keyValProp)
     val pppis = postPartitionPropInfos(key)
@@ -116,7 +116,7 @@ private[longevity] class RealizedPType[P](
       def ppepps = pppis.map(_.emblematicPropPath)
       pepps ++ ppepps
     }
-    RealizedPartitionKey[P, key.V](
+    RealizedPrimaryKey[P, key.V](
       key,
       prop,
       realizedPartitionProps,
@@ -126,10 +126,10 @@ private[longevity] class RealizedPType[P](
       prop.propTypeKey)
   }
 
-  /** what we need to know about a properties that are within the partition key,
+  /** what we need to know about a properties that are within the primary key,
    * but are not part of the partition
    */
-  private def postPartitionPropInfos(key: PartitionKey[P]): Seq[PostPartitionPropInfo[key.V, _]] = {
+  private def postPartitionPropInfos(key: PrimaryKey[P]): Seq[PostPartitionPropInfo[key.V, _]] = {
 
     implicit val pTypeKey = pType.pTypeKey
     val vTypeKey = key.keyValTypeKey
@@ -165,7 +165,7 @@ private[longevity] class RealizedPType[P](
     ppis(Seq(ppi), key.partition.props)
   }
 
-  /** what we need to know about a property that is within the partition key,
+  /** what we need to know about a property that is within the primary key,
    * but is not part of the partition
    */
   private case class PostPartitionPropInfo[V <: KeyVal[P], B](

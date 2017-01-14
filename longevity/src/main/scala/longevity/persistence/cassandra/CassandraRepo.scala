@@ -23,7 +23,7 @@ import longevity.model.DerivedPType
 import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.model.DomainModel
-import longevity.model.realized.RealizedPartitionKey
+import longevity.model.realized.RealizedPrimaryKey
 import longevity.model.realized.RealizedPropComponent
 import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
@@ -55,27 +55,27 @@ with LazyLogging {
 
   protected[cassandra] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
 
-  protected val partitionComponents = realizedPType.partitionKey match {
+  protected val partitionComponents = realizedPType.primaryKey match {
     case Some(key) => key.partitionProps.flatMap {
       _.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]
     }
     case None => Seq.empty
   }
 
-  protected val postPartitionComponents = realizedPType.partitionKey match {
+  protected val postPartitionComponents = realizedPType.primaryKey match {
     case Some(key) => key.postPartitionProps.flatMap {
       _.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]
     }
     case None => Seq.empty
   }
 
-  protected val partitionKeyComponents = partitionComponents ++ postPartitionComponents
+  protected val primaryKeyComponents = partitionComponents ++ postPartitionComponents
 
   protected val actualizedComponents =
-    indexedComponents ++ (partitionKeyComponents: Seq[RealizedPropComponent[_ >: P, _, _]])
+    indexedComponents ++ (primaryKeyComponents: Seq[RealizedPropComponent[_ >: P, _, _]])
 
   protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
-    val keyComponents = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPartitionKey[_, _]]).flatMap {
+    val keyComponents = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPrimaryKey[_, _]]).flatMap {
       _.realizedProp.realizedPropComponents: Seq[RealizedPropComponent[_ >: P, _, _]]
     }
 
@@ -115,7 +115,7 @@ with LazyLogging {
     def names(components: Set[RealizedPropComponent[_ >: P, _, _]]) =
       components.map(columnName).toSeq.sorted
     val componentColumnNames = if (isCreate) names(actualizedComponents) else names(indexedComponents)
-    (isCreate && !hasPartitionKey, persistenceConfig.optimisticLocking) match {
+    (isCreate && !hasPrimaryKey, persistenceConfig.optimisticLocking) match {
       case (true,  true)  => "id" +: "row_version" +: "p" +: componentColumnNames
       case (true,  false) => "id" +:                  "p" +: componentColumnNames
       case (false, true)  =>         "row_version" +: "p" +: componentColumnNames
@@ -128,7 +128,7 @@ with LazyLogging {
       components.toSeq.sortBy(columnName).map { component => propValBinding(component, state.get) }
     val componentColumnValues = if (isCreate) values(actualizedComponents) else values(indexedComponents)
     def rv = state.rowVersionOrNull
-    (isCreate && !hasPartitionKey, persistenceConfig.optimisticLocking) match {
+    (isCreate && !hasPrimaryKey, persistenceConfig.optimisticLocking) match {
       case (true,  true)  => uuid(state) +: rv +: jsonStringForP(state.get) +: componentColumnValues
       case (false, true)  =>                rv +: jsonStringForP(state.get) +: componentColumnValues
       case (true,  false) => uuid(state)       +: jsonStringForP(state.get) +: componentColumnValues
@@ -138,14 +138,14 @@ with LazyLogging {
 
   protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[CassandraId[P]].uuid
 
-  protected def whereAssignments = if (hasPartitionKey) {
-    partitionKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
+  protected def whereAssignments = if (hasPrimaryKey) {
+    primaryKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
   } else {
     "id = :id"
   }    
 
-  protected def whereBindings(state: PState[P]) = if (hasPartitionKey) {
-    partitionKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
+  protected def whereBindings(state: PState[P]) = if (hasPrimaryKey) {
+    primaryKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
   } else {
     Seq(state.id.get.asInstanceOf[CassandraId[P]].uuid)
   }
@@ -163,7 +163,7 @@ with LazyLogging {
   protected def cassandraDate(d: DateTime) = new java.util.Date(d.getMillis)
 
   protected def retrieveFromRow(row: Row): PState[P] = {
-    val id = if (!hasPartitionKey) {
+    val id = if (!hasPrimaryKey) {
       Some(CassandraId[P](row.getUUID("id")))
     } else {
       None

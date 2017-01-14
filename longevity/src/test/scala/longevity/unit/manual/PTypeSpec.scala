@@ -151,8 +151,8 @@ package PTypeSpec {
       fullName: FullName)
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/ptype/partition-keys.html
-  package partitionKeys1 {
+  // used in http://longevityframework.github.io/longevity/manual/ptype/primary-keys.html
+  package primaryKeys1 {
     import longevity.model.annotations.keyVal
     import longevity.model.annotations.persistent
 
@@ -160,15 +160,15 @@ package PTypeSpec {
     case class Username(username: String)  
 
     @persistent(keySet = Set(
-      partitionKey(props.username)))
+      primaryKey(props.username)))
     case class User(
       username: Username,
       firstName: String,
       lastName: String)
   }
 
-  // used in http://longevityframework.github.io/longevity/manual/ptype/partition-keys.html
-  package partitionKeys2 {
+  // used in http://longevityframework.github.io/longevity/manual/ptype/primary-keys.html
+  package primaryKeys2 {
     import longevity.model.annotations.keyVal
     import longevity.model.annotations.persistent
 
@@ -180,7 +180,7 @@ package PTypeSpec {
 
     @persistent(keySet = Set(
       key(props.username),
-      partitionKey(props.fullName, partition(props.fullName.last))))
+      primaryKey(props.fullName, partition(props.fullName.last))))
     case class User(
       username: Username,
       fullName: FullName)

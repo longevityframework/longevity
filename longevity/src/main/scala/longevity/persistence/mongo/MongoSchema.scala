@@ -9,7 +9,7 @@ import org.bson.BsonDocument
 import longevity.model.ptype.Index
 import longevity.model.ptype.Partition
 import longevity.model.realized.RealizedKey
-import longevity.model.realized.RealizedPartitionKey
+import longevity.model.realized.RealizedPrimaryKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -31,23 +31,23 @@ private[mongo] trait MongoSchema[P] {
     def createSchema(): Unit = {
       realizedPType.keySet.foreach(createKey)
       pType.indexSet.foreach(createIndex)
-      realizedPType.partitionKey.foreach(createPartitionKey)
+      realizedPType.primaryKey.foreach(createPrimaryKey)
     }
 
     private def createKey(key: RealizedKey[P, _]): Unit = {
       val paths = key match {
-        case p: RealizedPartitionKey[P, _] if !p.fullyPartitioned => p.props.map(_.inlinedPath)
+        case p: RealizedPrimaryKey[P, _] if !p.fullyPartitioned => p.props.map(_.inlinedPath)
         case _ => Seq(key.realizedProp.inlinedPath)
       }
 
       val name = indexName(key)
       val hashed = key match {
-        case p: RealizedPartitionKey[P, _] if p.key.hashed => true
+        case p: RealizedPrimaryKey[P, _] if p.key.hashed => true
         case _ => false
       }
 
-      // if there is a partition key, no other keys can be unique
-      def unique = realizedPType.partitionKey.map(pk => pk == key && !pk.hashed).getOrElse(true)
+      // if there is a primary key, no other keys can be unique
+      def unique = realizedPType.primaryKey.map(pk => pk == key && !pk.hashed).getOrElse(true)
 
       MongoSchema.this.createIndex(paths, name, unique, hashed)
     }
@@ -60,7 +60,7 @@ private[mongo] trait MongoSchema[P] {
 
   }
 
-  private def createPartitionKey(key: RealizedPartitionKey[P, _]): Unit = {
+  private def createPrimaryKey(key: RealizedPrimaryKey[P, _]): Unit = {
     val shardPaths = key.partition.props.map(realizedPType.realizedProps(_).inlinedPath)
     val shardType = if (key.hashed) new BsonString("hashed") else new BsonInt32(1)
     val shardKey = new BsonDocument
@@ -75,7 +75,7 @@ private[mongo] trait MongoSchema[P] {
       case e: MongoCommandException if e.getCode == 59 =>
         logger.info(
           s"could not run enableSharding command on admin database. this is likely because you are using " +
-          s"partition keys on an unsharded database. this is perfectly fine, nothing to worry about. " +
+          s"primary keys on an unsharded database. this is perfectly fine, nothing to worry about. " +
           s"here's the nested message: ${e.getMessage}")
       case e: MongoCommandException if e.getCode == 23 =>
         logger.info(
@@ -96,13 +96,13 @@ private[mongo] trait MongoSchema[P] {
       case e: MongoCommandException if e.getCode == 59 =>
         logger.info(
           s"could not run shardCollection command on admin database. this is likely because you are using " +
-          s"partition keys on an unsharded database. this is perfectly fine, nothing to worry about. " +
+          s"primary keys on an unsharded database. this is perfectly fine, nothing to worry about. " +
           s"here's the nested message: ${e.getMessage}")
       case e: MongoCommandException if e.getCode == 20 =>
         logger.info(
           s"could not run shardCollection command on admin database. this is likely because the collection " +
           s"has already been sharded, e.g., by a previous run of RepoPool.createSchema. assuming that the " +
-          s"sharding matches your partition key this is perfectly fine, nothing to worry about. " +
+          s"sharding matches your primary key this is perfectly fine, nothing to worry about. " +
           s"here's the nested message: ${e.getMessage}")
     }
   }

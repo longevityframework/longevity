@@ -1,7 +1,7 @@
-package longevity.integration.model.hashedPartitionKey
+package longevity.integration.model.hashedPrimaryKey
 
 import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(
-  partitionKey(props.key, hashed = true)))
-case class HashedPartitionKey(key: Key)
+  primaryKey(props.key, hashed = true)))
+case class HashedPrimaryKey(key: Key)

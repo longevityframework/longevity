@@ -14,7 +14,7 @@ private[mongo] trait MongoDelete[P] {
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {
       logger.debug(s"calling MongoRepo.delete: $state")
-      validateStablePartitionKey(state)
+      validateStablePrimaryKey(state)
       val query = writeQuery(state)
       val deleteResult = mongoCollection.deleteOne(query)
       if (persistenceConfig.optimisticLocking && deleteResult.getDeletedCount == 0) {

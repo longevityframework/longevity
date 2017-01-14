@@ -11,7 +11,7 @@ import longevity.model.query.LtOp
 import longevity.model.query.LteOp
 import longevity.model.query.NeqOp
 import longevity.model.query.RelationalOp
-import longevity.model.realized.RealizedPartitionKey
+import longevity.model.realized.RealizedPrimaryKey
 import org.bson.BsonDocument
 import org.bson.BsonValue
 import org.bson.conversions.Bson
@@ -26,7 +26,7 @@ private[mongo] trait MongoRead[P] {
     new BsonToDomainModelTranslator(domainModel.emblematic)
 
   protected def bsonToState(document: BsonDocument): PState[P] = {
-    val id = if (hasPartitionKey) None else {
+    val id = if (hasPrimaryKey) None else {
       val objectId = document.getObjectId("_id").getValue
       Some(MongoId[P](objectId))
     }
@@ -44,10 +44,10 @@ private[mongo] trait MongoRead[P] {
   }
 
   protected def mongoRelationalFilter[A](prop: Prop[_ >: P, A], op: RelationalOp, value: A) = {
-    realizedPType.partitionKey match {
+    realizedPType.primaryKey match {
       case Some(k) if !k.fullyPartitioned && k.key.keyValProp == prop =>
-        def f[V <: KeyVal[P]](k: RealizedPartitionKey[P, V]) =
-          mongoRelationalFilterForPartitionKey[V](k, op, value.asInstanceOf[V])
+        def f[V <: KeyVal[P]](k: RealizedPrimaryKey[P, V]) =
+          mongoRelationalFilterForPrimaryKey[V](k, op, value.asInstanceOf[V])
         f(k)
       case _ =>
         op match {
@@ -61,8 +61,8 @@ private[mongo] trait MongoRead[P] {
     }
   }
 
-  private def mongoRelationalFilterForPartitionKey[V <: KeyVal[P]](
-    key: RealizedPartitionKey[P, V],
+  private def mongoRelationalFilterForPrimaryKey[V <: KeyVal[P]](
+    key: RealizedPrimaryKey[P, V],
     op: RelationalOp,
     value: V) = {
     val propPaths = key.queryInfos

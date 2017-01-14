@@ -14,7 +14,7 @@ private[sqlite] trait SQLiteUpdate[P] {
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
       logger.debug(s"calling SQLiteRepo.update: $state")
-      validateStablePartitionKey(state)
+      validateStablePrimaryKey(state)
       val newState = state.update(persistenceConfig.optimisticLocking)
       val rowCount = blocking {
         try {

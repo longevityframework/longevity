@@ -1,11 +1,11 @@
-package longevity.integration.unstablePartitionKey
+package longevity.integration.unstablePrimaryKey
 
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.exceptions.persistence.UnstablePartitionKeyException
-import longevity.integration.model.partitionKey.Key
-import longevity.integration.model.partitionKey.PartitionKey
-import longevity.integration.model.partitionKey.domainModel
+import longevity.exceptions.persistence.UnstablePrimaryKeyException
+import longevity.integration.model.primaryKey.Key
+import longevity.integration.model.primaryKey.PrimaryKey
+import longevity.integration.model.primaryKey.domainModel
 import longevity.persistence.Repo
 import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll
@@ -14,8 +14,8 @@ import org.scalatest.GivenWhenThen
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 import scala.concurrent.Future
 
-/** expect UnstablePartitionKeyException when partition key changes */
-class UnstablePartitionKeySpec extends FlatSpec with LongevityFuturesSpec
+/** expect UnstablePrimaryKeyException when primary key changes */
+class UnstablePrimaryKeySpec extends FlatSpec with LongevityFuturesSpec
 with BeforeAndAfterAll
 with GivenWhenThen {
 
@@ -33,31 +33,31 @@ with GivenWhenThen {
     sqliteContext.testRepoPool.createSchema().futureValue
   }
 
-  assertUnstablePartitionKeyBehavior(cassandraContext.testRepoPool[PartitionKey], "CassandraRepo")
-  assertUnstablePartitionKeyBehavior(inmemContext.testRepoPool[PartitionKey], "InMemRepo")
-  assertUnstablePartitionKeyBehavior(mongoContext.testRepoPool[PartitionKey], "MongoRepo")
-  assertUnstablePartitionKeyBehavior(sqliteContext.testRepoPool[PartitionKey], "SQLiteRepo")
+  assertUnstablePrimaryKeyBehavior(cassandraContext.testRepoPool[PrimaryKey], "CassandraRepo")
+  assertUnstablePrimaryKeyBehavior(inmemContext.testRepoPool[PrimaryKey], "InMemRepo")
+  assertUnstablePrimaryKeyBehavior(mongoContext.testRepoPool[PrimaryKey], "MongoRepo")
+  assertUnstablePrimaryKeyBehavior(sqliteContext.testRepoPool[PrimaryKey], "SQLiteRepo")
 
-  def assertUnstablePartitionKeyBehavior(repo: Repo[PartitionKey], repoName: String): Unit = {
+  def assertUnstablePrimaryKeyBehavior(repo: Repo[PrimaryKey], repoName: String): Unit = {
 
     behavior of s"$repoName.create"
 
-    it should "throw exception on update with modified partition key" in {
+    it should "throw exception on update with modified primary key" in {
 
       val origKey = Key("orig")
       val modifiedKey = Key("modified")
-      val p1 = PartitionKey(origKey)
-      val p2 = PartitionKey(modifiedKey)
+      val p1 = PrimaryKey(origKey)
+      val p2 = PrimaryKey(modifiedKey)
       val s1 = repo.create(p1).futureValue
 
       def expectUnstable(future: Future[_]) = {
         val exception = future.failed.futureValue
-        if (!exception.isInstanceOf[UnstablePartitionKeyException[_]]) {
+        if (!exception.isInstanceOf[UnstablePrimaryKeyException[_]]) {
           exception.printStackTrace
         }
-        exception shouldBe a [UnstablePartitionKeyException[_]]
+        exception shouldBe a [UnstablePrimaryKeyException[_]]
 
-        val e = exception.asInstanceOf[UnstablePartitionKeyException[PartitionKey]]
+        val e = exception.asInstanceOf[UnstablePrimaryKeyException[PrimaryKey]]
         e.orig should equal (p1)
         e.origKeyVal should equal (origKey)
         e.newKeyVal should equal (modifiedKey)

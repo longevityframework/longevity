@@ -89,7 +89,7 @@ private[mongo] trait MongoQuery[P] {
         }
         val prop = sortExpr.prop
         def appendProp(prop: Prop[_, _]) = document.append(prop.path, new BsonInt32(direction))
-        realizedPType.partitionKey match {
+        realizedPType.primaryKey match {
           case Some(key) if key.prop.prop == prop && !key.fullyPartitioned =>
             key.props.map(_.prop).map(appendProp)
           case _ =>

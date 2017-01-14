@@ -15,7 +15,7 @@ private[cassandra] trait CassandraDelete[P] {
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = Future {
     blocking {
       logger.debug(s"calling CassandraRepo.delete: $state")
-      validateStablePartitionKey(state)
+      validateStablePrimaryKey(state)
       val resultSet = session.execute(bindDeleteStatement(state))
       if (persistenceConfig.optimisticLocking) {
         val deleteSuccess = resultSet.one.getBool(0)

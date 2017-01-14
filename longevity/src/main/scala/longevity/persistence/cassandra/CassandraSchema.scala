@@ -35,11 +35,11 @@ private[cassandra] trait CassandraSchema[P] {
     session.execute(createTable)
   }
 
-  private def idDef = if (hasPartitionKey) "" else "\n  id uuid,"
+  private def idDef = if (hasPrimaryKey) "" else "\n  id uuid,"
 
   private def actualizedComponentColumnDefs = actualizedComponents.map(columnDef).mkString(",\n  ")
 
-  private def primaryKeyDef = (hasPartitionKey, postPartitionComponents.nonEmpty) match {
+  private def primaryKeyDef = (hasPrimaryKey, postPartitionComponents.nonEmpty) match {
     case (true, true)  => s"PRIMARY KEY (($partitionColumns), $postPartitionColumns)"
     case (true, false) => s"PRIMARY KEY (($partitionColumns))"
     case _             => s"PRIMARY KEY (id)"

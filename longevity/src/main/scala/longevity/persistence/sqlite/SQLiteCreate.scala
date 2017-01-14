@@ -13,7 +13,7 @@ private[sqlite] trait SQLiteCreate[P] {
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
     logger.debug(s"calling SQLiteRepo.create: $p")
-    val id = if (hasPartitionKey) None else Some(SQLiteId[P](UUID.randomUUID))
+    val id = if (hasPrimaryKey) None else Some(SQLiteId[P](UUID.randomUUID))
     val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
     val state = PState(id, rowVersion, p)
     blocking {
