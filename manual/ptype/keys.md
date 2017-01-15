@@ -93,7 +93,7 @@ looking up collections of these objects via range searches.
 {% assign prevLink = "properties.html" %}
 {% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
-{% assign nextTitle = "partition keys" %}
-{% assign nextLink = "partition-keys.html" %}
+{% assign nextTitle = "primary keys" %}
+{% assign nextLink = "primary-keys.html" %}
 {% include navigate.html %}
 

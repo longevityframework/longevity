@@ -23,7 +23,7 @@ once, and then come back to it as a reference.
 - [The Persistent Type](ptype)
   - [Properties](ptype/properties.html)
   - [Keys](ptype/keys.html)
-  - [Partition Keys](ptype/partition-keys.html)
+  - [Primary Keys](ptype/primary-keys.html)
   - [Indexes](ptype/indexes.html)
   - [Prop Sets, Key Sets, and Index Sets](ptype/sets.html)
 - [Subtype Polymorphism](poly)

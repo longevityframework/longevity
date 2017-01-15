@@ -9,10 +9,11 @@ us about the types in your model, and we provide the persistence.
 
 Persistence concerns and operations are abstracted behind an elegant
 persistence API. We provide you with fully featured repositories for
-[MongoDB](https://www.mongodb.org/) and
-[Cassandra](http://cassandra.apache.org/). We provide a suite of
-integration tests to exercise your repositories against a real
-database, as well as in-memory repositories for other tests.
+[Cassandra](http://cassandra.apache.org/),
+[MongoDB](https://www.mongodb.org/), and
+[SQLite](https://sqlite.org/). We provide a suite of integration tests
+to exercise your repositories against a real database, as well as
+in-memory repositories for other tests.
 
 - [Feature List](feature-list.html)
 - [Getting Started Guide](getting-started)

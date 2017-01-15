@@ -37,7 +37,7 @@ longevity that we want to persist them by marking them with the
 import longevity.model.annotations.persistent
 
 @persistent(keySet = Set(
-  partitionKey(User.props.username),
+  primaryKey(User.props.username),
   key(User.props.email)))
 // case class User ...
 ```
@@ -55,7 +55,7 @@ fields, specifying that these two member are to be unique: no two
 users should have the same username or email.
 
 You can have as many keys as you like, but only one of the keys - in
-our case, the username key - can be a partition key. Partition keys
+our case, the username key - can be a primary key. Primary keys
 perform better than other keys when you are using a distributed
 database, since the database can determine the node that holds the
 data by examining the key.

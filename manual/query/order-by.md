@@ -86,7 +86,7 @@ your query results in the right order in place. This means that
 ordered queries that return a large number of results may be costly.
 
 For MongoDB, ordered results can be assembled in place only when the
-`orderBy` clause matches the partition key property. For Cassandra,
+`orderBy` clause matches the primary key property. For Cassandra,
 any accepted `orderBy` clause will assemble the ordered results in
 place. However, the `orderBy` clauses accepted by Cassandra are
 limited, as [explained here](cassandra-query-limits.html).

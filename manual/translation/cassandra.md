@@ -21,7 +21,7 @@ key or index is expanded in to a sequence of property components that
 all have [basic types](../model/basics.html). These property
 components are stored in Cassandra columns, and all have names
 prefixed with `prop_`.  Those property components that do not belong
-to your partition key are
+to your primary key are
 [indexed](https://docs.datastax.com/en/cql/3.1/cql/cql_reference/create_index_r.html).
 
 The property component columns are used to back calls to

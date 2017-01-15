@@ -73,8 +73,8 @@ the need for an index.
 Indexes are used by `Repo.retrieveByQuery`, which is described in a [later
 section](../query/retrieve-by.html).
 
-{% assign prevTitle = "partition keys" %}
-{% assign prevLink = "partition-keys.html" %}
+{% assign prevTitle = "primary keys" %}
+{% assign prevLink = "primary-keys.html" %}
 {% assign upTitle = "the persistent type" %}
 {% assign upLink = "." %}
 {% assign nextTitle = "property sets" %}

@@ -18,7 +18,7 @@ layout: page
 Current features are described in detail in the [user
 manual](manual). They include:
 
-- MongoDB, Cassandra, and in-memory back ends.
+- Cassandra, MongoDB, SQLite, and in-memory back ends.
 - Supports construction of persistent types using:
   - Basic values such as `Int`, `String`, `DateTime`, etc.
   - Collection types such as `Option`, `Set`, and `List`.

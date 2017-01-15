@@ -37,8 +37,8 @@ val updated: FPState[User] = for {
 We can continue to manipulate the persistent state returned by
 `Repo.update`, and pass it on to further calls to `update` or `delete`.
 
-Unless the key value is for a [partition
-key](../ptype/partition-keys.html), there is nothing at present that
+Unless the key value is for a [primary
+key](../ptype/primary-keys.html), there is nothing at present that
 prevents you from modifying the contents of a key value for a
 persistent object. Consequently, it is possible for `update` to fail
 by attempting to put in a duplicate key value. See the note at the

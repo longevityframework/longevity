@@ -32,8 +32,8 @@ Cassandra queries do not support offset clauses.
 Cassandra queries only support `orderBy` clauses in very limited
 circumstances:
 
-- The entire partition of the partition key has to be in the query filter with `eqs`.
-- Only post partition properties of a partial partition key can be mentioned in the `orderBy` clause.
+- The entire partition of the primary key has to be in the query filter with `eqs`.
+- Only post partition properties of a partially partitioned primary key can be mentioned in the `orderBy` clause.
 - They must be included in order.
 - Either everything is ascending or everything is descending.
 
