@@ -48,33 +48,40 @@ prefer. Here we use the `LongevityConfig` case class to define the
 same configuration as found in the `reference.conf` file:
 
 ```scala
+import longevity.context.CassandraConfig
 import longevity.context.InMem
 import longevity.context.LongevityConfig
 import longevity.context.MongoConfig
+import longevity.context.SQLiteConfig
 import longevity.context.TestConfig
-import longevity.context.CassandraConfig
 
 val longevityConfig = LongevityConfig(
-  backEnd = InMem, // one of InMem, Mongo, Cassandra
+  backEnd = InMem, // one of Cassandra, InMem, Mongo, SQLite
   autocreateSchema = false,
   optimisticLocking = false,
-  mongodb = MongoConfig(
-    uri = "mongodb://127.0.0.1:27017",
-    db = "longevity_main"),
   cassandra = CassandraConfig(
     address = "127.0.0.1",
     credentials = None,
     keyspace = "longevity_main",
     replicationFactor = 1),
+  mongodb = MongoConfig(
+    uri = "mongodb://127.0.0.1:27017",
+    db = "longevity_main"),
+  sqlite = SQLiteConfig(
+    jdbcDriverClass = "org.sqlite.JDBC"
+    jdbcUrl = "jdbc:sqlite:longevity_main.db"),
   test = TestConfig(
-    mongodb = MongoConfig(
-      uri = "mongodb://127.0.0.1:27017",
-      db = "longevity_test"),
     cassandra = CassandraConfig(
       address = "127.0.0.1",
       credentials = None,
       keyspace = "longevity_test",
-      replicationFactor = 1)))
+      replicationFactor = 1),
+    mongodb = MongoConfig(
+      uri = "mongodb://127.0.0.1:27017",
+      db = "longevity_test"),
+    sqlite = SQLiteConfig(
+      jdbcDriverClass = "org.sqlite.JDBC"
+      jdbcUrl = "jdbc:sqlite:longevity_test.db")))
 
 val bloggingContext = new LongevityContext(
   bloggingDomain,
@@ -82,8 +89,13 @@ val bloggingContext = new LongevityContext(
 ```
 
 The most important configuration setting is `longevity.backEnd`. This
-is where you choose your database. Right now, the options are `InMem`,
-`Mongo`, and `Cassandra`.
+is where you choose your database. Right now, the options are
+`Cassandra`, `InMem`, `Mongo`, and `SQLite`.
+
+If you are using SQLite, you never have to change the
+`SQLiteConfig.jdbcDriverClass` setting. We provide it in the
+configuration as a back door for people who want to experiment with
+other JDBC drivers.
 
 {% assign prevTitle = "the longevity context" %}
 {% assign prevLink = "." %}

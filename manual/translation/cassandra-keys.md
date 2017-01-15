@@ -35,9 +35,9 @@ same primary key as an existing object. Rather, it will simply
 overwrite these rows.
 
 {% assign prevTitle = "cassandra translation" %}
-{% assign prevLink = "cassandra.html" %}
-{% assign upTitle = "translating persistents to the database" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "managing logging" %}
-{% assign nextLink = "../logging.html" %}
+{% assign prevLink  = "cassandra.html" %}
+{% assign upTitle   = "translating persistents to the database" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "mongodb translation" %}
+{% assign nextLink  = "mongo.html" %}
 {% include navigate.html %}

@@ -73,6 +73,6 @@ with partition keys and MongoDB:
 {% assign prevLink  = "mongo.html" %}
 {% assign upTitle   = "translating persistents to the database" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "cassandra translation" %}
-{% assign nextLink  = "cassandra.html" %}
+{% assign nextTitle = "managing logging" %}
+{% assign nextLink  = "../logging.html" %}
 {% include navigate.html %}

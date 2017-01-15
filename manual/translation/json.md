@@ -34,9 +34,9 @@ the same JSON as `expr`.
 - `Sets` and `Lists` are translated into JSON arrays.
 
 {% assign prevTitle = "translating persistents to the database" %}
-{% assign prevLink = "." %}
-{% assign upTitle = "translating persistents to the database" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "mongodb translation" %}
-{% assign nextLink = "mongo.html" %}
+{% assign prevLink  = "." %}
+{% assign upTitle   = "translating persistents to the database" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "cassandra translation" %}
+{% assign nextLink  = "cassandra.html" %}
 {% include navigate.html %}

@@ -61,10 +61,10 @@ once, and then come back to it as a reference.
   - [QuerySpec](testing/query-spec.html)
 - [Translating Persistents to the Database](translation)
   - [Persistent to JSON](translation/json.html)
-  - [MongoDB Translation](translation/mongo.html)
-  - [MongoDB Keys](translation/mongo-keys.html)
   - [Cassandra Translation](translation/cassandra.html)
   - [Cassandra Keys](translation/cassandra-keys.html)
+  - [MongoDB Translation](translation/mongo.html)
+  - [MongoDB Keys](translation/mongo-keys.html)
 - [Managing Logging](logging.html)
 
 {% assign upTitle = "longevity site" %}
