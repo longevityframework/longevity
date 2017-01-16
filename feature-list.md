@@ -3,23 +3,16 @@ title: feature list
 layout: page
 ---
 
-## Design Principles
-
-- Fully encapsulates persistence concerns.
-- Built to support multiple NoSQL back ends.
-- [Asynchronous persistence API](manual/repo/repo-api.html) using [Scala
-  futures](http://docs.scala-lang.org/overviews/core/futures.html) and
-  [Akka
-  streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html). 
-- Agnostic about what kinds of data you want to persist.
-
-## Current Features
-
 Current features are described in detail in the [user
 manual](manual). They include:
 
+- Asynchronous persistence API using [Scala
+  futures](http://docs.scala-lang.org/overviews/core/futures.html) and
+  [Akka
+  streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html).
 - Cassandra, MongoDB, SQLite, and in-memory back ends.
-- Supports construction of persistent types using:
+
+- Supports construction of your domain model using:
   - Basic values such as `Int`, `String`, `DateTime`, etc.
   - Collection types such as `Option`, `Set`, and `List`.
   - Case classes.
@@ -27,7 +20,7 @@ manual](manual). They include:
   - Controlled vocabularies.
 - Domain-level keys and indexes.
 - User control of [sharding](https://docs.mongodb.com/manual/sharding/#shard-keys)/[partitioning](https://docs.datastax.com/en/cql/3.1/cql/cql_reference/refCompositePk.html).
-- Optional [macro
+- [Macro
   annotations](http://docs.scala-lang.org/overviews/macros/annotations.html)
   and package scanning to remove all boilerplate in describing your
   domain model.

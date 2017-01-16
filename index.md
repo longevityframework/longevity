@@ -3,17 +3,31 @@ title: welcome to longevity
 layout: page
 ---
 
-Build your domain model using standard Scala idioms such as case
-classes, companion objects, options, and immutable collections. Tell
-us about the types in your model, and we provide the persistence.
+---
+<p style="text-align: center;"><b>
+  Focus your development on your domain model, not your database model!
+</b></p>
 
-Persistence concerns and operations are abstracted behind an elegant
-persistence API. We provide you with fully featured repositories for
-[Cassandra](http://cassandra.apache.org/),
+Longevity translates your domain into a natural, easy to understand
+database model. Your persistent objects are stored as JSON, and we add
+any other database schema needed to keep performance fast.
+
+You no longer need to:
+
+  - design a database schema
+  - build and maintain a translation layer between your domain model and
+    database model
+  - build and maintain integration tests for your translation layer
+  - make compromises in your domain model to satisfy your database model
+    or translation layer
+
+With longevity, persistence concerns and operations are abstracted
+behind an elegant persistence API. We provide you with fully featured
+repositories for [Cassandra](http://cassandra.apache.org/),
 [MongoDB](https://www.mongodb.org/), and
-[SQLite](https://sqlite.org/). We provide a suite of integration tests
-to exercise your repositories against a real database, as well as
-in-memory repositories for other tests.
+[SQLite](https://sqlite.org/).
+
+---
 
 - [Feature List](feature-list.html)
 - [Getting Started Guide](getting-started)
@@ -24,7 +38,7 @@ in-memory repositories for other tests.
 - [Discussion Forum](https://groups.google.com/forum/#!forum/longevity-users)
 - [Contributing](contributing.html)
 - [License](license.html)
-- [Consulting Services](by-design.html)
+- [Longevity By Design](by-design.html)
 - [Story Board](https://www.pivotaltracker.com/n/projects/1231978)
 
 For the latest longevity news, please check out the [longevity tag on
