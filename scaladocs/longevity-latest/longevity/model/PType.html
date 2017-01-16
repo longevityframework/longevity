@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>PType - longevity 0.19.0 API - longevity.model.PType</title>
-          <meta name="description" content="PType - longevity 0.19.0 API - longevity.model.PType" />
-          <meta name="keywords" content="PType longevity 0.19.0 API longevity.model.PType" />
+          <title>PType - longevity 0.20.0 API - longevity.model.PType</title>
+          <meta name="description" content="PType - longevity 0.20.0 API - longevity.model.PType" />
+          <meta name="keywords" content="PType longevity 0.20.0 API longevity.model.PType" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -50,7 +50,7 @@
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a type class for a persistent object
-</p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.19.0/src/main/scala/longevity/model/PType.scala" target="_blank">PType.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.20.0/src/main/scala/longevity/model/PType.scala" target="_blank">PType.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block">
@@ -663,66 +663,66 @@ index props
       <p class="shortcomment cmt">a series of properties that determines the partitioning used by the
 underlying database to distribute data across multiple nodes.</p><div class="fullcomment"><div class="comment cmt"><p>a series of properties that determines the partitioning used by the
 underlying database to distribute data across multiple nodes. used to form a
-<a href="ptype/PartitionKey.html" class="extype" name="longevity.model.ptype.PartitionKey">partition key</a>
+<a href="ptype/PrimaryKey.html" class="extype" name="longevity.model.ptype.PrimaryKey">primary key</a>
 </p></div><dl class="paramcmts block"><dt class="param">props</dt><dd class="cmt"><p>the properties that determine the partition</p></dd></dl></div>
-    </li><li name="longevity.model.PType#partitionKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="partitionKey[V&lt;:longevity.model.KeyVal[P]](keyValProp:longevity.model.ptype.Prop[P,V],partition:longevity.model.ptype.Partition[P])(implicitevidence$5:emblem.TypeKey[V]):longevity.model.ptype.Key[P]"></a>
-      <a id="partitionKey[V&lt;:KeyVal[P]](Prop[P,V],Partition[P])(TypeKey[V]):Key[P]"></a>
+    </li><li name="longevity.model.PType#primaryKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="primaryKey[V&lt;:longevity.model.KeyVal[P]](keyValProp:longevity.model.ptype.Prop[P,V],partition:longevity.model.ptype.Partition[P])(implicitevidence$5:emblem.TypeKey[V]):longevity.model.ptype.Key[P]"></a>
+      <a id="primaryKey[V&lt;:KeyVal[P]](Prop[P,V],Partition[P])(TypeKey[V]):Key[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">partitionKey</span><span class="tparams">[<span name="V">V &lt;: <a href="KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>]</span><span class="params">(<span name="keyValProp">keyValProp: <a href="ptype/Prop.html" class="extype" name="longevity.model.ptype.Prop">Prop</a>[<span class="extype" name="longevity.model.PType.P">P</span>, <span class="extype" name="longevity.model.PType.partitionKey.V">V</span>]</span>, <span name="partition">partition: <a href="ptype/Partition.html" class="extype" name="longevity.model.ptype.Partition">Partition</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.model.PType.partitionKey.V">V</span>]</span>)</span><span class="result">: <a href="ptype/Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>
+        <span class="name">primaryKey</span><span class="tparams">[<span name="V">V &lt;: <a href="KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>]</span><span class="params">(<span name="keyValProp">keyValProp: <a href="ptype/Prop.html" class="extype" name="longevity.model.ptype.Prop">Prop</a>[<span class="extype" name="longevity.model.PType.P">P</span>, <span class="extype" name="longevity.model.PType.primaryKey.V">V</span>]</span>, <span name="partition">partition: <a href="ptype/Partition.html" class="extype" name="longevity.model.ptype.Partition">Partition</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.model.PType.primaryKey.V">V</span>]</span>)</span><span class="result">: <a href="ptype/Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.model.PType@partitionKey[V&lt;:longevity.model.KeyVal[P]](keyValProp:longevity.model.ptype.Prop[P,V],partition:longevity.model.ptype.Partition[P])(implicitevidence$5:emblem.TypeKey[V]):longevity.model.ptype.Key[P]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.model.PType@primaryKey[V&lt;:longevity.model.KeyVal[P]](keyValProp:longevity.model.ptype.Prop[P,V],partition:longevity.model.ptype.Partition[P])(implicitevidence$5:emblem.TypeKey[V]):longevity.model.ptype.Key[P]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">constructs a partition key for this persistent type
-</p><div class="fullcomment"><div class="comment cmt"><p>constructs a partition key for this persistent type
+      <p class="shortcomment cmt">constructs a primary key for this persistent type
+</p><div class="fullcomment"><div class="comment cmt"><p>constructs a primary key for this persistent type
 </p></div><dl class="paramcmts block"><dt class="tparam">V</dt><dd class="cmt"><p>the type of the key value</p></dd><dt class="param">keyValProp</dt><dd class="cmt"><p>a property for the primary key</p></dd><dt class="param">partition</dt><dd class="cmt"><p>describes the portion of the key value to use to determine
 which node in the partition the data belongs to. this must form a prefix of
 the <code>keyValProp</code></p></dd></dl></div>
-    </li><li name="longevity.model.PType#partitionKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="partitionKey[V&lt;:longevity.model.KeyVal[P]](keyValProp:longevity.model.ptype.Prop[P,V],hashed:Boolean)(implicitevidence$4:emblem.TypeKey[V]):longevity.model.ptype.Key[P]"></a>
-      <a id="partitionKey[V&lt;:KeyVal[P]](Prop[P,V],Boolean)(TypeKey[V]):Key[P]"></a>
+    </li><li name="longevity.model.PType#primaryKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="primaryKey[V&lt;:longevity.model.KeyVal[P]](keyValProp:longevity.model.ptype.Prop[P,V],hashed:Boolean)(implicitevidence$4:emblem.TypeKey[V]):longevity.model.ptype.Key[P]"></a>
+      <a id="primaryKey[V&lt;:KeyVal[P]](Prop[P,V],Boolean)(TypeKey[V]):Key[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">partitionKey</span><span class="tparams">[<span name="V">V &lt;: <a href="KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>]</span><span class="params">(<span name="keyValProp">keyValProp: <a href="ptype/Prop.html" class="extype" name="longevity.model.ptype.Prop">Prop</a>[<span class="extype" name="longevity.model.PType.P">P</span>, <span class="extype" name="longevity.model.PType.partitionKey.V">V</span>]</span>, <span name="hashed">hashed: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol">false</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.model.PType.partitionKey.V">V</span>]</span>)</span><span class="result">: <a href="ptype/Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>
+        <span class="name">primaryKey</span><span class="tparams">[<span name="V">V &lt;: <a href="KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>]</span><span class="params">(<span name="keyValProp">keyValProp: <a href="ptype/Prop.html" class="extype" name="longevity.model.ptype.Prop">Prop</a>[<span class="extype" name="longevity.model.PType.P">P</span>, <span class="extype" name="longevity.model.PType.primaryKey.V">V</span>]</span>, <span name="hashed">hashed: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol">false</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.model.PType.primaryKey.V">V</span>]</span>)</span><span class="result">: <a href="ptype/Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.PType.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.model.PType@partitionKey[V&lt;:longevity.model.KeyVal[P]](keyValProp:longevity.model.ptype.Prop[P,V],hashed:Boolean)(implicitevidence$4:emblem.TypeKey[V]):longevity.model.ptype.Key[P]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.model.PType@primaryKey[V&lt;:longevity.model.KeyVal[P]](keyValProp:longevity.model.ptype.Prop[P,V],hashed:Boolean)(implicitevidence$4:emblem.TypeKey[V]):longevity.model.ptype.Key[P]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">constructs a partition key for this persistent type.</p><div class="fullcomment"><div class="comment cmt"><p>constructs a partition key for this persistent type. the full key value
+      <p class="shortcomment cmt">constructs a primary key for this persistent type.</p><div class="fullcomment"><div class="comment cmt"><p>constructs a primary key for this persistent type. the full key value
 is used to determine the partition
 </p></div><dl class="paramcmts block"><dt class="tparam">V</dt><dd class="cmt"><p>the type of the key value</p></dd><dt class="param">keyValProp</dt><dd class="cmt"><p>a property for the primary key</p></dd><dt class="param">hashed</dt><dd class="cmt"><p>if <code>true</code>, then used a hashed partition (as opposed to a
 ranged partition) when possible. defaults to <code>false</code>.</p></dd></dl></div>
-    </li><li name="longevity.model.PType#partitionKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="partitionKey:Option[longevity.model.ptype.PartitionKey[P]]"></a>
-      <a id="partitionKey:Option[PartitionKey[P]]"></a>
+    </li><li name="longevity.model.PType#primaryKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="primaryKey:Option[longevity.model.ptype.PrimaryKey[P]]"></a>
+      <a id="primaryKey:Option[PrimaryKey[P]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">lazy val</span>
       </span>
       <span class="symbol">
-        <span class="name">partitionKey</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="ptype/PartitionKey.html" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.PType.P">P</span>]]</span>
+        <span class="name">primaryKey</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="ptype/PrimaryKey.html" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.PType.P">P</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#longevity.model.PType@partitionKey:Option[longevity.model.ptype.PartitionKey[P]]" title="Permalink" target="_top">
+      <a href="../../index.html#longevity.model.PType@primaryKey:Option[longevity.model.ptype.PrimaryKey[P]]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">the optional partition key for this persistent type</p>
+      <p class="shortcomment cmt">the optional primary key for this persistent type</p>
     </li><li name="longevity.model.PType#prop" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="prop[A](path:String)(implicitevidence$2:emblem.TypeKey[A]):longevity.model.ptype.Prop[P,A]"></a>
       <a id="prop[A](String)(TypeKey[A]):Prop[P,A]"></a>

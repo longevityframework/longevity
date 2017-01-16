@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ptype - longevity 0.19.0 API - longevity.model.ptype</title>
-          <meta name="description" content="ptype - longevity 0.19.0 API - longevity.model.ptype" />
-          <meta name="keywords" content="ptype longevity 0.19.0 API longevity.model.ptype" />
+          <title>ptype - longevity 0.20.0 API - longevity.model.ptype</title>
+          <meta name="description" content="ptype - longevity 0.20.0 API - longevity.model.ptype" />
+          <meta name="keywords" content="ptype longevity 0.20.0 API longevity.model.ptype" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,7 @@
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block diagram-container" id="content-diagram-container">
                 <span class="toggle diagram-link">Content Hierarchy</span>
-                <div class="diagram" id="content-diagram"><svg class="package-diagram" id="graph1" viewBox="0.00 0.00 117.00 94.00" height="94pt" width="117pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 90)" class="graph" id="graph0"><polygon points="-4,4 -4,-90 113,-90 113,4 -4,4" stroke="none" fill="white"></polygon><!-- node0 --><g class="node class" id="graph1_0"><g id="a_class|graph1_0"><a xlink:title="longevity.model.ptype.PartitionKey" xlink:href="PartitionKey.html#inheritance-diagram"><polygon points="109,-25 0,-25 0,-0 109,-0 109,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="31.0396" text-anchor="start">PartitionKey[P]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.model.ptype.Key" xlink:href="Key.html#inheritance-diagram"><polygon points="91,-86 18,-86 18,-61 91,-61 91,-86" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-80.5" x="28.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="49.3818" text-anchor="start">Key[P]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="PartitionKey[P] is a subtype of Key[P]"><path d="M54.5,-55.6874C54.5,-45.9173 54.5,-33.8534 54.5,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="52.7501,-55.8435 54.5,-60.8435 56.2501,-55.8435 52.7501,-55.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="content-diagram"><svg class="package-diagram" id="graph1" viewBox="0.00 0.00 115.00 94.00" height="94pt" width="115pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 90)" class="graph" id="graph0"><polygon points="-4,4 -4,-90 111,-90 111,4 -4,4" stroke="none" fill="white"></polygon><!-- node0 --><g class="node class" id="graph1_0"><g id="a_class|graph1_0"><a xlink:title="longevity.model.ptype.PrimaryKey" xlink:href="PrimaryKey.html#inheritance-diagram"><polygon points="107,-25 0,-25 0,-0 107,-0 107,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="31.1602" text-anchor="start">PrimaryKey[P]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.model.ptype.Key" xlink:href="Key.html#inheritance-diagram"><polygon points="90,-86 17,-86 17,-61 90,-61 90,-86" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-80.5" x="27.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="48.3818" text-anchor="start">Key[P]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="PrimaryKey[P] is a subtype of Key[P]"><path d="M53.5,-55.6874C53.5,-45.9173 53.5,-33.8534 53.5,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="51.7501,-55.8435 53.5,-60.8435 55.2501,-55.8435 51.7501,-55.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -127,28 +127,29 @@ more than one persistent object.
       <p class="shortcomment cmt">a series of properties that determines the partitioning used by the
 underlying database to distribute data across multiple nodes.</p><div class="fullcomment"><div class="comment cmt"><p>a series of properties that determines the partitioning used by the
 underlying database to distribute data across multiple nodes. used to form a
-<a href="PartitionKey.html" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>
+<a href="PrimaryKey.html" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>
 </p></div></div>
-    </li><li name="longevity.model.ptype.PartitionKey" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="PartitionKey[P]extendsKey[P]"></a>
-      <a id="PartitionKey[P]:PartitionKey[P]"></a>
+    </li><li name="longevity.model.ptype.PrimaryKey" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="PrimaryKey[P]extendsKey[P]"></a>
+      <a id="PrimaryKey[P]:PrimaryKey[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="PartitionKey.html"><span class="name">PartitionKey</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]</span>
+        <a href="PrimaryKey.html"><span class="name">PrimaryKey</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.package@PartitionKey[P]extendsKey[P]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.package@PrimaryKey[P]extendsKey[P]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">the partition key for this persistent type.</p><div class="fullcomment"><div class="comment cmt"><p>the partition key for this persistent type. partition keys are used by the
-underlying database to partition data across multiple nodes of a distributed
-database.</p><p>a <a href="../PType.html" class="extype" name="longevity.model.PType">persistent type</a> can have zero or
-one primary keys.
+      <p class="shortcomment cmt">the primary key for this persistent type.</p><div class="fullcomment"><div class="comment cmt"><p>the primary key for this persistent type. a
+<a href="../PType.html" class="extype" name="longevity.model.PType">persistent type</a> can have no more than one
+primary key. primary keys are just like other <a href="Key.html" class="extype" name="longevity.model.ptype.Key">keys</a>, but
+they take advantage of any performance features of the underlying
+database that can only be applied once per persistent type.
 </p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd></dl></div>
     </li><li name="longevity.model.ptype.Prop" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Prop[P,A]extendsAnyRef"></a>
@@ -167,7 +168,7 @@ one primary keys.
       </a>
     </span>
       <p class="shortcomment cmt">a property for this persistent type.</p><div class="fullcomment"><div class="comment cmt"><p>a property for this persistent type. properties map to underlying members
-within the [Persistent persistent object], at any depth.</p><p>properties can be used to define <a href="Key.html" class="extype" name="longevity.model.ptype.Key">keys</a> and <a href="Index.html" class="extype" name="longevity.model.ptype.Index">indexes</a>, as well
+within the persistent object, at any depth.</p><p>properties can be used to define <a href="Key.html" class="extype" name="longevity.model.ptype.Key">keys</a> and <a href="Index.html" class="extype" name="longevity.model.ptype.Index">indexes</a>, as well
 as for building <a href="../query/Query.html" class="extype" name="longevity.model.query.Query">queries</a>. a property can
 descend from the root into child entities at any depth.</p><p>at present, a property cannot pass through any collections or terminate with
 a <a href="../PolyCType.html" class="extype" name="longevity.model.PolyCType">polymorphic embeddable</a>.

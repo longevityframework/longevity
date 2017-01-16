@@ -1,22 +1,22 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>UnstablePartitionKeyException - longevity 0.19.0 API - longevity.exceptions.persistence.UnstablePartitionKeyException</title>
-          <meta name="description" content="UnstablePartitionKeyException - longevity 0.19.0 API - longevity.exceptions.persistence.UnstablePartitionKeyException" />
-          <meta name="keywords" content="UnstablePartitionKeyException longevity 0.19.0 API longevity.exceptions.persistence.UnstablePartitionKeyException" />
+          <title>PrimaryKeyForDerivedPTypeException - longevity 0.20.0 API - longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException</title>
+          <meta name="description" content="PrimaryKeyForDerivedPTypeException - longevity 0.20.0 API - longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException" />
+          <meta name="keywords" content="PrimaryKeyForDerivedPTypeException longevity 0.20.0 API longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
-      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
-      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
-      <script type="text/javascript" src="../../../lib/template.js"></script>
-      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
-      <script type="text/javascript" src="../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../lib/diagrams.js" id="diagrams-js"></script>
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../../lib/diagrams.js" id="diagrams-js"></script>
       <script type="text/javascript">
          if(top === self) {
-            var url = '../../../index.html';
-            var hash = 'longevity.exceptions.persistence.UnstablePartitionKeyException';
+            var url = '../../../../index.html';
+            var hash = 'longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,13 +28,13 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Class" src="../../../lib/class_big.png" />
-        <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.exceptions">exceptions</a>.<a href="package.html" class="extype" name="longevity.exceptions.persistence">persistence</a></p>
-        <h1>UnstablePartitionKeyException</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="longevity.exceptions.persistence">package persistence</a>
+        <img alt="Class" src="../../../../lib/class_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="longevity">longevity</a>.<a href="../../package.html" class="extype" name="longevity.exceptions">exceptions</a>.<a href="../package.html" class="extype" name="longevity.exceptions.model">model</a>.<a href="package.html" class="extype" name="longevity.exceptions.model.ptype">ptype</a></p>
+        <h1>PrimaryKeyForDerivedPTypeException</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="longevity.exceptions.model.ptype">package ptype</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       </div>
@@ -45,16 +45,18 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">UnstablePartitionKeyException</span><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="PersistenceException.html" class="extype" name="longevity.exceptions.persistence.PersistenceException">PersistenceException</a></span>
+        <span class="name">PrimaryKeyForDerivedPTypeException</span><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="PTypeException.html" class="extype" name="longevity.exceptions.model.ptype.PTypeException">PTypeException</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception thrown on attempt to persist an object with a modified partition key</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.19.0/src/main/scala/longevity/exceptions/persistence/UnstablePartitionKeyException.scala" target="_blank">UnstablePartitionKeyException.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception thrown when <a href="../../../model/DerivedPType.html" class="extype" name="longevity.model.DerivedPType">derived
+persistent type</a> contains a <a href="../../../model/ptype/PrimaryKey.html" class="extype" name="longevity.model.ptype.PrimaryKey">primary key</a>
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.20.0/src/main/scala/longevity/exceptions/model/ptype/PrimaryKeyForDerivedPTypeException.scala" target="_blank">PrimaryKeyForDerivedPTypeException.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="PersistenceException.html" class="extype" name="longevity.exceptions.persistence.PersistenceException">PersistenceException</a>, <a href="../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="PTypeException.html" class="extype" name="longevity.exceptions.model.ptype.PTypeException">PTypeException</a>, <a href="../DomainModelException.html" class="extype" name="longevity.exceptions.model.DomainModelException">DomainModelException</a>, <a href="../../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>, <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span>, <a href="../../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 429.00 125.00" height="125pt" width="429pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 425,-121 425,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><!-- node2 --><g class="node implicit-outgoing class" id="graph1_2"><g id="a_implicit-outgoing class|graph1_2"><a xlink:title="longevity.exceptions.persistence.UnstablePartitionKeyException can be implicitly converted to RichException by the implicit method RichException in object scala.Predef"><polygon points="396.5,-49 289.5,-49 289.5,-24 396.5,-24 396.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="300" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="320.65" text-anchor="start">RichException</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.exceptions.persistence.UnstablePartitionKeyException (this class)" xlink:href="#inheritance-diagram"><polygon points="217.5,-49 24.5,-49 24.5,-24 217.5,-24 217.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.8477" text-anchor="start">UnstablePartitionKeyException[P]</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge implicit-outgoing" id="0_2"><g id="a_implicit-outgoing|0_2"><a xlink:title="UnstablePartitionKeyException[P] can be implicitly converted to RichException"><path d="M225.605,-36.5C242.797,-36.5 260.194,-36.5 276.139,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="276.272,-38.2501 281.272,-36.5 276.272,-34.7501 276.272,-38.2501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="253.5" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.exceptions.persistence.PersistenceException" xlink:href="PersistenceException.html#inheritance-diagram"><polygon points="190.5,-117 51.5,-117 51.5,-92 190.5,-92 190.5,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-111.5" x="62" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="82.5298" text-anchor="start">PersistenceException</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="UnstablePartitionKeyException[P] is a subtype of PersistenceException"><path d="M121,-86.6005C121,-74.8849 121,-59.583 121,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="119.25,-86.7005 121,-91.7005 122.75,-86.7006 119.25,-86.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 465.00 125.00" height="125pt" width="465pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 461,-121 461,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust3"></g><g class="cluster" id="clust2"></g><!-- node2 --><g class="node implicit-outgoing class" id="graph1_2"><g id="a_implicit-outgoing class|graph1_2"><a xlink:title="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException can be implicitly converted to RichException by the implicit method RichException in object scala.Predef"><polygon points="131.5,-49 24.5,-49 24.5,-24 131.5,-24 131.5,-49" stroke="#ababab" fill="#e1e1e1"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="10.00" font-family="Arial" y="-33.7495" x="55.6504" text-anchor="start">RichException</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException (this class)" xlink:href="#inheritance-diagram"><polygon points="432.5,-49 203.5,-49 203.5,-24 432.5,-24 432.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-43.5" x="214" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="234.798" text-anchor="start">PrimaryKeyForDerivedPTypeException[P]</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge implicit-outgoing" id="0_2"><g id="a_implicit-outgoing|0_2"><a xlink:title="PrimaryKeyForDerivedPTypeException[P] can be implicitly converted to RichException"><path d="M195.269,-36.5C177.961,-36.5 160.729,-36.5 145.014,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="144.959,-34.7501 139.959,-36.5 144.958,-38.2501 144.959,-34.7501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="10.00" font-family="Arial" y="-42.999" x="167.5" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.exceptions.model.ptype.PTypeException" xlink:href="PTypeException.html#inheritance-diagram"><polygon points="376,-117 260,-117 260,-92 376,-92 376,-117" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-111.5" x="270" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-101.75" x="290.978" text-anchor="start">PTypeException</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="PrimaryKeyForDerivedPTypeException[P] is a subtype of PTypeException"><path d="M318,-86.6005C318,-74.8849 318,-59.583 318,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="316.25,-86.7005 318,-91.7005 319.75,-86.7006 316.25,-86.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -72,7 +74,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.exceptions.persistence.UnstablePartitionKeyException"><span>UnstablePartitionKeyException</span></li><li class="in" name="longevity.exceptions.persistence.PersistenceException"><span>PersistenceException</span></li><li class="in" name="longevity.exceptions.LongevityException"><span>LongevityException</span></li><li class="in" name="java.lang.Exception"><span>Exception</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException"><span>PrimaryKeyForDerivedPTypeException</span></li><li class="in" name="longevity.exceptions.model.ptype.PTypeException"><span>PTypeException</span></li><li class="in" name="longevity.exceptions.model.DomainModelException"><span>DomainModelException</span></li><li class="in" name="longevity.exceptions.UnrecoverableLongevityException"><span>UnrecoverableLongevityException</span></li><li class="in" name="com.typesafe.scalalogging.LazyLogging"><span>LazyLogging</span></li><li class="in" name="longevity.exceptions.LongevityException"><span>LongevityException</span></li><li class="in" name="java.lang.Exception"><span>Exception</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -96,20 +98,20 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="longevity.exceptions.persistence.UnstablePartitionKeyException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(orig:P,origKeyVal:longevity.model.KeyVal[P],newKeyVal:longevity.model.KeyVal[P]):longevity.exceptions.persistence.UnstablePartitionKeyException[P]"></a>
-      <a id="&lt;init&gt;:UnstablePartitionKeyException[P]"></a>
+              <ol><li name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException[P]"></a>
+      <a id="&lt;init&gt;:PrimaryKeyForDerivedPTypeException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">UnstablePartitionKeyException</span><span class="params">(<span name="orig">orig: <span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span></span>, <span name="origKeyVal">origKeyVal: <a href="../../model/KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>, <span name="newKeyVal">newKeyVal: <a href="../../model/KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>)</span>
+        <span class="name">PrimaryKeyForDerivedPTypeException</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@&lt;init&gt;(orig:P,origKeyVal:longevity.model.KeyVal[P],newKeyVal:longevity.model.KeyVal[P]):longevity.exceptions.persistence.UnstablePartitionKeyException[P]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@&lt;init&gt;()(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException[P]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
@@ -134,8 +136,8 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@!=(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -151,8 +153,8 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@##():Int" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@##():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -168,34 +170,34 @@
         <span title="gt4s: $plus" class="implicit">+</span><span class="params">(<span name="other">other: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@+(other:String):String" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@+(other:String):String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
-      <a id="-&gt;[B](B):(UnstablePartitionKeyException[P],B)"></a>
+      <a id="-&gt;[B](B):(PrimaryKeyForDerivedPTypeException[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -213,8 +215,8 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@==(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -230,8 +232,8 @@
         <span class="name">addSuppressed</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@addSuppressed(x$1:Throwable):Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@addSuppressed(x$1:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -247,8 +249,8 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@asInstanceOf[T0]:T0" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -264,11 +266,11 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@clone():Object" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
@@ -277,86 +279,86 @@
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring((UnstablePartitionKeyException[P])⇒Boolean,⇒Any):UnstablePartitionKeyException[P]"></a>
+      <a id="ensuring((PrimaryKeyForDerivedPTypeException[P])⇒Boolean,⇒Any):PrimaryKeyForDerivedPTypeException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean):A"></a>
-      <a id="ensuring((UnstablePartitionKeyException[P])⇒Boolean):UnstablePartitionKeyException[P]"></a>
+      <a id="ensuring((PrimaryKeyForDerivedPTypeException[P])⇒Boolean):PrimaryKeyForDerivedPTypeException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring(Boolean,⇒Any):UnstablePartitionKeyException[P]"></a>
+      <a id="ensuring(Boolean,⇒Any):PrimaryKeyForDerivedPTypeException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean):A"></a>
-      <a id="ensuring(Boolean):UnstablePartitionKeyException[P]"></a>
+      <a id="ensuring(Boolean):PrimaryKeyForDerivedPTypeException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@ensuring(cond:Boolean):A" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@ensuring(cond:Boolean):A" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -371,8 +373,8 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -388,8 +390,8 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@equals(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -405,8 +407,8 @@
         <span class="name">fillInStackTrace</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@fillInStackTrace():Throwable" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@fillInStackTrace():Throwable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -422,11 +424,11 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@finalize():Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="symbol">classOf[java.lang.Throwable]</span>
@@ -445,13 +447,13 @@
         <span class="implicit">formatted</span><span class="params">(<span name="fmtstr">fmtstr: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@formatted(fmtstr:String):String" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@formatted(fmtstr:String):String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -469,8 +471,8 @@
         <span class="name">getCause</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@getCause():Throwable" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@getCause():Throwable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -486,8 +488,8 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@getClass():Class[_]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -503,8 +505,8 @@
         <span class="name">getLocalizedMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@getLocalizedMessage():String" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@getLocalizedMessage():String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -520,8 +522,8 @@
         <span class="name">getMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@getMessage():String" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@getMessage():String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -537,8 +539,8 @@
         <span class="name">getStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@getStackTrace():Array[StackTraceElement]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@getStackTrace():Array[StackTraceElement]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -554,8 +556,8 @@
         <span class="name">getSuppressed</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.Throwable">Throwable</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@getSuppressed():Array[Throwable]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@getSuppressed():Array[Throwable]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -571,8 +573,8 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@hashCode():Int" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -588,8 +590,8 @@
         <span class="name">initCause</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@initCause(x$1:Throwable):Throwable" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@initCause(x$1:Throwable):Throwable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -605,11 +607,28 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.typesafe.scalalogging.LazyLogging#logger" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logger:com.typesafe.scalalogging.Logger"></a>
+      <a id="logger:Logger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logger</span><span class="result">: <span class="extype" name="com.typesafe.scalalogging.Logger">Logger</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@logger:com.typesafe.scalalogging.Logger" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>LazyLogging</dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -622,28 +641,11 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="longevity.exceptions.persistence.UnstablePartitionKeyException#newKeyVal" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="newKeyVal:longevity.model.KeyVal[P]"></a>
-      <a id="newKeyVal:KeyVal[P]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">newKeyVal</span><span class="result">: <a href="../../model/KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@newKeyVal:longevity.model.KeyVal[P]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -656,8 +658,8 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@notify():Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -673,45 +675,11 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@notifyAll():Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="longevity.exceptions.persistence.UnstablePartitionKeyException#orig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="orig:P"></a>
-      <a id="orig:P"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">orig</span><span class="result">: <span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@orig:P" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="longevity.exceptions.persistence.UnstablePartitionKeyException#origKeyVal" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="origKeyVal:longevity.model.KeyVal[P]"></a>
-      <a id="origKeyVal:KeyVal[P]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">origKeyVal</span><span class="result">: <a href="../../model/KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@origKeyVal:longevity.model.KeyVal[P]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="java.lang.Throwable#printStackTrace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="printStackTrace(x$1:java.io.PrintWriter):Unit"></a>
       <a id="printStackTrace(PrintWriter):Unit"></a>
@@ -724,8 +692,8 @@
         <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintWriter">PrintWriter</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -741,8 +709,8 @@
         <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintStream">PrintStream</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -758,8 +726,8 @@
         <span class="name">printStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@printStackTrace():Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@printStackTrace():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -775,8 +743,8 @@
         <span class="name">setStackTrace</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Array" class="extype" target="_top">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
@@ -792,8 +760,8 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -809,8 +777,8 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@toString():String" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@toString():String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable → AnyRef → Any</dd></dl></div>
@@ -826,8 +794,8 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@wait():Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -849,8 +817,8 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -872,8 +840,8 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@wait(x$1:Long):Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -885,23 +853,23 @@
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
-      <a id="→[B](B):(UnstablePartitionKeyException[P],B)"></a>
+      <a id="→[B](B):(PrimaryKeyForDerivedPTypeException[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@→[B](y:B):(A,B)" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@→[B](y:B):(A,B)" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li></ol>
@@ -923,12 +891,12 @@
         <span class="implicit deprecated" title="Deprecated: (Since version 2.11.0) Use Throwable#getStackTrace">getStackTraceString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.persistence.UnstablePartitionKeyException@getStackTraceString:String" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException@getStackTraceString:String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to
             <span class="extype" name="scala.Predef.RichException">RichException</span> performed by method RichException in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>RichException</dd><dt>Annotations</dt><dd>
@@ -940,10 +908,16 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="longevity.exceptions.persistence.PersistenceException">
-              <h3>Inherited from <a href="PersistenceException.html" class="extype" name="longevity.exceptions.persistence.PersistenceException">PersistenceException</a></h3>
+        <div class="parent" name="longevity.exceptions.model.ptype.PTypeException">
+              <h3>Inherited from <a href="PTypeException.html" class="extype" name="longevity.exceptions.model.ptype.PTypeException">PTypeException</a></h3>
+            </div><div class="parent" name="longevity.exceptions.model.DomainModelException">
+              <h3>Inherited from <a href="../DomainModelException.html" class="extype" name="longevity.exceptions.model.DomainModelException">DomainModelException</a></h3>
+            </div><div class="parent" name="longevity.exceptions.UnrecoverableLongevityException">
+              <h3>Inherited from <a href="../../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a></h3>
+            </div><div class="parent" name="com.typesafe.scalalogging.LazyLogging">
+              <h3>Inherited from <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span></h3>
             </div><div class="parent" name="longevity.exceptions.LongevityException">
-              <h3>Inherited from <a href="../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a></h3>
+              <h3>Inherited from <a href="../../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a></h3>
             </div><div class="parent" name="java.lang.Exception">
               <h3>Inherited from <span class="extype" name="java.lang.Exception">Exception</span></h3>
             </div><div class="parent" name="java.lang.Throwable">
@@ -957,23 +931,23 @@
             </div>
         <div class="conversion" name="scala.Predef.RichException">
               <h3>Inherited by implicit conversion RichException from
-                <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to <span class="extype" name="scala.Predef.RichException">RichException</span>
+                <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.RichException">RichException</span>
               </h3>
             </div><div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]]
+                <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]]
+                <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]]
+                <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException">UnstablePartitionKeyException</a>[<span class="extype" name="longevity.exceptions.persistence.UnstablePartitionKeyException.P">P</span>]]
+                <a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException">PrimaryKeyForDerivedPTypeException</a>[<span class="extype" name="longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException.P">P</span>]]
               </h3>
             </div>
         </div>

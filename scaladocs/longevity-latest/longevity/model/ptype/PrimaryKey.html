@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>PartitionKey - longevity 0.19.0 API - longevity.model.ptype.PartitionKey</title>
-          <meta name="description" content="PartitionKey - longevity 0.19.0 API - longevity.model.ptype.PartitionKey" />
-          <meta name="keywords" content="PartitionKey longevity 0.19.0 API longevity.model.ptype.PartitionKey" />
+          <title>PrimaryKey - longevity 0.20.0 API - longevity.model.ptype.PrimaryKey</title>
+          <meta name="description" content="PrimaryKey - longevity 0.20.0 API - longevity.model.ptype.PrimaryKey" />
+          <meta name="keywords" content="PrimaryKey longevity 0.20.0 API longevity.model.ptype.PrimaryKey" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../index.html';
-            var hash = 'longevity.model.ptype.PartitionKey';
+            var hash = 'longevity.model.ptype.PrimaryKey';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -30,10 +30,10 @@
       <div id="definition">
         <img alt="Class" src="../../../lib/class_big.png" />
         <p id="owner"><a href="../../package.html" class="extype" name="longevity">longevity</a>.<a href="../package.html" class="extype" name="longevity.model">model</a>.<a href="package.html" class="extype" name="longevity.model.ptype">ptype</a></p>
-        <h1>PartitionKey</h1><h3><span class="morelinks"><div>Related Doc:
+        <h1>PrimaryKey</h1><h3><span class="morelinks"><div>Related Doc:
             <a href="package.html" class="extype" name="longevity.model.ptype">package ptype</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -45,20 +45,21 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">PartitionKey</span><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]</span>
+        <span class="name">PrimaryKey</span><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]</span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>the partition key for this persistent type. partition keys are used by the
-underlying database to partition data across multiple nodes of a distributed
-database.</p><p>a <a href="../PType.html" class="extype" name="longevity.model.PType">persistent type</a> can have zero or
-one primary keys.
-</p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.19.0/src/main/scala/longevity/model/ptype/PartitionKey.scala" target="_blank">PartitionKey.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>the primary key for this persistent type. a
+<a href="../PType.html" class="extype" name="longevity.model.PType">persistent type</a> can have no more than one
+primary key. primary keys are just like other <a href="Key.html" class="extype" name="longevity.model.ptype.Key">keys</a>, but
+they take advantage of any performance features of the underlying
+database that can only be applied once per persistent type.
+</p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.20.0/src/main/scala/longevity/model/ptype/PrimaryKey.scala" target="_blank">PrimaryKey.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>], <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>], <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 166.00 118.00" height="118pt" width="166pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 162,-114 162,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.model.ptype.PartitionKey (this class)" xlink:href="#inheritance-diagram"><polygon points="133.5,-49 24.5,-49 24.5,-24 133.5,-24 133.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.5396" text-anchor="start">PartitionKey[P]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.model.ptype.Key" xlink:href="Key.html#inheritance-diagram"><polygon points="115.5,-110 42.5,-110 42.5,-85 115.5,-85 115.5,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-104.5" x="53" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="73.8818" text-anchor="start">Key[P]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="PartitionKey[P] is a subtype of Key[P]"><path d="M79,-79.6874C79,-69.9173 79,-57.8534 79,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="77.2501,-79.8435 79,-84.8435 80.7501,-79.8435 77.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 164.00 118.00" height="118pt" width="164pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 160,-114 160,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.model.ptype.PrimaryKey (this class)" xlink:href="#inheritance-diagram"><polygon points="131.5,-49 24.5,-49 24.5,-24 131.5,-24 131.5,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="55.6602" text-anchor="start">PrimaryKey[P]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="longevity.model.ptype.Key" xlink:href="Key.html#inheritance-diagram"><polygon points="114.5,-110 41.5,-110 41.5,-85 114.5,-85 114.5,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-104.5" x="52" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="72.8818" text-anchor="start">Key[P]</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="PrimaryKey[P] is a subtype of Key[P]"><path d="M78,-79.6874C78,-69.9173 78,-57.8534 78,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="76.2501,-79.8435 78,-84.8435 79.7501,-79.8435 76.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -76,7 +77,7 @@ one primary keys.
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="longevity.model.ptype.PartitionKey"><span>PartitionKey</span></li><li class="in" name="longevity.model.ptype.Key"><span>Key</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="longevity.model.ptype.PrimaryKey"><span>PrimaryKey</span></li><li class="in" name="longevity.model.ptype.Key"><span>Key</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
                 <span class="filtertype">Implicitly<br />
@@ -111,10 +112,10 @@ one primary keys.
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">V</span><span class="result"> &lt;: <a href="../KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]</span>
+        <span class="name">V</span><span class="result"> &lt;: <a href="../KeyVal.html" class="extype" name="longevity.model.KeyVal">KeyVal</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@V&lt;:longevity.model.KeyVal[P]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@V&lt;:longevity.model.KeyVal[P]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -138,7 +139,7 @@ one primary keys.
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -155,7 +156,7 @@ one primary keys.
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@##():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@##():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -172,34 +173,34 @@ one primary keys.
         <span title="gt4s: $plus" class="implicit">+</span><span class="params">(<span name="other">other: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@+(other:String):String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@+(other:String):String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;[B](y:B):(A,B)"></a>
-      <a id="-&gt;[B](B):(PartitionKey[P],B)"></a>
+      <a id="-&gt;[B](B):(PrimaryKey[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@-&gt;[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -217,7 +218,7 @@ one primary keys.
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -234,7 +235,7 @@ one primary keys.
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -251,7 +252,7 @@ one primary keys.
         <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@clone():Object" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@clone():Object" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -264,86 +265,86 @@ one primary keys.
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring((PartitionKey[P])⇒Boolean,⇒Any):PartitionKey[P]"></a>
+      <a id="ensuring((PrimaryKey[P])⇒Boolean,⇒Any):PrimaryKey[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:A=&gt;Boolean):A"></a>
-      <a id="ensuring((PartitionKey[P])⇒Boolean):PartitionKey[P]"></a>
+      <a id="ensuring((PrimaryKey[P])⇒Boolean):PrimaryKey[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@ensuring(cond:A=&gt;Boolean):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a>
-      <a id="ensuring(Boolean,⇒Any):PartitionKey[P]"></a>
+      <a id="ensuring(Boolean,⇒Any):PrimaryKey[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ensuring(cond:Boolean):A"></a>
-      <a id="ensuring(Boolean):PartitionKey[P]"></a>
+      <a id="ensuring(Boolean):PrimaryKey[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@ensuring(cond:Boolean):A" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@ensuring(cond:Boolean):A" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -358,7 +359,7 @@ one primary keys.
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -375,7 +376,7 @@ one primary keys.
         <span class="name">equals</span><span class="params">(<span name="that">that: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@equals(that:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@equals(that:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -392,7 +393,7 @@ one primary keys.
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -415,19 +416,19 @@ one primary keys.
         <span class="implicit">formatted</span><span class="params">(<span name="fmtstr">fmtstr: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@formatted(fmtstr:String):String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@formatted(fmtstr:String):String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="longevity.model.ptype.PartitionKey#fullyPartitioned" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="longevity.model.ptype.PrimaryKey#fullyPartitioned" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="fullyPartitioned:Boolean"></a>
       <a id="fullyPartitioned:Boolean"></a>
       <h4 class="signature">
@@ -439,7 +440,7 @@ one primary keys.
         <span class="name">fullyPartitioned</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@fullyPartitioned:Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@fullyPartitioned:Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -456,7 +457,7 @@ one primary keys.
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -473,12 +474,12 @@ one primary keys.
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a> → AnyRef → Any</dd></dl></div>
-    </li><li name="longevity.model.ptype.PartitionKey#hashed" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="longevity.model.ptype.PrimaryKey#hashed" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="hashed:Boolean"></a>
       <a id="hashed:Boolean"></a>
       <h4 class="signature">
@@ -490,7 +491,7 @@ one primary keys.
         <span class="name">hashed</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@hashed:Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@hashed:Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -508,7 +509,7 @@ ranged partition) when possible</p>
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -525,7 +526,7 @@ ranged partition) when possible</p>
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -542,7 +543,7 @@ ranged partition) when possible</p>
         <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@notify():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -559,12 +560,12 @@ ranged partition) when possible</p>
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="longevity.model.ptype.PartitionKey#partition" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="longevity.model.ptype.PrimaryKey#partition" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="partition:longevity.model.ptype.Partition[P]"></a>
       <a id="partition:Partition[P]"></a>
       <h4 class="signature">
@@ -573,10 +574,10 @@ ranged partition) when possible</p>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">partition</span><span class="result">: <a href="Partition.html" class="extype" name="longevity.model.ptype.Partition">Partition</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]</span>
+        <span class="name">partition</span><span class="result">: <a href="Partition.html" class="extype" name="longevity.model.ptype.Partition">Partition</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@partition:longevity.model.ptype.Partition[P]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@partition:longevity.model.ptype.Partition[P]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -591,10 +592,10 @@ which node in the partition the data belongs to</p>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">prop</span><span class="result">: <a href="Prop.html" class="extype" name="longevity.model.ptype.Prop">Prop</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>, _]</span>
+        <span class="name">prop</span><span class="result">: <a href="Prop.html" class="extype" name="longevity.model.ptype.Prop">Prop</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>, _]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@prop:longevity.model.ptype.Prop[P,_]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@prop:longevity.model.ptype.Prop[P,_]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -611,12 +612,12 @@ which node in the partition the data belongs to</p>
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="longevity.model.ptype.PartitionKey#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="longevity.model.ptype.PrimaryKey#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
       <h4 class="signature">
@@ -628,11 +629,11 @@ which node in the partition the data belongs to</p>
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@toString():String" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@toString():String" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a> → <a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a> → AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a> → <a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a> → AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -645,7 +646,7 @@ which node in the partition the data belongs to</p>
         <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@wait():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -668,7 +669,7 @@ which node in the partition the data belongs to</p>
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -691,7 +692,7 @@ which node in the partition the data belongs to</p>
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -704,23 +705,23 @@ which node in the partition the data belongs to</p>
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="→[B](y:B):(A,B)"></a>
-      <a id="→[B](B):(PartitionKey[P],B)"></a>
+      <a id="→[B](B):(PrimaryKey[P],B)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.model.ptype.PartitionKey@→[B](y:B):(A,B)" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.model.ptype.PrimaryKey@→[B](y:B):(A,B)" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit information</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li></ol>
@@ -733,7 +734,7 @@ which node in the partition the data belongs to</p>
 
         <div id="inheritedMembers">
         <div class="parent" name="longevity.model.ptype.Key">
-              <h3>Inherited from <a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]</h3>
+              <h3>Inherited from <a href="Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]</h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
@@ -741,19 +742,19 @@ which node in the partition the data belongs to</p>
             </div>
         <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]]
+                <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]]
+                <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]]
+                <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.model.ptype.PartitionKey.P">P</span>]]
+                <a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.model.ptype.PrimaryKey.P">P</span>]]
               </h3>
             </div>
         </div>

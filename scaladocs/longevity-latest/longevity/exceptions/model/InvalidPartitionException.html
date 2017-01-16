@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>InvalidPartitionException - longevity 0.19.0 API - longevity.exceptions.model.InvalidPartitionException</title>
-          <meta name="description" content="InvalidPartitionException - longevity 0.19.0 API - longevity.exceptions.model.InvalidPartitionException" />
-          <meta name="keywords" content="InvalidPartitionException longevity 0.19.0 API longevity.exceptions.model.InvalidPartitionException" />
+          <title>InvalidPartitionException - longevity 0.20.0 API - longevity.exceptions.model.InvalidPartitionException</title>
+          <meta name="description" content="InvalidPartitionException - longevity 0.20.0 API - longevity.exceptions.model.InvalidPartitionException" />
+          <meta name="keywords" content="InvalidPartitionException longevity 0.20.0 API longevity.exceptions.model.InvalidPartitionException" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,9 +49,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception indicating an attempt to create a property with a prop path
-that does not exist
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.19.0/src/main/scala/longevity/exceptions/model/InvalidPartitionException.scala" target="_blank">InvalidPartitionException.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>an exception indicating an attempt to create a primary key with a
+partition that does not form a prefix of the key value property
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.20.0/src/main/scala/longevity/exceptions/model/InvalidPartitionException.scala" target="_blank">InvalidPartitionException.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="DomainModelException.html" class="extype" name="longevity.exceptions.model.DomainModelException">DomainModelException</a>, <a href="../UnrecoverableLongevityException.html" class="extype" name="longevity.exceptions.UnrecoverableLongevityException">UnrecoverableLongevityException</a>, <span class="extype" name="com.typesafe.scalalogging.LazyLogging">LazyLogging</span>, <a href="../LongevityException.html" class="extype" name="longevity.exceptions.LongevityException">LongevityException</a>, <span class="extype" name="java.lang.Exception">Exception</span>, <span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
@@ -99,7 +99,7 @@ that does not exist
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="longevity.exceptions.model.InvalidPartitionException#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(key:longevity.model.ptype.PartitionKey[P])(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.model.InvalidPartitionException[P]"></a>
+      <a id="&lt;init&gt;(key:longevity.model.ptype.PrimaryKey[P])(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.model.InvalidPartitionException[P]"></a>
       <a id="&lt;init&gt;:InvalidPartitionException[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -107,10 +107,10 @@ that does not exist
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">InvalidPartitionException</span><span class="params">(<span name="key">key: <a href="../../model/ptype/PartitionKey.html" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.exceptions.model.InvalidPartitionException.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.exceptions.model.InvalidPartitionException.P">P</span>]</span>)</span>
+        <span class="name">InvalidPartitionException</span><span class="params">(<span name="key">key: <a href="../../model/ptype/PrimaryKey.html" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.exceptions.model.InvalidPartitionException.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.exceptions.model.InvalidPartitionException.P">P</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.model.InvalidPartitionException@&lt;init&gt;(key:longevity.model.ptype.PartitionKey[P])(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.model.InvalidPartitionException[P]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.model.InvalidPartitionException@&lt;init&gt;(key:longevity.model.ptype.PrimaryKey[P])(implicitevidence$1:emblem.TypeKey[P]):longevity.exceptions.model.InvalidPartitionException[P]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -613,18 +613,18 @@ that does not exist
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="longevity.exceptions.model.InvalidPartitionException#key" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="key:longevity.model.ptype.PartitionKey[P]"></a>
-      <a id="key:PartitionKey[P]"></a>
+      <a id="key:longevity.model.ptype.PrimaryKey[P]"></a>
+      <a id="key:PrimaryKey[P]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">key</span><span class="result">: <a href="../../model/ptype/PartitionKey.html" class="extype" name="longevity.model.ptype.PartitionKey">PartitionKey</a>[<span class="extype" name="longevity.exceptions.model.InvalidPartitionException.P">P</span>]</span>
+        <span class="name">key</span><span class="result">: <a href="../../model/ptype/PrimaryKey.html" class="extype" name="longevity.model.ptype.PrimaryKey">PrimaryKey</a>[<span class="extype" name="longevity.exceptions.model.InvalidPartitionException.P">P</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#longevity.exceptions.model.InvalidPartitionException@key:longevity.model.ptype.PartitionKey[P]" title="Permalink" target="_top">
+      <a href="../../../index.html#longevity.exceptions.model.InvalidPartitionException@key:longevity.model.ptype.PrimaryKey[P]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
