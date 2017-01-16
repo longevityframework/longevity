@@ -16,6 +16,7 @@ This treatment is broken down into the following sections:
 - [Cassandra Keys](cassandra-keys.html)
 - [MongoDB Translation](mongo.html)
 - [MongoDB Keys](mongo-keys.html)
+- [SQLite Translation](sqlite.html)
 
 {% assign prevTitle = "query spec" %}
 {% assign prevLink = "../testing/query-spec.html" %}

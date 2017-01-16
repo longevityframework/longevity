@@ -65,6 +65,7 @@ once, and then come back to it as a reference.
   - [Cassandra Keys](translation/cassandra-keys.html)
   - [MongoDB Translation](translation/mongo.html)
   - [MongoDB Keys](translation/mongo-keys.html)
+  - [SQLite Translation](translation/sqlite.html)
 - [Managing Logging](logging.html)
 
 {% assign upTitle = "longevity site" %}
