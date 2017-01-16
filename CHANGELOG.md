@@ -2,11 +2,15 @@
 
 ## [0.20-SNAP] - SQLite Back End
 
+- 2017.01.12 - Rename dependency bundle artifact from
+  `longevity-mongo-deps` to `longevity-mongodb-deps`.
 - 2017.01.12 - Rename `longevity.config.Mongo` to
   `longevity.config.MongoDB`. Rename `longevity.config.MongoConfig` to
   `longevity.config.MongoBDConfig`.
 - 2017.01.14 - Add SQLite back end. See `longevity.config.SQLite` and
   `longevity.config.SQLiteConfig`.
+- 2017.01.14 - Rename `longevity.model.PType.partitionKey` to
+  `primaryKey`.
 
 ## [0.19.0] - 2016.12.09 - Rename Subdomain to Domain Model
 
