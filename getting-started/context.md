@@ -52,13 +52,14 @@ longevity.test.cassandra.replicationFactor = 1
 ```
 
 Here, you need to specify the back end in configuration property
-`longevity.backEnd`. Your choices are currently `InMem`, `Mongo`, and
-`Cassandra`. We use `InMem` out of the box, so that this tutorial will
-work even if you don't have a MongoDB or Cassandra database set up for
-use.
+`longevity.backEnd`. Your choices are currently `Cassandra`, `InMem`,
+`Mongo`, and `SQLite`. We use `InMem` out of the box. If you want to
+try Cassandra or MongoDB, you will need to set up a database system to
+connect to. The SQLite back end will work without any extra setup, as
+all you need to run SQLite is the right jar on your classpath.
 
-You can find configurations for main and test databases for both Mongo
-and Cassandra in the config file. If you want to experiment with
+You can find configurations for main and test databases for the
+various back ends in the config file. If you want to experiment with
 adjusting the persistence strategy to use a real database, you may
 need to adjust this configuration.
 
