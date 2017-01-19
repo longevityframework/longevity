@@ -1,7 +1,9 @@
 ---
-title: contributing
+title: how you can contribute
 layout: page
 ---
+
+
 
 If you are looking to make a contribution to an open source project,
 we really could use your help! We are happy to support you on every

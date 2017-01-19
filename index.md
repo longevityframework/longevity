@@ -1,12 +1,8 @@
 ---
-title: welcome to longevity
 layout: page
 ---
 
----
-<p style="text-align: center;"><b>
-  Focus your development on your domain model, not your database model!
-</b></p>
+## Focus your development on your domain model, not your database model!
 
 Longevity translates your domain into a natural, easy to understand
 database model. Your persistent objects are stored as JSON, and we add
@@ -29,17 +25,4 @@ repositories for [Cassandra](http://cassandra.apache.org/),
 
 ---
 
-- [Feature List](feature-list.html)
-- [Getting Started Guide](getting-started)
-- [User Manual](manual)
-- [Scaladocs](scaladocs)
-- [Activator Tutorials](activator.html)
-
-- [Discussion Forum](https://groups.google.com/forum/#!forum/longevity-users)
-- [Contributing](contributing.html)
-- [License](license.html)
-- [Longevity By Design](by-design.html)
-- [Story Board](https://www.pivotaltracker.com/n/projects/1231978)
-
-For the latest longevity news, please check out the [longevity tag on
-the scabl blog](http://scabl.blogspot.com/search/label/longevity).
+For more information please visit our [resources page](resources.html).

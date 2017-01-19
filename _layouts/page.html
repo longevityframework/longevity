@@ -34,14 +34,18 @@
       ga('create', 'UA-42481814-3', 'auto');
       ga('send', 'pageview');
     </script>
-    
+
+    {% if page.title %}
     <title>{{ page.title }}</title>
+    {% else %}
+    <title>welcome to longevity</title>
+    {% endif %}
   </head>
 
   <body>
     <header>
       <div class="inner">
-        <h1><a href="http://longevityframework.org/" class="nostyle">longevity</a></h1>
+        <h1><a href="/" class="nostyle">longevity</a></h1>
         <h2>
           A Persistence Framework for Scala and NoSQL
         </h2>
@@ -54,36 +58,25 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
+          {% if page.title %}
           <h1> {{ page.title }} </h1>
+          {% endif %}
           {{ content }}
         </section>
 
         <aside id="sidebar">
-          <a href="http://longevityframework.org/feature-list.html"
-             class="button">
-            Feature List
-          </a>
-          <a href="http://longevityframework.org/getting-started"
-             class="button">
-            Getting Started
-          </a>
-          <a href="http://longevityframework.org/manual"
-            class="button">
-            User Manual
-          </a>
-          <a href="http://longevityframework.org/scaladocs"
-             class="button">
-            Scaladocs
-          </a>
-          <a href="https://groups.google.com/forum/#!forum/longevity-users"
-             class="button">
-            Discussion Forum
-          </a>
-          <a href="http://scabl.blogspot.com/search/label/longevity"
-             class="button">
-            Latest News
-          </a>
-
+          <a href="/feature-list.html"                                      class="button">Feature List       </a>
+          <a href="/getting-started"                                        class="button">Getting Started    </a>
+          <a href="/manual"                                                 class="button">User Manual        </a>
+          <a href="/scaladocs"                                              class="button">Scaladocs          </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum   </a>
+          <a href="/resources.html"                                         class="button">Resources          </a>
+<!--      <a href="https://www.pivotaltracker.com/n/projects/1231978"       class="button">Story Board        </a>
+          <a href="http://scabl.blogspot.com/search/label/longevity"        class="button">Latest News        </a>
+          <a href="/contributing.html"                                      class="button">How To Contribute  </a>
+          <a href="/by-design.html"                                         class="button">Longevity By Design</a>
+          <a href="/license.html"                                           class="button">License            </a>
+-->       
           <br/><br/>
 
           <p class="repo-owner">
@@ -95,7 +88,6 @@
         </aside>
       </div>
     </div>
-
   
   </body>
 </html>
