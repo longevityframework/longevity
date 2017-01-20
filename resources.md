@@ -23,4 +23,4 @@ layout: page
   Check out the future roadmap for longevity
 - [Latest News](http://scabl.blogspot.com/search/label/longevity) -
   While we wish longevity had its own blog, for the time being, we
-  share longevity news at the [scabl blog](http://scabl.blogspot.com/)
+  share longevity news at the [scabl blog](http://scabl.blogspot.com/search/label/longevity)
