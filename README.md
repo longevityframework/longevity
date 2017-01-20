@@ -3,11 +3,9 @@ Status](https://travis-ci.org/longevityframework/longevity.svg?branch=master)](h
 [![License](http://img.shields.io/:license-Apache%202-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Join the chat at https://gitter.im/longevityframework/longevity](https://badges.gitter.im/longevityframework/longevity.svg)](https://gitter.im/longevityframework/longevity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-# longevity
+# longevity - A Persistence Framework for Scala and NoSQL.
 
-## A Persistence Framework for Scala and NoSQL.
-
-### Focus your development on your domain model, not your database model!
+## Focus your development on your domain model, not your database model!
 
 Longevity translates your domain into a natural, easy to understand
 database model. Your persistent objects are stored as JSON, and we add
