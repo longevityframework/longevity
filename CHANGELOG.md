@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.20-SNAP] - SQLite Back End
+## [0.20.0] - 2017.01.16 - SQLite Back End
 
 - 2017.01.12 - Rename dependency bundle artifact from
   `longevity-mongo-deps` to `longevity-mongodb-deps`.
