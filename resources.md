@@ -16,6 +16,8 @@ layout: page
 
 - [How You Can Contribute](contributing.html) - Please consider
   contributing! We need your help!
+- [Gitter Channel](https://gitter.im/longevityframework/longevity) -
+  Join the lively conversation
 - [License](license.html) - Apache 2
 - [Longevity By Design](by-design.html) - A consulting firm that would
   love to help you get started using longevity
