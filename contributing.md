@@ -183,7 +183,9 @@ that we can look into. Compare it to the cost of developing and
 maintaining the entire persistence layer for you database application!
 It shouldn't take a whole lot of persuasion.
 
-Your company could earn a big fat longevity sponsorship by allowing
-you, or another one of its employers, to work 20% time or more on the
-project. You could also consider hiring me. I'm doing pretty well as
-it is, but health benefits never hurt. We could talk about it.
+Longevity could really use people who are able to put in a small
+amount of time on a consistent basis, to help share knowledge and
+develop the system. If you would be interested in becoming a regular
+contributor, but you're not sure where you would find the time, ask
+your employers if you could work 20% time on the project. This would
+be an easy way for your company to sponsor this open source project.
