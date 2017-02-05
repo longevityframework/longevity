@@ -8,7 +8,7 @@ object BuildSettings {
     organization := "org.longevityframework",
     version := "0.21-SNAPSHOT",
     scalaVersion := Dependencies.scalaVersionString,
-    crossScalaVersions := Seq("2.11.8", "2.12.0"))
+    crossScalaVersions := Seq("2.11.8", Dependencies.scalaVersionString))
 
   val publishSettings = commonSettings ++ Seq(
     publishMavenStyle := true,
@@ -71,7 +71,7 @@ object BuildSettings {
     publishSigned := (),
     publish := ())
 
-  def longevityHomepage = Some(url("http://longevityframework.github.io/longevity/"))
+  def longevityHomepage = Some(url("http://longevityframework.org/"))
 
   def longevityPomExtra = (
     <scm>
