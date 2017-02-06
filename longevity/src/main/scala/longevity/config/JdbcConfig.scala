@@ -1,14 +1,14 @@
 package longevity.config
 
-/** the SQLite configuration
+/** the JDBC configuration
  *
- * @param jdbcDriverClass the name of the driver class. this should
+ * @param driverClass the name of the driver class. this should
  * always be "org.sqlite.JDBC", but we are leaving a back door here
  * for people who want to experiment with this back end using a
  * different JDBC driver
  * 
- * @param jdbcUrl the JDBC database url
+ * @param url the database url
  *
  * @see LongevityConfig
  */
-case class SQLiteConfig(jdbcDriverClass: String, jdbcUrl: String)
+case class JdbcConfig(driverClass: String, url: String)

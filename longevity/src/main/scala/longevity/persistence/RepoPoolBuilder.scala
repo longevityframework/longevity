@@ -44,7 +44,7 @@ private[longevity] object RepoPoolBuilder {
         val mongoConfig = if (test) config.test.mongodb else config.mongodb
         mongoRepoPool(domainModel, MongoSessionInfo(mongoConfig), config)
       case SQLite =>
-        val sqliteConfig = if (test) config.test.sqlite else config.sqlite
+        val sqliteConfig = if (test) config.test.jdbc else config.jdbc
         sqliteRepoPool(domainModel, SQLiteSessionInfo(sqliteConfig), config)
     }
     if (config.autocreateSchema) {

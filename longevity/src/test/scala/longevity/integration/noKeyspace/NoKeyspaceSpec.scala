@@ -30,7 +30,7 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
         credentials = None,
         replicationFactor = 1),
       mongodb = null,
-      sqlite = null,
+      jdbc = null,
       test = null))
 
   behavior of "Cassandra Repo methods when the keyspace is not defined"

@@ -13,7 +13,7 @@ import java.sql.DriverManager
 import java.sql.ResultSet
 import java.util.UUID
 import longevity.config.PersistenceConfig
-import longevity.config.SQLiteConfig
+import longevity.config.JdbcConfig
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.model.DerivedPType
@@ -221,24 +221,24 @@ private[persistence] object SQLiteRepo {
   // overhead.
 
   private case class SharedConn(numHolders: Int, conn: Connection)
-  private val sharedConns = WeakHashMap[SQLiteConfig, SharedConn]()
+  private val sharedConns = WeakHashMap[JdbcConfig, SharedConn]()
 
-  private def acquireSharedConn(config: SQLiteConfig): Connection = blocking {
+  private def acquireSharedConn(config: JdbcConfig): Connection = blocking {
     SQLiteRepo.synchronized {
       if (sharedConns.contains(config)) {
         val sc = sharedConns(config)
         sharedConns += config -> sc.copy(numHolders = sc.numHolders + 1)
         sc.conn
       } else {
-        Class.forName(config.jdbcDriverClass)
-        val conn = DriverManager.getConnection(config.jdbcUrl)
+        Class.forName(config.driverClass)
+        val conn = DriverManager.getConnection(config.url)
         sharedConns += config -> SharedConn(1, conn)
         conn
       }
     }
   }
 
-  private def releaseSharedConn(config: SQLiteConfig): Unit = blocking {
+  private def releaseSharedConn(config: JdbcConfig): Unit = blocking {
     SQLiteRepo.synchronized {
       if (sharedConns.contains(config)) {
         val sc = sharedConns(config)
@@ -252,7 +252,7 @@ private[persistence] object SQLiteRepo {
     }
   }
 
-  case class SQLiteSessionInfo(val config: SQLiteConfig) {
+  case class SQLiteSessionInfo(val config: JdbcConfig) {
     lazy val connection = acquireSharedConn(config)
   }
 

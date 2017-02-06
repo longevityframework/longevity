@@ -12,6 +12,7 @@ import longevity.exceptions.context.LongevityConfigException
  * @param optimisticLocking is optimistic locking turned on?
  * @param mongodb the mongo configuration
  * @param cassandra the cassandra configuration
+ * @param jdbc the JDBC configuration. used by the SQLite back end
  * @param test the test configuration
  */
 case class LongevityConfig(
@@ -20,7 +21,7 @@ case class LongevityConfig(
   optimisticLocking: Boolean,
   cassandra: CassandraConfig,
   mongodb: MongoDBConfig,
-  sqlite: SQLiteConfig,
+  jdbc: JdbcConfig,
   test: TestConfig)
 extends PersistenceConfig
 

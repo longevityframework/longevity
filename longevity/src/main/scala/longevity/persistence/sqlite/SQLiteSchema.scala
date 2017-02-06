@@ -52,7 +52,7 @@ private[sqlite] trait SQLiteSchema[P] {
     s"${columnName(component)} ${componentToSQLiteType(component)}"
 
   protected def addColumn(columnName: String, columnType: String): Unit = {
-    val sql = s"ALTER TABLE $tableName ADD $columnName $columnType"
+    val sql = s"ALTER TABLE $tableName ADD COLUMN $columnName $columnType"
     logger.debug(s"executing SQL: $sql")
     try {
       connection.prepareStatement(sql).execute()

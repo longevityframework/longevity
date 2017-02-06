@@ -1,5 +1,11 @@
 # Longevity Changelog
 
+## [0.21-SNAPSHOT] -
+
+- 2017.02.06 - Rename `longevity.config.SQLiteConfig` to
+  `JdbcConfig`. Rename `longevity.config.LongevityConfig.sqlite` to
+  `jdbc`. Rename `longevity.config.TestConfig.sqlite` to `jdbc`.
+
 ## [0.20.0] - 2017.01.16 - SQLite Back End
 
 - 2017.01.12 - Rename dependency bundle artifact from
