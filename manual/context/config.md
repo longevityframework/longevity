@@ -50,9 +50,9 @@ same configuration as found in the `reference.conf` file:
 ```scala
 import longevity.context.CassandraConfig
 import longevity.context.InMem
+import longevity.context.JdbcConfig
 import longevity.context.LongevityConfig
 import longevity.context.MongoConfig
-import longevity.context.SQLiteConfig
 import longevity.context.TestConfig
 
 val longevityConfig = LongevityConfig(
@@ -67,9 +67,9 @@ val longevityConfig = LongevityConfig(
   mongodb = MongoConfig(
     uri = "mongodb://127.0.0.1:27017",
     db = "longevity_main"),
-  sqlite = SQLiteConfig(
-    jdbcDriverClass = "org.sqlite.JDBC"
-    jdbcUrl = "jdbc:sqlite:longevity_main.db"),
+  jdbc = JdbcConfig(
+    driverClass = "org.sqlite.JDBC"
+    url = "jdbc:sqlite:longevity_main.db"),
   test = TestConfig(
     cassandra = CassandraConfig(
       address = "127.0.0.1",
@@ -79,9 +79,9 @@ val longevityConfig = LongevityConfig(
     mongodb = MongoConfig(
       uri = "mongodb://127.0.0.1:27017",
       db = "longevity_test"),
-    sqlite = SQLiteConfig(
-      jdbcDriverClass = "org.sqlite.JDBC"
-      jdbcUrl = "jdbc:sqlite:longevity_test.db")))
+    jdbc = JdbcConfig(
+      driverClass = "org.sqlite.JDBC"
+      url = "jdbc:sqlite:longevity_test.db")))
 
 val bloggingContext = new LongevityContext(
   bloggingDomain,
@@ -93,7 +93,7 @@ is where you choose your database. Right now, the options are
 `Cassandra`, `InMem`, `Mongo`, and `SQLite`.
 
 If you are using SQLite, you never have to change the
-`SQLiteConfig.jdbcDriverClass` setting. We provide it in the
+`JdbcConfig.driverClass` setting. We provide it in the
 configuration as a back door for people who want to experiment with
 other JDBC drivers.
 
