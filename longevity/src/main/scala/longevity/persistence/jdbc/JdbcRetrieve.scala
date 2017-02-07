@@ -1,4 +1,4 @@
-package longevity.persistence.sqlite
+package longevity.persistence.jdbc
 
 import java.sql.PreparedStatement
 import emblem.TypeKey
@@ -8,14 +8,14 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of SQLiteRepo.retrieve(KeyVal) */
-private[sqlite] trait SQLiteRetrieve[P] {
-  repo: SQLiteRepo[P] =>
+/** implementation of JdbcRepo.retrieve(KeyVal) */
+private[jdbc] trait JdbcRetrieve[P] {
+  repo: JdbcRepo[P] =>
 
   def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = {
-    logger.debug(s"calling SQLiteRepo.retrieve: $keyVal")
+    logger.debug(s"calling JdbcRepo.retrieve: $keyVal")
     val stateOption = retrieveFromPreparedStatement(bindKeyValSelectStatement(keyVal))
-    logger.debug(s"done calling SQLiteRepo.retrieve: $stateOption")
+    logger.debug(s"done calling JdbcRepo.retrieve: $stateOption")
     stateOption
   }
 
@@ -32,7 +32,7 @@ private[sqlite] trait SQLiteRetrieve[P] {
   private def bindKeyValSelectStatement[V <: KeyVal[P] : TypeKey](keyVal: V) = {
     val realizedKey: RealizedKey[P, V] = realizedPType.realizedKey[V]
     val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
-      sqliteValue(component.innerPropPath.get(keyVal))
+      jdbcValue(component.innerPropPath.get(keyVal))
     }
     val sql = keyValSelectStatement(realizedKey)
     val preparedStatement = connection.prepareStatement(sql)

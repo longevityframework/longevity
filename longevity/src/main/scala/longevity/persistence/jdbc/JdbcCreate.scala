@@ -1,4 +1,4 @@
-package longevity.persistence.sqlite
+package longevity.persistence.jdbc
 
 import org.sqlite.SQLiteException
 import java.util.UUID
@@ -7,13 +7,13 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of SQLiteRepo.create */
-private[sqlite] trait SQLiteCreate[P] {
-  repo: SQLiteRepo[P] =>
+/** implementation of JdbcRepo.create */
+private[jdbc] trait JdbcCreate[P] {
+  repo: JdbcRepo[P] =>
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
-    logger.debug(s"calling SQLiteRepo.create: $p")
-    val id = if (hasPrimaryKey) None else Some(SQLiteId[P](UUID.randomUUID))
+    logger.debug(s"calling JdbcRepo.create: $p")
+    val id = if (hasPrimaryKey) None else Some(JdbcId[P](UUID.randomUUID))
     val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
     val state = PState(id, rowVersion, p)
     blocking {
@@ -24,7 +24,7 @@ private[sqlite] trait SQLiteCreate[P] {
           throwDuplicateKeyValException(p, e)
       }
     }
-    logger.debug(s"done calling SQLiteRepo.create: $state")
+    logger.debug(s"done calling JdbcRepo.create: $state")
     state
   }
 

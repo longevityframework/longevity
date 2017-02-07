@@ -1,4 +1,4 @@
-package longevity.persistence.sqlite
+package longevity.persistence.jdbc
 
 import longevity.model.realized.RealizedPrimaryKey
 import longevity.model.realized.RealizedProp
@@ -8,9 +8,9 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of SQLiteRepo.createSchema */
-private[sqlite] trait SQLiteSchema[P] {
-  repo: SQLiteRepo[P] =>
+/** implementation of JdbcRepo.createSchema */
+private[jdbc] trait JdbcSchema[P] {
+  repo: JdbcRepo[P] =>
 
   protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
     blocking {
@@ -49,7 +49,7 @@ private[sqlite] trait SQLiteSchema[P] {
   private def partitionColumns = partitionComponents.map(columnName).mkString(", ")
 
   private def columnDef(component: RealizedPropComponent[_ >: P, _, _]) =
-    s"${columnName(component)} ${componentToSQLiteType(component)}"
+    s"${columnName(component)} ${componentToJdbcType(component)}"
 
   protected def addColumn(columnName: String, columnType: String): Unit = {
     val sql = s"ALTER TABLE $tableName ADD COLUMN $columnName $columnType"
@@ -62,10 +62,10 @@ private[sqlite] trait SQLiteSchema[P] {
     }
   }
 
-  protected def componentToSQLiteType[A](
+  protected def componentToJdbcType[A](
     component: RealizedPropComponent[_ >: P, _, A])
   : String = {
-    SQLiteRepo.basicToSQLiteType(component.componentTypeKey)
+    JdbcRepo.basicToJdbcType(component.componentTypeKey)
   }
 
   protected def createUniqueIndexes(): Unit = {

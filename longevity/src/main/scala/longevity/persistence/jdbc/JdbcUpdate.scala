@@ -1,4 +1,4 @@
-package longevity.persistence.sqlite
+package longevity.persistence.jdbc
 
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
@@ -7,13 +7,13 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of SQLiteRepo.update */
-private[sqlite] trait SQLiteUpdate[P] {
-  repo: SQLiteRepo[P] =>
+/** implementation of JdbcRepo.update */
+private[jdbc] trait JdbcUpdate[P] {
+  repo: JdbcRepo[P] =>
 
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
-      logger.debug(s"calling SQLiteRepo.update: $state")
+      logger.debug(s"calling JdbcRepo.update: $state")
       validateStablePrimaryKey(state)
       val newState = state.update(persistenceConfig.optimisticLocking)
       val rowCount = blocking {
@@ -27,7 +27,7 @@ private[sqlite] trait SQLiteUpdate[P] {
       if (persistenceConfig.optimisticLocking && rowCount != 1) {
         throw new WriteConflictException(state)
       }
-      logger.debug(s"done calling SQLiteRepo.update: $newState")
+      logger.debug(s"done calling JdbcRepo.update: $newState")
       newState
     }
 

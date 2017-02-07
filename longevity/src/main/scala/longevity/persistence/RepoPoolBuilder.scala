@@ -20,7 +20,7 @@ import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.persistence.mongo.MongoRepo.MongoSessionInfo
 import longevity.persistence.sqlite.SQLiteRepo
-import longevity.persistence.sqlite.SQLiteRepo.SQLiteSessionInfo
+import longevity.persistence.jdbc.JdbcRepo.JdbcSessionInfo
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
@@ -45,7 +45,7 @@ private[longevity] object RepoPoolBuilder {
         mongoRepoPool(domainModel, MongoSessionInfo(mongoConfig), config)
       case SQLite =>
         val sqliteConfig = if (test) config.test.jdbc else config.jdbc
-        sqliteRepoPool(domainModel, SQLiteSessionInfo(sqliteConfig), config)
+        sqliteRepoPool(domainModel, JdbcSessionInfo(sqliteConfig), config)
     }
     if (config.autocreateSchema) {
       Await.result(pool.createSchema()(ExecutionContext.global), Duration(1, "seconds"))
@@ -103,7 +103,7 @@ private[longevity] object RepoPoolBuilder {
 
   private def sqliteRepoPool(
     domainModel: DomainModel,
-    session: SQLiteSessionInfo,
+    session: JdbcSessionInfo,
     persistenceConfig: PersistenceConfig)
   : RepoPool = {
     object repoFactory extends StockRepoFactory[SQLiteRepo] {

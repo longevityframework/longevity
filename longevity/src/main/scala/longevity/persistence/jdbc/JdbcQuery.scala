@@ -1,4 +1,4 @@
-package longevity.persistence.sqlite
+package longevity.persistence.jdbc
 
 import akka.NotUsed
 import akka.stream.scaladsl.Source
@@ -28,29 +28,29 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of SQLiteRepo.retrieveByQuery */
-private[sqlite] trait SQLiteQuery[P] {
-  repo: SQLiteRepo[P] =>
+/** implementation of JdbcRepo.retrieveByQuery */
+private[jdbc] trait JdbcQuery[P] {
+  repo: JdbcRepo[P] =>
 
   def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext): Future[Seq[PState[P]]] =
     Future {
-      logger.debug(s"calling SQLiteRepo.retrieveByQuery: $query")
+      logger.debug(s"calling JdbcRepo.retrieveByQuery: $query")
       val resultSet = blocking { queryResultSet(query) }
       val states = new VectorBuilder[PState[P]]()
       while (resultSet.next()) {
         states += retrieveFromResultSet(resultSet)
       }
-      logger.debug(s"done calling SQLiteRepo.retrieveByQuery: $states")
+      logger.debug(s"done calling JdbcRepo.retrieveByQuery: $states")
       states.result()
     }
 
   def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
-    logger.debug(s"calling SQLiteRepo.streamByQuery: $query")
+    logger.debug(s"calling JdbcRepo.streamByQuery: $query")
     val source = Source.unfoldResource[PState[P], ResultSet](
       () => queryResultSet(query),
       resultSet => if (resultSet.next()) Some(retrieveFromResultSet(resultSet)) else None,
       resultSet => resultSet.close())
-    logger.debug(s"done calling SQLiteRepo.streamByQuery: $source")
+    logger.debug(s"done calling JdbcRepo.streamByQuery: $source")
     source
   }
 
@@ -121,7 +121,7 @@ private[sqlite] trait SQLiteQuery[P] {
 
   private def equalityQueryFilterInfo[A](prop: Prop[_ >: P, A], value: A, neq: Boolean): FilterInfo = {
     val infos: Seq[FilterInfo] = toComponents(prop).map { component =>
-      val componentValue = sqliteValue(component.innerPropPath.get(value))
+      val componentValue = jdbcValue(component.innerPropPath.get(value))
       val op = if (neq) "!=" else "="
       FilterInfo(s"${columnName(component)} $op ?", Seq(componentValue))
     }
@@ -133,7 +133,7 @@ private[sqlite] trait SQLiteQuery[P] {
     val components = toComponents(prop)
 
     def cname(c: Component) = columnName(c)
-    def cval(c: Component) = Seq(sqliteValue(c.innerPropPath.get(value)))
+    def cval(c: Component) = Seq(jdbcValue(c.innerPropPath.get(value)))
 
     def eqC(c: Component) = FilterInfo(s"${cname(c)} = ?",  cval(c))
     def neC(c: Component) = FilterInfo(s"${cname(c)} != ?", cval(c))
