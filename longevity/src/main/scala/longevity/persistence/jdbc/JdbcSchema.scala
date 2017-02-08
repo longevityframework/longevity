@@ -3,7 +3,6 @@ package longevity.persistence.jdbc
 import longevity.model.realized.RealizedPrimaryKey
 import longevity.model.realized.RealizedProp
 import longevity.model.realized.RealizedPropComponent
-import org.sqlite.SQLiteException
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -52,14 +51,9 @@ private[jdbc] trait JdbcSchema[P] {
     s"${columnName(component)} ${componentToJdbcType(component)}"
 
   protected def addColumn(columnName: String, columnType: String): Unit = {
-    val sql = s"ALTER TABLE $tableName ADD COLUMN $columnName $columnType"
+    val sql = s"ALTER TABLE $tableName ADD COLUMN IF NOT EXISTS $columnName $columnType"
     logger.debug(s"executing SQL: $sql")
-    try {
-      connection.prepareStatement(sql).execute()
-    } catch {
-      // ignoring this exception is best approximation of ALTER TABLE ADD IF NOT EXISTS
-      case e: SQLiteException if e.getMessage.contains("duplicate column name: ") =>
-    }
+    connection.prepareStatement(sql).execute()
   }
 
   protected def componentToJdbcType[A](

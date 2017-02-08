@@ -18,10 +18,12 @@ sealed trait BackEnd {
   val name: String
 }
 
-/** contains a list of all the available back ends */
-object BackEnd {
+/** contains a list of all the testable back ends */
+private[longevity] object BackEnd {
 
-  /** a list of all the available back ends */
+  /** a list of all the supported back ends. this list notably leaves out [[JDBC]], as we have no way
+   * to produce tests for this back end without a JDBC driver and a real database behind it
+   */
   val values = Cassandra :: InMem :: MongoDB :: SQLite :: Nil
 
 }
@@ -46,6 +48,13 @@ case object InMem extends BackEnd {
 /** a back end indicating that persistent objects live in MongoDB */
 case object MongoDB extends BackEnd {
   val name = "MongoDB"
+}
+
+/** a back end indicating that persistent objects live in some unspecified database that we connect
+  * to via some unspecified JDBC driver
+ */
+case object JDBC extends BackEnd {
+  val name = "JDBC"
 }
 
 /** a back end indicating that persistent objects live in SQLite */

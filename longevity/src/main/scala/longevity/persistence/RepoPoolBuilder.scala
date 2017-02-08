@@ -6,6 +6,7 @@ import emblem.typeBound.TypeBoundPair
 import longevity.config.BackEnd
 import longevity.config.Cassandra
 import longevity.config.InMem
+import longevity.config.JDBC
 import longevity.config.LongevityConfig
 import longevity.config.MongoDB
 import longevity.config.PersistenceConfig
@@ -17,6 +18,7 @@ import longevity.model.PolyPType
 import longevity.persistence.cassandra.CassandraRepo
 import longevity.persistence.cassandra.CassandraRepo.CassandraSessionInfo
 import longevity.persistence.inmem.InMemRepo
+import longevity.persistence.jdbc.JdbcRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.persistence.mongo.MongoRepo.MongoSessionInfo
 import longevity.persistence.sqlite.SQLiteRepo
@@ -27,6 +29,8 @@ import scala.concurrent.duration.Duration
 
 /** builds repo pools for LongevityContextImpl */
 private[longevity] object RepoPoolBuilder {
+
+  // TODO please factor away some of this duplicitous code
 
   private[longevity] def buildRepoPool(
     domainModel: DomainModel,
@@ -44,8 +48,11 @@ private[longevity] object RepoPoolBuilder {
         val mongoConfig = if (test) config.test.mongodb else config.mongodb
         mongoRepoPool(domainModel, MongoSessionInfo(mongoConfig), config)
       case SQLite =>
-        val sqliteConfig = if (test) config.test.jdbc else config.jdbc
-        sqliteRepoPool(domainModel, JdbcSessionInfo(sqliteConfig), config)
+        val jdbcConfig = if (test) config.test.jdbc else config.jdbc
+        sqliteRepoPool(domainModel, JdbcSessionInfo(jdbcConfig), config)
+      case JDBC =>
+        val jdbcConfig = if (test) config.test.jdbc else config.jdbc
+        jdbcRepoPool(domainModel, JdbcSessionInfo(jdbcConfig), config)
     }
     if (config.autocreateSchema) {
       Await.result(pool.createSchema()(ExecutionContext.global), Duration(1, "seconds"))
@@ -112,6 +119,21 @@ private[longevity] object RepoPoolBuilder {
         polyRepoOpt: Option[SQLiteRepo[_ >: P]])
       : SQLiteRepo[P] =
         SQLiteRepo[P](pType, domainModel, session, persistenceConfig, polyRepoOpt)
+    }
+    buildRepoPool(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
+  }
+
+  private def jdbcRepoPool(
+    domainModel: DomainModel,
+    session: JdbcSessionInfo,
+    persistenceConfig: PersistenceConfig)
+  : RepoPool = {
+    object repoFactory extends StockRepoFactory[JdbcRepo] {
+      def build[P](
+        pType: PType[P],
+        polyRepoOpt: Option[JdbcRepo[_ >: P]])
+      : JdbcRepo[P] =
+        JdbcRepo[P](pType, domainModel, session, persistenceConfig, polyRepoOpt)
     }
     buildRepoPool(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
   }

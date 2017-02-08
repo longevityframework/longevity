@@ -1,6 +1,5 @@
 package longevity.persistence.jdbc
 
-import org.sqlite.SQLiteException
 import java.util.UUID
 import longevity.persistence.PState
 import scala.concurrent.ExecutionContext
@@ -19,10 +18,7 @@ private[jdbc] trait JdbcCreate[P] {
     blocking {
       try {
         bindInsertStatement(state).executeUpdate()
-      } catch {
-        case e: SQLiteException if e.getMessage.contains("UNIQUE constraint failed") =>
-          throwDuplicateKeyValException(p, e)
-      }
+      } catch convertDuplicateKeyException(state)
     }
     logger.debug(s"done calling JdbcRepo.create: $state")
     state

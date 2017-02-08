@@ -12,18 +12,18 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
 import java.util.UUID
-import longevity.config.PersistenceConfig
 import longevity.config.JdbcConfig
-import longevity.exceptions.persistence.DuplicateKeyValException
+import longevity.config.PersistenceConfig
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
+import longevity.model.DerivedPType
 import longevity.model.DomainModel
 import longevity.model.PType
+import longevity.model.PolyPType
 import longevity.model.realized.RealizedPrimaryKey
 import longevity.model.realized.RealizedPropComponent
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
 import org.joda.time.DateTime
-import org.sqlite.SQLiteException
 import scala.collection.mutable.WeakHashMap
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -53,8 +53,6 @@ with LazyLogging {
   protected lazy val connection = sessionInfo.connection
 
   protected[jdbc] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
-
-  // TODO see if any of this is dead code
 
   protected val partitionComponents = realizedPType.primaryKey match {
     case Some(key) => key.partitionProps.flatMap {
@@ -181,17 +179,12 @@ with LazyLogging {
     PState[P](id, rowVersion, p)
   }
 
-  protected def throwDuplicateKeyValException(p: P, cause: SQLiteException): Nothing = {
-    val columnRegex = """UNIQUE constraint failed: (?:\w+)\.(\w+)""".r.unanchored
-    val name = cause.getMessage match {
-      case columnRegex(name) => name
-      case _ => throw cause
-    }
-    val realizedKey = realizedPType.keySet.find(key =>
-      columnName(key.realizedProp.realizedPropComponents.head) == name
-    ).getOrElse(throw cause)
-    throw new DuplicateKeyValException(p, realizedKey.key, cause)
-  }
+  /** converts a duplicate key exception (ie unique constraint violation) from the underlying database
+   * driver into a [[longevity.exceptions.persistence.DuplicateKeyValException]], and throws the new
+   * exception
+   */
+  protected def convertDuplicateKeyException(state: PState[P]): PartialFunction[Throwable, Unit] =
+    PartialFunction.empty
 
   override protected[persistence] def close()(implicit executionContext: ExecutionContext) = Future {
     JdbcRepo.releaseSharedConn(sessionInfo.config)
@@ -252,6 +245,31 @@ private[persistence] object JdbcRepo {
 
   case class JdbcSessionInfo(val config: JdbcConfig) {
     lazy val connection = acquireSharedConn(config)
+  }
+
+  def apply[P](
+    pType: PType[P],
+    domainModel: DomainModel,
+    session: JdbcRepo.JdbcSessionInfo,
+    config: PersistenceConfig,
+    polyRepoOpt: Option[JdbcRepo[_ >: P]])
+  : JdbcRepo[P] = {
+    val repo = pType match {
+      case pt: PolyPType[_] =>
+        new JdbcRepo(pType, domainModel, session, config) with PolyJdbcRepo[P]
+      case pt: DerivedPType[_, _] =>
+        def withPoly[Poly >: P](poly: JdbcRepo[Poly]) = {
+          class DerivedRepo extends {
+            override protected val polyRepo: JdbcRepo[Poly] = poly
+          }
+          with JdbcRepo(pType, domainModel, session, config) with DerivedJdbcRepo[P, Poly]
+          new DerivedRepo
+        }
+        withPoly(polyRepoOpt.get)
+      case _ =>
+        new JdbcRepo(pType, domainModel, session, config)
+    }
+    repo
   }
 
   private[jdbc] val basicToJdbcType = Map[TypeKey[_], String](

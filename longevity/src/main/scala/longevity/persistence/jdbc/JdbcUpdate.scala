@@ -2,7 +2,6 @@ package longevity.persistence.jdbc
 
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
-import org.sqlite.SQLiteException
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -19,10 +18,7 @@ private[jdbc] trait JdbcUpdate[P] {
       val rowCount = blocking {
         try {
           bindUpdateStatement(newState, state.rowVersionOrNull).executeUpdate()
-        } catch {
-          case e: SQLiteException if e.getMessage.contains("UNIQUE constraint failed") =>
-            throwDuplicateKeyValException(state.get, e)
-        }
+        } catch convertDuplicateKeyException(newState)
       }
       if (persistenceConfig.optimisticLocking && rowCount != 1) {
         throw new WriteConflictException(state)
