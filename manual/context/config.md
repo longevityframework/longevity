@@ -56,7 +56,7 @@ import longevity.context.MongoConfig
 import longevity.context.TestConfig
 
 val longevityConfig = LongevityConfig(
-  backEnd = InMem, // one of Cassandra, InMem, Mongo, SQLite
+  backEnd = InMem, // one of Cassandra, InMem, JDBC, Mongo, SQLite
   autocreateSchema = false,
   optimisticLocking = false,
   cassandra = CassandraConfig(
@@ -90,12 +90,20 @@ val bloggingContext = new LongevityContext(
 
 The most important configuration setting is `longevity.backEnd`. This
 is where you choose your database. Right now, the options are
-`Cassandra`, `InMem`, `Mongo`, and `SQLite`.
+`Cassandra`, `JDBC`, `InMem`, `Mongo`, and `SQLite`.
 
-If you are using SQLite, you never have to change the
-`JdbcConfig.driverClass` setting. We provide it in the
-configuration as a back door for people who want to experiment with
-other JDBC drivers.
+The `JDBC` back end is a generic back end that you can use for any
+databases with a JDBC driver. Unfortunately, we are not able to
+provide support for any JDBC driver other than SQLite, because we have
+no way of writing integration tests against this back end without
+specifying the JDBC driver, and the longevity framework team (i.e.,
+me) already has their hands full supporting the other back ends. That
+said, we would be *more* than happy to give you help and advice in
+troubleshooting any problems. In fact, we've made it as easy as
+possible for you to build and maintain your own JDBC-flavored back
+end. See [these
+instructions](https://github.com/longevityframework/longevity/wiki/How-to-create-a-new-JDBC-back-end)
+for details.
 
 {% assign prevTitle = "the longevity context" %}
 {% assign prevLink = "." %}
@@ -104,4 +112,3 @@ other JDBC drivers.
 {% assign nextTitle = "optimistic locking" %}
 {% assign nextLink = "opt-lock.html" %}
 {% include navigate.html %}
-
