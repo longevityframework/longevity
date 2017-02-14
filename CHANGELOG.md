@@ -2,6 +2,7 @@
 
 ## [0.21-SNAPSHOT] -
 
+- 2017.02.08 - Add new `JDBC` back end.
 - 2017.02.06 - Rename `longevity.config.SQLiteConfig` to
   `JdbcConfig`. Rename `longevity.config.LongevityConfig.sqlite` to
   `jdbc`. Rename `longevity.config.TestConfig.sqlite` to `jdbc`.

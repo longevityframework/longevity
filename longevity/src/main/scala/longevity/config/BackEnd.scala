@@ -1,10 +1,11 @@
 package longevity.config
 
 /** the back end used by the longevity context. right now, you have
- * four options:
+ * five options:
  *
  *   - [[Cassandra]]
  *   - [[InMem]]
+ *   - [[JDBC]]
  *   - [[MongoDB]]
  *   - [[SQLite]]
  * 
@@ -16,6 +17,7 @@ sealed trait BackEnd {
 
   /** the name of the back end */
   val name: String
+
 }
 
 /** contains a list of all the testable back ends */
