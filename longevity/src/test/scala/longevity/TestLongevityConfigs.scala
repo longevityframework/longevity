@@ -16,7 +16,8 @@ object TestLongevityConfigs {
   def configForKey(key: ConfigMatrixKey) = baseConfig.copy(
     backEnd = key.backEnd,
     autocreateSchema = key.autocreateSchema,
-    optimisticLocking = key.optimisticLocking)
+    optimisticLocking = key.optimisticLocking,
+    writeTimestamps = key.writeTimestamps)
 
   val configMatrix = ConfigMatrixKey.values.map(key => key -> configForKey(key)).toMap
 
@@ -56,14 +57,14 @@ object TestLongevityConfigs {
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
     contexts(Seq(sqliteConfigKey), domainModel, generators)
 
-  val inMemConfigKey = ConfigMatrixKey(InMem, false, false)
-  val cassandraConfigKey = ConfigMatrixKey(Cassandra, false, false)
-  val mongoConfigKey = ConfigMatrixKey(MongoDB, false, false)
-  val sqliteConfigKey = ConfigMatrixKey(SQLite, false, true)
+  val inMemConfigKey     = ConfigMatrixKey(InMem,     false, false, false)
+  val cassandraConfigKey = ConfigMatrixKey(Cassandra, false, false, false)
+  val mongoConfigKey     = ConfigMatrixKey(MongoDB,   false, false, false)
+  val sqliteConfigKey    = ConfigMatrixKey(SQLite,    false, false, false)
 
-  val inMemConfig = configMatrix(inMemConfigKey)
+  val inMemConfig     = configMatrix(inMemConfigKey)
   val cassandraConfig = configMatrix(cassandraConfigKey)
-  val mongoConfig = configMatrix(mongoConfigKey)
-  val sqliteConfig = configMatrix(sqliteConfigKey)
+  val mongoConfig     = configMatrix(mongoConfigKey)
+  val sqliteConfig    = configMatrix(sqliteConfigKey)
 
 }

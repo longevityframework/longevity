@@ -1,7 +1,6 @@
 package longevity.persistence.mongo
 
 import com.mongodb.client.model.Filters
-import longevity.persistence.PState
 import longevity.model.KeyVal
 import longevity.model.ptype.Prop
 import longevity.model.query.EqOp
@@ -12,9 +11,12 @@ import longevity.model.query.LteOp
 import longevity.model.query.NeqOp
 import longevity.model.query.RelationalOp
 import longevity.model.realized.RealizedPrimaryKey
+import longevity.persistence.PState
 import org.bson.BsonDocument
 import org.bson.BsonValue
 import org.bson.conversions.Bson
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 
 /** utilities for reading from a mongo collection. used by [[MongoRetrieve]] and
  * [[MongoQuery]]
@@ -30,13 +32,23 @@ private[mongo] trait MongoRead[P] {
       val objectId = document.getObjectId("_id").getValue
       Some(MongoId[P](objectId))
     }
-    val rv = if (document.isInt64("_rowVersion")) {
-      Some(document.getInt64("_rowVersion").longValue)
-    } else {
-      None
-    }
+    val rv = rowVersionFromDocument(document)
+    val cdt = dateTimeFromDocument("_createdTimestamp", document)
+    val mdt = dateTimeFromDocument("_updatedTimestamp", document)
     val p  = bsonToDomainModelTranslator.translate(document)(pTypeKey)
-    PState(id, rv, p)
+    PState(id, rv, cdt, cdt, p)
+  }
+
+  private def rowVersionFromDocument(document: BsonDocument) = if (document.isInt64("_rowVersion")) {
+    Some(document.getInt64("_rowVersion").longValue)
+  } else {
+    None
+  }
+
+  private def dateTimeFromDocument(name: String, document: BsonDocument) = if (document.isDateTime(name)) {
+    Some(new DateTime(document.getDateTime(name).getValue, DateTimeZone.UTC))
+  } else {
+    None
   }
 
   protected def propValToMongo[A](value: A, prop: Prop[_ >: P, A]): BsonValue = {

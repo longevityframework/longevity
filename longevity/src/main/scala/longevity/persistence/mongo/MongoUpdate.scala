@@ -16,7 +16,9 @@ private[mongo] trait MongoUpdate[P] {
       logger.debug(s"calling MongoRepo.update: $state")
       validateStablePrimaryKey(state)
       val query = writeQuery(state)
-      val updatedState = state.update(persistenceConfig.optimisticLocking)
+      val updatedState = state.update(
+        persistenceConfig.optimisticLocking,
+        persistenceConfig.writeTimestamps)
       val document = bsonForState(updatedState)
       logger.debug(s"calling MongoCollection.replaceOne: $query $document")
       val updateResult = try {

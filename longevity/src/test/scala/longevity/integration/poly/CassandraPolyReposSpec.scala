@@ -10,4 +10,4 @@ import longevity.integration.model.derived
 class CassandraPolyReposSpec extends PolyReposSpec(
   new LongevityContext(
     derived.domainModel,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(Cassandra, false, false))))
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(Cassandra, false, false, false))))

@@ -10,4 +10,4 @@ import longevity.integration.model.basics
 class SQLiteOptLockSpec extends OptLockSpec(
   new LongevityContext(
     basics.domainModel,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(SQLite, true, true))))
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(SQLite, true, true, false))))

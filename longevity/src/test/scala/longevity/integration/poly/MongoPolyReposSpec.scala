@@ -10,4 +10,4 @@ import longevity.integration.model.derived
 class MongoPolyReposSpec extends PolyReposSpec(
   new LongevityContext(
     derived.domainModel,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(MongoDB, false, false))))
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(MongoDB, false, false, false))))

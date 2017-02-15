@@ -10,4 +10,4 @@ import longevity.integration.model.derived
 class InMemPolyReposSpec extends PolyReposSpec(
   new LongevityContext(
     derived.domainModel,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, false, false))))
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, false, false, false))))

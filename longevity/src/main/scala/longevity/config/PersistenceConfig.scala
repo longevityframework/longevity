@@ -9,4 +9,7 @@ private[longevity] trait PersistenceConfig {
   /** is optimistic locking turned on? */
   val optimisticLocking: Boolean
 
+  /** stamp rows with `createdTimestamp` and `updatedTimestamp`? */
+  val writeTimestamps: Boolean
+
 }

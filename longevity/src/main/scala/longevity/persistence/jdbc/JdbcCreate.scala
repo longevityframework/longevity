@@ -2,6 +2,7 @@ package longevity.persistence.jdbc
 
 import java.util.UUID
 import longevity.persistence.PState
+import org.joda.time.DateTime
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -14,7 +15,8 @@ private[jdbc] trait JdbcCreate[P] {
     logger.debug(s"calling JdbcRepo.create: $p")
     val id = if (hasPrimaryKey) None else Some(JdbcId[P](UUID.randomUUID))
     val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
-    val state = PState(id, rowVersion, p)
+    val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
+    val state = PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
     blocking {
       try {
         bindInsertStatement(state).executeUpdate()

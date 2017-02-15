@@ -10,5 +10,4 @@ import longevity.integration.model.basics
 class InMemOptLockSpec extends OptLockSpec(
   new LongevityContext(
     basics.domainModel,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, true, true))))
-
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, true, true, false))))

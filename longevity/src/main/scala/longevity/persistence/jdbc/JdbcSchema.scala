@@ -20,6 +20,10 @@ private[jdbc] trait JdbcSchema[P] {
       if (persistenceConfig.optimisticLocking) {
         addColumn("row_version", "bigint")
       }
+      if (persistenceConfig.writeTimestamps) {
+        addColumn("created_timestamp", "timestamp")
+        addColumn("updated_timestamp", "timestamp")
+      }
       logger.debug(s"done creating schema for table $tableName")
     }
   }

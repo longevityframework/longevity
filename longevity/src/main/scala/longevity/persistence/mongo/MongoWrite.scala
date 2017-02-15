@@ -7,6 +7,7 @@ import longevity.persistence.PState
 import longevity.model.KeyVal
 import longevity.model.realized.RealizedKey
 import org.bson.BsonDocument
+import org.bson.BsonDateTime
 import org.bson.BsonInt64
 import org.bson.BsonObjectId
 
@@ -31,6 +32,12 @@ private[mongo] trait MongoWrite[P] {
     }
     state.rowVersion.foreach { v =>
       document.append("_rowVersion", new BsonInt64(v))
+    }
+    state.createdTimestamp.foreach { d =>
+      document.append("_createdTimestamp", new BsonDateTime(d.getMillis))
+    }
+    state.updatedTimestamp.foreach { d =>
+      document.append("_updatedTimestamp", new BsonDateTime(d.getMillis))
     }
     document
   }

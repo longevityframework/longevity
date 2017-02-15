@@ -24,6 +24,7 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
       backEnd = Cassandra,
       autocreateSchema = false,
       optimisticLocking = false,
+      writeTimestamps = false,
       cassandra = CassandraConfig(
         keyspace = "no_such_keyspace",
         address = "127.0.0.1",

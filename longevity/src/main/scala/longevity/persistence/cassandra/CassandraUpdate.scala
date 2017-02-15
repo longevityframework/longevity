@@ -15,7 +15,7 @@ private[cassandra] trait CassandraUpdate[P] {
     Future {
       logger.debug(s"calling CassandraRepo.update: $state")
       validateStablePrimaryKey(state)
-      val newState = state.update(persistenceConfig.optimisticLocking)
+      val newState = state.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
       val resultSet = blocking {
         session.execute(bindUpdateStatement(newState, state.rowVersionOrNull))
       }

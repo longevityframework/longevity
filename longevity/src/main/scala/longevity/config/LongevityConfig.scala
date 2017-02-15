@@ -10,6 +10,7 @@ import longevity.exceptions.context.LongevityConfigException
  * @param backEnd the back end used by the longevity context
  * @param autocreateSchema should longevity autocreate schema when the repositories are created?
  * @param optimisticLocking is optimistic locking turned on?
+ * @param stamp rows with `createdTimestamp` and `updatedTimestamp`?
  * @param mongodb the mongo configuration
  * @param cassandra the cassandra configuration
  * @param jdbc the JDBC configuration. used by the SQLite back end
@@ -19,6 +20,7 @@ case class LongevityConfig(
   backEnd: BackEnd,
   autocreateSchema: Boolean,
   optimisticLocking: Boolean,
+  writeTimestamps: Boolean,
   cassandra: CassandraConfig,
   mongodb: MongoDBConfig,
   jdbc: JdbcConfig,

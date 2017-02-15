@@ -10,4 +10,4 @@ import longevity.integration.model.basics
 class CassandraOptLockSpec extends OptLockSpec(
   new LongevityContext(
     basics.domainModel,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(Cassandra, true, true))))
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(Cassandra, true, true, false))))

@@ -22,7 +22,7 @@ private[inmem] trait InMemUpdate[P] {
         } else {
           None
         }
-        val newState = PState[P](state.id, rowVersion, state.get)
+        val newState = PState[P](state.id, rowVersion, None, None, state.get)
         registerById(newState)
         registerByKeyVals(newState)
         logger.debug(s"done calling InMemRepo.update: $newState")

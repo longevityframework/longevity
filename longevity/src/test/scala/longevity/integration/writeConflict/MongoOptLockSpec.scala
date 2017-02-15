@@ -10,4 +10,4 @@ import longevity.integration.model.basics
 class MongoOptLockSpec extends OptLockSpec(
   new LongevityContext(
     basics.domainModel,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(MongoDB, true, true))))
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(MongoDB, true, true, false))))

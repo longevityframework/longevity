@@ -51,7 +51,8 @@ object ContextSpec {
     val longevityConfig = LongevityConfig(
       backEnd = InMem,
       autocreateSchema = false,
-      optimisticLocking = true,
+      optimisticLocking = false,
+      writeTimestamps = false,
       cassandra = CassandraConfig(
         address = "localhost",
         credentials = None,

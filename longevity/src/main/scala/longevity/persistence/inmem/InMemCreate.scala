@@ -14,7 +14,7 @@ private[inmem] trait InMemCreate[P] {
       logger.debug(s"calling InMemRepo.create: $unpersisted")
       repo.synchronized {
         val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
-        val state = PState(IntId[P](nextId), rowVersion, unpersisted)
+        val state = PState(IntId[P](nextId), rowVersion, None, None, unpersisted)
         assertUniqueKeyVals(state)
         registerById(state)
         registerByKeyVals(state)

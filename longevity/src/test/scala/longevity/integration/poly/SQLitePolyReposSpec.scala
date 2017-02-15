@@ -10,4 +10,4 @@ import longevity.integration.model.derived
 class SQLitePolyReposSpec extends PolyReposSpec(
   new LongevityContext(
     derived.domainModel,
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(SQLite, false, false))))
+    TestLongevityConfigs.configMatrix(ConfigMatrixKey(SQLite, false, false, false))))

@@ -6,6 +6,7 @@
 - 2017.02.06 - Rename `longevity.config.SQLiteConfig` to
   `JdbcConfig`. Rename `longevity.config.LongevityConfig.sqlite` to
   `jdbc`. Rename `longevity.config.TestConfig.sqlite` to `jdbc`.
+- 2017.02.15 - Add configuration flag `longevity.writeTimestamps`.
 
 ## [0.20.0] - 2017.01.16 - SQLite Back End
 

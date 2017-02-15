@@ -14,10 +14,11 @@ private[jdbc] trait JdbcUpdate[P] {
     Future {
       logger.debug(s"calling JdbcRepo.update: $state")
       validateStablePrimaryKey(state)
-      val newState = state.update(persistenceConfig.optimisticLocking)
+      val newState = state.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
       val rowCount = blocking {
         try {
-          bindUpdateStatement(newState, state.rowVersionOrNull).executeUpdate()
+          val stmt = bindUpdateStatement(newState, state.rowVersionOrNull)
+          stmt.executeUpdate()
         } catch convertDuplicateKeyException(newState)
       }
       if (persistenceConfig.optimisticLocking && rowCount != 1) {

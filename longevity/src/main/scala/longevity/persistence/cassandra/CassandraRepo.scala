@@ -16,16 +16,17 @@ import longevity.config.CassandraConfig
 import longevity.config.PersistenceConfig
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
+import longevity.model.DerivedPType
+import longevity.model.DomainModel
+import longevity.model.PType
+import longevity.model.PolyPType
+import longevity.model.realized.RealizedPrimaryKey
+import longevity.model.realized.RealizedPropComponent
 import longevity.persistence.BaseRepo
 import longevity.persistence.PState
 import longevity.persistence.SchemaCreator
-import longevity.model.DerivedPType
-import longevity.model.PType
-import longevity.model.PolyPType
-import longevity.model.DomainModel
-import longevity.model.realized.RealizedPrimaryKey
-import longevity.model.realized.RealizedPropComponent
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
@@ -115,25 +116,47 @@ with LazyLogging {
     def names(components: Set[RealizedPropComponent[_ >: P, _, _]]) =
       components.map(columnName).toSeq.sorted
     val componentColumnNames = if (isCreate) names(actualizedComponents) else names(indexedComponents)
-    (isCreate && !hasPrimaryKey, persistenceConfig.optimisticLocking) match {
-      case (true,  true)  => "id" +: "row_version" +: "p" +: componentColumnNames
-      case (true,  false) => "id" +:                  "p" +: componentColumnNames
-      case (false, true)  =>         "row_version" +: "p" +: componentColumnNames
-      case (false, false) =>                          "p" +: componentColumnNames
+    val withP = "p" +: componentColumnNames
+    val withDateTimes = if (persistenceConfig.writeTimestamps) {
+      "created_timestamp" +: "updated_timestamp" +: withP
+    } else {
+      withP
     }
+    val withRowVersion = if (persistenceConfig.optimisticLocking) {
+      "row_version" +: withDateTimes
+    } else {
+      withDateTimes
+    }
+    val withId = if (isCreate && !hasPrimaryKey) {
+      "id" +: withRowVersion
+    } else {
+      withRowVersion
+    }
+    withId
   }
 
   protected def updateColumnValues(state: PState[P], isCreate: Boolean = true): Seq[AnyRef] = {
     def values(components: Set[RealizedPropComponent[_ >: P, _, _]]) =
       components.toSeq.sortBy(columnName).map { component => propValBinding(component, state.get) }
     val componentColumnValues = if (isCreate) values(actualizedComponents) else values(indexedComponents)
-    def rv = state.rowVersionOrNull
-    (isCreate && !hasPrimaryKey, persistenceConfig.optimisticLocking) match {
-      case (true,  true)  => uuid(state) +: rv +: jsonStringForP(state.get) +: componentColumnValues
-      case (false, true)  =>                rv +: jsonStringForP(state.get) +: componentColumnValues
-      case (true,  false) => uuid(state)       +: jsonStringForP(state.get) +: componentColumnValues
-      case (false, false) =>                      jsonStringForP(state.get) +: componentColumnValues
+    val withP = jsonStringForP(state.get) +: componentColumnValues
+    val withDateTimes = if (persistenceConfig.writeTimestamps) {
+      state.createdTimestamp.map(cassandraValue).orNull +:
+      state.updatedTimestamp.map(cassandraValue).orNull +: withP
+    } else {
+      withP
     }
+    val withRowVersion = if (persistenceConfig.optimisticLocking) {
+      state.rowVersionOrNull +: withDateTimes
+    } else {
+      withDateTimes
+    }
+    val withId = if (isCreate && !hasPrimaryKey) {
+      uuid(state) +: withRowVersion
+    } else {
+      withRowVersion
+    }
+    withId
   }
 
   protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[CassandraId[P]].uuid
@@ -155,9 +178,9 @@ with LazyLogging {
   }
 
   protected def cassandraValue(value: Any): AnyRef = value match {
-    case char: Char => char.toString
+    case char: Char  => char.toString
     case d: DateTime => cassandraDate(d)
-    case _ => value.asInstanceOf[AnyRef]
+    case _           => value.asInstanceOf[AnyRef]
   }
 
   protected def cassandraDate(d: DateTime) = new java.util.Date(d.getMillis)
@@ -173,10 +196,16 @@ with LazyLogging {
     } else {
       None
     }
+    val (createdTimestamp, updatedTimestamp) = if (persistenceConfig.writeTimestamps) {
+      def toOptDateTime(c: String) = Option(row.getTimestamp(c)).map(new DateTime(_, DateTimeZone.UTC))
+      (toOptDateTime("created_timestamp"), toOptDateTime("updated_timestamp"))
+    } else {
+      (None, None)
+    }
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("p"))
     val p = jsonToEmblematicTranslator.translate[P](json)(pTypeKey)
-    PState[P](id, rowVersion, p)
+    PState[P](id, rowVersion, createdTimestamp, updatedTimestamp, p)
   }
 
   private var preparedStatements = Map[String, PreparedStatement]()
