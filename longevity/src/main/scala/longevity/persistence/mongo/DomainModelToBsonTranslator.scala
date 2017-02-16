@@ -116,7 +116,7 @@ private[persistence] class DomainModelToBsonTranslator(
         val document = new BsonDocument
         result.foreach {
           case (prop, propResult) =>
-            if (!(prop.typeKey <:< optionAnyType) || propResult != None) {
+            if (!(prop.typeKey <:< optionAnyType) || propResult != BsonNull.VALUE) {
               document.append(prop.name, propResult)
             }
         }
