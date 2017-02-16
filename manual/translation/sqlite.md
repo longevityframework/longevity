@@ -4,9 +4,11 @@ layout: page
 ---
 
 Every SQLite table has at least one column: A column named `p`, which
-stores the [persistent object translated into JSON](json.html). If
-[optimistic locking](../context/opt-lock.html) is turned on, then a
-`row_version` column is also added.
+stores the [persistent object translated into JSON](json.html). If the
+[write timestamps](../context/write-timestamps.html) configuration is
+turned on, then `created_timestamp` and `modified_timestamp` columns
+are added. If [optimistic locking](../context/opt-lock.html) is turned
+on, then a `row_version` column is also added.
 
 More columns are added to support any [keys](../ptype/keys.html) or
 [indexes](../ptype/indexes.html) for the [persistent type](../ptype).

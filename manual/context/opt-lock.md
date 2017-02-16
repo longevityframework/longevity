@@ -26,13 +26,13 @@ case class User(
 }
 ```
 
-Now let's suppose one thread is updating the user to have title `"Jr."`:
+Now let's suppose one thread is updating the user to have title `"Ms."`:
 
 ```scala
 // thread A:
 for {
   retrieved <- userRepo.retrieve(username)
-  modified = retrieved.map(_.addTitle("Jr."))
+  modified = retrieved.map(_.addTitle("Ms."))
   updated <- userRepo.update(modified)
 } yield updated
 ```
@@ -91,10 +91,10 @@ was made. If it was not, then there was a write conflict, and a
 `WriteConflictException` is thrown.
 
 {% assign prevTitle = "configuring your longevity context" %}
-{% assign prevLink = "config.html" %}
-{% assign upTitle = "the longevity context" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "repo pools" %}
-{% assign nextLink = "repo-pools.html" %}
+{% assign prevLink  = "config.html" %}
+{% assign upTitle   = "the longevity context" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "write timestamps" %}
+{% assign nextLink  = "write-timestamps.html" %}
 {% include navigate.html %}
 

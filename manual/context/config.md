@@ -59,6 +59,7 @@ val longevityConfig = LongevityConfig(
   backEnd = InMem, // one of Cassandra, InMem, JDBC, Mongo, SQLite
   autocreateSchema = false,
   optimisticLocking = false,
+  writeTimestamps = false,
   cassandra = CassandraConfig(
     address = "127.0.0.1",
     credentials = None,
@@ -104,6 +105,12 @@ possible for you to build and maintain your own JDBC-flavored back
 end. See [these
 instructions](https://github.com/longevityframework/longevity/wiki/How-to-create-a-new-JDBC-back-end)
 for details.
+
+details with writeTimestamps:
+
+- if created when writeTimestamps==false, createdTimestamp will always be null
+- if updated when writeTimestamps==false, createdTimestamp & updatedTimestamp will be left alone
+  - except mongo, which will voerwrite them
 
 {% assign prevTitle = "the longevity context" %}
 {% assign prevLink = "." %}

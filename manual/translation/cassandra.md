@@ -7,9 +7,12 @@ Every Cassandra table has at least one column: A column named `p`,
 which stores the [persistent object translated into
 JSON](json.html).
 
-If [optimistic locking](../context/opt-lock.html) is turned on, then a
-`row_version` column is also added. Please note that the Cassandra
-optimistic locking implementation uses [lightweight
+If the [write timestamps](../context/write-timestamps.html)
+configuration is turned on, then `created_timestamp` and
+`modified_timestamp` columns are added. If [optimistic
+locking](../context/opt-lock.html) is turned on, then a `row_version`
+column is also added. Please note that the Cassandra optimistic
+locking implementation uses [lightweight
 transactions](http://docs.datastax.com/en/cassandra/2.0/cassandra/dml/dml_ltwt_transaction_c.html)
 for updates and deletes, introducing an `IF row_version = ...` clause
 to the database command. This will incur a performance penalty.

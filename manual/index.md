@@ -50,6 +50,7 @@ once, and then come back to it as a reference.
 - [The Longevity Context](context)
   - [Configuring your Longevity Context](context/config.html)
   - [Optimistic Locking](context/opt-lock.html)
+  - [Write Timestamps](context/write-timestamps.html)
   - [Repo Pools](context/repo-pools.html)
   - [Schema Creation](context/schema-creation.html)
   - [Creating Many Aggregates at Once](context/create-many.html)

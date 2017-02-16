@@ -12,6 +12,7 @@ there, most of which are most useful when writing tests.
 
 - [Configuring your Longevity Context](config.html)
 - [Optimistic Locking](opt-lock.html)
+- [Write Timestamps](write-timestamps.html)
 - [Repo Pools](repo-pools.html)
 - [Schema Creation](schema-creation.html)
 - [Creating Many Aggregates at Once](create-many.html)
