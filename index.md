@@ -2,7 +2,7 @@
 layout: page
 ---
 
-<h2>Focus your development on your domain model, not your database model!</h2>
+<h2>Focus your development on your domain model, not your database model</h2>
 
 Longevity translates your domain into a natural, easy to understand
 database model. Your persistent objects are stored as JSON, and we add
