@@ -20,21 +20,20 @@ annotations, you can describe them in their companion objects
 instead.) Finally, gather all of these elements together into a
 longevity `DomainModel` object.
 
-Once you build your `DomainModel`, you pass it back to longevity to get
-your `LongevityContext`. The main thing we provide to you with the
+Once you build your `DomainModel`, you pass it back to longevity to
+get your `LongevityContext`. The main thing we provide to you with the
 [longevity context](../context) is a
 [pool](../context/repo-pools.html) of [repositories](../repo) for you
-to use. These repositories present with a complete persistence API,
+to use. These repositories present a complete persistence API,
 including CRUD operations (create/retrieve/update/delete), and
 [queries](../query) that return multiple results.
 
 The longevity context provides you with other tools that we generally
 consider part of the persistence layer. We provide you with a set of
 repositories that persist to a test database, as well as fully
-functional in-memory repositories, that you can use for testing. We
-provide you with integration tests that will exercise all of the
-repository CRUD operations. And we provide you with a framework for
-testing any queries that are important to your application.
+functional in-memory repositories that you can use for testing. There
+are integration tests that will exercise all of the repository CRUD
+operations, test data generators, and a framework for testing queries.
 
 {% assign prevTitle = "preliminaries" %}
 {% assign prevLink  = "." %}
