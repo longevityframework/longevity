@@ -3,10 +3,6 @@ title: user manual
 layout: page
 ---
 
-Welcome to longevity! This user manual will show you all you need to
-know in order to use it. We recommend you read through the manual
-once, and then come back to it as a reference.
-
 ## Table of Contents
 
 - [Preliminaries](prelims)
