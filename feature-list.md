@@ -33,8 +33,8 @@ The current high-priority features are:
 
 - Support more streaming libraries for queries.
 - Free monad wrapper around the repository API.
-- First-class support for optional values.
 - Schema migration framework.
+- First-class support for optional values.
 
 For more information, please see the [story
 board](https://www.pivotaltracker.com/n/projects/1231978). Tickets are
