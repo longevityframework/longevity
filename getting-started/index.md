@@ -5,19 +5,24 @@ layout: page
 
 This guide walks through the basic steps needed to get started
 building a real-life application with
-[longevity](http://longevityframework.org/). The
-application we will be looking at here is a sample blogging
-application, built with longevity on the back end, and using [Akka
-HTTP](http://doc.akka.io/docs/akka/2.4.8/scala/http/) for a REST API
-that could be used by a web client. You can find the source code here:
+[longevity](http://longevityframework.org/). The application we will
+be looking at here is a sample blogging application, built with
+longevity on the back end, and using [Akka
+HTTP](http://doc.akka.io/docs/akka-http/current/scala.html) for a REST
+API that could be used by a web client. You can find the source code
+here:
 
 [https://github.com/longevityframework/simbl](https://github.com/longevityframework/simbl)
 
 The simbl project (short for "Simple Blogging") doubles as a
-[Lightbend Activator tutorial](../activator.html). We've also ported
-the Akka HTTP tutorial into Play. The tutorials and this guide cover
-roughly the same material, with this guide following the Akka HTTP
-version.
+[Lightbend Activator
+tutorial](http://www.lightbend.com/activator/template/activator-longevity-tutorial).
+We've also
+[ported](http://www.lightbend.com/activator/template/activator-longevity-play-tutorial)
+the Akka HTTP tutorial into [Play](https://www.playframework.com/).
+The tutorials and this guide cover roughly the same material, with
+this guide following the Akka HTTP version.
+
 
 We will only have the chance to cover a portion of the blogging
 application code, so please feel free to explore the codebase further
