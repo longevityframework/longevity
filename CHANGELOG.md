@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.21-SNAPSHOT] -
+## [0.21.0] - 2017.03.04 - JDBC and Timestamps
 
 - 2017.02.08 - Add new `JDBC` back end.
 - 2017.02.06 - Rename `longevity.config.SQLiteConfig` to
