@@ -6,7 +6,7 @@ object BuildSettings {
 
   val commonSettings = Defaults.coreDefaultSettings ++ Seq(
     organization := "org.longevityframework",
-    version := "0.21-SNAPSHOT",
+    version := "0.21.0",
     scalaVersion := Dependencies.scalaVersionString,
     crossScalaVersions := Seq("2.11.8", Dependencies.scalaVersionString))
 
