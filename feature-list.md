@@ -29,11 +29,14 @@ manual](manual). They include:
 
 ## Upcoming Features
 
-The current high-priority features are:
+The current high-priority features and improvements are:
 
 - Support more streaming libraries for queries.
+- Use type classes as a better approach to type safety with persistent
+  types, key values, and queries.
 - Free monad wrapper around the repository API.
 - Schema migration framework.
+- Replace home-grown reflection utilities with shapeless/circe.
 - First-class support for optional values.
 
 For more information, please see the [story
