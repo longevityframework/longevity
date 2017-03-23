@@ -20,10 +20,14 @@ import streamadapter.fs2.fs2StreamToChunkerator
 import streamadapter.iterateeio.iterateeIoEnumeratorToChunkerator
 import streamadapter.play.playEnumeratorToChunkerator
 
-/** contains common code for testing different [[longevity.model.query.Query
- * Query]] instances against [[longevity.persistence.Repo.retrieveByQuery
- * Repo.retrieveByQuery]] and [[longevity.persistence.StreamingRepo.streamByQuery
- * Repo.streamByQuery]].
+/** contains common code for testing different [[longevity.model.query.Query Query]] instances
+ * against [[longevity.persistence.Repo.queryToFutureVec Repo.queryToFutureVec]],
+ * [[longevity.persistence.Repo.queryToIterator]], and the four streaming query libraries:
+ * 
+ *   - [[longevity.persistence.AkkaStreamsRepo.queryToAkkaStream AkkaStreamsRepo.queryToAkkaStream]]
+ *   - [[longevity.persistence.FS2Repo.queryToFS2 FS2Repo.queryToFS2]]
+ *   - [[longevity.persistence.IterateeIoRepo.queryToIterateeIo IterateeIoRepo.queryToIterateeIo]]
+ *   - [[longevity.persistence.PlayRepo.queryToPlay PlayRepo.queryToPlay]]
  *
  * pardon the nasty ScalaDocs for this class. we haven't figured out how to
  * remove the methods inherited from ScalaTest classes yet.
