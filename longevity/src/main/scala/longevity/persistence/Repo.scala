@@ -44,7 +44,14 @@ trait Repo[P] {
    * @param query the query to execute
    * @param executionContext the execution context
    */
-  def retrieveByQuery(query: Query[P])(implicit executionContext: ExecutionContext): Future[Seq[PState[P]]]
+  def queryToIterator(query: Query[P]): Iterator[PState[P]]
+
+  /** retrieves multiple persistent objects matching a query
+   * 
+   * @param query the query to execute
+   * @param executionContext the execution context
+   */
+  def queryToFutureVec(query: Query[P])(implicit context: ExecutionContext): Future[Vector[PState[P]]]
 
   /** updates the persistent object
    * 

@@ -1,7 +1,5 @@
 package longevity.persistence.jdbc
 
-import akka.NotUsed
-import akka.stream.scaladsl.Source
 import java.sql.ResultSet
 import longevity.model.ptype.Prop
 import longevity.model.query.AndOp
@@ -24,34 +22,35 @@ import longevity.model.query.RelationalOp
 import longevity.model.realized.RealizedPropComponent
 import longevity.persistence.PState
 import scala.collection.immutable.VectorBuilder
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
+import streamadapter.CloseableChunkIter
+import streamadapter.Chunkerator
 
 /** implementation of JdbcRepo.retrieveByQuery */
 private[jdbc] trait JdbcQuery[P] {
   repo: JdbcRepo[P] =>
 
-  def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext): Future[Seq[PState[P]]] =
-    Future {
-      logger.debug(s"calling JdbcRepo.retrieveByQuery: $query")
-      val resultSet = blocking { queryResultSet(query) }
-      val states = new VectorBuilder[PState[P]]()
-      while (resultSet.next()) {
-        states += retrieveFromResultSet(resultSet)
+  protected def queryToChunkerator(query: Query[P]) = {
+    logger.debug(s"calling JdbcRepo.queryToChunkerator: $query")
+    val c = new Chunkerator[PState[P]] {
+      def apply = new CloseableChunkIter[PState[P]] {
+        private val resultSet = queryResultSet(query)
+        private var nextResult = resultSet.next
+        def hasNext = nextResult
+        def next = {
+          var i = 0
+          val builder = new VectorBuilder[PState[P]]()
+          do {
+            builder += retrieveFromResultSet(resultSet)
+            i += 1
+            nextResult = resultSet.next
+          } while (i < 20 && hasNext)
+          builder.result
+        }
+        def close = resultSet.close
       }
-      logger.debug(s"done calling JdbcRepo.retrieveByQuery: $states")
-      states.result()
     }
-
-  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
-    logger.debug(s"calling JdbcRepo.streamByQuery: $query")
-    val source = Source.unfoldResource[PState[P], ResultSet](
-      () => queryResultSet(query),
-      resultSet => if (resultSet.next()) Some(retrieveFromResultSet(resultSet)) else None,
-      resultSet => resultSet.close())
-    logger.debug(s"done calling JdbcRepo.streamByQuery: $source")
-    source
+    logger.debug(s"done calling JdbcRepo.queryToChunkerator")
+    c
   }
 
   private def queryResultSet(query: Query[P]): ResultSet = {

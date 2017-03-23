@@ -2,15 +2,26 @@ package longevity.persistence
 
 import akka.NotUsed
 import akka.stream.scaladsl.Source
+import cats.Monad
 import emblem.TypeKey
+import fs2.Stream
+import fs2.Task
+import io.iteratee.{ Enumerator => CatsEnumerator }
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
-import longevity.model.KeyVal
 import longevity.model.DomainModel
+import longevity.model.KeyVal
 import longevity.model.PType
 import longevity.model.query.Query
 import longevity.model.realized.RealizedPType
+import play.api.libs.iteratee.{ Enumerator => PlayEnumerator }
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import scala.concurrent.blocking
+import streamadapter.Chunkerator
+import streamadapter.akka.chunkeratorToAkkaSource
+import streamadapter.fs2.chunkeratorToFS2Stream
+import streamadapter.iterateeio.chunkeratorToIterateeIoEnumerator
+import streamadapter.play.chunkeratorToPlayEnumerator
 
 /** an abstract base class for [[Repo]] implementations
  * 
@@ -37,7 +48,24 @@ extends Repo[P] {
   def retrieveOne[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
 
-  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed]
+  protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]]
+
+  def queryToIterator(query: Query[P]): Iterator[PState[P]] = queryToChunkerator(query).toIterator
+
+  def queryToFutureVec(query: Query[P])(implicit context: ExecutionContext): Future[Vector[PState[P]]] =
+    Future(blocking(queryToChunkerator(query).toVector))
+
+  def queryToAkkaStreamImpl(query: Query[P]): Source[PState[P], NotUsed] =
+    chunkeratorToAkkaSource.adapt(queryToChunkerator(query))
+
+  def queryToFS2Impl(query: Query[P]): Stream[Task, PState[P]] =
+    chunkeratorToFS2Stream.adapt(queryToChunkerator(query))
+
+  def queryToIterateeIoImpl[F[_]](query: Query[P])(implicit F: Monad[F]): CatsEnumerator[F, PState[P]] =
+    chunkeratorToIterateeIoEnumerator.adapt(queryToChunkerator(query))
+
+  def queryToPlayImpl(query: Query[P])(implicit context: ExecutionContext): PlayEnumerator[PState[P]] =
+    chunkeratorToPlayEnumerator.adapt(queryToChunkerator(query))
 
   protected[persistence] def close()(implicit context: ExecutionContext): Future[Unit]
 

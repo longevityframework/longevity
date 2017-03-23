@@ -2,18 +2,23 @@ package longevity.test
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
+import cats.Eval
 import com.typesafe.scalalogging.LazyLogging
 import emblem.TypeKey
 import longevity.context.LongevityContext
-import longevity.persistence.PState
-import longevity.persistence.RepoPool
 import longevity.model.ptype.Prop
 import longevity.model.query.Query
 import longevity.model.query.QueryFilter
 import longevity.model.query.QueryOrderBy
+import longevity.persistence.PState
+import longevity.persistence.RepoPool
 import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import streamadapter.akka.akkaSourceToChunkerator
+import streamadapter.fs2.fs2StreamToChunkerator
+import streamadapter.iterateeio.iterateeIoEnumeratorToChunkerator
+import streamadapter.play.playEnumeratorToChunkerator
 
 /** contains common code for testing different [[longevity.model.query.Query
  * Query]] instances against [[longevity.persistence.Repo.retrieveByQuery
@@ -92,12 +97,12 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
    * for every longevity back end. (see
    * `longevity.integration.queries.offsetLimit.OffsetLimitQuerySpec`)
    */
-  protected def exerciseQuery(query: Query[P], exerciseStreamByQuery: Boolean = false): Unit = {
+  protected def exerciseQuery(query: Query[P], exerciseQueryToStreams: Boolean = false): Unit = {
     if (query.offset.nonEmpty || query.limit.nonEmpty) {
       fail("QuerySpec.exerciseQuery cannot be used to test queries with offset and limit clauses")
     }
 
-    val orderedResults = repo.retrieveByQuery(query).futureValue.map(_.get)
+    val orderedResults = repo.queryToFutureVec(query).futureValue.map(_.get)
     val results: Set[P] = orderedResults.toSet
     val actual = pStates.map(_.get).toSet intersect results // remove any entities not put in by this test
     val expected = entitiesMatchingQuery(query, entities)
@@ -118,16 +123,58 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
       }
     }
 
-    if (exerciseStreamByQuery) exerciseStream(query, actual)
+    if (exerciseQueryToStreams) exerciseStreams(query, actual)
   }
 
-  private def exerciseStream(query: Query[P], expected: Set[P]): Unit = {
+  private def exerciseStreams(query: Query[P], expected: Set[P]): Unit = {
+    exerciseAkkaStream(query, expected)
+    exerciseFS2(query, expected)
+    exerciseIterateeIo(query, expected)
+    exercisePlayEnumerator(query, expected)
+    exerciseToIterator(query, expected)
+  }
+
+  private def exerciseAkkaStream(query: Query[P], expected: Set[P]): Unit = {
     implicit val system = ActorSystem("QuerySpec")
     implicit val materializer = ActorMaterializer()
-    val source = repo.streamByQuery(query)
-    val results = source.runFold(Set.empty[PState[P]])(_ + _).futureValue.map(_.get)
+    val source = repo.queryToAkkaStream(query)
+    val results = akkaSourceToChunkerator(materializer).adapt(source).toVector.map(_.get).toSet
     val actual = pStates.map(_.get).toSet intersect results
+    system.terminate
+    exerciseStream(query, actual, expected)
+  }
 
+  private def exerciseFS2(query: Query[P], expected: Set[P]): Unit = {
+    val S = fs2.Strategy.fromFixedDaemonPool(8, threadName = "worker")
+    val source = repo.queryToFS2(query)
+    val results = fs2StreamToChunkerator(S).adapt(source).toVector.map(_.get).toSet
+    val actual = pStates.map(_.get).toSet intersect results
+    exerciseStream(query, actual, expected)
+  }
+
+  private def exerciseIterateeIo(query: Query[P], expected: Set[P]): Unit = {
+    val source = repo.queryToIterateeIo[Eval](query)
+    val results = iterateeIoEnumeratorToChunkerator[Eval].adapt(source).toVector.map(_.get).toSet
+    val actual = pStates.map(_.get).toSet intersect results
+    exerciseStream(query, actual, expected)
+  }
+
+  private def exercisePlayEnumerator(query: Query[P], expected: Set[P]): Unit = {
+    val source = repo.queryToPlay(query)
+    val results = playEnumeratorToChunkerator.adapt(source).toVector.map(_.get).toSet
+    val actual = pStates.map(_.get).toSet intersect results
+    exerciseStream(query, actual, expected)
+  }
+
+  private def exerciseToIterator(query: Query[P], expected: Set[P]): Unit = {
+    val S = fs2.Strategy.fromFixedDaemonPool(8, threadName = "worker")
+    val source = repo.queryToIterator(query)
+    val results = source.map(_.get).toSet
+    val actual = pStates.map(_.get).toSet intersect results
+    exerciseStream(query, actual, expected)
+  }
+
+  private def exerciseStream(query: Query[P], actual: Set[P], expected: Set[P]): Unit = {
     if (actual != expected) {
       logger.debug(s"failure for query ${query}")
       logger.debug(s"  exerciseStream actual = $actual")

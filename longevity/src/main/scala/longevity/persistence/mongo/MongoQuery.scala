@@ -1,7 +1,5 @@
 package longevity.persistence.mongo
 
-import akka.NotUsed
-import akka.stream.scaladsl.Source
 import com.mongodb.client.MongoCursor
 import com.mongodb.client.model.Filters
 import longevity.persistence.PState
@@ -21,36 +19,34 @@ import org.bson.BsonInt32
 import org.bson.BsonString
 import org.bson.BsonValue
 import org.bson.conversions.Bson
-import scala.collection.JavaConverters.asScalaIteratorConverter
 import scala.collection.immutable.VectorBuilder
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
+import streamadapter.CloseableChunkIter
+import streamadapter.Chunkerator
 
 /** implementation of MongoRepo.retrieveByQuery and MongoRepo.streamByQuery */
 private[mongo] trait MongoQuery[P] {
   repo: MongoRepo[P] =>
 
-  def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
-  : Future[Seq[PState[P]]] = Future {
-    logger.debug(s"calling MongoRepo.retrieveByQuery: $query")
-    val states = blocking {
-      val cursor = queryCursor(query)
-      val builder = new VectorBuilder[PState[P]]()
-      while (cursor.hasNext) {
-        builder += bsonToState(cursor.next)
+  protected def queryToChunkerator(query: Query[P]) = {
+    logger.debug(s"calling MongoRepo.queryToChunkerator: $query")
+    val c = new Chunkerator[PState[P]] {
+      def apply = new CloseableChunkIter[PState[P]] {
+        private val cursor = queryCursor(query)
+        def hasNext = cursor.hasNext
+        def next = {
+          var i = 0
+          val builder = new VectorBuilder[PState[P]]()
+          while (i < 20 && cursor.hasNext) {
+            builder += bsonToState(cursor.next)
+            i += 1
+          }
+          builder.result
+        }
+        def close = cursor.close
       }
-      builder.result()
     }
-    logger.debug(s"done calling MongoRepo.retrieveByQuery: $states")
-    states
-  }
-
-  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
-    logger.debug(s"calling MongoRepo.streamByQuery: $query")
-    val source = Source.fromIterator { () => queryCursor(query).asScala.map(bsonToState) }
-    logger.debug(s"done calling MongoRepo.streamByQuery: $source")
-    source
+    logger.debug(s"done calling MongoRepo.queryToChunkerator")
+    c
   }
 
   private def queryCursor(query: Query[P]): MongoCursor[BsonDocument] = {

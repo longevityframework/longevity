@@ -18,14 +18,14 @@ class ComponentQuerySpec extends QuerySpec[WithComponent](
 
   import WithComponent.queryDsl._
 
-  behavior of "CassandraRepo.retrieveByQuery"
+  behavior of "CassandraRepo.queryToFutureVec"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(componentProp eqs sample.component)
   }
 
   it should "throw exception for an ordering query on a component" in {
-    repo.retrieveByQuery(
+    repo.queryToFutureVec(
       componentProp lt sample.component
     ).failed.futureValue shouldBe a [CompoundPropInOrderingQuery]
   }

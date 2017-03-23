@@ -1,7 +1,5 @@
 package longevity.persistence.cassandra
 
-import akka.NotUsed
-import akka.stream.scaladsl.Source
 import com.datastax.driver.core.ResultSet
 import longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery
 import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
@@ -27,38 +25,37 @@ import longevity.model.query.QueryFilter
 import longevity.model.query.QueryOrderBy
 import longevity.model.query.RelationalFilter
 import longevity.model.realized.RealizedPropComponent
-import scala.collection.JavaConverters.asScalaBufferConverter
-import scala.collection.JavaConverters.asScalaIteratorConverter
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
+import scala.collection.immutable.VectorBuilder
+import streamadapter.CloseableChunkIter
+import streamadapter.Chunkerator
 
 /** implementation of CassandraRepo.retrieveByQuery */
 private[cassandra] trait CassandraQuery[P] {
   repo: CassandraRepo[P] =>
 
-  def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext): Future[Seq[PState[P]]] =
-    Future {
-      logger.debug(s"calling CassandraRepo.retrieveByQuery: $query")
-      val resultSet = blocking {
-        queryResultSet(query)
+  protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]] = {
+    logger.debug(s"calling CassandraRepo.queryToChunkerator: $query")
+    val c = new Chunkerator[PState[P]] {
+      def apply = new CloseableChunkIter[PState[P]] {
+        private val resultSet = queryResultSet(query)
+        def hasNext = !resultSet.isExhausted
+        def next = {
+          var i = 0
+          val builder = new VectorBuilder[PState[P]]()
+          while (i < 20 && hasNext) {
+            builder += retrieveFromRow(resultSet.one)
+            i += 1
+          }
+          builder.result
+        }
+        def close = {
+          // no need (or option) to clean up resources once stream terminates, because
+          // Cassandra result set is paged, and does not support any close() operation
+        }
       }
-      val states = resultSet.all.asScala.map(retrieveFromRow)
-      logger.debug(s"done calling CassandraRepo.retrieveByQuery: $states")
-      states
     }
-
-  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
-    logger.debug(s"calling CassandraRepo.streamByQuery: $query")
-    val iterator: () => Iterator[PState[P]] = { () =>
-      val resultSet = queryResultSet(query)
-      resultSet.iterator.asScala.map(retrieveFromRow)
-    }
-    // no need (or option) to clean up resources once stream terminates, because
-    // Cassandra result set is paged, and does not support any close() operation
-    val source = Source.fromIterator(iterator)
-    logger.debug(s"done calling CassandraRepo.streamByQuery: $source")
-    source
+    logger.debug(s"done calling CassandraRepo.queryToChunkerator")
+    c
   }
 
   private def queryResultSet(query: Query[P]): ResultSet = {

@@ -65,7 +65,7 @@ extends FlatSpec with LongevityIntegrationSpec {
     retrievedPStateOpt should be ('empty)
   } 
 
-  behavior of "Repo[PolyPersistent].retrieveByQuery"
+  behavior of "Repo[PolyPersistent].queryToFutureVec"
 
   it should "retrieve a FirstDerivedPersistent persisted by Repo[FirstDerivedPersistent]" in {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
@@ -74,12 +74,12 @@ extends FlatSpec with LongevityIntegrationSpec {
     val query: Query[derived.PolyPersistent] =
       Query(QueryFilter.eqs(derived.PolyPersistent.props.id, firstDerivedPersistent.id))
 
-    val retrievedPStateSeq = repoPool[derived.PolyPersistent].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.PolyPersistent].queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedPersistent)
   } 
 
-  behavior of "Repo[FirstDerivedPersistent].retrieveByQuery"
+  behavior of "Repo[FirstDerivedPersistent].queryToFutureVec"
 
   it should "retrieve a FirstDerivedPersistent persisted by Repo[PolyPersistent]" in {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
@@ -90,7 +90,7 @@ extends FlatSpec with LongevityIntegrationSpec {
         derived.FirstDerivedPersistent.props.component.id,
         firstDerivedPersistent.component.id))
 
-    val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedPersistent)
   } 
@@ -104,7 +104,7 @@ extends FlatSpec with LongevityIntegrationSpec {
         derived.FirstDerivedPersistent.props.component.id,
         secondDerivedPersistent.component.id))
 
-    val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (0)
   } 
 
@@ -118,7 +118,7 @@ extends FlatSpec with LongevityIntegrationSpec {
           QueryFilter.eqs(derived.FirstDerivedPersistent.props.component.id, firstDerivedPersistent.component.id),
           QueryFilter.eqs(derived.PolyPersistent.props.id, firstDerivedPersistent.id)))
 
-    val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedPersistent)
   } 
@@ -132,7 +132,7 @@ extends FlatSpec with LongevityIntegrationSpec {
       derived.FirstDerivedPersistent.props.component.id eqs firstDerivedPersistent.component.id and
       derived.PolyPersistent.props.id eqs firstDerivedPersistent.id
 
-    val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].retrieveByQuery(query).futureValue
+    val retrievedPStateSeq = repoPool[derived.FirstDerivedPersistent].queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedPersistent)
   } 

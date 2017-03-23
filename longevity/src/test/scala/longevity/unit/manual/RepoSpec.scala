@@ -118,7 +118,7 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLoggin
 
       val blog: Blog = ???
 
-      val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
+      val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.queryToFutureVec(
         Query(
           QueryFilter.and(
             QueryFilter.eqs(BlogPost.props.blog, blog.uri),
@@ -134,7 +134,7 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLoggin
       val blog: Blog = ???
 
       import BlogPost.queryDsl._
-      val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
+      val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.queryToFutureVec(
         BlogPost.props.blog eqs blog.uri and
         BlogPost.props.postDate gt DateTime.now - 1.week)
     }
@@ -146,7 +146,7 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLoggin
 
       val blog: Blog = ???
 
-      val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
+      val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.queryToFutureVec {
         import com.github.nscala_time.time.Imports._
         import BlogPost.queryDsl._
         import BlogPost.props
@@ -167,7 +167,7 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLoggin
 
       val blog: Blog = ???
 
-      val recentPosts: Source[PState[BlogPost], NotUsed] = blogPostRepo.streamByQuery {
+      val recentPosts: Source[PState[BlogPost], NotUsed] = blogPostRepo.queryToAkkaStream {
         import com.github.nscala_time.time.Imports._
         import BlogPost.queryDsl._
         import BlogPost.props

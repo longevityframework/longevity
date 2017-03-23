@@ -74,20 +74,20 @@ extends FlatSpec with LongevityIntegrationSpec {
   import OffsetLimit.queryDsl._
   import OffsetLimit.props
 
-  behavior of "Repo.retrieveByQuery"
+  behavior of "Repo.queryToFutureVec"
 
   it should "return correct results for queries with limit clauses" in {
     var query: Query[OffsetLimit] = null
     var results: Seq[PState[OffsetLimit]] = null
 
     query = props.j eqs 0 and props.i gt 1 limit 5
-    results = repo.retrieveByQuery(query).futureValue
+    results = repo.queryToFutureVec(query).futureValue
     results.size should equal (5)
     results should not contain (OffsetLimit(0, 0))
     results should not contain (OffsetLimit(1, 0))
 
     query = props.j eqs 0 and props.i gt 1 limit 50
-    results = repo.retrieveByQuery(query).futureValue
+    results = repo.queryToFutureVec(query).futureValue
     results.map(_.get.i).toSet should equal (Set(2, 3, 4, 5, 6, 7, 8, 9))
   }
 
@@ -98,21 +98,21 @@ extends FlatSpec with LongevityIntegrationSpec {
       var results: Seq[PState[OffsetLimit]] = null
 
       query = props.i neq 3 orderBy props.i
-      results = repo.retrieveByQuery(query).futureValue
+      results = repo.queryToFutureVec(query).futureValue
       results.size should equal (9)
       results(0).get.i should equal (0)
 
       query = props.i neq 3 orderBy props.i offset 1
-      results = repo.retrieveByQuery(query).futureValue
+      results = repo.queryToFutureVec(query).futureValue
       results.size should equal (8)
       results(0).get.i should equal (1)
 
       query = props.i neq 3 orderBy props.i offset 9
-      results = repo.retrieveByQuery(query).futureValue
+      results = repo.queryToFutureVec(query).futureValue
       results.size should equal (0)
 
       query = props.i neq 3 orderBy props.i offset 10
-      results = repo.retrieveByQuery(query).futureValue
+      results = repo.queryToFutureVec(query).futureValue
       results.size should equal (0)
 
     }
@@ -122,27 +122,27 @@ extends FlatSpec with LongevityIntegrationSpec {
       var results: Seq[PState[OffsetLimit]] = null
 
       query = props.i neq 3 orderBy props.i limit 5
-      results = repo.retrieveByQuery(query).futureValue
+      results = repo.queryToFutureVec(query).futureValue
       results.size should equal (5)
       results(0).get.i should equal (0)
 
       query = props.i neq 3 orderBy props.i limit 50
-      results = repo.retrieveByQuery(query).futureValue
+      results = repo.queryToFutureVec(query).futureValue
       results.size should equal (9)
       results(0).get.i should equal (0)
 
       query = props.i neq 3 orderBy props.i offset 1 limit 5
-      results = repo.retrieveByQuery(query).futureValue
+      results = repo.queryToFutureVec(query).futureValue
       results.size should equal (5)
       results(0).get.i should equal (1)
 
       query = props.i neq 3 orderBy props.i offset 1 limit 50
-      results = repo.retrieveByQuery(query).futureValue
+      results = repo.queryToFutureVec(query).futureValue
       results.size should equal (8)
       results(0).get.i should equal (1)
 
       query = props.i neq 3 orderBy props.i offset 10 limit 5
-      results = repo.retrieveByQuery(query).futureValue
+      results = repo.queryToFutureVec(query).futureValue
       results.size should equal (0)
 
     }

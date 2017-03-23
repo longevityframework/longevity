@@ -1,32 +1,21 @@
 package longevity.persistence.inmem
 
-import akka.NotUsed
-import akka.stream.scaladsl.Source
 import longevity.persistence.PState
 import longevity.model.query.Query
 import longevity.model.query.QueryFilter
 import longevity.model.query.QueryOrderBy
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
+import streamadapter.Chunkerator
 
 /** implementation of InMemRepo.retrieveByQuery and streamByQuery */
 private[inmem] trait InMemQuery[P] {
   repo: InMemRepo[P] =>
 
-  def retrieveByQuery(query: Query[P])(implicit context: ExecutionContext)
-  : Future[Seq[PState[P]]] =
-    Future.successful {
-      logger.debug(s"calling InMemRepo.retrieveByQuery: $query")
-      val states = queryResults(query)
-      logger.debug(s"done calling InMemRepo.retrieveByQuery: $states")
-      states
-    }
-
-  def streamByQueryImpl(query: Query[P]): Source[PState[P], NotUsed] = {
-    logger.debug(s"calling InMemRepo.streamByQuery: $query")
-    val source = Source.fromIterator { () => queryResults(query).iterator }
-    logger.debug(s"done calling InMemRepo.streamByQuery: $source")
-    source
+  protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]] = {
+    logger.debug(s"calling InMemRepo.queryToChunkerator: $query")
+    val states = queryResults(query)
+    val chunkerator = Chunkerator.grouped(10, states)
+    logger.debug(s"done calling InMemRepo.queryToChunkerator: $states")
+    chunkerator
   }
 
   private def queryResults(query: Query[P]): Seq[PState[P]] = {
