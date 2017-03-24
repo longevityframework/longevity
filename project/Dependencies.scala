@@ -8,7 +8,7 @@ object Dependencies {
   val akkaStreamDep:     ModuleID = "com.typesafe.akka"          %% "akka-stream"           % "2.4.17"
   val cassandraDep:      ModuleID = "com.datastax.cassandra"     %  "cassandra-driver-core" % "3.1.4"
   val catsDep:           ModuleID = "org.typelevel"              %% "cats"                  % "0.9.0"
-  val catsIterateeDep:   ModuleID = "io.iteratee"                %% "iteratee-core"         % "0.10.0-SNAPSHOT"
+  val catsIterateeDep:   ModuleID = "io.iteratee"                %% "iteratee-core"         % "0.10.0"
   val fs2CoreDep:        ModuleID = "co.fs2"                     %% "fs2-core"              % "0.9.4"
   val json4sDep:         ModuleID = "org.json4s"                 %% "json4s-native"         % "3.5.1"
   val kxbmapConfigsDep:  ModuleID = "com.github.kxbmap"          %% "configs"               % "0.4.4"
