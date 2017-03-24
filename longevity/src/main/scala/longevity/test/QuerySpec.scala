@@ -1,8 +1,5 @@
 package longevity.test
 
-import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
-import cats.Eval
 import com.typesafe.scalalogging.LazyLogging
 import emblem.TypeKey
 import longevity.context.LongevityContext
@@ -15,10 +12,6 @@ import longevity.persistence.RepoPool
 import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import streamadapter.akka.akkaSourceToChunkerator
-import streamadapter.fs2.fs2StreamToChunkerator
-import streamadapter.iterateeio.iterateeIoEnumeratorToChunkerator
-import streamadapter.play.playEnumeratorToChunkerator
 
 /** contains common code for testing different [[longevity.model.query.Query Query]] instances
  * against [[longevity.persistence.Repo.queryToFutureVec Repo.queryToFutureVec]],
@@ -130,44 +123,9 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
     if (exerciseQueryToStreams) exerciseStreams(query, actual)
   }
 
-  private def exerciseStreams(query: Query[P], expected: Set[P]): Unit = {
-    exerciseAkkaStream(query, expected)
-    exerciseFS2(query, expected)
-    exerciseIterateeIo(query, expected)
-    exercisePlayEnumerator(query, expected)
+  // to be overridden by traits that exercise specific streaming back ends
+  protected def exerciseStreams(query: Query[P], expected: Set[P]): Unit = {
     exerciseToIterator(query, expected)
-  }
-
-  private def exerciseAkkaStream(query: Query[P], expected: Set[P]): Unit = {
-    implicit val system = ActorSystem("QuerySpec")
-    implicit val materializer = ActorMaterializer()
-    val source = repo.queryToAkkaStream(query)
-    val results = akkaSourceToChunkerator(materializer).adapt(source).toVector.map(_.get).toSet
-    val actual = pStates.map(_.get).toSet intersect results
-    system.terminate
-    exerciseStream(query, actual, expected)
-  }
-
-  private def exerciseFS2(query: Query[P], expected: Set[P]): Unit = {
-    val S = fs2.Strategy.fromFixedDaemonPool(8, threadName = "worker")
-    val source = repo.queryToFS2(query)
-    val results = fs2StreamToChunkerator(S).adapt(source).toVector.map(_.get).toSet
-    val actual = pStates.map(_.get).toSet intersect results
-    exerciseStream(query, actual, expected)
-  }
-
-  private def exerciseIterateeIo(query: Query[P], expected: Set[P]): Unit = {
-    val source = repo.queryToIterateeIo[Eval](query)
-    val results = iterateeIoEnumeratorToChunkerator[Eval].adapt(source).toVector.map(_.get).toSet
-    val actual = pStates.map(_.get).toSet intersect results
-    exerciseStream(query, actual, expected)
-  }
-
-  private def exercisePlayEnumerator(query: Query[P], expected: Set[P]): Unit = {
-    val source = repo.queryToPlay(query)
-    val results = playEnumeratorToChunkerator.adapt(source).toVector.map(_.get).toSet
-    val actual = pStates.map(_.get).toSet intersect results
-    exerciseStream(query, actual, expected)
   }
 
   private def exerciseToIterator(query: Query[P], expected: Set[P]): Unit = {
@@ -178,7 +136,7 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
     exerciseStream(query, actual, expected)
   }
 
-  private def exerciseStream(query: Query[P], actual: Set[P], expected: Set[P]): Unit = {
+  protected def exerciseStream(query: Query[P], actual: Set[P], expected: Set[P]): Unit = {
     if (actual != expected) {
       logger.debug(s"failure for query ${query}")
       logger.debug(s"  exerciseStream actual = $actual")

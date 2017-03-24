@@ -7,15 +7,23 @@ import longevity.exceptions.persistence.cassandra.FilterAllInQueryException
 import longevity.exceptions.persistence.cassandra.NeqInQueryException
 import longevity.exceptions.persistence.cassandra.OrInQueryException
 import longevity.integration.model.basics._
-import longevity.model.query.Query
 import longevity.model.query.FilterAll
+import longevity.model.query.Query
+import longevity.test.ExerciseAkkaStreams
+import longevity.test.ExerciseFS2
+import longevity.test.ExerciseIterateeIo
+import longevity.test.ExercisePlayEnumerator
 import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 class BasicsQuerySpec extends QuerySpec[Basics](
   new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig))(
   Basics.pTypeKey,
-  globalExecutionContext) {
+  globalExecutionContext)
+    with ExerciseAkkaStreams[Basics]
+    with ExerciseFS2[Basics]
+    with ExerciseIterateeIo[Basics]
+    with ExercisePlayEnumerator[Basics] {
 
   lazy val sample = randomP
 
@@ -39,13 +47,13 @@ class BasicsQuerySpec extends QuerySpec[Basics](
   it should "produce expected results for simple equality queries" in {
     // only eqs here dur to cassandra query limitations
     exerciseQuery(booleanProp eqs sample.boolean, true)
-    exerciseQuery(charProp eqs sample.char, true)
-    exerciseQuery(dateTimeProp eqs sample.dateTime, true)
-    exerciseQuery(doubleProp eqs sample.double, true)
-    exerciseQuery(floatProp eqs sample.float, true)
-    exerciseQuery(intProp eqs sample.int, true)
-    exerciseQuery(longProp eqs sample.long, true)
-    exerciseQuery(stringProp eqs sample.string, true)
+    exerciseQuery(charProp eqs sample.char)
+    exerciseQuery(dateTimeProp eqs sample.dateTime)
+    exerciseQuery(doubleProp eqs sample.double)
+    exerciseQuery(floatProp eqs sample.float)
+    exerciseQuery(intProp eqs sample.int)
+    exerciseQuery(longProp eqs sample.long)
+    exerciseQuery(stringProp eqs sample.string)
 
 
     // make sure Query.FilterAll() can occur inside greater expression
@@ -55,13 +63,13 @@ class BasicsQuerySpec extends QuerySpec[Basics](
 
   it should "produce expected results for simple conditional queries" in {
     exerciseQuery(floatProp eqs sample.float and booleanProp lt !sample.boolean, true)
-    exerciseQuery(floatProp eqs sample.float and charProp lte sample.char, true)
-    exerciseQuery(floatProp eqs sample.float and dateTimeProp gt sample.dateTime - 1.day, true)
-    exerciseQuery(floatProp eqs sample.float and doubleProp gte sample.double, true)
-    exerciseQuery(longProp eqs sample.long and floatProp lt sample.float + 2.0f, true)
-    exerciseQuery(floatProp eqs sample.float and intProp lte sample.int, true)
-    exerciseQuery(floatProp eqs sample.float and longProp gt sample.long - 1, true)
-    exerciseQuery(floatProp eqs sample.float and stringProp gte sample.string, true)
+    exerciseQuery(floatProp eqs sample.float and charProp lte sample.char)
+    exerciseQuery(floatProp eqs sample.float and dateTimeProp gt sample.dateTime - 1.day)
+    exerciseQuery(floatProp eqs sample.float and doubleProp gte sample.double)
+    exerciseQuery(longProp eqs sample.long and floatProp lt sample.float + 2.0f)
+    exerciseQuery(floatProp eqs sample.float and intProp lte sample.int)
+    exerciseQuery(floatProp eqs sample.float and longProp gt sample.long - 1)
+    exerciseQuery(floatProp eqs sample.float and stringProp gte sample.string)
   }
 
   it should "produce expected results for nested conditional queries" in {

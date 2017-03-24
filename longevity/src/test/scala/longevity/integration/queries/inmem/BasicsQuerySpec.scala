@@ -2,14 +2,22 @@ package longevity.integration.queries.inmem
 
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.test.QuerySpec
 import longevity.integration.model.basics._
-import longevity.model.query.Query
 import longevity.model.query.FilterAll
+import longevity.model.query.Query
+import longevity.test.ExerciseAkkaStreams
+import longevity.test.ExerciseFS2
+import longevity.test.ExerciseIterateeIo
+import longevity.test.ExercisePlayEnumerator
+import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class BasicsQuerySpec extends QuerySpec[Basics](
-  new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)) {
+  new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig))
+    with ExerciseAkkaStreams[Basics]
+    with ExerciseFS2[Basics]
+    with ExerciseIterateeIo[Basics]
+    with ExercisePlayEnumerator[Basics] {
 
   lazy val sample = randomP
 
@@ -33,43 +41,43 @@ class BasicsQuerySpec extends QuerySpec[Basics](
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(booleanProp eqs sample.boolean, true)
     exerciseQuery(booleanProp neq sample.boolean, true)
-    exerciseQuery(charProp eqs sample.char, true)
-    exerciseQuery(charProp neq sample.char, true)
-    exerciseQuery(dateTimeProp eqs sample.dateTime, true)
-    exerciseQuery(dateTimeProp neq sample.dateTime, true)
-    exerciseQuery(doubleProp eqs sample.double, true)
-    exerciseQuery(doubleProp neq sample.double, true)
-    exerciseQuery(floatProp eqs sample.float, true)
-    exerciseQuery(floatProp neq sample.float, true)
-    exerciseQuery(intProp eqs sample.int, true)
-    exerciseQuery(intProp neq sample.int, true)
-    exerciseQuery(longProp eqs sample.long, true)
-    exerciseQuery(longProp neq sample.long, true)
-    exerciseQuery(stringProp eqs sample.string, true)
-    exerciseQuery(stringProp neq sample.string, true)
+    exerciseQuery(charProp eqs sample.char)
+    exerciseQuery(charProp neq sample.char)
+    exerciseQuery(dateTimeProp eqs sample.dateTime)
+    exerciseQuery(dateTimeProp neq sample.dateTime)
+    exerciseQuery(doubleProp eqs sample.double)
+    exerciseQuery(doubleProp neq sample.double)
+    exerciseQuery(floatProp eqs sample.float)
+    exerciseQuery(floatProp neq sample.float)
+    exerciseQuery(intProp eqs sample.int)
+    exerciseQuery(intProp neq sample.int)
+    exerciseQuery(longProp eqs sample.long)
+    exerciseQuery(longProp neq sample.long)
+    exerciseQuery(stringProp eqs sample.string)
+    exerciseQuery(stringProp neq sample.string)
 
     // make sure Query.FilterAll() can occur inside greater expression
-    exerciseQuery(stringProp neq sample.string and FilterAll(), true)
+    exerciseQuery(stringProp neq sample.string and FilterAll())
   }
 
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for simple ordering queries" in {
     exerciseQuery(booleanProp lt sample.boolean, true)
-    exerciseQuery(charProp lte sample.char, true)
-    exerciseQuery(dateTimeProp gt sample.dateTime, true)
-    exerciseQuery(doubleProp gte sample.double, true)
-    exerciseQuery(floatProp lt sample.float, true)
-    exerciseQuery(intProp lte sample.int, true)
-    exerciseQuery(longProp gt sample.long, true)
-    exerciseQuery(stringProp gte sample.string, true)
+    exerciseQuery(charProp lte sample.char)
+    exerciseQuery(dateTimeProp gt sample.dateTime)
+    exerciseQuery(doubleProp gte sample.double)
+    exerciseQuery(floatProp lt sample.float)
+    exerciseQuery(intProp lte sample.int)
+    exerciseQuery(longProp gt sample.long)
+    exerciseQuery(stringProp gte sample.string)
   }
 
   behavior of "InMemRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
     exerciseQuery(booleanProp lt sample.boolean and charProp lte sample.char, true)
-    exerciseQuery(dateTimeProp gt sample.dateTime and doubleProp gte sample.double, true)
-    exerciseQuery(floatProp lt sample.float or intProp lte sample.int, true)
-    exerciseQuery(longProp gt sample.long or stringProp gte sample.string, true)
+    exerciseQuery(dateTimeProp gt sample.dateTime and doubleProp gte sample.double)
+    exerciseQuery(floatProp lt sample.float or intProp lte sample.int)
+    exerciseQuery(longProp gt sample.long or stringProp gte sample.string)
   }
 
   behavior of "InMemRepo.retrieveByQuery"

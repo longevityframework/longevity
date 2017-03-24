@@ -1,88 +1,24 @@
 package longevity
 
-import akka.NotUsed
-import akka.stream.scaladsl.Source
-import cats.Monad
 import emblem.TypeKey
 import emblem.typeKey
-import fs2.Stream
-import fs2.Task
-import io.iteratee.{ Enumerator => CatsEnumerator }
-import longevity.model.query.Query
-import play.api.libs.iteratee.{ Enumerator => PlayEnumerator }
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** manages entity persistence operations */
 package object persistence {
 
-  /** provides repository methods that use Akka Streams for repository streaming
-   * API.
-   *
-   * `AkkaStreamsRepo` is provided by an implicit conversion from `Repo`, so that
-   * Akka Streams can remain an optional dependency for longevity users.
-   * otherwise, it would have been included as part of the [[Repo]].
-   */
-  implicit class AkkaStreamsRepo[P](repo: Repo[P]) {
+  /** implicit conversion from [[Repo]] to [[AkkaStreamsRepo]] */
+  implicit def repoToAkkaStreamsRepo[P](repo: Repo[P]) = new AkkaStreamsRepo(repo)
 
-    /** streams persistent objects matching a query
-     *
-     * @param query the query to execute
-     */
-    def queryToAkkaStream(query: Query[P]): Source[PState[P], NotUsed] =
-      repo.asInstanceOf[BaseRepo[P]].queryToAkkaStreamImpl(query)
+  /** implicit conversion from [[Repo]] to [[FS2Repo]] */
+  implicit def repoToFS2Repo[P](repo: Repo[P]) = new FS2Repo(repo)
 
-  }
+  /** implicit conversion from [[Repo]] to [[IterateeIoRepo]] */
+  implicit def repoToIterateeIoRepo[P](repo: Repo[P]) = new IterateeIoRepo(repo)
 
-  /** provides repository methods that use FS2 for repository streaming API.
-   *
-   * `FS2Repo` is provided by an implicit conversion from `Repo`, so that FS2 can remain an optional
-   * dependency for longevity users. otherwise, it would have been included as part of the [[Repo]].
-   */
-  implicit class FS2Repo[P](repo: Repo[P]) {
-
-    /** streams persistent objects matching a query
-     *
-     * @param query the query to execute
-     */
-    def queryToFS2(query: Query[P]): Stream[Task, PState[P]] =
-      repo.asInstanceOf[BaseRepo[P]].queryToFS2Impl(query)
-
-  }
-
-  /** provides repository methods that use iteratee.io for repository streaming API.
-   *
-   * `IterateeIoRepo` is provided by an implicit conversion from `Repo`, so that iteratee.io can
-   * remain an optional dependency for longevity users. otherwise, it would have been included as
-   * part of the [[Repo]].
-   */
-  implicit class IterateeIoRepo[P](repo: Repo[P]) {
-
-    /** streams persistent objects matching a query
-     *
-     * @param query the query to execute
-     */
-    def queryToIterateeIo[F[_]](query: Query[P])(implicit F: Monad[F]): CatsEnumerator[F, PState[P]] =
-      repo.asInstanceOf[BaseRepo[P]].queryToIterateeIoImpl[F](query)
-
-  }
-
-  /** provides repository methods that use Play iteratees for repository streaming API.
-   *
-   * `PlayRepo` is provided by an implicit conversion from `Repo`, so that Play iteratees can remain
-   * an optional dependency for longevity users. otherwise, it would have been included as part of
-   * the [[Repo]].
-   */
-  implicit class PlayRepo[P](repo: Repo[P]) {
-
-    /** streams persistent objects matching a query
-     *
-     * @param query the query to execute
-     */
-    def queryToPlay[F[_]](query: Query[P])(implicit context: ExecutionContext): PlayEnumerator[PState[P]] =
-      repo.asInstanceOf[BaseRepo[P]].queryToPlayImpl(query)
-
-  }
+  /** implicit conversion from [[Repo]] to [[PlayRepo]] */
+  implicit def repoToPlayRepo[P](repo: Repo[P]) = new PlayRepo(repo)
 
   /** packages a persistent object with a `TypeKey` for the object's type. used
    * by [[RepoPool.createMany]].
