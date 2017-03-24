@@ -3,16 +3,14 @@ title: retrieval by query
 layout: page
 ---
 
-Once we have constructed our query, we simply pass it to
-`Repo.retrieveByQuery`, which returns a `Future[Seq[PState[P]]]`:
+Once we have constructed our query, we can iterate over the results using `Repo.queryToIterator`:
 
 ```scala
 import longevity.persistence.PState
-import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
+val recentPosts: Iterator[PState[BlogPost]] = blogPostRepo.queryToIterator {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
@@ -20,22 +18,22 @@ val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
 }
 ```
 
-Here's an example of building the same query by hand:
+This approach is non-reactive; the resulting iterator will be blocking. If we are okay with
+receiving the entire results at once, we can use `Repo.queryToFutureVec`, which returns a
+`Future[Vector[PState[P]]]`:
 
 ```scala
-import com.github.nscala_time.time.Imports._
 import longevity.persistence.PState
-import longevity.model.query.Query
-import longevity.model.query.QueryFilter
 import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val queryResult: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery(
-  Query(
-    QueryFilter.and(
-      QueryFilter.eqs(BlogPost.props.blogUri, blog.blogUri),
-      QueryFilter.gt(BlogPost.props.postDate, DateTime.now - 1.week))))
+val recentPosts: Future[Vector[PState[BlogPost]]] = blogPostRepo.queryToFutureVec {
+  import com.github.nscala_time.time.Imports._
+  import BlogPost.queryDsl._
+  import BlogPost.props._
+  blogUri eqs blog.blogUri and postDate gt DateTime.now - 1.week
+}
 ```
 
 Clearly, this approach is not going to work for result sets that are
@@ -46,9 +44,9 @@ results. In these situations, you may want to stream the results
 instead, as we discuss in the next section.
 
 {% assign prevTitle = "limits and offsets" %}
-{% assign prevLink = "limit-offset.html" %}
-{% assign upTitle = "queries" %}
-{% assign upLink = "." %}
+{% assign prevLink  = "limit-offset.html" %}
+{% assign upTitle   = "queries" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "stream by query" %}
-{% assign nextLink = "stream-by.html" %}
+{% assign nextLink  = "stream-by.html" %}
 {% include navigate.html %}

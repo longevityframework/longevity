@@ -8,8 +8,7 @@ manual](manual). They include:
 
 - Asynchronous persistence API using [Scala
   futures](http://docs.scala-lang.org/overviews/core/futures.html) and
-  [Akka
-  streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html).
+  four different Scala streaming libraries.
 - Cassandra, MongoDB, SQLite, and in-memory back ends.
 
 - Supports flexible construction of your domain model using standard
@@ -31,7 +30,6 @@ manual](manual). They include:
 
 The current high-priority features and improvements are:
 
-- Support more streaming libraries for queries.
 - Use type classes as a better approach to type safety with persistent
   types, key values, and queries.
 - Free monad wrapper around the repository API.
