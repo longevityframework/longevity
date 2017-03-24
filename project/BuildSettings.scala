@@ -25,13 +25,7 @@ object BuildSettings {
   )
 
   val buildSettings = publishSettings ++ Seq(
-
-    // compile
-    scalacOptions ++= nonConsoleScalacOptions ++ otherScalacOptions,
-
-    // console
-    scalacOptions in (Compile, console) ~= (_ filterNot (nonConsoleScalacOptions.contains(_))),
-    scalacOptions in (Test, console) ~= (_ filterNot (nonConsoleScalacOptions.contains(_))),
+    scalacOptions ++= compileScalacOptions,
 
     // scaladoc
     scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-encoding", "UTF-8", "-diagrams"),
@@ -88,10 +82,7 @@ object BuildSettings {
 
   private def githubUrl = "https://github.com/longevityframework/longevity"
 
-  private def nonConsoleScalacOptions = Seq(
-    "-Xfatal-warnings")
-
-  private def otherScalacOptions = Seq(
+  private def compileScalacOptions = Seq(
     "-Xfuture",
     "-Yno-adapted-args",
     "-Ywarn-numeric-widen",
