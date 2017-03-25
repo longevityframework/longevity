@@ -1,8 +1,11 @@
-package longevity.persistence
+package longevity.persistence.streams
 
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import longevity.model.query.Query
+import longevity.persistence.BaseRepo
+import longevity.persistence.PState
+import longevity.persistence.Repo
 
 /** provides repository methods that use Akka Streams for repository streaming
  * API.

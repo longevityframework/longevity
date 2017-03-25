@@ -1,8 +1,11 @@
-package longevity.persistence
+package longevity.persistence.streams
 
 import longevity.model.query.Query
 import scala.concurrent.ExecutionContext
 import play.api.libs.iteratee.Enumerator
+import longevity.persistence.BaseRepo
+import longevity.persistence.PState
+import longevity.persistence.Repo
 
 /** provides repository methods that use Play iteratees for repository streaming API.
  *

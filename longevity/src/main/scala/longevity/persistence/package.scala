@@ -4,6 +4,10 @@ import emblem.TypeKey
 import emblem.typeKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import longevity.persistence.streams.AkkaStreamsRepo
+import longevity.persistence.streams.FS2Repo
+import longevity.persistence.streams.IterateeIoRepo
+import longevity.persistence.streams.PlayRepo
 
 /** manages entity persistence operations */
 package object persistence {

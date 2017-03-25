@@ -1,8 +1,11 @@
-package longevity.persistence
+package longevity.persistence.streams
 
 import fs2.Stream
 import fs2.Task
 import longevity.model.query.Query
+import longevity.persistence.BaseRepo
+import longevity.persistence.PState
+import longevity.persistence.Repo
 
 /** provides repository methods that use FS2 for repository streaming API.
  *

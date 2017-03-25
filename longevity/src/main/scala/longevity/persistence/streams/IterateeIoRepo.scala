@@ -1,8 +1,11 @@
-package longevity.persistence
+package longevity.persistence.streams
 
 import cats.Monad
 import io.iteratee.Enumerator
 import longevity.model.query.Query
+import longevity.persistence.BaseRepo
+import longevity.persistence.PState
+import longevity.persistence.Repo
 
 /** provides repository methods that use iteratee.io for repository streaming API.
  *
