@@ -1,5 +1,15 @@
 # Longevity Changelog
 
+## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
+
+- 2017.03.24 - Rename `Repo.retrieveByQuery` to `Repo.queryToFutureVec`. The return type of this
+  method has also been adjusted from `Future[Seq[PState[P]]]` to `Future[Vector[PState[P]]]`.
+- 2017.03.24 - Add method `Repo.queryToItereator`.
+- 2017.03.24 - Rename `Repo.streamByQuery` to `Repo.queryToAkkaStream`.
+- 2017.03.24 - Add method `Repo.queryToFS2`.
+- 2017.03.24 - Add method `Repo.queryToIterateeIo`.
+- 2017.03.24 - Add method `Repo.queryToPlay`.
+
 ## [0.21.0] - 2017.03.04 - JDBC Back End and Timestamps
 
 - 2017.02.08 - Add new `JDBC` back end.
