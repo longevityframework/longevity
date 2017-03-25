@@ -4,7 +4,7 @@ import longevity.model.query.Query
 import streamadapter.play.playEnumeratorToChunkerator
 
 /** extends [[QuerySpec]] to add tests for 
- * [[longevity.persistence.PlayRepo.queryToPlay PlayRepo.queryToPlay]]
+ * [[longevity.persistence.streams.PlayRepo.queryToPlay PlayRepo.queryToPlay]]
  */
 trait ExercisePlayEnumerator[P] extends QuerySpec[P] {
 

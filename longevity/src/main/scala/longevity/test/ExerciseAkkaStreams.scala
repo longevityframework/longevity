@@ -6,7 +6,7 @@ import longevity.model.query.Query
 import streamadapter.akka.akkaSourceToChunkerator
 
 /** extends [[QuerySpec]] to add tests for 
- * [[longevity.persistence.AkkaStreamsRepo.queryToAkkaStream AkkaStreamsRepo.queryToAkkaStream]]
+ * [[longevity.persistence.streams.AkkaStreamsRepo.queryToAkkaStream AkkaStreamsRepo.queryToAkkaStream]]
  */
 trait ExerciseAkkaStreams[P] extends QuerySpec[P] {
 

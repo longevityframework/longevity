@@ -4,7 +4,7 @@ import longevity.model.query.Query
 import streamadapter.fs2.fs2StreamToChunkerator
 
 /** extends [[QuerySpec]] to add tests for 
- * [[longevity.persistence.FS2Repo.queryToFS2 FS2Repo.queryToFS2]]
+ * [[longevity.persistence.streams.FS2Repo.queryToFS2 FS2Repo.queryToFS2]]
  */
 trait ExerciseFS2[P] extends QuerySpec[P] {
 

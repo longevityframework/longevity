@@ -5,7 +5,7 @@ import longevity.model.query.Query
 import streamadapter.iterateeio.iterateeIoEnumeratorToChunkerator
 
 /** extends [[QuerySpec]] to add tests for 
- * [[longevity.persistence.IterateeIoRepo.queryToIterateeIo IterateeIoRepo.queryToIterateeIo]]
+ * [[longevity.persistence.streams.IterateeIoRepo.queryToIterateeIo IterateeIoRepo.queryToIterateeIo]]
  */
 trait ExerciseIterateeIo[P] extends QuerySpec[P] {
 

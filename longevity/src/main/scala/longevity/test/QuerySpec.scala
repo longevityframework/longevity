@@ -17,10 +17,10 @@ import scala.concurrent.Future
  * against [[longevity.persistence.Repo.queryToFutureVec Repo.queryToFutureVec]],
  * [[longevity.persistence.Repo.queryToIterator]], and the four streaming query libraries:
  * 
- *   - [[longevity.persistence.AkkaStreamsRepo.queryToAkkaStream AkkaStreamsRepo.queryToAkkaStream]]
- *   - [[longevity.persistence.FS2Repo.queryToFS2 FS2Repo.queryToFS2]]
- *   - [[longevity.persistence.IterateeIoRepo.queryToIterateeIo IterateeIoRepo.queryToIterateeIo]]
- *   - [[longevity.persistence.PlayRepo.queryToPlay PlayRepo.queryToPlay]]
+ *   - [[longevity.persistence.streams.AkkaStreamsRepo.queryToAkkaStream AkkaStreamsRepo.queryToAkkaStream]]
+ *   - [[longevity.persistence.streams.FS2Repo.queryToFS2 FS2Repo.queryToFS2]]
+ *   - [[longevity.persistence.streams.IterateeIoRepo.queryToIterateeIo IterateeIoRepo.queryToIterateeIo]]
+ *   - [[longevity.persistence.streams.PlayRepo.queryToPlay PlayRepo.queryToPlay]]
  *
  * pardon the nasty ScalaDocs for this class. we haven't figured out how to
  * remove the methods inherited from ScalaTest classes yet.
