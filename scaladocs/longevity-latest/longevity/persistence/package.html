@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>persistence - longevity 0.21.0 API - longevity.persistence</title>
-          <meta name="description" content="persistence - longevity 0.21.0 API - longevity.persistence" />
-          <meta name="keywords" content="persistence longevity 0.21.0 API longevity.persistence" />
+          <title>persistence - longevity 0.22.0 API - longevity.persistence</title>
+          <meta name="description" content="persistence - longevity 0.22.0 API - longevity.persistence" />
+          <meta name="keywords" content="persistence longevity 0.22.0 API longevity.persistence" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>manages entity persistence operations</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.21.0/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>manages entity persistence operations</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.22.0/src/main/scala/longevity/persistence/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
@@ -278,28 +278,6 @@ by <a href="RepoPool.html#createMany(keyedPs:longevity.persistence.PWithTypeKey[
       </a>
     </span>
       <p class="shortcomment cmt">a collection of repositories</p>
-    </li><li name="longevity.persistence.StreamingRepo" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="StreamingRepo[P]extendsAnyRef"></a>
-      <a id="StreamingRepo[P]:StreamingRepo[P]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a href="package$$StreamingRepo.html"><span class="name">StreamingRepo</span></a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#longevity.persistence.package@StreamingRepo[P]extendsAnyRef" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">provides repository methods that use Akka Streams for repository streaming
-API.</p><div class="fullcomment"><div class="comment cmt"><p>provides repository methods that use Akka Streams for repository streaming
-API.</p><p><code>StreamingRepo</code> is provided by an implicit conversion from <code>Repo</code>, so that
-Akka Streams can remain an optional dependency for longevity users.
-otherwise, it would have been included as part of the <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>.
-</p></div></div>
     </li></ol>
             </div>
 
@@ -324,6 +302,91 @@ otherwise, it would have been included as part of the <a href="Repo.html" class=
       </a>
     </span>
       
+    </li><li name="longevity.persistence#repoToAkkaStreamsRepo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="repoToAkkaStreamsRepo[P](repo:longevity.persistence.Repo[P]):longevity.persistence.streams.AkkaStreamsRepo[P]"></a>
+      <a id="repoToAkkaStreamsRepo[P](Repo[P]):AkkaStreamsRepo[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">repoToAkkaStreamsRepo</span><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="repo">repo: <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>[<span class="extype" name="longevity.persistence.repoToAkkaStreamsRepo.P">P</span>]</span>)</span><span class="result">: <a href="streams/AkkaStreamsRepo.html" class="extype" name="longevity.persistence.streams.AkkaStreamsRepo">AkkaStreamsRepo</a>[<span class="extype" name="longevity.persistence.repoToAkkaStreamsRepo.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.persistence.package@repoToAkkaStreamsRepo[P](repo:longevity.persistence.Repo[P]):longevity.persistence.streams.AkkaStreamsRepo[P]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">implicit conversion from <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a> to <a href="streams/AkkaStreamsRepo.html" class="extype" name="longevity.persistence.streams.AkkaStreamsRepo">AkkaStreamsRepo</a></p>
+    </li><li name="longevity.persistence#repoToFS2Repo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="repoToFS2Repo[P](repo:longevity.persistence.Repo[P]):longevity.persistence.streams.FS2Repo[P]"></a>
+      <a id="repoToFS2Repo[P](Repo[P]):FS2Repo[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">repoToFS2Repo</span><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="repo">repo: <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>[<span class="extype" name="longevity.persistence.repoToFS2Repo.P">P</span>]</span>)</span><span class="result">: <a href="streams/FS2Repo.html" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.repoToFS2Repo.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.persistence.package@repoToFS2Repo[P](repo:longevity.persistence.Repo[P]):longevity.persistence.streams.FS2Repo[P]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">implicit conversion from <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a> to <a href="streams/FS2Repo.html" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a></p>
+    </li><li name="longevity.persistence#repoToIterateeIoRepo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="repoToIterateeIoRepo[P](repo:longevity.persistence.Repo[P]):longevity.persistence.streams.IterateeIoRepo[P]"></a>
+      <a id="repoToIterateeIoRepo[P](Repo[P]):IterateeIoRepo[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">repoToIterateeIoRepo</span><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="repo">repo: <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>[<span class="extype" name="longevity.persistence.repoToIterateeIoRepo.P">P</span>]</span>)</span><span class="result">: <a href="streams/IterateeIoRepo.html" class="extype" name="longevity.persistence.streams.IterateeIoRepo">IterateeIoRepo</a>[<span class="extype" name="longevity.persistence.repoToIterateeIoRepo.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.persistence.package@repoToIterateeIoRepo[P](repo:longevity.persistence.Repo[P]):longevity.persistence.streams.IterateeIoRepo[P]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">implicit conversion from <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a> to <a href="streams/IterateeIoRepo.html" class="extype" name="longevity.persistence.streams.IterateeIoRepo">IterateeIoRepo</a></p>
+    </li><li name="longevity.persistence#repoToPlayRepo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="repoToPlayRepo[P](repo:longevity.persistence.Repo[P]):longevity.persistence.streams.PlayRepo[P]"></a>
+      <a id="repoToPlayRepo[P](Repo[P]):PlayRepo[P]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">repoToPlayRepo</span><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="repo">repo: <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>[<span class="extype" name="longevity.persistence.repoToPlayRepo.P">P</span>]</span>)</span><span class="result">: <a href="streams/PlayRepo.html" class="extype" name="longevity.persistence.streams.PlayRepo">PlayRepo</a>[<span class="extype" name="longevity.persistence.repoToPlayRepo.P">P</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.persistence.package@repoToPlayRepo[P](repo:longevity.persistence.Repo[P]):longevity.persistence.streams.PlayRepo[P]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">implicit conversion from <a href="Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a> to <a href="streams/PlayRepo.html" class="extype" name="longevity.persistence.streams.PlayRepo">PlayRepo</a></p>
+    </li><li name="longevity.persistence.streams" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="streams"></a>
+      <a id="streams:streams"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="streams/package.html"><span class="name">streams</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#longevity.persistence.package@streams" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">repository extension classes for streaming query methods</p>
     </li></ol>
             </div>
 
