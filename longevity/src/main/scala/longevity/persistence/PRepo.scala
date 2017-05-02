@@ -28,7 +28,7 @@ import streamadapter.play.chunkeratorToPlayEnumerator
  * @param pType the entity type for the persistent entities this repository handles
  * @param domainModel the domain model containing the persistent entities that this repo persists
  */
-private[longevity] abstract class BaseRepo[P] private[persistence] (
+private[longevity] abstract class PRepo[P] private[persistence] (
   protected[longevity] val pType: PType[P],
   protected[longevity] val domainModel: DomainModel)
 extends Repo[P] {

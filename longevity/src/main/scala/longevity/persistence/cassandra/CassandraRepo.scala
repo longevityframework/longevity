@@ -22,7 +22,7 @@ import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.model.realized.RealizedPrimaryKey
 import longevity.model.realized.RealizedPropComponent
-import longevity.persistence.BaseRepo
+import longevity.persistence.PRepo
 import longevity.persistence.PState
 import longevity.persistence.SchemaCreator
 import org.joda.time.DateTime
@@ -43,7 +43,7 @@ private[longevity] class CassandraRepo[P] private (
   domainModel: DomainModel,
   private val sessionInfo: CassandraRepo.CassandraSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
-extends BaseRepo[P](pType, domainModel)
+extends PRepo[P](pType, domainModel)
 with CassandraSchema[P]
 with CassandraCreate[P]
 with CassandraRetrieve[P]

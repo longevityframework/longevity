@@ -3,7 +3,7 @@ package longevity.persistence.streams
 import longevity.model.query.Query
 import scala.concurrent.ExecutionContext
 import play.api.libs.iteratee.Enumerator
-import longevity.persistence.BaseRepo
+import longevity.persistence.PRepo
 import longevity.persistence.PState
 import longevity.persistence.Repo
 
@@ -20,6 +20,6 @@ class PlayRepo[P](repo: Repo[P]) {
    * @param query the query to execute
    */
   def queryToPlay[F[_]](query: Query[P])(implicit context: ExecutionContext): Enumerator[PState[P]] =
-    repo.asInstanceOf[BaseRepo[P]].queryToPlayImpl(query)
+    repo.asInstanceOf[PRepo[P]].queryToPlayImpl(query)
 
 }

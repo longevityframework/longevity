@@ -5,7 +5,7 @@ import scala.concurrent.Future
 
 /** non-destructively creates any top-level schema for the chosen persistence
  * strategy, such as a cassandra keyspace. table-level schema is created by the
- * individual repositories via `BaseRepo.createSchema`
+ * individual repositories via `PRepo.createSchema`
  */
 private[persistence] trait SchemaCreator {
 

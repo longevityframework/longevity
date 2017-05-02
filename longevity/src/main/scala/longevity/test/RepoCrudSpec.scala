@@ -4,7 +4,7 @@ import emblem.typeBound.TypeBoundPair
 import emblem.TypeKey
 import longevity.context.LongevityContext
 import longevity.config.BackEnd
-import longevity.persistence.BaseRepo
+import longevity.persistence.PRepo
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.RepoPool
@@ -62,14 +62,14 @@ extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
   override def afterAll = repoPool.closeSession().futureValue
 
   repoPool.baseRepoMap.foreach { pair =>
-    def repoSpec[P](pair: TypeBoundPair[Any, TypeKey, BaseRepo, P]): Unit = {
+    def repoSpec[P](pair: TypeBoundPair[Any, TypeKey, PRepo, P]): Unit = {
       new RepoSpec(pair._2, pair._1)
     }
     repoSpec(pair)
   }
 
   private class RepoSpec[P](
-    private val repo: BaseRepo[P],
+    private val repo: PRepo[P],
     private val pTypeKey: TypeKey[P]) {
 
     private val pName = pTypeKey.name

@@ -3,7 +3,7 @@ package longevity.persistence.streams
 import fs2.Stream
 import fs2.Task
 import longevity.model.query.Query
-import longevity.persistence.BaseRepo
+import longevity.persistence.PRepo
 import longevity.persistence.PState
 import longevity.persistence.Repo
 
@@ -19,6 +19,6 @@ class FS2Repo[P](repo: Repo[P]) {
    * @param query the query to execute
    */
   def queryToFS2(query: Query[P]): Stream[Task, PState[P]] =
-    repo.asInstanceOf[BaseRepo[P]].queryToFS2Impl(query)
+    repo.asInstanceOf[PRepo[P]].queryToFS2Impl(query)
 
 }

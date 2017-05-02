@@ -2,7 +2,7 @@ package longevity.persistence.inmem
 
 import com.typesafe.scalalogging.LazyLogging
 import longevity.config.PersistenceConfig
-import longevity.persistence.BaseRepo
+import longevity.persistence.PRepo
 import longevity.persistence.DatabaseId
 import longevity.persistence.PState
 import longevity.model.DerivedPType
@@ -23,7 +23,7 @@ private[longevity] class InMemRepo[P] private[persistence] (
   pType: PType[P],
   domainModel: DomainModel,
   protected val persistenceConfig: PersistenceConfig)
-extends BaseRepo[P](pType, domainModel)
+extends PRepo[P](pType, domainModel)
 with InMemCreate[P]
 with InMemDelete[P]
 with InMemQuery[P]

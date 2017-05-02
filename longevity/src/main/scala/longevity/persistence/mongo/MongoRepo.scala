@@ -7,7 +7,7 @@ import emblem.stringUtil.typeName
 import emblem.stringUtil.uncapitalize
 import longevity.config.MongoDBConfig
 import longevity.config.PersistenceConfig
-import longevity.persistence.BaseRepo
+import longevity.persistence.PRepo
 import longevity.model.DerivedPType
 import longevity.model.PType
 import longevity.model.PolyPType
@@ -29,7 +29,7 @@ private[longevity] class MongoRepo[P] private[persistence] (
   domainModel: DomainModel,
   protected val session: MongoRepo.MongoSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
-extends BaseRepo[P](pType, domainModel)
+extends PRepo[P](pType, domainModel)
 with MongoCreate[P]
 with MongoDelete[P]
 with MongoQuery[P]

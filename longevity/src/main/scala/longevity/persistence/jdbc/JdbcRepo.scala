@@ -21,7 +21,7 @@ import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.model.realized.RealizedPrimaryKey
 import longevity.model.realized.RealizedPropComponent
-import longevity.persistence.BaseRepo
+import longevity.persistence.PRepo
 import longevity.persistence.PState
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -42,7 +42,7 @@ private[persistence] class JdbcRepo[P] private[persistence] (
   domainModel: DomainModel,
   private val sessionInfo: JdbcRepo.JdbcSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
-extends BaseRepo[P](pType, domainModel)
+extends PRepo[P](pType, domainModel)
 with JdbcSchema[P]
 with JdbcCreate[P]
 with JdbcRetrieve[P]

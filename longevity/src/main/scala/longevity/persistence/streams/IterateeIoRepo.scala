@@ -3,7 +3,7 @@ package longevity.persistence.streams
 import cats.Monad
 import io.iteratee.Enumerator
 import longevity.model.query.Query
-import longevity.persistence.BaseRepo
+import longevity.persistence.PRepo
 import longevity.persistence.PState
 import longevity.persistence.Repo
 
@@ -20,6 +20,6 @@ class IterateeIoRepo[P](repo: Repo[P]) {
    * @param query the query to execute
    */
   def queryToIterateeIo[F[_]](query: Query[P])(implicit F: Monad[F]): Enumerator[F, PState[P]] =
-    repo.asInstanceOf[BaseRepo[P]].queryToIterateeIoImpl[F](query)
+    repo.asInstanceOf[PRepo[P]].queryToIterateeIoImpl[F](query)
 
 }

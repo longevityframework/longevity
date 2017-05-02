@@ -7,7 +7,7 @@ import scala.concurrent.Future
 
 /** a collection of repositories */
 class RepoPool private[persistence](
-  private[longevity] val baseRepoMap: TypeKeyMap[Any, BaseRepo],
+  private[longevity] val baseRepoMap: TypeKeyMap[Any, PRepo],
   private[this] val schemaCreator: SchemaCreator) {
 
   /** a type key map for [[Repo repositories]]
@@ -57,8 +57,8 @@ class RepoPool private[persistence](
   /** non-desctructively creates any needed database constructs */
   def createSchema()(implicit context: ExecutionContext): Future[Unit] =
     schemaCreator.createSchema().flatMap { _ =>
-      def isPolyRepo(repo: BaseRepo[_]) = repo.isInstanceOf[BasePolyRepo[_]]
-      def createSchemas(repoTest: (BaseRepo[_]) => Boolean) =
+      def isPolyRepo(repo: PRepo[_]) = repo.isInstanceOf[BasePolyRepo[_]]
+      def createSchemas(repoTest: (PRepo[_]) => Boolean) =
         Future.sequence(baseRepoMap.values.filter(repoTest).map(_.createSchema()))
       for {
         units1 <- createSchemas(isPolyRepo)

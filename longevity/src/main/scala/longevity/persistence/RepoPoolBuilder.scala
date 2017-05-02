@@ -60,7 +60,7 @@ private[longevity] object RepoPoolBuilder {
     pool
   }
 
-  private trait StockRepoFactory[R[P] <: BaseRepo[P]] {
+  private trait StockRepoFactory[R[P] <: PRepo[P]] {
     def build[P](
       pType: PType[P],
       polyRepoOpt: Option[R[_ >: P]] = None)
@@ -138,7 +138,7 @@ private[longevity] object RepoPoolBuilder {
     buildRepoPool(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def buildRepoPool[R[P] <: BaseRepo[P]](
+  private def buildRepoPool[R[P] <: PRepo[P]](
     domainModel: DomainModel,
     stockRepoFactory: StockRepoFactory[R],
     schemaCreator: SchemaCreator,
@@ -161,7 +161,7 @@ private[longevity] object RepoPoolBuilder {
     }
     domainModel.pTypePool.filter(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
     domainModel.pTypePool.filterNot(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
-    val repoPool = new RepoPool(keyToRepoMap.widen[BaseRepo], schemaCreator)
+    val repoPool = new RepoPool(keyToRepoMap.widen[PRepo], schemaCreator)
     finishRepoInitialization(repoPool)
     autocreateSchema(repoPool, persistenceConfig)
     repoPool
