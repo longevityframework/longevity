@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.shorthandWithComponent._
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.queries.queryTestsExecutionContext
 
 class ShorthandWithComponentQuerySpec extends QuerySpec[WithShorthandWithComponent](
   new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)) {

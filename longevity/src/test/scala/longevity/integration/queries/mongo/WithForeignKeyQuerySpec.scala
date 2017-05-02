@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.integration.model.foreignKey._
 import longevity.test.QuerySpec
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.queries.queryTestsExecutionContext
 
 class WithForeignKeyQuerySpec extends QuerySpec[WithForeignKey](
   new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)) {

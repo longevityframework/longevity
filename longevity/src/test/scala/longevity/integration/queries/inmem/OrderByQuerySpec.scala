@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.basics._
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.queries.queryTestsExecutionContext
 
 class OrderByQuerySpec extends QuerySpec[Basics](
   new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)) {

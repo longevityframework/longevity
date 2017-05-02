@@ -10,7 +10,7 @@ import longevity.test.ExerciseFS2
 import longevity.test.ExerciseIterateeIo
 import longevity.test.ExercisePlayEnumerator
 import longevity.test.QuerySpec
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.queries.queryTestsExecutionContext
 
 class BasicsQuerySpec extends QuerySpec[Basics](
   new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig))

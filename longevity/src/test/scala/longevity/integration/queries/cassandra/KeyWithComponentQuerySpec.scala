@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.keyWithComponent._
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.queries.queryTestsExecutionContext
 
 class KeyWithComponentQuerySpec extends QuerySpec[KeyWithComponent](
   new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)) {

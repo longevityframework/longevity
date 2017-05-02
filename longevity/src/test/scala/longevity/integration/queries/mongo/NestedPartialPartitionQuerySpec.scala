@@ -4,7 +4,7 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.primaryKeyInComponentWithPartialPartition._
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.queries.queryTestsExecutionContext
 
 class NestedPartialPartitionQuerySpec extends QuerySpec[PKInComponentWithPartialPartition](
   new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)) {

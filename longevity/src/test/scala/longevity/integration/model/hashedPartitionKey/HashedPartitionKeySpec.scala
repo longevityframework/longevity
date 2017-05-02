@@ -1,7 +1,7 @@
 package longevity.integration.model.hashedPrimaryKey
 
 import org.scalatest.Suites
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.model.modelTestsExecutionContext
 
 class HashedPrimaryKeySpec extends Suites(contexts.map(_.repoCrudSpec): _*)
 

@@ -1,7 +1,7 @@
 package longevity.integration.model.key
 
 import org.scalatest.Suites
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.model.modelTestsExecutionContext
 
 class KeySpec extends Suites(contexts.map(_.repoCrudSpec): _*)
 

@@ -1,6 +1,6 @@
 package longevity.integration.model.basics
 
 import org.scalatest.Suites
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.model.modelTestsExecutionContext
 
 class BasicsSpec extends Suites(contexts.map(_.repoCrudSpec): _*)

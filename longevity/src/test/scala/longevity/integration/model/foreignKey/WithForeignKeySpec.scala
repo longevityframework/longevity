@@ -1,6 +1,6 @@
 package longevity.integration.model.foreignKey
 
 import org.scalatest.Suites
-import scala.concurrent.ExecutionContext.Implicits.global
+import longevity.integration.model.modelTestsExecutionContext
 
 class WithForeignKeySpec extends Suites(contexts.map(_.repoCrudSpec): _*)
