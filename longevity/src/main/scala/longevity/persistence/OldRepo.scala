@@ -7,7 +7,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a repository for persistent objects of type `P` */
-trait Repo[P] {
+trait OldRepo[P] {
 
   /** creates the persistent object
    * 

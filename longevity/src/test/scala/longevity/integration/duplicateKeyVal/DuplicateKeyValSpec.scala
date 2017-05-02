@@ -6,7 +6,7 @@ import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.integration.model.basics.Basics
 import longevity.integration.model.basics.BasicsId
 import longevity.integration.model.basics.domainModel
-import longevity.persistence.Repo
+import longevity.persistence.OldRepo
 import longevity.test.LongevityFuturesSpec
 import org.joda.time.DateTime
 import org.scalatest.BeforeAndAfterAll
@@ -44,7 +44,7 @@ with GivenWhenThen {
   assertDuplicateKeyValBehavior(mongoContext.testRepoPool[Basics], "MongoRepo")
   assertDuplicateKeyValBehavior(sqliteContext.testRepoPool[Basics], "SQLiteRepo")
 
-  def assertDuplicateKeyValBehavior(repo: Repo[Basics], repoName: String): Unit = {
+  def assertDuplicateKeyValBehavior(repo: OldRepo[Basics], repoName: String): Unit = {
 
     behavior of s"$repoName with a single partitioned database"
 

@@ -5,15 +5,15 @@ import io.iteratee.Enumerator
 import longevity.model.query.Query
 import longevity.persistence.PRepo
 import longevity.persistence.PState
-import longevity.persistence.Repo
+import longevity.persistence.OldRepo
 
 /** provides repository methods that use iteratee.io for repository streaming API.
  *
  * `IterateeIoRepo` is provided by an implicit conversion from `Repo`, so that iteratee.io can
  * remain an optional dependency for longevity users. otherwise, it would have been included as
- * part of the [[Repo]].
+ * part of the [[OldRepo]].
  */
-class IterateeIoRepo[P](repo: Repo[P]) {
+class IterateeIoRepo[P](repo: OldRepo[P]) {
 
   /** streams persistent objects matching a query
    *

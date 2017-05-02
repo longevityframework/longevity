@@ -13,13 +13,13 @@ class RepoPool private[persistence](
   /** a type key map for [[Repo repositories]]
    * @see emblem.TypeKeyMap
    */
-  private val typeKeyMap: TypeKeyMap[Any, Repo] = baseRepoMap.widen
+  private val typeKeyMap: TypeKeyMap[Any, OldRepo] = baseRepoMap.widen
 
   /** select a repository by the type of persistent object */
-  def apply[P : TypeKey]: Repo[P] = typeKeyMap[P]
+  def apply[P : TypeKey]: OldRepo[P] = typeKeyMap[P]
 
   /** an iterable collection of the repositories */
-  def values: collection.Iterable[Repo[_]] = typeKeyMap.values
+  def values: collection.Iterable[OldRepo[_]] = typeKeyMap.values
 
   /** creates many persistent objects at once.
    *

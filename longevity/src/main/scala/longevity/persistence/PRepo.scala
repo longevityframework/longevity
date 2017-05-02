@@ -23,7 +23,7 @@ import streamadapter.fs2.chunkeratorToFS2Stream
 import streamadapter.iterateeio.chunkeratorToIterateeIoEnumerator
 import streamadapter.play.chunkeratorToPlayEnumerator
 
-/** an abstract base class for [[Repo]] implementations
+/** an abstract base class for [[OldRepo]] implementations
  * 
  * @param pType the entity type for the persistent entities this repository handles
  * @param domainModel the domain model containing the persistent entities that this repo persists
@@ -31,7 +31,7 @@ import streamadapter.play.chunkeratorToPlayEnumerator
 private[longevity] abstract class PRepo[P] private[persistence] (
   protected[longevity] val pType: PType[P],
   protected[longevity] val domainModel: DomainModel)
-extends Repo[P] {
+extends OldRepo[P] {
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
 

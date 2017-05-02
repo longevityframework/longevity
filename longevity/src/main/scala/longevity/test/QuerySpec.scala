@@ -14,8 +14,8 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** contains common code for testing different [[longevity.model.query.Query Query]] instances
- * against [[longevity.persistence.Repo.queryToFutureVec Repo.queryToFutureVec]],
- * [[longevity.persistence.Repo.queryToIterator]], and the four streaming query libraries:
+ * against [[longevity.persistence.OldRepo.queryToFutureVec Repo.queryToFutureVec]],
+ * [[longevity.persistence.OldRepo.queryToIterator]], and the four streaming query libraries:
  * 
  *   - [[longevity.persistence.streams.AkkaStreamsRepo.queryToAkkaStream AkkaStreamsRepo.queryToAkkaStream]]
  *   - [[longevity.persistence.streams.FS2Repo.queryToFS2 FS2Repo.queryToFS2]]
