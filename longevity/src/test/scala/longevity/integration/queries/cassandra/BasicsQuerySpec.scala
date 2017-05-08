@@ -41,7 +41,7 @@ class BasicsQuerySpec extends QuerySpec[Basics](
   behavior of "CassandraRepo.queryToFutureVec"
 
   it should "produce expected results for Query.FilterAll" in {
-    repo.queryToFutureVec(Query(FilterAll())).failed.futureValue shouldBe a [FilterAllInQueryException]
+    repoPool.queryToFutureVec(Query(FilterAll())).failed.futureValue shouldBe a [FilterAllInQueryException]
   }
 
   it should "produce expected results for simple equality queries" in {
@@ -58,7 +58,7 @@ class BasicsQuerySpec extends QuerySpec[Basics](
 
     // make sure Query.FilterAll() can occur inside greater expression
     val query: Query[Basics] = stringProp eqs sample.string and FilterAll()
-    repo.queryToFutureVec(query).failed.futureValue shouldBe a [FilterAllInQueryException]
+    repoPool.queryToFutureVec(query).failed.futureValue shouldBe a [FilterAllInQueryException]
   }
 
   it should "produce expected results for simple conditional queries" in {
@@ -92,14 +92,14 @@ class BasicsQuerySpec extends QuerySpec[Basics](
   }
 
   it should "throw exception for or queries" in {
-    repo.queryToFutureVec(
+    repoPool.queryToFutureVec(
       booleanProp eqs sample.boolean or
       charProp lte sample.char
     ).failed.futureValue shouldBe a [OrInQueryException]
   }
 
   it should "throw exception for neq queries" in {
-    repo.queryToFutureVec(
+    repoPool.queryToFutureVec(
       booleanProp neq sample.boolean
     ).failed.futureValue shouldBe a [NeqInQueryException]
   }

@@ -85,7 +85,7 @@ class DomainModel(
     }
   }
 
-  private def emblemPool = pEmblems ++ entityEmblems ++ keyValEmblems
+  private def emblemPool = pEmblems ++ componentEmblems ++ keyValEmblems
 
   private def pEmblems = {
     val pTypesWithEmblems = pTypePool.filterValues(!_.isInstanceOf[PolyPType[_]])
@@ -97,7 +97,7 @@ class DomainModel(
     }
   }
 
-  private def entityEmblems = {
+  private def componentEmblems = {
     val cTypesWithEmblems = cTypePool.filterValues(!_.isInstanceOf[PolyCType[_]])
     cTypesWithEmblems.mapValues[Emblem] {
       new TypeBoundFunction[Any, CType, Emblem] {
@@ -115,9 +115,9 @@ class DomainModel(
     acc ++ keyValEmblems
   }
 
-  private def unionPool = entityUnions ++ pUnions
+  private def unionPool = componentUnions ++ pUnions
 
-  private def entityUnions = {
+  private def componentUnions = {
     val polyTypes = cTypePool.filterValues(_.isInstanceOf[PolyCType[_]])
 
     type DerivedFrom[E] = DerivedCType[E, Poly] forSome { type Poly >: E }

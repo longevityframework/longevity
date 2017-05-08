@@ -15,7 +15,7 @@ extends FlatSpec with LongevityIntegrationSpec {
   override protected implicit val executionContext = globalExecutionContext
 
   private val generator = longevityContext.testDataGenerator
-  private val repo = longevityContext.testRepoPool[basics.Basics]
+  private val repo = longevityContext.testRepoPool
 
   behavior of "Repo.{update,delete} when the original PState comes from a create"
 
@@ -73,7 +73,7 @@ extends FlatSpec with LongevityIntegrationSpec {
   it should "throw exception when an update beats an update" in {
     val basic = generator.generate[basics.Basics]
     val createdPState = repo.create(basic).futureValue
-    val retrievedPState = repo.retrieveOne(basic.id).futureValue
+    val retrievedPState = repo.retrieveOne[basics.Basics, basics.BasicsId](basic.id).futureValue
 
     val modified1 = generator.generate[basics.Basics]
     val modifiedPState1 = retrievedPState.set(modified1)
@@ -89,7 +89,7 @@ extends FlatSpec with LongevityIntegrationSpec {
   it should "throw exception when a delete beats an update" in {
     val basic = generator.generate[basics.Basics]
     val createdPState = repo.create(basic).futureValue
-    val retrievedPState = repo.retrieveOne(basic.id).futureValue
+    val retrievedPState = repo.retrieveOne[basics.Basics, basics.BasicsId](basic.id).futureValue
 
     val deleted1 = repo.delete(retrievedPState).futureValue
 
@@ -102,7 +102,7 @@ extends FlatSpec with LongevityIntegrationSpec {
   it should "throw exception when an update beats a delete" in {
     val basic = generator.generate[basics.Basics]
     val createdPState = repo.create(basic).futureValue
-    val retrievedPState = repo.retrieveOne(basic.id).futureValue
+    val retrievedPState = repo.retrieveOne[basics.Basics, basics.BasicsId](basic.id).futureValue
 
     val modified1 = generator.generate[basics.Basics]
     val modifiedPState1 = retrievedPState.set(modified1)
@@ -115,7 +115,7 @@ extends FlatSpec with LongevityIntegrationSpec {
   it should "throw exception when a delete beats a delete" in {
     val basic = generator.generate[basics.Basics]
     val createdPState = repo.create(basic).futureValue
-    val retrievedPState = repo.retrieveOne(basic.id).futureValue
+    val retrievedPState = repo.retrieveOne[basics.Basics, basics.BasicsId](basic.id).futureValue
 
     val deleted1 = repo.delete(retrievedPState).futureValue
 

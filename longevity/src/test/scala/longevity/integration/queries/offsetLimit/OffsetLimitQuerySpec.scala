@@ -1,6 +1,9 @@
 package longevity.integration.queries.offsetLimit
 
 import longevity.context.LongevityContext
+import longevity.model.DomainModel
+import longevity.model.PType
+import longevity.model.PTypePool
 import longevity.model.query.Query
 import longevity.persistence.PState
 import longevity.test.LongevityIntegrationSpec
@@ -16,10 +19,6 @@ import scala.concurrent.Future
  * limit_offset table.
  */
 object OffsetLimitQuerySpec {
-
-  import longevity.model.PType
-  import longevity.model.PTypePool
-  import longevity.model.DomainModel
 
   case class OffsetLimit(i: Int, j: Int)
 
@@ -58,8 +57,8 @@ extends FlatSpec with LongevityIntegrationSpec {
   import OffsetLimitQuerySpec._
 
   val ps = for (i <- 0 until 10) yield OffsetLimit(i, 0)
-
-  val repo = longevityContext.testRepoPool[OffsetLimit]
+  val repo = longevityContext.testRepoPool
+  
   var states: Seq[PState[OffsetLimit]] = _
 
   override def beforeAll = {

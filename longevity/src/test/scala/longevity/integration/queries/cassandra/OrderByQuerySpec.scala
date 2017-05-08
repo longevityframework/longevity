@@ -71,21 +71,21 @@ class OrderByQuerySpec extends QuerySpec[PrimaryKeyWithComplexPartialPartition](
     var query: Query[PrimaryKeyWithComplexPartialPartition] = null
 
     query = props.key.prop1 eqs keyProp1 orderBy (props.key.subKey.prop2.asc)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    repoPool.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
 
     query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 lt subKeyProp1 orderBy (props.key.subKey.prop2)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    repoPool.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
 
     query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (props.key.subKey.prop1)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    repoPool.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
 
     query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (props.key.prop2)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    repoPool.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
 
     query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (
       props.key.subKey.prop2.desc,
       props.key.prop2.asc)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    repoPool.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
 
   }
 

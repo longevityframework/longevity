@@ -12,17 +12,18 @@ import longevity.persistence.streams.PlayRepo
 /** manages entity persistence operations */
 package object persistence {
 
-  /** implicit conversion from [[OldRepo]] to [[longevity.persistence.streams.AkkaStreamsRepo AkkaStreamsRepo]] */
-  implicit def repoToAkkaStreamsRepo[P](repo: OldRepo[P]) = new AkkaStreamsRepo(repo)
+  /** implicit conversion from [[RepoPool]] to [[longevity.persistence.streams.AkkaStreamsRepo
+    * AkkaStreamsRepo]] */
+  implicit def repoToAkkaStreamsRepo(repo: RepoPool) = new AkkaStreamsRepo(repo)
 
-  /** implicit conversion from [[OldRepo]] to [[longevity.persistence.streams.FS2Repo FS2Repo]] */
-  implicit def repoToFS2Repo[P](repo: OldRepo[P]) = new FS2Repo(repo)
+  /** implicit conversion from [[RepoPool]] to [[longevity.persistence.streams.FS2Repo FS2Repo]] */
+  implicit def repoToFS2Repo(repo: RepoPool) = new FS2Repo(repo)
 
-  /** implicit conversion from [[OldRepo]] to [[longevity.persistence.streams.IterateeIoRepo IterateeIoRepo]] */
-  implicit def repoToIterateeIoRepo[P](repo: OldRepo[P]) = new IterateeIoRepo(repo)
+  /** implicit conversion from [[RepoPool]] to [[longevity.persistence.streams.IterateeIoRepo IterateeIoRepo]] */
+  implicit def repoToIterateeIoRepo(repo: RepoPool) = new IterateeIoRepo(repo)
 
-  /** implicit conversion from [[OldRepo]] to [[longevity.persistence.streams.PlayRepo PlayRepo]] */
-  implicit def repoToPlayRepo[P](repo: OldRepo[P]) = new PlayRepo(repo)
+  /** implicit conversion from [[RepoPool]] to [[longevity.persistence.streams.PlayRepo PlayRepo]] */
+  implicit def repoToPlayRepo(repo: RepoPool) = new PlayRepo(repo)
 
   /** packages a persistent object with a `TypeKey` for the object's type. used
    * by [[RepoPool.createMany]].

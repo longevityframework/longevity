@@ -34,12 +34,12 @@ with LazyLogging {
   behavior of "Repo.create in the face of a untranslatable objects"
 
   it should "fail for untranslatable objects embedded directly in root" in {
-    val ps = repoPool[WithNoTranslation].create(WithNoTranslation("uri", NoTranslation("name")))
+    val ps = repoPool.create(WithNoTranslation("uri", NoTranslation("name")))
     ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
 
   it should "fail for list of untranslatable objects" in {
-    val ps = repoPool[WithNoTranslationList].create(
+    val ps = repoPool.create(
       WithNoTranslationList("uri", NoTranslation("name1") :: NoTranslation("name2") :: Nil))
     ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
@@ -48,36 +48,32 @@ with LazyLogging {
   // much earlier on malformed domain models
 
   it should "not fail for an empty list of untranslatable objects" in {
-    val ps = repoPool[WithNoTranslationList].create(
-      WithNoTranslationList("uri", Nil))
+    val ps = repoPool.create(WithNoTranslationList("uri", Nil))
     ps.futureValue
   }
 
   it should "fail for option of untranslatable objects" in {
-    val ps = repoPool[WithNoTranslationOption].create(
-      WithNoTranslationOption("uri", Option(NoTranslation("name1"))))
+    val ps = repoPool.create(WithNoTranslationOption("uri", Option(NoTranslation("name1"))))
     ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
 
   it should "not fail for an empty option of untranslatable objects" in {
-    val ps = repoPool[WithNoTranslationOption].create(WithNoTranslationOption("uri", None))
+    val ps = repoPool.create(WithNoTranslationOption("uri", None))
     ps.futureValue
   }
 
   it should "fail for set of untranslatable objects" in {
-    val ps = repoPool[WithNoTranslationSet].create(
-      WithNoTranslationSet("uri", Set(NoTranslation("name1"), NoTranslation("name2"))))
+    val ps = repoPool.create(WithNoTranslationSet("uri", Set(NoTranslation("name1"), NoTranslation("name2"))))
     ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
 
   it should "not fail for an empty set of untranslatable objects" in {
-    val ps = repoPool[WithNoTranslationSet].create(WithNoTranslationSet("uri", Set()))
+    val ps = repoPool.create(WithNoTranslationSet("uri", Set()))
     ps.futureValue
   }
 
   it should "fail for longhand of untranslatable objects" in {
-    val ps = repoPool[WithNoTranslationLonghand].create(
-      WithNoTranslationLonghand("uri", NoTranslationLonghand(NoTranslation("name"))))
+    val ps = repoPool.create(WithNoTranslationLonghand("uri", NoTranslationLonghand(NoTranslation("name"))))
     ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
   }
 

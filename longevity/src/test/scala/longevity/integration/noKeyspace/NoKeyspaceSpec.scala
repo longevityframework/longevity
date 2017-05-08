@@ -38,7 +38,7 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
 
   it should "throw KeyspaceDoesNotExistException" in {
     val p = context.testDataGenerator.generate[basics.Basics]
-    val createResult = context.repoPool[basics.Basics].create(p)
+    val createResult = context.repoPool.create(p)
     createResult.failed.futureValue shouldBe a [KeyspaceDoesNotExistException]
   }
 

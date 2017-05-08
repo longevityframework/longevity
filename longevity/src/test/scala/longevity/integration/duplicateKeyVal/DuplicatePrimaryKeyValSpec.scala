@@ -6,7 +6,7 @@ import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.integration.model.primaryKey.Key
 import longevity.integration.model.primaryKey.PrimaryKey
 import longevity.integration.model.primaryKey.domainModel
-import longevity.persistence.OldRepo
+import longevity.persistence.RepoPool
 import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
@@ -33,11 +33,11 @@ with GivenWhenThen {
     sqliteContext.testRepoPool.createSchema().futureValue
   }
 
-  assertDuplicateKeyValBehavior(inMemContext.testRepoPool[PrimaryKey], "InMemRepo")
-  assertDuplicateKeyValBehavior(mongoContext.testRepoPool[PrimaryKey], "MongoRepo")
-  assertDuplicateKeyValBehavior(sqliteContext.testRepoPool[PrimaryKey], "SQLiteRepo")
+  assertDuplicateKeyValBehavior(inMemContext.testRepoPool, "InMemRepo")
+  assertDuplicateKeyValBehavior(mongoContext.testRepoPool, "MongoRepo")
+  assertDuplicateKeyValBehavior(sqliteContext.testRepoPool, "SQLiteRepo")
 
-  def assertDuplicateKeyValBehavior(repo: OldRepo[PrimaryKey], repoName: String): Unit = {
+  def assertDuplicateKeyValBehavior(repo: RepoPool, repoName: String): Unit = {
 
     behavior of s"$repoName.create"
 

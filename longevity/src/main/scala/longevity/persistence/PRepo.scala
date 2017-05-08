@@ -23,15 +23,14 @@ import streamadapter.fs2.chunkeratorToFS2Stream
 import streamadapter.iterateeio.chunkeratorToIterateeIoEnumerator
 import streamadapter.play.chunkeratorToPlayEnumerator
 
-/** an abstract base class for [[OldRepo]] implementations
+/** an abstract base class for [[RepoPool]] implementations
  * 
  * @param pType the entity type for the persistent entities this repository handles
  * @param domainModel the domain model containing the persistent entities that this repo persists
  */
 private[longevity] abstract class PRepo[P] private[persistence] (
   protected[longevity] val pType: PType[P],
-  protected[longevity] val domainModel: DomainModel)
-extends OldRepo[P] {
+  protected[longevity] val domainModel: DomainModel) {
 
   private[persistence] var _repoPoolOption: Option[RepoPool] = None
 
@@ -45,8 +44,17 @@ extends OldRepo[P] {
 
   protected def hasPrimaryKey = realizedPType.primaryKey.nonEmpty
 
+  def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
+
+  def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
+  : Future[Option[PState[P]]]
+
   def retrieveOne[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
+
+  def update(state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
+
+  def delete(state: PState[P])(implicit executionContext: ExecutionContext): Future[Deleted[P]]
 
   protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]]
 

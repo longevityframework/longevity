@@ -25,7 +25,7 @@ class ComponentQuerySpec extends QuerySpec[WithComponent](
   }
 
   it should "throw exception for an ordering query on a component" in {
-    repo.queryToFutureVec(
+    repoPool.queryToFutureVec(
       componentProp lt sample.component
     ).failed.futureValue shouldBe a [CompoundPropInOrderingQuery]
   }

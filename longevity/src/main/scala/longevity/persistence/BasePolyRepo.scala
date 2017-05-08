@@ -12,7 +12,7 @@ private[persistence] trait BasePolyRepo[P] extends PRepo[P] {
   private val union: Union[P] = domainModel.emblematic.unions(pTypeKey)
 
   override def create(p: P)(implicit context: ExecutionContext) = {
-    def createDerived[D <: P : TypeKey] = repoPool[D].create(p.asInstanceOf[D])(context)
+    def createDerived[D <: P : TypeKey] = repoPool.pRepoMap[D].create(p.asInstanceOf[D])(context)
     createDerived(derivedTypeKey(p)).map(_.widen[P])
   }
 
@@ -23,12 +23,12 @@ private[persistence] trait BasePolyRepo[P] extends PRepo[P] {
         state.get.getClass.getSimpleName)
     }
 
-    def updateDerived[D <: P : TypeKey] = repoPool[D].update(state.asInstanceOf[PState[D]])
+    def updateDerived[D <: P : TypeKey] = repoPool.pRepoMap[D].update(state.asInstanceOf[PState[D]])
     updateDerived(derivedTypeKey(state.get)).map(_.widen[P])
   }
 
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = {
-    def deleteDerived[D <: P : TypeKey] = repoPool[D].delete(state.asInstanceOf[PState[D]])
+    def deleteDerived[D <: P : TypeKey] = repoPool.pRepoMap[D].delete(state.asInstanceOf[PState[D]])
     deleteDerived(derivedTypeKey(state.get)).map(_.widen[P])
   }
 

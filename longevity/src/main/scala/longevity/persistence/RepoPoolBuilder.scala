@@ -172,7 +172,7 @@ private[longevity] object RepoPoolBuilder {
   }
 
   private def finishRepoInitialization(repoPool: RepoPool): Unit = {
-    repoPool.baseRepoMap.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
+    repoPool.pRepoMap.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
   }
 
   private def autocreateSchema(repoPool: RepoPool, persistenceConfig: PersistenceConfig): Unit = {

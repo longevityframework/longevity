@@ -2,7 +2,7 @@ package longevity.exceptions.persistence
 
 import longevity.exceptions.UnrecoverableLongevityException
 
-/** an exception thrown by a [[longevity.persistence.OldRepo repository]] when
+/** an exception thrown by a [[longevity.persistence.RepoPool repository]] when
  * translating between a persistent and a serialized form
  */
 class TranslationException(message: String, cause: Exception)

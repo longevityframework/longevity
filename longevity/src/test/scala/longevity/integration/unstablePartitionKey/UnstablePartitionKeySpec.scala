@@ -6,7 +6,7 @@ import longevity.exceptions.persistence.UnstablePrimaryKeyException
 import longevity.integration.model.primaryKey.Key
 import longevity.integration.model.primaryKey.PrimaryKey
 import longevity.integration.model.primaryKey.domainModel
-import longevity.persistence.OldRepo
+import longevity.persistence.RepoPool
 import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
@@ -33,12 +33,12 @@ with GivenWhenThen {
     sqliteContext.testRepoPool.createSchema().futureValue
   }
 
-  assertUnstablePrimaryKeyBehavior(cassandraContext.testRepoPool[PrimaryKey], "CassandraRepo")
-  assertUnstablePrimaryKeyBehavior(inmemContext.testRepoPool[PrimaryKey], "InMemRepo")
-  assertUnstablePrimaryKeyBehavior(mongoContext.testRepoPool[PrimaryKey], "MongoRepo")
-  assertUnstablePrimaryKeyBehavior(sqliteContext.testRepoPool[PrimaryKey], "SQLiteRepo")
+  assertUnstablePrimaryKeyBehavior(cassandraContext.testRepoPool, "CassandraRepo")
+  assertUnstablePrimaryKeyBehavior(inmemContext.testRepoPool, "InMemRepo")
+  assertUnstablePrimaryKeyBehavior(mongoContext.testRepoPool, "MongoRepo")
+  assertUnstablePrimaryKeyBehavior(sqliteContext.testRepoPool, "SQLiteRepo")
 
-  def assertUnstablePrimaryKeyBehavior(repo: OldRepo[PrimaryKey], repoName: String): Unit = {
+  def assertUnstablePrimaryKeyBehavior(repo: RepoPool, repoName: String): Unit = {
 
     behavior of s"$repoName.create"
 
