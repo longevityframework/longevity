@@ -1,5 +1,21 @@
 # Longevity Changelog
 
+## [0.23.0] - TODO
+
+- 2017.05.08 - Merge `longevity.persistence.Repo` and `longevity.persistence.RepoPool` APIs. There
+  is now a single repository, and the create/retrieve/update/delete/query methods now all take the
+  persistent type as a type parameter. To migrate, code that used to look like this:
+
+  `longevityContext.repoPool[User].create(user)`
+
+  now looks like this:
+
+  `longevityContext.repo.create[User](user)`
+
+  In most cases, you can leave off type parameter, as the compiler can easily infer it:
+
+  `longevityContext.repo.create(user)`
+
 ## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
 
 - 2017.03.24 - Rename `Repo.retrieveByQuery` to `Repo.queryToFutureVec`. The return type of this
@@ -194,7 +210,7 @@ Some odds and ends that have been accumulating in the backlog.
   programs to fail to terminate under certain circumstances, If your
   main program is hanging when using Cassandra, please call this
   method at the end of your program.
-	
+
 ## [0.11.0] - 2016.08.29 - API Simplifications
 
 - 2016.08.29 - Add factory methods for `EType` and all its

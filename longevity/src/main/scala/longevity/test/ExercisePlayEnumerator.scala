@@ -14,7 +14,7 @@ trait ExercisePlayEnumerator[P] extends QuerySpec[P] {
   }
 
   private def exercisePlayEnumerator(query: Query[P], expected: Set[P]): Unit = {
-    val source = repoPool.queryToPlay(query)
+    val source = repo.queryToPlay(query)
     val results = playEnumeratorToChunkerator.adapt(source).toVector.map(_.get).toSet
     val actual = pStates.map(_.get).toSet intersect results
     exerciseStream(query, actual, expected)

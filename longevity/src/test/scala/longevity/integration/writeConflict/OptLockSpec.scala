@@ -15,7 +15,7 @@ extends FlatSpec with LongevityIntegrationSpec {
   override protected implicit val executionContext = globalExecutionContext
 
   private val generator = longevityContext.testDataGenerator
-  private val repo = longevityContext.testRepoPool
+  private val repo = longevityContext.testRepo
 
   behavior of "Repo.{update,delete} when the original PState comes from a create"
 

@@ -15,7 +15,7 @@ trait ExerciseFS2[P] extends QuerySpec[P] {
 
   private def exerciseFS2(query: Query[P], expected: Set[P]): Unit = {
     val S = fs2.Strategy.fromFixedDaemonPool(8, threadName = "worker")
-    val source = repoPool.queryToFS2(query)
+    val source = repo.queryToFS2(query)
     val results = fs2StreamToChunkerator(S).adapt(source).toVector.map(_.get).toSet
     val actual = pStates.map(_.get).toSet intersect results
     exerciseStream(query, actual, expected)

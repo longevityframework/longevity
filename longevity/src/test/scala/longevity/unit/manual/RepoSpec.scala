@@ -100,7 +100,7 @@ class RepoSpec extends FlatSpec with GivenWhenThen with Matchers with LazyLoggin
 
   import RepoSpec._
 
-  protected val repo = context.testRepoPool
+  protected val repo = context.testRepo
 
   // used in http://longevityframework.github.io/longevity/manual/repo/query.html
   "retrieve by query example code" should "compile" in {

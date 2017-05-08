@@ -15,7 +15,7 @@ trait ExerciseIterateeIo[P] extends QuerySpec[P] {
   }
 
   private def exerciseIterateeIo(query: Query[P], expected: Set[P]): Unit = {
-    val source = repoPool.queryToIterateeIo[P, Eval](query)
+    val source = repo.queryToIterateeIo[P, Eval](query)
     val results = iterateeIoEnumeratorToChunkerator[Eval].adapt(source).toVector.map(_.get).toSet
     val actual = pStates.map(_.get).toSet intersect results
     exerciseStream(query, actual, expected)

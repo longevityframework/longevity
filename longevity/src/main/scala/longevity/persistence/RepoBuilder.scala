@@ -27,37 +27,37 @@ import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
 
-/** builds repo pools for LongevityContextImpl */
-private[longevity] object RepoPoolBuilder {
+/** builds repos for LongevityContextImpl */
+private[longevity] object RepoBuilder {
 
   // TODO please factor away some of this duplicitous code
 
-  private[longevity] def buildRepoPool(
+  private[longevity] def buildRepo(
     domainModel: DomainModel,
     backEnd: BackEnd,
     config: LongevityConfig,
     test: Boolean)
-  : RepoPool = {
-    val pool = backEnd match {
+  : Repo = {
+    val repo = backEnd match {
       case Cassandra =>
         val cassandraConfig = if (test) config.test.cassandra else config.cassandra
-        cassandraRepoPool(domainModel, CassandraSessionInfo(cassandraConfig), config)
+        cassandraRepo(domainModel, CassandraSessionInfo(cassandraConfig), config)
       case InMem =>
-        inMemTestRepoPool(domainModel, config)
+        inMemTestRepo(domainModel, config)
       case MongoDB =>
         val mongoConfig = if (test) config.test.mongodb else config.mongodb
-        mongoRepoPool(domainModel, MongoSessionInfo(mongoConfig), config)
+        mongoRepo(domainModel, MongoSessionInfo(mongoConfig), config)
       case SQLite =>
         val jdbcConfig = if (test) config.test.jdbc else config.jdbc
-        sqliteRepoPool(domainModel, JdbcSessionInfo(jdbcConfig), config)
+        sqliteRepo(domainModel, JdbcSessionInfo(jdbcConfig), config)
       case JDBC =>
         val jdbcConfig = if (test) config.test.jdbc else config.jdbc
-        jdbcRepoPool(domainModel, JdbcSessionInfo(jdbcConfig), config)
+        jdbcRepo(domainModel, JdbcSessionInfo(jdbcConfig), config)
     }
     if (config.autocreateSchema) {
-      Await.result(pool.createSchema()(ExecutionContext.global), Duration(1, "seconds"))
+      Await.result(repo.createSchema()(ExecutionContext.global), Duration(1, "seconds"))
     }
-    pool
+    repo
   }
 
   private trait StockRepoFactory[R[P] <: PRepo[P]] {
@@ -67,11 +67,11 @@ private[longevity] object RepoPoolBuilder {
     : R[P]
   }
 
-  private def cassandraRepoPool(
+  private def cassandraRepo(
     domainModel: DomainModel,
     session: CassandraSessionInfo,
     persistenceConfig: PersistenceConfig)
-  : RepoPool = {
+  : Repo = {
     object repoFactory extends StockRepoFactory[CassandraRepo] {
       def build[P](
         pType: PType[P],
@@ -79,10 +79,10 @@ private[longevity] object RepoPoolBuilder {
       : CassandraRepo[P] =
         CassandraRepo[P](pType, domainModel, session, persistenceConfig, polyRepoOpt)
     }
-    buildRepoPool(domainModel, repoFactory, session, persistenceConfig)
+    buildRepo(domainModel, repoFactory, session, persistenceConfig)
   }
 
-  private def inMemTestRepoPool(domainModel: DomainModel, persistenceConfig: PersistenceConfig): RepoPool = {
+  private def inMemTestRepo(domainModel: DomainModel, persistenceConfig: PersistenceConfig): Repo = {
     object repoFactory extends StockRepoFactory[InMemRepo] {
       def build[P](
         pType: PType[P],
@@ -90,14 +90,14 @@ private[longevity] object RepoPoolBuilder {
       : InMemRepo[P] =
         InMemRepo[P](pType, domainModel, persistenceConfig, polyRepoOpt)
     }
-    buildRepoPool(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
+    buildRepo(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def mongoRepoPool(
+  private def mongoRepo(
     domainModel: DomainModel,
     session: MongoSessionInfo,
     persistenceConfig: PersistenceConfig)
-  : RepoPool = {
+  : Repo = {
     object repoFactory extends StockRepoFactory[MongoRepo] {
       def build[P](
         pType: PType[P],
@@ -105,14 +105,14 @@ private[longevity] object RepoPoolBuilder {
       : MongoRepo[P] =
         MongoRepo[P](pType, domainModel, session, persistenceConfig, polyRepoOpt)
     }
-    buildRepoPool(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
+    buildRepo(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def sqliteRepoPool(
+  private def sqliteRepo(
     domainModel: DomainModel,
     session: JdbcSessionInfo,
     persistenceConfig: PersistenceConfig)
-  : RepoPool = {
+  : Repo = {
     object repoFactory extends StockRepoFactory[SQLiteRepo] {
       def build[P](
         pType: PType[P],
@@ -120,14 +120,14 @@ private[longevity] object RepoPoolBuilder {
       : SQLiteRepo[P] =
         SQLiteRepo[P](pType, domainModel, session, persistenceConfig, polyRepoOpt)
     }
-    buildRepoPool(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
+    buildRepo(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def jdbcRepoPool(
+  private def jdbcRepo(
     domainModel: DomainModel,
     session: JdbcSessionInfo,
     persistenceConfig: PersistenceConfig)
-  : RepoPool = {
+  : Repo = {
     object repoFactory extends StockRepoFactory[JdbcRepo] {
       def build[P](
         pType: PType[P],
@@ -135,15 +135,15 @@ private[longevity] object RepoPoolBuilder {
       : JdbcRepo[P] =
         JdbcRepo[P](pType, domainModel, session, persistenceConfig, polyRepoOpt)
     }
-    buildRepoPool(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
+    buildRepo(domainModel, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def buildRepoPool[R[P] <: PRepo[P]](
+  private def buildRepo[R[P] <: PRepo[P]](
     domainModel: DomainModel,
     stockRepoFactory: StockRepoFactory[R],
     schemaCreator: SchemaCreator,
     persistenceConfig: PersistenceConfig)
-  : RepoPool = {
+  : Repo = {
     var keyToRepoMap = TypeKeyMap[Any, R]
     type Pair[P] = TypeBoundPair[Any, TypeKey, PType, P]
     def createRepoFromPair[P](pair: Pair[P]): Unit = {
@@ -161,26 +161,26 @@ private[longevity] object RepoPoolBuilder {
     }
     domainModel.pTypePool.filter(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
     domainModel.pTypePool.filterNot(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
-    val repoPool = new RepoPool(keyToRepoMap.widen[PRepo], schemaCreator)
-    finishRepoInitialization(repoPool)
-    autocreateSchema(repoPool, persistenceConfig)
-    repoPool
+    val repo = new Repo(keyToRepoMap.widen[PRepo], schemaCreator)
+    finishRepoInitialization(repo)
+    autocreateSchema(repo, persistenceConfig)
+    repo
   }
 
   private def isPolyPType(pair: TypeBoundPair[Any, TypeKey, PType, _]): Boolean = {
     pair._2.isInstanceOf[PolyPType[_]]
   }
 
-  private def finishRepoInitialization(repoPool: RepoPool): Unit = {
-    repoPool.pRepoMap.values.foreach { repo => repo._repoPoolOption = Some(repoPool) }
+  private def finishRepoInitialization(repo: Repo): Unit = {
+    repo.pRepoMap.values.foreach { pRepo => pRepo._repoOption = Some(repo) }
   }
 
-  private def autocreateSchema(repoPool: RepoPool, persistenceConfig: PersistenceConfig): Unit = {
+  private def autocreateSchema(repo: Repo, persistenceConfig: PersistenceConfig): Unit = {
     if (persistenceConfig.autocreateSchema) {
       import scala.concurrent.Await
       import scala.concurrent.duration.Duration
       import scala.concurrent.ExecutionContext.Implicits.global
-      Await.result(repoPool.createSchema(), Duration(10, "seconds"))
+      Await.result(repo.createSchema(), Duration(10, "seconds"))
     }
   }
 

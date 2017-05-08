@@ -5,14 +5,14 @@ import fs2.Stream
 import fs2.Task
 import longevity.model.query.Query
 import longevity.persistence.PState
-import longevity.persistence.RepoPool
+import longevity.persistence.Repo
 
 /** provides repository methods that use FS2 for repository streaming API.
  *
  * `FS2Repo` is provided by an implicit conversion from `Repo`, so that FS2 can remain an optional
- * dependency for longevity users. otherwise, it would have been included as part of the [[RepoPool]].
+ * dependency for longevity users. otherwise, it would have been included as part of the [[Repo]].
  */
-class FS2Repo(repo: RepoPool) {
+class FS2Repo(repo: Repo) {
 
   /** streams persistent objects matching a query
    *

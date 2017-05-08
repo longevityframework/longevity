@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** a collection of repositories */
-class RepoPool private[persistence](
+class Repo private[persistence](
   private[persistence] val pRepoMap: TypeKeyMap[Any, PRepo],
   private[this] val schemaCreator: SchemaCreator) {
 
@@ -45,7 +45,7 @@ class RepoPool private[persistence](
    * `PWithTypeKey` implicitly:
    *
    * {{{
-   * repoPool.createMany(user1, user2, user2, blogPost1, blogPost2, blog)
+   * repo.createMany(user1, user2, user2, blogPost1, blogPost2, blog)
    * }}}
    *
    * @param keyedPs the persistent objects to persist, wrapped with their

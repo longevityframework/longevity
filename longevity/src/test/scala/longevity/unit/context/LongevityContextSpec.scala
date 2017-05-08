@@ -57,7 +57,7 @@ class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
       context.config.backEnd should equal (backEnd)
     }
 
-    it should "provide RepoCrudSpecs against both test repo pools" in {
+    it should "provide RepoCrudSpecs against both test repos" in {
       context.repoCrudSpec should not be (null)
       context.inMemRepoCrudSpec should not be (null)
     }

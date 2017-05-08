@@ -9,5 +9,5 @@ import longevity.config.CassandraConfig
 class KeyspaceDoesNotExistException(config: CassandraConfig, cause: InvalidQueryException)
 extends CassandraPersistenceException(
   s"Cassandra keyspace ${config.keyspace} does not exist. " +
-  "Perhaps you forgot to call `RepoPool.createSchema()`?",
+  "Perhaps you forgot to call `Repo.createSchema()`?",
   cause)

@@ -4,7 +4,7 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.integration.model.derived
-import longevity.persistence.RepoPool
+import longevity.persistence.Repo
 import longevity.model.query.Query
 import longevity.model.query.QueryFilter
 import longevity.test.LongevityIntegrationSpec
@@ -25,7 +25,7 @@ abstract class PolyReposSpec(
   protected val longevityContext: LongevityContext)
 extends FlatSpec with LongevityIntegrationSpec {
 
-  private val repoPool: RepoPool = longevityContext.testRepoPool
+  private val repo: Repo = longevityContext.testRepo
 
   override protected implicit val executionContext = globalExecutionContext
 
@@ -35,10 +35,10 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   it should "retrieve by KeyVal a FirstDerivedPersistent persisted by Repo[FirstDerivedPersistent]" in {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
-    val createdPState = repoPool.create(firstDerivedPersistent).futureValue
+    val createdPState = repo.create(firstDerivedPersistent).futureValue
 
     val retrievedPStateOpt =
-      repoPool.retrieve[derived.PolyPersistent, derived.PolyPersistentId](firstDerivedPersistent.id).futureValue
+      repo.retrieve[derived.PolyPersistent, derived.PolyPersistentId](firstDerivedPersistent.id).futureValue
     retrievedPStateOpt should be ('nonEmpty)
     retrievedPStateOpt.get.get should equal (firstDerivedPersistent)
   } 
@@ -47,9 +47,9 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   it should "retrieve by KeyVal a FirstDerivedPersistent persisted by Repo[PolyPersistent]" in {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
-    val createdPState = repoPool.create(firstDerivedPersistent).futureValue
+    val createdPState = repo.create(firstDerivedPersistent).futureValue
 
-    val retrievedPStateOpt = repoPool.retrieve[derived.FirstDerivedPersistent, derived.PolyComponentId](
+    val retrievedPStateOpt = repo.retrieve[derived.FirstDerivedPersistent, derived.PolyComponentId](
       firstDerivedPersistent.component.id
     ).futureValue
     retrievedPStateOpt should be ('nonEmpty)
@@ -58,9 +58,9 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   it should "not retrieve a SecondDerivedPersistent by KeyVal[FirstDerivedPersistent]" in {
     val secondDerivedPersistent = testDataGenerator.generate[derived.SecondDerivedPersistent]
-    val createdPState = repoPool.create(secondDerivedPersistent).futureValue
+    val createdPState = repo.create(secondDerivedPersistent).futureValue
 
-    val retrievedPStateOpt = repoPool.retrieve[derived.FirstDerivedPersistent, derived.PolyComponentId](
+    val retrievedPStateOpt = repo.retrieve[derived.FirstDerivedPersistent, derived.PolyComponentId](
       secondDerivedPersistent.component.id
     ).futureValue
     retrievedPStateOpt should be ('empty)
@@ -70,12 +70,12 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   it should "retrieve a FirstDerivedPersistent persisted by Repo[FirstDerivedPersistent]" in {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
-    val createdPState = repoPool.create(firstDerivedPersistent).futureValue
+    val createdPState = repo.create(firstDerivedPersistent).futureValue
 
     val query: Query[derived.PolyPersistent] =
       Query(QueryFilter.eqs(derived.PolyPersistent.props.id, firstDerivedPersistent.id))
 
-    val retrievedPStateSeq = repoPool.queryToFutureVec(query).futureValue
+    val retrievedPStateSeq = repo.queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedPersistent)
   } 
@@ -84,34 +84,34 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   it should "retrieve a FirstDerivedPersistent persisted by Repo[PolyPersistent]" in {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
-    val createdPState = repoPool.create(firstDerivedPersistent).futureValue
+    val createdPState = repo.create(firstDerivedPersistent).futureValue
 
     val query: Query[derived.FirstDerivedPersistent] =
       Query(QueryFilter.eqs(
         derived.FirstDerivedPersistent.props.component.id,
         firstDerivedPersistent.component.id))
 
-    val retrievedPStateSeq = repoPool.queryToFutureVec(query).futureValue
+    val retrievedPStateSeq = repo.queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedPersistent)
   } 
 
   it should "not retrieve a SecondDerivedPersistent" in {
     val secondDerivedPersistent = testDataGenerator.generate[derived.SecondDerivedPersistent]
-    val createdPState = repoPool.create(secondDerivedPersistent).futureValue
+    val createdPState = repo.create(secondDerivedPersistent).futureValue
 
     val query: Query[derived.FirstDerivedPersistent] =
       Query(QueryFilter.eqs(
         derived.FirstDerivedPersistent.props.component.id,
         secondDerivedPersistent.component.id))
 
-    val retrievedPStateSeq = repoPool.queryToFutureVec(query).futureValue
+    val retrievedPStateSeq = repo.queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (0)
   } 
 
   it should "retrieve a FirstDerivedPersistent by Query with mixed props" in {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
-    val createdPState = repoPool.create(firstDerivedPersistent).futureValue
+    val createdPState = repo.create(firstDerivedPersistent).futureValue
 
     val query: Query[derived.FirstDerivedPersistent] =
       Query(
@@ -119,21 +119,21 @@ extends FlatSpec with LongevityIntegrationSpec {
           QueryFilter.eqs(derived.FirstDerivedPersistent.props.component.id, firstDerivedPersistent.component.id),
           QueryFilter.eqs(derived.PolyPersistent.props.id, firstDerivedPersistent.id)))
 
-    val retrievedPStateSeq = repoPool.queryToFutureVec(query).futureValue
+    val retrievedPStateSeq = repo.queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedPersistent)
   } 
 
   it should "retrieve a FirstDerivedPersistent by Query DSL with mixed props" in {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
-    val createdPState = repoPool.create(firstDerivedPersistent).futureValue
+    val createdPState = repo.create(firstDerivedPersistent).futureValue
 
     import derived.FirstDerivedPersistent.queryDsl._
     val query: Query[derived.FirstDerivedPersistent] =
       derived.FirstDerivedPersistent.props.component.id eqs firstDerivedPersistent.component.id and
       derived.PolyPersistent.props.id eqs firstDerivedPersistent.id
 
-    val retrievedPStateSeq = repoPool.queryToFutureVec(query).futureValue
+    val retrievedPStateSeq = repo.queryToFutureVec(query).futureValue
     retrievedPStateSeq.size should equal (1)
     retrievedPStateSeq(0).get should equal (firstDerivedPersistent)
   } 
@@ -144,7 +144,7 @@ extends FlatSpec with LongevityIntegrationSpec {
     val derivedNotInDomainModel = generateDerivedNotInDomainModel
 
     intercept[NotInDomainModelTranslationException] {
-      repoPool.create(derivedNotInDomainModel)
+      repo.create(derivedNotInDomainModel)
     }
   } 
 
@@ -152,13 +152,13 @@ extends FlatSpec with LongevityIntegrationSpec {
 
   it should "throw exception on attempt to change the derived type of the PState" in {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
-    val createdPState = repoPool.create[derived.PolyPersistent](firstDerivedPersistent).futureValue
+    val createdPState = repo.create[derived.PolyPersistent](firstDerivedPersistent).futureValue
 
     val secondDerivedPersistent = testDataGenerator.generate[derived.SecondDerivedPersistent]
     val modifiedPState = createdPState.set(secondDerivedPersistent)
 
     intercept[PStateChangesDerivedPTypeException] {
-      repoPool.update(modifiedPState)
+      repo.update(modifiedPState)
     }
   } 
 

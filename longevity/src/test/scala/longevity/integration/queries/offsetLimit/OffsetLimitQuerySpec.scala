@@ -57,7 +57,7 @@ extends FlatSpec with LongevityIntegrationSpec {
   import OffsetLimitQuerySpec._
 
   val ps = for (i <- 0 until 10) yield OffsetLimit(i, 0)
-  val repo = longevityContext.testRepoPool
+  val repo = longevityContext.testRepo
   
   var states: Seq[PState[OffsetLimit]] = _
 
