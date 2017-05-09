@@ -20,7 +20,7 @@ import scala.concurrent.blocking
 /** a MongoDB repository for persistent entities of type `P`.
  *
  * @param pType the persistent type of the entities this repository handles
- * @param modelType the domain model containing the entities that this repo persists
+ * @param modelType the model type containing the entities that this repo persists
  * @param mongoDb the connection to the mongo database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */

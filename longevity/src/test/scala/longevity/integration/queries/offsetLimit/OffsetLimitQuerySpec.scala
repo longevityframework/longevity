@@ -11,7 +11,7 @@ import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** we use a special domain model for limit/offset tests to prevent interference
+/** we use a special model type for limit/offset tests to prevent interference
  * from other tests.
  *
  * please note that if for some reason afterAll fails to run, then future runs
@@ -31,14 +31,14 @@ object OffsetLimitQuerySpec {
     override val indexSet = Set(index(props.i), index(props.j))
   }
 
-  val domainModel = ModelType(PTypePool(OffsetLimit))
+  val modelType = ModelType(PTypePool(OffsetLimit))
 
 }
 
 /** abstract superclass for tests of query limit/offset clauses
  *
  * @param longevityContext the context to use. it must be built from
- * `OffsetLimitQuerySpec.domainModel`
+ * `OffsetLimitQuerySpec.modelType`
  *
  * @param testOffsets if false, we avoid order by and offset clauses
  * in our tests. this is a concession to Cassandra back end. once we

@@ -33,7 +33,7 @@ import scala.concurrent.blocking
 /** a Jdbc repository for persistent entities of type `P`.
  *
  * @param pType the type of the persistent entities this repository handles
- * @param modelType the domain model containing the persistent that this repo persists
+ * @param modelType the model type containing the persistent that this repo persists
  * @param session the connection to the jdbc database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */

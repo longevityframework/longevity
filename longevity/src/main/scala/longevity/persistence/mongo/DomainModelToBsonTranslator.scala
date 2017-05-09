@@ -24,7 +24,7 @@ import org.joda.time.DateTimeZone
 import scala.collection.JavaConverters.seqAsJavaListConverter
 import scala.reflect.runtime.universe.typeOf
 
-/** translates [[longevity.model.ModelType domain model elements]] such as
+/** translates [[longevity.model.ModelType model type elements]] such as
  * [[Persistent persistent objects]] into
  * [[http://mongodb.github.io/mongo-java-driver/3.2/bson/documents/ BSON]].
  * 
@@ -35,7 +35,7 @@ import scala.reflect.runtime.universe.typeOf
 private[persistence] class DomainModelToBsonTranslator(
   private val emblematic: Emblematic) {
 
-  /** translates a domain model element into BSON */
+  /** translates a model type element into BSON */
   def translate[A : TypeKey](a: A, isUnionOrTopLevel: Boolean): BsonValue = try {
     traversor.traverse[A](WrappedInput(a, isUnionOrTopLevel))
   } catch {

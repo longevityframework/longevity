@@ -49,7 +49,7 @@ class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
 
     behavior of s"LongevityContext creation for ${context.config.backEnd}"
 
-    it should "produce a context with the right domain model" in {
+    it should "produce a context with the right model type" in {
       context.modelType should equal (LongevityContextSpec.sample.modelType)
     }
 

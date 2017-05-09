@@ -13,7 +13,7 @@ import org.sqlite.SQLiteException
 /** a SQLite repository for persistent entities of type `P`.
  *
  * @param pType the type of the persistent entities this repository handles
- * @param modelType the domain model containing the persistent that this repo persists
+ * @param modelType the model type containing the persistent that this repo persists
  * @param session the connection to the sqlite database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
