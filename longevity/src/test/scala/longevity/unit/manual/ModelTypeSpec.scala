@@ -1,6 +1,6 @@
 package longevity.unit.manual
 
-package DomainModelSpec {
+package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/persistents.html
   package persistents1 {
@@ -157,14 +157,14 @@ package DomainModelSpec {
   package domainModel1 {
     import longevity.model.annotations.domainModel
 
-    @domainModel object myDomainModel
+    @domainModel object myModelType
   }
 
   // used in http://longevityframework.github.io/longevity/manual/model/domainModel.html
   package domainModel2 {
-    import longevity.model.DomainModel
+    import longevity.model.ModelType
 
-    object myDomainModel extends DomainModel("myPackage")
+    object myModelType extends ModelType("myPackage")
   }
 
   // used in http://longevityframework.github.io/longevity/manual/model/domainModel.html
@@ -177,11 +177,11 @@ package DomainModelSpec {
     @persistent(keySet = emptyKeySet) case class Blog()
     @component case class UserProfile()
 
-    import longevity.model.DomainModel
+    import longevity.model.ModelType
     import longevity.model.CTypePool
     import longevity.model.PTypePool
 
-    object myDomainModel extends DomainModel(
+    object myModelType extends ModelType(
       PTypePool(User, BlogPost, Blog),
       CTypePool(UserProfile))
   }

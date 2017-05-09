@@ -1,7 +1,7 @@
 package longevity.integration.queries.offsetLimit
 
 import longevity.context.LongevityContext
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.PTypePool
 import longevity.model.query.Query
@@ -31,7 +31,7 @@ object OffsetLimitQuerySpec {
     override val indexSet = Set(index(props.i), index(props.j))
   }
 
-  val domainModel = DomainModel(PTypePool(OffsetLimit))
+  val domainModel = ModelType(PTypePool(OffsetLimit))
 
 }
 

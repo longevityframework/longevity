@@ -8,6 +8,6 @@ import emblem.TypeKey
  * @param propVal the key prop value
  */
 class PropTypeException(path: String, pTypeKey: TypeKey[_], propType: TypeKey[_], pathTypeKey: TypeKey[_])
-extends DomainModelException(
+extends ModelTypeException(
   s"property '$path' with type ${pathTypeKey.name} for root type ${pTypeKey.name} " +
   s"does not match type ${propType.name}")

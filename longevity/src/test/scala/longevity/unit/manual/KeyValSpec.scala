@@ -28,10 +28,10 @@ object KeyValSpec {
       override val keySet = Set(key(props.username))
     }
 
-    import longevity.model.DomainModel
+    import longevity.model.ModelType
     import longevity.model.PTypePool
 
-    val domainModel = DomainModel(PTypePool(User))
+    val domainModel = ModelType(PTypePool(User))
 
   }
 
@@ -57,10 +57,10 @@ object KeyValSpec {
       override val keySet = Set(key(props.username))
     }
 
-    import longevity.model.DomainModel
+    import longevity.model.ModelType
     import longevity.model.PTypePool
 
-    val domainModel = DomainModel(PTypePool(User))
+    val domainModel = ModelType(PTypePool(User))
 
   }
 

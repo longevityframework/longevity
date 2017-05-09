@@ -11,7 +11,7 @@ import longevity.persistence.PRepo
 import longevity.model.DerivedPType
 import longevity.model.PType
 import longevity.model.PolyPType
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import org.bson.BsonDocument
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -26,7 +26,7 @@ import scala.concurrent.blocking
  */
 private[longevity] class MongoRepo[P] private[persistence] (
   pType: PType[P],
-  domainModel: DomainModel,
+  domainModel: ModelType,
   protected val session: MongoRepo.MongoSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends PRepo[P](pType, domainModel)
@@ -62,7 +62,7 @@ private[persistence] object MongoRepo {
 
   def apply[P](
     pType: PType[P],
-    domainModel: DomainModel,
+    domainModel: ModelType,
     session: MongoSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[MongoRepo[_ >: P]])

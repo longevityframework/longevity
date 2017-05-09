@@ -9,7 +9,7 @@ import longevity.model.DerivedPType
 import longevity.model.KeyVal
 import longevity.model.PType
 import longevity.model.PolyPType
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -21,7 +21,7 @@ import scala.concurrent.Future
  */
 private[longevity] class InMemRepo[P] private[persistence] (
   pType: PType[P],
-  domainModel: DomainModel,
+  domainModel: ModelType,
   protected val persistenceConfig: PersistenceConfig)
 extends PRepo[P](pType, domainModel)
 with InMemCreate[P]
@@ -54,7 +54,7 @@ private[longevity] object InMemRepo {
 
   private[persistence] def apply[P](
     pType: PType[P],
-    domainModel: DomainModel,
+    domainModel: ModelType,
     persistenceConfig: PersistenceConfig,
     polyRepoOpt: Option[InMemRepo[_ >: P]])
   : InMemRepo[P] = {

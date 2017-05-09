@@ -65,7 +65,7 @@ abstract class PType[P : TypeKey] {
    * persistent class. type `A` should not contain any collections, or terminate
    * with [[longevity.model.PolyCType polymorphic component]].
    * violations will cause an exception to be thrown on
-   * [[longevity.model.DomainModel DomainModel construction]].
+   * [[longevity.model.ModelType ModelType construction]].
    *
    * @tparam A the type of the property
    * @param path the property path

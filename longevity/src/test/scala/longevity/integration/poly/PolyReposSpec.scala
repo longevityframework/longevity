@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 object PolyReposSpec {
 
-  case class DerivedNotInDomainModel(
+  case class DerivedNotInModelType(
     id: derived.PolyPersistentId,
     component: derived.PolyComponent)
   extends derived.PolyPersistent
@@ -141,10 +141,10 @@ extends FlatSpec with LongevityIntegrationSpec {
   behavior of "Repo[PolyPersistent].create"
 
   it should "throw exception on a subclass of PolyPersistent that is not in the domain model" in {
-    val derivedNotInDomainModel = generateDerivedNotInDomainModel
+    val derivedNotInModelType = generateDerivedNotInModelType
 
     intercept[NotInDomainModelTranslationException] {
-      repo.create(derivedNotInDomainModel)
+      repo.create(derivedNotInModelType)
     }
   } 
 
@@ -162,8 +162,8 @@ extends FlatSpec with LongevityIntegrationSpec {
     }
   } 
 
-  private def generateDerivedNotInDomainModel =
-    PolyReposSpec.DerivedNotInDomainModel(
+  private def generateDerivedNotInModelType =
+    PolyReposSpec.DerivedNotInModelType(
       testDataGenerator.generate[derived.PolyPersistentId],
       testDataGenerator.generate[derived.PolyComponent])
 

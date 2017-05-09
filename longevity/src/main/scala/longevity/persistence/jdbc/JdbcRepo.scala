@@ -16,7 +16,7 @@ import longevity.config.JdbcConfig
 import longevity.config.PersistenceConfig
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.model.DerivedPType
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.model.realized.RealizedPrimaryKey
@@ -39,7 +39,7 @@ import scala.concurrent.blocking
  */
 private[persistence] class JdbcRepo[P] private[persistence] (
   pType: PType[P],
-  domainModel: DomainModel,
+  domainModel: ModelType,
   private val sessionInfo: JdbcRepo.JdbcSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends PRepo[P](pType, domainModel)
@@ -275,7 +275,7 @@ private[persistence] object JdbcRepo {
 
   def apply[P](
     pType: PType[P],
-    domainModel: DomainModel,
+    domainModel: ModelType,
     session: JdbcRepo.JdbcSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[JdbcRepo[_ >: P]])

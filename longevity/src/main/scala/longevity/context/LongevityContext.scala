@@ -7,7 +7,7 @@ import longevity.config.LongevityConfig
 import longevity.json.JsonMarshaller
 import longevity.json.JsonUnmarshaller
 import longevity.persistence.RepoBuilder.buildRepo
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import longevity.test.CustomGeneratorPool
 import longevity.test.TestDataGenerator
 
@@ -28,7 +28,7 @@ object LongevityContext {
    * typesafe configuration does not adequately specify the LongevityConfig
    */
   def apply(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     typesafeConfig: Config = ConfigFactory.load(),
     customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
   : LongevityContext =
@@ -45,7 +45,7 @@ object LongevityContext {
    * generating test data. defaults to empty
    */
   def apply(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     config: LongevityConfig,
     customGeneratorPool: CustomGeneratorPool)
   : LongevityContext =
@@ -59,13 +59,13 @@ object LongevityContext {
    *
    * @param config the longevity configuration
    */
-  def apply(domainModel: DomainModel, config: LongevityConfig): LongevityContext = 
+  def apply(domainModel: ModelType, config: LongevityConfig): LongevityContext = 
     new LongevityContext(domainModel, config, CustomGeneratorPool.empty)
 
 }
 
 /** a collection of longevity utilities applicable to a specific
- * [[longevity.model.DomainModel DomainModel]].
+ * [[longevity.model.ModelType ModelType]].
  *
  * @constructor creates a [[LongevityContext]] using a
  * [[longevity.config.LongevityConfig LongevityConfig]]
@@ -78,7 +78,7 @@ object LongevityContext {
  * generating test data. defaults to empty
  */
 final class LongevityContext(
-  val domainModel: DomainModel,
+  val domainModel: ModelType,
   val config: LongevityConfig,
   val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
 extends PersistenceContext with TestContext with JsonContext {
@@ -95,7 +95,7 @@ extends PersistenceContext with TestContext with JsonContext {
    * @throws longevity.exceptions.context.LongevityConfigException if the
    * typesafe configuration does not adequately specify the LongevityConfig
    */
-  def this(domainModel: DomainModel, typesafeConfig: Config, customGeneratorPool: CustomGeneratorPool) =
+  def this(domainModel: ModelType, typesafeConfig: Config, customGeneratorPool: CustomGeneratorPool) =
     this(domainModel, LongevityConfig(typesafeConfig), customGeneratorPool)
 
   /** constructs a [[LongevityContext]] with an empty set of custom generators
@@ -105,7 +105,7 @@ extends PersistenceContext with TestContext with JsonContext {
    * 
    * @param typesafeConfig the typesafe configuration
    */
-  def this(domainModel: DomainModel, typesafeConfig: Config) =
+  def this(domainModel: ModelType, typesafeConfig: Config) =
     this(domainModel, typesafeConfig, CustomGeneratorPool.empty)
 
   lazy val repo = buildRepo(domainModel, config.backEnd, config, false)

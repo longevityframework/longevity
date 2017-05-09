@@ -3,7 +3,7 @@ package longevity.persistence.sqlite
 import longevity.config.PersistenceConfig
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.model.DerivedPType
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.persistence.PState
@@ -19,7 +19,7 @@ import org.sqlite.SQLiteException
  */
 private[longevity] class SQLiteRepo[P] private (
   pType: PType[P],
-  domainModel: DomainModel,
+  domainModel: ModelType,
   sessionInfo: JdbcRepo.JdbcSessionInfo,
   persistenceConfig: PersistenceConfig)
 extends JdbcRepo[P](pType, domainModel, sessionInfo, persistenceConfig) {
@@ -60,7 +60,7 @@ private[persistence] object SQLiteRepo {
 
   def apply[P](
     pType: PType[P],
-    domainModel: DomainModel,
+    domainModel: ModelType,
     session: JdbcRepo.JdbcSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[SQLiteRepo[_ >: P]])

@@ -13,7 +13,7 @@ import emblem.typeKey
  * at present, a property cannot pass through any collections or terminate with
  * a [[longevity.model.PolyCType polymorphic embeddable]].
  * violations will cause an exception to be thrown on
- * [[longevity.model.DomainModel DomainModel construction]].
+ * [[longevity.model.ModelType ModelType construction]].
  * 
  * @param path a dot-separated path of the persistent object member descending
  * from the root

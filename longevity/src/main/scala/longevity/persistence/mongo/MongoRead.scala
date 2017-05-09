@@ -24,7 +24,7 @@ import org.joda.time.DateTimeZone
 private[mongo] trait MongoRead[P] {
   repo: MongoRepo[P] =>
 
-  private lazy val bsonToDomainModelTranslator =
+  private lazy val bsonToModelTypeTranslator =
     new BsonToDomainModelTranslator(domainModel.emblematic)
 
   protected def bsonToState(document: BsonDocument): PState[P] = {
@@ -35,7 +35,7 @@ private[mongo] trait MongoRead[P] {
     val rv = rowVersionFromDocument(document)
     val cdt = dateTimeFromDocument("_createdTimestamp", document)
     val mdt = dateTimeFromDocument("_updatedTimestamp", document)
-    val p  = bsonToDomainModelTranslator.translate(document)(pTypeKey)
+    val p  = bsonToModelTypeTranslator.translate(document)(pTypeKey)
     PState(id, rv, cdt, cdt, p)
   }
 

@@ -12,7 +12,7 @@ import longevity.config.MongoDB
 import longevity.config.PersistenceConfig
 import longevity.config.SQLite
 import longevity.model.DerivedPType
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.persistence.cassandra.CassandraRepo
@@ -33,7 +33,7 @@ private[longevity] object RepoBuilder {
   // TODO please factor away some of this duplicitous code
 
   private[longevity] def buildRepo(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     backEnd: BackEnd,
     config: LongevityConfig,
     test: Boolean)
@@ -68,7 +68,7 @@ private[longevity] object RepoBuilder {
   }
 
   private def cassandraRepo(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     session: CassandraSessionInfo,
     persistenceConfig: PersistenceConfig)
   : Repo = {
@@ -82,7 +82,7 @@ private[longevity] object RepoBuilder {
     buildRepo(domainModel, repoFactory, session, persistenceConfig)
   }
 
-  private def inMemTestRepo(domainModel: DomainModel, persistenceConfig: PersistenceConfig): Repo = {
+  private def inMemTestRepo(domainModel: ModelType, persistenceConfig: PersistenceConfig): Repo = {
     object repoFactory extends StockRepoFactory[InMemRepo] {
       def build[P](
         pType: PType[P],
@@ -94,7 +94,7 @@ private[longevity] object RepoBuilder {
   }
 
   private def mongoRepo(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     session: MongoSessionInfo,
     persistenceConfig: PersistenceConfig)
   : Repo = {
@@ -109,7 +109,7 @@ private[longevity] object RepoBuilder {
   }
 
   private def sqliteRepo(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     session: JdbcSessionInfo,
     persistenceConfig: PersistenceConfig)
   : Repo = {
@@ -124,7 +124,7 @@ private[longevity] object RepoBuilder {
   }
 
   private def jdbcRepo(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     session: JdbcSessionInfo,
     persistenceConfig: PersistenceConfig)
   : Repo = {
@@ -139,7 +139,7 @@ private[longevity] object RepoBuilder {
   }
 
   private def buildRepo[R[P] <: PRepo[P]](
-    domainModel: DomainModel,
+    domainModel: ModelType,
     stockRepoFactory: StockRepoFactory[R],
     schemaCreator: SchemaCreator,
     persistenceConfig: PersistenceConfig)

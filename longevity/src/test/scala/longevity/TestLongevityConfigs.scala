@@ -6,7 +6,7 @@ import longevity.config.LongevityConfig
 import longevity.config.MongoDB
 import longevity.config.SQLite
 import longevity.context.LongevityContext
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import longevity.test.CustomGeneratorPool
 
 object TestLongevityConfigs {
@@ -25,7 +25,7 @@ object TestLongevityConfigs {
 
   def contexts(
     configKeys: Seq[ConfigMatrixKey],
-    domainModel: DomainModel,
+    domainModel: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty)
   : Seq[LongevityContext] =
     configKeys.map { key =>
@@ -33,27 +33,27 @@ object TestLongevityConfigs {
     }
 
   def contextMatrix(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
     contexts(ConfigMatrixKey.values, domainModel, generators)
 
   def sparseContextMatrix(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
     contexts(ConfigMatrixKey.sparseValues, domainModel, generators)
 
   def cassandraOnlyContextMatrix(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
     contexts(Seq(cassandraConfigKey), domainModel, generators)
 
   def mongoOnlyContextMatrix(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
     contexts(Seq(mongoConfigKey), domainModel, generators)    
 
   def sqliteOnlyContextMatrix(
-    domainModel: DomainModel,
+    domainModel: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
     contexts(Seq(sqliteConfigKey), domainModel, generators)
 

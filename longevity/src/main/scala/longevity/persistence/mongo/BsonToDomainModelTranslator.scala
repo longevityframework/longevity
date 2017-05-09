@@ -18,7 +18,7 @@ import scala.collection.JavaConverters.asScalaBufferConverter
 import scala.reflect.runtime.universe.typeOf
 
 /** translates [[http://mongodb.github.io/mongo-java-driver/3.2/bson/documents/
- * BSON]] into [[longevity.model.DomainModel domainModel elements]] such as
+ * BSON]] into [[longevity.model.ModelType domainModel elements]] such as
  * [[Persistent persistent objects]].
  * 
  * expects BSON for embeddables and key values with a single property to inline

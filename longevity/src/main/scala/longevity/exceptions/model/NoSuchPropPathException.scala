@@ -11,6 +11,6 @@ import emblem.TypeKey
 class NoSuchPropPathException(
   val path: String,
   val pTypeKey: TypeKey[_])
-extends DomainModelException(
+extends ModelTypeException(
   s"no such property path '$path` in persistent ${pTypeKey.name}")
 

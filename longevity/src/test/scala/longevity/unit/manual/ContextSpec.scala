@@ -14,19 +14,19 @@ object ContextSpec {
 
     import com.typesafe.config.Config
     import longevity.context.LongevityContext
-    import longevity.model.DomainModel
+    import longevity.model.ModelType
     import longevity.model.PTypePool
 
-    val bloggingDomain = DomainModel(PTypePool.empty)
+    val bloggingDomain = ModelType(PTypePool.empty)
     val bloggingConfig: Config = loadBloggingConfig()
     val bloggingContext = LongevityContext(
       bloggingDomain,
       bloggingConfig)
 
-    val accountsDomainModel = DomainModel(PTypePool.empty)
+    val accountsModelType = ModelType(PTypePool.empty)
     val accountsConfig: Config = loadAccountsConfig()
     val accountsContext = LongevityContext(
-      accountsDomainModel,
+      accountsModelType,
       accountsConfig)
 
     import com.typesafe.config.ConfigFactory
@@ -36,10 +36,10 @@ object ContextSpec {
 
   object config2 {
 
-    import longevity.model.DomainModel
+    import longevity.model.ModelType
     import longevity.model.PTypePool
 
-    val bloggingDomain = DomainModel(PTypePool.empty)
+    val bloggingDomain = ModelType(PTypePool.empty)
 
     import longevity.config.CassandraConfig
     import longevity.config.InMem

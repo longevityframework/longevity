@@ -6,7 +6,7 @@ import longevity.config.Cassandra
 import longevity.context.LongevityContext
 import longevity.config.MongoDB
 import longevity.model.KeyVal
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import longevity.model.PTypePool
 import longevity.model.PType
 import org.json4s.JsonAST.JObject
@@ -31,7 +31,7 @@ object LongevityContextSpec {
       val keySet = Set(key(props.id))
     }
 
-    val domainModel = DomainModel(PTypePool(A))
+    val domainModel = ModelType(PTypePool(A))
     val mongoContext = new LongevityContext(domainModel, mongoConfig)
     val cassandraContext = new LongevityContext(domainModel, cassandraConfig)
   }

@@ -6,7 +6,7 @@ import scala.annotation.StaticAnnotation
 import scala.annotation.compileTimeOnly
 
 /** macro annotation to mark an object as a domain model. extends the class with
- * `longevity.model.DomainModel(currentPackage)`, where `currentPackage` is
+ * `longevity.model.ModelType(currentPackage)`, where `currentPackage` is
  * the name of the package in which this annotation was applied.
  */
 @compileTimeOnly("you must enable macro paradise for @domainModel to work")
@@ -18,12 +18,12 @@ class domainModel[P] extends StaticAnnotation {
 
 private object domainModel {
 
-  def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new DomainModelImpl {
+  def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new ModelTypeImpl {
     val c: c0.type = c0
     val as = annottees
   } .impl
 
-  private abstract class DomainModelImpl {
+  private abstract class ModelTypeImpl {
     val c: Context
     val as: Seq[c.Tree]
 
@@ -44,7 +44,7 @@ private object domainModel {
       val model =
         Apply(
           Select(Select(Ident(TermName("longevity")), TermName("model")),
-                 TypeName("DomainModel")),
+                 TypeName("ModelType")),
           List(Literal(Constant(p.fullName))))
       model +: ps.tail
     }

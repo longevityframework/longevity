@@ -19,7 +19,7 @@ import scala.reflect.runtime.universe.runtimeMirror
  * all the [[PType persistent types]] in the model, as well as
  * all the [[CType component types]].
  *
- * @constructor creates a domain model from pools of [[PType persistent]] and
+ * @constructor creates a model type from pools of [[PType persistent]] and
  * [[CType component]] types
  *
  * @param pTypePool a complete set of the persistent types in the domain model.
@@ -27,13 +27,13 @@ import scala.reflect.runtime.universe.runtimeMirror
  * @param cTypePool a complete set of the component types within the
  * domain model. defaults to empty
  */
-class DomainModel(
+class ModelType(
   val pTypePool: PTypePool,
   val cTypePool: CTypePool = CTypePool.empty) {
 
   private def this(pools: (PTypePool, CTypePool)) = this(pools._1, pools._2)
 
-  /** creates a domain model by scanning the named package for [[PType persistent
+  /** creates a model type by scanning the named package for [[PType persistent
    * types]] and [[CType component types]]
    *
    * @param packageName the name of the package to scan
@@ -193,7 +193,7 @@ class DomainModel(
     }
   }
 
-  override def toString = s"""|DomainModel(
+  override def toString = s"""|ModelType(
                               |  PTypePool(
                               |    ${pTypePool.values.mkString(",\n    ")}),
                               |  CTypePool(
@@ -201,10 +201,10 @@ class DomainModel(
 
 }
 
-/** provides factory methods for constructing [[DomainModel domain models]] */
-object DomainModel {
+/** provides factory methods for constructing [[ModelType model types]] */
+object ModelType {
 
-  /** creates a domain model from pools of [[PType persistent]] and
+  /** creates a model type from pools of [[PType persistent]] and
    * [[CType component]] types
    * 
    * @param pTypePool a complete set of the persistent types in the domain model.
@@ -215,14 +215,14 @@ object DomainModel {
   def apply(
     pTypePool: PTypePool,
     cTypePool: CTypePool = CTypePool.empty)
-  : DomainModel =
-    new DomainModel(pTypePool, cTypePool)
+  : ModelType =
+    new ModelType(pTypePool, cTypePool)
 
-  /** creates a domain model by scanning the named package for [[PType persistent
+  /** creates a model type by scanning the named package for [[PType persistent
    * types]] and [[CType component types]]
    *
    * @param packageName the name of the package to scan
    */
-  def apply(packageName: String): DomainModel = DomainModel(packageName)
+  def apply(packageName: String): ModelType = ModelType(packageName)
 
 }

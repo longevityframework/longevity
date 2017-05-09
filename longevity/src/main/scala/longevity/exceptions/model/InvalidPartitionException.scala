@@ -10,7 +10,7 @@ import longevity.model.ptype.PrimaryKey
   * @param pTypeKey the type of the persistent with the problematic property
   */
 class InvalidPartitionException[P : TypeKey] (val key: PrimaryKey[P])
-extends DomainModelException(
+extends ModelTypeException(
   s"primary key $key for ${implicitly[TypeKey[P]].name} has an invalid partition. " +
   s"the properties in the partition must form a prefix of the key value property.")
 

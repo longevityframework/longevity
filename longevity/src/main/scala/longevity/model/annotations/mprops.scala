@@ -20,7 +20,7 @@ import scala.annotation.compileTimeOnly
  * NOTE: this traversal process will collect all valid properties for your `PType`.
  * but be aware that the traversal can collect properties that are not actually
  * valid. for example, it will freely traverse case class elements that appear
- * to be persistent components, but are not included in your [[DomainModel]]. it
+ * to be persistent components, but are not included in your [[ModelType]]. it
  * will also traverse persistent components that are otherwise illegal, such as
  * those whose primary constructor has more than one parameter list. in all
  * these cases, the property created by this macro will cause an exception to be

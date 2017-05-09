@@ -18,7 +18,7 @@ import longevity.model.PType
 import longevity.model.PTypePool
 import longevity.model.PolyCType
 import longevity.model.PolyPType
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -47,11 +47,11 @@ package packageScanning {
 
   class FakeoutB extends CType[B]
 
-  object domainModel extends DomainModel("longevity.unit.model.packageScanning")
+  object modelType extends ModelType("longevity.unit.model.packageScanning")
 }
 
-/** holds factory methods for sample domainModels used in [[DomainModelSpec]] */
-object DomainModelSpec {
+/** holds factory methods for sample modelTypes used in [[ModelTypeSpec]] */
+object ModelTypeSpec {
 
   object emptyPropPath {
     case class A(id: String)
@@ -61,7 +61,7 @@ object DomainModelSpec {
       }
       val keySet = emptyKeySet
     }
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
   }
 
   object noSuchPropPath {
@@ -72,7 +72,7 @@ object DomainModelSpec {
       }
       val keySet = emptyKeySet
     }
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
   }
 
   object propTypeWithInternalList {
@@ -84,7 +84,7 @@ object DomainModelSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def domainModel = DomainModel(PTypePool(A), CTypePool(CType[B]))
+    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propTypeWithInternalOption {
@@ -96,7 +96,7 @@ object DomainModelSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def domainModel = DomainModel(PTypePool(A), CTypePool(CType[B]))
+    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propTypeWithInternalSet {
@@ -108,7 +108,7 @@ object DomainModelSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def domainModel = DomainModel(PTypePool(A), CTypePool(CType[B]))
+    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propTypeWithInternalPoly {
@@ -123,7 +123,7 @@ object DomainModelSpec {
     trait B { val id: String }
     case class C(id: String) extends B
 
-    def domainModel = DomainModel(
+    def modelType = ModelType(
       PTypePool(A),
       CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
@@ -137,7 +137,7 @@ object DomainModelSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def domainModel = DomainModel(PTypePool(A), CTypePool(CType[B]))
+    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithNonEmbeddable {
@@ -149,7 +149,7 @@ object DomainModelSpec {
       }
       val keySet = emptyKeySet
     }
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
   }
 
   object propPathWithTerminalList {
@@ -160,7 +160,7 @@ object DomainModelSpec {
       }
       val keySet = emptyKeySet
     }
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
   }
 
   object propPathWithTerminalOption {
@@ -171,7 +171,7 @@ object DomainModelSpec {
       }
       val keySet = emptyKeySet
     }
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
   }
 
   object propPathWithTerminalSet {
@@ -182,7 +182,7 @@ object DomainModelSpec {
       }
       val keySet = emptyKeySet
     }
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
   }
 
   object propPathWithTerminalPoly {
@@ -198,7 +198,7 @@ object DomainModelSpec {
 
     case class C(id: String) extends B
 
-    def domainModel = DomainModel(
+    def modelType = ModelType(
       PTypePool(A),
       CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
@@ -212,7 +212,7 @@ object DomainModelSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def domainModel = DomainModel(PTypePool(A), CTypePool(CType[B]))
+    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalOption {
@@ -224,7 +224,7 @@ object DomainModelSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def domainModel = DomainModel(PTypePool(A), CTypePool(CType[B]))
+    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalSet {
@@ -236,7 +236,7 @@ object DomainModelSpec {
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def domainModel = DomainModel(PTypePool(A), CTypePool(CType[B]))
+    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalPoly {
@@ -251,7 +251,7 @@ object DomainModelSpec {
     trait B { val id: String }
     case class C(id: String) extends B
 
-    def domainModel = DomainModel(
+    def modelType = ModelType(
       PTypePool(A),
       CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
@@ -264,7 +264,7 @@ object DomainModelSpec {
       }
       val keySet = emptyKeySet
     }
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
   }
 
   object supertypePropType {
@@ -275,7 +275,7 @@ object DomainModelSpec {
       }
       val keySet = emptyKeySet
     }
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
   }
 
   object subtypePropType {
@@ -291,7 +291,7 @@ object DomainModelSpec {
       val keySet = Set(key(props.id))
     }
 
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
   }
 
   object duplicateKey {
@@ -307,7 +307,7 @@ object DomainModelSpec {
       val keySet = Set(key(props.id1), key(props.id2))
     }
 
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
 
   }
 
@@ -324,7 +324,7 @@ object DomainModelSpec {
       override val indexSet = Set(index(props.id))
     }
 
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
 
   }
 
@@ -341,7 +341,7 @@ object DomainModelSpec {
       val keySet = Set(primaryKey(props.id, partition(props.id2)))
     }
 
-    def domainModel = DomainModel(PTypePool(A))
+    def modelType = ModelType(PTypePool(A))
 
   }
 
@@ -361,18 +361,18 @@ object DomainModelSpec {
       val keySet = emptyKeySet
     }
 
-    def domainModel = DomainModel(PTypePool(Derived))
+    def modelType = ModelType(PTypePool(Derived))
   }
 
   object derivedCTypeHasNoPoly {
     trait Poly { val id: String }
     case class Derived(id: String) extends Poly
-    def domainModel = DomainModel(PTypePool(), CTypePool(DerivedCType[Derived, Poly]))
+    def modelType = ModelType(PTypePool(), CTypePool(DerivedCType[Derived, Poly]))
   }
 
   object duplicateCTypes {
     case class A(id: String)
-    def domainModel = DomainModel(PTypePool(), CTypePool(CType[A], CType[A]))
+    def modelType = ModelType(PTypePool(), CTypePool(CType[A], CType[A]))
   }
 
   object duplicatePTypes {
@@ -387,176 +387,176 @@ object DomainModelSpec {
       }
       val keySet = emptyKeySet
     }
-    def domainModel = DomainModel(PTypePool(A, B))
+    def modelType = ModelType(PTypePool(A, B))
   }
 
 }
 
-/** unit tests for the proper [[DomainModel]] construction */
-class DomainModelSpec extends FlatSpec with GivenWhenThen with Matchers {
+/** unit tests for the proper [[ModelType]] construction */
+class ModelTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
-  behavior of "DomainModel package scanning"
+  behavior of "ModelType package scanning"
 
   it should "collect objects containing PTypes and CTypes" in {
-    packageScanning.domainModel.pTypePool.size should equal (1)
-    packageScanning.domainModel.cTypePool.size should equal (1)
+    packageScanning.modelType.pTypePool.size should equal (1)
+    packageScanning.modelType.cTypePool.size should equal (1)
   }
 
-  behavior of "DomainModel creation"
+  behavior of "ModelType creation"
 
   it should "throw exception when a PType contains a prop with an empty prop path" in {
     intercept[NoSuchPropPathException] {
-      DomainModelSpec.emptyPropPath.domainModel
+      ModelTypeSpec.emptyPropPath.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path not found in the persistent type" in {
     intercept[NoSuchPropPathException] {
-      DomainModelSpec.noSuchPropPath.domainModel
+      ModelTypeSpec.noSuchPropPath.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path not found in the component" in {
     intercept[NoSuchPropPathException] {
-      DomainModelSpec.noSuchPropPathInComponent.domainModel
+      ModelTypeSpec.noSuchPropPathInComponent.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a type that contains a list member" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propTypeWithInternalList.domainModel
+      ModelTypeSpec.propTypeWithInternalList.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a type that contains an option member" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propTypeWithInternalOption.domainModel
+      ModelTypeSpec.propTypeWithInternalOption.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a type that contains a set member" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propTypeWithInternalSet.domainModel
+      ModelTypeSpec.propTypeWithInternalSet.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a type that contains a poly member" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propTypeWithInternalPoly.domainModel
+      ModelTypeSpec.propTypeWithInternalPoly.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a non-embeddable, non-collection, non-basic" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propPathWithNonEmbeddable.domainModel
+      ModelTypeSpec.propPathWithNonEmbeddable.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path that terminates with a list" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propPathWithTerminalList.domainModel
+      ModelTypeSpec.propPathWithTerminalList.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path that terminates with a option" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propPathWithTerminalOption.domainModel
+      ModelTypeSpec.propPathWithTerminalOption.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path that terminates with a set" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propPathWithTerminalSet.domainModel
+      ModelTypeSpec.propPathWithTerminalSet.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path that terminates with a poly" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propPathWithTerminalPoly.domainModel
+      ModelTypeSpec.propPathWithTerminalPoly.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path with an intermediary list" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propPathWithInternalList.domainModel
+      ModelTypeSpec.propPathWithInternalList.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path with an intermediary option" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propPathWithInternalOption.domainModel
+      ModelTypeSpec.propPathWithInternalOption.modelType
     }
   }
 
   it should "throw exception when a PType contains a prop with a prop path with an intermediary set" in {
     intercept[UnsupportedPropTypeException] {
-      DomainModelSpec.propPathWithInternalSet.domainModel
+      ModelTypeSpec.propPathWithInternalSet.modelType
     }
   }
 
   // unlike terminal polys, intermediary polys can still be distilled down to a seq of basic components
   it should "pass when a PType contains a prop with a prop path with an intermediary poly" in {
-    DomainModelSpec.propPathWithInternalPoly.domainModel
+    ModelTypeSpec.propPathWithInternalPoly.modelType
   }
 
   it should "throw exception when the specified prop type is incompatible with the actual type" in {
     intercept[PropTypeException] {
-      DomainModelSpec.incompatiblePropType.domainModel
+      ModelTypeSpec.incompatiblePropType.modelType
     }
   }
 
   // String <:< AnyVal, but we need requested type to be subtype of the actual type, not the other way around:
   it should "throw exception when the specified prop type is a supertype of the actual type" in {
     intercept[PropTypeException] {
-      DomainModelSpec.supertypePropType.domainModel
+      ModelTypeSpec.supertypePropType.modelType
     }
   }
 
   it should "throw exception when the specified prop type is a subtype of the actual type" in {
     intercept[PropTypeException] {
-      DomainModelSpec.subtypePropType.domainModel
+      ModelTypeSpec.subtypePropType.modelType
     }
   }
 
   it should "throw exception when the PType has multiple keys with the same key value type" in {
     intercept[DuplicateKeyException[_, _]] {
-      DomainModelSpec.duplicateKey.domainModel
+      ModelTypeSpec.duplicateKey.modelType
     }
   }
 
   it should "throw exception when the PType has two or more keys or indexes defined over the same properties" in {
     intercept[IndexDuplicatesKeyException] {
-      DomainModelSpec.duplicateKeyOrIndex.domainModel
+      ModelTypeSpec.duplicateKeyOrIndex.modelType
     }
   }
 
   it should "throw exception if the primary key declares an invalid partition" in {
     intercept[InvalidPartitionException[_]] {
-      DomainModelSpec.invalidPartition.domainModel
+      ModelTypeSpec.invalidPartition.modelType
     }
   }
 
   it should "throw exception when the PolyPType is missing from the PTypePool" in {
     intercept[DerivedHasNoPolyException] {
-      DomainModelSpec.derivedPTypeHasNoPoly.domainModel
+      ModelTypeSpec.derivedPTypeHasNoPoly.modelType
     }
   }
 
   it should "throw exception when the PolyCType is missing from the CTypePool" in {
     intercept[DerivedHasNoPolyException] {
-      DomainModelSpec.derivedCTypeHasNoPoly.domainModel
+      ModelTypeSpec.derivedCTypeHasNoPoly.modelType
     }
   }
 
   it should "throw exception when there is a duplicate CType in the CTypePool" in {
     intercept[DuplicateCTypesException] {
-      DomainModelSpec.duplicateCTypes.domainModel
+      ModelTypeSpec.duplicateCTypes.modelType
     }
   }
 
   it should "throw exception when there is a duplicate PType in the PTypePool" in {
     intercept[DuplicatePTypesException] {
-      DomainModelSpec.duplicatePTypes.domainModel
+      ModelTypeSpec.duplicatePTypes.modelType
     }
   }
 

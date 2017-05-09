@@ -8,7 +8,7 @@ import fs2.Stream
 import fs2.Task
 import io.iteratee.{ Enumerator => CatsEnumerator }
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import longevity.model.KeyVal
 import longevity.model.PType
 import longevity.model.query.Query
@@ -30,7 +30,7 @@ import streamadapter.play.chunkeratorToPlayEnumerator
  */
 private[longevity] abstract class PRepo[P] private[persistence] (
   protected[longevity] val pType: PType[P],
-  protected[longevity] val domainModel: DomainModel) {
+  protected[longevity] val domainModel: ModelType) {
 
   private[persistence] var _repoOption: Option[Repo] = None
 

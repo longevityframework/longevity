@@ -17,7 +17,7 @@ import longevity.config.PersistenceConfig
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
 import longevity.model.DerivedPType
-import longevity.model.DomainModel
+import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.model.realized.RealizedPrimaryKey
@@ -40,7 +40,7 @@ import scala.concurrent.blocking
  */
 private[longevity] class CassandraRepo[P] private (
   pType: PType[P],
-  domainModel: DomainModel,
+  domainModel: ModelType,
   private val sessionInfo: CassandraRepo.CassandraSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends PRepo[P](pType, domainModel)
@@ -274,7 +274,7 @@ private[persistence] object CassandraRepo {
 
   def apply[P](
     pType: PType[P],
-    domainModel: DomainModel,
+    domainModel: ModelType,
     session: CassandraSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[CassandraRepo[_ >: P]])
