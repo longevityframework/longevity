@@ -16,14 +16,14 @@ import scala.concurrent.Future
 /** an in-memory repository for persistent entities of type `P`
  * 
  * @param pType the persistent type for the entities this repository handles
- * @param domainModel the domain model containing the entities that this repo persists
+ * @param modelType the domain model containing the entities that this repo persists
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
 private[longevity] class InMemRepo[P] private[persistence] (
   pType: PType[P],
-  domainModel: ModelType,
+  modelType: ModelType,
   protected val persistenceConfig: PersistenceConfig)
-extends PRepo[P](pType, domainModel)
+extends PRepo[P](pType, modelType)
 with InMemCreate[P]
 with InMemDelete[P]
 with InMemQuery[P]
@@ -54,24 +54,24 @@ private[longevity] object InMemRepo {
 
   private[persistence] def apply[P](
     pType: PType[P],
-    domainModel: ModelType,
+    modelType: ModelType,
     persistenceConfig: PersistenceConfig,
     polyRepoOpt: Option[InMemRepo[_ >: P]])
   : InMemRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
-        new InMemRepo(pType, domainModel, persistenceConfig) with PolyInMemRepo[P]
+        new InMemRepo(pType, modelType, persistenceConfig) with PolyInMemRepo[P]
       case pt: DerivedPType[_, _] =>
         def withPoly[Poly >: P](poly: InMemRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: InMemRepo[Poly] = poly
           }
-          with InMemRepo(pType, domainModel, persistenceConfig) with DerivedInMemRepo[P, Poly]
+          with InMemRepo(pType, modelType, persistenceConfig) with DerivedInMemRepo[P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new InMemRepo(pType, domainModel, persistenceConfig)
+        new InMemRepo(pType, modelType, persistenceConfig)
     }
     repo
   }

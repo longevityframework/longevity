@@ -1,6 +1,6 @@
 package longevity
 
 /** contains JSON marshallers and unmarshallers for the elements of your
- * domainModel
+ * modelType
  */
 package object json

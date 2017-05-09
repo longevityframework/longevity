@@ -76,7 +76,7 @@ package object blogCore {
     override lazy val indexSet = Set(index(props.blog))
   }
 
-  def domainModel = ModelType(
+  def modelType = ModelType(
     PTypePool(User, Blog, BlogPost),
     CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
 

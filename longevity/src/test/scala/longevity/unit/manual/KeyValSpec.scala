@@ -31,7 +31,7 @@ object KeyValSpec {
     import longevity.model.ModelType
     import longevity.model.PTypePool
 
-    val domainModel = ModelType(PTypePool(User))
+    val modelType = ModelType(PTypePool(User))
 
   }
 
@@ -60,7 +60,7 @@ object KeyValSpec {
     import longevity.model.ModelType
     import longevity.model.PTypePool
 
-    val domainModel = ModelType(PTypePool(User))
+    val modelType = ModelType(PTypePool(User))
 
   }
 
@@ -77,16 +77,16 @@ class KeyValSpec extends FlatSpec with GivenWhenThen with Matchers {
   "user manual example code" should "produce correct domain models" in {
 
     {
-      keyValues1.domainModel.pTypePool.size should equal (1)
-      keyValues1.domainModel.pTypePool.values.head should equal (keyValues1.User)
-      keyValues1.domainModel.cTypePool should be ('empty)
+      keyValues1.modelType.pTypePool.size should equal (1)
+      keyValues1.modelType.pTypePool.values.head should equal (keyValues1.User)
+      keyValues1.modelType.cTypePool should be ('empty)
       keyValues1.User.keySet.size should equal (1)
     }
 
     {
-      keyValues2.domainModel.pTypePool.size should equal (1)
-      keyValues2.domainModel.pTypePool.values.head should equal (keyValues2.User)
-      keyValues2.domainModel.cTypePool should be ('empty)
+      keyValues2.modelType.pTypePool.size should equal (1)
+      keyValues2.modelType.pTypePool.values.head should equal (keyValues2.User)
+      keyValues2.modelType.cTypePool should be ('empty)
       keyValues2.User.keySet.size should equal (1)
     }
 

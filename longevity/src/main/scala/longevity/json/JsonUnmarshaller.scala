@@ -12,13 +12,13 @@ import org.json4s.JsonAST.JValue
  * the JSON. expects [[longevity.model.PolyCType PolyCTypes]] to not be
  * inlined.
  */
-class JsonUnmarshaller(domainModel: ModelType) {
+class JsonUnmarshaller(modelType: ModelType) {
 
   private val translator = new JsonToEmblematicTranslator {
-    override protected val emblematic = domainModel.emblematic
+    override protected val emblematic = modelType.emblematic
   }
 
-  /** unmarshalls a domainModel object from json4s AST */
+  /** unmarshalls a modelType object from json4s AST */
   def unmarshall[A : TypeKey](input: JValue): A = translator.translate[A](input)
 
 }

@@ -11,13 +11,13 @@ import org.json4s.JsonAST.JValue
  * persistent components with a single member will be inlined in the JSON. does
  * not inline [[longevity.model.PolyCType PolyCTypes]].
  */
-class JsonMarshaller(domainModel: ModelType) {
+class JsonMarshaller(modelType: ModelType) {
 
   private val translator = new EmblematicToJsonTranslator {
-    override protected val emblematic = domainModel.emblematic
+    override protected val emblematic = modelType.emblematic
   }
 
-  /** marshalls a domainModel object into json4s AST */
+  /** marshalls a modelType object into json4s AST */
   def marshall[A : TypeKey](input: A): JValue = translator.translate[A](input)
 
 }

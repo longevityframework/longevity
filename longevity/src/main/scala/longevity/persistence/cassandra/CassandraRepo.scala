@@ -34,16 +34,16 @@ import scala.concurrent.blocking
 /** a Cassandra repository for persistent entities of type `P`.
  *
  * @param pType the type of the persistent entities this repository handles
- * @param domainModel the domain model containing the persistent that this repo persists
+ * @param modelType the domain model containing the persistent that this repo persists
  * @param sessionInfo the connection to the cassandra database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
 private[longevity] class CassandraRepo[P] private (
   pType: PType[P],
-  domainModel: ModelType,
+  modelType: ModelType,
   private val sessionInfo: CassandraRepo.CassandraSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
-extends PRepo[P](pType, domainModel)
+extends PRepo[P](pType, modelType)
 with CassandraSchema[P]
 with CassandraCreate[P]
 with CassandraRetrieve[P]
@@ -90,11 +90,11 @@ with LazyLogging {
   }
 
   protected val emblematicToJsonTranslator = new EmblematicToJsonTranslator {
-    override protected val emblematic = domainModel.emblematic
+    override protected val emblematic = modelType.emblematic
   }
 
   protected val jsonToEmblematicTranslator = new JsonToEmblematicTranslator {
-    override protected val emblematic = domainModel.emblematic
+    override protected val emblematic = modelType.emblematic
   }
 
   protected def columnName(prop: RealizedPropComponent[_, _, _]) = "prop_" + scoredPath(prop)
@@ -274,25 +274,25 @@ private[persistence] object CassandraRepo {
 
   def apply[P](
     pType: PType[P],
-    domainModel: ModelType,
+    modelType: ModelType,
     session: CassandraSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[CassandraRepo[_ >: P]])
   : CassandraRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
-        new CassandraRepo(pType, domainModel, session, config) with PolyCassandraRepo[P]
+        new CassandraRepo(pType, modelType, session, config) with PolyCassandraRepo[P]
       case pt: DerivedPType[_, _] =>
         def withPoly[Poly >: P](poly: CassandraRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: CassandraRepo[Poly] = poly
           }
-          with CassandraRepo(pType, domainModel, session, config) with DerivedCassandraRepo[P, Poly]
+          with CassandraRepo(pType, modelType, session, config) with DerivedCassandraRepo[P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new CassandraRepo(pType, domainModel, session, config)
+        new CassandraRepo(pType, modelType, session, config)
     }
     repo
   }

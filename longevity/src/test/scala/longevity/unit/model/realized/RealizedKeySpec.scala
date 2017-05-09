@@ -10,7 +10,7 @@ class RealizedKeySpec extends FlatSpec with GivenWhenThen with Matchers {
 
   import longevity.unit.blogCore._
 
-  val userRealizedPType = domainModel.realizedPTypes(User)
+  val userRealizedPType = modelType.realizedPTypes(User)
   val realizedKey = userRealizedPType.realizedKey[Username]
 
   behavior of "RealizedKey.keyValTypeKey"

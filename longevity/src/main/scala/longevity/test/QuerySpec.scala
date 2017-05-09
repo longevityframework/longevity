@@ -41,7 +41,7 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
   protected val numEntities = 10
 
   /** the persistent type */
-  protected final val pType = longevityContext.domainModel.pTypePool[P]
+  protected final val pType = longevityContext.modelType.pTypePool[P]
 
   /** the entities we are querying against */
   protected final var entities: Set[P] = _
@@ -49,7 +49,7 @@ extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
   /** the persistent states of the entities we are querying against */
   protected final var pStates: Seq[PState[P]] = _
 
-  private val realizedPType = longevityContext.domainModel.realizedPTypes(pType)
+  private val realizedPType = longevityContext.modelType.realizedPTypes(pType)
 
   override def beforeAll(): Unit = {
     super.beforeAll()

@@ -9,7 +9,7 @@ import scala.concurrent.Future
 
 private[persistence] trait BasePolyRepo[P] extends PRepo[P] {
 
-  private val union: Union[P] = domainModel.emblematic.unions(pTypeKey)
+  private val union: Union[P] = modelType.emblematic.unions(pTypeKey)
 
   override def create(p: P)(implicit context: ExecutionContext) = {
     def createDerived[D <: P : TypeKey] = repo.pRepoMap[D].create(p.asInstanceOf[D])(context)

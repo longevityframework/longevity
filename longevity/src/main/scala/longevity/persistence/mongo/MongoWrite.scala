@@ -17,7 +17,7 @@ import org.bson.BsonObjectId
 private[mongo] trait MongoWrite[P] {
   repo: MongoRepo[P] =>
 
-  protected lazy val domainModelToBsonTranslator = new DomainModelToBsonTranslator(domainModel.emblematic)
+  protected lazy val domainModelToBsonTranslator = new DomainModelToBsonTranslator(modelType.emblematic)
 
   /** BSON for a persistent state. this puts the primary key in the `_id`
    * column, which may or may not be the best choice. alternative is to just put

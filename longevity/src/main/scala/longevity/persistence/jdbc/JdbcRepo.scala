@@ -33,16 +33,16 @@ import scala.concurrent.blocking
 /** a Jdbc repository for persistent entities of type `P`.
  *
  * @param pType the type of the persistent entities this repository handles
- * @param domainModel the domain model containing the persistent that this repo persists
+ * @param modelType the domain model containing the persistent that this repo persists
  * @param session the connection to the jdbc database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
 private[persistence] class JdbcRepo[P] private[persistence] (
   pType: PType[P],
-  domainModel: ModelType,
+  modelType: ModelType,
   private val sessionInfo: JdbcRepo.JdbcSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
-extends PRepo[P](pType, domainModel)
+extends PRepo[P](pType, modelType)
 with JdbcSchema[P]
 with JdbcCreate[P]
 with JdbcRetrieve[P]
@@ -89,11 +89,11 @@ with LazyLogging {
   }
 
   protected val emblematicToJsonTranslator = new EmblematicToJsonTranslator {
-    override protected val emblematic = domainModel.emblematic
+    override protected val emblematic = modelType.emblematic
   }
 
   protected val jsonToEmblematicTranslator = new JsonToEmblematicTranslator {
-    override protected val emblematic = domainModel.emblematic
+    override protected val emblematic = modelType.emblematic
   }
 
   protected def columnName(prop: RealizedPropComponent[_, _, _]) = "prop_" + scoredPath(prop)
@@ -275,25 +275,25 @@ private[persistence] object JdbcRepo {
 
   def apply[P](
     pType: PType[P],
-    domainModel: ModelType,
+    modelType: ModelType,
     session: JdbcRepo.JdbcSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[JdbcRepo[_ >: P]])
   : JdbcRepo[P] = {
     val repo = pType match {
       case pt: PolyPType[_] =>
-        new JdbcRepo(pType, domainModel, session, config) with PolyJdbcRepo[P]
+        new JdbcRepo(pType, modelType, session, config) with PolyJdbcRepo[P]
       case pt: DerivedPType[_, _] =>
         def withPoly[Poly >: P](poly: JdbcRepo[Poly]) = {
           class DerivedRepo extends {
             override protected val polyRepo: JdbcRepo[Poly] = poly
           }
-          with JdbcRepo(pType, domainModel, session, config) with DerivedJdbcRepo[P, Poly]
+          with JdbcRepo(pType, modelType, session, config) with DerivedJdbcRepo[P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new JdbcRepo(pType, domainModel, session, config)
+        new JdbcRepo(pType, modelType, session, config)
     }
     repo
   }

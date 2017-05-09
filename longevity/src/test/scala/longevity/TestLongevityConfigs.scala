@@ -25,37 +25,37 @@ object TestLongevityConfigs {
 
   def contexts(
     configKeys: Seq[ConfigMatrixKey],
-    domainModel: ModelType,
+    modelType: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty)
   : Seq[LongevityContext] =
     configKeys.map { key =>
-      new LongevityContext(domainModel, configForKey(key), generators)
+      new LongevityContext(modelType, configForKey(key), generators)
     }
 
   def contextMatrix(
-    domainModel: ModelType,
+    modelType: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(ConfigMatrixKey.values, domainModel, generators)
+    contexts(ConfigMatrixKey.values, modelType, generators)
 
   def sparseContextMatrix(
-    domainModel: ModelType,
+    modelType: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(ConfigMatrixKey.sparseValues, domainModel, generators)
+    contexts(ConfigMatrixKey.sparseValues, modelType, generators)
 
   def cassandraOnlyContextMatrix(
-    domainModel: ModelType,
+    modelType: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(Seq(cassandraConfigKey), domainModel, generators)
+    contexts(Seq(cassandraConfigKey), modelType, generators)
 
   def mongoOnlyContextMatrix(
-    domainModel: ModelType,
+    modelType: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(Seq(mongoConfigKey), domainModel, generators)    
+    contexts(Seq(mongoConfigKey), modelType, generators)    
 
   def sqliteOnlyContextMatrix(
-    domainModel: ModelType,
+    modelType: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(Seq(sqliteConfigKey), domainModel, generators)
+    contexts(Seq(sqliteConfigKey), modelType, generators)
 
   val inMemConfigKey     = ConfigMatrixKey(InMem,     false, false, false)
   val cassandraConfigKey = ConfigMatrixKey(Cassandra, false, false, false)

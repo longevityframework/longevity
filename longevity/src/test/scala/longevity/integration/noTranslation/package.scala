@@ -15,10 +15,10 @@ package object noTranslation {
     WithNoTranslationOption,
     WithNoTranslationSet)
 
-  val domainModel = ModelType(pTypes)
-  val cassandraContext = new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)
-  val inMemContext     = new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)
-  val mongoContext     = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
-  val sqliteContext    = new LongevityContext(domainModel, TestLongevityConfigs.sqliteConfig)
+  val modelType = ModelType(pTypes)
+  val cassandraContext = new LongevityContext(modelType, TestLongevityConfigs.cassandraConfig)
+  val inMemContext     = new LongevityContext(modelType, TestLongevityConfigs.inMemConfig)
+  val mongoContext     = new LongevityContext(modelType, TestLongevityConfigs.mongoConfig)
+  val sqliteContext    = new LongevityContext(modelType, TestLongevityConfigs.sqliteConfig)
 
 }
