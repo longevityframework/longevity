@@ -5,8 +5,12 @@ import streamadapter.fs2.fs2StreamToChunkerator
 
 /** extends [[QuerySpec]] to add tests for 
  * [[longevity.persistence.streams.FS2Repo.queryToFS2 FS2Repo.queryToFS2]]
+ * 
+ * @tparam M the model
+ *
+ * @tparam P the persistent type
  */
-trait ExerciseFS2[P] extends QuerySpec[P] {
+trait ExerciseFS2[M, P] extends QuerySpec[M, P] {
 
   override protected def exerciseStreams(query: Query[P], expected: Set[P]): Unit = {
     super.exerciseStreams(query, expected)

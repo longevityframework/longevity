@@ -8,6 +8,5 @@ import longevity.integration.model.derived
 
 /** tests for mongo repos that share tables in the presence of [[PolyCType]] */
 class MongoPolyReposSpec extends PolyReposSpec(
-  new LongevityContext(
-    derived.domainModel,
+  new LongevityContext[derived.DomainModel](
     TestLongevityConfigs.configMatrix(ConfigMatrixKey(MongoDB, false, false, false))))

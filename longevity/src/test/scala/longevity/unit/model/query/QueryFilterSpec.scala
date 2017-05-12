@@ -2,7 +2,7 @@ package longevity.unit.model.query
 
 import longevity.integration.model.basics.Basics
 import longevity.integration.model.basics.BasicsId
-import longevity.integration.model.basics.domainModel
+import longevity.integration.model.basics.DomainModel
 import longevity.model.query.QueryFilter
 import org.joda.time.DateTime
 import org.scalatest.FlatSpec
@@ -11,7 +11,7 @@ import org.scalatest.Matchers
 
 /** unit tests for [[QueryFilter.matches]] */
 class QueryFilterSpec extends FlatSpec with GivenWhenThen with Matchers {
-  private val rpt = domainModel.realizedPTypes(Basics)
+  private val rpt = DomainModel.modelType.realizedPTypes(Basics)
 
   val degenerate = Basics(BasicsId("id"), false, '0', 0D, 0F, 0, 0L, "", DateTime.now)
   def withInt(i: Int) = degenerate.copy(int = i)

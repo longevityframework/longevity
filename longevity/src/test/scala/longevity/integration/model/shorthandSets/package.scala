@@ -5,8 +5,8 @@ import longevity.model.annotations.domainModel
 
 package object shorthandSets {
 
-  @domainModel object domainModel
+  @domainModel trait DomainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel)
+  val contexts = TestLongevityConfigs.sparseContextMatrix[DomainModel]()
 
 }

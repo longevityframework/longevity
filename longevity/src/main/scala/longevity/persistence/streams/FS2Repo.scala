@@ -11,8 +11,10 @@ import longevity.persistence.Repo
  *
  * `FS2Repo` is provided by an implicit conversion from `Repo`, so that FS2 can remain an optional
  * dependency for longevity users. otherwise, it would have been included as part of the [[Repo]].
+ * 
+ * @tparam M the model
  */
-class FS2Repo(repo: Repo) {
+class FS2Repo[M](repo: Repo[M]) {
 
   /** streams persistent objects matching a query
    *

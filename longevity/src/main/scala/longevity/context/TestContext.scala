@@ -7,8 +7,11 @@ import longevity.test.RepoCrudSpec
 import longevity.test.TestDataGenerator
 import scala.concurrent.ExecutionContext
 
-/** the portion of a [[LongevityContext]] that deals with testing */
-trait TestContext {
+/** the portion of a [[LongevityContext]] that deals with testing
+ * 
+ * @tparam M the model
+ */
+trait TestContext[M] {
 
   /** a collection of custom generators to use when generating test data.
    * defaults to an empty collection
@@ -16,10 +19,10 @@ trait TestContext {
   val customGeneratorPool: CustomGeneratorPool
 
   /** a set of repositories used for testing, targeting the same persistence strategy as your repo */
-  val testRepo: Repo
+  val testRepo: Repo[M]
 
   /** an in-memory set of repositories for this longevity context, for use in testing */
-  val inMemTestRepo: Repo
+  val inMemTestRepo: Repo[M]
 
   /** a utility class for generating test data for the model type */
   val testDataGenerator: TestDataGenerator
@@ -36,8 +39,10 @@ object TestContext {
    * `LongevityContext`, so that ScalaTest can remain an optional dependency
    * for longevity users. otherwise, it would have been included as part of the
    * [[TestContext]].
+   * 
+   * @tparam M the model
    */
-  implicit class ScalaTestSpecs(longevityContext: LongevityContext) {
+  implicit class ScalaTestSpecs[M](longevityContext: LongevityContext[M]) {
 
     /** a simple [[http://www.scalatest.org/ ScalaTest]] spec to test your
      * [[longevity.context.LongevityContext.repo repo]]. all you have

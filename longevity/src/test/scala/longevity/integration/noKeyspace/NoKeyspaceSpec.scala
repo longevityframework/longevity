@@ -18,8 +18,7 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
 
   override protected implicit val executionContext = globalExecutionContext
 
-  val context = new LongevityContext(
-    basics.domainModel,
+  val context = new LongevityContext[basics.DomainModel](
     LongevityConfig(
       backEnd = Cassandra,
       autocreateSchema = false,

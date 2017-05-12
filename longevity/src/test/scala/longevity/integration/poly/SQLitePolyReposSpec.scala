@@ -8,6 +8,5 @@ import longevity.integration.model.derived
 
 /** tests for SQLite repos that share tables in the presence of [[PolyCType]] */
 class SQLitePolyReposSpec extends PolyReposSpec(
-  new LongevityContext(
-    derived.domainModel,
+  new LongevityContext[derived.DomainModel](
     TestLongevityConfigs.configMatrix(ConfigMatrixKey(SQLite, false, false, false))))

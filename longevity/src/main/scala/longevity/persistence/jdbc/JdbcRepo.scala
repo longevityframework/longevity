@@ -39,7 +39,7 @@ import scala.concurrent.blocking
  */
 private[persistence] class JdbcRepo[P] private[persistence] (
   pType: PType[P],
-  modelType: ModelType,
+  modelType: ModelType[_],
   private val sessionInfo: JdbcRepo.JdbcSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends PRepo[P](pType, modelType)
@@ -275,7 +275,7 @@ private[persistence] object JdbcRepo {
 
   def apply[P](
     pType: PType[P],
-    modelType: ModelType,
+    modelType: ModelType[_],
     session: JdbcRepo.JdbcSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[JdbcRepo[_ >: P]])

@@ -32,12 +32,12 @@ private[longevity] object RepoBuilder {
 
   // TODO please factor away some of this duplicitous code
 
-  private[longevity] def buildRepo(
-    modelType: ModelType,
+  private[longevity] def buildRepo[M](
+    modelType: ModelType[M],
     backEnd: BackEnd,
     config: LongevityConfig,
     test: Boolean)
-  : Repo = {
+  : Repo[M] = {
     val repo = backEnd match {
       case Cassandra =>
         val cassandraConfig = if (test) config.test.cassandra else config.cassandra
@@ -67,11 +67,11 @@ private[longevity] object RepoBuilder {
     : R[P]
   }
 
-  private def cassandraRepo(
-    modelType: ModelType,
+  private def cassandraRepo[M](
+    modelType: ModelType[M],
     session: CassandraSessionInfo,
     persistenceConfig: PersistenceConfig)
-  : Repo = {
+  : Repo[M] = {
     object repoFactory extends StockRepoFactory[CassandraRepo] {
       def build[P](
         pType: PType[P],
@@ -82,7 +82,7 @@ private[longevity] object RepoBuilder {
     buildRepo(modelType, repoFactory, session, persistenceConfig)
   }
 
-  private def inMemTestRepo(modelType: ModelType, persistenceConfig: PersistenceConfig): Repo = {
+  private def inMemTestRepo[M](modelType: ModelType[M], persistenceConfig: PersistenceConfig): Repo[M] = {
     object repoFactory extends StockRepoFactory[InMemRepo] {
       def build[P](
         pType: PType[P],
@@ -93,11 +93,11 @@ private[longevity] object RepoBuilder {
     buildRepo(modelType, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def mongoRepo(
-    modelType: ModelType,
+  private def mongoRepo[M](
+    modelType: ModelType[M],
     session: MongoSessionInfo,
     persistenceConfig: PersistenceConfig)
-  : Repo = {
+  : Repo[M] = {
     object repoFactory extends StockRepoFactory[MongoRepo] {
       def build[P](
         pType: PType[P],
@@ -108,11 +108,11 @@ private[longevity] object RepoBuilder {
     buildRepo(modelType, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def sqliteRepo(
-    modelType: ModelType,
+  private def sqliteRepo[M](
+    modelType: ModelType[M],
     session: JdbcSessionInfo,
     persistenceConfig: PersistenceConfig)
-  : Repo = {
+  : Repo[M] = {
     object repoFactory extends StockRepoFactory[SQLiteRepo] {
       def build[P](
         pType: PType[P],
@@ -123,11 +123,11 @@ private[longevity] object RepoBuilder {
     buildRepo(modelType, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def jdbcRepo(
-    modelType: ModelType,
+  private def jdbcRepo[M](
+    modelType: ModelType[M],
     session: JdbcSessionInfo,
     persistenceConfig: PersistenceConfig)
-  : Repo = {
+  : Repo[M] = {
     object repoFactory extends StockRepoFactory[JdbcRepo] {
       def build[P](
         pType: PType[P],
@@ -138,12 +138,12 @@ private[longevity] object RepoBuilder {
     buildRepo(modelType, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def buildRepo[R[P] <: PRepo[P]](
-    modelType: ModelType,
+  private def buildRepo[M, R[P] <: PRepo[P]](
+    modelType: ModelType[M],
     stockRepoFactory: StockRepoFactory[R],
     schemaCreator: SchemaCreator,
     persistenceConfig: PersistenceConfig)
-  : Repo = {
+  : Repo[M] = {
     var keyToRepoMap = TypeKeyMap[Any, R]
     type Pair[P] = TypeBoundPair[Any, TypeKey, PType, P]
     def createRepoFromPair[P](pair: Pair[P]): Unit = {
@@ -161,7 +161,7 @@ private[longevity] object RepoBuilder {
     }
     modelType.pTypePool.filter(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
     modelType.pTypePool.filterNot(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
-    val repo = new Repo(keyToRepoMap.widen[PRepo], schemaCreator)
+    val repo = new Repo[M](keyToRepoMap.widen[PRepo], schemaCreator)
     finishRepoInitialization(repo)
     autocreateSchema(repo, persistenceConfig)
     repo
@@ -171,11 +171,11 @@ private[longevity] object RepoBuilder {
     pair._2.isInstanceOf[PolyPType[_]]
   }
 
-  private def finishRepoInitialization(repo: Repo): Unit = {
+  private def finishRepoInitialization(repo: Repo[_]): Unit = {
     repo.pRepoMap.values.foreach { pRepo => pRepo._repoOption = Some(repo) }
   }
 
-  private def autocreateSchema(repo: Repo, persistenceConfig: PersistenceConfig): Unit = {
+  private def autocreateSchema(repo: Repo[_], persistenceConfig: PersistenceConfig): Unit = {
     if (persistenceConfig.autocreateSchema) {
       import scala.concurrent.Await
       import scala.concurrent.duration.Duration

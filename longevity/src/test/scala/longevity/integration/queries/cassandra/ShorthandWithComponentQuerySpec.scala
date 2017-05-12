@@ -7,8 +7,8 @@ import longevity.integration.model.shorthandWithComponent._
 import longevity.integration.queries.queryTestsExecutionContext
 
 class ShorthandWithComponentQuerySpec
-extends QuerySpec[WithShorthandWithComponent](
-  new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)) {
+extends QuerySpec[DomainModel, WithShorthandWithComponent](
+  new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig)) {
 
   lazy val sample = randomP
 

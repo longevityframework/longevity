@@ -9,8 +9,11 @@ import longevity.model.query.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** a collection of repositories */
-class Repo private[persistence](
+/** a repository for persistent objects in a model
+ * 
+ * @tparam M the model
+ */
+class Repo[M] private[persistence](
   private[persistence] val pRepoMap: TypeKeyMap[Any, PRepo],
   private[this] val schemaCreator: SchemaCreator) {
 

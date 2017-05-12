@@ -26,7 +26,7 @@ import scala.concurrent.blocking
  */
 private[longevity] class MongoRepo[P] private[persistence] (
   pType: PType[P],
-  modelType: ModelType,
+  modelType: ModelType[_],
   protected val session: MongoRepo.MongoSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends PRepo[P](pType, modelType)
@@ -62,7 +62,7 @@ private[persistence] object MongoRepo {
 
   def apply[P](
     pType: PType[P],
-    modelType: ModelType,
+    modelType: ModelType[_],
     session: MongoSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[MongoRepo[_ >: P]])

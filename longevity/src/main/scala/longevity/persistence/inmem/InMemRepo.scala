@@ -21,7 +21,7 @@ import scala.concurrent.Future
  */
 private[longevity] class InMemRepo[P] private[persistence] (
   pType: PType[P],
-  modelType: ModelType,
+  modelType: ModelType[_],
   protected val persistenceConfig: PersistenceConfig)
 extends PRepo[P](pType, modelType)
 with InMemCreate[P]
@@ -54,7 +54,7 @@ private[longevity] object InMemRepo {
 
   private[persistence] def apply[P](
     pType: PType[P],
-    modelType: ModelType,
+    modelType: ModelType[_],
     persistenceConfig: PersistenceConfig,
     polyRepoOpt: Option[InMemRepo[_ >: P]])
   : InMemRepo[P] = {

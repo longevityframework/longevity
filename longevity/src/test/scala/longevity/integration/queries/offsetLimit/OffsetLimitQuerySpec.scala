@@ -1,39 +1,12 @@
 package longevity.integration.queries.offsetLimit
 
 import longevity.context.LongevityContext
-import longevity.model.ModelType
-import longevity.model.PType
-import longevity.model.PTypePool
 import longevity.model.query.Query
 import longevity.persistence.PState
 import longevity.test.LongevityIntegrationSpec
 import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-
-/** we use a special model type for limit/offset tests to prevent interference
- * from other tests.
- *
- * please note that if for some reason afterAll fails to run, then future runs
- * of this test will fail until someone manually cleans out (or deletes) the
- * limit_offset table.
- */
-object OffsetLimitQuerySpec {
-
-  case class OffsetLimit(i: Int, j: Int)
-
-  object OffsetLimit extends PType[OffsetLimit] {
-    object props {
-      val i = prop[Int]("i")
-      val j = prop[Int]("j")
-    }
-    val keySet = emptyKeySet
-    override val indexSet = Set(index(props.i), index(props.j))
-  }
-
-  val modelType = ModelType(PTypePool(OffsetLimit))
-
-}
 
 /** abstract superclass for tests of query limit/offset clauses
  *
@@ -48,13 +21,11 @@ object OffsetLimitQuerySpec {
  * @see https://www.pivotaltracker.com/story/show/127406611
  */
 class OffsetLimitQuerySpec(
-  protected val longevityContext: LongevityContext,
+  protected val longevityContext: LongevityContext[DomainModel],
   private val testOffsets: Boolean = true)
-extends FlatSpec with LongevityIntegrationSpec {
+extends FlatSpec with LongevityIntegrationSpec[DomainModel] {
 
   protected implicit val executionContext = ExecutionContext.global
-
-  import OffsetLimitQuerySpec._
 
   val ps = for (i <- 0 until 10) yield OffsetLimit(i, 0)
   val repo = longevityContext.testRepo

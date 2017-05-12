@@ -8,6 +8,5 @@ import longevity.integration.model.basics
 
 /** optimistic locking tests for mongo back end */
 class MongoOptLockSpec extends OptLockSpec(
-  new LongevityContext(
-    basics.domainModel,
+  new LongevityContext[basics.DomainModel](
     TestLongevityConfigs.configMatrix(ConfigMatrixKey(MongoDB, true, true, false))))

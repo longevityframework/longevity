@@ -13,8 +13,10 @@ import longevity.persistence.Repo
  * `AkkaStreamsRepo` is provided by an implicit conversion from `Repo`, so that
  * Akka Streams can remain an optional dependency for longevity users.
  * otherwise, it would have been included as part of the [[Repo]].
+ * 
+ * @tparam M the model
  */
-class AkkaStreamsRepo(repo: Repo) {
+class AkkaStreamsRepo[M](repo: Repo[M]) {
 
   /** streams persistent objects matching a query
    *

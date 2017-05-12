@@ -16,7 +16,7 @@ object LongevityContext {
 
   /** creates and returns a [[LongevityContext]] using a Typesafe config
    * 
-   * @param modelType the model type
+   * @tparam M the model
    *
    * @param typesafeConfig the typesafe configuration. defaults to typesafe
    * config's `ConfigFactory.load()`
@@ -24,89 +24,99 @@ object LongevityContext {
    * @param customGeneratorPool a collection of custom generators to use when
    * generating test data. defaults to empty
    * 
+   * @param modelType the model type
+   *
    * @throws longevity.exceptions.context.LongevityConfigException if the
    * typesafe configuration does not adequately specify the LongevityConfig
    */
-  def apply(
-    modelType: ModelType,
+  def apply[M](
     typesafeConfig: Config = ConfigFactory.load(),
-    customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
-  : LongevityContext =
-    new LongevityContext(modelType, LongevityConfig(typesafeConfig), customGeneratorPool)
+    customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)(
+    implicit modelType: ModelType[M])
+  : LongevityContext[M] =
+    new LongevityContext(LongevityConfig(typesafeConfig), customGeneratorPool)
 
   /** creates and returns a [[LongevityContext]] using a
    * [[longevity.config.LongevityConfig LongevityConfig]]
-   * 
+   *
    * @param modelType the model type
    *
    * @param config the longevity configuration
    *
    * @param customGeneratorPool a collection of custom generators to use when
    * generating test data. defaults to empty
-   */
-  def apply(
-    modelType: ModelType,
-    config: LongevityConfig,
-    customGeneratorPool: CustomGeneratorPool)
-  : LongevityContext =
-    new LongevityContext(modelType, config, customGeneratorPool)
-
-  /** creates and returns a [[LongevityContext]] using a
-   * [[longevity.config.LongevityConfig LongevityConfig]].
-   * the context will have an empty set of custom generators
    * 
-   * @param modelType the model type
+   * @tparam M the model
+   */
+  def apply[M](
+    config: LongevityConfig,
+    customGeneratorPool: CustomGeneratorPool)(
+    implicit modelType: ModelType[M])
+  : LongevityContext[M] =
+    new LongevityContext(config, customGeneratorPool)
+
+  /** creates and returns a [[LongevityContext]] using a [[longevity.config.LongevityConfig
+   * LongevityConfig]]. the context will have an empty set of custom generators
+   * 
+   * @tparam M the model
    *
    * @param config the longevity configuration
+   *
+   * @param modelType the model type
    */
-  def apply(modelType: ModelType, config: LongevityConfig): LongevityContext = 
-    new LongevityContext(modelType, config, CustomGeneratorPool.empty)
+  def apply[M](config: LongevityConfig)(implicit modelType: ModelType[M]): LongevityContext[M] =
+    new LongevityContext(config, CustomGeneratorPool.empty)
 
 }
 
-/** a collection of longevity utilities applicable to a specific
- * [[longevity.model.ModelType ModelType]].
+/** a collection of longevity utilities applicable to a specific [[longevity.model.ModelType
+ * ModelType]].
  *
- * @constructor creates a [[LongevityContext]] using a
- * [[longevity.config.LongevityConfig LongevityConfig]]
- * 
- * @param modelType the model type
+ * @tparam M the model
+ *
+ * @constructor creates a [[LongevityContext]] using a [[longevity.config.LongevityConfig
+ * LongevityConfig]]
  *
  * @param config the longevity configuration
  *
- * @param customGeneratorPool a collection of custom generators to use when
- * generating test data. defaults to empty
+ * @param customGeneratorPool a collection of custom generators to use when generating test data.
+ * defaults to empty
+ * 
+ * @param modelType the model type
  */
-final class LongevityContext(
-  val modelType: ModelType,
+final class LongevityContext[M](
   val config: LongevityConfig,
-  val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
-extends PersistenceContext with TestContext with JsonContext {
+  val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)(
+  implicit val modelType: ModelType[M])
+extends PersistenceContext[M] with TestContext[M] with JsonContext {
 
   /** constructs a [[LongevityContext]] using a Typesafe config
    * 
-   * @param modelType the model type
-   * 
+   * @tparam M the model
+   *
    * @param typesafeConfig the typesafe configuration
    * 
    * @param customGeneratorPool a collection of custom generators to use when
    * generating test data
    * 
+   * @param modelType the model type
+   * 
    * @throws longevity.exceptions.context.LongevityConfigException if the
    * typesafe configuration does not adequately specify the LongevityConfig
    */
-  def this(modelType: ModelType, typesafeConfig: Config, customGeneratorPool: CustomGeneratorPool) =
-    this(modelType, LongevityConfig(typesafeConfig), customGeneratorPool)
+  def this(typesafeConfig: Config, customGeneratorPool: CustomGeneratorPool)(implicit modelType: ModelType[M]) =
+    this(LongevityConfig(typesafeConfig), customGeneratorPool)
 
-  /** constructs a [[LongevityContext]] with an empty set of custom generators
-   * using a Typesafe config
+  /** constructs a [[LongevityContext]] with an empty set of custom generators using a Typesafe config
    * 
-   * @param modelType the model type
+   * @tparam M the model
    * 
    * @param typesafeConfig the typesafe configuration
+   *
+   * @param modelType the model type
    */
-  def this(modelType: ModelType, typesafeConfig: Config) =
-    this(modelType, typesafeConfig, CustomGeneratorPool.empty)
+  def this(typesafeConfig: Config)(implicit modelType: ModelType[M]) =
+    this(typesafeConfig, CustomGeneratorPool.empty)
 
   lazy val repo = buildRepo(modelType, config.backEnd, config, false)
 

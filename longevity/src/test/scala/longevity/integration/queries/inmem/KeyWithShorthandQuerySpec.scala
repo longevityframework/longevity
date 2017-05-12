@@ -6,8 +6,8 @@ import longevity.test.QuerySpec
 import longevity.integration.model.keyWithShorthand._
 import longevity.integration.queries.queryTestsExecutionContext
 
-class KeyWithShorthandQuerySpec extends QuerySpec[KeyWithShorthand](
-  new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)) {
+class KeyWithShorthandQuerySpec extends QuerySpec[DomainModel, KeyWithShorthand](
+  new LongevityContext[DomainModel](TestLongevityConfigs.inMemConfig)) {
 
   lazy val sample = randomP
 

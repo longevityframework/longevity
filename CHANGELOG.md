@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.23.0] - TODO
+## [0.23.0] - TODO - Use Type Classes to Improve Type Safety of Persistent API
 
 - 2017.05.08 - Merge `longevity.persistence.Repo` and `longevity.persistence.RepoPool` APIs. There
   is now a single repository, and the create/retrieve/update/delete/query methods now all take the
@@ -15,6 +15,18 @@
   In most cases, you can leave off type parameter, as the compiler can easily infer it:
 
   `longevityContext.repo.create(user)`
+
+- 2017.05.12 - Replace `longevity.model.DomainModel` with a `longevity.model.ModelType` type-class.
+  Everything that used to live in `DomainModel` now lives in `ModelType`.
+  `longevity.model.annotations.domainModel` now annotates a phantom class or trait, instead of the
+  object that was to become the old `DomainModel`. This annotation macro adds an `implicit object
+  modelType` into the companion object of the annotated class. `ModelType` now takes a type
+  parameter `M` that refers to the phantom class annotated with `domainModel`.
+
+  `longevity.context.LongevityContext` now takes a type parameter `M` for the model class. In place
+  of the explicit `DomainModel` argument, it now takes an implicit `ModelType[M]`, which can easily
+  be found in the companion object of `M`, as built by the annotation macro.
+  `longevity.context.Repo` also now takes a type parameter `M`.
 
 ## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
 

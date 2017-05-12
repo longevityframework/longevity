@@ -7,8 +7,12 @@ import streamadapter.akka.akkaSourceToChunkerator
 
 /** extends [[QuerySpec]] to add tests for 
  * [[longevity.persistence.streams.AkkaStreamsRepo.queryToAkkaStream AkkaStreamsRepo.queryToAkkaStream]]
+ * 
+ * @tparam M the model
+ *
+ * @tparam P the persistent type
  */
-trait ExerciseAkkaStreams[P] extends QuerySpec[P] {
+trait ExerciseAkkaStreams[M, P] extends QuerySpec[M, P] {
 
   override protected def exerciseStreams(query: Query[P], expected: Set[P]): Unit = {
     super.exerciseStreams(query, expected)

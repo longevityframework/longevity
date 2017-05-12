@@ -13,17 +13,29 @@ import longevity.persistence.streams.PlayRepo
 package object persistence {
 
   /** implicit conversion from [[Repo]] to [[longevity.persistence.streams.AkkaStreamsRepo
-    * AkkaStreamsRepo]] */
-  implicit def repoToAkkaStreamsRepo(repo: Repo) = new AkkaStreamsRepo(repo)
+   * AkkaStreamsRepo]]
+   * 
+   * @tparam M the model
+   */
+  implicit def repoToAkkaStreamsRepo[M](repo: Repo[M]) = new AkkaStreamsRepo(repo)
 
-  /** implicit conversion from [[Repo]] to [[longevity.persistence.streams.FS2Repo FS2Repo]] */
-  implicit def repoToFS2Repo(repo: Repo) = new FS2Repo(repo)
+  /** implicit conversion from [[Repo]] to [[longevity.persistence.streams.FS2Repo FS2Repo]]
+   * 
+   * @tparam M the model
+   */
+  implicit def repoToFS2Repo[M](repo: Repo[M]) = new FS2Repo(repo)
 
-  /** implicit conversion from [[Repo]] to [[longevity.persistence.streams.IterateeIoRepo IterateeIoRepo]] */
-  implicit def repoToIterateeIoRepo(repo: Repo) = new IterateeIoRepo(repo)
+  /** implicit conversion from [[Repo]] to [[longevity.persistence.streams.IterateeIoRepo IterateeIoRepo]]
+   * 
+   * @tparam M the model
+   */
+  implicit def repoToIterateeIoRepo[M](repo: Repo[M]) = new IterateeIoRepo(repo)
 
-  /** implicit conversion from [[Repo]] to [[longevity.persistence.streams.PlayRepo PlayRepo]] */
-  implicit def repoToPlayRepo(repo: Repo) = new PlayRepo(repo)
+  /** implicit conversion from [[Repo]] to [[longevity.persistence.streams.PlayRepo PlayRepo]]
+   * 
+   * @tparam M the model
+   */
+  implicit def repoToPlayRepo[M](repo: Repo[M]) = new PlayRepo(repo)
 
   /** packages a persistent object with a `TypeKey` for the object's type. used
    * by [[Repo.createMany]].

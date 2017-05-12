@@ -6,9 +6,9 @@ import longevity.model.annotations.domainModel
 /** covers a persistent with option attributes for every supported basic type */
 package object basicOptions {
 
-  @domainModel object domainModel
+  @domainModel trait DomainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel)
+  val contexts = TestLongevityConfigs.sparseContextMatrix[DomainModel]()
 
   // nice test-only drop-in for debugging:
   // val contexts = {

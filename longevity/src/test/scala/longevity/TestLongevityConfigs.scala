@@ -23,39 +23,33 @@ object TestLongevityConfigs {
 
   val sparseConfigMatrix = ConfigMatrixKey.sparseValues.map(key => key -> configForKey(key)).toMap
 
-  def contexts(
+  def contexts[M : ModelType](
     configKeys: Seq[ConfigMatrixKey],
-    modelType: ModelType,
     generators: CustomGeneratorPool = CustomGeneratorPool.empty)
-  : Seq[LongevityContext] =
+  : Seq[LongevityContext[M]] =
     configKeys.map { key =>
-      new LongevityContext(modelType, configForKey(key), generators)
+      new LongevityContext(configForKey(key), generators)
     }
 
-  def contextMatrix(
-    modelType: ModelType,
-    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(ConfigMatrixKey.values, modelType, generators)
+  def contextMatrix[M : ModelType](
+    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext[M]] =
+    contexts(ConfigMatrixKey.values, generators)
 
-  def sparseContextMatrix(
-    modelType: ModelType,
-    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(ConfigMatrixKey.sparseValues, modelType, generators)
+  def sparseContextMatrix[M : ModelType](
+    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext[M]] =
+    contexts(ConfigMatrixKey.sparseValues, generators)
 
-  def cassandraOnlyContextMatrix(
-    modelType: ModelType,
-    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(Seq(cassandraConfigKey), modelType, generators)
+  def cassandraOnlyContextMatrix[M : ModelType](
+    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext[M]] =
+    contexts(Seq(cassandraConfigKey), generators)
 
-  def mongoOnlyContextMatrix(
-    modelType: ModelType,
-    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(Seq(mongoConfigKey), modelType, generators)    
+  def mongoOnlyContextMatrix[M : ModelType](
+    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext[M]] =
+    contexts(Seq(mongoConfigKey), generators)
 
-  def sqliteOnlyContextMatrix(
-    modelType: ModelType,
-    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext] =
-    contexts(Seq(sqliteConfigKey), modelType, generators)
+  def sqliteOnlyContextMatrix[M : ModelType](
+    generators: CustomGeneratorPool = CustomGeneratorPool.empty): Seq[LongevityContext[M]] =
+    contexts(Seq(sqliteConfigKey), generators)
 
   val inMemConfigKey     = ConfigMatrixKey(InMem,     false, false, false)
   val cassandraConfigKey = ConfigMatrixKey(Cassandra, false, false, false)

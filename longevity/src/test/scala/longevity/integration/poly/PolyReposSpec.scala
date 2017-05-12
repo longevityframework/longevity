@@ -4,7 +4,6 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.integration.model.derived
-import longevity.persistence.Repo
 import longevity.model.query.Query
 import longevity.model.query.QueryFilter
 import longevity.test.LongevityIntegrationSpec
@@ -22,10 +21,10 @@ object PolyReposSpec {
 
 /** base class for testing repos that share tables in the presence of [[PolyCType]] */
 abstract class PolyReposSpec(
-  protected val longevityContext: LongevityContext)
-extends FlatSpec with LongevityIntegrationSpec {
+  protected val longevityContext: LongevityContext[derived.DomainModel])
+extends FlatSpec with LongevityIntegrationSpec[derived.DomainModel] {
 
-  private val repo: Repo = longevityContext.testRepo
+  private val repo = longevityContext.testRepo
 
   override protected implicit val executionContext = globalExecutionContext
 

@@ -16,14 +16,14 @@ import longevity.test.ExercisePlayEnumerator
 import longevity.test.QuerySpec
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
-class BasicsQuerySpec extends QuerySpec[Basics](
-  new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig))(
+class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
+  new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig))(
   Basics.pTypeKey,
   globalExecutionContext)
-    with ExerciseAkkaStreams[Basics]
-    with ExerciseFS2[Basics]
-    with ExerciseIterateeIo[Basics]
-    with ExercisePlayEnumerator[Basics] {
+    with ExerciseAkkaStreams[DomainModel, Basics]
+    with ExerciseFS2[DomainModel, Basics]
+    with ExerciseIterateeIo[DomainModel, Basics]
+    with ExercisePlayEnumerator[DomainModel, Basics] {
 
   lazy val sample = randomP
 

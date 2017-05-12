@@ -25,17 +25,21 @@ import scala.concurrent.Future
  * pardon the nasty ScalaDocs for this class. we haven't figured out how to
  * remove the methods inherited from ScalaTest classes yet.
  *
+ * @tparam M the model
+ *
+ * @tparam P the persistent type
+ * 
  * @param context the longevity context under test
  * 
  * @param executionContext the execution context
  */
-abstract class QuerySpec[P](
-  protected val longevityContext: LongevityContext)(
+abstract class QuerySpec[M, P](
+  protected val longevityContext: LongevityContext[M])(
   protected implicit val pTypeKey : TypeKey[P],
   protected implicit val executionContext: ExecutionContext)
-extends FlatSpec with LongevityIntegrationSpec with LazyLogging {
+extends FlatSpec with LongevityIntegrationSpec[M] with LazyLogging {
 
-  protected val repo: Repo = longevityContext.testRepo
+  protected val repo: Repo[M] = longevityContext.testRepo
 
   /** the number of entities to run queries against */
   protected val numEntities = 10

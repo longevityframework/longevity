@@ -7,11 +7,11 @@ import longevity.integration.model.primaryKeyWithComplexPartialPartition
 import longevity.model.query.Query
 import longevity.test.QuerySpec
 import primaryKeyWithComplexPartialPartition.PrimaryKeyWithComplexPartialPartition
-import primaryKeyWithComplexPartialPartition.domainModel
+import primaryKeyWithComplexPartialPartition.DomainModel
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
-class OrderByQuerySpec extends QuerySpec[PrimaryKeyWithComplexPartialPartition](
-  new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig))(
+class OrderByQuerySpec extends QuerySpec[DomainModel, PrimaryKeyWithComplexPartialPartition](
+  new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig))(
   PrimaryKeyWithComplexPartialPartition.pTypeKey,
   globalExecutionContext) {
 

@@ -31,9 +31,14 @@ object LongevityContextSpec {
       val keySet = Set(key(props.id))
     }
 
-    val modelType = ModelType(PTypePool(A))
-    val mongoContext = new LongevityContext(modelType, mongoConfig)
-    val cassandraContext = new LongevityContext(modelType, cassandraConfig)
+    trait DomainModel
+
+    object DomainModel {
+      implicit object modelType extends ModelType[DomainModel](PTypePool(A))
+    }
+
+    val mongoContext = new LongevityContext[DomainModel](mongoConfig)
+    val cassandraContext = new LongevityContext[DomainModel](cassandraConfig)
   }
 
 }
@@ -50,7 +55,7 @@ class LongevityContextSpec extends FlatSpec with GivenWhenThen with Matchers {
     behavior of s"LongevityContext creation for ${context.config.backEnd}"
 
     it should "produce a context with the right model type" in {
-      context.modelType should equal (LongevityContextSpec.sample.modelType)
+      context.modelType should equal (LongevityContextSpec.sample.DomainModel.modelType)
     }
 
     it should "produce a context with the right back end" in {

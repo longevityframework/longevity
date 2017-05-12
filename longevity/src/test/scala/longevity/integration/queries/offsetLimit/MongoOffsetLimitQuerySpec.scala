@@ -4,4 +4,4 @@ import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 
 class MongoOffsetLimitQuerySpec extends OffsetLimitQuerySpec(
-  new LongevityContext(OffsetLimitQuerySpec.modelType, TestLongevityConfigs.mongoConfig))
+  new LongevityContext[DomainModel](TestLongevityConfigs.mongoConfig))

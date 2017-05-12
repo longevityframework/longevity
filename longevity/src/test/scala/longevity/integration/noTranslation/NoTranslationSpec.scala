@@ -16,7 +16,7 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
  * 
  * @see https://www.pivotaltracker.com/story/show/99755864
  */
-class NoTranslationSpec(val repo: Repo)
+class NoTranslationSpec(val repo: Repo[DomainModel])
 extends FlatSpec
 with LongevityFuturesSpec
 with BeforeAndAfterAll

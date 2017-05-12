@@ -7,8 +7,8 @@ import longevity.test.QuerySpec
 import longevity.integration.model.component._
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
-class ComponentQuerySpec extends QuerySpec[WithComponent](
-  new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig))(
+class ComponentQuerySpec extends QuerySpec[DomainModel, WithComponent](
+  new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig))(
   WithComponent.pTypeKey,
   globalExecutionContext) {
 

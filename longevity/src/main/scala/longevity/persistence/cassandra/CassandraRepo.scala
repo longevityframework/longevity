@@ -40,7 +40,7 @@ import scala.concurrent.blocking
  */
 private[longevity] class CassandraRepo[P] private (
   pType: PType[P],
-  modelType: ModelType,
+  modelType: ModelType[_],
   private val sessionInfo: CassandraRepo.CassandraSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends PRepo[P](pType, modelType)
@@ -274,7 +274,7 @@ private[persistence] object CassandraRepo {
 
   def apply[P](
     pType: PType[P],
-    modelType: ModelType,
+    modelType: ModelType[_],
     session: CassandraSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[CassandraRepo[_ >: P]])

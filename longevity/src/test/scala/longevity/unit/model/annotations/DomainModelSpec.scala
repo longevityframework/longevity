@@ -11,20 +11,21 @@ class DomainModelSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   behavior of "@domainModel"
 
-  it should "cause a compiler error when applied to anything other than an object" in {
+  it should "cause a compiler error when applied to anything other than a class or trait" in {
     "@domainModel val x = 7"           shouldNot compile
     "@domainModel type X = Int"        shouldNot compile
     "@domainModel def foo = 7"         shouldNot compile
     "def foo(@domainModel x: Int) = 7" shouldNot compile
-    "@domainModel trait Foo"           shouldNot compile
-    "@domainModel class Foo"           shouldNot compile
+    "@domainModel object Foo"          shouldNot compile
   }
 
   it should "extend the object with `ModelType(currentPackage)`" in {
-    domainModelExample.domainModel.isInstanceOf[ModelType] should be (true)
-    domainModelExample.domainModel.asInstanceOf[ModelType].pTypePool.size should equal (1)
-    domainModelExample.domainModel.asInstanceOf[ModelType].pTypePool.values.head should equal (domainModelExample.User)
-    domainModelExample.domainModel.asInstanceOf[ModelType].cTypePool.size should equal (0)
+    type M = domainModelExample.DomainModel
+    val mt = domainModelExample.DomainModel.modelType
+    mt.isInstanceOf[ModelType[_]] should be (true)
+    mt.asInstanceOf[ModelType[M]].pTypePool.size should equal (1)
+    mt.asInstanceOf[ModelType[M]].pTypePool.values.head should equal (domainModelExample.User)
+    mt.asInstanceOf[ModelType[M]].cTypePool.size should equal (0)
   }
 
 }

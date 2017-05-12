@@ -28,6 +28,8 @@ import scala.concurrent.ExecutionContext
  * pardon the nasty ScalaDocs for this class. we haven't figured out how to remove the methods
  * inherited from ScalaTest classes yet.
  * 
+ * @tparam M the model
+ * 
  * @param context the longevity context
  * 
  * @param repo the repo under test. this may be different than the `longevityContext.repo`, as users
@@ -39,12 +41,12 @@ import scala.concurrent.ExecutionContext
  *
  * @param executionContext the execution context
  */
-class RepoCrudSpec private[longevity] (
-  protected val longevityContext: LongevityContext,
-  protected val repo: Repo,
+class RepoCrudSpec[M] private[longevity] (
+  protected val longevityContext: LongevityContext[M],
+  protected val repo: Repo[M],
   private val backEnd: BackEnd)(
   protected implicit val executionContext: ExecutionContext)
-extends FlatSpec with LongevityIntegrationSpec with GivenWhenThen {
+extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
 
   private val suiteNameSuffix = s"- $backEnd - optimisticLocking: ${longevityContext.config.optimisticLocking}"
 

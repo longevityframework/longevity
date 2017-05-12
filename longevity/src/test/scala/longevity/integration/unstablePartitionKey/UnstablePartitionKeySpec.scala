@@ -5,7 +5,7 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
 import longevity.integration.model.primaryKey.Key
 import longevity.integration.model.primaryKey.PrimaryKey
-import longevity.integration.model.primaryKey.domainModel
+import longevity.integration.model.primaryKey.DomainModel
 import longevity.persistence.Repo
 import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll
@@ -21,10 +21,10 @@ with GivenWhenThen {
 
   override protected implicit val executionContext = globalExecutionContext
 
-  val cassandraContext = new LongevityContext(domainModel, TestLongevityConfigs.cassandraConfig)
-  val inmemContext = new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)
-  val mongoContext = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
-  val sqliteContext = new LongevityContext(domainModel, TestLongevityConfigs.sqliteConfig)
+  val cassandraContext = new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig)
+  val inmemContext = new LongevityContext[DomainModel](TestLongevityConfigs.inMemConfig)
+  val mongoContext = new LongevityContext[DomainModel](TestLongevityConfigs.mongoConfig)
+  val sqliteContext = new LongevityContext[DomainModel](TestLongevityConfigs.sqliteConfig)
 
   override def beforeAll() = {
     cassandraContext.testRepo.createSchema().futureValue
@@ -38,7 +38,7 @@ with GivenWhenThen {
   assertUnstablePrimaryKeyBehavior(mongoContext.testRepo, "MongoRepo")
   assertUnstablePrimaryKeyBehavior(sqliteContext.testRepo, "SQLiteRepo")
 
-  def assertUnstablePrimaryKeyBehavior(repo: Repo, repoName: String): Unit = {
+  def assertUnstablePrimaryKeyBehavior(repo: Repo[DomainModel], repoName: String): Unit = {
 
     behavior of s"$repoName.create"
 

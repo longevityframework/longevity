@@ -12,12 +12,12 @@ import longevity.test.ExercisePlayEnumerator
 import longevity.test.QuerySpec
 import longevity.integration.queries.queryTestsExecutionContext
 
-class BasicsQuerySpec extends QuerySpec[Basics](
-  new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig))
-    with ExerciseAkkaStreams[Basics]
-    with ExerciseFS2[Basics]
-    with ExerciseIterateeIo[Basics]
-    with ExercisePlayEnumerator[Basics] {
+class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
+  new LongevityContext[DomainModel](TestLongevityConfigs.inMemConfig))
+    with ExerciseAkkaStreams[DomainModel, Basics]
+    with ExerciseFS2[DomainModel, Basics]
+    with ExerciseIterateeIo[DomainModel, Basics]
+    with ExercisePlayEnumerator[DomainModel, Basics] {
 
   lazy val sample = randomP
 

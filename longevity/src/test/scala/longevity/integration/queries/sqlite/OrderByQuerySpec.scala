@@ -6,8 +6,8 @@ import longevity.test.QuerySpec
 import longevity.integration.model.basics._
 import longevity.integration.queries.queryTestsExecutionContext
 
-class OrderByQuerySpec extends QuerySpec[Basics](
-  new LongevityContext(domainModel, TestLongevityConfigs.sqliteConfig)) {
+class OrderByQuerySpec extends QuerySpec[DomainModel, Basics](
+  new LongevityContext[DomainModel](TestLongevityConfigs.sqliteConfig)) {
 
   lazy val sample = randomP
 

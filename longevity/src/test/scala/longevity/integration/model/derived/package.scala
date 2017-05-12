@@ -6,8 +6,8 @@ import longevity.model.annotations.domainModel
 /** covers a persistent with a poly type and multiple derived types */
 package object derived {
 
-  @domainModel object domainModel
+  @domainModel trait DomainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel)
+  val contexts = TestLongevityConfigs.sparseContextMatrix[DomainModel]()
 
 }

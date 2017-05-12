@@ -6,8 +6,8 @@ import longevity.test.QuerySpec
 import longevity.integration.model.foreignKey._
 import longevity.integration.queries.queryTestsExecutionContext
 
-class WithForeignKeyQuerySpec extends QuerySpec[WithForeignKey](
-  new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)) {
+class WithForeignKeyQuerySpec extends QuerySpec[DomainModel, WithForeignKey](
+  new LongevityContext[DomainModel](TestLongevityConfigs.inMemConfig)) {
 
   lazy val sample = randomP
 

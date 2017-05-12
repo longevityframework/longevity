@@ -19,7 +19,7 @@ import org.sqlite.SQLiteException
  */
 private[longevity] class SQLiteRepo[P] private (
   pType: PType[P],
-  modelType: ModelType,
+  modelType: ModelType[_],
   sessionInfo: JdbcRepo.JdbcSessionInfo,
   persistenceConfig: PersistenceConfig)
 extends JdbcRepo[P](pType, modelType, sessionInfo, persistenceConfig) {
@@ -60,7 +60,7 @@ private[persistence] object SQLiteRepo {
 
   def apply[P](
     pType: PType[P],
-    modelType: ModelType,
+    modelType: ModelType[_],
     session: JdbcRepo.JdbcSessionInfo,
     config: PersistenceConfig,
     polyRepoOpt: Option[SQLiteRepo[_ >: P]])

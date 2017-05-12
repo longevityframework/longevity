@@ -6,8 +6,8 @@ import longevity.model.annotations.domainModel
 /** covers a persistent with a key that contains a shorthand */
 package object primaryKeyWithShorthand {
 
-  @domainModel object domainModel
+  @domainModel trait DomainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel)
+  val contexts = TestLongevityConfigs.sparseContextMatrix[DomainModel]()
 
 }

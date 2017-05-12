@@ -12,8 +12,12 @@ import longevity.persistence.Repo
  * `PlayRepo` is provided by an implicit conversion from `Repo`, so that Play iteratees can remain
  * an optional dependency for longevity users. otherwise, it would have been included as part of
  * the [[Repo]].
+ * 
+ * @tparam M the model
+ *
+ * @param repo the repository
  */
-class PlayRepo(repo: Repo) {
+class PlayRepo[M](repo: Repo[M]) {
 
   /** streams persistent objects matching a query
    *

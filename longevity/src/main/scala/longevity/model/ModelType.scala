@@ -15,26 +15,28 @@ import scala.collection.JavaConverters.asScalaSetConverter
 import scala.reflect.runtime.universe.NoType
 import scala.reflect.runtime.universe.runtimeMirror
 
-/** a description of a project's domain model. contains a pool of
- * all the [[PType persistent types]] in the model, as well as
- * all the [[CType component types]].
+/** a description of a project's domain model. contains a pool of all the [[PType persistent types]]
+ * in the model, as well as all the [[CType component types]].
  *
- * @constructor creates a model type from pools of [[PType persistent]] and
- * [[CType component]] types
+ * @tparam M the model
+ *
+ * @constructor creates a model type from pools of [[PType persistent]] and [[CType component]]
+ * types
  *
  * @param pTypePool a complete set of the persistent types in the domain model.
  *
- * @param cTypePool a complete set of the component types within the
- * domain model. defaults to empty
+ * @param cTypePool a complete set of the component types within the domain model. defaults to empty
  */
-class ModelType(
+class ModelType[M](
   val pTypePool: PTypePool,
   val cTypePool: CTypePool = CTypePool.empty) {
 
   private def this(pools: (PTypePool, CTypePool)) = this(pools._1, pools._2)
 
-  /** creates a model type by scanning the named package for [[PType persistent
-   * types]] and [[CType component types]]
+  /** creates a model type by scanning the named package for [[PType persistent types]] and [[CType
+   * component types]]
+   *
+   * @tparam M the model
    *
    * @param packageName the name of the package to scan
    */
@@ -204,25 +206,28 @@ class ModelType(
 /** provides factory methods for constructing [[ModelType model types]] */
 object ModelType {
 
-  /** creates a model type from pools of [[PType persistent]] and
-   * [[CType component]] types
+  /** creates a model type from pools of [[PType persistent]] and [[CType component]] types
    * 
+   * @tparam M the model
+   *
    * @param pTypePool a complete set of the persistent types in the domain model.
    *
-   * @param cTypePool a complete set of the component types within the
-   * domain model. defaults to empty
+   * @param cTypePool a complete set of the component types within the domain model. defaults to
+   * empty
    */
-  def apply(
+  def apply[M](
     pTypePool: PTypePool,
     cTypePool: CTypePool = CTypePool.empty)
-  : ModelType =
+  : ModelType[M] =
     new ModelType(pTypePool, cTypePool)
 
-  /** creates a model type by scanning the named package for [[PType persistent
-   * types]] and [[CType component types]]
+  /** creates a model type by scanning the named package for [[PType persistent types]] and [[CType
+   * component types]]
+   *
+   * @tparam M the model
    *
    * @param packageName the name of the package to scan
    */
-  def apply(packageName: String): ModelType = ModelType(packageName)
+  def apply[M](packageName: String): ModelType[M] = ModelType(packageName)
 
 }

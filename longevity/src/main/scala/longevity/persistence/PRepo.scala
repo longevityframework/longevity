@@ -30,12 +30,12 @@ import streamadapter.play.chunkeratorToPlayEnumerator
  */
 private[longevity] abstract class PRepo[P] private[persistence] (
   protected[longevity] val pType: PType[P],
-  protected[longevity] val modelType: ModelType) {
+  protected[longevity] val modelType: ModelType[_]) {
 
-  private[persistence] var _repoOption: Option[Repo] = None
+  private[persistence] var _repoOption: Option[Repo[_]] = None
 
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
-  protected lazy val repo: Repo = _repoOption.get
+  protected lazy val repo: Repo[_] = _repoOption.get
 
   protected[longevity] val realizedPType: RealizedPType[P] = modelType.realizedPTypes(pType)
 

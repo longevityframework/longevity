@@ -6,8 +6,8 @@ import longevity.model.annotations.domainModel
 /** covers a persistent with a primary key that contains a foreign key value */
 package object primaryKeyWithForeignKey {
 
-  @domainModel object domainModel
+  @domainModel trait DomainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel)
+  val contexts = TestLongevityConfigs.sparseContextMatrix[DomainModel]()
 
 }

@@ -5,7 +5,7 @@ import longevity.context.LongevityContext
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.integration.model.basics.Basics
 import longevity.integration.model.basics.BasicsId
-import longevity.integration.model.basics.domainModel
+import longevity.integration.model.basics.DomainModel
 import longevity.persistence.Repo
 import longevity.test.LongevityFuturesSpec
 import org.joda.time.DateTime
@@ -30,9 +30,9 @@ with GivenWhenThen {
 
   override protected implicit val executionContext = globalExecutionContext
 
-  val inMemContext = new LongevityContext(domainModel, TestLongevityConfigs.inMemConfig)
-  val mongoContext = new LongevityContext(domainModel, TestLongevityConfigs.mongoConfig)
-  val sqliteContext = new LongevityContext(domainModel, TestLongevityConfigs.sqliteConfig)
+  val inMemContext = new LongevityContext[DomainModel](TestLongevityConfigs.inMemConfig)
+  val mongoContext = new LongevityContext[DomainModel](TestLongevityConfigs.mongoConfig)
+  val sqliteContext = new LongevityContext[DomainModel](TestLongevityConfigs.sqliteConfig)
 
   override def beforeAll() = {
     inMemContext.testRepo.createSchema().futureValue
@@ -44,7 +44,7 @@ with GivenWhenThen {
   assertDuplicateKeyValBehavior(mongoContext.testRepo, "MongoRepo")
   assertDuplicateKeyValBehavior(sqliteContext.testRepo, "SQLiteRepo")
 
-  def assertDuplicateKeyValBehavior(repo: Repo, repoName: String): Unit = {
+  def assertDuplicateKeyValBehavior(repo: Repo[DomainModel], repoName: String): Unit = {
 
     behavior of s"$repoName with a single partitioned database"
 

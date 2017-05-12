@@ -8,6 +8,5 @@ import longevity.integration.model.basics
 
 /** optimistic locking tests for SQLite back end */
 class SQLiteOptLockSpec extends OptLockSpec(
-  new LongevityContext(
-    basics.domainModel,
+  new LongevityContext[basics.DomainModel](
     TestLongevityConfigs.configMatrix(ConfigMatrixKey(SQLite, true, true, false))))

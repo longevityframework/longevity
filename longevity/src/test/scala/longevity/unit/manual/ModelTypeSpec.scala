@@ -157,14 +157,18 @@ package ModelTypeSpec {
   package domainModel1 {
     import longevity.model.annotations.domainModel
 
-    @domainModel object myModelType
+    @domainModel trait MyDomainModel
   }
 
   // used in http://longevityframework.github.io/longevity/manual/model/domainModel.html
   package domainModel2 {
     import longevity.model.ModelType
 
-    object myModelType extends ModelType("myPackage")
+    trait MyDomainModel
+
+    object MyDomainModel {
+      implicit object myModelType extends ModelType[MyDomainModel]("myPackage")
+    }
   }
 
   // used in http://longevityframework.github.io/longevity/manual/model/domainModel.html
@@ -181,9 +185,13 @@ package ModelTypeSpec {
     import longevity.model.CTypePool
     import longevity.model.PTypePool
 
-    object myModelType extends ModelType(
-      PTypePool(User, BlogPost, Blog),
-      CTypePool(UserProfile))
+    trait MyDomainModel
+
+    object MyDomainModel {
+      implicit object myModelType extends ModelType[MyDomainModel](
+        PTypePool(User, BlogPost, Blog),
+        CTypePool(UserProfile))
+    }
   }
 
 }

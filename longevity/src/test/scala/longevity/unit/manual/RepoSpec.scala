@@ -80,13 +80,17 @@ object RepoSpec {
     override val indexSet = Set(index(props.blog, props.postDate))
   }
 
-  val blogCore = ModelType(
-    PTypePool(User, Blog, BlogPost),
-    CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
+  trait BlogCore
+
+  object BlogCore {
+    implicit object modelType extends ModelType[BlogCore](
+      PTypePool(User, Blog, BlogPost),
+      CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
+  }
 
   import longevity.context.LongevityContext
 
-  val context = LongevityContext(blogCore)
+  val context = LongevityContext[BlogCore]()
 
 }
 

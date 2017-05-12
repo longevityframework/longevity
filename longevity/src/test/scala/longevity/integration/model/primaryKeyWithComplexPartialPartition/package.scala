@@ -6,8 +6,8 @@ import longevity.model.annotations.domainModel
 /** covers a persistent with a primary key that contains multiple properties */
 package object primaryKeyWithComplexPartialPartition {
 
-  @domainModel object domainModel
+  @domainModel trait DomainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix(domainModel)
+  val contexts = TestLongevityConfigs.sparseContextMatrix[DomainModel]()
 
 }

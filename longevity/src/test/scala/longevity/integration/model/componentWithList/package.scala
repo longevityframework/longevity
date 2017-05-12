@@ -6,8 +6,8 @@ import longevity.model.annotations.domainModel
 /** covers a persistent with a single component entity */
 package object componentWithList {
 
-  @domainModel object domainModel
+  @domainModel trait DomainModel
 
-  val contexts = TestLongevityConfigs.mongoOnlyContextMatrix(domainModel)
+  val contexts = TestLongevityConfigs.sparseContextMatrix[DomainModel]()
 
 }

@@ -2,23 +2,16 @@ package longevity.integration
 
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
-import longevity.model.ModelType
-import longevity.model.PTypePool
+import longevity.model.annotations.domainModel
 
 /** a malformed domain model that manages to include types outside the model */
 package object noTranslation {
 
-  val pTypes = PTypePool(
-    WithNoTranslation,
-    WithNoTranslationList,
-    WithNoTranslationLonghand,
-    WithNoTranslationOption,
-    WithNoTranslationSet)
+  @domainModel trait DomainModel
 
-  val modelType = ModelType(pTypes)
-  val cassandraContext = new LongevityContext(modelType, TestLongevityConfigs.cassandraConfig)
-  val inMemContext     = new LongevityContext(modelType, TestLongevityConfigs.inMemConfig)
-  val mongoContext     = new LongevityContext(modelType, TestLongevityConfigs.mongoConfig)
-  val sqliteContext    = new LongevityContext(modelType, TestLongevityConfigs.sqliteConfig)
+  val cassandraContext = new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig)
+  val inMemContext     = new LongevityContext[DomainModel](TestLongevityConfigs.inMemConfig)
+  val mongoContext     = new LongevityContext[DomainModel](TestLongevityConfigs.mongoConfig)
+  val sqliteContext    = new LongevityContext[DomainModel](TestLongevityConfigs.sqliteConfig)
 
 }
