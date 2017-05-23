@@ -62,7 +62,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
 
   longevityContext.modelType.pTypePool.values.foreach(new RepoSpec(_))
 
-  private class RepoSpec[P](val pType: PType[P]) {
+  private class RepoSpec[P](val pType: PType[M, P]) {
     private implicit val pTypeKey = pType.pTypeKey
     private val realizedPType = longevityContext.modelType.realizedPTypes(pType)
     private val pName = pTypeKey.name
@@ -140,7 +140,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
 
     private def randomPTypeKey(): TypeKey[_ <: P] = {
       pType match {
-        case polyPType: PolyPType[P] =>
+        case polyPType: PolyPType[M, P] =>
           val union = longevityContext.modelType.emblematic.unions(pTypeKey)
           val derivedTypeKeys = union.constituentKeys.toSeq
           val randomIndex = math.abs(longevityContext.testDataGenerator.generate[Int]) % derivedTypeKeys.size

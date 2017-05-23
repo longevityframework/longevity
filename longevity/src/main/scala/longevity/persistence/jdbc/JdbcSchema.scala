@@ -8,8 +8,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of JdbcRepo.createSchema */
-private[jdbc] trait JdbcSchema[P] {
-  repo: JdbcRepo[P] =>
+private[jdbc] trait JdbcSchema[M, P] {
+  repo: JdbcRepo[M, P] =>
 
   protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
     blocking {

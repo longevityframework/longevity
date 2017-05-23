@@ -5,11 +5,7 @@ import emblem.TypeKeyMap
 /** provides tools for constructing your domain model */
 package object model {
 
-  /** a type key map for [[PType persistent types]]
-   * @see emblem.TypeKeyMap
-   */
-  type PTypePool = TypeKeyMap[Any, PType]
-
+  // TODO might want to hide the TKM here
   /** a type key map for [[CType component types]]
    * @see emblem.TypeKeyMap
    */

@@ -1,5 +1,6 @@
 package longevity.unit.model.ptype
 
+import longevity.model.ModelEv
 import longevity.model.PType
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -9,6 +10,11 @@ import org.scalatest.OptionValues
 /** sample domain for the IndexSpec tests */
 object IndexSpec {
 
+  trait DomainModel
+  object DomainModel {
+    private[IndexSpec] implicit object modelEv extends ModelEv[DomainModel]
+  }
+
   case class IndexSampler(
     boolean: Boolean,
     char: Char,
@@ -17,7 +23,7 @@ object IndexSpec {
     int: Int,
     long: Long) 
 
-  object IndexSampler extends PType[IndexSampler] {
+  object IndexSampler extends PType[DomainModel, IndexSampler] {
     object props {
       val boolean = prop[Boolean]("boolean")
       val char = prop[Char]("char")

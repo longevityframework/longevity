@@ -10,8 +10,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.retrieve(KeyVal) */
-private[cassandra] trait CassandraRetrieve[P] {
-  repo: CassandraRepo[P] =>
+private[cassandra] trait CassandraRetrieve[M, P] {
+  repo: CassandraRepo[M, P] =>
 
   def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = {
     logger.debug(s"calling CassandraRepo.retrieve: $keyVal")

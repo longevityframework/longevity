@@ -6,6 +6,7 @@ import longevity.config.Cassandra
 import longevity.context.LongevityContext
 import longevity.config.MongoDB
 import longevity.model.KeyVal
+import longevity.model.ModelEv
 import longevity.model.ModelType
 import longevity.model.PTypePool
 import longevity.model.PType
@@ -21,20 +22,21 @@ object LongevityContextSpec {
 
   object sample {
 
-    case class AId(id: String) extends KeyVal[A]
-
-    case class A(id: AId)
-    object A extends PType[A] {
-      object props {
-        val id = prop[AId]("id")
-      }
-      val keySet = Set(key(props.id))
-    }
-
     trait DomainModel
 
     object DomainModel {
       implicit object modelType extends ModelType[DomainModel](PTypePool(A))
+      private[sample] implicit object modelEv extends ModelEv[DomainModel]
+    }
+
+    case class AId(id: String) extends KeyVal[A]
+
+    case class A(id: AId)
+    object A extends PType[DomainModel, A] {
+      object props {
+        val id = prop[AId]("id")
+      }
+      val keySet = Set(key(props.id))
     }
 
     val mongoContext = new LongevityContext[DomainModel](mongoConfig)

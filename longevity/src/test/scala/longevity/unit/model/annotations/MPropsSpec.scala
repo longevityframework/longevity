@@ -16,6 +16,11 @@ import org.scalatest.Matchers
 /** stuff to use in the tests below that need to be stable (ie in packages and objects not in classes */
 object MPropsSpec {
 
+  trait DomainModel
+  object DomainModel {
+    implicit val ev = new longevity.model.ModelEv[DomainModel]
+  }
+
   // for use in `extends PType[Foo]`
   case class Foo()
 
@@ -30,7 +35,7 @@ object MPropsSpec {
     // @mprops can't work on a type that is declared in the same object
 
     // help ensure macro application doesnt mess up companion object
-    @mprops class WithCompanion extends PType[Foo] {
+    @mprops class WithCompanion extends PType[DomainModel, Foo] {
       override val keySet = emptyKeySet
     }
 
@@ -53,26 +58,26 @@ class MPropsSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "cause a compiler error when annotating a class that is not a PType" in {
     "@mprops          object Foo                                                            " shouldNot compile
-    "@mprops          object Foo         extends PType[MPropsSpec.Foo]                      " should compile
-    "@mprops          object Foo         extends PType[MPropsSpec.Foo] with MPropsSpec.Extra" should compile
+    "@mprops          object Foo         extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo]                      " should compile
+    "@mprops          object Foo         extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo] with MPropsSpec.Extra" should compile
     "@mprops case     object Foo                                                            " shouldNot compile
-    "@mprops case     object Foo         extends PType[MPropsSpec.Foo]                      " should compile
-    "@mprops case     object Foo         extends PType[MPropsSpec.Foo] with MPropsSpec.Extra" should compile
+    "@mprops case     object Foo         extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo]                      " should compile
+    "@mprops case     object Foo         extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo] with MPropsSpec.Extra" should compile
     "@mprops          class  Foo                                                            " shouldNot compile
-    "@mprops          class  Foo         extends PType[MPropsSpec.Foo]                      " should compile
-    "@mprops          class  Foo         extends PType[MPropsSpec.Foo] with MPropsSpec.Extra" should compile
+    "@mprops          class  Foo         extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo]                      " should compile
+    "@mprops          class  Foo         extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo] with MPropsSpec.Extra" should compile
     "@mprops          class  Foo(x: Int)                                                    " shouldNot compile
-    "@mprops          class  Foo(x: Int) extends PType[MPropsSpec.Foo]                      " should compile
-    "@mprops          class  Foo(x: Int) extends PType[MPropsSpec.Foo] with MPropsSpec.Extra" should compile
+    "@mprops          class  Foo(x: Int) extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo]                      " should compile
+    "@mprops          class  Foo(x: Int) extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo] with MPropsSpec.Extra" should compile
     "@mprops case     class  Foo()                                                          " shouldNot compile
-    "@mprops case     class  Foo()       extends PType[MPropsSpec.Foo]                      " should compile
-    "@mprops case     class  Foo()       extends PType[MPropsSpec.Foo] with MPropsSpec.Extra" should compile
+    "@mprops case     class  Foo()       extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo]                      " should compile
+    "@mprops case     class  Foo()       extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo] with MPropsSpec.Extra" should compile
     "@mprops abstract class  Foo                                                            " shouldNot compile
-    "@mprops abstract class  Foo         extends PType[MPropsSpec.Foo]                      " should compile
-    "@mprops abstract class  Foo         extends PType[MPropsSpec.Foo] with MPropsSpec.Extra" should compile
+    "@mprops abstract class  Foo         extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo]                      " should compile
+    "@mprops abstract class  Foo         extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo] with MPropsSpec.Extra" should compile
     "@mprops abstract class  Foo(x: Int)                                                    " shouldNot compile
-    "@mprops abstract class  Foo(x: Int) extends PType[MPropsSpec.Foo]                      " should compile
-    "@mprops abstract class  Foo(x: Int) extends PType[MPropsSpec.Foo] with MPropsSpec.Extra" should compile
+    "@mprops abstract class  Foo(x: Int) extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo]                      " should compile
+    "@mprops abstract class  Foo(x: Int) extends PType[MPropsSpec.DomainModel, MPropsSpec.Foo] with MPropsSpec.Extra" should compile
 
     // make sure that @mprops on a class doesn't mess up its companion object
     "MPropsSpec.inner.WithCompanion.y: Int" should compile

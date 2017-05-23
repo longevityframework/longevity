@@ -22,6 +22,15 @@ private[annotations] abstract class AbstractPersistentImpl {
   private def newCompanion =
     q"@longevity.model.annotations.mprops object $termName extends $ptype { ..$keySet ; ..$indexSet }"
 
+  protected def mtype: c.Tree
+
+  // TODO make this abstract, define in children
+  // protected def mtype: c.Tree = c.prefix.tree match {
+  //   case q"new $persistent[$mtype       ](..$args)" => mtype
+  //   case q"new $persistent[$mtype, $poly](..$args)" => mtype
+  //   case _ => c.abort(c.enclosingPosition, "unrecognized shape for persistent annotation")
+  // }
+
   protected def ptype: Tree
 
   private def augmentedCompanion = {

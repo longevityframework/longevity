@@ -6,8 +6,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of InMemRepo.update */
-private[inmem] trait InMemUpdate[P] {
-  repo: InMemRepo[P] =>
+private[inmem] trait InMemUpdate[M, P] {
+  repo: InMemRepo[M, P] =>
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {

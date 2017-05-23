@@ -8,7 +8,7 @@ import longevity.model.annotations.{ domainModel => dm }
 
 @keyVal[User] case class Username(username: String)
 
-@persistent(keySet = Set(key(props.username)))
+@persistent[DomainModel](keySet = Set(key(props.username)))
 case class User(
   username: Username,
   firstName: String,

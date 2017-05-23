@@ -25,7 +25,7 @@ import streamadapter.Chunkerator
 
 /** implementation of MongoRepo.retrieveByQuery and MongoRepo.streamByQuery */
 private[mongo] trait MongoQuery[P] {
-  repo: MongoRepo[P] =>
+  repo: MongoRepo[_, P] =>
 
   protected def queryToChunkerator(query: Query[P]) = {
     logger.debug(s"calling MongoRepo.queryToChunkerator: $query")

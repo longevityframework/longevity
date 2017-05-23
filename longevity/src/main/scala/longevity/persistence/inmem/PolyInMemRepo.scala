@@ -2,6 +2,4 @@ package longevity.persistence.inmem
 
 import longevity.persistence.BasePolyRepo
 
-private[inmem] trait PolyInMemRepo[P] extends InMemRepo[P] with BasePolyRepo[P] {
-
-}
+private[inmem] trait PolyInMemRepo[M, P] extends InMemRepo[M, P] with BasePolyRepo[M, P]

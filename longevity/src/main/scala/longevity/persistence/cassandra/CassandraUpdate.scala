@@ -8,8 +8,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.update */
-private[cassandra] trait CassandraUpdate[P] {
-  repo: CassandraRepo[P] =>
+private[cassandra] trait CassandraUpdate[M, P] {
+  repo: CassandraRepo[M, P] =>
 
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {

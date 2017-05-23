@@ -44,10 +44,13 @@ package PolySpec {
     case class Email(email: String)
     case class PhoneNumber(phoneNumber: String)
 
-    import longevity.model.annotations.polyComponent
     import longevity.model.annotations.derivedComponent
+    import longevity.model.annotations.domainModel
     import longevity.model.annotations.persistent
+    import longevity.model.annotations.polyComponent
     import org.joda.time.DateTime
+
+    @domainModel trait DomainModel
 
     @polyComponent
     trait UserVerification {
@@ -73,7 +76,7 @@ package PolySpec {
       verificationDate: DateTime)
          extends UserVerification
 
-    @persistent(keySet = emptyKeySet)
+    @persistent[DomainModel](keySet = emptyKeySet)
     case class User(
       username: String,
       email: Email,
@@ -82,6 +85,9 @@ package PolySpec {
 
   // used in http://longevityframework.github.io/longevity/manual/poly/components.html
   package components3 {
+    import longevity.model.annotations.domainModel
+    @domainModel trait DomainModel
+
     case class Email(email: String)
     case class PhoneNumber(phoneNumber: String)
 
@@ -123,7 +129,7 @@ package PolySpec {
       email: Email,
       verifications: List[UserVerification])
 
-    object User extends PType[User] {
+    object User extends PType[DomainModel, User] {
       object props {
         // ...
       }
@@ -139,6 +145,9 @@ package PolySpec {
 
     @longevity.model.annotations.keyVal[User] case class Username(username: String)
 
+    import longevity.model.annotations.domainModel
+    @domainModel trait DomainModel
+
     import longevity.model.annotations.component
     import longevity.model.annotations.derivedPersistent
     import longevity.model.annotations.polyPersistent
@@ -149,20 +158,20 @@ package PolySpec {
       imageUri: Uri,
       description: Markdown)
 
-    @polyPersistent(keySet = emptyKeySet)
+    @polyPersistent[DomainModel](keySet = emptyKeySet)
     trait User {
       val username: Username
       val email: Email
     }
 
-    @derivedPersistent[User](keySet = emptyKeySet)
+    @derivedPersistent[DomainModel, User](keySet = emptyKeySet)
     case class Member(
       username: Username,
       email: Email,
       profile: UserProfile)
     extends User
 
-    @derivedPersistent[User](keySet = emptyKeySet)
+    @derivedPersistent[DomainModel, User](keySet = emptyKeySet)
     case class Commenter(
       username: Username,
       email: Email)
@@ -174,6 +183,9 @@ package PolySpec {
     case class Uri(uri: String)
     case class Markdown(markdown: String)
     case class Email(email: String)
+
+    import longevity.model.annotations.domainModel
+    @domainModel trait DomainModel
 
     @longevity.model.annotations.keyVal[User] case class Username(username: String)
 
@@ -193,7 +205,7 @@ package PolySpec {
       val email: Email
     }
 
-    object User extends PolyPType[User] {
+    object User extends PolyPType[DomainModel, User] {
       object props {
         // ...
       }
@@ -206,7 +218,7 @@ package PolySpec {
       profile: UserProfile)
     extends User
 
-    object Member extends DerivedPType[Member, User] {
+    object Member extends DerivedPType[DomainModel, Member, User] {
       object props {
         // ...
       }
@@ -218,7 +230,7 @@ package PolySpec {
       email: Email)
     extends User
 
-    object Commenter extends DerivedPType[Commenter, User] {
+    object Commenter extends DerivedPType[DomainModel, Commenter, User] {
       object props {
         // ...
       }
@@ -234,6 +246,9 @@ package PolySpec {
 
     @longevity.model.annotations.keyVal[User] case class Username(username: String)
 
+    import longevity.model.annotations.domainModel
+    @domainModel trait DomainModel
+
     import longevity.model.annotations.component
     import longevity.model.annotations.derivedPersistent
     import longevity.model.annotations.polyPersistent
@@ -244,7 +259,7 @@ package PolySpec {
       imageUri: Uri,
       description: Markdown)
 
-    @polyPersistent(
+    @polyPersistent[DomainModel](
       keySet = Set(key(props.username)),
       indexSet = Set(index(props.email)))
     trait User {
@@ -252,7 +267,7 @@ package PolySpec {
       val email: Email
     }
 
-    @derivedPersistent[User](
+    @derivedPersistent[DomainModel, User](
       keySet = emptyKeySet,
       indexSet = Set(index(props.profile.tagline)))
     case class Member(
@@ -261,7 +276,7 @@ package PolySpec {
       profile: UserProfile)
     extends User
 
-    @derivedPersistent[User](keySet = emptyKeySet)
+    @derivedPersistent[DomainModel, User](keySet = emptyKeySet)
     case class Commenter(
       username: Username,
       email: Email)
@@ -278,9 +293,13 @@ package PolySpec {
 
   // used in http://longevityframework.github.io/longevity/manual/poly/cv.html
   package cv2 {
+
+    import longevity.model.annotations.domainModel
+    @domainModel trait DomainModel
+
     import longevity.model.annotations.persistent
 
-    @persistent(keySet = emptyKeySet)
+    @persistent[DomainModel](keySet = emptyKeySet)
     case class Account(
       name: String,
       accountStatus: AccountStatus)

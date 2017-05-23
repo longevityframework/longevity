@@ -16,11 +16,12 @@ import longevity.model.ptype.Index
  * happens, you will see a compiler error such as "class Foo needs to be a trait
  * to be mixed in".
  *
+ * @tparam M the model
  * @param keySet the set of keys for the persistent type
  * @param indexSet the set of indexes for the persistent type. defaults to the empty set
  */
 @compileTimeOnly("you must enable macro paradise for @persistent to work")
-class persistent(
+class persistent[M](
   keySet: Set[Key[_]],
   indexSet: Set[Index[_]] = Set.empty[Index[_]])
 extends StaticAnnotation {
@@ -49,7 +50,14 @@ private object persistent {
           s"@longevity.model.annotations.persistent can only be applied to classes")
     }
 
-    protected def ptype = tq"longevity.model.PType[$typeName]"
+    protected def mtype = c.prefix.tree match {
+      case q"new $persistent[$mtype](..$args)" => mtype
+      case _ => c.abort(
+        c.enclosingPosition,
+        s"@longevity.model.annotations.persistent requires a single type parameter for the domain model")
+    }
+
+    protected def ptype = tq"longevity.model.PType[$mtype, $typeName]"
 
   }
 

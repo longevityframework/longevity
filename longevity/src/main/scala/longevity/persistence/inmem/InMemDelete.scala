@@ -7,8 +7,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of InMemRepo.delete */
-private[inmem] trait InMemDelete[P] {
-  repo: InMemRepo[P] =>
+private[inmem] trait InMemDelete[M, P] {
+  repo: InMemRepo[M, P] =>
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {

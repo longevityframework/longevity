@@ -19,18 +19,18 @@ import scala.concurrent.Future
  * @param modelType the model type containing the entities that this repo persists
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
-private[longevity] class InMemRepo[P] private[persistence] (
-  pType: PType[P],
-  modelType: ModelType[_],
+private[longevity] class InMemRepo[M, P] private[persistence] (
+  pType: PType[M, P],
+  modelType: ModelType[M],
   protected val persistenceConfig: PersistenceConfig)
-extends PRepo[P](pType, modelType)
-with InMemCreate[P]
-with InMemDelete[P]
-with InMemQuery[P]
-with InMemRead[P]
-with InMemRetrieve[P]
-with InMemUpdate[P]
-with InMemWrite[P]
+extends PRepo[M, P](pType, modelType)
+with InMemCreate[M, P]
+with InMemDelete[M, P]
+with InMemQuery[M, P]
+with InMemRead[M, P]
+with InMemRetrieve[M, P]
+with InMemUpdate[M, P]
+with InMemWrite[M, P]
 with LazyLogging {
   repo =>
 
@@ -52,21 +52,21 @@ with LazyLogging {
 
 private[longevity] object InMemRepo {
 
-  private[persistence] def apply[P](
-    pType: PType[P],
-    modelType: ModelType[_],
+  private[persistence] def apply[M, P](
+    pType: PType[M, P],
+    modelType: ModelType[M],
     persistenceConfig: PersistenceConfig,
-    polyRepoOpt: Option[InMemRepo[_ >: P]])
-  : InMemRepo[P] = {
+    polyRepoOpt: Option[InMemRepo[M, _ >: P]])
+  : InMemRepo[M, P] = {
     val repo = pType match {
-      case pt: PolyPType[_] =>
-        new InMemRepo(pType, modelType, persistenceConfig) with PolyInMemRepo[P]
-      case pt: DerivedPType[_, _] =>
-        def withPoly[Poly >: P](poly: InMemRepo[Poly]) = {
+      case pt: PolyPType[_, _] =>
+        new InMemRepo(pType, modelType, persistenceConfig) with PolyInMemRepo[M, P]
+      case pt: DerivedPType[_, _, _] =>
+        def withPoly[Poly >: P](poly: InMemRepo[M, Poly]) = {
           class DerivedRepo extends {
-            override protected val polyRepo: InMemRepo[Poly] = poly
+            override protected val polyRepo: InMemRepo[M, Poly] = poly
           }
-          with InMemRepo(pType, modelType, persistenceConfig) with DerivedInMemRepo[P, Poly]
+          with InMemRepo(pType, modelType, persistenceConfig) with DerivedInMemRepo[M, P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)

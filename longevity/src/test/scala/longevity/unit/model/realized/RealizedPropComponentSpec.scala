@@ -10,7 +10,7 @@ class RealizedPropComponentSpec extends FlatSpec with GivenWhenThen with Matcher
 
   import longevity.unit.blogCore._
 
-  val userRealizedPType = DomainModel.modelType.realizedPTypes(User)
+  val userRealizedPType = BlogCore.modelType.realizedPTypes(User)
   val realizedProp = userRealizedPType.realizedProps(User.props.email)
 
   realizedProp.realizedPropComponents.size should equal (1)

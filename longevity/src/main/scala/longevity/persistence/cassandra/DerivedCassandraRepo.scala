@@ -7,9 +7,9 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-private[cassandra] trait DerivedCassandraRepo[P, Poly >: P] extends CassandraRepo[P] {
+private[cassandra] trait DerivedCassandraRepo[M, P, Poly >: P] extends CassandraRepo[M, P] {
 
-  protected val polyRepo: CassandraRepo[Poly]
+  protected val polyRepo: CassandraRepo[M, Poly]
 
   override protected[cassandra] val tableName: String = polyRepo.tableName
 

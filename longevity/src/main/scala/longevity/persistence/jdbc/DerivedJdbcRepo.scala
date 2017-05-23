@@ -7,9 +7,9 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-private[persistence] trait DerivedJdbcRepo[P, Poly >: P] extends JdbcRepo[P] {
+private[persistence] trait DerivedJdbcRepo[M, P, Poly >: P] extends JdbcRepo[M, P] {
 
-  protected val polyRepo: JdbcRepo[Poly]
+  protected val polyRepo: JdbcRepo[M, Poly]
 
   override protected[jdbc] val tableName: String = polyRepo.tableName
 

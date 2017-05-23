@@ -24,12 +24,12 @@ import scala.concurrent.blocking
  * @param mongoDb the connection to the mongo database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
-private[longevity] class MongoRepo[P] private[persistence] (
-  pType: PType[P],
-  modelType: ModelType[_],
+private[longevity] class MongoRepo[M, P] private[persistence] (
+  pType: PType[M, P],
+  modelType: ModelType[M],
   protected val session: MongoRepo.MongoSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
-extends PRepo[P](pType, modelType)
+extends PRepo[M, P](pType, modelType)
 with MongoCreate[P]
 with MongoDelete[P]
 with MongoQuery[P]
@@ -60,22 +60,22 @@ private[persistence] object MongoRepo {
     lazy val db = client.getDatabase(config.db)
   }
 
-  def apply[P](
-    pType: PType[P],
-    modelType: ModelType[_],
+  def apply[M, P](
+    pType: PType[M, P],
+    modelType: ModelType[M],
     session: MongoSessionInfo,
     config: PersistenceConfig,
-    polyRepoOpt: Option[MongoRepo[_ >: P]])
-  : MongoRepo[P] = {
+    polyRepoOpt: Option[MongoRepo[M, _ >: P]])
+  : MongoRepo[M, P] = {
     val repo = pType match {
-      case pt: PolyPType[_] =>
-        new MongoRepo(pType, modelType, session, config) with PolyMongoRepo[P]
-      case pt: DerivedPType[_, _] =>
-        def withPoly[Poly >: P](poly: MongoRepo[Poly]) = {
+      case pt: PolyPType[_, _] =>
+        new MongoRepo(pType, modelType, session, config) with PolyMongoRepo[M, P]
+      case pt: DerivedPType[_, _, _] =>
+        def withPoly[Poly >: P](poly: MongoRepo[M, Poly]) = {
           class DerivedRepo extends {
-            override protected val polyRepo: MongoRepo[Poly] = poly
+            override protected val polyRepo: MongoRepo[M, Poly] = poly
           }
-          with MongoRepo(pType, modelType, session, config) with DerivedMongoRepo[P, Poly]
+          with MongoRepo(pType, modelType, session, config) with DerivedMongoRepo[M, P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)

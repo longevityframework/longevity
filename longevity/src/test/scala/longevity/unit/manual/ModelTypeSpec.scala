@@ -4,9 +4,11 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/persistents.html
   package persistents1 {
+    @longevity.model.annotations.domainModel trait DomainModel
+
     import longevity.model.annotations.persistent
 
-    @persistent(keySet = emptyKeySet)
+    @persistent[DomainModel](keySet = emptyKeySet)
     case class User(
       username: String,
       firstName: String,
@@ -15,6 +17,8 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/persistents.html
   package persistents2 {
+    @longevity.model.annotations.domainModel trait DomainModel
+
     import longevity.model.PType
 
     case class User(
@@ -22,7 +26,7 @@ package ModelTypeSpec {
       firstName: String,
       lastName: String)
 
-    object User extends PType[User] {
+    object User extends PType[DomainModel, User] {
       object props {
       }
       val keySet = emptyKeySet
@@ -31,10 +35,12 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/basics.html
   package basics {
+    @longevity.model.annotations.domainModel trait DomainModel
+
     import longevity.model.annotations.persistent
     import org.joda.time.DateTime
 
-    @persistent(keySet = emptyKeySet)
+    @persistent[DomainModel](keySet = emptyKeySet)
     case class User(
       username: String,
       firstName: String,
@@ -46,9 +52,11 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/collections.html
   package collections {
+    @longevity.model.annotations.domainModel trait DomainModel
+
     import longevity.model.annotations.persistent
 
-    @persistent(keySet = emptyKeySet)
+    @persistent[DomainModel](keySet = emptyKeySet)
     case class User(
       username: String,
       title: Option[String],
@@ -59,6 +67,8 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/components.html
   package components1 {
+    @longevity.model.annotations.domainModel trait DomainModel
+
     import longevity.model.annotations.component
     import longevity.model.annotations.persistent
 
@@ -67,7 +77,7 @@ package ModelTypeSpec {
       firstName: String,
       lastName: String)   
 
-    @persistent(keySet = emptyKeySet)
+    @persistent[DomainModel](keySet = emptyKeySet)
     case class User(
       username: String,
       fullName: FullName)   
@@ -86,6 +96,8 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/components/index.html
   package components3 {
+    @longevity.model.annotations.domainModel trait DomainModel
+
     import longevity.model.annotations.component
     import longevity.model.annotations.persistent
 
@@ -102,7 +114,7 @@ package ModelTypeSpec {
       street: String,
       city: String)
 
-    @persistent(keySet = emptyKeySet)
+    @persistent[DomainModel](keySet = emptyKeySet)
     case class User(
       username: String,
       emails: EmailPreferences,
@@ -111,13 +123,15 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/key-values.html
   package keyValues1 {
+    @longevity.model.annotations.domainModel trait DomainModel
+
     import longevity.model.annotations.keyVal
     import longevity.model.annotations.persistent
 
     @keyVal[User]
     case class Username(username: String)
 
-    @persistent(keySet = Set(key(User.props.username)))
+    @persistent[DomainModel](keySet = Set(key(User.props.username)))
     case class User(
       username: Username,
       firstName: String,
@@ -126,13 +140,15 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/key-values.html
   package keyValues2 {
+    @longevity.model.annotations.domainModel trait DomainModel
+
     import longevity.model.annotations.keyVal
     import longevity.model.annotations.persistent
 
     @keyVal[User]
     case class Username(username: String)
 
-    @persistent(keySet = Set(key(User.props.username)))
+    @persistent[DomainModel](keySet = Set(key(User.props.username)))
     case class User(
       username: Username,
       firstName: String,
@@ -162,35 +178,44 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/domainModel.html
   package domainModel2 {
-    import longevity.model.ModelType
+    package myPackage {
 
-    trait MyDomainModel
+      import longevity.model.ModelEv
+      import longevity.model.ModelType
 
-    object MyDomainModel {
-      implicit object myModelType extends ModelType[MyDomainModel]("myPackage")
+      trait MyDomainModel
+
+      object MyDomainModel {
+        implicit object modelType extends ModelType[MyDomainModel]("myPackage")
+        private[myPackage] implicit object modelEv extends ModelEv[MyDomainModel]
+      }
     }
   }
 
   // used in http://longevityframework.github.io/longevity/manual/model/domainModel.html
   package domainModel3 {
-    import longevity.model.annotations.persistent
-    import longevity.model.annotations.component
+    package myPackage {
+      import longevity.model.ModelEv
+      import longevity.model.ModelType
+      import longevity.model.CTypePool
+      import longevity.model.PTypePool
 
-    @persistent(keySet = emptyKeySet) case class User()
-    @persistent(keySet = emptyKeySet) case class BlogPost()
-    @persistent(keySet = emptyKeySet) case class Blog()
-    @component case class UserProfile()
+      trait MyDomainModel
 
-    import longevity.model.ModelType
-    import longevity.model.CTypePool
-    import longevity.model.PTypePool
+      object MyDomainModel {
+        implicit object modelType extends ModelType[MyDomainModel](
+          PTypePool(User, BlogPost, Blog),
+          CTypePool(UserProfile))
+        private[myPackage] implicit object modelEv extends ModelEv[MyDomainModel]
+      }
 
-    trait MyDomainModel
+      import longevity.model.annotations.persistent
+      import longevity.model.annotations.component
 
-    object MyDomainModel {
-      implicit object myModelType extends ModelType[MyDomainModel](
-        PTypePool(User, BlogPost, Blog),
-        CTypePool(UserProfile))
+      @persistent[MyDomainModel](keySet = emptyKeySet) case class User()
+      @persistent[MyDomainModel](keySet = emptyKeySet) case class BlogPost()
+      @persistent[MyDomainModel](keySet = emptyKeySet) case class Blog()
+      @component case class UserProfile()
     }
   }
 

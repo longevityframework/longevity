@@ -30,25 +30,18 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** a Jdbc repository for persistent entities of type `P`.
- *
- * @param pType the type of the persistent entities this repository handles
- * @param modelType the model type containing the persistent that this repo persists
- * @param session the connection to the jdbc database
- * @param persistenceConfig persistence configuration that is back end agnostic
- */
-private[persistence] class JdbcRepo[P] private[persistence] (
-  pType: PType[P],
-  modelType: ModelType[_],
+private[persistence] class JdbcRepo[M, P] private[persistence] (
+  pType: PType[M, P],
+  modelType: ModelType[M],
   private val sessionInfo: JdbcRepo.JdbcSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
-extends PRepo[P](pType, modelType)
-with JdbcSchema[P]
-with JdbcCreate[P]
-with JdbcRetrieve[P]
-with JdbcQuery[P]
-with JdbcUpdate[P]
-with JdbcDelete[P]
+extends PRepo[M, P](pType, modelType)
+with JdbcSchema[M, P]
+with JdbcCreate[M, P]
+with JdbcRetrieve[M, P]
+with JdbcQuery[M, P]
+with JdbcUpdate[M, P]
+with JdbcDelete[M, P]
 with LazyLogging {
 
   protected lazy val connection = sessionInfo.connection
@@ -273,22 +266,22 @@ private[persistence] object JdbcRepo {
     lazy val connection = acquireSharedConn(config)
   }
 
-  def apply[P](
-    pType: PType[P],
-    modelType: ModelType[_],
+  def apply[M, P](
+    pType: PType[M, P],
+    modelType: ModelType[M],
     session: JdbcRepo.JdbcSessionInfo,
     config: PersistenceConfig,
-    polyRepoOpt: Option[JdbcRepo[_ >: P]])
-  : JdbcRepo[P] = {
+    polyRepoOpt: Option[JdbcRepo[M, _ >: P]])
+  : JdbcRepo[M, P] = {
     val repo = pType match {
-      case pt: PolyPType[_] =>
-        new JdbcRepo(pType, modelType, session, config) with PolyJdbcRepo[P]
-      case pt: DerivedPType[_, _] =>
-        def withPoly[Poly >: P](poly: JdbcRepo[Poly]) = {
+      case pt: PolyPType[_, _] =>
+        new JdbcRepo(pType, modelType, session, config) with PolyJdbcRepo[M, P]
+      case pt: DerivedPType[_, _, _] =>
+        def withPoly[Poly >: P](poly: JdbcRepo[M, Poly]) = {
           class DerivedRepo extends {
-            override protected val polyRepo: JdbcRepo[Poly] = poly
+            override protected val polyRepo: JdbcRepo[M, Poly] = poly
           }
-          with JdbcRepo(pType, modelType, session, config) with DerivedJdbcRepo[P, Poly]
+          with JdbcRepo(pType, modelType, session, config) with DerivedJdbcRepo[M, P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)

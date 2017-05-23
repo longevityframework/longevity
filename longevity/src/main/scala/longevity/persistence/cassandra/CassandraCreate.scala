@@ -10,8 +10,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.create */
-private[cassandra] trait CassandraCreate[P] {
-  repo: CassandraRepo[P] =>
+private[cassandra] trait CassandraCreate[M, P] {
+  repo: CassandraRepo[M, P] =>
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
     logger.debug(s"calling CassandraRepo.create: $p")

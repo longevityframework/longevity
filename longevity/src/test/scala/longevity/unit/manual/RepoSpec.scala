@@ -11,11 +11,21 @@ object RepoSpec {
 
   import org.joda.time.DateTime
   import longevity.model.KeyVal
+  import longevity.model.ModelEv
   import longevity.model.ModelType
   import longevity.model.CType
   import longevity.model.CTypePool
   import longevity.model.PTypePool
   import longevity.model.PType
+
+  trait BlogCore
+
+  object BlogCore {
+    implicit object modelType extends ModelType[BlogCore](
+      PTypePool(User, Blog, BlogPost),
+      CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
+    implicit object modelEv extends ModelEv[BlogCore]
+  }
 
   case class Markdown(markdown: String)
   case class Uri(uri: String)
@@ -30,7 +40,7 @@ object RepoSpec {
     email: Email,
     profile: Option[UserProfile] = None) 
 
-  object User extends PType[User] {
+  object User extends PType[BlogCore, User] {
     object props {
       val username = prop[Username]("username")
       val email = prop[Email]("email")
@@ -51,7 +61,7 @@ object RepoSpec {
     description: Markdown,
     authors: Set[Username]) 
 
-  object Blog extends PType[Blog] {
+  object Blog extends PType[BlogCore, Blog] {
     object props {
       val uri = prop[BlogUri]("uri")
     }
@@ -70,7 +80,7 @@ object RepoSpec {
     blog: BlogUri,
     authors: Set[Username]) 
 
-  object BlogPost extends PType[BlogPost] {
+  object BlogPost extends PType[BlogCore, BlogPost] {
     object props {
       val uri = prop[BlogPostUri]("uri")
       val blog = prop[BlogUri]("blog")
@@ -78,14 +88,6 @@ object RepoSpec {
     }
     val keySet = Set(key(props.uri))
     override val indexSet = Set(index(props.blog, props.postDate))
-  }
-
-  trait BlogCore
-
-  object BlogCore {
-    implicit object modelType extends ModelType[BlogCore](
-      PTypePool(User, Blog, BlogPost),
-      CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
   }
 
   import longevity.context.LongevityContext

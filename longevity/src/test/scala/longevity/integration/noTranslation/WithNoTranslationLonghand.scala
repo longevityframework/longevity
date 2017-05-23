@@ -6,7 +6,7 @@ case class WithNoTranslationLonghand(
   uri: String,
   noTranslationLonghand: NoTranslationLonghand)
 
-object WithNoTranslationLonghand extends PType[WithNoTranslationLonghand] {
+object WithNoTranslationLonghand extends PType[DomainModel, WithNoTranslationLonghand] {
   object props {
   }
   val keySet = emptyKeySet

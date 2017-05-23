@@ -2,7 +2,7 @@ package longevity.persistence.jdbc
 
 import longevity.persistence.BasePolyRepo
 
-private[persistence] trait PolyJdbcRepo[P] extends JdbcRepo[P] with BasePolyRepo[P] {
+private[persistence] trait PolyJdbcRepo[M, P] extends JdbcRepo[M, P] with BasePolyRepo[M, P] {
 
   override protected def createTable(): Unit = {
     super.createTable()

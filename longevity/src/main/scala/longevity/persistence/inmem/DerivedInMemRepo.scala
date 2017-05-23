@@ -3,9 +3,9 @@ package longevity.persistence.inmem
 import longevity.persistence.PState
 import longevity.model.realized.AnyRealizedKey
 
-private[inmem] trait DerivedInMemRepo[P, Poly >: P] extends InMemRepo[P] {
+private[inmem] trait DerivedInMemRepo[M, P, Poly >: P] extends InMemRepo[M, P] {
 
-  protected val polyRepo: InMemRepo[Poly]
+  protected val polyRepo: InMemRepo[M, Poly]
 
   override protected[inmem] def nextId: Int = polyRepo.nextId
 

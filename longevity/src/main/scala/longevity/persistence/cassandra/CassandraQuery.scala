@@ -30,8 +30,8 @@ import streamadapter.CloseableChunkIter
 import streamadapter.Chunkerator
 
 /** implementation of CassandraRepo.retrieveByQuery */
-private[cassandra] trait CassandraQuery[P] {
-  repo: CassandraRepo[P] =>
+private[cassandra] trait CassandraQuery[M, P] {
+  repo: CassandraRepo[M, P] =>
 
   protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]] = {
     logger.debug(s"calling CassandraRepo.queryToChunkerator: $query")

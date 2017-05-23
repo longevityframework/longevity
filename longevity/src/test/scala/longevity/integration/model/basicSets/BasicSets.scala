@@ -3,7 +3,7 @@ package longevity.integration.model.basicSets
 import com.github.nscala_time.time.Imports._
 import longevity.model.annotations.persistent
 
-@persistent(keySet = Set(key(BasicSets.props.id)))
+@persistent[DomainModel](keySet = Set(key(BasicSets.props.id)))
 case class BasicSets(
   id: BasicSetsId,
   boolean: Set[Boolean],

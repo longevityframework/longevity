@@ -10,7 +10,7 @@ import scala.concurrent.blocking
 
 /** implementation of MongoRepo.create */
 private[mongo] trait MongoCreate[P] {
-  repo: MongoRepo[P] =>
+  repo: MongoRepo[_, P] =>
 
   def create(p: P)(implicit context: ExecutionContext) = Future {
     blocking {

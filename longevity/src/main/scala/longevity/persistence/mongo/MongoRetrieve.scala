@@ -10,7 +10,7 @@ import scala.concurrent.blocking
 
 /** implementation of MongoRepo.retrieve */
 private[mongo] trait MongoRetrieve[P] {
-  repo: MongoRepo[P] =>
+  repo: MongoRepo[_, P] =>
 
   override def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = Future {
     blocking {

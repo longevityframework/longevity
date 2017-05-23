@@ -8,8 +8,8 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of JdbcRepo.delete */
-private[jdbc] trait JdbcDelete[P] {
-  repo: JdbcRepo[P] =>
+private[jdbc] trait JdbcDelete[M, P] {
+  repo: JdbcRepo[M, P] =>
 
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = Future {
     blocking {

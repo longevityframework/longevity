@@ -10,19 +10,12 @@ import longevity.persistence.PState
 import longevity.persistence.jdbc.JdbcRepo
 import org.sqlite.SQLiteException
 
-/** a SQLite repository for persistent entities of type `P`.
- *
- * @param pType the type of the persistent entities this repository handles
- * @param modelType the model type containing the persistent that this repo persists
- * @param session the connection to the sqlite database
- * @param persistenceConfig persistence configuration that is back end agnostic
- */
-private[longevity] class SQLiteRepo[P] private (
-  pType: PType[P],
-  modelType: ModelType[_],
+private[longevity] class SQLiteRepo[M, P] private (
+  pType: PType[M, P],
+  modelType: ModelType[M],
   sessionInfo: JdbcRepo.JdbcSessionInfo,
   persistenceConfig: PersistenceConfig)
-extends JdbcRepo[P](pType, modelType, sessionInfo, persistenceConfig) {
+extends JdbcRepo[M, P](pType, modelType, sessionInfo, persistenceConfig) {
 
   override protected def addColumn(columnName: String, columnType: String): Unit = {
     val sql = s"ALTER TABLE $tableName ADD COLUMN $columnName $columnType"
@@ -58,22 +51,22 @@ extends JdbcRepo[P](pType, modelType, sessionInfo, persistenceConfig) {
 
 private[persistence] object SQLiteRepo {
 
-  def apply[P](
-    pType: PType[P],
-    modelType: ModelType[_],
+  def apply[M, P](
+    pType: PType[M, P],
+    modelType: ModelType[M],
     session: JdbcRepo.JdbcSessionInfo,
     config: PersistenceConfig,
-    polyRepoOpt: Option[SQLiteRepo[_ >: P]])
-  : SQLiteRepo[P] = {
+    polyRepoOpt: Option[SQLiteRepo[M, _ >: P]])
+  : SQLiteRepo[M, P] = {
     val repo = pType match {
-      case pt: PolyPType[_] =>
-        new SQLiteRepo(pType, modelType, session, config) with PolySQLiteRepo[P]
-      case pt: DerivedPType[_, _] =>
-        def withPoly[Poly >: P](poly: SQLiteRepo[Poly]) = {
+      case pt: PolyPType[_, _] =>
+        new SQLiteRepo(pType, modelType, session, config) with PolySQLiteRepo[M, P]
+      case pt: DerivedPType[_, _, _] =>
+        def withPoly[Poly >: P](poly: SQLiteRepo[M, Poly]) = {
           class DerivedRepo extends {
-            override protected val polyRepo: SQLiteRepo[Poly] = poly
+            override protected val polyRepo: SQLiteRepo[M, Poly] = poly
           }
-          with SQLiteRepo(pType, modelType, session, config) with DerivedSQLiteRepo[P, Poly]
+          with SQLiteRepo(pType, modelType, session, config) with DerivedSQLiteRepo[M, P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)

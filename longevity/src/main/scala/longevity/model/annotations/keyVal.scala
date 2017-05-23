@@ -45,7 +45,8 @@ private object keyVal {
     private def ptype = c.prefix.tree match {
       case q"new $keyVal[$ptype]()" => ptype
       case _ => 
-          c.abort(c.enclosingPosition, s"@longevity.model.annotations.keyVal must take a single type parameter")
+        c.abort(c.enclosingPosition,
+          s"@longevity.model.annotations.keyVal must take a single type parameter for the persistent type that holds the key")
     }
 
   }

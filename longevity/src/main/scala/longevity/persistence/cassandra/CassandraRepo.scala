@@ -38,18 +38,18 @@ import scala.concurrent.blocking
  * @param sessionInfo the connection to the cassandra database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
-private[longevity] class CassandraRepo[P] private (
-  pType: PType[P],
-  modelType: ModelType[_],
+private[longevity] class CassandraRepo[M, P] private (
+  pType: PType[M, P],
+  modelType: ModelType[M],
   private val sessionInfo: CassandraRepo.CassandraSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
-extends PRepo[P](pType, modelType)
-with CassandraSchema[P]
-with CassandraCreate[P]
-with CassandraRetrieve[P]
-with CassandraQuery[P]
-with CassandraUpdate[P]
-with CassandraDelete[P]
+extends PRepo[M, P](pType, modelType)
+with CassandraSchema[M, P]
+with CassandraCreate[M, P]
+with CassandraRetrieve[M, P]
+with CassandraQuery[M, P]
+with CassandraUpdate[M, P]
+with CassandraDelete[M, P]
 with LazyLogging {
 
   protected lazy val session = sessionInfo.session
@@ -272,22 +272,22 @@ private[persistence] object CassandraRepo {
 
   }
 
-  def apply[P](
-    pType: PType[P],
-    modelType: ModelType[_],
+  def apply[M, P](
+    pType: PType[M, P],
+    modelType: ModelType[M],
     session: CassandraSessionInfo,
     config: PersistenceConfig,
-    polyRepoOpt: Option[CassandraRepo[_ >: P]])
-  : CassandraRepo[P] = {
+    polyRepoOpt: Option[CassandraRepo[M, _ >: P]])
+  : CassandraRepo[M, P] = {
     val repo = pType match {
-      case pt: PolyPType[_] =>
-        new CassandraRepo(pType, modelType, session, config) with PolyCassandraRepo[P]
-      case pt: DerivedPType[_, _] =>
-        def withPoly[Poly >: P](poly: CassandraRepo[Poly]) = {
+      case pt: PolyPType[_, _] =>
+        new CassandraRepo(pType, modelType, session, config) with PolyCassandraRepo[M, P]
+      case pt: DerivedPType[_, _, _] =>
+        def withPoly[Poly >: P](poly: CassandraRepo[M, Poly]) = {
           class DerivedRepo extends {
-            override protected val polyRepo: CassandraRepo[Poly] = poly
+            override protected val polyRepo: CassandraRepo[M, Poly] = poly
           }
-          with CassandraRepo(pType, modelType, session, config) with DerivedCassandraRepo[P, Poly]
+          with CassandraRepo(pType, modelType, session, config) with DerivedCassandraRepo[M, P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)

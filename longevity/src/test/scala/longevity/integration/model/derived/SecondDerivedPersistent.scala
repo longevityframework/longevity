@@ -2,7 +2,7 @@ package longevity.integration.model.derived
 
 import longevity.model.annotations.derivedPersistent
 
-@derivedPersistent[PolyPersistent](
+@derivedPersistent[DomainModel, PolyPersistent](
   keySet = emptyKeySet,
   indexSet = Set(index(props.second)))
 case class SecondDerivedPersistent(

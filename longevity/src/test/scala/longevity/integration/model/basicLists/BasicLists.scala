@@ -3,7 +3,7 @@ package longevity.integration.model.basicLists
 import org.joda.time.DateTime
 import longevity.model.annotations.persistent
 
-@persistent(keySet = Set(key(BasicLists.props.id)))
+@persistent[DomainModel](keySet = Set(key(BasicLists.props.id)))
 case class BasicLists(
   id: BasicListsId,
   boolean: List[Boolean],

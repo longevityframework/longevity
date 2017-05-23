@@ -1,6 +1,7 @@
 package longevity.unit.model.ptype
 
 import longevity.model.KeyVal
+import longevity.model.ModelEv
 import longevity.model.PType
 import longevity.model.ptype.Key
 import longevity.model.query.Query
@@ -16,9 +17,14 @@ import org.scalatest.Matchers
 /** sample domain for the QueryDslSpec */
 object QueryDslSpec {
 
+  trait DomainModel
+  object DomainModel {
+    implicit val ev = new ModelEv[DomainModel]
+  }
+
   private case class DslPersistent(path1: Int, path2: Double, path3: String, path4: AssociatedId) 
 
-  private object DslPersistent extends PType[DslPersistent] {
+  private object DslPersistent extends PType[DomainModel, DslPersistent] {
     object props {
       val path1 = prop[Int]("path1")
       val path2 = prop[Double]("path2")
@@ -32,7 +38,7 @@ object QueryDslSpec {
 
   private case class Associated(id: AssociatedId)
 
-  private object Associated extends PType[Associated] {
+  private object Associated extends PType[DomainModel, Associated] {
     object props {
       val id = prop[AssociatedId]("id")
     }

@@ -7,7 +7,7 @@ import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-private[persistence] trait BasePolyRepo[P] extends PRepo[P] {
+private[persistence] trait BasePolyRepo[M, P] extends PRepo[M, P] {
 
   private val union: Union[P] = modelType.emblematic.unions(pTypeKey)
 

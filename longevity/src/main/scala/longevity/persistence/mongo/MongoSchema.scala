@@ -16,7 +16,7 @@ import scala.concurrent.blocking
 
 /** implementation of MongoRepo.createSchema */
 private[mongo] trait MongoSchema[P] {
-  repo: MongoRepo[P] =>
+  repo: MongoRepo[_, P] =>
 
   protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
     blocking {

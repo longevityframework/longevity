@@ -7,8 +7,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of JdbcRepo.update */
-private[jdbc] trait JdbcUpdate[P] {
-  repo: JdbcRepo[P] =>
+private[jdbc] trait JdbcUpdate[M, P] {
+  repo: JdbcRepo[M, P] =>
 
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {

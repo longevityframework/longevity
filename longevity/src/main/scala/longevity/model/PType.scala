@@ -17,9 +17,11 @@ import longevity.model.ptype.QueryDsl
 
 /** a type class for a persistent object
  *
- * @tparam P the persistent type
+ * @tparam M the domain model
+ * @tparam P the persistent class
  */
-abstract class PType[P : TypeKey] {
+// TODO this TypeKey implicit should be removed once the PEv is well established
+abstract class PType[M : ModelEv, P : TypeKey] {
 
   /** the type key for the persistent type */
   val pTypeKey = typeKey[P]
@@ -48,7 +50,7 @@ abstract class PType[P : TypeKey] {
   /** the optional primary key for this persistent type */
   lazy val primaryKey: Option[PrimaryKey[P]] = {
     val primaryKeys = keySet.collect { case pk: PrimaryKey[P] => pk }
-    if (this.isInstanceOf[DerivedPType[_, _]] && primaryKeys.nonEmpty) {
+    if (this.isInstanceOf[DerivedPType[_, _, _]] && primaryKeys.nonEmpty) {
       throw new PrimaryKeyForDerivedPTypeException[P]
     }
     if (primaryKeys.size > 1) throw new MultiplePrimaryKeysForPType[P]

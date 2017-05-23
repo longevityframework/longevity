@@ -10,19 +10,22 @@ object ContextSpec {
 
     import com.typesafe.config.Config
     import longevity.context.LongevityContext
+    import longevity.model.ModelEv
     import longevity.model.ModelType
     import longevity.model.PTypePool
 
     trait BloggingDomain
     object BloggingDomain {
-      implicit object modelType extends ModelType[BloggingDomain](PTypePool.empty)
+      implicit object modelType extends ModelType[BloggingDomain](PTypePool.empty[BloggingDomain])
+      private[config1] implicit object modelEv extends ModelEv[BloggingDomain]
     }
     val bloggingConfig: Config = loadBloggingConfig()
     val bloggingContext = LongevityContext[BloggingDomain](bloggingConfig)
 
     trait AccountsDomain
     object AccountsDomain {
-      implicit object modelType extends ModelType[AccountsDomain](PTypePool.empty)
+      implicit object modelType extends ModelType[AccountsDomain](PTypePool.empty[AccountsDomain])
+      private[config1] implicit object modelEv extends ModelEv[AccountsDomain]
     }
     val accountsConfig: Config = loadAccountsConfig()
     val accountsContext = LongevityContext[AccountsDomain](accountsConfig)
@@ -39,7 +42,7 @@ object ContextSpec {
 
     trait BloggingDomain
     object BloggingDomain {
-      implicit object modelType extends ModelType[BloggingDomain](PTypePool.empty)
+      implicit object modelType extends ModelType[BloggingDomain](PTypePool.empty[BloggingDomain])
     }
 
     import longevity.config.CassandraConfig

@@ -16,13 +16,14 @@ import longevity.model.ptype.Index
  * happens, you will see a compiler error such as "class Foo needs to be a trait
  * to be mixed in".
  *
+ * @tparam M the model
  * @tparam Poly the type of the polymorphic persistent that this persistent is
  * derived from
  * @param keySet the set of keys for the persistent type
  * @param indexSet the set of indexes for the persistent type. defaults to the empty set
  */
 @compileTimeOnly("you must enable macro paradise for @derivedPersistent to work")
-class derivedPersistent[Poly](
+class derivedPersistent[M, Poly](
   keySet: Set[Key[_]],
   indexSet: Set[Index[_]] = Set.empty[Index[_]])
 extends StaticAnnotation {
@@ -51,15 +52,15 @@ private object derivedPersistent {
           s"@longevity.model.annotations.derivedPersistent can only be applied to classes")
     }
 
-    protected def ptype = tq"longevity.model.DerivedPType[$typeName, $polyTypeName]"
+    protected def ptype = tq"longevity.model.DerivedPType[$mtype, $typeName, $polyTypeName]"
 
-    private lazy val polyTypeName = c.prefix.tree match {
-      case q"new $derivedPersistent[$poly]" => poly
-      case q"new $derivedPersistent[$poly](..$params)" => poly
+    protected lazy val (mtype, polyTypeName) = c.prefix.tree match {
+      case q"new $derivedPersistent[$mtype, $poly]" => (mtype, poly)
+      case q"new $derivedPersistent[$mtype, $poly](..$params)" => (mtype, poly)
       case _ =>
         c.abort(
           c.enclosingPosition,
-          s"@longevity.model.annotations.derivedPersistent must take a single type argument")
+          s"@longevity.model.annotations.derivedPersistent must take exactly two type arguments")
     }
 
   }

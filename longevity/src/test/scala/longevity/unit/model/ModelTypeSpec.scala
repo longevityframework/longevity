@@ -19,15 +19,21 @@ import longevity.model.PTypePool
 import longevity.model.PolyCType
 import longevity.model.PolyPType
 import longevity.model.ModelType
+import longevity.model.ModelEv
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
 package packageScanning {
 
+  trait DomainModel
+  object DomainModel {
+    implicit object modelEv extends ModelEv[DomainModel]
+  }
+
   package nesting {
     case class A(id: String, b: B)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[String]("id")
       }
@@ -35,7 +41,7 @@ package packageScanning {
     }
   }
 
-  abstract class FakeoutA extends PType[nesting.A] {
+  abstract class FakeoutA extends PType[DomainModel, nesting.A] {
     object props {
       val id = prop[String]("id")
     }
@@ -47,73 +53,108 @@ package packageScanning {
 
   class FakeoutB extends CType[B]
 
-  object modelType extends ModelType("longevity.unit.model.packageScanning")
+  object modelType extends ModelType[DomainModel]("longevity.unit.model.packageScanning")
 }
 
 /** holds factory methods for sample modelTypes used in [[ModelTypeSpec]] */
 object ModelTypeSpec {
 
   object emptyPropPath {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: String)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[String]("")
       }
       val keySet = emptyKeySet
     }
-    def modelType = ModelType(PTypePool(A))
+
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object noSuchPropPath {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: String)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[String]("noSuchPropPath")
       }
       val keySet = emptyKeySet
     }
-    def modelType = ModelType(PTypePool(A))
+
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object propTypeWithInternalList {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: List[B])
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[A]("id")
       }
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
+
+    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
   }
 
   object propTypeWithInternalOption {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: Option[B])
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[A]("id")
       }
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
+
+    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
   }
 
   object propTypeWithInternalSet {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: Set[B])
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[A]("id")
       }
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
+
+    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
   }
 
   object propTypeWithInternalPoly {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(b: B)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[B]("b")
       }
@@ -123,71 +164,106 @@ object ModelTypeSpec {
     trait B { val id: String }
     case class C(id: String) extends B
 
-    def modelType = ModelType(
+    def modelType = ModelType[DomainModel](
       PTypePool(A),
       CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
 
   object noSuchPropPathInComponent {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(b: B)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[String]("b.noSuchPropPath")
       }
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
+
+    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithNonEmbeddable {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     import java.util.UUID
     case class A(id: UUID)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[UUID]("id")
       }
       val keySet = emptyKeySet
     }
-    def modelType = ModelType(PTypePool(A))
+
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object propPathWithTerminalList {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: List[String])
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[List[String]]("id")
       }
       val keySet = emptyKeySet
     }
-    def modelType = ModelType(PTypePool(A))
+
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object propPathWithTerminalOption {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: Option[String])
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[Option[String]]("id")
       }
       val keySet = emptyKeySet
     }
-    def modelType = ModelType(PTypePool(A))
+
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object propPathWithTerminalSet {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: Set[String])
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[Set[String]]("id")
       }
       val keySet = emptyKeySet
     }
-    def modelType = ModelType(PTypePool(A))
+
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object propPathWithTerminalPoly {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(b: B)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[B]("b")
       }
@@ -198,50 +274,73 @@ object ModelTypeSpec {
 
     case class C(id: String) extends B
 
-    def modelType = ModelType(
+    def modelType = ModelType[DomainModel](
       PTypePool(A),
       CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
 
   object propPathWithInternalList {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: List[B])
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[String]("id.id")
       }
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
+
+    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalOption {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: Option[B])
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[String]("id.id")
       }
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
+
+    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalSet {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: Set[B])
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[String]("id.id")
       }
       val keySet = emptyKeySet
     }
     case class B(id: String)
-    def modelType = ModelType(PTypePool(A), CTypePool(CType[B]))
+
+    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
   }
 
   object propPathWithInternalPoly {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(b: B)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[String]("b.id")
       }
@@ -251,39 +350,55 @@ object ModelTypeSpec {
     trait B { val id: String }
     case class C(id: String) extends B
 
-    def modelType = ModelType(
+    def modelType = ModelType[DomainModel](
       PTypePool(A),
       CTypePool(PolyCType[B], DerivedCType[C, B]))
   }
 
   object incompatiblePropType {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: String)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[Double]("id")
       }
       val keySet = emptyKeySet
     }
-    def modelType = ModelType(PTypePool(A))
+
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object supertypePropType {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: String)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[AnyRef]("id")
       }
       val keySet = emptyKeySet
     }
-    def modelType = ModelType(PTypePool(A))
+
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object subtypePropType {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
 
     case class AId(id: String) extends KeyVal[A]
 
     case class A(id: AId)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[AId]("id")
         val id2 = prop[KeyVal[A]]("id") // this is the problematic prop
@@ -291,15 +406,19 @@ object ModelTypeSpec {
       val keySet = Set(key(props.id))
     }
 
-    def modelType = ModelType(PTypePool(A))
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object duplicateKey {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
 
     case class AId(id: String) extends KeyVal[A]
 
     case class A(id1: AId, id2: AId)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id1 = prop[AId]("id1")
         val id2 = prop[AId]("id2")
@@ -307,16 +426,19 @@ object ModelTypeSpec {
       val keySet = Set(key(props.id1), key(props.id2))
     }
 
-    def modelType = ModelType(PTypePool(A))
-
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object duplicateKeyOrIndex {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
 
     case class AId(id: String) extends KeyVal[A]
 
     case class A(id: AId)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[AId]("id")
       }
@@ -324,16 +446,19 @@ object ModelTypeSpec {
       override val indexSet = Set(index(props.id))
     }
 
-    def modelType = ModelType(PTypePool(A))
-
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object invalidPartition {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
 
     case class AId(id1: String, id2: String) extends KeyVal[A]
 
     case class A(id: AId)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
         val id = prop[AId]("id")
         val id2 = prop[String]("id.id2")
@@ -341,53 +466,73 @@ object ModelTypeSpec {
       val keySet = Set(primaryKey(props.id, partition(props.id2)))
     }
 
-    def modelType = ModelType(PTypePool(A))
-
+    def modelType = ModelType[DomainModel](PTypePool(A))
   }
 
   object derivedPTypeHasNoPoly {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
 
     trait Poly { val id: String }
-    object Poly extends PolyPType[Poly] {
+    object Poly extends PolyPType[DomainModel, Poly] {
       object props {
       }
       val keySet = emptyKeySet
     }
 
     case class Derived(id: String) extends Poly
-    object Derived extends DerivedPType[Derived, Poly] {
+    object Derived extends DerivedPType[DomainModel, Derived, Poly] {
       object props {
       }
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType(PTypePool(Derived))
+    def modelType = ModelType[DomainModel](PTypePool(Derived))
   }
 
   object derivedCTypeHasNoPoly {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     trait Poly { val id: String }
     case class Derived(id: String) extends Poly
-    def modelType = ModelType(PTypePool(), CTypePool(DerivedCType[Derived, Poly]))
+
+    def modelType = ModelType[DomainModel](PTypePool[DomainModel](), CTypePool(DerivedCType[Derived, Poly]))
   }
 
   object duplicateCTypes {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: String)
-    def modelType = ModelType(PTypePool(), CTypePool(CType[A], CType[A]))
+    def modelType = ModelType[DomainModel](PTypePool[DomainModel](), CTypePool(CType[A], CType[A]))
   }
 
   object duplicatePTypes {
+    trait DomainModel
+    object DomainModel {
+      implicit object modelEv extends ModelEv[DomainModel]
+    }
+
     case class A(id: String)
-    object A extends PType[A] {
+    object A extends PType[DomainModel, A] {
       object props {
       }
       val keySet = emptyKeySet
     }
-    object B extends PType[A] {
+    object B extends PType[DomainModel, A] {
       object props {
       }
       val keySet = emptyKeySet
     }
-    def modelType = ModelType(PTypePool(A, B))
+
+    def modelType = ModelType[DomainModel](PTypePool(A, B))
   }
 
 }

@@ -9,9 +9,9 @@ import org.bson.BsonDocument
 import org.bson.BsonString
 import org.bson.conversions.Bson
 
-private[mongo] trait DerivedMongoRepo[P, Poly >: P] extends MongoRepo[P] {
+private[mongo] trait DerivedMongoRepo[M, P, Poly >: P] extends MongoRepo[M, P] {
 
-  protected val polyRepo: MongoRepo[Poly]
+  protected val polyRepo: MongoRepo[M, Poly]
 
   override protected[mongo] lazy val mongoCollection = polyRepo.mongoCollection
 

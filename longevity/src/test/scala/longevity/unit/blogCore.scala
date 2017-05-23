@@ -5,9 +5,19 @@ package object blogCore {
   import longevity.model.CType
   import longevity.model.CTypePool
   import longevity.model.KeyVal
+  import longevity.model.ModelEv
+  import longevity.model.ModelType
   import longevity.model.PType
   import longevity.model.PTypePool
-  import longevity.model.ModelType
+
+  trait BlogCore
+
+  object BlogCore {
+    implicit object modelType extends ModelType[BlogCore](
+      PTypePool(User, Blog, BlogPost),
+      CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
+    implicit object modeEv extends ModelEv[BlogCore]
+  }
 
   case class Email(email: String) extends KeyVal[User]
 
@@ -28,7 +38,7 @@ package object blogCore {
     fullname: String,
     profile: Option[UserProfile] = None) 
 
-  object User extends PType[User] {
+  object User extends PType[BlogCore, User] {
     object props {
       val username = prop[Username]("username")
       val email = prop[Email]("email")
@@ -49,7 +59,7 @@ package object blogCore {
     description: Markdown,
     authors: Set[Username]) 
 
-  object Blog extends PType[Blog] {
+  object Blog extends PType[BlogCore, Blog] {
     object props {
       val uri = prop[BlogUri]("uri")
     }
@@ -67,21 +77,13 @@ package object blogCore {
     blog: BlogUri,
     authors: Set[Username]) 
 
-  object BlogPost extends PType[BlogPost] {
+  object BlogPost extends PType[BlogCore, BlogPost] {
     object props {
       val uri = prop[BlogPostUri]("uri")
       val blog = prop[BlogUri]("blog")
     }
     lazy val keySet = Set(key(props.uri))
     override lazy val indexSet = Set(index(props.blog))
-  }
-
-  trait DomainModel
-
-  object DomainModel {
-    implicit object modelType extends ModelType[DomainModel](
-      PTypePool(User, Blog, BlogPost),
-      CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
   }
 
 }

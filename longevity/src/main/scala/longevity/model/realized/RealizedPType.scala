@@ -16,8 +16,8 @@ import longevity.model.ptype.PrimaryKey
 import longevity.model.ptype.Prop
 
 private[longevity] class RealizedPType[P](
-  pType: PType[P],
-  polyPTypeOpt: Option[PType[_ >: P]],
+  pType: PType[_, P],
+  polyPTypeOpt: Option[PType[_, _ >: P]],
   emblematic: Emblematic) {
 
   private val postPartitionProps: Seq[Prop[P, _]] = pType.primaryKey match {
@@ -43,7 +43,7 @@ private[longevity] class RealizedPType[P](
   val realizedProps: TypeBoundMap[Any, PProp, PRealizedProp] = {
     def myWidenedProps = myRealizedProps.widen[PProp, PRealizedProp]
     pType match {
-      case derivedPType: DerivedPType[P, _] =>
+      case derivedPType: DerivedPType[_, P, _] =>
         def polyProps[Poly >: P](polyPTypeKey: TypeKey[Poly]) = {
           val empty = TypeBoundMap[Any, PProp, PRealizedProp]()
           polyPTypeOpt match {

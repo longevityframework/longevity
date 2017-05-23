@@ -2,7 +2,7 @@ package longevity.integration.model.shorthands
 
 import longevity.model.annotations.persistent
 
-@persistent(
+@persistent[DomainModel](
   keySet = Set(key(props.id)),
   indexSet = Set(
     index(props.boolean),

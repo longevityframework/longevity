@@ -6,8 +6,8 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of InMemRepo.retrieve */
-private[inmem] trait InMemRetrieve[P] {
-  repo: InMemRepo[P] =>
+private[inmem] trait InMemRetrieve[M, P] {
+  repo: InMemRepo[M, P] =>
 
   override def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) =
     Future.successful {

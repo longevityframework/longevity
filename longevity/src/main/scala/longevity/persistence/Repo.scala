@@ -13,15 +13,17 @@ import scala.concurrent.Future
  * 
  * @tparam M the model
  */
-class Repo[M] private[persistence](
-  private[persistence] val pRepoMap: TypeKeyMap[Any, PRepo],
-  private[this] val schemaCreator: SchemaCreator) {
+abstract class Repo[M] private[persistence](private[this] val schemaCreator: SchemaCreator) {
+
+  type PRepoM[P] = PRepo[M, P]
+
+  private[persistence] val pRepoMap: TypeKeyMap[Any, PRepoM]
 
   /** non-desctructively creates any needed database constructs */
   def createSchema()(implicit context: ExecutionContext): Future[Unit] =
     schemaCreator.createSchema().flatMap { _ =>
-      def isPolyRepo(repo: PRepo[_]) = repo.isInstanceOf[BasePolyRepo[_]]
-      def createSchemas(repoTest: (PRepo[_]) => Boolean) =
+      def isPolyRepo(repo: PRepo[M, _]) = repo.isInstanceOf[BasePolyRepo[M, _]]
+      def createSchemas(repoTest: (PRepo[M, _]) => Boolean) =
         Future.sequence(pRepoMap.values.filter(repoTest).map(_.createSchema()))
       for {
         units1 <- createSchemas(isPolyRepo)

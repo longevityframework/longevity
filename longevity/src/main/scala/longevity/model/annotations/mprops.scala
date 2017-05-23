@@ -70,10 +70,10 @@ private object mprops {
 
     private def defObjectProps(parent: c.Tree) = {
       c.typecheck(parent, c.TYPEmode, withMacrosDisabled = true) match {
-        case tq"longevity.model.PType[$p]"            => q"object props { ..${propsForP(p)} }"
-        case tq"longevity.model.PolyPType[$p]"        => q"object props { ..${propsForP(p)} }"
-        case tq"longevity.model.DerivedPType[$p, $q]" => q"object props { ..${propsForP(p)} }"
-        case _                                        => misapplied()
+        case tq"longevity.model.PType[$m, $p]"            => q"object props { ..${propsForP(p)} }"
+        case tq"longevity.model.PolyPType[$m, $p]"        => q"object props { ..${propsForP(p)} }"
+        case tq"longevity.model.DerivedPType[$m, $p, $q]" => q"object props { ..${propsForP(p)} }"
+        case _                                            => misapplied()
       }
     }
 

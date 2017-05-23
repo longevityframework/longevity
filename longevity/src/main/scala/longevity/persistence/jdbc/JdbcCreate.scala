@@ -8,8 +8,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of JdbcRepo.create */
-private[jdbc] trait JdbcCreate[P] {
-  repo: JdbcRepo[P] =>
+private[jdbc] trait JdbcCreate[M, P] {
+  repo: JdbcRepo[M, P] =>
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
     logger.debug(s"calling JdbcRepo.create: $p")

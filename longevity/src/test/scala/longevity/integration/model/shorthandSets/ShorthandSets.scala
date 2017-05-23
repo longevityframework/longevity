@@ -2,7 +2,7 @@ package longevity.integration.model.shorthandSets
 
 import longevity.model.annotations.persistent
 
-@persistent(keySet = Set(key(props.id)))
+@persistent[DomainModel](keySet = Set(key(props.id)))
 case class ShorthandSets(
   id: ShorthandSetsId,
   boolean: Set[BooleanShorthand],

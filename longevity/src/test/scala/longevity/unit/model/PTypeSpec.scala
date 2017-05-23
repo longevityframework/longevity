@@ -11,6 +11,12 @@ import org.scalatest.Matchers
 /** holds domain objects for special case PrimaryKeyForDerivedPTypeException */
 object PTypeSpec {
 
+  import longevity.model.ModelEv
+  trait DomainModel
+  object DomainModel {
+    implicit object modelEv extends ModelEv[DomainModel]
+  }
+
   import longevity.model.KeyVal
   import longevity.model.DerivedPType
   import longevity.model.PolyPType
@@ -21,7 +27,7 @@ object PTypeSpec {
     val username: Username
   }
 
-  object User extends PolyPType[User] {
+  object User extends PolyPType[DomainModel, User] {
     object props {
       val username = prop[Username]("username")
     }
@@ -32,7 +38,7 @@ object PTypeSpec {
 
   case class EmailedUser(username: Username, email: Email) extends User
 
-  object EmailedUser extends DerivedPType[EmailedUser, User] {
+  object EmailedUser extends DerivedPType[DomainModel, EmailedUser, User] {
     object props {
       val email = prop[Email]("email")
     }
@@ -49,7 +55,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "PType construction"
 
   it should "throw exception when the `propSet` is not overridden, and there is no `object props`" in {
-    object User extends PType[User] {
+    object User extends PType[BlogCore, User] {
       val keySet = emptyKeySet
     }
     intercept[NoPropsForPTypeException[_]] {
@@ -58,7 +64,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce an empty `propSet` when `object props` is empty" in {
-    object User extends PType[User] {
+    object User extends PType[BlogCore, User] {
       object props {
       }
       val keySet = emptyKeySet
@@ -67,7 +73,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "produce a non-empty `propSet` when `object props` holds props of the right type" in {
-    object User extends PType[User] {
+    object User extends PType[BlogCore, User] {
       object props {
         val username = prop[Username]("username")
         val email = prop[Email]("email")
@@ -78,7 +84,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "throw exception if more than one primary key is defined" in {
-    object User extends PType[User] {
+    object User extends PType[BlogCore, User] {
       object props {
         val username = prop[Username]("username")
         val email = prop[Email]("email")
@@ -98,7 +104,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "produce an empty `indexSet` when the `indexSet` is not overridden, " +
   "and there is no `object indexes`" in {
-    object User extends PType[User] {
+    object User extends PType[BlogCore, User] {
       object props {
       }
       val keySet = emptyKeySet
@@ -109,7 +115,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "PType.toString"
 
   it should "produce a string indicating its a PType and what the Persistent type is" in {
-    object User extends PType[User] {
+    object User extends PType[BlogCore, User] {
       object props {
       }
       val keySet = emptyKeySet

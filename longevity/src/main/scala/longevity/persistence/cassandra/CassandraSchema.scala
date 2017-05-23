@@ -7,8 +7,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of CassandraRepo.createSchema */
-private[cassandra] trait CassandraSchema[P] {
-  repo: CassandraRepo[P] =>
+private[cassandra] trait CassandraSchema[M, P] {
+  repo: CassandraRepo[M, P] =>
 
   protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
     blocking {

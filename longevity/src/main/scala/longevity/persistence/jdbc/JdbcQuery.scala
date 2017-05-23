@@ -26,8 +26,8 @@ import streamadapter.CloseableChunkIter
 import streamadapter.Chunkerator
 
 /** implementation of JdbcRepo.retrieveByQuery */
-private[jdbc] trait JdbcQuery[P] {
-  repo: JdbcRepo[P] =>
+private[jdbc] trait JdbcQuery[M, P] {
+  repo: JdbcRepo[M, P] =>
 
   protected def queryToChunkerator(query: Query[P]) = {
     logger.debug(s"calling JdbcRepo.queryToChunkerator: $query")

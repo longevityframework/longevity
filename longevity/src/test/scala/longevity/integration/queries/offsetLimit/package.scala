@@ -1,5 +1,6 @@
 package longevity.integration.queries
 
+import longevity.model.ModelEv
 import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.PTypePool
@@ -17,11 +18,12 @@ package object offsetLimit {
 
   object DomainModel {
     implicit object modelType extends ModelType[DomainModel](PTypePool(OffsetLimit))
+    private[offsetLimit] implicit object modelEv extends ModelEv[DomainModel]
   }
 
   case class OffsetLimit(i: Int, j: Int)
 
-  object OffsetLimit extends PType[OffsetLimit] {
+  object OffsetLimit extends PType[DomainModel, OffsetLimit] {
     object props {
       val i = prop[Int]("i")
       val j = prop[Int]("j")

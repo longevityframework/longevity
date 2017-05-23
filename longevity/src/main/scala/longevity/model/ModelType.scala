@@ -18,6 +18,11 @@ import scala.reflect.runtime.universe.runtimeMirror
 /** a description of a project's domain model. contains a pool of all the [[PType persistent types]]
  * in the model, as well as all the [[CType component types]].
  *
+ * the model class `M` is intended to be a phantom class, available in the root package of the
+ * package structure where the domain model elements are defined. the `ModelType` is intended to be
+ * implicitly available within the domain model's companion object. this comes for free if you use
+ * the `longevity.model.annotations.domainModel` annotation on your model class `M`.
+ *
  * @tparam M the model
  *
  * @constructor creates a model type from pools of [[PType persistent]] and [[CType component]]
@@ -26,12 +31,16 @@ import scala.reflect.runtime.universe.runtimeMirror
  * @param pTypePool a complete set of the persistent types in the domain model.
  *
  * @param cTypePool a complete set of the component types within the domain model. defaults to empty
+ *
+ * @see longevity.model.annotations.domainModel
  */
 class ModelType[M](
-  val pTypePool: PTypePool,
+  val pTypePool: PTypePool[M],
   val cTypePool: CTypePool = CTypePool.empty) {
 
-  private def this(pools: (PTypePool, CTypePool)) = this(pools._1, pools._2)
+  type PTypeM[P] = PType[M, P]
+
+  private def this(pools: (PTypePool[M], CTypePool)) = this(pools._1, pools._2)
 
   /** creates a model type by scanning the named package for [[PType persistent types]] and [[CType
    * component types]]
@@ -45,10 +54,16 @@ class ModelType[M](
 
     def subTypes[A](c: Class[A]): Set[Class[_ <: A]] = reflections.getSubTypesOf(c).asScala.toSet
 
-    val pTypeClasses =
-      subTypes(classOf[PType[_]]) ++ subTypes(classOf[PolyPType[_]]) ++ subTypes(classOf[DerivedPType[_, _]])
-    val cTypeClasses =
-      subTypes(classOf[CType[_]]) ++ subTypes(classOf[PolyCType[_]]) ++ subTypes(classOf[DerivedCType[_, _]])
+    val pTypeClasses = {
+      subTypes(classOf[PType[M, _]]) ++
+      subTypes(classOf[PolyPType[M, _]]) ++
+      subTypes(classOf[DerivedPType[M, _, _]])
+    }
+    val cTypeClasses = {
+      subTypes(classOf[CType[_]]) ++
+      subTypes(classOf[PolyCType[_]]) ++
+      subTypes(classOf[DerivedCType[_, _]])
+    }
 
     def singletons[A](classes: Set[Class[_ <: A]]) = classes.flatMap { c =>
       val r = runtimeMirror(c.getClassLoader)
@@ -59,7 +74,7 @@ class ModelType[M](
       }
     }
 
-    val pTypeObjects = singletons[PType[_]](pTypeClasses)
+    val pTypeObjects = singletons[PType[M, _]](pTypeClasses)
     val cTypeObjects = singletons[CType[_]](cTypeClasses)
 
     (PTypePool(pTypeObjects.toSeq: _*), CTypePool(cTypeObjects.toSeq: _*))
@@ -67,13 +82,13 @@ class ModelType[M](
 
   private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
 
-  private[longevity] val realizedPTypes: TypeBoundMap[Any, PType, RealizedPType] = {
-    pTypePool.values.foldLeft(TypeBoundMap[Any, PType, RealizedPType]()) { (acc, pType) =>
-      def addPair[P](pType: PType[P]) = {
+  private[longevity] val realizedPTypes: TypeBoundMap[Any, PTypeM, RealizedPType] = {
+    pTypePool.values.foldLeft(TypeBoundMap[Any, PTypeM, RealizedPType]()) { (acc, pType) =>
+      def addPair[P](pType: PTypeM[P]) = {
         pType.validateKeysAndIndexes()
         val polyPTypeOpt = pType match {
-          case derivedPType: DerivedPType[P, _] =>
-            if (!pTypePool.contains(derivedPType.polyPTypeKey)) {
+          case derivedPType: DerivedPType[M, P, _] =>
+            if (!pTypePool.typeKeyMap.contains(derivedPType.polyPTypeKey)) {
               throw new DerivedHasNoPolyException(derivedPType.polyPTypeKey.name, isPType = true)
             }
             Some(pTypePool(derivedPType.polyPTypeKey))
@@ -90,11 +105,10 @@ class ModelType[M](
   private def emblemPool = pEmblems ++ componentEmblems ++ keyValEmblems
 
   private def pEmblems = {
-    val pTypesWithEmblems = pTypePool.filterValues(!_.isInstanceOf[PolyPType[_]])
+    val pTypesWithEmblems = pTypePool.typeKeyMap.filterValues(!_.isInstanceOf[PolyPType[M, _]])
     pTypesWithEmblems.mapValues[Emblem] {
-      new TypeBoundFunction[Any, PType, Emblem] {
-        def apply[TypeParam](pType: PType[TypeParam]): Emblem[TypeParam] =
-          Emblem(pType.pTypeKey)
+      new TypeBoundFunction[Any, PTypeM, Emblem] {
+        def apply[P](pType: PTypeM[P]): Emblem[P] = Emblem(pType.pTypeKey)
       }
     }
   }
@@ -103,7 +117,7 @@ class ModelType[M](
     val cTypesWithEmblems = cTypePool.filterValues(!_.isInstanceOf[PolyCType[_]])
     cTypesWithEmblems.mapValues[Emblem] {
       new TypeBoundFunction[Any, CType, Emblem] {
-        def apply[TypeParam](cType: CType[TypeParam]): Emblem[TypeParam] =
+        def apply[C](cType: CType[C]): Emblem[C] =
           Emblem(cType.cTypeKey)
       }
     }
@@ -149,27 +163,27 @@ class ModelType[M](
 
     polyTypes.mapValues[Union] {
       new TypeBoundFunction[Any, CType, Union] {
-        def apply[TypeParam](cType: CType[TypeParam]): Union[TypeParam] = {
+        def apply[C](cType: CType[C]): Union[C] = {
           val constituents = baseToDerivedsMap(cType.cTypeKey)
-          Union[TypeParam](constituents: _*)(cType.cTypeKey)
+          Union[C](constituents: _*)(cType.cTypeKey)
         }
       }
     }
   }
 
   private def pUnions = {
-    val polyTypes = pTypePool.filterValues(_.isInstanceOf[PolyPType[_]])
+    val polyTypes = pTypePool.typeKeyMap.filterValues(_.isInstanceOf[PolyPType[M, _]])
 
-    type DerivedFrom[P] = DerivedPType[P, Poly] forSome { type Poly >: P }
+    type DerivedFrom[P] = DerivedPType[M, P, Poly] forSome { type Poly >: P }
 
     val derivedTypes: TypeKeyMap[Any, DerivedFrom] =
-      pTypePool.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Any, DerivedFrom]]
+      pTypePool.typeKeyMap.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Any, DerivedFrom]]
 
     type DerivedList[P] = List[Emblem[_ <: P]]
     val baseToDerivedsMap: TypeKeyMap[Any, DerivedList] =
       derivedTypes.values.foldLeft(TypeKeyMap[Any, DerivedList]) { (map, derivedType) =>
 
-        def fromDerivedPType[P, Poly >: P](derivedPType: DerivedPType[P, Poly])
+        def fromDerivedPType[P, Poly >: P](derivedPType: DerivedPType[M, P, Poly])
         : TypeKeyMap[Any, DerivedList] = {
           implicit val polyTypeKey = derivedPType.polyPTypeKey
 
@@ -186,10 +200,10 @@ class ModelType[M](
       }
 
     polyTypes.mapValues[Union] {
-      new TypeBoundFunction[Any, PType, Union] {
-        def apply[TypeParam](pType: PType[TypeParam]): Union[TypeParam] = {
-          val constituents = baseToDerivedsMap.getOrElse(List[Emblem[TypeParam]]())(pType.pTypeKey)
-          Union[TypeParam](constituents: _*)(pType.pTypeKey)
+      new TypeBoundFunction[Any, PTypeM, Union] {
+        def apply[P](pType: PTypeM[P]): Union[P] = {
+          val constituents = baseToDerivedsMap.getOrElse(List[Emblem[P]]())(pType.pTypeKey)
+          Union[P](constituents: _*)(pType.pTypeKey)
         }
       }
     }
@@ -216,7 +230,7 @@ object ModelType {
    * empty
    */
   def apply[M](
-    pTypePool: PTypePool,
+    pTypePool: PTypePool[M],
     cTypePool: CTypePool = CTypePool.empty)
   : ModelType[M] =
     new ModelType(pTypePool, cTypePool)

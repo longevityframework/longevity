@@ -5,9 +5,17 @@ import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.annotation.compileTimeOnly
 
-/** macro annotation to mark an object as a domain model. extends the class with
- * `longevity.model.ModelType(currentPackage)`, where `currentPackage` is
- * the name of the package in which this annotation was applied.
+/** macro annotation to mark a class or trait as a domain model. adds two elements to the companion
+ * object of the annotated class:
+ *
+ * - `implicit object modelType extends longevity.model.ModelType[M](currentPackage)`, 
+ * - `private[currentPackage] implicit object modelEv extends longevity.model.ModelEv[M]`
+ *
+ * where `M` is the annotated class, and `currentPackage` is the package in which this annotation
+ * was applied.
+ *
+ * @see longevity.model.ModelType
+ * @see longevity.model.ModelEv
  */
 @compileTimeOnly("you must enable macro paradise for @domainModel to work")
 class domainModel extends StaticAnnotation {
@@ -36,15 +44,25 @@ private object domainModel {
       q"{ ${as.head} ; $augmentedCompanion }"
     }
 
-    private def newCompanion = q"object $termName { $modelType }"
+    private def newCompanion = q"object $termName { $modelType ; $modelEv }"
 
     private def augmentedCompanion = {
       val q"$mods object $n extends {..$eds} with ..$ps { $s => ..$ss }" = as.tail.head
-      q"$mods object $n extends {..$eds} with ..$ps { $s => $modelType ; ..$ss }"
+      q"$mods object $n extends {..$eds} with ..$ps { $s => $modelType ; $modelEv ; ..$ss }"
     }
 
-    private def modelType =
-      q"implicit object modelType extends longevity.model.ModelType[$typeName]($owningPackage)"
+    private def modelType = {
+      val p = Constant(owningPackage.fullName)
+      q"implicit object modelType extends longevity.model.ModelType[$typeName]($p)"
+    }
+
+    private def modelEv = {
+      // TODO clean up
+      //val p = TypeName(owningPackage.fullName)
+
+      val p = TypeName(owningPackage.name.decodedName.toString)
+      q"private[$p] implicit object modelEv extends longevity.model.ModelEv[$typeName]"
+    }
 
     private lazy val name = as.head match {
       case q"$_ class $typeName[..$_] $_(...$_) extends {..$_} with ..$_ { $_ => ..$_ }" => typeName
@@ -60,8 +78,7 @@ private object domainModel {
     
     def owningPackage = {
       def owningPackage0(s: c.Symbol): c.Symbol = if (s.isPackage) s else owningPackage0(s.owner)
-      val p = owningPackage0(c.internal.enclosingOwner)
-      Constant(p.fullName)
+      owningPackage0(c.internal.enclosingOwner)
     }
 
   }

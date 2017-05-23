@@ -3,7 +3,7 @@ package longevity.integration.model.basics
 import org.joda.time.DateTime
 import longevity.model.annotations.persistent
 
-@persistent(
+@persistent[DomainModel](
   keySet = Set(key(Basics.props.id)),
   indexSet = Set( // for cassandra.BasicsQuerySpec
     index(props.boolean),

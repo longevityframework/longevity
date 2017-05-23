@@ -7,8 +7,8 @@ import longevity.model.query.QueryOrderBy
 import streamadapter.Chunkerator
 
 /** implementation of InMemRepo.retrieveByQuery and streamByQuery */
-private[inmem] trait InMemQuery[P] {
-  repo: InMemRepo[P] =>
+private[inmem] trait InMemQuery[M, P] {
+  repo: InMemRepo[M, P] =>
 
   protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]] = {
     logger.debug(s"calling InMemRepo.queryToChunkerator: $query")

@@ -60,11 +60,11 @@ private[longevity] object RepoBuilder {
     repo
   }
 
-  private trait StockRepoFactory[R[P] <: PRepo[P]] {
+  private trait StockRepoFactory[M, R[M, P] <: PRepo[M, P]] {
     def build[P](
-      pType: PType[P],
-      polyRepoOpt: Option[R[_ >: P]] = None)
-    : R[P]
+      pType: PType[M, P],
+      polyRepoOpt: Option[R[M, _ >: P]] = None)
+    : R[M, P]
   }
 
   private def cassandraRepo[M](
@@ -72,23 +72,23 @@ private[longevity] object RepoBuilder {
     session: CassandraSessionInfo,
     persistenceConfig: PersistenceConfig)
   : Repo[M] = {
-    object repoFactory extends StockRepoFactory[CassandraRepo] {
+    object repoFactory extends StockRepoFactory[M, CassandraRepo] {
       def build[P](
-        pType: PType[P],
-        polyRepoOpt: Option[CassandraRepo[_ >: P]])
-      : CassandraRepo[P] =
-        CassandraRepo[P](pType, modelType, session, persistenceConfig, polyRepoOpt)
+        pType: PType[M, P],
+        polyRepoOpt: Option[CassandraRepo[M, _ >: P]])
+      : CassandraRepo[M, P] =
+        CassandraRepo[M, P](pType, modelType, session, persistenceConfig, polyRepoOpt)
     }
     buildRepo(modelType, repoFactory, session, persistenceConfig)
   }
 
   private def inMemTestRepo[M](modelType: ModelType[M], persistenceConfig: PersistenceConfig): Repo[M] = {
-    object repoFactory extends StockRepoFactory[InMemRepo] {
+    object repoFactory extends StockRepoFactory[M, InMemRepo] {
       def build[P](
-        pType: PType[P],
-        polyRepoOpt: Option[InMemRepo[_ >: P]])
-      : InMemRepo[P] =
-        InMemRepo[P](pType, modelType, persistenceConfig, polyRepoOpt)
+        pType: PType[M, P],
+        polyRepoOpt: Option[InMemRepo[M, _ >: P]])
+      : InMemRepo[M, P] =
+        InMemRepo[M, P](pType, modelType, persistenceConfig, polyRepoOpt)
     }
     buildRepo(modelType, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
@@ -98,12 +98,12 @@ private[longevity] object RepoBuilder {
     session: MongoSessionInfo,
     persistenceConfig: PersistenceConfig)
   : Repo[M] = {
-    object repoFactory extends StockRepoFactory[MongoRepo] {
+    object repoFactory extends StockRepoFactory[M, MongoRepo] {
       def build[P](
-        pType: PType[P],
-        polyRepoOpt: Option[MongoRepo[_ >: P]])
-      : MongoRepo[P] =
-        MongoRepo[P](pType, modelType, session, persistenceConfig, polyRepoOpt)
+        pType: PType[M, P],
+        polyRepoOpt: Option[MongoRepo[M, _ >: P]])
+      : MongoRepo[M, P] =
+        MongoRepo[M, P](pType, modelType, session, persistenceConfig, polyRepoOpt)
     }
     buildRepo(modelType, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
@@ -113,12 +113,12 @@ private[longevity] object RepoBuilder {
     session: JdbcSessionInfo,
     persistenceConfig: PersistenceConfig)
   : Repo[M] = {
-    object repoFactory extends StockRepoFactory[SQLiteRepo] {
+    object repoFactory extends StockRepoFactory[M, SQLiteRepo] {
       def build[P](
-        pType: PType[P],
-        polyRepoOpt: Option[SQLiteRepo[_ >: P]])
-      : SQLiteRepo[P] =
-        SQLiteRepo[P](pType, modelType, session, persistenceConfig, polyRepoOpt)
+        pType: PType[M, P],
+        polyRepoOpt: Option[SQLiteRepo[M, _ >: P]])
+      : SQLiteRepo[M, P] =
+        SQLiteRepo[M, P](pType, modelType, session, persistenceConfig, polyRepoOpt)
     }
     buildRepo(modelType, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
@@ -128,30 +128,31 @@ private[longevity] object RepoBuilder {
     session: JdbcSessionInfo,
     persistenceConfig: PersistenceConfig)
   : Repo[M] = {
-    object repoFactory extends StockRepoFactory[JdbcRepo] {
+    object repoFactory extends StockRepoFactory[M, JdbcRepo] {
       def build[P](
-        pType: PType[P],
-        polyRepoOpt: Option[JdbcRepo[_ >: P]])
-      : JdbcRepo[P] =
-        JdbcRepo[P](pType, modelType, session, persistenceConfig, polyRepoOpt)
+        pType: PType[M, P],
+        polyRepoOpt: Option[JdbcRepo[M, _ >: P]])
+      : JdbcRepo[M, P] =
+        JdbcRepo[M, P](pType, modelType, session, persistenceConfig, polyRepoOpt)
     }
     buildRepo(modelType, repoFactory, SchemaCreator.empty, persistenceConfig)
   }
 
-  private def buildRepo[M, R[P] <: PRepo[P]](
+  private def buildRepo[M, R[M, P] <: PRepo[M, P]](
     modelType: ModelType[M],
-    stockRepoFactory: StockRepoFactory[R],
+    stockRepoFactory: StockRepoFactory[M, R],
     schemaCreator: SchemaCreator,
     persistenceConfig: PersistenceConfig)
   : Repo[M] = {
-    var keyToRepoMap = TypeKeyMap[Any, R]
-    type Pair[P] = TypeBoundPair[Any, TypeKey, PType, P]
+    type RM[P] = R[M, P]
+    var keyToRepoMap = TypeKeyMap[Any, RM]
+    type Pair[P] = TypeBoundPair[Any, TypeKey, modelType.PTypeM, P]
     def createRepoFromPair[P](pair: Pair[P]): Unit = {
       val pTypeKey = pair._1
       val pType = pair._2
 
       val polyKey: Option[TypeKey[_ >: P]] = pType match {
-        case dpt: DerivedPType[_, _] => Some(dpt.polyPTypeKey)
+        case dpt: DerivedPType[_, _, _] => Some(dpt.polyPTypeKey)
         case _ => None
       }
 
@@ -159,20 +160,28 @@ private[longevity] object RepoBuilder {
       keyToRepoMap += (pTypeKey -> repo)
 
     }
-    modelType.pTypePool.filter(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
-    modelType.pTypePool.filterNot(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
-    val repo = new Repo[M](keyToRepoMap.widen[PRepo], schemaCreator)
-    finishRepoInitialization(repo)
+
+    type PTypeM[P] = PType[M, P]
+
+    def isPolyPType(pair: TypeBoundPair[Any, TypeKey, PTypeM, _]): Boolean = {
+      pair._2.isInstanceOf[PolyPType[_, _]]
+    }
+
+    // do PolyPTypes first
+    modelType.pTypePool.typeKeyMap.filter(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
+    modelType.pTypePool.typeKeyMap.filterNot(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
+
+    type PRepoM[P] = PRepo[M, P]
+
+    val repo = new Repo[M](schemaCreator) {
+      override private[persistence] val pRepoMap = keyToRepoMap.widen[PRepoM]
+    }
+
+    // finish repo initialization
+    repo.pRepoMap.values.foreach { pRepo => pRepo._repoOption = Some(repo) }
+
     autocreateSchema(repo, persistenceConfig)
     repo
-  }
-
-  private def isPolyPType(pair: TypeBoundPair[Any, TypeKey, PType, _]): Boolean = {
-    pair._2.isInstanceOf[PolyPType[_]]
-  }
-
-  private def finishRepoInitialization(repo: Repo[_]): Unit = {
-    repo.pRepoMap.values.foreach { pRepo => pRepo._repoOption = Some(repo) }
   }
 
   private def autocreateSchema(repo: Repo[_], persistenceConfig: PersistenceConfig): Unit = {

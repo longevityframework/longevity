@@ -28,6 +28,15 @@
   be found in the companion object of `M`, as built by the annotation macro.
   `longevity.context.Repo` also now takes a type parameter `M`.
 
+- 2017.05.23 - Add `longevity.model.ModelEv` type-class. ("Ev" is short for "evidence" here.) The
+  `longevity.model.annotations.domainModel` annotation macro now adds an `implicit object
+  modelEv` into the companion object of the annotated class. This evidence class is private to the
+  package that the domain model is found in. `longevity.model.PType` now has a type parameter `M`
+  for the model, and an implicit `ModelEv[M]` is required to initialize a `PType[M, P]`. Because the
+  generated model evidence is private to the model package, persistent types outside of the model
+  package will not find the evidence, and will fail to compile. This prevents the user from
+  accidentally creating a persistent type that falls outside the model.
+
 ## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
 
 - 2017.03.24 - Rename `Repo.retrieveByQuery` to `Repo.queryToFutureVec`. The return type of this

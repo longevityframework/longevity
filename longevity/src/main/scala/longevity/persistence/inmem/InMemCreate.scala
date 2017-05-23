@@ -6,8 +6,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of InMemRepo.create */
-private[inmem] trait InMemCreate[P] {
-  repo: InMemRepo[P] =>
+private[inmem] trait InMemCreate[M, P] {
+  repo: InMemRepo[M, P] =>
 
   def create(unpersisted: P)(implicit context: ExecutionContext) = Future {
     blocking {

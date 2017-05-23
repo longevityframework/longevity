@@ -22,7 +22,7 @@ import org.joda.time.DateTimeZone
  * [[MongoQuery]]
  */
 private[mongo] trait MongoRead[P] {
-  repo: MongoRepo[P] =>
+  repo: MongoRepo[_, P] =>
 
   private lazy val bsonToModelTypeTranslator =
     new BsonToDomainModelTranslator(modelType.emblematic)

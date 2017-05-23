@@ -9,8 +9,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of JdbcRepo.retrieve(KeyVal) */
-private[jdbc] trait JdbcRetrieve[P] {
-  repo: JdbcRepo[P] =>
+private[jdbc] trait JdbcRetrieve[M, P] {
+  repo: JdbcRepo[M, P] =>
 
   def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = {
     logger.debug(s"calling JdbcRepo.retrieve: $keyVal")

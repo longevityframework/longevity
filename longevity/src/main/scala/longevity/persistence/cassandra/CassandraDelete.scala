@@ -9,8 +9,8 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 /** implementation of CassandraRepo.delete */
-private[cassandra] trait CassandraDelete[P] {
-  repo: CassandraRepo[P] =>
+private[cassandra] trait CassandraDelete[M, P] {
+  repo: CassandraRepo[M, P] =>
 
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = Future {
     blocking {

@@ -24,29 +24,29 @@ class PersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "create a companion object that extends PType when there is no companion object" in {
-    PNoCompanion.isInstanceOf[PType[PNoCompanion]] should be (true)
-    PNoCompanion.asInstanceOf[PType[PNoCompanion]].pTypeKey should equal {
+    PNoCompanion.isInstanceOf[PType[DomainModel, PNoCompanion]] should be (true)
+    PNoCompanion.asInstanceOf[PType[DomainModel, PNoCompanion]].pTypeKey should equal {
       typeKey[PNoCompanion]
     }
   }
 
   it should "augment an existing companion object to extend PType" in {
-    PWithCompanion.isInstanceOf[PType[PWithCompanion]] should be (true)
-    PWithCompanion.asInstanceOf[PType[PWithCompanion]].pTypeKey should equal {
+    PWithCompanion.isInstanceOf[PType[DomainModel, PWithCompanion]] should be (true)
+    PWithCompanion.asInstanceOf[PType[DomainModel, PWithCompanion]].pTypeKey should equal {
       typeKey[PWithCompanion]
     }
     PWithCompanion.y should equal (7)
 
-    PCaseClass.isInstanceOf[PType[PCaseClass]] should be (true)
+    PCaseClass.isInstanceOf[PType[DomainModel, PCaseClass]] should be (true)
 
-    PCaseClass.asInstanceOf[PType[PCaseClass]].pTypeKey should equal {
+    PCaseClass.asInstanceOf[PType[DomainModel, PCaseClass]].pTypeKey should equal {
       typeKey[PCaseClass]
     }
     PCaseClass.apply() should equal (PCaseClass())
 
-    PCaseClassWithDefaults.isInstanceOf[PType[PCaseClassWithDefaults]] should be (true)
+    PCaseClassWithDefaults.isInstanceOf[PType[DomainModel, PCaseClassWithDefaults]] should be (true)
 
-    PCaseClassWithDefaults.asInstanceOf[PType[PCaseClassWithDefaults]].pTypeKey should equal {
+    PCaseClassWithDefaults.asInstanceOf[PType[DomainModel, PCaseClassWithDefaults]].pTypeKey should equal {
       typeKey[PCaseClassWithDefaults]
     }
     PCaseClassWithDefaults.apply(3) should equal (PCaseClassWithDefaults(3))

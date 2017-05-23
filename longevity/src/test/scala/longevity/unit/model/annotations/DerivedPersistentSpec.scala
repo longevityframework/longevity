@@ -15,29 +15,29 @@ class DerivedPersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "@derivedPersistent"
 
   it should "cause a compiler error when annotating something other than a class or object" in {
-    "@derivedPersistent[Poly](keySet = Set.empty) val x = 7"                shouldNot compile
-    "@derivedPersistent[Poly](keySet = Set.empty) type X = Int"             shouldNot compile
-    "@derivedPersistent[Poly](keySet = Set.empty) def foo = 7"              shouldNot compile
-    "def foo(@derivedPersistent[Poly](keySet = Set.empty) x: Int) = 7"      shouldNot compile
-    "@derivedPersistent[Poly](keySet = Set.empty) trait T extends Poly"     shouldNot compile
+    "@derivedPersistent[DomainModel, Poly](keySet = Set.empty) val x = 7"            shouldNot compile
+    "@derivedPersistent[DomainModel, Poly](keySet = Set.empty) type X = Int"         shouldNot compile
+    "@derivedPersistent[DomainModel, Poly](keySet = Set.empty) def foo = 7"          shouldNot compile
+    "def foo(@derivedPersistent[DomainModel, Poly](keySet = Set.empty) x: Int) = 7"  shouldNot compile
+    "@derivedPersistent[DomainModel, Poly](keySet = Set.empty) trait T extends Poly" shouldNot compile
   }
 
   it should "create a companion object that extends DerivedPType when there is no companion object" in {
-    DerivedPNoCompanion.isInstanceOf[DerivedPType[DerivedPNoCompanion, Poly]] should be (true)
-    DerivedPNoCompanion.asInstanceOf[DerivedPType[DerivedPNoCompanion, Poly]].pTypeKey should equal {
+    DerivedPNoCompanion.isInstanceOf[DerivedPType[DomainModel, DerivedPNoCompanion, Poly]] should be (true)
+    DerivedPNoCompanion.asInstanceOf[DerivedPType[DomainModel, DerivedPNoCompanion, Poly]].pTypeKey should equal {
       typeKey[DerivedPNoCompanion]
     }
   }
 
   it should "augment an existing companion object to extend DerivedPType" in {
-    DerivedPWithCompanion.isInstanceOf[DerivedPType[DerivedPWithCompanion, Poly]] should be (true)
-    DerivedPWithCompanion.asInstanceOf[DerivedPType[DerivedPWithCompanion, Poly]].pTypeKey should equal {
+    DerivedPWithCompanion.isInstanceOf[DerivedPType[DomainModel, DerivedPWithCompanion, Poly]] should be (true)
+    DerivedPWithCompanion.asInstanceOf[DerivedPType[DomainModel, DerivedPWithCompanion, Poly]].pTypeKey should equal {
       typeKey[DerivedPWithCompanion]
     }
     DerivedPWithCompanion.y should equal (7)
 
-    DerivedPCaseClass.isInstanceOf[DerivedPType[DerivedPCaseClass, Poly]] should be (true)
-    DerivedPCaseClass.asInstanceOf[DerivedPType[DerivedPCaseClass, Poly]].pTypeKey should equal {
+    DerivedPCaseClass.isInstanceOf[DerivedPType[DomainModel, DerivedPCaseClass, Poly]] should be (true)
+    DerivedPCaseClass.asInstanceOf[DerivedPType[DomainModel, DerivedPCaseClass, Poly]].pTypeKey should equal {
       typeKey[DerivedPCaseClass]
     }
     DerivedPCaseClass.apply() should equal (DerivedPCaseClass())

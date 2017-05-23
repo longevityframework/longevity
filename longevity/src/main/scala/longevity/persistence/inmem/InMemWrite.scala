@@ -9,8 +9,8 @@ import longevity.model.realized.AnyRealizedKey
 /** support for InMemRepo methods that modify persistent collection. used by
  * [[InMemCreate]], [[InMemDelete]] and [[InMemUpdate]].
  */
-private[inmem] trait InMemWrite[P] {
-  repo: InMemRepo[P] =>
+private[inmem] trait InMemWrite[M, P] {
+  repo: InMemRepo[M, P] =>
 
   private var idCounter = 0
 
