@@ -38,6 +38,7 @@ class ModelType[M](
   val pTypePool: PTypePool[M],
   val cTypePool: CTypePool = CTypePool.empty) {
 
+  /** a persistent type where the model is fixed */
   type PTypeM[P] = PType[M, P]
 
   private def this(pools: (PTypePool[M], CTypePool)) = this(pools._1, pools._2)

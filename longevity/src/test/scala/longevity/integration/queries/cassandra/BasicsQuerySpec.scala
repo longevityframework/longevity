@@ -18,6 +18,7 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 
 class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
   new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig))(
+  Basics.pEv,
   Basics.pTypeKey,
   globalExecutionContext)
     with ExerciseAkkaStreams[DomainModel, Basics]

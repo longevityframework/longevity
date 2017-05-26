@@ -9,6 +9,9 @@ import emblem.exceptions.TraversorException
  *
  * ideally, we would catch this kind of problem as early as possible. it could
  * be in a unit test, or perhaps in a macro.
+ *
+ * TODO we might want to remove and undocument this. the new evidence setup avoids the need for this
+ * (for the most part)
  */
 class NotInDomainModelTranslationException(val typeName: String, cause: TraversorException)
 extends TranslationException(s"don't know how to translate type $typeName", cause) {

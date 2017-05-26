@@ -1,8 +1,8 @@
 package longevity.persistence.streams
 
-import emblem.TypeKey
 import akka.NotUsed
 import akka.stream.scaladsl.Source
+import longevity.model.PEv
 import longevity.model.query.Query
 import longevity.persistence.PState
 import longevity.persistence.Repo
@@ -22,7 +22,7 @@ class AkkaStreamsRepo[M](repo: Repo[M]) {
    *
    * @param query the query to execute
    */
-  def queryToAkkaStream[P : TypeKey](query: Query[P]): Source[PState[P], NotUsed] =
-    repo.pRepoMap[P].queryToAkkaStreamImpl(query)
+  def queryToAkkaStream[P: repo.PEvM](query: Query[P]): Source[PState[P], NotUsed] =
+    repo.pRepoMap(implicitly[PEv[M, P]].key).queryToAkkaStreamImpl(query)
 
 }

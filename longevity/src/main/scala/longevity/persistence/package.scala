@@ -1,9 +1,8 @@
 package longevity
 
-import emblem.TypeKey
-import emblem.typeKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import longevity.model.PEv
 import longevity.persistence.streams.AkkaStreamsRepo
 import longevity.persistence.streams.FS2Repo
 import longevity.persistence.streams.IterateeIoRepo
@@ -37,12 +36,12 @@ package object persistence {
    */
   implicit def repoToPlayRepo[M](repo: Repo[M]) = new PlayRepo(repo)
 
-  /** packages a persistent object with a `TypeKey` for the object's type. used
-   * by [[Repo.createMany]].
+  /** packages a persistent object along with evidence for the persistent class. used by
+   * [[Repo.createMany]].
    */
-  implicit class PWithTypeKey[P : TypeKey](private[persistence] val p: P) {
-    private[persistence] val pTypeKey = typeKey[P]
-  }
+  implicit class PWithEv[M, P](
+    private[persistence] val p: P)(
+    private[persistence] val ev: PEv[M, P])
 
   /** a future persistent state */
   type FPState[P] = Future[PState[P]]

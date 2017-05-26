@@ -3,6 +3,7 @@ package longevity.test
 import com.typesafe.scalalogging.LazyLogging
 import emblem.TypeKey
 import longevity.context.LongevityContext
+import longevity.model.PEv
 import longevity.model.ptype.Prop
 import longevity.model.query.Query
 import longevity.model.query.QueryFilter
@@ -35,7 +36,8 @@ import scala.concurrent.Future
  */
 abstract class QuerySpec[M, P](
   protected val longevityContext: LongevityContext[M])(
-  protected implicit val pTypeKey : TypeKey[P],
+  protected implicit val pEv: PEv[M, P],
+  protected implicit val pTypeKey: TypeKey[P], // TODO RM
   protected implicit val executionContext: ExecutionContext)
 extends FlatSpec with LongevityIntegrationSpec[M] with LazyLogging {
 

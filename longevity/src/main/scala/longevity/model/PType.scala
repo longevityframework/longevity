@@ -23,6 +23,10 @@ import longevity.model.ptype.QueryDsl
 // TODO this TypeKey implicit should be removed once the PEv is well established
 abstract class PType[M : ModelEv, P : TypeKey] {
 
+  /** the evidence for the persistent class */
+  implicit val pEv = new PEv[M, P](typeKey[P])
+
+  // TODO: hide this key once the PEv is fully in place
   /** the type key for the persistent type */
   val pTypeKey = typeKey[P]
 

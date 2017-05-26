@@ -37,6 +37,17 @@
   package will not find the evidence, and will fail to compile. This prevents the user from
   accidentally creating a persistent type that falls outside the model.
 
+- 2017.05.25 - Add `longevity.model.PEv` type-class. ("Ev" is short for "evidence" here.) The
+  `longevity.model.PType` now includes an `implicit val ev: PEv[M, P]`. Because the companion object
+  of a persistent class is normally the corresponding `PType`, this evidence should be available
+  where needed. `longevity.persistence.Repo` methods that used to take an implicit `TypeKey[P]`
+  argument, now take an implicit `PEv[M, P]` argument. As users will not be able to find an implicit
+  `PEv[M, P]` available without the type `P` actually being part of the model, (excepting the case
+  where the user goes to extended lengths to subvert our type system), it will now be a compile-time
+  error to call these repository methods with a non-persistent object. This is a great improvement
+  over the old situation, since a `TypeKey[P]` is available for any type `P` for which there is a
+  `TypeTag[P]` available.
+
 ## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
 
 - 2017.03.24 - Rename `Repo.retrieveByQuery` to `Repo.queryToFutureVec`. The return type of this

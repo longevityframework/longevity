@@ -1,7 +1,6 @@
 package longevity.integration.poly
 
 import longevity.context.LongevityContext
-import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.integration.model.derived
 import longevity.model.query.Query
@@ -9,15 +8,6 @@ import longevity.model.query.QueryFilter
 import longevity.test.LongevityIntegrationSpec
 import org.scalatest.FlatSpec
 import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
-
-object PolyReposSpec {
-
-  case class DerivedNotInModelType(
-    id: derived.PolyPersistentId,
-    component: derived.PolyComponent)
-  extends derived.PolyPersistent
-
-}
 
 /** base class for testing repos that share tables in the presence of [[PolyCType]] */
 abstract class PolyReposSpec(
@@ -137,16 +127,6 @@ extends FlatSpec with LongevityIntegrationSpec[derived.DomainModel] {
     retrievedPStateSeq(0).get should equal (firstDerivedPersistent)
   } 
 
-  behavior of "Repo[PolyPersistent].create"
-
-  it should "throw exception on a subclass of PolyPersistent that is not in the domain model" in {
-    val derivedNotInModelType = generateDerivedNotInModelType
-
-    intercept[NotInDomainModelTranslationException] {
-      repo.create(derivedNotInModelType)
-    }
-  } 
-
   behavior of "Repo[PolyPersistent].update"
 
   it should "throw exception on attempt to change the derived type of the PState" in {
@@ -160,10 +140,5 @@ extends FlatSpec with LongevityIntegrationSpec[derived.DomainModel] {
       repo.update(modifiedPState)
     }
   } 
-
-  private def generateDerivedNotInModelType =
-    PolyReposSpec.DerivedNotInModelType(
-      testDataGenerator.generate[derived.PolyPersistentId],
-      testDataGenerator.generate[derived.PolyComponent])
 
 }

@@ -4,33 +4,37 @@ import emblem.TypeKey
 import emblem.TypeKeyMap
 import longevity.exceptions.model.DuplicatePTypesException
 
-/** TODO */
+/** a collection of persistent types for a model, indexed by the persistent evidences
+ *
+ * @tparam M the model
+ * @see PType
+ */
 abstract class PTypePool[M] {
 
-  /** TODO */
+  /** a persistent type where the model is fixed */
   type PTypeM[P] = PType[M, P]
 
   private[longevity] val typeKeyMap: TypeKeyMap[Any, PTypeM]
 
-  /** TODO */
+  /** retrieves a persistent type from the pool by its evidence */
+  def apply[P](implicit ev: TypeKey[P]): PTypeM[P] = typeKeyMap.apply(ev)
+
+  /** all the persistent types in the pool */
   def values = typeKeyMap.values
 
-  /** TODO */
+  /** the number of persistent types in the pool */
   def size = typeKeyMap.size
-
-  /** TODO */
-  def apply[P](implicit ev: TypeKey[P]): PTypeM[P] = typeKeyMap.apply(ev)
 
 }
 
 /** houses methods for constructing persistent type pools */
 object PTypePool {
 
-  /** collects a sequence of [[PType persistent types]] into a [[PTypePool]].
+  /** collects a sequence of [[PType persistent types]] into a [[PTypePool]]
    * 
    * @param pTypes the sequence of persistent types stored in the pool
-   * @throws longevity.exceptions.model.DuplicatePTypesException when
-   * two `PTypes` have the same `Persistent` type
+   * @throws longevity.exceptions.model.DuplicatePTypesException when two `PTypes` have the same
+   * `Persistent` type
    */
   @throws[DuplicatePTypesException]("when two PTypes have the same Persistent type")
   def apply[M](pTypes: PType[M, _]*): PTypePool[M] = {

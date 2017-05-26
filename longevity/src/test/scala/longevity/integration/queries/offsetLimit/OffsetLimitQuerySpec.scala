@@ -27,18 +27,20 @@ extends FlatSpec with LongevityIntegrationSpec[DomainModel] {
 
   protected implicit val executionContext = ExecutionContext.global
 
-  val ps = for (i <- 0 until 10) yield OffsetLimit(i, 0)
+  val ps: Seq[OffsetLimit] = for (i <- 0 until 10) yield OffsetLimit(i, 0)
   val repo = longevityContext.testRepo
   
   var states: Seq[PState[OffsetLimit]] = _
 
   override def beforeAll = {
     super.beforeAll
-    states = Future.sequence(ps.map(repo.create)).futureValue
+    def create(p: OffsetLimit) = repo.create(p)
+    states = Future.sequence(ps.map(create)).futureValue
   }
 
   override def afterAll = {
-    Future.sequence(states.map(repo.delete)).futureValue
+    def delete(s: PState[OffsetLimit]) = repo.delete(s)
+    Future.sequence(states.map(delete)).futureValue
   }
 
   import OffsetLimit.queryDsl._

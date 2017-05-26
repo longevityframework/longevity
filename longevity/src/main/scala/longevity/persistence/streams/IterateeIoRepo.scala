@@ -1,8 +1,8 @@
 package longevity.persistence.streams
 
-import emblem.TypeKey
 import cats.Monad
 import io.iteratee.Enumerator
+import longevity.model.PEv
 import longevity.model.query.Query
 import longevity.persistence.PState
 import longevity.persistence.Repo
@@ -21,7 +21,7 @@ class IterateeIoRepo[M](repo: Repo[M]) {
    *
    * @param query the query to execute
    */
-  def queryToIterateeIo[P : TypeKey, F[_]](query: Query[P])(implicit F: Monad[F]): Enumerator[F, PState[P]] =
-    repo.pRepoMap[P].queryToIterateeIoImpl[F](query)
+  def queryToIterateeIo[P: repo.PEvM, F[_]](query: Query[P])(implicit F: Monad[F]): Enumerator[F, PState[P]] =
+    repo.pRepoMap(implicitly[PEv[M, P]].key).queryToIterateeIoImpl[F](query)
 
 }

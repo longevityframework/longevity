@@ -1,8 +1,8 @@
 package longevity.persistence.streams
 
-import emblem.TypeKey
 import fs2.Stream
 import fs2.Task
+import longevity.model.PEv
 import longevity.model.query.Query
 import longevity.persistence.PState
 import longevity.persistence.Repo
@@ -20,7 +20,7 @@ class FS2Repo[M](repo: Repo[M]) {
    *
    * @param query the query to execute
    */
-  def queryToFS2[P : TypeKey](query: Query[P]): Stream[Task, PState[P]] =
-    repo.pRepoMap[P].queryToFS2Impl(query)
+  def queryToFS2[P: repo.PEvM](query: Query[P]): Stream[Task, PState[P]] =
+    repo.pRepoMap(implicitly[PEv[M, P]].key).queryToFS2Impl(query)
 
 }

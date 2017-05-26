@@ -63,7 +63,8 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
   longevityContext.modelType.pTypePool.values.foreach(new RepoSpec(_))
 
   private class RepoSpec[P](val pType: PType[M, P]) {
-    private implicit val pTypeKey = pType.pTypeKey
+    private implicit val pTypeKey = pType.pTypeKey // TODO RM
+    private implicit val pEv = pType.pEv
     private val realizedPType = longevityContext.modelType.realizedPTypes(pType)
     private val pName = pTypeKey.name
 

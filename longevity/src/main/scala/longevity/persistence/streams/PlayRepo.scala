@@ -1,11 +1,11 @@
 package longevity.persistence.streams
 
-import emblem.TypeKey
+import longevity.model.PEv
 import longevity.model.query.Query
-import scala.concurrent.ExecutionContext
-import play.api.libs.iteratee.Enumerator
 import longevity.persistence.PState
 import longevity.persistence.Repo
+import play.api.libs.iteratee.Enumerator
+import scala.concurrent.ExecutionContext
 
 /** provides repository methods that use Play iteratees for repository streaming API.
  *
@@ -23,7 +23,7 @@ class PlayRepo[M](repo: Repo[M]) {
    *
    * @param query the query to execute
    */
-  def queryToPlay[P : TypeKey](query: Query[P])(implicit context: ExecutionContext): Enumerator[PState[P]] =
-    repo.pRepoMap[P].queryToPlayImpl(query)
+  def queryToPlay[P: repo.PEvM](query: Query[P])(implicit context: ExecutionContext): Enumerator[PState[P]] =
+    repo.pRepoMap(implicitly[PEv[M, P]].key).queryToPlayImpl(query)
 
 }
