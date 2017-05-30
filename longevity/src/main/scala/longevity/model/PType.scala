@@ -14,6 +14,7 @@ import longevity.model.ptype.Partition
 import longevity.model.ptype.PrimaryKey
 import longevity.model.ptype.Prop
 import longevity.model.ptype.QueryDsl
+import scala.reflect.runtime.universe.TypeTag
 
 /** a type class for a persistent object
  *
@@ -21,13 +22,13 @@ import longevity.model.ptype.QueryDsl
  * @tparam P the persistent class
  */
 // TODO this TypeKey implicit should be removed once the PEv is well established
-abstract class PType[M : ModelEv, P : TypeKey] {
-
-  /** the evidence for the persistent class */
-  implicit val pEv = new PEv[M, P](typeKey[P])
+abstract class PType[M : ModelEv, P : TypeTag] {
 
   /** the type key for the persistent type */
   private[longevity] val pTypeKey = typeKey[P]
+
+  /** the evidence for the persistent class */
+  implicit val pEv = new PEv[M, P](pTypeKey)
 
   /** the [Prop properties] for this persistent type */
   // this has to be lazy because the PType must be initialized before we can
@@ -152,7 +153,6 @@ abstract class PType[M : ModelEv, P : TypeKey] {
     val props: Any = innerModule(this, "props").getOrElse {
       throw new NoPropsForPTypeException
     }
-    implicit val pTypeTag = pTypeKey.tag
     implicit val propTypeKey = typeKey[Prop[P, _]].inMirrorOf(pTypeKey)
     termsWithType[Prop[P, _]](props).toSet
   }
