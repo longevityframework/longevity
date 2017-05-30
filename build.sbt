@@ -38,7 +38,8 @@ lazy val longevity = Project(
     homepage := BuildSettings.longevityHomepage,
     pomExtra := BuildSettings.longevityPomExtra,
 
-    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
+    addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
   )
 )
 .dependsOn(emblem)

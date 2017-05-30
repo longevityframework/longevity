@@ -23,7 +23,7 @@ class PlayRepo[M](repo: Repo[M]) {
    *
    * @param query the query to execute
    */
-  def queryToPlay[P: repo.PEvM](query: Query[P])(implicit context: ExecutionContext): Enumerator[PState[P]] =
+  def queryToPlay[P: PEv[M, ?]](query: Query[P])(implicit context: ExecutionContext): Enumerator[PState[P]] =
     repo.pRepoMap(implicitly[PEv[M, P]].key).queryToPlayImpl(query)
 
 }

@@ -22,7 +22,7 @@ class AkkaStreamsRepo[M](repo: Repo[M]) {
    *
    * @param query the query to execute
    */
-  def queryToAkkaStream[P: repo.PEvM](query: Query[P]): Source[PState[P], NotUsed] =
+  def queryToAkkaStream[P: PEv[M, ?]](query: Query[P]): Source[PState[P], NotUsed] =
     repo.pRepoMap(implicitly[PEv[M, P]].key).queryToAkkaStreamImpl(query)
 
 }

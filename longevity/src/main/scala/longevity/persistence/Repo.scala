@@ -15,12 +15,7 @@ import scala.concurrent.Future
  */
 abstract class Repo[M] private[persistence](private[this] val schemaCreator: SchemaCreator) {
 
-  /** evidence for a persistent class where the model is fixed */
-  type PEvM[P] = PEv[M, P]
-
-  private[persistence] type PRepoM[P] = PRepo[M, P]
-
-  private[persistence] val pRepoMap: TypeKeyMap[Any, PRepoM]
+  private[persistence] val pRepoMap: TypeKeyMap[Any, PRepo[M, ?]]
 
   /** non-desctructively creates any needed database constructs */
   def createSchema()(implicit context: ExecutionContext): Future[Unit] =
@@ -39,7 +34,7 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
    * @param unpersisted the persistent object to create
    * @param executionContext the execution context
    */
-  def create[P: PEvM](unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]] = {
+  def create[P: PEv[M, ?]](unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]] = {
     val key = implicitly[PEv[M, P]].key
     pRepoMap.get(key) match {
       case Some(pr) => pr.create(unpersisted)
@@ -76,7 +71,7 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieve[P : PEvM, V <: KeyVal[P] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieve[P : PEv[M, ?], V <: KeyVal[P] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[Option[PState[P]]] =
     pRepoMap(implicitly[PEv[M, P]].key).retrieve[V](keyVal)
 
@@ -89,7 +84,7 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieveOne[P: PEvM, V <: KeyVal[P] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieveOne[P: PEv[M, ?], V <: KeyVal[P] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[PState[P]] =
     pRepoMap(implicitly[PEv[M, P]].key).retrieveOne[V](keyVal)
 
@@ -98,7 +93,7 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
    * @param query the query to execute
    * @param executionContext the execution context
    */
-  def queryToIterator[P: PEvM](query: Query[P]): Iterator[PState[P]] =
+  def queryToIterator[P: PEv[M, ?]](query: Query[P]): Iterator[PState[P]] =
     pRepoMap(implicitly[PEv[M, P]].key).queryToIterator(query)
 
   /** retrieves multiple persistent objects matching a query
@@ -106,7 +101,7 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
    * @param query the query to execute
    * @param executionContext the execution context
    */
-  def queryToFutureVec[P: PEvM](query: Query[P])(implicit context: ExecutionContext)
+  def queryToFutureVec[P: PEv[M, ?]](query: Query[P])(implicit context: ExecutionContext)
   : Future[Vector[PState[P]]]
   = pRepoMap(implicitly[PEv[M, P]].key).queryToFutureVec(query)
 
@@ -115,7 +110,7 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
    * @param state the persistent state of the persistent object to update
    * @param executionContext the execution context
    */
-  def update[P : PEvM](state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]] =
+  def update[P : PEv[M, ?]](state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]] =
     pRepoMap(implicitly[PEv[M, P]].key).update(state)
 
   /** deletes the persistent object
@@ -123,7 +118,7 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
    * @param state the persistent state of the persistent object to delete
    * @param executionContext the execution context
    */
-  def delete[P : PEvM](state: PState[P])(implicit executionContext: ExecutionContext): Future[Deleted[P]] =
+  def delete[P : PEv[M, ?]](state: PState[P])(implicit executionContext: ExecutionContext): Future[Deleted[P]] =
     pRepoMap(implicitly[PEv[M, P]].key).delete(state)
 
   /** closes any open session from the underlying database */
