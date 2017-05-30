@@ -41,7 +41,7 @@ package object persistence {
    */
   implicit class PWithEv[M, P](
     private[persistence] val p: P)(
-    private[persistence] val ev: PEv[M, P])
+    private[persistence] implicit val ev: PEv[M, P])
 
   /** a future persistent state */
   type FPState[P] = Future[PState[P]]

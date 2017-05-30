@@ -24,7 +24,6 @@ class domainModel extends StaticAnnotation {
 
 }
 
-// TODO learn what @macrocompat is, see if you can make use of it here
 private object domainModel {
 
   def impl(c0: Context)(annottees: c0.Tree*): c0.Tree = new ModelTypeImpl {
@@ -57,9 +56,6 @@ private object domainModel {
     }
 
     private def modelEv = {
-      // TODO clean up
-      //val p = TypeName(owningPackage.fullName)
-
       val p = TypeName(owningPackage.name.decodedName.toString)
       q"private[$p] implicit object modelEv extends longevity.model.ModelEv[$typeName]"
     }

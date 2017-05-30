@@ -46,10 +46,9 @@ case class PState[P] private(
 
 }
 
-object PState {
+private[persistence] object PState {
 
-  private[persistence]
-  def apply[P](
+  private[persistence] def apply[P](
     id: DatabaseId[P],
     rowVersion: Option[Long],
     createdTimestamp: Option[DateTime],
@@ -57,8 +56,7 @@ object PState {
     p: P): PState[P] =
     PState(Some(id), rowVersion, createdTimestamp, updatedTimestamp, p, p)
 
-  private[persistence]
-  def apply[P](
+  private[persistence] def apply[P](
     id: Option[DatabaseId[P]],
     rowVersion: Option[Long],
     createdTimestamp: Option[DateTime],

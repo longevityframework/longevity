@@ -17,7 +17,7 @@ abstract class PTypePool[M] {
   private[longevity] val typeKeyMap: TypeKeyMap[Any, PTypeM]
 
   /** retrieves a persistent type from the pool by its evidence */
-  def apply[P](implicit ev: TypeKey[P]): PTypeM[P] = typeKeyMap.apply(ev)
+  private[longevity] def apply[P](implicit ev: TypeKey[P]): PTypeM[P] = typeKeyMap.apply(ev)
 
   /** all the persistent types in the pool */
   def values = typeKeyMap.values

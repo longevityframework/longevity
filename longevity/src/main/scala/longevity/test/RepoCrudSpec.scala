@@ -63,10 +63,9 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
   longevityContext.modelType.pTypePool.values.foreach(new RepoSpec(_))
 
   private class RepoSpec[P](val pType: PType[M, P]) {
-    private implicit val pTypeKey = pType.pTypeKey // TODO RM
     private implicit val pEv = pType.pEv
     private val realizedPType = longevityContext.modelType.realizedPTypes(pType)
-    private val pName = pTypeKey.name
+    private val pName = pEv.key.name
 
     object Create extends Tag("Create")
     object Retrieve extends Tag("Retrieve")
@@ -142,16 +141,16 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
     private def randomPTypeKey(): TypeKey[_ <: P] = {
       pType match {
         case polyPType: PolyPType[M, P] =>
-          val union = longevityContext.modelType.emblematic.unions(pTypeKey)
+          val union = longevityContext.modelType.emblematic.unions(pEv.key)
           val derivedTypeKeys = union.constituentKeys.toSeq
           val randomIndex = math.abs(longevityContext.testDataGenerator.generate[Int]) % derivedTypeKeys.size
           derivedTypeKeys(randomIndex)
         case _ =>
-          pTypeKey
+          pEv.key
       }
     }
 
-    private def randomP(key: TypeKey[_ <: P] = pTypeKey): P = longevityContext.testDataGenerator.generate(key)
+    private def randomP(key: TypeKey[_ <: P] = pEv.key): P = longevityContext.testDataGenerator.generate(key)
 
     private def retrieveByKey[V <: KeyVal[P]](key: RealizedKey[P, V], p: P): Option[PState[P]] = {
       val keyValForP = key.keyValForP(p)

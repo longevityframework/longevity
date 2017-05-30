@@ -15,7 +15,7 @@ import scala.concurrent.Future
  */
 abstract class Repo[M] private[persistence](private[this] val schemaCreator: SchemaCreator) {
 
-  /** TODO */
+  /** evidence for a persistent class where the model is fixed */
   type PEvM[P] = PEv[M, P]
 
   private[persistence] type PRepoM[P] = PRepo[M, P]

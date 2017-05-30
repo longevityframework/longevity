@@ -13,7 +13,6 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
 class OrderByQuerySpec extends QuerySpec[DomainModel, PrimaryKeyWithComplexPartialPartition](
   new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig))(
   PrimaryKeyWithComplexPartialPartition.pEv,
-  PrimaryKeyWithComplexPartialPartition.pTypeKey,
   globalExecutionContext) {
 
   lazy val keyProp1 = longevityContext.testDataGenerator.generate[String]

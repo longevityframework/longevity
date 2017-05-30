@@ -1,7 +1,6 @@
 package longevity.test
 
 import com.typesafe.scalalogging.LazyLogging
-import emblem.TypeKey
 import longevity.context.LongevityContext
 import longevity.model.PEv
 import longevity.model.ptype.Prop
@@ -37,7 +36,6 @@ import scala.concurrent.Future
 abstract class QuerySpec[M, P](
   protected val longevityContext: LongevityContext[M])(
   protected implicit val pEv: PEv[M, P],
-  protected implicit val pTypeKey: TypeKey[P], // TODO RM
   protected implicit val executionContext: ExecutionContext)
 extends FlatSpec with LongevityIntegrationSpec[M] with LazyLogging {
 
@@ -47,7 +45,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with LazyLogging {
   protected val numEntities = 10
 
   /** the persistent type */
-  protected final val pType = longevityContext.modelType.pTypePool[P]
+  protected final val pType = longevityContext.modelType.pTypePool(pEv.key)
 
   /** the entities we are querying against */
   protected final var entities: Set[P] = _
@@ -151,7 +149,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with LazyLogging {
     actual should equal (expected)
   }
 
-  protected def generateP(): P = longevityContext.testDataGenerator.generate[P]
+  protected def generateP(): P = longevityContext.testDataGenerator.generate(pEv.key)
 
   private def entitiesMatchingQuery(query: Query[P], entities: Set[P]): Set[P] = {
     entities.filter(QueryFilter.matches(query.filter, _, realizedPType))

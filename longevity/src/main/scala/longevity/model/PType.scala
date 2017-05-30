@@ -26,9 +26,8 @@ abstract class PType[M : ModelEv, P : TypeKey] {
   /** the evidence for the persistent class */
   implicit val pEv = new PEv[M, P](typeKey[P])
 
-  // TODO: hide this key once the PEv is fully in place
   /** the type key for the persistent type */
-  val pTypeKey = typeKey[P]
+  private[longevity] val pTypeKey = typeKey[P]
 
   /** the [Prop properties] for this persistent type */
   // this has to be lazy because the PType must be initialized before we can
