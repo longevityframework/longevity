@@ -6,7 +6,7 @@ import longevity.model.annotations.{ domainModel => dm }
 
 @dm trait DomainModel
 
-@keyVal[User] case class Username(username: String)
+@keyVal[DomainModel, User] case class Username(username: String)
 
 @persistent[DomainModel](keySet = Set(key(props.username)))
 case class User(

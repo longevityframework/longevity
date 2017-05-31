@@ -112,7 +112,7 @@ package PTypeSpec {
 
     @domainModel trait DomainModel
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class Username(username: String)
 
     @persistent[DomainModel](keySet = Set(
@@ -125,12 +125,13 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/keys.html
   package keys2 {
-    import longevity.model.KeyVal
+    import longevity.model.KVType
     import longevity.model.PType
     import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
 
-    case class Username(username: String) extends KeyVal[User]
+    case class Username(username: String)
+    object Username extends KVType[DomainModel, User, Username]
 
     case class User(
       username: Username,
@@ -153,10 +154,10 @@ package PTypeSpec {
     import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class Username(username: String)
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class FullName(last: String, first: String)
 
     @persistent[DomainModel](keySet = Set(
@@ -174,7 +175,7 @@ package PTypeSpec {
     import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class Username(username: String)  
 
     @persistent[DomainModel](keySet = Set(
@@ -192,10 +193,10 @@ package PTypeSpec {
     import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class Username(username: String)
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class FullName(last: String, first: String)
 
     @persistent[DomainModel](keySet = Set(
@@ -213,10 +214,10 @@ package PTypeSpec {
     import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class Username(username: String)
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class FullName(last: String, first: String)
 
     @persistent[DomainModel](
@@ -229,13 +230,14 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/indexes.html
   package indexes2 {
-    import longevity.model.KeyVal
+    import longevity.model.KVType
     import longevity.model.CType
     import longevity.model.PType
     import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
 
-    case class Username(username: String) extends KeyVal[User]
+    case class Username(username: String)
+    object Username extends KVType[DomainModel, User, Username]
 
     case class FullName(last: String, first: String)
 
@@ -296,12 +298,12 @@ package PTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/ptype/sets.html
   object sets3 {
-    import longevity.model.KeyVal
-     import longevity.model.annotations.domainModel
+    import longevity.model.annotations.keyVal
+    import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
 
-    case class Username(username: String) extends KeyVal[User]
-    case class Email(email: String) extends KeyVal[User]
+    @keyVal[DomainModel, User] case class Username(username: String)
+    @keyVal[DomainModel, User] case class Email(email: String)
 
     case class User(
       username: Username,

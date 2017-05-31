@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object RepoSpec {
 
   import org.joda.time.DateTime
-  import longevity.model.KeyVal
+  import longevity.model.KVType
   import longevity.model.ModelEv
   import longevity.model.ModelType
   import longevity.model.CType
@@ -30,9 +30,11 @@ object RepoSpec {
   case class Markdown(markdown: String)
   case class Uri(uri: String)
 
-  case class Username(username: String) extends KeyVal[User]
+  case class Username(username: String)
+  object Username extends KVType[BlogCore, User, Username]
 
-  case class Email(email: String) extends KeyVal[User]
+  case class Email(email: String)
+  object Email extends KVType[BlogCore, User, Email]
 
   case class User(
     username: Username,
@@ -53,7 +55,8 @@ object RepoSpec {
     imageUri: Uri,
     description: Markdown) 
 
-  case class BlogUri(uri: Uri) extends KeyVal[Blog]
+  case class BlogUri(uri: Uri)
+  object BlogUri extends KVType[BlogCore, Blog, BlogUri]
 
   case class Blog(
     uri: BlogUri,
@@ -68,7 +71,8 @@ object RepoSpec {
     val keySet = Set(key(props.uri))
   }
 
-  case class BlogPostUri(uri: Uri) extends KeyVal[BlogPost]
+  case class BlogPostUri(uri: Uri)
+  object BlogPostUri extends KVType[BlogCore, BlogPost, BlogPostUri]
 
   case class BlogPost(
     uri: BlogPostUri,

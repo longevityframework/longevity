@@ -57,12 +57,12 @@ with GivenWhenThen {
 
       try {
         val exception = repo.create(p2).failed.futureValue
-        if (!exception.isInstanceOf[DuplicateKeyValException[_]]) {
+        if (!exception.isInstanceOf[DuplicateKeyValException[_, _]]) {
           exception.printStackTrace
         }
-        exception shouldBe a [DuplicateKeyValException[_]]
+        exception shouldBe a [DuplicateKeyValException[_, _]]
 
-        val dkve = exception.asInstanceOf[DuplicateKeyValException[Basics]]
+        val dkve = exception.asInstanceOf[DuplicateKeyValException[DomainModel, Basics]]
         dkve.p should equal (p2)
         (dkve.key: AnyRef) should equal (Basics.keySet.head)
       } finally {
@@ -83,11 +83,11 @@ with GivenWhenThen {
         val s2_update = s2.map(_.copy(id = id))
         val exception = repo.update(s2_update).failed.futureValue
 
-        if (!exception.isInstanceOf[DuplicateKeyValException[_]]) {
+        if (!exception.isInstanceOf[DuplicateKeyValException[_, _]]) {
           exception.printStackTrace
         }
-        exception shouldBe a [DuplicateKeyValException[_]]
-        val dkve = exception.asInstanceOf[DuplicateKeyValException[Basics]]
+        exception shouldBe a [DuplicateKeyValException[_, _]]
+        val dkve = exception.asInstanceOf[DuplicateKeyValException[DomainModel, Basics]]
         dkve.p should equal (s2_update.get)
         (dkve.key: AnyRef) should equal (Basics.keySet.head)
       } finally {

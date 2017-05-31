@@ -48,7 +48,7 @@ private[cassandra] trait DerivedCassandraRepo[M, P, Poly >: P] extends Cassandra
     super.updateColumnValues(state, isCreate) :+ discriminatorValue
   }
 
-  override protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String =
+  override protected def keyValSelectStatementConjunction(key: RealizedKey[M, P, _]): String =
     super.keyValSelectStatementConjunction(key) + s"\nAND\n  discriminator = '$discriminatorValue'"
 
   override protected def queryWhereClause(filterInfo: FilterInfo): String =

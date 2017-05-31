@@ -2,16 +2,17 @@ package longevity.model.realized
 
 import emblem.TypeKey
 import emblem.emblematic.EmblematicPropPath
-import longevity.model.KeyVal
+import longevity.model.KVEv
 import longevity.model.ptype.PrimaryKey
 
-private[longevity] case class RealizedPrimaryKey[P : TypeKey, V <: KeyVal[P] : TypeKey] private [realized](
-  override val key: PrimaryKey[P],
+private[longevity] case class RealizedPrimaryKey[M, P : TypeKey, V] private [realized](
+  override val key: PrimaryKey[M, P],
   prop: RealizedProp[P, V],
+  ev0: KVEv[M, P, V],
   val partitionProps: Seq[RealizedProp[P, _]],
   val postPartitionProps: Seq[RealizedProp[P, _]],
   val emblematicPropPaths: Seq[EmblematicPropPath[V, _]])
-extends RealizedKey[P, V](key, prop) {
+extends RealizedKey[M, P, V](key, prop, ev0) {
 
   def hashed = key.hashed
   def partition = key.partition

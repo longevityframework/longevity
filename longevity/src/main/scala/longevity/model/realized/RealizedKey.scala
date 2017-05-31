@@ -1,12 +1,12 @@
 package longevity.model.realized
 
-import emblem.TypeKey
-import longevity.model.KeyVal
+import longevity.model.KVEv
 import longevity.model.ptype.Key
 
-private[longevity] class RealizedKey[P, V <: KeyVal[P] : TypeKey] private [realized](
-  val key: Key[P],
-  val realizedProp: RealizedProp[P, V]) {
+private[longevity] class RealizedKey[M, P, V] private [realized](
+  val key: Key[M, P],
+  val realizedProp: RealizedProp[P, V],
+  private[longevity] val ev: KVEv[M, P, V]) {
 
   val keyValTypeKey = realizedProp.propTypeKey
 
@@ -25,6 +25,6 @@ private[longevity] class RealizedKey[P, V <: KeyVal[P] : TypeKey] private [reali
   override def hashCode = key.hashCode
 
   override def equals(that: Any) =
-    that.isInstanceOf[RealizedKey[_, _]] && key == that.asInstanceOf[RealizedKey[_, _]].key
+    that.isInstanceOf[RealizedKey[M, P, V]] && key == that.asInstanceOf[RealizedKey[M, P, V]].key
 
 }

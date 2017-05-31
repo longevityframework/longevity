@@ -1,6 +1,6 @@
 package longevity.unit.model.ptype
 
-import longevity.model.KeyVal
+import longevity.model.KVType
 import longevity.model.ModelEv
 import longevity.model.PType
 import longevity.model.ptype.Key
@@ -31,10 +31,12 @@ object QueryDslSpec {
       val path3 = prop[String]("path3")
       val path4 = prop[AssociatedId]("path4")
     }
-    val keySet = Set.empty[Key[DslPersistent]]
+    val keySet = Set.empty[Key[DomainModel, DslPersistent]]
   }
 
-  private case class AssociatedId(id: String) extends KeyVal[Associated]
+  private case class AssociatedId(id: String)
+
+  private object AssociatedId extends KVType[DomainModel, Associated, AssociatedId]
 
   private case class Associated(id: AssociatedId)
 

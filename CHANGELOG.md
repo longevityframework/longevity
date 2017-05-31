@@ -48,6 +48,15 @@
   over the old situation, since a `TypeKey[P]` is available for any type `P` for which there is a
   `TypeTag[P]` available.
 
+- 2017.05.30 - Replace `longevity.model.KeyVal[P]` with `longevity.model.KVType[M, P, V]`, which
+  includes an implicit val `longevity.model.KVEv[M, P, V]`. `@longevity.model.annotations.keyVal`
+  now takes a type parameter `M` along with the type parameter `P`. The `@keyVal` annotation now
+  creates or augments the companion object as a `KVType[M, P, V]`.
+
+  Methods `longevity.persistence.Repo.retrieve` and `longevity.persistence.Repo.retrieveOne` now
+  take an implicit `KVEv[M, P, V]` instead of an implicit `TypeKey[V]`. This will typically be found
+  by implicit resolution in the `KVType` companion object.
+
 ## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
 
 - 2017.03.24 - Rename `Repo.retrieveByQuery` to `Repo.queryToFutureVec`. The return type of this

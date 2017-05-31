@@ -2,5 +2,5 @@ package longevity.integration.model.shorthandSets
 
 import longevity.model.annotations.keyVal
 
-@keyVal[ShorthandSets]
+@keyVal[DomainModel, ShorthandSets]
 case class ShorthandSetsId(id: String)

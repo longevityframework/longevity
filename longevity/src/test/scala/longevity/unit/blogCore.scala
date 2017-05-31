@@ -4,7 +4,7 @@ package object blogCore {
 
   import longevity.model.CType
   import longevity.model.CTypePool
-  import longevity.model.KeyVal
+  import longevity.model.KVType
   import longevity.model.ModelEv
   import longevity.model.ModelType
   import longevity.model.PType
@@ -19,9 +19,13 @@ package object blogCore {
     implicit object modeEv extends ModelEv[BlogCore]
   }
 
-  case class Email(email: String) extends KeyVal[User]
+  case class Email(email: String)
 
-  case class Username(username: String) extends KeyVal[User]
+  object Email extends KVType[BlogCore, User, Email]
+
+  case class Username(username: String)
+
+  object Username extends KVType[BlogCore, User, Username]
 
   case class Markdown(markdown: String)
 
@@ -51,7 +55,9 @@ package object blogCore {
     imageUri: Uri,
     description: Markdown) 
 
-  case class BlogUri(uri: Uri) extends KeyVal[Blog]
+  case class BlogUri(uri: Uri)
+
+  object BlogUri extends KVType[BlogCore, Blog, BlogUri]
 
   case class Blog(
     uri: BlogUri,
@@ -66,7 +72,9 @@ package object blogCore {
     lazy val keySet = Set(key(props.uri))
   }
 
-  case class BlogPostUri(uri: Uri) extends KeyVal[BlogPost]
+  case class BlogPostUri(uri: Uri)
+
+  object BlogPostUri extends KVType[BlogCore, BlogPost, BlogPostUri]
 
   case class BlogPost(
     uri: BlogPostUri,

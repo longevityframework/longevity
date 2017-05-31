@@ -8,8 +8,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of MongoRepo.create */
-private[mongo] trait MongoUpdate[P] {
-  repo: MongoRepo[_, P] =>
+private[mongo] trait MongoUpdate[M, P] {
+  repo: MongoRepo[M, P] =>
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {

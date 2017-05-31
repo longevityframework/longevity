@@ -20,9 +20,10 @@ object KeyValSpec {
       private[keyValues1] implicit object modelEv extends ModelEv[DomainModel]
     }
 
-    import longevity.model.KeyVal
+    import longevity.model.KVType
 
-    case class Username(username: String) extends KeyVal[User]
+    case class Username(username: String)
+    object Username extends KVType[DomainModel, User, Username]
 
     case class User(
       username: Username,
@@ -53,9 +54,10 @@ object KeyValSpec {
       private[keyValues2] implicit object modelEv extends ModelEv[DomainModel]
     }
 
-    import longevity.model.KeyVal
+    import longevity.model.KVType
 
-    case class Username(username: String) extends KeyVal[User]
+    case class Username(username: String)
+    object Username extends KVType[DomainModel, User, Username]
 
     case class User(
       username: Username,

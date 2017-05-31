@@ -30,14 +30,14 @@ private[longevity] class MongoRepo[M, P] private[persistence] (
   protected val session: MongoRepo.MongoSessionInfo,
   protected val persistenceConfig: PersistenceConfig)
 extends PRepo[M, P](pType, modelType)
-with MongoCreate[P]
-with MongoDelete[P]
-with MongoQuery[P]
-with MongoRead[P]
-with MongoRetrieve[P]
-with MongoSchema[P]
-with MongoUpdate[P]
-with MongoWrite[P]
+with MongoCreate[M, P]
+with MongoDelete[M, P]
+with MongoQuery[M, P]
+with MongoRead[M, P]
+with MongoRetrieve[M, P]
+with MongoSchema[M, P]
+with MongoUpdate[M, P]
+with MongoWrite[M, P]
 with LazyLogging {
   repo =>
 

@@ -4,7 +4,6 @@ import com.mongodb.MongoWriteException
 import com.mongodb.client.model.Filters
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
-import longevity.model.KeyVal
 import longevity.model.realized.RealizedKey
 import org.bson.BsonDocument
 import org.bson.BsonDateTime
@@ -14,8 +13,8 @@ import org.bson.BsonObjectId
 /** utilities for writing to a mongo collection. used by [[MongoCreate]] and
  * [[MongoUpdate]]
  */
-private[mongo] trait MongoWrite[P] {
-  repo: MongoRepo[_, P] =>
+private[mongo] trait MongoWrite[M, P] {
+  repo: MongoRepo[M, P] =>
 
   protected lazy val domainModelToBsonTranslator = new DomainModelToBsonTranslator(modelType.emblematic)
 
@@ -73,7 +72,7 @@ private[mongo] trait MongoWrite[P] {
   private def keyFilter(state: PState[P]) = {
     realizedPType.primaryKey match {
       case Some(key) =>
-        def pkFilter[V <: KeyVal[P]](key: RealizedKey[P, V]) = {
+        def pkFilter[V](key: RealizedKey[M, P, V]) = {
           val fieldName = key.realizedProp.inlinedPath
           val keyVal = key.keyValForP(state.get)
           val bson = domainModelToBsonTranslator.translate(keyVal, false)(key.keyValTypeKey)

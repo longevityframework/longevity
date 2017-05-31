@@ -128,7 +128,7 @@ package ModelTypeSpec {
     import longevity.model.annotations.keyVal
     import longevity.model.annotations.persistent
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class Username(username: String)
 
     @persistent[DomainModel](keySet = Set(key(User.props.username)))
@@ -145,7 +145,7 @@ package ModelTypeSpec {
     import longevity.model.annotations.keyVal
     import longevity.model.annotations.persistent
 
-    @keyVal[User]
+    @keyVal[DomainModel, User]
     case class Username(username: String)
 
     @persistent[DomainModel](keySet = Set(key(User.props.username)))
@@ -158,10 +158,15 @@ package ModelTypeSpec {
 
   // used in http://longevityframework.github.io/longevity/manual/model/key-values.html
   package keyValues3 {
-    import longevity.model.KeyVal
+    @longevity.model.annotations.domainModel trait DomainModel
 
-    case class Username(username: String) extends KeyVal[User]
+    import longevity.model.annotations.keyVal
+    import longevity.model.annotations.persistent
 
+    @keyVal[DomainModel, User]
+    case class Username(username: String)
+
+    @persistent[DomainModel](keySet = Set(key(User.props.username)))
     case class User(
       username: Username,
       firstName: String,

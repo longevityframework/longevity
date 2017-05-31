@@ -15,7 +15,7 @@ object QueryOrderBy {
   /** an empty order by clause */
   def empty[P] = QueryOrderBy(Seq.empty[QuerySortExpr[P]])
 
-  def ordering[P](orderBy: QueryOrderBy[P], realizedPType: RealizedPType[P]): scala.math.Ordering[P] = {
+  def ordering[P](orderBy: QueryOrderBy[P], realizedPType: RealizedPType[_, P]): scala.math.Ordering[P] = {
     val unitOrdering = new Ordering[P] { def compare(p1: P, p2: P) = 0 }
     orderBy.sortExprs.foldLeft(unitOrdering) { (ordering, sortExpr) =>
       new Ordering[P]() {

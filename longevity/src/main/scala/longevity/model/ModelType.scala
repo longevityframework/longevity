@@ -38,9 +38,6 @@ class ModelType[M](
   val pTypePool: PTypePool[M],
   val cTypePool: CTypePool = CTypePool.empty) {
 
-  /** a persistent type where the model is fixed */
-  type PTypeM[P] = PType[M, P]
-
   private def this(pools: (PTypePool[M], CTypePool)) = this(pools._1, pools._2)
 
   /** creates a model type by scanning the named package for [[PType persistent types]] and [[CType
@@ -83,9 +80,9 @@ class ModelType[M](
 
   private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
 
-  private[longevity] val realizedPTypes: TypeBoundMap[Any, PTypeM, RealizedPType] = {
-    pTypePool.values.foldLeft(TypeBoundMap[Any, PTypeM, RealizedPType]()) { (acc, pType) =>
-      def addPair[P](pType: PTypeM[P]) = {
+  private[longevity] val realizedPTypes: TypeBoundMap[Any, PType[M, ?], RealizedPType[M, ?]] = {
+    pTypePool.values.foldLeft(TypeBoundMap[Any, PType[M, ?], RealizedPType[M, ?]]()) { (acc, pType) =>
+      def addPair[P](pType: PType[M, P]) = {
         pType.validateKeysAndIndexes()
         val polyPTypeOpt = pType match {
           case derivedPType: DerivedPType[M, P, _] =>
@@ -96,7 +93,7 @@ class ModelType[M](
           case _ =>
             None
         }
-        val realizedPType = new RealizedPType[P](pType, polyPTypeOpt, emblematic)
+        val realizedPType = new RealizedPType[M, P](pType, polyPTypeOpt, emblematic)
         acc + (pType -> realizedPType)
       }
       addPair(pType)
@@ -108,8 +105,8 @@ class ModelType[M](
   private def pEmblems = {
     val pTypesWithEmblems = pTypePool.typeKeyMap.filterValues(!_.isInstanceOf[PolyPType[M, _]])
     pTypesWithEmblems.mapValues[Emblem] {
-      new TypeBoundFunction[Any, PTypeM, Emblem] {
-        def apply[P](pType: PTypeM[P]): Emblem[P] = Emblem(pType.pTypeKey)
+      new TypeBoundFunction[Any, PType[M, ?], Emblem] {
+        def apply[P](pType: PType[M, P]): Emblem[P] = Emblem(pType.pTypeKey)
       }
     }
   }
@@ -201,8 +198,8 @@ class ModelType[M](
       }
 
     polyTypes.mapValues[Union] {
-      new TypeBoundFunction[Any, PTypeM, Union] {
-        def apply[P](pType: PTypeM[P]): Union[P] = {
+      new TypeBoundFunction[Any, PType[M, ?], Union] {
+        def apply[P](pType: PType[M, P]): Union[P] = {
           val constituents = baseToDerivedsMap.getOrElse(List[Emblem[P]]())(pType.pTypeKey)
           Union[P](constituents: _*)(pType.pTypeKey)
         }

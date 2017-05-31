@@ -1,5 +1,5 @@
 package longevity.integration.model.foreignKey
 
-import longevity.model.KeyVal
+import longevity.model.annotations.keyVal
 
-case class WithForeignKeyId(id: String) extends KeyVal[WithForeignKey]
+@keyVal[DomainModel, WithForeignKey] case class WithForeignKeyId(id: String)

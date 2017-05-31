@@ -2,5 +2,5 @@ package longevity.integration.model.primaryKeyWithForeignKey
 
 import longevity.model.annotations.keyVal
 
-@keyVal[Associated]
+@keyVal[DomainModel, Associated]
 case class AssociatedId(id: String)

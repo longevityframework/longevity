@@ -21,7 +21,6 @@ import scala.reflect.runtime.universe.TypeTag
  * @tparam M the domain model
  * @tparam P the persistent class
  */
-// TODO this TypeKey implicit should be removed once the PEv is well established
 abstract class PType[M : ModelEv, P : TypeTag] {
 
   /** the type key for the persistent type */
@@ -37,7 +36,7 @@ abstract class PType[M : ModelEv, P : TypeTag] {
   lazy val propSet: Set[Prop[P, _]] = pscan("props")
 
   /** the keys for this persistent type */
-  def keySet: Set[Key[P]]
+  def keySet: Set[Key[M, P]]
 
   /** an empty key set. this is a convenience method for people using Scala 2.11
    * who wish to declare an empty key set. you can always do it by hand with
@@ -46,14 +45,14 @@ abstract class PType[M : ModelEv, P : TypeTag] {
    *
    * {{{
    * import longevity.model.ptype.Key
-   * @perstent(keySet = Set.empty[Key[Foo]])
+   * @perstent(keySet = Set.empty[Key[M, Foo]])
    * }}}
    */
-  def emptyKeySet = Set.empty[Key[P]]
+  def emptyKeySet = Set.empty[Key[M, P]]
 
   /** the optional primary key for this persistent type */
-  lazy val primaryKey: Option[PrimaryKey[P]] = {
-    val primaryKeys = keySet.collect { case pk: PrimaryKey[P] => pk }
+  lazy val primaryKey: Option[PrimaryKey[M, P]] = {
+    val primaryKeys = keySet.collect { case pk: PrimaryKey[M, P] => pk }
     if (this.isInstanceOf[DerivedPType[_, _, _]] && primaryKeys.nonEmpty) {
       throw new PrimaryKeyForDerivedPTypeException[P]
     }
@@ -83,13 +82,14 @@ abstract class PType[M : ModelEv, P : TypeTag] {
    * @tparam V the type of the key value
    * @param keyValProp a property for the key
    */
-  def key[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V]): Key[P] = {
+  def key[V : KVEv[M, P, ?]](keyValProp: Prop[P, V]): Key[M, P] = {
     val keyValProp0 = keyValProp
     type V0 = V
     new {
       val keyValProp = keyValProp0
-    } with Key[P]() {
+    } with Key[M, P]() {
       type V = V0
+      val ev = implicitly[KVEv[M, P, V0]]
     }
   }
 
@@ -101,7 +101,7 @@ abstract class PType[M : ModelEv, P : TypeTag] {
    * @param hashed if `true`, then used a hashed partition (as opposed to a
    * ranged partition) when possible. defaults to `false`.
    */
-  def primaryKey[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V], hashed: Boolean = false): Key[P] =
+  def primaryKey[V : KVEv[M, P, ?]](keyValProp: Prop[P, V], hashed: Boolean = false): Key[M, P] =
     primaryKey(keyValProp, partition(keyValProp), hashed)
 
   /** constructs a primary key for this persistent type
@@ -112,20 +112,21 @@ abstract class PType[M : ModelEv, P : TypeTag] {
    * which node in the partition the data belongs to. this must form a prefix of
    * the `keyValProp`
    */
-  def primaryKey[V <: KeyVal[P] : TypeKey](keyValProp: Prop[P, V], partition: Partition[P]): Key[P] =
+  def primaryKey[V : KVEv[M, P, ?]](keyValProp: Prop[P, V], partition: Partition[P]): Key[M, P] =
     primaryKey(keyValProp, partition, false)
 
-  private def primaryKey[V <: KeyVal[P] : TypeKey](
+  private def primaryKey[V : KVEv[M, P, ?]](
     keyValProp: Prop[P, V],
     partition: Partition[P],
     hashed: Boolean)
-  : Key[P] = {
+  : Key[M, P] = {
     val keyValProp0 = keyValProp
     type V0 = V
     new {
       val keyValProp = keyValProp0
-    } with PrimaryKey(partition, hashed) {
+    } with PrimaryKey[M, P](partition, hashed) {
       type V = V0
+      val ev = implicitly[KVEv[M, P, V0]]
     }
   }
 

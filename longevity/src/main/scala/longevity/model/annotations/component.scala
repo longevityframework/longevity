@@ -36,7 +36,7 @@ private object component {
     private lazy val name0 = as.head match {
       case q"$_ class $typeName[..$_] $_(...$_) extends {..$_} with ..$_ { $_ => ..$_ }" => typeName
       case _ => 
-        c.abort(c.enclosingPosition, s"@longevity.model.component can only be applied to classes")
+        c.abort(c.enclosingPosition, s"@longevity.model.annotations.component can only be applied to classes")
     }
 
     protected def ctype = tq"longevity.model.CType[$typeName]"

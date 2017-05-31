@@ -6,7 +6,6 @@ import longevity.config.BackEnd
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.Repo
-import longevity.model.KeyVal
 import longevity.model.PolyPType
 import longevity.model.PType
 import longevity.model.realized.RealizedKey
@@ -103,7 +102,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
       val key = randomPTypeKey
       val originalP = randomP(key)
       val modifiedP = realizedPType.keySet.foldLeft(randomP(key)) { (modified, key) =>
-        def updateByOriginalKeyVal[V <: KeyVal[P]](key: RealizedKey[P, V]) = {
+        def updateByOriginalKeyVal[V](key: RealizedKey[M, P, V]) = {
           val originalKeyVal = key.keyValForP(originalP)
           key.updateKeyVal(modified, originalKeyVal)
         }
@@ -152,10 +151,9 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
 
     private def randomP(key: TypeKey[_ <: P] = pEv.key): P = longevityContext.testDataGenerator.generate(key)
 
-    private def retrieveByKey[V <: KeyVal[P]](key: RealizedKey[P, V], p: P): Option[PState[P]] = {
-      val keyValForP = key.keyValForP(p)
-      implicit val keyValTypeKey = key.keyValTypeKey
-      repo.retrieve[P, V](key.keyValForP(p)).futureValue
+    private def retrieveByKey[V](key: RealizedKey[M, P, V], p: P): Option[PState[P]] = {
+      val kv = key.keyValForP(p)
+      repo.retrieve[P, V](kv)(pEv, key.ev, executionContext).futureValue
     }
 
   }

@@ -9,12 +9,10 @@ import emblem.exceptions.EmblemNotComposedOfBasicsException
 import emblem.exceptions.EmptyPropPathException
 import emblem.exceptions.NoSuchPropertyException
 import emblem.exceptions.NonEmblematicInPropPathException
-import emblem.typeKey
 import longevity.exceptions.model.NoSuchPropPathException
 import longevity.exceptions.model.PropTypeException
 import longevity.exceptions.model.PropTypeException
 import longevity.exceptions.model.UnsupportedPropTypeException
-import longevity.model.KeyVal
 import longevity.model.ptype.Prop
 
 private[longevity] class RealizedProp[P, A](
@@ -80,11 +78,6 @@ private[longevity] class RealizedProp[P, A](
 
 private[model] object RealizedProp {
 
-  private val keyValTypeKey = typeKey[KeyVal[P] forSome {
-    type P
-    type V <: KeyVal[P]
-  }]
-
   def apply[P, A](implicit prop: Prop[P, A], emblematic: Emblematic): RealizedProp[P, A] = {
     val emblematicPropPath = validatePath().asInstanceOf[EmblematicPropPath[P, A]]
 
@@ -119,8 +112,7 @@ private[model] object RealizedProp {
     val key = leafEmblemProp.typeKey
     def isBasic = isBasicType(key)
     def isNonPolyEmbeddable = emblematic.emblems.contains(key)
-    def isKeyVal = key <:< keyValTypeKey
-    if (! (isBasic || isNonPolyEmbeddable || isKeyVal)) {
+    if (! (isBasic || isNonPolyEmbeddable)) {
       throw new UnsupportedPropTypeException(prop)
     }
   }

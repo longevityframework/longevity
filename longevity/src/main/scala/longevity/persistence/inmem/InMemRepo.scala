@@ -6,7 +6,6 @@ import longevity.persistence.PRepo
 import longevity.persistence.DatabaseId
 import longevity.persistence.PState
 import longevity.model.DerivedPType
-import longevity.model.KeyVal
 import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.model.ModelType
@@ -34,11 +33,8 @@ with InMemWrite[M, P]
 with LazyLogging {
   repo =>
 
-  // i wish i could type this tighter, but compiler is giving me problems..
-  protected type AnyKeyValAtAll = KeyVal[P] forSome { type P }
-
   protected var idToPStateMap = Map[DatabaseId[_], PState[P]]()
-  protected var keyValToPStateMap = Map[AnyKeyValAtAll, PState[P]]()
+  protected var keyValToPStateMap = Map[Any, PState[P]]()
 
  protected[persistence] def close()(implicit context: ExecutionContext): Future[Unit] =
     Future.successful(())

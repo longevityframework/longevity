@@ -76,7 +76,7 @@ with LazyLogging {
     indexedComponents ++ (primaryKeyComponents: Seq[RealizedPropComponent[_ >: P, _, _]])
 
   protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
-    val keyComponents = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPrimaryKey[_, _]]).flatMap {
+    val keyComponents = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPrimaryKey[M, _, _]]).flatMap {
       _.realizedProp.realizedPropComponents: Seq[RealizedPropComponent[_ >: P, _, _]]
     }
 

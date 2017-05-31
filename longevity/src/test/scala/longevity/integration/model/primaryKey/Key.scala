@@ -2,5 +2,5 @@ package longevity.integration.model.primaryKey
 
 import longevity.model.annotations.keyVal
 
-@keyVal[PrimaryKey]
+@keyVal[DomainModel, PrimaryKey]
 case class Key(id: String)

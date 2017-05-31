@@ -15,8 +15,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of MongoRepo.createSchema */
-private[mongo] trait MongoSchema[P] {
-  repo: MongoRepo[_, P] =>
+private[mongo] trait MongoSchema[M, P] {
+  repo: MongoRepo[M, P] =>
 
   protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
     blocking {
@@ -34,15 +34,15 @@ private[mongo] trait MongoSchema[P] {
       realizedPType.primaryKey.foreach(createPrimaryKey)
     }
 
-    private def createKey(key: RealizedKey[P, _]): Unit = {
+    private def createKey(key: RealizedKey[M, P, _]): Unit = {
       val paths = key match {
-        case p: RealizedPrimaryKey[P, _] if !p.fullyPartitioned => p.props.map(_.inlinedPath)
+        case p: RealizedPrimaryKey[M, P, _] if !p.fullyPartitioned => p.props.map(_.inlinedPath)
         case _ => Seq(key.realizedProp.inlinedPath)
       }
 
       val name = indexName(key)
       val hashed = key match {
-        case p: RealizedPrimaryKey[P, _] if p.key.hashed => true
+        case p: RealizedPrimaryKey[M, P, _] if p.key.hashed => true
         case _ => false
       }
 
@@ -60,7 +60,7 @@ private[mongo] trait MongoSchema[P] {
 
   }
 
-  private def createPrimaryKey(key: RealizedPrimaryKey[P, _]): Unit = {
+  private def createPrimaryKey(key: RealizedPrimaryKey[M, P, _]): Unit = {
     val shardPaths = key.partition.props.map(realizedPType.realizedProps(_).inlinedPath)
     val shardType = if (key.hashed) new BsonString("hashed") else new BsonInt32(1)
     val shardKey = new BsonDocument
@@ -107,7 +107,7 @@ private[mongo] trait MongoSchema[P] {
     }
   }
 
-  protected def indexName(key: RealizedKey[P, _]): String =
+  protected def indexName(key: RealizedKey[M, P, _]): String =
     indexName(Seq(key.realizedProp.inlinedPath))
 
   private def indexName(index: Index[P]): String =

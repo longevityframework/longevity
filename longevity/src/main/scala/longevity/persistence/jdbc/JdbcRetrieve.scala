@@ -1,8 +1,7 @@
 package longevity.persistence.jdbc
 
 import java.sql.PreparedStatement
-import emblem.TypeKey
-import longevity.model.KeyVal
+import longevity.model.KVEv
 import longevity.model.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -12,7 +11,7 @@ import scala.concurrent.blocking
 private[jdbc] trait JdbcRetrieve[M, P] {
   repo: JdbcRepo[M, P] =>
 
-  def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = {
+  override def retrieve[V : KVEv[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
     logger.debug(s"calling JdbcRepo.retrieve: $keyVal")
     val stateOption = retrieveFromPreparedStatement(bindKeyValSelectStatement(keyVal))
     logger.debug(s"done calling JdbcRepo.retrieve: $stateOption")
@@ -29,8 +28,8 @@ private[jdbc] trait JdbcRetrieve[M, P] {
       }
     }
 
-  private def bindKeyValSelectStatement[V <: KeyVal[P] : TypeKey](keyVal: V) = {
-    val realizedKey: RealizedKey[P, V] = realizedPType.realizedKey[V]
+  private def bindKeyValSelectStatement[V : KVEv[M, P, ?]](keyVal: V) = {
+    val realizedKey: RealizedKey[M, P, V] = realizedPType.realizedKey(implicitly[KVEv[M, P, V]].key)
     val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
       jdbcValue(component.innerPropPath.get(keyVal))
     }
@@ -43,7 +42,7 @@ private[jdbc] trait JdbcRetrieve[M, P] {
     preparedStatement
   }
 
-  private lazy val keyValSelectStatement: Map[RealizedKey[P, _], String] = Map().withDefault { key =>
+  private lazy val keyValSelectStatement: Map[RealizedKey[M, P, _], String] = Map().withDefault { key =>
     val conjunction = keyValSelectStatementConjunction(key)
     s"""|
     |SELECT * FROM $tableName
@@ -52,7 +51,7 @@ private[jdbc] trait JdbcRetrieve[M, P] {
     |""".stripMargin
   }
 
-  protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String = {
+  protected def keyValSelectStatementConjunction(key: RealizedKey[M, P, _]): String = {
     key.realizedProp.realizedPropComponents.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
   }
 

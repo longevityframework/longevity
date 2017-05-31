@@ -8,7 +8,7 @@ import longevity.persistence.PState
 private[inmem] trait InMemRead[M, P] {
   repo: InMemRepo[M, P] =>
 
-  protected[inmem] def lookupPStateByKeyVal(keyVal: AnyKeyValAtAll): Option[PState[P]] =
+  protected[inmem] def lookupPStateByKeyVal(keyVal: Any): Option[PState[P]] =
     keyValToPStateMap.get(keyVal)
 
 }

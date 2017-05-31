@@ -1,7 +1,6 @@
 package longevity.persistence.mongo
 
 import com.mongodb.client.model.Filters
-import longevity.model.KeyVal
 import longevity.model.ptype.Prop
 import longevity.model.query.EqOp
 import longevity.model.query.GtOp
@@ -21,8 +20,8 @@ import org.joda.time.DateTimeZone
 /** utilities for reading from a mongo collection. used by [[MongoRetrieve]] and
  * [[MongoQuery]]
  */
-private[mongo] trait MongoRead[P] {
-  repo: MongoRepo[_, P] =>
+private[mongo] trait MongoRead[M, P] {
+  repo: MongoRepo[M, P] =>
 
   private lazy val bsonToModelTypeTranslator =
     new BsonToDomainModelTranslator(modelType.emblematic)
@@ -58,7 +57,7 @@ private[mongo] trait MongoRead[P] {
   protected def mongoRelationalFilter[A](prop: Prop[_ >: P, A], op: RelationalOp, value: A) = {
     realizedPType.primaryKey match {
       case Some(k) if !k.fullyPartitioned && k.key.keyValProp == prop =>
-        def f[V <: KeyVal[P]](k: RealizedPrimaryKey[P, V]) =
+        def f[V](k: RealizedPrimaryKey[M, P, V]) =
           mongoRelationalFilterForPrimaryKey[V](k, op, value.asInstanceOf[V])
         f(k)
       case _ =>
@@ -73,8 +72,8 @@ private[mongo] trait MongoRead[P] {
     }
   }
 
-  private def mongoRelationalFilterForPrimaryKey[V <: KeyVal[P]](
-    key: RealizedPrimaryKey[P, V],
+  private def mongoRelationalFilterForPrimaryKey[V](
+    key: RealizedPrimaryKey[M, P, V],
     op: RelationalOp,
     value: V) = {
     val propPaths = key.queryInfos

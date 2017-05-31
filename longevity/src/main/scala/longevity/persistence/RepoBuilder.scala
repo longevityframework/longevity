@@ -144,9 +144,8 @@ private[longevity] object RepoBuilder {
     schemaCreator: SchemaCreator,
     persistenceConfig: PersistenceConfig)
   : Repo[M] = {
-    type RM[P] = R[M, P]
-    var keyToRepoMap = TypeKeyMap[Any, RM]
-    type Pair[P] = TypeBoundPair[Any, TypeKey, modelType.PTypeM, P]
+    var keyToRepoMap = TypeKeyMap[Any, R[M, ?]]
+    type Pair[P] = TypeBoundPair[Any, TypeKey, PType[M, ?], P]
     def createRepoFromPair[P](pair: Pair[P]): Unit = {
       val pTypeKey = pair._1
       val pType = pair._2

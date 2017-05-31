@@ -22,7 +22,7 @@ import longevity.model.ptype.Index
  */
 @compileTimeOnly("you must enable macro paradise for @persistent to work")
 class persistent[M](
-  keySet: Set[Key[_]],
+  keySet: Set[Key[M, _]],
   indexSet: Set[Index[_]] = Set.empty[Index[_]])
 extends StaticAnnotation {
 
@@ -52,6 +52,7 @@ private object persistent {
 
     protected def mtype = c.prefix.tree match {
       case q"new $persistent[$mtype](..$args)" => mtype
+      case q"new $persistent[$mtype]" => mtype
       case _ => c.abort(
         c.enclosingPosition,
         s"@longevity.model.annotations.persistent requires a single type parameter for the domain model")

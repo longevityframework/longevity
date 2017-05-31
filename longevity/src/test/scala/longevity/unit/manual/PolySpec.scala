@@ -143,10 +143,10 @@ package PolySpec {
     case class Markdown(markdown: String)
     case class Email(email: String)
 
-    @longevity.model.annotations.keyVal[User] case class Username(username: String)
-
     import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
+
+    @longevity.model.annotations.keyVal[DomainModel, User] case class Username(username: String)
 
     import longevity.model.annotations.component
     import longevity.model.annotations.derivedPersistent
@@ -187,7 +187,7 @@ package PolySpec {
     import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
 
-    @longevity.model.annotations.keyVal[User] case class Username(username: String)
+    @longevity.model.annotations.keyVal[DomainModel, User] case class Username(username: String)
 
     import longevity.model.CType
     import longevity.model.DerivedPType
@@ -244,10 +244,10 @@ package PolySpec {
     case class Markdown(markdown: String)
     case class Email(email: String)
 
-    @longevity.model.annotations.keyVal[User] case class Username(username: String)
-
     import longevity.model.annotations.domainModel
     @domainModel trait DomainModel
+
+    @longevity.model.annotations.keyVal[DomainModel, User] case class Username(username: String)
 
     import longevity.model.annotations.component
     import longevity.model.annotations.derivedPersistent

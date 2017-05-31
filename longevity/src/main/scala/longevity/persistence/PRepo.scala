@@ -8,8 +8,8 @@ import fs2.Stream
 import fs2.Task
 import io.iteratee.{ Enumerator => CatsEnumerator }
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
+import longevity.model.KVEv
 import longevity.model.ModelType
-import longevity.model.KeyVal
 import longevity.model.PType
 import longevity.model.query.Query
 import longevity.model.realized.RealizedPType
@@ -37,7 +37,7 @@ private[longevity] abstract class PRepo[M, P] private[persistence] (
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
   protected lazy val repo: Repo[M] = _repoOption.get
 
-  protected[longevity] val realizedPType: RealizedPType[P] = modelType.realizedPTypes(pType)
+  protected[longevity] val realizedPType: RealizedPType[M, P] = modelType.realizedPTypes(pType)
 
   /** the type key for the persistent entities this repository handles */
   protected[persistence] val pTypeKey: TypeKey[P] = pType.pTypeKey
@@ -46,10 +46,10 @@ private[longevity] abstract class PRepo[M, P] private[persistence] (
 
   def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieve[V : KVEv[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[Option[PState[P]]]
 
-  def retrieveOne[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
+  def retrieveOne[V : KVEv[M, P, ?]](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
 
   def update(state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]]

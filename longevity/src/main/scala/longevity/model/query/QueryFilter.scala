@@ -56,7 +56,7 @@ object QueryFilter {
   /** a factory method for producing a conditional [[QueryFilter]] with an [[OrOp]] */
   def or[P](lhs: QueryFilter[P], rhs: QueryFilter[P]) = ConditionalFilter[P](lhs, OrOp, rhs)
 
-  private[longevity] def matches[P](filter: QueryFilter[P], p: P, realizedPType: RealizedPType[P])
+  private[longevity] def matches[P](filter: QueryFilter[P], p: P, realizedPType: RealizedPType[_, P])
   : Boolean = {
 
     def toRealized[A](prop: Prop[_ >: P, A]) = realizedPType.realizedProps(prop)

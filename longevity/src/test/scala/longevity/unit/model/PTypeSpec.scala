@@ -17,11 +17,13 @@ object PTypeSpec {
     implicit object modelEv extends ModelEv[DomainModel]
   }
 
-  import longevity.model.KeyVal
+  import longevity.model.KVType
   import longevity.model.DerivedPType
   import longevity.model.PolyPType
 
-  case class Username(username: String) extends KeyVal[User]
+  case class Username(username: String)
+
+  object Username extends KVType[DomainModel, User, Username]
 
   trait User {
     val username: Username
@@ -34,7 +36,9 @@ object PTypeSpec {
     val keySet = Set(primaryKey(props.username))
   }
 
-  case class Email(email: String) extends KeyVal[EmailedUser]
+  case class Email(email: String)
+
+  object Email extends KVType[DomainModel, EmailedUser, Email]
 
   case class EmailedUser(username: Username, email: Email) extends User
 

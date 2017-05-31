@@ -8,8 +8,8 @@ import scala.concurrent.Future
 import scala.concurrent.blocking
 
 /** implementation of MongoRepo.delete */
-private[mongo] trait MongoDelete[P] {
-  repo: MongoRepo[_, P] =>
+private[mongo] trait MongoDelete[M, P] {
+  repo: MongoRepo[M, P] =>
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {

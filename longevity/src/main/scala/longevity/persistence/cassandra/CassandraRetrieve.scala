@@ -2,8 +2,7 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
-import emblem.TypeKey
-import longevity.model.KeyVal
+import longevity.model.KVEv
 import longevity.model.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -13,7 +12,7 @@ import scala.concurrent.blocking
 private[cassandra] trait CassandraRetrieve[M, P] {
   repo: CassandraRepo[M, P] =>
 
-  def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) = {
+  override def retrieve[V : KVEv[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
     logger.debug(s"calling CassandraRepo.retrieve: $keyVal")
     val stateOption = retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
     logger.debug(s"done calling CassandraRepo.retrieve: $stateOption")
@@ -27,10 +26,11 @@ private[cassandra] trait CassandraRetrieve[M, P] {
       rowOption.map(retrieveFromRow)
     }
 
-  private var keyValSelectStatements = Map[RealizedKey[P, _], PreparedStatement]()
+  private var keyValSelectStatements = Map[RealizedKey[M, P, _], PreparedStatement]()
 
-  private def bindKeyValSelectStatement[V <: KeyVal[P] : TypeKey](keyVal: V): BoundStatement = {
-    val realizedKey: RealizedKey[P, V] = realizedPType.realizedKey[V]
+  private def bindKeyValSelectStatement[V : KVEv[M, P, ?]](keyVal: V): BoundStatement = {
+    val ev = implicitly[KVEv[M, P, V]]
+    val realizedKey: RealizedKey[M, P, V] = realizedPType.realizedKey(ev.key)
     val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
       cassandraValue(component.innerPropPath.get(keyVal))
     }
@@ -47,7 +47,7 @@ private[cassandra] trait CassandraRetrieve[M, P] {
     preparedStatement.bind(propVals: _*)
   }
 
-  private def keyValSelectStatement(key: RealizedKey[P, _]): PreparedStatement = {
+  private def keyValSelectStatement(key: RealizedKey[M, P, _]): PreparedStatement = {
     val conjunction = keyValSelectStatementConjunction(key)
     val cql = s"""|
     |SELECT * FROM $tableName
@@ -58,7 +58,7 @@ private[cassandra] trait CassandraRetrieve[M, P] {
     preparedStatement(cql)
   }
 
-  protected def keyValSelectStatementConjunction(key: RealizedKey[P, _]): String = {
+  protected def keyValSelectStatementConjunction(key: RealizedKey[M, P, _]): String = {
     key.realizedProp.realizedPropComponents.map(columnName).map(name => s"$name = :$name").mkString("\nAND\n  ")
   }
 

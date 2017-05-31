@@ -3,8 +3,7 @@ package longevity.persistence.inmem
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
-import longevity.model.KeyVal
-import longevity.model.realized.AnyRealizedKey
+import longevity.model.realized.RealizedKey
 
 /** support for InMemRepo methods that modify persistent collection. used by
  * [[InMemCreate]], [[InMemDelete]] and [[InMemUpdate]].
@@ -21,9 +20,9 @@ private[inmem] trait InMemWrite[M, P] {
     id
   }
 
-  protected[inmem] def keys: Seq[AnyRealizedKey[_ >: P]] = myKeys
+  protected[inmem] def keys: Seq[RealizedKey[M, _ >: P, _]] = myKeys
 
-  protected def myKeys: Seq[AnyRealizedKey[_ >: P]] = realizedPType.keySet.toSeq
+  protected def myKeys: Seq[RealizedKey[M, _ >: P, _]] = realizedPType.keySet.toSeq
 
   protected[inmem] def assertNoWriteConflict(state: PState[P]) = {
     if (persistenceConfig.optimisticLocking) {
@@ -44,19 +43,19 @@ private[inmem] trait InMemWrite[M, P] {
     registerByKeyVal(key.keyValForP(state.get), state)
   }
 
-  protected[inmem] def registerByKeyVal(keyVal: KeyVal[_], state: PState[P]) =
-    keyValToPStateMap += ((keyVal, state)) // Scala compiler gripes on -> pair syntax here
+  protected[inmem] def registerByKeyVal(keyVal: Any, state: PState[P]) =
+    keyValToPStateMap += keyVal -> state
 
   protected[inmem] def assertUniqueKeyVals(state: PState[P]): Unit = keys.foreach { key =>
     assertUniqueKeyVal(key, key.keyValForP(state.get), state)
   }
 
   protected[inmem] def assertUniqueKeyVal(
-    realizedKey: AnyRealizedKey[_ >: P],
-    keyVal: KeyVal[_],
+    realizedKey: RealizedKey[M, _ >: P, _],
+    keyVal: Any,
     state: PState[P]): Unit = {
     if (keyValToPStateMap.contains(keyVal) && keyValToPStateMap(keyVal).id != state.id) {
-      throw new DuplicateKeyValException[P](state.get, realizedKey.key)
+      throw new DuplicateKeyValException(state.get, realizedKey.key)
     }
   }
 
@@ -64,6 +63,6 @@ private[inmem] trait InMemWrite[M, P] {
     unregisterByKeyVal(key.keyValForP(p))
   }
 
-  protected[inmem] def unregisterByKeyVal(keyVal: AnyKeyValAtAll) = keyValToPStateMap -= keyVal
+  protected[inmem] def unregisterByKeyVal(keyVal: Any) = keyValToPStateMap -= keyVal
 
 }

@@ -5,7 +5,7 @@ import longevity.TestLongevityConfigs.mongoConfig
 import longevity.config.Cassandra
 import longevity.context.LongevityContext
 import longevity.config.MongoDB
-import longevity.model.KeyVal
+import longevity.model.KVType
 import longevity.model.ModelEv
 import longevity.model.ModelType
 import longevity.model.PTypePool
@@ -29,7 +29,8 @@ object LongevityContextSpec {
       private[sample] implicit object modelEv extends ModelEv[DomainModel]
     }
 
-    case class AId(id: String) extends KeyVal[A]
+    case class AId(id: String)
+    object AId extends KVType[DomainModel, A, AId]
 
     case class A(id: AId)
     object A extends PType[DomainModel, A] {

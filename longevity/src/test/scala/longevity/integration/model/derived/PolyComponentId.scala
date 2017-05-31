@@ -2,5 +2,5 @@ package longevity.integration.model.derived
 
 import longevity.model.annotations.keyVal
 
-@keyVal[FirstDerivedPersistent]
+@keyVal[DomainModel, FirstDerivedPersistent]
 case class PolyComponentId(id: String)

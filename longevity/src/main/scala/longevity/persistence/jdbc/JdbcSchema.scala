@@ -67,7 +67,7 @@ private[jdbc] trait JdbcSchema[M, P] {
   }
 
   protected def createUniqueIndexes(): Unit = {
-    val nonPrimaryKeys = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPrimaryKey[_, _]])
+    val nonPrimaryKeys = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPrimaryKey[M, _, _]])
     nonPrimaryKeys.foreach { key =>
       val indexName = s"${tableName}__${scoredPath(key.realizedProp)}"
       val columnsNames = key.realizedProp.realizedPropComponents.map(columnName)

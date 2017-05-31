@@ -13,7 +13,7 @@ import longevity.model.DerivedCType
 import longevity.model.DerivedPType
 import longevity.model.CType
 import longevity.model.CTypePool
-import longevity.model.KeyVal
+import longevity.model.KVType
 import longevity.model.PType
 import longevity.model.PTypePool
 import longevity.model.PolyCType
@@ -395,13 +395,15 @@ object ModelTypeSpec {
       implicit object modelEv extends ModelEv[DomainModel]
     }
 
-    case class AId(id: String) extends KeyVal[A]
+    trait AIdSuper
+    case class AId(id: String) extends AIdSuper
+    object AId extends KVType[DomainModel, A, AId]
 
     case class A(id: AId)
     object A extends PType[DomainModel, A] {
       object props {
         val id = prop[AId]("id")
-        val id2 = prop[KeyVal[A]]("id") // this is the problematic prop
+        val id2 = prop[AIdSuper]("id") // this is the problematic prop
       }
       val keySet = Set(key(props.id))
     }
@@ -415,7 +417,8 @@ object ModelTypeSpec {
       implicit object modelEv extends ModelEv[DomainModel]
     }
 
-    case class AId(id: String) extends KeyVal[A]
+    case class AId(id: String)
+    object AId extends KVType[DomainModel, A, AId]
 
     case class A(id1: AId, id2: AId)
     object A extends PType[DomainModel, A] {
@@ -435,7 +438,8 @@ object ModelTypeSpec {
       implicit object modelEv extends ModelEv[DomainModel]
     }
 
-    case class AId(id: String) extends KeyVal[A]
+    case class AId(id: String)
+    object AId extends KVType[DomainModel, A, AId]
 
     case class A(id: AId)
     object A extends PType[DomainModel, A] {
@@ -455,7 +459,8 @@ object ModelTypeSpec {
       implicit object modelEv extends ModelEv[DomainModel]
     }
 
-    case class AId(id1: String, id2: String) extends KeyVal[A]
+    case class AId(id1: String, id2: String)
+    object AId extends KVType[DomainModel, A, AId]
 
     case class A(id: AId)
     object A extends PType[DomainModel, A] {

@@ -49,12 +49,12 @@ with GivenWhenThen {
 
       try {
         val exception = repo.create(p1).failed.futureValue
-        if (!exception.isInstanceOf[DuplicateKeyValException[_]]) {
+        if (!exception.isInstanceOf[DuplicateKeyValException[_, _]]) {
           exception.printStackTrace
         }
-        exception shouldBe a [DuplicateKeyValException[_]]
+        exception shouldBe a [DuplicateKeyValException[_, _]]
 
-        val dkve = exception.asInstanceOf[DuplicateKeyValException[PrimaryKey]]
+        val dkve = exception.asInstanceOf[DuplicateKeyValException[DomainModel, PrimaryKey]]
         dkve.p should equal (p1)
         (dkve.key: AnyRef) should equal (PrimaryKey.keySet.head)
       } finally {

@@ -52,12 +52,12 @@ with GivenWhenThen {
 
       def expectUnstable(future: Future[_]) = {
         val exception = future.failed.futureValue
-        if (!exception.isInstanceOf[UnstablePrimaryKeyException[_]]) {
+        if (!exception.isInstanceOf[UnstablePrimaryKeyException[_, _]]) {
           exception.printStackTrace
         }
-        exception shouldBe a [UnstablePrimaryKeyException[_]]
+        exception shouldBe a [UnstablePrimaryKeyException[_, _]]
 
-        val e = exception.asInstanceOf[UnstablePrimaryKeyException[PrimaryKey]]
+        val e = exception.asInstanceOf[UnstablePrimaryKeyException[PrimaryKey, Key]]
         e.orig should equal (p1)
         e.origKeyVal should equal (origKey)
         e.newKeyVal should equal (modifiedKey)

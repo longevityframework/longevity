@@ -2,5 +2,5 @@ package longevity.integration.model.complexConstraint
 
 import longevity.model.annotations.keyVal
 
-@keyVal[ComplexConstraint]
+@keyVal[DomainModel, ComplexConstraint]
 case class ComplexConstraintId(id: String)

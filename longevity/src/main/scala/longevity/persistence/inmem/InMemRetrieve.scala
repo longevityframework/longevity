@@ -1,7 +1,6 @@
 package longevity.persistence.inmem
 
-import emblem.TypeKey
-import longevity.model.KeyVal
+import longevity.model.KVEv
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
@@ -9,7 +8,7 @@ import scala.concurrent.Future
 private[inmem] trait InMemRetrieve[M, P] {
   repo: InMemRepo[M, P] =>
 
-  override def retrieve[V <: KeyVal[P] : TypeKey](keyVal: V)(implicit context: ExecutionContext) =
+  override def retrieve[V : KVEv[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) =
     Future.successful {
       logger.debug(s"calling InMemRepo.retrieve: $keyVal")
       val stateOption = lookupPStateByKeyVal(keyVal)
