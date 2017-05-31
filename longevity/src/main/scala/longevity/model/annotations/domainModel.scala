@@ -51,8 +51,9 @@ private object domainModel {
     }
 
     private def modelType = {
-      val p = Constant(owningPackage.fullName)
-      q"implicit object modelType extends longevity.model.ModelType[$typeName]($p)"
+      val pTypes = q"longevity.model.annotations.packscanToList[longevity.model.PType[$typeName, _]]"
+      val cTypes = q"longevity.model.annotations.packscanToList[longevity.model.CType[_]]"
+      q"implicit object modelType extends longevity.model.ModelType[$typeName]($pTypes, $cTypes)"
     }
 
     private def modelEv = {
@@ -60,7 +61,7 @@ private object domainModel {
       q"private[$p] implicit object modelEv extends longevity.model.ModelEv[$typeName]"
     }
 
-    private lazy val name = as.head match {
+    private lazy val typeName = as.head match {
       case q"$_ class $typeName[..$_] $_(...$_) extends {..$_} with ..$_ { $_ => ..$_ }" => typeName
       case q"$_ trait $typeName[..$_]           extends {..$_} with ..$_ { $_ => ..$_ }" => typeName
       case _ =>
@@ -69,9 +70,8 @@ private object domainModel {
           s"@longevity.model.annotations.domainModel can only be applied to classes and traits")
     }
 
-    private def termName = TermName(name.decodedName.toString)
-    private def typeName = TypeName(name.decodedName.toString)
-    
+    private def termName = TermName(typeName.decodedName.toString)
+
     def owningPackage = {
       def owningPackage0(s: c.Symbol): c.Symbol = if (s.isPackage) s else owningPackage0(s.owner)
       owningPackage0(c.internal.enclosingOwner)

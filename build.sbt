@@ -26,7 +26,6 @@ lazy val longevity = Project(
     libraryDependencies += Dependencies.mongodbDep         % Test,
     libraryDependencies += Dependencies.playIterateeDep    % Optional,
     libraryDependencies += Dependencies.playIterateeDep    % Test,
-    libraryDependencies += Dependencies.reflectionsDep,
     libraryDependencies += Dependencies.scalaLoggingDep,
     libraryDependencies += Dependencies.scalaTestDep       % Optional,
     libraryDependencies += Dependencies.slf4jSimpleDep     % Test,

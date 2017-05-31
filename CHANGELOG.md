@@ -57,6 +57,15 @@
   take an implicit `KVEv[M, P, V]` instead of an implicit `TypeKey[V]`. This will typically be found
   by implicit resolution in the `KVType` companion object.
 
+- 2017.05.31 - The old constructors and factory methods for creating a `longevity.model.ModelType`
+  have been replaced with a single constructor that takes lists of `longevity.model.PTypes` and
+  `longevity.model.CTypes`. The runtime package scanning constructor has been replaced by a
+  compile-time package scanning. The new scanner, `longevity.model.annotations.packscanToList`, is
+  used by `longevity.model.annotations.domainModel`, but you can use it yourself if you like. If you
+  have been using the `@domainModel` annotation, these changes should not affect you.
+
+- 2017.05.31 - `longevity.model.PTypePool` and `longevity.model.CTypePool` have been removed.
+
 ## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
 
 - 2017.03.24 - Rename `Repo.retrieveByQuery` to `Repo.queryToFutureVec`. The return type of this

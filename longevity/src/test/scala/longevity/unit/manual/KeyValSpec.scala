@@ -12,11 +12,10 @@ object KeyValSpec {
 
     import longevity.model.ModelEv
     import longevity.model.ModelType
-    import longevity.model.PTypePool
 
     trait DomainModel
     object DomainModel {
-      implicit object modelType extends ModelType[DomainModel](PTypePool(User))
+      implicit object modelType extends ModelType[DomainModel](Seq(User))
       private[keyValues1] implicit object modelEv extends ModelEv[DomainModel]
     }
 
@@ -46,11 +45,10 @@ object KeyValSpec {
 
     import longevity.model.ModelEv
     import longevity.model.ModelType
-    import longevity.model.PTypePool
 
     trait DomainModel
     object DomainModel {
-      implicit object modelType extends ModelType[DomainModel](PTypePool(User))
+      implicit object modelType extends ModelType[DomainModel](Seq(User))
       private[keyValues2] implicit object modelEv extends ModelEv[DomainModel]
     }
 

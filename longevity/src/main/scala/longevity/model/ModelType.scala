@@ -9,11 +9,9 @@ import emblem.emblematic.Union
 import emblem.typeBound.TypeBoundFunction
 import emblem.typeBound.TypeBoundMap
 import longevity.exceptions.model.DerivedHasNoPolyException
+import longevity.exceptions.model.DuplicateCTypesException
+import longevity.exceptions.model.DuplicatePTypesException
 import longevity.model.realized.RealizedPType
-import org.reflections.Reflections
-import scala.collection.JavaConverters.asScalaSetConverter
-import scala.reflect.runtime.universe.NoType
-import scala.reflect.runtime.universe.runtimeMirror
 
 /** a description of a project's domain model. contains a pool of all the [[PType persistent types]]
  * in the model, as well as all the [[CType component types]].
@@ -25,57 +23,39 @@ import scala.reflect.runtime.universe.runtimeMirror
  *
  * @tparam M the model
  *
- * @constructor creates a model type from pools of [[PType persistent]] and [[CType component]]
- * types
+ * @constructor constructs a model type
  *
- * @param pTypePool a complete set of the persistent types in the domain model.
+ * @param pTypes a complete sequence of the persistent types in the domain model.
  *
- * @param cTypePool a complete set of the component types within the domain model. defaults to empty
+ * @param cTypes a complete sequence of the component types within the domain model. defaults to
+ * empty
+ *
+ * throws longevity.exceptions.model.DuplicatePTypesException when two `PTypes` refer tothe same
+ * persistent class
+ * 
+ * throws longevity.exceptions.model.DuplicateCTypesException when two `CTypes` refer to the same
+ * component class
  *
  * @see longevity.model.annotations.domainModel
  */
-class ModelType[M](
-  val pTypePool: PTypePool[M],
-  val cTypePool: CTypePool = CTypePool.empty) {
+@throws[DuplicatePTypesException]("when two PTypes refer to the same persistent class")
+@throws[DuplicateCTypesException]("when two CTypes refer to the same component class")
+class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[_]] = Nil) {
 
-  private def this(pools: (PTypePool[M], CTypePool)) = this(pools._1, pools._2)
-
-  /** creates a model type by scanning the named package for [[PType persistent types]] and [[CType
-   * component types]]
-   *
-   * @tparam M the model
-   *
-   * @param packageName the name of the package to scan
-   */
-  def this(packageName: String) = this {
-    val reflections = new Reflections(s"$packageName.")
-
-    def subTypes[A](c: Class[A]): Set[Class[_ <: A]] = reflections.getSubTypesOf(c).asScala.toSet
-
-    val pTypeClasses = {
-      subTypes(classOf[PType[M, _]]) ++
-      subTypes(classOf[PolyPType[M, _]]) ++
-      subTypes(classOf[DerivedPType[M, _, _]])
+  private[longevity] val pTypePool = {
+    val map = pTypes.foldLeft(TypeKeyMap[Any, PType[M, ?]]()) {
+      case (map, pType) => map + (pType.pTypeKey -> pType)
     }
-    val cTypeClasses = {
-      subTypes(classOf[CType[_]]) ++
-      subTypes(classOf[PolyCType[_]]) ++
-      subTypes(classOf[DerivedCType[_, _]])
+    if (pTypes.size != map.size) throw new DuplicatePTypesException
+    map
+  }
+  
+  private[longevity] val cTypePool = {
+    val map: TypeKeyMap[Any, CType] = cTypes.foldLeft(TypeKeyMap[Any, CType]()) {
+      case (map, cType) => map + (cType.cTypeKey -> cType)
     }
-
-    def singletons[A](classes: Set[Class[_ <: A]]) = classes.flatMap { c =>
-      val r = runtimeMirror(c.getClassLoader)
-      val s = r.moduleSymbol(c)
-      s.typeSignature match {
-        case NoType => None // not actually a module, just a class or trait or something
-        case _      => Some(r.reflectModule(s).instance.asInstanceOf[A])
-      }
-    }
-
-    val pTypeObjects = singletons[PType[M, _]](pTypeClasses)
-    val cTypeObjects = singletons[CType[_]](cTypeClasses)
-
-    (PTypePool(pTypeObjects.toSeq: _*), CTypePool(cTypeObjects.toSeq: _*))
+    if (cTypes.size != map.size) throw new DuplicateCTypesException
+    map
   }
 
   private[longevity] val emblematic = Emblematic(emblemPool, unionPool)
@@ -86,7 +66,7 @@ class ModelType[M](
         pType.validateKeysAndIndexes()
         val polyPTypeOpt = pType match {
           case derivedPType: DerivedPType[M, P, _] =>
-            if (!pTypePool.typeKeyMap.contains(derivedPType.polyPTypeKey)) {
+            if (!pTypePool.contains(derivedPType.polyPTypeKey)) {
               throw new DerivedHasNoPolyException(derivedPType.polyPTypeKey.name, isPType = true)
             }
             Some(pTypePool(derivedPType.polyPTypeKey))
@@ -103,7 +83,7 @@ class ModelType[M](
   private def emblemPool = pEmblems ++ componentEmblems ++ keyValEmblems
 
   private def pEmblems = {
-    val pTypesWithEmblems = pTypePool.typeKeyMap.filterValues(!_.isInstanceOf[PolyPType[M, _]])
+    val pTypesWithEmblems = pTypePool.filterValues(!_.isInstanceOf[PolyPType[M, _]])
     pTypesWithEmblems.mapValues[Emblem] {
       new TypeBoundFunction[Any, PType[M, ?], Emblem] {
         def apply[P](pType: PType[M, P]): Emblem[P] = Emblem(pType.pTypeKey)
@@ -170,12 +150,12 @@ class ModelType[M](
   }
 
   private def pUnions = {
-    val polyTypes = pTypePool.typeKeyMap.filterValues(_.isInstanceOf[PolyPType[M, _]])
+    val polyTypes = pTypePool.filterValues(_.isInstanceOf[PolyPType[M, _]])
 
     type DerivedFrom[P] = DerivedPType[M, P, Poly] forSome { type Poly >: P }
 
     val derivedTypes: TypeKeyMap[Any, DerivedFrom] =
-      pTypePool.typeKeyMap.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Any, DerivedFrom]]
+      pTypePool.filterValues(_.isInstanceOf[DerivedFrom[_]]).asInstanceOf[TypeKeyMap[Any, DerivedFrom]]
 
     type DerivedList[P] = List[Emblem[_ <: P]]
     val baseToDerivedsMap: TypeKeyMap[Any, DerivedList] =
@@ -212,34 +192,5 @@ class ModelType[M](
                               |    ${pTypePool.values.mkString(",\n    ")}),
                               |  CTypePool(
                               |    ${cTypePool.values.mkString(",\n    ")}))""".stripMargin
-
-}
-
-/** provides factory methods for constructing [[ModelType model types]] */
-object ModelType {
-
-  /** creates a model type from pools of [[PType persistent]] and [[CType component]] types
-   * 
-   * @tparam M the model
-   *
-   * @param pTypePool a complete set of the persistent types in the domain model.
-   *
-   * @param cTypePool a complete set of the component types within the domain model. defaults to
-   * empty
-   */
-  def apply[M](
-    pTypePool: PTypePool[M],
-    cTypePool: CTypePool = CTypePool.empty)
-  : ModelType[M] =
-    new ModelType(pTypePool, cTypePool)
-
-  /** creates a model type by scanning the named package for [[PType persistent types]] and [[CType
-   * component types]]
-   *
-   * @tparam M the model
-   *
-   * @param packageName the name of the package to scan
-   */
-  def apply[M](packageName: String): ModelType[M] = ModelType(packageName)
 
 }

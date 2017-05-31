@@ -8,7 +8,6 @@ import longevity.config.MongoDB
 import longevity.model.KVType
 import longevity.model.ModelEv
 import longevity.model.ModelType
-import longevity.model.PTypePool
 import longevity.model.PType
 import org.json4s.JsonAST.JObject
 import org.json4s.JsonAST.JString
@@ -25,7 +24,7 @@ object LongevityContextSpec {
     trait DomainModel
 
     object DomainModel {
-      implicit object modelType extends ModelType[DomainModel](PTypePool(A))
+      implicit object modelType extends ModelType[DomainModel](Seq(A))
       private[sample] implicit object modelEv extends ModelEv[DomainModel]
     }
 

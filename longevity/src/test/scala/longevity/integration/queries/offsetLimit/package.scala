@@ -3,7 +3,6 @@ package longevity.integration.queries
 import longevity.model.ModelEv
 import longevity.model.ModelType
 import longevity.model.PType
-import longevity.model.PTypePool
 
 /** we use a special model type for limit/offset tests to prevent interference
  * from other tests.
@@ -17,7 +16,7 @@ package object offsetLimit {
   trait DomainModel
 
   object DomainModel {
-    implicit object modelType extends ModelType[DomainModel](PTypePool(OffsetLimit))
+    implicit object modelType extends ModelType[DomainModel](Seq(OffsetLimit))
     private[offsetLimit] implicit object modelEv extends ModelEv[DomainModel]
   }
 

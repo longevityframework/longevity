@@ -167,8 +167,8 @@ private[longevity] object RepoBuilder {
     }
 
     // do PolyPTypes first
-    modelType.pTypePool.typeKeyMap.filter(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
-    modelType.pTypePool.typeKeyMap.filterNot(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
+    modelType.pTypePool.filter(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
+    modelType.pTypePool.filterNot(isPolyPType).iterator.foreach { pair => createRepoFromPair(pair) }
 
     type PRepoM[P] = PRepo[M, P]
 

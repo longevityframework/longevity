@@ -3,19 +3,17 @@ package longevity.unit
 package object blogCore {
 
   import longevity.model.CType
-  import longevity.model.CTypePool
   import longevity.model.KVType
   import longevity.model.ModelEv
   import longevity.model.ModelType
   import longevity.model.PType
-  import longevity.model.PTypePool
 
   trait BlogCore
 
   object BlogCore {
     implicit object modelType extends ModelType[BlogCore](
-      PTypePool(User, Blog, BlogPost),
-      CTypePool(CType[Markdown], CType[Uri], CType[UserProfile]))
+      Seq(User, Blog, BlogPost),
+      Seq(CType[Markdown], CType[Uri], CType[UserProfile]))
     implicit object modeEv extends ModelEv[BlogCore]
   }
 

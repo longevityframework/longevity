@@ -191,7 +191,7 @@ package ModelTypeSpec {
       trait MyDomainModel
 
       object MyDomainModel {
-        implicit object modelType extends ModelType[MyDomainModel]("myPackage")
+        implicit object modelType extends ModelType[MyDomainModel](Nil, Nil)
         private[myPackage] implicit object modelEv extends ModelEv[MyDomainModel]
       }
     }
@@ -202,15 +202,13 @@ package ModelTypeSpec {
     package myPackage {
       import longevity.model.ModelEv
       import longevity.model.ModelType
-      import longevity.model.CTypePool
-      import longevity.model.PTypePool
 
       trait MyDomainModel
 
       object MyDomainModel {
         implicit object modelType extends ModelType[MyDomainModel](
-          PTypePool(User, BlogPost, Blog),
-          CTypePool(UserProfile))
+          Seq(User, BlogPost, Blog),
+          Seq(UserProfile))
         private[myPackage] implicit object modelEv extends ModelEv[MyDomainModel]
       }
 

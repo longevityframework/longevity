@@ -12,10 +12,8 @@ import longevity.exceptions.model.UnsupportedPropTypeException
 import longevity.model.DerivedCType
 import longevity.model.DerivedPType
 import longevity.model.CType
-import longevity.model.CTypePool
 import longevity.model.KVType
 import longevity.model.PType
-import longevity.model.PTypePool
 import longevity.model.PolyCType
 import longevity.model.PolyPType
 import longevity.model.ModelType
@@ -53,7 +51,9 @@ package packageScanning {
 
   class FakeoutB extends CType[B]
 
-  object modelType extends ModelType[DomainModel]("longevity.unit.model.packageScanning")
+  object modelType extends ModelType[DomainModel](
+    longevity.model.annotations.packscanToList[PType[DomainModel, _]],
+    longevity.model.annotations.packscanToList[CType[_]])
 }
 
 /** holds factory methods for sample modelTypes used in [[ModelTypeSpec]] */
@@ -73,7 +73,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](A :: Nil)
   }
 
   object noSuchPropPath {
@@ -90,7 +90,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](A :: Nil)
   }
 
   object propTypeWithInternalList {
@@ -108,7 +108,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
+    def modelType = new ModelType[DomainModel](A :: Nil, CType[B] :: Nil)
   }
 
   object propTypeWithInternalOption {
@@ -126,7 +126,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
+    def modelType = new ModelType[DomainModel](A :: Nil, CType[B] :: Nil)
   }
 
   object propTypeWithInternalSet {
@@ -144,7 +144,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
   }
 
   object propTypeWithInternalPoly {
@@ -164,9 +164,9 @@ object ModelTypeSpec {
     trait B { val id: String }
     case class C(id: String) extends B
 
-    def modelType = ModelType[DomainModel](
-      PTypePool(A),
-      CTypePool(PolyCType[B], DerivedCType[C, B]))
+    def modelType = new ModelType[DomainModel](
+      Seq(A),
+      Seq(PolyCType[B], DerivedCType[C, B]))
   }
 
   object noSuchPropPathInComponent {
@@ -184,7 +184,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
   }
 
   object propPathWithNonEmbeddable {
@@ -202,7 +202,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object propPathWithTerminalList {
@@ -219,7 +219,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object propPathWithTerminalOption {
@@ -236,7 +236,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object propPathWithTerminalSet {
@@ -253,7 +253,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object propPathWithTerminalPoly {
@@ -274,9 +274,9 @@ object ModelTypeSpec {
 
     case class C(id: String) extends B
 
-    def modelType = ModelType[DomainModel](
-      PTypePool(A),
-      CTypePool(PolyCType[B], DerivedCType[C, B]))
+    def modelType = new ModelType[DomainModel](
+      Seq(A),
+      Seq(PolyCType[B], DerivedCType[C, B]))
   }
 
   object propPathWithInternalList {
@@ -294,7 +294,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
   }
 
   object propPathWithInternalOption {
@@ -312,7 +312,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
   }
 
   object propPathWithInternalSet {
@@ -330,7 +330,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = ModelType[DomainModel](PTypePool(A), CTypePool(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
   }
 
   object propPathWithInternalPoly {
@@ -350,9 +350,9 @@ object ModelTypeSpec {
     trait B { val id: String }
     case class C(id: String) extends B
 
-    def modelType = ModelType[DomainModel](
-      PTypePool(A),
-      CTypePool(PolyCType[B], DerivedCType[C, B]))
+    def modelType = new ModelType[DomainModel](
+      Seq(A),
+      Seq(PolyCType[B], DerivedCType[C, B]))
   }
 
   object incompatiblePropType {
@@ -369,7 +369,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object supertypePropType {
@@ -386,7 +386,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object subtypePropType {
@@ -408,7 +408,7 @@ object ModelTypeSpec {
       val keySet = Set(key(props.id))
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object duplicateKey {
@@ -429,7 +429,7 @@ object ModelTypeSpec {
       val keySet = Set(key(props.id1), key(props.id2))
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object duplicateKeyOrIndex {
@@ -450,7 +450,7 @@ object ModelTypeSpec {
       override val indexSet = Set(index(props.id))
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object invalidPartition {
@@ -471,7 +471,7 @@ object ModelTypeSpec {
       val keySet = Set(primaryKey(props.id, partition(props.id2)))
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A))
+    def modelType = new ModelType[DomainModel](Seq(A))
   }
 
   object derivedPTypeHasNoPoly {
@@ -494,7 +494,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(Derived))
+    def modelType = new ModelType[DomainModel](Seq(Derived))
   }
 
   object derivedCTypeHasNoPoly {
@@ -506,7 +506,7 @@ object ModelTypeSpec {
     trait Poly { val id: String }
     case class Derived(id: String) extends Poly
 
-    def modelType = ModelType[DomainModel](PTypePool[DomainModel](), CTypePool(DerivedCType[Derived, Poly]))
+    def modelType = new ModelType[DomainModel](Seq(), Seq(DerivedCType[Derived, Poly]))
   }
 
   object duplicateCTypes {
@@ -516,7 +516,7 @@ object ModelTypeSpec {
     }
 
     case class A(id: String)
-    def modelType = ModelType[DomainModel](PTypePool[DomainModel](), CTypePool(CType[A], CType[A]))
+    def modelType = new ModelType[DomainModel](Seq(), Seq(CType[A], CType[A]))
   }
 
   object duplicatePTypes {
@@ -537,7 +537,7 @@ object ModelTypeSpec {
       val keySet = emptyKeySet
     }
 
-    def modelType = ModelType[DomainModel](PTypePool(A, B))
+    def modelType = new ModelType[DomainModel](Seq(A, B))
   }
 
 }
