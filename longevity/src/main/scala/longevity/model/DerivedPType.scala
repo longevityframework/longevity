@@ -4,7 +4,7 @@ import emblem.TypeKey
 import scala.reflect.runtime.universe.TypeTag
 
 /** one of the derived types in a family of persistent classes. mix this in to
- * youe [[PType persistent type]] when it represents a concrete subtype of a
+ * your [[PType persistent type]] when it represents a concrete subtype of a
  * [[PolyPType]].
  *
  * @tparam M the domain model
