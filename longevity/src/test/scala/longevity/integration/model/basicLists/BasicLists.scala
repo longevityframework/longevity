@@ -3,7 +3,7 @@ package longevity.integration.model.basicLists
 import org.joda.time.DateTime
 import longevity.model.annotations.persistent
 
-@persistent[DomainModel](keySet = Set(key(BasicLists.props.id)))
+@persistent[DomainModel]
 case class BasicLists(
   id: BasicListsId,
   boolean: List[Boolean],
@@ -14,3 +14,7 @@ case class BasicLists(
   long: List[Long],
   string: List[String],
   dateTime: List[DateTime])
+
+object BasicLists {
+  val keySet = Set(key(props.id))
+}

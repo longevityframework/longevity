@@ -17,12 +17,16 @@ import longevity.model.ptype.Index
  * to be mixed in".
  *
  * @tparam M the model
- * @param keySet the set of keys for the persistent type
- * @param indexSet the set of indexes for the persistent type. defaults to the empty set
+ *
+ * @param keySet the set of keys for the persistent type. defaults to the empty set. if omitted, you
+ * will need to define the keySet yourself in the companion object
+ *
+ * @param indexSet the set of indexes for the persistent type. defaults to the empty set. if
+ * omitted, you can still define the indexSet yourself in the companion object
  */
 @compileTimeOnly("you must enable macro paradise for @polyPersistent to work")
 class polyPersistent[M](
-  keySet: Set[Key[M, _]],
+  keySet: Set[Key[M, _]] = Set.empty[Key[M, _]],
   indexSet: Set[Index[_]] = Set.empty[Index[_]])
 extends StaticAnnotation {
 

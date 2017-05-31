@@ -2,7 +2,7 @@ package longevity.integration.model.complexConstraint
 
 import longevity.model.annotations.persistent
 
-@persistent[DomainModel](keySet = Set(key(ComplexConstraint.props.id)))
+@persistent[DomainModel]
 case class ComplexConstraint(
   id: ComplexConstraintId,
   primaryEmail: Email,
@@ -11,4 +11,8 @@ case class ComplexConstraint(
   if (!emails.contains(primaryEmail))
     throw new ConstraintValidationException("primary email is not in emails")
 
+}
+
+object ComplexConstraint {
+  val keySet = Set(key(ComplexConstraint.props.id))
 }

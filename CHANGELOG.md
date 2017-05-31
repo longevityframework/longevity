@@ -66,6 +66,10 @@
 
 - 2017.05.31 - `longevity.model.PTypePool` and `longevity.model.CTypePool` have been removed.
 
+- 2017.05.31 - Allow users to optionally define `keySet` in the persistent companion object, instead
+  of as an argument to the `@persistent` macro. I don't terribly like giving MTOWTTI here, but both
+  approaches have their drawbacks, and different users may prefer different approaches.
+
 ## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
 
 - 2017.03.24 - Rename `Repo.retrieveByQuery` to `Repo.queryToFutureVec`. The return type of this

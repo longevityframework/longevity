@@ -3,7 +3,7 @@ package longevity.integration.model.basicOptions
 import com.github.nscala_time.time.Imports._
 import longevity.model.annotations.persistent
 
-@persistent[DomainModel](keySet = Set(key(BasicOptions.props.id)))
+@persistent[DomainModel]
 case class BasicOptions(
   id: BasicOptionsId,
   boolean: Option[Boolean],
@@ -14,3 +14,7 @@ case class BasicOptions(
   long: Option[Long],
   string: Option[String],
   dateTime: Option[DateTime])
+
+object BasicOptions {
+  val keySet = Set(key(props.id))
+}
