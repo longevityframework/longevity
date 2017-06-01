@@ -1,0 +1,35 @@
+
+div.blue-side-bar
+{
+    border: solid 1px;
+    background-color: #C2E0FF;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    padding: 0px 10px 5px 10px;
+
+    margin-left: 5em;
+    margin-right: -1em;
+    margin-bottom: 1em;
+}
+
+div.tagline
+{
+    text-align: center;
+    font-style: italic;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/* http://stackoverflow.com/a/20809090/2186890 */
+a.nostyle:link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+a.nostyle:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
