@@ -35,19 +35,19 @@ elements of your domain model. In the final section, we will see how
 to gather all of these elements into a
 `longevity.model.DomainModel`. Here's an overview:
 
+- [Declaring a Domain Model](model.html)
 - [Persistent Objects](persistents.html)
 - [Basic Values](basics.html)
 - [Collections](collections.html)
 - [Components](components.html)
 - [Key Values](key-values.html)
 - [Limitations on Persistents, Embeddables, and Key Values](limitations.html)
-- [Constructing a Domain Model](model.html)
 
 {% assign prevTitle = "project setup" %}
 {% assign prevLink  = "../prelims/project-setup.html" %}
 {% assign upTitle   = "user manual" %}
 {% assign upLink    = ".." %}
-{% assign nextTitle = "persistent objects" %}
-{% assign nextLink  = "persistents.html" %}
+{% assign nextTitle = "declaring a domain model" %}
+{% assign nextLink  = "model.html" %}
 {% include navigate.html %}
 

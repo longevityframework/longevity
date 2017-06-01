@@ -133,7 +133,7 @@ In the projects where you want to use longevity, include a library
 dependency. If you are on the `master` branch, use:
 
 ```scala
-libraryDependencies += "org.longevityframework" %% "longevity" % "0.23-SNAPSHOT"
+libraryDependencies += "org.longevityframework" %% "longevity" % "0.24-SNAPSHOT"
 ```
 
 {% assign prevTitle = "what is longevity" %}

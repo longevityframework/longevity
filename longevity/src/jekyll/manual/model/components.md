@@ -19,16 +19,24 @@ case class FullName(
   firstName: String,
   lastName: String)
 
-@persistent(keySet = emptyKeySet)
+@persistent[DomainModel](keySet = emptyKeySet)
 case class User(
   username: String,
   fullName: FullName)
 ```
 
+You may be wondering why `@component` doesn't take a `DomainModel` type parameter like `@persistent`
+does. The reasons are two-fold. First, components never appear as arguments in the longevity API, so
+we don't need to include this for type safety. Second, we [plan on
+replacing](https://www.pivotaltracker.com/story/show/140864207) some homegrown code for traversing
+domain model elements with [shapeless](https://github.com/milessabin/shapeless) in the near future,
+at which point, there will be no need to be explicit about persistent components at all. It would
+take quite a bit of effort to decorate components with a type parameter, and we didn't consider it
+worthwhile to make these changes to code that will be removed soon.
+
 The `@component` annotation creates a companion object that extends
-`longevity.model.CType[FullName]`. If `FullName` already has a
-companion object, it will be augmented to extend `CType`. Here is the
-equivalent code without using annotations:
+`longevity.model.CType[FullName]`. If `FullName` already has a companion object, it will be
+augmented to extend `CType`. Here is the equivalent code without using annotations:
 
 ```scala
 import longevity.model.CType
@@ -61,7 +69,7 @@ case class Address(
   street: String,
   city: String)
 
-@persistent(keySet = emptyKeySet)
+@persistent[DomainModel](keySet = emptyKeySet)
 case class User(
   username: String,
   emails: EmailPreferences,

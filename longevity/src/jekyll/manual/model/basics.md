@@ -3,11 +3,9 @@ title: basic values
 layout: page
 ---
 
-In the previous example, we saw how to build a persistent object with
-a few `String` members. Of course, we can build persistent objects
-with other kinds of members than that. The simplest kinds are _basic
-values_, allowing you to put in members with a number of [simple
-types](http://longevityframework.org/scaladocs/emblem-latest/#emblem.emblematic.basicTypes$):
+In the previous examples, we saw how to build a persistent object with a few `String` members. Of
+course, we can build persistent objects with other kinds of members than that. The simplest kinds
+are _basic values_, allowing you to put in members with a number of simple types:
 
 - `java.lang.String`
 - `org.joda.time.DateTime`
@@ -24,7 +22,7 @@ For example, we might add a few fields to our `User` like so:
 import longevity.model.annotations.persistent
 import org.joda.time.DateTime
 
-@persistent(keySet = emptyKeySet)
+@persistent[DomainModel](keySet = emptyKeySet)
 case class User(
   username: String,
   firstName: String,

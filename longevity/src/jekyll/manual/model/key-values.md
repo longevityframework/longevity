@@ -4,7 +4,7 @@ layout: page
 ---
 
 Key values are used to uniquely identify a [persistent
-object](persistent). They can be embedded in persistents in two
+object](persistents.html). They can be embedded in persistents in two
 different ways. The first way to embed a key value is as a unique
 identifier for the persistent in question. For example, we may want to
 stipulate that every `User` has a unique `Username`. We can model this

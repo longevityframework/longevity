@@ -21,15 +21,18 @@ case class User(
   lastName: String)
 ```
 
-To tell longevity that this is a persistent object, we simply mark the
-class with a `persistent` annotation. At a minimum, we need to provide
-a `keySet` to the `persistent` annotation. For now, we can provide an
-empty set of keys, like so:
+To tell longevity that this is a persistent object, we mark the class with a `@persistent`
+annotation. This annotation requires a type parameter explicating the model. We also need to provide
+a `keySet` to the `@persistent` annotation. We'll describe key sets in detail in a [later
+chapter](../ptype/keys.html). For now, we can provide an empty set of keys, like so:
 
 ```scala
+import longevity.model.annotations.domainModel
 import longevity.model.annotations.persistent
 
-@persistent(keySet = emptyKeySet)
+@domainModel trait DomainModel
+
+@persistent[DomainModel](keySet = emptyKeySet)
 case class User(
   username: String,
   firstName: String,
@@ -46,7 +49,7 @@ case class User(
   firstName: String,
   lastName: String)
 
-object User extends PType[User] {
+object User extends PType[DomainModel, User] {
   object props {
     // ...
   }
@@ -54,8 +57,11 @@ object User extends PType[User] {
 }
 ```
 
-{% assign prevTitle = "the domain model" %}
-{% assign prevLink  = "." %}
+Details on the contents of that inner `object props` are discussed in the chapter on
+[properties](../ptype/properties.html).
+
+{% assign prevTitle = "declaring a domain model" %}
+{% assign prevLink  = "model.html" %}
 {% assign upTitle   = "the domain model" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "basic values" %}

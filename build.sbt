@@ -38,16 +38,8 @@ lazy val longevity = project.in(file("longevity"))
 
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
     addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4"))
-  .enablePlugins(TutPlugin, JekyllPlugin, SiteScaladocPlugin)
+  .enablePlugins(JekyllPlugin, SiteScaladocPlugin)
   .settings(
-    tutNameFilter := ".*\\.md".r,
-    { val tutSite = TaskKey[File]("tut-site", "a makeSite that depends on tut")
-      tutSite := makeSite.dependsOn(tut).value
-    },
-    { val tutSiteQuick = TaskKey[File]("tut-site-quick", "a makeSite that depends on tutQuick")
-      tutSiteQuick := makeSite.dependsOn(tutQuick).value
-    },
-    sourceDirectory in Jekyll := tutTargetDirectory.value,
     includeFilter in Jekyll :=
       ("*.html" | "*.png" | "*.js" | "*.css" | "*.gif" | "CNAME" | ".nojekyll" | "*.json" | "*.jpg"),
     siteSubdirName in SiteScaladoc := "api")

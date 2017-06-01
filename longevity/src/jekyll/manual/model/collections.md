@@ -17,7 +17,7 @@ the user to have multiple emails:
 ```scala
 import longevity.model.annotations.persistent
 
-@persistent(keySet = emptyKeySet)
+@persistent[DomainModel](keySet = emptyKeySet)
 case class User(
   username: String,
   title: Option[String],
