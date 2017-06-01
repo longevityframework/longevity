@@ -50,7 +50,7 @@ object User extends PType[User] {
       object markdown extends Prop[User, Markdown]("markdown")
     }
   }
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }
 ```
 
@@ -73,7 +73,7 @@ object User extends PType[User] {
     val email = prop[Email]("email")
     // ...
   }
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }
 ```
 

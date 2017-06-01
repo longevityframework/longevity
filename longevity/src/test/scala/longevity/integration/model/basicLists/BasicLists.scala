@@ -16,5 +16,5 @@ case class BasicLists(
   dateTime: List[DateTime])
 
 object BasicLists {
-  val keySet = Set(key(props.id))
+  lazy val keySet = Set(key(props.id))
 }

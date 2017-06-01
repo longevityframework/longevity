@@ -82,7 +82,7 @@ private[longevity] class RealizedPType[M, P](
     realizedKeyMap(typeKey[V]).asInstanceOf[RealizedKey[M, P, V]]
   }
 
-  val keySet: Set[RealizedKey[M, P, _]] = realizedKeyMap.values.toSet
+  lazy val keySet: Set[RealizedKey[M, P, _]] = realizedKeyMap.values.toSet
 
   val primaryKey: Option[RealizedPrimaryKey[M, P, _]] = realizedKeyMap.values.collectFirst {
     case pk: RealizedPrimaryKey[M, P, _] => pk

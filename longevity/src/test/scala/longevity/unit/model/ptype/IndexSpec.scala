@@ -29,8 +29,8 @@ object IndexSpec {
       val char = prop[Char]("char")
       val double = prop[Double]("double")
     }
-    val keySet = emptyKeySet
-    override val indexSet = Set(
+    lazy val keySet = emptyKeySet
+    override lazy val indexSet = Set(
       index(props.boolean, props.char),
       index(props.boolean, props.char, props.double))
   }

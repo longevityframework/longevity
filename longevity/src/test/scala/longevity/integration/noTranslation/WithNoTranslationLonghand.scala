@@ -9,5 +9,5 @@ case class WithNoTranslationLonghand(
 object WithNoTranslationLonghand extends PType[DomainModel, WithNoTranslationLonghand] {
   object props {
   }
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }

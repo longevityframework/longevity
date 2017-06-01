@@ -16,5 +16,5 @@ case class BasicSets(
   dateTime: Set[DateTime])
 
 object BasicSets {
-  val keySet = Set(key(props.id))
+  lazy val keySet = Set(key(props.id))
 }

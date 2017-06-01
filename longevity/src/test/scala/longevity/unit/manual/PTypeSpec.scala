@@ -66,7 +66,7 @@ package PTypeSpec {
           object markdown extends Prop[User, Markdown]("markdown")
         }
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
   }
 
@@ -100,7 +100,7 @@ package PTypeSpec {
         val email = prop[Email]("email")
         // ...
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
   }
 
@@ -143,7 +143,7 @@ package PTypeSpec {
         val username = prop[Username]("username")
         // ...
       }
-      val keySet = Set(key(props.username))
+      lazy val keySet = Set(key(props.username))
     }
   }
 
@@ -253,8 +253,8 @@ package PTypeSpec {
         val lastName = prop[String]("fullName.last")
         val firstName = prop[String]("fullName.first")
       }
-      val keySet = Set(key(props.username))
-      override val indexSet = Set(index(props.lastName, props.firstName))
+      lazy val keySet = Set(key(props.username))
+      override lazy val indexSet = Set(index(props.lastName, props.firstName))
     }
   }
 
@@ -273,7 +273,7 @@ package PTypeSpec {
     object User extends PType[DomainModel, User] {
       object props {
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
   }
 
@@ -292,7 +292,7 @@ package PTypeSpec {
 
     object User extends PType[DomainModel, User] {
       override lazy val propSet = Set.empty[Prop[User, _]]
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
   }
 
@@ -321,7 +321,7 @@ package PTypeSpec {
       val lastNameProp = prop[String]("lastName")
 
       override lazy val propSet = Set[Prop[User, _]](usernameProp, emailProp, firstNameProp, lastNameProp)
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
   }
 

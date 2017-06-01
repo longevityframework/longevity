@@ -45,7 +45,7 @@ object RepoSpec {
       val username = prop[Username]("username")
       val email = prop[Email]("email")
     }
-    val keySet = Set(key(props.username), key(props.email))
+    lazy val keySet = Set(key(props.username), key(props.email))
   }
 
   case class UserProfile(
@@ -66,7 +66,7 @@ object RepoSpec {
     object props {
       val uri = prop[BlogUri]("uri")
     }
-    val keySet = Set(key(props.uri))
+    lazy val keySet = Set(key(props.uri))
   }
 
   case class BlogPostUri(uri: Uri)
@@ -88,8 +88,8 @@ object RepoSpec {
       val blog = prop[BlogUri]("blog")
       val postDate = prop[DateTime]("postDate")
     }
-    val keySet = Set(key(props.uri))
-    override val indexSet = Set(index(props.blog, props.postDate))
+    lazy val keySet = Set(key(props.uri))
+    override lazy val indexSet = Set(index(props.blog, props.postDate))
   }
 
   import longevity.context.LongevityContext

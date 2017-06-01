@@ -29,7 +29,7 @@ package ModelTypeSpec {
     object User extends PType[DomainModel, User] {
       object props {
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
   }
 

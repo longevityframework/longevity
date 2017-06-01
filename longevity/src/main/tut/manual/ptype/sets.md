@@ -16,7 +16,7 @@ import longevity.model.PType
 object User extends PType[User] {
   object props {
   }
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }
 ```
 
@@ -28,7 +28,7 @@ import longevity.model.ptype.Prop
 
 object User extends PType[User] {
   override lazy val propSet = Set.empty[Prop[User, _]]
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }
 ```
 
@@ -43,7 +43,7 @@ object User extends PType[User] {
   val lastNameProp = prop[String]("lastName")
 
   override lazy val propSet = Set[Prop[User, _]](usernameProp, emailProp, firstNameProp, lastNameProp)
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }
 ```
 

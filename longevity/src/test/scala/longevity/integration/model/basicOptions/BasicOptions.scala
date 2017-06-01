@@ -16,5 +16,5 @@ case class BasicOptions(
   dateTime: Option[DateTime])
 
 object BasicOptions {
-  val keySet = Set(key(props.id))
+  lazy val keySet = Set(key(props.id))
 }

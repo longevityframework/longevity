@@ -31,7 +31,7 @@ object QueryDslSpec {
       val path3 = prop[String]("path3")
       val path4 = prop[AssociatedId]("path4")
     }
-    val keySet = Set.empty[Key[DomainModel, DslPersistent]]
+    lazy val keySet = Set.empty[Key[DomainModel, DslPersistent]]
   }
 
   private case class AssociatedId(id: String)
@@ -44,7 +44,7 @@ object QueryDslSpec {
     object props {
       val id = prop[AssociatedId]("id")
     }
-    val keySet = Set(key(props.id))
+    lazy val keySet = Set(key(props.id))
   }
 
 }

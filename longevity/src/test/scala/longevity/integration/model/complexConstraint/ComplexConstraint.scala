@@ -14,5 +14,5 @@ case class ComplexConstraint(
 }
 
 object ComplexConstraint {
-  val keySet = Set(key(ComplexConstraint.props.id))
+  lazy val keySet = Set(key(ComplexConstraint.props.id))
 }

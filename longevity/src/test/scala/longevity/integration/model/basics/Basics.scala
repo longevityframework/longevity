@@ -16,10 +16,10 @@ case class Basics(
   dateTime: DateTime)
 
 object Basics {
-  val keySet = Set(key(props.id))
+  lazy val keySet = Set(key(props.id))
 
   // for cassandra.BasicsQuerySpec:
-  override val indexSet = Set(
+  override lazy val indexSet = Set(
     index(props.boolean),
     index(props.char),
     index(props.double),

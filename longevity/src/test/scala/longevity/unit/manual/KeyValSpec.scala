@@ -35,7 +35,7 @@ object KeyValSpec {
       object props {
         val username = prop[Username]("username")
       }
-      override val keySet = Set(key(props.username))
+      override lazy val keySet = Set(key(props.username))
     }
 
   }
@@ -69,7 +69,7 @@ object KeyValSpec {
       object props {
         val username = prop[Username]("username")
       }
-      override val keySet = Set(key(props.username))
+      override lazy val keySet = Set(key(props.username))
     }
 
   }

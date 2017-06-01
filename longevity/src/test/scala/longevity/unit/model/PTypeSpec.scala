@@ -33,7 +33,7 @@ object PTypeSpec {
     object props {
       val username = prop[Username]("username")
     }
-    val keySet = Set(primaryKey(props.username))
+    lazy val keySet = Set(primaryKey(props.username))
   }
 
   case class Email(email: String)
@@ -46,7 +46,7 @@ object PTypeSpec {
     object props {
       val email = prop[Email]("email")
     }
-    val keySet = Set(primaryKey(props.email))
+    lazy val keySet = Set(primaryKey(props.email))
   }
 
 }
@@ -60,7 +60,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
 
   it should "throw exception when the `propSet` is not overridden, and there is no `object props`" in {
     object User extends PType[BlogCore, User] {
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
     intercept[NoPropsForPTypeException[_]] {
       User.propSet
@@ -71,7 +71,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     object User extends PType[BlogCore, User] {
       object props {
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
     User.propSet should equal (Set())
   }
@@ -82,7 +82,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
         val username = prop[Username]("username")
         val email = prop[Email]("email")
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
     User.propSet should equal (Set(User.props.username, User.props.email))
   }
@@ -93,7 +93,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
         val username = prop[Username]("username")
         val email = prop[Email]("email")
       }
-      val keySet = Set(primaryKey(props.username), primaryKey(props.email))
+      lazy val keySet = Set(primaryKey(props.username), primaryKey(props.email))
     }
     intercept[MultiplePrimaryKeysForPType[_]] {
       User.primaryKey
@@ -111,7 +111,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     object User extends PType[BlogCore, User] {
       object props {
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
     User.indexSet should equal (Set())
   }
@@ -122,7 +122,7 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
     object User extends PType[BlogCore, User] {
       object props {
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
     User.toString should equal ("PType[User]")
   }

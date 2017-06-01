@@ -133,7 +133,7 @@ package PolySpec {
       object props {
         // ...
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
   }
 
@@ -209,7 +209,7 @@ package PolySpec {
       object props {
         // ...
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
 
     case class Member(
@@ -222,7 +222,7 @@ package PolySpec {
       object props {
         // ...
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
 
     case class Commenter(
@@ -234,7 +234,7 @@ package PolySpec {
       object props {
         // ...
       }
-      val keySet = emptyKeySet
+      lazy val keySet = emptyKeySet
     }
   }
 

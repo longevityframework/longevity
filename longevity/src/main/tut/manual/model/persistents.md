@@ -50,7 +50,7 @@ object User extends PType[User] {
   object props {
     // ...
   }
-  val keySet = emptyKeySet
+  lazy val keySet = emptyKeySet
 }
 ```
 

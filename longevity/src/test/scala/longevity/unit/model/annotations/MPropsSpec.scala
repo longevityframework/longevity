@@ -36,7 +36,7 @@ object MPropsSpec {
 
     // help ensure macro application doesnt mess up companion object
     @mprops class WithCompanion extends PType[DomainModel, Foo] {
-      override val keySet = emptyKeySet
+      override lazy val keySet = emptyKeySet
     }
 
     object WithCompanion { val y = 7 }
