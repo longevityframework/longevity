@@ -10,13 +10,13 @@ sure your project is using a compatible Scala version. For example,
 your `build.sbt` file may have:
 
 ```scala
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.11"
 ```
 
 or:
 
 ```scala
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.2"
 ```
 
 ## using sonatype artifacts
@@ -26,18 +26,18 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
 
-libraryDependencies += "org.longevityframework" %% "longevity" % "0.22.0"
+libraryDependencies += "org.longevityframework" %% "longevity" % "0.23.0"
 ```
 
 Include one of the following lines to bring in the library
 dependencies for the back end of your choice:
 
 ```scala
-libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.22.0"
+libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.23.0"
 
-libraryDependencies += "org.longevityframework" %% "longevity-mongodb-deps" % "0.22.0"
+libraryDependencies += "org.longevityframework" %% "longevity-mongodb-deps" % "0.23.0"
 
-libraryDependencies += "org.longevityframework" %% "longevity-sqlite-deps" % "0.22.0"
+libraryDependencies += "org.longevityframework" %% "longevity-sqlite-deps" % "0.23.0"
 ```
 
 ## enabling macro annotations
@@ -67,14 +67,14 @@ If you want to [stream query results](../query/stream-by.html) to [Akka
 Streams](http://doc.akka.io/docs/akka/2.4.17/scala/stream/index.html):
 
 ```scala
-libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.4.17"
+libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.5.2"
 ```
 
 If you want to [stream query results](../query/stream-by.html) to
 [FS2](https://github.com/functional-streams-for-scala/fs2):
 
 ```scala
-libraryDependencies += "co.fs2" %% "fs2-core" % "0.9.4"
+libraryDependencies += "co.fs2" %% "fs2-core" % "0.9.6"
 ```
 
 If you want to [stream query results](../query/stream-by.html) to
@@ -82,7 +82,7 @@ If you want to [stream query results](../query/stream-by.html) to
 
 ```scala
 libraryDependencies += "org.typelevel" %% "cats" % "0.9.0"
-libraryDependencies += "io.iteratee" %% "iteratee-core" % "0.10.0"
+libraryDependencies += "io.iteratee" %% "iteratee-core" % "0.12.0"
 ```
 
 If you want to [stream query results](../query/stream-by.html) to
