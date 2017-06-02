@@ -39,6 +39,11 @@ case class User(
   lastName: String)
 ```
 
+Be sure to declare your persistent class in the same package as, or in a sub-package of, the package
+you declare your domain model. Assuming you don't fabricate your own
+`longevity.model.ModelEv[DomainModel]`, if you declare your persistent class in another package, you
+will get a compiler error - something about implicit model evidence not being found.
+
 Here is how you would do the same thing without the annotation:
 
 ```scala

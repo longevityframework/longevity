@@ -25,16 +25,12 @@ has the following requirements:
 - We must be able to construct a new persistent, component, or key
   value from a complete set of property values.
 
-Case classes are quite convenient things for fulfilling the
-requirements we have. They also seem a natural choice for modeling out
-a domain. We chose to start with them for these reasons.
+Case classes are quite convenient things for fulfilling the requirements we have. They also seem a
+natural choice for modeling out a domain. We chose to start with them for these reasons.
 
-Update: It seems like we can achieve these requirements by asking
-users to provide `apply` and `unapply` methods for anything that is
-not a case class. This would also allow for bringing external classes
-(i.e., classes the user is not able to extend with an empty trait)
-into the domain model. You can track this [on the story
-board](https://www.pivotaltracker.com/story/show/133617199).
+Update: It's beginning to look like the types that will be accepted here are those types that make up
+[ADTs](https://en.wikipedia.org/wiki/Algebraic_data_type) that are recognizable to
+[shapeless](https://github.com/milessabin/shapeless).
 
 {% assign prevTitle = "key values" %}
 {% assign prevLink  = "key-values.html" %}

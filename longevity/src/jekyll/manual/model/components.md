@@ -14,7 +14,7 @@ For example, let's suppose we want to group the user's `firstName` and
 import longevity.model.annotations.component
 import longevity.model.annotations.persistent
 
-@component
+@component[DomainModel]
 case class FullName(
   firstName: String,
   lastName: String)
@@ -25,18 +25,14 @@ case class User(
   fullName: FullName)
 ```
 
-You may be wondering why `@component` doesn't take a `DomainModel` type parameter like `@persistent`
-does. The reasons are two-fold. First, components never appear as arguments in the longevity API, so
-we don't need to include this for type safety. Second, we [plan on
-replacing](https://www.pivotaltracker.com/story/show/140864207) some homegrown code for traversing
-domain model elements with [shapeless](https://github.com/milessabin/shapeless) in the near future,
-at which point, there will be no need to be explicit about persistent components at all. It would
-take quite a bit of effort to decorate components with a type parameter, and we didn't consider it
-worthwhile to make these changes to code that will be removed soon.
+Be sure to declare your component class in the same package as, or in a sub-package of, the package
+you declare your domain model. Assuming you don't fabricate your own
+`longevity.model.ModelEv[DomainModel]`, if you declare your persistent class in another package, you
+will get a compiler error - something about implicit model evidence not being found.
 
-The `@component` annotation creates a companion object that extends
-`longevity.model.CType[FullName]`. If `FullName` already has a companion object, it will be
-augmented to extend `CType`. Here is the equivalent code without using annotations:
+The `@component[DomainModel]` annotation creates a companion object that extends
+`longevity.model.CType[DomainModel, FullName]`. If `FullName` already has a companion object, it
+will be augmented to extend `CType`. Here is the equivalent code without using annotations:
 
 ```scala
 import longevity.model.CType
@@ -45,7 +41,7 @@ case class FullName(
   firstName: String,
   lastName: String)
 
-object FullName extends CType[FullName]
+object FullName extends CType[DomainModel, FullName]
 ```
 
 You can put components in components, and components in
@@ -56,15 +52,15 @@ example:
 import longevity.model.annotations.component
 import longevity.model.annotations.persistent
 
-@component
+@component[DomainModel]
 case class Email(email: String)
 
-@component
+@component[DomainModel]
 case class EmailPreferences(
   primaryEmail: Email,
   emails: Set[Email])
 
-@component
+@component[DomainModel]
 case class Address(
   street: String,
   city: String)

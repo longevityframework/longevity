@@ -14,20 +14,22 @@ in longevity like so:
 import longevity.model.annotations.keyVal
 import longevity.model.annotations.persistent
 
-@keyVal[User]
+@keyVal[DomainModel, User]
 case class Username(username: String)
 
-@persistent(keySet = Set(key(props.username)))
+@persistent[DomainModel](keySet = Set(key(props.username)))
 case class User(
   username: Username,
   firstName: String,
   lastName: String)
 ```
 
-The `key(props.username)` in the `@persistent` annotation defines
-the [key](ptype/keys.html) for our key value type `Username`. We will
-go into the details of keys in a later section, but we include them
-here so that the examples are correct.
+As with persistents and components, you need to declare your key values in the same package or a
+subpackage of the package where you model is declared.
+
+The `key(props.username)` in the `@persistent` annotation defines the [key](ptype/keys.html) for our
+key value type `Username`. We will go into the details of keys in a later section, but we include
+them here so that the examples are correct.
 
 The second way we can embed a `KeyVal` in a persistent object is as a
 reference to some other persistent object. As an example, let's
@@ -38,10 +40,10 @@ specify the sponsor by providing the sponsor's username, like so:
 import longevity.model.annotations.keyVal
 import longevity.model.annotations.persistent
 
-@keyVal[User]
+@keyVal[DomainModel, User]
 case class Username(username: String)
 
-@persistent(keySet = Set(key(props.username)))
+@persistent[DomainModel](keySet = Set(key(props.username)))
 case class User(
   username: Username,
   firstName: String,
@@ -55,28 +57,28 @@ objects. In UML, we call this kind of relationship an
 aggregations, the life cycles of the entities in question are
 independent.
 
-As we can see in the previous example, `KeyVals` can appear inside
+As we can see in the previous example, key values can appear inside
 [collections](collections.html). They can also appear within
-[components](components.html). `KeyVals` can have multiple fields in
-them, and they can even embed other `KeyVals`. But they cannot contain
+[components](components.html). Key values can have multiple fields in
+them, and they can even embed other key values. But they cannot contain
 any collections or [polymorphic objects](../poly).
 
-We can always look up a persistent object by `KeyVal` using
-[repository method `Repo.retrieve`](../repo/retrieve.html), as we
-will discuss in a later section.
+We can always look up a persistent object by key value using [repository method
+`Repo.retrieve`](../repo/retrieve.html), as we will discuss in a later section.
 
 The non-annotation equivalent for the key value looks like this:
 
 ```scala
-import longevity.model.KeyVal
+import longevity.model.KVType
 
-case class Username(username: String) extends KeyVal[User]
+case class Username(username: String)
+
+object Username extends KVType[DomainModel, User, Username]
 ```
 
-Clearly, the `keyVal` annotation is not providing any interesting
-functionality, or reducing any boilerplate. We include this annotation
-for consistency, so that it is possible to construct a domain model only
-using annotations.
+The `KVType[DomainModel, User, Username]` contains an implicit `KVEv[DomainModel, User, Username]`,
+which gives us compile-time assurance that the key value supplied to `Repo.retrieve` is a valid key
+value in the model.
 
 {% assign prevTitle = "components" %}
 {% assign prevLink  = "components.html" %}

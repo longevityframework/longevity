@@ -13,5 +13,5 @@ abstract class KVType[M : ModelEv, P, V : TypeTag] {
 
   /** the evidence for the key value */
   implicit val kvEv = new KVEv[M, P, V](typeKey[V])
-  
+
 }
