@@ -12,9 +12,11 @@ import scala.annotation.compileTimeOnly
  * companion object. Note that this will not work if your companion object
  * already extends an abstract or concrete class, as `PolyCType` itself is an
  * abstract class.
+ *
+ * @tparam M the model
  */
 @compileTimeOnly("you must enable macro paradise for @polyComponent to work")
-class polyComponent extends StaticAnnotation {
+class polyComponent[M] extends StaticAnnotation {
 
   def macroTransform(annottees: Any*): Any = macro polyComponent.impl
 
@@ -38,7 +40,15 @@ private object polyComponent {
         c.abort(c.enclosingPosition, s"@longevity.model.annotations.polyComponent can only be applied to traits")
     }
 
-    protected def ctype = tq"longevity.model.PolyCType[$typeName]"
+    protected def mtype = c.prefix.tree match {
+      case q"new $_[$mtype]" => mtype
+      case q"new $_[$mtype](..$_)" => mtype
+      case _ => c.abort(
+        c.enclosingPosition,
+        s"@longevity.model.annotations.polyComponent requires a single type parameter for the domain model")
+    }    
+
+    protected def ctype = tq"longevity.model.PolyCType[$mtype, $typeName]"
 
     // this only gets called when as.head is an object
     protected def innerCType =

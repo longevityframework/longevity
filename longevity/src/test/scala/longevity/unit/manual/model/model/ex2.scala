@@ -16,5 +16,5 @@ object MyDomainModel {
 
   implicit object modelType extends ModelType[MyDomainModel](
     packscanToList[PType[MyDomainModel, _]],
-    packscanToList[CType[_]])
+    packscanToList[CType[MyDomainModel, _]])
 }

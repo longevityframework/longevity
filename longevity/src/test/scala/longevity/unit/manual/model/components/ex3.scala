@@ -8,15 +8,15 @@ import longevity.model.annotations.domainModel
 import longevity.model.annotations.component
 import longevity.model.annotations.persistent
 
-@component
+@component[DomainModel]
 case class Email(email: String)
 
-@component
+@component[DomainModel]
 case class EmailPreferences(
   primaryEmail: Email,
   emails: Set[Email])
 
-@component
+@component[DomainModel]
 case class Address(
   street: String,
   city: String)

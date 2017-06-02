@@ -47,13 +47,13 @@ package packageScanning {
   }
 
   case class B(name: String)
-  object B extends CType[B]
+  object B extends CType[DomainModel, B]
 
-  class FakeoutB extends CType[B]
+  class FakeoutB extends CType[DomainModel, B]
 
   object modelType extends ModelType[DomainModel](
     longevity.model.annotations.packscanToList[PType[DomainModel, _]],
-    longevity.model.annotations.packscanToList[CType[_]])
+    longevity.model.annotations.packscanToList[CType[DomainModel, _]])
 }
 
 /** holds factory methods for sample modelTypes used in [[ModelTypeSpec]] */
@@ -108,7 +108,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = new ModelType[DomainModel](A :: Nil, CType[B] :: Nil)
+    def modelType = new ModelType[DomainModel](A :: Nil, CType[DomainModel, B] :: Nil)
   }
 
   object propTypeWithInternalOption {
@@ -126,7 +126,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = new ModelType[DomainModel](A :: Nil, CType[B] :: Nil)
+    def modelType = new ModelType[DomainModel](A :: Nil, CType[DomainModel, B] :: Nil)
   }
 
   object propTypeWithInternalSet {
@@ -144,7 +144,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[DomainModel, B]))
   }
 
   object propTypeWithInternalPoly {
@@ -166,7 +166,7 @@ object ModelTypeSpec {
 
     def modelType = new ModelType[DomainModel](
       Seq(A),
-      Seq(PolyCType[B], DerivedCType[C, B]))
+      Seq(PolyCType[DomainModel, B], DerivedCType[DomainModel, C, B]))
   }
 
   object noSuchPropPathInComponent {
@@ -184,7 +184,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[DomainModel, B]))
   }
 
   object propPathWithNonEmbeddable {
@@ -276,7 +276,7 @@ object ModelTypeSpec {
 
     def modelType = new ModelType[DomainModel](
       Seq(A),
-      Seq(PolyCType[B], DerivedCType[C, B]))
+      Seq(PolyCType[DomainModel, B], DerivedCType[DomainModel, C, B]))
   }
 
   object propPathWithInternalList {
@@ -294,7 +294,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[DomainModel, B]))
   }
 
   object propPathWithInternalOption {
@@ -312,7 +312,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[DomainModel, B]))
   }
 
   object propPathWithInternalSet {
@@ -330,7 +330,7 @@ object ModelTypeSpec {
     }
     case class B(id: String)
 
-    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[B]))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(CType[DomainModel, B]))
   }
 
   object propPathWithInternalPoly {
@@ -352,7 +352,7 @@ object ModelTypeSpec {
 
     def modelType = new ModelType[DomainModel](
       Seq(A),
-      Seq(PolyCType[B], DerivedCType[C, B]))
+      Seq(PolyCType[DomainModel, B], DerivedCType[DomainModel, C, B]))
   }
 
   object incompatiblePropType {
@@ -506,7 +506,7 @@ object ModelTypeSpec {
     trait Poly { val id: String }
     case class Derived(id: String) extends Poly
 
-    def modelType = new ModelType[DomainModel](Seq(), Seq(DerivedCType[Derived, Poly]))
+    def modelType = new ModelType[DomainModel](Seq(), Seq(DerivedCType[DomainModel, Derived, Poly]))
   }
 
   object duplicateCTypes {
@@ -516,7 +516,7 @@ object ModelTypeSpec {
     }
 
     case class A(id: String)
-    def modelType = new ModelType[DomainModel](Seq(), Seq(CType[A], CType[A]))
+    def modelType = new ModelType[DomainModel](Seq(), Seq(CType[DomainModel, A], CType[DomainModel, A]))
   }
 
   object duplicatePTypes {

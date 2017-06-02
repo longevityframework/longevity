@@ -3,11 +3,11 @@ package longevity.integration.model.controlledVocab
 import longevity.model.annotations.derivedComponent
 import longevity.model.annotations.polyComponent
 
-@polyComponent
+@polyComponent[DomainModel]
 sealed trait ControlledVocab
 
-@derivedComponent[ControlledVocab]
+@derivedComponent[DomainModel, ControlledVocab]
 case class VocabTerm1() extends ControlledVocab
 
-@derivedComponent[ControlledVocab]
+@derivedComponent[DomainModel, ControlledVocab]
 case object VocabTerm2 extends ControlledVocab

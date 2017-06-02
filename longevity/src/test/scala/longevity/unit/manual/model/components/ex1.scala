@@ -8,7 +8,7 @@ import longevity.model.annotations.domainModel
 import longevity.model.annotations.component
 import longevity.model.annotations.persistent
 
-@component
+@component[DomainModel]
 case class FullName(
   firstName: String,
   lastName: String)

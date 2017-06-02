@@ -17,11 +17,13 @@ import scala.annotation.compileTimeOnly
  * if the annotated component is already an object, we create the `DerivedCType` as
  * an internal `object ctype`.
  *
+ * @tparam M the model
+ *
  * @tparam Poly the type of the polymorphic component that this component is
  * derived from
  */
 @compileTimeOnly("you must enable macro paradise for @derivedComponent to work")
-class derivedComponent[Poly] extends StaticAnnotation {
+class derivedComponent[M, Poly] extends StaticAnnotation {
 
   def macroTransform(annottees: Any*): Any = macro derivedComponent.impl
 
@@ -48,17 +50,18 @@ private object derivedComponent {
           s"@longevity.model.annotations.derivedComponent can only be applied to objects and classes")
     }
 
-    protected def ctype = tq"longevity.model.DerivedCType[$typeName, $polyTypeName]"
+    protected def ctype = tq"longevity.model.DerivedCType[$mtype, $typeName, $polyTypeName]"
 
     protected def innerCType =
-      q"object ctype extends longevity.model.DerivedCType[$termName.type, $polyTypeName]"
+      q"object ctype extends longevity.model.DerivedCType[$mtype, $termName.type, $polyTypeName]"
 
-    private lazy val polyTypeName = c.prefix.tree match {
-      case q"new $derivedComponent[$poly]()" => poly
-      case q"new $derivedComponent(...$exprss)" =>
+    protected lazy val (mtype, polyTypeName) = c.prefix.tree match {
+      case q"new $derivedComponent[$mtype, $poly]" => (mtype, poly)
+      case q"new $derivedComponent[$mtype, $poly](..$params)" => (mtype, poly)
+      case _ =>
         c.abort(
           c.enclosingPosition,
-          s"@longevity.model.annotations.derivedComponent must take one type argument and no other arguments")
+          s"@longevity.model.annotations.derivedComponent must take exactly two type arguments")
     }
 
   }

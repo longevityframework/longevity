@@ -13,9 +13,11 @@ import scala.annotation.compileTimeOnly
  * as `CType` itself is an abstract class. if this
  * happens, you will see a compiler error such as "class Foo needs to be a trait
  * to be mixed in".
+ *
+ * @tparam M the model
  */
 @compileTimeOnly("you must enable macro paradise for @component to work")
-class component extends StaticAnnotation {
+class component[M] extends StaticAnnotation {
 
   def macroTransform(annottees: Any*): Any = macro component.impl
 
@@ -39,7 +41,15 @@ private object component {
         c.abort(c.enclosingPosition, s"@longevity.model.annotations.component can only be applied to classes")
     }
 
-    protected def ctype = tq"longevity.model.CType[$typeName]"
+    protected def mtype = c.prefix.tree match {
+      case q"new $component[$mtype](..$args)" => mtype
+      case q"new $component[$mtype]" => mtype
+      case _ => c.abort(
+        c.enclosingPosition,
+        s"@longevity.model.annotations.component requires a single type parameter for the domain model")
+    }
+
+    protected def ctype = tq"longevity.model.CType[$mtype, $typeName]"
 
     protected def innerCType = q"object ctype extends longevity.model.CType[$termName.type]"
 

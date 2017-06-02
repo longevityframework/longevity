@@ -55,20 +55,20 @@ object MyDomainModel {
 
   implicit object modelType extends ModelType[MyDomainModel](
     packscanToList[PType[MyDomainModel, _]],
-    packscanToList[CType[_]])
+    packscanToList[CType[MyDomainModel, _]])
 }
 ```
 
-The `ModelEv[MyDomainModel]` is evidence of the model. The compiler needs to be able to
-locate this evidence when constructing a [persistent class](persistents.html) or a [key
+The `ModelEv[MyDomainModel]` is evidence of the model. The compiler needs to be able to locate this
+evidence when constructing a [persistent](persistents.html), [component](components.html), or a [key
 value](key-values.html). All your persistent classes need to be found in the same package as, or a
 subpackage of, the package that you define your domain model. Scoping the implicit model evidence
 this way makes it findable by implicit resolution in exactly the right places.
 
-The `ModelType[MyDomainModel]` collects information about all of your persistents and
-[components](components.html). This `ModelType` is used by the [longevity context](../context) to
-provide you with tools specific to your model. It will be found automatically by implicit resolution
-when constructing your context like so: `longevity.context.LongevityContext[MyDomainModel]`.
+The `ModelType[MyDomainModel]` collects information about all of your persistents and components.
+This `ModelType` is used by the [longevity context](../context) to provide you with tools specific
+to your model. It will be found automatically by implicit resolution when constructing your context
+like so: `longevity.context.LongevityContext[MyDomainModel]`.
 
 `packscanToList` is a def macro that scans the current package, and all sub-packages, for objects
 that match the provided types. For instance, if you had declared persistent classes `User`, `Blog`,

@@ -8,4 +8,4 @@ import longevity.model.annotations.persistent
 @persistent[MyDomainModel](keySet = emptyKeySet) case class User()
 @persistent[MyDomainModel](keySet = emptyKeySet) case class Blog()
 @persistent[MyDomainModel](keySet = emptyKeySet) case class BlogPost()
-@component case class UserProfile()
+@component[MyDomainModel] case class UserProfile()

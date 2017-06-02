@@ -40,7 +40,7 @@ import longevity.model.realized.RealizedPType
  */
 @throws[DuplicatePTypesException]("when two PTypes refer to the same persistent class")
 @throws[DuplicateCTypesException]("when two CTypes refer to the same component class")
-class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[_]] = Nil) {
+class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[M, _]] = Nil) {
 
   private[longevity] val pTypePool = {
     val map = pTypes.foldLeft(TypeKeyMap[Any, PType[M, ?]]()) {
@@ -51,7 +51,7 @@ class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[_]] = Nil) {
   }
   
   private[longevity] val cTypePool = {
-    val map: TypeKeyMap[Any, CType] = cTypes.foldLeft(TypeKeyMap[Any, CType]()) {
+    val map = cTypes.foldLeft(TypeKeyMap[Any, CType[M, ?]]()) {
       case (map, cType) => map + (cType.cTypeKey -> cType)
     }
     if (cTypes.size != map.size) throw new DuplicateCTypesException
@@ -92,10 +92,10 @@ class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[_]] = Nil) {
   }
 
   private def componentEmblems = {
-    val cTypesWithEmblems = cTypePool.filterValues(!_.isInstanceOf[PolyCType[_]])
+    val cTypesWithEmblems = cTypePool.filterValues(!_.isInstanceOf[PolyCType[M, _]])
     cTypesWithEmblems.mapValues[Emblem] {
-      new TypeBoundFunction[Any, CType, Emblem] {
-        def apply[C](cType: CType[C]): Emblem[C] =
+      new TypeBoundFunction[Any, CType[M, ?], Emblem] {
+        def apply[C](cType: CType[M, C]): Emblem[C] =
           Emblem(cType.cTypeKey)
       }
     }
@@ -112,9 +112,9 @@ class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[_]] = Nil) {
   private def unionPool = componentUnions ++ pUnions
 
   private def componentUnions = {
-    val polyTypes = cTypePool.filterValues(_.isInstanceOf[PolyCType[_]])
+    val polyTypes = cTypePool.filterValues(_.isInstanceOf[PolyCType[M, _]])
 
-    type DerivedFrom[E] = DerivedCType[E, Poly] forSome { type Poly >: E }
+    type DerivedFrom[E] = DerivedCType[M, E, Poly] forSome { type Poly >: E }
 
     val derivedTypes =
       cTypePool
@@ -125,7 +125,8 @@ class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[_]] = Nil) {
     val baseToDerivedsMap: TypeKeyMap[Any, DerivedList] =
       derivedTypes.values.foldLeft(TypeKeyMap[Any, DerivedList]) { (map, derivedType) =>
 
-        def fromDerivedCType[E, Poly >: E](derivedType: DerivedCType[E, Poly]): TypeKeyMap[Any, DerivedList] = {
+        def fromDerivedCType[E, Poly >: E](derivedType: DerivedCType[M, E, Poly])
+        : TypeKeyMap[Any, DerivedList] = {
           implicit val polyTypeKey: TypeKey[Poly] = derivedType.polyTypeKey
           if (!polyTypes.contains[Poly]) {
             throw new DerivedHasNoPolyException(polyTypeKey.name, isPType = false)
@@ -140,8 +141,8 @@ class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[_]] = Nil) {
       }
 
     polyTypes.mapValues[Union] {
-      new TypeBoundFunction[Any, CType, Union] {
-        def apply[C](cType: CType[C]): Union[C] = {
+      new TypeBoundFunction[Any, CType[M, ?], Union] {
+        def apply[C](cType: CType[M, C]): Union[C] = {
           val constituents = baseToDerivedsMap(cType.cTypeKey)
           Union[C](constituents: _*)(cType.cTypeKey)
         }

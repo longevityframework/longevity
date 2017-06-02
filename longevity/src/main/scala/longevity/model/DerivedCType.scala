@@ -6,8 +6,12 @@ import scala.reflect.runtime.universe.TypeTag
 
 /** one of the derived types in a family of component types. use this as your
  * [[CType]] when it represents a concrete subtype of a [[PolyCType]].
+ * 
+ * @tparam M the domain model
+ * @tparam C the component class
+ * @tparam Poly the parent component class
  */
-abstract class DerivedCType[C : TypeTag, Poly >: C : TypeTag] extends CType[C] {
+abstract class DerivedCType[M : ModelEv, C : TypeTag, Poly >: C : TypeTag] extends CType[M, C] {
 
   private[longevity] val polyTypeKey: TypeKey[Poly] = typeKey[Poly]
 
@@ -18,8 +22,13 @@ abstract class DerivedCType[C : TypeTag, Poly >: C : TypeTag] extends CType[C] {
 /** contains a factory method for creating `DerivedCTypes` */
 object DerivedCType {
 
-  /** create and return a `DerivedCType` for types `C` and `Poly` */
-  def apply[C : TypeTag, Poly >: C : TypeTag] = new DerivedCType[C, Poly] {
+  /** create and return a `DerivedCType` for types `C` and `Poly`
+   * 
+   * @tparam M the domain model
+   * @tparam C the component class
+   * @tparam Poly the parent component class
+   */
+  def apply[M : ModelEv, C : TypeTag, Poly >: C : TypeTag] = new DerivedCType[M, C, Poly] {
   }
 
 }
