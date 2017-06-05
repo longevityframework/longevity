@@ -13,40 +13,40 @@ import longevity.model.annotations.polyPersistent
 // up the type just fine when things are declared top level, but not within a
 // stable object.
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 class PNoCompanion()
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 class PWithCompanion
 
 object PWithCompanion { val y = 7 }
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class PCaseClass()
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class PCaseClassWithDefaults(x: Int = 7)
 
-@polyPersistent[DomainModel](keySet = emptyKeySet)
+@polyPersistent[DomainModel]
 trait PolyPNoCompanion
 
-@polyPersistent[DomainModel](keySet = emptyKeySet)
+@polyPersistent[DomainModel]
 trait PolyPWithCompanion
 
 object PolyPWithCompanion { val y = 7 }
 
-@polyPersistent[DomainModel](keySet = emptyKeySet)
+@polyPersistent[DomainModel]
 trait Poly
 
-@derivedPersistent[DomainModel, Poly](keySet = emptyKeySet)
+@derivedPersistent[DomainModel, Poly]
 class DerivedPNoCompanion extends Poly
 
-@derivedPersistent[DomainModel, Poly](keySet = emptyKeySet)
+@derivedPersistent[DomainModel, Poly]
 class DerivedPWithCompanion extends Poly
 
 object DerivedPWithCompanion { val y = 7 }
 
-@derivedPersistent[DomainModel, Poly](keySet = emptyKeySet)
+@derivedPersistent[DomainModel, Poly]
 case class DerivedPCaseClass() extends Poly
 
 object DerivedPCaseClass { val y = 7 }

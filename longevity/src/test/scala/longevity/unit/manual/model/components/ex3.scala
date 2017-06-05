@@ -21,7 +21,7 @@ case class Address(
   street: String,
   city: String)
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   emails: EmailPreferences,

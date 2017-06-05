@@ -16,7 +16,7 @@ case class Basics(
   dateTime: DateTime)
 
 object Basics {
-  lazy val keySet = Set(key(props.id))
+  implicit lazy val idKey = key(props.id)
 
   // for cassandra.BasicsQuerySpec:
   override lazy val indexSet = Set(

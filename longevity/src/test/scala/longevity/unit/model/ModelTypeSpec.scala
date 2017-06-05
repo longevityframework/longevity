@@ -35,7 +35,6 @@ package packageScanning {
       object props {
         val id = prop[String]("id")
       }
-      lazy val keySet = emptyKeySet
     }
   }
 
@@ -43,7 +42,6 @@ package packageScanning {
     object props {
       val id = prop[String]("id")
     }
-    lazy val keySet = emptyKeySet
   }
 
   case class B(name: String)
@@ -70,7 +68,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[String]("")
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](A :: Nil)
@@ -87,7 +84,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[String]("noSuchPropPath")
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](A :: Nil)
@@ -104,7 +100,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[A]("id")
       }
-      lazy val keySet = emptyKeySet
     }
     case class B(id: String)
 
@@ -122,7 +117,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[A]("id")
       }
-      lazy val keySet = emptyKeySet
     }
     case class B(id: String)
 
@@ -140,7 +134,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[A]("id")
       }
-      lazy val keySet = emptyKeySet
     }
     case class B(id: String)
 
@@ -158,7 +151,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[B]("b")
       }
-      lazy val keySet = emptyKeySet
     }
 
     trait B { val id: String }
@@ -180,7 +172,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[String]("b.noSuchPropPath")
       }
-      lazy val keySet = emptyKeySet
     }
     case class B(id: String)
 
@@ -199,7 +190,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[UUID]("id")
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -216,7 +206,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[List[String]]("id")
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -233,7 +222,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[Option[String]]("id")
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -250,7 +238,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[Set[String]]("id")
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -267,7 +254,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[B]("b")
       }
-      lazy val keySet = emptyKeySet
     }
 
     trait B { val id: String }
@@ -290,7 +276,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[String]("id.id")
       }
-      lazy val keySet = emptyKeySet
     }
     case class B(id: String)
 
@@ -308,7 +293,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[String]("id.id")
       }
-      lazy val keySet = emptyKeySet
     }
     case class B(id: String)
 
@@ -326,7 +310,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[String]("id.id")
       }
-      lazy val keySet = emptyKeySet
     }
     case class B(id: String)
 
@@ -344,7 +327,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[String]("b.id")
       }
-      lazy val keySet = emptyKeySet
     }
 
     trait B { val id: String }
@@ -366,7 +348,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[Double]("id")
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -383,7 +364,6 @@ object ModelTypeSpec {
       object props {
         val id = prop[AnyRef]("id")
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -405,7 +385,7 @@ object ModelTypeSpec {
         val id = prop[AId]("id")
         val id2 = prop[AIdSuper]("id") // this is the problematic prop
       }
-      lazy val keySet = Set(key(props.id))
+      implicit lazy val idKey = key(props.id)
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -426,7 +406,8 @@ object ModelTypeSpec {
         val id1 = prop[AId]("id1")
         val id2 = prop[AId]("id2")
       }
-      lazy val keySet = Set(key(props.id1), key(props.id2))
+      implicit lazy val id1Key = key(props.id1)
+      implicit lazy val id2Key = key(props.id2)
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -446,7 +427,7 @@ object ModelTypeSpec {
       object props {
         val id = prop[AId]("id")
       }
-      lazy val keySet = Set(key(props.id))
+      implicit lazy val idKey = key(props.id)
       override lazy val indexSet = Set(index(props.id))
     }
 
@@ -468,7 +449,7 @@ object ModelTypeSpec {
         val id = prop[AId]("id")
         val id2 = prop[String]("id.id2")
       }
-      lazy val keySet = Set(primaryKey(props.id, partition(props.id2)))
+      implicit lazy val idKey = primaryKey(props.id, partition(props.id2))
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -484,14 +465,12 @@ object ModelTypeSpec {
     object Poly extends PolyPType[DomainModel, Poly] {
       object props {
       }
-      lazy val keySet = emptyKeySet
     }
 
     case class Derived(id: String) extends Poly
     object Derived extends DerivedPType[DomainModel, Derived, Poly] {
       object props {
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](Seq(Derived))
@@ -529,12 +508,10 @@ object ModelTypeSpec {
     object A extends PType[DomainModel, A] {
       object props {
       }
-      lazy val keySet = emptyKeySet
     }
     object B extends PType[DomainModel, A] {
       object props {
       }
-      lazy val keySet = emptyKeySet
     }
 
     def modelType = new ModelType[DomainModel](Seq(A, B))

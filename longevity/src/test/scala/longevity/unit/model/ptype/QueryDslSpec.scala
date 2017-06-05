@@ -3,7 +3,6 @@ package longevity.unit.model.ptype
 import longevity.model.KVType
 import longevity.model.ModelEv
 import longevity.model.PType
-import longevity.model.ptype.Key
 import longevity.model.query.Query
 import longevity.model.query.Ascending
 import longevity.model.query.Descending
@@ -31,7 +30,6 @@ object QueryDslSpec {
       val path3 = prop[String]("path3")
       val path4 = prop[AssociatedId]("path4")
     }
-    lazy val keySet = Set.empty[Key[DomainModel, DslPersistent]]
   }
 
   private case class AssociatedId(id: String)
@@ -44,7 +42,7 @@ object QueryDslSpec {
     object props {
       val id = prop[AssociatedId]("id")
     }
-    lazy val keySet = Set(key(props.id))
+    implicit lazy val idKey = key(props.id)
   }
 
 }

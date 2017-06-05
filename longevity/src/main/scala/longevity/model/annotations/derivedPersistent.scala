@@ -4,8 +4,6 @@ import scala.reflect.macros.whitebox.Context
 import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.annotation.compileTimeOnly
-import longevity.model.ptype.Key
-import longevity.model.ptype.Index
 
 /** macro annotation to mark a class as a derived persistent component. creates a
  * companion object for the class that extends [[longevity.model.DerivedPType
@@ -20,18 +18,9 @@ import longevity.model.ptype.Index
  *
  * @tparam Poly the type of the polymorphic persistent that this persistent is
  * derived from
- *
- * @param keySet the set of keys for the persistent type. defaults to the empty set. if omitted, you
- * will need to define the keySet yourself in the companion object
- *
- * @param indexSet the set of indexes for the persistent type. defaults to the empty set. if
- * omitted, you can still define the indexSet yourself in the companion object
  */
 @compileTimeOnly("you must enable macro paradise for @derivedPersistent to work")
-class derivedPersistent[M, Poly](
-  keySet: Set[Key[M, _]] = Set.empty[Key[M, _]],
-  indexSet: Set[Index[_]] = Set.empty[Index[_]])
-extends StaticAnnotation {
+class derivedPersistent[M, Poly] extends StaticAnnotation {
 
   def macroTransform(annottees: Any*): Any = macro derivedPersistent.impl
 
@@ -60,8 +49,7 @@ private object derivedPersistent {
     protected def ptype = tq"longevity.model.DerivedPType[$mtype, $typeName, $polyTypeName]"
 
     protected lazy val (mtype, polyTypeName) = c.prefix.tree match {
-      case q"new $derivedPersistent[$mtype, $poly]" => (mtype, poly)
-      case q"new $derivedPersistent[$mtype, $poly](..$params)" => (mtype, poly)
+      case q"new $_[$mtype, $poly]" => (mtype, poly)
       case _ =>
         c.abort(
           c.enclosingPosition,

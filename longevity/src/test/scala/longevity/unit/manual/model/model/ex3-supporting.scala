@@ -5,7 +5,7 @@ package myPackage
 import longevity.model.annotations.component
 import longevity.model.annotations.persistent
 
-@persistent[MyDomainModel](keySet = emptyKeySet) case class User()
-@persistent[MyDomainModel](keySet = emptyKeySet) case class Blog()
-@persistent[MyDomainModel](keySet = emptyKeySet) case class BlogPost()
+@persistent[MyDomainModel] case class User()
+@persistent[MyDomainModel] case class Blog()
+@persistent[MyDomainModel] case class BlogPost()
 @component[MyDomainModel] case class UserProfile()

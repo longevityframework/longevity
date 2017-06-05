@@ -8,7 +8,7 @@ import longevity.model.annotations.domainModel
 import longevity.model.annotations.persistent
 import org.joda.time.DateTime
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   firstName: String,

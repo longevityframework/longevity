@@ -1,5 +1,8 @@
 package longevity.model
 
+import scala.reflect.runtime.universe.TypeTag
+import scala.reflect.runtime.universe.typeTag
+
 /** evidence for a domain model.
  *
  * the model class `M` is intended to be a phantom class, available in the root package of the
@@ -15,4 +18,8 @@ package longevity.model
  * @see longevity.model.annotations.domainModel
  * @see longevity.model.ModelType
  */
-class ModelEv[M]
+class ModelEv[M : TypeTag] {
+
+  private[longevity] val tag = typeTag[M]
+
+}

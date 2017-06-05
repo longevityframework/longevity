@@ -28,6 +28,8 @@ class Prop[P : TypeKey, A : TypeKey](val path: String) {
 
   override def toString: String = path
 
+  private[longevity] def debug = s"Prop[${pTypeKey.name},${propTypeKey.name}]($path)"
+
   override def hashCode = pTypeKey.hashCode + path.hashCode
 
   override def equals(that: Any) = {

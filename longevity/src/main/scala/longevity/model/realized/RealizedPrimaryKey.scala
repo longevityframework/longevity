@@ -6,7 +6,7 @@ import longevity.model.KVEv
 import longevity.model.ptype.PrimaryKey
 
 private[longevity] case class RealizedPrimaryKey[M, P : TypeKey, V] private [realized](
-  override val key: PrimaryKey[M, P],
+  override val key: PrimaryKey[M, P, V],
   prop: RealizedProp[P, V],
   ev0: KVEv[M, P, V],
   val partitionProps: Seq[RealizedProp[P, _]],

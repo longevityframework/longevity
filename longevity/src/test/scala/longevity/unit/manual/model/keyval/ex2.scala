@@ -11,9 +11,13 @@ import longevity.model.annotations.persistent
 @keyVal[DomainModel, User]
 case class Username(username: String)
 
-@persistent[DomainModel](keySet = Set(key(props.username)))
+@persistent[DomainModel]
 case class User(
   username: Username,
   firstName: String,
   lastName: String,
   sponsor: Option[Username])
+
+object User {
+  implicit lazy val usernameKey = key(props.username)
+}

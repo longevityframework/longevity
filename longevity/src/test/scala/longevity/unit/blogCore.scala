@@ -13,7 +13,7 @@ package object blogCore {
   object BlogCore {
     implicit object modelType extends ModelType[BlogCore](
       Seq(User, Blog, BlogPost),
-      Seq(CType[BlogCore, Markdown], CType[BlogCore, Uri], CType[BlogCore, UserProfile]))
+      Seq(Markdown, Uri, UserProfile))
     implicit object modeEv extends ModelEv[BlogCore]
   }
 
@@ -27,7 +27,11 @@ package object blogCore {
 
   case class Markdown(markdown: String)
 
+  object Markdown extends CType[BlogCore, Markdown]
+
   case class Uri(uri: String)
+
+  object Uri extends CType[BlogCore, Uri]
 
   implicit def toEmail(email: String) = Email(email)
   implicit def toUsername(username: String) = Username(username)
@@ -45,13 +49,16 @@ package object blogCore {
       val username = prop[Username]("username")
       val email = prop[Email]("email")
     }
-    lazy val keySet = Set(key(props.username), key(props.email))
+    implicit lazy val usernameKey = key(props.username)
+    implicit lazy val emailKey = key(props.email)
   }
 
   case class UserProfile(
     tagline: String,
     imageUri: Uri,
     description: Markdown) 
+
+  object UserProfile extends CType[BlogCore, UserProfile]
 
   case class BlogUri(uri: Uri)
 
@@ -67,7 +74,7 @@ package object blogCore {
     object props {
       val uri = prop[BlogUri]("uri")
     }
-    lazy val keySet = Set(key(props.uri))
+    implicit lazy val uriKey = key(props.uri)
   }
 
   case class BlogPostUri(uri: Uri)
@@ -88,7 +95,7 @@ package object blogCore {
       val uri = prop[BlogPostUri]("uri")
       val blog = prop[BlogUri]("blog")
     }
-    lazy val keySet = Set(key(props.uri))
+    implicit lazy val uriKey = key(props.uri)
     override lazy val indexSet = Set(index(props.blog))
   }
 

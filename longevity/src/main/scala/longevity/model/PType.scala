@@ -30,29 +30,18 @@ abstract class PType[M : ModelEv, P : TypeTag] {
   implicit val pEv = new PEv[M, P](pTypeKey)
 
   /** the [Prop properties] for this persistent type */
-  // this has to be lazy because the PType must be initialized before we can
-  // scan the inner object props. because the inner object props will use PType
-  // method `prop` to build the props.
-  lazy val propSet: Set[Prop[P, _]] = pscan("props")
+  // this has to be lazy because the PType must be initialized before we can scan the inner object
+  // props. because the inner object props will use PType method `prop` to build the props.
+  private[longevity] lazy val propSet: Set[Prop[P, _]] = pscan()
 
   /** the keys for this persistent type */
-  val keySet: Set[Key[M, P]]
-
-  /** an empty key set. this is a convenience method for people using Scala 2.11
-   * who wish to declare an empty key set. you can always do it by hand with
-   * `Set.empty`, but you will have to declare the element type of the set
-   * yourself, like so:
-   *
-   * {{{
-   * import longevity.model.ptype.Key
-   * @perstent(keySet = Set.empty[Key[M, Foo]])
-   * }}}
-   */
-  def emptyKeySet = Set.empty[Key[M, P]]
+  // this (and the keys themselves) has to be lazy for similar reasons as above regarding the
+  // propSet. a key takes at least one prop, which will in turn require a call to PType.prop
+  private[longevity] lazy val keySet: Set[Key[M, P, _]] = kscan()
 
   /** the optional primary key for this persistent type */
-  lazy val primaryKey: Option[PrimaryKey[M, P]] = {
-    val primaryKeys = keySet.collect { case pk: PrimaryKey[M, P] => pk }
+  private[longevity] lazy val primaryKey: Option[PrimaryKey[M, P, _]] = {
+    val primaryKeys = keySet.collect { case pk: PrimaryKey[M, P, _] => pk }
     if (this.isInstanceOf[DerivedPType[_, _, _]] && primaryKeys.nonEmpty) {
       throw new PrimaryKeyForDerivedPTypeException[P]
     }
@@ -82,14 +71,12 @@ abstract class PType[M : ModelEv, P : TypeTag] {
    * @tparam V the type of the key value
    * @param keyValProp a property for the key
    */
-  def key[V : KVEv[M, P, ?]](keyValProp: Prop[P, V]): Key[M, P] = {
+  def key[V : KVEv[M, P, ?]](keyValProp: Prop[P, V]): Key[M, P, V] = {
     val keyValProp0 = keyValProp
-    type V0 = V
     new {
       val keyValProp = keyValProp0
-    } with Key[M, P]() {
-      type V = V0
-      val ev = implicitly[KVEv[M, P, V0]]
+    } with Key[M, P, V]() {
+      val ev = implicitly[KVEv[M, P, V]]
     }
   }
 
@@ -101,7 +88,7 @@ abstract class PType[M : ModelEv, P : TypeTag] {
    * @param hashed if `true`, then used a hashed partition (as opposed to a
    * ranged partition) when possible. defaults to `false`.
    */
-  def primaryKey[V : KVEv[M, P, ?]](keyValProp: Prop[P, V], hashed: Boolean = false): Key[M, P] =
+  def primaryKey[V : KVEv[M, P, ?]](keyValProp: Prop[P, V], hashed: Boolean = false): Key[M, P, V] =
     primaryKey(keyValProp, partition(keyValProp), hashed)
 
   /** constructs a primary key for this persistent type
@@ -112,21 +99,19 @@ abstract class PType[M : ModelEv, P : TypeTag] {
    * which node in the partition the data belongs to. this must form a prefix of
    * the `keyValProp`
    */
-  def primaryKey[V : KVEv[M, P, ?]](keyValProp: Prop[P, V], partition: Partition[P]): Key[M, P] =
+  def primaryKey[V : KVEv[M, P, ?]](keyValProp: Prop[P, V], partition: Partition[P]): Key[M, P, V] =
     primaryKey(keyValProp, partition, false)
 
   private def primaryKey[V : KVEv[M, P, ?]](
     keyValProp: Prop[P, V],
     partition: Partition[P],
     hashed: Boolean)
-  : Key[M, P] = {
+  : Key[M, P, V] = {
     val keyValProp0 = keyValProp
-    type V0 = V
     new {
       val keyValProp = keyValProp0
-    } with PrimaryKey[M, P](partition, hashed) {
-      type V = V0
-      val ev = implicitly[KVEv[M, P, V0]]
+    } with PrimaryKey[M, P, V](partition, hashed) {
+      val ev = implicitly[KVEv[M, P, V]]
     }
   }
 
@@ -150,12 +135,18 @@ abstract class PType[M : ModelEv, P : TypeTag] {
   /** contains implicit imports to make the query DSL work */
   lazy val queryDsl = new QueryDsl[P]
 
-  private def pscan(containerName: String): Set[Prop[P, _]] = {
+  private def pscan(): Set[Prop[P, _]] = {
     val props: Any = innerModule(this, "props").getOrElse {
       throw new NoPropsForPTypeException
     }
     implicit val propTypeKey = typeKey[Prop[P, _]].inMirrorOf(pTypeKey)
     termsWithType[Prop[P, _]](props).toSet
+  }
+
+  private def kscan(): Set[Key[M, P, _]] = {
+    implicit val modelTypeTag = implicitly[ModelEv[M]].tag
+    implicit val keyTypeKey = typeKey[Key[M, P, _]].inMirrorOf(pTypeKey)
+    termsWithType[Key[M, P, _]](this).toSet
   }
 
   private[model] def validateKeysAndIndexes(): Unit = {

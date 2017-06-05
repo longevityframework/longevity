@@ -66,9 +66,9 @@ private[longevity] class RealizedPType[M, P](
       def kvtk = key.keyValProp.propTypeKey
       if (acc.contains(kvtk)) throw new DuplicateKeyException()(pType.pTypeKey, kvtk)
 
-      def accumulateKey[V](key: Key[M, P]) = acc + (kvtk -> realizedKeyForKey(key))
+      def accumulateKey[V](key: Key[M, P, _]) = acc + (kvtk -> realizedKeyForKey(key))
 
-      def accumulatePKey[V](key: PrimaryKey[M, P]) =
+      def accumulatePKey[V](key: PrimaryKey[M, P, _]) =
         acc + (kvtk -> realizedKeyForPrimaryKey(key))
 
       pType.primaryKey match {
@@ -88,15 +88,15 @@ private[longevity] class RealizedPType[M, P](
     case pk: RealizedPrimaryKey[M, P, _] => pk
   }
 
-  private def postPartitionProps(key: PrimaryKey[M, P]): Seq[Prop[P, _]] =
+  private def postPartitionProps(key: PrimaryKey[M, P, _]): Seq[Prop[P, _]] =
     postPartitionPropInfos(key).map(_.prop)
 
-  private def realizedKeyForKey(key: Key[M, P]): RealizedKey[M, P, _] = {
-    val prop: Prop[P, key.V] = key.keyValProp
-    new RealizedKey[M, P, key.V](key, myRealizedProps(prop), key.ev)
+  private def realizedKeyForKey[V](key: Key[M, P, V]): RealizedKey[M, P, V] = {
+    val prop: Prop[P, V] = key.keyValProp
+    new RealizedKey[M, P, V](key, myRealizedProps(prop), key.ev)
   }
 
-  private def realizedKeyForPrimaryKey(key: PrimaryKey[M, P]): RealizedKey[M, P, _] = {
+  private def realizedKeyForPrimaryKey[V](key: PrimaryKey[M, P, V]): RealizedKey[M, P, V] = {
     val vTypeKey = key.keyValTypeKey
     val prop = myRealizedProps(key.keyValProp)
     val pppis = postPartitionPropInfos(key)
@@ -105,17 +105,17 @@ private[longevity] class RealizedPType[M, P](
     val emblematicPropPaths = {
       def p2ppi[B](prop: Prop[P, B]) = {
         if (prop == key.keyValProp) {
-          EmblematicPropPath.empty[key.V](vTypeKey)
+          EmblematicPropPath.empty[V](vTypeKey)
         } else {
           val keyPropPath = prop.path.drop(key.keyValProp.path.size + 1)
-          EmblematicPropPath[key.V, B](emblematic, keyPropPath)(vTypeKey, prop.propTypeKey)
+          EmblematicPropPath[V, B](emblematic, keyPropPath)(vTypeKey, prop.propTypeKey)
         }
       }
       def pepps  = key.partition.props.map { prop => p2ppi(prop) }
       def ppepps = pppis.map(_.emblematicPropPath)
       pepps ++ ppepps
     }
-    RealizedPrimaryKey[M, P, key.V](
+    RealizedPrimaryKey[M, P, V](
       key,
       prop,
       key.ev,
@@ -128,13 +128,13 @@ private[longevity] class RealizedPType[M, P](
   /** what we need to know about a properties that are within the primary key,
    * but are not part of the partition
    */
-  private def postPartitionPropInfos(key: PrimaryKey[M, P]): Seq[PostPartitionPropInfo[key.V, _]] = {
+  private def postPartitionPropInfos[V](key: PrimaryKey[M, P, V]): Seq[PostPartitionPropInfo[V, _]] = {
 
     implicit val pTypeKey = pType.pTypeKey
     val vTypeKey = key.keyValTypeKey
 
-    def ppis(keyProps: Seq[PostPartitionPropInfo[key.V, _]], partitionProps: Seq[Prop[P, _]])
-    : Seq[PostPartitionPropInfo[key.V, _]] = {
+    def ppis(keyProps: Seq[PostPartitionPropInfo[V, _]], partitionProps: Seq[Prop[P, _]])
+    : Seq[PostPartitionPropInfo[V, _]] = {
       if (partitionProps.isEmpty) {
         keyProps
       } else if (keyProps.isEmpty) {
@@ -150,9 +150,9 @@ private[longevity] class RealizedPType[M, P](
           def ppi[B](emblemProp: EmblemProp[_, B]) = {
             val fullPropPath = s"${headProp.path}.${emblemProp.name}"
             val keyPropPath = fullPropPath.drop(key.keyValProp.path.size + 1)
-            PostPartitionPropInfo[key.V, B](
+            PostPartitionPropInfo[V, B](
               new Prop[P, B](fullPropPath)(pTypeKey, emblemProp.typeKey),
-              EmblematicPropPath[key.V, B](emblematic, keyPropPath)(vTypeKey, emblemProp.typeKey))
+              EmblematicPropPath[V, B](emblematic, keyPropPath)(vTypeKey, emblemProp.typeKey))
           }
           ppi(emblemProp)
         }

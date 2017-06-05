@@ -2,7 +2,12 @@ package longevity.integration.model.keyWithForeignKey
 
 import longevity.model.annotations.persistent
 
-@persistent[DomainModel](keySet = Set(key(props.id), key(props.secondaryKey)))
+@persistent[DomainModel]
 case class KeyWithForeignKey(
   id: KeyWithForeignKeyId,
   secondaryKey: SecondaryKey)
+
+object KeyWithForeignKey {
+  implicit lazy val idKey = key(props.id)
+  implicit lazy val secondaryKey = key(props.secondaryKey)
+}

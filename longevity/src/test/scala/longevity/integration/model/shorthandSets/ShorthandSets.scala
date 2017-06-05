@@ -2,7 +2,7 @@ package longevity.integration.model.shorthandSets
 
 import longevity.model.annotations.persistent
 
-@persistent[DomainModel](keySet = Set(key(props.id)))
+@persistent[DomainModel]
 case class ShorthandSets(
   id: ShorthandSetsId,
   boolean: Set[BooleanShorthand],
@@ -13,3 +13,7 @@ case class ShorthandSets(
   long: Set[LongShorthand],
   string: Set[StringShorthand],
   dateTime: Set[DateTimeShorthand])
+
+object ShorthandSets {
+  implicit lazy val idKey = key(props.id)
+}

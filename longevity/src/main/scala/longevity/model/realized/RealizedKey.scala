@@ -4,7 +4,7 @@ import longevity.model.KVEv
 import longevity.model.ptype.Key
 
 private[longevity] class RealizedKey[M, P, V] private [realized](
-  val key: Key[M, P],
+  val key: Key[M, P, V],
   val realizedProp: RealizedProp[P, V],
   private[longevity] val ev: KVEv[M, P, V]) {
 

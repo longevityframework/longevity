@@ -7,7 +7,7 @@ import longevity.model.annotations.domainModel
 
 import longevity.model.annotations.persistent
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   title: Option[String],

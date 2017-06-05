@@ -19,8 +19,7 @@ private[annotations] abstract class AbstractPersistentImpl {
   protected lazy val termName = TermName(name.decodedName.toString)
   protected lazy val typeName = TypeName(name.decodedName.toString)
 
-  private def newCompanion =
-    q"@longevity.model.annotations.mprops object $termName extends $ptype { ..$keySet ; ..$indexSet }"
+  private def newCompanion = q"@longevity.model.annotations.mprops object $termName extends $ptype"
 
   protected def mtype: c.Tree
 
@@ -33,24 +32,7 @@ private[annotations] abstract class AbstractPersistentImpl {
       origMods.flags,
       origMods.privateWithin,
       mpropsAnnMods.annotations.head :: origMods.annotations)
-    q"""$mergedMods object $n extends {..$eds} with ..${ ptype +: ps.tail } {
-          $s => ..$keySet ; ..$indexSet ; ..$ss
-        }
-     """
-  }
-
-  private lazy val (keySet, indexSet) = c.prefix.tree match {
-    case q"new $persistent(keySet = $ks, indexSet = $is)" =>
-      (q"override lazy val keySet = $ks", q"override lazy val indexSet = $is")
-    case q"new $persistent(keySet = $ks)" =>
-      (q"override lazy val keySet = $ks", EmptyTree)
-    case q"new $persistent(...$exprss)" if exprss.isEmpty =>
-      (EmptyTree, EmptyTree)
-    case q"new $persistent(...$exprss)" =>
-      val argString = exprss.map(es => s"(${es.mkString(",")})").mkString
-      c.abort(
-        c.enclosingPosition,
-        s"@$persistent cannot take arguments $argString")
+    q"$mergedMods object $n extends {..$eds} with ..${ ptype +: ps.tail } { $s => ..$ss }"
   }
 
 }

@@ -2,17 +2,7 @@ package longevity.integration.model.shorthands
 
 import longevity.model.annotations.persistent
 
-@persistent[DomainModel](
-  keySet = Set(key(props.id)),
-  indexSet = Set(
-    index(props.boolean),
-    index(props.char),
-    index(props.double),
-    index(props.float),
-    index(props.int),
-    index(props.long),
-    index(props.string),
-    index(props.dateTime)))
+@persistent[DomainModel]
 case class Shorthands(
   id: ShorthandsId,
   boolean: BooleanShorthand,
@@ -23,3 +13,19 @@ case class Shorthands(
   long: LongShorthand,
   string: StringShorthand,
   dateTime: DateTimeShorthand)
+
+object Shorthands {
+
+  implicit lazy val idKey = key(props.id)
+
+  override lazy val indexSet = Set(
+    index(props.boolean),
+    index(props.char),
+    index(props.double),
+    index(props.float),
+    index(props.int),
+    index(props.long),
+    index(props.string),
+    index(props.dateTime))
+
+}

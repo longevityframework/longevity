@@ -16,6 +16,5 @@ object User extends PType[DomainModel, User] {
   object props {
     // ...
   }
-  lazy val keySet = emptyKeySet
 }
 

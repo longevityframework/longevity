@@ -15,12 +15,12 @@ class PersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "@persistent"
 
   it should "cause a compiler error when annotating something other than a class, trait, or object" in {
-    "@persistent[DomainModel](keySet = Set.empty) val x = 7"           shouldNot compile
-    "@persistent[DomainModel](keySet = Set.empty) type X = Int"        shouldNot compile
-    "@persistent[DomainModel](keySet = Set.empty) def foo = 7"         shouldNot compile
-    "def foo(@persistent[DomainModel](keySet = Set.empty) x: Int) = 7" shouldNot compile
-    "@persistent[DomainModel](keySet = Set.empty) trait Foo"           shouldNot compile
-    "@persistent[DomainModel](keySet = Set.empty) object Foo"          shouldNot compile
+    "@persistent[DomainModel] val x = 7"           shouldNot compile
+    "@persistent[DomainModel] type X = Int"        shouldNot compile
+    "@persistent[DomainModel] def foo = 7"         shouldNot compile
+    "def foo(@persistent[DomainModel] x: Int) = 7" shouldNot compile
+    "@persistent[DomainModel] trait Foo"           shouldNot compile
+    "@persistent[DomainModel] object Foo"          shouldNot compile
   }
 
   it should "create a companion object that extends PType when there is no companion object" in {

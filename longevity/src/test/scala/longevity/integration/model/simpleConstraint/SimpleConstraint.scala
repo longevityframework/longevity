@@ -2,8 +2,12 @@ package longevity.integration.model.simpleConstraint
 
 import longevity.model.annotations.persistent
 
-@persistent[DomainModel](keySet = Set(key(props.id)))
+@persistent[DomainModel]
 case class SimpleConstraint(
   id: SimpleConstraintId,
   primaryEmail: Email,
   emails: Set[Email])
+
+object SimpleConstraint {
+  implicit lazy val idKey = key(props.id)
+}

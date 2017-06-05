@@ -5,7 +5,7 @@ import longevity.model.annotations.persistent
 
 @domainModel trait DomainModel
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   firstName: String,

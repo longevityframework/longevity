@@ -15,12 +15,12 @@ class PolyPersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "@polyPersistent"
 
   it should "cause a compiler error when annotating something other than a class, trait, or object" in {
-    "@polyPersistent[DomainModel](keySet = Set.empty) val x = 7"           shouldNot compile
-    "@polyPersistent[DomainModel](keySet = Set.empty) type X = Int"        shouldNot compile
-    "@polyPersistent[DomainModel](keySet = Set.empty) def foo = 7"         shouldNot compile
-    "def foo(@polyPersistent[DomainModel](keySet = Set.empty) x: Int) = 7" shouldNot compile
-    "@polyPersistent[DomainModel](keySet = Set.empty) class Foo"           shouldNot compile
-    "@polyPersistent[DomainModel](keySet = Set.empty) object Foo"          shouldNot compile
+    "@polyPersistent[DomainModel] val x = 7"           shouldNot compile
+    "@polyPersistent[DomainModel] type X = Int"        shouldNot compile
+    "@polyPersistent[DomainModel] def foo = 7"         shouldNot compile
+    "def foo(@polyPersistent[DomainModel] x: Int) = 7" shouldNot compile
+    "@polyPersistent[DomainModel] class Foo"           shouldNot compile
+    "@polyPersistent[DomainModel] object Foo"          shouldNot compile
   }
 
   it should "create a companion object that extends PolyPType when there is no companion object" in {

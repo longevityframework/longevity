@@ -13,7 +13,7 @@ case class FullName(
   firstName: String,
   lastName: String)
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   fullName: FullName)

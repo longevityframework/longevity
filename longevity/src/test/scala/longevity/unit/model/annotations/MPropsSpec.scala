@@ -35,9 +35,7 @@ object MPropsSpec {
     // @mprops can't work on a type that is declared in the same object
 
     // help ensure macro application doesnt mess up companion object
-    @mprops class WithCompanion extends PType[DomainModel, Foo] {
-      override lazy val keySet = emptyKeySet
-    }
+    @mprops class WithCompanion extends PType[DomainModel, Foo]
 
     object WithCompanion { val y = 7 }
   }
