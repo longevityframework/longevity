@@ -1,6 +1,6 @@
 package longevity.persistence.mongo
 
-import longevity.model.KVEv
+import longevity.model.ptype.Key
 import longevity.model.query.EqOp
 import org.bson.conversions.Bson
 import scala.concurrent.ExecutionContext
@@ -11,7 +11,7 @@ import scala.concurrent.blocking
 private[mongo] trait MongoRetrieve[M, P] {
   repo: MongoRepo[M, P] =>
 
-  override def retrieve[V : KVEv[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = Future {
+  override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = Future {
     blocking {
       logger.debug(s"calling MongoRepo.retrieve: $keyVal")
     
@@ -25,8 +25,8 @@ private[mongo] trait MongoRetrieve[M, P] {
     }
   }
  
-  protected def keyValQuery[V : KVEv[M, P, ?]](keyVal: V): Bson = {
-    val k = implicitly[KVEv[M, P, V]].key
+  protected def keyValQuery[V : Key[M, P, ?]](keyVal: V): Bson = {
+    val k = implicitly[Key[M, P, V]].keyValTypeKey
     mongoRelationalFilter[V](realizedPType.realizedKey(k).realizedProp.prop, EqOp, keyVal)
   }
 

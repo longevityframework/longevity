@@ -2,8 +2,8 @@ package longevity.persistence.mongo
 
 import com.mongodb.client.model.Filters
 import longevity.persistence.PState
-import longevity.model.KVEv
 import longevity.model.query.QueryFilter
+import longevity.model.ptype.Key
 import org.bson.BsonDocument
 import org.bson.BsonString
 import org.bson.conversions.Bson
@@ -26,7 +26,7 @@ private[mongo] trait DerivedMongoRepo[M, P, Poly >: P] extends MongoRepo[M, P] {
     domainModelToBsonTranslator.translate[Poly](p, false)(polyRepo.pTypeKey).asDocument
   }
 
-  override protected def keyValQuery[V : KVEv[M, P, ?]](keyVal: V): Bson = {
+  override protected def keyValQuery[V : Key[M, P, ?]](keyVal: V): Bson = {
     Filters.and(
       super.keyValQuery(keyVal),
       Filters.eq("_discriminator", discriminatorValue))

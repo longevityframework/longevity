@@ -1,7 +1,7 @@
 package longevity.persistence.jdbc
 
 import java.sql.PreparedStatement
-import longevity.model.KVEv
+import longevity.model.ptype.Key
 import longevity.model.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -11,7 +11,7 @@ import scala.concurrent.blocking
 private[jdbc] trait JdbcRetrieve[M, P] {
   repo: JdbcRepo[M, P] =>
 
-  override def retrieve[V : KVEv[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
+  override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
     logger.debug(s"calling JdbcRepo.retrieve: $keyVal")
     val stateOption = retrieveFromPreparedStatement(bindKeyValSelectStatement(keyVal))
     logger.debug(s"done calling JdbcRepo.retrieve: $stateOption")
@@ -28,8 +28,8 @@ private[jdbc] trait JdbcRetrieve[M, P] {
       }
     }
 
-  private def bindKeyValSelectStatement[V : KVEv[M, P, ?]](keyVal: V) = {
-    val realizedKey: RealizedKey[M, P, V] = realizedPType.realizedKey(implicitly[KVEv[M, P, V]].key)
+  private def bindKeyValSelectStatement[V : Key[M, P, ?]](keyVal: V) = {
+    val realizedKey: RealizedKey[M, P, V] = realizedPType.realizedKey(implicitly[Key[M, P, V]].keyValTypeKey)
     val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
       jdbcValue(component.innerPropPath.get(keyVal))
     }

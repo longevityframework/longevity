@@ -8,9 +8,9 @@ import fs2.Stream
 import fs2.Task
 import io.iteratee.{ Enumerator => CatsEnumerator }
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
-import longevity.model.KVEv
 import longevity.model.ModelType
 import longevity.model.PType
+import longevity.model.ptype.Key
 import longevity.model.query.Query
 import longevity.model.realized.RealizedPType
 import play.api.libs.iteratee.{ Enumerator => PlayEnumerator }
@@ -46,10 +46,10 @@ private[longevity] abstract class PRepo[M, P] private[persistence] (
 
   def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
 
-  def retrieve[V : KVEv[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[Option[PState[P]]]
 
-  def retrieveOne[V : KVEv[M, P, ?]](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
+  def retrieveOne[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
     retrieve(keyVal).map(_.get)
 
   def update(state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]]

@@ -2,8 +2,8 @@ package longevity.persistence
 
 import emblem.TypeKeyMap
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
-import longevity.model.KVEv
 import longevity.model.PEv
+import longevity.model.ptype.Key
 import longevity.model.query.Query
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -70,7 +70,7 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieve[P : PEv[M, ?], V : KVEv[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieve[P : PEv[M, ?], V : Key[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[Option[PState[P]]] =
     pRepoMap(implicitly[PEv[M, P]].key).retrieve[V](keyVal)
 
@@ -83,7 +83,7 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
    * @param keyVal the key value to use to look up the persistent object
    * @param executionContext the execution context
    */
-  def retrieveOne[P: PEv[M, ?], V: KVEv[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
+  def retrieveOne[P: PEv[M, ?], V: Key[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
   : Future[PState[P]] =
     pRepoMap(implicitly[PEv[M, P]].key).retrieveOne[V](keyVal)
 

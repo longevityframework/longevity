@@ -2,7 +2,7 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
-import longevity.model.KVEv
+import longevity.model.ptype.Key
 import longevity.model.realized.RealizedKey
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -12,7 +12,7 @@ import scala.concurrent.blocking
 private[cassandra] trait CassandraRetrieve[M, P] {
   repo: CassandraRepo[M, P] =>
 
-  override def retrieve[V : KVEv[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
+  override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
     logger.debug(s"calling CassandraRepo.retrieve: $keyVal")
     val stateOption = retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
     logger.debug(s"done calling CassandraRepo.retrieve: $stateOption")
@@ -28,9 +28,9 @@ private[cassandra] trait CassandraRetrieve[M, P] {
 
   private var keyValSelectStatements = Map[RealizedKey[M, P, _], PreparedStatement]()
 
-  private def bindKeyValSelectStatement[V : KVEv[M, P, ?]](keyVal: V): BoundStatement = {
-    val ev = implicitly[KVEv[M, P, V]]
-    val realizedKey: RealizedKey[M, P, V] = realizedPType.realizedKey(ev.key)
+  private def bindKeyValSelectStatement[V : Key[M, P, ?]](keyVal: V): BoundStatement = {
+    val tk = implicitly[Key[M, P, V]].keyValTypeKey
+    val realizedKey: RealizedKey[M, P, V] = realizedPType.realizedKey(tk)
     val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
       cassandraValue(component.innerPropPath.get(keyVal))
     }
