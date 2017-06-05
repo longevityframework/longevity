@@ -8,5 +8,5 @@ case class PKInComponentWithPartialPartition(
   component: Component)
 
 object PKInComponentWithPartialPartition {
-  implicit lazy val idKey = primaryKey(props.component.key, partition(props.component.key.part1))
+  implicit val idKey = primaryKey(props.component.key, partition(props.component.key.part1))
 }

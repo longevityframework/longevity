@@ -10,6 +10,6 @@ case class FirstDerivedPersistent(
 extends PolyPersistent
 
 object FirstDerivedPersistent {
-  implicit lazy val componentIdKey = key(props.component.id)
-  override lazy val indexSet = Set(index(props.first))
+  implicit val componentIdKey = key(props.component.id)
+  override val indexSet = Set(index(props.first))
 }

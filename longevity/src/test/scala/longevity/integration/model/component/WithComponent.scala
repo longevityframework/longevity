@@ -9,6 +9,6 @@ case class WithComponent(
   component: Component)
 
 object WithComponent {
-  implicit lazy val idKey = key(props.id)
-  override lazy val indexSet = Set(index(props.component), index(props.foo))
+  implicit val idKey = key(props.id)
+  override val indexSet = Set(index(props.component), index(props.foo))
 }

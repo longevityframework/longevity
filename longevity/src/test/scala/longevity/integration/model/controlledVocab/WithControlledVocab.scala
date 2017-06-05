@@ -8,5 +8,5 @@ case class WithControlledVocab(
   vocab: ControlledVocab)
 
 object WithControlledVocab {
-  implicit lazy val idKey = key(props.id)
+  implicit val idKey = key(props.id)
 }

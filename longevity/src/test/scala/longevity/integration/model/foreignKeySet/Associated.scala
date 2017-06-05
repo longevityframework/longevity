@@ -6,5 +6,5 @@ import longevity.model.annotations.persistent
 case class Associated(id: AssociatedId)
 
 object Associated {
-  implicit lazy val idKey = key(props.id)
+  implicit val idKey = key(props.id)
 }

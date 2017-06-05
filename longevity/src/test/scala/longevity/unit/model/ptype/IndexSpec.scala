@@ -29,7 +29,7 @@ object IndexSpec {
       val char = prop[Char]("char")
       val double = prop[Double]("double")
     }
-    override lazy val indexSet = Set(
+    override val indexSet = Set(
       index(props.boolean, props.char),
       index(props.boolean, props.char, props.double))
   }

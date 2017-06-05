@@ -36,7 +36,7 @@ object LongevityContextSpec {
       object props {
         val id = prop[AId]("id")
       }
-      implicit lazy val idKey = key(props.id)
+      implicit val idKey = key(props.id)
     }
 
     val mongoContext = new LongevityContext[DomainModel](mongoConfig)

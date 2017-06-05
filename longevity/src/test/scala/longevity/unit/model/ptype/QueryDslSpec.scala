@@ -42,7 +42,7 @@ object QueryDslSpec {
     object props {
       val id = prop[AssociatedId]("id")
     }
-    implicit lazy val idKey = key(props.id)
+    implicit val idKey = key(props.id)
   }
 
 }

@@ -8,5 +8,5 @@ case class WithForeignKeyList(
   associated: List[AssociatedId])
 
 object WithForeignKeyList {
-  implicit lazy val idKey = key(props.id)
+  implicit val idKey = key(props.id)
 }

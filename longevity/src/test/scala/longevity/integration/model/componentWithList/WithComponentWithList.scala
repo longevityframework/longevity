@@ -8,5 +8,5 @@ case class WithComponentWithList(
   component: Component)
 
 object WithComponentWithList {
-  implicit lazy val idKey = key(props.id)
+  implicit val idKey = key(props.id)
 }

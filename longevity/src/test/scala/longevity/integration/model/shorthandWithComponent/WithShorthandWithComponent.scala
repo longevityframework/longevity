@@ -8,9 +8,6 @@ case class WithShorthandWithComponent(
   shorthandWithComponent: ShorthandWithComponent)
 
 object WithShorthandWithComponent {
-
-  implicit lazy val idKey = key(props.id)
-
-  override implicit lazy val indexSet = Set(index(props.shorthandWithComponent))
-
+  implicit val idKey = key(props.id)
+  override val indexSet = Set(index(props.shorthandWithComponent))
 }

@@ -27,7 +27,7 @@ package object offsetLimit {
       val i = prop[Int]("i")
       val j = prop[Int]("j")
     }
-    override lazy val indexSet = Set(index(props.i), index(props.j))
+    override val indexSet = Set(index(props.i), index(props.j))
   }
 
 }

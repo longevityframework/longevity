@@ -8,5 +8,5 @@ case class WithComponentOption(
   component: Option[Component])
 
 object WithComponentOption {
-  implicit lazy val idKey = key(props.id)
+  implicit val idKey = key(props.id)
 }

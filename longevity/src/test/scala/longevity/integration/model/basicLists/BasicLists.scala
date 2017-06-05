@@ -16,5 +16,5 @@ case class BasicLists(
   dateTime: List[DateTime])
 
 object BasicLists {
-  implicit lazy val idKey = key(props.id)
+  implicit val idKey = key(props.id)
 }

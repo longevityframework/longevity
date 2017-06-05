@@ -8,6 +8,6 @@ case class MultipleKeys(
   username: Username)
 
 object MultipleKeys {
-  implicit lazy val idKey = key(props.id)
-  implicit lazy val usernameKey = key(props.username)
+  implicit val idKey = key(props.id)
+  implicit val usernameKey = key(props.username)
 }

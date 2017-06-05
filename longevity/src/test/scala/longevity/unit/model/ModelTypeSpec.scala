@@ -385,7 +385,7 @@ object ModelTypeSpec {
         val id = prop[AId]("id")
         val id2 = prop[AIdSuper]("id") // this is the problematic prop
       }
-      implicit lazy val idKey = key(props.id)
+      implicit val idKey = key(props.id)
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -406,8 +406,8 @@ object ModelTypeSpec {
         val id1 = prop[AId]("id1")
         val id2 = prop[AId]("id2")
       }
-      implicit lazy val id1Key = key(props.id1)
-      implicit lazy val id2Key = key(props.id2)
+      implicit val id1Key = key(props.id1)
+      implicit val id2Key = key(props.id2)
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -427,8 +427,8 @@ object ModelTypeSpec {
       object props {
         val id = prop[AId]("id")
       }
-      implicit lazy val idKey = key(props.id)
-      override lazy val indexSet = Set(index(props.id))
+      implicit val idKey = key(props.id)
+      override val indexSet = Set(index(props.id))
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))
@@ -449,7 +449,7 @@ object ModelTypeSpec {
         val id = prop[AId]("id")
         val id2 = prop[String]("id.id2")
       }
-      implicit lazy val idKey = primaryKey(props.id, partition(props.id2))
+      implicit val idKey = primaryKey(props.id, partition(props.id2))
     }
 
     def modelType = new ModelType[DomainModel](Seq(A))

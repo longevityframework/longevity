@@ -8,5 +8,5 @@ case class PrimaryKeyInComponent(
   component: Component)
 
 object PrimaryKeyInComponent {
-  implicit lazy val componentKeyKey = primaryKey(props.component.key)
+  implicit val componentKeyKey = primaryKey(props.component.key)
 }

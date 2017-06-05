@@ -50,7 +50,7 @@ abstract class PType[M : ModelEv, P : TypeTag] {
   }
 
   /** the indexes for this persistent type. defaults to the empty set */
-  lazy val indexSet: Set[Index[P]] = Set.empty
+  val indexSet: Set[Index[P]] = Set.empty
 
   /** constructs a [[longevity.model.ptype.Prop Prop]] of type `A` from the
    * provided property path.

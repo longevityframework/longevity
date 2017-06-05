@@ -15,5 +15,5 @@ case class ShorthandLists(
   dateTime: List[DateTimeShorthand])
 
 object ShorthandLists {
-  implicit lazy val idKey = key(props.id)
+  implicit val idKey = key(props.id)
 }

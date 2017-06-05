@@ -8,6 +8,6 @@ case class PrimaryKeyWithSecondaryKey(
   secondary: SecondaryKey)
 
 object PrimaryKeyWithSecondaryKey {
-  implicit lazy val idKey = primaryKey(props.primary)
-  implicit lazy val secondaryKey = key(props.secondary)
+  implicit val idKey = primaryKey(props.primary)
+  implicit val secondaryKey = key(props.secondary)
 }

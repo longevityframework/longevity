@@ -33,7 +33,7 @@ object PTypeSpec {
     object props {
       val username = prop[Username]("username")
     }
-    implicit lazy val usernameKey = primaryKey(props.username)
+    implicit val usernameKey = primaryKey(props.username)
   }
 
   case class Email(email: String)
@@ -46,7 +46,7 @@ object PTypeSpec {
     object props {
       val email = prop[Email]("email")
     }
-    implicit lazy val emailKey = primaryKey(props.email)
+    implicit val emailKey = primaryKey(props.email)
   }
 
 }

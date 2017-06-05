@@ -19,5 +19,5 @@ case class User(
   sponsor: Option[Username])
 
 object User {
-  implicit lazy val usernameKey = key(props.username)
+  implicit val usernameKey = key(props.username)
 }

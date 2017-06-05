@@ -15,5 +15,5 @@ case class ShorthandOptions(
   dateTime: Option[DateTimeShorthand])
 
 object ShorthandOptions {
-  implicit lazy val idKey = key(props.id)
+  implicit val idKey = key(props.id)
 }

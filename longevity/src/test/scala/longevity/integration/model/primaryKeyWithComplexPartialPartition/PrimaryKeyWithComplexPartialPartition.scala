@@ -6,5 +6,5 @@ import longevity.model.annotations.persistent
 case class PrimaryKeyWithComplexPartialPartition(key: Key)
 
 object PrimaryKeyWithComplexPartialPartition {
-  implicit lazy val idKey = primaryKey(props.key, partition(props.key.prop1, props.key.subKey.prop1))
+  implicit val idKey = primaryKey(props.key, partition(props.key.prop1, props.key.subKey.prop1))
 }

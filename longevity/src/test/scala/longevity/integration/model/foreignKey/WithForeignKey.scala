@@ -8,6 +8,6 @@ case class WithForeignKey(
   associated: AssociatedId)
 
 object WithForeignKey {
-  implicit lazy val idKey = key(props.id)
-  override lazy val indexSet = Set(index(props.associated))
+  implicit val idKey = key(props.id)
+  override val indexSet = Set(index(props.associated))
 }

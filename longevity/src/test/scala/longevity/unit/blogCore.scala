@@ -49,8 +49,8 @@ package object blogCore {
       val username = prop[Username]("username")
       val email = prop[Email]("email")
     }
-    implicit lazy val usernameKey = key(props.username)
-    implicit lazy val emailKey = key(props.email)
+    implicit val usernameKey = key(props.username)
+    implicit val emailKey = key(props.email)
   }
 
   case class UserProfile(
@@ -74,7 +74,7 @@ package object blogCore {
     object props {
       val uri = prop[BlogUri]("uri")
     }
-    implicit lazy val uriKey = key(props.uri)
+    implicit val uriKey = key(props.uri)
   }
 
   case class BlogPostUri(uri: Uri)
@@ -95,8 +95,8 @@ package object blogCore {
       val uri = prop[BlogPostUri]("uri")
       val blog = prop[BlogUri]("blog")
     }
-    implicit lazy val uriKey = key(props.uri)
-    override lazy val indexSet = Set(index(props.blog))
+    implicit val uriKey = key(props.uri)
+    override val indexSet = Set(index(props.blog))
   }
 
 }

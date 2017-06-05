@@ -8,6 +8,6 @@ case class KeyWithMultipleProperties(
   secondaryKey: SecondaryKey)
 
 object KeyWithMultipleProperties {
-  implicit lazy val idKey = key(props.id)
-  implicit lazy val secondaryKey = key(props.secondaryKey)
+  implicit val idKey = key(props.id)
+  implicit val secondaryKey = key(props.secondaryKey)
 }

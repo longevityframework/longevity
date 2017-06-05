@@ -8,5 +8,5 @@ import longevity.model.annotations.persistent
 case class PrimaryKey(key: Key)
 
 object PrimaryKey {
-  implicit lazy val keyKey = primaryKey(props.key)
+  implicit val keyKey = primaryKey(props.key)
 }

@@ -8,5 +8,5 @@ case class IndexWithMultipleProperties(
   name: String)
 
 object IndexWithMultipleProperties {
-  override lazy val indexSet = Set(index(props.realm, props.name))
+  override val indexSet = Set(index(props.realm, props.name))
 }

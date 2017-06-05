@@ -10,5 +10,5 @@ case class SecondDerivedPersistent(
 extends PolyPersistent
 
 object SecondDerivedPersistent {
-  override lazy val indexSet = Set(index(props.second))
+  override val indexSet = Set(index(props.second))
 }
