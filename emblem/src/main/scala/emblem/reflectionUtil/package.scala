@@ -87,10 +87,14 @@ package object reflectionUtil {
   }
 
   private def valOrVarTerms[A : TypeKey](mirror: InstanceMirror, termSymbols: Seq[TermSymbol]): Seq[A] = {
-    def valOrVar(symbol: TermSymbol) = symbol.isVal || symbol.isVar
+    def valOrVar(symbol: TermSymbol) = symbol.isLazy || symbol.isVal || symbol.isVar
     val valOrVarSymbols = termSymbols.filter(valOrVar).filter { s => matchingType[A](s) }
     valOrVarSymbols.map { symbol =>
-      mirror.reflectField(symbol).get.asInstanceOf[A]
+      if (symbol.isLazy) {
+        mirror.reflectMethod(symbol.asMethod).apply().asInstanceOf[A]
+      } else {
+        mirror.reflectField(symbol).get.asInstanceOf[A]
+      }
     }
   }
 
@@ -106,6 +110,12 @@ package object reflectionUtil {
     }
   }
 
-  private def matchingType[A : TypeKey](symbol: TermSymbol) = symbol.typeSignature <:< typeKey[A].tpe
+  private def matchingType[A : TypeKey](symbol: TermSymbol) = {
+    if (symbol.isLazy) {
+      symbol.asMethod.returnType <:< typeKey[A].tpe
+    } else {
+      symbol.typeSignature <:< typeKey[A].tpe
+    }
+  }
 
 }
