@@ -25,15 +25,7 @@ shout on [Gitter](https://gitter.im/longevityframework/longevity) or the [user
 group](https://groups.google.com/forum/#!forum/longevity-users). We are eager to help!
 
 Like all the other model annotations in longevity, it is possible to write out the equivalent code
-yourself. We don't recommend that you do this. It is a lot of boilerplate, and you will also
-potentially expose yourself to a couple of holes in the type system that you will never hit when
-using the annotations.
-
-Some of the information provided here may be a little confusing unless you are already familiar with
-concepts such as [persistent types](../ptype), [components](components.html), and the [longevity
-context](../context). Don't let this deter you. You can always come back and read it again. We would
-prefer to delay the presentation of this information until a later point, but the fact is, you need
-to declare your domain model before you can do much of anything else.
+yourself. We don't recommend that you do this. It is a lot of boilerplate.
 
 The `@domainModel` annotation creates or extends the companion object of your trait, adding in a
 couple of implicit type classes, like so:
@@ -42,6 +34,7 @@ couple of implicit type classes, like so:
 package myPackage
 
 import longevity.model.CType
+import longevity.model.KVType
 import longevity.model.ModelEv
 import longevity.model.ModelType
 import longevity.model.PType
@@ -55,7 +48,8 @@ object MyDomainModel {
 
   implicit object modelType extends ModelType[MyDomainModel](
     packscanToList[PType[MyDomainModel, _]],
-    packscanToList[CType[MyDomainModel, _]])
+    packscanToList[CType[MyDomainModel, _]],
+    packscanToList[KVType[MyDomainModel, _, _]])
 }
 ```
 
@@ -65,14 +59,15 @@ value](key-values.html). All your persistent classes need to be found in the sam
 subpackage of, the package that you define your domain model. Scoping the implicit model evidence
 this way makes it findable by implicit resolution in exactly the right places.
 
-The `ModelType[MyDomainModel]` collects information about all of your persistents and components.
-This `ModelType` is used by the [longevity context](../context) to provide you with tools specific
-to your model. It will be found automatically by implicit resolution when constructing your context
-like so: `longevity.context.LongevityContext[MyDomainModel]`.
+The `ModelType[MyDomainModel]` collects information about all of your persistents, components, and
+key values. This `ModelType` is used by the [longevity context](../context) to provide you with
+tools specific to your model. It will be found automatically by implicit resolution when
+constructing your context like so: `longevity.context.LongevityContext[MyDomainModel]`.
 
 `packscanToList` is a def macro that scans the current package, and all sub-packages, for objects
 that match the provided types. For instance, if you had declared persistent classes `User`, `Blog`,
-and `BlogPost`, and a component `UserProfile`, the above code would expand as follows:
+and `BlogPost`, a component `UserProfile`, and key values `Username`, `BlogUri`, and `BlogPostUri`,
+then the above code would expand as follows:
 
 ```scala
 package myPackage
@@ -88,7 +83,8 @@ object MyDomainModel {
 
   implicit object modelType extends ModelType[MyDomainModel](
     List(User, Blog, BlogPost),
-    List(UserProfile))
+    List(UserProfile),
+    List(Username, BlogUri, BlogPostUri))
 }
 ```
 

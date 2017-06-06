@@ -3,6 +3,7 @@ package longevity.unit.manual.model.model.ex2
 package myPackage
 
 import longevity.model.CType
+import longevity.model.KVType
 import longevity.model.ModelEv
 import longevity.model.ModelType
 import longevity.model.PType
@@ -16,5 +17,6 @@ object MyDomainModel {
 
   implicit object modelType extends ModelType[MyDomainModel](
     packscanToList[PType[MyDomainModel, _]],
-    packscanToList[CType[MyDomainModel, _]])
+    packscanToList[CType[MyDomainModel, _]],
+    packscanToList[KVType[MyDomainModel, _, _]])
 }

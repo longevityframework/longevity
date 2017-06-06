@@ -19,7 +19,7 @@ case class FullName(
   firstName: String,
   lastName: String)
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   fullName: FullName)
@@ -27,12 +27,15 @@ case class User(
 
 Be sure to declare your component class in the same package as, or in a sub-package of, the package
 you declare your domain model. Assuming you don't fabricate your own
-`longevity.model.ModelEv[DomainModel]`, if you declare your persistent class in another package, you
+`longevity.model.ModelEv[DomainModel]`, if you declare your component class in another package, you
 will get a compiler error - something about implicit model evidence not being found.
 
 The `@component[DomainModel]` annotation creates a companion object that extends
 `longevity.model.CType[DomainModel, FullName]`. If `FullName` already has a companion object, it
-will be augmented to extend `CType`. Here is the equivalent code without using annotations:
+will be augmented to extend `CType`. The `CType[DomainModel, FullName]` will be used to help build
+the `ModelType[DomainModel]`, which collects all the different parts of your model.
+
+Here is the equivalent code without using annotations:
 
 ```scala
 import longevity.model.CType
@@ -65,7 +68,7 @@ case class Address(
   street: String,
   city: String)
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   emails: EmailPreferences,

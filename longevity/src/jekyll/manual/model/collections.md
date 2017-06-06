@@ -17,7 +17,7 @@ the user to have multiple emails:
 ```scala
 import longevity.model.annotations.persistent
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   title: Option[String],
@@ -27,15 +27,11 @@ case class User(
 ```
 
 It's on our TODO list to [handle a wider variety of collection
-types](https://www.pivotaltracker.com/story/show/88571474), including
-`Maps`. But this basic set of collections should satisfy your
-needs. If you are itching to use another collection type in your
-domain model, please [let us
-know](http://longevityframework.org/discussions.html)!
-But please note that we will only ever support immutable
-collections. It is important that the persistent objects are
-immutable, so that longevity can [keep track of any
-changes](../repo/persistent-state.html).
+types](https://www.pivotaltracker.com/story/show/88571474), including `Maps`. But this basic set of
+collections should satisfy your needs. If you are itching to use another collection type in your
+domain model, please [let us know](http://longevityframework.org/discussions.html)! Please note that
+we will only ever support immutable collections. It is important that the persistent objects are
+immutable, so that longevity can [keep track of any changes](../repo/persistent-state.html).
 
 {% assign prevTitle = "basic values" %}
 {% assign prevLink  = "basics.html" %}

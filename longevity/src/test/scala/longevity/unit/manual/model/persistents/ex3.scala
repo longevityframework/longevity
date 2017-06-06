@@ -6,15 +6,11 @@ import longevity.model.annotations.domainModel
 // end prelude
 
 import longevity.model.PType
+import longevity.model.annotations.mprops
 
 case class User(
   username: String,
   firstName: String,
   lastName: String)
 
-object User extends PType[DomainModel, User] {
-  object props {
-    // ...
-  }
-}
-
+@mprops object User extends PType[DomainModel, User]

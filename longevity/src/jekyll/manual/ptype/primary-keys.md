@@ -3,46 +3,44 @@ title: primary keys
 layout: page
 ---
 
-Most databases provide support for more than one key per table to look
-up individual rows. However, databases typically provide a more
-performant lookup strategy for a single specified key. In relational
-databases, this special key is called a _primary key_. We borrow that
-terminology here to indicate a key which may perform lookup better
-than the other keys of a table. In longevity, you can specify one of
-the [keys](keys.html) of your persistent type to be a primary key, and
-longevity will use the available features of your back end of choice
-to make lookups by that key perform as fast as possible.
+Most databases provide support for more than one key per table to look up individual rows. However,
+databases typically provide a more performant lookup strategy for a single specified key. In
+relational databases, this special key is called a _primary key_. We borrow that terminology here to
+indicate a key which may perform lookup better than the other keys of a table. In longevity, you can
+specify one of the [keys](keys.html) of your persistent type to be a primary key, and longevity will
+use the available features of your back end of choice to make lookups by that key perform as fast as
+possible.
 
-Let's take the `User` example from the previous chapter, and change
-the `username` key into a primary key. All we need to do is change the
-`key(props.username)` in our `keySet` to `primaryKey(props.username)`:
+Let's take the `User` example from the previous chapter, and change the `username` key into a
+primary key. All we need to do is change our `usernameKey` definition from `key(props.username)` to
+`primaryKey(props.username)`:
 
 ```scala
+
 import longevity.model.annotations.keyVal
 import longevity.model.annotations.persistent
 
-@keyVal[User]
+@keyVal[DomainModel, User]
 case class Username(username: String)
 
-@persistent(keySet = Set(
-  primaryKey(props.username)))
+@persistent[DomainModel]
 case class User(
   username: Username,
   firstName: String,
   lastName: String)
+
+object User {
+  implicit val usernameKey = primaryKey(props.username)
+}
 ```
 
-In order to accomodate performance in the face of very large data
-sets, NoSQL databases such as the Cassandra and MongoDB are commonly
-[distributed data across multiple
-nodes](https://en.wikipedia.org/wiki/Distributed_database).
-Distributed databases have a concept of a *partition key*, which we
-define as a key for which, given a key value, we can determine the
-node that the associated data lives on (or would live on, if it were
-to exist). Because the database can determine the node up front, it
-can route the query directly to the node that is able to satisfy the
-query. For non-partitioned keys, every node has to be queried, and the
-results aggregated.
+In order to accomodate performance in the face of very large data sets, NoSQL databases such as the
+Cassandra and MongoDB are commonly [distributed data across multiple
+nodes](https://en.wikipedia.org/wiki/Distributed_database). Distributed databases have a concept of
+a *partition key*, which we define as a key for which, given a key value, we can determine the node
+that the associated data lives on (or would live on, if it were to exist). Because the database can
+determine the node up front, it can route the query directly to the node that is able to satisfy the
+query. For non-partitioned keys, every node has to be queried, and the results aggregated.
 
 For example, if our user table is distributed across 10 database
 nodes, a query on the username key will only have to consult a single
@@ -69,7 +67,7 @@ be distributed across multiple nodes, but longevity will handle the
 rest.
 
 While we anticipate most users will be satisfied with the basic usage
-of primary keys desrcibed above, a few extensions are provided for
+of primary keys described above, a few extensions are provided for
 more demanding users. As we describe these advanced features here, we
 will briefly discuss how they relate to the specific back ends that
 longevity supports. For a more complete discussion on their
@@ -110,21 +108,25 @@ the example in the [last section](keys.html) as a primary key, but
 only partition on the last name. We would do this like so:
 
 ```scala
+
 import longevity.model.annotations.keyVal
 import longevity.model.annotations.persistent
 
-@keyVal[User]
+@keyVal[DomainModel, User]
 case class Username(username: String)
 
-@keyVal[User]
+@keyVal[DomainModel, User]
 case class FullName(last: String, first: String)
 
-@persistent(keySet = Set(
-  key(props.username),
-  primaryKey(props.fullName, partition(props.fullName.last))))
+@persistent[DomainModel]
 case class User(
   username: Username,
   fullName: FullName)
+
+object User {
+  implicit val usernameKey = key(props.username)
+  implicit val fullNameKey = primaryKey(props.fullName, partition(props.fullName.last))
+}
 ```
 
 In this case, we can know that every user with the same last name will

@@ -13,5 +13,6 @@ object MyDomainModel {
 
   implicit object modelType extends ModelType[MyDomainModel](
     List(User, Blog, BlogPost),
-    List(UserProfile))
+    List(UserProfile),
+    List(Username, BlogUri, BlogPostUri))
 }

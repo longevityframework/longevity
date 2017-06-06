@@ -25,7 +25,7 @@ case class UserProfile(
   imageUri: Uri,
   description: Markdown)
 
-@persistent[DomainModel](keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   email: Email,
@@ -39,7 +39,7 @@ like this:
 import longevity.model.PType
 import longevity.model.ptype.Prop
 
-object User extends PType[User] {
+object User extends PType[DomainModel, User] {
   object props {
     object username extends Prop[User, String]("username")
     object email extends Prop[User, Email]("email")
@@ -49,12 +49,11 @@ object User extends PType[User] {
       object markdown extends Prop[User, Markdown]("markdown")
     }
   }
-  lazy val keySet = emptyKeySet
 }
 ```
 
-So if we wanted to refer to the `markdown` on a `User's` profile, we
-would say `User.props.profile.markdown`.
+So if we wanted to refer to the `markdown` on a `User's` profile, we would say
+`User.props.profile.markdown`.
 
 You can build the properties by hand if you like, but you will need to
 specify both the path, and the type of the property yourself. Longevity
@@ -66,23 +65,21 @@ style is much more compact:
 ```scala
 import longevity.model.PType
 
-object User extends PType[User] {
+object User extends PType[DomainModel, User] {
   object props {
     val username = prop[String]("username")
     val email = prop[Email]("email")
     // ...
   }
-  lazy val keySet = emptyKeySet
 }
 ```
 
-In principle, properties could map through any path from the
-persistent object, and have a wide variety of types. In practice, the
-kinds of properties currently supported is somewhat limited. We do
-plan to address all of these limitations, and removing some of them is
-high priority. For more details, please see the ["remove restrictions
-on properties" epic](https://www.pivotaltracker.com/epic/show/2975505)
-on our story board. Here are there current limitations:
+In principle, properties could map through any path from the persistent object, and have a wide
+variety of types. In practice, the kinds of properties currently supported is somewhat limited. We
+do plan to address all of these limitations, and removing some of them is high priority. For more
+details, please see the ["remove restrictions on properties"
+epic](https://www.pivotaltracker.com/epic/show/2975505) on our story board. Here are there current
+limitations:
 
   - No properties with collection types.
   - No properties with types that (recursively) contain members with collection or polymorphic types.
