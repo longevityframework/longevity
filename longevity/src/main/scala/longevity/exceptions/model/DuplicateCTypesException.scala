@@ -4,5 +4,4 @@ package longevity.exceptions.model
  * [[longevity.model.CType CType]] for a single kind of component
  */
 class DuplicateCTypesException
-extends ModelTypeException(
-  "an CTypePool cannot contain multiple CTypes for the same component")
+extends ModelTypeException("a ModelType cannot contain multiple CTypes for the same component")

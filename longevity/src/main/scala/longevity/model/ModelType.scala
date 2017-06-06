@@ -10,6 +10,7 @@ import emblem.typeBound.TypeBoundFunction
 import emblem.typeBound.TypeBoundMap
 import longevity.exceptions.model.DerivedHasNoPolyException
 import longevity.exceptions.model.DuplicateCTypesException
+import longevity.exceptions.model.DuplicateKVTypesException
 import longevity.exceptions.model.DuplicatePTypesException
 import longevity.model.realized.RealizedPType
 
@@ -30,17 +31,27 @@ import longevity.model.realized.RealizedPType
  * @param cTypes a complete sequence of the component types within the domain model. defaults to
  * empty
  *
+ * @param kvTypes a complete sequence of the key value types within the domain model. defaults to
+ * empty
+ *
  * throws longevity.exceptions.model.DuplicatePTypesException when two `PTypes` refer tothe same
  * persistent class
  * 
  * throws longevity.exceptions.model.DuplicateCTypesException when two `CTypes` refer to the same
  * component class
  *
+ * throws longevity.exceptions.model.DuplicateKVTypesException when two `KVTypes` refer to the same
+ * component class
+ *
  * @see longevity.model.annotations.domainModel
  */
 @throws[DuplicatePTypesException]("when two PTypes refer to the same persistent class")
 @throws[DuplicateCTypesException]("when two CTypes refer to the same component class")
-class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[M, _]] = Nil) {
+@throws[DuplicateKVTypesException]("when two KVTypes refer to the same key value class")
+class ModelType[M](
+  pTypes: Seq[PType[M, _]],
+  cTypes: Seq[CType[M, _]] = Nil,
+  kvTypes: Seq[KVType[M, _, _]] = Nil) {
 
   private[longevity] val pTypePool = {
     val map = pTypes.foldLeft(TypeKeyMap[Any, PType[M, ?]]()) {
@@ -101,12 +112,9 @@ class ModelType[M](pTypes: Seq[PType[M, _]], cTypes: Seq[CType[M, _]] = Nil) {
     }
   }
 
-  private def keyValEmblems = pTypePool.values.foldLeft(EmblemPool()) { (acc, pType) =>
-    val keyValEmblems: EmblemPool = pType.keySet.foldLeft(EmblemPool()) { (acc, key) =>
-      def addToPool[A](emblem: Emblem[A]) = acc + (emblem.typeKey -> emblem)
-      addToPool(key.keyValEmblem)
-    }
-    acc ++ keyValEmblems
+  private def keyValEmblems = kvTypes.foldLeft(EmblemPool()) { (acc, kvType) =>
+    def addToPool[A](emblem: Emblem[A]) = acc + (emblem.typeKey -> emblem)
+    addToPool(Emblem(kvType.kvEv.key))
   }
 
   private def unionPool = componentUnions ++ pUnions

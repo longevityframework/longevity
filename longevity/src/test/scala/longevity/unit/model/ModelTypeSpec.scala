@@ -388,7 +388,7 @@ object ModelTypeSpec {
       implicit val idKey = key(props.id)
     }
 
-    def modelType = new ModelType[DomainModel](Seq(A))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(), Seq(AId))
   }
 
   object duplicateKey {
@@ -410,7 +410,7 @@ object ModelTypeSpec {
       implicit val id2Key = key(props.id2)
     }
 
-    def modelType = new ModelType[DomainModel](Seq(A))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(), Seq(AId))
   }
 
   object duplicateKeyOrIndex {
@@ -431,7 +431,7 @@ object ModelTypeSpec {
       override val indexSet = Set(index(props.id))
     }
 
-    def modelType = new ModelType[DomainModel](Seq(A))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(), Seq(AId))
   }
 
   object invalidPartition {
@@ -452,7 +452,7 @@ object ModelTypeSpec {
       implicit val idKey = primaryKey(props.id, partition(props.id2))
     }
 
-    def modelType = new ModelType[DomainModel](Seq(A))
+    def modelType = new ModelType[DomainModel](Seq(A), Seq(), Seq(AId))
   }
 
   object derivedPTypeHasNoPoly {

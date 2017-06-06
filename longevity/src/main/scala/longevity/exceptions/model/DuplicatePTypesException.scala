@@ -4,5 +4,4 @@ package longevity.exceptions.model
  * [[longevity.model.PType PType]] for a single kind of persistent object
  */
 class DuplicatePTypesException
-extends ModelTypeException(
-  "an PTypePool cannot contain multiple PTypes for the same Persistent")
+extends ModelTypeException("a ModelType cannot contain multiple PTypes for the same Persistent")

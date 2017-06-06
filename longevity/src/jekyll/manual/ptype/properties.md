@@ -3,11 +3,10 @@ title: properties
 layout: page
 ---
 
-In our `PType`, when we talk about the fields of our persistent
-object, we talk about properties, or `Props`. Properties map to
-underlying members within the [persistent object](../persistent), at
-any depth. They follow a path from the root of the persistent object,
-and take on the type of that member in the persistent.
+In our `PType`, when we talk about the fields of our persistent object, we talk about properties, or
+`Props`. Properties map to underlying members within the [persistent
+object](../model/persistents.html), at any depth. They follow a path from the root of the persistent
+object, and take on the type of that member in the persistent.
 
 When we use the `@persistent` annotation, the properties are generated
 for us automatically. For example, if we define `User` as follows:
@@ -16,17 +15,17 @@ for us automatically. For example, if we define `User` as follows:
 import longevity.model.annotations.component
 import longevity.model.annotations.persistent
 
-@component case class Email(email: String)
-@component case class Markdown(markdown: String)
-@component case class Uri(uri: String)
+@component[DomainModel] case class Email(email: String)
+@component[DomainModel] case class Markdown(markdown: String)
+@component[DomainModel] case class Uri(uri: String)
 
-@component
+@component[DomainModel]
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
   description: Markdown)
 
-@persistent(keySet = emptyKeySet)
+@persistent[DomainModel](keySet = emptyKeySet)
 case class User(
   username: String,
   email: Email,

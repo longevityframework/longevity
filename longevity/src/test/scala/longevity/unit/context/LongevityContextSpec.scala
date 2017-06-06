@@ -24,7 +24,7 @@ object LongevityContextSpec {
     trait DomainModel
 
     object DomainModel {
-      implicit object modelType extends ModelType[DomainModel](Seq(A))
+      implicit object modelType extends ModelType[DomainModel](Seq(A), Seq(), Seq(AId))
       private[sample] implicit object modelEv extends ModelEv[DomainModel]
     }
 

@@ -13,7 +13,8 @@ package object blogCore {
   object BlogCore {
     implicit object modelType extends ModelType[BlogCore](
       Seq(User, Blog, BlogPost),
-      Seq(Markdown, Uri, UserProfile))
+      Seq(Markdown, Uri, UserProfile),
+      Seq(Email, Username, BlogUri, BlogPostUri))
     implicit object modeEv extends ModelEv[BlogCore]
   }
 

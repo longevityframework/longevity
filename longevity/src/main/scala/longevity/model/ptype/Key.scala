@@ -1,6 +1,5 @@
 package longevity.model.ptype
 
-import emblem.emblematic.Emblem
 import longevity.model.KVEv
 
 /** a natural key for this persistent type. wraps a [[Prop property]] that,
@@ -20,7 +19,6 @@ abstract class Key[M, P, V] private[model]() {
   private[longevity] val ev: KVEv[M, P, V]
 
   private[longevity] lazy val keyValTypeKey = keyValProp.propTypeKey
-  private[model] lazy val keyValEmblem = Emblem(keyValTypeKey)
 
   override def toString = s"Key[${keyValProp.pTypeKey.name},${keyValTypeKey.name}]"
 

@@ -53,7 +53,8 @@ private object domainModel {
     private def modelType = {
       val pTypes = q"longevity.model.annotations.packscanToList[longevity.model.PType[$typeName, _]]"
       val cTypes = q"longevity.model.annotations.packscanToList[longevity.model.CType[$typeName, _]]"
-      q"implicit object modelType extends longevity.model.ModelType[$typeName]($pTypes, $cTypes)"
+      val kvTypes = q"longevity.model.annotations.packscanToList[longevity.model.KVType[$typeName, _, _]]"
+      q"implicit object modelType extends longevity.model.ModelType[$typeName]($pTypes, $cTypes, $kvTypes)"
     }
 
     private def modelEv = {
