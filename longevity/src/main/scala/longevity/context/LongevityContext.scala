@@ -29,10 +29,9 @@ object LongevityContext {
    * @throws longevity.exceptions.context.LongevityConfigException if the
    * typesafe configuration does not adequately specify the LongevityConfig
    */
-  def apply[M](
+  def apply[M : ModelType](
     typesafeConfig: Config = ConfigFactory.load(),
-    customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)(
-    implicit modelType: ModelType[M])
+    customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
   : LongevityContext[M] =
     new LongevityContext(LongevityConfig(typesafeConfig), customGeneratorPool)
 
@@ -48,10 +47,7 @@ object LongevityContext {
    * 
    * @tparam M the model
    */
-  def apply[M](
-    config: LongevityConfig,
-    customGeneratorPool: CustomGeneratorPool)(
-    implicit modelType: ModelType[M])
+  def apply[M : ModelType](config: LongevityConfig, customGeneratorPool: CustomGeneratorPool)
   : LongevityContext[M] =
     new LongevityContext(config, customGeneratorPool)
 
@@ -64,7 +60,7 @@ object LongevityContext {
    *
    * @param modelType the model type
    */
-  def apply[M](config: LongevityConfig)(implicit modelType: ModelType[M]): LongevityContext[M] =
+  def apply[M : ModelType](config: LongevityConfig): LongevityContext[M] =
     new LongevityContext(config, CustomGeneratorPool.empty)
 
 }

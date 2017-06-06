@@ -26,8 +26,7 @@ extends FlatSpec with LongevityIntegrationSpec[derived.DomainModel] {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
     val createdPState = repo.create(firstDerivedPersistent).futureValue
 
-    val retrievedPStateOpt =
-      repo.retrieve[derived.PolyPersistent, derived.PolyPersistentId](firstDerivedPersistent.id).futureValue
+    val retrievedPStateOpt = repo.retrieve[derived.PolyPersistent](firstDerivedPersistent.id).futureValue
     retrievedPStateOpt should be ('nonEmpty)
     retrievedPStateOpt.get.get should equal (firstDerivedPersistent)
   } 
@@ -38,7 +37,7 @@ extends FlatSpec with LongevityIntegrationSpec[derived.DomainModel] {
     val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
     val createdPState = repo.create(firstDerivedPersistent).futureValue
 
-    val retrievedPStateOpt = repo.retrieve[derived.FirstDerivedPersistent, derived.PolyComponentId](
+    val retrievedPStateOpt = repo.retrieve[derived.FirstDerivedPersistent](
       firstDerivedPersistent.component.id
     ).futureValue
     retrievedPStateOpt should be ('nonEmpty)
@@ -49,7 +48,7 @@ extends FlatSpec with LongevityIntegrationSpec[derived.DomainModel] {
     val secondDerivedPersistent = testDataGenerator.generate[derived.SecondDerivedPersistent]
     val createdPState = repo.create(secondDerivedPersistent).futureValue
 
-    val retrievedPStateOpt = repo.retrieve[derived.FirstDerivedPersistent, derived.PolyComponentId](
+    val retrievedPStateOpt = repo.retrieve[derived.FirstDerivedPersistent](
       secondDerivedPersistent.component.id
     ).futureValue
     retrievedPStateOpt should be ('empty)

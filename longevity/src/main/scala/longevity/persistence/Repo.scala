@@ -64,28 +64,91 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
     Future.sequence(fpStates)
   }
 
-  /** retrieves an optional persistent object from a key value
+  /** part one of a two-part call for retrieving an optional persistent object from a key value.
    *
-   * @tparam V the type of the key value
-   * @param keyVal the key value to use to look up the persistent object
-   * @param executionContext the execution context
+   * the complete two-part call will end up looking like this:
+   *
+   * {{{
+   * val f: Future[Option[PState[User]]] = repo.retrieve[User](username)
+   * }}}
+   *
+   * the call is split into two parts this way to prevent you from having to explicitly name the
+   * type of your key value. without it, the call would look like this:
+   *
+   * {{{
+   * val f: Future[Option[PState[User]]] = repo.retrieve[User, Username](username)
+   * }}}
+   *
+   * @see [[Retrieve.apply]]
    */
-  def retrieve[P : PEv[M, ?], V : Key[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
-  : Future[Option[PState[P]]] =
-    pRepoMap(implicitly[PEv[M, P]].key).retrieve[V](keyVal)
+  def retrieve[P]: Retrieve[P] = new Retrieve[P]
 
-  /** retrieves an optional persistent object from a key value
-   * 
-   * throws NoSuchElementException whenever the persistent ref does not refer to a persistent object
-   * in the repository
-   * 
-   * @tparam V the type of the key value
-   * @param keyVal the key value to use to look up the persistent object
-   * @param executionContext the execution context
+  /** a container for part two of a two part call for retrieving an optional persistent object from a
+   * key value
+   *
+   * @see [[Repo.retrieve]]
    */
-  def retrieveOne[P: PEv[M, ?], V: Key[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
-  : Future[PState[P]] =
-    pRepoMap(implicitly[PEv[M, P]].key).retrieveOne[V](keyVal)
+  final class Retrieve[P] private[Repo]()  {
+
+    /** part two of a two-part call for retrieving an optional persistent object from a key value
+     *
+     * @tparam V the type of the key value
+     * @param keyVal the key value to use to look up the persistent object
+     * @param executionContext the execution context
+     *
+     * @see [[Repo.retrieve]]
+     */
+    def apply[V : Key[M, P, ?]](
+      keyVal: V)(
+      implicit pEv: PEv[M, P],
+      executionContext: ExecutionContext)
+    : Future[Option[PState[P]]] =
+      pRepoMap(implicitly[PEv[M, P]].key).retrieve[V](keyVal)
+  }
+
+  /** part one of a two-part call for retrieving a persistent object from a key value.
+   *
+   * the complete two-part call will end up looking like this:
+   *
+   * {{{
+   * val f: Future[PState[User]] = repo.retrieveOne[User](username)
+   * }}}
+   *
+   * the call is split into two parts this way to prevent you from having to explicitly name the
+   * type of your key value. without it, the call would look like this:
+   * 
+   * {{{
+   * val f: Future[PState[User]] = repo.retrieveOne[User, Username](username)
+   * }}}
+   * 
+   * @see [[RetrieveOne.apply]]
+   */
+  def retrieveOne[P]: RetrieveOne[P] = new RetrieveOne[P]
+
+  /** a container for part two of a two part call for retrieving a persistent object from a key value
+   *
+   * @see [[Repo.retrieveOne]]
+   */
+  final class RetrieveOne[P] private[Repo]()  {
+
+    /** part two of a two-part call for retrieving a persistent object from a key value
+     *
+     * throws NoSuchElementException whenever the persistent ref does not refer to a persistent object
+     * in the repository
+     *
+     * @tparam V the type of the key value
+     * @param keyVal the key value to use to look up the persistent object
+     * @param executionContext the execution context
+     *
+     * @see [[Repo.retrieveOne]]
+     */
+    def apply[V : Key[M, P, ?]](
+      keyVal: V)(
+      implicit pEv: PEv[M, P],
+      executionContext: ExecutionContext)
+    : Future[PState[P]] =
+      pRepoMap(implicitly[PEv[M, P]].key).retrieveOne[V](keyVal)
+  }
 
   /** retrieves multiple persistent objects matching a query
    * 
