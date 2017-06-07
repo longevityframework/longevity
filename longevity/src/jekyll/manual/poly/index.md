@@ -16,11 +16,11 @@ pages:
 - [Polymorphic Persistents](persistents.html)
 - [Controlled Vocabularies](cv.html)
 
-{% assign prevTitle = "property sets" %}
-{% assign prevLink = "../ptype/sets.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = ".." %}
+{% assign prevTitle = "indexes" %}
+{% assign prevLink  = "../ptype/indexes.html" %}
+{% assign upTitle   = "user manual" %}
+{% assign upLink    = ".." %}
 {% assign nextTitle = "polymorphic components" %}
-{% assign nextLink = "components.html" %}
+{% assign nextLink  = "components.html" %}
 {% include navigate.html %}
 

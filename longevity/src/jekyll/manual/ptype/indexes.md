@@ -11,56 +11,32 @@ index. To do this, we declare our index in a singleton object
 `indexes` inside our `PType`:
 
 ```scala
-import longevity.model.annotations.keyVal
 import longevity.model.annotations.component
+import longevity.model.annotations.keyVal
 import longevity.model.annotations.persistent
 
-@keyVal[User]
+@keyVal[DomainModel, User]
 case class Username(username: String)
 
-@component
+@component[DomainModel]
 case class FullName(last: String, first: String)
 
-@persistent(
-  keySet = Set(key(props.username)),
-  indexSet = Set(index(props.fullName.last, props.fullName.first)))
+@persistent[DomainModel]
 case class User(
   username: Username,
   fullName: FullName)
+
+object User {
+  implicit val usernameKey = key(props.username)
+  override val indexSet = Set(
+    index(props.fullName.last, props.fullName.first))
+}
 ```
 
 The index above will assure fast performance for queries that filter
 on `lastName`, as well as for queries where `lastName` is fixed and
 `firstName` is filtered. It will not assure performance for a search
 on `firstName` alone.
-
-The equivalent non-annotation version is like so:
-
-```scala
-import longevity.model.KeyVal
-import longevity.model.CType
-import longevity.model.PType
-
-case class Username(username: String) extends KeyVal[User]
-
-case class FullName(last: String, first: String)
-
-object FullName extends CType[FullName]
-
-case class User(
-  username: Username,
-  fullName: FullName)
-
-object User extends PType[User] {
-  object props {
-    val username = prop[Username]("username")
-    val lastName = prop[String]("fullName.last")
-    val firstName = prop[String]("fullName.first")
-  }
-  lazy val keySet = Set(key(props.username))
-  override val indexSet = Set(index(props.lastName, props.firstName))
-}
-```
 
 Note that `indexSet` is defined in `PType` to be the empty set, so if
 you want to add indexes, you have to override `indexSet`. While we
@@ -74,10 +50,10 @@ Indexes are used by `Repo.retrieveByQuery`, which is described in a [later
 section](../query/retrieve-by.html).
 
 {% assign prevTitle = "primary keys" %}
-{% assign prevLink = "primary-keys.html" %}
-{% assign upTitle = "the persistent type" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "property sets" %}
-{% assign nextLink = "sets.html" %}
+{% assign prevLink  = "primary-keys.html" %}
+{% assign upTitle   = "the persistent type" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "subtype polymorphism" %}
+{% assign nextLink  = "../poly" %}
 {% include navigate.html %}
 

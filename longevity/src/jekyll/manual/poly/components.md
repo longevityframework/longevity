@@ -141,10 +141,10 @@ object User extends PType[User] {
 ```
 
 {% assign prevTitle = "subtype polymorphism" %}
-{% assign prevLink = "." %}
-{% assign upTitle = "subtype polymorphism" %}
-{% assign upLink = "." %}
+{% assign prevLink  = "." %}
+{% assign upTitle   = "subtype polymorphism" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "polymorphic persistents" %}
-{% assign nextLink = "persistents.html" %}
+{% assign nextLink  = "persistents.html" %}
 {% include navigate.html %}
 

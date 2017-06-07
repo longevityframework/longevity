@@ -21,7 +21,6 @@ layout: page
   - [Keys](ptype/keys.html)
   - [Primary Keys](ptype/primary-keys.html)
   - [Indexes](ptype/indexes.html)
-  - [Prop Sets, Key Sets, and Index Sets](ptype/sets.html)
 - [Subtype Polymorphism](poly)
   - [Polymorphic Components](poly/components.html)
   - [Polymorphic Persistents](poly/persistents.html)

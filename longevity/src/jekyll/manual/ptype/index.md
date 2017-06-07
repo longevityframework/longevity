@@ -29,7 +29,6 @@ discuss properties first.
 - [Keys](keys.html)
 - [Primary Keys](primary-keys.html)
 - [Indexes](indexes.html)
-- [Prop Sets, Key Sets, and Index Sets](sets.html)
 
 {% assign prevTitle = "limitations on persistents, components, and key values" %}
 {% assign prevLink  = "../model/limitations.html" %}

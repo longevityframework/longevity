@@ -59,21 +59,6 @@ You can build the properties by hand if you like, but you will need to
 specify both the path, and the type of the property yourself. Longevity
 will check that the type is correct when the `DomainModel` is created.
 
-If you are actually writing out your properties by hand, the following
-style is much more compact:
-
-```scala
-import longevity.model.PType
-
-object User extends PType[DomainModel, User] {
-  object props {
-    val username = prop[String]("username")
-    val email = prop[Email]("email")
-    // ...
-  }
-}
-```
-
 In principle, properties could map through any path from the persistent object, and have a wide
 variety of types. In practice, the kinds of properties currently supported is somewhat limited. We
 do plan to address all of these limitations, and removing some of them is high priority. For more
