@@ -48,10 +48,10 @@ execution context argument. The easiest way to provide this is to
 include `import scala.concurrent.ExecutionContext.Implicits.global` at
 the top of the file.
 
-{% assign prevTitle = "schema creation" %}
-{% assign prevLink  = "schema-creation.html" %}
-{% assign upTitle   = "the longevity context" %}
+{% assign prevTitle = "repo.create" %}
+{% assign prevLink  = "create.html" %}
+{% assign upTitle   = "the repository" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "testing your domain model" %}
-{% assign nextLink  = "../testing" %}
+{% assign nextTitle = "repo.retrieve" %}
+{% assign nextLink  = "retrieve.html" %}
 {% include navigate.html %}

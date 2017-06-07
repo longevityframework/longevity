@@ -1,5 +1,5 @@
 ---
-title: polymorphic repositories
+title: persisting polymorphism
 layout: page
 ---
 
@@ -100,9 +100,9 @@ val queryResults = memberRepo.retrieveByQuery(query)
 ```
 
 {% assign prevTitle = "repo.delete" %}
-{% assign prevLink = "../repo/delete.html" %}
-{% assign upTitle = "repositories" %}
-{% assign upLink = "." %}
+{% assign prevLink  = "../repo/delete.html" %}
+{% assign upTitle   = "the repository" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "queries" %}
-{% assign nextLink = "../query" %}
+{% assign nextLink  = "../query" %}
 {% include navigate.html %}

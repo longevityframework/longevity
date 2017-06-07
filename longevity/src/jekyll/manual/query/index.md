@@ -30,10 +30,10 @@ This chapter is organized as follows:
 - [Stream by Query](stream-by.html)
 - [Limitations on Cassandra Queries](cassandra-query-limits.html)
 
-{% assign prevTitle = "polymorphic repositories" %}
-{% assign prevLink = "../repo/poly.html" %}
-{% assign upTitle = "user manual" %}
-{% assign upLink = ".." %}
+{% assign prevTitle = "persisting polymorphism" %}
+{% assign prevLink  = "../repo/poly.html" %}
+{% assign upTitle   = "user manual" %}
+{% assign upLink    = ".." %}
 {% assign nextTitle = "using the query dsl" %}
-{% assign nextLink = "dsl.html" %}
+{% assign nextLink  = "dsl.html" %}
 {% include navigate.html %}

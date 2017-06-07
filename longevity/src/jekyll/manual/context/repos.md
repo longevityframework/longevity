@@ -40,10 +40,10 @@ class TestPersistenceModule extends Module {
 We'll look at schema creation next, since that responsibility falls to
 the `RepoPool`.
 
-{% assign prevTitle = "write timestamps" %}
-{% assign prevLink  = "write-timestamps.html" %}
+{% assign prevTitle = "configuring your longevity context" %}
+{% assign prevLink  = "config.html" %}
 {% assign upTitle   = "the longevity context" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "schema creation" %}
-{% assign nextLink  = "schema-creation.html" %}
+{% assign nextTitle = "optimistic locking" %}
+{% assign nextLink  = "opt-lock.html" %}
 {% include navigate.html %}

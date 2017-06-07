@@ -36,7 +36,7 @@ Cassandra and SQLite) is in place.
 {% assign prevLink  = "opt-lock.html" %}
 {% assign upTitle   = "the longevity context" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "repo pools" %}
-{% assign nextLink  = "repo-pools.html" %}
+{% assign nextTitle = "testing your domain model" %}
+{% assign nextLink  = "../testing" %}
 {% include navigate.html %}
 

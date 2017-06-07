@@ -11,11 +11,9 @@ need to maintain your back-end store. But there are many other tools
 there, most of which are most useful when writing tests.
 
 - [Configuring your Longevity Context](config.html)
+- [Repositories](repos.html)
 - [Optimistic Locking](opt-lock.html)
 - [Write Timestamps](write-timestamps.html)
-- [Repo Pools](repo-pools.html)
-- [Schema Creation](schema-creation.html)
-- [Creating Many Aggregates at Once](create-many.html)
 
 {% assign prevTitle = "limitations on cassandra queries" %}
 {% assign prevLink  = "../query/cassandra-query-limits.html" %}

@@ -56,9 +56,9 @@ We have just provided a guarantee - at virtually no cost - that
 persistence concerns can not leak into the `UserService`
 implementation.
 
-{% assign prevTitle = "repositories" %}
-{% assign prevLink  = "." %}
-{% assign upTitle   = "repositories" %}
+{% assign prevTitle = "schema creation" %}
+{% assign prevLink  = "schema-creation.html" %}
+{% assign upTitle   = "the repository" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "persistent state wrappers" %}
 {% assign nextLink  = "pstate-wrappers.html" %}

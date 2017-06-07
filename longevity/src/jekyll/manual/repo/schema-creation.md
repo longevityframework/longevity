@@ -32,10 +32,10 @@ development work, but will incur an overhead for every program run.
 Schema generation is always a non-destructive process, and you will
 never lose any data when generating schema.
 
-{% assign prevTitle = "repo pools" %}
-{% assign prevLink  = "repo-pools.html" %}
-{% assign upTitle   = "the longevity context" %}
+{% assign prevTitle = "the repository" %}
+{% assign prevLink  = "." %}
+{% assign upTitle   = "the repository" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "creating many aggregates at once" %}
-{% assign nextLink  = "create-many.html" %}
+{% assign nextTitle = "the persistent state" %}
+{% assign nextLink  = "persistent-state.html" %}
 {% include navigate.html %}

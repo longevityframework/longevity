@@ -29,8 +29,8 @@ to see these, and we will adjust the priority.
 
 </div>
 
-{% assign prevTitle = "creating many aggregates at once" %}
-{% assign prevLink  = "../context/create-many.html" %}
+{% assign prevTitle = "write timestamps" %}
+{% assign prevLink  = "../context/write-timestamps.html" %}
 {% assign upTitle   = "user manual" %}
 {% assign upLink    = ".." %}
 {% assign nextTitle = "in memory repositories" %}

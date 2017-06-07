@@ -113,9 +113,9 @@ details with writeTimestamps:
   - except mongo, which will voerwrite them
 
 {% assign prevTitle = "the longevity context" %}
-{% assign prevLink = "." %}
-{% assign upTitle = "the longevity context" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "optimistic locking" %}
-{% assign nextLink = "opt-lock.html" %}
+{% assign prevLink  = "." %}
+{% assign upTitle   = "the longevity context" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "repositories" %}
+{% assign nextLink  = "repos.html" %}
 {% include navigate.html %}

@@ -53,7 +53,7 @@ you should consider a `PState` passed to `Repo.update` as no longer valid.
 
 {% assign prevTitle = "repo.retrieve" %}
 {% assign prevLink  = "retrieve.html" %}
-{% assign upTitle   = "repositories" %}
+{% assign upTitle   = "the repository" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "repo.delete" %}
 {% assign nextLink  = "delete.html" %}

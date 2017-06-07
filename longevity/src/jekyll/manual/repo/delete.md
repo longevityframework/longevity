@@ -32,9 +32,9 @@ with something like <code>Repo.deleteByQuery</code> or
 </div>
 
 {% assign prevTitle = "repo.update" %}
-{% assign prevLink = "update.html" %}
-{% assign upTitle = "repositories" %}
-{% assign upLink = "." %}
-{% assign nextTitle = "polymorphic repositories" %}
-{% assign nextLink = "poly.html" %}
+{% assign prevLink  = "update.html" %}
+{% assign upTitle   = "the repository" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "persisting polymorphism" %}
+{% assign nextLink  = "poly.html" %}
 {% include navigate.html %}

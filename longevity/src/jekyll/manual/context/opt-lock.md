@@ -90,8 +90,8 @@ method checks the return value from the database to confirm the change
 was made. If it was not, then there was a write conflict, and a
 `WriteConflictException` is thrown.
 
-{% assign prevTitle = "configuring your longevity context" %}
-{% assign prevLink  = "config.html" %}
+{% assign prevTitle = "repositories" %}
+{% assign prevLink  = "repos.html" %}
 {% assign upTitle   = "the longevity context" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "write timestamps" %}
