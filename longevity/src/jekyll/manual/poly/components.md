@@ -59,31 +59,31 @@ import longevity.model.annotations.derivedComponent
 import longevity.model.annotations.persistent
 import org.joda.time.DateTime
 
-@polyComponent
+@polyComponent[DomainModel]
 trait UserVerification {
   val verificationDate: DateTime
 }
 
-@derivedComponent[UserVerification]
+@derivedComponent[DomainModel, UserVerification]
 case class EmailVerification(
   email: Email,
   verificationDate: DateTime)
 extends UserVerification
 
-@derivedComponent[UserVerification]
+@derivedComponent[DomainModel, UserVerification]
 case class SmsVerification(
   phoneNumber: PhoneNumber,
   verificationDate: DateTime)
 extends UserVerification
 
-@derivedComponent[UserVerification]
+@derivedComponent[DomainModel, UserVerification]
 case class GoogleSignIn(
   email: Email,
   idToken: String,
   verificationDate: DateTime)
 extends UserVerification
 
-@persistent(keySet = emptyKeySet)
+@persistent[DomainModel]
 case class User(
   username: String,
   email: Email,
@@ -94,30 +94,30 @@ The non-annotation equivalent is as follows:
 
 
 ```scala
-import longevity.model.PolyCType
 import longevity.model.DerivedCType
 import longevity.model.PType
+import longevity.model.PolyCType
 import org.joda.time.DateTime
 
 trait UserVerification {
   val verificationDate: DateTime
 }
 
-object UserVerification extends PolyCType[UserVerification]
+object UserVerification extends PolyCType[DomainModel, UserVerification]
 
 case class EmailVerification(
   email: Email,
   verificationDate: DateTime)
 extends UserVerification
 
-object EmailVerification extends DerivedCType[EmailVerification, UserVerification]
+object EmailVerification extends DerivedCType[DomainModel, EmailVerification, UserVerification]
 
 case class SmsVerification(
   phoneNumber: PhoneNumber,
   verificationDate: DateTime)
 extends UserVerification
 
-object SmsVerification extends DerivedCType[SmsVerification, UserVerification]
+object SmsVerification extends DerivedCType[DomainModel, SmsVerification, UserVerification]
 
 case class GoogleSignIn(
   email: Email,
@@ -125,18 +125,17 @@ case class GoogleSignIn(
   verificationDate: DateTime)
 extends UserVerification
 
-object GoogleSignIn extends DerivedCType[GoogleSignIn, UserVerification]
+object GoogleSignIn extends DerivedCType[DomainModel, GoogleSignIn, UserVerification]
 
 case class User(
   username: String,
   email: Email,
   verifications: List[UserVerification])
 
-object User extends PType[User] {
+object User extends PType[DomainModel, User] {
   object props {
     // ...
   }
-  lazy val keySet = emptyKeySet
 }
 ```
 

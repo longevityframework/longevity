@@ -23,7 +23,7 @@ use this controlled vocabulary in our domain, such as:
 ```scala
 import longevity.model.annotations.persistent
 
-@persistent(keySet = emptyKeySet)
+@persistent[DomainModel]
 case class Account(
   name: String,
   accountStatus: AccountStatus)
@@ -36,16 +36,16 @@ We just need to annotate the members of our controlled vocabulary with
 import longevity.model.annotations.polyComponent
 import longevity.model.annotations.derivedComponent
 
-@polyComponent
+@polyComponent[DomainModel]
 sealed trait AccountStatus
 
-@derivedComponent[AccountStatus]
+@derivedComponent[DomainModel, AccountStatus]
 case object Active extends AccountStatus
 
-@derivedComponent[AccountStatus]
+@derivedComponent[DomainModel, AccountStatus]
 case object Suspended extends AccountStatus
 
-@derivedComponent[AccountStatus]
+@derivedComponent[DomainModel, AccountStatus]
 case object Cancelled extends AccountStatus
 ```
 

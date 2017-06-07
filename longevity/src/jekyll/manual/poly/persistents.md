@@ -15,26 +15,26 @@ import longevity.model.annotations.component
 import longevity.model.annotations.derivedPersistent
 import longevity.model.annotations.polyPersistent
 
-@component
+@component[DomainModel]
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
   description: Markdown)
 
-@polyPersistent(keySet = emptyKeySet)
+@polyPersistent[DomainModel]
 trait User {
   val username: Username
   val email: Email
 }
 
-@derivedPersistent[User](keySet = emptyKeySet)
+@derivedPersistent[DomainModel, User]
 case class Member(
   username: Username,
   email: Email,
   profile: UserProfile)
 extends User
 
-@derivedPersistent[User](keySet = emptyKeySet)
+@derivedPersistent[DomainModel, User]
 case class Commenter(
   username: Username,
   email: Email)
@@ -53,18 +53,17 @@ case class UserProfile(
   imageUri: Uri,
   description: Markdown)
 
-object UserProfile extends CType[UserProfile]
+object UserProfile extends CType[DomainModel, UserProfile]
 
 trait User {
   val username: Username
   val email: Email
 }
 
-object User extends PolyPType[User] {
+object User extends PolyPType[DomainModel, User] {
   object props {
     // ...
   }
-  lazy val keySet = emptyKeySet
 }
 
 case class Member(
@@ -73,11 +72,10 @@ case class Member(
   profile: UserProfile)
 extends User
 
-object Member extends DerivedPType[Member, User] {
+object Member extends DerivedPType[DomainModel, Member, User] {
   object props {
     // ...
   }
-  lazy val keySet = emptyKeySet
 }
 
 case class Commenter(
@@ -85,11 +83,10 @@ case class Commenter(
   email: Email)
 extends User
 
-object Commenter extends DerivedPType[Commenter, User] {
+object Commenter extends DerivedPType[DomainModel, Commenter, User] {
   object props {
     // ...
   }
-  lazy val keySet = emptyKeySet
 }
 ```
 
@@ -103,34 +100,38 @@ properties, keys, and indexes. We could, for example, put in a
 import longevity.model.annotations.derivedPersistent
 import longevity.model.annotations.polyPersistent
 
-@polyPersistent(
-  keySet = Set(key(props.username)),
-  indexSet = Set(index(props.email)))
+@polyPersistent[DomainModel]
 trait User {
   val username: Username
   val email: Email
 }
 
-@derivedPersistent[User](
-  keySet = emptyKeySet,
-  indexSet = Set(index(props.profile.tagline)))
+object User {
+  implicit val usernameKey = key(props.username)
+  override val indexSet = Set(index(props.email))
+}
+
+@derivedPersistent[DomainModel, User]
 case class Member(
   username: Username,
   email: Email,
   profile: UserProfile)
 extends User
+
+object Member {
+  override val indexSet = Set(index(props.profile.tagline))
+}
 ```
 
-When you construct your [longevity context](../context), you will get
-a [repository](../repo) for for each of your `@derivedPersistents`,
-along with one for the parent `@polyPersistent`. All these
-repositories will share the same backing store, so a `Member`
-persisted by the `Repo[User]` will be retrievable via the
-`Repo[Member]`, and vice-versa. Keys and indexes declared in `object
-User` will apply to all types of `Users`, whereas keys and indexes
-declared in `object Member` will only apply to members. For more
-information, see the section on [polymorphic
+When you construct your [longevity context](../context), you will be able to use
+[repository](../repository) for for each of your `@derivedPersistents`, along with one for the
+parent `@polyPersistent`. These persistent classes will share the same backing store, so a `Member`
+persisted as a `User` will be retrievable as a `Member`, and vice-versa. Keys and indexes declared
+in `object User` will apply to all types of `Users`, whereas keys and indexes declared in `object
+Member` will only apply to members. For more information, see the section on [polymorphic
 repositories](../repo/poly.html).
+
+TODO fix up this link when chapter name changes
 
 {% assign prevTitle = "polymorphic components" %}
 {% assign prevLink  = "components.html" %}

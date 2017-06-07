@@ -26,3 +26,8 @@ case class GoogleSignIn(
   idToken: String,
   verificationDate: DateTime)
 extends UserVerification
+
+case class User(
+  username: String,
+  email: Email,
+  verifications: List[UserVerification])
