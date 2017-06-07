@@ -3,9 +3,11 @@ title: the repository
 layout: page
 ---
 
-All persistence operations occur through the repository API. In this chapter, we will take a look at
-the schema creation operation, as well as the standard CRUD (create/retrieve/update/delete)
-operations. Repository queries are discussed in the [following chapter](../query).
+All persistence operations occur through the repository - the `longevity.persistence.Repo`. In this
+chapter, we will take a look at the schema creation operation, as well as the standard CRUD
+(create/retrieve/update/delete) operations. Repository queries are discussed in the [following
+chapter](../query). How to get your hands on a `Repo` instance is discussed in the section on
+[repositories](../context/repos.html) in the chapter on the longevity context.
 
 - [Schema Creation](schema-creation.html)
 - [Persistent State](persistent-state.html)

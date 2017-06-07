@@ -128,10 +128,8 @@ When you construct your [longevity context](../context), you will be able to use
 parent `@polyPersistent`. These persistent classes will share the same backing store, so a `Member`
 persisted as a `User` will be retrievable as a `Member`, and vice-versa. Keys and indexes declared
 in `object User` will apply to all types of `Users`, whereas keys and indexes declared in `object
-Member` will only apply to members. For more information, see the section on [polymorphic
-repositories](../repo/poly.html).
-
-TODO fix up this link when chapter name changes
+Member` will only apply to members. For more information, see the section on [persisting
+polymorphism](../repo/poly.html).
 
 {% assign prevTitle = "polymorphic components" %}
 {% assign prevLink  = "components.html" %}

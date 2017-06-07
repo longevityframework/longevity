@@ -56,9 +56,9 @@ but we include them to make the example easier to follow:
 
 ```scala
 def updateLastName(username: Username, newLastName: String): Future[Boolean] = {
-  val retrieved: FOPState[User] = userRepo.retrieve(username)
+  val retrieved: FOPState[User] = repo.retrieve[User](username)
   val modified: FOPState[User] = retrieved.mapP(_.copy(lastName = newLastName))
-  val updated: FOPState[User] = modified.flatMapState(userRepo.update)
+  val updated: FOPState[User] = modified.flatMapState(repo.update)
   updated.map(_.nonEmpty)
 }
 ```

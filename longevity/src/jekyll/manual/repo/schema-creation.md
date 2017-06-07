@@ -14,20 +14,16 @@ duplicate key values, as discussed in the [section on method
 `Repo.create`](../repo/create.html).) For the in-memory back end,
 schema creation is a no-op.
 
-You can create the requisite schema by calling
-`RepoPool.createSchema()`. This is an asynchronous method, so you will
-need to provide an implicit `ExecutionContext`, and you will want to
-ensure the asynchronous method completes before starting to use your
-repositories. It returns a `Future[Unit]` - that is, the completion of
-the future will only indicate success or failure.
+You can create the requisite schema by calling `Repo.createSchema()`. This is an asynchronous
+method, so you will need to provide an implicit `ExecutionContext`, and you will want to ensure the
+asynchronous method completes before starting to use your repositories. It returns a `Future[Unit]`
+- that is, the completion of the future will only indicate success or failure.
 
-An alternative way to generate schema is to set the [configuration
-flag](config.html) `longevity.autocreateSchema` to true. In this
-case, schema will be generated when the `RepoPool` is first
-accessed. Unlike calling `RepoPool.createSchema()`, schema
-autogeneration happens in a synchronous (i.e., blocking)
-manner. Schema autogeneration is a convenient feature for testing or
-development work, but will incur an overhead for every program run.
+An alternative way to generate schema is to set the [configuration flag](config.html)
+`longevity.autocreateSchema` to true. In this case, schema will be generated when the `RepoPool` is
+first accessed. Unlike calling `Repo.createSchema()`, schema autogeneration happens in a synchronous
+(i.e., blocking) manner. Schema autogeneration is a convenient feature for testing or development
+work, but will incur an overhead for every program run.
 
 Schema generation is always a non-destructive process, and you will
 never lose any data when generating schema.

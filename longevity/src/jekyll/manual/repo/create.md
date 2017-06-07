@@ -3,14 +3,23 @@ title: repo.create
 layout: page
 ---
 
-`Repo.create` takes an unpersisted object as argument, persists it,
-and returns the persistent state:
+`Repo.create` takes an unpersisted object as argument, persists it, and returns the persistent
+state. Here's a simplified version of its signature:
 
 ```scala
-def create(unpersisted: P): Future[PState[P]]
+def create[P](unpersisted: P): Future[PState[P]]
 ```
 
-For example, let's say we want to persist a user:
+We left out two things: the implicit `ExecutionContext`, and the implicit `longevity.model.PEv[M,
+P]`. The "ev" in `PEv` stands for "evidence". This implicit is evidence that the type `P` is
+actually a type of something that you have declared as persistent in model `M`. This evidence will
+be found by your compiler in the companion object for class `P`, assuming it is actually a
+`longevity.model.PType[M, P]`. It will be if you annotated you persistent class with
+`@longevity.model.annotations.persistent[M]`, as recommended in the [section on persistent
+objects](../model/persistents.html). Requiring this evidence allows us to make repository methods
+typesafe without requiring you to provide a marker trait on your persistent classes.
+
+Here's how we would persist a user:
 
 ```scala
 val user = User("smithy", "John Smith", "smithy@john-smith.ninja")
