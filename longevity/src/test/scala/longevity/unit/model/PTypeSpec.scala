@@ -4,6 +4,7 @@ import longevity.exceptions.model.ptype.MultiplePrimaryKeysForPType
 import longevity.exceptions.model.ptype.NoPropsForPTypeException
 import longevity.exceptions.model.ptype.PrimaryKeyForDerivedPTypeException
 import longevity.model.PType
+import longevity.model.ptype.Prop
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -31,7 +32,7 @@ object PTypeSpec {
 
   object User extends PolyPType[DomainModel, User] {
     object props {
-      val username = prop[Username]("username")
+      object username extends Prop[User, Username]("username")
     }
     implicit val usernameKey = primaryKey(props.username)
   }
@@ -44,7 +45,7 @@ object PTypeSpec {
 
   object EmailedUser extends DerivedPType[DomainModel, EmailedUser, User] {
     object props {
-      val email = prop[Email]("email")
+      object email extends Prop[EmailedUser, Email]("email")
     }
     implicit val emailKey = primaryKey(props.email)
   }
@@ -76,8 +77,8 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "produce a non-empty `propSet` when `object props` holds props of the right type" in {
     object User extends PType[BlogCore, User] {
       object props {
-        val username = prop[Username]("username")
-        val email = prop[Email]("email")
+        object username extends Prop[User, Username]("username")
+        object email extends Prop[User, Email]("email")
       }
     }
     User.propSet should equal (Set(User.props.username, User.props.email))
@@ -86,8 +87,8 @@ class PTypeSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "throw exception if more than one primary key is defined" in {
     object User extends PType[BlogCore, User] {
       object props {
-        val username = prop[Username]("username")
-        val email = prop[Email]("email")
+        object username extends Prop[User, Username]("username")
+        object email extends Prop[User, Email]("email")
       }
       implicit val usernameKey = primaryKey(props.username)
       implicit val emailKey = primaryKey(props.email)

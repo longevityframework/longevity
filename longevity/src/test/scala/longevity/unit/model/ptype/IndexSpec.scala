@@ -2,6 +2,7 @@ package longevity.unit.model.ptype
 
 import longevity.model.ModelEv
 import longevity.model.PType
+import longevity.model.ptype.Prop
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -25,9 +26,9 @@ object IndexSpec {
 
   object IndexSampler extends PType[DomainModel, IndexSampler] {
     object props {
-      val boolean = prop[Boolean]("boolean")
-      val char = prop[Char]("char")
-      val double = prop[Double]("double")
+      object boolean extends Prop[IndexSampler, Boolean]("boolean")
+      object char extends Prop[IndexSampler, Char]("char")
+      object double extends Prop[IndexSampler, Double]("double")
     }
     override val indexSet = Set(
       index(props.boolean, props.char),

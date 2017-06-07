@@ -7,6 +7,7 @@ package object blogCore {
   import longevity.model.ModelEv
   import longevity.model.ModelType
   import longevity.model.PType
+  import longevity.model.ptype.Prop
 
   trait BlogCore
 
@@ -47,8 +48,8 @@ package object blogCore {
 
   object User extends PType[BlogCore, User] {
     object props {
-      val username = prop[Username]("username")
-      val email = prop[Email]("email")
+      object username extends Prop[User, Username]("username")
+      object email extends Prop[User, Email]("email")
     }
     implicit val usernameKey = key(props.username)
     implicit val emailKey = key(props.email)
@@ -73,7 +74,7 @@ package object blogCore {
 
   object Blog extends PType[BlogCore, Blog] {
     object props {
-      val uri = prop[BlogUri]("uri")
+      object uri extends Prop[Blog, BlogUri]("uri")
     }
     implicit val uriKey = key(props.uri)
   }
@@ -93,8 +94,8 @@ package object blogCore {
 
   object BlogPost extends PType[BlogCore, BlogPost] {
     object props {
-      val uri = prop[BlogPostUri]("uri")
-      val blog = prop[BlogUri]("blog")
+      object uri extends Prop[BlogPost, BlogPostUri]("uri")
+      object blog extends Prop[BlogPost, BlogUri]("blog")
     }
     implicit val uriKey = key(props.uri)
     override val indexSet = Set(index(props.blog))

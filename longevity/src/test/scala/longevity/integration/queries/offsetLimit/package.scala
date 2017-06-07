@@ -3,6 +3,7 @@ package longevity.integration.queries
 import longevity.model.ModelEv
 import longevity.model.ModelType
 import longevity.model.PType
+import longevity.model.ptype.Prop
 
 /** we use a special model type for limit/offset tests to prevent interference
  * from other tests.
@@ -24,8 +25,8 @@ package object offsetLimit {
 
   object OffsetLimit extends PType[DomainModel, OffsetLimit] {
     object props {
-      val i = prop[Int]("i")
-      val j = prop[Int]("j")
+      object i extends Prop[OffsetLimit, Int]("i")
+      object j extends Prop[OffsetLimit, Int]("j")
     }
     override val indexSet = Set(index(props.i), index(props.j))
   }

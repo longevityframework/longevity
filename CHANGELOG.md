@@ -70,6 +70,10 @@
   of as an argument to the `@persistent` macro. I don't terribly like giving MTOWTTI here, but both
   approaches have their drawbacks, and different users may prefer different approaches.
 
+- 2017.06.07 - Remove method `longevity.model.PType.prop`. You can extend
+  `longevity.model.ptype.Prop` instead, but note that we advise you to use the
+  `longevity.model.annotations.persistent` annotation to generate properties.
+
 ## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
 
 - 2017.03.24 - Rename `Repo.retrieveByQuery` to `Repo.queryToFutureVec`. The return type of this

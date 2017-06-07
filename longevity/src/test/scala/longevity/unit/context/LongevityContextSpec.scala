@@ -9,6 +9,7 @@ import longevity.model.KVType
 import longevity.model.ModelEv
 import longevity.model.ModelType
 import longevity.model.PType
+import longevity.model.ptype.Prop
 import org.json4s.JsonAST.JObject
 import org.json4s.JsonAST.JString
 import org.scalatest.FlatSpec
@@ -34,7 +35,7 @@ object LongevityContextSpec {
     case class A(id: AId)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[AId]("id")
+        object id extends Prop[A, AId]("id")
       }
       implicit val idKey = key(props.id)
     }

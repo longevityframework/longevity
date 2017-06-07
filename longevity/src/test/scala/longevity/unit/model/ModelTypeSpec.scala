@@ -18,6 +18,7 @@ import longevity.model.PolyCType
 import longevity.model.PolyPType
 import longevity.model.ModelType
 import longevity.model.ModelEv
+import longevity.model.ptype.Prop
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
@@ -33,14 +34,14 @@ package packageScanning {
     case class A(id: String, b: B)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[String]("id")
+        object id extends Prop[A, String]("id")
       }
     }
   }
 
   abstract class FakeoutA extends PType[DomainModel, nesting.A] {
     object props {
-      val id = prop[String]("id")
+      object id extends Prop[FakeoutA, String]("id")
     }
   }
 
@@ -66,7 +67,7 @@ object ModelTypeSpec {
     case class A(id: String)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[String]("")
+        object id extends Prop[A, String]("")
       }
     }
 
@@ -82,7 +83,7 @@ object ModelTypeSpec {
     case class A(id: String)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[String]("noSuchPropPath")
+        object id extends Prop[A, String]("noSuchPropPath")
       }
     }
 
@@ -98,7 +99,7 @@ object ModelTypeSpec {
     case class A(id: List[B])
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[A]("id")
+        object id extends Prop[A, List[B]]("id")
       }
     }
     case class B(id: String)
@@ -115,7 +116,7 @@ object ModelTypeSpec {
     case class A(id: Option[B])
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[A]("id")
+        object id extends Prop[A, Option[B]]("id")
       }
     }
     case class B(id: String)
@@ -132,7 +133,7 @@ object ModelTypeSpec {
     case class A(id: Set[B])
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[A]("id")
+        object id extends Prop[A, Set[B]]("id")
       }
     }
     case class B(id: String)
@@ -149,7 +150,7 @@ object ModelTypeSpec {
     case class A(b: B)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[B]("b")
+        object id extends Prop[A, B]("b")
       }
     }
 
@@ -170,7 +171,7 @@ object ModelTypeSpec {
     case class A(b: B)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[String]("b.noSuchPropPath")
+        object id extends Prop[A, String]("b.noSuchPropPath")
       }
     }
     case class B(id: String)
@@ -188,7 +189,7 @@ object ModelTypeSpec {
     case class A(id: UUID)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[UUID]("id")
+        object id extends Prop[A, UUID]("id")
       }
     }
 
@@ -204,7 +205,7 @@ object ModelTypeSpec {
     case class A(id: List[String])
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[List[String]]("id")
+        object id extends Prop[A, List[String]]("id")
       }
     }
 
@@ -220,7 +221,7 @@ object ModelTypeSpec {
     case class A(id: Option[String])
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[Option[String]]("id")
+        object id extends Prop[A, Option[String]]("id")
       }
     }
 
@@ -236,7 +237,7 @@ object ModelTypeSpec {
     case class A(id: Set[String])
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[Set[String]]("id")
+        object id extends Prop[A, Set[String]]("id")
       }
     }
 
@@ -252,7 +253,7 @@ object ModelTypeSpec {
     case class A(b: B)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[B]("b")
+        object id extends Prop[A, B]("b")
       }
     }
 
@@ -274,7 +275,7 @@ object ModelTypeSpec {
     case class A(id: List[B])
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[String]("id.id")
+        object id extends Prop[A, String]("id.id")
       }
     }
     case class B(id: String)
@@ -291,7 +292,7 @@ object ModelTypeSpec {
     case class A(id: Option[B])
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[String]("id.id")
+        object id extends Prop[A, String]("id.id")
       }
     }
     case class B(id: String)
@@ -308,7 +309,7 @@ object ModelTypeSpec {
     case class A(id: Set[B])
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[String]("id.id")
+        object id extends Prop[A, String]("id.id")
       }
     }
     case class B(id: String)
@@ -325,7 +326,7 @@ object ModelTypeSpec {
     case class A(b: B)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[String]("b.id")
+        object id extends Prop[A, String]("b.id")
       }
     }
 
@@ -346,7 +347,7 @@ object ModelTypeSpec {
     case class A(id: String)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[Double]("id")
+        object id extends Prop[A, Double]("id")
       }
     }
 
@@ -362,7 +363,7 @@ object ModelTypeSpec {
     case class A(id: String)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[AnyRef]("id")
+        object id extends Prop[A, AnyRef]("id")
       }
     }
 
@@ -382,8 +383,8 @@ object ModelTypeSpec {
     case class A(id: AId)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[AId]("id")
-        val id2 = prop[AIdSuper]("id") // this is the problematic prop
+        object id extends Prop[A, AId]("id")
+        object id2 extends Prop[A, AIdSuper]("id") // this is the problematic prop
       }
       implicit val idKey = key(props.id)
     }
@@ -403,8 +404,8 @@ object ModelTypeSpec {
     case class A(id1: AId, id2: AId)
     object A extends PType[DomainModel, A] {
       object props {
-        val id1 = prop[AId]("id1")
-        val id2 = prop[AId]("id2")
+        object id1 extends Prop[A, AId]("id1")
+        object id2 extends Prop[A, AId]("id2")
       }
       implicit val id1Key = key(props.id1)
       implicit val id2Key = key(props.id2)
@@ -425,7 +426,7 @@ object ModelTypeSpec {
     case class A(id: AId)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[AId]("id")
+        object id extends Prop[A, AId]("id")
       }
       implicit val idKey = key(props.id)
       override val indexSet = Set(index(props.id))
@@ -446,8 +447,8 @@ object ModelTypeSpec {
     case class A(id: AId)
     object A extends PType[DomainModel, A] {
       object props {
-        val id = prop[AId]("id")
-        val id2 = prop[String]("id.id2")
+        object id extends Prop[A, AId]("id")
+        object id2 extends Prop[A, String]("id.id2")
       }
       implicit val idKey = primaryKey(props.id, partition(props.id2))
     }

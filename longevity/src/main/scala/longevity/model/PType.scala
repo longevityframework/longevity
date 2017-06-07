@@ -1,6 +1,5 @@
 package longevity.model
 
-import emblem.TypeKey
 import emblem.reflectionUtil.innerModule
 import emblem.reflectionUtil.termsWithType
 import emblem.typeKey
@@ -29,15 +28,7 @@ abstract class PType[M : ModelEv, P : TypeTag] {
   /** the evidence for the persistent class */
   implicit val pEv = new PEv[M, P](pTypeKey)
 
-  /** the [Prop properties] for this persistent type */
-  // this has to be lazy because the PType must be initialized before we can scan the inner object
-  // props. because the inner object props will use PType method `prop` to build the props.
-  private[longevity] lazy val propSet: Set[Prop[P, _]] = pscan()
-
-  /** the keys for this persistent type */
-  // this (and the keys themselves) has to be lazy for similar reasons as above regarding the
-  // propSet. a key takes at least one prop, which will in turn require a call to PType.prop
-  private[longevity] lazy val keySet: Set[Key[M, P, _]] = kscan()
+  private[longevity] lazy val (keySet, propSet) = (kscan(), pscan())
 
   /** the optional primary key for this persistent type */
   private[longevity] lazy val primaryKey: Option[PrimaryKey[M, P, _]] = {
@@ -51,20 +42,6 @@ abstract class PType[M : ModelEv, P : TypeTag] {
 
   /** the indexes for this persistent type. defaults to the empty set */
   val indexSet: Set[Index[P]] = Set.empty
-
-  /** constructs a [[longevity.model.ptype.Prop Prop]] of type `A` from the
-   * provided property path.
-   *
-   * the provided type `A` should match the type of the actual member in the
-   * persistent class. type `A` should not contain any collections, or terminate
-   * with [[longevity.model.PolyCType polymorphic component]].
-   * violations will cause an exception to be thrown on
-   * [[longevity.model.ModelType ModelType construction]].
-   *
-   * @tparam A the type of the property
-   * @param path the property path
-   */
-  def prop[A : TypeKey](path: String): Prop[P, A] = new Prop(path)
 
   /** constructs a key for this persistent type
    *

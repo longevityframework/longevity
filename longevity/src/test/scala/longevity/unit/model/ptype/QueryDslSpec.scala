@@ -3,6 +3,7 @@ package longevity.unit.model.ptype
 import longevity.model.KVType
 import longevity.model.ModelEv
 import longevity.model.PType
+import longevity.model.ptype.Prop
 import longevity.model.query.Query
 import longevity.model.query.Ascending
 import longevity.model.query.Descending
@@ -25,10 +26,10 @@ object QueryDslSpec {
 
   private object DslPersistent extends PType[DomainModel, DslPersistent] {
     object props {
-      val path1 = prop[Int]("path1")
-      val path2 = prop[Double]("path2")
-      val path3 = prop[String]("path3")
-      val path4 = prop[AssociatedId]("path4")
+      object path1 extends Prop[DslPersistent, Int]("path1")
+      object path2 extends Prop[DslPersistent, Double]("path2")
+      object path3 extends Prop[DslPersistent, String]("path3")
+      object path4 extends Prop[DslPersistent, AssociatedId]("path4")
     }
   }
 
@@ -40,7 +41,7 @@ object QueryDslSpec {
 
   private object Associated extends PType[DomainModel, Associated] {
     object props {
-      val id = prop[AssociatedId]("id")
+      object id extends Prop[Associated, AssociatedId]("id")
     }
     implicit val idKey = key(props.id)
   }
