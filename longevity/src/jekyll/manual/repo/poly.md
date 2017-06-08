@@ -3,80 +3,84 @@ title: persisting polymorphism
 layout: page
 ---
 
-When we use [polymorphic persistent objects](../poly/persistents.html)
-in our domain, we end up with a repository for the parent type, as
-well as one for each of the derived subtypes. In our example, we have
-a `User` trait with two inheriting subclasses, `Member` and
+When we use [polymorphic persistent objects](../poly/persistents.html) in our domain, we end up with
+a repository that performs operations on the parent type, as well as on all of the derived
+subtypes. In this example, we have a `User` trait, and two inheriting subclasses, `Member` and
 `Commenter`:
 
 ```scala
-import longevity.model.annotations.component
 import longevity.model.annotations.derivedPersistent
 import longevity.model.annotations.polyPersistent
-import longevity.model.annotations.domainModel
 
-@component
-case class UserProfile(
-  tagline: String,
-  imageUri: Uri,
-  description: Markdown)
-
-@polyPersistent(keySet = emptyKeySet)
+@polyPersistent[DomainModel]
 trait User {
   val username: Username
-  val email: Email
 }
 
-@derivedPersistent[User](keySet = emptyKeySet)
+object User {
+  implicit val usernameKey = key(props.username)
+}
+
+@derivedPersistent[DomainModel, User]
 case class Member(
   username: Username,
   email: Email,
-  profile: UserProfile)
+  numCats: Int)
 extends User
 
-@derivedPersistent[User](keySet = emptyKeySet)
+object Member {
+  implicit val emailKey = key(props.email)
+}
+
+@derivedPersistent[DomainModel, User]
 case class Commenter(
-  username: Username,
-  email: Email)
+  username: Username)
 extends User
-
-@domainModel object domainModel
 ```
 
-When we construct our [longevity context](../context), we can get
-repositories for all three persistent types:
+Note that `User` and `Member` each have their own key, on `username` and `email`, respectively.
+
+When we construct our [longevity context](../context), we get a repository that can perform
+persistence operations on both persistent classes. For example, we can create `Users`, `Members`,
+and `Commenters`:
 
 ```scala
 import longevity.context.LongevityContext
 import longevity.persistence.Repo
 
-val context = LongevityContext(domainModel)
+val context = LongevityContext[DomainModel]()
 
-val userRepo: Repo[User] = context.repoPool[User]
-val memberRepo: Repo[Member] = context.repoPool[Member]
-val commenterRepo: Repo[Commenter] = context.repoPool[Commenter]
+val repo: Repo[DomainModel] = context.repo
+
+val user: User = Member(Username("u1"), Email("e1"), 3)
+val member: Member = Member(Username("u2"), Email("e2"), 5)
+val commenter: Commenter = Commenter(Username("u3"))
+
+import longevity.persistence.PState
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
+val fpUser: Future[PState[User]] = repo.create(user)
+val fpMember: Future[PState[Member]] = repo.create(member)
+val fpCommenter: Future[PState[Commenter]] = repo.create(commenter)
 ```
 
-These three repositories all share the same backing store, so a
-`Member` persisted by the `memberRepo` is accessible via the
-`userRepo`, and vice-versa:
+We can only retrieve based on the type that actually contains the key:
 
 ```scala
-val member: Member = newMember()
-val futureMemberState: Future[PState[Member]] = memberRepo.create(member)
-val memberState: PState[Member] = Await(futureMemberState, Duration.Inf)
+val retrievedUser: Future[Option[PState[User]]] =
+  repo.retrieve[User](commenter.username)
 
-// we waited for the future to complete to make sure that the member
-// was persisted. now we can look up the member with the other repo:
-
-val futureUserState: Future[PState[User]] = userRepo.retrieveOne(member.username)
+val retrievedMember: Future[Option[PState[Member]]] =
+  repo.retrieve[Member](member.email)
 ```
 
-Notice how the final result of is a `PState[User]`. `PStates` are
-invariant in their `Persistent` type parameter, so the `PStates` can
-not be used interchangeably. `Keys`, `KeyVals`, and `Queries` are also
-all invariant in their type parameter, so in general, you want to be
-working with one `Persistent` type at a time.
+Trying `repo.retrieve[Commenter](commenter.username)` would produce a compiler error, because
+`Commenter` does not have a key on `username`.
+
+`PStates` are invariant in their `Persistent` type parameter, so the `PStates` can not be used
+interchangeably. `Keys`, `KeyVals`, and `Queries` are also all invariant in their type parameter, so
+in general, you want to be working with one `Persistent` type at a time.
 
 That said, there is some flexibility added on to work around these
 invariant type parameters. For example, a `PState[Member]` instance is
@@ -92,11 +96,13 @@ And while a `Query[Member]` is not also a `Query[User]`, you can use
 `User` properties when constructing your `Query[Member]`:
 
 ```scala
+import longevity.model.query.Query
 import Member.queryDsl._
+
 val query: Query[Member] =
-  User.props.username eq "someUsername" and
-  Member.props.tagline lt "someTagline"
-val queryResults = memberRepo.retrieveByQuery(query)
+  User.props.username eqs Username("u7") and
+  Member.props.numCats gt 2
+val queryResults = repo.queryToIterator(query)
 ```
 
 {% assign prevTitle = "repo.delete" %}

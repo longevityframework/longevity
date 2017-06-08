@@ -15,7 +15,7 @@ P]`. The "ev" in `PEv` stands for "evidence". This implicit is evidence that the
 actually a type of something that you have declared as persistent in model `M`. This evidence will
 be found by your compiler in the companion object for class `P`, assuming it is actually a
 `longevity.model.PType[M, P]`. It will be if you annotated you persistent class with
-`@longevity.model.annotations.persistent[M]`, as recommended in the [section on persistent
+`@longevity.model.annotations.persistent[M]`, as recommended in the section on [persistent
 objects](../model/persistents.html). Requiring this evidence allows us to make repository methods
 typesafe without requiring you to provide a marker trait on your persistent classes.
 

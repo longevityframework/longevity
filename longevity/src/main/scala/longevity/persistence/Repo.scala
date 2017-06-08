@@ -41,18 +41,16 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
     }
   }
 
-  /** creates many persistent objects at once.
+  /** creates many persistent objects at once
    *
-   * because [[PWithEv]] is an implicit class, you can call this method
-   * using just aggregate roots, and the roots will be converted to
-   * `PWithEv` implicitly:
+   * because [[PWithEv]] is an implicit class, you can call this method using just persistent
+   * objects, and they will be converted to `PWithEv` implicitly:
    *
    * {{{
    * repo.createMany(user1, user2, user2, blogPost1, blogPost2, blog)
    * }}}
    *
-   * @param keyedPs the persistent objects to persist, wrapped with their
-   * `TypeKeys`
+   * @param pWithEvs the persistent objects to persist, wrapped with their evidence
    *
    * @param executionContext the execution context
    */

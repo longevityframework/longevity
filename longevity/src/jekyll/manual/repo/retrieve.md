@@ -3,30 +3,47 @@ title: repo.retrieve
 layout: page
 ---
 
-You can look up any persistent entities from the database using the
-[keys](../ptype/keys.html) you defined in your `PType`. All you need
-is a `KeyVal`. One way to do this is to construct one yourself, like
-so:
+You can look up a persistent object from the database using the [keys](../ptype/keys.html) you
+defined in your `PType`. All you need is a [key value](../model/key-values.html). One way to do this
+is to construct one yourself, like so:
 
 ```scala
-val userRepo = repoPool[User]
 val username = Username("smithy")
-val futureUserState: Future[Option[PState[User]]] =
-  userRepo.retrieve(username)
+val f: Future[Option[PState[User]]] = repo.retrieve[User](username)
 ```
 
-Take note that `Repo.retrieve` returns an _optional_ `PState`, since
-there is never a guarantee that a `KeyVal` will match an existing
-persistent object. If you feel confident that the persistent object
-does exist, you can use `Repo.retrieveOne` instead. This is a simple
-wrapper method for `retrieve`, that opens up the `Option[PState[P]]`
-for you. If the option is a `None`, this will result in a
-`NoSuchElementException`.
+If you look at the [API
+docs](../../api/longevity/persistence/Repo.html#retrieve[P]:Repo.this.Retrieve[P]) for
+`Repo.retrieve`, you will see that the method above is actually divided into two parts. The
+`repo.retrieve[User]` returns a `Repo.Retrieve[User]` object. We then call `apply` on this object -
+the `(username)` part in the above code sample - which actually does the work. The reason why the
+API is divided up in this way is to prevent you from having to supply `Username` as a type
+parameter. Otherwise the call would look like this:
 
-You can also get a `KeyVal` from an
-[aggregation](http://aviadezra.blogspot.com/2009/05/uml-association-aggregation-composition.html)
-in a related entity. For example, a `BlogPost` aggregates a set of
-authors for that post:
+```scala
+repo.retrieve[User, Username](username) // this won't compile
+```
+
+Due to the way that type inference in Scala is done, there is no way that the `User` type can be
+inferred in this case. (The presence of the `User` type on the left-hand side of the assignment
+doesn't help.)
+
+The `Repo.Retrieve[P].apply` method takes three implicit arguments. Like `Repo.create`, we require
+an `ExecutionContext`, as well as a `PEnv[M, P]`, to ensure that the persistent class is actually
+part of the domain model. The retrieve method also requires an implicit
+`longevity.model.ptype.Key[M, P, V]` argument, to assure that the key value supplied actually
+matches up with a key defined in the [persistent type](../ptype) for `P`. This is why we typically
+define our [keys](../ptype/keys.html) as implicit values.
+
+Take note that `Repo.retrieve` returns an _optional_ `PState`, since there is never a guarantee that
+a key value will match an existing persistent object. If you feel confident that the persistent
+object does exist, you can use `Repo.retrieveOne` instead. This is a simple wrapper method for
+`retrieve`, that opens up the `Option[PState[P]]` for you. If the option is a `None`, this will
+result in a `NoSuchElementException`.
+
+You can also get a key value from an
+[aggregation](http://aviadezra.blogspot.com/2009/05/uml-association-aggregation-composition.html) in
+a related entity. For example, a `BlogPost` aggregates a set of authors for that post:
 
 ```scala
 case class BlogPost(
@@ -38,7 +55,6 @@ case class BlogPost(
   postDate: DateTime,
   blog: BlogUri,
   authors: Set[Username])
-extends Persistent
 ```
 
 Let's retrieve all the authors for a blog post:
@@ -46,7 +62,7 @@ Let's retrieve all the authors for a blog post:
 ```scala
 def getAuthorsForPost(blogPost: BlogPost): Future[Seq[PState[User]]] = {
   val futures: Seq[Future[PState[User]]] = blogPost.authors.toSeq.map { author =>
-    userRepo.retrieveOne(author)
+    repo.retrieveOne(author)
   }
   Future.sequence(futures)
 }

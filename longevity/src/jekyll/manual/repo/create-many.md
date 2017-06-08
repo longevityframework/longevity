@@ -3,7 +3,7 @@ title: creating many aggregates at once
 layout: page
 ---
 
-`RepoPool.createMany` provides a convenient way to persist many
+`Repo.createMany` provides a convenient way to persist many
 persistent objects at once. For example, suppose you were setting up
 some sample data to use in your tests:
 
@@ -35,18 +35,17 @@ val franksPost = BlogPost(
   authors = Set(frank.username))
 ```
 
-We can now call `RepoPool.createMany` to create all our persistent
+We can now call `Repo.createMany` to create all our persistent
 objects at once:
 
 ```scala
-val createManyResult: Future[Seq[PState[_ <: Persistent]]] =
+val createManyResult: Future[Seq[PState[_]]] =
   repoPool.createMany(john, frank, blog, johnsPost, franksPost)
 ```
 
-Like the `Repo` methods, `RepoPoo.createMany` takes an implicit
-execution context argument. The easiest way to provide this is to
-include `import scala.concurrent.ExecutionContext.Implicits.global` at
-the top of the file.
+Like other `Repo` methods, `Repo.createMany` takes an implicit execution context argument. The
+easiest way to provide this is to include `import
+scala.concurrent.ExecutionContext.Implicits.global` at the top of the file.
 
 {% assign prevTitle = "repo.create" %}
 {% assign prevLink  = "create.html" %}
