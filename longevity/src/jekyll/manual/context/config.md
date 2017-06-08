@@ -14,33 +14,54 @@ The typical way to supply configuration to your application is to
 override these defaults in your `application.conf` file, located on
 your classpath.
 
-If you have multiple `LongevityContexts` living in the same
-application, and they have different configurations, you can supply
-separate `com.typesafe.config.Config` objects to the
-`LongevityContext` factory method:
+It's possible to have multiple domain models in the same application, and to supply the
+`LongevityContexts` for these models with different configurations. For instance, suppose we have a
+core domain in our blogging application:
 
 ```scala
-import com.typesafe.config.Config
-import longevity.context.LongevityContext
-import longevity.model.DomainModel
+package bloggingapp.core
 
-val bloggingDomain = DomainModel("com.example.app.model.blogging")
-val bloggingConfig: Config = loadBloggingConfig()
-val bloggingContext = LongevityContext(
-  bloggingDomain,
-  bloggingConfig)
+import longevity.model.annotations.domainModel
 
-val accountsSubdomain = DomainModel("com.example.app.model.accounts")
-val accountsConfig: Config = loadAccountsConfig()
-val accountsContext = LongevityContext(
-  accountsSubdomain,
-  accountsConfig)
+package object model {
+
+  @domainModel trait BloggingDomain
+
+}
 ```
 
-Please see the [Typesafe Config
-documentation](https://github.com/typesafehub/config#overview) for
-more information on the different ways you can manage your
-configuration.
+And a supporting subdomain for managing accounts:
+
+```scala
+package bloggingapp.accounts
+
+import longevity.model.annotations.domainModel
+
+package object model {
+
+  @domainModel trait AccountsSubdomain
+
+}
+```
+
+You can supply separate `com.typesafe.config.Config` objects to each
+`LongevityContext` like so:
+
+```scala
+import bloggingapp.accounts.model.AccountsSubdomain
+import bloggingapp.core.model.BloggingDomain
+import com.typesafe.config.Config
+import longevity.context.LongevityContext
+
+val bloggingConfig: Config = loadBloggingConfig()
+val bloggingContext = LongevityContext[BloggingDomain](bloggingConfig)
+
+val accountsConfig: Config = loadAccountsConfig()
+val accountsContext = LongevityContext[AccountsSubdomain](accountsConfig)
+```
+
+Please see the [Typesafe Config documentation](https://github.com/typesafehub/config#overview) for
+more information on the different ways you can manage your configuration.
 
 Longevity converts the Typesafe Config into a `LongevityConfig` case
 class internally. You can use case class configuration if you
@@ -84,9 +105,7 @@ val longevityConfig = LongevityConfig(
       driverClass = "org.sqlite.JDBC"
       url = "jdbc:sqlite:longevity_test.db")))
 
-val bloggingContext = new LongevityContext(
-  bloggingDomain,
-  longevityConfig)
+val bloggingContext = new LongevityContext[BloggingDomain](longevityConfig)
 ```
 
 The most important configuration setting is `longevity.backEnd`. This
@@ -106,16 +125,10 @@ end. See [these
 instructions](https://github.com/longevityframework/longevity/wiki/How-to-create-a-new-JDBC-back-end)
 for details.
 
-details with writeTimestamps:
-
-- if created when writeTimestamps==false, createdTimestamp will always be null
-- if updated when writeTimestamps==false, createdTimestamp & updatedTimestamp will be left alone
-  - except mongo, which will voerwrite them
-
 {% assign prevTitle = "the longevity context" %}
 {% assign prevLink  = "." %}
 {% assign upTitle   = "the longevity context" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "repositories" %}
+{% assign nextTitle = "repositories in the context" %}
 {% assign nextLink  = "repos.html" %}
 {% include navigate.html %}

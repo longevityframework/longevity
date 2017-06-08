@@ -45,7 +45,7 @@ layout: page
   - [Limitations on Cassandra Queries](query/cassandra-query-limits.html)
 - [The Longevity Context](context)
   - [Configuring your Longevity Context](context/config.html)
-  - [Repositories](context/repos.html)
+  - [Repositories in the Context](context/repos.html)
   - [Optimistic Locking](context/opt-lock.html)
   - [Write Timestamps](context/write-timestamps.html)
 - [Testing Your Domain Model](testing)

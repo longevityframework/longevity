@@ -25,7 +25,7 @@ Longevity will use these columns for updates and deletes.
 
 In Cassandra, the partition key is always hashed. Any remaining
 columns in a partially partitioned primary key will be ranged,
-ascending. (Note that while Cassandra supports these columns being
+ascending. (While Cassandra supports these columns being
 ranged in *descending* order, we do not currently pass on that
 functionality to the longevity user.)
 

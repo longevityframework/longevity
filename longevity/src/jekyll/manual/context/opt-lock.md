@@ -14,7 +14,7 @@ setting the title that disallows overwriting an existing title:
 ```scala
 import longevity.model.annotations.persistent
 
-@persistent(keySet = Set(key(props.username)))
+@persistent
 case class User(
   username: Username,
   title: Option[String]) {
@@ -24,6 +24,10 @@ case class User(
     copy(title = Some(newTitle)
   }
 }
+
+object User {
+  implicit val usernameKey = key(props.username)
+}
 ```
 
 Now let's suppose one thread is updating the user to have title `"Ms."`:
@@ -31,9 +35,9 @@ Now let's suppose one thread is updating the user to have title `"Ms."`:
 ```scala
 // thread A:
 for {
-  retrieved <- userRepo.retrieve(username)
-  modified = retrieved.map(_.addTitle("Ms."))
-  updated <- userRepo.update(modified)
+  retrieved <- repo.retrieve[User](username)
+  modified  =  retrieved.map(_.addTitle("Ms."))
+  updated   <- repo.update(modified)
 } yield updated
 ```
 
@@ -42,9 +46,9 @@ and another thread is updating the title to `"Dr."`:
 ```scala
 // thread B:
 for {
-  retrieved <- userRepo.retrieve(username)
-  modified = retrieved.map(_.addTitle("Dr."))
-  updated <- userRepo.update(modified)
+  retrieved <- repo.retrieve[User](username)
+  modified  =  retrieved.map(_.addTitle("Dr."))
+  updated   <- repo.update(modified)
 } yield updated
 ```
 
@@ -76,11 +80,9 @@ We implement optimistic locking by storing a `rowVersion` value in
 every database row. Every create or update operation will increment
 the `rowVersion` by one.
 
-The [persistent state](persistent-state.html) keeps track of the value
-of `rowVersion` for the object it encloses. The repository methods
-all return `PStates` with the `rowVersion` matching what is in the
-database at that moment. `PState` methods `set` and `map` preserve the
-`rowVersion`.
+The [persistent state](../repo/persistent-state.html) keeps track of the value of `rowVersion` for
+the object it encloses. The repository methods all return `PStates` with the `rowVersion` matching
+what is in the database at that moment. `PState` methods `set` and `map` preserve the `rowVersion`.
 
 When `Repo` methods `update` or `delete` are called, the repository
 qualifies the database write command that gets issued. The command
@@ -90,7 +92,7 @@ method checks the return value from the database to confirm the change
 was made. If it was not, then there was a write conflict, and a
 `WriteConflictException` is thrown.
 
-{% assign prevTitle = "repositories" %}
+{% assign prevTitle = "repositories in the context" %}
 {% assign prevLink  = "repos.html" %}
 {% assign upTitle   = "the longevity context" %}
 {% assign upLink    = "." %}

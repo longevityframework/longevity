@@ -16,7 +16,7 @@ such as requiring that an email has an at sign (`@`):
 ```scala
 import longevity.model.annotations.component
 
-@component
+@component[DomainModel]
 case class Email(email: String) {
   if (!email.contains('@'))
     throw new ConstraintValidationException("no '@' in email")
@@ -41,19 +41,21 @@ val generators = CustomGeneratorPool.empty + emailGenerator
 ```
 
 As shown above, you can recursively call the [test data
-generator](http://longevityframework.org/scaladocs/emblem-latest/index.html#emblem.emblematic.traversors.sync.TestDataGenerator)
-within your custom generator to construct your test data.
+generator](../../api/longevity/test/TestDataGenerator.html) within your custom generator to
+construct your test data.
 
 Pass in your custom generators when constructing your context like so:
 
 ```scala
-val context = LongevityContext(
-  domainModel,
+val context = LongevityContext[DomainModel](
   customGeneratorPool = generators)
 ```
 
 The `customGeneratorPool` is an optional parameter that defaults to an
 empty pool.
+
+Note that this test data generator will probably be replaced with equivalent functionality from
+[scalacheck-shapeless](https://github.com/alexarchambault/scalacheck-shapeless) in the near future.
 
 {% assign prevTitle = "generating test data" %}
 {% assign prevLink = "test-data.html" %}

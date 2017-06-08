@@ -20,7 +20,7 @@ down logging for the underlying drivers to the WARN level.
 As an example, a simple way to do this is to use `slf4j-simple`:
 
 ```scala
-libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.21"
+libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.25"
 ```
 
 You can then provide a `simplelogger.properties` file in your

@@ -34,9 +34,8 @@ Some notes:
   the size of the set of test data.
 - There are some other `vals` and `vars` there that you can use to
   help write your tests.
-- There are also a handful of methods you can use to select roots to
-  help you generate reasonable queries: `randomP`, `medianPropVal`,
-  and `orderStatPropVal`
+- There are also a handful of methods you can use to select persistent objects to help you generate
+  reasonable queries: `randomP`, `medianPropVal`, and `orderStatPropVal`
 
 Please note that the default test data generator will not work out of
 the box in the face of constraint violations causing exceptions to be
@@ -46,7 +45,7 @@ generators for your types. This is described in the section on
 
 ScalaTest is an optional dependency in longevity, so you'll need to
 declare a dependency on ScalaTest in your own project to use the query
-specs. **Please use ScalaTest version 3.0.1 or later.**
+specs. Please use ScalaTest version 3.0.1 or later.
 
 {% assign prevTitle = "repo crud spec" %}
 {% assign prevLink = "repo-crud-spec.html" %}

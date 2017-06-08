@@ -19,13 +19,12 @@ you rely on.
 
 <div class = "blue-side-bar">
 
-<code>RepoCrudSpec</code> and <code>QuerySpec</code> are both <a href
-= "http://www.scalatest.org/">ScalaTest</a> fixtures. While we <a href
-= "https://www.pivotaltracker.com/story/show/114985815">plan to
-write</a> equivalents for <a href =
-"https://etorreborre.github.io/specs2/">specs2</a>, it is currently not
-very high on our priority list. Please let us know if you would like
-to see these, and we will adjust the priority.
+<code>RepoCrudSpec</code> and <code>QuerySpec</code> are both <a href =
+"http://www.scalatest.org/">ScalaTest</a> fixtures. While we <a href =
+"https://github.com/longevityframework/longevity/issues/23">plan to write</a> equivalents for <a
+href = "https://etorreborre.github.io/specs2/">specs2</a>, it is currently not very high on our
+priority list. Please let us know if you would like to see these, and we will adjust the priority.
+Better yet, submit a pull request! We will be happy to assist you in crafting the code.
 
 </div>
 

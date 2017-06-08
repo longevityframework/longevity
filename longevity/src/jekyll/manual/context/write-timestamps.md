@@ -27,10 +27,9 @@ typically rewrites the whole document on update. With Cassandra and
 SQLite, the two columns cannot be referenced when the flag is off, as
 longevity cannot know that the columns even exist.
 
-If you decide to turn this flag on with an existing database, you will
-probably want to rerun `RepoPool.createSchema()`, to make sure that
-any schema to support the two timestamps (i.e., table columns for
-Cassandra and SQLite) is in place.
+If you decide to turn this flag on with an existing database, you will probably want to rerun
+`Repo.createSchema()`, to make sure that any schema to support the two timestamps (i.e., table
+columns for Cassandra and SQLite) is in place.
 
 {% assign prevTitle = "optimistic locking" %}
 {% assign prevLink  = "opt-lock.html" %}

@@ -3,18 +3,14 @@ title: repo crud spec
 layout: page
 ---
 
-The `RepoCrudSpec` iterates over all of the repositories in your
-`LongevityContext`, and tests basic CRUD operations for each of
-them. This includes testing `Repo.retrieve` method against every
-[key](../ptype/keys.html) defined in your [persistent
-types](../ptype).
+The `RepoCrudSpec` iterates over all of the persistent classes in your domain, and tests basic CRUD
+operations for each of them. This includes testing `Repo.retrieve` method against every
+[key](../ptype/keys.html) defined in your [persistent types](../ptype).
 
-Two `RepoCrudSpecs` are provided for you in the `LongevityContext`:
-`repoCrudSpec`, and `inMemRepoCrudSpec`. The latter uses an in-memory
-database. The former executes tests using a test database. The
-database connection details are specified in the [longevity
-config](../context/config.html). The database back end is specified by
-the longevity context's [configuration](../context/config.html).
+Two `RepoCrudSpecs` are provided for you in the `LongevityContext`: `repoCrudSpec`, and
+`inMemRepoCrudSpec`. The latter uses an in-memory database. The former executes tests using a test
+database. The database connection details are specified in the [longevity
+config](../context/config.html).
 
 The repo crud specs are [ScalaTest](http://www.scalatest.org/) suites:
 
@@ -40,7 +36,7 @@ class BlogCrudSpec extends Suites(
 
 ScalaTest is an optional dependency in longevity, so you'll need to
 declare a dependency on ScalaTest in your own project to use the repo
-crud specs. **Please use ScalaTest version 3.0.1 or later.**
+crud specs. Please use ScalaTest version 3.0.1 or later.
 
 You need to provide an execution context when calling
 `LongevityContext.repoCrudSpec`. The easiest way to do this is to
