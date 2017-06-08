@@ -11,11 +11,10 @@ the posts in ascending chronological order:
 
 ```scala
 import longevity.persistence.PState
-import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
+val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
@@ -38,11 +37,10 @@ If we want them in descending order, we just change `postDate` to
 
 ```scala
 import longevity.persistence.PState
-import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
+val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
@@ -56,11 +54,10 @@ need to `import scala.language.postfixOps`:
 
 ```scala
 import longevity.persistence.PState
-import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
+val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._

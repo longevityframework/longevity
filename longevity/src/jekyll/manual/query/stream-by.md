@@ -7,7 +7,7 @@ The `queryToIterator` and `queryToFutureVec` methods we looked at in the [previo
 section](retrieve-by.html) leave much to be desired. A streaming approach would be better, but which
 streaming library should we choose? Scala has many. Currently, longevity supports four of them:
 
-- [Akka Streams](http://doc.akka.io/docs/akka/2.4.17/scala/stream/index.html)
+- [Akka Streams](http://doc.akka.io/docs/akka/2.5.2/scala/stream/index.html)
 - [FS2](https://github.com/functional-streams-for-scala/fs2)
 - [iteratee.io](https://github.com/travisbrown/iteratee)
 - [Play enumerators](https://www.playframework.com/documentation/2.5.x/Enumerators)
@@ -34,17 +34,17 @@ val query: Query[BlogPost] = {
 }
 
 val akkaSource: Source[PState[BlogPost], NotUsed] =
-  blogPostRepo.queryToAkkaStream(query)
+  repo.queryToAkkaStream(query)
 
 val fs2Stream: Stream[Task, PState[P]] =
-  blogPostRepo.queryToFS2(query)
+  repo.queryToFS2(query)
 
 val catsEnumerator: CatsEnumerator[Eval, PState[P]] =
-  blogPostRepo.queryToIterateeIo[Eval](query)
+  repo.queryToIterateeIo[Eval](query)
 
 val playEnumerator: PlayEnumerator[PState[P]] = {
   import scala.concurrent.ExecutionContext.Implicits.global
-  blogPostRepo.queryToPlay(query)
+  repo.queryToPlay(query)
 }
 ```
 

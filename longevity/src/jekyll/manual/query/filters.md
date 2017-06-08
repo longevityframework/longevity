@@ -11,13 +11,11 @@ in the previous section:
 BlogPost.props.blogUri eqs blog.blogUri
 ```
 
-This is a _relational filter_, which is the basic building block of
-most query filters. It consists of three elements: a property, a
-relational operator, and a value that matches the type of the
-property. The property typically belongs to the persistent type being
-queried, but if you are using [polymorphic
-persistents](../poly/persistents.html), you can use properties from
-the `PolyPType` as well.
+This is a _relational filter_, which is the basic building block of most query filters. It consists
+of three elements: a property, a relational operator, and a value that matches the type of the
+property. The property typically belongs to the persistent type being queried, but if you are using
+[polymorphic persistents](../poly/persistents.html), you can use properties from the parent
+persistent type as well.
 
 The relational operators are:
 
@@ -34,14 +32,14 @@ blog posts for a blog published in the last week:
 
 ```scala
 import longevity.persistence.PState
-import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Future[Seq[PState[BlogPost]]] = blogPostRepo.retrieveByQuery {
+val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
+
   blogUri eqs blog.blogUri and postDate gt DateTime.now - 1.week
 }
 ```
@@ -50,7 +48,7 @@ If you want to retrieve _every_ persistent in your collection, you can
 use the special query filter `filterAll`:
 
 ```scala
-blogPostRepo.retrieveByQuery(BlogPost.queryDsl.filterAll)
+repo.queryToIterator(BlogPost.queryDsl.filterAll)
 ```
 
 [Keys](../ptype/keys.html) and [indexes](../ptype/indexes.html) will

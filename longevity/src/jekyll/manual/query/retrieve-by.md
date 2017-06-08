@@ -10,7 +10,7 @@ import longevity.persistence.PState
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Iterator[PState[BlogPost]] = blogPostRepo.queryToIterator {
+val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._

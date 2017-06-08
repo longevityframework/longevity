@@ -3,9 +3,8 @@ title: queries
 layout: page
 ---
 
-Longevity queries provide you with a way to retrieve multiple
-persistent objects, either [all at once](retrieve-by.html), or [in a
-stream](stream-by.html).
+Longevity queries provide you with a way to retrieve multiple persistent objects, either [with a
+blocking API](retrieve-by.html), or [in a stream](stream-by.html).
 
 To build queries, you can either use the query DSL, or you can
 assemble them by hand using the classes and factory methods in package
@@ -13,7 +12,7 @@ assemble them by hand using the classes and factory methods in package
 query you can build by hand, you can also build with the DSL. We will
 focus our discussion here on the DSL, since it is much more convenient
 to use. If you prefer to construct them by hand, please refer to the
-[ScalaDocs](http://longevityframework.org/scaladocs/longevity-latest/index.html#longevity.model.query.Query).
+[ScalaDocs](../../api/longevity/model/query/Query.html).
 
 Please note that, due to the limited nature of Cassandra `SELECT`
 statements, many of the queries discussed in this chapter will not
