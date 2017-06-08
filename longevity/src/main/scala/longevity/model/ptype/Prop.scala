@@ -1,6 +1,6 @@
 package longevity.model.ptype
 
-import emblem.TypeKey
+import scala.reflect.runtime.universe.TypeTag
 import emblem.typeKey
 
 /** a property for this persistent type. properties map to underlying members
@@ -18,13 +18,11 @@ import emblem.typeKey
  * @param path a dot-separated path of the persistent object member descending
  * from the root
  */
-class Prop[P : TypeKey, A : TypeKey](val path: String) {
+class Prop[P : TypeTag, A : TypeTag](val path: String) {
 
-  /** the `TypeKey` for the enclosing [[PType persistent type]] */
-  val pTypeKey = typeKey[P]
+  private[longevity] val pTypeKey = typeKey[P]
 
-  /** the `TypeKey` for the property value type */
-  val propTypeKey = typeKey[A]
+  private[longevity] val propTypeKey = typeKey[A]
 
   override def toString: String = path
 
