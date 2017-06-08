@@ -13,17 +13,14 @@ client](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofdd
 have a slight preference towards the Advanced REST client at the
 moment. It is a little less quirky than Postman.
 
-If you choose to use the Advanced REST client, we've exported our
-sample requests to
-[arc-simbl-export.json](https://raw.githubusercontent.com/longevityframework/simbl/master/tutorial/arc-simbl-export.json). You
-can use this as a starting point. (You won't be able to view this file
-within Typesafe Activator, so we've provided a link to the raw file in
-GitHub.)
+If you choose to use the Advanced REST client, we've exported our sample requests to
+[arc-simbl-export.json](https://raw.githubusercontent.com/longevityframework/simbl/master/arc-simbl-export.json).
+You can use this as a starting point.
 
 {% assign prevTitle = "UserServiceImpl.updateUser" %}
-{% assign prevLink = "update-user.html" %}
-{% assign upTitle = "getting started guide" %}
-{% assign upLink = "." %}
+{% assign prevLink  = "update-user.html" %}
+{% assign upTitle   = "getting started guide" %}
+{% assign upLink    = "." %}
 {% assign nextTitle = "testing crud operations" %}
-{% assign nextLink = "testing.html" %}
+{% assign nextLink  = "testing.html" %}
 {% include navigate.html %}

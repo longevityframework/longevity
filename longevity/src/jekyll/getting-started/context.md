@@ -10,14 +10,12 @@ Once we have your domain model in place, we are ready to build our
 import longevity.context.LongevityContext
 import simbl.domain.SimblDomainModel
 
-val longevityContext = LongevityContext(SimblDomainModel)
+val longevityContext = LongevityContext[SimblDomainModel]()
 ```
 
-The longevity context provides a variety of tools that are tailored to
-your model. The most important of these is the `RepoPool`, which
-contains repositories for your persistent objects. You can use these
-repositories to do standard CRUD operations
-(create/retrieve/update/delete), as well as executing queries that
+The longevity context provides a variety of tools that are tailored to your model. The most
+important of these is the `Repo`, which you can use to do standard CRUD operations
+(create/retrieve/update/delete) with your persistent objects, as well as executing queries that
 return more than one result.
 
 Longevity uses [Typesafe
@@ -63,8 +61,8 @@ various back ends in the config file. If you want to experiment with
 adjusting the persistence strategy to use a real database, you may
 need to adjust this configuration.
 
-{% assign prevTitle = "building the domain model" %}
-{% assign prevLink  = "building.html" %}
+{% assign prevTitle = "username and email" %}
+{% assign prevLink  = "keyvals.html" %}
 {% assign upTitle   = "getting started guide" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "the akka http routes" %}

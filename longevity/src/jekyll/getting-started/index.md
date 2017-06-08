@@ -4,7 +4,7 @@ layout: page
 ---
 
 This guide walks through the basic steps needed to get started building a real-life application with
-[longevity](http://longevityframework.org/). The application we will be looking at here is a sample
+[longevity](..). The application we will be looking at here is a sample
 blogging application, built with longevity on the back end, and using [Akka
 HTTP](http://doc.akka.io/docs/akka-http/current/scala.html) for a REST API that could be used by a
 web client. You can find the source code here:
@@ -22,10 +22,10 @@ for more information.
 Here's a table of contents for the getting started guide:
 
 1. [Modelling our Domain](modelling.html)
+1. [Declaring the Domain Model](building.html)
 1. [Building the User Aggregate](user.html)
 1. [The User Profile](user-profile.html)
 1. [Username and Email](keyvals.html)
-1. [Building the Domain Model](building.html)
 1. [Building the Longevity Context](context.html)
 1. [The Akka HTTP Routes](routes.html)
 1. [The User Service](service.html)

@@ -18,9 +18,9 @@ profile:
 <img src="user-aggregate.png">
 
 {% assign prevTitle = "getting started guide" %}
-{% assign prevLink = "index.html" %}
-{% assign upTitle = "getting started guide" %}
-{% assign upLink = "." %}
-{% assign nextTitle="building the user aggregate" %}
-{% assign nextLink="user.html" %}
+{% assign prevLink  = "index.html" %}
+{% assign upTitle   = "getting started guide" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "declaring the domain model" %}
+{% assign nextLink  = "building.html" %}
 {% include navigate.html %}

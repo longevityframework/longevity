@@ -12,7 +12,7 @@ package simbl.domain
 
 import longevity.model.annotations.keyVal
 
-@keyVal[User]
+@keyVal[SimblDomainModel, User]
 case class Username(username: String)
 ```
 
@@ -33,9 +33,9 @@ case class BlogPost(
 ```
 
 {% assign prevTitle = "the user profile" %}
-{% assign prevLink = "user-profile.html" %}
-{% assign upTitle = "getting started guide" %}
-{% assign upLink = "." %}
-{% assign nextTitle="building the domain model" %}
-{% assign nextLink="building.html" %}
+{% assign prevLink  = "user-profile.html" %}
+{% assign upTitle   = "getting started guide" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "building the longevity context" %}
+{% assign nextLink  = "context.html" %}
 {% include navigate.html %}

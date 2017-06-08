@@ -10,7 +10,7 @@ package simbl.domain
 
 import longevity.model.annotations.component
 
-@component
+@component[SimblDomainModel]
 case class UserProfile(
   tagline: String,
   imageUri: Uri,
@@ -29,10 +29,10 @@ package simbl.domain
 
 import longevity.model.annotations.component
 
-@component
+@component[SimblDomainModel]
 case class Uri(uri: String)
 
-@component
+@component[SimblDomainModel]
 case class Markdown(markdown: String)
 ```
 
@@ -41,12 +41,12 @@ provide extra type safety, but are also places where we might add some
 extra functionality in the future. For instance, the `Uri` constructor
 might throw some kind of validation exception if the provided string
 is not a valid URI. As you can see, we can freely nest persistent
-components within our persistent object classes.
+components within our persistent objects.
 
 {% assign prevTitle = "building the user aggregate" %}
-{% assign prevLink = "user.html" %}
-{% assign upTitle = "getting started guide" %}
-{% assign upLink = "." %}
-{% assign nextTitle="username and email" %}
-{% assign nextLink="keyvals.html" %}
+{% assign prevLink  = "user.html" %}
+{% assign upTitle   = "getting started guide" %}
+{% assign upLink    = "." %}
+{% assign nextTitle = "username and email" %}
+{% assign nextLink  = "keyvals.html" %}
 {% include navigate.html %}

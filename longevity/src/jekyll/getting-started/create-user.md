@@ -9,18 +9,18 @@ Here's the code for `UserServiceImpl.createUser`:
   def createUser(info: UserInfo): Future[UserInfo] = {
     {
       for {
-        created <- userRepo.create(info.toUser)
+        created <- repo.create(info.toUser)
       } yield {
         UserInfo(created.get)
       }
     } recover {
-      case e: DuplicateKeyValException[_] => handleDuplicateKeyVal(e, info)
+      case e: DuplicateKeyValException[_, _] => handleDuplicateKeyVal(e, info)
     }
   }
 ```
 
-The heart of the method is the call to `userRepo.create`, inside the
-for comprehension. `userRepo.create` returns a
+The heart of the method is the call to `repo.create`, inside the
+for comprehension. `repo.create` returns a
 `Future[PState[User]]`. The future is there because we want to treat
 the underlying database call in an asynchronous fashion. The `User` is
 further wrapped in a `PState`, or _persistent state_, which
@@ -35,7 +35,7 @@ passed to a method that converts from a `User` to a `UserInfo`. Then
 the for comprehension wraps this back up in a `Future`, which is
 exactly the kind of thing that Akka HTTP wants to work with.
 
-One caveat here is that `userRepo.create` might fail with a duplicate
+One caveat here is that `repo.create` might fail with a duplicate
 key exception. There might already be a user that has either the same
 username or email. So we call `recover` on the resulting `Future` and
 convert the longevity `DuplicateKeyValException` into a service-level
@@ -46,7 +46,7 @@ exception: either `DuplicateUsernameException` or
   import longevity.exceptions.persistence.DuplicateKeyValException
 
   /** converts longevity duplicate key val exception into simbl exception */
-  private def handleDuplicateKeyVal(e: DuplicateKeyValException[_], info: UserInfo): Nothing = {
+  private def handleDuplicateKeyVal(e: DuplicateKeyValException[_, _], info: UserInfo): Nothing = {
     e.key match {
       case User.keys.username =>
         throw new DuplicateUsernameException(info.username)
