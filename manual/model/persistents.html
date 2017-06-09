@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>persistent objects</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> persistent objects </h1>
+          
+          <p>As longevity is primarily a persistence framework, the common currency
+of the longevity API is the <em>persistent object</em>. Persistent objects
+are part of your domain model, and they are also the <em>persistence unit</em> -
+something that you can create, retrieve, update or delete with a
+longevity <a href="../repo">repository</a>.</p>
+
+<p>Persistent objects are Scala traits and case classes that meet some basic criteria. Those criteria
+are laid out in the chapters that follow. The basic idea is that they should form an <a href="http://tpolecat.github.io/presentations/algebraic_types.html">algebraic
+data type</a>.</p>
+
+<p>Here’s a simple example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>To tell longevity that this is a persistent object, we mark the class with a <code class="highlighter-rouge">@persistent</code>
+annotation. This annotation requires a type parameter explicating the model:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.domainModel</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@domainModel</span> <span class="k">trait</span> <span class="nc">DomainModel</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>Be sure to declare your persistent class in the same package as, or in a sub-package of, the package
+you declare your domain model. Assuming you don’t fabricate your own
+<code class="highlighter-rouge">longevity.model.ModelEv[DomainModel]</code>, if you declare your persistent class in another package, you
+will get a compiler error - something about implicit model evidence not being found.</p>
+
+<p>The <code class="highlighter-rouge">@persistent</code> annotation expands as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.PType</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.mprops</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@mprops</span> <span class="k">object</span> <span class="nc">User</span> <span class="k">extends</span> <span class="nc">PType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span>
+</code></pre>
+</div>
+
+<p>The companion object has been made into a <code class="highlighter-rouge">PType[DomainModel, User]</code>, which will be used to build
+the <code class="highlighter-rouge">ModelType[DomainModel]</code>, which collects all the different parts of your model.</p>
+
+<p>The <code class="highlighter-rouge">@mprops</code> macro in turn creates an <code class="highlighter-rouge">object props</code> within your companion object, that allows us
+to reflect over the fields of the <code class="highlighter-rouge">User</code> case class. We’ll learn more about how this works in the
+chapter on <a href="../ptype/properties.html">properties</a>. The expansion of <code class="highlighter-rouge">@mprops</code> looks something like
+this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+<span class="k">import</span> <span class="nn">longevity.model.PType</span>
+<span class="k">import</span> <span class="nn">longevity.model.ptype.Prop</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="k">extends</span> <span class="nc">PType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">props</span> <span class="o">{</span>
+    <span class="k">object</span> <span class="nc">username</span> <span class="k">extends</span> <span class="nc">Prop</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"username"</span><span class="o">)</span>
+    <span class="k">object</span> <span class="nc">firstName</span> <span class="k">extends</span> <span class="nc">Prop</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"firstName"</span><span class="o">)</span>
+    <span class="k">object</span> <span class="nc">lastName</span> <span class="k">extends</span> <span class="nc">Prop</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"lastName"</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="model.html">declaring a domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="basics.html">basic values</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

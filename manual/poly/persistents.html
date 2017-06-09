@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>polymorphic persistents</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> polymorphic persistents </h1>
+          
+          <p>We can use polymorphism with our <a href="../model/persistents.html">persistent
+objects</a> as well. For example, let’s
+say our blogging system has two kinds of users: members and
+commenters. Only members can have a user profile. Here, we use
+annotations <code class="highlighter-rouge">@polyPersistent</code> and <code class="highlighter-rouge">@derivedPersistent</code> in place of
+<code class="highlighter-rouge">@persistent</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.component</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.derivedPersistent</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.polyPersistent</span>
+
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">UserProfile</span><span class="o">(</span>
+  <span class="n">tagline</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">imageUri</span><span class="k">:</span> <span class="kt">Uri</span><span class="o">,</span>
+  <span class="n">description</span><span class="k">:</span> <span class="kt">Markdown</span><span class="o">)</span>
+
+<span class="nd">@polyPersistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">trait</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span>
+  <span class="k">val</span> <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span>
+<span class="o">}</span>
+
+<span class="nd">@derivedPersistent</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Member</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">profile</span><span class="k">:</span> <span class="kt">UserProfile</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">User</span>
+
+<span class="nd">@derivedPersistent</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Commenter</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">User</span>
+</code></pre>
+</div>
+
+<p>The non-annotation equivalent is as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.CType</span>
+<span class="k">import</span> <span class="nn">longevity.model.DerivedPType</span>
+<span class="k">import</span> <span class="nn">longevity.model.PolyPType</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">UserProfile</span><span class="o">(</span>
+  <span class="n">tagline</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">imageUri</span><span class="k">:</span> <span class="kt">Uri</span><span class="o">,</span>
+  <span class="n">description</span><span class="k">:</span> <span class="kt">Markdown</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">UserProfile</span> <span class="k">extends</span> <span class="nc">CType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">UserProfile</span><span class="o">]</span>
+
+<span class="k">trait</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span>
+  <span class="k">val</span> <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="k">extends</span> <span class="nc">PolyPType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">props</span> <span class="o">{</span>
+    <span class="c1">// ...
+</span>  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Member</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">profile</span><span class="k">:</span> <span class="kt">UserProfile</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">User</span>
+
+<span class="k">object</span> <span class="nc">Member</span> <span class="k">extends</span> <span class="nc">DerivedPType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">Member</span>, <span class="kt">User</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">props</span> <span class="o">{</span>
+    <span class="c1">// ...
+</span>  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Commenter</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">User</span>
+
+<span class="k">object</span> <span class="nc">Commenter</span> <span class="k">extends</span> <span class="nc">DerivedPType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">Commenter</span>, <span class="kt">User</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">props</span> <span class="o">{</span>
+    <span class="c1">// ...
+</span>  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Notice how <code class="highlighter-rouge">User</code>, <code class="highlighter-rouge">Member</code>, and <code class="highlighter-rouge">Commenter</code> all have their own
+properties, keys, and indexes. We could, for example, put in a
+<a href="../ptype/keys.html">key</a> on <code class="highlighter-rouge">User.username</code>, and
+<a href="../ptype/indexes.html">indexes</a> on <code class="highlighter-rouge">User.email</code> and
+<code class="highlighter-rouge">Member.profile.tagline</code>, like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.derivedPersistent</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.polyPersistent</span>
+
+<span class="nd">@polyPersistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">trait</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span>
+  <span class="k">val</span> <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">key</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+  <span class="k">override</span> <span class="k">val</span> <span class="n">indexSet</span> <span class="k">=</span> <span class="nc">Set</span><span class="o">(</span><span class="n">index</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">email</span><span class="o">))</span>
+<span class="o">}</span>
+
+<span class="nd">@derivedPersistent</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Member</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">profile</span><span class="k">:</span> <span class="kt">UserProfile</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">User</span>
+
+<span class="k">object</span> <span class="nc">Member</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">val</span> <span class="n">indexSet</span> <span class="k">=</span> <span class="nc">Set</span><span class="o">(</span><span class="n">index</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">tagline</span><span class="o">))</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>When you construct your <a href="../context">longevity context</a>, you will be able to use
+<a href="../repository">repository</a> for for each of your <code class="highlighter-rouge">@derivedPersistents</code>, along with one for the
+parent <code class="highlighter-rouge">@polyPersistent</code>. These persistent classes will share the same backing store, so a <code class="highlighter-rouge">Member</code>
+persisted as a <code class="highlighter-rouge">User</code> will be retrievable as a <code class="highlighter-rouge">Member</code>, and vice-versa. Keys and indexes declared
+in <code class="highlighter-rouge">object User</code> will apply to all types of <code class="highlighter-rouge">Users</code>, whereas keys and indexes declared in <code class="highlighter-rouge">object
+Member</code> will only apply to members. For more information, see the section on <a href="../repo/poly.html">persisting
+polymorphism</a>.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="components.html">polymorphic components</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">subtype polymorphism</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="cv.html">controlled vocabularies</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

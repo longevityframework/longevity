@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>cassandra keys</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> cassandra keys </h1>
+          
+          <p>If your <code class="highlighter-rouge">PType</code> does not define a <a href="../ptype/primary-keys.html">primary
+key</a>, longevity generates a
+<a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a>
+and stores it in a column named <code class="highlighter-rouge">id</code>, which serves as the Cassandra
+table’s <a href="https://docs.datastax.com/en/cql/3.3/cql/cql_using/useSimplePrimaryKeyConcept.html">primary
+key</a>. This
+column will be used for <a href="../repo/update.html">update</a> and
+<a href="../repo/delete.html">delete</a> operations.</p>
+
+<p>If you do define a primary key, longevity will use the property
+columns described in the <a href="cassandra.html">previous section</a> to build
+your Cassandra primary key. If you do not specify a partial partition,
+then all of the columns will become part of a <a href="https://docs.datastax.com/en/cql/3.3/cql/cql_using/useCompositePartitionKeyConcept.html">Cassandra composite
+partition
+key</a>.
+If you do specify a partial partition, then those columns that make up
+your partial partition will become the Cassandra partition key, and
+the remaining columns will make up the remainder of your primary key.
+Longevity will use these columns for updates and deletes.</p>
+
+<p>In Cassandra, the partition key is always hashed. Any remaining
+columns in a partially partitioned primary key will be ranged,
+ascending. (While Cassandra supports these columns being
+ranged in <em>descending</em> order, we do not currently pass on that
+functionality to the longevity user.)</p>
+
+<p>Please be aware that Cassandra will not reject
+<a href="../repo/create.html">create</a> operations for objects that have the
+same primary key as an existing object. Rather, it will simply
+overwrite these rows.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="cassandra.html">cassandra translation</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">translating persistents to the database</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="mongo.html">mongodb translation</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

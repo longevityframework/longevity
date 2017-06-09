@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>building the longevity context</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> building the longevity context </h1>
+          
+          <p>Once we have your domain model in place, we are ready to build our
+<code class="highlighter-rouge">LongevityContext</code>, which we do in <code class="highlighter-rouge">SimblContextImpl.scala</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.context.LongevityContext</span>
+<span class="k">import</span> <span class="nn">simbl.domain.SimblDomainModel</span>
+
+<span class="k">val</span> <span class="n">longevityContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">SimblDomainModel</span><span class="o">]()</span>
+</code></pre>
+</div>
+
+<p>The longevity context provides a variety of tools that are tailored to your model. The most
+important of these is the <code class="highlighter-rouge">Repo</code>, which you can use to do standard CRUD operations
+(create/retrieve/update/delete) with your persistent objects, as well as executing queries that
+return more than one result.</p>
+
+<p>Longevity uses <a href="https://github.com/typesafehub/config">Typesafe
+Config</a> to configure the
+longevity context. Typically, the configuration is drawn from the
+<code class="highlighter-rouge">application.conf</code> resource file. The longevity configuration for
+Simple Blogging looks this:</p>
+
+<pre><code class="language-prop">longevity.backEnd = InMem
+longevity.autocreateSchema = true
+longevity.optimisticLocking = false
+
+longevity.mongodb.uri = "localhost:27017"
+longevity.mongodb.db = simbl_main
+longevity.test.mongodb.uri = "localhost:27017"
+longevity.test.mongodb.db = simbl_test
+
+longevity.cassandra.address = "localhost"
+longevity.cassandra.useCredentials = no
+longevity.cassandra.username = nil
+longevity.cassandra.password = nil
+longevity.cassandra.keyspace = simbl_main
+longevity.cassandra.replicationFactor = 1
+
+longevity.test.cassandra.address = "localhost"
+longevity.test.cassandra.useCredentials = no
+longevity.test.cassandra.username = nil
+longevity.test.cassandra.password = nil
+longevity.test.cassandra.keyspace = simbl_test
+longevity.test.cassandra.replicationFactor = 1
+</code></pre>
+
+<p>Here, you need to specify the back end in configuration property
+<code class="highlighter-rouge">longevity.backEnd</code>. Your choices are currently <code class="highlighter-rouge">Cassandra</code>, <code class="highlighter-rouge">InMem</code>,
+<code class="highlighter-rouge">Mongo</code>, and <code class="highlighter-rouge">SQLite</code>. We use <code class="highlighter-rouge">InMem</code> out of the box. If you want to
+try Cassandra or MongoDB, you will need to set up a database system to
+connect to. The SQLite back end will work without any extra setup, as
+all you need to run SQLite is the right jar on your classpath.</p>
+
+<p>You can find configurations for main and test databases for the
+various back ends in the config file. If you want to experiment with
+adjusting the persistence strategy to use a real database, you may
+need to adjust this configuration.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="keyvals.html">username and email</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">getting started guide</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="routes.html">the akka http routes</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

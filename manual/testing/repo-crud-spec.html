@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>repo crud spec</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> repo crud spec </h1>
+          
+          <p>The <code class="highlighter-rouge">RepoCrudSpec</code> iterates over all of the persistent classes in your domain, and tests basic CRUD
+operations for each of them. This includes testing <code class="highlighter-rouge">Repo.retrieve</code> method against every
+<a href="../ptype/keys.html">key</a> defined in your <a href="../ptype">persistent types</a>.</p>
+
+<p>Two <code class="highlighter-rouge">RepoCrudSpecs</code> are provided for you in the <code class="highlighter-rouge">LongevityContext</code>: <code class="highlighter-rouge">repoCrudSpec</code>, and
+<code class="highlighter-rouge">inMemRepoCrudSpec</code>. The latter uses an in-memory database. The former executes tests using a test
+database. The database connection details are specified in the <a href="../context/config.html">longevity
+config</a>.</p>
+
+<p>The repo crud specs are <a href="http://www.scalatest.org/">ScalaTest</a> suites:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">spec</span><span class="k">:</span> <span class="kt">org.scalatest.Suite</span> <span class="o">=</span> <span class="n">longevityContext</span><span class="o">.</span><span class="n">repoCrudSpec</span>
+</code></pre>
+</div>
+
+<p>In a typical evocation of ScalaTest, for instance from within SBT, a
+classpath scan is performed, and only top-level <code class="highlighter-rouge">Suites</code> -
+non-abstract classes that are defined directly within a package - are
+found. So to get one of these repo crud specs to run, you have to nest
+it in a top-level class. For example, to run both in-memory and
+against a real database:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.scalatest.Suites</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+
+<span class="k">class</span> <span class="nc">BlogCrudSpec</span> <span class="k">extends</span> <span class="nc">Suites</span><span class="o">(</span>
+  <span class="n">longevityContext</span><span class="o">.</span><span class="n">repoCrudSpec</span><span class="o">,</span>
+  <span class="n">longevityContext</span><span class="o">.</span><span class="n">inMemRepoCrudSpec</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>ScalaTest is an optional dependency in longevity, so you’ll need to
+declare a dependency on ScalaTest in your own project to use the repo
+crud specs. Please use ScalaTest version 3.0.1 or later.</p>
+
+<p>You need to provide an execution context when calling
+<code class="highlighter-rouge">LongevityContext.repoCrudSpec</code>. The easiest way to do this is to
+include <code class="highlighter-rouge">import scala.concurrent.ExecutionContext.Implicits.global</code> at
+the top of your file.</p>
+
+<p>The default test data generator will not work out of the box in the
+face of constraint violations causing exceptions to be thrown from
+your persistent and embeddable constructors. In this case, you need to
+provide custom generators for your types. This is described in the
+section on <a href="constraints.html">enforcing constraints</a>.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="constraints.html">enforcing constraints</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">testing</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="query-spec.html">query spec</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

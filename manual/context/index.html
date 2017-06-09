@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>the longevity context</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> the longevity context </h1>
+          
+          <p>In broad terms, you build your <code class="highlighter-rouge">LongevityContext</code> by specifying your domain model as a type
+parameter, and optionally providing a configuration. Without specifying a configuration, it looks
+like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.context.LongevityContext</span>
+
+<span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]()</span>
+</code></pre>
+</div>
+
+<p>This calls take an implicit parameter of type <code class="highlighter-rouge">longevity.model.ModelEv[DomainModel]</code>. Because we
+annotated our <code class="highlighter-rouge">DomainModel</code> trait as a longevity domain model, like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.domainModel</span>
+
+<span class="nd">@domainModel</span> <span class="k">trait</span> <span class="nc">DomainModel</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">ModelEv[DomainModel]</code> is found by the Scala compiler in the <code class="highlighter-rouge">DomainModel</code> companion object.</p>
+
+<p>The longevity context contains a variety of tools for you to use relating to your model. The main
+thing it gives you is the <a href="../repo">repository</a> - which supplies all the basic persistence
+operations you need to maintain your back-end store. But there are many other tools there, most of
+which are most useful when <a href="../testing">writing tests</a>.</p>
+
+<ul>
+  <li><a href="config.html">Configuring your Longevity Context</a></li>
+  <li><a href="repos.html">Repositories in the Context</a></li>
+  <li><a href="opt-lock.html">Optimistic Locking</a></li>
+  <li><a href="write-timestamps.html">Write Timestamps</a></li>
+</ul>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="../query/cassandra-query-limits.html">limitations on cassandra queries</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href="..">user manual</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="config.html">configuring your longevity context</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

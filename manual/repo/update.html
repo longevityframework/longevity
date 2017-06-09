@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>repo.update</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> repo.update </h1>
+          
+          <p>Once we get our hands on a persistent state, we can use <code class="highlighter-rouge">PState.map</code>
+to modify the aggregate:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">username</span> <span class="k">=</span> <span class="nc">Username</span><span class="o">(</span><span class="s">"smithy"</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">retrieved</span><span class="k">:</span> <span class="kt">FPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieveOne</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="n">username</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">modified</span><span class="k">:</span> <span class="kt">FPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">retrieved</span> <span class="n">map</span> <span class="o">{</span> <span class="n">userState</span> <span class="k">=&gt;</span>
+  <span class="n">userState</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">fullname</span> <span class="k">=</span> <span class="s">"John Smith Jr."</span><span class="o">))</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Like most of the <code class="highlighter-rouge">Repo</code> API calls, <code class="highlighter-rouge">Repo.update</code> requires two implicit parameters: and
+<code class="highlighter-rouge">ExecutionContext</code>, to perform the computation in a <code class="highlighter-rouge">scala.concurrent.Future</code>, and a
+<code class="highlighter-rouge">longevity.model.PEv[M, P]</code>. This implicit evidence ensures that the type <code class="highlighter-rouge">P</code> is actually a
+persistent class in the domain model.</p>
+
+<p>We can now persist our changes with <code class="highlighter-rouge">Repo.update</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">updated</span><span class="k">:</span> <span class="kt">FPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">modified</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">userState</span> <span class="k">=&gt;</span>
+  <span class="n">repo</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="n">userState</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>All this looks much nicer using <a href="http://docs.scala-lang.org/tutorials/FAQ/yield.html">for
+comprehensions</a>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">username</span> <span class="k">=</span> <span class="nc">Username</span><span class="o">(</span><span class="s">"smithy"</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">updated</span><span class="k">:</span> <span class="kt">FPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
+  <span class="n">retrieved</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieveOne</span><span class="o">(</span><span class="n">username</span><span class="o">)</span>
+  <span class="n">modified</span>  <span class="k">=</span>  <span class="n">retrieved</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">fullname</span> <span class="k">=</span> <span class="s">"John Smith Jr."</span><span class="o">))</span>
+  <span class="n">updated</span>   <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="n">modified</span><span class="o">)</span>
+<span class="o">}</span> <span class="k">yield</span> <span class="n">updated</span>
+</code></pre>
+</div>
+
+<p>We can continue to manipulate the persistent state returned by
+<code class="highlighter-rouge">Repo.update</code>, and pass it on to further calls to <code class="highlighter-rouge">update</code> or <code class="highlighter-rouge">delete</code>.</p>
+
+<p>Unless the key value is for a <a href="../ptype/primary-keys.html">primary
+key</a>, there is nothing at present that
+prevents you from modifying the contents of a key value for a
+persistent object. Consequently, it is possible for <code class="highlighter-rouge">update</code> to fail
+by attempting to put in a duplicate key value. See the note at the
+bottom of the <a href="create.html">section on repo.create</a> for more
+information on duplicate keys.</p>
+
+<p>The resulting <code class="highlighter-rouge">PState</code> result may well be different from the <code class="highlighter-rouge">PState</code>
+taken as input. For example, the aggregate’s revision counter may have
+been updated. In this case, re-using (or continuing to use) the input
+<code class="highlighter-rouge">PState</code> could result in an optimistic locking failure. In general,
+you should consider a <code class="highlighter-rouge">PState</code> passed to <code class="highlighter-rouge">Repo.update</code> as no longer valid.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="retrieve.html">repo.retrieve</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the repository</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="delete.html">repo.delete</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

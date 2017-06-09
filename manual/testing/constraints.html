@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>enforcing constraints</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> enforcing constraints </h1>
+          
+          <p>The test data generator described in the <a href="test-data.html">previous
+section</a> will handle most anything you put in your
+domain. The only thing we cannot handle out of the box is when
+exceptions are thrown in the constructors of your
+<a href="../model/persistents.html">persistent</a> and
+<a href="../model/components.html">component</a> objects.</p>
+
+<p>A class constructor is a great place to enforce domain constraints,
+such as requiring that an email has an at sign (<code class="highlighter-rouge">@</code>):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.component</span>
+
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Email</span><span class="o">(</span><span class="n">email</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(!</span><span class="n">email</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="sc">'@'</span><span class="o">))</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nc">ConstraintValidationException</span><span class="o">(</span><span class="s">"no '@' in email"</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>If you enforce constraints in this manner, then you will need to
+provide your <code class="highlighter-rouge">LongevityContext</code> with some custom test data generators
+to use the <code class="highlighter-rouge">RepoCrudSpec</code> or the <code class="highlighter-rouge">QuerySpec</code>. For instance, with the
+above example, we could build a custom <code class="highlighter-rouge">Email</code> generator so that we
+generate a nicely formed <code class="highlighter-rouge">Email</code> instead of just a random string:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.test.CustomGeneratorPool</span>
+<span class="k">import</span> <span class="nn">longevity.test.TestDataGenerator</span>
+
+<span class="k">val</span> <span class="n">emailGenerator</span> <span class="k">=</span> <span class="o">{</span> <span class="n">generator</span><span class="k">:</span> <span class="kt">TestDataGenerator</span> <span class="o">=&gt;</span>
+  <span class="nc">Email</span><span class="o">(</span><span class="n">s</span><span class="s">"${generator.generate[String]}@${generator.generate[String]}"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">generators</span> <span class="k">=</span> <span class="nc">CustomGeneratorPool</span><span class="o">.</span><span class="n">empty</span> <span class="o">+</span> <span class="n">emailGenerator</span>
+</code></pre>
+</div>
+
+<p>As shown above, you can recursively call the <a href="../../api/longevity/test/TestDataGenerator.html">test data
+generator</a> within your custom generator to
+construct your test data.</p>
+
+<p>Pass in your custom generators when constructing your context like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">](</span>
+  <span class="n">customGeneratorPool</span> <span class="k">=</span> <span class="n">generators</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">customGeneratorPool</code> is an optional parameter that defaults to an
+empty pool.</p>
+
+<p>Note that this test data generator will probably be replaced with equivalent functionality from
+<a href="https://github.com/alexarchambault/scalacheck-shapeless">scalacheck-shapeless</a> in the near future.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="test-data.html">generating test data</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">testing your domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="repo-crud-spec.html">repo crud spec</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

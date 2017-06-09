@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>the user service</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> the user service </h1>
+          
+          <p>Before getting into the implementation of these service methods, let’s
+take a look at the user service API, found in <code class="highlighter-rouge">UserService.scala</code>. We
+find eight service methods here that mirror the eight <a href="routes.html">user
+routes</a>. Here is a shortened version with the three
+service methods we will look at in this tutorial:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">simbl.service</span>
+
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
+<span class="k">import</span> <span class="nn">simbl.api.UserInfo</span>
+
+<span class="cm">/** service methods to back the [[UserRoute user routes]] */</span>
+<span class="k">trait</span> <span class="nc">UserService</span> <span class="o">{</span>
+
+  <span class="cm">/** creates and persists a new [[User]] from the [[UserInfo]], returning a
+   * `UserInfo` reflecting the persisted `User`.
+   *
+   * @throws DuplicateUsernameException if a user with the supplied username
+   * already exists
+   * 
+   * @throws DuplicateEmailException if a user with the supplied email already
+   * exists
+   */</span>
+  <span class="k">def</span> <span class="n">createUser</span><span class="o">(</span><span class="n">info</span><span class="k">:</span> <span class="kt">UserInfo</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">UserInfo</span><span class="o">]</span>
+
+  <span class="cm">/** retrieves a [[User]] by username, returning a [[UserInfo]] reflecting the
+   * persisted `User`. returns `None` if no such user by that username.
+   */</span>
+  <span class="k">def</span> <span class="n">retrieveUser</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserInfo</span><span class="o">]]</span>
+
+  <span class="cm">/** updates a [[User]] by username, returning a [[UserInfo]] reflecting the
+   * persisted `User`. returns `None` if no such user by that username.
+   *
+   * @throws DuplicateUsernameException if a user with the supplied username
+   * already exists
+   * 
+   * @throws DuplicateEmailException if a user with the supplied email already
+   * exists
+   */</span>
+  <span class="k">def</span> <span class="n">updateUser</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">info</span><span class="k">:</span> <span class="kt">UserInfo</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserInfo</span><span class="o">]]</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The most important thing to note here is that each of the service
+methods is defined in terms of API classes <code class="highlighter-rouge">UserInfo</code>, and <em>not</em> in
+terms of the domain entities themselves. This is probably not
+necessary for such a simple application as this, but it’s a good
+practice, because the UI typically speaks in a slightly different
+language than the domain model. As a simple example, some user
+information, such as email or street address, should largely be
+considered private, and should be left out of most UI views.</p>
+
+<p>As you can see, <code class="highlighter-rouge">UserInfo</code> is a simple case class that should convert
+in and out of JSON cleanly. It also contains a couple of methods for
+conversions between the API objects and the domain objects:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">simbl.api</span>
+
+<span class="k">import</span> <span class="nn">simbl.domain.Email</span>
+<span class="k">import</span> <span class="nn">simbl.domain.User</span>
+<span class="k">import</span> <span class="nn">simbl.domain.Username</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">UserInfo</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">fullname</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="n">toUser</span> <span class="k">=</span> <span class="nc">User</span><span class="o">(</span><span class="nc">Username</span><span class="o">(</span><span class="n">username</span><span class="o">),</span> <span class="nc">Email</span><span class="o">(</span><span class="n">email</span><span class="o">),</span> <span class="n">fullname</span><span class="o">,</span> <span class="nc">None</span><span class="o">)</span>
+
+  <span class="cm">/** updates a [[User]] according to the information in this [[UserInfo]] */</span>
+  <span class="k">def</span> <span class="n">mapUser</span><span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">User</span><span class="o">)</span> <span class="k">=</span> <span class="n">user</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span>
+    <span class="n">username</span> <span class="k">=</span> <span class="nc">Username</span><span class="o">(</span><span class="n">username</span><span class="o">),</span>
+    <span class="n">email</span> <span class="k">=</span> <span class="nc">Email</span><span class="o">(</span><span class="n">email</span><span class="o">),</span>
+    <span class="n">fullname</span> <span class="k">=</span> <span class="n">fullname</span><span class="o">)</span>
+
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">UserInfo</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">User</span><span class="o">)</span><span class="k">:</span> <span class="kt">UserInfo</span> <span class="o">=</span>
+    <span class="nc">UserInfo</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">username</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">email</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="n">fullname</span><span class="o">)</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="routes.html">the akka http routes</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">getting started guide</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="service-impl.html">user service implementation</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

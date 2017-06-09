@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>mongodb keys</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> mongodb keys </h1>
+          
+          <p>Longevity <a href="../ptype/indexes.html">indexes</a> and non-primary
+<a href="../ptype/keys.html">keys</a> are translated directly into <a href="https://docs.mongodb.com/manual/indexes/">MongoDB
+indexes</a>. Mongo indexes for
+longevity keys will be
+<a href="https://docs.mongodb.com/manual/core/index-unique/">unique</a> when
+there is no primary key.</p>
+
+<p>If your <code class="highlighter-rouge">PType</code> does not define a <a href="../ptype/primary-keys.html">primary
+key</a>, longevity generates an
+<a href="https://docs.mongodb.com/manual/reference/bson-types/#objectid">ObjectId</a>
+and stores it in the <a href="https://docs.mongodb.com/manual/core/document/#document-id-field"><code class="highlighter-rouge">_id</code>
+field</a>.
+This <code class="highlighter-rouge">_id</code> column will be used for <a href="../repo/update.html">update</a> and
+<a href="../repo/delete.html">delete</a> operations.</p>
+
+<p>If you do define a primary key in your <code class="highlighter-rouge">PType</code>, longevity will still
+store an <code class="highlighter-rouge">ObjectId</code> in the <code class="highlighter-rouge">_id</code> column, but it will never use it. It
+will instead use your primary key for updates and deletes. MongoDB
+requires that all stored documents have an <code class="highlighter-rouge">_id</code> column, even when you
+specify your own sharding key.</p>
+
+<p>Longevity generates an index for your primary key, and then uses
+that index to shard the collection. If your database is not sharded,
+the primary key will still be indexed, and function like a regular
+key.</p>
+
+<p>By default, the primary key index is a ranged index. If you specify
+<code class="highlighter-rouge">hashed = true</code> when defining your primary key, then the index will
+be hashed. Indexes for unhashed primary keys will be specified as
+unique. Hashed primary keys will not, as MongoDB does not support
+unique hashed indexes.</p>
+
+<p>For partial partitions, longevity breaks down your primary key
+property into the smallest set of constituent parts it needs to that
+includes the properties in the partition. Any <code class="highlighter-rouge">retrieve</code> or
+<code class="highlighter-rouge">retrieveOne</code> operation, and any <a href="../query/filters.html">query filter</a>
+or <a href="../query/order-by.html">order by clause</a> that mentions the
+primary key property, will break down the query along the lines of
+these components parts.</p>
+
+<p>While this breakdown of a partially partitioned primary key will be
+entirely transparent to longevity users, and will perform perfectly
+well, it may be a bit surprising to people who access their longevity
+collections directly via MongoDB. But there is a valid reason for it.
+When you shard a collection, you need to specify a prefix of the
+properties in the index on which to shard. Even when every document in
+the collection has <code class="highlighter-rouge">fullName</code> key to a sub-document that takes the
+form <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">last:</span><span class="w"> </span><span class="err">'Smith',</span><span class="w"> </span><span class="err">first:</span><span class="w"> </span><span class="err">'John'</span><span class="w"> </span><span class="p">}</span></code>, MongoDB will not treat
+<code class="highlighter-rouge">fullName.last</code> as a prefix of <code class="highlighter-rouge">fullName</code>. This is because MongoDB
+does not know that the <code class="highlighter-rouge">fullName</code> key will always be a document that
+starts with a <code class="highlighter-rouge">last</code> field. For this same reason, we need to break
+down any queries on the primary key property in order to make use of
+the underlying index.</p>
+
+<p>Before moving on, we’d like to point out a handful of potential gotchas
+with partition keys and MongoDB:</p>
+
+<ul>
+  <li>MongoDB shard keys cannot exceed 512 bytes, so do not use a
+primary key if the key values might exceed this length.</li>
+  <li>Avoid monotonically changing key values such as counters with non-hashed keys.</li>
+  <li>Hashed primary keys will perform worse with range operations and
+ordered queries.</li>
+  <li>Hashed primary keys will not enforce uniqueness.</li>
+  <li>Using any kind of primary key will prevent MongoDB from enforcing
+uniqueness for any other key.</li>
+</ul>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="mongo.html">mongodb translation</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">translating persistents to the database</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="sqlite.html">sqlite translation</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

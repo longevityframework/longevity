@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>what is longevity?</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> what is longevity? </h1>
+          
+          <p>At it’s heart, longevity is a persistence framework. Our aim is to do all the persistence work for
+you, and to present persistence via a clean API that helps you isolate persistence concerns from
+other parts of your application. This is a big win for you, as building and maintaining a
+persistence layer is typically a major effort when writing database applications.</p>
+
+<p>To accomplish this, you start by constructing your <a href="../model"><em>domain model</em></a> - those classes that
+compose the structures you want to persist - using conventional Scala language elements such as case
+classes, sealed traits, options, and immutable sets and lists. Then, mark your domain classes with
+longevity annotations to describe the roles they play in the model.</p>
+
+<p>Once you have set up your domain model, you pass it back to longevity to get your
+<code class="highlighter-rouge">LongevityContext</code>. The main thing we provide to you with the <a href="../context">longevity context</a> is the
+<a href="../repo">repository</a>, which presents a complete persistence API, including CRUD operations
+(create/retrieve/update/delete) for all your persistent objects, and <a href="../query">queries</a> that return
+multiple results.</p>
+
+<p>The longevity context provides you with other tools that we generally consider part of the
+persistence layer. We provide you with a set of repositories that persist to a test database, as
+well as fully functional in-memory repositories that you can use for testing. There are integration
+tests that will exercise all of the repository CRUD operations, test data generators, and a
+framework for testing queries.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href=".">preliminaries</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">preliminaries</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="project-setup.html">project setup</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

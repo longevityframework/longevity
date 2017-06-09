@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>limitations on cassandra queries</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> limitations on cassandra queries </h1>
+          
+          <p>Due to the limitations on querying in Cassandra, there are a number of
+queries that can be built that will not work on Cassandra. Here’s
+the rundown.</p>
+
+<p>While a Mongo query on a column that is not mentioned in a
+<a href="../ptype/keys.html">key</a> or an <a href="../ptype/indexes.html">index</a>
+may not perform well, it will still run. A Cassandra query on any
+column that is not mentioned in a key or index will fail to run.</p>
+
+<p>Queries using the <em>not-equals</em> operator are not supported by Cassandra.</p>
+
+<p>Queries using the <em>or</em> operator are not supported by Cassandra.</p>
+
+<p>Queries must contain at least one <em>equals</em> clause.</p>
+
+<p>Ordering query operators - <em>less-than</em>, <em>less-than-or-equals</em>,
+<em>greater-than</em>, and <em>greater-than-or-equals</em> - can only be used with
+properties that are composed of a single basic type. The reason for
+this is that to construct an ordering query for a compound property
+requires the use of the <em>not-equals</em> operator, which is not supported
+by Cassandra CQL.</p>
+
+<p>The <code class="highlighter-rouge">filterAll</code> query filter is not supported by Cassandra.</p>
+
+<p>Cassandra queries do not support offset clauses.</p>
+
+<p>Cassandra queries only support <code class="highlighter-rouge">orderBy</code> clauses in very limited
+circumstances:</p>
+
+<ul>
+  <li>The entire partition of the primary key has to be in the query filter with <code class="highlighter-rouge">eqs</code>.</li>
+  <li>Only post partition properties of a partially partitioned primary key can be mentioned in the <code class="highlighter-rouge">orderBy</code> clause.</li>
+  <li>They must be included in order.</li>
+  <li>Either everything is ascending or everything is descending.</li>
+</ul>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="stream-by.html">stream by query</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">queries</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="../context">the longevity context</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>UserServiceImpl.createUser</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> UserServiceImpl.createUser </h1>
+          
+          <p>Here’s the code for <code class="highlighter-rouge">UserServiceImpl.createUser</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="k">def</span> <span class="n">createUser</span><span class="o">(</span><span class="n">info</span><span class="k">:</span> <span class="kt">UserInfo</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">UserInfo</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="o">{</span>
+      <span class="k">for</span> <span class="o">{</span>
+        <span class="n">created</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">info</span><span class="o">.</span><span class="n">toUser</span><span class="o">)</span>
+      <span class="o">}</span> <span class="k">yield</span> <span class="o">{</span>
+        <span class="nc">UserInfo</span><span class="o">(</span><span class="n">created</span><span class="o">.</span><span class="n">get</span><span class="o">)</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="n">recover</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">DuplicateKeyValException</span><span class="o">[</span><span class="k">_</span>, <span class="k">_</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="n">handleDuplicateKeyVal</span><span class="o">(</span><span class="n">e</span><span class="o">,</span> <span class="n">info</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The heart of the method is the call to <code class="highlighter-rouge">repo.create</code>, inside the
+for comprehension. <code class="highlighter-rouge">repo.create</code> returns a
+<code class="highlighter-rouge">Future[PState[User]]</code>. The future is there because we want to treat
+the underlying database call in an asynchronous fashion. The <code class="highlighter-rouge">User</code> is
+further wrapped in a <code class="highlighter-rouge">PState</code>, or <em>persistent state</em>, which
+contains persistence information about the user that is not part of
+the domain model. You don’t need to know much of anything about a
+<code class="highlighter-rouge">PState</code>, except that you can call methods <code class="highlighter-rouge">get</code> and <code class="highlighter-rouge">map</code> on it, to
+work with the underlying <code class="highlighter-rouge">User</code> inside.</p>
+
+<p>In the yield clause of the for comprehension in this method,
+<code class="highlighter-rouge">created.get</code> retrieves the <code class="highlighter-rouge">User</code> from the <code class="highlighter-rouge">PState</code>. This in turn is
+passed to a method that converts from a <code class="highlighter-rouge">User</code> to a <code class="highlighter-rouge">UserInfo</code>. Then
+the for comprehension wraps this back up in a <code class="highlighter-rouge">Future</code>, which is
+exactly the kind of thing that Akka HTTP wants to work with.</p>
+
+<p>One caveat here is that <code class="highlighter-rouge">repo.create</code> might fail with a duplicate
+key exception. There might already be a user that has either the same
+username or email. So we call <code class="highlighter-rouge">recover</code> on the resulting <code class="highlighter-rouge">Future</code> and
+convert the longevity <code class="highlighter-rouge">DuplicateKeyValException</code> into a service-level
+exception: either <code class="highlighter-rouge">DuplicateUsernameException</code> or
+<code class="highlighter-rouge">DuplicateEmailException</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="k">import</span> <span class="nn">longevity.exceptions.persistence.DuplicateKeyValException</span>
+
+  <span class="cm">/** converts longevity duplicate key val exception into simbl exception */</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="n">handleDuplicateKeyVal</span><span class="o">(</span><span class="n">e</span><span class="k">:</span> <span class="kt">DuplicateKeyValException</span><span class="o">[</span><span class="k">_</span>, <span class="k">_</span><span class="o">],</span> <span class="n">info</span><span class="k">:</span> <span class="kt">UserInfo</span><span class="o">)</span><span class="k">:</span> <span class="kt">Nothing</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">key</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">User</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">username</span> <span class="k">=&gt;</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nc">DuplicateUsernameException</span><span class="o">(</span><span class="n">info</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+      <span class="k">case</span> <span class="nc">User</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">email</span> <span class="k">=&gt;</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nc">DuplicateEmailException</span><span class="o">(</span><span class="n">info</span><span class="o">.</span><span class="n">email</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Our <a href="routes.html">Akka HTTP route</a> responds to these exceptions by
+producing a <code class="highlighter-rouge">409 Conflict</code>.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="service-impl.html">the user service implementation</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">getting started guide</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="retrieve-user.html">UserServiceImpl.retrieveUser</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>persistent state wrappers</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> persistent state wrappers </h1>
+          
+          <p>Longevity provides three type aliases, <code class="highlighter-rouge">FPState[P]</code>, <code class="highlighter-rouge">OPState[P]</code>, and
+<code class="highlighter-rouge">FOPState[P]</code>, for types <code class="highlighter-rouge">Future[PState[P]]</code>, <code class="highlighter-rouge">Option[PState[P]]</code>, and
+<code class="highlighter-rouge">Future[Option[PState[P]]]</code>, respectively. You can use these type
+aliases as shorthands for the longer type names.</p>
+
+<p>We also provide implicit classes that provide extra methods <code class="highlighter-rouge">mapP</code> and
+<code class="highlighter-rouge">flatMapP</code> for each of the three types above. These methods will open
+up the containing <code class="highlighter-rouge">Future</code>/<code class="highlighter-rouge">Option</code> combination, apply a function from
+<code class="highlighter-rouge">P</code> to <code class="highlighter-rouge">P</code>, and wrap the result back up. The methods for <code class="highlighter-rouge">OPState[P]</code>
+would look something like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">OPState</span><span class="o">[</span><span class="kt">P</span> <span class="k">&lt;:</span> <span class="kt">Persistent</span><span class="o">]</span> <span class="o">{</span>
+
+  <span class="cm">/** map the optional `PState` by mapping the `Persistent` inside */</span>
+  <span class="k">def</span> <span class="n">mapP</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">P</span> <span class="o">=&gt;</span> <span class="n">P</span><span class="o">)</span><span class="k">:</span> <span class="kt">OPState</span><span class="o">[</span><span class="kt">P</span><span class="o">]</span>
+
+  <span class="cm">/** flatMap the optional `PState` by flat-mapping the `Persistent` inside */</span>
+  <span class="k">def</span> <span class="n">flatMapP</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">P</span> <span class="o">=&gt;</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">P</span><span class="o">])</span><span class="k">:</span> <span class="kt">OPState</span><span class="o">[</span><span class="kt">P</span><span class="o">]</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">FOPState[P]</code> also has convenience methods <code class="highlighter-rouge">mapState</code> and
+<code class="highlighter-rouge">flatMapState</code> for opening up the enclosed option:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FOPState</span><span class="o">[</span><span class="kt">P</span> <span class="k">&lt;:</span> <span class="kt">Persistent</span><span class="o">]</span> <span class="o">{</span>
+
+  <span class="cm">/** map the `FOPState` by mapping the `Persistent` inside the `PState` */</span>
+  <span class="k">def</span> <span class="n">mapP</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">P</span> <span class="o">=&gt;</span> <span class="n">P</span><span class="o">)</span><span class="k">:</span> <span class="kt">FOPState</span><span class="o">[</span><span class="kt">P</span><span class="o">]</span>
+
+  <span class="cm">/** flatMap the `FOPState` by flat-mapping the `Persistent` inside */</span>
+  <span class="k">def</span> <span class="n">flatMapP</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">P</span> <span class="o">=&gt;</span> <span class="nc">Future</span><span class="o">[</span><span class="kt">P</span><span class="o">])</span><span class="k">:</span> <span class="kt">FOPState</span><span class="o">[</span><span class="kt">P</span><span class="o">]</span>
+
+  <span class="cm">/** map the `FOPState` by mapping the `PState` inside */</span>
+  <span class="k">def</span> <span class="n">mapState</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">])</span><span class="k">:</span> <span class="kt">FOPState</span><span class="o">[</span><span class="kt">P</span><span class="o">]</span>
+
+  <span class="cm">/** flatMap the `FOPState` by flat-mapping the `PState` inside */</span>
+  <span class="k">def</span> <span class="n">flatMapState</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">FPState</span><span class="o">[</span><span class="kt">P</span><span class="o">])</span><span class="k">:</span> <span class="kt">FOPState</span><span class="o">[</span><span class="kt">P</span><span class="o">]</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Consider the following method, where we are tasked with attempting to
+retrieve a user by username, modifying the last name <em>if</em> we find such
+a user, and persisting the result. We return <code class="highlighter-rouge">true</code> if we updated a
+user, and <code class="highlighter-rouge">false</code> if not. We can use <code class="highlighter-rouge">FOPState</code> extension methods to
+our advantage here. The type ascriptions would normally be left out,
+but we include them to make the example easier to follow:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="n">updateLastName</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span> <span class="n">newLastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Boolean</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">retrieved</span><span class="k">:</span> <span class="kt">FOPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieve</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="n">username</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">modified</span><span class="k">:</span> <span class="kt">FOPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">retrieved</span><span class="o">.</span><span class="n">mapP</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">lastName</span> <span class="k">=</span> <span class="n">newLastName</span><span class="o">))</span>
+  <span class="k">val</span> <span class="n">updated</span><span class="k">:</span> <span class="kt">FOPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">modified</span><span class="o">.</span><span class="n">flatMapState</span><span class="o">(</span><span class="n">repo</span><span class="o">.</span><span class="n">update</span><span class="o">)</span>
+  <span class="n">updated</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">nonEmpty</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="persistent-state.html">persistent state</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the repository</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="create.html">repo.create</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

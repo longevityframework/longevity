@@ -1,0 +1,804 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <title>longevity 0.23.0 API  - longevity.model.query</title>
+          <meta name="description" content="longevity 0.23.0 API - longevity.model.query" />
+          <meta name="keywords" content="longevity 0.23.0 API longevity.model.query" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="../../../lib/index.js"></script>
+      <script type="text/javascript" src="../../../index.js"></script>
+      <script type="text/javascript" src="../../../lib/scheduler.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '../../../';
+      </script>
+    
+        </head>
+        <body>
+      <div id="search">
+        <span id="doc-title">longevity 0.23.0 API<span id="doc-version"></span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
+    </div>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
+      </div>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="index.html#_root_" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../index.html">
+              <span class="name">root</span>
+            </a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="_root_.longevity" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="longevity"></a><a id="longevity:longevity"></a>
+      <span class="permalink">
+      <a href="index.html#longevity" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="a persistence framework for Scala and NoSQL" href="../../index.html">
+              <span class="name">longevity</span>
+            </a>
+      </span>
+      
+      <p class="shortcomment cmt">a persistence framework for Scala and NoSQL</p><div class="fullcomment"><div class="comment cmt"><p>a persistence framework for Scala and NoSQL</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="longevity.model" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="model"></a><a id="model:model"></a>
+      <span class="permalink">
+      <a href="../longevity/index.html#model" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="provides tools for constructing your domain model" href="../index.html">
+              <span class="name">model</span>
+            </a>
+      </span>
+      
+      <p class="shortcomment cmt">provides tools for constructing your domain model</p><div class="fullcomment"><div class="comment cmt"><p>provides tools for constructing your domain model</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="longevity">longevity</a></dd></dl></div>
+    </li><li name="longevity.model.annotations" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="annotations"></a><a id="annotations:annotations"></a>
+      <span class="permalink">
+      <a href="../../longevity/model/index.html#annotations" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="macro annotations for defining your domain model" href="../annotations/index.html">
+              <span class="name">annotations</span>
+            </a>
+      </span>
+      
+      <p class="shortcomment cmt">macro annotations for defining your domain model</p><div class="fullcomment"><div class="comment cmt"><p>macro annotations for defining your domain model</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="longevity.model">model</a></dd></dl></div>
+    </li><li name="longevity.model.ptype" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ptype"></a><a id="ptype:ptype"></a>
+      <span class="permalink">
+      <a href="../../longevity/model/index.html#ptype" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../ptype/index.html">
+              <span class="name">ptype</span>
+            </a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="longevity.model">model</a></dd></dl></div>
+    </li><li name="longevity.model.query" visbl="pub" class="indented3 current" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="query"></a><a id="query:query"></a>
+      <span class="permalink">
+      <a href="../../longevity/model/index.html#query" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">query</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="longevity.model">model</a></dd></dl></div>
+    </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="AndOp$.html" title="the and operator"></a>
+                        <a href="AndOp$.html" title="the and operator">
+                          AndOp
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Ascending$.html" title="an ascending sort for a query sort expression"></a>
+                        <a href="Ascending$.html" title="an ascending sort for a query sort expression">
+                          Ascending
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="ConditionalFilter.html" title="a conditional query filter."></a>
+                        <a href="ConditionalFilter.html" title="a conditional query filter.">
+                          ConditionalFilter
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Descending$.html" title="a descending sort for a query sort expression"></a>
+                        <a href="Descending$.html" title="a descending sort for a query sort expression">
+                          Descending
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="EqOp$.html" title="the equals operator"></a>
+                        <a href="EqOp$.html" title="the equals operator">
+                          EqOp
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="FilterAll.html" title="a query that filters nothing and returns everything"></a>
+                        <a href="FilterAll.html" title="a query that filters nothing and returns everything">
+                          FilterAll
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="GtOp$.html" title="the greater than operator"></a>
+                        <a href="GtOp$.html" title="the greater than operator">
+                          GtOp
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="GteOp$.html" title="the greater than equals operator"></a>
+                        <a href="GteOp$.html" title="the greater than equals operator">
+                          GteOp
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="LogicalOp.html" title="either of the binary logical operators and and or"></a>
+                        <a href="LogicalOp.html" title="either of the binary logical operators and and or">
+                          LogicalOp
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="LtOp$.html" title="the less than operator"></a>
+                        <a href="LtOp$.html" title="the less than operator">
+                          LtOp
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="LteOp$.html" title="the less than equals operator"></a>
+                        <a href="LteOp$.html" title="the less than equals operator">
+                          LteOp
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="NeqOp$.html" title="the not equals operator"></a>
+                        <a href="NeqOp$.html" title="the not equals operator">
+                          NeqOp
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="OrOp$.html" title="the or operator"></a>
+                        <a href="OrOp$.html" title="the or operator">
+                          OrOp
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="Query.html" title="a query for looking up persistent objects of type P"></a>
+                        <a href="Query.html" title="a query for looking up persistent objects of type P">
+                          Query
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="QueryFilter$.html" title="query filter factory methods"></a>
+                        <a class="trait" href="QueryFilter.html" title="a query filter for looking up persistent entities of type P"></a>
+                        <a href="QueryFilter.html" title="a query filter for looking up persistent entities of type P">
+                          QueryFilter
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="QueryOrderBy$.html" title="contains a factory method for an empty order by clause"></a>
+                        <a class="class" href="QueryOrderBy.html" title="a query order by clause
+"></a>
+                        <a href="QueryOrderBy.html" title="a query order by clause
+">
+                          QueryOrderBy
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="QuerySortDirection.html" title="the direction for a query sort expression"></a>
+                        <a href="QuerySortDirection.html" title="the direction for a query sort expression">
+                          QuerySortDirection
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="QuerySortExpr.html" title="a query sort expression
+"></a>
+                        <a href="QuerySortExpr.html" title="a query sort expression
+">
+                          QuerySortExpr
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="RelationalFilter.html" title="an equality query filter."></a>
+                        <a href="RelationalFilter.html" title="an equality query filter.">
+                          RelationalFilter
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="RelationalOp.html" title="a query relational operator."></a>
+                        <a href="RelationalOp.html" title="a query relational operator.">
+                          RelationalOp
+                        </a>
+                      </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="package value">
+      <div id="definition">
+        <div class="big-circle package">p</div>
+        <p id="owner"><a href="../../index.html" class="extype" name="longevity">longevity</a>.<a href="../index.html" class="extype" name="longevity.model">model</a></p>
+        <h1>query<span class="permalink">
+      <a href="../../../longevity/model/query/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">query</span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block diagram-container" id="content-diagram-container">
+                <span class="toggle diagram-link">
+                  Content Hierarchy
+                </span>
+                <div class="diagram" id="content-diagram"><svg class="package-diagram" id="graph1" viewBox="0.00 0.00 1209.00 94.00" height="94pt" width="1209pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 90)" class="graph" id="graph0"><polygon points="-4,4 -4,-90 1205,-90 1205,4 -4,4" stroke="none" fill="white"></polygon><!-- node0 --><g class="node object" id="graph1_0"><g id="a_object|graph1_0"><a xlink:title="longevity.model.query.GteOp" xlink:href="GteOp$.html#inheritance-diagram"><path d="M57.6667,-25C57.6667,-25 8.33333,-25 8.33333,-25 4.16667,-25 0,-20.8333 0,-16.6667 0,-16.6667 0,-8.33333 0,-8.33333 0,-4.16667 4.16667,-0 8.33333,-0 8.33333,-0 57.6667,-0 57.6667,-0 61.8333,-0 66,-4.16667 66,-8.33333 66,-8.33333 66,-16.6667 66,-16.6667 66,-20.8333 61.8333,-25 57.6667,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="10" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="30.6055" text-anchor="start">GteOp</text></a></g></g><!-- node1 --><g class="node object" id="graph1_1"><g id="a_object|graph1_1"><a xlink:title="longevity.model.query.GtOp" xlink:href="GtOp$.html#inheritance-diagram"><path d="M137.667,-25C137.667,-25 92.3333,-25 92.3333,-25 88.1667,-25 84,-20.8333 84,-16.6667 84,-16.6667 84,-8.33333 84,-8.33333 84,-4.16667 88.1667,-0 92.3333,-0 92.3333,-0 137.667,-0 137.667,-0 141.833,-0 146,-4.16667 146,-8.33333 146,-8.33333 146,-16.6667 146,-16.6667 146,-20.8333 141.833,-25 137.667,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="94" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="114.83" text-anchor="start">GtOp</text></a></g></g><!-- node2 --><g class="node object" id="graph1_2"><g id="a_object|graph1_2"><a xlink:title="longevity.model.query.LteOp" xlink:href="LteOp$.html#inheritance-diagram"><path d="M221.167,-25C221.167,-25 172.833,-25 172.833,-25 168.667,-25 164.5,-20.8333 164.5,-16.6667 164.5,-16.6667 164.5,-8.33333 164.5,-8.33333 164.5,-4.16667 168.667,-0 172.833,-0 172.833,-0 221.167,-0 221.167,-0 225.333,-0 229.5,-4.16667 229.5,-8.33333 229.5,-8.33333 229.5,-16.6667 229.5,-16.6667 229.5,-20.8333 225.333,-25 221.167,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="175" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="195.992" text-anchor="start">LteOp</text></a></g></g><!-- node3 --><g class="node object" id="graph1_3"><g id="a_object|graph1_3"><a xlink:title="longevity.model.query.LtOp" xlink:href="LtOp$.html#inheritance-diagram"><path d="M299.667,-25C299.667,-25 256.333,-25 256.333,-25 252.167,-25 248,-20.8333 248,-16.6667 248,-16.6667 248,-8.33333 248,-8.33333 248,-4.16667 252.167,-0 256.333,-0 256.333,-0 299.667,-0 299.667,-0 303.833,-0 308,-4.16667 308,-8.33333 308,-8.33333 308,-16.6667 308,-16.6667 308,-20.8333 303.833,-25 299.667,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="258" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="278.717" text-anchor="start">LtOp</text></a></g></g><!-- node4 --><g class="node object" id="graph1_4"><g id="a_object|graph1_4"><a xlink:title="longevity.model.query.NeqOp" xlink:href="NeqOp$.html#inheritance-diagram"><path d="M385.667,-25C385.667,-25 334.333,-25 334.333,-25 330.167,-25 326,-20.8333 326,-16.6667 326,-16.6667 326,-8.33333 326,-8.33333 326,-4.16667 330.167,-0 334.333,-0 334.333,-0 385.667,-0 385.667,-0 389.833,-0 394,-4.16667 394,-8.33333 394,-8.33333 394,-16.6667 394,-16.6667 394,-20.8333 389.833,-25 385.667,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="336" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="356.715" text-anchor="start">NeqOp</text></a></g></g><!-- node5 --><g class="node object" id="graph1_5"><g id="a_object|graph1_5"><a xlink:title="longevity.model.query.EqOp" xlink:href="EqOp$.html#inheritance-diagram"><path d="M467.167,-25C467.167,-25 420.833,-25 420.833,-25 416.667,-25 412.5,-20.8333 412.5,-16.6667 412.5,-16.6667 412.5,-8.33333 412.5,-8.33333 412.5,-4.16667 416.667,-0 420.833,-0 420.833,-0 467.167,-0 467.167,-0 471.333,-0 475.5,-4.16667 475.5,-8.33333 475.5,-8.33333 475.5,-16.6667 475.5,-16.6667 475.5,-20.8333 471.333,-25 467.167,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="423" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="443.66" text-anchor="start">EqOp</text></a></g></g><!-- node6 --><g class="node trait" id="graph1_6"><g id="a_trait|graph1_6"><a xlink:title="longevity.model.query.RelationalOp" xlink:href="RelationalOp.html#inheritance-diagram"><path d="M273.167,-86C273.167,-86 200.833,-86 200.833,-86 196.667,-86 192.5,-81.8333 192.5,-77.6667 192.5,-77.6667 192.5,-69.3333 192.5,-69.3333 192.5,-65.1667 196.667,-61 200.833,-61 200.833,-61 273.167,-61 273.167,-61 277.333,-61 281.5,-65.1667 281.5,-69.3333 281.5,-69.3333 281.5,-77.6667 281.5,-77.6667 281.5,-81.8333 277.333,-86 273.167,-86" stroke="#2e6d82" fill="#2e6d82"></path><image xlink:href="../../../lib/trait_diagram.png" y="-80.5" x="203" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-70.6" x="223.764" text-anchor="start">RelationalOp</text></a></g></g><!-- node6&#45;&gt;node0 --><g class="edge inheritance" id="graph1_6_0"><g id="a_inheritance|graph1_6_0"><a xlink:title="GteOp is a subtype of RelationalOp"><path d="M190.291,-58.9912C152.437,-48.043 100.022,-32.8838 66.3093,-23.1336" stroke="#d4d4d4" fill="none"></path><polygon points="189.777,-61.3928 197.182,-60.9841 191.139,-56.6857 189.777,-61.3928" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6&#45;&gt;node1 --><g class="edge inheritance" id="graph1_6_1"><g id="a_inheritance|graph1_6_1"><a xlink:title="GtOp is a subtype of RelationalOp"><path d="M206.667,-57.8308C185.83,-47.7538 158.54,-34.5561 139.169,-25.1884" stroke="#d4d4d4" fill="none"></path><polygon points="205.819,-60.1421 213.188,-60.9841 207.952,-55.7309 205.819,-60.1421" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6&#45;&gt;node2 --><g class="edge inheritance" id="graph1_6_2"><g id="a_inheritance|graph1_6_2"><a xlink:title="LteOp is a subtype of RelationalOp"><path d="M225.046,-54.868C218.525,-45.2496 210.635,-33.6112 204.886,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="223.141,-56.4244 229.097,-60.8435 227.197,-53.6747 223.141,-56.4244" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6&#45;&gt;node3 --><g class="edge inheritance" id="graph1_6_3"><g id="a_inheritance|graph1_6_3"><a xlink:title="LtOp is a subtype of RelationalOp"><path d="M249.253,-54.868C255.937,-45.2496 264.024,-33.6112 269.917,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="247.083,-53.697 245.1,-60.8435 251.107,-56.4933 247.083,-53.697" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6&#45;&gt;node4 --><g class="edge inheritance" id="graph1_6_4"><g id="a_inheritance|graph1_6_4"><a xlink:title="NeqOp is a subtype of RelationalOp"><path d="M267.581,-57.8308C288.59,-47.7538 316.103,-34.5561 335.633,-25.1884" stroke="#d4d4d4" fill="none"></path><polygon points="266.259,-55.7476 261.008,-60.9841 268.379,-60.1657 266.259,-55.7476" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6&#45;&gt;node5 --><g class="edge inheritance" id="graph1_6_5"><g id="a_inheritance|graph1_6_5"><a xlink:title="EqOp is a subtype of RelationalOp"><path d="M284.548,-58.9476C323.816,-47.7552 378.448,-32.1839 412.491,-22.4809" stroke="#d4d4d4" fill="none"></path><polygon points="283.463,-56.7092 277.403,-60.9841 284.807,-61.4215 283.463,-56.7092" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node7 --><g class="node object" id="graph1_7"><g id="a_object|graph1_7"><a xlink:title="longevity.model.query.Descending" xlink:href="Descending$.html#inheritance-diagram"><path d="M570.167,-25C570.167,-25 501.833,-25 501.833,-25 497.667,-25 493.5,-20.8333 493.5,-16.6667 493.5,-16.6667 493.5,-8.33333 493.5,-8.33333 493.5,-4.16667 497.667,-0 501.833,-0 501.833,-0 570.167,-0 570.167,-0 574.333,-0 578.5,-4.16667 578.5,-8.33333 578.5,-8.33333 578.5,-16.6667 578.5,-16.6667 578.5,-20.8333 574.333,-25 570.167,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="504" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="524.764" text-anchor="start">Descending</text></a></g></g><!-- node8 --><g class="node object" id="graph1_8"><g id="a_object|graph1_8"><a xlink:title="longevity.model.query.Ascending" xlink:href="Ascending$.html#inheritance-diagram"><path d="M668.667,-25C668.667,-25 605.333,-25 605.333,-25 601.167,-25 597,-20.8333 597,-16.6667 597,-16.6667 597,-8.33333 597,-8.33333 597,-4.16667 601.167,-0 605.333,-0 605.333,-0 668.667,-0 668.667,-0 672.833,-0 677,-4.16667 677,-8.33333 677,-8.33333 677,-16.6667 677,-16.6667 677,-20.8333 672.833,-25 668.667,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="607" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="627.709" text-anchor="start">Ascending</text></a></g></g><!-- node9 --><g class="node trait" id="graph1_9"><g id="a_trait|graph1_9"><a xlink:title="longevity.model.query.QuerySortDirection" xlink:href="QuerySortDirection.html#inheritance-diagram"><path d="M633.167,-86C633.167,-86 538.833,-86 538.833,-86 534.667,-86 530.5,-81.8333 530.5,-77.6667 530.5,-77.6667 530.5,-69.3333 530.5,-69.3333 530.5,-65.1667 534.667,-61 538.833,-61 538.833,-61 633.167,-61 633.167,-61 637.333,-61 641.5,-65.1667 641.5,-69.3333 641.5,-69.3333 641.5,-77.6667 641.5,-77.6667 641.5,-81.8333 637.333,-86 633.167,-86" stroke="#2e6d82" fill="#2e6d82"></path><image xlink:href="../../../lib/trait_diagram.png" y="-80.5" x="541" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-70.6" x="561.877" text-anchor="start">QuerySortDirection</text></a></g></g><!-- node9&#45;&gt;node7 --><g class="edge inheritance" id="graph1_9_7"><g id="a_inheritance|graph1_9_7"><a xlink:title="Descending is a subtype of QuerySortDirection"><path d="M571.522,-55.4154C563.283,-45.6942 553.18,-33.7727 545.858,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="569.727,-57.0872 576.122,-60.8435 573.465,-53.9192 569.727,-57.0872" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node9&#45;&gt;node8 --><g class="edge inheritance" id="graph1_9_8"><g id="a_inheritance|graph1_9_8"><a xlink:title="Ascending is a subtype of QuerySortDirection"><path d="M600.768,-55.4154C609.171,-45.6942 619.476,-33.7727 626.945,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="598.8,-53.9455 596.076,-60.8435 602.507,-57.1499 598.8,-53.9455" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node10 --><g class="node class" id="graph1_10"><g id="a_class|graph1_10"><a xlink:title="longevity.model.query.ConditionalFilter" xlink:href="ConditionalFilter.html#inheritance-diagram"><path d="M796.667,-25C796.667,-25 703.333,-25 703.333,-25 699.167,-25 695,-20.8333 695,-16.6667 695,-16.6667 695,-8.33333 695,-8.33333 695,-4.16667 699.167,-0 703.333,-0 703.333,-0 796.667,-0 796.667,-0 800.833,-0 805,-4.16667 805,-8.33333 805,-8.33333 805,-16.6667 805,-16.6667 805,-20.8333 800.833,-25 796.667,-25" stroke="#418565" fill="#418565"></path><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="705" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="725.596" text-anchor="start">ConditionalFilter[P]</text></a></g></g><!-- node11 --><g class="node class" id="graph1_11"><g id="a_class|graph1_11"><a xlink:title="longevity.model.query.RelationalFilter" xlink:href="RelationalFilter.html#inheritance-diagram"><path d="M928.667,-25C928.667,-25 831.333,-25 831.333,-25 827.167,-25 823,-20.8333 823,-16.6667 823,-16.6667 823,-8.33333 823,-8.33333 823,-4.16667 827.167,-0 831.333,-0 831.333,-0 928.667,-0 928.667,-0 932.833,-0 937,-4.16667 937,-8.33333 937,-8.33333 937,-16.6667 937,-16.6667 937,-20.8333 932.833,-25 928.667,-25" stroke="#418565" fill="#418565"></path><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="833" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="853.664" text-anchor="start">RelationalFilter[P, A]</text></a></g></g><!-- node12 --><g class="node class" id="graph1_12"><g id="a_class|graph1_12"><a xlink:title="longevity.model.query.FilterAll" xlink:href="FilterAll.html#inheritance-diagram"><path d="M1026.17,-25C1026.17,-25 963.833,-25 963.833,-25 959.667,-25 955.5,-20.8333 955.5,-16.6667 955.5,-16.6667 955.5,-8.33333 955.5,-8.33333 955.5,-4.16667 959.667,-0 963.833,-0 963.833,-0 1026.17,-0 1026.17,-0 1030.33,-0 1034.5,-4.16667 1034.5,-8.33333 1034.5,-8.33333 1034.5,-16.6667 1034.5,-16.6667 1034.5,-20.8333 1030.33,-25 1026.17,-25" stroke="#418565" fill="#418565"></path><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="966" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="986.664" text-anchor="start">FilterAll[P]</text></a></g></g><!-- node13 --><g class="node trait" id="graph1_13"><g id="a_trait|graph1_13"><a xlink:title="longevity.model.query.QueryFilter" xlink:href="QueryFilter.html#inheritance-diagram"><path d="M917.667,-86C917.667,-86 842.333,-86 842.333,-86 838.167,-86 834,-81.8333 834,-77.6667 834,-77.6667 834,-69.3333 834,-69.3333 834,-65.1667 838.167,-61 842.333,-61 842.333,-61 917.667,-61 917.667,-61 921.833,-61 926,-65.1667 926,-69.3333 926,-69.3333 926,-77.6667 926,-77.6667 926,-81.8333 921.833,-86 917.667,-86" stroke="#2e6d82" fill="#2e6d82"></path><image xlink:href="../../../lib/trait_diagram.png" y="-80.5" x="844" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-70.6" x="864.717" text-anchor="start">QueryFilter[P]</text></a></g></g><!-- node13&#45;&gt;node10 --><g class="edge inheritance" id="graph1_13_10"><g id="a_inheritance|graph1_13_10"><a xlink:title="ConditionalFilter[P] is a subtype of QueryFilter[P]"><path d="M847.966,-57.9615C825.726,-47.8681 796.484,-34.5966 775.754,-25.1884" stroke="#d4d4d4" fill="none"></path><polygon points="847.239,-60.3222 854.626,-60.9841 849.264,-55.8602 847.239,-60.3222" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node13&#45;&gt;node11 --><g class="edge inheritance" id="graph1_13_11"><g id="a_inheritance|graph1_13_11"><a xlink:title="RelationalFilter[P, A] is a subtype of QueryFilter[P]"><path d="M880,-53.7603C880,-44.3675 880,-33.2882 880,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="877.55,-53.8435 880,-60.8435 882.45,-53.8435 877.55,-53.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node13&#45;&gt;node12 --><g class="edge inheritance" id="graph1_13_12"><g id="a_inheritance|graph1_13_12"><a xlink:title="FilterAll[P] is a subtype of QueryFilter[P]"><path d="M908.848,-57.6998C928.457,-47.6396 954.038,-34.5155 972.217,-25.1884" stroke="#d4d4d4" fill="none"></path><polygon points="907.556,-55.6089 902.446,-60.9841 909.793,-59.9686 907.556,-55.6089" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node14 --><g class="node object" id="graph1_14"><g id="a_object|graph1_14"><a xlink:title="longevity.model.query.OrOp" xlink:href="OrOp$.html#inheritance-diagram"><path d="M1106.67,-25C1106.67,-25 1061.33,-25 1061.33,-25 1057.17,-25 1053,-20.8333 1053,-16.6667 1053,-16.6667 1053,-8.33333 1053,-8.33333 1053,-4.16667 1057.17,-0 1061.33,-0 1061.33,-0 1106.67,-0 1106.67,-0 1110.83,-0 1115,-4.16667 1115,-8.33333 1115,-8.33333 1115,-16.6667 1115,-16.6667 1115,-20.8333 1110.83,-25 1106.67,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="1063" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="1083.61" text-anchor="start">OrOp</text></a></g></g><!-- node15 --><g class="node object" id="graph1_15"><g id="a_object|graph1_15"><a xlink:title="longevity.model.query.AndOp" xlink:href="AndOp$.html#inheritance-diagram"><path d="M1192.67,-25C1192.67,-25 1141.33,-25 1141.33,-25 1137.17,-25 1133,-20.8333 1133,-16.6667 1133,-16.6667 1133,-8.33333 1133,-8.33333 1133,-4.16667 1137.17,-0 1141.33,-0 1141.33,-0 1192.67,-0 1192.67,-0 1196.83,-0 1201,-4.16667 1201,-8.33333 1201,-8.33333 1201,-16.6667 1201,-16.6667 1201,-20.8333 1196.83,-25 1192.67,-25" stroke="#103a51" fill="#103a51"></path><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="1143" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-9.6" x="1163.94" text-anchor="start">AndOp</text></a></g></g><!-- node16 --><g class="node trait" id="graph1_16"><g id="a_trait|graph1_16"><a xlink:title="longevity.model.query.LogicalOp" xlink:href="LogicalOp.html#inheritance-diagram"><path d="M1156.17,-86C1156.17,-86 1093.83,-86 1093.83,-86 1089.67,-86 1085.5,-81.8333 1085.5,-77.6667 1085.5,-77.6667 1085.5,-69.3333 1085.5,-69.3333 1085.5,-65.1667 1089.67,-61 1093.83,-61 1093.83,-61 1156.17,-61 1156.17,-61 1160.33,-61 1164.5,-65.1667 1164.5,-69.3333 1164.5,-69.3333 1164.5,-77.6667 1164.5,-77.6667 1164.5,-81.8333 1160.33,-86 1156.17,-86" stroke="#2e6d82" fill="#2e6d82"></path><image xlink:href="../../../lib/trait_diagram.png" y="-80.5" x="1096" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-70.6" x="1116.88" text-anchor="start">LogicalOp</text></a></g></g><!-- node16&#45;&gt;node14 --><g class="edge inheritance" id="graph1_16_14"><g id="a_inheritance|graph1_16_14"><a xlink:title="OrOp is a subtype of LogicalOp"><path d="M1112.75,-54.868C1106.06,-45.2496 1097.98,-33.6112 1092.08,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="1110.89,-56.4933 1116.9,-60.8435 1114.92,-53.697 1110.89,-56.4933" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node16&#45;&gt;node15 --><g class="edge inheritance" id="graph1_16_15"><g id="a_inheritance|graph1_16_15"><a xlink:title="AndOp is a subtype of LogicalOp"><path d="M1137.55,-54.868C1144.4,-45.2496 1152.68,-33.6112 1158.72,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="1135.36,-53.72 1133.3,-60.8435 1139.35,-56.5617 1135.36,-53.72" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div id="diagram-controls" class="hiddenContent">
+                  <button id="diagram-zoom-out" class="diagram-btn"><i class="material-icons"></i></button>
+                  <button id="diagram-zoom-in" class="diagram-btn"><i class="material-icons"></i></button>
+                  <button title="Toggle full-screen" id="diagram-fs" class="diagram-btn to-full"><i class="material-icons"></i></button>
+                </div>
+              </div></div>
+        
+
+      <div id="mbrsel">
+        <div class="toggle"></div>
+        <div id="memberfilter">
+          <i class="material-icons arrow"></i>
+          <span class="input">
+            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
+          </span>
+          <i class="clear material-icons"></i>
+        </div>
+        <div id="filterby">
+          <div id="order">
+            <span class="filtertype">Ordering</span>
+            <ol>
+              
+              <li class="alpha in"><span>Alphabetic</span></li>
+              
+            </ol>
+          </div>
+          
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="longevity.model.query.ConditionalFilter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ConditionalFilter[P]extendsQueryFilter[P]withProductwithSerializable"></a><a id="ConditionalFilter[P]:ConditionalFilter[P]"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#ConditionalFilter[P]extendsQueryFilter[P]withProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="a conditional query filter." href="ConditionalFilter.html">
+              <span class="name">ConditionalFilter</span>
+            </a><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="lhs">lhs: <a href="QueryFilter.html" class="extype" name="longevity.model.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.model.query.ConditionalFilter.P">P</span>]</span>, <span name="op">op: <a href="LogicalOp.html" class="extype" name="longevity.model.query.LogicalOp">LogicalOp</a></span>, <span name="rhs">rhs: <a href="QueryFilter.html" class="extype" name="longevity.model.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.model.query.ConditionalFilter.P">P</span>]</span>)</span><span class="result"> extends <a href="QueryFilter.html" class="extype" name="longevity.model.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.model.query.ConditionalFilter.P">P</span>] with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">a conditional query filter.</p><div class="fullcomment"><div class="comment cmt"><p>a conditional query filter. combines two sub-queries with an <code>and</code> or an
+<code>or</code> operator.
+</p></div><dl class="paramcmts block"><dt class="param">lhs</dt><dd class="cmt"><p>the left-hand side sub-query</p></dd><dt class="param">op</dt><dd class="cmt"><p>the <code>and</code> or <code>or</code> operator</p></dd><dt class="param">rhs</dt><dd class="cmt"><p>the right-hand side sub-query</p></dd></dl></div>
+    </li><li name="longevity.model.query.FilterAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FilterAll[P]extendsQueryFilter[P]withProductwithSerializable"></a><a id="FilterAll[P]:FilterAll[P]"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#FilterAll[P]extendsQueryFilter[P]withProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="a query that filters nothing and returns everything" href="FilterAll.html">
+              <span class="name">FilterAll</span>
+            </a><span class="tparams">[<span name="P">P</span>]</span><span class="params">()</span><span class="result"> extends <a href="QueryFilter.html" class="extype" name="longevity.model.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.model.query.FilterAll.P">P</span>] with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">a query that filters nothing and returns everything</p>
+    </li><li name="longevity.model.query.LogicalOp" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="LogicalOpextendsAnyRef"></a><a id="LogicalOp:LogicalOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#LogicalOpextendsAnyRef" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="either of the binary logical operators and and or" href="LogicalOp.html">
+              <span class="name">LogicalOp</span>
+            </a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">either of the binary logical operators <i>and</i> and <i>or</i></p>
+    </li><li name="longevity.model.query.Query" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Query[P]extendsProductwithSerializable"></a><a id="Query[P]:Query[P]"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#Query[P]extendsProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="a query for looking up persistent objects of type P" href="Query.html">
+              <span class="name">Query</span>
+            </a><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="filter">filter: <a href="QueryFilter.html" class="extype" name="longevity.model.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.model.query.Query.P">P</span>]</span>, <span name="orderBy">orderBy: <a href="QueryOrderBy.html" class="extype" name="longevity.model.query.QueryOrderBy">QueryOrderBy</a>[<span class="extype" name="longevity.model.query.Query.P">P</span>] = <span class="symbol"><span class="name"><a href="QueryOrderBy$.html">QueryOrderBy.empty[P]</a></span></span></span>, <span name="offset">offset: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Int" class="extype" target="_top">Int</a>] = <span class="symbol">None</span></span>, <span name="limit">limit: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Int" class="extype" target="_top">Int</a>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">a query for looking up persistent objects of type <code>P</code></p>
+    </li><li name="longevity.model.query.QueryFilter" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="QueryFilter[P]extendsAnyRef"></a><a id="QueryFilter[P]:QueryFilter[P]"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#QueryFilter[P]extendsAnyRef" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="a query filter for looking up persistent entities of type P" href="QueryFilter.html">
+              <span class="name">QueryFilter</span>
+            </a><span class="tparams">[<span name="P">P</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">a query filter for looking up persistent entities of type <code>P</code></p>
+    </li><li name="longevity.model.query.QueryOrderBy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="QueryOrderBy[P]extendsProductwithSerializable"></a><a id="QueryOrderBy[P]:QueryOrderBy[P]"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#QueryOrderBy[P]extendsProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="a query order by clause
+" href="QueryOrderBy.html">
+              <span class="name">QueryOrderBy</span>
+            </a><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="sortExprs">sortExprs: <span class="extype" name="scala.Seq">Seq</span>[<a href="QuerySortExpr.html" class="extype" name="longevity.model.query.QuerySortExpr">QuerySortExpr</a>[<span class="extype" name="longevity.model.query.QueryOrderBy.P">P</span>]]</span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">a query order by clause
+</p><div class="fullcomment"><div class="comment cmt"><p>a query order by clause
+</p></div><dl class="paramcmts block"><dt class="param">sortExprs</dt><dd class="cmt"><p>the sort expressions that make up the order by clause</p></dd></dl></div>
+    </li><li name="longevity.model.query.QuerySortDirection" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="QuerySortDirectionextendsAnyRef"></a><a id="QuerySortDirection:QuerySortDirection"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#QuerySortDirectionextendsAnyRef" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="the direction for a query sort expression" href="QuerySortDirection.html">
+              <span class="name">QuerySortDirection</span>
+            </a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">the direction for a <a href="QuerySortExpr.html" class="extype" name="longevity.model.query.QuerySortExpr">query sort expression</a></p>
+    </li><li name="longevity.model.query.QuerySortExpr" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="QuerySortExpr[P]extendsProductwithSerializable"></a><a id="QuerySortExpr[P]:QuerySortExpr[P]"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#QuerySortExpr[P]extendsProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="a query sort expression
+" href="QuerySortExpr.html">
+              <span class="name">QuerySortExpr</span>
+            </a><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="prop">prop: <a href="../ptype/Prop.html" class="extype" name="longevity.model.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.model.query.QuerySortExpr.P">P</span>, _]</span>, <span name="direction">direction: <a href="QuerySortDirection.html" class="extype" name="longevity.model.query.QuerySortDirection">QuerySortDirection</a> = <span class="symbol"><span class="name"><a href="Ascending$.html">Ascending</a></span></span></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">a query sort expression
+</p><div class="fullcomment"><div class="comment cmt"><p>a query sort expression
+</p></div><dl class="paramcmts block"><dt class="param">prop</dt><dd class="cmt"><p>the property to sort on</p></dd><dt class="param">direction</dt><dd class="cmt"><p>the direction of the sort</p></dd></dl></div>
+    </li><li name="longevity.model.query.RelationalFilter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="RelationalFilter[P,A]extendsQueryFilter[P]withProductwithSerializable"></a><a id="RelationalFilter[P,A]:RelationalFilter[P,A]"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#RelationalFilter[P,A]extendsQueryFilter[P]withProductwithSerializable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="an equality query filter." href="RelationalFilter.html">
+              <span class="name">RelationalFilter</span>
+            </a><span class="tparams">[<span name="P">P</span>, <span name="A">A</span>]</span><span class="params">(<span name="prop">prop: <a href="../ptype/Prop.html" class="extype" name="longevity.model.ptype.Prop">Prop</a>[_ &gt;: <span class="extype" name="longevity.model.query.RelationalFilter.P">P</span>, <span class="extype" name="longevity.model.query.RelationalFilter.A">A</span>]</span>, <span name="op">op: <a href="RelationalOp.html" class="extype" name="longevity.model.query.RelationalOp">RelationalOp</a></span>, <span name="value">value: <span class="extype" name="longevity.model.query.RelationalFilter.A">A</span></span>)</span><span class="result"> extends <a href="QueryFilter.html" class="extype" name="longevity.model.query.QueryFilter">QueryFilter</a>[<span class="extype" name="longevity.model.query.RelationalFilter.P">P</span>] with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">an equality query filter.</p><div class="fullcomment"><div class="comment cmt"><p>an equality query filter. compares a property to a value with an <code>eq</code>,
+<code>neq</code>, <code>lt</code>, <code>lte</code>, <code>gt</code>, or <code>gte</code> operator.
+</p></div><dl class="paramcmts block"><dt class="param">prop</dt><dd class="cmt"><p>the property to compare</p></dd><dt class="param">op</dt><dd class="cmt"><p>the relational operator</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value to compare</p></dd></dl></div>
+    </li><li name="longevity.model.query.RelationalOp" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="RelationalOpextendsAnyRef"></a><a id="RelationalOp:RelationalOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#RelationalOpextendsAnyRef" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="a query relational operator." href="RelationalOp.html">
+              <span class="name">RelationalOp</span>
+            </a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">a query relational operator.</p><div class="fullcomment"><div class="comment cmt"><p>a query relational operator. compares a persistent property to a raw value</p></div></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div class="values members">
+              <h3>Value Members</h3>
+              <ol>
+                <li name="longevity.model.query.AndOp" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AndOp"></a><a id="AndOp:AndOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#AndOp" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="the and operator" href="AndOp$.html">
+              <span class="name">AndOp</span>
+            </a><span class="result"> extends <a href="LogicalOp.html" class="extype" name="longevity.model.query.LogicalOp">LogicalOp</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">the and operator</p>
+    </li><li name="longevity.model.query.Ascending" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Ascending"></a><a id="Ascending:Ascending"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#Ascending" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="an ascending sort for a query sort expression" href="Ascending$.html">
+              <span class="name">Ascending</span>
+            </a><span class="result"> extends <a href="QuerySortDirection.html" class="extype" name="longevity.model.query.QuerySortDirection">QuerySortDirection</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">an ascending sort for a <a href="QuerySortExpr.html" class="extype" name="longevity.model.query.QuerySortExpr">query sort expression</a></p>
+    </li><li name="longevity.model.query.Descending" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Descending"></a><a id="Descending:Descending"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#Descending" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="a descending sort for a query sort expression" href="Descending$.html">
+              <span class="name">Descending</span>
+            </a><span class="result"> extends <a href="QuerySortDirection.html" class="extype" name="longevity.model.query.QuerySortDirection">QuerySortDirection</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">a descending sort for a <a href="QuerySortExpr.html" class="extype" name="longevity.model.query.QuerySortExpr">query sort expression</a></p>
+    </li><li name="longevity.model.query.EqOp" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="EqOp"></a><a id="EqOp:EqOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#EqOp" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="the equals operator" href="EqOp$.html">
+              <span class="name">EqOp</span>
+            </a><span class="result"> extends <a href="RelationalOp.html" class="extype" name="longevity.model.query.RelationalOp">RelationalOp</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">the equals operator</p>
+    </li><li name="longevity.model.query.GtOp" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GtOp"></a><a id="GtOp:GtOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#GtOp" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="the greater than operator" href="GtOp$.html">
+              <span class="name">GtOp</span>
+            </a><span class="result"> extends <a href="RelationalOp.html" class="extype" name="longevity.model.query.RelationalOp">RelationalOp</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">the greater than operator</p>
+    </li><li name="longevity.model.query.GteOp" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GteOp"></a><a id="GteOp:GteOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#GteOp" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="the greater than equals operator" href="GteOp$.html">
+              <span class="name">GteOp</span>
+            </a><span class="result"> extends <a href="RelationalOp.html" class="extype" name="longevity.model.query.RelationalOp">RelationalOp</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">the greater than equals operator</p>
+    </li><li name="longevity.model.query.LtOp" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LtOp"></a><a id="LtOp:LtOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#LtOp" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="the less than operator" href="LtOp$.html">
+              <span class="name">LtOp</span>
+            </a><span class="result"> extends <a href="RelationalOp.html" class="extype" name="longevity.model.query.RelationalOp">RelationalOp</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">the less than operator</p>
+    </li><li name="longevity.model.query.LteOp" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LteOp"></a><a id="LteOp:LteOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#LteOp" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="the less than equals operator" href="LteOp$.html">
+              <span class="name">LteOp</span>
+            </a><span class="result"> extends <a href="RelationalOp.html" class="extype" name="longevity.model.query.RelationalOp">RelationalOp</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">the less than equals operator</p>
+    </li><li name="longevity.model.query.NeqOp" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NeqOp"></a><a id="NeqOp:NeqOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#NeqOp" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="the not equals operator" href="NeqOp$.html">
+              <span class="name">NeqOp</span>
+            </a><span class="result"> extends <a href="RelationalOp.html" class="extype" name="longevity.model.query.RelationalOp">RelationalOp</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">the not equals operator</p>
+    </li><li name="longevity.model.query.OrOp" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="OrOp"></a><a id="OrOp:OrOp"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#OrOp" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="the or operator" href="OrOp$.html">
+              <span class="name">OrOp</span>
+            </a><span class="result"> extends <a href="LogicalOp.html" class="extype" name="longevity.model.query.LogicalOp">LogicalOp</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">the or operator</p>
+    </li><li name="longevity.model.query.QueryFilter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="QueryFilter"></a><a id="QueryFilter:QueryFilter"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#QueryFilter" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="query filter factory methods" href="QueryFilter$.html">
+              <span class="name">QueryFilter</span>
+            </a>
+      </span>
+      
+      <p class="shortcomment cmt">query filter factory methods</p>
+    </li><li name="longevity.model.query.QueryOrderBy" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="QueryOrderBy"></a><a id="QueryOrderBy:QueryOrderBy"></a>
+      <span class="permalink">
+      <a href="../../../longevity/model/query/index.html#QueryOrderBy" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="contains a factory method for an empty order by clause" href="QueryOrderBy$.html">
+              <span class="name">QueryOrderBy</span>
+            </a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">contains a factory method for an empty order by clause</p>
+    </li>
+              </ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
+      </div>
+    </body>
+      </html>

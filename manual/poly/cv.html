@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>controlled vocabularies</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> controlled vocabularies </h1>
+          
+          <p>There are two major approaches to doing controlled vocabularies in
+Scala: using
+<a href="http://www.scala-lang.org/api/current/index.html#scala.Enumeration"><code class="highlighter-rouge">scala.Enumeration</code></a>,
+or using a sealed trait with case objects. Here’s a controlled
+vocabulary for account status that uses the latter approach:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">sealed</span> <span class="k">trait</span> <span class="nc">AccountStatus</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">Active</span> <span class="k">extends</span> <span class="nc">AccountStatus</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">Suspended</span> <span class="k">extends</span> <span class="nc">AccountStatus</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">Cancelled</span> <span class="k">extends</span> <span class="nc">AccountStatus</span>
+</code></pre>
+</div>
+
+<p>Because longevity supports case objects and polymorphism, this pattern
+directly translates into a longevity domain model. We are free to
+use this controlled vocabulary in our domain, such as:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Account</span><span class="o">(</span>
+  <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">accountStatus</span><span class="k">:</span> <span class="kt">AccountStatus</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>We just need to annotate the members of our controlled vocabulary with
+<code class="highlighter-rouge">@polyComponent</code> and <code class="highlighter-rouge">@derivedComponent</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.polyComponent</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.derivedComponent</span>
+
+<span class="nd">@polyComponent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">sealed</span> <span class="k">trait</span> <span class="nc">AccountStatus</span>
+
+<span class="nd">@derivedComponent</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">AccountStatus</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">Active</span> <span class="k">extends</span> <span class="nc">AccountStatus</span>
+
+<span class="nd">@derivedComponent</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">AccountStatus</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">Suspended</span> <span class="k">extends</span> <span class="nc">AccountStatus</span>
+
+<span class="nd">@derivedComponent</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">AccountStatus</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">Cancelled</span> <span class="k">extends</span> <span class="nc">AccountStatus</span>
+</code></pre>
+</div>
+
+<p>Support for <code class="highlighter-rouge">scala.Enumeration</code> would be a great addition, and is <a href="https://www.pivotaltracker.com/story/show/128589983">on
+our story
+board</a>. If you
+are interested, this would be a great user contribution, and we would
+be happy to support you in implementing it however we can.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="persistents.html">polymorphic persistents</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">subtype polymorphism</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="../repo">the repository</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

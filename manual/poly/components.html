@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>polymorphic components</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> polymorphic components </h1>
+          
+          <p>Let’s say that on our blogging site, we want to be able to verify the
+identity of our users, and we have a few different approaches for
+doing so. We can use <em>email verification</em>, where we send the user an
+email, with a link that they can click to verify the email address. We
+can also use <em>SMS verification</em>, where we send the user an SMS message
+with a temporary code in it, and ask the user to enter it into the
+webpage. Or we can use a third-party account verification system such
+as Google Sign-In.</p>
+
+<p>An idealized representation of this portion of our domain might look
+like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.joda.time.DateTime</span>
+
+<span class="k">trait</span> <span class="nc">UserVerification</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">EmailVerification</span><span class="o">(</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserVerification</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">SmsVerification</span><span class="o">(</span>
+  <span class="n">phoneNumber</span><span class="k">:</span> <span class="kt">PhoneNumber</span><span class="o">,</span>
+  <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserVerification</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">GoogleSignIn</span><span class="o">(</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">idToken</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserVerification</span>
+</code></pre>
+</div>
+
+<p>In our <code class="highlighter-rouge">User</code> object, we want to keep track of all the user’s
+successful verification attempts:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">verifications</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">UserVerification</span><span class="o">])</span>
+</code></pre>
+</div>
+
+<p>For this to work, all we need to do is to make longevity aware of our
+polymorphic component <code class="highlighter-rouge">UserVerification</code>, and its children. We do this
+using annotations <code class="highlighter-rouge">@polyComponent</code> and <code class="highlighter-rouge">@derivedComponent</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.polyComponent</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.derivedComponent</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+<span class="k">import</span> <span class="nn">org.joda.time.DateTime</span>
+
+<span class="nd">@polyComponent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">trait</span> <span class="nc">UserVerification</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span>
+<span class="o">}</span>
+
+<span class="nd">@derivedComponent</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">UserVerification</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">EmailVerification</span><span class="o">(</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserVerification</span>
+
+<span class="nd">@derivedComponent</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">UserVerification</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">SmsVerification</span><span class="o">(</span>
+  <span class="n">phoneNumber</span><span class="k">:</span> <span class="kt">PhoneNumber</span><span class="o">,</span>
+  <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserVerification</span>
+
+<span class="nd">@derivedComponent</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">UserVerification</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">GoogleSignIn</span><span class="o">(</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">idToken</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserVerification</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">verifications</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">UserVerification</span><span class="o">])</span>
+</code></pre>
+</div>
+
+<p>The non-annotation equivalent is as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.DerivedCType</span>
+<span class="k">import</span> <span class="nn">longevity.model.PType</span>
+<span class="k">import</span> <span class="nn">longevity.model.PolyCType</span>
+<span class="k">import</span> <span class="nn">org.joda.time.DateTime</span>
+
+<span class="k">trait</span> <span class="nc">UserVerification</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">UserVerification</span> <span class="k">extends</span> <span class="nc">PolyCType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">UserVerification</span><span class="o">]</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">EmailVerification</span><span class="o">(</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserVerification</span>
+
+<span class="k">object</span> <span class="nc">EmailVerification</span> <span class="k">extends</span> <span class="nc">DerivedCType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">EmailVerification</span>, <span class="kt">UserVerification</span><span class="o">]</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">SmsVerification</span><span class="o">(</span>
+  <span class="n">phoneNumber</span><span class="k">:</span> <span class="kt">PhoneNumber</span><span class="o">,</span>
+  <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserVerification</span>
+
+<span class="k">object</span> <span class="nc">SmsVerification</span> <span class="k">extends</span> <span class="nc">DerivedCType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">SmsVerification</span>, <span class="kt">UserVerification</span><span class="o">]</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">GoogleSignIn</span><span class="o">(</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">idToken</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserVerification</span>
+
+<span class="k">object</span> <span class="nc">GoogleSignIn</span> <span class="k">extends</span> <span class="nc">DerivedCType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">GoogleSignIn</span>, <span class="kt">UserVerification</span><span class="o">]</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">verifications</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">UserVerification</span><span class="o">])</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="k">extends</span> <span class="nc">PType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">props</span> <span class="o">{</span>
+    <span class="c1">// ...
+</span>  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href=".">subtype polymorphism</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">subtype polymorphism</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="persistents.html">polymorphic persistents</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

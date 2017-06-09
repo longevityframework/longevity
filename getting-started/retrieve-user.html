@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>UserServiceImpl.retrieveUser</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> UserServiceImpl.retrieveUser </h1>
+          
+          <p>Here’s the code for <code class="highlighter-rouge">UserServiceImpl.retrieveUser</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="k">def</span> <span class="n">retrieveUser</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserInfo</span><span class="o">]]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">{</span>
+      <span class="n">retrieved</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieve</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="nc">Username</span><span class="o">(</span><span class="n">username</span><span class="o">))</span>
+    <span class="o">}</span> <span class="k">yield</span> <span class="o">{</span>
+      <span class="k">def</span> <span class="n">stateToInfo</span><span class="o">(</span><span class="n">state</span><span class="k">:</span> <span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">])</span> <span class="k">=</span> <span class="nc">UserInfo</span><span class="o">(</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="o">)</span>
+      <span class="n">retrieved</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">stateToInfo</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>This method does its work by calling <code class="highlighter-rouge">repo.retrieve</code>. To call this method, we have to convert from
+the <code class="highlighter-rouge">username</code> string to a <code class="highlighter-rouge">Username</code>, as <code class="highlighter-rouge">repo.retrieve</code> only takes a key value as argument. The
+type safety is assured by an implicit argument <code class="highlighter-rouge">longevity.model.ptype.Key[SimblDomainModel, User,
+Username]</code> to the method. This is why we made <code class="highlighter-rouge">User.usernameKey</code> an implicit value.</p>
+
+<p>Once again, the <code class="highlighter-rouge">User</code> is wrapped in a <code class="highlighter-rouge">PState</code>, so we can manipulate
+its persistent state if we wish. This in turn is wrapped in an
+<code class="highlighter-rouge">Option</code>, as there may or may not be a user with that username. This
+in turn is wrapped in a <code class="highlighter-rouge">Future</code>, as we want to treat the database
+call in an asynchronous fashion. This feels like a lot of layers of
+wrapping, but they are not too painful to work with if you use for
+comprehensions.</p>
+
+<p>Once the user is retrieved, we still need to map the <code class="highlighter-rouge">Option[PState[User]]</code> to an
+<code class="highlighter-rouge">Option[UserInfo]</code>. This is done in two lines in the <code class="highlighter-rouge">yield</code> clause of the for comprehension. If
+<code class="highlighter-rouge">retrieveUser</code> returns a future <code class="highlighter-rouge">None</code>, Akka HTTP will generate a <code class="highlighter-rouge">404 Not Found</code></p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="create-user.html">UserServiceImpl.createUser</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">getting started guide</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="update-user.html">UserServiceImpl.updateUser</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

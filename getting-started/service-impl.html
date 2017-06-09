@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>user service implementation</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> user service implementation </h1>
+          
+          <p>Implementations for the methods in <code class="highlighter-rouge">UserService</code> are provided in <code class="highlighter-rouge">UserServiceImpl.scala</code>. To do its
+job, the <code class="highlighter-rouge">UserServiceImpl</code> needs a <code class="highlighter-rouge">SimblDomainModel</code> repository, which is retrieved from the
+<code class="highlighter-rouge">LongevityContext</code> in <code class="highlighter-rouge">SimblContextImpl.scala</code> like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">longevityContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">SimblDomainModel</span><span class="o">]()</span>
+<span class="k">val</span> <span class="n">repo</span> <span class="k">=</span> <span class="n">longevityContext</span><span class="o">.</span><span class="n">repo</span>
+</code></pre>
+</div>
+
+<p>Because most of the repository methods need an execution context to run in, <code class="highlighter-rouge">SimblContextImpl</code> also
+provides an execution context that it pulls out of the Akka <code class="highlighter-rouge">ActorSystem</code>. Akka HTTP already needs
+an <code class="highlighter-rouge">ExecutionContext</code> to run. In other scenarios, you can always find an execution context in
+<code class="highlighter-rouge">scala.concurrent.ExecutionContext.Implicits.global</code>.</p>
+
+<p>Here’s the scaffolding for <code class="highlighter-rouge">UserServiceImpl</code>, which shows how the
+class acquires its two dependencies:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">simbl.service</span>
+
+<span class="k">import</span> <span class="nn">longevity.persistence.Repo</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext</span>
+<span class="k">import</span> <span class="nn">simbl.domain.SimblDomainModel</span>
+
+<span class="cm">/** default implementation of service to back the [[UserRoute user routes]] */</span>
+<span class="k">class</span> <span class="nc">UserServiceImpl</span><span class="o">(</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="n">repo</span><span class="k">:</span> <span class="kt">Repo</span><span class="o">[</span><span class="kt">SimblDomainModel</span><span class="o">])(</span>
+  <span class="k">implicit</span> <span class="n">context</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span>
+<span class="k">extends</span> <span class="nc">UserService</span> <span class="o">{</span>
+
+  <span class="c1">// ...
+</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>There are a number of service methods in <code class="highlighter-rouge">UserServiceImpl</code>. In this
+tutorial, we will focus on three: <code class="highlighter-rouge">createUser</code>, <code class="highlighter-rouge">retrieveUser</code>, and
+<code class="highlighter-rouge">updateUser</code>.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="service.html">the user service</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">getting started guide</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="create-user.html">UserServiceImpl.createUser</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

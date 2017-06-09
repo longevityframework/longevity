@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>ordered queries</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> ordered queries </h1>
+          
+          <p>Once you have your query filter, you can specify an ordering of the
+results using an <code class="highlighter-rouge">orderBy</code> clause. In the last section, we retrieved
+all blog posts for a given blog from the past week, but it would be
+nice to get them back in chronological order as well. This will return
+the posts in ascending chronological order:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+
+<span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
+
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.props._</span>
+
+  <span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">and</span> <span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span> <span class="n">orderBy</span> <span class="n">postDate</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Unfortunately, the DSL will not tolerate a line-break before the
+<code class="highlighter-rouge">orderBy</code> operator. If you need a line-break, you might try variations
+such as this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">{</span> <span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">and</span> <span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span>
+<span class="o">}</span> <span class="n">orderBy</span> <span class="n">postDate</span>
+</code></pre>
+</div>
+
+<p>If we want them in descending order, we just change <code class="highlighter-rouge">postDate</code> to
+<code class="highlighter-rouge">postDate.desc</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+
+<span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
+
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.props._</span>
+
+  <span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">and</span> <span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span> <span class="n">orderBy</span> <span class="n">postDate</span><span class="o">.</span><span class="n">desc</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>If you prefer to to leave out the dot before <code class="highlighter-rouge">asc</code> or <code class="highlighter-rouge">desc</code>, you will
+need to <code class="highlighter-rouge">import scala.language.postfixOps</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+
+<span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
+
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.props._</span>
+  <span class="k">import</span> <span class="nn">scala.language.postfixOps</span>
+
+  <span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">and</span> <span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span> <span class="n">orderBy</span> <span class="n">postDate</span> <span class="n">desc</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>If you want to specify multiple properties in your <code class="highlighter-rouge">orderBy</code> clause,
+you will have to surround them in parentheses. Here’s a silly example
+where we retrieve all the blog posts in the last week from every
+blog. We order them first by <code class="highlighter-rouge">blogUri</code>, and then by <code class="highlighter-rouge">postDate</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span> <span class="n">orderBy</span> <span class="o">(</span><span class="n">blogUri</span><span class="o">,</span> <span class="n">postDate</span><span class="o">.</span><span class="n">desc</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">orderBy</code> clauses are fully processed by your back end, and
+consequently, will affect the performance of your queries. Only in
+limited circumstances will the back end will be able to collect
+your query results in the right order in place. This means that
+ordered queries that return a large number of results may be costly.</p>
+
+<p>For MongoDB, ordered results can be assembled in place only when the
+<code class="highlighter-rouge">orderBy</code> clause matches the primary key property. For Cassandra,
+any accepted <code class="highlighter-rouge">orderBy</code> clause will assemble the ordered results in
+place. However, the <code class="highlighter-rouge">orderBy</code> clauses accepted by Cassandra are
+limited, as <a href="cassandra-query-limits.html">explained here</a>.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="filters.html">query filters</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">queries</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="limit-offset.html">offsets and limits</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>persistent to json</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> persistent to json </h1>
+          
+          <p>As of now, all longevity database back ends translate persistent
+objects in and out of some JSON variant. MongoDB uses BSON, whereas in
+Cassandra, the persistent object is stored in JSON form in one of the
+columns. The translation itself is quite straightforward:</p>
+
+<ul>
+  <li><a href="../model/persistents.html">Persistent objects</a>, <a href="../model/components.html">persistent
+components</a>, and
+<a href="../model/key-values.html">key values</a> are translated into JSON
+Objects.</li>
+  <li>If a persistent component or a <code class="highlighter-rouge">KeyVal</code> being translated only has a
+single member, that member value is inlined, so that the JSON produced
+is whatever JSON the member value produces.</li>
+  <li><a href="../basics.html">Basic values</a> translate directly into JSON
+primitive types, with two exceptions:
+    <ul>
+      <li><code class="highlighter-rouge">Chars</code> are translated into single-character strings.</li>
+      <li><a href="http://www.joda.org/joda-time/apidocs/org/joda/time/DateTime.html">DateTimes</a>
+are converted to UTC time zone before serializing to
+avoid ordering issues.
+        <ul>
+          <li>In (non-BSON) JSON, they are converted into a string in a
+lossless <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8061</a> format.</li>
+          <li>In Mongo, <code class="highlighter-rouge">DateTimes</code> are translated into a BSON
+<a href="https://docs.mongodb.com/manual/reference/bson-types/#date">ISODate</a>.</li>
+          <li>In Cassandra, when <code class="highlighter-rouge">DateTimes</code> are stored in individual columns,
+they are stored as
+<a href="https://docs.datastax.com/en/cql/3.1/cql/cql_reference/timestamp_type_r.html">timestamps</a> </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Empty <code class="highlighter-rouge">Options</code> are omitted from the JSON.</li>
+  <li>Non-empty <code class="highlighter-rouge">Options</code> are inlined, so that <code class="highlighter-rouge">Some(expr)</code> will produce
+the same JSON as <code class="highlighter-rouge">expr</code>.</li>
+  <li><code class="highlighter-rouge">Sets</code> and <code class="highlighter-rouge">Lists</code> are translated into JSON arrays.</li>
+</ul>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href=".">translating persistents to the database</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">translating persistents to the database</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="cassandra.html">cassandra translation</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

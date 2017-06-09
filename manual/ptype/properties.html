@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>properties</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> properties </h1>
+          
+          <p>In our <code class="highlighter-rouge">PType</code>, when we talk about the fields of our persistent object, we talk about properties, or
+<code class="highlighter-rouge">Props</code>. Properties map to underlying members within the <a href="../model/persistents.html">persistent
+object</a>, at any depth. They follow a path from the root of the persistent
+object, and take on the type of that member in the persistent.</p>
+
+<p>When we use the <code class="highlighter-rouge">@persistent</code> annotation, the properties are generated
+for us automatically. For example, if we define <code class="highlighter-rouge">User</code> as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.component</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Email</span><span class="o">(</span><span class="n">email</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Markdown</span><span class="o">(</span><span class="n">markdown</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Uri</span><span class="o">(</span><span class="n">uri</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">UserProfile</span><span class="o">(</span>
+  <span class="n">tagline</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">imageUri</span><span class="k">:</span> <span class="kt">Uri</span><span class="o">,</span>
+  <span class="n">description</span><span class="k">:</span> <span class="kt">Markdown</span><span class="o">)</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">profile</span><span class="k">:</span> <span class="kt">UserProfile</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>Longevity will generate a <code class="highlighter-rouge">User</code> companion object that looks something
+like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.PType</span>
+<span class="k">import</span> <span class="nn">longevity.model.ptype.Prop</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="k">extends</span> <span class="nc">PType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">props</span> <span class="o">{</span>
+    <span class="k">object</span> <span class="nc">username</span> <span class="k">extends</span> <span class="nc">Prop</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"username"</span><span class="o">)</span>
+    <span class="k">object</span> <span class="nc">email</span> <span class="k">extends</span> <span class="nc">Prop</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">Email</span><span class="o">](</span><span class="s">"email"</span><span class="o">)</span>
+    <span class="k">object</span> <span class="nc">profile</span> <span class="k">extends</span> <span class="nc">Prop</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">UserProfile</span><span class="o">](</span><span class="s">"profile"</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">object</span> <span class="nc">tagline</span> <span class="k">extends</span> <span class="nc">Prop</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"tagline"</span><span class="o">)</span>
+      <span class="k">object</span> <span class="nc">imageUri</span> <span class="k">extends</span> <span class="nc">Prop</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">Uri</span><span class="o">](</span><span class="s">"imageUri"</span><span class="o">)</span>
+      <span class="k">object</span> <span class="nc">markdown</span> <span class="k">extends</span> <span class="nc">Prop</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">Markdown</span><span class="o">](</span><span class="s">"markdown"</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>So if we wanted to refer to the <code class="highlighter-rouge">markdown</code> on a <code class="highlighter-rouge">User's</code> profile, we would say
+<code class="highlighter-rouge">User.props.profile.markdown</code>.</p>
+
+<p>You can build the properties by hand if you like, but you will need to
+specify both the path, and the type of the property yourself. Longevity
+will check that the type is correct when the <code class="highlighter-rouge">DomainModel</code> is created.</p>
+
+<p>In principle, properties could map through any path from the persistent object, and have a wide
+variety of types. In practice, the kinds of properties currently supported is somewhat limited. We
+do plan to address all of these limitations, and removing some of them is high priority. For more
+details, please see the <a href="https://www.pivotaltracker.com/epic/show/2975505">“remove restrictions on properties”
+epic</a> on our story board. Here are there current
+limitations:</p>
+
+<ul>
+  <li>No properties with collection types.</li>
+  <li>No properties with types that (recursively) contain members with collection or polymorphic types.</li>
+  <li>No properties with paths that contain collections.</li>
+  <li>No properties with paths that terminate with a polymorphic type.</li>
+</ul>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href=".">the persistent type</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the persistent type</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="keys.html">keys</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

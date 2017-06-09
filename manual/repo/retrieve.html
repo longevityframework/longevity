@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>repo.retrieve</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> repo.retrieve </h1>
+          
+          <p>You can look up a persistent object from the database using the <a href="../ptype/keys.html">keys</a> you
+defined in your <code class="highlighter-rouge">PType</code>. All you need is a <a href="../model/key-values.html">key value</a>. One way to do this
+is to construct one yourself, like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">username</span> <span class="k">=</span> <span class="nc">Username</span><span class="o">(</span><span class="s">"smithy"</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">f</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieve</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="n">username</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>If you look at the <a href="../../api/longevity/persistence/Repo.html#retrieve[P]:Repo.this.Retrieve[P]">API
+docs</a> for
+<code class="highlighter-rouge">Repo.retrieve</code>, you will see that the method above is actually divided into two parts. The
+<code class="highlighter-rouge">repo.retrieve[User]</code> returns a <code class="highlighter-rouge">Repo.Retrieve[User]</code> object. We then call <code class="highlighter-rouge">apply</code> on this object -
+the <code class="highlighter-rouge">(username)</code> part in the above code sample - which actually does the work. The reason why the
+API is divided up in this way is to prevent you from having to supply <code class="highlighter-rouge">Username</code> as a type
+parameter. Otherwise the call would look like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">repo</span><span class="o">.</span><span class="n">retrieve</span><span class="o">[</span><span class="kt">User</span>, <span class="kt">Username</span><span class="o">](</span><span class="n">username</span><span class="o">)</span> <span class="c1">// this won't compile
+</span></code></pre>
+</div>
+
+<p>Due to the way that type inference in Scala is done, there is no way that the <code class="highlighter-rouge">User</code> type can be
+inferred in this case. (The presence of the <code class="highlighter-rouge">User</code> type on the left-hand side of the assignment
+doesn’t help.)</p>
+
+<p>The <code class="highlighter-rouge">Repo.Retrieve[P].apply</code> method takes three implicit arguments. Like <code class="highlighter-rouge">Repo.create</code>, we require
+an <code class="highlighter-rouge">ExecutionContext</code>, as well as a <code class="highlighter-rouge">PEnv[M, P]</code>, to ensure that the persistent class is actually
+part of the domain model. The retrieve method also requires an implicit
+<code class="highlighter-rouge">longevity.model.ptype.Key[M, P, V]</code> argument, to assure that the key value supplied actually
+matches up with a key defined in the <a href="../ptype">persistent type</a> for <code class="highlighter-rouge">P</code>. This is why we typically
+define our <a href="../ptype/keys.html">keys</a> as implicit values.</p>
+
+<p>Take note that <code class="highlighter-rouge">Repo.retrieve</code> returns an <em>optional</em> <code class="highlighter-rouge">PState</code>, since there is never a guarantee that
+a key value will match an existing persistent object. If you feel confident that the persistent
+object does exist, you can use <code class="highlighter-rouge">Repo.retrieveOne</code> instead. This is a simple wrapper method for
+<code class="highlighter-rouge">retrieve</code>, that opens up the <code class="highlighter-rouge">Option[PState[P]]</code> for you. If the option is a <code class="highlighter-rouge">None</code>, this will
+result in a <code class="highlighter-rouge">NoSuchElementException</code>.</p>
+
+<p>You can also get a key value from an
+<a href="http://aviadezra.blogspot.com/2009/05/uml-association-aggregation-composition.html">aggregation</a> in
+a related entity. For example, a <code class="highlighter-rouge">BlogPost</code> aggregates a set of authors for that post:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">BlogPost</span><span class="o">(</span>
+  <span class="n">uri</span><span class="k">:</span> <span class="kt">BlogPostUri</span><span class="o">,</span>
+  <span class="n">title</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">slug</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Markdown</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">,</span>
+  <span class="n">content</span><span class="k">:</span> <span class="kt">Markdown</span><span class="o">,</span>
+  <span class="n">labels</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Set</span><span class="o">(),</span>
+  <span class="n">postDate</span><span class="k">:</span> <span class="kt">DateTime</span><span class="o">,</span>
+  <span class="n">blog</span><span class="k">:</span> <span class="kt">BlogUri</span><span class="o">,</span>
+  <span class="n">authors</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">Username</span><span class="o">])</span>
+</code></pre>
+</div>
+
+<p>Let’s retrieve all the authors for a blog post:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="n">getAuthorsForPost</span><span class="o">(</span><span class="n">blogPost</span><span class="k">:</span> <span class="kt">BlogPost</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">futures</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Future</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">blogPost</span><span class="o">.</span><span class="n">authors</span><span class="o">.</span><span class="n">toSeq</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">author</span> <span class="k">=&gt;</span>
+    <span class="n">repo</span><span class="o">.</span><span class="n">retrieveOne</span><span class="o">(</span><span class="n">author</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="nc">Future</span><span class="o">.</span><span class="n">sequence</span><span class="o">(</span><span class="n">futures</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Once you get back your <code class="highlighter-rouge">PState</code>, you can of course use it to examine
+the persistent object itself with <code class="highlighter-rouge">PState.get</code>. You can modify it with
+<code class="highlighter-rouge">PState.map</code>, and you can pass the state on to
+<a href="repo-update.html"><code class="highlighter-rouge">Repo.update</code></a> or
+<a href="repo-delete.html"><code class="highlighter-rouge">Repo.delete</code></a>.</p>
+
+<p><code class="highlighter-rouge">Repo.retrieve</code> will always result in a database call. Longevity will
+not cache versions for you and pull them from the cache. Not caching
+provides a guarrantee that the retrieved object is up to date with
+the latest state of the database, and reduces the chances of a write
+collision. We may revisit this in the future, but we do not consider
+it an excessive burden on the longevity user to employ their own
+cache, if need be.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="create-many.html">creating many aggregates at once</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the repository</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="update.html">repo.update</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

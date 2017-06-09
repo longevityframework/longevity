@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>testing crud operations</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> testing crud operations </h1>
+          
+          <p>Before we wrap up, we’d like to point out a useful tool that you can
+pull out of the <code class="highlighter-rouge">LongevityContext</code>: the <code class="highlighter-rouge">RepoCrudSpec</code>. This will test
+all of your CRUD operations for all of your persistent types against a
+test database. It’s trivial to set up, as you can see
+in <code class="highlighter-rouge">SimblRepoCrudSpec.scala</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">simbl</span>
+
+<span class="k">import</span> <span class="nn">org.scalatest.Suites</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+
+<span class="k">class</span> <span class="nc">SimblRepoCrudSpec</span> <span class="k">extends</span> <span class="nc">Suites</span><span class="o">(</span>
+  <span class="nc">TestSimblContext</span><span class="o">.</span><span class="n">longevityContext</span><span class="o">.</span><span class="n">repoCrudSpec</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>There’s also a little framework for testing queries, and you can see
+an example of that in <code class="highlighter-rouge">BlogPostQuerySpec.scala</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">simbl</span>
+
+<span class="k">import</span> <span class="nn">longevity.test.QuerySpec</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<span class="k">import</span> <span class="nn">simbl.domain.BlogPost</span>
+<span class="k">import</span> <span class="nn">simbl.domain.SimblDomainModel</span>
+
+<span class="k">class</span> <span class="nc">BlogPostQuerySpec</span> <span class="k">extends</span> <span class="nc">QuerySpec</span><span class="o">[</span><span class="kt">SimblDomainModel</span>, <span class="kt">BlogPost</span><span class="o">](</span>
+  <span class="nc">TestSimblContext</span><span class="o">.</span><span class="n">longevityContext</span><span class="o">)</span> <span class="o">{</span>
+
+  <span class="k">lazy</span> <span class="k">val</span> <span class="n">sample</span> <span class="k">=</span> <span class="n">randomP</span>
+
+  <span class="n">behavior</span> <span class="n">of</span> <span class="s">"BlogPost.queries.recentPosts"</span>
+  <span class="n">it</span> <span class="n">should</span> <span class="s">"produce the expected results"</span> <span class="n">in</span> <span class="o">{</span>
+    <span class="n">exerciseQuery</span><span class="o">(</span><span class="nc">BlogPost</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">recentPosts</span><span class="o">(</span><span class="n">sample</span><span class="o">.</span><span class="n">blog</span><span class="o">))</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>You can run these for yourself using <code class="highlighter-rouge">sbt test</code> from the command line.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="api.html">exercising the api</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">getting started guide</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="exercises.html">exercises for the reader</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

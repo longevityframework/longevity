@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>declaring a domain model</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> declaring a domain model </h1>
+          
+          <p>The first step in building out our domain model is to define a trait that describes our model. This
+trait never needs to be instantiated. It is used as a type parameter to identify the elements of our
+model, and the tools that longevity provides for you, as being specific to this model. This is done
+to provide a strong degree of type safety.</p>
+
+<p>We annotate this domain model trait with the <code class="highlighter-rouge">longevity.model.annotations.domainModel</code> annotation:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">myPackage</span>
+
+<span class="k">import</span> <span class="nn">longevity.model.annotations.domainModel</span>
+
+<span class="nd">@domainModel</span> <span class="k">trait</span> <span class="nc">MyDomainModel</span>
+</code></pre>
+</div>
+
+<p>The details of what the <code class="highlighter-rouge">@domainModel</code> annotation should not be important to the casual user. We
+present them here for the sake of completeness, for interested readers, and in case you end up
+needing to troubleshoot a problem. If you do find yourself troubleshooting, be sure to give us a
+shout on <a href="https://gitter.im/longevityframework/longevity">Gitter</a> or the <a href="https://groups.google.com/forum/#!forum/longevity-users">user
+group</a>. We are eager to help!</p>
+
+<p>Like all the other model annotations in longevity, it is possible to write out the equivalent code
+yourself. We don’t recommend that you do this. It is a lot of boilerplate.</p>
+
+<p>The <code class="highlighter-rouge">@domainModel</code> annotation creates or extends the companion object of your trait, adding in a
+couple of implicit type classes, like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">myPackage</span>
+
+<span class="k">import</span> <span class="nn">longevity.model.CType</span>
+<span class="k">import</span> <span class="nn">longevity.model.KVType</span>
+<span class="k">import</span> <span class="nn">longevity.model.ModelEv</span>
+<span class="k">import</span> <span class="nn">longevity.model.ModelType</span>
+<span class="k">import</span> <span class="nn">longevity.model.PType</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.packscanToList</span>
+
+<span class="k">trait</span> <span class="nc">MyDomainModel</span>
+
+<span class="k">object</span> <span class="nc">MyDomainModel</span> <span class="o">{</span>
+
+  <span class="k">private</span><span class="o">[</span><span class="kt">myPackage</span><span class="o">]</span> <span class="k">implicit</span> <span class="k">object</span> <span class="nc">modelEv</span> <span class="k">extends</span> <span class="nc">ModelEv</span><span class="o">[</span><span class="kt">MyDomainModel</span><span class="o">]</span>
+
+  <span class="k">implicit</span> <span class="k">object</span> <span class="nc">modelType</span> <span class="k">extends</span> <span class="nc">ModelType</span><span class="o">[</span><span class="kt">MyDomainModel</span><span class="o">](</span>
+    <span class="n">packscanToList</span><span class="o">[</span><span class="kt">PType</span><span class="o">[</span><span class="kt">MyDomainModel</span>, <span class="k">_</span><span class="o">]],</span>
+    <span class="n">packscanToList</span><span class="o">[</span><span class="kt">CType</span><span class="o">[</span><span class="kt">MyDomainModel</span>, <span class="k">_</span><span class="o">]],</span>
+    <span class="n">packscanToList</span><span class="o">[</span><span class="kt">KVType</span><span class="o">[</span><span class="kt">MyDomainModel</span>, <span class="k">_</span>, <span class="k">_</span><span class="o">]])</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">ModelEv[MyDomainModel]</code> is evidence of the model. The compiler needs to be able to locate this
+evidence when constructing a <a href="persistents.html">persistent</a>, <a href="components.html">component</a>, or a <a href="key-values.html">key
+value</a>. All your persistent classes need to be found in the same package as, or a
+subpackage of, the package that you define your domain model. Scoping the implicit model evidence
+this way makes it findable by implicit resolution in exactly the right places.</p>
+
+<p>The <code class="highlighter-rouge">ModelType[MyDomainModel]</code> collects information about all of your persistents, components, and
+key values. This <code class="highlighter-rouge">ModelType</code> is used by the <a href="../context">longevity context</a> to provide you with
+tools specific to your model. It will be found automatically by implicit resolution when
+constructing your context like so: <code class="highlighter-rouge">longevity.context.LongevityContext[MyDomainModel]</code>.</p>
+
+<p><code class="highlighter-rouge">packscanToList</code> is a def macro that scans the current package, and all sub-packages, for objects
+that match the provided types. For instance, if you had declared persistent classes <code class="highlighter-rouge">User</code>, <code class="highlighter-rouge">Blog</code>,
+and <code class="highlighter-rouge">BlogPost</code>, a component <code class="highlighter-rouge">UserProfile</code>, and key values <code class="highlighter-rouge">Username</code>, <code class="highlighter-rouge">BlogUri</code>, and <code class="highlighter-rouge">BlogPostUri</code>,
+then the above code would expand as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">myPackage</span>
+
+<span class="k">import</span> <span class="nn">longevity.model.ModelEv</span>
+<span class="k">import</span> <span class="nn">longevity.model.ModelType</span>
+
+<span class="k">trait</span> <span class="nc">MyDomainModel</span>
+
+<span class="k">object</span> <span class="nc">MyDomainModel</span> <span class="o">{</span>
+
+  <span class="k">private</span><span class="o">[</span><span class="kt">myPackage</span><span class="o">]</span> <span class="k">implicit</span> <span class="k">object</span> <span class="nc">modelEv</span> <span class="k">extends</span> <span class="nc">ModelEv</span><span class="o">[</span><span class="kt">MyDomainModel</span><span class="o">]</span>
+
+  <span class="k">implicit</span> <span class="k">object</span> <span class="nc">modelType</span> <span class="k">extends</span> <span class="nc">ModelType</span><span class="o">[</span><span class="kt">MyDomainModel</span><span class="o">](</span>
+    <span class="nc">List</span><span class="o">(</span><span class="nc">User</span><span class="o">,</span> <span class="nc">Blog</span><span class="o">,</span> <span class="nc">BlogPost</span><span class="o">),</span>
+    <span class="nc">List</span><span class="o">(</span><span class="nc">UserProfile</span><span class="o">),</span>
+    <span class="nc">List</span><span class="o">(</span><span class="nc">Username</span><span class="o">,</span> <span class="nc">BlogUri</span><span class="o">,</span> <span class="nc">BlogPostUri</span><span class="o">))</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href=".">the domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="persistents.html">persistent objects</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

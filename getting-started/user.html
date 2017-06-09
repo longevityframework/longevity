@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>building the user aggregate</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> building the user aggregate </h1>
+          
+          <p>The user has four parts: the <code class="highlighter-rouge">User</code>, the <code class="highlighter-rouge">UserProfile</code>, and two
+natural keys: the <code class="highlighter-rouge">Username</code> and the <code class="highlighter-rouge">Email</code>.  Let’s focus on the
+<code class="highlighter-rouge">User</code> first:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">simbl.domain</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">fullname</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">profile</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">UserProfile</span><span class="o">])</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="n">updateProfile</span><span class="o">(</span><span class="n">profile</span><span class="k">:</span> <span class="kt">UserProfile</span><span class="o">)</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="n">copy</span><span class="o">(</span><span class="n">profile</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">profile</span><span class="o">))</span>
+
+  <span class="k">def</span> <span class="n">deleteProfile</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="n">copy</span><span class="o">(</span><span class="n">profile</span> <span class="k">=</span> <span class="nc">None</span><span class="o">)</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">User</code> case class provides us with the four members we find in the UML in the section on
+<a href="modelling.html">modelling our domain</a>, including the relationship between <code class="highlighter-rouge">User</code> and <code class="highlighter-rouge">UserProfile</code>.
+There are also a couple of business methods inside: <code class="highlighter-rouge">updateProfile</code> and <code class="highlighter-rouge">deleteProfile</code>.</p>
+
+<p>In longevity terminology, <code class="highlighter-rouge">Users</code> are <em>persistent objects</em> - that is,
+objects we want to persist in their own table or collection. We tell
+longevity that we want to persist them by marking them with the
+<code class="highlighter-rouge">@persistent</code> annotation:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">simbl.domain</span>
+
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">SimblDomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">fullname</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">profile</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">UserProfile</span><span class="o">])</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="n">updateProfile</span><span class="o">(</span><span class="n">profile</span><span class="k">:</span> <span class="kt">UserProfile</span><span class="o">)</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="n">copy</span><span class="o">(</span><span class="n">profile</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">profile</span><span class="o">))</span>
+
+  <span class="k">def</span> <span class="n">deleteProfile</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="n">copy</span><span class="o">(</span><span class="n">profile</span> <span class="k">=</span> <span class="nc">None</span><span class="o">)</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>When we annotate <code class="highlighter-rouge">User</code> as a persistent class, longevity augments the <code class="highlighter-rouge">User</code> companion object,
+making it extend <code class="highlighter-rouge">longevity.model.PType[SimblDomainModel, User]</code>. It also creates a set of
+properties for us that we can use to reflect on <code class="highlighter-rouge">User</code> fields. It puts these properties in an inner
+object <code class="highlighter-rouge">props</code> in the <code class="highlighter-rouge">User</code> companion object. Now we can talk about <code class="highlighter-rouge">User</code> fields <code class="highlighter-rouge">username</code> and
+<code class="highlighter-rouge">email</code> with properties <code class="highlighter-rouge">User.props.username</code> and <code class="highlighter-rouge">User.props.email</code>.</p>
+
+<p>In our companion object, we define keys on the <code class="highlighter-rouge">username</code> and <code class="highlighter-rouge">email</code>
+fields, specifying that these two member are to be unique: no two
+users should have the same username or email.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">object</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">emailKey</span> <span class="k">=</span> <span class="n">key</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">email</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">props.username</code> and <code class="highlighter-rouge">props.email</code> are two of the properties fields that were put in by the
+<code class="highlighter-rouge">@persistent</code> annotation. The methods <code class="highlighter-rouge">primaryKey</code> and <code class="highlighter-rouge">key</code> are provided by the <code class="highlighter-rouge">PType</code> class that
+the <code class="highlighter-rouge">User</code> companion object now extends.</p>
+
+<p>You can have as many keys as you like, but only one of the keys - in
+our case, the username key - can be a primary key. Primary keys
+perform better than other keys when you are using a distributed
+database, since the database can determine the node that holds the
+data by examining the key.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="building.html">declaring the domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">getting started guide</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="user-profile.html">the user profile</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

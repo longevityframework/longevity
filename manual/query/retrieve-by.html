@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>retrieval by query</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> retrieval by query </h1>
+          
+          <p>Once we have constructed our query, we can iterate over the results using <code class="highlighter-rouge">Repo.queryToIterator</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+
+<span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
+
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.props._</span>
+  <span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">and</span> <span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>This approach is non-reactive; the resulting iterator will be blocking. If we are okay with
+receiving the entire results at once, we can use <code class="highlighter-rouge">Repo.queryToFutureVec</code>, which returns a
+<code class="highlighter-rouge">Future[Vector[PState[P]]]</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
+
+<span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
+
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">blogPostRepo</span><span class="o">.</span><span class="n">queryToFutureVec</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.props._</span>
+  <span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">and</span> <span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Clearly, this approach is not going to work for result sets that are
+very large. For one thing, they are all going to have to fit into
+memory at the same time. For another thing, you will have to wait for
+the complete result set before you can start processing the
+results. In these situations, you may want to stream the results
+instead, as we discuss in the next section.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="limit-offset.html">limits and offsets</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">queries</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="stream-by.html">stream by query</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

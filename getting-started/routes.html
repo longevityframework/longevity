@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>the akka http routes</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> the akka http routes </h1>
+          
+          <p>Let’s skip ahead to look at the Akka HTTP routes. In a moment, we’ll
+come back to our service class to see how these routes are hooked up
+to the back-end repositories.</p>
+
+<p>These routes define an application API that might be used by a
+JavaScript application front-end. We haven’t had the time to actually
+write a front end yet. If you would like to give it a shot, we would
+happily consider any pull requests!</p>
+
+<p><code class="highlighter-rouge">UserRoute.scala</code> defines the Simple Blogging API for users and user
+profiles. The following routes are defined:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">POST /users</code> - creates a new user</li>
+  <li><code class="highlighter-rouge">GET /users</code> - retrieves all the users</li>
+  <li><code class="highlighter-rouge">GET /users/$username</code> - retrieves a single user</li>
+  <li><code class="highlighter-rouge">PUT /users/$username</code> - updates an existing user</li>
+  <li><code class="highlighter-rouge">DELETE /users/$username</code> - deletes an existing user</li>
+  <li><code class="highlighter-rouge">GET /users/$username/profile</code> - retrieves a user profile</li>
+  <li><code class="highlighter-rouge">PUT /users/$username/profile</code> - creates or updates a user profile</li>
+  <li><code class="highlighter-rouge">DELETE /users/$username/profile</code> - deletes a user profile</li>
+</ul>
+
+<p><i>Please note that the <code class="highlighter-rouge">GET /users</code> endpoint will not work with a
+Cassandra persistence strategy, because Cassandra does not support
+unfiltered queries.</i></p>
+
+<p>These routes are defined in the standard idiom of <a href="http://doc.akka.io/docs/akka/2.4.8/scala/http/">Akka
+HTTP</a>, and we will not
+go into the details here. Please take a look at the source code if you
+are interested. If you do not already have the <a href="https://github.com/longevityframework/simbl">Simple Blogging
+project</a> checked out, you
+can view the source <a href="https://github.com/longevityframework/simbl/blob/master/src/main/scala/simbl/api/UserRoute.scala">on
+GitHub</a>.</p>
+
+<p>For our purposes, the important thing to note is that the work for
+each of these endpoints delegates to one of the methods in
+<code class="highlighter-rouge">UserService.scala</code>, which we will turn to next.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="context.html">building the longevity context</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">getting started guide</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="service.html">the user service</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

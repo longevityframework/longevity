@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>project setup</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> project setup </h1>
+          
+          <h2 id="scala-version">scala version</h2>
+
+<p>We currently publish artifacts for Scala versions 2.11 and 2.12, so be
+sure your project is using a compatible Scala version. For example,
+your <code class="highlighter-rouge">build.sbt</code> file may have:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">"2.11.11"</span>
+</code></pre>
+</div>
+
+<p>or:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">"2.12.2"</span>
+</code></pre>
+</div>
+
+<h2 id="using-sonatype-artifacts">using sonatype artifacts</h2>
+
+<p>Include the following two lines in your <code class="highlighter-rouge">build.sbt</code> to declare the dependency:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">resolvers</span> <span class="o">+=</span> <span class="nc">Resolver</span><span class="o">.</span><span class="n">sonatypeRepo</span><span class="o">(</span><span class="s">"releases"</span><span class="o">)</span>
+
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity"</span> <span class="o">%</span> <span class="s">"0.23.0"</span>
+</code></pre>
+</div>
+
+<p>Include one of the following lines to bring in the library
+dependencies for the back end of your choice:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-cassandra-deps"</span> <span class="o">%</span> <span class="s">"0.23.0"</span>
+
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-mongodb-deps"</span> <span class="o">%</span> <span class="s">"0.23.0"</span>
+
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-sqlite-deps"</span> <span class="o">%</span> <span class="s">"0.23.0"</span>
+</code></pre>
+</div>
+
+<h2 id="enabling-macro-annotations">enabling macro annotations</h2>
+
+<p>You will probably want to use the macro annotations provided in
+package <code class="highlighter-rouge">longevity.model.annotations</code>. To do so, you will need to
+add <a href="http://docs.scala-lang.org/overviews/macros/paradise.html">Macro
+Paradise</a>
+to your build, like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">addCompilerPlugin</span><span class="o">(</span><span class="s">"org.scalamacros"</span> <span class="o">%</span> <span class="s">"paradise"</span> <span class="o">%</span> <span class="s">"2.1.0"</span> <span class="n">cross</span> <span class="nc">CrossVersion</span><span class="o">.</span><span class="n">full</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<h2 id="supplying-optional-dependencies">supplying optional dependencies</h2>
+
+<p>There are a number of optional longevity features that require you to bring in other library
+dependencies yourself. If you want to use <code class="highlighter-rouge">longevity.test.RepoCrudSpec</code> or
+<code class="highlighter-rouge">longevity.test.QuerySpec</code> to <a href="../testing">build integration tests</a>, you will need
+<a href="http://www.scalatest.org/">ScalaTest</a>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.scalatest"</span> <span class="o">%%</span> <span class="s">"scalatest"</span> <span class="o">%</span> <span class="s">"3.0.1"</span>
+</code></pre>
+</div>
+
+<p>If you want to <a href="../query/stream-by.html">stream query results</a> to <a href="http://doc.akka.io/docs/akka/2.4.17/scala/stream/index.html">Akka
+Streams</a>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.typesafe.akka"</span> <span class="o">%%</span> <span class="s">"akka-stream"</span> <span class="o">%</span> <span class="s">"2.5.2"</span>
+</code></pre>
+</div>
+
+<p>If you want to <a href="../query/stream-by.html">stream query results</a> to
+<a href="https://github.com/functional-streams-for-scala/fs2">FS2</a>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"co.fs2"</span> <span class="o">%%</span> <span class="s">"fs2-core"</span> <span class="o">%</span> <span class="s">"0.9.6"</span>
+</code></pre>
+</div>
+
+<p>If you want to <a href="../query/stream-by.html">stream query results</a> to
+<a href="https://github.com/travisbrown/iteratee">iteratee.io</a>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.typelevel"</span> <span class="o">%%</span> <span class="s">"cats"</span> <span class="o">%</span> <span class="s">"0.9.0"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"io.iteratee"</span> <span class="o">%%</span> <span class="s">"iteratee-core"</span> <span class="o">%</span> <span class="s">"0.12.0"</span>
+</code></pre>
+</div>
+
+<p>If you want to <a href="../query/stream-by.html">stream query results</a> to
+<a href="https://www.playframework.com/documentation/2.5.x/Enumerators">Play enumerators</a>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.typesafe.play"</span> <span class="o">%%</span> <span class="s">"play-iteratees"</span> <span class="o">%</span> <span class="s">"2.6.1"</span>
+</code></pre>
+</div>
+
+<h2 id="building-the-artifacts-yourself">building the artifacts yourself</h2>
+
+<h3 id="download-the-source">download the source</h3>
+
+<p>The source code for longevity, and for dependency
+<a href="https://github.com/longevityframework/emblem/wiki">emblem</a>, is <a href="https://github.com/longevityframework/longevity">housed in the
+longevity project on
+GitHub</a>. To use it, first
+create a clone of that project:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">% </span>git clone https://github.com/longevityframework/longevity.git
+<span class="gp">% </span><span class="nb">cd </span>longevity
+</code></pre>
+</div>
+
+<h3 id="choose-the-right-branch">choose the right branch</h3>
+
+<p>You probably want to be on the <code class="highlighter-rouge">master</code> branch, as this holds the
+latest working version. You are probably already there, but just in
+case:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">% </span>git checkout master
+<span class="gp">% </span>git pull
+</code></pre>
+</div>
+
+<h3 id="publish-local">publish local</h3>
+
+<p>Now use SBT to publish the <code class="highlighter-rouge">emblem</code> and <code class="highlighter-rouge">longevity</code> artifacts
+locally. From the command line:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">% </span>sbt publishLocal
+</code></pre>
+</div>
+
+<h3 id="include-as-a-library-dependency">include as a library dependency</h3>
+
+<p>In the projects where you want to use longevity, include a library
+dependency. If you are on the <code class="highlighter-rouge">master</code> branch, use:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity"</span> <span class="o">%</span> <span class="s">"0.24-SNAPSHOT"</span>
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="what-is-longevity.html">what is longevity</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">preliminaries</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="../model/index.html">the domain model</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

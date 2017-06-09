@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>feature list</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> feature list </h1>
+          
+          <p>Current features are described in detail in the <a href="manual">user
+manual</a>. They include:</p>
+
+<ul>
+  <li>Asynchronous persistence API using <a href="http://docs.scala-lang.org/overviews/core/futures.html">Scala
+futures</a> and
+four different Scala streaming libraries.</li>
+  <li>
+    <p>Cassandra, MongoDB, SQLite, and in-memory back ends.</p>
+  </li>
+  <li>Supports flexible construction of your domain model using standard
+Scala types such as case classes, options, sets and lists.</li>
+  <li>Compile-time DSL to express keys, queries, and indexes.</li>
+  <li>User control of <a href="https://docs.mongodb.com/manual/sharding/#shard-keys">sharding</a>/<a href="https://docs.datastax.com/en/cql/3.1/cql/cql_reference/refCompositePk.html">partitioning</a>.</li>
+  <li>Polymorphic traits and controlled vocabularies.</li>
+  <li>
+    <p>Boilerplate-free description of your domain model.</p>
+  </li>
+  <li>Pre-built repository with simple, typesafe, reactive APIs.</li>
+  <li>Configuration-level optimistic locking.</li>
+  <li>Pre-built integration tests that exercise your repositories
+against a real database.</li>
+  <li>Fully featured in-memory repositories for use in other integration
+testing.</li>
+  <li>Test data generation.</li>
+</ul>
+
+<h2 id="upcoming-features">Upcoming Features</h2>
+
+<p>The current high-priority features and improvements are:</p>
+
+<ul>
+  <li>Generalize the repository API away from <code class="highlighter-rouge">Future</code> with <a href="https://pchiusano.github.io/2014-05-20/scala-gadts.html">tagless final</a>.</li>
+  <li>Schema migration framework.</li>
+  <li>Replace home-grown reflection utilities with shapeless/circe.</li>
+  <li>First-class support for optional values.</li>
+</ul>
+
+<p>For more information, please see the <a href="https://www.pivotaltracker.com/n/projects/1231978">story
+board</a>. Tickets are
+roughly ordered in order of current priority.</p>
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

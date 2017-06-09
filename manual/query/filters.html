@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>query filters</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> query filters </h1>
+          
+          <p>The main part of your query is going to be the <em>query filter</em>, commonly
+known as the “where clause”. We saw a simple example of a query filter
+in the previous section:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nc">BlogPost</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span>
+</code></pre>
+</div>
+
+<p>This is a <em>relational filter</em>, which is the basic building block of most query filters. It consists
+of three elements: a property, a relational operator, and a value that matches the type of the
+property. The property typically belongs to the persistent type being queried, but if you are using
+<a href="../poly/persistents.html">polymorphic persistents</a>, you can use properties from the parent
+persistent type as well.</p>
+
+<p>The relational operators are:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">eqs</code></li>
+  <li><code class="highlighter-rouge">neq</code></li>
+  <li><code class="highlighter-rouge">lt</code></li>
+  <li><code class="highlighter-rouge">lte</code></li>
+  <li><code class="highlighter-rouge">gt</code></li>
+  <li><code class="highlighter-rouge">gte</code></li>
+</ul>
+
+<p>Relational filters can be combined into <em>conditional filters</em> with
+conditional operators <code class="highlighter-rouge">and</code> and <code class="highlighter-rouge">or</code>. For instance, looking up all the
+blog posts for a blog published in the last week:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+
+<span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
+
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
+  <span class="k">import</span> <span class="nn">BlogPost.props._</span>
+
+  <span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">and</span> <span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>If you want to retrieve <em>every</em> persistent in your collection, you can
+use the special query filter <code class="highlighter-rouge">filterAll</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span><span class="o">(</span><span class="nc">BlogPost</span><span class="o">.</span><span class="n">queryDsl</span><span class="o">.</span><span class="n">filterAll</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p><a href="../ptype/keys.html">Keys</a> and <a href="../ptype/indexes.html">indexes</a> will
+aid query performance in an intuitive manner. For finer details on
+just how your query will run, please see the chapter on how your
+domain model is <a href="../translation">translated to your NoSQL backend</a>.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="dsl.html">using the query dsl</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">queries</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="order-by.html">ordered queries</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

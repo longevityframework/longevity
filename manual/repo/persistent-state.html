@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>persistent state</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> persistent state </h1>
+          
+          <p>The persistent state is a container for your persistent objects where
+the persistence information is stored. You might find database IDs,
+optimistic locking counters, dirty flags, and created/modified columns
+in there. While you will be able to see some of these things when
+querying your database by hand, in your application, the persistent
+state is a black box. But you can always get at your persistent object
+with method <code class="highlighter-rouge">get</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">userState</span><span class="k">:</span> <span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">getUserState</span><span class="o">()</span>
+<span class="k">val</span> <span class="n">user</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="n">userState</span><span class="o">.</span><span class="n">get</span>
+</code></pre>
+</div>
+
+<p>Your persistent object is immutable and so is the <code class="highlighter-rouge">PState</code>. You
+“update” a persistent object by creating a new, modified object, for
+instance with method <code class="highlighter-rouge">copy</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">newTitle</span> <span class="k">=</span> <span class="s">"Dr."</span>
+<span class="k">val</span> <span class="n">updatedUser</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">title</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">newTitle</span><span class="o">))</span>
+</code></pre>
+</div>
+
+<p>But just as this operation would not cause any change to an immutable
+collection that the user was in, neither will it cause any change to
+the <code class="highlighter-rouge">userState</code>. You can make the <code class="highlighter-rouge">PState</code> aware of changes to your
+aggregate using <code class="highlighter-rouge">PState.map</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">updatedState</span><span class="k">:</span> <span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">userState</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">title</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">newTitle</span><span class="o">)))</span>
+</code></pre>
+</div>
+
+<p>Only isolated portions of your program will need to concern themselves
+with persistence state. For instance, suppose we have a domain service
+method to update a user’s score card:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">UserService</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">updateScoreCard</span><span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">User</span><span class="o">,</span> <span class="n">event</span><span class="k">:</span> <span class="kt">PointScoredEvent</span><span class="o">)</span><span class="k">:</span> <span class="kt">User</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>You can easily wrap a service call into <code class="highlighter-rouge">PState.map</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">updatedState</span><span class="k">:</span> <span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">userState</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">user</span> <span class="k">=&gt;</span>
+  <span class="n">userService</span><span class="o">.</span><span class="n">updateScoreCard</span><span class="o">(</span><span class="n">user</span><span class="o">,</span> <span class="n">event</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>We have just provided a guarantee - at virtually no cost - that
+persistence concerns can not leak into the <code class="highlighter-rouge">UserService</code>
+implementation.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="schema-creation.html">schema creation</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the repository</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="pstate-wrappers.html">persistent state wrappers</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

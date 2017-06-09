@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>UserServiceImpl.updateUser</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> UserServiceImpl.updateUser </h1>
+          
+          <p>Here’s the code for <code class="highlighter-rouge">UserServiceImpl.updateUser</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="k">def</span> <span class="n">updateUser</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">info</span><span class="k">:</span> <span class="kt">UserInfo</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserInfo</span><span class="o">]]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="o">{</span>
+      <span class="k">for</span> <span class="o">{</span>
+        <span class="n">retrieved</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieveOne</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="nc">Username</span><span class="o">(</span><span class="n">username</span><span class="o">))</span>
+        <span class="n">modified</span> <span class="k">=</span> <span class="n">retrieved</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">info</span><span class="o">.</span><span class="n">mapUser</span><span class="o">)</span>
+        <span class="n">updated</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="n">modified</span><span class="o">)</span>
+      <span class="o">}</span> <span class="k">yield</span> <span class="o">{</span>
+        <span class="nc">Some</span><span class="o">(</span><span class="nc">UserInfo</span><span class="o">(</span><span class="n">updated</span><span class="o">.</span><span class="n">get</span><span class="o">))</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="n">recover</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">DuplicateKeyValException</span><span class="o">[</span><span class="k">_</span>, <span class="k">_</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="n">handleDuplicateKeyVal</span><span class="o">(</span><span class="n">e</span><span class="o">,</span> <span class="n">info</span><span class="o">)</span>
+      <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">NoSuchElementException</span> <span class="o">=&gt;</span> <span class="nc">None</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>This method shows a variation on <code class="highlighter-rouge">repo.retrieve</code>:
+<code class="highlighter-rouge">repo.retrieveOne</code>. <code class="highlighter-rouge">retrieveOne</code> opens up the <code class="highlighter-rouge">Option</code> for you,
+throwing a <code class="highlighter-rouge">NoSuchElementException</code> if the <code class="highlighter-rouge">Option</code> is empty. We
+handle the <code class="highlighter-rouge">NoSuchElementException</code> in the <code class="highlighter-rouge">recover</code> clause, returning
+<code class="highlighter-rouge">None</code> if the <code class="highlighter-rouge">User</code> was not found. Akka HTTP will handle the <code class="highlighter-rouge">None</code>
+by returning a <code class="highlighter-rouge">404 Not Found</code>, which is exactly what we want.</p>
+
+<p>The <code class="highlighter-rouge">retrieved</code> in the for comprehension is a <code class="highlighter-rouge">PState[User]</code>. Calling
+<code class="highlighter-rouge">retrieved.map</code> produces another <code class="highlighter-rouge">PState[User]</code> that reflects the
+changes produced by the function passed to <code class="highlighter-rouge">map</code>. In this case, we
+call <code class="highlighter-rouge">UserInfo.mapUser</code>, which updates a <code class="highlighter-rouge">User</code> according to the
+information in the <code class="highlighter-rouge">UserInfo</code>. The resulting <code class="highlighter-rouge">PState</code> is stored in a
+local value named <code class="highlighter-rouge">modified</code>.</p>
+
+<p>We then pass <code class="highlighter-rouge">modified</code> on to <code class="highlighter-rouge">repo.update</code>. This method persists
+the changes, but like <code class="highlighter-rouge">repo.create</code>, it might generate a
+<code class="highlighter-rouge">DuplicateKeyValException</code> if we try to update the user to have a
+conflicting username or email. Once again, we handle this problem in
+the <code class="highlighter-rouge">recover</code> clause, converting the longevity exception into a Simple
+Blogging service exception.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="retrieve-user.html">UserServiceImpl.retrieveUser</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">getting started guide</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="api.html">exercising the api</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

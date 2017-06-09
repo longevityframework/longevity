@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>managing logging</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> managing logging </h1>
+          
+          <p>Longevity current produces two kinds of logging output. First, all
+exceptions thrown by longevity that are intended to be non-recoverable
+are logged at the WARN level. Second, all <a href="repo">repo API</a> calls, and
+all calls to the underlying database, are logged at the DEBUG level.</p>
+
+<p>The underlying database drivers also generate a lot of logging
+output. They tend to be quite chatty, and produce a lot of logs at the
+INFO level.</p>
+
+<p>Longevity and the underlying drivers all use the <a href="http://www.slf4j.org/">SLF4J
+API</a>, which means you can configure your
+logging by providing any SLF4J implementation. You may want to turn
+down logging for the underlying drivers to the WARN level.</p>
+
+<p>As an example, a simple way to do this is to use <code class="highlighter-rouge">slf4j-simple</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.slf4j"</span> <span class="o">%</span> <span class="s">"slf4j-simple"</span> <span class="o">%</span> <span class="s">"1.7.25"</span>
+</code></pre>
+</div>
+
+<p>You can then provide a <code class="highlighter-rouge">simplelogger.properties</code> file in your
+<code class="highlighter-rouge">src/main/resources</code> directory containing the following line:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>org.slf4j.simpleLogger.defaultLogLevel=warn
+</code></pre>
+</div>
+
+<p>This will quell all logs at the INFO level or lower.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="translation/sqlite.html">sqlite translation</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">user manual</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

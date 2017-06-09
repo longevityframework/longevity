@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>user manual</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> user manual </h1>
+          
+          <h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="prelims">Preliminaries</a>
+    <ul>
+      <li><a href="prelims/what-is-longevity.html">What Is Longevity?</a></li>
+      <li><a href="prelims/project-setup.html">Project Setup</a></li>
+    </ul>
+  </li>
+  <li><a href="model">The Domain Model</a>
+    <ul>
+      <li><a href="model/model.html">Declaring a Domain Model</a></li>
+      <li><a href="model/persistents.html">Persistent Objects</a></li>
+      <li><a href="model/basics.html">Basic Values</a></li>
+      <li><a href="model/collections.html">Collections</a></li>
+      <li><a href="model/components.html">Components</a></li>
+      <li><a href="model/key-values.html">Key Values</a></li>
+      <li><a href="model/limitations.html">Limitations on Persistents, Components, and Key Values</a></li>
+    </ul>
+  </li>
+  <li><a href="ptype">The Persistent Type</a>
+    <ul>
+      <li><a href="ptype/properties.html">Properties</a></li>
+      <li><a href="ptype/keys.html">Keys</a></li>
+      <li><a href="ptype/primary-keys.html">Primary Keys</a></li>
+      <li><a href="ptype/indexes.html">Indexes</a></li>
+    </ul>
+  </li>
+  <li><a href="poly">Subtype Polymorphism</a>
+    <ul>
+      <li><a href="poly/components.html">Polymorphic Components</a></li>
+      <li><a href="poly/persistents.html">Polymorphic Persistents</a></li>
+      <li><a href="poly/cv.html">Controlled Vocabularies</a></li>
+    </ul>
+  </li>
+  <li><a href="repo">The Repository</a>
+    <ul>
+      <li><a href="context/schema-creation.html">Schema Creation</a></li>
+      <li><a href="repo/persistent-state.html">Persistent State</a></li>
+      <li><a href="repo/pstate-wrappers.html">Persistent State Wrappers</a></li>
+      <li><a href="repo/create.html">Repo.create</a></li>
+      <li><a href="context/create-many.html">Creating Many Aggregates at Once</a></li>
+      <li><a href="repo/retrieve.html">Repo.retrieve</a></li>
+      <li><a href="repo/update.html">Repo.update</a></li>
+      <li><a href="repo/delete.html">Repo.delete</a></li>
+      <li><a href="repo/poly.html">Polymorphism</a>  </li>
+    </ul>
+  </li>
+  <li><a href="query">Queries</a>
+    <ul>
+      <li><a href="query/dsl.html">Using the Query DSL</a></li>
+      <li><a href="query/filters.html">Query Filters</a></li>
+      <li><a href="query/order-by.html">Ordered Queries</a></li>
+      <li><a href="query/limit-offset.html">Offsets and Limits</a></li>
+      <li><a href="query/retrieve-by.html">Retrieval by Query</a></li>
+      <li><a href="query/stream-by.html">Stream by Query</a></li>
+      <li><a href="query/cassandra-query-limits.html">Limitations on Cassandra Queries</a></li>
+    </ul>
+  </li>
+  <li><a href="context">The Longevity Context</a>
+    <ul>
+      <li><a href="context/config.html">Configuring your Longevity Context</a></li>
+      <li><a href="context/repos.html">Repositories in the Context</a></li>
+      <li><a href="context/opt-lock.html">Optimistic Locking</a></li>
+      <li><a href="context/write-timestamps.html">Write Timestamps</a></li>
+    </ul>
+  </li>
+  <li><a href="testing">Testing Your Domain Model</a>
+    <ul>
+      <li><a href="testing/in-mem-repos.html">In Memory Repositories</a></li>
+      <li><a href="testing/test-data.html">Generating Test Data</a></li>
+      <li><a href="testing/constraints.html">Enforcing Constraints</a></li>
+      <li><a href="testing/repo-crud-spec.html">RepoCrudSpec</a></li>
+      <li><a href="testing/query-spec.html">QuerySpec</a></li>
+    </ul>
+  </li>
+  <li><a href="translation">Translating Persistents to the Database</a>
+    <ul>
+      <li><a href="translation/json.html">Persistent to JSON</a></li>
+      <li><a href="translation/cassandra.html">Cassandra Translation</a></li>
+      <li><a href="translation/cassandra-keys.html">Cassandra Keys</a></li>
+      <li><a href="translation/mongo.html">MongoDB Translation</a></li>
+      <li><a href="translation/mongo-keys.html">MongoDB Keys</a></li>
+      <li><a href="translation/sqlite.html">SQLite Translation</a></li>
+    </ul>
+  </li>
+  <li><a href="logging.html">Managing Logging</a></li>
+</ul>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href="..">longevity site</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="what-is-longevity.html">what is longevity</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

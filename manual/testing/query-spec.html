@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>query spec</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> query spec </h1>
+          
+          <p>The query spec is a useful tool for testing any
+<a href="../query/retrieve-by.html">queries</a> that you depend on in your
+application. The way it works is this:</p>
+
+<ol>
+  <li>You subclass <code class="highlighter-rouge">longevity.test.QuerySpec</code>, providing the persistent
+type that you are querying on, and the longevity context you’d like
+to use.</li>
+  <li>When the test runs, the <code class="highlighter-rouge">QuerySpec</code> parent class will generate a
+set of entities and persist them all to the test database using the
+<code class="highlighter-rouge">testRepoPool</code>.</li>
+  <li>You construct queries to test in the subclass you created.</li>
+  <li>You call <code class="highlighter-rouge">QuerySpec.exerciseQuery(query: Query[P])</code> in your subclass.</li>
+  <li><code class="highlighter-rouge">exerciseQuery</code> determines the expected results in memory, and
+compares it to the actual results returned by the query. It fails
+the test if there is a discrepancy.</li>
+</ol>
+
+<p>For examples on how to use <code class="highlighter-rouge">QuerySpec</code>, please see the <a href="https://github.com/longevityframework/longevity/tree/master/longevity/src/test/scala/longevity/integration/queries">longevity test
+suite for
+queries</a>.
+Take a look at the <a href="https://github.com/longevityframework/longevity/blob/master/longevity/src/main/scala/longevity/test/QuerySpec.scala">source
+code for <code class="highlighter-rouge">QuerySpec</code></a>
+as well. Unfortunately, the ScalaDoc for this class is quite useless,
+as everything from ScalaTest is included there, and none of the
+protected values from QuerySpec.</p>
+
+<p>Some notes:</p>
+
+<ul>
+  <li>You can override <code class="highlighter-rouge">protected val numEntities: Int</code> if you want to change
+the size of the set of test data.</li>
+  <li>There are some other <code class="highlighter-rouge">vals</code> and <code class="highlighter-rouge">vars</code> there that you can use to
+help write your tests.</li>
+  <li>There are also a handful of methods you can use to select persistent objects to help you generate
+reasonable queries: <code class="highlighter-rouge">randomP</code>, <code class="highlighter-rouge">medianPropVal</code>, and <code class="highlighter-rouge">orderStatPropVal</code></li>
+</ul>
+
+<p>Please note that the default test data generator will not work out of
+the box in the face of constraint violations causing exceptions to be
+thrown from your constructor. In this case, you need to provide custom
+generators for your types. This is described in the section on
+<a href="constraints.html">enforcing constraints</a>.</p>
+
+<p>ScalaTest is an optional dependency in longevity, so you’ll need to
+declare a dependency on ScalaTest in your own project to use the query
+specs. Please use ScalaTest version 3.0.1 or later.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="repo-crud-spec.html">repo crud spec</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">testing</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="../translation">translating persistents to the database</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>the persistent type</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> the persistent type </h1>
+          
+          <p>While the persistent objects are great places to store the information
+we want to persist, we also need a place to keep track of “meta
+information” about them. For instance, we want to be able to specify
+<em>keys</em>, or properties of the object that uniquely identify a
+persistent within a collection of persistents. We store this kind of
+meta information in our <code class="highlighter-rouge">PTypes</code>.</p>
+
+<p>It’s important to note that, while “key” and “index” are terms used in
+database schemas and physical modelling, that is not our intention
+here. Within our <code class="highlighter-rouge">PTypes</code>, we are still describing the domain, not the
+mapping of the domain into database schema. Of course, longevity will
+<a href="../translation">translate</a> these things into database indexes and
+keys, and it does so in a consistent and predictable way, but that
+does not mean that the uniqueness of a set of properties is not part
+of the domain. The key question to ask ourselves in making such a
+determination is, “would a domain expert care about such things”?
+They would clearly care that an account number is unique, but they
+<em>should not</em> care about how that maps into a database schema.</p>
+
+<p>Because we build our keys and indexes up out of properties, we will
+discuss properties first.</p>
+
+<ul>
+  <li><a href="properties.html">Properties</a></li>
+  <li><a href="keys.html">Keys</a></li>
+  <li><a href="primary-keys.html">Primary Keys</a></li>
+  <li><a href="indexes.html">Indexes</a></li>
+</ul>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="../model/limitations.html">limitations on persistents, components, and key values</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href="..">user manual</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="properties.html">properties</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

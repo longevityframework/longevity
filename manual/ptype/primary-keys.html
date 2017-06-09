@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>primary keys</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> primary keys </h1>
+          
+          <p>Most databases provide support for more than one key per table to look up individual rows. However,
+databases typically provide a more performant lookup strategy for a single specified key. In
+relational databases, this special key is called a <em>primary key</em>. We borrow that terminology here to
+indicate a key which may perform lookup better than the other keys of a table. In longevity, you can
+specify one of the <a href="keys.html">keys</a> of your persistent type to be a primary key, and longevity will
+use the available features of your back end of choice to make lookups by that key perform as fast as
+possible.</p>
+
+<p>Let’s take the <code class="highlighter-rouge">User</code> example from the previous chapter, and change the <code class="highlighter-rouge">username</code> key into a
+primary key. All we need to do is change our <code class="highlighter-rouge">usernameKey</code> definition from <code class="highlighter-rouge">key(props.username)</code> to
+<code class="highlighter-rouge">primaryKey(props.username)</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.keyVal</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Username</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>In order to accomodate performance in the face of very large data sets, NoSQL databases such as the
+Cassandra and MongoDB are commonly <a href="https://en.wikipedia.org/wiki/Distributed_database">distributed data across multiple
+nodes</a>. Distributed databases have a concept of
+a <em>partition key</em>, which we define as a key for which, given a key value, we can determine the node
+that the associated data lives on (or would live on, if it were to exist). Because the database can
+determine the node up front, it can route the query directly to the node that is able to satisfy the
+query. For non-partitioned keys, every node has to be queried, and the results aggregated.</p>
+
+<p>For example, if our user table is distributed across 10 database
+nodes, a query on the username key will only have to consult a single
+node, instead of querying all 10 nodes and aggregating the results.
+(The primary key query will actually hit two database nodes: the
+first database node receives the query request, and routes the query
+to node that holds the data.)</p>
+
+<p>In the <code class="highlighter-rouge">SQLite</code> back end, the primary key is implemented as a SQL
+<code class="highlighter-rouge">PRIMARY KEY</code>, whereas the non-primary keys are implemented using SQL
+<code class="highlighter-rouge">UNIQUE INDEX</code>. Relational primary keys typically have slightly better
+lookup performance than an index. Using a primary key will also aid
+write performance, as there will be one less secondary index that
+needs to be updated on write.</p>
+
+<p>Once a persistent object is created, the key value for the primary
+key cannot change. Longevity will reject any attempts to persist an
+object with a modified partition key value by throwing a
+<code class="highlighter-rouge">longevity.exceptions.persistence.UnstablePrimaryKeyException</code>.</p>
+
+<p>This is really all you need to know about the basic usage case for
+primary keys. It is of course up to you to configure your database to
+be distributed across multiple nodes, but longevity will handle the
+rest.</p>
+
+<p>While we anticipate most users will be satisfied with the basic usage
+of primary keys described above, a few extensions are provided for
+more demanding users. As we describe these advanced features here, we
+will briefly discuss how they relate to the specific back ends that
+longevity supports. For a more complete discussion on their
+implementation, please see the appropriate section of the chapter on
+<a href="../translation">translating persistents to the database</a>.</p>
+
+<p>Longevity currently supports two advanced features for primary
+keys. The first is using a <em>hashed key</em>, which you can employ as
+follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">,</span> <span class="n">hashed</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>Hashed primary keys determine the appropriate database node based on
+a <a href="https://en.wikipedia.org/wiki/Hash_function">hash</a> of your key
+value. This is in contrast to a <em>range key</em>, where the records are
+kept in sorting order by key value. Range keys have the advantage of
+supporting queries that return a range of key values, e.g., all the
+usernames that start with an ‘s’. But unless the database is capable
+of rebalancing your data, range keys suffer from an uneven
+distribution of data.</p>
+
+<p>All primary keys in Cassandra are hashed, and consequently, using
+the <code class="highlighter-rouge">hashed</code> flag with a Cassandra back end has no effect. MongoDB
+supports both hashed and ranged primary keys, and does automatically
+rebalance your ranged keys. But take note that if you insert rows with
+monotonically increasing ranged keys such as counters, you will still
+<a href="https://docs.mongodb.com/v3.2/core/sharding-shard-key/#shard-key-monotonic">end up with a hot
+spot</a>
+on the node that holds the far segment of the range.</p>
+
+<p>The second advanced primary key feature that longevity supports is
+partial partitions. In this case, the key value still determines the
+node, but not every part of the key value is used to make that
+determination. For example, we could define the <code class="highlighter-rouge">FullName</code> key from
+the example in the <a href="keys.html">last section</a> as a primary key, but
+only partition on the last name. We would do this like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.keyVal</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Username</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">FullName</span><span class="o">(</span><span class="n">last</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">first</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">fullName</span><span class="k">:</span> <span class="kt">FullName</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">key</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">fullNameKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">fullName</span><span class="o">,</span> <span class="n">partition</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">fullName</span><span class="o">.</span><span class="n">last</span><span class="o">))</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>In this case, we can know that every user with the same last name will
+be located on the same database node.</p>
+
+<p>Because Cassandra does not support hashed keys, and MongoDB does not
+support hashed keys in the face of partial partitions, longevity does
+not currently support combining these two features.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="keys.html">keys</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the persistent type</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="indexes.html">indexes</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

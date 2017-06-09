@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>in memory repositories</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> in memory repositories </h1>
+          
+          <p>Alongside <code class="highlighter-rouge">LongevityContext.repo</code> and <code class="highlighter-rouge">LongevityContext.testRepo</code>, there is an <code class="highlighter-rouge">inMemRepo</code> that you
+can use for tests in which you want to use real repositories (as opposed to mocks or stubs), but you
+don’t want the overhead of working with a real database. While the in-memory repositories are fully
+functional, the <a href="../query">query methods</a> will probably not perform well in the face of large
+amounts of data.</p>
+
+<p>Setting up a test to use the in-memory repositories is easy
+enough. For instance, suppose you have a user service that uses
+constructor injection to get the user repository dependency:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserService</span><span class="o">(</span><span class="n">userRepo</span><span class="k">:</span> <span class="kt">Repo</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">])</span> <span class="o">{</span> <span class="c1">// ...
+</span></code></pre>
+</div>
+
+<p>And you typically initialize it like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">userService</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">UserService</span><span class="o">(</span><span class="n">longevityContext</span><span class="o">.</span><span class="n">repo</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>In your tests, you can initialize your service like this instead:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">userService</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">UserService</span><span class="o">(</span><span class="n">longevityContext</span><span class="o">.</span><span class="n">inMemRepo</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href=".">testing your domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">testing your domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="test-data.html">generating test data</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

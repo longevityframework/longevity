@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>keys</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> keys </h1>
+          
+          <p>Keys are composed of a single property whose type is <a href="../model/key-values.html">key value</a> for the
+persistent object. To declare a key, we use <code class="highlighter-rouge">PType</code> method <code class="highlighter-rouge">key</code> like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.keyVal</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Username</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@persistent</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">key</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>We make the key implicit because it is used as an implicit parameter to the <code class="highlighter-rouge">Repo.retrieve</code> and
+<code class="highlighter-rouge">Repo.retrieveOne</code> methods, as we will <a href="../repo/retrieve.html">see later</a>.</p>
+
+<p>Keys play two important roles in your domain model. First, they indicate that a key value should
+uniquely identify a persistent object. So in the above example, no two users can have the same
+username. Second, they indicate that looking up a persistent object by key value should be fast.</p>
+
+<p>We can declare multiple keys, and composite keys, just as
+easily. Here, for instance, we add an ill-advised composite key on a
+<code class="highlighter-rouge">firstName</code>/<code class="highlighter-rouge">lastName</code> combination:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.keyVal</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Username</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">FullName</span><span class="o">(</span><span class="n">last</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">first</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
+  <span class="n">fullName</span><span class="k">:</span> <span class="kt">FullName</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">key</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">fullNameKey</span> <span class="k">=</span> <span class="n">key</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">fullName</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Here, no two users can have the same first and last names.</p>
+
+<p>We use keys to retrieve individual persistent objects from the persistence layer, as we will see in
+the <a href="../repo/retrieve.html">section on <code class="highlighter-rouge">Repo.retrieve</code></a>. You are most likely going to want to define
+at least one key per persistent type, or you will only be able to retrieve collections of persistent
+objects <a href="../query/retrieve-by.html">by query</a>. It is possible that you have a persistent type -
+perhaps representing an entry in a log file - for which there are no natural keys. You may be
+satisfied to confine yourself to looking up collections of these objects via range searches.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="properties.html">properties</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the persistent type</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="primary-keys.html">primary keys</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>persistent components</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> persistent components </h1>
+          
+          <p>Persistent components are a way of nesting case classes inside of your
+persistent objects. They never get persisted on their own, but rather
+as part of some other persistent type in your domain model.</p>
+
+<p>For example, let’s suppose we want to group the user’s <code class="highlighter-rouge">firstName</code> and
+<code class="highlighter-rouge">lastName</code> fields into a <code class="highlighter-rouge">FullName</code> case class:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.component</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">FullName</span><span class="o">(</span>
+  <span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">fullName</span><span class="k">:</span> <span class="kt">FullName</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>Be sure to declare your component class in the same package as, or in a sub-package of, the package
+you declare your domain model. Assuming you don’t fabricate your own
+<code class="highlighter-rouge">longevity.model.ModelEv[DomainModel]</code>, if you declare your component class in another package, you
+will get a compiler error - something about implicit model evidence not being found.</p>
+
+<p>The <code class="highlighter-rouge">@component[DomainModel]</code> annotation creates a companion object that extends
+<code class="highlighter-rouge">longevity.model.CType[DomainModel, FullName]</code>. If <code class="highlighter-rouge">FullName</code> already has a companion object, it
+will be augmented to extend <code class="highlighter-rouge">CType</code>. The <code class="highlighter-rouge">CType[DomainModel, FullName]</code> will be used to help build
+the <code class="highlighter-rouge">ModelType[DomainModel]</code>, which collects all the different parts of your model.</p>
+
+<p>Here is the equivalent code without using annotations:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.CType</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">FullName</span><span class="o">(</span>
+  <span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">FullName</span> <span class="k">extends</span> <span class="nc">CType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">FullName</span><span class="o">]</span>
+</code></pre>
+</div>
+
+<p>You can put components in components, and components in
+<a href="../collections.html">collections</a>, and collections in components. For
+example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.component</span>
+<span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
+
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Email</span><span class="o">(</span><span class="n">email</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">EmailPreferences</span><span class="o">(</span>
+  <span class="n">primaryEmail</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span>
+  <span class="n">emails</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">Email</span><span class="o">])</span>
+
+<span class="nd">@component</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Address</span><span class="o">(</span>
+  <span class="n">street</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">city</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
+  <span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">emails</span><span class="k">:</span> <span class="kt">EmailPreferences</span><span class="o">,</span>
+  <span class="n">addresses</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">Address</span><span class="o">])</span>
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="collections.html">collections</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="key-values.html">key values</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api"                                                    class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>
