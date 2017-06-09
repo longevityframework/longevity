@@ -14,4 +14,4 @@ import emblem.TypeKey
  * @see longevity.model.annotations.persistent
  * @see longevity.model.PType
  */
-class PEv[M, P : TypeKey] private[longevity](private[longevity] val key: TypeKey[P])
+class PEv[M, P : TypeKey] private[model](private[longevity] val key: TypeKey[P])
