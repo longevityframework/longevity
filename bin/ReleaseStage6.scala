@@ -52,7 +52,7 @@ object ReleaseStage6 extends App {
   run("git", "push", "-u", "origin", majorMinor)
 
   // create tag x.y.0
-  run("git", "tag", "-a", oldVersion, "-m", s"create tag $oldVersion")
+  run("git", "tag", "-s", "-a", oldVersion, "-m", s"create tag $oldVersion")
   run("git", "push", "origin", oldVersion)
 
   // back to master branch
