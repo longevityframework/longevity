@@ -4,7 +4,6 @@ lazy val root = Project(id = "root", base = file("."), settings = BuildSettings.
 
 lazy val bin = Project(id = "bin", base = file("bin"), settings = BuildSettings.noPublishSettings)
 
-
 lazy val longevity = project.in(file("longevity"))
   .settings(BuildSettings.buildSettings: _*)
   .settings(
@@ -38,8 +37,9 @@ lazy val longevity = project.in(file("longevity"))
 
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
     addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4"))
-  .enablePlugins(JekyllPlugin, SiteScaladocPlugin)
+  .enablePlugins(JekyllPlugin, SiteScaladocPlugin, GhpagesPlugin)
   .settings(
+    git.remoteRepo := "git@github.com:longevityframework/longevity.git",
     includeFilter in Jekyll :=
       ("*.html" | "*.png" | "*.js" | "*.css" | "*.gif" | "CNAME" | ".nojekyll" | "*.json" | "*.jpg"),
     siteSubdirName in SiteScaladoc := "api")
