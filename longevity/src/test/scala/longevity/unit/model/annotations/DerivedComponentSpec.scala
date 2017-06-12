@@ -1,6 +1,6 @@
 package longevity.unit.model.annotations
 
-import emblem.typeKey
+import typekey.typeKey
 import longevity.model.DerivedCType
 import longevity.model.annotations.derivedComponent
 import org.scalatest.FlatSpec

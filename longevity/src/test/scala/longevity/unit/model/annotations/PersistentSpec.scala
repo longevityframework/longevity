@@ -1,6 +1,6 @@
 package longevity.unit.model.annotations
 
-import emblem.typeKey
+import typekey.typeKey
 import longevity.model.PType
 import longevity.model.annotations.persistent
 import org.scalatest.FlatSpec

@@ -1,6 +1,6 @@
 package longevity.exceptions.model
 
-import emblem.TypeKey
+import typekey.TypeKey
 
 /** thrown on attempt to construct a
  * [[longevity.model.ModelType ModelType]] with a

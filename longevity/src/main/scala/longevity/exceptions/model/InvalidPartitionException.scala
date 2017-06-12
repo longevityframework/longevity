@@ -1,6 +1,6 @@
 package longevity.exceptions.model
 
-import emblem.TypeKey
+import typekey.TypeKey
 import longevity.model.ptype.PrimaryKey
 
 /** an exception indicating an attempt to create a primary key with a

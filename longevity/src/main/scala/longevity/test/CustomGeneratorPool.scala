@@ -1,7 +1,7 @@
 package longevity.test
 
-import emblem.TypeKey
-import emblem.typeKey
+import typekey.TypeKey
+import typekey.typeKey
 
 /** a collection of custom generators for [[TestDataGenerator test data generation]] */
 class CustomGeneratorPool private (private[test] val seq: Seq[CustomGenerator[_]]) {

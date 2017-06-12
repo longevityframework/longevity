@@ -1,7 +1,7 @@
 package longevity.persistence
 
-import emblem.TypeKey
-import emblem.emblematic.Union
+import typekey.TypeKey
+import longevity.emblem.emblematic.Union
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import scala.concurrent.ExecutionContext

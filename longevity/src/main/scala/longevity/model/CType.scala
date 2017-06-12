@@ -1,7 +1,7 @@
 package longevity.model
 
-import emblem.TypeKey
-import emblem.typeKey
+import typekey.TypeKey
+import typekey.typeKey
 import scala.reflect.runtime.universe.TypeTag
 
 /** a type class for a persistent component

@@ -1,13 +1,13 @@
 package longevity.persistence.mongo
 
-import emblem.TypeKey
-import emblem.emblematic.Emblem
-import emblem.emblematic.EmblemProp
-import emblem.emblematic.Emblematic
-import emblem.emblematic.Union
-import emblem.emblematic.traversors.sync.Traversor
-import emblem.exceptions.CouldNotTraverseException
-import emblem.typeKey
+import typekey.TypeKey
+import longevity.emblem.emblematic.Emblem
+import longevity.emblem.emblematic.EmblemProp
+import longevity.emblem.emblematic.Emblematic
+import longevity.emblem.emblematic.Union
+import longevity.emblem.emblematic.traversors.sync.Traversor
+import longevity.emblem.exceptions.CouldNotTraverseException
+import typekey.typeKey
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import org.bson.BsonArray
 import org.bson.BsonBoolean

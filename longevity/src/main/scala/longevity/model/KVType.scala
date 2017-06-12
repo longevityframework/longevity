@@ -1,6 +1,6 @@
 package longevity.model
 
-import emblem.typeKey
+import typekey.typeKey
 import scala.reflect.runtime.universe.TypeTag
 
 /** a type class for a key value

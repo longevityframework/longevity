@@ -1,7 +1,7 @@
 package longevity.model
 
-import emblem.TypeKey
-import emblem.typeKey
+import typekey.TypeKey
+import typekey.typeKey
 import scala.reflect.runtime.universe.TypeTag
 
 /** one of the derived types in a family of component types. use this as your

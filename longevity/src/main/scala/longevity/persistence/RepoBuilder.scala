@@ -1,8 +1,8 @@
 package longevity.persistence
 
-import emblem.TypeKey
-import emblem.TypeKeyMap
-import emblem.typeBound.TypeBoundPair
+import typekey.TypeKey
+import typekey.TypeKeyMap
+import typekey.TypeBoundPair
 import longevity.config.BackEnd
 import longevity.config.Cassandra
 import longevity.config.InMem

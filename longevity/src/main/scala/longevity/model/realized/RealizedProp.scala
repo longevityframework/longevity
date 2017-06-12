@@ -1,14 +1,14 @@
 package longevity.model.realized
 
-import emblem.TypeKey
-import emblem.emblematic.Emblematic
-import emblem.emblematic.EmblematicPropPath
-import emblem.emblematic.ReflectiveProp
-import emblem.emblematic.basicTypes.isBasicType
-import emblem.exceptions.EmblemNotComposedOfBasicsException
-import emblem.exceptions.EmptyPropPathException
-import emblem.exceptions.NoSuchPropertyException
-import emblem.exceptions.NonEmblematicInPropPathException
+import typekey.TypeKey
+import longevity.emblem.emblematic.Emblematic
+import longevity.emblem.emblematic.EmblematicPropPath
+import longevity.emblem.emblematic.ReflectiveProp
+import longevity.emblem.emblematic.basicTypes.isBasicType
+import longevity.emblem.exceptions.EmblemNotComposedOfBasicsException
+import longevity.emblem.exceptions.EmptyPropPathException
+import longevity.emblem.exceptions.NoSuchPropertyException
+import longevity.emblem.exceptions.NonEmblematicInPropPathException
 import longevity.exceptions.model.NoSuchPropPathException
 import longevity.exceptions.model.PropTypeException
 import longevity.exceptions.model.PropTypeException

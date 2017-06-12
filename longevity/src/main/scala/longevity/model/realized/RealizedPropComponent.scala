@@ -1,8 +1,8 @@
 package longevity.model.realized
 
-import emblem.TypeKey
-import emblem.emblematic.basicTypes.basicTypeOrderings
-import emblem.emblematic.EmblematicPropPath
+import typekey.TypeKey
+import longevity.emblem.emblematic.basicTypes.basicTypeOrderings
+import longevity.emblem.emblematic.EmblematicPropPath
 
 /** a component of a realized property that is a basic type */
 private[longevity] case class RealizedPropComponent[P, A, B](

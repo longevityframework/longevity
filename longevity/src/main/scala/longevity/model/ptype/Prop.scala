@@ -1,7 +1,7 @@
 package longevity.model.ptype
 
 import scala.reflect.runtime.universe.TypeTag
-import emblem.typeKey
+import typekey.typeKey
 
 /** a property for this persistent type. properties map to underlying members
  * within the persistent object, at any depth.

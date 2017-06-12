@@ -1,6 +1,6 @@
 package longevity.exceptions.model.ptype
 
-import emblem.TypeKey
+import typekey.TypeKey
 
 /** an exception thrown when [[longevity.model.PType persistent type]]
  * neither overrides `propSet`, nor defines an inner object `props`

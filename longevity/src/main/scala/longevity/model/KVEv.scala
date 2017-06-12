@@ -1,6 +1,6 @@
 package longevity.model
 
-import emblem.TypeKey
+import typekey.TypeKey
 
 /** evidence for a key value
  *

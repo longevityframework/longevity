@@ -3,7 +3,7 @@ package longevity.persistence
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import cats.Monad
-import emblem.TypeKey
+import typekey.TypeKey
 import fs2.Stream
 import fs2.Task
 import io.iteratee.{ Enumerator => CatsEnumerator }

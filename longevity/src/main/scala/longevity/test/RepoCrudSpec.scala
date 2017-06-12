@@ -1,6 +1,6 @@
 package longevity.test
 
-import emblem.TypeKey
+import typekey.TypeKey
 import longevity.context.LongevityContext
 import longevity.config.BackEnd
 import longevity.persistence.Deleted

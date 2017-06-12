@@ -1,13 +1,13 @@
 package longevity.persistence.jdbc
 
 import com.typesafe.scalalogging.LazyLogging
-import emblem.TypeKey
-import emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
-import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
-import emblem.exceptions.CouldNotTraverseException
-import emblem.stringUtil.camelToUnderscore
-import emblem.stringUtil.typeName
-import emblem.typeKey
+import typekey.TypeKey
+import longevity.emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
+import longevity.emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
+import longevity.emblem.exceptions.CouldNotTraverseException
+import longevity.emblem.stringUtil.camelToUnderscore
+import longevity.emblem.stringUtil.typeName
+import typekey.typeKey
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet

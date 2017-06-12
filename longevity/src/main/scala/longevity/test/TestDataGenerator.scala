@@ -1,12 +1,12 @@
 package longevity.test
 
-import emblem.TypeKey
-import emblem.emblematic.Emblematic
-import emblem.emblematic.traversors.sync.{ CustomGenerator => EmblemCustomGen }
-import emblem.emblematic.traversors.sync.{ CustomGeneratorPool => EmblemCustomGenPool }
-import emblem.emblematic.traversors.sync.{ Generator => EmblemGen }
-import emblem.emblematic.traversors.sync.{ TestDataGenerator => EmblemTestDataGen }
-import emblem.exceptions.{ CouldNotGenerateException => EmblemCouldNotGenE }
+import typekey.TypeKey
+import longevity.emblem.emblematic.Emblematic
+import longevity.emblem.emblematic.traversors.sync.{ CustomGenerator => EmblemCustomGen }
+import longevity.emblem.emblematic.traversors.sync.{ CustomGeneratorPool => EmblemCustomGenPool }
+import longevity.emblem.emblematic.traversors.sync.{ Generator => EmblemGen }
+import longevity.emblem.emblematic.traversors.sync.{ TestDataGenerator => EmblemTestDataGen }
+import longevity.emblem.exceptions.{ CouldNotGenerateException => EmblemCouldNotGenE }
 import longevity.exceptions.test.CouldNotGenerateException
 
 /** generates test data for your domain model. you can generate any kind of data

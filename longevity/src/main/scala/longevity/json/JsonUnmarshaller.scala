@@ -1,7 +1,7 @@
 package longevity.json
 
-import emblem.TypeKey
-import emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
+import typekey.TypeKey
+import longevity.emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
 import longevity.model.ModelType
 import org.json4s.JsonAST.JValue
 

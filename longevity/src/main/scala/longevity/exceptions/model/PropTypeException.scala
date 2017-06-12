@@ -1,6 +1,6 @@
 package longevity.exceptions.model
 
-import emblem.TypeKey
+import typekey.TypeKey
 
 /** an exception indicating an attempt to create a property with the wrong type.
  *

@@ -1,6 +1,6 @@
 package longevity.persistence
 
-import emblem.TypeKeyMap
+import typekey.TypeKeyMap
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.model.PEv
 import longevity.model.ptype.Key

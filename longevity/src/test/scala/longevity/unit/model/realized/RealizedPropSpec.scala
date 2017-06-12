@@ -1,6 +1,6 @@
 package longevity.unit.model.realized
 
-import emblem.typeKey
+import typekey.typeKey
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers

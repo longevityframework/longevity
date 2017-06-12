@@ -1,6 +1,6 @@
 
 lazy val root = Project(id = "root", base = file("."), settings = BuildSettings.noPublishSettings)
-  .aggregate(bin, emblem, longevity, longevityCassandraDeps, longevityMongoDbDeps, longevitySqliteDeps)
+  .aggregate(bin, longevity, longevityCassandraDeps, longevityMongoDbDeps, longevitySqliteDeps)
 
 lazy val bin = Project(id = "bin", base = file("bin"), settings = BuildSettings.noPublishSettings)
 
@@ -31,6 +31,7 @@ lazy val longevity = project.in(file("longevity"))
     libraryDependencies += Dependencies.sqliteDep          % Test,
     libraryDependencies += Dependencies.streamAdapterDep,
     libraryDependencies += Dependencies.typesafeConfigDep,
+    libraryDependencies += Dependencies.typekeyDep,
 
     homepage := BuildSettings.longevityHomepage,
     pomExtra := BuildSettings.longevityPomExtra,
@@ -43,28 +44,6 @@ lazy val longevity = project.in(file("longevity"))
     includeFilter in Jekyll :=
       ("*.html" | "*.png" | "*.js" | "*.css" | "*.gif" | "CNAME" | ".nojekyll" | "*.json" | "*.jpg"),
     siteSubdirName in SiteScaladoc := "api")
-  .dependsOn(emblem)
-
-lazy val emblem = Project(
-  id = "emblem",
-  base = file("emblem"),
-  settings = BuildSettings.buildSettings ++ Seq(
-    libraryDependencies += Dependencies.json4sDep % Optional,
-    homepage := Some(url("https://github.com/longevityframework/emblem")),
-    pomExtra := (
-      <scm>
-      <url>git@github.com:longevityframework/emblem.git</url>
-      <connection>scm:git:git@github.com:longevityframework/emblem.git</connection>
-      </scm>
-      <developers>
-      <developer>
-      <id>sullivan-</id>
-      <name>John Sullivan</name>
-      <url>https://github.com/sullivan-</url>
-      </developer>
-      </developers>)
-  )
-)
 
 lazy val longevityCassandraDeps = Project(
   id = "longevity-cassandra-deps",

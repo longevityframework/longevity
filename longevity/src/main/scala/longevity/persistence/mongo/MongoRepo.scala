@@ -3,8 +3,8 @@ package longevity.persistence.mongo
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 import com.typesafe.scalalogging.LazyLogging
-import emblem.stringUtil.typeName
-import emblem.stringUtil.uncapitalize
+import longevity.emblem.stringUtil.typeName
+import longevity.emblem.stringUtil.uncapitalize
 import longevity.config.MongoDBConfig
 import longevity.config.PersistenceConfig
 import longevity.persistence.PRepo

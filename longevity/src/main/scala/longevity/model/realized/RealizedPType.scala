@@ -1,11 +1,11 @@
 package longevity.model.realized
 
-import emblem.TypeKey
-import emblem.emblematic.EmblemProp
-import emblem.emblematic.Emblematic
-import emblem.emblematic.EmblematicPropPath
-import emblem.typeBound.TypeBoundMap
-import emblem.typeKey
+import typekey.TypeKey
+import longevity.emblem.emblematic.EmblemProp
+import longevity.emblem.emblematic.Emblematic
+import longevity.emblem.emblematic.EmblematicPropPath
+import typekey.TypeBoundMap
+import typekey.typeKey
 import longevity.exceptions.model.DuplicateKeyException
 import longevity.exceptions.model.InvalidPartitionException
 import longevity.model.DerivedPType

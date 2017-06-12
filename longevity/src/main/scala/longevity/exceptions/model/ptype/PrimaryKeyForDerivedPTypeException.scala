@@ -1,6 +1,6 @@
 package longevity.exceptions.model.ptype
 
-import emblem.TypeKey
+import typekey.TypeKey
 
 /** an exception thrown when [[longevity.model.DerivedPType derived
  * persistent type]] contains a [[longevity.model.ptype.PrimaryKey

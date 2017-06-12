@@ -1,13 +1,13 @@
 package longevity.model
 
-import emblem.TypeKey
-import emblem.TypeKeyMap
-import emblem.emblematic.Emblem
-import emblem.emblematic.EmblemPool
-import emblem.emblematic.Emblematic
-import emblem.emblematic.Union
-import emblem.typeBound.TypeBoundFunction
-import emblem.typeBound.TypeBoundMap
+import typekey.TypeKey
+import typekey.TypeKeyMap
+import longevity.emblem.emblematic.Emblem
+import longevity.emblem.emblematic.EmblemPool
+import longevity.emblem.emblematic.Emblematic
+import longevity.emblem.emblematic.Union
+import typekey.TypeBoundFunction
+import typekey.TypeBoundMap
 import longevity.exceptions.model.DerivedHasNoPolyException
 import longevity.exceptions.model.DuplicateCTypesException
 import longevity.exceptions.model.DuplicateKVTypesException

@@ -1,8 +1,8 @@
 package longevity.model
 
-import emblem.reflectionUtil.innerModule
-import emblem.reflectionUtil.termsWithType
-import emblem.typeKey
+import longevity.emblem.reflectionUtil.innerModule
+import longevity.emblem.reflectionUtil.termsWithType
+import typekey.typeKey
 import longevity.exceptions.model.IndexDuplicatesKeyException
 import longevity.exceptions.model.ptype.MultiplePrimaryKeysForPType
 import longevity.exceptions.model.ptype.NoPropsForPTypeException

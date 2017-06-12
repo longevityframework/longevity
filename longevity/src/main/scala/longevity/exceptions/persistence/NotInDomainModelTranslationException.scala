@@ -1,6 +1,6 @@
 package longevity.exceptions.persistence
 
-import emblem.exceptions.TraversorException
+import longevity.emblem.exceptions.TraversorException
 
 /** an exception thrown by the [[longevity.persistence.Repo repository]] when
  * translating between a persistent and a serialized form, and a type is

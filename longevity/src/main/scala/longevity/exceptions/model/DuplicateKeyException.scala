@@ -1,7 +1,7 @@
 package longevity.exceptions.model
 
-import emblem.TypeKey
-import emblem.typeKey
+import typekey.TypeKey
+import typekey.typeKey
 
 /** thrown on attempt to construct a
  * [[longevity.model.PType persistent type]] with more than one

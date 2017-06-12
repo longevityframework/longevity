@@ -1,7 +1,7 @@
 package longevity.exceptions.test
 
-import emblem.TypeKey
-import emblem.typeKey
+import typekey.TypeKey
+import typekey.typeKey
 import longevity.exceptions.UnrecoverableLongevityException
 import longevity.exceptions.LongevityException
 

@@ -1,7 +1,7 @@
 package longevity.model.realized
 
-import emblem.TypeKey
-import emblem.emblematic.EmblematicPropPath
+import typekey.TypeKey
+import longevity.emblem.emblematic.EmblematicPropPath
 import longevity.model.KVEv
 import longevity.model.ptype.PrimaryKey
 
