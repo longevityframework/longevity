@@ -1,10 +1,55 @@
 # Longevity Changelog
 
-## [0.23.0] - TODO - Use Type Classes to Improve Type Safety of Persistent API
+## [0.23.0] - 2017.06.09 - Use Type Classes to Improve Type Safety of Persistent API
 
-- 2017.05.08 - Merge `longevity.persistence.Repo` and `longevity.persistence.RepoPool` APIs. There
-  is now a single repository, and the create/retrieve/update/delete/query methods now all take the
-  persistent type as a type parameter. To migrate, code that used to look like this:
+The changes in this release are many, and the overall picture is hard to grasp by looking through a
+bullet list of the changes. For this reason, we present a quick migration guide here to get you from
+0.22 to 0.23. Making the changes in the migration guide will probably get you 95-100% of the way there.
+
+### Quick Migration Guide
+
+1. Replace this:
+
+   `@domainModel object MyModel`
+
+   with this:
+
+   `@domainModel trait MyModel`
+1. Replace `@persistent` with `@persistent[MyModel]`, `@component` with `@component[MyModel]`, and
+   `@keyVal[P]` with `@keyVal[MyModel, P]`
+1. Remove the `keySet = Set(key(props.a), key(props.b))` as an argument to the `@persistent`
+   annotation. Put the following lines in the companion object for your persistent class instead:
+
+   `implicit val aKey = key(props.a)`
+   `implicit val bKey = key(props.b)`
+1. Replace this:
+
+   `val context = LongevityContext(MyModel)`
+
+   with this:
+
+   `val context = LongevityContext[MyModel]()`
+1. Replace references to `Repo[P]` with `Repo[MyModel]`
+1. Replace calls like this:
+
+   `context.repoPool[P]`
+
+   with this:
+
+   `context.repo`
+1. For repository methods `createSchema` and `closeSession`, replace calls like this:
+
+   `context.repoPool.createSchema()`
+
+   with call chains like this:
+
+   `context.repo.createSchema()`
+
+### Changes
+
+- Merge `longevity.persistence.Repo` and `longevity.persistence.RepoPool` APIs. There is now a
+  single repository, and the create/retrieve/update/delete/query methods now all take the persistent
+  type as a type parameter. To migrate, code that used to look like this:
 
   `longevityContext.repoPool[User].create(user)`
 
@@ -16,9 +61,9 @@
 
   `longevityContext.repo.create(user)`
 
-- 2017.05.12 - Replace `longevity.model.DomainModel` with a `longevity.model.ModelType` type-class.
-  Everything that used to live in `DomainModel` now lives in `ModelType`.
-  `longevity.model.annotations.domainModel` now annotates a phantom class or trait, instead of the
+- Replace `longevity.model.DomainModel` with a `longevity.model.ModelType` type-class. Everything
+  that used to live in `DomainModel` now lives in `ModelType`.
+  `longevity.model.annotations.domainModel` now annotates a marker class or trait, instead of the
   object that was to become the old `DomainModel`. This annotation macro adds an `implicit object
   modelType` into the companion object of the annotated class. `ModelType` now takes a type
   parameter `M` that refers to the phantom class annotated with `domainModel`.
@@ -28,16 +73,16 @@
   be found in the companion object of `M`, as built by the annotation macro.
   `longevity.context.Repo` also now takes a type parameter `M`.
 
-- 2017.05.23 - Add `longevity.model.ModelEv` type-class. ("Ev" is short for "evidence" here.) The
-  `longevity.model.annotations.domainModel` annotation macro now adds an `implicit object
-  modelEv` into the companion object of the annotated class. This evidence class is private to the
-  package that the domain model is found in. `longevity.model.PType` now has a type parameter `M`
-  for the model, and an implicit `ModelEv[M]` is required to initialize a `PType[M, P]`. Because the
+- Add `longevity.model.ModelEv` type-class. ("Ev" is short for "evidence" here.) The
+  `longevity.model.annotations.domainModel` annotation macro now adds an `implicit object modelEv`
+  into the companion object of the annotated class. This evidence class is private to the package
+  that the domain model is found in. `longevity.model.PType` now has a type parameter `M` for the
+  model, and an implicit `ModelEv[M]` is required to initialize a `PType[M, P]`. Because the
   generated model evidence is private to the model package, persistent types outside of the model
   package will not find the evidence, and will fail to compile. This prevents the user from
   accidentally creating a persistent type that falls outside the model.
 
-- 2017.05.25 - Add `longevity.model.PEv` type-class. ("Ev" is short for "evidence" here.) The
+- Add `longevity.model.PEv` type-class. ("Ev" is short for "evidence" here.) The
   `longevity.model.PType` now includes an `implicit val ev: PEv[M, P]`. Because the companion object
   of a persistent class is normally the corresponding `PType`, this evidence should be available
   where needed. `longevity.persistence.Repo` methods that used to take an implicit `TypeKey[P]`
@@ -48,31 +93,36 @@
   over the old situation, since a `TypeKey[P]` is available for any type `P` for which there is a
   `TypeTag[P]` available.
 
-- 2017.05.30 - Replace `longevity.model.KeyVal[P]` with `longevity.model.KVType[M, P, V]`, which
-  includes an implicit val `longevity.model.KVEv[M, P, V]`. `@longevity.model.annotations.keyVal`
-  now takes a type parameter `M` along with the type parameter `P`. The `@keyVal` annotation now
-  creates or augments the companion object as a `KVType[M, P, V]`.
+- Replace `longevity.model.KeyVal[P]` with `longevity.model.KVType[M, P, V]`, which includes an
+  implicit val `longevity.model.KVEv[M, P, V]`. `@longevity.model.annotations.keyVal` now takes a
+  type parameter `M` along with the type parameter `P`. The `@keyVal` annotation now creates or
+  augments the companion object as a `KVType[M, P, V]`.
 
-  Methods `longevity.persistence.Repo.retrieve` and `longevity.persistence.Repo.retrieveOne` now
-  take an implicit `KVEv[M, P, V]` instead of an implicit `TypeKey[V]`. This will typically be found
-  by implicit resolution in the `KVType` companion object.
+- Methods `PType.key` and `PType.primaryKey` now take implicit `KVEv` arguments, to make sure the
+  key value type provided matches a `KVType` that is provided to the `ModelType`.
 
-- 2017.05.31 - The old constructors and factory methods for creating a `longevity.model.ModelType`
-  have been replaced with a single constructor that takes lists of `longevity.model.PTypes` and
-  `longevity.model.CTypes`. The runtime package scanning constructor has been replaced by a
-  compile-time package scanning. The new scanner, `longevity.model.annotations.packscanToList`, is
-  used by `longevity.model.annotations.domainModel`, but you can use it yourself if you like. If you
-  have been using the `@domainModel` annotation, these changes should not affect you.
+- The old constructors and factory methods for creating a `longevity.model.ModelType` have been
+  replaced with a single constructor that takes lists of `longevity.model.PTypes`,
+  `longevity.model.CTypes`, and `longevity.model.KVTypes`. The runtime package scanning constructor
+  has been replaced by a compile-time package scanning. The new scanner,
+  `longevity.model.annotations.packscanToList`, is used by
+  `longevity.model.annotations.domainModel`, but you can use it yourself if you like. If you have
+  been using the `@domainModel` annotation, these changes should not affect you.
 
-- 2017.05.31 - `longevity.model.PTypePool` and `longevity.model.CTypePool` have been removed.
+- `longevity.model.PTypePool` and `longevity.model.CTypePool` have been removed.
 
-- 2017.05.31 - Allow users to optionally define `keySet` in the persistent companion object, instead
-  of as an argument to the `@persistent` macro. I don't terribly like giving MTOWTTI here, but both
-  approaches have their drawbacks, and different users may prefer different approaches.
+- Instead of passing in a `keySet` to the `@persistent` annotation, users should now specify their
+  keys themselves, directly in the body of the companion object, as implicit values. The
+  `PType.keySet` has been made private, and is populated by reflecting on the members of the
+  companion object.
 
-- 2017.06.07 - Remove method `longevity.model.PType.prop`. You can extend
-  `longevity.model.ptype.Prop` instead, but note that we advise you to use the
-  `longevity.model.annotations.persistent` annotation to generate properties.
+- Methods `longevity.persistence.Repo.retrieve` and `longevity.persistence.Repo.retrieveOne` now
+  take an implicit `Key[M, P, V]` instead of an implicit `TypeKey[V]`. This will typically be found
+  by implicit resolution in the companion object of `P`.
+
+- Remove method `longevity.model.PType.prop`. You can extend `longevity.model.ptype.Prop` instead,
+  but note that we advise you to use the `longevity.model.annotations.persistent` annotation to
+  generate properties.
 
 ## [0.22.0] - 2017.03.25 - Stream Queries to Multiple Streaming Libraries
 
