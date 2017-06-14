@@ -33,10 +33,10 @@ with GivenWhenThen {
     sqliteContext.testRepo.createSchema().futureValue
   }
 
-  assertUnstablePrimaryKeyBehavior(cassandraContext.testRepo, "CassandraRepo")
-  assertUnstablePrimaryKeyBehavior(inmemContext.testRepo, "InMemRepo")
-  assertUnstablePrimaryKeyBehavior(mongoContext.testRepo, "MongoRepo")
-  assertUnstablePrimaryKeyBehavior(sqliteContext.testRepo, "SQLiteRepo")
+  assertUnstablePrimaryKeyBehavior(cassandraContext.testRepo, "CassandraPRepo")
+  assertUnstablePrimaryKeyBehavior(inmemContext.testRepo, "InMemPRepo")
+  assertUnstablePrimaryKeyBehavior(mongoContext.testRepo, "MongoPRepo")
+  assertUnstablePrimaryKeyBehavior(sqliteContext.testRepo, "SQLitePRepo")
 
   def assertUnstablePrimaryKeyBehavior(repo: Repo[DomainModel], repoName: String): Unit = {
 

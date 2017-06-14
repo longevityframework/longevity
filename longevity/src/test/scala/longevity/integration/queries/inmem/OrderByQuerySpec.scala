@@ -14,7 +14,7 @@ class OrderByQuerySpec extends QuerySpec[DomainModel, Basics](
   import Basics.queryDsl._
   import Basics.props
 
-  behavior of "InMemRepo.retrieveByQuery"
+  behavior of "InMemPRepo.retrieveByQuery"
 
   it should "produce expected ordered results for filterAll queries" in {
     exerciseQuery(filterAll orderBy (props.boolean.asc  ), true)

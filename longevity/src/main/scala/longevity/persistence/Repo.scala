@@ -1,32 +1,87 @@
 package longevity.persistence
 
-import typekey.TypeKeyMap
+import longevity.config.BackEnd
+import longevity.config.Cassandra
+import longevity.config.InMem
+import longevity.config.JDBC
+import longevity.config.LongevityConfig
+import longevity.config.MongoDB
+import longevity.config.PersistenceConfig
+import longevity.config.SQLite
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
+import longevity.model.DerivedPType
+import longevity.model.ModelType
 import longevity.model.PEv
+import longevity.model.PType
+import longevity.model.PolyPType
 import longevity.model.ptype.Key
 import longevity.model.query.Query
+import longevity.persistence.cassandra.CassandraRepo
+import longevity.persistence.inmem.InMemRepo
+import longevity.persistence.jdbc.JdbcRepo
+import longevity.persistence.mongo.MongoRepo
+import longevity.persistence.sqlite.SQLiteRepo
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import typekey.TypeKeyMap
 
 /** a repository for persistent objects in a model
  * 
  * @tparam M the model
  */
-abstract class Repo[M] private[persistence](private[this] val schemaCreator: SchemaCreator) {
+abstract class Repo[M] private[persistence](
+  protected val modelType: ModelType[M],
+  protected val persistenceConfig: PersistenceConfig) {
 
-  private[persistence] val pRepoMap: TypeKeyMap[Any, PRepo[M, ?]]
+  type R[P] <: PRepo[M, P]
+
+  private[persistence] val pRepoMap: TypeKeyMap[Any, PRepo[M, ?]] = {
+    var keyToRepoMap = TypeKeyMap[Any, R]
+    def createRepo[P](pType: PType[M, P]): Unit = {
+      val polyRepo: Option[R[_ >: P]] = pType match {
+        case dpt: DerivedPType[_, _, _] => Some(keyToRepoMap(dpt.polyPTypeKey))
+        case _ => None
+      }
+      keyToRepoMap += (pType.pTypeKey -> buildPRepo[P](pType, polyRepo))
+    }
+
+    // build the poly repos first
+    val (polys, nonPolys) = modelType.pTypePool.values.partition(_.isInstanceOf[PolyPType[_, _]])
+    polys.foreach { pType => createRepo(pType) }
+    nonPolys.foreach { pType => createRepo(pType) }
+
+    // finish repo initialization
+    // TODO: cant I pass in `this` to PRepo ctors?
+    keyToRepoMap.values.foreach { _._repoOption = Some(this) }
+
+    keyToRepoMap.widen[PRepo[M, ?]]    
+  }
+
+  protected def buildPRepo[P](pType: PType[M, P], polyRepoOpt: Option[R[_ >: P]] = None): R[P]
+
+  /** opens a connection to the underlying database */
+  def openConnection()(implicit context: ExecutionContext): Future[Unit] = Future(openConnectionBlocking())
+
+  private def openConnectionBlocking(): Unit = {
+    openBaseConnectionBlocking()
+    if (persistenceConfig.autoCreateSchema) {
+      createSchemaBlocking()
+    }
+  }
+
+  protected def openBaseConnectionBlocking(): Unit
 
   /** non-desctructively creates any needed database constructs */
-  def createSchema()(implicit context: ExecutionContext): Future[Unit] =
-    schemaCreator.createSchema().flatMap { _ =>
-      def isPolyRepo(repo: PRepo[M, _]) = repo.isInstanceOf[BasePolyRepo[M, _]]
-      def createSchemas(repoTest: (PRepo[M, _]) => Boolean) =
-        Future.sequence(pRepoMap.values.filter(repoTest).map(_.createSchema()))
-      for {
-        units1 <- createSchemas(isPolyRepo)
-        units2 <- createSchemas(repo => !isPolyRepo(repo))
-      } yield ()
-    }
+  def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future(createSchemaBlocking())
+
+  private def createSchemaBlocking(): Unit = {
+    createBaseSchemaBlocking()
+    val (polys, nonPolys) = pRepoMap.values.partition(_.isInstanceOf[BasePolyRepo[M, _]])
+    polys.foreach(_.createSchemaBlocking())
+    nonPolys.foreach(_.createSchemaBlocking())
+  }
+
+  protected def createBaseSchemaBlocking(): Unit
 
   /** creates the persistent object
    *
@@ -181,8 +236,42 @@ abstract class Repo[M] private[persistence](private[this] val schemaCreator: Sch
   def delete[P : PEv[M, ?]](state: PState[P])(implicit executionContext: ExecutionContext): Future[Deleted[P]] =
     pRepoMap(implicitly[PEv[M, P]].key).delete(state)
 
-  /** closes any open session from the underlying database */
-  def closeSession()(implicit executionContext: ExecutionContext): Future[Unit] =
-    pRepoMap.values.headOption.map(_.close()).getOrElse(Future.successful(()))
+  /** closes an open connection from the underlying database */
+  def closeConnection()(implicit executionContext: ExecutionContext): Future[Unit] =
+    Future(closeConnectionBlocking())
+
+  protected def closeConnectionBlocking(): Unit
+
+}
+
+private[longevity] object Repo {
+
+  def apply[M](
+    modelType: ModelType[M],
+    backEnd: BackEnd,
+    config: LongevityConfig,
+    test: Boolean)
+  : Repo[M] = {
+    val repo = backEnd match {
+      case Cassandra =>
+        val cassandraConfig = if (test) config.test.cassandra else config.cassandra
+        new CassandraRepo(modelType, config, cassandraConfig)
+      case InMem =>
+        new InMemRepo(modelType, config)
+      case MongoDB =>
+        val mongoConfig = if (test) config.test.mongodb else config.mongodb
+        new MongoRepo(modelType, config, mongoConfig)
+      case SQLite =>
+        val jdbcConfig = if (test) config.test.jdbc else config.jdbc
+        new SQLiteRepo(modelType, config, jdbcConfig)
+      case JDBC =>
+        val jdbcConfig = if (test) config.test.jdbc else config.jdbc
+        new JdbcRepo(modelType, config, jdbcConfig)
+    }
+    if (config.autoOpenConnection) {
+      repo.openConnectionBlocking()
+    }
+    repo
+  }
 
 }

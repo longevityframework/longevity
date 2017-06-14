@@ -21,7 +21,8 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
   val context = new LongevityContext[basics.DomainModel](
     LongevityConfig(
       backEnd = Cassandra,
-      autocreateSchema = false,
+      autoOpenConnection = false,
+      autoCreateSchema = false,
       optimisticLocking = false,
       writeTimestamps = false,
       cassandra = CassandraConfig(
@@ -37,8 +38,8 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
 
   it should "throw KeyspaceDoesNotExistException" in {
     val p = context.testDataGenerator.generate[basics.Basics]
-    val createResult = context.repo.create(p)
-    createResult.failed.futureValue shouldBe a [KeyspaceDoesNotExistException]
+    val repo = context.repo
+    repo.openConnection.failed.futureValue shouldBe a [KeyspaceDoesNotExistException]
   }
 
 }

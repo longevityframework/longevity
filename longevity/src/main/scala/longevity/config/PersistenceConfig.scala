@@ -3,8 +3,11 @@ package longevity.config
 /** configuration for persistence that is [[BackEnd back end]] agnostic */
 private[longevity] trait PersistenceConfig {
 
-  /** should longevity autocreate schema when the repositories are created? */
-  val autocreateSchema: Boolean
+  /** should longevity automatically open the connection when the repositories are created? */
+  val autoOpenConnection: Boolean
+
+  /** should longevity automatically create schema when the connection is opened? */
+  val autoCreateSchema: Boolean
 
   /** is optimistic locking turned on? */
   val optimisticLocking: Boolean

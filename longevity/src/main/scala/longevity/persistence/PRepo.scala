@@ -75,9 +75,7 @@ private[longevity] abstract class PRepo[M, P] private[persistence] (
   def queryToPlayImpl(query: Query[P])(implicit context: ExecutionContext): PlayEnumerator[PState[P]] =
     chunkeratorToPlayEnumerator.adapt(queryToChunkerator(query))
 
-  protected[persistence] def close()(implicit context: ExecutionContext): Future[Unit]
-
-  protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit]
+  protected[persistence] def createSchemaBlocking(): Unit
 
   protected def validateStablePrimaryKey(state: PState[P]): Unit = {
     realizedPType.primaryKey.map { key =>

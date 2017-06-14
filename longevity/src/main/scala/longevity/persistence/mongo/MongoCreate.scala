@@ -8,13 +8,13 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of MongoRepo.create */
+/** implementation of MongoPRepo.create */
 private[mongo] trait MongoCreate[M, P] {
-  repo: MongoRepo[M, P] =>
+  repo: MongoPRepo[M, P] =>
 
   def create(p: P)(implicit context: ExecutionContext) = Future {
     blocking {
-      logger.debug(s"calling MongoRepo.create: $p")
+      logger.debug(s"calling MongoPRepo.create: $p")
       val id = if (hasPrimaryKey) None else Some(MongoId[P](new ObjectId()))
       val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
       val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
@@ -26,7 +26,7 @@ private[mongo] trait MongoCreate[M, P] {
       } catch {
         case e: MongoWriteException => throwDuplicateKeyValException(p, e)
       }
-      logger.debug(s"done calling MongoRepo.create: $state")
+      logger.debug(s"done calling MongoPRepo.create: $state")
       state
     }
   }

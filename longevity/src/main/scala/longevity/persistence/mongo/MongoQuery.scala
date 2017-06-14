@@ -23,12 +23,12 @@ import scala.collection.immutable.VectorBuilder
 import streamadapter.CloseableChunkIter
 import streamadapter.Chunkerator
 
-/** implementation of MongoRepo.retrieveByQuery and MongoRepo.streamByQuery */
+/** implementation of MongoPRepo.retrieveByQuery and MongoPRepo.streamByQuery */
 private[mongo] trait MongoQuery[M, P] {
-  repo: MongoRepo[M, P] =>
+  repo: MongoPRepo[M, P] =>
 
   protected def queryToChunkerator(query: Query[P]) = {
-    logger.debug(s"calling MongoRepo.queryToChunkerator: $query")
+    logger.debug(s"calling MongoPRepo.queryToChunkerator: $query")
     val c = new Chunkerator[PState[P]] {
       def apply = new CloseableChunkIter[PState[P]] {
         private val cursor = queryCursor(query)
@@ -45,7 +45,7 @@ private[mongo] trait MongoQuery[M, P] {
         def close = cursor.close
       }
     }
-    logger.debug(s"done calling MongoRepo.queryToChunkerator")
+    logger.debug(s"done calling MongoPRepo.queryToChunkerator")
     c
   }
 

@@ -7,26 +7,26 @@ import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** implementation of JdbcRepo.delete */
+/** implementation of JdbcPRepo.delete */
 private[jdbc] trait JdbcDelete[M, P] {
-  repo: JdbcRepo[M, P] =>
+  repo: JdbcPRepo[M, P] =>
 
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = Future {
     blocking {
-      logger.debug(s"calling JdbcRepo.delete: $state")
+      logger.debug(s"calling JdbcPRepo.delete: $state")
       validateStablePrimaryKey(state)
       val rowCount = bindDeleteStatement(state).executeUpdate()
       if (persistenceConfig.optimisticLocking && rowCount != 1) {
         throw new WriteConflictException(state)
       }
       val deleted = new Deleted(state.get)
-      logger.debug(s"done calling JdbcRepo.delete: $deleted")
+      logger.debug(s"done calling JdbcPRepo.delete: $deleted")
       deleted
     }
   }
 
   private def bindDeleteStatement(state: PState[P]) = {
-    val preparedStatement = connection.prepareStatement(deleteStatementSql)
+    val preparedStatement = connection().prepareStatement(deleteStatementSql)
     val bindings = if (persistenceConfig.optimisticLocking) {
       whereBindings(state) :+ state.rowVersionOrNull
     } else {

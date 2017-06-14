@@ -29,12 +29,12 @@ import scala.collection.immutable.VectorBuilder
 import streamadapter.CloseableChunkIter
 import streamadapter.Chunkerator
 
-/** implementation of CassandraRepo.retrieveByQuery */
+/** implementation of CassandraPRepo.retrieveByQuery */
 private[cassandra] trait CassandraQuery[M, P] {
-  repo: CassandraRepo[M, P] =>
+  repo: CassandraPRepo[M, P] =>
 
   protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]] = {
-    logger.debug(s"calling CassandraRepo.queryToChunkerator: $query")
+    logger.debug(s"calling CassandraPRepo.queryToChunkerator: $query")
     val c = new Chunkerator[PState[P]] {
       def apply = new CloseableChunkIter[PState[P]] {
         private val resultSet = queryResultSet(query)
@@ -54,7 +54,7 @@ private[cassandra] trait CassandraQuery[M, P] {
         }
       }
     }
-    logger.debug(s"done calling CassandraRepo.queryToChunkerator")
+    logger.debug(s"done calling CassandraPRepo.queryToChunkerator")
     c
   }
 
@@ -74,7 +74,7 @@ private[cassandra] trait CassandraQuery[M, P] {
     val bindings = info.bindValues
     logger.debug(s"executing CQL: $cql with bindings: $bindings")
     val boundStatement = preparedStatement(cql).bind(bindings: _*)
-    session.execute(boundStatement)
+    session().execute(boundStatement)
   }
 
   private def queryOrderByClause(orderBy: QueryOrderBy[P]): String = {

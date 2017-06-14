@@ -17,7 +17,7 @@ extends QuerySpec[DomainModel, WithShorthandWithComponent](
 
   import WithShorthandWithComponent.queryDsl._
 
-  behavior of "CassandraRepo.retrieveByQuery"
+  behavior of "CassandraPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(shorthandWithComponentProp eqs sample.shorthandWithComponent)

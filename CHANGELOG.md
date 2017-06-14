@@ -1,5 +1,12 @@
 # Longevity Changelog
 
+## [0.24.0] - TODO - TODO
+
+- 2017.06.14 - Rename config flag `autocreateSchema` to `autoCreateSchema`.
+- 2017.06.14 - Add config flag `autoOpenConnection`.
+- 2017.06.15 - Add API method `Repo.openConnection`.
+- 2017.06.15 - Rename API method `Repo.closeConnection` to `Repo.closeConnection`.
+
 ## [0.23.0] - 2017.06.09 - Use Type Classes to Improve Type Safety of Persistent API
 
 The changes in this release are many, and the overall picture is hard to grasp by looking through a
@@ -37,7 +44,7 @@ bullet list of the changes. For this reason, we present a quick migration guide 
    with this:
 
    `context.repo`
-1. For repository methods `createSchema` and `closeSession`, replace calls like this:
+1. For repository methods `createSchema` and `closeConnection`, replace calls like this:
 
    `context.repoPool.createSchema()`
 
@@ -313,7 +320,7 @@ Some odds and ends that have been accumulating in the backlog.
 - 2016.09.14 - Add `RepoPool.createSchema()` and configuration flag
   `autogenerateSchema`.
 - 2016.09.13 - Add logging for all `Repo` methods and database calls.
-- 2016.09.13 - Add API method `RepoPool.closeSession()`. This was
+- 2016.09.13 - Add API method `RepoPool.closeConnection()`. This was
   added because leaving the Cassandra session open can cause user
   programs to fail to terminate under certain circumstances, If your
   main program is hanging when using Cassandra, please call this

@@ -2,28 +2,23 @@ package longevity.persistence.cassandra
 
 import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.model.realized.RealizedPropComponent
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
-/** implementation of CassandraRepo.createSchema */
+/** implementation of CassandraPRepo.createSchema */
 private[cassandra] trait CassandraSchema[M, P] {
-  repo: CassandraRepo[M, P] =>
+  repo: CassandraPRepo[M, P] =>
 
-  protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
-    blocking {
-      logger.debug(s"creating schema for table $tableName")
-      createTable()
-      createIndexes()
-      if (persistenceConfig.optimisticLocking) {
-        addColumn("row_version", "bigint")
-      }
-      if (persistenceConfig.writeTimestamps) {
-        addColumn("created_timestamp", "timestamp")
-        addColumn("updated_timestamp", "timestamp")
-      }
-      logger.debug(s"done creating schema for table $tableName")
+  protected[persistence] def createSchemaBlocking(): Unit = {
+    logger.debug(s"creating schema for table $tableName")
+    createTable()
+    createIndexes()
+    if (persistenceConfig.optimisticLocking) {
+      addColumn("row_version", "bigint")
     }
+    if (persistenceConfig.writeTimestamps) {
+      addColumn("created_timestamp", "timestamp")
+      addColumn("updated_timestamp", "timestamp")
+    }
+    logger.debug(s"done creating schema for table $tableName")
   }
 
   protected def createTable(): Unit = {
@@ -36,7 +31,7 @@ private[cassandra] trait CassandraSchema[M, P] {
     |WITH COMPRESSION = { 'sstable_compression': 'SnappyCompressor' };
     |""".stripMargin
     logger.debug(s"executing CQL: $createTable")
-    session.execute(createTable)
+    session().execute(createTable)
   }
 
   private def idDef = if (hasPrimaryKey) "" else "\n  id uuid,"
@@ -60,7 +55,7 @@ private[cassandra] trait CassandraSchema[M, P] {
     val cql = s"ALTER TABLE $tableName ADD $columnName $columnType"
     logger.debug(s"executing CQL: $cql")
     try {
-      session.execute(cql)
+      session().execute(cql)
     } catch {
       case e: InvalidQueryException
         if e.getMessage.contains("because it conflicts with an existing column") =>
@@ -72,7 +67,7 @@ private[cassandra] trait CassandraSchema[M, P] {
   protected def componentToCassandraType[A](
     component: RealizedPropComponent[_ >: P, _, A])
   : String = {
-    CassandraRepo.basicToCassandraType(component.componentTypeKey)
+    CassandraPRepo.basicToCassandraType(component.componentTypeKey)
   }
 
   protected def createIndexes(): Unit = indexedComponents.foreach(createIndex)
@@ -85,7 +80,7 @@ private[cassandra] trait CassandraSchema[M, P] {
   protected def createIndex(indexName: String, columnName: String): Unit = {
     val createIndex = s"CREATE INDEX IF NOT EXISTS $indexName ON $tableName ($columnName);"
     logger.debug(s"executing CQL: $createIndex")
-    session.execute(createIndex)
+    session().execute(createIndex)
   }
 
 }

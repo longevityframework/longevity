@@ -20,6 +20,6 @@ trait LongevityIntegrationSpec[M] extends LongevityFuturesSpec with BeforeAndAft
       throw t
   }).futureValue
 
-  override def afterAll = longevityContext.testRepo.closeSession().futureValue
+  override def afterAll = longevityContext.testRepo.closeConnection().futureValue
 
 }

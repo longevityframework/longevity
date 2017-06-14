@@ -26,7 +26,7 @@ case class User(
   emails: Set[String])
 ```
 
-It's on our TODO list to [handle a wider variety of collection
+It's on our list to [handle a wider variety of collection
 types](https://www.pivotaltracker.com/story/show/88571474), including `Maps`. But this basic set of
 collections should satisfy your needs. If you are itching to use another collection type in your
 domain model, please [let us know](http://longevityframework.org/discussions.html)! Please note that

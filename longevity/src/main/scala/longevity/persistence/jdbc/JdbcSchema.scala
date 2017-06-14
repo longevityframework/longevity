@@ -3,29 +3,24 @@ package longevity.persistence.jdbc
 import longevity.model.realized.RealizedPrimaryKey
 import longevity.model.realized.RealizedProp
 import longevity.model.realized.RealizedPropComponent
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
-/** implementation of JdbcRepo.createSchema */
+/** implementation of JdbcPRepo.createSchema */
 private[jdbc] trait JdbcSchema[M, P] {
-  repo: JdbcRepo[M, P] =>
+  repo: JdbcPRepo[M, P] =>
 
-  protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
-    blocking {
-      logger.debug(s"creating schema for table $tableName")
-      createTable()
-      createUniqueIndexes()
-      createNonUniqueIndexes()
-      if (persistenceConfig.optimisticLocking) {
-        addColumn("row_version", "bigint")
-      }
-      if (persistenceConfig.writeTimestamps) {
-        addColumn("created_timestamp", "timestamp")
-        addColumn("updated_timestamp", "timestamp")
-      }
-      logger.debug(s"done creating schema for table $tableName")
+  protected[persistence] def createSchemaBlocking(): Unit = {
+    logger.debug(s"creating schema for table $tableName")
+    createTable()
+    createUniqueIndexes()
+    createNonUniqueIndexes()
+    if (persistenceConfig.optimisticLocking) {
+      addColumn("row_version", "bigint")
     }
+    if (persistenceConfig.writeTimestamps) {
+      addColumn("created_timestamp", "timestamp")
+      addColumn("updated_timestamp", "timestamp")
+    }
+    logger.debug(s"done creating schema for table $tableName")
   }
 
   protected def createTable(): Unit = {
@@ -37,7 +32,7 @@ private[jdbc] trait JdbcSchema[M, P] {
     |)
     |""".stripMargin
     logger.debug(s"executing SQL: $createTable")
-    connection.prepareStatement(createTable).execute()
+    connection().prepareStatement(createTable).execute()
   }
 
   private def idDef = if (hasPrimaryKey) "" else "\n  id text,"
@@ -57,13 +52,13 @@ private[jdbc] trait JdbcSchema[M, P] {
   protected def addColumn(columnName: String, columnType: String): Unit = {
     val sql = s"ALTER TABLE $tableName ADD COLUMN IF NOT EXISTS $columnName $columnType"
     logger.debug(s"executing SQL: $sql")
-    connection.prepareStatement(sql).execute()
+    connection().prepareStatement(sql).execute()
   }
 
   protected def componentToJdbcType[A](
     component: RealizedPropComponent[_ >: P, _, A])
   : String = {
-    JdbcRepo.basicToJdbcType(component.componentTypeKey)
+    JdbcPRepo.basicToJdbcType(component.componentTypeKey)
   }
 
   protected def createUniqueIndexes(): Unit = {
@@ -92,7 +87,7 @@ private[jdbc] trait JdbcSchema[M, P] {
     val columnList = columnNames.mkString(", ")
     val createIndex = s"$prefix IF NOT EXISTS $indexName ON $tableName ($columnList);"
     logger.debug(s"executing SQL: $createIndex")
-    connection.prepareStatement(createIndex).execute()
+    connection().prepareStatement(createIndex).execute()
   }
 
   private def scoredPath(prop: RealizedProp[_, _]) = prop.inlinedPath.replace('.', '_')

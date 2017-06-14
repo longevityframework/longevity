@@ -16,12 +16,12 @@ class WithForeignKeyQuerySpec extends QuerySpec[DomainModel, WithForeignKey](
 
   import WithForeignKey.queryDsl._
 
-  behavior of "CassandraRepo.retrieveByQuery"
+  behavior of "CassandraPRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries with foreign keys" in {
     exerciseQuery(associatedProp eqs sample.associated)
   }
 
-  behavior of "CassandraRepo.retrieveByQuery"
+  behavior of "CassandraPRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
     exerciseQuery(idProp eqs sample.id and associatedProp eqs sample.associated)
   }

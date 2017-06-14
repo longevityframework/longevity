@@ -15,7 +15,7 @@ class KeyWithComponentQuerySpec extends QuerySpec[DomainModel, KeyWithComponent]
 
   import KeyWithComponent.queryDsl._
 
-  behavior of "InMemRepo.retrieveByQuery"
+  behavior of "InMemPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(secondaryKeyProp eqs sample.secondaryKey)

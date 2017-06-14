@@ -8,7 +8,9 @@ import longevity.exceptions.context.LongevityConfigException
  * the longevity config settings, and their defaults.
  *
  * @param backEnd the back end used by the longevity context
- * @param autocreateSchema should longevity autocreate schema when the repositories are created?
+ * @param autoOpenConnection should longevity automatically open the connection when the
+ * repositories are created?
+ * @param autoCreateSchema should longevity autocreate schema when the connection is opened?
  * @param optimisticLocking is optimistic locking turned on?
  * @param stamp rows with `createdTimestamp` and `updatedTimestamp`?
  * @param mongodb the mongo configuration
@@ -18,7 +20,8 @@ import longevity.exceptions.context.LongevityConfigException
  */
 case class LongevityConfig(
   backEnd: BackEnd,
-  autocreateSchema: Boolean,
+  autoOpenConnection: Boolean,
+  autoCreateSchema: Boolean,
   optimisticLocking: Boolean,
   writeTimestamps: Boolean,
   cassandra: CassandraConfig,

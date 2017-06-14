@@ -15,7 +15,7 @@ class ShorthandsQuerySpec extends QuerySpec[DomainModel, Shorthands](
 
   import Shorthands.queryDsl._
 
-  behavior of "MongoRepo.retrieveByQuery"
+  behavior of "MongoPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(idProp eqs sample.id)

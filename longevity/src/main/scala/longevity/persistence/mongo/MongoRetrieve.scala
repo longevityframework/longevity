@@ -7,20 +7,20 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of MongoRepo.retrieve */
+/** implementation of MongoPRepo.retrieve */
 private[mongo] trait MongoRetrieve[M, P] {
-  repo: MongoRepo[M, P] =>
+  repo: MongoPRepo[M, P] =>
 
   override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = Future {
     blocking {
-      logger.debug(s"calling MongoRepo.retrieve: $keyVal")
+      logger.debug(s"calling MongoPRepo.retrieve: $keyVal")
     
       val query = keyValQuery(keyVal)
       val result = mongoCollection.find(query).first
       val resultOption = Option(result)
       val stateOption = resultOption.map(bsonToState)
 
-      logger.debug(s"done calling MongoRepo.retrieve: $stateOption")
+      logger.debug(s"done calling MongoPRepo.retrieve: $stateOption")
       stateOption
     }
   }

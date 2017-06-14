@@ -16,7 +16,7 @@ class ShorthandWithComponentQuerySpec extends QuerySpec[DomainModel, WithShortha
 
   import WithShorthandWithComponent.queryDsl._
 
-  behavior of "InMemRepo.retrieveByQuery"
+  behavior of "InMemPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(shorthandWithComponentProp eqs sample.shorthandWithComponent)

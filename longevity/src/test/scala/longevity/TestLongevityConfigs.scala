@@ -15,7 +15,8 @@ object TestLongevityConfigs {
 
   def configForKey(key: ConfigMatrixKey) = baseConfig.copy(
     backEnd = key.backEnd,
-    autocreateSchema = key.autocreateSchema,
+    autoOpenConnection = true,
+    autoCreateSchema = key.autoCreateSchema,
     optimisticLocking = key.optimisticLocking,
     writeTimestamps = key.writeTimestamps)
 

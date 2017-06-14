@@ -15,7 +15,7 @@ class KeyWithShorthandQuerySpec extends QuerySpec[DomainModel, KeyWithShorthand]
 
   import KeyWithShorthand.queryDsl._
 
-  behavior of "MongoRepo.retrieveByQuery"
+  behavior of "MongoPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(secondaryKeyProp eqs sample.secondaryKey)

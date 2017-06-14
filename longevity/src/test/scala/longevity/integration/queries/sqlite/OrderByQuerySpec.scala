@@ -14,7 +14,7 @@ class OrderByQuerySpec extends QuerySpec[DomainModel, Basics](
   import Basics.queryDsl._
   import Basics.props
 
-  behavior of "SQLiteRepo.retrieveByQuery"
+  behavior of "SQLitePRepo.retrieveByQuery"
 
   // ive commented out some of these because test really takes a long time
 

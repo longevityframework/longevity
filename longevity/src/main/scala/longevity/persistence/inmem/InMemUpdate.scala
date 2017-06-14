@@ -5,14 +5,14 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of InMemRepo.update */
+/** implementation of InMemPRepo.update */
 private[inmem] trait InMemUpdate[M, P] {
-  repo: InMemRepo[M, P] =>
+  repo: InMemPRepo[M, P] =>
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {
       repo.synchronized {
-        logger.debug(s"calling InMemRepo.update: $state")
+        logger.debug(s"calling InMemPRepo.update: $state")
         validateStablePrimaryKey(state)
         assertNoWriteConflict(state)
         assertUniqueKeyVals(state)
@@ -25,7 +25,7 @@ private[inmem] trait InMemUpdate[M, P] {
         val newState = PState[P](state.id, rowVersion, None, None, state.get)
         registerById(newState)
         registerByKeyVals(newState)
-        logger.debug(s"done calling InMemRepo.update: $newState")
+        logger.debug(s"done calling InMemPRepo.update: $newState")
         newState
       }
     }

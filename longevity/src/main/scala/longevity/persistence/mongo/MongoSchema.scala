@@ -10,54 +10,41 @@ import longevity.model.ptype.Index
 import longevity.model.ptype.Partition
 import longevity.model.realized.RealizedKey
 import longevity.model.realized.RealizedPrimaryKey
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
-/** implementation of MongoRepo.createSchema */
+/** implementation of MongoPRepo.createSchema */
 private[mongo] trait MongoSchema[M, P] {
-  repo: MongoRepo[M, P] =>
+  repo: MongoPRepo[M, P] =>
 
-  protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future {
-    blocking {
-      logger.debug(s"creating schema for collection $collectionName")
-      new SchemaCreator().createSchema()
-      logger.debug(s"done creating schema for collection $collectionName")
-    }
+  protected[persistence] def createSchemaBlocking(): Unit = {
+    logger.debug(s"creating schema for collection $collectionName")
+    realizedPType.keySet.foreach(createKey)
+    pType.indexSet.foreach(createIndex)
+    realizedPType.primaryKey.foreach(createPrimaryKey)
+    logger.debug(s"done creating schema for collection $collectionName")
   }
 
-  private class SchemaCreator {
-
-    def createSchema(): Unit = {
-      realizedPType.keySet.foreach(createKey)
-      pType.indexSet.foreach(createIndex)
-      realizedPType.primaryKey.foreach(createPrimaryKey)
+  private def createKey(key: RealizedKey[M, P, _]): Unit = {
+    val paths = key match {
+      case p: RealizedPrimaryKey[M, P, _] if !p.fullyPartitioned => p.props.map(_.inlinedPath)
+      case _ => Seq(key.realizedProp.inlinedPath)
     }
 
-    private def createKey(key: RealizedKey[M, P, _]): Unit = {
-      val paths = key match {
-        case p: RealizedPrimaryKey[M, P, _] if !p.fullyPartitioned => p.props.map(_.inlinedPath)
-        case _ => Seq(key.realizedProp.inlinedPath)
-      }
-
-      val name = indexName(key)
-      val hashed = key match {
-        case p: RealizedPrimaryKey[M, P, _] if p.key.hashed => true
-        case _ => false
-      }
-
-      // if there is a primary key, no other keys can be unique
-      def unique = realizedPType.primaryKey.map(pk => pk == key && !pk.hashed).getOrElse(true)
-
-      MongoSchema.this.createIndex(paths, name, unique, hashed)
+    val name = indexName(key)
+    val hashed = key match {
+      case p: RealizedPrimaryKey[M, P, _] if p.key.hashed => true
+      case _ => false
     }
 
-    private def createIndex(index: Index[P]): Unit = {
-      val paths = index.props.map(realizedPType.realizedProps(_).inlinedPath)
-      val name = indexName(index)
-      MongoSchema.this.createIndex(paths, name, false)
-    }
+    // if there is a primary key, no other keys can be unique
+    def unique = realizedPType.primaryKey.map(pk => pk == key && !pk.hashed).getOrElse(true)
 
+    MongoSchema.this.createIndex(paths, name, unique, hashed)
+  }
+
+  private def createIndex(index: Index[P]): Unit = {
+    val paths = index.props.map(realizedPType.realizedProps(_).inlinedPath)
+    val name = indexName(index)
+    MongoSchema.this.createIndex(paths, name, false)
   }
 
   private def createPrimaryKey(key: RealizedPrimaryKey[M, P, _]): Unit = {
@@ -66,8 +53,8 @@ private[mongo] trait MongoSchema[M, P] {
     val shardKey = new BsonDocument
     shardPaths.foreach { shardPath => shardKey.append(shardPath, shardType) }
 
-    val dbName = session.config.db
-    val adminDb = session.client.getDatabase("admin")
+    val dbName = session().db.getName
+    val adminDb = session().client.getDatabase("admin")
 
     try {
       adminDb.runCommand(new BsonDocument("enableSharding", new BsonString(dbName)))

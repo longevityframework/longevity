@@ -18,7 +18,7 @@ class ComponentQuerySpec extends QuerySpec[DomainModel, WithComponent](
 
   import WithComponent.queryDsl._
 
-  behavior of "CassandraRepo.queryToFutureVec"
+  behavior of "CassandraPRepo.queryToFutureVec"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(componentProp eqs sample.component)

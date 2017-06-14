@@ -57,7 +57,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
       throw t
   }).futureValue
 
-  override def afterAll = repo.closeSession().futureValue
+  override def afterAll = repo.closeConnection().futureValue
 
   longevityContext.modelType.pTypePool.values.foreach(new RepoSpec(_))
 

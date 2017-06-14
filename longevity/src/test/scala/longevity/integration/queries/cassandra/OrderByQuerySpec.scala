@@ -30,7 +30,7 @@ class OrderByQuerySpec extends QuerySpec[DomainModel, PrimaryKeyWithComplexParti
   import PrimaryKeyWithComplexPartialPartition.queryDsl._
   import PrimaryKeyWithComplexPartialPartition.props
 
-  behavior of "CassandraRepo.queryToFutureVec"
+  behavior of "CassandraPRepo.queryToFutureVec"
 
   it should "handle order by clauses in very limited circumstances" in {
     // those circumstances are:

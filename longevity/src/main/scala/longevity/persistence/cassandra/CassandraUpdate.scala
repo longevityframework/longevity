@@ -7,17 +7,17 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of CassandraRepo.update */
+/** implementation of CassandraPRepo.update */
 private[cassandra] trait CassandraUpdate[M, P] {
-  repo: CassandraRepo[M, P] =>
+  repo: CassandraPRepo[M, P] =>
 
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
-      logger.debug(s"calling CassandraRepo.update: $state")
+      logger.debug(s"calling CassandraPRepo.update: $state")
       validateStablePrimaryKey(state)
       val newState = state.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
       val resultSet = blocking {
-        session.execute(bindUpdateStatement(newState, state.rowVersionOrNull))
+        session().execute(bindUpdateStatement(newState, state.rowVersionOrNull))
       }
       if (persistenceConfig.optimisticLocking) {
         val updateSuccess = resultSet.one.getBool(0)
@@ -25,7 +25,7 @@ private[cassandra] trait CassandraUpdate[M, P] {
           throw new WriteConflictException(state)
         }
       }
-      logger.debug(s"done calling CassandraRepo.update: $newState")
+      logger.debug(s"done calling CassandraPRepo.update: $newState")
       newState
     }
 

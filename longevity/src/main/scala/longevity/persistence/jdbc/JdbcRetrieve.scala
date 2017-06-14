@@ -7,14 +7,14 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of JdbcRepo.retrieve(KeyVal) */
+/** implementation of JdbcPRepo.retrieve(KeyVal) */
 private[jdbc] trait JdbcRetrieve[M, P] {
-  repo: JdbcRepo[M, P] =>
+  repo: JdbcPRepo[M, P] =>
 
   override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
-    logger.debug(s"calling JdbcRepo.retrieve: $keyVal")
+    logger.debug(s"calling JdbcPRepo.retrieve: $keyVal")
     val stateOption = retrieveFromPreparedStatement(bindKeyValSelectStatement(keyVal))
-    logger.debug(s"done calling JdbcRepo.retrieve: $stateOption")
+    logger.debug(s"done calling JdbcPRepo.retrieve: $stateOption")
     stateOption
   }
 
@@ -34,7 +34,7 @@ private[jdbc] trait JdbcRetrieve[M, P] {
       jdbcValue(component.innerPropPath.get(keyVal))
     }
     val sql = keyValSelectStatement(realizedKey)
-    val preparedStatement = connection.prepareStatement(sql)
+    val preparedStatement = connection().prepareStatement(sql)
     logger.debug(s"invoking SQL: $sql with bindings: $propVals")
     propVals.zipWithIndex.foreach { case (propVal, index) =>
       preparedStatement.setObject(index + 1, propVal)

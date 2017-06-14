@@ -8,15 +8,15 @@ import scala.concurrent.blocking
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-/** implementation of CassandraRepo.delete */
+/** implementation of CassandraPRepo.delete */
 private[cassandra] trait CassandraDelete[M, P] {
-  repo: CassandraRepo[M, P] =>
+  repo: CassandraPRepo[M, P] =>
 
   override def delete(state: PState[P])(implicit context: ExecutionContext): Future[Deleted[P]] = Future {
     blocking {
-      logger.debug(s"calling CassandraRepo.delete: $state")
+      logger.debug(s"calling CassandraPRepo.delete: $state")
       validateStablePrimaryKey(state)
-      val resultSet = session.execute(bindDeleteStatement(state))
+      val resultSet = session().execute(bindDeleteStatement(state))
       if (persistenceConfig.optimisticLocking) {
         val deleteSuccess = resultSet.one.getBool(0)
         if (!deleteSuccess) {
@@ -24,7 +24,7 @@ private[cassandra] trait CassandraDelete[M, P] {
         }
       }
       val deleted = new Deleted(state.get)
-      logger.debug(s"done calling CassandraRepo.delete: $deleted")
+      logger.debug(s"done calling CassandraPRepo.delete: $deleted")
       deleted
     }
   }

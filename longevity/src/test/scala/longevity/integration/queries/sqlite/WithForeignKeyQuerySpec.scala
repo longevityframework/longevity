@@ -16,13 +16,13 @@ class WithForeignKeyQuerySpec extends QuerySpec[DomainModel, WithForeignKey](
 
   import WithForeignKey.queryDsl._
 
-  behavior of "SQLiteRepo.retrieveByQuery"
+  behavior of "SQLitePRepo.retrieveByQuery"
   it should "produce expected results for simple equality queries with foreign keys" in {
     exerciseQuery(associatedProp eqs sample.associated)
     exerciseQuery(associatedProp neq sample.associated)
   }
 
-  behavior of "SQLiteRepo.retrieveByQuery"
+  behavior of "SQLitePRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
     exerciseQuery(idProp eqs sample.id or associatedProp eqs sample.associated)
     exerciseQuery(idProp lt sample.id and associatedProp neq sample.associated)

@@ -4,7 +4,7 @@ import longevity.config.BackEnd
 
 case class ConfigMatrixKey(
   backEnd: BackEnd,
-  autocreateSchema: Boolean,
+  autoCreateSchema: Boolean,
   optimisticLocking: Boolean,
   writeTimestamps: Boolean)
 
@@ -13,11 +13,11 @@ object ConfigMatrixKey {
   /** all config combos per back end */
   def values = for {
     backEnd           <- BackEnd.values
-    autocreateSchema  <- true :: false :: Nil
+    autoCreateSchema  <- true :: false :: Nil
     optimisticLocking <- true :: false :: Nil
     writeTimestamps   <- true :: false :: Nil
   } yield {
-    ConfigMatrixKey(backEnd, autocreateSchema, optimisticLocking, writeTimestamps)
+    ConfigMatrixKey(backEnd, autoCreateSchema, optimisticLocking, writeTimestamps)
   }
 
   /** one config per back end */

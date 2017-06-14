@@ -38,7 +38,7 @@ class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
 
   import Basics.queryDsl._
 
-  behavior of "CassandraRepo.queryToFutureVec"
+  behavior of "CassandraPRepo.queryToFutureVec"
 
   it should "produce expected results for Query.FilterAll" in {
     repo.queryToFutureVec(Query(FilterAll())).failed.futureValue shouldBe a [FilterAllInQueryException]

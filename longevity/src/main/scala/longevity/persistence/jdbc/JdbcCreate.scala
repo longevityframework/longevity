@@ -7,12 +7,12 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of JdbcRepo.create */
+/** implementation of JdbcPRepo.create */
 private[jdbc] trait JdbcCreate[M, P] {
-  repo: JdbcRepo[M, P] =>
+  repo: JdbcPRepo[M, P] =>
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
-    logger.debug(s"calling JdbcRepo.create: $p")
+    logger.debug(s"calling JdbcPRepo.create: $p")
     val id = if (hasPrimaryKey) None else Some(JdbcId[P](UUID.randomUUID))
     val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
     val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
@@ -22,12 +22,12 @@ private[jdbc] trait JdbcCreate[M, P] {
         bindInsertStatement(state).executeUpdate()
       } catch convertDuplicateKeyException(state)
     }
-    logger.debug(s"done calling JdbcRepo.create: $state")
+    logger.debug(s"done calling JdbcPRepo.create: $state")
     state
   }
 
   private def bindInsertStatement(state: PState[P]) = {
-    val insertStatement = connection.prepareStatement(insertSql)
+    val insertStatement = connection().prepareStatement(insertSql)
     val bindings = updateColumnValues(state, isCreate = true)
     logger.debug(s"invoking SQL: $insertStatement with bindings: $bindings")
     bindings.zipWithIndex.foreach { case (binding, index) =>

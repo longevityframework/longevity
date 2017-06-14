@@ -13,7 +13,7 @@ class NestedPartialPartitionQuerySpec extends QuerySpec[DomainModel, PKInCompone
   val keyProp = PKInComponentWithPartialPartition.props.component.key
   import PKInComponentWithPartialPartition.queryDsl._
 
-  behavior of "MongoRepo.retrieveByQuery"
+  behavior of "MongoPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(keyProp eqs sample.component.key)

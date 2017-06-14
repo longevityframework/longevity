@@ -6,13 +6,13 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of JdbcRepo.update */
+/** implementation of JdbcPRepo.update */
 private[jdbc] trait JdbcUpdate[M, P] {
-  repo: JdbcRepo[M, P] =>
+  repo: JdbcPRepo[M, P] =>
 
   override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
     Future {
-      logger.debug(s"calling JdbcRepo.update: $state")
+      logger.debug(s"calling JdbcPRepo.update: $state")
       validateStablePrimaryKey(state)
       val newState = state.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
       val rowCount = blocking {
@@ -24,7 +24,7 @@ private[jdbc] trait JdbcUpdate[M, P] {
       if (persistenceConfig.optimisticLocking && rowCount != 1) {
         throw new WriteConflictException(state)
       }
-      logger.debug(s"done calling JdbcRepo.update: $newState")
+      logger.debug(s"done calling JdbcPRepo.update: $newState")
       newState
     }
 
@@ -35,7 +35,7 @@ private[jdbc] trait JdbcUpdate[M, P] {
       updateColumnValues(state, isCreate = false) ++: whereBindings(state)
     }
     logger.debug(s"invoking SQL: $updateSql with bindings: $columnBindings")
-    val preparedStatement = connection.prepareStatement(updateSql)
+    val preparedStatement = connection().prepareStatement(updateSql)
     columnBindings.zipWithIndex.foreach { case (binding, index) =>
       preparedStatement.setObject(index + 1, binding)
     }

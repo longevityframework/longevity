@@ -7,13 +7,13 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of MongoRepo.create */
+/** implementation of MongoPRepo.create */
 private[mongo] trait MongoUpdate[M, P] {
-  repo: MongoRepo[M, P] =>
+  repo: MongoPRepo[M, P] =>
 
   def update(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {
-      logger.debug(s"calling MongoRepo.update: $state")
+      logger.debug(s"calling MongoPRepo.update: $state")
       validateStablePrimaryKey(state)
       val query = writeQuery(state)
       val updatedState = state.update(
@@ -29,7 +29,7 @@ private[mongo] trait MongoUpdate[M, P] {
       if (persistenceConfig.optimisticLocking && updateResult.getModifiedCount == 0) {
         throw new WriteConflictException(state)
       }
-      logger.debug(s"done calling MongoRepo.update: $updatedState")
+      logger.debug(s"done calling MongoPRepo.update: $updatedState")
       updatedState
     }
   }

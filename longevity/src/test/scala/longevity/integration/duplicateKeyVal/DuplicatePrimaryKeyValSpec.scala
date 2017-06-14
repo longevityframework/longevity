@@ -33,9 +33,9 @@ with GivenWhenThen {
     sqliteContext.testRepo.createSchema().futureValue
   }
 
-  assertDuplicateKeyValBehavior(inMemContext.testRepo, "InMemRepo")
-  assertDuplicateKeyValBehavior(mongoContext.testRepo, "MongoRepo")
-  assertDuplicateKeyValBehavior(sqliteContext.testRepo, "SQLiteRepo")
+  assertDuplicateKeyValBehavior(inMemContext.testRepo, "InMemPRepo")
+  assertDuplicateKeyValBehavior(mongoContext.testRepo, "MongoPRepo")
+  assertDuplicateKeyValBehavior(sqliteContext.testRepo, "SQLitePRepo")
 
   def assertDuplicateKeyValBehavior(repo: Repo[DomainModel], repoName: String): Unit = {
 

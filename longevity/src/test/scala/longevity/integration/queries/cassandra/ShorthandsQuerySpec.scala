@@ -15,7 +15,7 @@ class ShorthandsQuerySpec extends QuerySpec[DomainModel, Shorthands](
 
   import Shorthands.queryDsl._
 
-  behavior of "CassandraRepo.retrieveByQuery"
+  behavior of "CassandraPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(idProp eqs sample.id)

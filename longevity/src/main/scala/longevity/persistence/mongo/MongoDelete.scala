@@ -7,13 +7,13 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of MongoRepo.delete */
+/** implementation of MongoPRepo.delete */
 private[mongo] trait MongoDelete[M, P] {
-  repo: MongoRepo[M, P] =>
+  repo: MongoPRepo[M, P] =>
 
   def delete(state: PState[P])(implicit context: ExecutionContext) = Future {
     blocking {
-      logger.debug(s"calling MongoRepo.delete: $state")
+      logger.debug(s"calling MongoPRepo.delete: $state")
       validateStablePrimaryKey(state)
       val query = writeQuery(state)
       val deleteResult = mongoCollection.deleteOne(query)
@@ -21,7 +21,7 @@ private[mongo] trait MongoDelete[M, P] {
         throw new WriteConflictException(state)
       }
       val deleted = new Deleted(state.get)
-      logger.debug(s"done calling MongoRepo.delete: $deleted")
+      logger.debug(s"done calling MongoPRepo.delete: $deleted")
       deleted
     }
   }

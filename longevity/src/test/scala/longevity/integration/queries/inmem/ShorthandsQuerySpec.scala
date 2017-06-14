@@ -15,7 +15,7 @@ class ShorthandsQuerySpec extends QuerySpec[DomainModel, Shorthands](
 
   import Shorthands.queryDsl._
 
-  behavior of "InMemRepo.retrieveByQuery"
+  behavior of "InMemPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(idProp eqs sample.id)

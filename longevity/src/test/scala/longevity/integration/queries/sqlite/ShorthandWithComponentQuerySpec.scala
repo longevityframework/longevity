@@ -16,7 +16,7 @@ class ShorthandWithComponentQuerySpec extends QuerySpec[DomainModel, WithShortha
 
   import WithShorthandWithComponent.queryDsl._
 
-  behavior of "SQLiteRepo.retrieveByQuery"
+  behavior of "SQLitePRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(shorthandWithComponentProp eqs sample.shorthandWithComponent)

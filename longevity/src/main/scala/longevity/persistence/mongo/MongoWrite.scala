@@ -14,7 +14,7 @@ import org.bson.BsonObjectId
  * [[MongoUpdate]]
  */
 private[mongo] trait MongoWrite[M, P] {
-  repo: MongoRepo[M, P] =>
+  repo: MongoPRepo[M, P] =>
 
   protected lazy val domainModelToBsonTranslator = new DomainModelToBsonTranslator(modelType.emblematic)
 

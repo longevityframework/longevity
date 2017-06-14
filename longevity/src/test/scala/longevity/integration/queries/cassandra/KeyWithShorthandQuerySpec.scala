@@ -15,7 +15,7 @@ class KeyWithShorthandQuerySpec extends QuerySpec[DomainModel, KeyWithShorthand]
 
   import KeyWithShorthand.queryDsl._
 
-  behavior of "CassandraRepo.retrieveByQuery"
+  behavior of "CassandraPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(secondaryKeyProp eqs sample.secondaryKey)

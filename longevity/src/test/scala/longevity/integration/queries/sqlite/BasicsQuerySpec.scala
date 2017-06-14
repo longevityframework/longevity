@@ -32,7 +32,7 @@ class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
 
   import Basics.queryDsl._
 
-  behavior of "SQLiteRepo.retrieveByQuery"
+  behavior of "SQLitePRepo.retrieveByQuery"
 
   it should "produce expected results for Query.FilterAll" in {
     exerciseQuery(Query(FilterAll()), true)
@@ -52,7 +52,7 @@ class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
     exerciseQuery(stringProp neq sample.string and FilterAll())
   }
 
-  behavior of "SQLiteRepo.retrieveByQuery"
+  behavior of "SQLitePRepo.retrieveByQuery"
   it should "produce expected results for simple ordering queries" in {
     exerciseQuery(booleanProp lt sample.boolean, true)
     exerciseQuery(charProp lte sample.char)
@@ -64,7 +64,7 @@ class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
     exerciseQuery(stringProp gte sample.string)
   }
 
-  behavior of "SQLiteRepo.retrieveByQuery"
+  behavior of "SQLitePRepo.retrieveByQuery"
   it should "produce expected results for simple conditional queries" in {
     exerciseQuery(booleanProp lt sample.boolean and charProp lte sample.char, true)
     exerciseQuery(dateTimeProp gt sample.dateTime and doubleProp gte sample.double)
@@ -72,7 +72,7 @@ class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
     exerciseQuery(longProp gt sample.long or stringProp gte sample.string)
   }
 
-  behavior of "SQLiteRepo.retrieveByQuery"
+  behavior of "SQLitePRepo.retrieveByQuery"
   it should "produce expected results for nested conditional queries" in {
     exerciseQuery(
       booleanProp lt sample.boolean and

@@ -15,7 +15,7 @@ class ComponentQuerySpec extends QuerySpec[DomainModel, WithComponent](
 
   import WithComponent.queryDsl._
 
-  behavior of "MongoRepo.retrieveByQuery"
+  behavior of "MongoPRepo.retrieveByQuery"
 
   it should "produce expected results for simple equality queries" in {
     exerciseQuery(componentProp eqs sample.component)

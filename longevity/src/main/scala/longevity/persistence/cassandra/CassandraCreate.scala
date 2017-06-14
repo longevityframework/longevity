@@ -9,20 +9,20 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of CassandraRepo.create */
+/** implementation of CassandraPRepo.create */
 private[cassandra] trait CassandraCreate[M, P] {
-  repo: CassandraRepo[M, P] =>
+  repo: CassandraPRepo[M, P] =>
 
   override def create(p: P)(implicit context: ExecutionContext) = Future {
-    logger.debug(s"calling CassandraRepo.create: $p")
+    logger.debug(s"calling CassandraPRepo.create: $p")
     val id = if (hasPrimaryKey) None else Some(CassandraId[P](UUID.randomUUID))
     val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
     val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
     val state = PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
     blocking {
-      session.execute(bindInsertStatement(state))
+      session().execute(bindInsertStatement(state))
     }
-    logger.debug(s"done calling CassandraRepo.create: $state")
+    logger.debug(s"done calling CassandraPRepo.create: $state")
     state
   }
 

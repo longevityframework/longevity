@@ -25,12 +25,12 @@ import scala.collection.immutable.VectorBuilder
 import streamadapter.CloseableChunkIter
 import streamadapter.Chunkerator
 
-/** implementation of JdbcRepo.retrieveByQuery */
+/** implementation of JdbcPRepo.retrieveByQuery */
 private[jdbc] trait JdbcQuery[M, P] {
-  repo: JdbcRepo[M, P] =>
+  repo: JdbcPRepo[M, P] =>
 
   protected def queryToChunkerator(query: Query[P]) = {
-    logger.debug(s"calling JdbcRepo.queryToChunkerator: $query")
+    logger.debug(s"calling JdbcPRepo.queryToChunkerator: $query")
     val c = new Chunkerator[PState[P]] {
       def apply = new CloseableChunkIter[PState[P]] {
         private val resultSet = queryResultSet(query)
@@ -49,7 +49,7 @@ private[jdbc] trait JdbcQuery[M, P] {
         def close = resultSet.close
       }
     }
-    logger.debug(s"done calling JdbcRepo.queryToChunkerator")
+    logger.debug(s"done calling JdbcPRepo.queryToChunkerator")
     c
   }
 
@@ -67,7 +67,7 @@ private[jdbc] trait JdbcQuery[M, P] {
     |""".stripMargin
     val bindings = info.bindValues
     logger.debug(s"executing SQL: $sql with bindings: $bindings")
-    val statement = connection.prepareStatement(sql)
+    val statement = connection().prepareStatement(sql)
     bindings.zipWithIndex.foreach { case (binding, index) =>
       statement.setObject(index + 1, binding)
     }

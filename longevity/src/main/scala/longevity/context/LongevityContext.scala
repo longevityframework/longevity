@@ -6,7 +6,7 @@ import longevity.config.InMem
 import longevity.config.LongevityConfig
 import longevity.json.JsonMarshaller
 import longevity.json.JsonUnmarshaller
-import longevity.persistence.RepoBuilder.buildRepo
+import longevity.persistence.Repo
 import longevity.model.ModelType
 import longevity.test.CustomGeneratorPool
 import longevity.test.TestDataGenerator
@@ -114,10 +114,10 @@ extends PersistenceContext[M] with TestContext[M] with JsonContext {
   def this(typesafeConfig: Config)(implicit modelType: ModelType[M]) =
     this(typesafeConfig, CustomGeneratorPool.empty)
 
-  lazy val repo = buildRepo(modelType, config.backEnd, config, false)
+  lazy val repo          = Repo(modelType, config.backEnd, config, false)
+  lazy val testRepo      = Repo(modelType, config.backEnd, config, true)
+  lazy val inMemTestRepo = Repo(modelType, InMem,          config, true)
 
-  lazy val testRepo = buildRepo(modelType, config.backEnd, config, true)
-  lazy val inMemTestRepo = buildRepo(modelType, InMem, config, true)
   lazy val testDataGenerator = TestDataGenerator(modelType.emblematic, customGeneratorPool)
 
   lazy val jsonMarshaller = new JsonMarshaller(modelType)

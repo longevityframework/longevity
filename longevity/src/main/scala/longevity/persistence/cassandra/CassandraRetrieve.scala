@@ -8,20 +8,20 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 
-/** implementation of CassandraRepo.retrieve(KeyVal) */
+/** implementation of CassandraPRepo.retrieve(KeyVal) */
 private[cassandra] trait CassandraRetrieve[M, P] {
-  repo: CassandraRepo[M, P] =>
+  repo: CassandraPRepo[M, P] =>
 
   override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
-    logger.debug(s"calling CassandraRepo.retrieve: $keyVal")
+    logger.debug(s"calling CassandraPRepo.retrieve: $keyVal")
     val stateOption = retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
-    logger.debug(s"done calling CassandraRepo.retrieve: $stateOption")
+    logger.debug(s"done calling CassandraPRepo.retrieve: $stateOption")
     stateOption
   }
 
   protected def retrieveFromBoundStatement(statement: BoundStatement)(implicit context: ExecutionContext) =
     Future {
-      val resultSet = blocking { session.execute(statement) }
+      val resultSet = blocking { session().execute(statement) }
       val rowOption = Option(resultSet.one)
       rowOption.map(retrieveFromRow)
     }

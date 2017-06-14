@@ -1,17 +1,14 @@
-package longevity.persistence.jdbc
+package longevity.persistence.cassandra
 
 import longevity.persistence.PState
 import longevity.model.realized.RealizedPropComponent
 import longevity.model.realized.RealizedKey
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
-private[persistence] trait DerivedJdbcRepo[M, P, Poly >: P] extends JdbcRepo[M, P] {
+private[cassandra] trait DerivedCassandraPRepo[M, P, Poly >: P] extends CassandraPRepo[M, P] {
 
-  protected val polyRepo: JdbcRepo[M, Poly]
+  protected val polyRepo: CassandraPRepo[M, Poly]
 
-  override protected[jdbc] val tableName: String = polyRepo.tableName
+  override protected[cassandra] val tableName: String = polyRepo.tableName
 
   override protected def jsonStringForP(p: P): String = {
     // we use the poly type key here so we get the discriminator in the JSON
@@ -19,24 +16,20 @@ private[persistence] trait DerivedJdbcRepo[M, P, Poly >: P] extends JdbcRepo[M, 
     compact(render(emblematicToJsonTranslator.translate[Poly](p)(polyRepo.pTypeKey)))
   }
 
-  override protected[jdbc] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
+  override protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
     myIndexedComponents ++ polyRepo.indexedComponents
   }
 
   private def myIndexedComponents = super.indexedComponents
 
-  override protected[persistence] def createSchema()(implicit context: ExecutionContext)
-  : Future[Unit] = Future {
-    blocking {
-      createActualizedPropColumns()
-      createUniqueIndexes()
-      createNonUniqueIndexes()
-    }
+  override protected[persistence] def createSchemaBlocking(): Unit = {
+    createActualizedPropColumns()
+    createIndexes()
   }
 
   private def createActualizedPropColumns(): Unit = {
     actualizedComponents.map {
-      prop => addColumn(columnName(prop), componentToJdbcType(prop))
+      prop => addColumn(columnName(prop), componentToCassandraType(prop))
     }
   }
 
@@ -54,6 +47,8 @@ private[persistence] trait DerivedJdbcRepo[M, P, Poly >: P] extends JdbcRepo[M, 
 
   override protected def queryWhereClause(filterInfo: FilterInfo): String =
     super.queryWhereClause(filterInfo) + s"\nAND\n  discriminator = '$discriminatorValue'"
+
+  override protected[cassandra] def deleteStatement = polyRepo.deleteStatement
 
   private def discriminatorValue = pTypeKey.name
 

@@ -5,11 +5,11 @@ import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.persistence.PState
 import longevity.model.realized.RealizedKey
 
-/** support for InMemRepo methods that modify persistent collection. used by
+/** support for InMemPRepo methods that modify persistent collection. used by
  * [[InMemCreate]], [[InMemDelete]] and [[InMemUpdate]].
  */
 private[inmem] trait InMemWrite[M, P] {
-  repo: InMemRepo[M, P] =>
+  repo: InMemPRepo[M, P] =>
 
   private var idCounter = 0
 

@@ -1,13 +1,11 @@
 package longevity.persistence.mongo
 
 import longevity.persistence.BasePolyRepo
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
 
-private[mongo] trait PolyMongoRepo[M, P] extends MongoRepo[M, P] with BasePolyRepo[M, P] {
+private[mongo] trait PolyMongoPRepo[M, P] extends MongoPRepo[M, P] with BasePolyRepo[M, P] {
 
-  override protected[persistence] def createSchema()(implicit context: ExecutionContext): Future[Unit] = {
-    super.createSchema()
+  override protected[persistence] def createSchemaBlocking(): Unit = {
+    super.createSchemaBlocking()
 
     // i could add an index on discriminator here. it would only be used to
     // support derived queries. im choosing not to, since populating the index
