@@ -44,6 +44,17 @@ extends Repo[M](modelType, persistenceConfig) {
 
     val session = cluster.connect()
 
+    if (persistenceConfig.autoCreateSchema) {
+      session.execute(
+        s"""|
+            |CREATE KEYSPACE IF NOT EXISTS ${cassandraConfig.keyspace}
+            |WITH replication = {
+            |  'class': 'SimpleStrategy',
+            |  'replication_factor': ${cassandraConfig.replicationFactor}
+            |};
+            |""".stripMargin)
+    }
+
     try {
       session.execute(s"use ${cassandraConfig.keyspace}")
     } catch {
@@ -56,15 +67,7 @@ extends Repo[M](modelType, persistenceConfig) {
     sessionOpt = Some(session)
   }
 
-  protected def createBaseSchemaBlocking(): Unit = 
-    session().execute(
-      s"""|
-          |CREATE KEYSPACE IF NOT EXISTS ${cassandraConfig.keyspace}
-          |WITH replication = {
-          |  'class': 'SimpleStrategy',
-          |  'replication_factor': ${cassandraConfig.replicationFactor}
-          |};
-          |""".stripMargin)
+  protected def createBaseSchemaBlocking(): Unit = ()
 
   protected def closeConnectionBlocking(): Unit = synchronized {
     if (sessionOpt.isEmpty) throw new ConnectionClosedException
