@@ -18,7 +18,9 @@ object TestLongevityConfigs {
     autoOpenConnection = true,
     autoCreateSchema = key.autoCreateSchema,
     optimisticLocking = key.optimisticLocking,
-    writeTimestamps = key.writeTimestamps)
+    writeTimestamps = key.writeTimestamps,
+    test = baseConfig.test.copy(
+      cassandra = baseConfig.test.cassandra.copy(autoCreateKeyspace = true)))
 
   val configMatrix = ConfigMatrixKey.values.map(key => key -> configForKey(key)).toMap
 

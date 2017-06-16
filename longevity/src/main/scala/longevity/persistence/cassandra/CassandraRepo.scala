@@ -44,7 +44,7 @@ extends Repo[M](modelType, persistenceConfig) {
 
     val session = cluster.connect()
 
-    if (persistenceConfig.autoCreateSchema) {
+    if (cassandraConfig.autoCreateKeyspace) {
       session.execute(
         s"""|
             |CREATE KEYSPACE IF NOT EXISTS ${cassandraConfig.keyspace}

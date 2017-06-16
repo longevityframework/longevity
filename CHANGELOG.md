@@ -6,6 +6,7 @@
 - 2017.06.14 - Add config flag `autoOpenConnection`.
 - 2017.06.15 - Add API method `Repo.openConnection`.
 - 2017.06.15 - Rename API method `Repo.closeConnection` to `Repo.closeConnection`.
+- 2017.06.16 - Add config flag `cassandra.autoCreateKeyspace`.
 
 ## [0.23.0] - 2017.06.09 - Use Type Classes to Improve Type Safety of Persistent API
 
