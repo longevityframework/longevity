@@ -77,7 +77,7 @@ import longevity.context.MongoConfig
 import longevity.context.TestConfig
 
 val longevityConfig = LongevityConfig(
-  backEnd = InMem, // one of Cassandra, InMem, JDBC, Mongo, SQLite
+  backEnd = InMem, // one of Cassandra, InMem, JDBC, MongoDB, SQLite
   autocreateSchema = false,
   optimisticLocking = false,
   writeTimestamps = false,
