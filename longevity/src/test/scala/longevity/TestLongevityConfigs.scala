@@ -11,7 +11,7 @@ import longevity.test.CustomGeneratorPool
 
 object TestLongevityConfigs {
 
-  val baseConfig = LongevityConfig()
+  val baseConfig = LongevityConfig.fromTypesafeConfig()
 
   def configForKey(key: ConfigMatrixKey) = baseConfig.copy(
     backEnd = key.backEnd,
