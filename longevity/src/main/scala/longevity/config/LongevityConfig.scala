@@ -41,7 +41,7 @@ object LongevityConfig {
    * @throws longevity.exceptions.context.LongevityConfigException if the
    * typesafe configuration does not adequately specify the LongevityConfig
    */
-  def apply(typesafeConfig: Config = ConfigFactory.load()): LongevityConfig = {
+  def fromTypesafeConfig(typesafeConfig: Config = ConfigFactory.load()): LongevityConfig = {
     import configs.syntax._
     typesafeConfig.get[LongevityConfig]("longevity").valueOrThrow {
       error => new LongevityConfigException(error.configException)

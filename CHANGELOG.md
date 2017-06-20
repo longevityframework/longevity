@@ -7,6 +7,9 @@
 - 2017.06.15 - Add API method `Repo.openConnection`.
 - 2017.06.15 - Rename API method `Repo.closeConnection` to `Repo.closeConnection`.
 - 2017.06.16 - Add config flag `cassandra.autoCreateKeyspace`.
+- 2017.06.19 - Rename `longevity.config.LongevityConfig.apply(com.typesafe.config.Config)` to
+  `LongevityConfig.fromTypesafeConfig`. This was necessary to prevent the library we use to parse
+  the Typesafe config from infinite looping on a configuration error.
 
 ## [0.23.0] - 2017.06.09 - Use Type Classes to Improve Type Safety of Persistent API
 

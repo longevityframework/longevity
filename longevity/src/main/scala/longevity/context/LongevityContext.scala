@@ -33,7 +33,7 @@ object LongevityContext {
     typesafeConfig: Config = ConfigFactory.load(),
     customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
   : LongevityContext[M] =
-    new LongevityContext(LongevityConfig(typesafeConfig), customGeneratorPool)
+    new LongevityContext(LongevityConfig.fromTypesafeConfig(typesafeConfig), customGeneratorPool)
 
   /** creates and returns a [[LongevityContext]] using a
    * [[longevity.config.LongevityConfig LongevityConfig]]
@@ -101,7 +101,7 @@ extends PersistenceContext[M] with TestContext[M] with JsonContext {
    * typesafe configuration does not adequately specify the LongevityConfig
    */
   def this(typesafeConfig: Config, customGeneratorPool: CustomGeneratorPool)(implicit modelType: ModelType[M]) =
-    this(LongevityConfig(typesafeConfig), customGeneratorPool)
+    this(LongevityConfig.fromTypesafeConfig(typesafeConfig), customGeneratorPool)
 
   /** constructs a [[LongevityContext]] with an empty set of custom generators using a Typesafe config
    * 
