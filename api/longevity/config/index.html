@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.24-SNAPSHOT API  - longevity.config</title>
-          <meta name="description" content="longevity 0.24 - SNAPSHOT API - longevity.config" />
-          <meta name="keywords" content="longevity 0.24 SNAPSHOT API longevity.config" />
+          <title>longevity 0.23.0 API  - longevity.config</title>
+          <meta name="description" content="longevity 0.23.0 API - longevity.config" />
+          <meta name="keywords" content="longevity 0.23.0 API longevity.config" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.24-SNAPSHOT API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.23.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -339,7 +339,7 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains the <a href="LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a> plus supporting types and classes</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/16026ac0b199ab28cb92ce7b6f6c17f501c1d248/src/main/scala/longevity/config/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains the <a href="LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a> plus supporting types and classes</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.23.0/src/main/scala/longevity/config/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -438,13 +438,12 @@ database for integration testing.
         <a title="the Cassandra configuration
 " href="CassandraConfig.html">
               <span class="name">CassandraConfig</span>
-            </a><span class="params">(<span name="autoCreateKeyspace">autoCreateKeyspace: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="keyspace">keyspace: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="address">address: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="credentials">credentials: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="DatabaseCredentials.html" class="extype" name="longevity.config.DatabaseCredentials">DatabaseCredentials</a>]</span>, <span name="replicationFactor">replicationFactor: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+            </a><span class="params">(<span name="keyspace">keyspace: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="address">address: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="credentials">credentials: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="DatabaseCredentials.html" class="extype" name="longevity.config.DatabaseCredentials">DatabaseCredentials</a>]</span>, <span name="replicationFactor">replicationFactor: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       
       <p class="shortcomment cmt">the Cassandra configuration
 </p><div class="fullcomment"><div class="comment cmt"><p>the Cassandra configuration
-</p></div><dl class="paramcmts block"><dt class="param">autoCreateKeyspace</dt><dd class="cmt"><p>should longevity automatically create the keyspace if it doesn't
-already exist when the connection is opened?</p></dd><dt class="param">keyspace</dt><dd class="cmt"><p>the cassandra keyspace</p></dd><dt class="param">address</dt><dd class="cmt"><p>the contact point for the cassandra cluster</p></dd><dt class="param">credentials</dt><dd class="cmt"><p>optional username and password for connecting to the cassandra cluster</p></dd><dt class="param">replicationFactor</dt><dd class="cmt"><p>the replication factor to use when creating a keyspace</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>LongevityConfig</p></span></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">keyspace</dt><dd class="cmt"><p>the cassandra keyspace</p></dd><dt class="param">address</dt><dd class="cmt"><p>the contact point for the cassandra cluster</p></dd><dt class="param">credentials</dt><dd class="cmt"><p>optional username and password for connecting to the cassandra cluster</p></dd><dt class="param">replicationFactor</dt><dd class="cmt"><p>the replication factor to use when creating a keyspace</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>LongevityConfig</p></span></dd></dl></div>
     </li><li name="longevity.config.DatabaseCredentials" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DatabaseCredentialsextendsProductwithSerializable"></a><a id="DatabaseCredentials:DatabaseCredentials"></a>
       <span class="permalink">
@@ -504,13 +503,12 @@ different JDBC driver</p></dd><dt class="param">url</dt><dd class="cmt"><p>the d
       <span class="symbol">
         <a title="the longevity configuration." href="LongevityConfig.html">
               <span class="name">LongevityConfig</span>
-            </a><span class="params">(<span name="backEnd">backEnd: <a href="BackEnd.html" class="extype" name="longevity.config.BackEnd">BackEnd</a></span>, <span name="autoOpenConnection">autoOpenConnection: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="autoCreateSchema">autoCreateSchema: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="optimisticLocking">optimisticLocking: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="writeTimestamps">writeTimestamps: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="cassandra">cassandra: <a href="CassandraConfig.html" class="extype" name="longevity.config.CassandraConfig">CassandraConfig</a></span>, <span name="mongodb">mongodb: <a href="MongoDBConfig.html" class="extype" name="longevity.config.MongoDBConfig">MongoDBConfig</a></span>, <span name="jdbc">jdbc: <a href="JdbcConfig.html" class="extype" name="longevity.config.JdbcConfig">JdbcConfig</a></span>, <span name="test">test: <a href="TestConfig.html" class="extype" name="longevity.config.TestConfig">TestConfig</a></span>)</span><span class="result"> extends <span class="extype" name="longevity.config.PersistenceConfig">PersistenceConfig</span> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+            </a><span class="params">(<span name="backEnd">backEnd: <a href="BackEnd.html" class="extype" name="longevity.config.BackEnd">BackEnd</a></span>, <span name="autocreateSchema">autocreateSchema: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="optimisticLocking">optimisticLocking: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="writeTimestamps">writeTimestamps: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="cassandra">cassandra: <a href="CassandraConfig.html" class="extype" name="longevity.config.CassandraConfig">CassandraConfig</a></span>, <span name="mongodb">mongodb: <a href="MongoDBConfig.html" class="extype" name="longevity.config.MongoDBConfig">MongoDBConfig</a></span>, <span name="jdbc">jdbc: <a href="JdbcConfig.html" class="extype" name="longevity.config.JdbcConfig">JdbcConfig</a></span>, <span name="test">test: <a href="TestConfig.html" class="extype" name="longevity.config.TestConfig">TestConfig</a></span>)</span><span class="result"> extends <span class="extype" name="longevity.config.PersistenceConfig">PersistenceConfig</span> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       
       <p class="shortcomment cmt">the longevity configuration.</p><div class="fullcomment"><div class="comment cmt"><p>the longevity configuration. see the <code>reference.conf</code> resource file for all
 the longevity config settings, and their defaults.
-</p></div><dl class="paramcmts block"><dt class="param">backEnd</dt><dd class="cmt"><p>the back end used by the longevity context</p></dd><dt class="param">autoOpenConnection</dt><dd class="cmt"><p>should longevity automatically open the connection when the
-repositories are created?</p></dd><dt class="param">autoCreateSchema</dt><dd class="cmt"><p>should longevity autocreate schema when the connection is opened?</p></dd><dt class="param">optimisticLocking</dt><dd class="cmt"><p>is optimistic locking turned on?</p></dd><dt class="param">cassandra</dt><dd class="cmt"><p>the cassandra configuration</p></dd><dt class="param">mongodb</dt><dd class="cmt"><p>the mongo configuration</p></dd><dt class="param">jdbc</dt><dd class="cmt"><p>the JDBC configuration. used by the SQLite back end</p></dd><dt class="param">test</dt><dd class="cmt"><p>the test configuration</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">backEnd</dt><dd class="cmt"><p>the back end used by the longevity context</p></dd><dt class="param">autocreateSchema</dt><dd class="cmt"><p>should longevity autocreate schema when the repositories are created?</p></dd><dt class="param">optimisticLocking</dt><dd class="cmt"><p>is optimistic locking turned on?</p></dd><dt class="param">cassandra</dt><dd class="cmt"><p>the cassandra configuration</p></dd><dt class="param">mongodb</dt><dd class="cmt"><p>the mongo configuration</p></dd><dt class="param">jdbc</dt><dd class="cmt"><p>the JDBC configuration. used by the SQLite back end</p></dd><dt class="param">test</dt><dd class="cmt"><p>the test configuration</p></dd></dl></div>
     </li><li name="longevity.config.MongoDBConfig" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MongoDBConfigextendsProductwithSerializable"></a><a id="MongoDBConfig:MongoDBConfig"></a>
       <span class="permalink">
