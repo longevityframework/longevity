@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.23.0 API  - longevity.json.JsonMarshaller</title>
-          <meta name="description" content="longevity 0.23.0 API - longevity.json.JsonMarshaller" />
-          <meta name="keywords" content="longevity 0.23.0 API longevity.json.JsonMarshaller" />
+          <title>longevity 0.24-SNAPSHOT API  - longevity.json.JsonMarshaller</title>
+          <meta name="description" content="longevity 0.24 - SNAPSHOT API - longevity.json.JsonMarshaller" />
+          <meta name="keywords" content="longevity 0.24 SNAPSHOT API longevity.json.JsonMarshaller" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.23.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.24-SNAPSHOT API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -156,7 +156,7 @@ modelType
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>translates from your domain objects into JSON. translates objects into
 <a href="https://github.com/json4s/json4s" target="_blank">json4s AST</a>.</p><p>persistent components with a single member will be inlined in the JSON. does
 not inline <a href="../model/PolyCType.html" class="extype" name="longevity.model.PolyCType">PolyCTypes</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.23.0/src/main/scala/longevity/json/JsonMarshaller.scala" target="_blank">JsonMarshaller.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/16026ac0b199ab28cb92ce7b6f6c17f501c1d248/src/main/scala/longevity/json/JsonMarshaller.scala" target="_blank">JsonMarshaller.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -582,9 +582,9 @@ not inline <a href="../model/PolyCType.html" class="extype" name="longevity.mode
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="longevity.json.JsonMarshaller#marshall" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="marshall[A](input:A)(implicitevidence$1:emblem.TypeKey[A]):org.json4s.JsonAST.JValue"></a><a id="marshall[A](A)(TypeKey[A]):JValue"></a>
+      <a id="marshall[A](input:A)(implicitevidence$1:typekey.TypeKey[A]):org.json4s.JsonAST.JValue"></a><a id="marshall[A](A)(TypeKey[A]):JValue"></a>
       <span class="permalink">
-      <a href="../../longevity/json/JsonMarshaller.html#marshall[A](input:A)(implicitevidence$1:emblem.TypeKey[A]):org.json4s.JsonAST.JValue" title="Permalink">
+      <a href="../../longevity/json/JsonMarshaller.html#marshall[A](input:A)(implicitevidence$1:typekey.TypeKey[A]):org.json4s.JsonAST.JValue" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -593,7 +593,7 @@ not inline <a href="../model/PolyCType.html" class="extype" name="longevity.mode
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">marshall</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="input">input: <span class="extype" name="longevity.json.JsonMarshaller.marshall.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="emblem.TypeKey">TypeKey</span>[<span class="extype" name="longevity.json.JsonMarshaller.marshall.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="org.json4s.JsonAST.JValue">JValue</span></span>
+        <span class="name">marshall</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="input">input: <span class="extype" name="longevity.json.JsonMarshaller.marshall.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="typekey.TypeKey">TypeKey</span>[<span class="extype" name="longevity.json.JsonMarshaller.marshall.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="org.json4s.JsonAST.JValue">JValue</span></span>
       </span>
       
       <p class="shortcomment cmt">marshalls a modelType object into json4s AST</p>

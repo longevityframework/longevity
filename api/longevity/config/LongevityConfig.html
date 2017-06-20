@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.23.0 API  - longevity.config.LongevityConfig</title>
-          <meta name="description" content="longevity 0.23.0 API - longevity.config.LongevityConfig" />
-          <meta name="keywords" content="longevity 0.23.0 API longevity.config.LongevityConfig" />
+          <title>longevity 0.24-SNAPSHOT API  - longevity.config.LongevityConfig</title>
+          <meta name="description" content="longevity 0.24 - SNAPSHOT API - longevity.config.LongevityConfig" />
+          <meta name="keywords" content="longevity 0.24 SNAPSHOT API longevity.config.LongevityConfig" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.23.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.24-SNAPSHOT API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -218,14 +218,15 @@ to via some unspecified JDBC driver
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">LongevityConfig</span><span class="params">(<span name="backEnd">backEnd: <a href="BackEnd.html" class="extype" name="longevity.config.BackEnd">BackEnd</a></span>, <span name="autocreateSchema">autocreateSchema: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="optimisticLocking">optimisticLocking: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="writeTimestamps">writeTimestamps: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="cassandra">cassandra: <a href="CassandraConfig.html" class="extype" name="longevity.config.CassandraConfig">CassandraConfig</a></span>, <span name="mongodb">mongodb: <a href="MongoDBConfig.html" class="extype" name="longevity.config.MongoDBConfig">MongoDBConfig</a></span>, <span name="jdbc">jdbc: <a href="JdbcConfig.html" class="extype" name="longevity.config.JdbcConfig">JdbcConfig</a></span>, <span name="test">test: <a href="TestConfig.html" class="extype" name="longevity.config.TestConfig">TestConfig</a></span>)</span><span class="result"> extends <span class="extype" name="longevity.config.PersistenceConfig">PersistenceConfig</span> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+        <span class="name">LongevityConfig</span><span class="params">(<span name="backEnd">backEnd: <a href="BackEnd.html" class="extype" name="longevity.config.BackEnd">BackEnd</a></span>, <span name="autoOpenConnection">autoOpenConnection: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="autoCreateSchema">autoCreateSchema: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="optimisticLocking">optimisticLocking: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="writeTimestamps">writeTimestamps: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="cassandra">cassandra: <a href="CassandraConfig.html" class="extype" name="longevity.config.CassandraConfig">CassandraConfig</a></span>, <span name="mongodb">mongodb: <a href="MongoDBConfig.html" class="extype" name="longevity.config.MongoDBConfig">MongoDBConfig</a></span>, <span name="jdbc">jdbc: <a href="JdbcConfig.html" class="extype" name="longevity.config.JdbcConfig">JdbcConfig</a></span>, <span name="test">test: <a href="TestConfig.html" class="extype" name="longevity.config.TestConfig">TestConfig</a></span>)</span><span class="result"> extends <span class="extype" name="longevity.config.PersistenceConfig">PersistenceConfig</span> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4>
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>the longevity configuration. see the <code>reference.conf</code> resource file for all
 the longevity config settings, and their defaults.
-</p></div><dl class="paramcmts block"><dt class="param">backEnd</dt><dd class="cmt"><p>the back end used by the longevity context</p></dd><dt class="param">autocreateSchema</dt><dd class="cmt"><p>should longevity autocreate schema when the repositories are created?</p></dd><dt class="param">optimisticLocking</dt><dd class="cmt"><p>is optimistic locking turned on?</p></dd><dt class="param">cassandra</dt><dd class="cmt"><p>the cassandra configuration</p></dd><dt class="param">mongodb</dt><dd class="cmt"><p>the mongo configuration</p></dd><dt class="param">jdbc</dt><dd class="cmt"><p>the JDBC configuration. used by the SQLite back end</p></dd><dt class="param">test</dt><dd class="cmt"><p>the test configuration</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.23.0/src/main/scala/longevity/config/LongevityConfig.scala" target="_blank">LongevityConfig.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="param">backEnd</dt><dd class="cmt"><p>the back end used by the longevity context</p></dd><dt class="param">autoOpenConnection</dt><dd class="cmt"><p>should longevity automatically open the connection when the
+repositories are created?</p></dd><dt class="param">autoCreateSchema</dt><dd class="cmt"><p>should longevity autocreate schema when the connection is opened?</p></dd><dt class="param">optimisticLocking</dt><dd class="cmt"><p>is optimistic locking turned on?</p></dd><dt class="param">cassandra</dt><dd class="cmt"><p>the cassandra configuration</p></dd><dt class="param">mongodb</dt><dd class="cmt"><p>the mongo configuration</p></dd><dt class="param">jdbc</dt><dd class="cmt"><p>the JDBC configuration. used by the SQLite back end</p></dd><dt class="param">test</dt><dd class="cmt"><p>the test configuration</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/16026ac0b199ab28cb92ce7b6f6c17f501c1d248/src/main/scala/longevity/config/LongevityConfig.scala" target="_blank">LongevityConfig.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -291,9 +292,9 @@ the longevity config settings, and their defaults.
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="longevity.config.LongevityConfig#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(backEnd:longevity.config.BackEnd,autocreateSchema:Boolean,optimisticLocking:Boolean,writeTimestamps:Boolean,cassandra:longevity.config.CassandraConfig,mongodb:longevity.config.MongoDBConfig,jdbc:longevity.config.JdbcConfig,test:longevity.config.TestConfig):longevity.config.LongevityConfig"></a><a id="&lt;init&gt;:LongevityConfig"></a>
+      <a id="&lt;init&gt;(backEnd:longevity.config.BackEnd,autoOpenConnection:Boolean,autoCreateSchema:Boolean,optimisticLocking:Boolean,writeTimestamps:Boolean,cassandra:longevity.config.CassandraConfig,mongodb:longevity.config.MongoDBConfig,jdbc:longevity.config.JdbcConfig,test:longevity.config.TestConfig):longevity.config.LongevityConfig"></a><a id="&lt;init&gt;:LongevityConfig"></a>
       <span class="permalink">
-      <a href="../../longevity/config/LongevityConfig.html#&lt;init&gt;(backEnd:longevity.config.BackEnd,autocreateSchema:Boolean,optimisticLocking:Boolean,writeTimestamps:Boolean,cassandra:longevity.config.CassandraConfig,mongodb:longevity.config.MongoDBConfig,jdbc:longevity.config.JdbcConfig,test:longevity.config.TestConfig):longevity.config.LongevityConfig" title="Permalink">
+      <a href="../../longevity/config/LongevityConfig.html#&lt;init&gt;(backEnd:longevity.config.BackEnd,autoOpenConnection:Boolean,autoCreateSchema:Boolean,optimisticLocking:Boolean,writeTimestamps:Boolean,cassandra:longevity.config.CassandraConfig,mongodb:longevity.config.MongoDBConfig,jdbc:longevity.config.JdbcConfig,test:longevity.config.TestConfig):longevity.config.LongevityConfig" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -302,10 +303,11 @@ the longevity config settings, and their defaults.
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">LongevityConfig</span><span class="params">(<span name="backEnd">backEnd: <a href="BackEnd.html" class="extype" name="longevity.config.BackEnd">BackEnd</a></span>, <span name="autocreateSchema">autocreateSchema: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="optimisticLocking">optimisticLocking: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="writeTimestamps">writeTimestamps: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="cassandra">cassandra: <a href="CassandraConfig.html" class="extype" name="longevity.config.CassandraConfig">CassandraConfig</a></span>, <span name="mongodb">mongodb: <a href="MongoDBConfig.html" class="extype" name="longevity.config.MongoDBConfig">MongoDBConfig</a></span>, <span name="jdbc">jdbc: <a href="JdbcConfig.html" class="extype" name="longevity.config.JdbcConfig">JdbcConfig</a></span>, <span name="test">test: <a href="TestConfig.html" class="extype" name="longevity.config.TestConfig">TestConfig</a></span>)</span>
+        <span class="name">LongevityConfig</span><span class="params">(<span name="backEnd">backEnd: <a href="BackEnd.html" class="extype" name="longevity.config.BackEnd">BackEnd</a></span>, <span name="autoOpenConnection">autoOpenConnection: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="autoCreateSchema">autoCreateSchema: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="optimisticLocking">optimisticLocking: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="writeTimestamps">writeTimestamps: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="cassandra">cassandra: <a href="CassandraConfig.html" class="extype" name="longevity.config.CassandraConfig">CassandraConfig</a></span>, <span name="mongodb">mongodb: <a href="MongoDBConfig.html" class="extype" name="longevity.config.MongoDBConfig">MongoDBConfig</a></span>, <span name="jdbc">jdbc: <a href="JdbcConfig.html" class="extype" name="longevity.config.JdbcConfig">JdbcConfig</a></span>, <span name="test">test: <a href="TestConfig.html" class="extype" name="longevity.config.TestConfig">TestConfig</a></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">backEnd</dt><dd class="cmt"><p>the back end used by the longevity context</p></dd><dt class="param">autocreateSchema</dt><dd class="cmt"><p>should longevity autocreate schema when the repositories are created?</p></dd><dt class="param">optimisticLocking</dt><dd class="cmt"><p>is optimistic locking turned on?</p></dd><dt class="param">cassandra</dt><dd class="cmt"><p>the cassandra configuration</p></dd><dt class="param">mongodb</dt><dd class="cmt"><p>the mongo configuration</p></dd><dt class="param">jdbc</dt><dd class="cmt"><p>the JDBC configuration. used by the SQLite back end</p></dd><dt class="param">test</dt><dd class="cmt"><p>the test configuration</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">backEnd</dt><dd class="cmt"><p>the back end used by the longevity context</p></dd><dt class="param">autoOpenConnection</dt><dd class="cmt"><p>should longevity automatically open the connection when the
+repositories are created?</p></dd><dt class="param">autoCreateSchema</dt><dd class="cmt"><p>should longevity autocreate schema when the connection is opened?</p></dd><dt class="param">optimisticLocking</dt><dd class="cmt"><p>is optimistic locking turned on?</p></dd><dt class="param">cassandra</dt><dd class="cmt"><p>the cassandra configuration</p></dd><dt class="param">mongodb</dt><dd class="cmt"><p>the mongo configuration</p></dd><dt class="param">jdbc</dt><dd class="cmt"><p>the JDBC configuration. used by the SQLite back end</p></dd><dt class="param">test</dt><dd class="cmt"><p>the test configuration</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -423,10 +425,10 @@ the longevity config settings, and their defaults.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="longevity.config.LongevityConfig#autocreateSchema" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="autocreateSchema:Boolean"></a>
+    </li><li name="longevity.config.LongevityConfig#autoCreateSchema" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="autoCreateSchema:Boolean"></a>
       <span class="permalink">
-      <a href="../../longevity/config/LongevityConfig.html#autocreateSchema:Boolean" title="Permalink">
+      <a href="../../longevity/config/LongevityConfig.html#autoCreateSchema:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -435,7 +437,23 @@ the longevity config settings, and their defaults.
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">autocreateSchema</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">autoCreateSchema</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a> → PersistenceConfig</dd></dl></div>
+    </li><li name="longevity.config.LongevityConfig#autoOpenConnection" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="autoOpenConnection:Boolean"></a>
+      <span class="permalink">
+      <a href="../../longevity/config/LongevityConfig.html#autoOpenConnection:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">autoOpenConnection</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a> → PersistenceConfig</dd></dl></div>
