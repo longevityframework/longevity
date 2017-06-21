@@ -26,6 +26,7 @@ layout: page
   - [Polymorphic Persistents](poly/persistents.html)
   - [Controlled Vocabularies](poly/cv.html)
 - [The Repository](repo)
+  - [Opening and Closing the Connection](repo/connection.html)
   - [Schema Creation](repo/schema-creation.html)
   - [Persistent State](repo/persistent-state.html)
   - [Persistent State Wrappers](repo/pstate-wrappers.html)

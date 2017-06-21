@@ -26,27 +26,36 @@ Simple Blogging looks this:
 
 ```prop
 longevity.backEnd = InMem
-longevity.autocreateSchema = true
+longevity.autoOpenConnection = true
+longevity.autoCreateSchema = true
 longevity.optimisticLocking = false
+longevity.writeTimestamps = false
 
-longevity.mongodb.uri = "localhost:27017"
-longevity.mongodb.db = simbl_main
-longevity.test.mongodb.uri = "localhost:27017"
-longevity.test.mongodb.db = simbl_test
-
-longevity.cassandra.address = "localhost"
+longevity.cassandra.autoCreateKeyspace = true
+longevity.cassandra.address = "127.0.0.1"
 longevity.cassandra.useCredentials = no
 longevity.cassandra.username = nil
 longevity.cassandra.password = nil
 longevity.cassandra.keyspace = simbl_main
 longevity.cassandra.replicationFactor = 1
 
-longevity.test.cassandra.address = "localhost"
+longevity.mongodb.uri = "mongodb://127.0.0.1:27017"
+longevity.mongodb.db = simbl_main
+
+longevity.jdbc.url = "jdbc:sqlite:simbl_main.db"
+
+longevity.test.cassandra.autoCreateKeyspace = true
+longevity.test.cassandra.address = "127.0.0.1"
 longevity.test.cassandra.useCredentials = no
 longevity.test.cassandra.username = nil
 longevity.test.cassandra.password = nil
 longevity.test.cassandra.keyspace = simbl_test
 longevity.test.cassandra.replicationFactor = 1
+
+longevity.test.mongodb.uri = "mongodb://127.0.0.1:27017"
+longevity.test.mongodb.db = simbl_test
+
+longevity.test.jdbc.url = "jdbc:sqlite:simbl_test.db"
 ```
 
 Here, you need to specify the back end in configuration property

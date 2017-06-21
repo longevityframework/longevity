@@ -78,10 +78,12 @@ import longevity.context.TestConfig
 
 val longevityConfig = LongevityConfig(
   backEnd = InMem, // one of Cassandra, InMem, JDBC, MongoDB, SQLite
-  autocreateSchema = false,
+  autoOpenConnection = false,
+  autoCreateSchema = false,
   optimisticLocking = false,
   writeTimestamps = false,
   cassandra = CassandraConfig(
+    autoCreateKeyspace = false,
     address = "127.0.0.1",
     credentials = None,
     keyspace = "longevity_main",
@@ -94,6 +96,7 @@ val longevityConfig = LongevityConfig(
     url = "jdbc:sqlite:longevity_main.db"),
   test = TestConfig(
     cassandra = CassandraConfig(
+      autoCreateKeyspace = false,
       address = "127.0.0.1",
       credentials = None,
       keyspace = "longevity_test",
@@ -110,7 +113,7 @@ val bloggingContext = new LongevityContext[BloggingDomain](longevityConfig)
 
 The most important configuration setting is `longevity.backEnd`. This
 is where you choose your database. Right now, the options are
-`Cassandra`, `JDBC`, `InMem`, `Mongo`, and `SQLite`.
+`Cassandra`, `JDBC`, `InMem`, `MongoDB`, and `SQLite`.
 
 The `JDBC` back end is a generic back end that you can use for any
 databases with a JDBC driver. Unfortunately, we are not able to
