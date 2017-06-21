@@ -1,4 +1,8 @@
 package longevity
 
 /** provides tools for constructing your domain model */
-package object model
+package object model {
+
+  import acyclic.pkg
+
+}

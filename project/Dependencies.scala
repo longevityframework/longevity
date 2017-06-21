@@ -5,6 +5,7 @@ object Dependencies {
 
   val scalaVersionString = "2.12.2"
 
+  val acyclicDep:        ModuleID = "com.lihaoyi"                %% "acyclic"               % "0.1.7"
   val akkaStreamDep:     ModuleID = "com.typesafe.akka"          %% "akka-stream"           % "2.5.2"
   val cassandraDep:      ModuleID = "com.datastax.cassandra"     %  "cassandra-driver-core" % "3.2.0"
   val catsDep:           ModuleID = "org.typelevel"              %% "cats"                  % "0.9.0"

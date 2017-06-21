@@ -7,6 +7,7 @@ lazy val bin = Project(id = "bin", base = file("bin"), settings = BuildSettings.
 lazy val longevity = project.in(file("longevity"))
   .settings(BuildSettings.buildSettings: _*)
   .settings(
+    libraryDependencies += Dependencies.acyclicDep         % Provided,
     libraryDependencies += Dependencies.akkaStreamDep      % Optional,
     libraryDependencies += Dependencies.akkaStreamDep      % Test,
     libraryDependencies += Dependencies.cassandraDep       % Optional,
@@ -36,7 +37,8 @@ lazy val longevity = project.in(file("longevity"))
     homepage := BuildSettings.longevityHomepage,
     pomExtra := BuildSettings.longevityPomExtra,
 
-    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
+    addCompilerPlugin("com.lihaoyi"    %% "acyclic"        % "0.1.7"),
+    addCompilerPlugin("org.scalamacros" % "paradise"       % "2.1.0" cross CrossVersion.full),
     addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4"))
   .enablePlugins(JekyllPlugin, SiteScaladocPlugin, GhpagesPlugin)
   .settings(
