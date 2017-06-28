@@ -8,6 +8,7 @@ import longevity.config.LongevityConfig
 import longevity.config.MongoDB
 import longevity.config.PersistenceConfig
 import longevity.config.SQLite
+import longevity.context.Effect
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.model.DerivedPType
 import longevity.model.ModelType
@@ -21,21 +22,21 @@ import longevity.persistence.inmem.InMemRepo
 import longevity.persistence.jdbc.JdbcRepo
 import longevity.persistence.mongo.MongoRepo
 import longevity.persistence.sqlite.SQLiteRepo
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
 import typekey.TypeKeyMap
 
 /** a repository for persistent objects in a model
  * 
+ * @tparam F the effect
  * @tparam M the model
  */
-abstract class Repo[M] private[persistence](
+abstract class Repo[F[_], M] private[persistence](
+  protected val effect: Effect[F],
   protected val modelType: ModelType[M],
   protected val persistenceConfig: PersistenceConfig) {
 
-  type R[P] <: PRepo[M, P]
+  private[persistence] type R[P] <: PRepo[F, M, P]
 
-  private[persistence] val pRepoMap: TypeKeyMap[Any, PRepo[M, ?]] = {
+  private[persistence] val pRepoMap: TypeKeyMap[Any, PRepo[F, M, ?]] = {
     var keyToRepoMap = TypeKeyMap[Any, R]
     def createRepo[P](pType: PType[M, P]): Unit = {
       val polyRepo: Option[R[_ >: P]] = pType match {
@@ -51,16 +52,15 @@ abstract class Repo[M] private[persistence](
     nonPolys.foreach { pType => createRepo(pType) }
 
     // finish repo initialization
-    // TODO: cant I pass in `this` to PRepo ctors?
     keyToRepoMap.values.foreach { _._repoOption = Some(this) }
 
-    keyToRepoMap.widen[PRepo[M, ?]]    
+    keyToRepoMap.widen[PRepo[F, M, ?]]
   }
 
   protected def buildPRepo[P](pType: PType[M, P], polyRepoOpt: Option[R[_ >: P]] = None): R[P]
 
   /** opens a connection to the underlying database */
-  def openConnection()(implicit context: ExecutionContext): Future[Unit] = Future(openConnectionBlocking())
+  def openConnection: F[Unit] = effect.mapBlocking(effect.pure(()))(_ => openConnectionBlocking())
 
   private def openConnectionBlocking(): Unit = {
     openBaseConnectionBlocking()
@@ -72,11 +72,11 @@ abstract class Repo[M] private[persistence](
   protected def openBaseConnectionBlocking(): Unit
 
   /** non-desctructively creates any needed database constructs */
-  def createSchema()(implicit context: ExecutionContext): Future[Unit] = Future(createSchemaBlocking())
+  def createSchema: F[Unit] = effect.mapBlocking(effect.pure(()))(_ => createSchemaBlocking())
 
   private def createSchemaBlocking(): Unit = {
     createBaseSchemaBlocking()
-    val (polys, nonPolys) = pRepoMap.values.partition(_.isInstanceOf[BasePolyRepo[M, _]])
+    val (polys, nonPolys) = pRepoMap.values.partition(_.isInstanceOf[BasePolyRepo[F, M, _]])
     polys.foreach(_.createSchemaBlocking())
     nonPolys.foreach(_.createSchemaBlocking())
   }
@@ -86,35 +86,13 @@ abstract class Repo[M] private[persistence](
   /** creates the persistent object
    *
    * @param unpersisted the persistent object to create
-   * @param executionContext the execution context
    */
-  def create[P: PEv[M, ?]](unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]] = {
+  def create[P: PEv[M, ?]](unpersisted: P): F[PState[P]] = effect.flatMap(effect.pure(unpersisted)) { u =>
     val key = implicitly[PEv[M, P]].key
     pRepoMap.get(key) match {
-      case Some(pr) => pr.create(unpersisted)
+      case Some(pr) => pr.create(u)
       case None => throw new NotInDomainModelTranslationException(key.name)
     }
-  }
-
-  /** creates many persistent objects at once
-   *
-   * because [[PWithEv]] is an implicit class, you can call this method using just persistent
-   * objects, and they will be converted to `PWithEv` implicitly:
-   *
-   * {{{
-   * repo.createMany(user1, user2, user2, blogPost1, blogPost2, blog)
-   * }}}
-   *
-   * @param pWithEvs the persistent objects to persist, wrapped with their evidence
-   *
-   * @param executionContext the execution context
-   */
-  def createMany(pWithEvs: PWithEv[M, _]*)(implicit executionContext: ExecutionContext)
-  : Future[Seq[PState[_]]] = {
-    def fpState[P](pWithEv: PWithEv[M, P]): Future[PState[_]] =
-      create[P](pWithEv.p)(pWithEv.ev, executionContext)
-    val fpStates = pWithEvs.map(pWithEv => fpState(pWithEv))
-    Future.sequence(fpStates)
   }
 
   /** part one of a two-part call for retrieving an optional persistent object from a key value.
@@ -122,14 +100,14 @@ abstract class Repo[M] private[persistence](
    * the complete two-part call will end up looking like this:
    *
    * {{{
-   * val f: Future[Option[PState[User]]] = repo.retrieve[User](username)
+   * val f: F[Option[PState[User]]] = repo.retrieve[User](username)
    * }}}
    *
    * the call is split into two parts this way to prevent you from having to explicitly name the
    * type of your key value. without it, the call would look like this:
    *
    * {{{
-   * val f: Future[Option[PState[User]]] = repo.retrieve[User, Username](username)
+   * val f: F[Option[PState[User]]] = repo.retrieve[User, Username](username)
    * }}}
    *
    * @see [[Retrieve.apply]]
@@ -147,16 +125,11 @@ abstract class Repo[M] private[persistence](
      *
      * @tparam V the type of the key value
      * @param keyVal the key value to use to look up the persistent object
-     * @param executionContext the execution context
      *
      * @see [[Repo.retrieve]]
      */
-    def apply[V : Key[M, P, ?]](
-      keyVal: V)(
-      implicit pEv: PEv[M, P],
-      executionContext: ExecutionContext)
-    : Future[Option[PState[P]]] =
-      pRepoMap(implicitly[PEv[M, P]].key).retrieve[V](keyVal)
+    def apply[V : Key[M, P, ?]](keyVal: V)(implicit pEv: PEv[M, P]): F[Option[PState[P]]] =
+      effect.flatMap(effect.pure(keyVal))(pRepoMap(implicitly[PEv[M, P]].key).retrieve[V])
   }
 
   /** part one of a two-part call for retrieving a persistent object from a key value.
@@ -164,14 +137,14 @@ abstract class Repo[M] private[persistence](
    * the complete two-part call will end up looking like this:
    *
    * {{{
-   * val f: Future[PState[User]] = repo.retrieveOne[User](username)
+   * val f: F[PState[User]] = repo.retrieveOne[User](username)
    * }}}
    *
    * the call is split into two parts this way to prevent you from having to explicitly name the
    * type of your key value. without it, the call would look like this:
    * 
    * {{{
-   * val f: Future[PState[User]] = repo.retrieveOne[User, Username](username)
+   * val f: F[PState[User]] = repo.retrieveOne[User, Username](username)
    * }}}
    * 
    * @see [[RetrieveOne.apply]]
@@ -191,22 +164,16 @@ abstract class Repo[M] private[persistence](
      *
      * @tparam V the type of the key value
      * @param keyVal the key value to use to look up the persistent object
-     * @param executionContext the execution context
      *
      * @see [[Repo.retrieveOne]]
      */
-    def apply[V : Key[M, P, ?]](
-      keyVal: V)(
-      implicit pEv: PEv[M, P],
-      executionContext: ExecutionContext)
-    : Future[PState[P]] =
-      pRepoMap(implicitly[PEv[M, P]].key).retrieveOne[V](keyVal)
+    def apply[V : Key[M, P, ?]](keyVal: V)(implicit pEv: PEv[M, P]): F[PState[P]] =
+      effect.flatMap(effect.pure(keyVal))(pRepoMap(implicitly[PEv[M, P]].key).retrieveOne[V])
   }
 
   /** retrieves multiple persistent objects matching a query
    * 
    * @param query the query to execute
-   * @param executionContext the execution context
    */
   def queryToIterator[P: PEv[M, ?]](query: Query[P]): Iterator[PState[P]] =
     pRepoMap(implicitly[PEv[M, P]].key).queryToIterator(query)
@@ -214,31 +181,26 @@ abstract class Repo[M] private[persistence](
   /** retrieves multiple persistent objects matching a query
    * 
    * @param query the query to execute
-   * @param executionContext the execution context
    */
-  def queryToFutureVec[P: PEv[M, ?]](query: Query[P])(implicit context: ExecutionContext)
-  : Future[Vector[PState[P]]]
-  = pRepoMap(implicitly[PEv[M, P]].key).queryToFutureVec(query)
+  def queryToVector[P: PEv[M, ?]](query: Query[P]): F[Vector[PState[P]]] =
+    effect.flatMap(effect.pure(query))(pRepoMap(implicitly[PEv[M, P]].key).queryToVector)
 
   /** updates the persistent object
    * 
    * @param state the persistent state of the persistent object to update
-   * @param executionContext the execution context
    */
-  def update[P : PEv[M, ?]](state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]] =
-    pRepoMap(implicitly[PEv[M, P]].key).update(state)
+  def update[P : PEv[M, ?]](state: PState[P]): F[PState[P]] =
+    effect.flatMap(effect.pure(state))(pRepoMap(implicitly[PEv[M, P]].key).update)
 
   /** deletes the persistent object
    * 
    * @param state the persistent state of the persistent object to delete
-   * @param executionContext the execution context
    */
-  def delete[P : PEv[M, ?]](state: PState[P])(implicit executionContext: ExecutionContext): Future[Deleted[P]] =
-    pRepoMap(implicitly[PEv[M, P]].key).delete(state)
+  def delete[P : PEv[M, ?]](state: PState[P]): F[Deleted[P]] =
+    effect.flatMap(effect.pure(state))(pRepoMap(implicitly[PEv[M, P]].key).delete)
 
   /** closes an open connection from the underlying database */
-  def closeConnection()(implicit executionContext: ExecutionContext): Future[Unit] =
-    Future(closeConnectionBlocking())
+  def closeConnection: F[Unit] = effect.mapBlocking(effect.pure(()))(_ => closeConnectionBlocking())
 
   protected def closeConnectionBlocking(): Unit
 
@@ -246,27 +208,28 @@ abstract class Repo[M] private[persistence](
 
 private[longevity] object Repo {
 
-  def apply[M](
+  def apply[F[_], M](
+    effect: Effect[F],
     modelType: ModelType[M],
     backEnd: BackEnd,
     config: LongevityConfig,
     test: Boolean)
-  : Repo[M] = {
+  : Repo[F, M] = {
     val repo = backEnd match {
       case Cassandra =>
         val cassandraConfig = if (test) config.test.cassandra else config.cassandra
-        new CassandraRepo(modelType, config, cassandraConfig)
+        new CassandraRepo(effect, modelType, config, cassandraConfig)
       case InMem =>
-        new InMemRepo(modelType, config)
+        new InMemRepo(effect, modelType, config)
       case MongoDB =>
         val mongoConfig = if (test) config.test.mongodb else config.mongodb
-        new MongoRepo(modelType, config, mongoConfig)
+        new MongoRepo(effect, modelType, config, mongoConfig)
       case SQLite =>
         val jdbcConfig = if (test) config.test.jdbc else config.jdbc
-        new SQLiteRepo(modelType, config, jdbcConfig)
+        new SQLiteRepo(effect, modelType, config, jdbcConfig)
       case JDBC =>
         val jdbcConfig = if (test) config.test.jdbc else config.jdbc
-        new JdbcRepo(modelType, config, jdbcConfig)
+        new JdbcRepo(effect, modelType, config, jdbcConfig)
     }
     if (config.autoOpenConnection) {
       repo.openConnectionBlocking()

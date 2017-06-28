@@ -11,13 +11,15 @@ import longevity.test.ExerciseIterateeIo
 import longevity.test.ExercisePlayEnumerator
 import longevity.test.QuerySpec
 import longevity.integration.queries.queryTestsExecutionContext
+import longevity.integration.queries.queryTestsExecutionContext
+import scala.concurrent.Future
 
-class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
-  new LongevityContext[DomainModel](TestLongevityConfigs.mongoConfig))
-    with ExerciseAkkaStreams[DomainModel, Basics]
-    with ExerciseFS2[DomainModel, Basics]
-    with ExerciseIterateeIo[DomainModel, Basics]
-    with ExercisePlayEnumerator[DomainModel, Basics] {
+class BasicsQuerySpec extends QuerySpec[Future, DomainModel, Basics](
+  new LongevityContext(TestLongevityConfigs.mongoConfig))
+    with ExerciseAkkaStreams[Future, DomainModel, Basics]
+    with ExerciseFS2[Future, DomainModel, Basics]
+    with ExerciseIterateeIo[Future, DomainModel, Basics]
+    with ExercisePlayEnumerator[Future, DomainModel, Basics] {
 
   lazy val sample = randomP
 

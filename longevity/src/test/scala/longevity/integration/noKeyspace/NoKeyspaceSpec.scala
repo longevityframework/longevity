@@ -6,19 +6,17 @@ import longevity.config.LongevityConfig
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
 import longevity.integration.model.basics
-import longevity.test.LongevityFuturesSpec
 import org.scalatest.FlatSpec
-import org.scalatest.GivenWhenThen
-import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
+import org.scalatest.Matchers
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /** integration test to make sure cassandra throws the right exception when
  * trying to use a repository and the keyspace hasnt been created yet
  */
-class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSpec {
+class NoKeyspaceSpec extends FlatSpec with Matchers {
 
-  override protected implicit val executionContext = globalExecutionContext
-
-  val context = new LongevityContext[basics.DomainModel](
+  val context = new LongevityContext[Future, basics.DomainModel](
     LongevityConfig(
       backEnd = Cassandra,
       autoOpenConnection = false,
@@ -39,8 +37,9 @@ class NoKeyspaceSpec extends FlatSpec with GivenWhenThen with LongevityFuturesSp
 
   it should "throw KeyspaceDoesNotExistException" in {
     val p = context.testDataGenerator.generate[basics.Basics]
-    val repo = context.repo
-    repo.openConnection.failed.futureValue shouldBe a [KeyspaceDoesNotExistException]
+    intercept[KeyspaceDoesNotExistException] {
+      context.effect.run(context.repo.openConnection)
+    }
   }
 
 }

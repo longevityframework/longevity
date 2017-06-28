@@ -5,25 +5,20 @@ import com.datastax.driver.core.PreparedStatement
 import java.util.UUID
 import longevity.persistence.PState
 import org.joda.time.DateTime
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
 /** implementation of CassandraPRepo.create */
-private[cassandra] trait CassandraCreate[M, P] {
-  repo: CassandraPRepo[M, P] =>
+private[cassandra] trait CassandraCreate[F[_], M, P] {
+  repo: CassandraPRepo[F, M, P] =>
 
-  override def create(p: P)(implicit context: ExecutionContext) = Future {
+  override def create(p: P): F[PState[P]] = effect.mapBlocking(effect.pure(p)) { p =>
     logger.debug(s"calling CassandraPRepo.create: $p")
     val id = if (hasPrimaryKey) None else Some(CassandraId[P](UUID.randomUUID))
     val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
     val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
-    val state = PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
-    blocking {
-      session().execute(bindInsertStatement(state))
-    }
-    logger.debug(s"done calling CassandraPRepo.create: $state")
-    state
+    val s = PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
+    session().execute(bindInsertStatement(s))
+    logger.debug(s"done calling CassandraPRepo.create: $s")
+    s
   }
 
   private def bindInsertStatement(state: PState[P]): BoundStatement = {

@@ -12,8 +12,8 @@ import longevity.model.realized.RealizedKey
 import longevity.model.realized.RealizedPrimaryKey
 
 /** implementation of MongoPRepo.createSchema */
-private[mongo] trait MongoSchema[M, P] {
-  repo: MongoPRepo[M, P] =>
+private[mongo] trait MongoSchema[F[_], M, P] {
+  repo: MongoPRepo[F, M, P] =>
 
   protected[persistence] def createSchemaBlocking(): Unit = {
     logger.debug(s"creating schema for collection $collectionName")

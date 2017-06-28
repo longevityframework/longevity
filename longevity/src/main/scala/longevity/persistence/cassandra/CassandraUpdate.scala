@@ -3,31 +3,25 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.BoundStatement
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
 /** implementation of CassandraPRepo.update */
-private[cassandra] trait CassandraUpdate[M, P] {
-  repo: CassandraPRepo[M, P] =>
+private[cassandra] trait CassandraUpdate[F[_], M, P] {
+  repo: CassandraPRepo[F, M, P] =>
 
-  override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
-    Future {
-      logger.debug(s"calling CassandraPRepo.update: $state")
-      validateStablePrimaryKey(state)
-      val newState = state.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
-      val resultSet = blocking {
-        session().execute(bindUpdateStatement(newState, state.rowVersionOrNull))
+  def update(state: PState[P]): F[PState[P]] = effect.mapBlocking(effect.pure(state)) { state =>
+    logger.debug(s"calling CassandraPRepo.update: $state")
+    validateStablePrimaryKey(state)
+    val newState = state.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
+    val resultSet = session().execute(bindUpdateStatement(newState, state.rowVersionOrNull))
+    if (persistenceConfig.optimisticLocking) {
+      val updateSuccess = resultSet.one.getBool(0)
+      if (!updateSuccess) {
+        throw new WriteConflictException(state)
       }
-      if (persistenceConfig.optimisticLocking) {
-        val updateSuccess = resultSet.one.getBool(0)
-        if (!updateSuccess) {
-          throw new WriteConflictException(state)
-        }
-      }
-      logger.debug(s"done calling CassandraPRepo.update: $newState")
-      newState
     }
+    logger.debug(s"done calling CassandraPRepo.update: $newState")
+    newState
+  }
 
   private def bindUpdateStatement(state: PState[P], rowVersion: AnyRef): BoundStatement = {
     val columnBindings = if (persistenceConfig.optimisticLocking) {

@@ -13,11 +13,12 @@ import scala.concurrent.ExecutionContext
  * an optional dependency for longevity users. otherwise, it would have been included as part of
  * the [[Repo]].
  * 
+ * @tparam F the effect
  * @tparam M the model
  *
  * @param repo the repository
  */
-class PlayRepo[M](repo: Repo[M]) {
+class PlayRepo[F[_], M](repo: Repo[F, M]) {
 
   /** streams persistent objects matching a query
    *

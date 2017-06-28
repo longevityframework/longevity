@@ -3,26 +3,19 @@ package longevity.persistence.mongo
 import longevity.model.ptype.Key
 import longevity.model.query.EqOp
 import org.bson.conversions.Bson
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
 /** implementation of MongoPRepo.retrieve */
-private[mongo] trait MongoRetrieve[M, P] {
-  repo: MongoPRepo[M, P] =>
+private[mongo] trait MongoRetrieve[F[_], M, P] {
+  repo: MongoPRepo[F, M, P] =>
 
-  override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = Future {
-    blocking {
-      logger.debug(s"calling MongoPRepo.retrieve: $keyVal")
-    
-      val query = keyValQuery(keyVal)
-      val result = mongoCollection.find(query).first
-      val resultOption = Option(result)
-      val stateOption = resultOption.map(bsonToState)
-
-      logger.debug(s"done calling MongoPRepo.retrieve: $stateOption")
-      stateOption
-    }
+  def retrieve[V : Key[M, P, ?]](v: V) = effect.mapBlocking(effect.pure(v)) { v =>
+    logger.debug(s"calling MongoPRepo.retrieve: $v")    
+    val query = keyValQuery(v)
+    val result = mongoCollection.find(query).first
+    val resultOption = Option(result)
+    val stateOption = resultOption.map(bsonToState)
+    logger.debug(s"done calling MongoPRepo.retrieve: $stateOption")
+    stateOption
   }
  
   protected def keyValQuery[V : Key[M, P, ?]](keyVal: V): Bson = {

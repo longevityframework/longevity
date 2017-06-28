@@ -5,9 +5,11 @@ import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.keyWithShorthand._
 import longevity.integration.queries.queryTestsExecutionContext
+import longevity.integration.queries.queryTestsExecutionContext
+import scala.concurrent.Future
 
-class KeyWithShorthandQuerySpec extends QuerySpec[DomainModel, KeyWithShorthand](
-  new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig)) {
+class KeyWithShorthandQuerySpec extends QuerySpec[Future, DomainModel, KeyWithShorthand](
+  new LongevityContext(TestLongevityConfigs.cassandraConfig)) {
 
   lazy val sample = randomP
 

@@ -4,9 +4,9 @@ import longevity.persistence.PState
 import longevity.model.realized.RealizedPropComponent
 import longevity.model.realized.RealizedKey
 
-private[persistence] trait DerivedJdbcPRepo[M, P, Poly >: P] extends JdbcPRepo[M, P] {
+private[persistence] trait DerivedJdbcPRepo[F[_], M, P, Poly >: P] extends JdbcPRepo[F, M, P] {
 
-  protected val polyRepo: JdbcPRepo[M, Poly]
+  protected val polyRepo: JdbcPRepo[F, M, Poly]
 
   override protected[jdbc] val tableName: String = polyRepo.tableName
 

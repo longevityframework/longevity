@@ -4,7 +4,6 @@ import longevity.unit.manual.repo.poly.ex1._
 import longevity.unit.manual.repo.poly.ex2._
 import longevity.persistence.PState
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object ex3 {
 

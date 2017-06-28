@@ -5,9 +5,11 @@ import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.component._
 import longevity.integration.queries.queryTestsExecutionContext
+import longevity.integration.queries.queryTestsExecutionContext
+import scala.concurrent.Future
 
-class ComponentQuerySpec extends QuerySpec[DomainModel, WithComponent](
-  new LongevityContext[DomainModel](TestLongevityConfigs.sqliteConfig)) {
+class ComponentQuerySpec extends QuerySpec[Future, DomainModel, WithComponent](
+  new LongevityContext(TestLongevityConfigs.sqliteConfig)) {
 
   lazy val sample = randomP
 

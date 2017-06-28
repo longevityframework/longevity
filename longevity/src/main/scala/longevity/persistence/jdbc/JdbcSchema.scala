@@ -5,8 +5,8 @@ import longevity.model.realized.RealizedProp
 import longevity.model.realized.RealizedPropComponent
 
 /** implementation of JdbcPRepo.createSchema */
-private[jdbc] trait JdbcSchema[M, P] {
-  repo: JdbcPRepo[M, P] =>
+private[jdbc] trait JdbcSchema[F[_], M, P] {
+  repo: JdbcPRepo[F, M, P] =>
 
   protected[persistence] def createSchemaBlocking(): Unit = {
     logger.debug(s"creating schema for table $tableName")

@@ -1,17 +1,16 @@
 package longevity.persistence.cassandra
 
-import com.datastax.driver.core.Session
 import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
+import com.datastax.driver.core.Session
 import com.typesafe.scalalogging.LazyLogging
-import typekey.TypeKey
+import longevity.config.PersistenceConfig
+import longevity.context.Effect
 import longevity.emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import longevity.emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
 import longevity.emblem.exceptions.CouldNotTraverseException
 import longevity.emblem.stringUtil.camelToUnderscore
 import longevity.emblem.stringUtil.typeName
-import typekey.typeKey
-import longevity.config.PersistenceConfig
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.model.DerivedPType
 import longevity.model.ModelType
@@ -23,6 +22,8 @@ import longevity.persistence.PRepo
 import longevity.persistence.PState
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import typekey.TypeKey
+import typekey.typeKey
 
 /** a Cassandra repository for persistent entities of type `P`.
  *
@@ -31,18 +32,19 @@ import org.joda.time.DateTimeZone
  * @param sessionInfo the connection to the cassandra database
  * @param persistenceConfig persistence configuration that is back end agnostic
  */
-private[longevity] class CassandraPRepo[M, P] private (
-  pType: PType[M, P],
+private[longevity] class CassandraPRepo[F[_], M, P] private (
+  effect: Effect[F],
   modelType: ModelType[M],
+  pType: PType[M, P],
   protected val persistenceConfig: PersistenceConfig,
   protected val session: () => Session)
-extends PRepo[M, P](pType, modelType)
-with CassandraSchema[M, P]
-with CassandraCreate[M, P]
-with CassandraRetrieve[M, P]
-with CassandraQuery[M, P]
-with CassandraUpdate[M, P]
-with CassandraDelete[M, P]
+extends PRepo[F, M, P](effect, modelType, pType)
+with CassandraSchema[F, M, P]
+with CassandraCreate[F, M, P]
+with CassandraRetrieve[F, M, P]
+with CassandraQuery[F, M, P]
+with CassandraUpdate[F, M, P]
+with CassandraDelete[F, M, P]
 with LazyLogging {
 
   protected[cassandra] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
@@ -216,27 +218,29 @@ with LazyLogging {
 
 private[cassandra] object CassandraPRepo {
 
-  def apply[M, P](
-    pType: PType[M, P],
+  def apply[F[_], M, P](
+    effect: Effect[F],
     modelType: ModelType[M],
+    pType: PType[M, P],
     config: PersistenceConfig,
-    polyRepoOpt: Option[CassandraPRepo[M, _ >: P]],
+    polyRepoOpt: Option[CassandraPRepo[F, M, _ >: P]],
     session: () => Session)
-  : CassandraPRepo[M, P] = {
+  : CassandraPRepo[F, M, P] = {
     val repo = pType match {
       case pt: PolyPType[_, _] =>
-        new CassandraPRepo(pType, modelType, config, session) with PolyCassandraPRepo[M, P]
+        new CassandraPRepo(effect, modelType, pType, config, session) with PolyCassandraPRepo[F, M, P]
       case pt: DerivedPType[_, _, _] =>
-        def withPoly[Poly >: P](poly: CassandraPRepo[M, Poly]) = {
+        def withPoly[Poly >: P](poly: CassandraPRepo[F, M, Poly]) = {
           class DerivedRepo extends {
-            override protected val polyRepo: CassandraPRepo[M, Poly] = poly
+            override protected val polyRepo: CassandraPRepo[F, M, Poly] = poly
           }
-          with CassandraPRepo(pType, modelType, config, session) with DerivedCassandraPRepo[M, P, Poly]
+          with CassandraPRepo(effect, modelType, pType, config, session)
+          with DerivedCassandraPRepo[F, M, P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new CassandraPRepo(pType, modelType, config, session)
+        new CassandraPRepo(effect, modelType, pType, config, session)
     }
     repo
   }

@@ -1,19 +1,16 @@
 package longevity.persistence.inmem
 
 import longevity.model.ptype.Key
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
 
 /** implementation of InMemPRepo.retrieve */
-private[inmem] trait InMemRetrieve[M, P] {
-  repo: InMemPRepo[M, P] =>
+private[inmem] trait InMemRetrieve[F[_], M, P] {
+  repo: InMemPRepo[F, M, P] =>
 
-  override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) =
-    Future.successful {
-      logger.debug(s"calling InMemPRepo.retrieve: $keyVal")
-      val stateOption = lookupPStateByKeyVal(keyVal)
-      logger.debug(s"done calling InMemPRepo.retrieve: $stateOption")
-      stateOption
-    }
+  def retrieve[V : Key[M, P, ?]](v: V) = effect.map(effect.pure(v)) { v =>
+    logger.debug(s"calling InMemPRepo.retrieve: $v")
+    val stateOption = lookupPStateByKeyVal(v)
+    logger.debug(s"done calling InMemPRepo.retrieve: $stateOption")
+    stateOption
+  }
 
 }

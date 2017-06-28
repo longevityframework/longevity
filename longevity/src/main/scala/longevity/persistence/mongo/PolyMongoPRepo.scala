@@ -2,7 +2,7 @@ package longevity.persistence.mongo
 
 import longevity.persistence.BasePolyRepo
 
-private[mongo] trait PolyMongoPRepo[M, P] extends MongoPRepo[M, P] with BasePolyRepo[M, P] {
+private[mongo] trait PolyMongoPRepo[F[_], M, P] extends MongoPRepo[F, M, P] with BasePolyRepo[F, M, P] {
 
   override protected[persistence] def createSchemaBlocking(): Unit = {
     super.createSchemaBlocking()

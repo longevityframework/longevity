@@ -8,12 +8,11 @@ import longevity.model.query.Query
 import longevity.test.QuerySpec
 import primaryKeyWithComplexPartialPartition.PrimaryKeyWithComplexPartialPartition
 import primaryKeyWithComplexPartialPartition.DomainModel
-import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
+import longevity.integration.queries.queryTestsExecutionContext
+import scala.concurrent.Future
 
-class OrderByQuerySpec extends QuerySpec[DomainModel, PrimaryKeyWithComplexPartialPartition](
-  new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig))(
-  PrimaryKeyWithComplexPartialPartition.pEv,
-  globalExecutionContext) {
+class OrderByQuerySpec extends QuerySpec[Future, DomainModel, PrimaryKeyWithComplexPartialPartition](
+  new LongevityContext(TestLongevityConfigs.cassandraConfig)) {
 
   lazy val keyProp1 = longevityContext.testDataGenerator.generate[String]
   lazy val subKeyProp1 = longevityContext.testDataGenerator.generate[String]
@@ -30,7 +29,7 @@ class OrderByQuerySpec extends QuerySpec[DomainModel, PrimaryKeyWithComplexParti
   import PrimaryKeyWithComplexPartialPartition.queryDsl._
   import PrimaryKeyWithComplexPartialPartition.props
 
-  behavior of "CassandraPRepo.queryToFutureVec"
+  behavior of "CassandraPRepo.queryToVector"
 
   it should "handle order by clauses in very limited circumstances" in {
     // those circumstances are:
@@ -71,21 +70,25 @@ class OrderByQuerySpec extends QuerySpec[DomainModel, PrimaryKeyWithComplexParti
     var query: Query[PrimaryKeyWithComplexPartialPartition] = null
 
     query = props.key.prop1 eqs keyProp1 orderBy (props.key.subKey.prop2.asc)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    intercept[InvalidQueryException](effect.run(repo.queryToVector(query)))
 
-    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 lt subKeyProp1 orderBy (props.key.subKey.prop2)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 lt subKeyProp1 orderBy {
+      props.key.subKey.prop2
+    }
+    intercept[InvalidQueryException](effect.run(repo.queryToVector(query)))
 
-    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (props.key.subKey.prop1)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy {
+      props.key.subKey.prop1
+    }
+    intercept[InvalidQueryException](effect.run(repo.queryToVector(query)))
 
     query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (props.key.prop2)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    intercept[InvalidQueryException](effect.run(repo.queryToVector(query)))
 
     query = props.key.prop1 eqs keyProp1 and props.key.subKey.prop1 eqs subKeyProp1 orderBy (
       props.key.subKey.prop2.desc,
       props.key.prop2.asc)
-    repo.queryToFutureVec(query).failed.futureValue shouldBe an [InvalidQueryException]
+    intercept[InvalidQueryException](effect.run(repo.queryToVector(query)))
 
   }
 

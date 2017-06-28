@@ -3,30 +3,26 @@ package longevity.persistence.jdbc
 import java.sql.PreparedStatement
 import longevity.model.ptype.Key
 import longevity.model.realized.RealizedKey
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
 /** implementation of JdbcPRepo.retrieve(KeyVal) */
-private[jdbc] trait JdbcRetrieve[M, P] {
-  repo: JdbcPRepo[M, P] =>
+private[jdbc] trait JdbcRetrieve[F[_], M, P] {
+  repo: JdbcPRepo[F, M, P] =>
 
-  override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
+  override def retrieve[V : Key[M, P, ?]](keyVal: V) = effect.mapBlocking(effect.pure(keyVal)) { keyVal =>
     logger.debug(s"calling JdbcPRepo.retrieve: $keyVal")
     val stateOption = retrieveFromPreparedStatement(bindKeyValSelectStatement(keyVal))
     logger.debug(s"done calling JdbcPRepo.retrieve: $stateOption")
     stateOption
   }
 
-  protected def retrieveFromPreparedStatement(statement: PreparedStatement)(implicit context: ExecutionContext) =
-    Future {
-      val resultSet = blocking { statement.executeQuery() }
-      if (resultSet.next()) {
-        Some(retrieveFromResultSet(resultSet))
-      } else {
-        None
-      }
+  protected def retrieveFromPreparedStatement(statement: PreparedStatement) = {
+    val resultSet = statement.executeQuery()
+    if (resultSet.next()) {
+      Some(retrieveFromResultSet(resultSet))
+    } else {
+      None
     }
+  }
 
   private def bindKeyValSelectStatement[V : Key[M, P, ?]](keyVal: V) = {
     val realizedKey: RealizedKey[M, P, V] = realizedPType.realizedKey(implicitly[Key[M, P, V]].keyValTypeKey)

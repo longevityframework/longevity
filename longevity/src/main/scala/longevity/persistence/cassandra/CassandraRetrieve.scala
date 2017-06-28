@@ -4,27 +4,23 @@ import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import longevity.model.ptype.Key
 import longevity.model.realized.RealizedKey
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
 /** implementation of CassandraPRepo.retrieve(KeyVal) */
-private[cassandra] trait CassandraRetrieve[M, P] {
-  repo: CassandraPRepo[M, P] =>
+private[cassandra] trait CassandraRetrieve[F[_], M, P] {
+  repo: CassandraPRepo[F, M, P] =>
 
-  override def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext) = {
-    logger.debug(s"calling CassandraPRepo.retrieve: $keyVal")
-    val stateOption = retrieveFromBoundStatement(bindKeyValSelectStatement(keyVal))
+  def retrieve[V : Key[M, P, ?]](v: V) = effect.mapBlocking(effect.pure(v)) { v =>
+    logger.debug(s"calling CassandraPRepo.retrieve: $v")
+    val stateOption = retrieveFromBoundStatement(bindKeyValSelectStatement(v))
     logger.debug(s"done calling CassandraPRepo.retrieve: $stateOption")
     stateOption
   }
 
-  protected def retrieveFromBoundStatement(statement: BoundStatement)(implicit context: ExecutionContext) =
-    Future {
-      val resultSet = blocking { session().execute(statement) }
-      val rowOption = Option(resultSet.one)
-      rowOption.map(retrieveFromRow)
-    }
+  protected def retrieveFromBoundStatement(statement: BoundStatement) = {
+    val resultSet = session().execute(statement)
+    val rowOption = Option(resultSet.one)
+    rowOption.map(retrieveFromRow)
+  }
 
   private var keyValSelectStatements = Map[RealizedKey[M, P, _], PreparedStatement]()
 

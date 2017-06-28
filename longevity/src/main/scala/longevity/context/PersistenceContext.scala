@@ -4,11 +4,12 @@ import longevity.persistence.Repo
 
 /** the portion of a [[LongevityContext]] that deals with persistence
  * 
+ * @tparam F the effect
  * @tparam M the model
  */
-trait PersistenceContext[M] {
+trait PersistenceContext[F[_], M] {
 
-  /** a pool of the repositories for this persistence context */
-  val repo: Repo[M]
+  /** the repository for this persistence context */
+  val repo: Repo[F, M]
 
 }

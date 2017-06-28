@@ -5,6 +5,7 @@ import com.datastax.driver.core.Session
 import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.config.CassandraConfig
 import longevity.config.PersistenceConfig
+import longevity.context.Effect
 import longevity.exceptions.persistence.ConnectionClosedException
 import longevity.exceptions.persistence.ConnectionOpenException
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
@@ -12,13 +13,14 @@ import longevity.model.ModelType
 import longevity.model.PType
 import longevity.persistence.Repo
 
-private[persistence] class CassandraRepo[M] private[persistence](
+private[persistence] class CassandraRepo[F[_], M] private[persistence](
+  effect: Effect[F],
   modelType: ModelType[M],
   persistenceConfig: PersistenceConfig,
   private val cassandraConfig: CassandraConfig)
-extends Repo[M](modelType, persistenceConfig) {
+extends Repo[F, M](effect, modelType, persistenceConfig) {
 
-  type R[P] = CassandraPRepo[M, P]
+  type R[P] = CassandraPRepo[F, M, P]
 
   private var sessionOpt: Option[Session] = None
 
@@ -28,7 +30,7 @@ extends Repo[M](modelType, persistenceConfig) {
   }
 
   protected def buildPRepo[P](pType: PType[M, P], polyRepoOpt: Option[R[_ >: P]] = None): R[P] =
-    CassandraPRepo[M, P](pType, modelType, persistenceConfig, polyRepoOpt, session)
+    CassandraPRepo[F, M, P](effect, modelType, pType, persistenceConfig, polyRepoOpt, session)
 
   protected def openBaseConnectionBlocking(): Unit = synchronized {
     if (sessionOpt.nonEmpty) {

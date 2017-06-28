@@ -19,7 +19,7 @@ val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
 ```
 
 This approach is non-reactive; the resulting iterator will be blocking. If we are okay with
-receiving the entire results at once, we can use `Repo.queryToFutureVec`, which returns a
+receiving the entire results at once, we can use `Repo.queryToVector`, which returns a
 `Future[Vector[PState[P]]]`:
 
 ```scala
@@ -28,7 +28,7 @@ import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Future[Vector[PState[BlogPost]]] = blogPostRepo.queryToFutureVec {
+val recentPosts: Future[Vector[PState[BlogPost]]] = blogPostRepo.queryToVector {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._

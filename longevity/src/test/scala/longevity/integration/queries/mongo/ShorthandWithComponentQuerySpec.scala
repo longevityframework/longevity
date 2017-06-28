@@ -5,9 +5,11 @@ import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.shorthandWithComponent._
 import longevity.integration.queries.queryTestsExecutionContext
+import longevity.integration.queries.queryTestsExecutionContext
+import scala.concurrent.Future
 
-class ShorthandWithComponentQuerySpec extends QuerySpec[DomainModel, WithShorthandWithComponent](
-  new LongevityContext[DomainModel](TestLongevityConfigs.mongoConfig)) {
+class ShorthandWithComponentQuerySpec extends QuerySpec[Future, DomainModel, WithShorthandWithComponent](
+  new LongevityContext(TestLongevityConfigs.mongoConfig)) {
 
   lazy val sample = randomP
 

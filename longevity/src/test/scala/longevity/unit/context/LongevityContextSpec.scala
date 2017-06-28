@@ -16,6 +16,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /** provides a sample [[LongevityContext]] to use in testing */
 object LongevityContextSpec {
@@ -40,8 +41,8 @@ object LongevityContextSpec {
       implicit val idKey = key(props.id)
     }
 
-    val mongoContext = new LongevityContext[DomainModel](mongoConfig)
-    val cassandraContext = new LongevityContext[DomainModel](cassandraConfig)
+    val mongoContext = new LongevityContext[Future, DomainModel](mongoConfig)
+    val cassandraContext = new LongevityContext[Future, DomainModel](cassandraConfig)
   }
 
 }

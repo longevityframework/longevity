@@ -13,7 +13,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.OptionValues.convertOptionToValuable
 import org.scalatest.Tag
-import scala.concurrent.ExecutionContext
+import scala.util.control.NonFatal
 
 /** a [[http://www.scalatest.org/ ScalaTest]] fixture to test a [[longevity.persistence.Repo Repo]].
  * instances of this test are provided in your [[longevity.context.LongevityContext
@@ -27,6 +27,7 @@ import scala.concurrent.ExecutionContext
  * pardon the nasty ScalaDocs for this class. we haven't figured out how to remove the methods
  * inherited from ScalaTest classes yet.
  * 
+ * @tparam F the effect
  * @tparam M the model
  * 
  * @param context the longevity context
@@ -40,24 +41,27 @@ import scala.concurrent.ExecutionContext
  *
  * @param executionContext the execution context
  */
-class RepoCrudSpec[M] private[longevity] (
-  protected val longevityContext: LongevityContext[M],
-  protected val repo: Repo[M],
-  private val backEnd: BackEnd)(
-  protected implicit val executionContext: ExecutionContext)
-extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
+class RepoCrudSpec[F[_], M] private[longevity] (
+  protected val longevityContext: LongevityContext[F, M],
+  protected val repo: Repo[F, M],
+  private val backEnd: BackEnd)
+extends FlatSpec with LongevityIntegrationSpec[F, M] with GivenWhenThen {
 
   private val suiteNameSuffix = s"- $backEnd - optimisticLocking: ${longevityContext.config.optimisticLocking}"
 
   override val suiteName = s"RepoCrudSpec $suiteNameSuffix"
 
-  override def beforeAll = repo.createSchema().recover({
-    case t: Throwable =>
-      logger.error("failed to create schema", t)
-      throw t
-  }).futureValue
+  private val effect = longevityContext.effect
 
-  override def afterAll = repo.closeConnection().futureValue
+  override def beforeAll = try {
+    effect.run(repo.createSchema)
+  } catch {
+    case NonFatal(e) =>
+      logger.error("failed to create schema", e)
+      throw e
+  }
+
+  override def afterAll = effect.run(repo.closeConnection)
 
   longevityContext.modelType.pTypePool.values.foreach(new RepoSpec(_))
 
@@ -75,7 +79,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
 
     it should s"persist an unpersisted $pName" taggedAs(Create) in {
       val p = randomP()
-      val created: PState[P] = repo.create(p).futureValue
+      val created: PState[P] = effect.run(repo.create(p))
       created.get should equal (p)
 
       realizedPType.keySet.foreach { key =>
@@ -88,7 +92,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
 
     it should s"retrieve a persisted $pName" taggedAs(Retrieve) in {
       val p = randomP()
-      val created = repo.create(p).futureValue
+      val created = effect.run(repo.create(p))
 
       realizedPType.keySet.foreach { key =>
         val retrieved: PState[P] = retrieveByKey(key, created.get).value
@@ -109,10 +113,10 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
         updateByOriginalKeyVal(key)
       }
 
-      val created: PState[P] = repo.create(originalP).futureValue
+      val created: PState[P] = effect.run(repo.create(originalP))
 
       val modified: PState[P] = created.map(e => modifiedP)
-      val updated: PState[P] = repo.update(modified).futureValue
+      val updated: PState[P] = effect.run(repo.update(modified))
 
       updated.get should equal (modifiedP)
 
@@ -126,9 +130,9 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
 
     it should s"delete a persisted $pName" taggedAs(Delete) in {
       val p = randomP()
-      val created: PState[P] = repo.create(p).futureValue
+      val created: PState[P] = effect.run(repo.create(p))
 
-      val deleted: Deleted[P] = repo.delete(created).futureValue
+      val deleted: Deleted[P] = effect.run(repo.delete(created))
       deleted.get should equal (p)
 
       realizedPType.keySet.foreach { key =>
@@ -153,7 +157,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with GivenWhenThen {
 
     private def retrieveByKey[V](key: RealizedKey[M, P, V], p: P): Option[PState[P]] = {
       val kv = key.keyValForP(p)
-      repo.retrieve[P](kv)(key.key, pEv, executionContext).futureValue
+      effect.run(repo.retrieve[P](kv)(key.key, pEv))
     }
 
   }

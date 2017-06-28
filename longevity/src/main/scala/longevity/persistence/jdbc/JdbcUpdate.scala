@@ -2,31 +2,26 @@ package longevity.persistence.jdbc
 
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
 /** implementation of JdbcPRepo.update */
-private[jdbc] trait JdbcUpdate[M, P] {
-  repo: JdbcPRepo[M, P] =>
+private[jdbc] trait JdbcUpdate[F[_], M, P] {
+  repo: JdbcPRepo[F, M, P] =>
 
-  override def update(state: PState[P])(implicit context: ExecutionContext): Future[PState[P]] =
-    Future {
-      logger.debug(s"calling JdbcPRepo.update: $state")
-      validateStablePrimaryKey(state)
-      val newState = state.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
-      val rowCount = blocking {
-        try {
-          val stmt = bindUpdateStatement(newState, state.rowVersionOrNull)
-          stmt.executeUpdate()
-        } catch convertDuplicateKeyException(newState)
-      }
-      if (persistenceConfig.optimisticLocking && rowCount != 1) {
-        throw new WriteConflictException(state)
-      }
-      logger.debug(s"done calling JdbcPRepo.update: $newState")
-      newState
+  override def update(state: PState[P]): F[PState[P]] = effect.mapBlocking(effect.pure(state)) { state =>
+    logger.debug(s"calling JdbcPRepo.update: $state")
+    validateStablePrimaryKey(state)
+    val newState = state.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
+    val rowCount = try {
+      bindUpdateStatement(newState, state.rowVersionOrNull).executeUpdate()
+    } catch {
+      convertDuplicateKeyException(newState)
     }
+    if (persistenceConfig.optimisticLocking && rowCount != 1) {
+      throw new WriteConflictException(state)
+    }
+    logger.debug(s"done calling JdbcPRepo.update: $newState")
+    newState
+  }
 
   private def bindUpdateStatement(state: PState[P], rowVersion: AnyRef) = {
     val columnBindings = if (persistenceConfig.optimisticLocking) {

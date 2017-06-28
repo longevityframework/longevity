@@ -2,6 +2,7 @@ package longevity.persistence.sqlite
 
 import java.sql.Connection
 import longevity.config.PersistenceConfig
+import longevity.context.Effect
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.model.DerivedPType
 import longevity.model.ModelType
@@ -11,12 +12,13 @@ import longevity.persistence.PState
 import longevity.persistence.jdbc.JdbcPRepo
 import org.sqlite.SQLiteException
 
-private[longevity] class SQLitePRepo[M, P] private (
-  pType: PType[M, P],
+private[longevity] class SQLitePRepo[F[_], M, P] private (
+  effect: Effect[F],
   modelType: ModelType[M],
+  pType: PType[M, P],
   persistenceConfig: PersistenceConfig,
   connection: () => Connection)
-extends JdbcPRepo[M, P](pType, modelType, persistenceConfig, connection) {
+extends JdbcPRepo[F, M, P](effect, modelType, pType, persistenceConfig, connection) {
 
   override protected def addColumn(columnName: String, columnType: String): Unit = {
     val sql = s"ALTER TABLE $tableName ADD COLUMN $columnName $columnType"
@@ -52,27 +54,28 @@ extends JdbcPRepo[M, P](pType, modelType, persistenceConfig, connection) {
 
 private[persistence] object SQLitePRepo {
 
-  def apply[M, P](
-    pType: PType[M, P],
+  def apply[F[_], M, P](
+    effect: Effect[F],
     modelType: ModelType[M],
+    pType: PType[M, P],
     config: PersistenceConfig,
-    polyRepoOpt: Option[SQLitePRepo[M, _ >: P]],
+    polyRepoOpt: Option[SQLitePRepo[F, M, _ >: P]],
     connection: () => Connection)
-  : SQLitePRepo[M, P] = {
+  : SQLitePRepo[F, M, P] = {
     val repo = pType match {
       case pt: PolyPType[_, _] =>
-        new SQLitePRepo(pType, modelType, config, connection) with PolySQLitePRepo[M, P]
+        new SQLitePRepo(effect, modelType, pType, config, connection) with PolySQLitePRepo[F, M, P]
       case pt: DerivedPType[_, _, _] =>
-        def withPoly[Poly >: P](poly: SQLitePRepo[M, Poly]) = {
+        def withPoly[Poly >: P](poly: SQLitePRepo[F, M, Poly]) = {
           class DerivedRepo extends {
-            override protected val polyRepo: SQLitePRepo[M, Poly] = poly
+            override protected val polyRepo: SQLitePRepo[F, M, Poly] = poly
           }
-          with SQLitePRepo(pType, modelType, config, connection) with DerivedSQLitePRepo[M, P, Poly]
+          with SQLitePRepo(effect, modelType, pType, config, connection) with DerivedSQLitePRepo[F, M, P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new SQLitePRepo(pType, modelType, config, connection)
+        new SQLitePRepo(effect, modelType, pType, config, connection)
     }
     repo
   }

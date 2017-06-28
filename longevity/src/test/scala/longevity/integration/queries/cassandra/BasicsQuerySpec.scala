@@ -14,16 +14,15 @@ import longevity.test.ExerciseFS2
 import longevity.test.ExerciseIterateeIo
 import longevity.test.ExercisePlayEnumerator
 import longevity.test.QuerySpec
-import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
+import longevity.integration.queries.queryTestsExecutionContext
+import scala.concurrent.Future
 
-class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
-  new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig))(
-  Basics.pEv,
-  globalExecutionContext)
-    with ExerciseAkkaStreams[DomainModel, Basics]
-    with ExerciseFS2[DomainModel, Basics]
-    with ExerciseIterateeIo[DomainModel, Basics]
-    with ExercisePlayEnumerator[DomainModel, Basics] {
+class BasicsQuerySpec extends QuerySpec[Future, DomainModel, Basics](
+  new LongevityContext(TestLongevityConfigs.cassandraConfig))
+    with ExerciseAkkaStreams[Future, DomainModel, Basics]
+    with ExerciseFS2[Future, DomainModel, Basics]
+    with ExerciseIterateeIo[Future, DomainModel, Basics]
+    with ExercisePlayEnumerator[Future, DomainModel, Basics] {
 
   lazy val sample = randomP
 
@@ -38,10 +37,12 @@ class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
 
   import Basics.queryDsl._
 
-  behavior of "CassandraPRepo.queryToFutureVec"
+  behavior of "CassandraPRepo.queryToVector"
 
   it should "produce expected results for Query.FilterAll" in {
-    repo.queryToFutureVec(Query(FilterAll())).failed.futureValue shouldBe a [FilterAllInQueryException]
+    intercept[FilterAllInQueryException] {
+      effect.run(repo.queryToVector(Query(FilterAll())))
+    }
   }
 
   it should "produce expected results for simple equality queries" in {
@@ -58,7 +59,9 @@ class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
 
     // make sure Query.FilterAll() can occur inside greater expression
     val query: Query[Basics] = stringProp eqs sample.string and FilterAll()
-    repo.queryToFutureVec(query).failed.futureValue shouldBe a [FilterAllInQueryException]
+    intercept[FilterAllInQueryException] {
+      effect.run(repo.queryToVector(query))
+    }
   }
 
   it should "produce expected results for simple conditional queries" in {
@@ -92,16 +95,20 @@ class BasicsQuerySpec extends QuerySpec[DomainModel, Basics](
   }
 
   it should "throw exception for or queries" in {
-    repo.queryToFutureVec(
-      booleanProp eqs sample.boolean or
-      charProp lte sample.char
-    ).failed.futureValue shouldBe a [OrInQueryException]
+    intercept[OrInQueryException] {
+      effect.run(repo.queryToVector(
+        booleanProp eqs sample.boolean or
+          charProp lte sample.char
+      ))
+    }
   }
 
   it should "throw exception for neq queries" in {
-    repo.queryToFutureVec(
-      booleanProp neq sample.boolean
-    ).failed.futureValue shouldBe a [NeqInQueryException]
+    intercept[NeqInQueryException] {
+      effect.run {
+        repo.queryToVector(booleanProp neq sample.boolean)
+      }
+    }
   }
 
 }

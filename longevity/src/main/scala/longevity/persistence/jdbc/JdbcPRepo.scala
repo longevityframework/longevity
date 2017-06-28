@@ -1,17 +1,16 @@
 package longevity.persistence.jdbc
 
 import com.typesafe.scalalogging.LazyLogging
-import typekey.TypeKey
+import java.sql.Connection
+import java.sql.ResultSet
+import java.util.UUID
+import longevity.config.PersistenceConfig
+import longevity.context.Effect
 import longevity.emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import longevity.emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
 import longevity.emblem.exceptions.CouldNotTraverseException
 import longevity.emblem.stringUtil.camelToUnderscore
 import longevity.emblem.stringUtil.typeName
-import typekey.typeKey
-import java.sql.Connection
-import java.sql.ResultSet
-import java.util.UUID
-import longevity.config.PersistenceConfig
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.model.DerivedPType
 import longevity.model.ModelType
@@ -23,19 +22,22 @@ import longevity.persistence.PRepo
 import longevity.persistence.PState
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import typekey.TypeKey
+import typekey.typeKey
 
-private[persistence] class JdbcPRepo[M, P] private[persistence] (
-  pType: PType[M, P],
+private[persistence] class JdbcPRepo[F[_], M, P] private[persistence] (
+  effect: Effect[F],
   modelType: ModelType[M],
+  pType: PType[M, P],
   protected val persistenceConfig: PersistenceConfig,
   protected val connection: () => Connection)
-extends PRepo[M, P](pType, modelType)
-with JdbcSchema[M, P]
-with JdbcCreate[M, P]
-with JdbcRetrieve[M, P]
-with JdbcQuery[M, P]
-with JdbcUpdate[M, P]
-with JdbcDelete[M, P]
+extends PRepo[F, M, P](effect, modelType, pType)
+with JdbcSchema[F, M, P]
+with JdbcCreate[F, M, P]
+with JdbcRetrieve[F, M, P]
+with JdbcQuery[F, M, P]
+with JdbcUpdate[F, M, P]
+with JdbcDelete[F, M, P]
 with LazyLogging {
 
   protected[jdbc] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
@@ -203,27 +205,28 @@ with LazyLogging {
 
 private[persistence] object JdbcPRepo {
 
-  def apply[M, P](
-    pType: PType[M, P],
+  def apply[F[_], M, P](
+    effect: Effect[F],
     modelType: ModelType[M],
+    pType: PType[M, P],
     config: PersistenceConfig,
-    polyRepoOpt: Option[JdbcPRepo[M, _ >: P]],
+    polyRepoOpt: Option[JdbcPRepo[F, M, _ >: P]],
     connection: () => Connection)
-  : JdbcPRepo[M, P] = {
+  : JdbcPRepo[F, M, P] = {
     val repo = pType match {
       case pt: PolyPType[_, _] =>
-        new JdbcPRepo(pType, modelType, config, connection) with PolyJdbcPRepo[M, P]
+        new JdbcPRepo(effect, modelType, pType, config, connection) with PolyJdbcPRepo[F, M, P]
       case pt: DerivedPType[_, _, _] =>
-        def withPoly[Poly >: P](poly: JdbcPRepo[M, Poly]) = {
+        def withPoly[Poly >: P](poly: JdbcPRepo[F, M, Poly]) = {
           class DerivedRepo extends {
-            override protected val polyRepo: JdbcPRepo[M, Poly] = poly
+            override protected val polyRepo: JdbcPRepo[F, M, Poly] = poly
           }
-          with JdbcPRepo(pType, modelType, config, connection) with DerivedJdbcPRepo[M, P, Poly]
+          with JdbcPRepo(effect, modelType, pType, config, connection) with DerivedJdbcPRepo[F, M, P, Poly]
           new DerivedRepo
         }
         withPoly(polyRepoOpt.get)
       case _ =>
-        new JdbcPRepo(pType, modelType, config, connection)
+        new JdbcPRepo(effect, modelType, pType, config, connection)
     }
     repo
   }

@@ -8,6 +8,7 @@ import fs2.Stream
 import fs2.Task
 import io.iteratee.{ Enumerator => CatsEnumerator }
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
+import longevity.context.Effect
 import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.ptype.Key
@@ -15,8 +16,6 @@ import longevity.model.query.Query
 import longevity.model.realized.RealizedPType
 import play.api.libs.iteratee.{ Enumerator => PlayEnumerator }
 import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 import streamadapter.Chunkerator
 import streamadapter.akka.chunkeratorToAkkaSource
 import streamadapter.fs2.chunkeratorToFS2Stream
@@ -28,14 +27,15 @@ import streamadapter.play.chunkeratorToPlayEnumerator
  * @param pType the entity type for the persistent entities this repository handles
  * @param modelType the model type containing the persistent entities that this repo persists
  */
-private[longevity] abstract class PRepo[M, P] private[persistence] (
-  protected[longevity] val pType: PType[M, P],
-  protected[longevity] val modelType: ModelType[M]) {
+private[longevity] abstract class PRepo[F[_], M, P] private[persistence] (
+  protected val effect: Effect[F],
+  protected val modelType: ModelType[M],
+  protected val pType: PType[M, P]) {
 
-  private[persistence] var _repoOption: Option[Repo[M]] = None
+  private[persistence] var _repoOption: Option[Repo[F, M]] = None
 
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
-  protected lazy val repo: Repo[M] = _repoOption.get
+  protected lazy val repo: Repo[F, M] = _repoOption.get
 
   protected[longevity] val realizedPType: RealizedPType[M, P] = modelType.realizedPTypes(pType)
 
@@ -44,24 +44,22 @@ private[longevity] abstract class PRepo[M, P] private[persistence] (
 
   protected def hasPrimaryKey = realizedPType.primaryKey.nonEmpty
 
-  def create(unpersisted: P)(implicit executionContext: ExecutionContext): Future[PState[P]]
+  def create(unpersisted: P): F[PState[P]]
 
-  def retrieve[V : Key[M, P, ?]](keyVal: V)(implicit executionContext: ExecutionContext)
-  : Future[Option[PState[P]]]
+  def retrieve[V : Key[M, P, ?]](keyVal: V): F[Option[PState[P]]]
 
-  def retrieveOne[V : Key[M, P, ?]](keyVal: V)(implicit context: ExecutionContext): Future[PState[P]] =
-    retrieve(keyVal).map(_.get)
+  def retrieveOne[V : Key[M, P, ?]](keyVal: V): F[PState[P]] = effect.map(retrieve(keyVal))(_.get)
 
-  def update(state: PState[P])(implicit executionContext: ExecutionContext): Future[PState[P]]
+  def update(state: PState[P]): F[PState[P]]
 
-  def delete(state: PState[P])(implicit executionContext: ExecutionContext): Future[Deleted[P]]
+  def delete(state: PState[P]): F[Deleted[P]]
 
   protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]]
 
   def queryToIterator(query: Query[P]): Iterator[PState[P]] = queryToChunkerator(query).toIterator
 
-  def queryToFutureVec(query: Query[P])(implicit context: ExecutionContext): Future[Vector[PState[P]]] =
-    Future(blocking(queryToChunkerator(query).toVector))
+  def queryToVector(query: Query[P]): F[Vector[PState[P]]] =
+    effect.mapBlocking(effect.pure(()))(_ => queryToChunkerator(query).toVector)
 
   def queryToAkkaStreamImpl(query: Query[P]): Source[PState[P], NotUsed] =
     chunkeratorToAkkaSource.adapt(queryToChunkerator(query))

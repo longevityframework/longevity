@@ -4,8 +4,8 @@ import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.model.realized.RealizedPropComponent
 
 /** implementation of CassandraPRepo.createSchema */
-private[cassandra] trait CassandraSchema[M, P] {
-  repo: CassandraPRepo[M, P] =>
+private[cassandra] trait CassandraSchema[F[_], M, P] {
+  repo: CassandraPRepo[F, M, P] =>
 
   protected[persistence] def createSchemaBlocking(): Unit = {
     logger.debug(s"creating schema for table $tableName")

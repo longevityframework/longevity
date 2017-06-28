@@ -6,12 +6,15 @@ import longevity.unit.manual.repo.poly.ex1._
 
 // end prelude
 
+  // TODO this unit test was updated without updating manual
 import longevity.context.LongevityContext
 import longevity.persistence.Repo
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-val context = LongevityContext[DomainModel]()
+val context = LongevityContext[Future, DomainModel]()
 
-val repo: Repo[DomainModel] = context.repo
+val repo: Repo[Future, DomainModel] = context.repo
 
 val user: User = Member(Username("u1"), Email("e1"), 3)
 val member: Member = Member(Username("u2"), Email("e2"), 5)

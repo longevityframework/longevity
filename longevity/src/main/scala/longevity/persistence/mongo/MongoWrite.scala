@@ -13,8 +13,8 @@ import org.bson.BsonObjectId
 /** utilities for writing to a mongo collection. used by [[MongoCreate]] and
  * [[MongoUpdate]]
  */
-private[mongo] trait MongoWrite[M, P] {
-  repo: MongoPRepo[M, P] =>
+private[mongo] trait MongoWrite[F[_], M, P] {
+  repo: MongoPRepo[F, M, P] =>
 
   protected lazy val domainModelToBsonTranslator = new DomainModelToBsonTranslator(modelType.emblematic)
 

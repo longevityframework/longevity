@@ -4,6 +4,7 @@ import longevity.test.TestDataGenerator
 import longevity.test.CustomGeneratorPool
 import longevity.TestLongevityConfigs
 import longevity.model.annotations.domainModel
+import scala.concurrent.Future
 
 /** covers a persistent with a simple shorthand constraint */
 package object complexConstraint {
@@ -24,6 +25,6 @@ package object complexConstraint {
 
   val generators = CustomGeneratorPool.empty + emailGenerator + complexConstraintGenerator
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix[DomainModel](generators)
+  val contexts = TestLongevityConfigs.sparseContextMatrix[Future, DomainModel](generators)
 
 }

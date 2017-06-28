@@ -7,11 +7,11 @@ import streamadapter.iterateeio.iterateeIoEnumeratorToChunkerator
 /** extends [[QuerySpec]] to add tests for 
  * [[longevity.persistence.streams.IterateeIoRepo.queryToIterateeIo IterateeIoRepo.queryToIterateeIo]]
  * 
+ * @tparam F the effect
  * @tparam M the model
- *
  * @tparam P the persistent type
  */
-trait ExerciseIterateeIo[M, P] extends QuerySpec[M, P] {
+trait ExerciseIterateeIo[F[_], M, P] extends QuerySpec[F, M, P] {
 
   override protected def exerciseStreams(query: Query[P], expected: Set[P]): Unit = {
     super.exerciseStreams(query, expected)

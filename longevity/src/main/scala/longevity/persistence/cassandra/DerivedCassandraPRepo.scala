@@ -4,9 +4,9 @@ import longevity.persistence.PState
 import longevity.model.realized.RealizedPropComponent
 import longevity.model.realized.RealizedKey
 
-private[cassandra] trait DerivedCassandraPRepo[M, P, Poly >: P] extends CassandraPRepo[M, P] {
+private[cassandra] trait DerivedCassandraPRepo[F[_], M, P, Poly >: P] extends CassandraPRepo[F, M, P] {
 
-  protected val polyRepo: CassandraPRepo[M, Poly]
+  protected val polyRepo: CassandraPRepo[F, M, Poly]
 
   override protected[cassandra] val tableName: String = polyRepo.tableName
 

@@ -2,12 +2,12 @@ package longevity.integration.noTranslation
 
 import com.typesafe.scalalogging.LazyLogging
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
+import longevity.context.Effect
 import longevity.persistence.Repo
-import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
-import org.scalatest.GivenWhenThen
-import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
+import org.scalatest.Matchers
+import scala.util.control.NonFatal
 
 /** integration tests for things in the domain model that don't have mongo
  * transations. this indicates a "bug" in the domain model - some kind of shorthand
@@ -16,32 +16,32 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
  * 
  * @see https://www.pivotaltracker.com/story/show/99755864
  */
-class NoTranslationSpec(val repo: Repo[DomainModel])
-extends FlatSpec
-with LongevityFuturesSpec
-with BeforeAndAfterAll
-with GivenWhenThen
-with LazyLogging {
+class NoTranslationSpec[F[_]](val effect: Effect[F], val repo: Repo[F, DomainModel])
+extends FlatSpec with Matchers with BeforeAndAfterAll with LazyLogging {
 
-  override protected implicit val executionContext = globalExecutionContext
-
-  override def beforeAll = repo.createSchema().recover({
-    case t: Throwable =>
-      logger.error("failed to create schema", t)
-      throw t
-  }).futureValue
+  override def beforeAll = try {
+    effect.run(repo.createSchema)
+  } catch {
+    case NonFatal(e) =>
+      logger.error("failed to create schema", e)
+      throw e
+  }
 
   behavior of "Repo.create in the face of a untranslatable objects"
 
   it should "fail for untranslatable objects embedded directly in root" in {
     val ps = repo.create(WithNoTranslation("uri", NoTranslation("name")))
-    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
+    intercept [NotInDomainModelTranslationException] {
+      effect.run(ps)
+    }
   }
 
   it should "fail for list of untranslatable objects" in {
     val ps = repo.create(
       WithNoTranslationList("uri", NoTranslation("name1") :: NoTranslation("name2") :: Nil))
-    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
+    intercept [NotInDomainModelTranslationException] {
+      effect.run(ps)
+    }
   }
 
   // TODO pt-99755864 the fact that an empty list doesnt fail really speaks to the fact that we have to fail
@@ -49,32 +49,38 @@ with LazyLogging {
 
   it should "not fail for an empty list of untranslatable objects" in {
     val ps = repo.create(WithNoTranslationList("uri", Nil))
-    ps.futureValue
+    effect.run(ps)
   }
 
   it should "fail for option of untranslatable objects" in {
     val ps = repo.create(WithNoTranslationOption("uri", Option(NoTranslation("name1"))))
-    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
+    intercept [NotInDomainModelTranslationException] {
+      effect.run(ps)
+    }
   }
 
   it should "not fail for an empty option of untranslatable objects" in {
     val ps = repo.create(WithNoTranslationOption("uri", None))
-    ps.futureValue
+    effect.run(ps)
   }
 
   it should "fail for set of untranslatable objects" in {
     val ps = repo.create(WithNoTranslationSet("uri", Set(NoTranslation("name1"), NoTranslation("name2"))))
-    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
+    intercept [NotInDomainModelTranslationException] {
+      effect.run(ps)
+    }
   }
 
   it should "not fail for an empty set of untranslatable objects" in {
     val ps = repo.create(WithNoTranslationSet("uri", Set()))
-    ps.futureValue
+    effect.run(ps)
   }
 
   it should "fail for longhand of untranslatable objects" in {
     val ps = repo.create(WithNoTranslationLonghand("uri", NoTranslationLonghand(NoTranslation("name"))))
-    ps.failed.futureValue shouldBe a [NotInDomainModelTranslationException]
+    intercept [NotInDomainModelTranslationException] {
+      effect.run(ps)
+    }
   }
 
 }

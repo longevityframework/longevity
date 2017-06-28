@@ -1,44 +1,41 @@
 package longevity.integration.unstablePrimaryKey
 
 import longevity.TestLongevityConfigs
+import longevity.context.Effect
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
 import longevity.integration.model.primaryKey.Key
 import longevity.integration.model.primaryKey.PrimaryKey
 import longevity.integration.model.primaryKey.DomainModel
 import longevity.persistence.Repo
-import longevity.test.LongevityFuturesSpec
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
-import org.scalatest.GivenWhenThen
-import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
+import org.scalatest.Matchers
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 /** expect UnstablePrimaryKeyException when primary key changes */
-class UnstablePrimaryKeySpec extends FlatSpec with LongevityFuturesSpec
-with BeforeAndAfterAll
-with GivenWhenThen {
+class UnstablePrimaryKeySpec extends FlatSpec with Matchers with BeforeAndAfterAll {
 
-  override protected implicit val executionContext = globalExecutionContext
-
-  val cassandraContext = new LongevityContext[DomainModel](TestLongevityConfigs.cassandraConfig)
-  val inmemContext = new LongevityContext[DomainModel](TestLongevityConfigs.inMemConfig)
-  val mongoContext = new LongevityContext[DomainModel](TestLongevityConfigs.mongoConfig)
-  val sqliteContext = new LongevityContext[DomainModel](TestLongevityConfigs.sqliteConfig)
+  val cassandraContext = new LongevityContext[Future, DomainModel](TestLongevityConfigs.cassandraConfig)
+  val inMemContext = new LongevityContext[Future, DomainModel](TestLongevityConfigs.inMemConfig)
+  val mongoContext = new LongevityContext[Future, DomainModel](TestLongevityConfigs.mongoConfig)
+  val sqliteContext = new LongevityContext[Future, DomainModel](TestLongevityConfigs.sqliteConfig)
 
   override def beforeAll() = {
-    cassandraContext.testRepo.createSchema().futureValue
-    inmemContext.testRepo.createSchema().futureValue
-    mongoContext.testRepo.createSchema().futureValue
-    sqliteContext.testRepo.createSchema().futureValue
+    cassandraContext.effect.run(cassandraContext.testRepo.createSchema)
+    inMemContext.effect.run(inMemContext.testRepo.createSchema)
+    mongoContext.effect.run(mongoContext.testRepo.createSchema)
+    sqliteContext.effect.run(sqliteContext.testRepo.createSchema)
   }
 
-  assertUnstablePrimaryKeyBehavior(cassandraContext.testRepo, "CassandraPRepo")
-  assertUnstablePrimaryKeyBehavior(inmemContext.testRepo, "InMemPRepo")
-  assertUnstablePrimaryKeyBehavior(mongoContext.testRepo, "MongoPRepo")
-  assertUnstablePrimaryKeyBehavior(sqliteContext.testRepo, "SQLitePRepo")
+  assertUnstablePrimaryKeyBehavior(cassandraContext.effect, cassandraContext.testRepo, "CassandraPRepo")
+  assertUnstablePrimaryKeyBehavior(inMemContext.effect, inMemContext.testRepo, "InMemPRepo")
+  assertUnstablePrimaryKeyBehavior(mongoContext.effect, mongoContext.testRepo, "MongoPRepo")
+  assertUnstablePrimaryKeyBehavior(sqliteContext.effect, sqliteContext.testRepo, "SQLitePRepo")
 
-  def assertUnstablePrimaryKeyBehavior(repo: Repo[DomainModel], repoName: String): Unit = {
+  def assertUnstablePrimaryKeyBehavior[F[_]](
+    effect: Effect[F], repo: Repo[F, DomainModel], repoName: String): Unit = {
 
     behavior of s"$repoName.create"
 
@@ -48,16 +45,10 @@ with GivenWhenThen {
       val modifiedKey = Key("modified")
       val p1 = PrimaryKey(origKey)
       val p2 = PrimaryKey(modifiedKey)
-      val s1 = repo.create(p1).futureValue
+      val s1 = effect.run(repo.create(p1))
 
-      def expectUnstable(future: Future[_]) = {
-        val exception = future.failed.futureValue
-        if (!exception.isInstanceOf[UnstablePrimaryKeyException[_, _]]) {
-          exception.printStackTrace
-        }
-        exception shouldBe a [UnstablePrimaryKeyException[_, _]]
-
-        val e = exception.asInstanceOf[UnstablePrimaryKeyException[PrimaryKey, Key]]
+      def expectUnstable(f: F[_]) = {
+        val e = intercept[UnstablePrimaryKeyException[_, _]](effect.run(f))
         e.orig should equal (p1)
         e.origKeyVal should equal (origKey)
         e.newKeyVal should equal (modifiedKey)
@@ -68,7 +59,7 @@ with GivenWhenThen {
         expectUnstable(repo.update(s2))
         expectUnstable(repo.delete(s2))
       } finally {
-        repo.delete(s1).futureValue
+        effect.run(repo.delete(s1))
       }
     }
 

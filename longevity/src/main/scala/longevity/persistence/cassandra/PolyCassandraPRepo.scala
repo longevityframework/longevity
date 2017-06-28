@@ -2,7 +2,7 @@ package longevity.persistence.cassandra
 
 import longevity.persistence.BasePolyRepo
 
-private[cassandra] trait PolyCassandraPRepo[M, P] extends CassandraPRepo[M, P] with BasePolyRepo[M, P] {
+private[cassandra] trait PolyCassandraPRepo[F[_], M, P] extends CassandraPRepo[F, M, P] with BasePolyRepo[F, M, P] {
 
   override protected def createTable(): Unit = {
     super.createTable()

@@ -5,24 +5,24 @@ import longevity.persistence.Repo
 import longevity.test.CustomGeneratorPool
 import longevity.test.RepoCrudSpec
 import longevity.test.TestDataGenerator
-import scala.concurrent.ExecutionContext
 
 /** the portion of a [[LongevityContext]] that deals with testing
  * 
+ * @tparam F the effect
  * @tparam M the model
  */
-trait TestContext[M] {
+trait TestContext[F[_], M] {
 
   /** a collection of custom generators to use when generating test data.
    * defaults to an empty collection
    */
   val customGeneratorPool: CustomGeneratorPool
 
-  /** a set of repositories used for testing, targeting the same persistence strategy as your repo */
-  val testRepo: Repo[M]
+  /** a repository used for testing, targeting the same persistence strategy as your repo */
+  val testRepo: Repo[F, M]
 
-  /** an in-memory set of repositories for this longevity context, for use in testing */
-  val inMemTestRepo: Repo[M]
+  /** an in-memory repository for this longevity context, for use in testing */
+  val inMemTestRepo: Repo[F, M]
 
   /** a utility class for generating test data for the model type */
   val testDataGenerator: TestDataGenerator
@@ -39,10 +39,12 @@ object TestContext {
    * `LongevityContext`, so that ScalaTest can remain an optional dependency
    * for longevity users. otherwise, it would have been included as part of the
    * [[TestContext]].
+   *
+   * @tparam F the effect
    * 
    * @tparam M the model
    */
-  implicit class ScalaTestSpecs[M](longevityContext: LongevityContext[M]) {
+  implicit class ScalaTestSpecs[F[_], M](longevityContext: LongevityContext[F, M]) {
 
     /** a simple [[http://www.scalatest.org/ ScalaTest]] spec to test your
      * [[longevity.context.LongevityContext.repo repo]]. all you have
@@ -52,10 +54,8 @@ object TestContext {
      * val storefrontContext: LongevityContext = ???
      * class StorefrontRepoCrudSpec extends Suites(storefrontContext.repoCrudSpec)
      * }}}
-     *
-     * @param executionContext the execution context
      */
-    def repoCrudSpec(implicit executionContext: ExecutionContext) = new RepoCrudSpec(
+    def repoCrudSpec = new RepoCrudSpec(
       longevityContext,
       longevityContext.testRepo,
       longevityContext.config.backEnd)
@@ -68,11 +68,8 @@ object TestContext {
      * val storefrontContext: LongevityContext = ???
      * class StorefrontRepoCrudSpec extends Suites(storefrontContext.inMemTestRepoCrudSpec)
      * }}}
-     *
-     * @param executionContext the execution context
      */
-    def inMemRepoCrudSpec(implicit executionContext: ExecutionContext) =
-      new RepoCrudSpec(longevityContext, longevityContext.inMemTestRepo, InMem)
+    def inMemRepoCrudSpec = new RepoCrudSpec(longevityContext, longevityContext.inMemTestRepo, InMem)
 
   }
 

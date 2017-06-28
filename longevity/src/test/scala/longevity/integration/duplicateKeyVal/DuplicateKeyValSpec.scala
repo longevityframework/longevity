@@ -1,18 +1,19 @@
 package longevity.integration.duplicateKeyVal
 
 import longevity.TestLongevityConfigs
+import longevity.context.Effect
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.integration.model.basics.Basics
 import longevity.integration.model.basics.BasicsId
 import longevity.integration.model.basics.DomainModel
 import longevity.persistence.Repo
-import longevity.test.LongevityFuturesSpec
 import org.joda.time.DateTime
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
-import org.scalatest.GivenWhenThen
-import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
+import org.scalatest.Matchers
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /** expect InMem, MongoDB, and SQLite back ends to throw
  * DuplicateKeyValException in non-partitioned database setup such as
@@ -24,27 +25,23 @@ import scala.concurrent.ExecutionContext.{ global => globalExecutionContext }
  * such guarantee. but Mongo does guarantee to catch this in a single
  * partition database.
  */
-class DuplicateKeyValSpec extends FlatSpec with LongevityFuturesSpec
-with BeforeAndAfterAll
-with GivenWhenThen {
+class DuplicateKeyValSpec extends FlatSpec with Matchers with BeforeAndAfterAll {
 
-  override protected implicit val executionContext = globalExecutionContext
-
-  val inMemContext = new LongevityContext[DomainModel](TestLongevityConfigs.inMemConfig)
-  val mongoContext = new LongevityContext[DomainModel](TestLongevityConfigs.mongoConfig)
-  val sqliteContext = new LongevityContext[DomainModel](TestLongevityConfigs.sqliteConfig)
+  val inMemContext = new LongevityContext[Future, DomainModel](TestLongevityConfigs.inMemConfig)
+  val mongoContext = new LongevityContext[Future, DomainModel](TestLongevityConfigs.mongoConfig)
+  val sqliteContext = new LongevityContext[Future, DomainModel](TestLongevityConfigs.sqliteConfig)
 
   override def beforeAll() = {
-    inMemContext.testRepo.createSchema().futureValue
-    mongoContext.testRepo.createSchema().futureValue
-    sqliteContext.testRepo.createSchema().futureValue
+    inMemContext.effect.run(inMemContext.testRepo.createSchema)
+    mongoContext.effect.run(mongoContext.testRepo.createSchema)
+    sqliteContext.effect.run(sqliteContext.testRepo.createSchema)
   }
 
-  assertDuplicateKeyValBehavior(inMemContext.testRepo, "InMemPRepo")
-  assertDuplicateKeyValBehavior(mongoContext.testRepo, "MongoPRepo")
-  assertDuplicateKeyValBehavior(sqliteContext.testRepo, "SQLitePRepo")
+  assertDuplicateKeyValBehavior(inMemContext.effect, inMemContext.testRepo, "InMemPRepo")
+  assertDuplicateKeyValBehavior(mongoContext.effect, mongoContext.testRepo, "MongoPRepo")
+  assertDuplicateKeyValBehavior(sqliteContext.effect, sqliteContext.testRepo, "SQLitePRepo")
 
-  def assertDuplicateKeyValBehavior(repo: Repo[DomainModel], repoName: String): Unit = {
+  def assertDuplicateKeyValBehavior[F[_]](effect: Effect[F], repo: Repo[F, DomainModel], repoName: String): Unit = {
 
     behavior of s"$repoName with a single partitioned database"
 
@@ -53,20 +50,16 @@ with GivenWhenThen {
       val id = BasicsId("id must be unique")
       val p1 = Basics(id, true, 'c', 5.7d, 4.5f, 3, 77l, "stringy", DateTime.now)
       val p2 = Basics(id, false, 'd', 6.7d, 5.5f, 4, 78l, "stingy", DateTime.now)
-      val s1 = repo.create(p1).futureValue
+      val s1 = effect.run(repo.create(p1))
 
       try {
-        val exception = repo.create(p2).failed.futureValue
-        if (!exception.isInstanceOf[DuplicateKeyValException[_, _]]) {
-          exception.printStackTrace
+        val dkve = intercept[DuplicateKeyValException[_, _]] {
+          effect.run(repo.create(p2))
         }
-        exception shouldBe a [DuplicateKeyValException[_, _]]
-
-        val dkve = exception.asInstanceOf[DuplicateKeyValException[DomainModel, Basics]]
         dkve.p should equal (p2)
         (dkve.key: AnyRef) should equal (Basics.keySet.head)
       } finally {
-        repo.delete(s1).futureValue
+        effect.run(repo.delete(s1))
       }
     }
 
@@ -76,23 +69,19 @@ with GivenWhenThen {
       val p1 = Basics(id, true, 'c', 5.7d, 4.5f, 3, 77l, "stringy", DateTime.now)
       val newId = BasicsId("this one is unique 2")
       val p2 = Basics(newId, false, 'd', 6.7d, 5.5f, 4, 78l, "stingy", DateTime.now)
-      val s1 = repo.create(p1).futureValue
-      val s2 = repo.create(p2).futureValue
+      val s1 = effect.run(repo.create(p1))
+      val s2 = effect.run(repo.create(p2))
 
       try {
         val s2_update = s2.map(_.copy(id = id))
-        val exception = repo.update(s2_update).failed.futureValue
-
-        if (!exception.isInstanceOf[DuplicateKeyValException[_, _]]) {
-          exception.printStackTrace
+        val dkve = intercept[DuplicateKeyValException[_, _]] {
+          effect.run(repo.update(s2_update))
         }
-        exception shouldBe a [DuplicateKeyValException[_, _]]
-        val dkve = exception.asInstanceOf[DuplicateKeyValException[DomainModel, Basics]]
         dkve.p should equal (s2_update.get)
         (dkve.key: AnyRef) should equal (Basics.keySet.head)
       } finally {
-        repo.delete(s1).futureValue
-        repo.delete(s2).futureValue
+        effect.run(repo.delete(s1))
+        effect.run(repo.delete(s2))
       }
     }
 

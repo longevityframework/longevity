@@ -20,8 +20,8 @@ import org.joda.time.DateTimeZone
 /** utilities for reading from a mongo collection. used by [[MongoRetrieve]] and
  * [[MongoQuery]]
  */
-private[mongo] trait MongoRead[M, P] {
-  repo: MongoPRepo[M, P] =>
+private[mongo] trait MongoRead[F[_], M, P] {
+  repo: MongoPRepo[F, M, P] =>
 
   private lazy val bsonToModelTypeTranslator =
     new BsonToDomainModelTranslator(modelType.emblematic)

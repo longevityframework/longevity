@@ -10,6 +10,11 @@
 - 2017.06.19 - Rename `longevity.config.LongevityConfig.apply(com.typesafe.config.Config)` to
   `LongevityConfig.fromTypesafeConfig`. This was necessary to prevent the library we use to parse
   the Typesafe config from infinite looping on a configuration error.
+- 2017.06.29 - Remove `longevity.persistent.FOPState` and variants. Now that we have generalized
+  effects, these classes are special case. And they already take up a lot of space in API.
+- 2017.06.29 - Remove method `longevity.persistent.Repo.createMany` and related
+  `longevity.persistent.PWithEv`. These provided very little value added at the expense of
+  cluttering the API with confusing stuff.
 
 ## [0.23.0] - 2017.06.09 - Use Type Classes to Improve Type Safety of Persistent API
 

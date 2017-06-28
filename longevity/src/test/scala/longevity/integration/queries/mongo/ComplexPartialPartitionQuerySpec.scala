@@ -5,9 +5,12 @@ import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.primaryKeyWithComplexPartialPartition._
 import longevity.integration.queries.queryTestsExecutionContext
+import longevity.integration.queries.queryTestsExecutionContext
+import scala.concurrent.Future
 
-class ComplexPartialPartitionQuerySpec extends QuerySpec[DomainModel, PrimaryKeyWithComplexPartialPartition](
-  new LongevityContext[DomainModel](TestLongevityConfigs.mongoConfig)) {
+class ComplexPartialPartitionQuerySpec
+    extends QuerySpec[Future, DomainModel, PrimaryKeyWithComplexPartialPartition](
+  new LongevityContext(TestLongevityConfigs.mongoConfig)) {
 
   lazy val sample = randomP
   val keyProp = PrimaryKeyWithComplexPartialPartition.props.key

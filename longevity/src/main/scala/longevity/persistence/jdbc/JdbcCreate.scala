@@ -3,25 +3,20 @@ package longevity.persistence.jdbc
 import java.util.UUID
 import longevity.persistence.PState
 import org.joda.time.DateTime
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.concurrent.blocking
 
 /** implementation of JdbcPRepo.create */
-private[jdbc] trait JdbcCreate[M, P] {
-  repo: JdbcPRepo[M, P] =>
+private[jdbc] trait JdbcCreate[F[_], M, P] {
+  repo: JdbcPRepo[F, M, P] =>
 
-  override def create(p: P)(implicit context: ExecutionContext) = Future {
+  override def create(p: P): F[PState[P]] = effect.mapBlocking(effect.pure(p)) { p =>
     logger.debug(s"calling JdbcPRepo.create: $p")
     val id = if (hasPrimaryKey) None else Some(JdbcId[P](UUID.randomUUID))
     val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
     val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
     val state = PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
-    blocking {
-      try {
-        bindInsertStatement(state).executeUpdate()
-      } catch convertDuplicateKeyException(state)
-    }
+    try {
+      bindInsertStatement(state).executeUpdate()
+    } catch convertDuplicateKeyException(state)
     logger.debug(s"done calling JdbcPRepo.create: $state")
     state
   }

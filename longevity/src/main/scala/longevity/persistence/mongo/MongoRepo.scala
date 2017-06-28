@@ -4,19 +4,21 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 import longevity.config.MongoDBConfig
 import longevity.config.PersistenceConfig
+import longevity.context.Effect
 import longevity.exceptions.persistence.ConnectionClosedException
 import longevity.exceptions.persistence.ConnectionOpenException
 import longevity.model.ModelType
 import longevity.model.PType
 import longevity.persistence.Repo
 
-private[persistence] class MongoRepo[M] private[persistence](
+private[persistence] class MongoRepo[F[_], M] private[persistence](
+  effect: Effect[F],
   modelType: ModelType[M],
   persistenceConfig: PersistenceConfig,
   private val mongoConfig: MongoDBConfig)
-extends Repo[M](modelType, persistenceConfig) {
+extends Repo[F, M](effect, modelType, persistenceConfig) {
 
-  type R[P] = MongoPRepo[M, P]
+  type R[P] = MongoPRepo[F, M, P]
 
   private var sessionOpt: Option[MongoSession] = None
 
@@ -26,7 +28,7 @@ extends Repo[M](modelType, persistenceConfig) {
   }
 
   protected def buildPRepo[P](pType: PType[M, P], polyRepoOpt: Option[R[_ >: P]] = None): R[P] =
-    MongoPRepo[M, P](pType, modelType, persistenceConfig, polyRepoOpt, session)
+    MongoPRepo[F, M, P](effect, modelType, pType, persistenceConfig, polyRepoOpt, session)
 
   protected def openBaseConnectionBlocking(): Unit = synchronized {
     if (sessionOpt.nonEmpty) throw new ConnectionOpenException

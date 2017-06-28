@@ -3,7 +3,7 @@ title: stream by query
 layout: page
 ---
 
-The `queryToIterator` and `queryToFutureVec` methods we looked at in the [previous
+The `queryToIterator` and `queryToVector` methods we looked at in the [previous
 section](retrieve-by.html) leave much to be desired. A streaming approach would be better, but which
 streaming library should we choose? Scala has many. Currently, longevity supports four of them:
 

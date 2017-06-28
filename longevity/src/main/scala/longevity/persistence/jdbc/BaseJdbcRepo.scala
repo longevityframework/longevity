@@ -4,19 +4,21 @@ import java.sql.Connection
 import java.sql.DriverManager
 import longevity.config.JdbcConfig
 import longevity.config.PersistenceConfig
+import longevity.context.Effect
 import longevity.exceptions.persistence.ConnectionClosedException
 import longevity.exceptions.persistence.ConnectionOpenException
 import longevity.model.ModelType
 import longevity.persistence.Repo
 import scala.collection.mutable.WeakHashMap
 
-private[persistence] abstract class BaseJdbcRepo[M] private[persistence](
+private[persistence] abstract class BaseJdbcRepo[F[_], M] private[persistence](
+  effect: Effect[F],
   modelType: ModelType[M],
   persistenceConfig: PersistenceConfig,
   jdbcConfig: JdbcConfig)
-extends Repo[M](modelType, persistenceConfig) {
+extends Repo[F, M](effect, modelType, persistenceConfig) {
 
-  type R[P] <: JdbcPRepo[M, P]
+  type R[P] <: JdbcPRepo[F, M, P]
 
   private var connectionOpt: Option[Connection] = None
 
@@ -40,7 +42,7 @@ extends Repo[M](modelType, persistenceConfig) {
 
 }
 
-object BaseJdbcRepo {
+private[persistence] object BaseJdbcRepo {
 
   // it's bad news to create multiple connections against a single JDBC database. this
   // is not a problem for typical programatic usage, where there is one LongevityContext,

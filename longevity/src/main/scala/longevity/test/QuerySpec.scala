@@ -10,11 +10,9 @@ import longevity.model.query.QueryOrderBy
 import longevity.persistence.PState
 import longevity.persistence.Repo
 import org.scalatest.FlatSpec
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
 
 /** contains common code for testing different [[longevity.model.query.Query Query]] instances
- * against [[longevity.persistence.Repo.queryToFutureVec Repo.queryToFutureVec]],
+ * against [[longevity.persistence.Repo.queryToVector Repo.queryToVector]],
  * [[longevity.persistence.Repo.queryToIterator]], and the four streaming query libraries:
  * 
  *   - [[longevity.persistence.streams.AkkaStreamsRepo.queryToAkkaStream AkkaStreamsRepo.queryToAkkaStream]]
@@ -25,21 +23,22 @@ import scala.concurrent.Future
  * pardon the nasty ScalaDocs for this class. we haven't figured out how to
  * remove the methods inherited from ScalaTest classes yet.
  *
+ * @tparam F the effect
  * @tparam M the model
- *
  * @tparam P the persistent type
  * 
  * @param context the longevity context under test
- * 
+ * @param pEv the persistent evidence
  * @param executionContext the execution context
  */
-abstract class QuerySpec[M, P](
-  protected val longevityContext: LongevityContext[M])(
-  protected implicit val pEv: PEv[M, P],
-  protected implicit val executionContext: ExecutionContext)
-extends FlatSpec with LongevityIntegrationSpec[M] with LazyLogging {
+abstract class QuerySpec[F[_], M, P](
+  protected val longevityContext: LongevityContext[F, M])(
+  protected implicit val pEv: PEv[M, P])
+extends FlatSpec with LongevityIntegrationSpec[F, M] with LazyLogging {
 
-  protected val repo: Repo[M] = longevityContext.testRepo
+  protected val repo: Repo[F, M] = longevityContext.testRepo
+
+  protected val effect = longevityContext.effect
 
   /** the number of entities to run queries against */
   protected val numEntities = 10
@@ -57,14 +56,12 @@ extends FlatSpec with LongevityIntegrationSpec[M] with LazyLogging {
 
   override def beforeAll(): Unit = {
     super.beforeAll()
-    val rootStateSeq = for (i <- 0.until(numEntities)) yield repo.create(generateP())
-    pStates = Future.sequence(rootStateSeq).futureValue
+    val createResultSeq = for (i <- 0.until(numEntities)) yield repo.create(generateP())
+    pStates = createResultSeq.map(longevityContext.effect.run)
     entities = pStates.map(_.get).toSet
   }
 
-  override def afterAll(): Unit = {
-    Future.traverse(pStates)(rootState => repo.delete(rootState)).futureValue
-  }
+  override def afterAll(): Unit = pStates.foreach { p => longevityContext.effect.run(repo.delete(p)) }
 
   /** pick an entity from the test set "at random". actually uses `Set.head` */
   protected def randomP: P = entities.head
@@ -101,7 +98,7 @@ extends FlatSpec with LongevityIntegrationSpec[M] with LazyLogging {
       fail("QuerySpec.exerciseQuery cannot be used to test queries with offset and limit clauses")
     }
 
-    val orderedResults = repo.queryToFutureVec(query).futureValue.map(_.get)
+    val orderedResults = longevityContext.effect.run(repo.queryToVector(query)).map(_.get)
     val results: Set[P] = orderedResults.toSet
     val actual = pStates.map(_.get).toSet intersect results // remove any entities not put in by this test
     val expected = entitiesMatchingQuery(query, entities)
