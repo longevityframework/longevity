@@ -2,7 +2,7 @@ package longevity.integration.noTranslation
 
 import com.typesafe.scalalogging.LazyLogging
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.persistence.Repo
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec

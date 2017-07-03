@@ -8,7 +8,7 @@ import fs2.Stream
 import fs2.Task
 import io.iteratee.{ Enumerator => CatsEnumerator }
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.ptype.Key

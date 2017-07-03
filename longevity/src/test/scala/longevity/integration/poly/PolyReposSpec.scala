@@ -1,6 +1,6 @@
 package longevity.integration.poly
 
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.PStateChangesDerivedPTypeException
 import longevity.integration.model.derived

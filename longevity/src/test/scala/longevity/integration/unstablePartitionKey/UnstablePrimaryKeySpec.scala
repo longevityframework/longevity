@@ -1,7 +1,7 @@
 package longevity.integration.unstablePrimaryKey
 
 import longevity.TestLongevityConfigs
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
 import longevity.integration.model.primaryKey.Key

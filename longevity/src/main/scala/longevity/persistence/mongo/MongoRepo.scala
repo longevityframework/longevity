@@ -4,7 +4,7 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 import longevity.config.MongoDBConfig
 import longevity.config.PersistenceConfig
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.exceptions.persistence.ConnectionClosedException
 import longevity.exceptions.persistence.ConnectionOpenException
 import longevity.model.ModelType

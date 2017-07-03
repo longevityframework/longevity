@@ -5,7 +5,7 @@ import java.sql.Connection
 import java.sql.ResultSet
 import java.util.UUID
 import longevity.config.PersistenceConfig
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import longevity.emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
 import longevity.emblem.exceptions.CouldNotTraverseException

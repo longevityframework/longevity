@@ -4,7 +4,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 import longevity.config.JdbcConfig
 import longevity.config.PersistenceConfig
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.exceptions.persistence.ConnectionClosedException
 import longevity.exceptions.persistence.ConnectionOpenException
 import longevity.model.ModelType

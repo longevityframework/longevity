@@ -1,4 +1,4 @@
-package longevity.context
+package longevity.effect
 
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
@@ -56,6 +56,14 @@ object Effect {
     def flatMap[A, B](fa: Future[A])(f: A => Future[B]): Future[B] = fa.flatMap(f)
     def mapBlocking[A, B](fa: Future[A])(f: A => B): Future[B] = blocking(fa.map(f))
     def run[A](fa: Future[A]) = Await.result(fa, duration)
+  }
+
+  implicit val blockingEffect = new Effect[Blocking] {
+    def pure[A](a: A): A = a
+    def map[A, B](a: A)(f: A => B): B = f(a)
+    def flatMap[A, B](a: A)(f: A => B): B = f(a)
+    def mapBlocking[A, B](a: A)(f: A => B): B = f(a)
+    def run[A](a: A) = a
   }
 
 }

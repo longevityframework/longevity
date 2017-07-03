@@ -2,7 +2,7 @@ package longevity.persistence.inmem
 
 import com.typesafe.scalalogging.LazyLogging
 import longevity.config.PersistenceConfig
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.persistence.PRepo
 import longevity.persistence.DatabaseId
 import longevity.persistence.PState

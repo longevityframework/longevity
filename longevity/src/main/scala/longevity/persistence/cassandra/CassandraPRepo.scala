@@ -5,7 +5,7 @@ import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
 import com.typesafe.scalalogging.LazyLogging
 import longevity.config.PersistenceConfig
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
 import longevity.emblem.emblematic.traversors.sync.JsonToEmblematicTranslator
 import longevity.emblem.exceptions.CouldNotTraverseException

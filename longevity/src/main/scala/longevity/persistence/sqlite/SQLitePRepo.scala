@@ -2,7 +2,7 @@ package longevity.persistence.sqlite
 
 import java.sql.Connection
 import longevity.config.PersistenceConfig
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.model.DerivedPType
 import longevity.model.ModelType

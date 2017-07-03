@@ -5,7 +5,7 @@ import longevity.config.InMem
 import longevity.config.LongevityConfig
 import longevity.config.MongoDB
 import longevity.config.SQLite
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.context.LongevityContext
 import longevity.model.ModelType
 import longevity.test.CustomGeneratorPool

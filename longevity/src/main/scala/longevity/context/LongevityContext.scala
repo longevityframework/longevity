@@ -4,6 +4,7 @@ import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 import longevity.config.InMem
 import longevity.config.LongevityConfig
+import longevity.effect.Effect
 import longevity.json.JsonMarshaller
 import longevity.json.JsonUnmarshaller
 import longevity.persistence.Repo

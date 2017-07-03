@@ -2,7 +2,7 @@ package longevity.persistence.mongo
 
 import com.typesafe.scalalogging.LazyLogging
 import longevity.config.PersistenceConfig
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.emblem.stringUtil.typeName
 import longevity.emblem.stringUtil.uncapitalize
 import longevity.model.DerivedPType

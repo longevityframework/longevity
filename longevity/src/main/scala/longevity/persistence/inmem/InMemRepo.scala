@@ -1,7 +1,7 @@
 package longevity.persistence.inmem
 
 import longevity.config.PersistenceConfig
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.model.ModelType
 import longevity.model.PType
 import longevity.persistence.Repo

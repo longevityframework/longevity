@@ -8,7 +8,7 @@ import longevity.config.LongevityConfig
 import longevity.config.MongoDB
 import longevity.config.PersistenceConfig
 import longevity.config.SQLite
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.model.DerivedPType
 import longevity.model.ModelType

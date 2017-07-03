@@ -5,7 +5,7 @@ import com.datastax.driver.core.Session
 import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.config.CassandraConfig
 import longevity.config.PersistenceConfig
-import longevity.context.Effect
+import longevity.effect.Effect
 import longevity.exceptions.persistence.ConnectionClosedException
 import longevity.exceptions.persistence.ConnectionOpenException
 import longevity.exceptions.persistence.cassandra.KeyspaceDoesNotExistException
