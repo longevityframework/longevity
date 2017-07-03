@@ -21,7 +21,7 @@ class FS2Repo[F[_], M](repo: Repo[F, M]) {
    *
    * @param query the query to execute
    */
-  def queryToFS2[P: PEv[M, ?]](query: Query[P]): Stream[Task, PState[P]] =
+  def queryToFS2[P: PEv[M, ?]](query: Query[P]): F[Stream[Task, PState[P]]] =
     repo.pRepoMap(implicitly[PEv[M, P]].key).queryToFS2Impl(query)
 
 }

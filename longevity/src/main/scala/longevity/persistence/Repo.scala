@@ -175,7 +175,7 @@ abstract class Repo[F[_], M] private[persistence](
    * 
    * @param query the query to execute
    */
-  def queryToIterator[P: PEv[M, ?]](query: Query[P]): Iterator[PState[P]] =
+  def queryToIterator[P: PEv[M, ?]](query: Query[P]): F[Iterator[PState[P]]] =
     pRepoMap(implicitly[PEv[M, P]].key).queryToIterator(query)
 
   /** retrieves multiple persistent objects matching a query

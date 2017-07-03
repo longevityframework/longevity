@@ -22,7 +22,7 @@ trait ExerciseAkkaStreams[F[_], M, P] extends QuerySpec[F, M, P] {
   private def exerciseAkkaStream(query: Query[P], expected: Set[P]): Unit = {
     implicit val system = ActorSystem("QuerySpec")
     implicit val materializer = ActorMaterializer()
-    val source = repo.queryToAkkaStream(query)
+    val source = effect.run(repo.queryToAkkaStream(query))
     val results = akkaSourceToChunkerator(materializer).adapt(source).toVector.map(_.get).toSet
     val actual = pStates.map(_.get).toSet intersect results
     system.terminate

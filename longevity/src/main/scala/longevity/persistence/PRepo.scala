@@ -56,22 +56,23 @@ private[longevity] abstract class PRepo[F[_], M, P] private[persistence] (
 
   protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]]
 
-  def queryToIterator(query: Query[P]): Iterator[PState[P]] = queryToChunkerator(query).toIterator
+  def queryToIterator(query: Query[P]): F[Iterator[PState[P]]] =
+    effect.map(effect.pure(query))(q => queryToChunkerator(q).toIterator)
 
   def queryToVector(query: Query[P]): F[Vector[PState[P]]] =
-    effect.mapBlocking(effect.pure(()))(_ => queryToChunkerator(query).toVector)
+    effect.mapBlocking(effect.pure(query))(q => queryToChunkerator(q).toVector)
 
-  def queryToAkkaStreamImpl(query: Query[P]): Source[PState[P], NotUsed] =
-    chunkeratorToAkkaSource.adapt(queryToChunkerator(query))
+  def queryToAkkaStreamImpl(query: Query[P]): F[Source[PState[P], NotUsed]] =
+    effect.map(effect.pure(query))(q => chunkeratorToAkkaSource.adapt(queryToChunkerator(q)))
 
-  def queryToFS2Impl(query: Query[P]): Stream[Task, PState[P]] =
-    chunkeratorToFS2Stream.adapt(queryToChunkerator(query))
+  def queryToFS2Impl(query: Query[P]): F[Stream[Task, PState[P]]] =
+    effect.map(effect.pure(query))(q => chunkeratorToFS2Stream.adapt(queryToChunkerator(q)))
 
-  def queryToIterateeIoImpl[F[_]](query: Query[P])(implicit F: Monad[F]): CatsEnumerator[F, PState[P]] =
-    chunkeratorToIterateeIoEnumerator.adapt(queryToChunkerator(query))
+  def queryToIterateeIoImpl[F2[_]](query: Query[P])(implicit F2: Monad[F2]): F[CatsEnumerator[F2, PState[P]]] =
+    effect.map(effect.pure(query))(q => chunkeratorToIterateeIoEnumerator.adapt(queryToChunkerator(q)))
 
-  def queryToPlayImpl(query: Query[P])(implicit context: ExecutionContext): PlayEnumerator[PState[P]] =
-    chunkeratorToPlayEnumerator.adapt(queryToChunkerator(query))
+  def queryToPlayImpl(query: Query[P])(implicit context: ExecutionContext): F[PlayEnumerator[PState[P]]] =
+    effect.map(effect.pure(query))(q => chunkeratorToPlayEnumerator.adapt(queryToChunkerator(q)))
 
   protected[persistence] def createSchemaBlocking(): Unit
 

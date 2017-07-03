@@ -22,7 +22,8 @@ class IterateeIoRepo[F[_], M](repo: Repo[F, M]) {
    *
    * @param query the query to execute
    */
-  def queryToIterateeIo[P: PEv[M, ?], F[_]](query: Query[P])(implicit F: Monad[F]): Enumerator[F, PState[P]] =
-    repo.pRepoMap(implicitly[PEv[M, P]].key).queryToIterateeIoImpl[F](query)
+  def queryToIterateeIo[P: PEv[M, ?], F2[_]](query: Query[P])(implicit F2: Monad[F2])
+      : F[Enumerator[F2, PState[P]]] =
+    repo.pRepoMap(implicitly[PEv[M, P]].key).queryToIterateeIoImpl[F2](query)
 
 }
