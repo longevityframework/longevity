@@ -5,11 +5,12 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.blocking
 import scala.concurrent.duration.Duration
-import scala.concurrent.duration.MILLISECONDS
+import scala.concurrent.duration.SECONDS
 
 /** an effect type class. a monad describing how the persistence operations in longevity are
- * processed. effects are typically found implicitly when building your [[LongevityContext]]. common
- * effects are found within the `Effect` companion object.
+ * processed. effects are typically found implicitly when building your
+ * [[longevity.context.LongevityContext LongevityContext]]. common effects are found within the
+ * `Effect` companion object.
  *
  * the methods within this trait are used internally by longevity, and are only important to users
  * who wish to implement their own effect type classes.
@@ -41,13 +42,13 @@ trait Effect[F[_]] {
 
 }
 
-/** contains implicit `Effect` implementations for common effectful classes such as `scala.concurrent.Future`
- */
+/** contains implicit `Effect` implementations for common effectful classes */
 object Effect {
 
   /** the default duration to await a future in [[Effect.run]] */
-  val defaultDuration = Duration(30000, MILLISECONDS)
+  val defaultDuration = Duration(10, SECONDS)
 
+  /** an implicit `Effect` implementation for `scala.concurrent.Future` */
   implicit def futureEffect(
     implicit context: ExecutionContext,
     duration: Duration = defaultDuration) = new Effect[Future] {
@@ -58,6 +59,7 @@ object Effect {
     def run[A](fa: Future[A]) = Await.result(fa, duration)
   }
 
+  /** an implicit `Effect` implementation for `longevity.effect.Blocking` */
   implicit val blockingEffect = new Effect[Blocking] {
     def pure[A](a: A): A = a
     def map[A, B](a: A)(f: A => B): B = f(a)

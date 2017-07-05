@@ -8,6 +8,7 @@ object Dependencies {
   val akkaStreamDep:     ModuleID = "com.typesafe.akka"          %% "akka-stream"           % "2.5.2"
   val cassandraDep:      ModuleID = "com.datastax.cassandra"     %  "cassandra-driver-core" % "3.2.0"
   val catsDep:           ModuleID = "org.typelevel"              %% "cats"                  % "0.9.0"
+  val catsEffectDep:     ModuleID = "org.typelevel"              %% "cats-effect"           % "0.3"
   val catsIterateeDep:   ModuleID = "io.iteratee"                %% "iteratee-core"         % "0.12.0"
   val fs2CoreDep:        ModuleID = "co.fs2"                     %% "fs2-core"              % "0.9.6"
   val json4sDep:         ModuleID = "org.json4s"                 %% "json4s-native"         % "3.5.2"
@@ -20,7 +21,7 @@ object Dependencies {
   val slf4jSimpleDep:    ModuleID = "org.slf4j"                  %  "slf4j-simple"          % "1.7.25"
   val sqliteDep:         ModuleID = "org.xerial"                 %  "sqlite-jdbc"           % "3.18.0"
   val streamAdapterDep:  ModuleID = "org.longevityframework"     %% "streamadapter"         % "0.1.0"
-  val typesafeConfigDep: ModuleID = "com.typesafe"               %  "config"                % "1.3.1"
   val typekeyDep:        ModuleID = "org.longevityframework"     %% "typekey"               % "1.0.0"
+  val typesafeConfigDep: ModuleID = "com.typesafe"               %  "config"                % "1.3.1"
 
 }
