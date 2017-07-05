@@ -13,23 +13,33 @@ import scala.concurrent.ExecutionContext
  */
 object cats {
 
-  /** an execution context that is used as a default for blocking operations. creates new threads as
-   * needed, as per `java.util.concurrent.Executors.newCachedThreadPool`
+  /** a thread pool that is used as a default for blocking operations. creates new threads as needed,
+   * as per `java.util.concurrent.Executors.newCachedThreadPool`.
+   *
+   * if you experience a lag between closing your connection and program exit, and you are using
+   * [[defaultBlockingContext]], try calling `shutdown()` on this thread pool.
    * 
    * @see [[https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executors.html#newCachedThreadPool()]]
    */
-  val defaultBlockingContext = ExecutionContext.fromExecutor(Executors.newCachedThreadPool())
+  val defaultBlockingThreadPool = Executors.newCachedThreadPool()
+
+  /** an execution context that is used as a default for blocking operations. uses
+   * [[defaultBlockingThreadPool]] ad the underlying thread pool.
+   *
+   * @see defaultBlockingThreadPool
+   */
+  val defaultBlockingContext = ExecutionContext.fromExecutor(defaultBlockingThreadPool)
 
   /** an implicit `longevity.effect.Effect` implementation for `cats.effect.IO`. uses the
    * [[defaultBlockingContext]] for blocking operations
-   * 
+   *
    * @param nonBlockingContext the execution context used for non-blocking operations
    */
   implicit def ioEffect(implicit nonBlockingContext: ExecutionContext): Effect[IO] =
     ioEffect(nonBlockingContext, defaultBlockingContext)
 
   /** a `longevity.effect.Effect` implementation for `cats.effect.IO`
-   * 
+   *
    * @param nonBlockingContext the execution context used for non-blocking operations
    * @param blockingContext the execution context used for non-blocking operations
    */
