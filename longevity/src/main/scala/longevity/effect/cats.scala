@@ -9,14 +9,14 @@ import scala.concurrent.ExecutionContext
  * note that `cats-effect` is an optional library dependency in longevity, so you will have to
  * declare the dependency yourself to use these effects.
  *
- * @see https://github.com/typelevel/cats-effect
+ * @see [[https://github.com/typelevel/cats-effect]]
  */
-package object cats {
+object cats {
 
   /** an execution context that is used as a default for blocking operations. creates new threads as
    * needed, as per `java.util.concurrent.Executors.newCachedThreadPool`
    * 
-   * @see https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executors.html#newCachedThreadPool()
+   * @see [[https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executors.html#newCachedThreadPool()]]
    */
   val defaultBlockingContext = ExecutionContext.fromExecutor(Executors.newCachedThreadPool())
 
