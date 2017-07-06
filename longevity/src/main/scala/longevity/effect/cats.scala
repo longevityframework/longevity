@@ -24,7 +24,7 @@ object cats {
   val defaultBlockingThreadPool = Executors.newCachedThreadPool()
 
   /** an execution context that is used as a default for blocking operations. uses
-   * [[defaultBlockingThreadPool]] ad the underlying thread pool.
+   * [[defaultBlockingThreadPool]] as the underlying thread pool.
    *
    * @see defaultBlockingThreadPool
    */
