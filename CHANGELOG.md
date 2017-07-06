@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.24.0] - TODO - TODO
+## [0.24.0] - 2016.07.06 - Generic Effects with Finally Tagless
 
 - 2017.06.14 - Rename config flag `autocreateSchema` to `autoCreateSchema`.
 - 2017.06.14 - Add config flag `autoOpenConnection`.
@@ -15,6 +15,8 @@
 - 2017.06.29 - Remove method `longevity.persistent.Repo.createMany` and related
   `longevity.persistent.PWithEv`. These provided very little value added at the expense of
   cluttering the API with confusing stuff.
+- 2017.07.06 - Replace hardcoded `Future` effect with generic effect `F` in
+  `longevity.context.LongevityContext` and `longevity.persistence.Repo`.
 
 ## [0.23.0] - 2017.06.09 - Use Type Classes to Improve Type Safety of Persistent API
 
