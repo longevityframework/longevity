@@ -78,7 +78,6 @@ If you want to [stream query results](../query/stream-by.html) to
 [iteratee.io](https://github.com/travisbrown/iteratee):
 
 ```scala
-libraryDependencies += "org.typelevel" %% "cats" % "0.9.0"
 libraryDependencies += "io.iteratee" %% "iteratee-core" % "0.12.0"
 ```
 

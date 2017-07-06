@@ -27,7 +27,6 @@ against a real database:
 
 ```scala
 import org.scalatest.Suites
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class BlogCrudSpec extends Suites(
   longevityContext.repoCrudSpec,
@@ -37,11 +36,6 @@ class BlogCrudSpec extends Suites(
 ScalaTest is an optional dependency in longevity, so you'll need to
 declare a dependency on ScalaTest in your own project to use the repo
 crud specs. Please use ScalaTest version 3.0.1 or later.
-
-You need to provide an execution context when calling
-`LongevityContext.repoCrudSpec`. The easiest way to do this is to
-include `import scala.concurrent.ExecutionContext.Implicits.global` at
-the top of your file.
 
 The default test data generator will not work out of the box in the
 face of constraint violations causing exceptions to be thrown from

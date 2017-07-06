@@ -26,6 +26,7 @@ layout: page
   - [Polymorphic Persistents](poly/persistents.html)
   - [Controlled Vocabularies](poly/cv.html)
 - [The Longevity Context](context)
+  - [Choosing your Effect](context/effects.html)
   - [Configuring your Longevity Context](context/config.html)
   - [Repositories in the Context](context/repos.html)
   - [Optimistic Locking](context/opt-lock.html)

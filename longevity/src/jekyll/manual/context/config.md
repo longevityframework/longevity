@@ -128,8 +128,8 @@ end. See [these
 instructions](https://github.com/longevityframework/longevity/wiki/How-to-create-a-new-JDBC-back-end)
 for details.
 
-{% assign prevTitle = "the longevity context" %}
-{% assign prevLink  = "." %}
+{% assign prevTitle = "choosing your effect" %}
+{% assign prevLink  = "effects.html" %}
 {% assign upTitle   = "the longevity context" %}
 {% assign upLink    = "." %}
 {% assign nextTitle = "repositories in the context" %}
