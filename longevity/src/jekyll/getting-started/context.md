@@ -8,10 +8,16 @@ Once we have your domain model in place, we are ready to build our
 
 ```scala
 import longevity.context.LongevityContext
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import simbl.domain.SimblDomainModel
 
-val longevityContext = LongevityContext[SimblDomainModel]()
+val longevityContext = LongevityContext[Future, SimblDomainModel]()
 ```
+
+You can configure the longevity context with one of any number of effects. In this guide, we choose
+to use Scala futures. For other options, see the [section on
+effects](../manual/context/effects.html) in the user manual.
 
 The longevity context provides a variety of tools that are tailored to your model. The most
 important of these is the `Repo`, which you can use to do standard CRUD operations
@@ -60,7 +66,7 @@ longevity.test.jdbc.url = "jdbc:sqlite:simbl_test.db"
 
 Here, you need to specify the back end in configuration property
 `longevity.backEnd`. Your choices are currently `Cassandra`, `InMem`,
-`Mongo`, and `SQLite`. We use `InMem` out of the box. If you want to
+`MongoDB`, and `SQLite`. We use `InMem` out of the box. If you want to
 try Cassandra or MongoDB, you will need to set up a database system to
 connect to. The SQLite back end will work without any extra setup, as
 all you need to run SQLite is the right jar on your classpath.

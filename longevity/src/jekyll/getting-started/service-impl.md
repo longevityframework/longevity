@@ -8,28 +8,29 @@ job, the `UserServiceImpl` needs a `SimblDomainModel` repository, which is retri
 `LongevityContext` in `SimblContextImpl.scala` like so:
 
 ```scala
-val longevityContext = LongevityContext[SimblDomainModel]()
+val longevityContext = LongevityContext[Future, SimblDomainModel]()
 val repo = longevityContext.repo
 ```
 
-Because most of the repository methods need an execution context to run in, `SimblContextImpl` also
-provides an execution context that it pulls out of the Akka `ActorSystem`. Akka HTTP already needs
-an `ExecutionContext` to run. In other scenarios, you can always find an execution context in
-`scala.concurrent.ExecutionContext.Implicits.global`.
+The `LongevityContext` takes an implicit `ExecutionContext` when constructed with a `Future` effect.
+This will be used for all the repository operations. But `UserServiceImpl` will still need an
+execution context to compose the futures. Akka HTTP already needs an `ExecutionContext` to run, and
+`SimblContextImpl` provides an execution context that it pulls out of the Akka `ActorSystem`.
 
-Here's the scaffolding for `UserServiceImpl`, which shows how the
-class acquires its two dependencies:
+Here's the scaffolding for `UserServiceImpl`, which shows how the class acquires its two
+dependencies:
 
 ```scala
 package simbl.service
 
 import longevity.persistence.Repo
 import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 import simbl.domain.SimblDomainModel
 
 /** default implementation of service to back the [[UserRoute user routes]] */
 class UserServiceImpl(
-  private val repo: Repo[SimblDomainModel])(
+  private val repo: Repo[Future, SimblDomainModel])(
   implicit context: ExecutionContext)
 extends UserService {
 
