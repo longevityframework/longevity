@@ -60,6 +60,6 @@ implementation.
 {% assign prevLink  = "schema-creation.html" %}
 {% assign upTitle   = "the repository" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "persistent state wrappers" %}
-{% assign nextLink  = "pstate-wrappers.html" %}
+{% assign nextTitle = "repo.create" %}
+{% assign nextLink  = "create.html" %}
 {% include navigate.html %}

@@ -28,8 +28,8 @@ Better yet, submit a pull request! We will be happy to assist you in crafting th
 
 </div>
 
-{% assign prevTitle = "write timestamps" %}
-{% assign prevLink  = "../context/write-timestamps.html" %}
+{% assign prevTitle = "limitations on cassandra queries" %}
+{% assign prevLink  = "../query/cassandra-query-limits.html" %}
 {% assign upTitle   = "user manual" %}
 {% assign upLink    = ".." %}
 {% assign nextTitle = "in memory repositories" %}

@@ -3,12 +3,13 @@ title: feature list
 layout: page
 ---
 
-Current features are described in detail in the [user
-manual](manual). They include:
+Current features are described in detail in the [user manual](manual). They include:
 
-- Asynchronous persistence API using [Scala
-  futures](http://docs.scala-lang.org/overviews/core/futures.html) and
-  four different Scala streaming libraries.
+- A [finally tagless](https://pchiusano.github.io/2014-05-20/scala-gadts.html) API that allows you
+  to do persistence with the effect of your choice, including [Scala
+  futures](http://docs.scala-lang.org/overviews/core/futures.html), [IO
+  monads](https://github.com/typelevel/cats-effect), or a purely synchronous, blocking approach.
+- Streaming query results with any of four different Scala streaming libraries.
 - Cassandra, MongoDB, SQLite, and in-memory back ends.
 
 - Supports flexible construction of your domain model using standard
@@ -18,7 +19,7 @@ manual](manual). They include:
 - Polymorphic traits and controlled vocabularies.
 - Boilerplate-free description of your domain model.
 
-- Pre-built repository with simple, typesafe, reactive APIs.
+- Pre-built repository with simple, typesafe, effectful APIs.
 - Configuration-level optimistic locking.
 - Pre-built integration tests that exercise your repositories
   against a real database.
@@ -30,7 +31,6 @@ manual](manual). They include:
 
 The current high-priority features and improvements are:
 
-- Generalize the repository API away from `Future` with [tagless final](https://pchiusano.github.io/2014-05-20/scala-gadts.html).
 - Schema migration framework.
 - Replace home-grown reflection utilities with shapeless/circe.
 - First-class support for optional values.

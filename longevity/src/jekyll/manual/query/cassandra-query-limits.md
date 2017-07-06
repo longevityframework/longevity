@@ -41,6 +41,6 @@ circumstances:
 {% assign prevLink  = "stream-by.html" %}
 {% assign upTitle   = "queries" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "the longevity context" %}
-{% assign nextLink  = "../context" %}
+{% assign nextTitle = "testing your domain model" %}
+{% assign nextLink  = "../testing" %}
 {% include navigate.html %}

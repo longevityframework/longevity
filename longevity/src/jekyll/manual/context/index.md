@@ -34,8 +34,8 @@ which are most useful when [writing tests](../testing).
 - [Optimistic Locking](opt-lock.html)
 - [Write Timestamps](write-timestamps.html)
 
-{% assign prevTitle = "limitations on cassandra queries" %}
-{% assign prevLink  = "../query/cassandra-query-limits.html" %}
+{% assign prevTitle = "controlled vocabularies" %}
+{% assign prevLink  = "../poly/cv.html" %}
 {% assign upTitle   = "user manual" %}
 {% assign upLink    = ".." %}
 {% assign nextTitle = "configuring your longevity context" %}

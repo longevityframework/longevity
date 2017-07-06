@@ -35,7 +35,7 @@ columns for Cassandra and SQLite) is in place.
 {% assign prevLink  = "opt-lock.html" %}
 {% assign upTitle   = "the longevity context" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "testing your domain model" %}
-{% assign nextLink  = "../testing" %}
+{% assign nextTitle = "the repository" %}
+{% assign nextLink  = "../repo" %}
 {% include navigate.html %}
 

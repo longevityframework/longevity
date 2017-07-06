@@ -59,7 +59,7 @@ be happy to support you in implementing it however we can.
 {% assign prevLink  = "persistents.html" %}
 {% assign upTitle   = "subtype polymorphism" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "the repository" %}
-{% assign nextLink  = "../repo" %}
+{% assign nextTitle = "the longevity context" %}
+{% assign nextLink  = "../context" %}
 {% include navigate.html %}
 

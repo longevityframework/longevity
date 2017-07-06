@@ -49,10 +49,10 @@ On Cassandra, no check for duplicate key values is made. We
 [plan](https://www.pivotaltracker.com/story/show/107958610) to give
 the user finer control over this behavior in the future.
 
-{% assign prevTitle = "persistent state wrappers" %}
-{% assign prevLink  = "pstate-wrappers.html" %}
+{% assign prevTitle = "persistent state" %}
+{% assign prevLink  = "persistent-state.html" %}
 {% assign upTitle   = "the repository" %}
 {% assign upLink    = "." %}
-{% assign nextTitle = "creating many aggregates at once" %}
-{% assign nextLink  = "create-many.html" %}
+{% assign nextTitle = "repo.retrieve" %}
+{% assign nextLink  = "retrieve.html" %}
 {% include navigate.html %}

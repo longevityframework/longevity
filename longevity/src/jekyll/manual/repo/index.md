@@ -12,16 +12,14 @@ chapter](../query). How to get your hands on a `Repo` instance is discussed in t
 - [Opening and Closing the Connection](connection.html)
 - [Schema Creation](schema-creation.html)
 - [Persistent State](persistent-state.html)
-- [Persistent State Wrappers](pstate-wrappers.html)
 - [Repo.create](create.html)
-- [Creating Many Aggregates at Once](create-many.html)
 - [Retrieval by Key Value](retrieve.html)
 - [Repo.update](update.html)
 - [Repo.delete](delete.html)
 - [Persisting Polymorphism](poly.html)
 
-{% assign prevTitle = "controlled vocabularies" %}
-{% assign prevLink  = "../poly/cv.html" %}
+{% assign prevTitle = "write timestamps" %}
+{% assign prevLink  = "../context/write-timestamps.html" %}
 {% assign upTitle   = "user manual" %}
 {% assign upLink    = ".." %}
 {% assign nextTitle = "opening and closing the connection" %}
