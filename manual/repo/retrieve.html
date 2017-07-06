@@ -84,12 +84,11 @@ parameter. Otherwise the call would look like this:</p>
 inferred in this case. (The presence of the <code class="highlighter-rouge">User</code> type on the left-hand side of the assignment
 doesn’t help.)</p>
 
-<p>The <code class="highlighter-rouge">Repo.Retrieve[P].apply</code> method takes three implicit arguments. Like <code class="highlighter-rouge">Repo.create</code>, we require
-an <code class="highlighter-rouge">ExecutionContext</code>, as well as a <code class="highlighter-rouge">PEnv[M, P]</code>, to ensure that the persistent class is actually
-part of the domain model. The retrieve method also requires an implicit
-<code class="highlighter-rouge">longevity.model.ptype.Key[M, P, V]</code> argument, to assure that the key value supplied actually
-matches up with a key defined in the <a href="../ptype">persistent type</a> for <code class="highlighter-rouge">P</code>. This is why we typically
-define our <a href="../ptype/keys.html">keys</a> as implicit values.</p>
+<p>The <code class="highlighter-rouge">Repo.Retrieve[P].apply</code> method takes two implicit arguments. Like <code class="highlighter-rouge">Repo.create</code>, we require a
+<code class="highlighter-rouge">PEnv[M, P]</code>, to ensure that the persistent class is actually part of the domain model. The retrieve
+method also requires an implicit <code class="highlighter-rouge">longevity.model.ptype.Key[M, P, V]</code> argument, to assure that the
+key value supplied actually matches up with a key defined in the <a href="../ptype">persistent type</a> for
+<code class="highlighter-rouge">P</code>. This is why we typically define our <a href="../ptype/keys.html">keys</a> as implicit values.</p>
 
 <p>Take note that <code class="highlighter-rouge">Repo.retrieve</code> returns an <em>optional</em> <code class="highlighter-rouge">PState</code>, since there is never a guarantee that
 a key value will match an existing persistent object. If you feel confident that the persistent
@@ -146,7 +145,7 @@ cache, if need be.</p>
 
 <div style="min-width: 10em">
 
-  prev: <a href="create-many.html">creating many aggregates at once</a>
+  prev: <a href="create.html">repo.create</a>
 
 </div>
 

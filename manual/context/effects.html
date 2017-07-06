@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>choosing your effect</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> choosing your effect </h1>
+          
+          <p>Longevity will wrap the results of all your persistence operations in an “effect”. The effect
+describes how you would like longevity to handle the blocking nature of database operations. You can
+choose to use <a href="http://docs.scala-lang.org/overviews/core/futures.html">Scala futures</a>, a more
+functional, <a href="http://underscore.io/blog/posts/2015/04/28/monadic-io-laziness-makes-you-free.html">IO
+monad</a> kind of
+approach, where all side-effects are pushed to the edges of your program, or an entirely synchronous
+and blocking approach.</p>
+
+<p>We already saw how to use futures in the previous section:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.context.LongevityContext</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
+
+<span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">DomainModel</span><span class="o">]()</span>
+</code></pre>
+</div>
+
+<p>You need to provide an execution context when creating a <code class="highlighter-rouge">LongevityContext</code> with a <code class="highlighter-rouge">Future</code> effect.
+The easiest way to do this is to include <code class="highlighter-rouge">import scala.concurrent.ExecutionContext.Implicits.global</code>
+at the top of your file.</p>
+
+<p>For a more functional approach, you can use the
+<a href="https://github.com/typelevel/cats-effect">cats-effect</a> IO monad:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.effect.IO</span>
+<span class="k">import</span> <span class="nn">longevity.context.LongevityContext</span>
+<span class="k">import</span> <span class="nn">longevity.effect.cats.ioEffect</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+
+<span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">DomainModel</span><span class="o">]()</span>
+</code></pre>
+</div>
+
+<p>Using <code class="highlighter-rouge">IO</code> as an effect also requires an implicit execution context. This execution context is used
+for synchronous operations. Blocking operations use a separate execution context, where blocking
+threads are spun up as needed to handle the asynchony. In the code example above, we choose a
+suitable default execution context for blocking operations. If you wish to explore using your own
+blocking execution context, take a look at the <a href="../../api/longevity/effect/cats$.html#ioEffect">API for
+longevity.effect.cats.ioEffect</a>. For an explanation
+of the reason for using two execution contexts here, please see the “Thread Shifting” section in
+this <a href="http://typelevel.org/blog/2017/05/02/io-monad-for-cats.html">IO monad for cats</a> blog post.</p>
+
+<p>If you want a synchronous persistence API, use <code class="highlighter-rouge">longevity.effect.Blocking</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.context.LongevityContext</span>
+<span class="k">import</span> <span class="nn">longevity.effect.Blocking</span>
+
+<span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">Blocking</span>, <span class="kt">DomainModel</span><span class="o">]()</span>
+</code></pre>
+</div>
+
+<p>The type <code class="highlighter-rouge">Blocking[A]</code> is equivalent to <code class="highlighter-rouge">A</code>, similar to an <code class="highlighter-rouge">Id</code> monad like <code class="highlighter-rouge">cats.Id</code>. Because of
+this, the results of persistence operations are unwrapped.</p>
+
+<p>Many more effects are possible, and we intend to provide support for some of the more common
+<code class="highlighter-rouge">Task</code>-like classes in the near future. But you can always provide your own. Simply create your own
+<code class="highlighter-rouge">Effect</code> class by implementing <a href="../../api/longevity/effect/Effect.html">this API</a>, and make your
+effect implicitly available when constructing your <code class="highlighter-rouge">LongevityContext</code>.</p>
+
+<p>Some of the examples in this user manual may assume a <code class="highlighter-rouge">Future</code> effect, but you can always intuit how
+things would look with other effects. For instance, if you see a code example like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">createResult</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">user</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>You can assume that it would look like this with the <code class="highlighter-rouge">IO</code> effect:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">createResult</span><span class="k">:</span> <span class="kt">IO</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">user</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>Or like this with the <code class="highlighter-rouge">Blocking</code> effect:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">createResult</span><span class="k">:</span> <span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">user</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>The <a href="https://github.com/longevityframework/demo">longevity demo project</a> has multiple examples using
+different effects.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href=".">the longevity context</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the longevity context</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="config.html">configuring your longevity context</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api/longevity"                                          class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

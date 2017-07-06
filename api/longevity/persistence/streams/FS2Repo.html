@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.23.0 API  - longevity.persistence.streams.FS2Repo</title>
-          <meta name="description" content="longevity 0.23.0 API - longevity.persistence.streams.FS2Repo" />
-          <meta name="keywords" content="longevity 0.23.0 API longevity.persistence.streams.FS2Repo" />
+          <title>longevity 0.24.0 API  - longevity.persistence.streams.FS2Repo</title>
+          <meta name="description" content="longevity 0.24.0 API - longevity.persistence.streams.FS2Repo" />
+          <meta name="keywords" content="longevity 0.24.0 API longevity.persistence.streams.FS2Repo" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.23.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.24.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -174,14 +174,14 @@ API.">
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">FS2Repo</span><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">FS2Repo</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4>
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides repository methods that use FS2 for repository streaming API.</p><p><code>FS2Repo</code> is provided by an implicit conversion from <code>Repo</code>, so that FS2 can remain an optional
 dependency for longevity users. otherwise, it would have been included as part of the <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.23.0/src/main/scala/longevity/persistence/streams/FS2Repo.scala" target="_blank">FS2Repo.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the effect</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.24.0/src/main/scala/longevity/persistence/streams/FS2Repo.scala" target="_blank">FS2Repo.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -190,7 +190,7 @@ dependency for longevity users. otherwise, it would have been included as part o
                 <span class="toggle diagram-link">
                   Type Hierarchy
                 </span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 495.00 125.00" height="125pt" width="495pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 491,-121 491,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><g class="cluster" id="clust4"></g><!-- node3 --><g class="node implicit-outgoing class" id="graph1_3"><g id="a_implicit-outgoing class|graph1_3"><a xlink:title="longevity.persistence.streams.FS2Repo can be implicitly converted to PWithEv[M, FS2Repo[M]] by the implicit method PWithEv in package longevity.persistence" xlink:href="../package$$PWithEv.html#inheritance-diagram"><path d="M454.667,-49C454.667,-49 337.333,-49 337.333,-49 333.167,-49 329,-44.8333 329,-40.6667 329,-40.6667 329,-32.3333 329,-32.3333 329,-28.1667 333.167,-24 337.333,-24 337.333,-24 454.667,-24 454.667,-24 458.833,-24 463,-28.1667 463,-32.3333 463,-32.3333 463,-40.6667 463,-40.6667 463,-44.8333 458.833,-49 454.667,-49" stroke="#ababab" fill="#e1e1e1"></path><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="339" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="8.00" font-family="Source Code Pro" y="-33.6" x="359.822" text-anchor="start">PWithEv[M, FS2Repo[M]]</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.persistence.streams.FS2Repo (this class)" xlink:href="#inheritance-diagram"><path d="M248.667,-49C248.667,-49 177.333,-49 177.333,-49 173.167,-49 169,-44.8333 169,-40.6667 169,-40.6667 169,-32.3333 169,-32.3333 169,-28.1667 173.167,-24 177.333,-24 177.333,-24 248.667,-24 248.667,-24 252.833,-24 257,-28.1667 257,-32.3333 257,-32.3333 257,-40.6667 257,-40.6667 257,-44.8333 252.833,-49 248.667,-49" stroke="#418565" fill="#418565"></path><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="179" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-33.6" x="199.936" text-anchor="start">FS2Repo[M]</text></a></g></g><!-- node0&#45;&gt;node3 --><g class="edge implicit-outgoing" id="0_3"><g id="a_implicit-outgoing|0_3"><a xlink:title="FS2Repo[M] can be implicitly converted to PWithEv[M, FS2Repo[M]]"><path d="M264.693,-36.5C280.079,-36.5 297.331,-36.5 314.144,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="314.319,-38.9501 321.319,-36.5 314.319,-34.0501 314.319,-38.9501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="9.00" font-family="Source Code Pro" y="-41.3" x="293" text-anchor="middle">implicitly</text></g><!-- node2 --><g class="node implicit-incoming class" id="graph1_2"><g id="a_implicit-incoming class|graph1_2"><a xlink:title="longevity.persistence.Repo can be implicitly converted to FS2Repo[M] by the implicit method repoToFS2Repo in package longevity.persistence" xlink:href="../Repo.html#inheritance-diagram"><path d="M89.1667,-49C89.1667,-49 32.8333,-49 32.8333,-49 28.6667,-49 24.5,-44.8333 24.5,-40.6667 24.5,-40.6667 24.5,-32.3333 24.5,-32.3333 24.5,-28.1667 28.6667,-24 32.8333,-24 32.8333,-24 89.1667,-24 89.1667,-24 93.3333,-24 97.5,-28.1667 97.5,-32.3333 97.5,-32.3333 97.5,-40.6667 97.5,-40.6667 97.5,-44.8333 93.3333,-49 89.1667,-49" stroke="#ababab" fill="#e1e1e1"></path><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="8.00" font-family="Source Code Pro" y="-33.6" x="55.7715" text-anchor="start">Repo[M]</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge implicit-incoming" id="2_0"><g id="a_implicit-incoming|2_0"><a xlink:title="Repo[M] can be implicitly converted to FS2Repo[M]"><path d="M105.981,-36.5C121.118,-36.5 138.236,-36.5 154.272,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="154.47,-38.9501 161.47,-36.5 154.47,-34.0501 154.47,-38.9501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="9.00" font-family="Source Code Pro" y="-41.3" x="133.25" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><path d="M239.167,-117C239.167,-117 186.833,-117 186.833,-117 182.667,-117 178.5,-112.833 178.5,-108.667 178.5,-108.667 178.5,-100.333 178.5,-100.333 178.5,-96.1667 182.667,-92 186.833,-92 186.833,-92 239.167,-92 239.167,-92 243.333,-92 247.5,-96.1667 247.5,-100.333 247.5,-100.333 247.5,-108.667 247.5,-108.667 247.5,-112.833 243.333,-117 239.167,-117" stroke="#418565" fill="#418565"></path><image xlink:href="../../../lib/class_diagram.png" y="-111.5" x="189" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-101.6" x="209.771" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="FS2Repo[M] is a subtype of AnyRef"><path d="M213,-84.6706C213,-73.245 213,-59.0216 213,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="210.55,-84.7005 213,-91.7005 215.45,-84.7006 210.55,-84.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 152.00 118.00" height="118pt" width="152pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 148,-114 148,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.persistence.streams.FS2Repo (this class)" xlink:href="#inheritance-diagram"><path d="M111.667,-49C111.667,-49 32.3333,-49 32.3333,-49 28.1667,-49 24,-44.8333 24,-40.6667 24,-40.6667 24,-32.3333 24,-32.3333 24,-28.1667 28.1667,-24 32.3333,-24 32.3333,-24 111.667,-24 111.667,-24 115.833,-24 120,-28.1667 120,-32.3333 120,-32.3333 120,-40.6667 120,-40.6667 120,-44.8333 115.833,-49 111.667,-49" stroke="#418565" fill="#418565"></path><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="34" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-33.6" x="54.7129" text-anchor="start">FS2Repo[F, M]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><path d="M98.1667,-110C98.1667,-110 45.8333,-110 45.8333,-110 41.6667,-110 37.5,-105.833 37.5,-101.667 37.5,-101.667 37.5,-93.3333 37.5,-93.3333 37.5,-89.1667 41.6667,-85 45.8333,-85 45.8333,-85 98.1667,-85 98.1667,-85 102.333,-85 106.5,-89.1667 106.5,-93.3333 106.5,-93.3333 106.5,-101.667 106.5,-101.667 106.5,-105.833 102.333,-110 98.1667,-110" stroke="#418565" fill="#418565"></path><image xlink:href="../../../lib/class_diagram.png" y="-104.5" x="48" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-94.6" x="68.7715" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="FS2Repo[F, M] is a subtype of AnyRef"><path d="M72,-77.7603C72,-68.3675 72,-57.2882 72,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="69.5501,-77.8435 72,-84.8435 74.4501,-77.8435 69.5501,-77.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
                 <div id="diagram-controls" class="hiddenContent">
                   <button id="diagram-zoom-out" class="diagram-btn"><i class="material-icons"></i></button>
                   <button id="diagram-zoom-in" class="diagram-btn"><i class="material-icons"></i></button>
@@ -226,7 +226,7 @@ dependency for longevity users. otherwise, it would have been included as part o
                 </div><div class="ancestors">
                   <span class="filtertype">Implicitly<br />
                   </span>
-                  <ol id="implicits"> <li class="in" name="longevity.persistence.PWithEv" data-hidden="false"><span>by PWithEv</span></li><li class="in" name="scala.Predef.any2stringadd" data-hidden="true"><span>by any2stringadd</span></li><li class="in" name="scala.Predef.StringFormat" data-hidden="true"><span>by StringFormat</span></li><li class="in" name="scala.Predef.Ensuring" data-hidden="true"><span>by Ensuring</span></li><li class="in" name="scala.Predef.ArrowAssoc" data-hidden="true"><span>by ArrowAssoc</span></li>
+                  <ol id="implicits"> <li class="in" name="scala.Predef.any2stringadd" data-hidden="true"><span>by any2stringadd</span></li><li class="in" name="scala.Predef.StringFormat" data-hidden="true"><span>by StringFormat</span></li><li class="in" name="scala.Predef.Ensuring" data-hidden="true"><span>by Ensuring</span></li><li class="in" name="scala.Predef.ArrowAssoc" data-hidden="true"><span>by ArrowAssoc</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -247,9 +247,9 @@ dependency for longevity users. otherwise, it would have been included as part o
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="longevity.persistence.streams.FS2Repo#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(repo:longevity.persistence.Repo[M]):longevity.persistence.streams.FS2Repo[M]"></a><a id="&lt;init&gt;:FS2Repo[M]"></a>
+      <a id="&lt;init&gt;(repo:longevity.persistence.Repo[F,M]):longevity.persistence.streams.FS2Repo[F,M]"></a><a id="&lt;init&gt;:FS2Repo[F,M]"></a>
       <span class="permalink">
-      <a href="../../../longevity/persistence/streams/FS2Repo.html#&lt;init&gt;(repo:longevity.persistence.Repo[M]):longevity.persistence.streams.FS2Repo[M]" title="Permalink">
+      <a href="../../../longevity/persistence/streams/FS2Repo.html#&lt;init&gt;(repo:longevity.persistence.Repo[F,M]):longevity.persistence.streams.FS2Repo[F,M]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -258,7 +258,7 @@ dependency for longevity users. otherwise, it would have been included as part o
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">FS2Repo</span><span class="params">(<span name="repo">repo: <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>)</span>
+        <span class="name">FS2Repo</span><span class="params">(<span name="repo">repo: <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>)</span>
       </span>
       
       <p class="shortcomment cmt"></p>
@@ -320,12 +320,12 @@ dependency for longevity users. otherwise, it would have been included as part o
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="-&gt;[B](y:B):(A,B)"></a><a id="-&gt;[B](B):(FS2Repo[M],B)"></a>
+      <a id="-&gt;[B](y:B):(A,B)"></a><a id="-&gt;[B](B):(FS2Repo[F,M],B)"></a>
       <span class="permalink">
       <a href="../../../longevity/persistence/streams/FS2Repo.html#-&gt;[B](y:B):(A,B)" title="Permalink">
         <i class="material-icons"></i>
@@ -336,12 +336,12 @@ dependency for longevity users. otherwise, it would have been included as part o
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -402,7 +402,7 @@ dependency for longevity users. otherwise, it would have been included as part o
               
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a><a id="ensuring((FS2Repo[M])⇒Boolean,⇒Any):FS2Repo[M]"></a>
+      <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a><a id="ensuring((FS2Repo[F,M])⇒Boolean,⇒Any):FS2Repo[F,M]"></a>
       <span class="permalink">
       <a href="../../../longevity/persistence/streams/FS2Repo.html#ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink">
         <i class="material-icons"></i>
@@ -413,16 +413,16 @@ dependency for longevity users. otherwise, it would have been included as part o
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ensuring(cond:A=&gt;Boolean):A"></a><a id="ensuring((FS2Repo[M])⇒Boolean):FS2Repo[M]"></a>
+      <a id="ensuring(cond:A=&gt;Boolean):A"></a><a id="ensuring((FS2Repo[F,M])⇒Boolean):FS2Repo[F,M]"></a>
       <span class="permalink">
       <a href="../../../longevity/persistence/streams/FS2Repo.html#ensuring(cond:A=&gt;Boolean):A" title="Permalink">
         <i class="material-icons"></i>
@@ -433,16 +433,16 @@ dependency for longevity users. otherwise, it would have been included as part o
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a><a id="ensuring(Boolean,⇒Any):FS2Repo[M]"></a>
+      <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a><a id="ensuring(Boolean,⇒Any):FS2Repo[F,M]"></a>
       <span class="permalink">
       <a href="../../../longevity/persistence/streams/FS2Repo.html#ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink">
         <i class="material-icons"></i>
@@ -453,16 +453,16 @@ dependency for longevity users. otherwise, it would have been included as part o
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ensuring(cond:Boolean):A"></a><a id="ensuring(Boolean):FS2Repo[M]"></a>
+      <a id="ensuring(cond:Boolean):A"></a><a id="ensuring(Boolean):FS2Repo[F,M]"></a>
       <span class="permalink">
       <a href="../../../longevity/persistence/streams/FS2Repo.html#ensuring(cond:Boolean):A" title="Permalink">
         <i class="material-icons"></i>
@@ -473,12 +473,12 @@ dependency for longevity users. otherwise, it would have been included as part o
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -551,8 +551,8 @@ dependency for longevity users. otherwise, it would have been included as part o
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -655,9 +655,9 @@ dependency for longevity users. otherwise, it would have been included as part o
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="longevity.persistence.streams.FS2Repo#queryToFS2" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="queryToFS2[P](query:longevity.model.query.Query[P])(implicitevidence$1:longevity.model.PEv[M,P]):fs2.Stream[fs2.Task,longevity.persistence.PState[P]]"></a><a id="queryToFS2[P](Query[P])(PEv[M,P]):Stream[Task,PState[P]]"></a>
+      <a id="queryToFS2[P](query:longevity.model.query.Query[P])(implicitevidence$1:longevity.model.PEv[M,P]):F[fs2.Stream[fs2.Task,longevity.persistence.PState[P]]]"></a><a id="queryToFS2[P](Query[P])(PEv[M,P]):F[Stream[Task,PState[P]]]"></a>
       <span class="permalink">
-      <a href="../../../longevity/persistence/streams/FS2Repo.html#queryToFS2[P](query:longevity.model.query.Query[P])(implicitevidence$1:longevity.model.PEv[M,P]):fs2.Stream[fs2.Task,longevity.persistence.PState[P]]" title="Permalink">
+      <a href="../../../longevity/persistence/streams/FS2Repo.html#queryToFS2[P](query:longevity.model.query.Query[P])(implicitevidence$1:longevity.model.PEv[M,P]):F[fs2.Stream[fs2.Task,longevity.persistence.PState[P]]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -666,7 +666,7 @@ dependency for longevity users. otherwise, it would have been included as part o
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">queryToFS2</span><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="query">query: <a href="../../model/query/Query.html" class="extype" name="longevity.model.query.Query">Query</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.queryToFS2.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../../model/PEv.html" class="extype" name="longevity.model.PEv">PEv</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.queryToFS2.P">P</span>]</span>)</span><span class="result">: <span class="extype" name="fs2.Stream">Stream</span>[<span class="extype" name="fs2.Task">Task</span>, <a href="../PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.queryToFS2.P">P</span>]]</span>
+        <span class="name">queryToFS2</span><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span name="query">query: <a href="../../model/query/Query.html" class="extype" name="longevity.model.query.Query">Query</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.queryToFS2.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../../model/PEv.html" class="extype" name="longevity.model.PEv">PEv</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.queryToFS2.P">P</span>]</span>)</span><span class="result">: <span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>[<span class="extype" name="fs2.Stream">Stream</span>[<span class="extype" name="fs2.Task">Task</span>, <a href="../PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.queryToFS2.P">P</span>]]]</span>
       </span>
       
       <p class="shortcomment cmt">streams persistent objects matching a query
@@ -771,7 +771,7 @@ dependency for longevity users. otherwise, it would have been included as part o
               
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="→[B](y:B):(A,B)"></a><a id="→[B](B):(FS2Repo[M],B)"></a>
+      <a id="→[B](y:B):(A,B)"></a><a id="→[B](B):(FS2Repo[F,M],B)"></a>
       <span class="permalink">
       <a href="../../../longevity/persistence/streams/FS2Repo.html#→[B](y:B):(A,B)" title="Permalink">
         <i class="material-icons"></i>
@@ -782,12 +782,12 @@ dependency for longevity users. otherwise, it would have been included as part o
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li>
@@ -805,25 +805,21 @@ dependency for longevity users. otherwise, it would have been included as part o
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
             </div>
-        <div class="conversion" name="longevity.persistence.PWithEv">
-              <h3>Inherited by implicit conversion PWithEv from
-                <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to <a href="../package$$PWithEv.html" class="extype" name="longevity.persistence.PWithEv">PWithEv</a>[<span class="extype" name="longevity.persistence.PWithEv.M">M</span>, <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]]
-              </h3>
-            </div><div class="conversion" name="scala.Predef.any2stringadd">
+        <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]]
+                <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]]
+                <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]]
+                <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]]
+                <a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.persistence.streams.FS2Repo">FS2Repo</a>[<span class="extype" name="longevity.persistence.streams.FS2Repo.F">F</span>, <span class="extype" name="longevity.persistence.streams.FS2Repo.M">M</span>]]
               </h3>
             </div>
         </div>

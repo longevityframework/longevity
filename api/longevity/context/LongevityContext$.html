@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.23.0 API  - longevity.context.LongevityContext</title>
-          <meta name="description" content="longevity 0.23.0 API - longevity.context.LongevityContext" />
-          <meta name="keywords" content="longevity 0.23.0 API longevity.context.LongevityContext" />
+          <title>longevity 0.24.0 API  - longevity.context.LongevityContext</title>
+          <meta name="description" content="longevity 0.24.0 API - longevity.context.LongevityContext" />
+          <meta name="keywords" content="longevity 0.24.0 API longevity.context.LongevityContext" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.23.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.24.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -165,7 +165,7 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains a factory method for <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> objects</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.23.0/src/main/scala/longevity/context/LongevityContext.scala" target="_blank">LongevityContext.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>contains a factory method for <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> objects</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.24.0/src/main/scala/longevity/context/LongevityContext.scala" target="_blank">LongevityContext.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -271,9 +271,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.context.LongevityContext#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply[M](config:longevity.config.LongevityConfig)(implicitevidence$3:longevity.model.ModelType[M]):longevity.context.LongevityContext[M]"></a><a id="apply[M](LongevityConfig)(ModelType[M]):LongevityContext[M]"></a>
+      <a id="apply[F[_],M](config:longevity.config.LongevityConfig)(implicitevidence$5:longevity.effect.Effect[F],implicitevidence$6:longevity.model.ModelType[M]):longevity.context.LongevityContext[F,M]"></a><a id="apply[F[_],M](LongevityConfig)(Effect[F],ModelType[M]):LongevityContext[F,M]"></a>
       <span class="permalink">
-      <a href="../../longevity/context/LongevityContext$.html#apply[M](config:longevity.config.LongevityConfig)(implicitevidence$3:longevity.model.ModelType[M]):longevity.context.LongevityContext[M]" title="Permalink">
+      <a href="../../longevity/context/LongevityContext$.html#apply[F[_],M](config:longevity.config.LongevityConfig)(implicitevidence$5:longevity.effect.Effect[F],implicitevidence$6:longevity.model.ModelType[M]):longevity.context.LongevityContext[F,M]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -282,15 +282,15 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="M">M</span>]</span><span class="params">(<span name="config">config: <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../model/ModelType.html" class="extype" name="longevity.model.ModelType">ModelType</a>[<span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a>[<span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="M">M</span>]</span><span class="params">(<span name="config">config: <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../effect/Effect.html" class="extype" name="longevity.effect.Effect">Effect</a>[<span class="extype" name="longevity.context.LongevityContext.apply.F">F</span>]</span>, <span name="arg1">arg1: <a href="../model/ModelType.html" class="extype" name="longevity.model.ModelType">ModelType</a>[<span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a>[<span class="extype" name="longevity.context.LongevityContext.apply.F">F</span>, <span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>
       </span>
       
       <p class="shortcomment cmt">creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a>.</p><div class="fullcomment"><div class="comment cmt"><p>creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a>. the context will have an empty set of custom generators
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd><dt class="param">config</dt><dd class="cmt"><p>the longevity configuration</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the effect</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd><dt class="param">config</dt><dd class="cmt"><p>the longevity configuration</p></dd></dl></div>
     </li><li name="longevity.context.LongevityContext#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply[M](config:longevity.config.LongevityConfig,customGeneratorPool:longevity.test.CustomGeneratorPool)(implicitevidence$2:longevity.model.ModelType[M]):longevity.context.LongevityContext[M]"></a><a id="apply[M](LongevityConfig,CustomGeneratorPool)(ModelType[M]):LongevityContext[M]"></a>
+      <a id="apply[F[_],M](config:longevity.config.LongevityConfig,customGeneratorPool:longevity.test.CustomGeneratorPool)(implicitevidence$3:longevity.effect.Effect[F],implicitevidence$4:longevity.model.ModelType[M]):longevity.context.LongevityContext[F,M]"></a><a id="apply[F[_],M](LongevityConfig,CustomGeneratorPool)(Effect[F],ModelType[M]):LongevityContext[F,M]"></a>
       <span class="permalink">
-      <a href="../../longevity/context/LongevityContext$.html#apply[M](config:longevity.config.LongevityConfig,customGeneratorPool:longevity.test.CustomGeneratorPool)(implicitevidence$2:longevity.model.ModelType[M]):longevity.context.LongevityContext[M]" title="Permalink">
+      <a href="../../longevity/context/LongevityContext$.html#apply[F[_],M](config:longevity.config.LongevityConfig,customGeneratorPool:longevity.test.CustomGeneratorPool)(implicitevidence$3:longevity.effect.Effect[F],implicitevidence$4:longevity.model.ModelType[M]):longevity.context.LongevityContext[F,M]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -299,19 +299,19 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="M">M</span>]</span><span class="params">(<span name="config">config: <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a></span>, <span name="customGeneratorPool">customGeneratorPool: <a href="../test/CustomGeneratorPool.html" class="extype" name="longevity.test.CustomGeneratorPool">CustomGeneratorPool</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../model/ModelType.html" class="extype" name="longevity.model.ModelType">ModelType</a>[<span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a>[<span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="M">M</span>]</span><span class="params">(<span name="config">config: <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a></span>, <span name="customGeneratorPool">customGeneratorPool: <a href="../test/CustomGeneratorPool.html" class="extype" name="longevity.test.CustomGeneratorPool">CustomGeneratorPool</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../effect/Effect.html" class="extype" name="longevity.effect.Effect">Effect</a>[<span class="extype" name="longevity.context.LongevityContext.apply.F">F</span>]</span>, <span name="arg1">arg1: <a href="../model/ModelType.html" class="extype" name="longevity.model.ModelType">ModelType</a>[<span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a>[<span class="extype" name="longevity.context.LongevityContext.apply.F">F</span>, <span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>
       </span>
       
       <p class="shortcomment cmt">creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a
 <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a>
 </p><div class="fullcomment"><div class="comment cmt"><p>creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a
 <a href="../config/LongevityConfig.html" class="extype" name="longevity.config.LongevityConfig">LongevityConfig</a>
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd><dt class="param">config</dt><dd class="cmt"><p>the longevity configuration</p></dd><dt class="param">customGeneratorPool</dt><dd class="cmt"><p>a collection of custom generators to use when
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the effect</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd><dt class="param">config</dt><dd class="cmt"><p>the longevity configuration</p></dd><dt class="param">customGeneratorPool</dt><dd class="cmt"><p>a collection of custom generators to use when
 generating test data. defaults to empty</p></dd></dl></div>
     </li><li name="longevity.context.LongevityContext#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply[M](typesafeConfig:com.typesafe.config.Config,customGeneratorPool:longevity.test.CustomGeneratorPool)(implicitevidence$1:longevity.model.ModelType[M]):longevity.context.LongevityContext[M]"></a><a id="apply[M](Config,CustomGeneratorPool)(ModelType[M]):LongevityContext[M]"></a>
+      <a id="apply[F[_],M](typesafeConfig:com.typesafe.config.Config,customGeneratorPool:longevity.test.CustomGeneratorPool)(implicitevidence$1:longevity.effect.Effect[F],implicitevidence$2:longevity.model.ModelType[M]):longevity.context.LongevityContext[F,M]"></a><a id="apply[F[_],M](Config,CustomGeneratorPool)(Effect[F],ModelType[M]):LongevityContext[F,M]"></a>
       <span class="permalink">
-      <a href="../../longevity/context/LongevityContext$.html#apply[M](typesafeConfig:com.typesafe.config.Config,customGeneratorPool:longevity.test.CustomGeneratorPool)(implicitevidence$1:longevity.model.ModelType[M]):longevity.context.LongevityContext[M]" title="Permalink">
+      <a href="../../longevity/context/LongevityContext$.html#apply[F[_],M](typesafeConfig:com.typesafe.config.Config,customGeneratorPool:longevity.test.CustomGeneratorPool)(implicitevidence$1:longevity.effect.Effect[F],implicitevidence$2:longevity.model.ModelType[M]):longevity.context.LongevityContext[F,M]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -320,12 +320,12 @@ generating test data. defaults to empty</p></dd></dl></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="M">M</span>]</span><span class="params">(<span name="typesafeConfig">typesafeConfig: <span class="extype" name="com.typesafe.config.Config">Config</span> = <span class="symbol">ConfigFactory.load()</span></span>, <span name="customGeneratorPool">customGeneratorPool: <a href="../test/CustomGeneratorPool.html" class="extype" name="longevity.test.CustomGeneratorPool">CustomGeneratorPool</a> = <span class="symbol"><span class="name"><a href="../index.html">CustomGeneratorPool.empty</a></span></span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../model/ModelType.html" class="extype" name="longevity.model.ModelType">ModelType</a>[<span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a>[<span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="M">M</span>]</span><span class="params">(<span name="typesafeConfig">typesafeConfig: <span class="extype" name="com.typesafe.config.Config">Config</span> = <span class="symbol">ConfigFactory.load()</span></span>, <span name="customGeneratorPool">customGeneratorPool: <a href="../test/CustomGeneratorPool.html" class="extype" name="longevity.test.CustomGeneratorPool">CustomGeneratorPool</a> = <span class="symbol"><span class="name"><a href="../index.html">CustomGeneratorPool.empty</a></span></span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../effect/Effect.html" class="extype" name="longevity.effect.Effect">Effect</a>[<span class="extype" name="longevity.context.LongevityContext.apply.F">F</span>]</span>, <span name="arg1">arg1: <a href="../model/ModelType.html" class="extype" name="longevity.model.ModelType">ModelType</a>[<span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>)</span><span class="result">: <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a>[<span class="extype" name="longevity.context.LongevityContext.apply.F">F</span>, <span class="extype" name="longevity.context.LongevityContext.apply.M">M</span>]</span>
       </span>
       
       <p class="shortcomment cmt">creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a Typesafe config
 </p><div class="fullcomment"><div class="comment cmt"><p>creates and returns a <a href="LongevityContext.html" class="extype" name="longevity.context.LongevityContext">LongevityContext</a> using a Typesafe config
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd><dt class="param">typesafeConfig</dt><dd class="cmt"><p>the typesafe configuration. defaults to typesafe
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the effect</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd><dt class="param">typesafeConfig</dt><dd class="cmt"><p>the typesafe configuration. defaults to typesafe
 config's <code>ConfigFactory.load()</code></p></dd><dt class="param">customGeneratorPool</dt><dd class="cmt"><p>a collection of custom generators to use when
 generating test data. defaults to empty</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/context/LongevityConfigException.html" class="extype" name="longevity.exceptions.context.LongevityConfigException"><code>longevity.exceptions.context.LongevityConfigException</code></a> if the
 typesafe configuration does not adequately specify the LongevityConfig</p></span></dd></dl></div>

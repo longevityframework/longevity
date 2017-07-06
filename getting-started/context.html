@@ -63,11 +63,17 @@
 <code class="highlighter-rouge">LongevityContext</code>, which we do in <code class="highlighter-rouge">SimblContextImpl.scala</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.context.LongevityContext</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 <span class="k">import</span> <span class="nn">simbl.domain.SimblDomainModel</span>
 
-<span class="k">val</span> <span class="n">longevityContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">SimblDomainModel</span><span class="o">]()</span>
+<span class="k">val</span> <span class="n">longevityContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">SimblDomainModel</span><span class="o">]()</span>
 </code></pre>
 </div>
+
+<p>You can configure the longevity context with one of any number of effects. In this guide, we choose
+to use Scala futures. For other options, see the <a href="../manual/context/effects.html">section on
+effects</a> in the user manual.</p>
 
 <p>The longevity context provides a variety of tools that are tailored to your model. The most
 important of these is the <code class="highlighter-rouge">Repo</code>, which you can use to do standard CRUD operations
@@ -81,32 +87,41 @@ longevity context. Typically, the configuration is drawn from the
 Simple Blogging looks this:</p>
 
 <pre><code class="language-prop">longevity.backEnd = InMem
-longevity.autocreateSchema = true
+longevity.autoOpenConnection = true
+longevity.autoCreateSchema = true
 longevity.optimisticLocking = false
+longevity.writeTimestamps = false
 
-longevity.mongodb.uri = "localhost:27017"
-longevity.mongodb.db = simbl_main
-longevity.test.mongodb.uri = "localhost:27017"
-longevity.test.mongodb.db = simbl_test
-
-longevity.cassandra.address = "localhost"
+longevity.cassandra.autoCreateKeyspace = true
+longevity.cassandra.address = "127.0.0.1"
 longevity.cassandra.useCredentials = no
 longevity.cassandra.username = nil
 longevity.cassandra.password = nil
 longevity.cassandra.keyspace = simbl_main
 longevity.cassandra.replicationFactor = 1
 
-longevity.test.cassandra.address = "localhost"
+longevity.mongodb.uri = "mongodb://127.0.0.1:27017"
+longevity.mongodb.db = simbl_main
+
+longevity.jdbc.url = "jdbc:sqlite:simbl_main.db"
+
+longevity.test.cassandra.autoCreateKeyspace = true
+longevity.test.cassandra.address = "127.0.0.1"
 longevity.test.cassandra.useCredentials = no
 longevity.test.cassandra.username = nil
 longevity.test.cassandra.password = nil
 longevity.test.cassandra.keyspace = simbl_test
 longevity.test.cassandra.replicationFactor = 1
+
+longevity.test.mongodb.uri = "mongodb://127.0.0.1:27017"
+longevity.test.mongodb.db = simbl_test
+
+longevity.test.jdbc.url = "jdbc:sqlite:simbl_test.db"
 </code></pre>
 
 <p>Here, you need to specify the back end in configuration property
 <code class="highlighter-rouge">longevity.backEnd</code>. Your choices are currently <code class="highlighter-rouge">Cassandra</code>, <code class="highlighter-rouge">InMem</code>,
-<code class="highlighter-rouge">Mongo</code>, and <code class="highlighter-rouge">SQLite</code>. We use <code class="highlighter-rouge">InMem</code> out of the box. If you want to
+<code class="highlighter-rouge">MongoDB</code>, and <code class="highlighter-rouge">SQLite</code>. We use <code class="highlighter-rouge">InMem</code> out of the box. If you want to
 try Cassandra or MongoDB, you will need to set up a database system to
 connect to. The SQLite back end will work without any extra setup, as
 all you need to run SQLite is the right jar on your classpath.</p>

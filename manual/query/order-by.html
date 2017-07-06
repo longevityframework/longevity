@@ -66,10 +66,11 @@ nice to get them back in chronological order as well. This will return
 the posts in ascending chronological order:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
 <span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
 
-<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToVector</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
   <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
   <span class="k">import</span> <span class="nn">BlogPost.props._</span>
@@ -92,10 +93,11 @@ such as this:</p>
 <code class="highlighter-rouge">postDate.desc</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
 <span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
 
-<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToVector</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
   <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
   <span class="k">import</span> <span class="nn">BlogPost.props._</span>
@@ -109,10 +111,11 @@ such as this:</p>
 need to <code class="highlighter-rouge">import scala.language.postfixOps</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
 <span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
 
-<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToVector</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
   <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
   <span class="k">import</span> <span class="nn">BlogPost.props._</span>
@@ -123,9 +126,8 @@ need to <code class="highlighter-rouge">import scala.language.postfixOps</code>:
 </code></pre>
 </div>
 
-<p>If you want to specify multiple properties in your <code class="highlighter-rouge">orderBy</code> clause,
-you will have to surround them in parentheses. Here’s a silly example
-where we retrieve all the blog posts in the last week from every
+<p>If you want to specify multiple properties in your <code class="highlighter-rouge">orderBy</code> clause, you will have to surround them
+in parentheses. Here’s an example where we retrieve all the blog posts in the last week from every
 blog. We order them first by <code class="highlighter-rouge">blogUri</code>, and then by <code class="highlighter-rouge">postDate</code></p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span> <span class="n">orderBy</span> <span class="o">(</span><span class="n">blogUri</span><span class="o">,</span> <span class="n">postDate</span><span class="o">.</span><span class="n">desc</span><span class="o">)</span>

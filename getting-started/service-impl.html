@@ -63,28 +63,29 @@
 job, the <code class="highlighter-rouge">UserServiceImpl</code> needs a <code class="highlighter-rouge">SimblDomainModel</code> repository, which is retrieved from the
 <code class="highlighter-rouge">LongevityContext</code> in <code class="highlighter-rouge">SimblContextImpl.scala</code> like so:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">longevityContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">SimblDomainModel</span><span class="o">]()</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">longevityContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">SimblDomainModel</span><span class="o">]()</span>
 <span class="k">val</span> <span class="n">repo</span> <span class="k">=</span> <span class="n">longevityContext</span><span class="o">.</span><span class="n">repo</span>
 </code></pre>
 </div>
 
-<p>Because most of the repository methods need an execution context to run in, <code class="highlighter-rouge">SimblContextImpl</code> also
-provides an execution context that it pulls out of the Akka <code class="highlighter-rouge">ActorSystem</code>. Akka HTTP already needs
-an <code class="highlighter-rouge">ExecutionContext</code> to run. In other scenarios, you can always find an execution context in
-<code class="highlighter-rouge">scala.concurrent.ExecutionContext.Implicits.global</code>.</p>
+<p>The <code class="highlighter-rouge">LongevityContext</code> takes an implicit <code class="highlighter-rouge">ExecutionContext</code> when constructed with a <code class="highlighter-rouge">Future</code> effect.
+This will be used for all the repository operations. But <code class="highlighter-rouge">UserServiceImpl</code> will still need an
+execution context to compose the futures. Akka HTTP already needs an <code class="highlighter-rouge">ExecutionContext</code> to run, and
+<code class="highlighter-rouge">SimblContextImpl</code> provides an execution context that it pulls out of the Akka <code class="highlighter-rouge">ActorSystem</code>.</p>
 
-<p>Here’s the scaffolding for <code class="highlighter-rouge">UserServiceImpl</code>, which shows how the
-class acquires its two dependencies:</p>
+<p>Here’s the scaffolding for <code class="highlighter-rouge">UserServiceImpl</code>, which shows how the class acquires its two
+dependencies:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">simbl.service</span>
 
 <span class="k">import</span> <span class="nn">longevity.persistence.Repo</span>
 <span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 <span class="k">import</span> <span class="nn">simbl.domain.SimblDomainModel</span>
 
 <span class="cm">/** default implementation of service to back the [[UserRoute user routes]] */</span>
 <span class="k">class</span> <span class="nc">UserServiceImpl</span><span class="o">(</span>
-  <span class="k">private</span> <span class="k">val</span> <span class="n">repo</span><span class="k">:</span> <span class="kt">Repo</span><span class="o">[</span><span class="kt">SimblDomainModel</span><span class="o">])(</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="n">repo</span><span class="k">:</span> <span class="kt">Repo</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">SimblDomainModel</span><span class="o">])(</span>
   <span class="k">implicit</span> <span class="n">context</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span>
 <span class="k">extends</span> <span class="nc">UserService</span> <span class="o">{</span>
 

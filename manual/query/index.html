@@ -59,16 +59,17 @@
           
           <h1> queries </h1>
           
-          <p>Longevity queries provide you with a way to retrieve multiple persistent objects, either <a href="retrieve-by.html">with a
-blocking API</a>, or <a href="stream-by.html">in a stream</a>.</p>
+          <p>Longevity queries provide you with a way to retrieve multiple persistent objects. There are multiple
+<code class="highlighter-rouge">Repo</code> methods for executing a query. Two of them, <code class="highlighter-rouge">queryToVector</code> and <code class="highlighter-rouge">queryToIterator</code>, are of
+limited value, but depend only on Scala standard library classes. These are discussed in the
+<a href="retrieve-by.html">Retrieval by Query</a> section. Other methods return streams for third-party
+streaming libraries. These are discussed in the <a href="stream-by.html">Stream by Query</a> section.</p>
 
-<p>To build queries, you can either use the query DSL, or you can
-assemble them by hand using the classes and factory methods in package
-<code class="highlighter-rouge">longevity.model.query</code>. The query DSL is complete, so that any
-query you can build by hand, you can also build with the DSL. We will
-focus our discussion here on the DSL, since it is much more convenient
-to use. If you prefer to construct them by hand, please refer to the
-<a href="../../api/longevity/model/query/Query.html">ScalaDocs</a>.</p>
+<p>To build queries, you can either use the query DSL, or you can assemble them by hand using the
+classes and factory methods in package <code class="highlighter-rouge">longevity.model.query</code>. The query DSL is complete, so that
+any query you can build by hand, you can also build with the DSL. We will focus our discussion here
+on the DSL, since it is much more convenient to use. If you prefer to construct them by hand, please
+refer to the <a href="../../api/longevity/model/query/Query.html">ScalaDocs</a>.</p>
 
 <p>Please note that, due to the limited nature of Cassandra <code class="highlighter-rouge">SELECT</code>
 statements, many of the queries discussed in this chapter will not

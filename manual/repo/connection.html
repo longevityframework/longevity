@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>opening and closing the connection</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> opening and closing the connection </h1>
+          
+          <p>Before you do much work with your repository, you will need to connect to the database. Also, it is
+a good idea to close the connection when you are done, to conserve resources. You can open the
+connection like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">openResult</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Unit</span><span class="o">]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">openConnection</span>
+</code></pre>
+</div>
+
+<p>You can close the connection like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">closeResult</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Unit</span><span class="o">]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">closeConnection</span>
+</code></pre>
+</div>
+
+<p>An alternative way to open the connection is to set the <a href="../context/config.html">configuration flag</a>
+<code class="highlighter-rouge">longevity.autoOpenConnection</code> to true. In this case, the connection will be opened when the <code class="highlighter-rouge">Repo</code>
+is first accessed. Unlike calling <code class="highlighter-rouge">Repo.openConnection</code>, automatically opening the connection
+happens in a synchronous, blocking manner (i.e., outside of your <a href="../context/effects.html">effect</a>).</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href=".">the repository</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">the repository</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="schema-creation.html">schema creation</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/api/longevity"                                          class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

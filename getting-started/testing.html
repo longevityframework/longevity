@@ -68,7 +68,6 @@ in <code class="highlighter-rouge">SimblRepoCrudSpec.scala</code></p>
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">simbl</span>
 
 <span class="k">import</span> <span class="nn">org.scalatest.Suites</span>
-<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
 
 <span class="k">class</span> <span class="nc">SimblRepoCrudSpec</span> <span class="k">extends</span> <span class="nc">Suites</span><span class="o">(</span>
   <span class="nc">TestSimblContext</span><span class="o">.</span><span class="n">longevityContext</span><span class="o">.</span><span class="n">repoCrudSpec</span><span class="o">)</span>
@@ -82,10 +81,11 @@ an example of that in <code class="highlighter-rouge">BlogPostQuerySpec.scala</c
 
 <span class="k">import</span> <span class="nn">longevity.test.QuerySpec</span>
 <span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 <span class="k">import</span> <span class="nn">simbl.domain.BlogPost</span>
 <span class="k">import</span> <span class="nn">simbl.domain.SimblDomainModel</span>
 
-<span class="k">class</span> <span class="nc">BlogPostQuerySpec</span> <span class="k">extends</span> <span class="nc">QuerySpec</span><span class="o">[</span><span class="kt">SimblDomainModel</span>, <span class="kt">BlogPost</span><span class="o">](</span>
+<span class="k">class</span> <span class="nc">BlogPostQuerySpec</span> <span class="k">extends</span> <span class="nc">QuerySpec</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">SimblDomainModel</span>, <span class="kt">BlogPost</span><span class="o">](</span>
   <span class="nc">TestSimblContext</span><span class="o">.</span><span class="n">longevityContext</span><span class="o">)</span> <span class="o">{</span>
 
   <span class="k">lazy</span> <span class="k">val</span> <span class="n">sample</span> <span class="k">=</span> <span class="n">randomP</span>

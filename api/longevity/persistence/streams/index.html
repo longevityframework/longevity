@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.23.0 API  - longevity.persistence.streams</title>
-          <meta name="description" content="longevity 0.23.0 API - longevity.persistence.streams" />
-          <meta name="keywords" content="longevity 0.23.0 API longevity.persistence.streams" />
+          <title>longevity 0.24.0 API  - longevity.persistence.streams</title>
+          <meta name="description" content="longevity 0.24.0 API - longevity.persistence.streams" />
+          <meta name="keywords" content="longevity 0.24.0 API longevity.persistence.streams" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.23.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.24.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -177,7 +177,7 @@ API.">
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>repository extension classes for streaming query methods</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.23.0/src/main/scala/longevity/persistence/streams/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>repository extension classes for streaming query methods</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.24.0/src/main/scala/longevity/persistence/streams/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -194,9 +194,9 @@ API.">
         <div id="types" class="types members">
               <h3>Type Members</h3>
               <ol><li name="longevity.persistence.streams.AkkaStreamsRepo" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="AkkaStreamsRepo[M]extendsAnyRef"></a><a id="AkkaStreamsRepo[M]:AkkaStreamsRepo[M]"></a>
+      <a id="AkkaStreamsRepo[F[_],M]extendsAnyRef"></a><a id="AkkaStreamsRepo[F[_],M]:AkkaStreamsRepo[F,M]"></a>
       <span class="permalink">
-      <a href="../../../longevity/persistence/streams/index.html#AkkaStreamsRepo[M]extendsAnyRef" title="Permalink">
+      <a href="../../../longevity/persistence/streams/index.html#AkkaStreamsRepo[F[_],M]extendsAnyRef" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -208,7 +208,7 @@ API.">
         <a title="provides repository methods that use Akka Streams for repository streaming
 API." href="AkkaStreamsRepo.html">
               <span class="name">AkkaStreamsRepo</span>
-            </a><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+            </a><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">provides repository methods that use Akka Streams for repository streaming
@@ -216,11 +216,11 @@ API.</p><div class="fullcomment"><div class="comment cmt"><p>provides repository
 API.</p><p><code>AkkaStreamsRepo</code> is provided by an implicit conversion from <code>Repo</code>, so that
 Akka Streams can remain an optional dependency for longevity users.
 otherwise, it would have been included as part of the <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the effect</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl></div>
     </li><li name="longevity.persistence.streams.FS2Repo" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="FS2Repo[M]extendsAnyRef"></a><a id="FS2Repo[M]:FS2Repo[M]"></a>
+      <a id="FS2Repo[F[_],M]extendsAnyRef"></a><a id="FS2Repo[F[_],M]:FS2Repo[F,M]"></a>
       <span class="permalink">
-      <a href="../../../longevity/persistence/streams/index.html#FS2Repo[M]extendsAnyRef" title="Permalink">
+      <a href="../../../longevity/persistence/streams/index.html#FS2Repo[F[_],M]extendsAnyRef" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -231,16 +231,16 @@ otherwise, it would have been included as part of the <a href="../Repo.html" cla
       <span class="symbol">
         <a title="provides repository methods that use FS2 for repository streaming API." href="FS2Repo.html">
               <span class="name">FS2Repo</span>
-            </a><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+            </a><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">provides repository methods that use FS2 for repository streaming API.</p><div class="fullcomment"><div class="comment cmt"><p>provides repository methods that use FS2 for repository streaming API.</p><p><code>FS2Repo</code> is provided by an implicit conversion from <code>Repo</code>, so that FS2 can remain an optional
 dependency for longevity users. otherwise, it would have been included as part of the <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the effect</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl></div>
     </li><li name="longevity.persistence.streams.IterateeIoRepo" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="IterateeIoRepo[M]extendsAnyRef"></a><a id="IterateeIoRepo[M]:IterateeIoRepo[M]"></a>
+      <a id="IterateeIoRepo[F[_],M]extendsAnyRef"></a><a id="IterateeIoRepo[F[_],M]:IterateeIoRepo[F,M]"></a>
       <span class="permalink">
-      <a href="../../../longevity/persistence/streams/index.html#IterateeIoRepo[M]extendsAnyRef" title="Permalink">
+      <a href="../../../longevity/persistence/streams/index.html#IterateeIoRepo[F[_],M]extendsAnyRef" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -251,17 +251,17 @@ dependency for longevity users. otherwise, it would have been included as part o
       <span class="symbol">
         <a title="provides repository methods that use iteratee.io for repository streaming API." href="IterateeIoRepo.html">
               <span class="name">IterateeIoRepo</span>
-            </a><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+            </a><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">provides repository methods that use iteratee.io for repository streaming API.</p><div class="fullcomment"><div class="comment cmt"><p>provides repository methods that use iteratee.io for repository streaming API.</p><p><code>IterateeIoRepo</code> is provided by an implicit conversion from <code>Repo</code>, so that iteratee.io can
 remain an optional dependency for longevity users. otherwise, it would have been included as
 part of the <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the effect</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl></div>
     </li><li name="longevity.persistence.streams.PlayRepo" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="PlayRepo[M]extendsAnyRef"></a><a id="PlayRepo[M]:PlayRepo[M]"></a>
+      <a id="PlayRepo[F[_],M]extendsAnyRef"></a><a id="PlayRepo[F[_],M]:PlayRepo[F,M]"></a>
       <span class="permalink">
-      <a href="../../../longevity/persistence/streams/index.html#PlayRepo[M]extendsAnyRef" title="Permalink">
+      <a href="../../../longevity/persistence/streams/index.html#PlayRepo[F[_],M]extendsAnyRef" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -272,13 +272,13 @@ part of the <a href="../Repo.html" class="extype" name="longevity.persistence.Re
       <span class="symbol">
         <a title="provides repository methods that use Play iteratees for repository streaming API." href="PlayRepo.html">
               <span class="name">PlayRepo</span>
-            </a><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+            </a><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">provides repository methods that use Play iteratees for repository streaming API.</p><div class="fullcomment"><div class="comment cmt"><p>provides repository methods that use Play iteratees for repository streaming API.</p><p><code>PlayRepo</code> is provided by an implicit conversion from <code>Repo</code>, so that Play iteratees can remain
 an optional dependency for longevity users. otherwise, it would have been included as part of
 the <a href="../Repo.html" class="extype" name="longevity.persistence.Repo">Repo</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the effect</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl></div>
     </li></ol>
             </div>
 

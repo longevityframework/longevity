@@ -63,21 +63,20 @@
 to modify the aggregate:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">username</span> <span class="k">=</span> <span class="nc">Username</span><span class="o">(</span><span class="s">"smithy"</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">retrieved</span><span class="k">:</span> <span class="kt">FPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieveOne</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="n">username</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">modified</span><span class="k">:</span> <span class="kt">FPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">retrieved</span> <span class="n">map</span> <span class="o">{</span> <span class="n">userState</span> <span class="k">=&gt;</span>
+<span class="k">val</span> <span class="n">retrieved</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieveOne</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="n">username</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">modified</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]</span> <span class="k">=</span> <span class="n">retrieved</span> <span class="n">map</span> <span class="o">{</span> <span class="n">userState</span> <span class="k">=&gt;</span>
   <span class="n">userState</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">fullname</span> <span class="k">=</span> <span class="s">"John Smith Jr."</span><span class="o">))</span>
 <span class="o">}</span>
 </code></pre>
 </div>
 
-<p>Like most of the <code class="highlighter-rouge">Repo</code> API calls, <code class="highlighter-rouge">Repo.update</code> requires two implicit parameters: and
-<code class="highlighter-rouge">ExecutionContext</code>, to perform the computation in a <code class="highlighter-rouge">scala.concurrent.Future</code>, and a
+<p>Like most of the <code class="highlighter-rouge">Repo</code> API calls, <code class="highlighter-rouge">Repo.update</code> requires an implicit parameter
 <code class="highlighter-rouge">longevity.model.PEv[M, P]</code>. This implicit evidence ensures that the type <code class="highlighter-rouge">P</code> is actually a
 persistent class in the domain model.</p>
 
 <p>We can now persist our changes with <code class="highlighter-rouge">Repo.update</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">updated</span><span class="k">:</span> <span class="kt">FPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="n">modified</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">userState</span> <span class="k">=&gt;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">updated</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]</span> <span class="k">=</span> <span class="n">modified</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">userState</span> <span class="k">=&gt;</span>
   <span class="n">repo</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="n">userState</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre>
@@ -87,7 +86,7 @@ persistent class in the domain model.</p>
 comprehensions</a>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">username</span> <span class="k">=</span> <span class="nc">Username</span><span class="o">(</span><span class="s">"smithy"</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">updated</span><span class="k">:</span> <span class="kt">FPState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
+<span class="k">val</span> <span class="n">updated</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
   <span class="n">retrieved</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieveOne</span><span class="o">(</span><span class="n">username</span><span class="o">)</span>
   <span class="n">modified</span>  <span class="k">=</span>  <span class="n">retrieved</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">fullname</span> <span class="k">=</span> <span class="s">"John Smith Jr."</span><span class="o">))</span>
   <span class="n">updated</span>   <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="n">modified</span><span class="o">)</span>
@@ -98,13 +97,10 @@ comprehensions</a>:</p>
 <p>We can continue to manipulate the persistent state returned by
 <code class="highlighter-rouge">Repo.update</code>, and pass it on to further calls to <code class="highlighter-rouge">update</code> or <code class="highlighter-rouge">delete</code>.</p>
 
-<p>Unless the key value is for a <a href="../ptype/primary-keys.html">primary
-key</a>, there is nothing at present that
-prevents you from modifying the contents of a key value for a
-persistent object. Consequently, it is possible for <code class="highlighter-rouge">update</code> to fail
-by attempting to put in a duplicate key value. See the note at the
-bottom of the <a href="create.html">section on repo.create</a> for more
-information on duplicate keys.</p>
+<p>Unless the key value is for a <a href="../ptype/primary-keys.html">primary key</a>, there is nothing at present
+that prevents you from modifying the contents of a key value for a persistent object. Consequently,
+it is possible for <code class="highlighter-rouge">update</code> to fail by attempting to put in a duplicate key value. See the note at
+the bottom of the <a href="create.html">section on repo.create</a> for more information on duplicate keys.</p>
 
 <p>The resulting <code class="highlighter-rouge">PState</code> result may well be different from the <code class="highlighter-rouge">PState</code>
 taken as input. For example, the aggregate’s revision counter may have

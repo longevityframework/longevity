@@ -107,12 +107,14 @@ core domain in our blogging application:</p>
 <span class="k">import</span> <span class="nn">bloggingapp.core.model.BloggingDomain</span>
 <span class="k">import</span> <span class="nn">com.typesafe.config.Config</span>
 <span class="k">import</span> <span class="nn">longevity.context.LongevityContext</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
 <span class="k">val</span> <span class="n">bloggingConfig</span><span class="k">:</span> <span class="kt">Config</span> <span class="o">=</span> <span class="n">loadBloggingConfig</span><span class="o">()</span>
-<span class="k">val</span> <span class="n">bloggingContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">BloggingDomain</span><span class="o">](</span><span class="n">bloggingConfig</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">bloggingContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">BloggingDomain</span><span class="o">](</span><span class="n">bloggingConfig</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="n">accountsConfig</span><span class="k">:</span> <span class="kt">Config</span> <span class="o">=</span> <span class="n">loadAccountsConfig</span><span class="o">()</span>
-<span class="k">val</span> <span class="n">accountsContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">AccountsSubdomain</span><span class="o">](</span><span class="n">accountsConfig</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">accountsContext</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">AccountsSubdomain</span><span class="o">](</span><span class="n">accountsConfig</span><span class="o">)</span>
 </code></pre>
 </div>
 
@@ -133,10 +135,12 @@ same configuration as found in the <code class="highlighter-rouge">reference.con
 
 <span class="k">val</span> <span class="n">longevityConfig</span> <span class="k">=</span> <span class="nc">LongevityConfig</span><span class="o">(</span>
   <span class="n">backEnd</span> <span class="k">=</span> <span class="nc">InMem</span><span class="o">,</span> <span class="c1">// one of Cassandra, InMem, JDBC, MongoDB, SQLite
-</span>  <span class="n">autocreateSchema</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
+</span>  <span class="n">autoOpenConnection</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
+  <span class="n">autoCreateSchema</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
   <span class="n">optimisticLocking</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
   <span class="n">writeTimestamps</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
   <span class="n">cassandra</span> <span class="k">=</span> <span class="nc">CassandraConfig</span><span class="o">(</span>
+    <span class="n">autoCreateKeyspace</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
     <span class="n">address</span> <span class="k">=</span> <span class="s">"127.0.0.1"</span><span class="o">,</span>
     <span class="n">credentials</span> <span class="k">=</span> <span class="nc">None</span><span class="o">,</span>
     <span class="n">keyspace</span> <span class="k">=</span> <span class="s">"longevity_main"</span><span class="o">,</span>
@@ -149,6 +153,7 @@ same configuration as found in the <code class="highlighter-rouge">reference.con
     <span class="n">url</span> <span class="k">=</span> <span class="s">"jdbc:sqlite:longevity_main.db"</span><span class="o">),</span>
   <span class="n">test</span> <span class="k">=</span> <span class="nc">TestConfig</span><span class="o">(</span>
     <span class="n">cassandra</span> <span class="k">=</span> <span class="nc">CassandraConfig</span><span class="o">(</span>
+      <span class="n">autoCreateKeyspace</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
       <span class="n">address</span> <span class="k">=</span> <span class="s">"127.0.0.1"</span><span class="o">,</span>
       <span class="n">credentials</span> <span class="k">=</span> <span class="nc">None</span><span class="o">,</span>
       <span class="n">keyspace</span> <span class="k">=</span> <span class="s">"longevity_test"</span><span class="o">,</span>
@@ -189,7 +194,7 @@ for details.</p>
 
 <div style="min-width: 10em">
 
-  prev: <a href=".">the longevity context</a>
+  prev: <a href="effects.html">choosing your effect</a>
 
 </div>
 

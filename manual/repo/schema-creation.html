@@ -70,15 +70,12 @@ duplicate key values, as discussed in the <a href="../repo/create.html">section 
 <code class="highlighter-rouge">Repo.create</code></a>.) For the in-memory back end,
 schema creation is a no-op.</p>
 
-<p>You can create the requisite schema by calling <code class="highlighter-rouge">Repo.createSchema()</code>. This is an asynchronous
-method, so you will need to provide an implicit <code class="highlighter-rouge">ExecutionContext</code>, and you will want to ensure the
-asynchronous method completes before starting to use your repositories. It returns a <code class="highlighter-rouge">Future[Unit]</code>
-- that is, the completion of the future will only indicate success or failure.</p>
+<p>You can create the requisite schema by calling <code class="highlighter-rouge">Repo.createSchema</code>. This method returns an <code class="highlighter-rouge">F[Unit]</code>
+- that is, the completion of the effect will only indicate success or failure.</p>
 
-<p>An alternative way to generate schema is to set the <a href="config.html">configuration flag</a>
-<code class="highlighter-rouge">longevity.autocreateSchema</code> to true. In this case, schema will be generated when the <code class="highlighter-rouge">RepoPool</code> is
-first accessed. Unlike calling <code class="highlighter-rouge">Repo.createSchema()</code>, schema autogeneration happens in a synchronous
-(i.e., blocking) manner. Schema autogeneration is a convenient feature for testing or development
+<p>An alternative way to generate schema is to set the <a href="../context/config.html">configuration flag</a>
+<code class="highlighter-rouge">longevity.autoCreateSchema</code> to true. In this case, schema will be generated when the <a href="connection.html">connection is
+opened</a>. Schema autogeneration is a convenient feature for testing or development
 work, but will incur an overhead for every program run.</p>
 
 <p>Schema generation is always a non-destructive process, and you will
@@ -92,7 +89,7 @@ never lose any data when generating schema.</p>
 
 <div style="min-width: 10em">
 
-  prev: <a href=".">the repository</a>
+  prev: <a href="connection.html">opening and closing the connection</a>
 
 </div>
 

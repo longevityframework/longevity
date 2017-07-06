@@ -59,7 +59,7 @@
           
           <h1> stream by query </h1>
           
-          <p>The <code class="highlighter-rouge">queryToIterator</code> and <code class="highlighter-rouge">queryToFutureVec</code> methods we looked at in the <a href="retrieve-by.html">previous
+          <p>The <code class="highlighter-rouge">queryToIterator</code> and <code class="highlighter-rouge">queryToVector</code> methods we looked at in the <a href="retrieve-by.html">previous
 section</a> leave much to be desired. A streaming approach would be better, but which
 streaming library should we choose? Scala has many. Currently, longevity supports four of them:</p>
 
@@ -79,8 +79,11 @@ streaming library should we choose? Scala has many. Currently, longevity support
 <span class="k">import</span> <span class="nn">fs2.Task</span>
 <span class="k">import</span> <span class="nn">io.iteratee.</span><span class="o">{</span> <span class="nc">Enumerator</span> <span class="k">=&gt;</span> <span class="nc">CatsEnumerator</span> <span class="o">}</span>
 <span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+<span class="k">import</span> <span class="nn">longevity.persistence.Repo</span>
 <span class="k">import</span> <span class="nn">play.api.libs.iteratee.</span><span class="o">{</span> <span class="nc">Enumerator</span> <span class="k">=&gt;</span> <span class="nc">PlayEnumerator</span> <span class="o">}</span>
- 
+
+<span class="k">val</span> <span class="n">repo</span><span class="k">:</span> <span class="kt">Repo</span><span class="o">[</span><span class="kt">SomeEffect</span>, <span class="kt">DomainModel</span><span class="o">]</span> <span class="k">=</span> <span class="n">longevityContext</span><span class="o">.</span><span class="n">repo</span>
+
 <span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
 
 <span class="k">val</span> <span class="n">query</span><span class="k">:</span> <span class="kt">Query</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
@@ -90,26 +93,46 @@ streaming library should we choose? Scala has many. Currently, longevity support
   <span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">and</span> <span class="n">postDate</span> <span class="n">gt</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mf">1.</span><span class="n">week</span>
 <span class="o">}</span>
 
-<span class="k">val</span> <span class="n">akkaSource</span><span class="k">:</span> <span class="kt">Source</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]</span>, <span class="kt">NotUsed</span><span class="o">]</span> <span class="k">=</span>
+<span class="k">val</span> <span class="n">akkaSource</span><span class="k">:</span> <span class="kt">SomeEffect</span><span class="o">[</span><span class="kt">Source</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]</span>, <span class="kt">NotUsed</span><span class="o">]]</span> <span class="k">=</span>
   <span class="n">repo</span><span class="o">.</span><span class="n">queryToAkkaStream</span><span class="o">(</span><span class="n">query</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="n">fs2Stream</span><span class="k">:</span> <span class="kt">Stream</span><span class="o">[</span><span class="kt">Task</span>, <span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]]</span> <span class="k">=</span>
+<span class="k">val</span> <span class="n">fs2Stream</span><span class="k">:</span> <span class="kt">SomeEffect</span><span class="o">[</span><span class="kt">Stream</span><span class="o">[</span><span class="kt">Task</span>, <span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]]]</span> <span class="k">=</span>
   <span class="n">repo</span><span class="o">.</span><span class="n">queryToFS2</span><span class="o">(</span><span class="n">query</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="n">catsEnumerator</span><span class="k">:</span> <span class="kt">CatsEnumerator</span><span class="o">[</span><span class="kt">Eval</span>, <span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]]</span> <span class="k">=</span>
+<span class="k">val</span> <span class="n">catsEnumerator</span><span class="k">:</span> <span class="kt">SomeEffect</span><span class="o">[</span><span class="kt">CatsEnumerator</span><span class="o">[</span><span class="kt">Eval</span>, <span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]]]</span> <span class="k">=</span>
   <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterateeIo</span><span class="o">[</span><span class="kt">Eval</span><span class="o">](</span><span class="n">query</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="n">playEnumerator</span><span class="k">:</span> <span class="kt">PlayEnumerator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]]</span> <span class="k">=</span> <span class="o">{</span>
+<span class="k">val</span> <span class="n">playEnumerator</span><span class="k">:</span> <span class="kt">SomeEffect</span><span class="o">[</span><span class="kt">PlayEnumerator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]]]</span> <span class="k">=</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
   <span class="n">repo</span><span class="o">.</span><span class="n">queryToPlay</span><span class="o">(</span><span class="n">query</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre>
 </div>
 
-<p>All four of these methods will require you to
-<a href="../prelims/project-setup.html#supplying-optional-dependencies">supply artifacts</a>
-for the streaming libraries in your
-own build.</p>
+<p>You might wonder why all the streams are wrapped in our <a href="../context/effects.html">effect</a> class.
+After all, the are all streams, and are designed to handle side-effects themselves. The reason is
+that these <code class="highlighter-rouge">Repo</code> methods have to behave well with the other <code class="highlighter-rouge">Repo</code> methods. For instance, consider
+the following example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="n">processStream</span><span class="o">(</span><span class="n">stream</span><span class="k">:</span> <span class="kt">Source</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]</span>, <span class="kt">NotUsed</span><span class="o">])</span><span class="k">:</span> <span class="kt">SomeEffect</span><span class="o">[</span><span class="kt">Result</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="c1">// ...
+</span><span class="o">}</span>
+
+<span class="k">for</span> <span class="o">{</span>
+  <span class="k">_</span>      <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">openConnection</span>
+  <span class="n">stream</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToAkkaStream</span><span class="o">(</span><span class="n">query</span><span class="o">)</span>
+  <span class="n">result</span> <span class="k">&lt;-</span> <span class="n">processStream</span><span class="o">(</span><span class="n">stream</span><span class="o">)</span>
+  <span class="k">_</span>      <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">closeConnection</span>
+<span class="o">}</span> <span class="k">yield</span> <span class="n">result</span>
+</code></pre>
+</div>
+
+<p>If the stream was obtained outside the effect, then the connection to the database would probably be
+closed at the time we tried to process the stream.</p>
+
+<p>All the streaming methods will require you to <a href="../prelims/project-setup.html#supplying-optional-dependencies">supply
+artifacts</a> for the streaming
+libraries in your own build.</p>
 
 <div style="display: flex;
             justify-content: space-between;

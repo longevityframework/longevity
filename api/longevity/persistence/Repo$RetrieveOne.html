@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.23.0 API  - longevity.persistence.Repo.RetrieveOne</title>
-          <meta name="description" content="longevity 0.23.0 API - longevity.persistence.Repo.RetrieveOne" />
-          <meta name="keywords" content="longevity 0.23.0 API longevity.persistence.Repo.RetrieveOne" />
+          <title>longevity 0.24.0 API  - longevity.persistence.Repo.RetrieveOne</title>
+          <meta name="description" content="longevity 0.24.0 API - longevity.persistence.Repo.RetrieveOne" />
+          <meta name="keywords" content="longevity 0.24.0 API longevity.persistence.Repo.RetrieveOne" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.23.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.24.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -108,9 +108,9 @@
       
       <p class="shortcomment cmt">manages entity persistence operations</p><div class="fullcomment"><div class="comment cmt"><p>manages entity persistence operations</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="longevity">longevity</a></dd></dl></div>
     </li><li name="longevity.persistence.Repo" visbl="pub" class="indented3 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="Repo[M]extendsAnyRef"></a><a id="Repo[M]:Repo[M]"></a>
+      <a id="Repo[F[_],M]extendsAnyRef"></a><a id="Repo[F[_],M]:Repo[F,M]"></a>
       <span class="permalink">
-      <a href="../../longevity/persistence/index.html#Repo[M]extendsAnyRef" title="Permalink">
+      <a href="../../longevity/persistence/index.html#Repo[F[_],M]extendsAnyRef" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -122,12 +122,12 @@
         <a title="a repository for persistent objects in a model
 " href="Repo.html">
               <span class="name">Repo</span>
-            </a><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+            </a><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">a repository for persistent objects in a model
 </p><div class="fullcomment"><div class="comment cmt"><p>a repository for persistent objects in a model
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="longevity.persistence">persistence</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the effect</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="longevity.persistence">persistence</a></dd></dl></div>
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="Repo$Retrieve.html" title="a container for part two of a two part call for retrieving an optional persistent object from a
@@ -175,7 +175,7 @@ key value
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a container for part two of a two part call for retrieving a persistent object from a key value
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.23.0/src/main/scala/longevity/persistence/Repo.scala" target="_blank">Repo.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p><a href="Repo.html#retrieveOne[P]:Repo.this.RetrieveOne[P]" class="extmbr" name="longevity.persistence.Repo#retrieveOne">Repo.retrieveOne</a></p></span></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.24.0/src/main/scala/longevity/persistence/Repo.scala" target="_blank">Repo.scala</a></dd><dt>See also</dt><dd><span class="cmt"><p><a href="Repo.html#retrieveOne[P]:Repo.this.RetrieveOne[P]" class="extmbr" name="longevity.persistence.Repo#retrieveOne">Repo.retrieveOne</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -184,7 +184,7 @@ key value
                 <span class="toggle diagram-link">
                   Type Hierarchy
                 </span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 369.00 125.00" height="125pt" width="369pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 121)" class="graph" id="graph0"><polygon points="-4,4 -4,-121 365,-121 365,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><g class="cluster" id="clust3"></g><!-- node2 --><g class="node implicit-outgoing class" id="graph1_2"><g id="a_implicit-outgoing class|graph1_2"><a xlink:title="longevity.persistence.Repo.RetrieveOne can be implicitly converted to PWithEv[M, RetrieveOne[P]] by the implicit method PWithEv in package longevity.persistence" xlink:href="package$$PWithEv.html#inheritance-diagram"><path d="M328.667,-49C328.667,-49 201.333,-49 201.333,-49 197.167,-49 193,-44.8333 193,-40.6667 193,-40.6667 193,-32.3333 193,-32.3333 193,-28.1667 197.167,-24 201.333,-24 201.333,-24 328.667,-24 328.667,-24 332.833,-24 337,-28.1667 337,-32.3333 337,-32.3333 337,-40.6667 337,-40.6667 337,-44.8333 332.833,-49 328.667,-49" stroke="#ababab" fill="#e1e1e1"></path><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="203" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#7d7d7d" font-size="8.00" font-family="Source Code Pro" y="-33.6" x="223.93" text-anchor="start">PWithEv[M, RetrieveOne[P]]</text></a></g></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.persistence.Repo.RetrieveOne (this class)" xlink:href="#inheritance-diagram"><path d="M113.167,-49C113.167,-49 32.8333,-49 32.8333,-49 28.6667,-49 24.5,-44.8333 24.5,-40.6667 24.5,-40.6667 24.5,-32.3333 24.5,-32.3333 24.5,-28.1667 28.6667,-24 32.8333,-24 32.8333,-24 113.167,-24 113.167,-24 117.333,-24 121.5,-28.1667 121.5,-32.3333 121.5,-32.3333 121.5,-40.6667 121.5,-40.6667 121.5,-44.8333 117.333,-49 113.167,-49" stroke="#418565" fill="#418565"></path><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-33.6" x="55.543" text-anchor="start">RetrieveOne[P]</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge implicit-outgoing" id="0_2"><g id="a_implicit-outgoing|0_2"><a xlink:title="RetrieveOne[P] can be implicitly converted to PWithEv[M, RetrieveOne[P]]"><path d="M129.732,-36.5C144.915,-36.5 161.681,-36.5 178.09,-36.5" stroke="#d4d4d4" fill="none"></path><polygon points="178.161,-38.9501 185.161,-36.5 178.161,-34.0501 178.161,-38.9501" stroke="#d4d4d4" fill="#d4d4d4"></polygon></a></g><text fill="#aaaaaa" font-size="9.00" font-family="Source Code Pro" y="-41.3" x="157.25" text-anchor="middle">implicitly</text></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><path d="M99.1667,-117C99.1667,-117 46.8333,-117 46.8333,-117 42.6667,-117 38.5,-112.833 38.5,-108.667 38.5,-108.667 38.5,-100.333 38.5,-100.333 38.5,-96.1667 42.6667,-92 46.8333,-92 46.8333,-92 99.1667,-92 99.1667,-92 103.333,-92 107.5,-96.1667 107.5,-100.333 107.5,-100.333 107.5,-108.667 107.5,-108.667 107.5,-112.833 103.333,-117 99.1667,-117" stroke="#418565" fill="#418565"></path><image xlink:href="../../lib/class_diagram.png" y="-111.5" x="49" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-101.6" x="69.7715" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="RetrieveOne[P] is a subtype of AnyRef"><path d="M73,-84.6706C73,-73.245 73,-59.0216 73,-49.1973" stroke="#d4d4d4" fill="none"></path><polygon points="70.5501,-84.7005 73,-91.7005 75.4501,-84.7006 70.5501,-84.7005" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 154.00 118.00" height="118pt" width="154pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 150,-114 150,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="longevity.persistence.Repo.RetrieveOne (this class)" xlink:href="#inheritance-diagram"><path d="M113.167,-49C113.167,-49 32.8333,-49 32.8333,-49 28.6667,-49 24.5,-44.8333 24.5,-40.6667 24.5,-40.6667 24.5,-32.3333 24.5,-32.3333 24.5,-28.1667 28.6667,-24 32.8333,-24 32.8333,-24 113.167,-24 113.167,-24 117.333,-24 121.5,-28.1667 121.5,-32.3333 121.5,-32.3333 121.5,-40.6667 121.5,-40.6667 121.5,-44.8333 117.333,-49 113.167,-49" stroke="#418565" fill="#418565"></path><image xlink:href="../../lib/class_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-33.6" x="55.543" text-anchor="start">RetrieveOne[P]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><path d="M99.1667,-110C99.1667,-110 46.8333,-110 46.8333,-110 42.6667,-110 38.5,-105.833 38.5,-101.667 38.5,-101.667 38.5,-93.3333 38.5,-93.3333 38.5,-89.1667 42.6667,-85 46.8333,-85 46.8333,-85 99.1667,-85 99.1667,-85 103.333,-85 107.5,-89.1667 107.5,-93.3333 107.5,-93.3333 107.5,-101.667 107.5,-101.667 107.5,-105.833 103.333,-110 99.1667,-110" stroke="#418565" fill="#418565"></path><image xlink:href="../../lib/class_diagram.png" y="-104.5" x="49" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-94.6" x="69.7715" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="RetrieveOne[P] is a subtype of AnyRef"><path d="M73,-77.7603C73,-68.3675 73,-57.2882 73,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="70.5501,-77.8435 73,-84.8435 75.4501,-77.8435 70.5501,-77.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
                 <div id="diagram-controls" class="hiddenContent">
                   <button id="diagram-zoom-out" class="diagram-btn"><i class="material-icons"></i></button>
                   <button id="diagram-zoom-in" class="diagram-btn"><i class="material-icons"></i></button>
@@ -220,7 +220,7 @@ key value
                 </div><div class="ancestors">
                   <span class="filtertype">Implicitly<br />
                   </span>
-                  <ol id="implicits"> <li class="in" name="longevity.persistence.PWithEv" data-hidden="false"><span>by PWithEv</span></li><li class="in" name="scala.Predef.any2stringadd" data-hidden="true"><span>by any2stringadd</span></li><li class="in" name="scala.Predef.StringFormat" data-hidden="true"><span>by StringFormat</span></li><li class="in" name="scala.Predef.Ensuring" data-hidden="true"><span>by Ensuring</span></li><li class="in" name="scala.Predef.ArrowAssoc" data-hidden="true"><span>by ArrowAssoc</span></li>
+                  <ol id="implicits"> <li class="in" name="scala.Predef.any2stringadd" data-hidden="true"><span>by any2stringadd</span></li><li class="in" name="scala.Predef.StringFormat" data-hidden="true"><span>by StringFormat</span></li><li class="in" name="scala.Predef.Ensuring" data-hidden="true"><span>by Ensuring</span></li><li class="in" name="scala.Predef.ArrowAssoc" data-hidden="true"><span>by ArrowAssoc</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -339,9 +339,9 @@ key value
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="longevity.persistence.Repo.RetrieveOne#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply[V](keyVal:V)(implicitevidence$3:longevity.model.ptype.Key[M,P,V],implicitpEv:longevity.model.PEv[M,P],implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[longevity.persistence.PState[P]]"></a><a id="apply[V](V)(Key[M,P,V],PEv[M,P],ExecutionContext):Future[PState[P]]"></a>
+      <a id="apply[V](keyVal:V)(implicitevidence$3:longevity.model.ptype.Key[M,P,V],implicitpEv:longevity.model.PEv[M,P]):F[longevity.persistence.PState[P]]"></a><a id="apply[V](V)(Key[M,P,V],PEv[M,P]):F[PState[P]]"></a>
       <span class="permalink">
-      <a href="../../longevity/persistence/Repo$RetrieveOne.html#apply[V](keyVal:V)(implicitevidence$3:longevity.model.ptype.Key[M,P,V],implicitpEv:longevity.model.PEv[M,P],implicitexecutionContext:scala.concurrent.ExecutionContext):scala.concurrent.Future[longevity.persistence.PState[P]]" title="Permalink">
+      <a href="../../longevity/persistence/Repo$RetrieveOne.html#apply[V](keyVal:V)(implicitevidence$3:longevity.model.ptype.Key[M,P,V],implicitpEv:longevity.model.PEv[M,P]):F[longevity.persistence.PState[P]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -350,12 +350,12 @@ key value
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="V">V</span>]</span><span class="params">(<span name="keyVal">keyVal: <span class="extype" name="longevity.persistence.Repo.RetrieveOne.apply.V">V</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../model/ptype/Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.persistence.Repo.M">M</span>, <span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>, <span class="extype" name="longevity.persistence.Repo.RetrieveOne.apply.V">V</span>]</span>, <span name="pEv">pEv: <a href="../model/PEv.html" class="extype" name="longevity.model.PEv">PEv</a>[<span class="extype" name="longevity.persistence.Repo.M">M</span>, <span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>]</span>, <span name="executionContext">executionContext: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.concurrent.ExecutionContext" class="extype" target="_top">ExecutionContext</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.concurrent.Future" class="extype" target="_top">Future</a>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>]]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="V">V</span>]</span><span class="params">(<span name="keyVal">keyVal: <span class="extype" name="longevity.persistence.Repo.RetrieveOne.apply.V">V</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../model/ptype/Key.html" class="extype" name="longevity.model.ptype.Key">Key</a>[<span class="extype" name="longevity.persistence.Repo.M">M</span>, <span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>, <span class="extype" name="longevity.persistence.Repo.RetrieveOne.apply.V">V</span>]</span>, <span name="pEv">pEv: <a href="../model/PEv.html" class="extype" name="longevity.model.PEv">PEv</a>[<span class="extype" name="longevity.persistence.Repo.M">M</span>, <span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>]</span>)</span><span class="result">: <span class="extype" name="longevity.persistence.Repo.F">F</span>[<a href="PState.html" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>]]</span>
       </span>
       
       <p class="shortcomment cmt">part two of a two-part call for retrieving a persistent object from a key value</p><div class="fullcomment"><div class="comment cmt"><p>part two of a two-part call for retrieving a persistent object from a key value</p><p>throws NoSuchElementException whenever the persistent ref does not refer to a persistent object
 in the repository
-</p></div><dl class="paramcmts block"><dt class="tparam">V</dt><dd class="cmt"><p>the type of the key value</p></dd><dt class="param">keyVal</dt><dd class="cmt"><p>the key value to use to look up the persistent object</p></dd><dt class="param">executionContext</dt><dd class="cmt"><p>the execution context</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="Repo.html#retrieveOne[P]:Repo.this.RetrieveOne[P]" class="extmbr" name="longevity.persistence.Repo#retrieveOne">Repo.retrieveOne</a></p></span></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">V</dt><dd class="cmt"><p>the type of the key value</p></dd><dt class="param">keyVal</dt><dd class="cmt"><p>the key value to use to look up the persistent object</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="Repo.html#retrieveOne[P]:Repo.this.RetrieveOne[P]" class="extmbr" name="longevity.persistence.Repo#retrieveOne">Repo.retrieveOne</a></p></span></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -780,11 +780,7 @@ in the repository
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.2/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
             </div>
-        <div class="conversion" name="longevity.persistence.PWithEv">
-              <h3>Inherited by implicit conversion PWithEv from
-                <a href="" class="extype" name="longevity.persistence.Repo.RetrieveOne">RetrieveOne</a>[<span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>] to <a href="package$$PWithEv.html" class="extype" name="longevity.persistence.PWithEv">PWithEv</a>[<span class="extype" name="longevity.persistence.PWithEv.M">M</span>, <a href="" class="extype" name="longevity.persistence.Repo.RetrieveOne">RetrieveOne</a>[<span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>]]
-              </h3>
-            </div><div class="conversion" name="scala.Predef.any2stringadd">
+        <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
                 <a href="" class="extype" name="longevity.persistence.Repo.RetrieveOne">RetrieveOne</a>[<span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.persistence.Repo.RetrieveOne">RetrieveOne</a>[<span class="extype" name="longevity.persistence.Repo.RetrieveOne.P">P</span>]]
               </h3>

@@ -102,10 +102,12 @@ and <code class="highlighter-rouge">Commenters</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.context.LongevityContext</span>
 <span class="k">import</span> <span class="nn">longevity.persistence.Repo</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
-<span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]()</span>
+<span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">DomainModel</span><span class="o">]()</span>
 
-<span class="k">val</span> <span class="n">repo</span><span class="k">:</span> <span class="kt">Repo</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span> <span class="k">=</span> <span class="n">context</span><span class="o">.</span><span class="n">repo</span>
+<span class="k">val</span> <span class="n">repo</span><span class="k">:</span> <span class="kt">Repo</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">DomainModel</span><span class="o">]</span> <span class="k">=</span> <span class="n">context</span><span class="o">.</span><span class="n">repo</span>
 
 <span class="k">val</span> <span class="n">user</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="nc">Member</span><span class="o">(</span><span class="nc">Username</span><span class="o">(</span><span class="s">"u1"</span><span class="o">),</span> <span class="nc">Email</span><span class="o">(</span><span class="s">"e1"</span><span class="o">),</span> <span class="mi">3</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">member</span><span class="k">:</span> <span class="kt">Member</span> <span class="o">=</span> <span class="nc">Member</span><span class="o">(</span><span class="nc">Username</span><span class="o">(</span><span class="s">"u2"</span><span class="o">),</span> <span class="nc">Email</span><span class="o">(</span><span class="s">"e2"</span><span class="o">),</span> <span class="mi">5</span><span class="o">)</span>

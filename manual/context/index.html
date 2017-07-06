@@ -60,16 +60,18 @@
           <h1> the longevity context </h1>
           
           <p>In broad terms, you build your <code class="highlighter-rouge">LongevityContext</code> by specifying your domain model as a type
-parameter, and optionally providing a configuration. Without specifying a configuration, it looks
-like this:</p>
+parameter, and optionally providing a configuration. Using <code class="highlighter-rouge">Future</code> as an effect, and without
+specifying a configuration, it looks like this:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.context.LongevityContext</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
-<span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]()</span>
+<span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">DomainModel</span><span class="o">]()</span>
 </code></pre>
 </div>
 
-<p>This calls take an implicit parameter of type <code class="highlighter-rouge">longevity.model.ModelEv[DomainModel]</code>. Because we
+<p>This call takes an implicit parameter of type <code class="highlighter-rouge">longevity.model.ModelEv[DomainModel]</code>. Because we
 annotated our <code class="highlighter-rouge">DomainModel</code> trait as a longevity domain model, like so:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.domainModel</span>
@@ -81,11 +83,12 @@ annotated our <code class="highlighter-rouge">DomainModel</code> trait as a long
 <p>The <code class="highlighter-rouge">ModelEv[DomainModel]</code> is found by the Scala compiler in the <code class="highlighter-rouge">DomainModel</code> companion object.</p>
 
 <p>The longevity context contains a variety of tools for you to use relating to your model. The main
-thing it gives you is the <a href="../repo">repository</a> - which supplies all the basic persistence
+thing it gives you is the <a href="repos.html">repository</a> - which supplies all the basic persistence
 operations you need to maintain your back-end store. But there are many other tools there, most of
 which are most useful when <a href="../testing">writing tests</a>.</p>
 
 <ul>
+  <li><a href="effects.html">Choosing your Effect</a></li>
   <li><a href="config.html">Configuring your Longevity Context</a></li>
   <li><a href="repos.html">Repositories in the Context</a></li>
   <li><a href="opt-lock.html">Optimistic Locking</a></li>
@@ -100,7 +103,7 @@ which are most useful when <a href="../testing">writing tests</a>.</p>
 
 <div style="min-width: 10em">
 
-  prev: <a href="../query/cassandra-query-limits.html">limitations on cassandra queries</a>
+  prev: <a href="../poly/cv.html">controlled vocabularies</a>
 
 </div>
 
@@ -112,7 +115,7 @@ up: <a href="..">user manual</a>
 
 <div style="min-width: 10em">
 
-next: <a href="config.html">configuring your longevity context</a>
+next: <a href="effects.html">choosing your effect</a>
 
 </div>
 

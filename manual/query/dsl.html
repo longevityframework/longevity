@@ -64,12 +64,13 @@ of finding all blog posts for a blog. You simply need to import the
 query DSL from your <a href="../ptype">persistent type</a>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
 <span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
 
 <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
 
-<span class="k">val</span> <span class="n">allPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span><span class="o">(</span>
+<span class="k">val</span> <span class="n">allPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToVector</span><span class="o">(</span>
   <span class="nc">BlogPost</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span><span class="o">)</span>
 </code></pre>
 </div>
@@ -78,10 +79,11 @@ query DSL from your <a href="../ptype">persistent type</a>:</p>
 your program, it is quite easy to localize them:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
 <span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
 
-<span class="k">val</span> <span class="n">allPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+<span class="k">val</span> <span class="n">allPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToVector</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
   <span class="nc">BlogPost</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">blogUri</span> <span class="n">eqs</span> <span class="n">blog</span><span class="o">.</span><span class="n">blogUri</span>
 <span class="o">}</span>

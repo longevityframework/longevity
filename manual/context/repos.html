@@ -72,14 +72,15 @@ dependency injection approach you are using. For instance, with
 <a href="http://scaldi.org/">Scaldi</a>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.Repo</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 <span class="k">import</span> <span class="nn">scaldi.Module</span>
 
 <span class="k">class</span> <span class="nc">PersistenceModule</span> <span class="k">extends</span> <span class="nc">Module</span> <span class="o">{</span>
-  <span class="n">bind</span><span class="o">[</span><span class="kt">Repo</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]]</span> <span class="n">to</span> <span class="n">context</span><span class="o">.</span><span class="n">repo</span>
+  <span class="n">bind</span><span class="o">[</span><span class="kt">Repo</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">DomainModel</span><span class="o">]]</span> <span class="n">to</span> <span class="n">context</span><span class="o">.</span><span class="n">repo</span>
 <span class="o">}</span>
 
 <span class="k">class</span> <span class="nc">TestPersistenceModule</span> <span class="k">extends</span> <span class="nc">Module</span> <span class="o">{</span>
-  <span class="n">bind</span><span class="o">[</span><span class="kt">Repo</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]]</span> <span class="n">to</span> <span class="n">context</span><span class="o">.</span><span class="n">testRepo</span>
+  <span class="n">bind</span><span class="o">[</span><span class="kt">Repo</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">DomainModel</span><span class="o">]]</span> <span class="n">to</span> <span class="n">context</span><span class="o">.</span><span class="n">testRepo</span>
 <span class="o">}</span>
 </code></pre>
 </div>

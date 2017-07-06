@@ -82,7 +82,6 @@ it in a top-level class. For example, to run both in-memory and
 against a real database:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.scalatest.Suites</span>
-<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
 
 <span class="k">class</span> <span class="nc">BlogCrudSpec</span> <span class="k">extends</span> <span class="nc">Suites</span><span class="o">(</span>
   <span class="n">longevityContext</span><span class="o">.</span><span class="n">repoCrudSpec</span><span class="o">,</span>
@@ -93,11 +92,6 @@ against a real database:</p>
 <p>ScalaTest is an optional dependency in longevity, so you’ll need to
 declare a dependency on ScalaTest in your own project to use the repo
 crud specs. Please use ScalaTest version 3.0.1 or later.</p>
-
-<p>You need to provide an execution context when calling
-<code class="highlighter-rouge">LongevityContext.repoCrudSpec</code>. The easiest way to do this is to
-include <code class="highlighter-rouge">import scala.concurrent.ExecutionContext.Implicits.global</code> at
-the top of your file.</p>
 
 <p>The default test data generator will not work out of the box in the
 face of constraint violations causing exceptions to be thrown from

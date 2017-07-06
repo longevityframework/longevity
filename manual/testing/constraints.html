@@ -102,7 +102,10 @@ construct your test data.</p>
 
 <p>Pass in your custom generators when constructing your context like so:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">](</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
+
+<span class="k">val</span> <span class="n">context</span> <span class="k">=</span> <span class="nc">LongevityContext</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">DomainModel</span><span class="o">](</span>
   <span class="n">customGeneratorPool</span> <span class="k">=</span> <span class="n">generators</span><span class="o">)</span>
 </code></pre>
 </div>

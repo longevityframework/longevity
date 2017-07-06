@@ -62,30 +62,23 @@
           <p><code class="highlighter-rouge">Repo.create</code> takes an unpersisted object as argument, persists it, and returns the persistent
 state. Here’s a simplified version of its signature:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="n">create</span><span class="o">[</span><span class="kt">P</span><span class="o">](</span><span class="n">unpersisted</span><span class="k">:</span> <span class="kt">P</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]]</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="n">create</span><span class="o">[</span><span class="kt">P</span><span class="o">](</span><span class="n">unpersisted</span><span class="k">:</span> <span class="kt">P</span><span class="o">)</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">P</span><span class="o">]]</span>
 </code></pre>
 </div>
 
-<p>We left out two things: the implicit <code class="highlighter-rouge">ExecutionContext</code>, and the implicit <code class="highlighter-rouge">longevity.model.PEv[M,
-P]</code>. The “ev” in <code class="highlighter-rouge">PEv</code> stands for “evidence”. This implicit is evidence that the type <code class="highlighter-rouge">P</code> is
-actually a type of something that you have declared as persistent in model <code class="highlighter-rouge">M</code>. This evidence will
-be found by your compiler in the companion object for class <code class="highlighter-rouge">P</code>, assuming it is actually a
-<code class="highlighter-rouge">longevity.model.PType[M, P]</code>. It will be if you annotated you persistent class with
-<code class="highlighter-rouge">@longevity.model.annotations.persistent[M]</code>, as recommended in the section on <a href="../model/persistents.html">persistent
-objects</a>. Requiring this evidence allows us to make repository methods
-typesafe without requiring you to provide a marker trait on your persistent classes.</p>
+<p>We left out one thing: the implicit <code class="highlighter-rouge">longevity.model.PEv[M, P]</code>. The “ev” in <code class="highlighter-rouge">PEv</code> stands for
+“evidence”. This implicit is evidence that the type <code class="highlighter-rouge">P</code> is actually a type of something that you
+have declared as persistent in model <code class="highlighter-rouge">M</code>. This evidence will be found by your compiler in the
+companion object for class <code class="highlighter-rouge">P</code>, assuming it is actually a <code class="highlighter-rouge">longevity.model.PType[M, P]</code>. It will be
+if you annotated you persistent class with <code class="highlighter-rouge">@longevity.model.annotations.persistent[M]</code>, as
+recommended in the section on <a href="../model/persistents.html">persistent objects</a>. Requiring this
+evidence allows us to make repository methods typesafe without requiring you to provide a marker
+trait on your persistent classes.</p>
 
 <p>Here’s how we would persist a user:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">user</span> <span class="k">=</span> <span class="nc">User</span><span class="o">(</span><span class="s">"smithy"</span><span class="o">,</span> <span class="s">"John Smith"</span><span class="o">,</span> <span class="s">"smithy@john-smith.ninja"</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">futureUserState</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]]</span> <span class="k">=</span> <span class="n">userRepo</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">user</span><span class="o">)</span>
-</code></pre>
-</div>
-
-<p>We have to wait for the <code class="highlighter-rouge">Future</code> to complete before we can know that
-the user has been persisted. For example:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">userState</span><span class="k">:</span> <span class="kt">PState</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Await</span><span class="o">.</span><span class="n">result</span><span class="o">(</span><span class="n">futureUserState</span><span class="o">,</span> <span class="mi">100</span> <span class="n">millis</span><span class="o">)</span>
 </code></pre>
 </div>
 
@@ -113,7 +106,7 @@ the user finer control over this behavior in the future.</p>
 
 <div style="min-width: 10em">
 
-  prev: <a href="pstate-wrappers.html">persistent state wrappers</a>
+  prev: <a href="persistent-state.html">persistent state</a>
 
 </div>
 
@@ -125,7 +118,7 @@ up: <a href=".">the repository</a>
 
 <div style="min-width: 10em">
 
-next: <a href="create-many.html">creating many aggregates at once</a>
+next: <a href="retrieve.html">repo.retrieve</a>
 
 </div>
 

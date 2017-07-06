@@ -89,10 +89,11 @@ conditional operators <code class="highlighter-rouge">and</code> and <code class
 blog posts for a blog published in the last week:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
 <span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
 
-<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToVector</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
   <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
   <span class="k">import</span> <span class="nn">BlogPost.props._</span>
@@ -105,7 +106,7 @@ blog posts for a blog published in the last week:</p>
 <p>If you want to retrieve <em>every</em> persistent in your collection, you can
 use the special query filter <code class="highlighter-rouge">filterAll</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span><span class="o">(</span><span class="nc">BlogPost</span><span class="o">.</span><span class="n">queryDsl</span><span class="o">.</span><span class="n">filterAll</span><span class="o">)</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">repo</span><span class="o">.</span><span class="n">queryToVector</span><span class="o">(</span><span class="nc">BlogPost</span><span class="o">.</span><span class="n">queryDsl</span><span class="o">.</span><span class="n">filterAll</span><span class="o">)</span>
 </code></pre>
 </div>
 

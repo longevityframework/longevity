@@ -66,8 +66,7 @@
 </code></pre>
 </div>
 
-<p>Like most of the <code class="highlighter-rouge">Repo</code> API calls, <code class="highlighter-rouge">Repo.update</code> requires two implicit parameters: and
-<code class="highlighter-rouge">ExecutionContext</code>, to perform the computation in a <code class="highlighter-rouge">scala.concurrent.Future</code>, and a
+<p>Like most of the <code class="highlighter-rouge">Repo</code> API calls, <code class="highlighter-rouge">Repo.delete</code> requires an implicit parameter
 <code class="highlighter-rouge">longevity.model.PEv[M, P]</code>. This implicit evidence ensures that the type <code class="highlighter-rouge">P</code> is actually a
 persistent class in the domain model.</p>
 

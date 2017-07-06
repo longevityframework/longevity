@@ -62,10 +62,11 @@
           <p>Once we have constructed our query, we can iterate over the results using <code class="highlighter-rouge">Repo.queryToIterator</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
 <span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
 
-<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Iterator</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">queryToIterator</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
   <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
   <span class="k">import</span> <span class="nn">BlogPost.props._</span>
@@ -75,15 +76,15 @@
 </div>
 
 <p>This approach is non-reactive; the resulting iterator will be blocking. If we are okay with
-receiving the entire results at once, we can use <code class="highlighter-rouge">Repo.queryToFutureVec</code>, which returns a
-<code class="highlighter-rouge">Future[Vector[PState[P]]]</code>:</p>
+receiving the entire results at once, we can use <code class="highlighter-rouge">Repo.queryToVector</code>, which returns an
+<code class="highlighter-rouge">F[Vector[PState[P]]]</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.persistence.PState</span>
 <span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 
 <span class="k">val</span> <span class="n">blog</span><span class="k">:</span> <span class="kt">Blog</span> <span class="o">=</span> <span class="n">getBlogFromSomewhere</span><span class="o">()</span>
 
-<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">blogPostRepo</span><span class="o">.</span><span class="n">queryToFutureVec</span> <span class="o">{</span>
+<span class="k">val</span> <span class="n">recentPosts</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">PState</span><span class="o">[</span><span class="kt">BlogPost</span><span class="o">]]]</span> <span class="k">=</span> <span class="n">blogPostRepo</span><span class="o">.</span><span class="n">queryToVector</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">com.github.nscala_time.time.Imports._</span>
   <span class="k">import</span> <span class="nn">BlogPost.queryDsl._</span>
   <span class="k">import</span> <span class="nn">BlogPost.props._</span>

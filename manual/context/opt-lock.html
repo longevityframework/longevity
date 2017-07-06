@@ -70,9 +70,7 @@ setting the title that disallows overwriting an existing title:</p>
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.persistent</span>
 
 <span class="nd">@persistent</span>
-<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span>
-  <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span>
-  <span class="n">title</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span> <span class="n">title</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
 
   <span class="k">def</span> <span class="n">addTitle</span><span class="o">(</span><span class="n">newTitle</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">title</span><span class="o">.</span><span class="n">nonEmpty</span><span class="o">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">ValidationException</span>

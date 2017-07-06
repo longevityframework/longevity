@@ -81,28 +81,26 @@ your <code class="highlighter-rouge">build.sbt</code> file may have:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">resolvers</span> <span class="o">+=</span> <span class="nc">Resolver</span><span class="o">.</span><span class="n">sonatypeRepo</span><span class="o">(</span><span class="s">"releases"</span><span class="o">)</span>
 
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity"</span> <span class="o">%</span> <span class="s">"0.23.0"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity"</span> <span class="o">%</span> <span class="s">"0.24.0"</span>
 </code></pre>
 </div>
 
 <p>Include one of the following lines to bring in the library
 dependencies for the back end of your choice:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-cassandra-deps"</span> <span class="o">%</span> <span class="s">"0.23.0"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-cassandra-deps"</span> <span class="o">%</span> <span class="s">"0.24.0"</span>
 
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-mongodb-deps"</span> <span class="o">%</span> <span class="s">"0.23.0"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-mongodb-deps"</span> <span class="o">%</span> <span class="s">"0.24.0"</span>
 
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-sqlite-deps"</span> <span class="o">%</span> <span class="s">"0.23.0"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-sqlite-deps"</span> <span class="o">%</span> <span class="s">"0.24.0"</span>
 </code></pre>
 </div>
 
 <h2 id="enabling-macro-annotations">enabling macro annotations</h2>
 
-<p>You will probably want to use the macro annotations provided in
-package <code class="highlighter-rouge">longevity.model.annotations</code>. To do so, you will need to
-add <a href="http://docs.scala-lang.org/overviews/macros/paradise.html">Macro
-Paradise</a>
-to your build, like so:</p>
+<p>You will most likely want to use the macro annotations provided in package
+<code class="highlighter-rouge">longevity.model.annotations</code>. To do so, you will need to add <a href="http://docs.scala-lang.org/overviews/macros/paradise.html">Macro
+Paradise</a> to your build, like so:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">addCompilerPlugin</span><span class="o">(</span><span class="s">"org.scalamacros"</span> <span class="o">%</span> <span class="s">"paradise"</span> <span class="o">%</span> <span class="s">"2.1.0"</span> <span class="n">cross</span> <span class="nc">CrossVersion</span><span class="o">.</span><span class="n">full</span><span class="o">)</span>
 </code></pre>
@@ -111,18 +109,17 @@ to your build, like so:</p>
 <h2 id="supplying-optional-dependencies">supplying optional dependencies</h2>
 
 <p>There are a number of optional longevity features that require you to bring in other library
-dependencies yourself. If you want to use <code class="highlighter-rouge">longevity.test.RepoCrudSpec</code> or
-<code class="highlighter-rouge">longevity.test.QuerySpec</code> to <a href="../testing">build integration tests</a>, you will need
-<a href="http://www.scalatest.org/">ScalaTest</a>:</p>
+dependencies yourself. If you want to use <code class="highlighter-rouge">cats.effect.IO</code> as an effect, you will need
+<a href="https://github.com/typelevel/cats-effect">cats-effect</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.scalatest"</span> <span class="o">%%</span> <span class="s">"scalatest"</span> <span class="o">%</span> <span class="s">"3.0.1"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.typelevel"</span> <span class="o">%%</span> <span class="s">"cats-effect"</span> <span class="o">%</span> <span class="s">"0.3"</span>
 </code></pre>
 </div>
 
 <p>If you want to <a href="../query/stream-by.html">stream query results</a> to <a href="http://doc.akka.io/docs/akka/2.4.17/scala/stream/index.html">Akka
 Streams</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.typesafe.akka"</span> <span class="o">%%</span> <span class="s">"akka-stream"</span> <span class="o">%</span> <span class="s">"2.5.2"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.typesafe.akka"</span> <span class="o">%%</span> <span class="s">"akka-stream"</span> <span class="o">%</span> <span class="s">"2.5.3"</span>
 </code></pre>
 </div>
 
@@ -136,8 +133,7 @@ Streams</a>:</p>
 <p>If you want to <a href="../query/stream-by.html">stream query results</a> to
 <a href="https://github.com/travisbrown/iteratee">iteratee.io</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.typelevel"</span> <span class="o">%%</span> <span class="s">"cats"</span> <span class="o">%</span> <span class="s">"0.9.0"</span>
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"io.iteratee"</span> <span class="o">%%</span> <span class="s">"iteratee-core"</span> <span class="o">%</span> <span class="s">"0.12.0"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"io.iteratee"</span> <span class="o">%%</span> <span class="s">"iteratee-core"</span> <span class="o">%</span> <span class="s">"0.12.0"</span>
 </code></pre>
 </div>
 
@@ -148,47 +144,10 @@ Streams</a>:</p>
 </code></pre>
 </div>
 
-<h2 id="building-the-artifacts-yourself">building the artifacts yourself</h2>
+<p>If you want to use <code class="highlighter-rouge">longevity.test.RepoCrudSpec</code> or <code class="highlighter-rouge">longevity.test.QuerySpec</code> to <a href="../testing">build integration
+tests</a>, you will need <a href="http://www.scalatest.org/">ScalaTest</a>:</p>
 
-<h3 id="download-the-source">download the source</h3>
-
-<p>The source code for longevity, and for dependency
-<a href="https://github.com/longevityframework/emblem/wiki">emblem</a>, is <a href="https://github.com/longevityframework/longevity">housed in the
-longevity project on
-GitHub</a>. To use it, first
-create a clone of that project:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">% </span>git clone https://github.com/longevityframework/longevity.git
-<span class="gp">% </span><span class="nb">cd </span>longevity
-</code></pre>
-</div>
-
-<h3 id="choose-the-right-branch">choose the right branch</h3>
-
-<p>You probably want to be on the <code class="highlighter-rouge">master</code> branch, as this holds the
-latest working version. You are probably already there, but just in
-case:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">% </span>git checkout master
-<span class="gp">% </span>git pull
-</code></pre>
-</div>
-
-<h3 id="publish-local">publish local</h3>
-
-<p>Now use SBT to publish the <code class="highlighter-rouge">emblem</code> and <code class="highlighter-rouge">longevity</code> artifacts
-locally. From the command line:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">% </span>sbt publishLocal
-</code></pre>
-</div>
-
-<h3 id="include-as-a-library-dependency">include as a library dependency</h3>
-
-<p>In the projects where you want to use longevity, include a library
-dependency. If you are on the <code class="highlighter-rouge">master</code> branch, use:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity"</span> <span class="o">%</span> <span class="s">"0.24-SNAPSHOT"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.scalatest"</span> <span class="o">%%</span> <span class="s">"scalatest"</span> <span class="o">%</span> <span class="s">"3.0.1"</span>
 </code></pre>
 </div>
 
