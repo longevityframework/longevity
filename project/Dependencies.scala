@@ -16,7 +16,7 @@ object Dependencies {
   val mongodbDep:        ModuleID = "org.mongodb"                %  "mongodb-driver"        % "3.4.2"
   val nScalaTimeDep:     ModuleID = "com.github.nscala-time"     %% "nscala-time"           % "2.16.0"
   val playIterateeDep:   ModuleID = "com.typesafe.play"          %% "play-iteratees"        % "2.6.1"
-  val scalaLoggingDep:   ModuleID = "com.typesafe.scala-logging" %% "scala-logging"         % "3.7.0"
+  val scalaLoggingDep:   ModuleID = "com.typesafe.scala-logging" %% "scala-logging"         % "3.5.0"
   val scalaTestDep:      ModuleID = "org.scalatest"              %% "scalatest"             % "3.0.1"
   val slf4jSimpleDep:    ModuleID = "org.slf4j"                  %  "slf4j-simple"          % "1.7.25"
   val sqliteDep:         ModuleID = "org.xerial"                 %  "sqlite-jdbc"           % "3.19.3"
