@@ -47,7 +47,10 @@ construct your test data.
 Pass in your custom generators when constructing your context like so:
 
 ```scala
-val context = LongevityContext[DomainModel](
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+
+val context = LongevityContext[Future, DomainModel](
   customGeneratorPool = generators)
 ```
 

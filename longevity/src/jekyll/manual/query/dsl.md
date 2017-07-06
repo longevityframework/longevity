@@ -9,12 +9,13 @@ query DSL from your [persistent type](../ptype):
 
 ```scala
 import longevity.persistence.PState
+import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
 import BlogPost.queryDsl._
 
-val allPosts: Iterator[PState[BlogPost]] = repo.queryToIterator(
+val allPosts: Future[Vector[PState[BlogPost]]] = repo.queryToVector(
   BlogPost.props.blogUri eqs blog.blogUri)
 ```
 
@@ -23,10 +24,11 @@ your program, it is quite easy to localize them:
 
 ```scala
 import longevity.persistence.PState
+import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val allPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
+val allPosts: Future[Vector[PState[BlogPost]]] = repo.queryToVector {
   import BlogPost.queryDsl._
   BlogPost.props.blogUri eqs blog.blogUri
 }

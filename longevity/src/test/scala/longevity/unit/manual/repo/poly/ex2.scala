@@ -6,7 +6,6 @@ import longevity.unit.manual.repo.poly.ex1._
 
 // end prelude
 
-  // TODO this unit test was updated without updating manual
 import longevity.context.LongevityContext
 import longevity.persistence.Repo
 import scala.concurrent.ExecutionContext.Implicits.global

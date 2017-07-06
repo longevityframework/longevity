@@ -52,12 +52,14 @@ import bloggingapp.accounts.model.AccountsSubdomain
 import bloggingapp.core.model.BloggingDomain
 import com.typesafe.config.Config
 import longevity.context.LongevityContext
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 val bloggingConfig: Config = loadBloggingConfig()
-val bloggingContext = LongevityContext[BloggingDomain](bloggingConfig)
+val bloggingContext = LongevityContext[Future, BloggingDomain](bloggingConfig)
 
 val accountsConfig: Config = loadAccountsConfig()
-val accountsContext = LongevityContext[AccountsSubdomain](accountsConfig)
+val accountsContext = LongevityContext[Future, AccountsSubdomain](accountsConfig)
 ```
 
 Please see the [Typesafe Config documentation](https://github.com/typesafehub/config#overview) for

@@ -15,9 +15,7 @@ setting the title that disallows overwriting an existing title:
 import longevity.model.annotations.persistent
 
 @persistent
-case class User(
-  username: Username,
-  title: Option[String]) {
+case class User(username: Username, title: Option[String]) {
 
   def addTitle(newTitle: String): User = {
     if (title.nonEmpty) throw new ValidationException

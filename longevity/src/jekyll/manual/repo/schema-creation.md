@@ -14,10 +14,8 @@ duplicate key values, as discussed in the [section on method
 `Repo.create`](../repo/create.html).) For the in-memory back end,
 schema creation is a no-op.
 
-You can create the requisite schema by calling `Repo.createSchema()`. This is an asynchronous
-method, so you will need to provide an implicit `ExecutionContext`, and you will want to ensure the
-asynchronous method completes before continuing. It returns a `Future[Unit]` - that is, the
-completion of the future will only indicate success or failure.
+You can create the requisite schema by calling `Repo.createSchema`. This method returns an `F[Unit]`
+- that is, the completion of the effect will only indicate success or failure.
 
 An alternative way to generate schema is to set the [configuration flag](../context/config.html)
 `longevity.autoCreateSchema` to true. In this case, schema will be generated when the [connection is

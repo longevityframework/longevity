@@ -11,10 +11,11 @@ the posts in ascending chronological order:
 
 ```scala
 import longevity.persistence.PState
+import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
+val recentPosts: Future[Vector[PState[BlogPost]]] = repo.queryToVector {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
@@ -37,10 +38,11 @@ If we want them in descending order, we just change `postDate` to
 
 ```scala
 import longevity.persistence.PState
+import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
+val recentPosts: Future[Vector[PState[BlogPost]]] = repo.queryToVector {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
@@ -54,10 +56,11 @@ need to `import scala.language.postfixOps`:
 
 ```scala
 import longevity.persistence.PState
+import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
+val recentPosts: Future[Vector[PState[BlogPost]]] = repo.queryToVector {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
@@ -67,9 +70,8 @@ val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
 }
 ```
 
-If you want to specify multiple properties in your `orderBy` clause,
-you will have to surround them in parentheses. Here's a silly example
-where we retrieve all the blog posts in the last week from every
+If you want to specify multiple properties in your `orderBy` clause, you will have to surround them
+in parentheses. Here's an example where we retrieve all the blog posts in the last week from every
 blog. We order them first by `blogUri`, and then by `postDate`
 
 ```scala

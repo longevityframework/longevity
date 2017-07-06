@@ -22,8 +22,11 @@ import fs2.Stream
 import fs2.Task
 import io.iteratee.{ Enumerator => CatsEnumerator }
 import longevity.persistence.PState
+import longevity.persistence.Repo
 import play.api.libs.iteratee.{ Enumerator => PlayEnumerator }
- 
+
+val repo: Repo[SomeEffect, DomainModel] = longevityContext.repo
+
 val blog: Blog = getBlogFromSomewhere()
 
 val query: Query[BlogPost] = {
@@ -33,26 +36,45 @@ val query: Query[BlogPost] = {
   blogUri eqs blog.blogUri and postDate gt DateTime.now - 1.week
 }
 
-val akkaSource: Source[PState[BlogPost], NotUsed] =
+val akkaSource: SomeEffect[Source[PState[BlogPost], NotUsed]] =
   repo.queryToAkkaStream(query)
 
-val fs2Stream: Stream[Task, PState[P]] =
+val fs2Stream: SomeEffect[Stream[Task, PState[P]]] =
   repo.queryToFS2(query)
 
-val catsEnumerator: CatsEnumerator[Eval, PState[P]] =
+val catsEnumerator: SomeEffect[CatsEnumerator[Eval, PState[P]]] =
   repo.queryToIterateeIo[Eval](query)
 
-val playEnumerator: PlayEnumerator[PState[P]] = {
+val playEnumerator: SomeEffect[PlayEnumerator[PState[P]]] = {
   import scala.concurrent.ExecutionContext.Implicits.global
   repo.queryToPlay(query)
 }
 ```
 
-All four of these methods will require you to
-[supply artifacts](../prelims/project-setup.html#supplying-optional-dependencies)
-for the streaming libraries in your
-own build.
+You might wonder why all the streams are wrapped in our [effect](../context/effects.html) class.
+After all, the are all streams, and are designed to handle side-effects themselves. The reason is
+that these `Repo` methods have to behave well with the other `Repo` methods. For instance, consider
+the following example:
 
+```scala
+def processStream(stream: Source[PState[BlogPost], NotUsed]): SomeEffect[Result] = {
+  // ...
+}
+
+for {
+  _      <- repo.openConnection
+  stream <- repo.queryToAkkaStream(query)
+  result <- processStream(stream)
+  _      <- repo.closeConnection
+} yield result
+```
+
+If the stream was obtained outside the effect, then the connection to the database would probably be
+closed at the time we tried to process the stream.
+
+All the streaming methods will require you to [supply
+artifacts](../prelims/project-setup.html#supplying-optional-dependencies) for the streaming
+libraries in your own build.
 
 {% assign prevTitle = "retrieval by query" %}
 {% assign prevLink  = "retrieve-by.html" %}

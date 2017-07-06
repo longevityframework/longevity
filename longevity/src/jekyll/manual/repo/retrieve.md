@@ -28,12 +28,11 @@ Due to the way that type inference in Scala is done, there is no way that the `U
 inferred in this case. (The presence of the `User` type on the left-hand side of the assignment
 doesn't help.)
 
-The `Repo.Retrieve[P].apply` method takes three implicit arguments. Like `Repo.create`, we require
-an `ExecutionContext`, as well as a `PEnv[M, P]`, to ensure that the persistent class is actually
-part of the domain model. The retrieve method also requires an implicit
-`longevity.model.ptype.Key[M, P, V]` argument, to assure that the key value supplied actually
-matches up with a key defined in the [persistent type](../ptype) for `P`. This is why we typically
-define our [keys](../ptype/keys.html) as implicit values.
+The `Repo.Retrieve[P].apply` method takes two implicit arguments. Like `Repo.create`, we require a
+`PEnv[M, P]`, to ensure that the persistent class is actually part of the domain model. The retrieve
+method also requires an implicit `longevity.model.ptype.Key[M, P, V]` argument, to assure that the
+key value supplied actually matches up with a key defined in the [persistent type](../ptype) for
+`P`. This is why we typically define our [keys](../ptype/keys.html) as implicit values.
 
 Take note that `Repo.retrieve` returns an _optional_ `PState`, since there is never a guarantee that
 a key value will match an existing persistent object. If you feel confident that the persistent

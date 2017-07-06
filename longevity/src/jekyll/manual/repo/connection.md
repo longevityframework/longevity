@@ -8,22 +8,19 @@ a good idea to close the connection when you are done, to conserve resources. Yo
 connection like so:
 
 ```scala
-val openResult: Future[Unit] = repo.openConnection()
+val openResult: Future[Unit] = repo.openConnection
 ```
-
-This is an asynchronous method, so you will need to provide an implicit `ExecutionContext`, and you
-will want to ensure the asynchronous method completes before continuing.
 
 You can close the connection like so:
 
 ```scala
-val closeResult: Future[Unit] = repo.closeConnection()
+val closeResult: Future[Unit] = repo.closeConnection
 ```
 
 An alternative way to open the connection is to set the [configuration flag](../context/config.html)
 `longevity.autoOpenConnection` to true. In this case, the connection will be opened when the `Repo`
-is first accessed. Unlike calling `Repo.openConnection()`, automatically opening the connection
-happens in a synchronous (i.e., blocking) manner.
+is first accessed. Unlike calling `Repo.openConnection`, automatically opening the connection
+happens in a synchronous, blocking manner (i.e., outside of your [effect](../context/effects.html)).
  
 {% assign prevTitle = "the repository" %}
 {% assign prevLink  = "." %}

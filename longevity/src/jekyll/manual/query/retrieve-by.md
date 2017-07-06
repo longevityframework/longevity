@@ -7,10 +7,11 @@ Once we have constructed our query, we can iterate over the results using `Repo.
 
 ```scala
 import longevity.persistence.PState
+import scala.concurrent.Future
 
 val blog: Blog = getBlogFromSomewhere()
 
-val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
+val recentPosts: Future[Iterator[PState[BlogPost]]] = repo.queryToIterator {
   import com.github.nscala_time.time.Imports._
   import BlogPost.queryDsl._
   import BlogPost.props._
@@ -19,8 +20,8 @@ val recentPosts: Iterator[PState[BlogPost]] = repo.queryToIterator {
 ```
 
 This approach is non-reactive; the resulting iterator will be blocking. If we are okay with
-receiving the entire results at once, we can use `Repo.queryToVector`, which returns a
-`Future[Vector[PState[P]]]`:
+receiving the entire results at once, we can use `Repo.queryToVector`, which returns an
+`F[Vector[PState[P]]]`:
 
 ```scala
 import longevity.persistence.PState

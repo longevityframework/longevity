@@ -10,8 +10,7 @@ val userState: PState[User] = getUserState()
 val deleteResult: Future[Deleted[User]] = repo.delete(userState)
 ```
 
-Like most of the `Repo` API calls, `Repo.update` requires two implicit parameters: and
-`ExecutionContext`, to perform the computation in a `scala.concurrent.Future`, and a
+Like most of the `Repo` API calls, `Repo.delete` requires an implicit parameter
 `longevity.model.PEv[M, P]`. This implicit evidence ensures that the type `P` is actually a
 persistent class in the domain model.
 

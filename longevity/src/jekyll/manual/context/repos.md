@@ -15,14 +15,15 @@ dependency injection approach you are using. For instance, with
 
 ```scala
 import longevity.persistence.Repo
+import scala.concurrent.Future
 import scaldi.Module
 
 class PersistenceModule extends Module {
-  bind[Repo[DomainModel]] to context.repo
+  bind[Repo[Future, DomainModel]] to context.repo
 }
 
 class TestPersistenceModule extends Module {
-  bind[Repo[DomainModel]] to context.testRepo
+  bind[Repo[Future, DomainModel]] to context.testRepo
 }
 ```
 
