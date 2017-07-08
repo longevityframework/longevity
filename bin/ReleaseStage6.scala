@@ -44,9 +44,6 @@ object ReleaseStage6 extends App {
   run("git diff --exit-code")
   run("git diff --cached --exit-code")
 
-  // make sure the build is clean
-  run("sbt clean test doc")
-
   // create branch x.y
   run("git", "checkout", "-b", majorMinor)
   run("git", "push", "-u", "origin", majorMinor)
