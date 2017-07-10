@@ -1,19 +1,20 @@
 package longevity.test
 
-import typekey.TypeKey
-import longevity.context.LongevityContext
+import journal.Logger
 import longevity.config.BackEnd
+import longevity.context.LongevityContext
+import longevity.model.PType
+import longevity.model.PolyPType
+import longevity.model.realized.RealizedKey
 import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.Repo
-import longevity.model.PolyPType
-import longevity.model.PType
-import longevity.model.realized.RealizedKey
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.OptionValues.convertOptionToValuable
 import org.scalatest.Tag
 import scala.util.control.NonFatal
+import typekey.TypeKey
 
 /** a [[http://www.scalatest.org/ ScalaTest]] fixture to test a [[longevity.persistence.Repo Repo]].
  * instances of this test are provided in your [[longevity.context.LongevityContext
@@ -46,6 +47,8 @@ class RepoCrudSpec[F[_], M] private[longevity] (
   protected val repo: Repo[F, M],
   private val backEnd: BackEnd)
 extends FlatSpec with LongevityIntegrationSpec[F, M] with GivenWhenThen {
+
+  protected val logger = Logger[this.type]
 
   private val suiteNameSuffix = s"- $backEnd - optimisticLocking: ${longevityContext.config.optimisticLocking}"
 

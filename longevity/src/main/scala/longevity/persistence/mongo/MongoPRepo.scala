@@ -1,6 +1,6 @@
 package longevity.persistence.mongo
 
-import com.typesafe.scalalogging.LazyLogging
+import journal.Logger
 import longevity.config.PersistenceConfig
 import longevity.effect.Effect
 import longevity.emblem.stringUtil.typeName
@@ -27,9 +27,10 @@ with MongoRead[F, M, P]
 with MongoRetrieve[F, M, P]
 with MongoSchema[F, M, P]
 with MongoUpdate[F, M, P]
-with MongoWrite[F, M, P]
-with LazyLogging {
+with MongoWrite[F, M, P] {
   repo =>
+
+  protected val logger = Logger[this.type]
 
   protected def collectionName = uncapitalize(typeName(pTypeKey.tpe))
 

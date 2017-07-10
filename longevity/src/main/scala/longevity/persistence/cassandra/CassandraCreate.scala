@@ -10,15 +10,23 @@ import org.joda.time.DateTime
 private[cassandra] trait CassandraCreate[F[_], M, P] {
   repo: CassandraPRepo[F, M, P] =>
 
-  override def create(p: P): F[PState[P]] = effect.mapBlocking(effect.pure(p)) { p =>
-    logger.debug(s"calling CassandraPRepo.create: $p")
-    val id = if (hasPrimaryKey) None else Some(CassandraId[P](UUID.randomUUID))
-    val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
-    val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
-    val s = PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
-    session().execute(bindInsertStatement(s))
-    logger.debug(s"done calling CassandraPRepo.create: $s")
-    s
+  override def create(p: P): F[PState[P]] = {
+    val fp = effect.pure(p)
+    val fs = effect.map(fp) { p =>
+      logger.debug(s"executing CassandraPRepo.create: $p")
+      val id = if (hasPrimaryKey) None else Some(CassandraId[P](UUID.randomUUID))
+      val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
+      val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
+      PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
+    }
+    val fs2 = effect.mapBlocking(fs) { s =>
+      session().execute(bindInsertStatement(s))
+      s
+    }
+    effect.map(fs2) { s =>
+      logger.debug(s"done executing CassandraPRepo.create: $s")
+      s
+    }
   }
 
   private def bindInsertStatement(state: PState[P]): BoundStatement = {

@@ -1,6 +1,6 @@
 package longevity.persistence.inmem
 
-import com.typesafe.scalalogging.LazyLogging
+import journal.Logger
 import longevity.config.PersistenceConfig
 import longevity.effect.Effect
 import longevity.persistence.PRepo
@@ -24,9 +24,10 @@ with InMemQuery[F, M, P]
 with InMemRead[F, M, P]
 with InMemRetrieve[F, M, P]
 with InMemUpdate[F, M, P]
-with InMemWrite[F, M, P]
-with LazyLogging {
+with InMemWrite[F, M, P] {
   repo =>
+
+  protected val logger = Logger[this.type]
 
   protected var idToPStateMap = Map[DatabaseId[_], PState[P]]()
   protected var keyValToPStateMap = Map[Any, PState[P]]()

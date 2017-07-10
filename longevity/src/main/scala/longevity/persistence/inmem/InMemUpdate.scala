@@ -6,23 +6,32 @@ import longevity.persistence.PState
 private[inmem] trait InMemUpdate[F[_], M, P] {
   repo: InMemPRepo[F, M, P] =>
 
-  def update(state: PState[P]) = effect.mapBlocking(effect.pure(state)) { state =>
-    repo.synchronized {
-      logger.debug(s"calling InMemPRepo.update: $state")
+  def update(state: PState[P]) = {
+    val fs = effect.pure(state)
+    val fss = effect.map(fs) { state =>
+      logger.debug(s"executing InMemPRepo.update: $state")
       validateStablePrimaryKey(state)
-      assertNoWriteConflict(state)
-      assertUniqueKeyVals(state)
-      unregisterByKeyVals(state.orig)
       val rowVersion = if (persistenceConfig.optimisticLocking) {
         state.rowVersion.map(_ + 1).orElse(Some(0L))
       } else {
         None
       }
       val newState = PState[P](state.id, rowVersion, None, None, state.get)
-      registerById(newState)
-      registerByKeyVals(newState)
-      logger.debug(s"done calling InMemPRepo.update: $newState")
+      (state, newState)
+    }
+    val fns = effect.mapBlocking(fss) { case (state, newState) =>
+      repo.synchronized {
+        assertNoWriteConflict(state)
+        assertUniqueKeyVals(state)
+        unregisterByKeyVals(state.orig)
+        registerById(newState)
+        registerByKeyVals(newState)
+      }
       newState
+    }
+    effect.map(fns) { ns =>
+      logger.debug(s"done executing InMemPRepo.update: $ns")
+      ns
     }
   }
 

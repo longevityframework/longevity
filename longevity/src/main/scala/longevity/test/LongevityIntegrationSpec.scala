@@ -1,6 +1,6 @@
 package longevity.test
 
-import com.typesafe.scalalogging.LazyLogging
+import journal.Logger
 import longevity.context.LongevityContext
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.Matchers
@@ -12,8 +12,10 @@ import scala.util.control.NonFatal
  * @tparam F the effect
  * @tparam M the model
  */
-trait LongevityIntegrationSpec[F[_], M] extends Matchers with BeforeAndAfterAll with LazyLogging {
+trait LongevityIntegrationSpec[F[_], M] extends Matchers with BeforeAndAfterAll {
   self: Suite =>
+
+  private val logger = Logger[this.type]
 
   protected val longevityContext: LongevityContext[F, M]
 

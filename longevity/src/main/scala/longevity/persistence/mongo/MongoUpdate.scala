@@ -8,25 +8,32 @@ import longevity.persistence.PState
 private[mongo] trait MongoUpdate[F[_], M, P] {
   repo: MongoPRepo[F, M, P] =>
 
-  def update(state: PState[P]) = effect.mapBlocking(effect.pure(state)) { state =>
-    logger.debug(s"calling MongoPRepo.update: $state")
-    validateStablePrimaryKey(state)
-    val query = writeQuery(state)
-    val updatedState = state.update(
-      persistenceConfig.optimisticLocking,
-      persistenceConfig.writeTimestamps)
-    val document = bsonForState(updatedState)
-    logger.debug(s"calling MongoCollection.replaceOne: $query $document")
-    val updateResult = try {
-      mongoCollection.replaceOne(query, document)
-    } catch {
-      case e: MongoWriteException => throwDuplicateKeyValException(state.get, e)
+  def update(state: PState[P]) = {
+    val fs = effect.pure(state)
+    val fqsd = effect.map(fs) { s =>
+      logger.debug(s"executing MongoPRepo.update: $s")
+      validateStablePrimaryKey(s)
+      val query = writeQuery(s)
+      val updatedState = s.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
+      val document = bsonForState(updatedState)
+      logger.debug(s"calling MongoCollection.replaceOne: $query $document")
+      (query, updatedState, document)
     }
-    if (persistenceConfig.optimisticLocking && updateResult.getModifiedCount == 0) {
-      throw new WriteConflictException(state)
+    val fsr = effect.mapBlocking(fqsd) { case (q, s, d) =>
+      val r = try {
+        mongoCollection.replaceOne(q, d)
+      } catch {
+        case e: MongoWriteException => throwDuplicateKeyValException(s.get, e)
+      }
+      (s, r)
     }
-    logger.debug(s"done calling MongoPRepo.update: $updatedState")
-    updatedState
+    effect.map(fsr) { case (s, r) =>
+      if (persistenceConfig.optimisticLocking && r.getModifiedCount == 0) {
+        throw new WriteConflictException(s)
+      }
+      logger.debug(s"done executing MongoPRepo.update: $s")
+      s
+    }
   }
 
 }

@@ -8,19 +8,27 @@ import longevity.persistence.PState
 private[cassandra] trait CassandraUpdate[F[_], M, P] {
   repo: CassandraPRepo[F, M, P] =>
 
-  def update(state: PState[P]): F[PState[P]] = effect.mapBlocking(effect.pure(state)) { state =>
-    logger.debug(s"calling CassandraPRepo.update: $state")
-    validateStablePrimaryKey(state)
-    val newState = state.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps)
-    val resultSet = session().execute(bindUpdateStatement(newState, state.rowVersionOrNull))
-    if (persistenceConfig.optimisticLocking) {
-      val updateSuccess = resultSet.one.getBool(0)
-      if (!updateSuccess) {
-        throw new WriteConflictException(state)
-      }
+  def update(state: PState[P]): F[PState[P]] = {
+    val fs = effect.pure(state)
+    val fss = effect.map(fs) { s =>
+      logger.debug(s"executing CassandraPRepo.update: $s")
+      validateStablePrimaryKey(s)
+      (s, s.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps))
     }
-    logger.debug(s"done calling CassandraPRepo.update: $newState")
-    newState
+    val fsr = effect.mapBlocking(fss) { case (oldState, newState) =>
+      val resultSet = session().execute(bindUpdateStatement(newState, oldState.rowVersionOrNull))
+      (newState, resultSet)
+    }
+    effect.map(fsr) { case (s, r) =>
+      if (persistenceConfig.optimisticLocking) {
+        val updateSuccess = r.one.getBool(0)
+        if (!updateSuccess) {
+          throw new WriteConflictException(s)
+        }
+      }
+      logger.debug(s"done executing CassandraPRepo.update: $s")
+      s
+    }
   }
 
   private def bindUpdateStatement(state: PState[P], rowVersion: AnyRef): BoundStatement = {

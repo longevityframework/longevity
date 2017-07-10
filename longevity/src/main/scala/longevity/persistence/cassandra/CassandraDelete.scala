@@ -9,19 +9,28 @@ import longevity.persistence.PState
 private[cassandra] trait CassandraDelete[F[_], M, P] {
   repo: CassandraPRepo[F, M, P] =>
 
-  def delete(state: PState[P]): F[Deleted[P]] = effect.mapBlocking(effect.pure(state)) { state =>
-    logger.debug(s"calling CassandraPRepo.delete: $state")
-    validateStablePrimaryKey(state)
-    val resultSet = session().execute(bindDeleteStatement(state))
-    if (persistenceConfig.optimisticLocking) {
-      val deleteSuccess = resultSet.one.getBool(0)
-      if (!deleteSuccess) {
-        throw new WriteConflictException(state)
-      }
+  def delete(state: PState[P]): F[Deleted[P]] = {
+    val fs = effect.pure(state)
+    val fs2 = effect.map(fs) { s =>
+      logger.debug(s"executing CassandraPRepo.delete: $s")
+      validateStablePrimaryKey(s)
+      s
     }
-    val deleted = new Deleted(state.get)
-    logger.debug(s"done calling CassandraPRepo.delete: $deleted")
-    deleted
+    val fsr = effect.mapBlocking(fs2) { s =>
+      val r = session().execute(bindDeleteStatement(s))
+      (s, r)
+    }
+    effect.map(fsr) { case (s, r) =>
+      if (persistenceConfig.optimisticLocking) {
+        val deleteSuccess = r.one.getBool(0)
+        if (!deleteSuccess) {
+          throw new WriteConflictException(s)
+        }
+      }
+      val deleted = new Deleted(s.get)
+      logger.debug(s"done executing CassandraPRepo.delete: $deleted")
+      deleted
+    }
   }
 
   private def bindDeleteStatement(state: PState[P]): BoundStatement = {

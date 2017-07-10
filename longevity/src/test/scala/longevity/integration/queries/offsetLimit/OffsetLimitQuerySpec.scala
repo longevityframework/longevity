@@ -39,6 +39,7 @@ extends FlatSpec with LongevityIntegrationSpec[Future, DomainModel] {
   override def afterAll = {
     def delete(s: PState[OffsetLimit]) = repo.delete(s)
     states.map(delete).map(effect.run)
+    super.afterAll
   }
 
   import OffsetLimit.queryDsl._

@@ -8,16 +8,25 @@ import longevity.persistence.PState
 private[jdbc] trait JdbcDelete[F[_], M, P] {
   repo: JdbcPRepo[F, M, P] =>
 
-  override def delete(state: PState[P]): F[Deleted[P]] = effect.mapBlocking(effect.pure(state)) { state =>
-    logger.debug(s"calling JdbcPRepo.delete: $state")
-    validateStablePrimaryKey(state)
-    val rowCount = bindDeleteStatement(state).executeUpdate()
-    if (persistenceConfig.optimisticLocking && rowCount != 1) {
-      throw new WriteConflictException(state)
+  override def delete(state: PState[P]): F[Deleted[P]] = {
+    val fs = effect.pure(state)
+    val fs2 = effect.map(fs) { s =>
+      logger.debug(s"calling JdbcPRepo.delete: $s")
+      validateStablePrimaryKey(s)
+      s
     }
-    val deleted = new Deleted(state.get)
-    logger.debug(s"done calling JdbcPRepo.delete: $deleted")
-    deleted
+    val fsr = effect.mapBlocking(fs2) { state =>
+      val rowCount = bindDeleteStatement(state).executeUpdate()
+      (state, rowCount)
+    }
+    effect.map(fsr) { case (state, rowCount) =>
+      if (persistenceConfig.optimisticLocking && rowCount != 1) {
+        throw new WriteConflictException(state)
+      }
+      val deleted = new Deleted(state.get)
+      logger.debug(s"done calling JdbcPRepo.delete: $deleted")
+      deleted
+    }
   }
 
   private def bindDeleteStatement(state: PState[P]) = {

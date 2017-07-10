@@ -3,7 +3,7 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.PreparedStatement
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.Session
-import com.typesafe.scalalogging.LazyLogging
+import journal.Logger
 import longevity.config.PersistenceConfig
 import longevity.effect.Effect
 import longevity.emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
@@ -44,9 +44,10 @@ with CassandraCreate[F, M, P]
 with CassandraRetrieve[F, M, P]
 with CassandraQuery[F, M, P]
 with CassandraUpdate[F, M, P]
-with CassandraDelete[F, M, P]
-with LazyLogging {
+with CassandraDelete[F, M, P] {
 
+  protected val logger = Logger[this.type]
+  
   protected[cassandra] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
 
   protected val partitionComponents = realizedPType.primaryKey match {

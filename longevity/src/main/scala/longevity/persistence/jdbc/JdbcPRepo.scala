@@ -1,9 +1,9 @@
 package longevity.persistence.jdbc
 
-import com.typesafe.scalalogging.LazyLogging
 import java.sql.Connection
 import java.sql.ResultSet
 import java.util.UUID
+import journal.Logger
 import longevity.config.PersistenceConfig
 import longevity.effect.Effect
 import longevity.emblem.emblematic.traversors.sync.EmblematicToJsonTranslator
@@ -37,8 +37,9 @@ with JdbcCreate[F, M, P]
 with JdbcRetrieve[F, M, P]
 with JdbcQuery[F, M, P]
 with JdbcUpdate[F, M, P]
-with JdbcDelete[F, M, P]
-with LazyLogging {
+with JdbcDelete[F, M, P] {
+
+  protected val logger = Logger[this.type]
 
   protected[jdbc] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
 

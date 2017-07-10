@@ -7,17 +7,26 @@ import longevity.persistence.PState
 private[inmem] trait InMemDelete[F[_], M, P] {
   repo: InMemPRepo[F, M, P] =>
 
-  def delete(state: PState[P]) = effect.mapBlocking(effect.pure(state)) { state =>
-    logger.debug(s"calling InMemPRepo.delete: $state")
-    validateStablePrimaryKey(state)
-    repo.synchronized {
-      assertNoWriteConflict(state)
-      unregisterById(state)
-      unregisterByKeyVals(state.orig)
+  def delete(state: PState[P]) = {
+    val fs = effect.pure(state)
+    val fs2 = effect.map(fs) { state =>
+      logger.debug(s"executing InMemPRepo.delete: $state")
+      validateStablePrimaryKey(state)
+      state
     }
-    val deleted = new Deleted(state.get)
-    logger.debug(s"done calling InMemPRepo.delete: $deleted")
-    deleted
+    val fs3 = effect.mapBlocking(fs2) { state =>
+      repo.synchronized {
+        assertNoWriteConflict(state)
+        unregisterById(state)
+        unregisterByKeyVals(state.orig)
+      }
+      state
+    }
+    effect.map(fs3) { state =>
+      val deleted = new Deleted(state.get)
+      logger.debug(s"done executing InMemPRepo.delete: $deleted")
+      deleted
+    }
   }
 
 }

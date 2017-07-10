@@ -8,11 +8,19 @@ import longevity.model.realized.RealizedKey
 private[jdbc] trait JdbcRetrieve[F[_], M, P] {
   repo: JdbcPRepo[F, M, P] =>
 
-  override def retrieve[V : Key[M, P, ?]](keyVal: V) = effect.mapBlocking(effect.pure(keyVal)) { keyVal =>
-    logger.debug(s"calling JdbcPRepo.retrieve: $keyVal")
-    val stateOption = retrieveFromPreparedStatement(bindKeyValSelectStatement(keyVal))
-    logger.debug(s"done calling JdbcPRepo.retrieve: $stateOption")
-    stateOption
+  override def retrieve[V : Key[M, P, ?]](keyVal: V) = {
+    val fv = effect.pure(keyVal)
+    val fv2 = effect.map(fv) { v =>
+      logger.debug(s"executing JdbcPRepo.retrieve: $v")
+      v
+    }
+    val fso = effect.mapBlocking(fv2) { v =>
+      retrieveFromPreparedStatement(bindKeyValSelectStatement(v))
+    }
+    effect.map(fso) { so =>
+      logger.debug(s"done executing JdbcPRepo.retrieve: $so")
+      so
+    }
   }
 
   protected def retrieveFromPreparedStatement(statement: PreparedStatement) = {

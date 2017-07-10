@@ -1,6 +1,6 @@
 package longevity.integration.noTranslation
 
-import com.typesafe.scalalogging.LazyLogging
+import journal.Logger
 import longevity.exceptions.persistence.NotInDomainModelTranslationException
 import longevity.effect.Effect
 import longevity.persistence.Repo
@@ -17,7 +17,9 @@ import scala.util.control.NonFatal
  * @see https://www.pivotaltracker.com/story/show/99755864
  */
 class NoTranslationSpec[F[_]](val effect: Effect[F], val repo: Repo[F, DomainModel])
-extends FlatSpec with Matchers with BeforeAndAfterAll with LazyLogging {
+extends FlatSpec with Matchers with BeforeAndAfterAll {
+
+  private val logger = Logger[this.type]
 
   override def beforeAll = try {
     effect.run(repo.createSchema)

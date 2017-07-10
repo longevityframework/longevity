@@ -9,11 +9,19 @@ import longevity.model.realized.RealizedKey
 private[cassandra] trait CassandraRetrieve[F[_], M, P] {
   repo: CassandraPRepo[F, M, P] =>
 
-  def retrieve[V : Key[M, P, ?]](v: V) = effect.mapBlocking(effect.pure(v)) { v =>
-    logger.debug(s"calling CassandraPRepo.retrieve: $v")
-    val stateOption = retrieveFromBoundStatement(bindKeyValSelectStatement(v))
-    logger.debug(s"done calling CassandraPRepo.retrieve: $stateOption")
-    stateOption
+  def retrieve[V : Key[M, P, ?]](v: V) = {
+    val fv = effect.pure(v)
+    val fv2 = effect.map(fv) { v =>
+      logger.debug(s"executing CassandraPRepo.retrieve: $v")
+      v
+    }
+    val fso = effect.mapBlocking(fv2) { v =>
+      retrieveFromBoundStatement(bindKeyValSelectStatement(v))
+    }
+    effect.map(fso) { stateOption =>
+      logger.debug(s"done executing CassandraPRepo.retrieve: $stateOption")
+      stateOption
+    }
   }
 
   protected def retrieveFromBoundStatement(statement: BoundStatement) = {

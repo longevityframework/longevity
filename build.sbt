@@ -7,11 +7,13 @@ lazy val bin = Project(id = "bin", base = file("bin"), settings = BuildSettings.
 lazy val longevity = project.in(file("longevity"))
   .settings(BuildSettings.buildSettings: _*)
   .settings(
+    libraryDependencies += Dependencies.journalDep,
     libraryDependencies += Dependencies.kxbmapConfigsDep,
-    libraryDependencies += Dependencies.scalaLoggingDep,
     libraryDependencies += Dependencies.streamAdapterDep,
     libraryDependencies += Dependencies.typekeyDep,
     libraryDependencies += Dependencies.typesafeConfigDep,
+
+    libraryDependencies += Dependencies.slf4jSimpleDep  % "test",
 
     libraryDependencies += Dependencies.akkaStreamDep   % "optional,test",
     libraryDependencies += Dependencies.cassandraDep    % "optional,test",

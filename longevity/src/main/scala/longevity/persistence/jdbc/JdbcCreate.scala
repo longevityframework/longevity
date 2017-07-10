@@ -8,17 +8,27 @@ import org.joda.time.DateTime
 private[jdbc] trait JdbcCreate[F[_], M, P] {
   repo: JdbcPRepo[F, M, P] =>
 
-  override def create(p: P): F[PState[P]] = effect.mapBlocking(effect.pure(p)) { p =>
-    logger.debug(s"calling JdbcPRepo.create: $p")
-    val id = if (hasPrimaryKey) None else Some(JdbcId[P](UUID.randomUUID))
-    val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
-    val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
-    val state = PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
-    try {
-      bindInsertStatement(state).executeUpdate()
-    } catch convertDuplicateKeyException(state)
-    logger.debug(s"done calling JdbcPRepo.create: $state")
-    state
+  override def create(p: P): F[PState[P]] = {
+    val fp = effect.pure(p)
+    val fs = effect.map(fp) { p =>
+      logger.debug(s"executing JdbcPRepo.create: $p")
+      val id = if (hasPrimaryKey) None else Some(JdbcId[P](UUID.randomUUID))
+      val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
+      val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
+      PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
+    }
+    val fs2 = effect.mapBlocking(fs) { s =>
+      try {
+        bindInsertStatement(s).executeUpdate()
+      } catch {
+        convertDuplicateKeyException(s)
+      }
+      s
+    }
+    effect.map(fs2) { s =>
+      logger.debug(s"done executing JdbcPRepo.create: $s")
+      s
+    }
   }
 
   private def bindInsertStatement(state: PState[P]) = {

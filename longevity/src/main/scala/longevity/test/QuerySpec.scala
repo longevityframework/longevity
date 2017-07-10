@@ -1,6 +1,6 @@
 package longevity.test
 
-import com.typesafe.scalalogging.LazyLogging
+import journal.Logger
 import longevity.context.LongevityContext
 import longevity.model.PEv
 import longevity.model.ptype.Prop
@@ -34,7 +34,9 @@ import org.scalatest.FlatSpec
 abstract class QuerySpec[F[_], M, P](
   protected val longevityContext: LongevityContext[F, M])(
   protected implicit val pEv: PEv[M, P])
-extends FlatSpec with LongevityIntegrationSpec[F, M] with LazyLogging {
+extends FlatSpec with LongevityIntegrationSpec[F, M] {
+
+  protected val logger = Logger[this.type]
 
   protected val repo: Repo[F, M] = longevityContext.testRepo
 
@@ -100,7 +102,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] with LazyLogging {
 
     val orderedResults = longevityContext.effect.run(repo.queryToVector(query)).map(_.get)
     val results: Set[P] = orderedResults.toSet
-    val actual = pStates.map(_.get).toSet intersect results // remove any entities not put in by this test
+    val actual = pStates.map(_.get).toSet intersect results // remove any results not put in by this test
     val expected = entitiesMatchingQuery(query, entities)
 
     if (actual != expected) {
