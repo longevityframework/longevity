@@ -2,7 +2,12 @@
 
 ## [0.25.0] - 2016.07.XX - Small Fixes
 
-
+- 2016.07.12 - Add some specialized "implicit not found" error messages for implicit types in
+  `longevity.model`.
+- 2016.07.12 - Reverse order of implicits for `Repo.retrieve` and `Repo.retrieveOne` methods. This
+  way, we get "implicit not found" compiler errors for the `PEv` before the `Key`. This will give
+  more relevant error messages when the retrieve methods are called without explicating the `P` type
+  parameter.
 - 2016.07.12 - Rename `PState.map` to `PState.modify`. This follows more standard lense-type
   terminology, and removes the incorrect impression that this is a monadic method.
 

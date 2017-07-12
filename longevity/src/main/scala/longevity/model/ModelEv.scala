@@ -1,5 +1,6 @@
 package longevity.model
 
+import scala.annotation.implicitNotFound
 import scala.reflect.runtime.universe.TypeTag
 import scala.reflect.runtime.universe.typeTag
 
@@ -18,6 +19,9 @@ import scala.reflect.runtime.universe.typeTag
  * @see longevity.model.annotations.domainModel
  * @see longevity.model.ModelType
  */
+@implicitNotFound(
+  "could not find evidence for domain model ${M}. (Please note that domain model elements must be " +
+  "declared in the same package as, or a sub-package of, the package where the domain model is declared.)")
 class ModelEv[M : TypeTag] {
 
   private[longevity] val tag = typeTag[M]

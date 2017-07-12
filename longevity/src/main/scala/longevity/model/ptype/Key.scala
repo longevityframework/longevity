@@ -1,5 +1,6 @@
 package longevity.model.ptype
 
+import scala.annotation.implicitNotFound
 import longevity.model.KVEv
 
 /** a natural key for this persistent type. wraps a [[Prop property]] that,
@@ -10,6 +11,7 @@ import longevity.model.KVEv
  * @tparam P the persistent type
  * @tparam V the key value class
  */
+@implicitNotFound("could not find a key with values of type ${V} for persistent type ${P} in domain model ${M}")
 abstract class Key[M, P, V] private[model]() {
 
   /** the property that defines the key */

@@ -1,5 +1,6 @@
 package longevity.model
 
+import scala.annotation.implicitNotFound
 import typekey.TypeKey
 
 /** evidence for a persistent class
@@ -14,4 +15,5 @@ import typekey.TypeKey
  * @see longevity.model.annotations.persistent
  * @see longevity.model.PType
  */
+@implicitNotFound("${P} is not a persistent type in domain model ${M}")
 class PEv[M, P : TypeKey] private[model](private[longevity] val key: TypeKey[P])
