@@ -34,7 +34,7 @@ Now let's suppose one thread is updating the user to have title `"Ms."`:
 // thread A:
 for {
   retrieved <- repo.retrieve[User](username)
-  modified  =  retrieved.map(_.addTitle("Ms."))
+  modified  =  retrieved.modify(_.addTitle("Ms."))
   updated   <- repo.update(modified)
 } yield updated
 ```
@@ -45,7 +45,7 @@ and another thread is updating the title to `"Dr."`:
 // thread B:
 for {
   retrieved <- repo.retrieve[User](username)
-  modified  =  retrieved.map(_.addTitle("Dr."))
+  modified  =  retrieved.modify(_.addTitle("Dr."))
   updated   <- repo.update(modified)
 } yield updated
 ```
@@ -80,7 +80,7 @@ the `rowVersion` by one.
 
 The [persistent state](../repo/persistent-state.html) keeps track of the value of `rowVersion` for
 the object it encloses. The repository methods all return `PStates` with the `rowVersion` matching
-what is in the database at that moment. `PState` methods `set` and `map` preserve the `rowVersion`.
+what is in the database at that moment. `PState` methods `set` and `modify` preserve the `rowVersion`.
 
 When `Repo` methods `update` or `delete` are called, the repository
 qualifies the database write command that gets issued. The command

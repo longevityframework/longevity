@@ -10,7 +10,7 @@ to modify the aggregate:
 val username = Username("smithy")
 val retrieved: Future[PState[User]] = repo.retrieveOne[User](username)
 val modified: Future[PState[User]] = retrieved map { userState =>
-  userState.map(_.copy(fullname = "John Smith Jr."))
+  userState.modify(_.copy(fullname = "John Smith Jr."))
 }
 ```
 
@@ -33,7 +33,7 @@ comprehensions](http://docs.scala-lang.org/tutorials/FAQ/yield.html):
 val username = Username("smithy")
 val updated: Future[PState[User]] = for {
   retrieved <- repo.retrieveOne(username)
-  modified  =  retrieved.map(_.copy(fullname = "John Smith Jr."))
+  modified  =  retrieved.modify(_.copy(fullname = "John Smith Jr."))
   updated   <- repo.update(modified)
 } yield updated
 ```

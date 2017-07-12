@@ -28,10 +28,10 @@ val updatedUser: User = user.copy(title = Some(newTitle))
 But just as this operation would not cause any change to an immutable
 collection that the user was in, neither will it cause any change to
 the `userState`. You can make the `PState` aware of changes to your
-aggregate using `PState.map`:
+aggregate using `PState.modify`:
 
 ```scala
-val updatedState: PState[User] = userState.map(_.copy(title = Some(newTitle)))
+val updatedState: PState[User] = userState.modify(_.copy(title = Some(newTitle)))
 ```
 
 Only isolated portions of your program will need to concern themselves
@@ -44,10 +44,10 @@ trait UserService {
 }
 ```
 
-You can easily wrap a service call into `PState.map`:
+You can easily wrap a service call into `PState.modify`:
 
 ```scala
-val updatedState: PState[User] = userState.map { user =>
+val updatedState: PState[User] = userState.modify { user =>
   userService.updateScoreCard(user, event)
 }
 ```

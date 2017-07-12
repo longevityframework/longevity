@@ -26,7 +26,7 @@ the underlying database call in an asynchronous fashion. The `User` is
 further wrapped in a `PState`, or _persistent state_, which
 contains persistence information about the user that is not part of
 the domain model. You don't need to know much of anything about a
-`PState`, except that you can call methods `get` and `map` on it, to
+`PState`, except that you can call methods `get` and `modify` on it, to
 work with the underlying `User` inside.
 
 In the yield clause of the for comprehension in this method,
