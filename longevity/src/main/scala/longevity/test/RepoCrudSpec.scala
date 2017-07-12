@@ -118,7 +118,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] with GivenWhenThen {
 
       val created: PState[P] = effect.run(repo.create(originalP))
 
-      val modified: PState[P] = created.map(e => modifiedP)
+      val modified: PState[P] = created.modify(e => modifiedP)
       val updated: PState[P] = effect.run(repo.update(modified))
 
       updated.get should equal (modifiedP)

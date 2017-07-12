@@ -15,12 +15,11 @@ case class PState[P] private(
   def get: P = p
 
   /** returns the persistent state of an updated persistent object */
-  def set(p: P): PState[P] = map(_ => p)
+  def set(p: P): PState[P] = modify(_ => p)
 
-  /** returns the persistent state of the persistent object modified according
-   * to function `f`
+  /** returns the persistent state of the persistent object modified according to function `f`
    */
-  def map(f: P => P): PState[P] = PState(id, rowVersion, createdTimestamp, updatedTimestamp, orig, f(p))
+  def modify(f: P => P): PState[P] = PState(id, rowVersion, createdTimestamp, updatedTimestamp, orig, f(p))
 
   /** returns a copy of this persistent state with a wider type bound */
   def widen[Q >: P]: PState[Q] =
@@ -31,8 +30,7 @@ case class PState[P] private(
   /** produces a new PState that represents the changes in the current PState
    * having been committed to the database
    */
-  private[persistence]
-  def update(optimisticLocking: Boolean, writeTimestamps: Boolean): PState[P] = {
+  private[persistence] def update(optimisticLocking: Boolean, writeTimestamps: Boolean): PState[P] = {
     val newRowVersion = if (optimisticLocking) rowVersion.map(_ + 1).orElse(Some(0L)) else None
     val newUpdatedDateTime = if (writeTimestamps) Some(DateTime.now) else None
     copy(orig = p, rowVersion = newRowVersion, updatedTimestamp = newUpdatedDateTime)

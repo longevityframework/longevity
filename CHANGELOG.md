@@ -1,5 +1,11 @@
 # Longevity Changelog
 
+## [0.25.0] - 2016.07.XX - Small Fixes
+
+
+- 2016.07.12 - Rename `PState.map` to `PState.modify`. This follows more standard lense-type
+  terminology, and removes the incorrect impression that this is a monadic method.
+
 ## [0.24.0] - 2016.07.06 - Generic Effects with Finally Tagless
 
 - 2017.06.14 - Rename config flag `autocreateSchema` to `autoCreateSchema`.

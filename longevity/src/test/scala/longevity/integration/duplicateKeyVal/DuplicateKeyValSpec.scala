@@ -73,7 +73,7 @@ class DuplicateKeyValSpec extends FlatSpec with Matchers with BeforeAndAfterAll 
       val s2 = effect.run(repo.create(p2))
 
       try {
-        val s2_update = s2.map(_.copy(id = id))
+        val s2_update = s2.modify(_.copy(id = id))
         val dkve = intercept[DuplicateKeyValException[_, _]] {
           effect.run(repo.update(s2_update))
         }
