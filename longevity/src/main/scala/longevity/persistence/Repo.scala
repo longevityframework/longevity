@@ -87,7 +87,7 @@ abstract class Repo[F[_], M] private[persistence](
    *
    * @param unpersisted the persistent object to create
    */
-  def create[P: PEv[M, ?]](unpersisted: P): F[PState[P]] = effect.flatMap(effect.pure(unpersisted)) { u =>
+  def create[P : PEv[M, ?]](unpersisted: P): F[PState[P]] = effect.flatMap(effect.pure(unpersisted)) { u =>
     val key = implicitly[PEv[M, P]].key
     pRepoMap.get(key) match {
       case Some(pr) => pr.create(u)
@@ -128,7 +128,7 @@ abstract class Repo[F[_], M] private[persistence](
      *
      * @see [[Repo.retrieve]]
      */
-    def apply[V : Key[M, P, ?]](keyVal: V)(implicit pEv: PEv[M, P]): F[Option[PState[P]]] =
+    def apply[V](keyVal: V)(implicit pEv: PEv[M, P], key: Key[M, P, V]): F[Option[PState[P]]] =
       effect.flatMap(effect.pure(keyVal))(pRepoMap(implicitly[PEv[M, P]].key).retrieve[V])
   }
 
@@ -167,7 +167,7 @@ abstract class Repo[F[_], M] private[persistence](
      *
      * @see [[Repo.retrieveOne]]
      */
-    def apply[V : Key[M, P, ?]](keyVal: V)(implicit pEv: PEv[M, P]): F[PState[P]] =
+    def apply[V](keyVal: V)(implicit pEv: PEv[M, P], key: Key[M, P, V]): F[PState[P]] =
       effect.flatMap(effect.pure(keyVal))(pRepoMap(implicitly[PEv[M, P]].key).retrieveOne[V])
   }
 

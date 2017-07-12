@@ -160,7 +160,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] with GivenWhenThen {
 
     private def retrieveByKey[V](key: RealizedKey[M, P, V], p: P): Option[PState[P]] = {
       val kv = key.keyValForP(p)
-      effect.run(repo.retrieve[P](kv)(key.key, pEv))
+      effect.run(repo.retrieve[P](kv)(pEv, key.key))
     }
 
   }
