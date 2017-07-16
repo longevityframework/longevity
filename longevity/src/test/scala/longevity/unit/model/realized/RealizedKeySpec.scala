@@ -21,7 +21,7 @@ class RealizedKeySpec extends FlatSpec with GivenWhenThen with Matchers {
   behavior of "RealizedKey.keyValForP"
   it should "produce the appropriate key value for the supplied persistent" in {
     val username = Username("username77")
-    val user = User(username, "email", "fullname")
+    val user = User(username, Email("email"), "fullname")
     realizedKey.keyValForP(user) should equal (username)
   }
 
@@ -29,7 +29,7 @@ class RealizedKeySpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "produce a copy of the persistent with the new keyval" in {
     val username1 = Username("username77")
     val username2 = Username("username999")
-    val user = User(username1, "email", "fullname")
+    val user = User(username1, Email("email"), "fullname")
     realizedKey.updateKeyVal(user, username2) should equal (user.copy(username = username2))
   }
 

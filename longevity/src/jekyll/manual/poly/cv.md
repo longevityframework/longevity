@@ -49,11 +49,12 @@ case object Suspended extends AccountStatus
 case object Cancelled extends AccountStatus
 ```
 
-Support for `scala.Enumeration` would be a great addition, and is [on
-our story
-board](https://www.pivotaltracker.com/story/show/128589983). If you
-are interested, this would be a great user contribution, and we would
-be happy to support you in implementing it however we can.
+As with [polymorphic components](components.html), we must remember to seal the trait to form a
+proper abstract data type.
+
+Support for `scala.Enumeration` would be a great addition, and is [on our story
+board](https://www.pivotaltracker.com/story/show/128589983). If you are interested, this would be a
+great user contribution, and we would be happy to support you in implementing it however we can.
 
 {% assign prevTitle = "polymorphic persistents" %}
 {% assign prevLink  = "persistents.html" %}

@@ -5,7 +5,7 @@ import longevity.model.query.Query
 import longevity.persistence.PState
 import longevity.test.LongevityIntegrationSpec
 import org.scalatest.FlatSpec
-import scala.concurrent.Future
+import longevity.effect.Blocking
 
 /** abstract superclass for tests of query limit/offset clauses
  *
@@ -20,9 +20,9 @@ import scala.concurrent.Future
  * @see https://www.pivotaltracker.com/story/show/127406611
  */
 class OffsetLimitQuerySpec(
-  protected val longevityContext: LongevityContext[Future, DomainModel],
+  protected val longevityContext: LongevityContext[Blocking, DomainModel],
   private val testOffsets: Boolean = true)
-extends FlatSpec with LongevityIntegrationSpec[Future, DomainModel] {
+extends FlatSpec with LongevityIntegrationSpec[Blocking, DomainModel] {
 
   val ps: Seq[OffsetLimit] = for (i <- 0 until 10) yield OffsetLimit(i, 0)
   val repo = longevityContext.testRepo

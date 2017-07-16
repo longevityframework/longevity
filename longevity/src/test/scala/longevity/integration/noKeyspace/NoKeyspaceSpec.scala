@@ -37,7 +37,7 @@ class NoKeyspaceSpec extends FlatSpec with Matchers {
   behavior of "Cassandra Repo methods when the keyspace is not defined"
 
   it should "throw KeyspaceDoesNotExistException" in {
-    val p = context.testDataGenerator.generate[basics.Basics]
+    val p = context.testDataGenerator.generateP[basics.Basics]
     intercept[KeyspaceDoesNotExistException] {
       context.effect.run(context.repo.openConnection)
     }

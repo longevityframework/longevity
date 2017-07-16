@@ -1,10 +1,10 @@
 package longevity.model.annotations
 
 import org.joda.time.DateTime
-import scala.reflect.macros.whitebox.Context
-import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.annotation.compileTimeOnly
+import scala.language.experimental.macros
+import scala.reflect.macros.whitebox.Context
 
 /** macro annotation to generate a inner object `props` for your `PType` for
  * you. Recursive members of the type `P` in `PType[P]` are mirrored in a
@@ -69,7 +69,7 @@ private object mprops {
         s"@longevity.model.annotations.mprops can only be applied to a longevity.model.PType")
 
     private def defObjectProps(parent: c.Tree) = {
-      c.typecheck(parent, c.TYPEmode, withMacrosDisabled = true) match {
+      c.typecheck(parent, c.TYPEmode, withMacrosDisabled = false) match {
         case tq"longevity.model.PType[$m, $p]"            => q"object props { ..${propsForP(p)} }"
         case tq"longevity.model.PolyPType[$m, $p]"        => q"object props { ..${propsForP(p)} }"
         case tq"longevity.model.DerivedPType[$m, $p, $q]" => q"object props { ..${propsForP(p)} }"

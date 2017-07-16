@@ -21,7 +21,7 @@ case class UserProfile(
   description: Markdown)
 
 @polyPersistent[DomainModel]
-trait User {
+sealed trait User {
   val username: Username
   val email: Email
 }

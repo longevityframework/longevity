@@ -19,14 +19,14 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   behavior of "Repo.{update,delete} when the original PState comes from a create"
 
   it should "throw exception when an update beats an update" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
 
-    val modified1 = generator.generate[basics.Basics]
+    val modified1 = generator.generateP[basics.Basics]
     val modifiedPState1 = createdPState.set(modified1)
     val updated1 = effect.run(repo.update(modifiedPState1))
 
-    val modified2 = generator.generate[basics.Basics]
+    val modified2 = generator.generateP[basics.Basics]
     val modifiedPState2 = createdPState.set(modified2)
 
     intercept[WriteConflictException[_]] {
@@ -35,12 +35,12 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   } 
 
   it should "throw exception when a delete beats an update" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
 
     val deleted1 = effect.run(repo.delete(createdPState))
 
-    val modified2 = generator.generate[basics.Basics]
+    val modified2 = generator.generateP[basics.Basics]
     val modifiedPState2 = createdPState.set(modified2)
     intercept[WriteConflictException[_]] {
       effect.run(repo.update(modifiedPState2))
@@ -48,10 +48,10 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   } 
 
   it should "throw exception when an update beats a delete" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
 
-    val modified1 = generator.generate[basics.Basics]
+    val modified1 = generator.generateP[basics.Basics]
     val modifiedPState1 = createdPState.set(modified1)
     val updated1 = effect.run(repo.update(modifiedPState1))
 
@@ -61,7 +61,7 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   } 
 
   it should "throw exception when a delete beats a delete" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
 
     val deleted1 = effect.run(repo.delete(createdPState))
@@ -74,15 +74,15 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   behavior of "Repo.{update,delete} when the original PState comes from a retrieve"
 
   it should "throw exception when an update beats an update" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
     val retrievedPState = effect.run(repo.retrieveOne[basics.Basics](basic.id))
 
-    val modified1 = generator.generate[basics.Basics]
+    val modified1 = generator.generateP[basics.Basics]
     val modifiedPState1 = retrievedPState.set(modified1)
     val updated1 = effect.run(repo.update(modifiedPState1))
 
-    val modified2 = generator.generate[basics.Basics]
+    val modified2 = generator.generateP[basics.Basics]
     val modifiedPState2 = retrievedPState.set(modified2)
 
     intercept[WriteConflictException[_]] {
@@ -91,13 +91,13 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   } 
 
   it should "throw exception when a delete beats an update" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
     val retrievedPState = effect.run(repo.retrieveOne[basics.Basics](basic.id))
 
     val deleted1 = effect.run(repo.delete(retrievedPState))
 
-    val modified2 = generator.generate[basics.Basics]
+    val modified2 = generator.generateP[basics.Basics]
     val modifiedPState2 = retrievedPState.set(modified2)
     intercept[WriteConflictException[_]] {
       effect.run(repo.update(modifiedPState2))
@@ -105,11 +105,11 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   } 
 
   it should "throw exception when an update beats a delete" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
     val retrievedPState = effect.run(repo.retrieveOne[basics.Basics](basic.id))
 
-    val modified1 = generator.generate[basics.Basics]
+    val modified1 = generator.generateP[basics.Basics]
     val modifiedPState1 = retrievedPState.set(modified1)
     val updated1 = effect.run(repo.update(modifiedPState1))
 
@@ -119,7 +119,7 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   } 
 
   it should "throw exception when a delete beats a delete" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
     val retrievedPState = effect.run(repo.retrieveOne[basics.Basics](basic.id))
 
@@ -133,15 +133,15 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   behavior of "Repo.{update,delete} when the original PState comes from a update"
 
   it should "throw exception when an update beats an update" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
-    val updatedPState = effect.run(repo.update(createdPState.set(generator.generate[basics.Basics])))
+    val updatedPState = effect.run(repo.update(createdPState.set(generator.generateP[basics.Basics])))
 
-    val modified1 = generator.generate[basics.Basics]
+    val modified1 = generator.generateP[basics.Basics]
     val modifiedPState1 = updatedPState.set(modified1)
     val updated1 = effect.run(repo.update(modifiedPState1))
 
-    val modified2 = generator.generate[basics.Basics]
+    val modified2 = generator.generateP[basics.Basics]
     val modifiedPState2 = updatedPState.set(modified2)
 
     intercept[WriteConflictException[_]] {
@@ -150,13 +150,13 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   } 
 
   it should "throw exception when a delete beats an update" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
-    val updatedPState = effect.run(repo.update(createdPState.set(generator.generate[basics.Basics])))
+    val updatedPState = effect.run(repo.update(createdPState.set(generator.generateP[basics.Basics])))
 
     val deleted1 = effect.run(repo.delete(updatedPState))
 
-    val modified2 = generator.generate[basics.Basics]
+    val modified2 = generator.generateP[basics.Basics]
     val modifiedPState2 = updatedPState.set(modified2)
     intercept[WriteConflictException[_]] {
       effect.run(repo.update(modifiedPState2))
@@ -164,11 +164,11 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   } 
 
   it should "throw exception when an update beats a delete" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
-    val updatedPState = effect.run(repo.update(createdPState.set(generator.generate[basics.Basics])))
+    val updatedPState = effect.run(repo.update(createdPState.set(generator.generateP[basics.Basics])))
 
-    val modified1 = generator.generate[basics.Basics]
+    val modified1 = generator.generateP[basics.Basics]
     val modifiedPState1 = updatedPState.set(modified1)
     val updated1 = effect.run(repo.update(modifiedPState1))
 
@@ -178,9 +178,9 @@ extends FlatSpec with LongevityIntegrationSpec[Future, basics.DomainModel] {
   } 
 
   it should "throw exception when a delete beats a delete" in {
-    val basic = generator.generate[basics.Basics]
+    val basic = generator.generateP[basics.Basics]
     val createdPState = effect.run(repo.create(basic))
-    val updatedPState = effect.run(repo.update(createdPState.set(generator.generate[basics.Basics])))
+    val updatedPState = effect.run(repo.update(createdPState.set(generator.generateP[basics.Basics])))
 
     val deleted1 = effect.run(repo.delete(updatedPState))
 

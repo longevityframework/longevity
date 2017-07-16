@@ -1,47 +1,15 @@
 package longevity.unit.model.ptype
 
-import longevity.model.ModelEv
-import longevity.model.PType
-import longevity.model.ptype.Prop
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 import org.scalatest.OptionValues
 
-/** sample domain for the IndexSpec tests */
-object IndexSpec {
-
-  trait DomainModel
-  object DomainModel {
-    private[IndexSpec] implicit object modelEv extends ModelEv[DomainModel]
-  }
-
-  case class IndexSampler(
-    boolean: Boolean,
-    char: Char,
-    double: Double,
-    float: Float,
-    int: Int,
-    long: Long) 
-
-  object IndexSampler extends PType[DomainModel, IndexSampler] {
-    object props {
-      object boolean extends Prop[IndexSampler, Boolean]("boolean")
-      object char extends Prop[IndexSampler, Char]("char")
-      object double extends Prop[IndexSampler, Double]("double")
-    }
-    override val indexSet = Set(
-      index(props.boolean, props.char),
-      index(props.boolean, props.char, props.double))
-  }
-
-}
-
 /** unit tests for the proper construction of [[Index indexs]] */
 class IndexSpec extends FlatSpec with GivenWhenThen with Matchers with OptionValues {
 
-  import IndexSpec.IndexSampler
-  import IndexSpec.IndexSampler.props
+  import indexSpec.IndexSampler
+  import indexSpec.IndexSampler.props
 
   "Index.props" should "produce the same sequence of properties that was used to create the index" in {
     IndexSampler.indexSet.size should equal (2)

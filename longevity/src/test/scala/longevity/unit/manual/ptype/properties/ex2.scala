@@ -24,9 +24,10 @@ case class User(
 // end prelude
 
 import longevity.model.PType
+import longevity.model.annotations.pEv
 import longevity.model.ptype.Prop
 
-object User extends PType[DomainModel, User] {
+@pEv object User extends PType[DomainModel, User] {
   object props {
     object username extends Prop[User, String]("username")
     object email extends Prop[User, Email]("email")

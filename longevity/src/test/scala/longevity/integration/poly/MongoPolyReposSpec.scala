@@ -11,4 +11,4 @@ import scala.concurrent.Future
 /** tests for mongo repos that share tables in the presence of [[PolyCType]] */
 class MongoPolyReposSpec extends PolyReposSpec(
   new LongevityContext[Future, derived.DomainModel](
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(MongoDB, false, false, false))))
+    TestLongevityConfigs.configForKey(ConfigMatrixKey(MongoDB, false, false, false))))

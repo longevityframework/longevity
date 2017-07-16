@@ -31,9 +31,9 @@ class PolyPersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "create a companion object that extends PolyPType when there is no companion object" in {
-    PolyPNoCompanion.isInstanceOf[PolyPType[DomainModel, PolyPNoCompanion]] should be (true)
-    PolyPNoCompanion.asInstanceOf[PolyPType[DomainModel, PolyPNoCompanion]].pTypeKey should equal {
-      typeKey[PolyPNoCompanion]
+    Poly.isInstanceOf[PolyPType[DomainModel, Poly]] should be (true)
+    Poly.asInstanceOf[PolyPType[DomainModel, Poly]].pTypeKey should equal {
+      typeKey[Poly]
     }
   }
 
@@ -43,12 +43,6 @@ class PolyPersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
       typeKey[PolyPWithCompanion]
     }
     PolyPWithCompanion.y should equal (7)
-
-    PolyPWithCompanion2.isInstanceOf[PolyPType[DomainModel, PolyPWithCompanion2]] should be (true)
-    PolyPWithCompanion2.asInstanceOf[PolyPType[DomainModel, PolyPWithCompanion2]].pTypeKey should equal {
-      typeKey[PolyPWithCompanion2]
-    }
-    PolyPWithCompanion2.y should equal (7)
   }
 
 }

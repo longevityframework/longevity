@@ -2,7 +2,6 @@ package longevity.context
 
 import longevity.config.InMem
 import longevity.persistence.Repo
-import longevity.test.CustomGeneratorPool
 import longevity.test.RepoCrudSpec
 import longevity.test.TestDataGenerator
 
@@ -13,11 +12,6 @@ import longevity.test.TestDataGenerator
  */
 trait TestContext[F[_], M] {
 
-  /** a collection of custom generators to use when generating test data.
-   * defaults to an empty collection
-   */
-  val customGeneratorPool: CustomGeneratorPool
-
   /** a repository used for testing, targeting the same persistence strategy as your repo */
   val testRepo: Repo[F, M]
 
@@ -25,7 +19,7 @@ trait TestContext[F[_], M] {
   val inMemTestRepo: Repo[F, M]
 
   /** a utility class for generating test data for the model type */
-  val testDataGenerator: TestDataGenerator
+  val testDataGenerator: TestDataGenerator[M]
 
 }
 

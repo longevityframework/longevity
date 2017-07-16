@@ -47,7 +47,7 @@ abstract class LongevityMigrationSpec[M1, M2] extends FlatSpec with Matchers wit
 
   protected def createTestData[P1 : PEv[M1, ?]](numPersistents: Int): Future[Vector[PState[P1]]] = {
     def createP = {
-      val p = context1.testDataGenerator.generate[P1](implicitly[PEv[M1, P1]].key)
+      val p = context1.testDataGenerator.generateP[P1]
       context1.repo.create(p)
     }
     Vector.fill(numPersistents)(createP).sequence

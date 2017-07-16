@@ -10,9 +10,13 @@ case class ConfigMatrixKey(
 
 object ConfigMatrixKey {
 
+  // toggle to test a single back end at a time:
+  // private val backEnds = Seq(longevity.config.SQLite)
+  private val backEnds = BackEnd.values
+
   /** all config combos per back end */
   def values = for {
-    backEnd           <- BackEnd.values
+    backEnd           <- backEnds
     autoCreateSchema  <- true :: false :: Nil
     optimisticLocking <- true :: false :: Nil
     writeTimestamps   <- true :: false :: Nil
@@ -21,6 +25,6 @@ object ConfigMatrixKey {
   }
 
   /** one config per back end */
-  def sparseValues = BackEnd.values.map(ConfigMatrixKey(_, false, false, false))
+  def sparseValues = backEnds.map(ConfigMatrixKey(_, false, false, false))
 
 }

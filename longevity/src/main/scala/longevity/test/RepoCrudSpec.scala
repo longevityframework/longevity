@@ -4,6 +4,7 @@ import journal.Logger
 import longevity.config.BackEnd
 import longevity.context.LongevityContext
 import longevity.model.DerivedPType
+import longevity.model.PEv
 import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.model.realized.RealizedKey
@@ -14,7 +15,6 @@ import org.scalatest.FlatSpec
 import org.scalatest.OptionValues.convertOptionToValuable
 import org.scalatest.Tag
 import scala.util.control.NonFatal
-import typekey.TypeKey
 
 /** a [[http://www.scalatest.org/ ScalaTest]] fixture to test a [[longevity.persistence.Repo Repo]].
  * instances of this test are provided in your [[longevity.context.LongevityContext
@@ -111,11 +111,11 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] {
     behavior of s"Repo.update[${pName}] $suiteNameSuffix"
 
     it should s"persist updates to a persisted $pName" taggedAs(Update) in {
-      val key = randomPTypeKey
-      val originalP = randomP(key)
+      val pEv2 = randomPEv
+      val originalP: P = randomP(pEv2)
       val keys: Seq[RealizedKey[M, _ >: P, _]] =
         realizedPType.keySet.toSeq ++ realizedPolyPType.map(_.keySet.toSeq).getOrElse(Seq())
-      val modifiedP = keys.foldLeft(randomP(key)) { (modified, key: RealizedKey[M, _ >: P, _]) =>
+      val modifiedP = keys.foldLeft(randomP(pEv2)) { (modified, key: RealizedKey[M, _ >: P, _]) =>
         def updateByOriginalKeyVal[V](key: RealizedKey[M, _ >: P, V]): P = {
           val originalKeyVal = key.keyValForP(originalP)
           key.updateKeyVal(modified, originalKeyVal).asInstanceOf[P]
@@ -151,19 +151,20 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] {
       }
     }
 
-    private def randomPTypeKey(): TypeKey[_ <: P] = {
+    private def randomPEv(): PEv[M, _ <: P] = {
       pType match {
         case polyPType: PolyPType[M, P] =>
           val union = longevityContext.modelType.emblematic.unions(pEv.key)
           val derivedTypeKeys = union.constituentKeys.toSeq
-          val randomIndex = math.abs(longevityContext.testDataGenerator.generate[Int]) % derivedTypeKeys.size
-          derivedTypeKeys(randomIndex)
+          val randomIndex = math.abs(longevityContext.testDataGenerator.generateInt) % derivedTypeKeys.size
+          val tk = derivedTypeKeys(randomIndex)
+          longevityContext.modelType.pTypePool(tk).pEv
         case _ =>
-          pEv.key
+          pEv
       }
     }
 
-    private def randomP(key: TypeKey[_ <: P] = pEv.key): P = longevityContext.testDataGenerator.generate(key)
+    private def randomP(pEv: PEv[M, _ <: P] = pEv): P = longevityContext.testDataGenerator.generateP(pEv)
 
     private def retrieveByKey[V](key: RealizedKey[M, P, V], p: P): Option[PState[P]] = {
       val kv = key.keyValForP(p)

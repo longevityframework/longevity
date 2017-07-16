@@ -1,21 +1,47 @@
 # Longevity Changelog
 
-## [0.26.0] - 2016.10.25 - Initial Version of Migration Framework
-	
-## [0.25.0] - 2016.07.24 - Small Improvements
+## [0.27.0] - 2017.??.?? - Replace Custom Test Data Generation with ScalaCheck Shapeless
 
-- 2016.07.12 - Add some specialized "implicit not found" error messages for implicit types in
+This is the first baby step in replacing custom reflection-based code with
+[shapeless](https://github.com/milessabin/shapeless).
+
+- 2017.10.26 - `longevity.model.PType[M, P]` now has an abstract member with type
+  `longevity.model.PEv[M, P]`. This is filled in by the `@longevity.model.annotations.persistent`
+  family of annotations, so it is not a concern to you if you are using these annotations to
+  construct your `PTypes`. If not, you might consider using the new
+  `@longevity.model.annotations.pEv` annotation to create the `PEv` for you.
+- 2017.10.26 - Traits for polymorphic persistent and component types - typically declared via
+  annotations `@longevity.model.annotations.polyPersistent` and
+  `@longevity.model.annotations.polyComponent` - now need to be sealed. This will require moving
+  subtypes into the same file.
+- 2017.10.26 - The `longevity.test.TestDataGenerator` API has been simplified. If you were using
+  this class in a way for which the new version is no longer sufficient, please let us know, and we
+  will see what we can do to help you out.
+- 2018.06.07 - Classes `longevity.test.CustomGenerator` and `longevity.test.CustomGeneratorPool`
+  have been removed. Custom test generation to account for constraints enforced within your domain
+  model can now be accomplished using [ScalaCheck](https://www.scalacheck.org/)'s `Arbitrary` and
+  `Gen`, See the user manual page on [enforcing
+  constraints](http://longevityframework.org/manual/testing/constraints.html) for more information.
+
+## [0.26.0] - 2017.10.25 - Initial Version of Migration Framework
+
+Please see the [user manual](http://longevityframework.org/manual/migrations/) for an explanation of
+this new feature.
+	
+## [0.25.0] - 2017.07.24 - Small Improvements
+
+- 2017.07.12 - Add some specialized "implicit not found" error messages for implicit types in
   `longevity.model`.
-- 2016.07.12 - Reverse order of implicits for `Repo.retrieve` and `Repo.retrieveOne` methods. This
+- 2017.07.12 - Reverse order of implicits for `Repo.retrieve` and `Repo.retrieveOne` methods. This
   way, we get "implicit not found" compiler errors for the `PEv` before the `Key`. This will give
   more relevant error messages when the retrieve methods are called without explicating the `P` type
   parameter.
-- 2016.07.12 - Rename `PState.map` to `PState.modify`. This follows more standard lense-type
+- 2017.07.12 - Rename `PState.map` to `PState.modify`. This follows more standard lense-type
   terminology, and removes the incorrect impression that this is a monadic method.
-- 2016.07.24 - Add `PState.modifyF`, which acts like `modify`, except for functions that return an
+- 2017.07.24 - Add `PState.modifyF`, which acts like `modify`, except for functions that return an
   effectful result.
 
-## [0.24.0] - 2016.07.06 - Generic Effects with Finally Tagless
+## [0.24.0] - 2017.07.06 - Generic Effects with Finally Tagless
 
 - 2017.06.14 - Rename config flag `autocreateSchema` to `autoCreateSchema`.
 - 2017.06.14 - Add config flag `autoOpenConnection`.

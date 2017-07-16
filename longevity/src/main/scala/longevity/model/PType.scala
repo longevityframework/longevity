@@ -26,7 +26,7 @@ abstract class PType[M : ModelEv, P : TypeTag] {
   private[longevity] val pTypeKey = typeKey[P]
 
   /** the evidence for the persistent class */
-  implicit val pEv = new PEv[M, P](pTypeKey)
+  implicit val pEv: PEv[M, P]
 
   private[longevity] lazy val (keySet, propSet) = (kscan(), pscan())
 

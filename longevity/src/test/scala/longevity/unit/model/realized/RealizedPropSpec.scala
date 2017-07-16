@@ -14,7 +14,7 @@ class RealizedPropSpec extends FlatSpec with GivenWhenThen with Matchers {
   val realizedProp = userRealizedPType.realizedProps(User.props.email)
 
   val email = Email("email28")
-  val user = User("username", email, "fullname")
+  val user = User(Username("username"), email, "fullname")
 
   behavior of "RealizedProp.propTypeKey"
   it should "produce the appropriate type key for the property type" in {

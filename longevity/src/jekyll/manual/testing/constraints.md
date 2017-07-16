@@ -3,15 +3,13 @@ title: enforcing constraints
 layout: page
 ---
 
-The test data generator described in the [previous
-section](test-data.html) will handle most anything you put in your
-domain. The only thing we cannot handle out of the box is when
-exceptions are thrown in the constructors of your
-[persistent](../model/persistents.html) and
+The test data generator described in the [previous section](test-data.html) will handle most any
+persistent types you put in your domain. One thing we cannot handle out of the box is when
+exceptions are thrown in the constructors of your [persistent](../model/persistents.html) and
 [component](../model/components.html) objects.
 
-A class constructor is a great place to enforce domain constraints,
-such as requiring that an email has an at sign (`@`):
+A class constructor is a great place to enforce domain constraints, such as requiring that an email
+has an at sign (`'@'`):
 
 ```scala
 import longevity.model.annotations.component
@@ -23,42 +21,58 @@ case class Email(email: String) {
 }
 ```
 
-If you enforce constraints in this manner, then you will need to
-provide your `LongevityContext` with some custom test data generators
-to use the `RepoCrudSpec` or the `QuerySpec`. For instance, with the
-above example, we could build a custom `Email` generator so that we
-generate a nicely formed `Email` instead of just a random string:
+The test data generator uses [ScalaCheck](https://www.scalacheck.org/)'s `Arbitrary` and `Gen`,
+[scalacheck-shapeless](https://github.com/alexarchambault/scalacheck-shapeless) to generate your
+test data. An `Arbitrary` is produced for you when the `@persistent`, `@polyPersistent`, or
+`@derivedPersistent` macro annotations are expanded. To override all or parts of the provided
+`Arbitrary`, you need to provide your own implicit `Arbitrary` in the same package as your
+persistent or component. For example, we can provide the following implicits in your `package.scala`
+for constructing `Emails` that match our constraint:
 
 ```scala
-import longevity.test.CustomGeneratorPool
-import longevity.test.TestDataGenerator
+import org.scalacheck._
+import org.scalacheck.Arbitrary.arbitrary
 
-val emailGenerator = { generator: TestDataGenerator =>
-  Email(s"${generator.generate[String]}@${generator.generate[String]}")
+def genEmail = for {
+  lhs <- arbitrary[String]
+  rhs <- arbitrary[String]
+} yield Email(s"$lhs@$rhs.com")
+
+implicit val arbitraryEmail = Arbitrary(genEmail)
+```
+
+Extending this example, we have a persistent object that has both a primary email, and a set of all
+emails. Our constraint is that the primary email occurs in the set:
+
+```scala
+import longevity.model.annotations.persistent
+
+@persistent[DomainModel]
+case class ComplexConstraint(
+  id: ComplexConstraintId,
+  primaryEmail: Email,
+  emails: Set[Email]) {
+
+  if (!emails.contains(primaryEmail))
+    throw new ConstraintValidationException("primary email is not in emails")
 }
-
-val generators = CustomGeneratorPool.empty + emailGenerator
 ```
 
-As shown above, you can recursively call the [test data
-generator](../../api/longevity/test/TestDataGenerator.html) within your custom generator to
-construct your test data.
-
-Pass in your custom generators when constructing your context like so:
+In the corresponding `package.scala`, we provide an `Arbitrary[ComplexConstraint]` that produces a
+set of emails that includes the primary email:
 
 ```scala
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import org.scalacheck._
+import org.scalacheck.Arbitrary.arbitrary
 
-val context = LongevityContext[Future, DomainModel](
-  customGeneratorPool = generators)
+def genComplexConstraint = for {
+  id <- arbitrary[ComplexConstraintId]
+  primary <- arbitrary[Email]
+  secondaries <- arbitrary[Set[Email]]
+} yield ComplexConstraint(id, primary, secondaries + primary)
+
+implicit val arbitraryComplexConstraint = Arbitrary(genComplexConstraint)
 ```
-
-The `customGeneratorPool` is an optional parameter that defaults to an
-empty pool.
-
-Note that this test data generator will probably be replaced with equivalent functionality from
-[scalacheck-shapeless](https://github.com/alexarchambault/scalacheck-shapeless) in the near future.
 
 {% assign prevTitle = "generating test data" %}
 {% assign prevLink = "test-data.html" %}

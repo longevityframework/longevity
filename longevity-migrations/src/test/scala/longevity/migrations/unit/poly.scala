@@ -7,7 +7,7 @@ package poly {
   @domainModel trait DomainModel
 
   @polyPersistent[DomainModel]
-  trait User {
+  sealed trait User {
     val username: Username
     val email: Email
     val fullName: FullName

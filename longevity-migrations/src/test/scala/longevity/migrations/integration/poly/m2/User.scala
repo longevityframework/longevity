@@ -1,7 +1,7 @@
 package longevity.migrations.integration.poly.m2
 
 @longevity.model.annotations.polyPersistent[M2]
-trait User {
+sealed trait User {
   val username: Username
   val fullname: Fullname
 }

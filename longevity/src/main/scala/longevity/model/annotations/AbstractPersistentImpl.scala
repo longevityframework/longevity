@@ -19,7 +19,9 @@ private[annotations] abstract class AbstractPersistentImpl {
   protected lazy val termName = TermName(name.decodedName.toString)
   protected lazy val typeName = TypeName(name.decodedName.toString)
 
-  private def newCompanion = q"@longevity.model.annotations.mprops object $termName extends $ptype"
+  private def newCompanion = q"""
+    @longevity.model.annotations.mprops @longevity.model.annotations.pEv object $termName extends $ptype
+  """
 
   protected def mtype: c.Tree
 
@@ -36,11 +38,12 @@ private[annotations] abstract class AbstractPersistentImpl {
         c.enclosingPosition,
         s"companion object of $name class cannot extend ${ps.head}")
     }
-    val q"$mpropsAnnMods object $_" = q"@longevity.model.annotations.mprops object $n"
+    val q"$mpropsMods object $_" = q"@longevity.model.annotations.mprops object $n"
+    val q"$pEvMods object $_" = q"@longevity.model.annotations.pEv object $n"
     val mergedMods = Modifiers(
       origMods.flags,
       origMods.privateWithin,
-      mpropsAnnMods.annotations.head :: origMods.annotations)
+      mpropsMods.annotations.head :: pEvMods.annotations.head :: origMods.annotations)
     q"$mergedMods object $n extends {..$eds} with ..$newPs { $s => ..$ss }"
   }
 

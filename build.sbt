@@ -16,6 +16,10 @@ lazy val longevity = project.in(file("longevity"))
   .settings(
     libraryDependencies += Dependencies.journalDep,
     libraryDependencies += Dependencies.kxbmapConfigsDep,
+    libraryDependencies += Dependencies.scalacheckDatetimeDep,
+    libraryDependencies += Dependencies.scalacheckDep,
+    libraryDependencies += Dependencies.scalacheckShapelessDep,
+    libraryDependencies += Dependencies.shapelessDep,
     libraryDependencies += Dependencies.streamAdapterDep,
     libraryDependencies += Dependencies.typekeyDep,
     libraryDependencies += Dependencies.typesafeConfigDep,

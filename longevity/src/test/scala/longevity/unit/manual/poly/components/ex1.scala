@@ -7,7 +7,7 @@ case class PhoneNumber(phoneNumber: String)
 
 import org.joda.time.DateTime
 
-trait UserVerification {
+sealed trait UserVerification {
   val verificationDate: DateTime
 }
 

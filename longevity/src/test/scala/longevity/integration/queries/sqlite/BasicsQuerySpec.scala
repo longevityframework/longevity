@@ -11,7 +11,6 @@ import longevity.test.ExerciseIterateeIo
 import longevity.test.ExercisePlayEnumerator
 import longevity.test.QuerySpec
 import longevity.integration.queries.queryTestsExecutionContext
-import longevity.integration.queries.queryTestsExecutionContext
 import scala.concurrent.Future
 
 class BasicsQuerySpec extends QuerySpec[Future, DomainModel, Basics](

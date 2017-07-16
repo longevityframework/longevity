@@ -9,11 +9,12 @@ case class PhoneNumber(phoneNumber: String)
 // end prelude
 
 import longevity.model.DerivedCType
+import longevity.model.PEv
 import longevity.model.PType
 import longevity.model.PolyCType
 import org.joda.time.DateTime
 
-trait UserVerification {
+sealed trait UserVerification {
   val verificationDate: DateTime
 }
 
@@ -47,6 +48,11 @@ case class User(
   verifications: List[UserVerification])
 
 object User extends PType[DomainModel, User] {
+  implicit val pEv: PEv[DomainModel, User] = {
+    import org.scalacheck.ScalacheckShapeless._
+    implicit val arbJoda = com.fortysevendeg.scalacheck.datetime.joda.ArbitraryJoda.arbJoda
+    new PEv
+  }
   object props {
     // ...
   }

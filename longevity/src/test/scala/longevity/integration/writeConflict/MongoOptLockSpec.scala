@@ -9,4 +9,4 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** optimistic locking tests for mongo back end */
 class MongoOptLockSpec extends OptLockSpec(
   new LongevityContext(
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(MongoDB, true, true, false))))
+    TestLongevityConfigs.configForKey(ConfigMatrixKey(MongoDB, true, true, false))))

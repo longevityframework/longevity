@@ -23,7 +23,7 @@ import longevity.model.annotations.derivedPersistent
 import longevity.model.annotations.polyPersistent
 
 @polyPersistent[DomainModel]
-trait User {
+sealed trait User {
   val username: Username
   val email: Email
 }

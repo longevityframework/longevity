@@ -9,4 +9,4 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** optimistic locking tests for SQLite back end */
 class SQLiteOptLockSpec extends OptLockSpec(
   new LongevityContext(
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(SQLite, true, true, false))))
+    TestLongevityConfigs.configForKey(ConfigMatrixKey(SQLite, true, true, false))))

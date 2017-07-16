@@ -3,12 +3,10 @@ title: polymorphic persistents
 layout: page
 ---
 
-We can use polymorphism with our [persistent
-objects](../model/persistents.html) as well. For example, let's
-say our blogging system has two kinds of users: members and
-commenters. Only members can have a user profile. Here, we use
-annotations `@polyPersistent` and `@derivedPersistent` in place of
-`@persistent`:
+We can use polymorphism with our [persistent objects](../model/persistents.html) as well. For
+example, let's say our blogging system has two kinds of users: members and commenters. Only members
+can have a user profile. Here, we use annotations `@polyPersistent` and `@derivedPersistent` in
+place of `@persistent`:
 
 ```scala
 import longevity.model.annotations.component
@@ -22,7 +20,7 @@ case class UserProfile(
   description: Markdown)
 
 @polyPersistent[DomainModel]
-trait User {
+sealed trait User {
   val username: Username
   val email: Email
 }
@@ -41,6 +39,9 @@ case class Commenter(
 extends User
 ```
 
+As with [polymorphic components](components.html), we must remember to seal the trait to form a
+proper abstract data type.
+
 The non-annotation equivalent is as follows:
 
 ```scala
@@ -55,7 +56,7 @@ case class UserProfile(
 
 object UserProfile extends CType[DomainModel, UserProfile]
 
-trait User {
+sealed trait User {
   val username: Username
   val email: Email
 }

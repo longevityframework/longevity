@@ -14,7 +14,7 @@ import longevity.model.annotations.persistent
 import org.joda.time.DateTime
 
 @polyComponent[DomainModel]
-trait UserVerification {
+sealed trait UserVerification {
   val verificationDate: DateTime
 }
 

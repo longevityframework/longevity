@@ -12,6 +12,7 @@ case class Username()
 
 import longevity.model.CType
 import longevity.model.DerivedPType
+import longevity.model.PEv
 import longevity.model.PolyPType
 
 case class UserProfile(
@@ -21,12 +22,17 @@ case class UserProfile(
 
 object UserProfile extends CType[DomainModel, UserProfile]
 
-trait User {
+sealed trait User {
   val username: Username
   val email: Email
 }
 
 object User extends PolyPType[DomainModel, User] {
+  implicit val pEv: PEv[DomainModel, User] = {
+    import org.scalacheck.ScalacheckShapeless._
+    implicit val arbJoda = com.fortysevendeg.scalacheck.datetime.joda.ArbitraryJoda.arbJoda
+    new PEv
+  }
   object props {
     // ...
   }
@@ -39,6 +45,11 @@ case class Member(
 extends User
 
 object Member extends DerivedPType[DomainModel, Member, User] {
+  implicit val pEv: PEv[DomainModel, Member] = {
+    import org.scalacheck.ScalacheckShapeless._
+    implicit val arbJoda = com.fortysevendeg.scalacheck.datetime.joda.ArbitraryJoda.arbJoda
+    new PEv
+  }
   object props {
     // ...
   }
@@ -50,6 +61,11 @@ case class Commenter(
 extends User
 
 object Commenter extends DerivedPType[DomainModel, Commenter, User] {
+  implicit val pEv: PEv[DomainModel, Commenter] = {
+    import org.scalacheck.ScalacheckShapeless._
+    implicit val arbJoda = com.fortysevendeg.scalacheck.datetime.joda.ArbitraryJoda.arbJoda
+    new PEv
+  }
   object props {
     // ...
   }

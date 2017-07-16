@@ -2,5 +2,4 @@ package longevity.integration.model.basics
 
 import org.scalatest.Suites
 
-class BasicsSpec extends Suites(
-  repoCrudSpecs(blockingContexts) ++ repoCrudSpecs(futureContexts) ++ repoCrudSpecs(catsIoContexts): _*)
+class BasicsSpec extends Suites(allRepoCrudSpecs: _*)

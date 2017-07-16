@@ -2,13 +2,13 @@ package longevity.integration.model
 
 import longevity.TestLongevityConfigs
 import longevity.model.annotations.domainModel
-import scala.concurrent.Future
+import longevity.effect.Blocking
 
 /** covers a persistent with a single component entity */
 package object componentWithSet {
 
   @domainModel trait DomainModel
 
-  val contexts = TestLongevityConfigs.sparseContextMatrix[Future, DomainModel]()
+  val contexts = TestLongevityConfigs.sparseContextMatrix[Blocking, DomainModel]()
 
 }

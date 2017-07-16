@@ -147,7 +147,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] {
     actual should equal (expected)
   }
 
-  protected def generateP(): P = longevityContext.testDataGenerator.generate(pEv.key)
+  protected def generateP(): P = longevityContext.testDataGenerator.generateP
 
   private def entitiesMatchingQuery(query: Query[P], entities: Set[P]): Set[P] = {
     entities.filter(QueryFilter.matches(query.filter, _, realizedPType))

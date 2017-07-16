@@ -9,4 +9,4 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /** optimistic locking tests for inmem back end */
 class InMemOptLockSpec extends OptLockSpec(
   new LongevityContext(
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, true, true, false))))
+    TestLongevityConfigs.configForKey(ConfigMatrixKey(InMem, true, true, false))))

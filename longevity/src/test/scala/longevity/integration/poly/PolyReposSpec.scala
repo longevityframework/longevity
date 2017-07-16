@@ -22,7 +22,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, derived.DomainModel] {
   behavior of "Repo[PolyPersistent].retrieve"
 
   it should "retrieve by KeyVal a FirstDerivedPersistent persisted by Repo[FirstDerivedPersistent]" in {
-    val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
+    val firstDerivedPersistent = testDataGenerator.generateP[derived.FirstDerivedPersistent]
     val createdPState = effect.run(repo.create(firstDerivedPersistent))
 
     val retrievedPStateOpt = effect.run(repo.retrieve[derived.PolyPersistent](firstDerivedPersistent.id))
@@ -33,7 +33,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, derived.DomainModel] {
   behavior of "Repo[FirstDerivedPersistent].retrieve"
 
   it should "retrieve by KeyVal a FirstDerivedPersistent persisted by Repo[PolyPersistent]" in {
-    val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
+    val firstDerivedPersistent = testDataGenerator.generateP[derived.FirstDerivedPersistent]
     val createdPState = effect.run(repo.create(firstDerivedPersistent))
 
     val retrievedPStateOpt = effect.run(repo.retrieve[derived.FirstDerivedPersistent](
@@ -44,7 +44,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, derived.DomainModel] {
   } 
 
   it should "not retrieve a SecondDerivedPersistent by KeyVal[FirstDerivedPersistent]" in {
-    val secondDerivedPersistent = testDataGenerator.generate[derived.SecondDerivedPersistent]
+    val secondDerivedPersistent = testDataGenerator.generateP[derived.SecondDerivedPersistent]
     val createdPState = effect.run(repo.create(secondDerivedPersistent))
 
     val retrievedPStateOpt = effect.run(repo.retrieve[derived.FirstDerivedPersistent](
@@ -56,7 +56,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, derived.DomainModel] {
   behavior of "Repo[PolyPersistent].queryToVector"
 
   it should "retrieve a FirstDerivedPersistent persisted by Repo[FirstDerivedPersistent]" in {
-    val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
+    val firstDerivedPersistent = testDataGenerator.generateP[derived.FirstDerivedPersistent]
     val createdPState = effect.run(repo.create(firstDerivedPersistent))
 
     val query: Query[derived.PolyPersistent] =
@@ -70,7 +70,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, derived.DomainModel] {
   behavior of "Repo[FirstDerivedPersistent].queryToVector"
 
   it should "retrieve a FirstDerivedPersistent persisted by Repo[PolyPersistent]" in {
-    val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
+    val firstDerivedPersistent = testDataGenerator.generateP[derived.FirstDerivedPersistent]
     val createdPState = effect.run(repo.create(firstDerivedPersistent))
 
     val query: Query[derived.FirstDerivedPersistent] =
@@ -84,7 +84,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, derived.DomainModel] {
   } 
 
   it should "not retrieve a SecondDerivedPersistent" in {
-    val secondDerivedPersistent = testDataGenerator.generate[derived.SecondDerivedPersistent]
+    val secondDerivedPersistent = testDataGenerator.generateP[derived.SecondDerivedPersistent]
     val createdPState = effect.run(repo.create(secondDerivedPersistent))
 
     val query: Query[derived.FirstDerivedPersistent] =
@@ -97,7 +97,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, derived.DomainModel] {
   } 
 
   it should "retrieve a FirstDerivedPersistent by Query with mixed props" in {
-    val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
+    val firstDerivedPersistent = testDataGenerator.generateP[derived.FirstDerivedPersistent]
     val createdPState = effect.run(repo.create(firstDerivedPersistent))
 
     val query: Query[derived.FirstDerivedPersistent] =
@@ -112,7 +112,7 @@ extends FlatSpec with LongevityIntegrationSpec[F, derived.DomainModel] {
   } 
 
   it should "retrieve a FirstDerivedPersistent by Query DSL with mixed props" in {
-    val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
+    val firstDerivedPersistent = testDataGenerator.generateP[derived.FirstDerivedPersistent]
     val createdPState = effect.run(repo.create(firstDerivedPersistent))
 
     import derived.FirstDerivedPersistent.queryDsl._
@@ -128,10 +128,10 @@ extends FlatSpec with LongevityIntegrationSpec[F, derived.DomainModel] {
   behavior of "Repo[PolyPersistent].update"
 
   it should "throw exception on attempt to change the derived type of the PState" in {
-    val firstDerivedPersistent = testDataGenerator.generate[derived.FirstDerivedPersistent]
+    val firstDerivedPersistent = testDataGenerator.generateP[derived.FirstDerivedPersistent]
     val createdPState = effect.run(repo.create[derived.PolyPersistent](firstDerivedPersistent))
 
-    val secondDerivedPersistent = testDataGenerator.generate[derived.SecondDerivedPersistent]
+    val secondDerivedPersistent = testDataGenerator.generateP[derived.SecondDerivedPersistent]
     val modifiedPState = createdPState.set(secondDerivedPersistent)
 
     intercept[PStateChangesDerivedPTypeException] {

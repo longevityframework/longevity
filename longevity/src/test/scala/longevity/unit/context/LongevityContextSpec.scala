@@ -8,6 +8,7 @@ import longevity.config.MongoDB
 import longevity.model.KVType
 import longevity.model.ModelEv
 import longevity.model.ModelType
+import longevity.model.PEv
 import longevity.model.PType
 import longevity.model.ptype.Prop
 import org.json4s.JsonAST.JObject
@@ -35,6 +36,11 @@ object LongevityContextSpec {
 
     case class A(id: AId)
     object A extends PType[DomainModel, A] {
+      implicit val pEv: PEv[DomainModel, A] = {
+        import org.scalacheck.ScalacheckShapeless._
+        implicit val arbJoda = com.fortysevendeg.scalacheck.datetime.joda.ArbitraryJoda.arbJoda
+        new PEv
+      }
       object props {
         object id extends Prop[A, AId]("id")
       }

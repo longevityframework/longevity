@@ -11,4 +11,4 @@ import scala.concurrent.Future
 /** tests for SQLite repos that share tables in the presence of [[PolyCType]] */
 class SQLitePolyReposSpec extends PolyReposSpec(
   new LongevityContext[Future, derived.DomainModel](
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(SQLite, false, false, false))))
+    TestLongevityConfigs.configForKey(ConfigMatrixKey(SQLite, false, false, false))))

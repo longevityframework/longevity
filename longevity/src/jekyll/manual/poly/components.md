@@ -18,7 +18,7 @@ like so:
 ```scala
 import org.joda.time.DateTime
 
-trait UserVerification {
+sealed trait UserVerification {
   val verificationDate: DateTime
 }
 
@@ -60,7 +60,7 @@ import longevity.model.annotations.persistent
 import org.joda.time.DateTime
 
 @polyComponent[DomainModel]
-trait UserVerification {
+sealed trait UserVerification {
   val verificationDate: DateTime
 }
 
@@ -90,6 +90,15 @@ case class User(
   verifications: List[UserVerification])
 ```
 
+Note that to satisfy the requirements for [shapeless](https://github.com/milessabin/shapeless), we
+must form a proper [abstract data type](https://en.wikipedia.org/wiki/Abstract_data_type) by sealing
+the `UserVerification` trait. This will require us to define all the subclasses in the same file.
+If we forget to seal the trait, you will get an implicit resolution compiler error such as:
+
+```
+could not find implicit value for parameter arbitrary: org.scalacheck.Arbitrary[UserVerification]
+```
+
 The non-annotation equivalent is as follows:
 
 
@@ -99,7 +108,7 @@ import longevity.model.PType
 import longevity.model.PolyCType
 import org.joda.time.DateTime
 
-trait UserVerification {
+sealed trait UserVerification {
   val verificationDate: DateTime
 }
 

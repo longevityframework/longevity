@@ -36,12 +36,6 @@ class DerivedPersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
     }
     DerivedPWithCompanion.y should equal (7)
 
-    DerivedPWithCompanion2.isInstanceOf[DerivedPType[DomainModel, DerivedPWithCompanion2, Poly]] should be (true)
-    DerivedPWithCompanion2.asInstanceOf[DerivedPType[DomainModel, DerivedPWithCompanion2, Poly]].pTypeKey should equal {
-      typeKey[DerivedPWithCompanion2]
-    }
-    DerivedPWithCompanion2.y should equal (7)
-
     DerivedPCaseClass.isInstanceOf[DerivedPType[DomainModel, DerivedPCaseClass, Poly]] should be (true)
     DerivedPCaseClass.asInstanceOf[DerivedPType[DomainModel, DerivedPCaseClass, Poly]].pTypeKey should equal {
       typeKey[DerivedPCaseClass]

@@ -1,6 +1,10 @@
 package longevity.model
 
+import org.scalacheck.Arbitrary
 import scala.annotation.implicitNotFound
+import scala.reflect.runtime.universe.TypeTag
+import shapeless.Generic
+import shapeless.LabelledGeneric
 import typekey.TypeKey
 
 /** evidence for a persistent class
@@ -16,4 +20,12 @@ import typekey.TypeKey
  * @see longevity.model.PType
  */
 @implicitNotFound("${P} is not a persistent type in domain model ${M}")
-class PEv[M, P] private[model](private[longevity] val key: TypeKey[P])
+class PEv[M, P] (
+  implicit tag: TypeTag[P],
+  private[longevity] val generic: Generic[P],
+  private[longevity] val labelled: LabelledGeneric[P],
+  private[longevity] val arbitrary: Arbitrary[P]) {
+
+  private[longevity] val key = TypeKey[P](tag)
+
+}

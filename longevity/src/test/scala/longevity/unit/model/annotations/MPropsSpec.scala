@@ -8,6 +8,7 @@ import longevity.integration.model.basics.Basics
 import longevity.integration.model.basics.BasicsId
 import longevity.model.PType
 import longevity.model.annotations.mprops
+import longevity.model.annotations.pEv
 import longevity.model.ptype.Prop
 import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
@@ -35,7 +36,7 @@ object MPropsSpec {
     // @mprops can't work on a type that is declared in the same object
 
     // help ensure macro application doesnt mess up companion object
-    @mprops class WithCompanion extends PType[DomainModel, Foo]
+    @pEv @mprops class WithCompanion extends PType[DomainModel, Foo]
 
     object WithCompanion { val y = 7 }
   }

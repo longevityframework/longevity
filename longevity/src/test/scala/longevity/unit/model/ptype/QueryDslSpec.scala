@@ -1,9 +1,5 @@
 package longevity.unit.model.ptype
 
-import longevity.model.KVType
-import longevity.model.ModelEv
-import longevity.model.PType
-import longevity.model.ptype.Prop
 import longevity.model.query.Query
 import longevity.model.query.Ascending
 import longevity.model.query.Descending
@@ -14,43 +10,9 @@ import org.scalatest.FlatSpec
 import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
-/** sample domain for the QueryDslSpec */
-object QueryDslSpec {
-
-  trait DomainModel
-  object DomainModel {
-    implicit val ev = new ModelEv[DomainModel]
-  }
-
-  private case class DslPersistent(path1: Int, path2: Double, path3: String, path4: AssociatedId) 
-
-  private object DslPersistent extends PType[DomainModel, DslPersistent] {
-    object props {
-      object path1 extends Prop[DslPersistent, Int]("path1")
-      object path2 extends Prop[DslPersistent, Double]("path2")
-      object path3 extends Prop[DslPersistent, String]("path3")
-      object path4 extends Prop[DslPersistent, AssociatedId]("path4")
-    }
-  }
-
-  private case class AssociatedId(id: String)
-
-  private object AssociatedId extends KVType[DomainModel, Associated, AssociatedId]
-
-  private case class Associated(id: AssociatedId)
-
-  private object Associated extends PType[DomainModel, Associated] {
-    object props {
-      object id extends Prop[Associated, AssociatedId]("id")
-    }
-    implicit val idKey = key(props.id)
-  }
-
-}
-
 /** unit tests for the proper construction of [[Query Queries]] using the [[QueryDsl]] */
 class QueryDslSpec extends FlatSpec with GivenWhenThen with Matchers {
-  import QueryDslSpec._
+  import queryDsl._
   private val dsl = DslPersistent.queryDsl
   import dsl._
 

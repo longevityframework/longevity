@@ -14,8 +14,8 @@ import scala.concurrent.Future
 class OrderByQuerySpec extends QuerySpec[Future, DomainModel, PrimaryKeyWithComplexPartialPartition](
   new LongevityContext(TestLongevityConfigs.cassandraConfig)) {
 
-  lazy val keyProp1 = longevityContext.testDataGenerator.generate[String]
-  lazy val subKeyProp1 = longevityContext.testDataGenerator.generate[String]
+  lazy val keyProp1 = longevityContext.testDataGenerator.generateString
+  lazy val subKeyProp1 = longevityContext.testDataGenerator.generateString
 
   override protected def generateP(): PrimaryKeyWithComplexPartialPartition = {
     val raw = super.generateP()

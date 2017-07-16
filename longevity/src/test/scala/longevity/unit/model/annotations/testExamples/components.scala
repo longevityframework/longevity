@@ -21,9 +21,9 @@ object ComponentWithCompanion { val y = 7 }
 
 @component[DomainModel] case class ComponentWithCompanionCaseClass()
 
-@polyComponent[DomainModel] trait PolyComponent
+@polyComponent[DomainModel] sealed trait PolyComponent
 
-@polyComponent[DomainModel] trait PolyComponentWithCompanion
+@polyComponent[DomainModel] sealed trait PolyComponentWithCompanion
 
 object PolyComponentWithCompanion { val y = 7 }
 

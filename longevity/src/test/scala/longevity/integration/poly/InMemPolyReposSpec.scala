@@ -11,4 +11,4 @@ import scala.concurrent.Future
 /** tests for in-memory repos that share tables in the presence of [[PolyCType]] */
 class InMemPolyReposSpec extends PolyReposSpec(
   new LongevityContext[Future, derived.DomainModel](
-    TestLongevityConfigs.configMatrix(ConfigMatrixKey(InMem, false, false, false))))
+    TestLongevityConfigs.configForKey(ConfigMatrixKey(InMem, false, false, false))))
