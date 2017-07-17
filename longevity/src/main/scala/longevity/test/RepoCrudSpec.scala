@@ -36,15 +36,16 @@ import typekey.TypeKey
  * @param repo the repo under test. this may be different than the `longevityContext.repo`, as users
  * may want to test against other repo. (for instance, they may want a spec for in-memory repo if
  * other parts of their test suite rely on them.)
+ *
+ * @param testDataGenerator the test data generator
  * 
  * @param backEnd the back end we are running against. used to name tests so we can distinguish
  * different back ends in test output
- *
- * @param executionContext the execution context
  */
 class RepoCrudSpec[F[_], M] private[longevity] (
   protected val longevityContext: LongevityContext[F, M],
   protected val repo: Repo[F, M],
+  protected var testDataGenerator: TestDataGenerator,
   private val backEnd: BackEnd)
 extends FlatSpec with LongevityIntegrationSpec[F, M] with GivenWhenThen {
 
@@ -149,14 +150,20 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] with GivenWhenThen {
         case polyPType: PolyPType[M, P] =>
           val union = longevityContext.modelType.emblematic.unions(pEv.key)
           val derivedTypeKeys = union.constituentKeys.toSeq
-          val randomIndex = math.abs(longevityContext.testDataGenerator.generate[Int]) % derivedTypeKeys.size
+          val randomIndex = math.abs(random[Int]) % derivedTypeKeys.size
           derivedTypeKeys(randomIndex)
         case _ =>
           pEv.key
       }
     }
 
-    private def randomP(key: TypeKey[_ <: P] = pEv.key): P = longevityContext.testDataGenerator.generate(key)
+    private def randomP(key: TypeKey[_ <: P] = pEv.key): P = random(key)
+
+    private def random[A : TypeKey]: A = {
+      val (nextGen, a) = testDataGenerator.next(implicitly[TypeKey[A]])
+      testDataGenerator = nextGen
+      a
+    }
 
     private def retrieveByKey[V](key: RealizedKey[M, P, V], p: P): Option[PState[P]] = {
       val kv = key.keyValForP(p)

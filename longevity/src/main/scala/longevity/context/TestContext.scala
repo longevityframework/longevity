@@ -24,8 +24,34 @@ trait TestContext[F[_], M] {
   /** an in-memory repository for this longevity context, for use in testing */
   val inMemTestRepo: Repo[F, M]
 
-  /** a utility class for generating test data for the model type */
-  val testDataGenerator: TestDataGenerator
+  /** a convenient way to create random test data without regard to seeds or state. you can use it like so:
+   *
+   * {{{
+   * val gen = longevityContext.testDataGenerator
+   * val user1 = gen().generate[User]
+   * val user2 = gen().generate[User]
+   * val user3 = gen().generate[User]
+   * }}}
+   *
+   * if you wish to track use a seed or track state in a functional way, please see
+   * [[testDataGenerator(seed: Long)]].
+   */
+  def testDataGenerator: () => TestDataGenerator
+
+  /** a way to create random test data while tracking state in a functional manner. you can use it like so:
+   *
+   * {{{
+   * val seed = 11707L
+   * val gen0 = longevityContext.testDataGenerator(seed)
+   * val (gen1, user1) = gen0.next[User]
+   * val (gen2, user2) = gen1.next[User]
+   * val (gen3, user3) = gen2.next[User]
+   * }}}
+   *
+   * if you do not wish to track use a seed or track state in a functional way, please see
+   * [[testDataGenerator]].
+   */
+  def testDataGenerator(seed: Long): TestDataGenerator
 
 }
 
@@ -54,10 +80,13 @@ object TestContext {
      * val storefrontContext: LongevityContext = ???
      * class StorefrontRepoCrudSpec extends Suites(storefrontContext.repoCrudSpec)
      * }}}
+     *
+     * @param seed the seed for random test data generation. defaults to `System.currentTimeMillis`
      */
-    def repoCrudSpec = new RepoCrudSpec(
+    def repoCrudSpec(seed: Long = System.currentTimeMillis) = new RepoCrudSpec(
       longevityContext,
       longevityContext.testRepo,
+      TestDataGenerator(longevityContext.modelType.emblematic, longevityContext.customGeneratorPool, seed),
       longevityContext.config.backEnd)
 
     /** a simple [[http://www.scalatest.org/ ScalaTest]] spec to test your
@@ -68,8 +97,14 @@ object TestContext {
      * val storefrontContext: LongevityContext = ???
      * class StorefrontRepoCrudSpec extends Suites(storefrontContext.inMemTestRepoCrudSpec)
      * }}}
+     *
+     * @param seed the seed for random test data generation. defaults to `System.currentTimeMillis`
      */
-    def inMemRepoCrudSpec = new RepoCrudSpec(longevityContext, longevityContext.inMemTestRepo, InMem)
+    def inMemRepoCrudSpec(seed: Long = System.currentTimeMillis) = new RepoCrudSpec(
+      longevityContext,
+      longevityContext.inMemTestRepo,
+      TestDataGenerator(longevityContext.modelType.emblematic, longevityContext.customGeneratorPool, seed),
+      InMem)
 
   }
 

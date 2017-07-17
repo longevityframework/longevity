@@ -41,10 +41,11 @@ import org.joda.time.DateTimeZone.UTC
  */
 private[longevity] class TestDataGenerator (
   override protected val emblematic: Emblematic = Emblematic.empty,
-  override protected val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty)
+  override protected val customGeneratorPool: CustomGeneratorPool = CustomGeneratorPool.empty,
+  seed: Long = System.currentTimeMillis)
 extends Generator {
 
-  private val random = new util.Random
+  private val random = new util.Random(seed)
 
   override protected def constituentTypeKey[A : TypeKey](union: Union[A]): TypeKey[_ <: A] = {
     val numConstituents = union.constituents.size

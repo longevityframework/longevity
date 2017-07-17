@@ -126,7 +126,8 @@ extends PersistenceContext[F, M] with TestContext[F, M] with JsonContext {
   lazy val testRepo      = Repo(effect, modelType, config.backEnd, config, true)
   lazy val inMemTestRepo = Repo(effect, modelType, InMem,          config, true)
 
-  lazy val testDataGenerator = TestDataGenerator(modelType.emblematic, customGeneratorPool)
+  def testDataGenerator = () => testDataGenerator(System.currentTimeMillis)
+  def testDataGenerator(seed: Long) = TestDataGenerator(modelType.emblematic, customGeneratorPool, seed)
 
   lazy val jsonMarshaller = new JsonMarshaller(modelType)
   lazy val jsonUnmarshaller = new JsonUnmarshaller(modelType)

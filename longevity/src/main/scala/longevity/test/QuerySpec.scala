@@ -29,11 +29,12 @@ import org.scalatest.FlatSpec
  * 
  * @param context the longevity context under test
  * @param pEv the persistent evidence
- * @param executionContext the execution context
+ * @param testDataGenerator the test data generator
  */
 abstract class QuerySpec[F[_], M, P](
   protected val longevityContext: LongevityContext[F, M])(
-  protected implicit val pEv: PEv[M, P])
+  protected implicit val pEv: PEv[M, P],
+  protected var testDataGenerator: TestDataGenerator)
 extends FlatSpec with LongevityIntegrationSpec[F, M] {
 
   protected val logger = Logger[this.type]
@@ -148,7 +149,11 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] {
     actual should equal (expected)
   }
 
-  protected def generateP(): P = longevityContext.testDataGenerator.generate(pEv.key)
+  protected def generateP(): P = {
+    val (nextGen, p) = testDataGenerator.next(pEv.key)
+    testDataGenerator = nextGen
+    p
+  }
 
   private def entitiesMatchingQuery(query: Query[P], entities: Set[P]): Set[P] = {
     entities.filter(QueryFilter.matches(query.filter, _, realizedPType))
