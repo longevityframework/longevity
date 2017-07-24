@@ -3,10 +3,6 @@ language: scala
 before_script:
   - sudo service cassandra start
   - sudo chmod +x /usr/local/bin/sbt
-  - which cassandra
-  - ls -l `which cassandra`
-  - ls -l /usr/local/cassandra
-  - head /usr/local/cassandra/CHANGES.txt
 
 script:
   - sbt -J-Xmx4G clean test doc
