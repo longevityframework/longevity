@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.25.0] - 2016.07.XX - Small Fixes
+## [0.25.0] - 2016.07.24 - Small Improvements
 
 - 2016.07.12 - Add some specialized "implicit not found" error messages for implicit types in
   `longevity.model`.
@@ -10,6 +10,8 @@
   parameter.
 - 2016.07.12 - Rename `PState.map` to `PState.modify`. This follows more standard lense-type
   terminology, and removes the incorrect impression that this is a monadic method.
+- 2016.07.24 - Add `PState.modifyF`, which acts like `modify`, except for functions that return an
+  effectful result.
 
 ## [0.24.0] - 2016.07.06 - Generic Effects with Finally Tagless
 

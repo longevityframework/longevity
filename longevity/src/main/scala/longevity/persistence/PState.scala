@@ -1,5 +1,6 @@
 package longevity.persistence
 
+import longevity.effect.Effect
 import org.joda.time.DateTime
 
 /** the persistent state of a persistent object of type `P` */
@@ -20,6 +21,15 @@ case class PState[P] private(
   /** returns the persistent state of the persistent object modified according to function `f`
    */
   def modify(f: P => P): PState[P] = PState(id, rowVersion, createdTimestamp, updatedTimestamp, orig, f(p))
+
+  /** returns the persistent state of the persistent object modified according to an effectful
+   * function `f`
+   */
+  def modifyF[F[_] : Effect](f: P => F[P]): F[PState[P]] = {
+    val effect = implicitly[Effect[F]]
+    val fp = effect.flatMap(effect.pure(p))(f)
+    effect.map(fp)(PState(id, rowVersion, createdTimestamp, updatedTimestamp, orig, _))
+  }
 
   /** returns a copy of this persistent state with a wider type bound */
   def widen[Q >: P]: PState[Q] =
