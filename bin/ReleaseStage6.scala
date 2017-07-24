@@ -37,6 +37,9 @@ object ReleaseStage6 extends App {
   def run(cmd: String): Unit = run(Process(cmd, longevityDir))
   def run(cmdArgs: String*): Unit = run(Process(cmdArgs, longevityDir))
 
+  // push the new website
+  run("sbt longevity/ghpagesPushSite")
+
   // make sure the oldVersion matches whats in the build
   run("grep", "-q", s"""version := "$oldVersion"""", "project/BuildSettings.scala")
 
