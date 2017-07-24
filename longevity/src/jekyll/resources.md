@@ -14,8 +14,6 @@ layout: page
   Google Groups. Please drop a line! We really want to hear from you!
 
 - [License](license.html) - Apache 2
-- [Longevity By Design](http://www.longevitybydesign.net/) - A consulting firm
-  specializing in helping you get started using longevity
 - [How You Can Contribute](contributing.html) - We are always squeezed
   for hours to work on this code, and there are loads of great
   features to be implemented. Please consider contributing.
