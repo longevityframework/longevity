@@ -65,7 +65,7 @@
     <span class="o">{</span>
       <span class="k">for</span> <span class="o">{</span>
         <span class="n">retrieved</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieveOne</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="nc">Username</span><span class="o">(</span><span class="n">username</span><span class="o">))</span>
-        <span class="n">modified</span> <span class="k">=</span> <span class="n">retrieved</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">info</span><span class="o">.</span><span class="n">mapUser</span><span class="o">)</span>
+        <span class="n">modified</span> <span class="k">=</span> <span class="n">retrieved</span><span class="o">.</span><span class="n">modify</span><span class="o">(</span><span class="n">info</span><span class="o">.</span><span class="n">mapUser</span><span class="o">)</span>
         <span class="n">updated</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="n">modified</span><span class="o">)</span>
       <span class="o">}</span> <span class="k">yield</span> <span class="o">{</span>
         <span class="nc">Some</span><span class="o">(</span><span class="nc">UserInfo</span><span class="o">(</span><span class="n">updated</span><span class="o">.</span><span class="n">get</span><span class="o">))</span>
@@ -86,8 +86,8 @@ handle the <code class="highlighter-rouge">NoSuchElementException</code> in the 
 by returning a <code class="highlighter-rouge">404 Not Found</code>, which is exactly what we want.</p>
 
 <p>The <code class="highlighter-rouge">retrieved</code> in the for comprehension is a <code class="highlighter-rouge">PState[User]</code>. Calling
-<code class="highlighter-rouge">retrieved.map</code> produces another <code class="highlighter-rouge">PState[User]</code> that reflects the
-changes produced by the function passed to <code class="highlighter-rouge">map</code>. In this case, we
+<code class="highlighter-rouge">retrieved.modify</code> produces another <code class="highlighter-rouge">PState[User]</code> that reflects the
+changes produced by the function passed to <code class="highlighter-rouge">modify</code>. In this case, we
 call <code class="highlighter-rouge">UserInfo.mapUser</code>, which updates a <code class="highlighter-rouge">User</code> according to the
 information in the <code class="highlighter-rouge">UserInfo</code>. The resulting <code class="highlighter-rouge">PState</code> is stored in a
 local value named <code class="highlighter-rouge">modified</code>.</p>

@@ -89,7 +89,7 @@ setting the title that disallows overwriting an existing title:</p>
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// thread A:
 </span><span class="k">for</span> <span class="o">{</span>
   <span class="n">retrieved</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieve</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="n">username</span><span class="o">)</span>
-  <span class="n">modified</span>  <span class="k">=</span>  <span class="n">retrieved</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">addTitle</span><span class="o">(</span><span class="s">"Ms."</span><span class="o">))</span>
+  <span class="n">modified</span>  <span class="k">=</span>  <span class="n">retrieved</span><span class="o">.</span><span class="n">modify</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">addTitle</span><span class="o">(</span><span class="s">"Ms."</span><span class="o">))</span>
   <span class="n">updated</span>   <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="n">modified</span><span class="o">)</span>
 <span class="o">}</span> <span class="k">yield</span> <span class="n">updated</span>
 </code></pre>
@@ -100,7 +100,7 @@ setting the title that disallows overwriting an existing title:</p>
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// thread B:
 </span><span class="k">for</span> <span class="o">{</span>
   <span class="n">retrieved</span> <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">retrieve</span><span class="o">[</span><span class="kt">User</span><span class="o">](</span><span class="n">username</span><span class="o">)</span>
-  <span class="n">modified</span>  <span class="k">=</span>  <span class="n">retrieved</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">addTitle</span><span class="o">(</span><span class="s">"Dr."</span><span class="o">))</span>
+  <span class="n">modified</span>  <span class="k">=</span>  <span class="n">retrieved</span><span class="o">.</span><span class="n">modify</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">addTitle</span><span class="o">(</span><span class="s">"Dr."</span><span class="o">))</span>
   <span class="n">updated</span>   <span class="k">&lt;-</span> <span class="n">repo</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="n">modified</span><span class="o">)</span>
 <span class="o">}</span> <span class="k">yield</span> <span class="n">updated</span>
 </code></pre>
@@ -135,7 +135,7 @@ the <code class="highlighter-rouge">rowVersion</code> by one.</p>
 
 <p>The <a href="../repo/persistent-state.html">persistent state</a> keeps track of the value of <code class="highlighter-rouge">rowVersion</code> for
 the object it encloses. The repository methods all return <code class="highlighter-rouge">PStates</code> with the <code class="highlighter-rouge">rowVersion</code> matching
-what is in the database at that moment. <code class="highlighter-rouge">PState</code> methods <code class="highlighter-rouge">set</code> and <code class="highlighter-rouge">map</code> preserve the <code class="highlighter-rouge">rowVersion</code>.</p>
+what is in the database at that moment. <code class="highlighter-rouge">PState</code> methods <code class="highlighter-rouge">set</code> and <code class="highlighter-rouge">modify</code> preserve the <code class="highlighter-rouge">rowVersion</code>.</p>
 
 <p>When <code class="highlighter-rouge">Repo</code> methods <code class="highlighter-rouge">update</code> or <code class="highlighter-rouge">delete</code> are called, the repository
 qualifies the database write command that gets issued. The command

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.24.0 API  - longevity.model</title>
-          <meta name="description" content="longevity 0.24.0 API - longevity.model" />
-          <meta name="keywords" content="longevity 0.24.0 API longevity.model" />
+          <title>longevity 0.25.0 API  - longevity.model</title>
+          <meta name="description" content="longevity 0.25.0 API - longevity.model" />
+          <meta name="keywords" content="longevity 0.25.0 API longevity.model" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.24.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.25.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -397,7 +397,7 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for constructing your domain model</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.24.0/src/main/scala/longevity/model/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for constructing your domain model</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.25.0/src/main/scala/longevity/model/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -587,7 +587,13 @@ package</b>. this comes for free if you use the <code>longevity.model.annotation
 annotation on your model class <code>M</code>. the model evidence should be package private to prevent the
 introduction of any persistent classes that are not discoverable by the <code>ModelType</code>, whose
 default behavior is to find persistent classes in the domain model's package and sub-packages.
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>longevity.model.ModelType</p></span><span class="cmt"><p>longevity.model.annotations.domainModel</p></span></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the model</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@implicitNotFound</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;could not find evidence for domain model ${M}. (Please note that domain model elements must be &quot; +<br/>  &quot;declared in the same package as, or a sub-package of, the package where the domain model is declared.)&quot;">...</span>
+    </span>)</span>
+              
+        </dd><dt>See also</dt><dd><span class="cmt"><p>longevity.model.ModelType</p></span><span class="cmt"><p>longevity.model.annotations.domainModel</p></span></dd></dl></div>
     </li><li name="longevity.model.ModelType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ModelType[M]extendsAnyRef"></a><a id="ModelType[M]:ModelType[M]"></a>
       <span class="permalink">
@@ -647,7 +653,13 @@ the <code>longevity.model.annotations.domainModel</code> annotation on your mode
       <p class="shortcomment cmt">evidence for a persistent class</p><div class="fullcomment"><div class="comment cmt"><p>evidence for a persistent class</p><p>this evidence is provided in the persistent type (<code>PType</code>) for the same persistent class. because
 the <code>PType</code> is typically the companion object for your persistent class, this evidence should be
 available when needed.
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the domain model</p></dd><dt class="tparam">P</dt><dd class="cmt"><p>the persistent class</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>longevity.model.PType</p></span><span class="cmt"><p>longevity.model.annotations.persistent</p></span></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the domain model</p></dd><dt class="tparam">P</dt><dd class="cmt"><p>the persistent class</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@implicitNotFound</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;${P} is not a persistent type in domain model ${M}&quot;">...</span>
+    </span>)</span>
+              
+        </dd><dt>See also</dt><dd><span class="cmt"><p>longevity.model.PType</p></span><span class="cmt"><p>longevity.model.annotations.persistent</p></span></dd></dl></div>
     </li><li name="longevity.model.PType" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="PType[M,P]extendsAnyRef"></a><a id="PType[M,P]:PType[M,P]"></a>
       <span class="permalink">

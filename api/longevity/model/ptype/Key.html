@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.24.0 API  - longevity.model.ptype.Key</title>
-          <meta name="description" content="longevity 0.24.0 API - longevity.model.ptype.Key" />
-          <meta name="keywords" content="longevity 0.24.0 API longevity.model.ptype.Key" />
+          <title>longevity 0.25.0 API  - longevity.model.ptype.Key</title>
+          <meta name="description" content="longevity 0.25.0 API - longevity.model.ptype.Key" />
+          <meta name="keywords" content="longevity 0.25.0 API longevity.model.ptype.Key" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.24.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.25.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -196,7 +196,13 @@ underlying database to distribute data across multiple nodes.">
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a natural key for this persistent type. wraps a <a href="Prop.html" class="extype" name="longevity.model.ptype.Prop">property</a> that,
 given specific a property value, will match the corresponding member of no
 more than one persistent object.
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the domain model</p></dd><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the key value class</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.24.0/src/main/scala/longevity/model/ptype/Key.scala" target="_blank">Key.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the domain model</p></dd><dt class="tparam">P</dt><dd class="cmt"><p>the persistent type</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the key value class</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@implicitNotFound</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;could not find a key with values of type ${V} for persistent type ${P} in domain model ${M}&quot;">...</span>
+    </span>)</span>
+              
+        </dd><dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.25.0/src/main/scala/longevity/model/ptype/Key.scala" target="_blank">Key.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>

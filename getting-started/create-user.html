@@ -82,7 +82,7 @@ the underlying database call in an asynchronous fashion. The <code class="highli
 further wrapped in a <code class="highlighter-rouge">PState</code>, or <em>persistent state</em>, which
 contains persistence information about the user that is not part of
 the domain model. You don’t need to know much of anything about a
-<code class="highlighter-rouge">PState</code>, except that you can call methods <code class="highlighter-rouge">get</code> and <code class="highlighter-rouge">map</code> on it, to
+<code class="highlighter-rouge">PState</code>, except that you can call methods <code class="highlighter-rouge">get</code> and <code class="highlighter-rouge">modify</code> on it, to
 work with the underlying <code class="highlighter-rouge">User</code> inside.</p>
 
 <p>In the yield clause of the for comprehension in this method,

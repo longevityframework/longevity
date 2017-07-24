@@ -123,11 +123,9 @@ a related entity. For example, a <code class="highlighter-rouge">BlogPost</code>
 </code></pre>
 </div>
 
-<p>Once you get back your <code class="highlighter-rouge">PState</code>, you can of course use it to examine
-the persistent object itself with <code class="highlighter-rouge">PState.get</code>. You can modify it with
-<code class="highlighter-rouge">PState.map</code>, and you can pass the state on to
-<a href="repo-update.html"><code class="highlighter-rouge">Repo.update</code></a> or
-<a href="repo-delete.html"><code class="highlighter-rouge">Repo.delete</code></a>.</p>
+<p>Once you get back your <code class="highlighter-rouge">PState</code>, you can of course use it to examine the persistent object itself
+with <code class="highlighter-rouge">PState.get</code>. You can modify it with <code class="highlighter-rouge">PState.modify</code>, and you can pass the state on to
+<a href="repo-update.html"><code class="highlighter-rouge">Repo.update</code></a> or <a href="repo-delete.html"><code class="highlighter-rouge">Repo.delete</code></a>.</p>
 
 <p><code class="highlighter-rouge">Repo.retrieve</code> will always result in a database call. Longevity will
 not cache versions for you and pull them from the cache. Not caching

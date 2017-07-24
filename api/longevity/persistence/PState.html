@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.24.0 API  - longevity.persistence.PState</title>
-          <meta name="description" content="longevity 0.24.0 API - longevity.persistence.PState" />
-          <meta name="keywords" content="longevity 0.24.0 API longevity.persistence.PState" />
+          <title>longevity 0.25.0 API  - longevity.persistence.PState</title>
+          <meta name="description" content="longevity 0.25.0 API - longevity.persistence.PState" />
+          <meta name="keywords" content="longevity 0.25.0 API longevity.persistence.PState" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.24.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.25.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -175,7 +175,7 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>the persistent state of a persistent object of type <code>P</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.24.0/src/main/scala/longevity/persistence/PState.scala" target="_blank">PState.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>the persistent state of a persistent object of type <code>P</code></p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.25.0/src/main/scala/longevity/persistence/PState.scala" target="_blank">PState.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -565,10 +565,10 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="longevity.persistence.PState#map" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="map(f:P=&gt;P):longevity.persistence.PState[P]"></a><a id="map((P)⇒P):PState[P]"></a>
+    </li><li name="longevity.persistence.PState#modify" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="modify(f:P=&gt;P):longevity.persistence.PState[P]"></a><a id="modify((P)⇒P):PState[P]"></a>
       <span class="permalink">
-      <a href="../../longevity/persistence/PState.html#map(f:P=&gt;P):longevity.persistence.PState[P]" title="Permalink">
+      <a href="../../longevity/persistence/PState.html#modify(f:P=&gt;P):longevity.persistence.PState[P]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -577,11 +577,28 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">map</span><span class="params">(<span name="f">f: (<span class="extype" name="longevity.persistence.PState.P">P</span>) ⇒ <span class="extype" name="longevity.persistence.PState.P">P</span></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.PState.P">P</span>]</span>
+        <span class="name">modify</span><span class="params">(<span name="f">f: (<span class="extype" name="longevity.persistence.PState.P">P</span>) ⇒ <span class="extype" name="longevity.persistence.PState.P">P</span></span>)</span><span class="result">: <a href="" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.PState.P">P</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">returns the persistent state of the persistent object modified according
-to function <code>f</code>
+      <p class="shortcomment cmt">returns the persistent state of the persistent object modified according to function <code>f</code>
+</p>
+    </li><li name="longevity.persistence.PState#modifyF" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="modifyF[F[_]](f:P=&gt;F[P])(implicitevidence$1:longevity.effect.Effect[F]):F[longevity.persistence.PState[P]]"></a><a id="modifyF[F[_]]((P)⇒F[P])(Effect[F]):F[PState[P]]"></a>
+      <span class="permalink">
+      <a href="../../longevity/persistence/PState.html#modifyF[F[_]](f:P=&gt;F[P])(implicitevidence$1:longevity.effect.Effect[F]):F[longevity.persistence.PState[P]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">modifyF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span name="f">f: (<span class="extype" name="longevity.persistence.PState.P">P</span>) ⇒ <span class="extype" name="longevity.persistence.PState.modifyF.F">F</span>[<span class="extype" name="longevity.persistence.PState.P">P</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../effect/Effect.html" class="extype" name="longevity.effect.Effect">Effect</a>[<span class="extype" name="longevity.persistence.PState.modifyF.F">F</span>]</span>)</span><span class="result">: <span class="extype" name="longevity.persistence.PState.modifyF.F">F</span>[<a href="" class="extype" name="longevity.persistence.PState">PState</a>[<span class="extype" name="longevity.persistence.PState.P">P</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">returns the persistent state of the persistent object modified according to an effectful
+function <code>f</code>
 </p>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
