@@ -1,6 +1,11 @@
 
 lazy val root = Project(id = "root", base = file("."), settings = BuildSettings.noPublishSettings)
-  .aggregate(bin, longevity, longevityCassandraDeps, longevityMongoDbDeps, longevitySqliteDeps)
+  .aggregate(bin,
+    longevity,
+    longevityCassandraDeps,
+    longevityMongoDbDeps,
+    longevitySqliteDeps,
+    longevityMigrationsPlugin)
 
 lazy val bin = Project(id = "bin", base = file("bin"), settings = BuildSettings.noPublishSettings)
 
@@ -61,5 +66,14 @@ lazy val longevitySqliteDeps = Project(
   base = file("longevity-sqlite-deps"),
   settings = BuildSettings.publishSettings ++ Seq(
     libraryDependencies += Dependencies.sqliteDep,
+    homepage := BuildSettings.longevityHomepage,
+    pomExtra := BuildSettings.longevityPomExtra))
+
+lazy val longevityMigrationsPlugin = Project(
+  id = "sbt-longevity-migrations",
+  base = file("sbt-longevity-migrations"),
+  settings = BuildSettings.publishSettings ++ Seq(
+    scalaVersion := "2.10.6",
+    sbtPlugin := true,
     homepage := BuildSettings.longevityHomepage,
     pomExtra := BuildSettings.longevityPomExtra))
