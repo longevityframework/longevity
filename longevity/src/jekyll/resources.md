@@ -5,9 +5,11 @@ layout: page
 
 - [Feature List](feature-list.html) - A quick rundown on what
   longevity provides for you
-- [Getting Started Guide](getting-started) - Covers the basics, should
-  take maybe a half hour to read through
+- [Video Demo](https://youtu.be/AJMETrjSzzY) - Seventy minute introductory video that will walk you
+  through the basics of using longevity
 - [User Manual](manual) - A comprehensive guide to using longevity
+- [Getting Started Guide](getting-started) - Covers the basics, should
+  take a half hour to an hour to read through
 - [Scaladocs](api) - Programmer's API
 - [Discussion
   Forum](https://groups.google.com/forum/#!forum/longevity-users) - On
