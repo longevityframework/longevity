@@ -21,6 +21,12 @@ class PersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
     "def foo(@persistent[DomainModel] x: Int) = 7" shouldNot compile
     "@persistent[DomainModel] trait Foo"           shouldNot compile
     "@persistent[DomainModel] object Foo"          shouldNot compile
+
+    """
+    @persistent[DomainModel] class PWithCompanion
+    class Foo
+    object PWithCompanion extends Foo { val y = 7 }
+    """ shouldNot compile
   }
 
   it should "create a companion object that extends PType when there is no companion object" in {
@@ -36,6 +42,12 @@ class PersistentSpec extends FlatSpec with GivenWhenThen with Matchers {
       typeKey[PWithCompanion]
     }
     PWithCompanion.y should equal (7)
+
+    PWithCompanion2.isInstanceOf[PType[DomainModel, PWithCompanion2]] should be (true)
+    PWithCompanion2.asInstanceOf[PType[DomainModel, PWithCompanion2]].pTypeKey should equal {
+      typeKey[PWithCompanion2]
+    }
+    PWithCompanion2.y should equal (7)
 
     PCaseClass.isInstanceOf[PType[DomainModel, PCaseClass]] should be (true)
 

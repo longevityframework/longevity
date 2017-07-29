@@ -27,12 +27,21 @@ private[annotations] abstract class AbstractPersistentImpl {
 
   private def augmentedCompanion = {
     val q"$origMods object $n extends {..$eds} with ..$ps { $s => ..$ss }" = as.tail.head
+    val newPs = if (ps.head.equalsStructure(tq"scala.AnyRef")) {
+      ptype +: ps.tail
+    } else if (ps.head.equalsStructure(ptype)) {
+      ps
+    } else {
+      c.abort(
+        c.enclosingPosition,
+        s"companion object of $name class cannot extend ${ps.head}")
+    }
     val q"$mpropsAnnMods object $_" = q"@longevity.model.annotations.mprops object $n"
     val mergedMods = Modifiers(
       origMods.flags,
       origMods.privateWithin,
       mpropsAnnMods.annotations.head :: origMods.annotations)
-    q"$mergedMods object $n extends {..$eds} with ..${ ptype +: ps.tail } { $s => ..$ss }"
+    q"$mergedMods object $n extends {..$eds} with ..$newPs { $s => ..$ss }"
   }
 
 }
