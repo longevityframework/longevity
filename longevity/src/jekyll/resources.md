@@ -5,17 +5,17 @@ layout: page
 
 - [Feature List](feature-list.html) - A quick rundown on what
   longevity provides for you
-- [Getting Started Guide](getting-started) - Covers the basics, should
-  take maybe a half hour to read through
+- [Video Demo](https://youtu.be/AJMETrjSzzY) - Seventy minute introductory video that will walk you
+  through the basics of using longevity
 - [User Manual](manual) - A comprehensive guide to using longevity
+- [Getting Started Guide](getting-started) - Covers the basics, should
+  take a half hour to an hour to read through
 - [Scaladocs](api) - Programmer's API
 - [Discussion
   Forum](https://groups.google.com/forum/#!forum/longevity-users) - On
   Google Groups. Please drop a line! We really want to hear from you!
 
 - [License](license.html) - Apache 2
-- [Longevity By Design](http://www.longevitybydesign.net/) - A consulting firm
-  specializing in helping you get started using longevity
 - [How You Can Contribute](contributing.html) - We are always squeezed
   for hours to work on this code, and there are loads of great
   features to be implemented. Please consider contributing.

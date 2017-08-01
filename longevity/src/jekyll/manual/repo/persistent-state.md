@@ -56,6 +56,34 @@ We have just provided a guarantee - at virtually no cost - that
 persistence concerns can not leak into the `UserService`
 implementation.
 
+What if our service method was an effectful method? Perhaps it has to hit another blocking service
+somewhere to do its work, such as when hitting another
+[microservice](https://www.martinfowler.com/articles/microservices.html) in the application? In
+this case, we would probably be wrapping it in a future-like construct in a reactive setting, or in
+an IO monad construct in more of a functional setting. Let's use `scala.concurrent.Future` as an
+example:
+
+```scala
+trait UserService {
+  def updateScoreCard(user: User, event: PointScoredEvent): Future[User]
+}
+```
+
+We can change our above example to call `modifyF` instead of `modify`, like so:
+
+```scala
+val updatedState: Future[PState[User]] = userState.modifyF { user =>
+  userService.updateScoreCard(user, event)
+}
+```
+
+The persistent state does not inherit the effect from the repository. This means you will have to
+make an effect implicitly available when calling `modifyF`, in the same way as when you [created
+your longevity context](../context/effect.html). (The persistent state could easily inherit the
+effect from the repository, and perhaps it should. The advantage of inheriting the effect is that
+the user would not need to supply the effect again when calling `modifyF`. The disadvantage is that
+the type gets more cumbersome. For instance, `PState[User]` would become `PState[Future, User]`.)
+
 {% assign prevTitle = "schema creation" %}
 {% assign prevLink  = "schema-creation.html" %}
 {% assign upTitle   = "the repository" %}

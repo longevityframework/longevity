@@ -22,6 +22,11 @@ class PWithCompanion
 object PWithCompanion { val y = 7 }
 
 @persistent[DomainModel]
+class PWithCompanion2
+
+object PWithCompanion2 extends longevity.model.PType[DomainModel, PWithCompanion2] { val y = 7 }
+
+@persistent[DomainModel]
 case class PCaseClass()
 
 @persistent[DomainModel]
@@ -36,6 +41,11 @@ trait PolyPWithCompanion
 object PolyPWithCompanion { val y = 7 }
 
 @polyPersistent[DomainModel]
+trait PolyPWithCompanion2
+
+object PolyPWithCompanion2 extends longevity.model.PolyPType[DomainModel, PolyPWithCompanion2] { val y = 7 }
+
+@polyPersistent[DomainModel]
 trait Poly
 
 @derivedPersistent[DomainModel, Poly]
@@ -45,6 +55,13 @@ class DerivedPNoCompanion extends Poly
 class DerivedPWithCompanion extends Poly
 
 object DerivedPWithCompanion { val y = 7 }
+
+@derivedPersistent[DomainModel, Poly]
+class DerivedPWithCompanion2 extends Poly
+
+object DerivedPWithCompanion2 extends longevity.model.DerivedPType[DomainModel, DerivedPWithCompanion2, Poly] {
+  val y = 7
+}
 
 @derivedPersistent[DomainModel, Poly]
 case class DerivedPCaseClass() extends Poly
