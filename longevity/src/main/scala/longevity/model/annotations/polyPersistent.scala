@@ -5,14 +5,12 @@ import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.annotation.compileTimeOnly
 
-/** macro annotation to mark a trait as a polymorphic persistent component. creates a
- * companion object for the class that extends [[longevity.model.PolyPType
- * PolyPType]]. if the class already has a companion object, then adds a parent
- * class `PolyPType` to the existing companion object. Note that
- * this will not work if your companion object already extends an abstract
- * or concrete class, as `PolyPType` itself is an abstract class. if this
- * happens, you will see a compiler error such as "class Foo needs to be a trait
- * to be mixed in".
+/** macro annotation to mark a trait as a polymorphic persistent component. creates a companion
+ * object for the class that extends [[longevity.model.PolyPType PolyPType]]. if the class already
+ * has a companion object, then adds a parent class `PolyPType` to the existing companion object.
+ *
+ * Note that, when using this annotation, an existing companion object cannot already extend a class
+ * other than `PolyPType` or `scala.AnyRef`.
  *
  * @tparam M the model
  */
@@ -50,7 +48,7 @@ private object polyPersistent {
         s"@longevity.model.annotations.polyPersistent requires a single type parameter for the domain model")
     }    
 
-    protected def ptype = tq"longevity.model.PolyPType[$mtype, $typeName]"
+    protected lazy val ptype = tq"longevity.model.PolyPType[$mtype, $typeName]"
 
   }
 

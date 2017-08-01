@@ -5,14 +5,12 @@ import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.annotation.compileTimeOnly
 
-/** macro annotation to mark a class as a derived persistent component. creates a
- * companion object for the class that extends [[longevity.model.DerivedPType
- * DerivedPType]]. if the class already has a companion object, then adds a parent
- * class `DerivedPType` to the existing companion object. Note that
- * this will not work if your companion object already extends an abstract
- * or concrete class, as `DerivedPType` itself is an abstract class. if this
- * happens, you will see a compiler error such as "class Foo needs to be a trait
- * to be mixed in".
+/** macro annotation to mark a class as a derived persistent component. creates a companion object
+ * for the class that extends [[longevity.model.DerivedPType DerivedPType]]. if the class already
+ * has a companion object, then adds a parent class `DerivedPType` to the existing companion object.
+ *
+ * Note that, when using this annotation, an existing companion object cannot already extend a class
+ * other than `DerivedPType` or `scala.AnyRef`.
  *
  * @tparam M the model
  *
@@ -46,7 +44,7 @@ private object derivedPersistent {
           s"@longevity.model.annotations.derivedPersistent can only be applied to classes")
     }
 
-    protected def ptype = tq"longevity.model.DerivedPType[$mtype, $typeName, $polyTypeName]"
+    protected lazy val ptype = tq"longevity.model.DerivedPType[$mtype, $typeName, $polyTypeName]"
 
     protected lazy val (mtype, polyTypeName) = c.prefix.tree match {
       case q"new $_[$mtype, $poly]" => (mtype, poly)
