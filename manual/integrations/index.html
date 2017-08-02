@@ -36,7 +36,7 @@
     </script>
 
     
-    <title>managing logging</title>
+    <title>integration points</title>
     
   </head>
 
@@ -57,36 +57,16 @@
       <div class="inner clearfix">
         <section id="main-content">
           
-          <h1> managing logging </h1>
+          <h1> integration points </h1>
           
-          <p>Longevity current produces two kinds of logging output. First, all
-exceptions thrown by longevity that are intended to be non-recoverable
-are logged at the WARN level. Second, all <a href="repo">repo API</a> calls, and
-all calls to the underlying database, are logged at the DEBUG level.</p>
+          <p>This chapter is not about using longevity per se, but rather a collection of notes on how to
+integrate longevity into you toolset. Right now, we have the following two sections on integration
+points:</p>
 
-<p>The underlying database drivers also generate a lot of logging
-output. They tend to be quite chatty, and produce a lot of logs at the
-INFO level.</p>
-
-<p>Longevity and the underlying drivers all use the <a href="http://www.slf4j.org/">SLF4J
-API</a>, which means you can configure your
-logging by providing any SLF4J implementation. You may want to turn
-down logging for the underlying drivers to the WARN level.</p>
-
-<p>As an example, a simple way to do this is to use <code class="highlighter-rouge">slf4j-simple</code>:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.slf4j"</span> <span class="o">%</span> <span class="s">"slf4j-simple"</span> <span class="o">%</span> <span class="s">"1.7.25"</span>
-</code></pre>
-</div>
-
-<p>You can then provide a <code class="highlighter-rouge">simplelogger.properties</code> file in your
-<code class="highlighter-rouge">src/main/resources</code> directory containing the following line:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>org.slf4j.simpleLogger.defaultLogLevel=warn
-</code></pre>
-</div>
-
-<p>This will quell all logs at the INFO level or lower.</p>
+<ul>
+  <li><a href="logging.html">Managing Logging</a></li>
+  <li><a href="idea.html">Using IDEA and Longevity Together</a></li>
+</ul>
 
 <div style="display: flex;
             justify-content: space-between;
@@ -96,17 +76,19 @@ down logging for the underlying drivers to the WARN level.</p>
 
 <div style="min-width: 10em">
 
-  prev: <a href="translation/sqlite.html">sqlite translation</a>
+  prev: <a href="../translation/sqlite.html">sqlite translation</a>
 
 </div>
 
 <div style="min-width: 10em">
 
-up: <a href=".">user manual</a>
+up: <a href="..">user manual</a>
 
 </div>
 
 <div style="min-width: 10em">
+
+next: <a href="logging.html">managing logging</a>
 
 </div>
 

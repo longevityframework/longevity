@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>using idea and longevity together</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> using idea and longevity together </h1>
+          
+          <p><a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a> can’t expand the longevity macro annotations, and
+consequently shows error messages for <code class="highlighter-rouge">primaryKey</code> and <code class="highlighter-rouge">props</code> in an example like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span> <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span> <span class="n">fullName</span><span class="k">:</span> <span class="kt">FullName</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>For references to <code class="highlighter-rouge">User</code> in other source files, while implicit resolution of the generated <code class="highlighter-rouge">PEv</code>
+instances (persistent evidence, as described in the section on
+<a href="http://longevityframework.org/manual/repo/create.html">repo.create</a>) and the
+<a href="http://longevityframework.org/manual/ptype/keys.html">keys</a> seems to work fine, we still get
+compiler errors on things like <code class="highlighter-rouge">User.props</code> and <code class="highlighter-rouge">User.queryDsl</code>.</p>
+
+<p>It looks like the right way to handle this is to use the <a href="https://blog.jetbrains.com/scala/2015/10/14/intellij-api-to-build-scala-macros-support/">IntelliJ API to build scala macros
+support</a>.
+We have an <a href="https://github.com/longevityframework/longevity/issues/38">open ticket on GitHub</a> for
+this issue. If you are interested in taking this, that would be excellent! Just mention it on the
+<a href="https://gitter.im/longevityframework/longevity">Gitter channel</a>, to make sure you are not
+duplicating work.</p>
+
+<p>It seems that JetBrains is wisely skipping full-blown support for Scala macros in favor of
+supporting Scala.meta. See for example <a href="https://blog.jetbrains.com/scala/2016/11/11/intellij-idea-2016-3-rc-scala-js-scala-meta-and-more/">this blog
+entry</a>.
+We plan on migrating longevity from Scala macros to Scala meta as soon as possible. But the
+Scala.meta feature set is not quite developed enough for our needs as of yet. We’re tracking
+progress on this front in <a href="https://github.com/longevityframework/longevity/issues/37">this GitHub
+issue</a>.</p>
+
+<p>It’s worth noting that it is legal and equivalent to write this instead:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span> <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span> <span class="n">fullName</span><span class="k">:</span> <span class="kt">FullName</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="k">extends</span> <span class="n">longevity</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="nc">PType</span><span class="o">[</span><span class="kt">Domain</span>, <span class="kt">User</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>This will remove many of the false errors that IDEA reports. Errors about <code class="highlighter-rouge">User.props</code>, however,
+will still be present.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="logging.html">managing logging</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">integration points</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="https://youtu.be/AJMETrjSzzY"                            class="button">Video Demo      </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/api/longevity"                                          class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>
