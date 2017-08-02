@@ -24,7 +24,7 @@ compiler errors on things like `User.props` and `User.queryDsl`.
 It looks like the right way to handle this is to use the [IntelliJ API to build scala macros
 support](https://blog.jetbrains.com/scala/2015/10/14/intellij-api-to-build-scala-macros-support/).
 We have an [open ticket on GitHub](https://github.com/longevityframework/longevity/issues/38) for
-this issue. If you are interested in taking this, that would be excellent! Just mention it on the
+this issue. If you are interested in taking this on, that would be excellent! Just mention it on the
 [Gitter channel](https://gitter.im/longevityframework/longevity), to make sure you are not
 duplicating work.
 
