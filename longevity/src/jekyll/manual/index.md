@@ -61,7 +61,9 @@ layout: page
   - [MongoDB Translation](translation/mongo.html)
   - [MongoDB Keys](translation/mongo-keys.html)
   - [SQLite Translation](translation/sqlite.html)
-- [Managing Logging](logging.html)
+- [Integration Points](integrations)
+  - [Managing Logging](integrations/logging.html)
+  - [Using IDEA and Longevity Together](integrations/idea.html)
 
 {% assign upTitle = "longevity site" %}
 {% assign upLink = ".." %}
