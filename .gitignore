@@ -11,16 +11,13 @@ project/plugins/project/
 
 # Scala-IDE specific
 .scala_dependencies
+.settings
+.classpath
+.project
 
 /TAGS
 /target-eclipse/
 /TODO.txt
-/.classpath
-/.project
-/.cache
-/emblem/.cache
-/emblem/.classpath
-/emblem/.gitignore
-/emblem/.project
 /longevity_test.db
 /longevity_main.db
+

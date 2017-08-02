@@ -32,9 +32,12 @@ org.slf4j.simpleLogger.defaultLogLevel=warn
 
 This will quell all logs at the INFO level or lower.
 
-{% assign prevTitle = "sqlite translation" %}
-{% assign prevLink  = "translation/sqlite.html" %}
-{% assign upTitle   = "user manual" %}
+{% assign prevTitle = "integration points" %}
+{% assign prevLink  = "." %}
+{% assign upTitle   = "integration points" %}
 {% assign upLink    = "." %}
+{% assign nextTitle = "using idea and longevity together" %}
+{% assign nextLink  = "idea.html" %}
+
 {% include navigate.html %}
 
