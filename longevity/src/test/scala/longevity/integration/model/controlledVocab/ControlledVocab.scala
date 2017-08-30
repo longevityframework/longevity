@@ -7,7 +7,7 @@ import longevity.model.annotations.polyComponent
 sealed trait ControlledVocab
 
 @derivedComponent[DomainModel, ControlledVocab]
-case class VocabTerm1() extends ControlledVocab
+case object VocabTerm1 extends ControlledVocab
 
 @derivedComponent[DomainModel, ControlledVocab]
 case object VocabTerm2 extends ControlledVocab

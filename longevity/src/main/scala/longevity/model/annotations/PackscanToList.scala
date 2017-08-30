@@ -43,15 +43,16 @@ private object PackscanToList {
     }
 
     private def enclosingPackage = {
-      def loop(s: c.Symbol): c.Symbol = if (s.isPackage) s else loop(s.owner)
+      def loop(s: c.Symbol): c.Symbol = if (s.isPackage || s.isPackageClass) s else loop(s.owner)
       loop(c.internal.enclosingOwner)
     }
 
     private def matchingDecls(decls: MemberScope): Seq[Symbol] = {
-      val localDecls = decls.filter { s => s.isModule && s.info <:< aTag.tpe }
+      val localModules  = decls.filter { s => s.isModule }
+      val localDecls    = localModules.filter { s => s.info <:< aTag.tpe }
       val localPackages = decls.filter { s => s.isPackage || s.isPackageClass }
-      val subPackageDecls = localPackages.map(_.info.decls).map(matchingDecls)
-      (localDecls :: subPackageDecls.toList).flatten
+      val nestedDecls   = localModules.map(_.info.decls).map(matchingDecls)
+      (localDecls :: nestedDecls.toList).flatten
     }
 
   }
