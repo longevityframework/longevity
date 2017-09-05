@@ -59,7 +59,14 @@
           
           <h1> using idea and longevity together </h1>
           
-          <p><a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a> can’t expand the longevity macro annotations, and
+          <p>If you are using <a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a> with your longevity project, you will
+want to install the <a href="https://github.com/longevityframework/longevity-idea-plugin">longevity IDEA
+plugin</a>. The plugin is available from
+the <a href="https://plugins.jetbrains.com/plugin/9896-longevity">JetBrains Plugins Repository</a>, so you can
+install it just like any other IDEA plugin. Just search for “longevity” under Plugins in the 
+<a href="https://www.jetbrains.com/help/idea/settings-preferences-dialog.html">Settings / Preferences Dialog</a>.</p>
+
+<p>Without the plugin, IDEA doesn’t know how to expand the longevity macro annotations, and
 consequently shows error messages for <code class="highlighter-rouge">primaryKey</code> and <code class="highlighter-rouge">props</code> in an example like this:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
@@ -71,18 +78,8 @@ consequently shows error messages for <code class="highlighter-rouge">primaryKey
 </code></pre>
 </div>
 
-<p>For references to <code class="highlighter-rouge">User</code> in other source files, while implicit resolution of the generated <code class="highlighter-rouge">PEv</code>
-instances (persistent evidence, as described in the section on
-<a href="http://longevityframework.org/manual/repo/create.html">repo.create</a>) and the
-<a href="http://longevityframework.org/manual/ptype/keys.html">keys</a> seems to work fine, we still get
-compiler errors on things like <code class="highlighter-rouge">User.props</code> and <code class="highlighter-rouge">User.queryDsl</code>.</p>
-
-<p>It looks like the right way to handle this is to use the <a href="https://blog.jetbrains.com/scala/2015/10/14/intellij-api-to-build-scala-macros-support/">IntelliJ API to build scala macros
-support</a>.
-We have an <a href="https://github.com/longevityframework/longevity/issues/38">open ticket on GitHub</a> for
-this issue. If you are interested in taking this on, that would be excellent! Just mention it on the
-<a href="https://gitter.im/longevityframework/longevity">Gitter channel</a>, to make sure you are not
-duplicating work.</p>
+<p>The plugin helps IDEA understand what the annotation macro is doing, and makes error messages like
+this go away.</p>
 
 <p>It seems that JetBrains is wisely skipping full-blown support for Scala macros in favor of
 supporting Scala.meta. See for example <a href="https://blog.jetbrains.com/scala/2016/11/11/intellij-idea-2016-3-rc-scala-js-scala-meta-and-more/">this blog
@@ -91,20 +88,6 @@ We plan on migrating longevity from Scala macros to Scala meta as soon as possib
 Scala.meta feature set is not quite developed enough for our needs as of yet. We’re tracking
 progress on this front in <a href="https://github.com/longevityframework/longevity/issues/37">this GitHub
 issue</a>.</p>
-
-<p>It’s worth noting that it is legal and equivalent to write this instead:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@persistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
-<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span> <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">,</span> <span class="n">fullName</span><span class="k">:</span> <span class="kt">FullName</span><span class="o">)</span>
-
-<span class="k">object</span> <span class="nc">User</span> <span class="k">extends</span> <span class="n">longevity</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="nc">PType</span><span class="o">[</span><span class="kt">Domain</span>, <span class="kt">User</span><span class="o">]</span> <span class="o">{</span>
-  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
-<span class="o">}</span>
-</code></pre>
-</div>
-
-<p>This will remove many of the false errors that IDEA reports. Errors about <code class="highlighter-rouge">User.props</code>, however,
-will still be present.</p>
 
 <div style="display: flex;
             justify-content: space-between;
