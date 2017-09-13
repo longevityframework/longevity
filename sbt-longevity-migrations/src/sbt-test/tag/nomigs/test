@@ -1,0 +1,5 @@
+# fails because there is no migrations dir
+-> createVersionTag v0
+
+# migrations dirs was not somehow added
+$ absent src/main/scala/simple/migrations
