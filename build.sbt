@@ -1,8 +1,15 @@
 
-lazy val root = Project(id = "root", base = file("."), settings = BuildSettings.noPublishSettings)
-  .aggregate(bin, longevity, longevityCassandraDeps, longevityMongoDbDeps, longevitySqliteDeps)
+lazy val root = Project(id = "root", base = file("."))
+  .settings(BuildSettings.noPublishSettings)
+  .aggregate(bin,
+    longevity,
+    longevityCassandraDeps,
+    longevityMongoDbDeps,
+    longevitySqliteDeps,
+    longevityMigrationsPlugin)
 
-lazy val bin = Project(id = "bin", base = file("bin"), settings = BuildSettings.noPublishSettings)
+lazy val bin = Project(id = "bin", base = file("bin"))
+  .settings(BuildSettings.noPublishSettings)
 
 lazy val longevity = project.in(file("longevity"))
   .settings(BuildSettings.buildSettings: _*)
@@ -39,27 +46,34 @@ lazy val longevity = project.in(file("longevity"))
       ("*.html" | "*.png" | "*.js" | "*.css" | "*.gif" | "CNAME" | ".nojekyll" | "*.json" | "*.jpg"),
     siteSubdirName in SiteScaladoc := "api")
 
-lazy val longevityCassandraDeps = Project(
-  id = "longevity-cassandra-deps",
-  base = file("longevity-cassandra-deps"),
-  settings = BuildSettings.publishSettings ++ Seq(
+lazy val longevityCassandraDeps = Project("longevity-cassandra-deps", file("longevity-cassandra-deps"))
+  .settings(BuildSettings.publishSettings)
+  .settings(
     libraryDependencies += Dependencies.cassandraDep,
     libraryDependencies += Dependencies.json4sDep,
     homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra))
+    pomExtra := BuildSettings.longevityPomExtra)
 
-lazy val longevityMongoDbDeps = Project(
-  id = "longevity-mongodb-deps",
-  base = file("longevity-mongodb-deps"),
-  settings = BuildSettings.publishSettings ++ Seq(
+lazy val longevityMongoDbDeps = Project("longevity-mongodb-deps", file("longevity-mongodb-deps"))
+  .settings(BuildSettings.publishSettings)
+  .settings(
     libraryDependencies += Dependencies.mongodbDep,
     homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra))
+    pomExtra := BuildSettings.longevityPomExtra)
 
-lazy val longevitySqliteDeps = Project(
-  id = "longevity-sqlite-deps",
-  base = file("longevity-sqlite-deps"),
-  settings = BuildSettings.publishSettings ++ Seq(
+lazy val longevitySqliteDeps = Project("longevity-sqlite-deps", file("longevity-sqlite-deps"))
+  .settings(BuildSettings.publishSettings)
+  .settings(
     libraryDependencies += Dependencies.sqliteDep,
     homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra))
+    pomExtra := BuildSettings.longevityPomExtra)
+
+lazy val longevityMigrationsPlugin = Project("sbt-longevity-migrations", file("sbt-longevity-migrations"))
+  .settings(BuildSettings.publishSettings)
+  .settings(
+      sbtPlugin := true,
+      scriptedBufferLog := false,
+      scriptedLaunchOpts += "-Dplugin.version=" + version.value,
+      libraryDependencies += Dependencies.scalaTestDep % "test",
+      homepage := BuildSettings.longevityHomepage,
+      pomExtra := BuildSettings.longevityPomExtra)

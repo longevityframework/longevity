@@ -11,7 +11,7 @@ object replaceAll extends App {
   val original = args(0)
   val replacement = args(1)
 
-  val fileExtensions = "scala" :: "conf" :: "md" :: Nil
+  val fileExtensions = "scala" :: "conf" :: "md" :: "sbt" :: Nil
 
   val filenameMatch = s"""(.*?)$original(.*?)\\.(.*)""".r
 

@@ -59,11 +59,7 @@ object BuildSettings {
 
   )
 
-  val noPublishSettings = commonSettings ++ Seq(
-    packagedArtifacts := Map.empty,
-    publishLocal := (),
-    publishSigned := (),
-    publish := ())
+  val noPublishSettings = commonSettings :+ (packagedArtifacts := Map.empty)
 
   def longevityHomepage = Some(url("http://longevityframework.org/"))
 
@@ -96,5 +92,6 @@ object BuildSettings {
     "-unchecked")
 
   private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
+  //private def gitHash = sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
 }
