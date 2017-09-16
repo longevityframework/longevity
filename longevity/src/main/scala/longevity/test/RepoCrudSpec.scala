@@ -10,7 +10,6 @@ import longevity.persistence.Deleted
 import longevity.persistence.PState
 import longevity.persistence.Repo
 import org.scalatest.FlatSpec
-import org.scalatest.GivenWhenThen
 import org.scalatest.OptionValues.convertOptionToValuable
 import org.scalatest.Tag
 import scala.util.control.NonFatal
@@ -46,7 +45,7 @@ class RepoCrudSpec[F[_], M] private[longevity] (
   protected val longevityContext: LongevityContext[F, M],
   protected val repo: Repo[F, M],
   private val backEnd: BackEnd)
-extends FlatSpec with LongevityIntegrationSpec[F, M] with GivenWhenThen {
+extends FlatSpec with LongevityIntegrationSpec[F, M] {
 
   protected val logger = Logger[this.type]
 
