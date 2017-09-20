@@ -70,6 +70,7 @@ lazy val longevitySqliteDeps = Project("longevity-sqlite-deps", file("longevity-
 
 lazy val longevityMigrationsPlugin = Project("sbt-longevity-migrations", file("sbt-longevity-migrations"))
   .settings(BuildSettings.publishSettings)
+  .settings(ScriptedPlugin.scriptedSettings)
   .settings(
       sbtPlugin := true,
       scriptedBufferLog := false,

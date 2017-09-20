@@ -21,3 +21,6 @@ project/plugins/project/
 /longevity_test.db
 /longevity_main.db
 
+/project/.ensime
+/.ensime
+/ensime.sbt
