@@ -72,9 +72,10 @@ lazy val longevityMigrationsPlugin = Project("sbt-longevity-migrations", file("s
   .settings(BuildSettings.publishSettings)
   .settings(ScriptedPlugin.scriptedSettings)
   .settings(
-      sbtPlugin := true,
-      scriptedBufferLog := false,
-      scriptedLaunchOpts += "-Dplugin.version=" + version.value,
-      libraryDependencies += Dependencies.scalaTestDep % "test",
-      homepage := BuildSettings.longevityHomepage,
-      pomExtra := BuildSettings.longevityPomExtra)
+    sbtPlugin := true,
+    scalaVersion := "2.10.6",
+    scriptedBufferLog := false,
+    scriptedLaunchOpts += "-Dplugin.version=" + version.value,
+    libraryDependencies += Dependencies.scalaTestDep % "test",
+    homepage := BuildSettings.longevityHomepage,
+    pomExtra := BuildSettings.longevityPomExtra)
