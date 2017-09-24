@@ -24,3 +24,4 @@ project/plugins/project/
 /project/.ensime
 /.ensime
 /ensime.sbt
+/.ensime_cache/
