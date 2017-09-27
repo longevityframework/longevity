@@ -135,6 +135,8 @@ abstract class PType[M : ModelEv, P : TypeTag] {
     }
   }
 
-  override def toString = s"PType[${pTypeKey.name}]"
+  private[longevity] def name = pTypeKey.name
+
+  override def toString = s"PType[$name]"
 
 }

@@ -6,7 +6,8 @@ lazy val root = Project(id = "root", base = file("."))
     longevityCassandraDeps,
     longevityMongoDbDeps,
     longevitySqliteDeps,
-    longevityMigrationsPlugin)
+    longevityMigrations,
+    sbtLongevityMigrations)
 
 lazy val bin = Project(id = "bin", base = file("bin"))
   .settings(BuildSettings.noPublishSettings)
@@ -68,7 +69,21 @@ lazy val longevitySqliteDeps = Project("longevity-sqlite-deps", file("longevity-
     homepage := BuildSettings.longevityHomepage,
     pomExtra := BuildSettings.longevityPomExtra)
 
-lazy val longevityMigrationsPlugin = Project("sbt-longevity-migrations", file("sbt-longevity-migrations"))
+lazy val longevityMigrations = Project("longevity-migrations", file("longevity-migrations"))
+  .settings(BuildSettings.buildSettings: _*)
+  .settings(
+    libraryDependencies += Dependencies.catsDep,
+    libraryDependencies += Dependencies.catsEffectDep,
+    libraryDependencies += Dependencies.catsIterateeDep,
+    libraryDependencies += Dependencies.journalDep,
+    libraryDependencies += Dependencies.slf4jSimpleDep  % "test",
+    homepage := BuildSettings.longevityHomepage,
+    pomExtra := BuildSettings.longevityPomExtra,
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
+    addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4"))
+  .dependsOn(longevity)
+
+lazy val sbtLongevityMigrations = Project("sbt-longevity-migrations", file("sbt-longevity-migrations"))
   .settings(BuildSettings.publishSettings)
   .settings(ScriptedPlugin.scriptedSettings)
   .settings(

@@ -3,11 +3,10 @@ package longevity.unit.model.annotations
 import longevity.model.ModelType
 import longevity.model.annotations.domainModel
 import org.scalatest.FlatSpec
-import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
 
 /** unit tests for the proper behavior of [[mprops `@domainModel` macro annotation]] */
-class DomainModelSpec extends FlatSpec with GivenWhenThen with Matchers {
+class DomainModelSpec extends FlatSpec with Matchers {
 
   behavior of "@domainModel"
 

@@ -16,4 +16,4 @@ import typekey.TypeKey
  * @see longevity.model.PType
  */
 @implicitNotFound("${P} is not a persistent type in domain model ${M}")
-class PEv[M, P : TypeKey] private[model](private[longevity] val key: TypeKey[P])
+class PEv[M, P] private[model](private[longevity] val key: TypeKey[P])
