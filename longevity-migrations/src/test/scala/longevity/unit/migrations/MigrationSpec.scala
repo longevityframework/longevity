@@ -10,12 +10,12 @@ class MigrationSpec extends FlatSpec with Matchers {
   behavior of "Migration.validate"
 
   it should "produce no errors when all persistents from both models are accounted for" in {
-    val migration1 = Migration.builder[model1.DomainModel, model1.DomainModel]()
+    val migration1 = Migration.builder[model1.DomainModel, model1.DomainModel](None, "v1")
       .update[model1.User, model1.User](identity)
       .build
     migration1.validate.isValid should be (true)
 
-    val migration2 = Migration.builder[model1.DomainModel, model1.DomainModel]()
+    val migration2 = Migration.builder[model1.DomainModel, model1.DomainModel](None, "v1")
       .drop[model1.User]
       .create[model1.User]
       .build
@@ -23,7 +23,7 @@ class MigrationSpec extends FlatSpec with Matchers {
   }
 
   it should "produce an error when a persistent in the initial model is not accounted for" in {
-    val migration1 = Migration.builder[model1.DomainModel, model1.DomainModel]()
+    val migration1 = Migration.builder[model1.DomainModel, model1.DomainModel](None, "v1")
       .create[model1.User]
       .build
     val result = migration1.validate
@@ -35,7 +35,7 @@ class MigrationSpec extends FlatSpec with Matchers {
   }
 
   it should "produce an error when a persistent in the final model is not accounted for" in {
-    val migration1 = Migration.builder[model1.DomainModel, model1.DomainModel]()
+    val migration1 = Migration.builder[model1.DomainModel, model1.DomainModel](None, "v1")
       .drop[model1.User]
       .build
     val result = migration1.validate

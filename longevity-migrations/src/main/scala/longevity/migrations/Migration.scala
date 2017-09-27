@@ -8,11 +8,18 @@ import longevity.model.{ ModelType, PEv, PType }
  *
  * @tparam M1 the initial version of the model - the one we are migrating from
  * @tparam M2 the final version of the model - the one we are migrating to
+ * 
+ * @param version1 the name of the version of the initial domain model. `None` indicates the initial
+ * domain model is unversioned. (the domain model will be unversioned if this is the first time you
+ * are doing a migration on this model.)
+ * @param version2 the name of the version of the final domain model
  * @param config1 the configuration for the initial version of the model
  * @param config2 the configuration for the final version of the model
  * @param steps the steps to perform to complete the migration
  */
 class Migration[M1 : ModelType, M2: ModelType](
+  val version1: Option[String],
+  val version2: String,
   val config1: LongevityConfig,
   val config2: LongevityConfig,
   steps: Seq[MigrationStep[M1, M2]]) {
@@ -53,15 +60,22 @@ object Migration {
    *
    * @tparam M1 the initial version of the model - the one we are migrating from
    * @tparam M2 the final version of the model - the one we are migrating to
+   * 
+   * @param version1 the name of the version of the initial domain model. `None` indicates the initial
+   * domain model is unversioned. (the domain model will be unversioned if this is the first time you
+   * are doing a migration on this model.)
+   * @param version2 the name of the version of the final domain model
    * @param typesafeConfig1 the typesafe configuration for the initial version of the model.
    * defaults to typesafe config's `ConfigFactory.load()`
    * @param typesafeConfig2 the typesafe configuration for the final version of the model.
    * defaults to typesafe config's `ConfigFactory.load()`
    */
   def builder[M1 : ModelType, M2 : ModelType](
+    version1: Option[String],
+    version2: String,
     typesafeConfig1: Config = ConfigFactory.load(),
     typesafeConfig2: Config = ConfigFactory.load()): Builder[M1, M2] =
-    builder(
+    builder(version1, version2,
       LongevityConfig.fromTypesafeConfig(typesafeConfig1),
       LongevityConfig.fromTypesafeConfig(typesafeConfig2))
 
@@ -69,13 +83,20 @@ object Migration {
    *
    * @tparam M1 the initial version of the model - the one we are migrating from
    * @tparam M2 the final version of the model - the one we are migrating to
+   * 
+   * @param version1 the name of the version of the initial domain model. `None` indicates the initial
+   * domain model is unversioned. (the domain model will be unversioned if this is the first time you
+   * are doing a migration on this model.)
+   * @param version2 the name of the version of the final domain model
    * @param config1 the configuration for the initial version of the model
    * @param config2 the typesafe configuration for the final version of the model
    */
   def builder[M1 : ModelType, M2 : ModelType](
+    version1: Option[String],
+    version2: String,
     config1: LongevityConfig,
     config2: LongevityConfig): Builder[M1, M2] =
-    new Builder(config1, config2)
+    new Builder(version1, version2, config1, config2)
 
   /** a migration builder. the builder initially has no steps. add steps with methods [[create]],
    * [[drop]], and [[update]]. once all the steps are added, build the
@@ -83,10 +104,16 @@ object Migration {
    * 
    * @tparam M1 the initial version of the model - the one we are migrating from
    * @tparam M2 the final version of the model - the one we are migrating to
+   * @param version1 the name of the version of the initial domain model. `None` indicates the initial
+   * domain model is unversioned. (the domain model will be unversioned if this is the first time you
+   * are doing a migration on this model.)
+   * @param version2 the name of the version of the final domain model
    * @param config1 the configuration for the initial version of the model
    * @param config2 the typesafe configuration for the final version of the model
    */
   class Builder[M1 : ModelType, M2 : ModelType](
+    version1: Option[String],
+    version2: String,
     config1: LongevityConfig,
     config2: LongevityConfig) {
 
@@ -122,7 +149,7 @@ object Migration {
     }
 
     /** creates and returns the migration */
-    def build: Migration[M1, M2] = new Migration(config1, config2, steps)
+    def build: Migration[M1, M2] = new Migration(version1, version2, config1, config2, steps)
 
   }
 
