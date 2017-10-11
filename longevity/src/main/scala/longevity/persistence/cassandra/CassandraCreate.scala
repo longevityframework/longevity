@@ -3,6 +3,7 @@ package longevity.persistence.cassandra
 import com.datastax.driver.core.BoundStatement
 import com.datastax.driver.core.PreparedStatement
 import java.util.UUID
+import longevity.effect.Effect.Syntax
 import longevity.persistence.PState
 import org.joda.time.DateTime
 
@@ -14,19 +15,24 @@ private[cassandra] trait CassandraCreate[F[_], M, P] {
     val fp = effect.pure(p)
     val fs = effect.map(fp) { p =>
       logger.debug(s"executing CassandraPRepo.create: $p")
-      val id = if (hasPrimaryKey) None else Some(CassandraId[P](UUID.randomUUID))
+      val id = if (hasPrimaryKey) None else Some(CassandraId(UUID.randomUUID))
       val rowVersion = if (persistenceConfig.optimisticLocking) Some(0L) else None
       val createdTimestamp = if (persistenceConfig.writeTimestamps) Some(DateTime.now) else None
       PState(id, rowVersion, createdTimestamp, createdTimestamp, p)
     }
-    val fs2 = effect.mapBlocking(fs) { s =>
-      session().execute(bindInsertStatement(s))
-      s
-    }
+    val fs2 = effect.mapBlocking(fs)(createStateBlocking)
     effect.map(fs2) { s =>
       logger.debug(s"done executing CassandraPRepo.create: $s")
       s
     }
+  }
+
+  private[persistence] def createState(state: PState[P]): F[PState[P]] =
+    effect.pure(state).mapBlocking(createStateBlocking)
+
+  private def createStateBlocking(s: PState[P]): PState[P] = {
+    session().execute(bindInsertStatement(s))
+    s
   }
 
   private def bindInsertStatement(state: PState[P]): BoundStatement = {
@@ -35,7 +41,7 @@ private[cassandra] trait CassandraCreate[F[_], M, P] {
     insertStatement.bind(bindings: _*)
   }
 
-  private lazy val insertStatement: PreparedStatement = {
+  private def insertStatement: PreparedStatement = {
     val names = updateColumnNames(isCreate = true)
     val columns = names.mkString(",\n  ")
     val substitutionPatterns = names.map(c => s":$c").mkString(",\n  ")

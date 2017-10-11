@@ -1,6 +1,7 @@
 package longevity.persistence.cassandra
 
 import com.datastax.driver.core.BoundStatement
+import longevity.effect.Effect.Syntax
 import longevity.exceptions.persistence.WriteConflictException
 import longevity.persistence.PState
 
@@ -10,16 +11,16 @@ private[cassandra] trait CassandraUpdate[F[_], M, P] {
 
   def update(state: PState[P]): F[PState[P]] = {
     val fs = effect.pure(state)
-    val fss = effect.map(fs) { s =>
+    val fss = fs.map { s =>
       logger.debug(s"executing CassandraPRepo.update: $s")
       validateStablePrimaryKey(s)
       (s, s.update(persistenceConfig.optimisticLocking, persistenceConfig.writeTimestamps))
     }
-    val fsr = effect.mapBlocking(fss) { case (oldState, newState) =>
+    val fsr = fss.mapBlocking { case (oldState, newState) =>
       val resultSet = session().execute(bindUpdateStatement(newState, oldState.rowVersionOrNull))
       (newState, resultSet)
     }
-    effect.map(fsr) { case (s, r) =>
+    fsr.map { case (s, r) =>
       if (persistenceConfig.optimisticLocking) {
         val updateSuccess = r.one.getBool(0)
         if (!updateSuccess) {
@@ -41,7 +42,7 @@ private[cassandra] trait CassandraUpdate[F[_], M, P] {
     updateStatement.bind(columnBindings: _*)
   }
 
-  private lazy val updateStatement = preparedStatement(updateCql)
+  private def updateStatement = preparedStatement(updateCql)
 
   private def updateCql = if (persistenceConfig.optimisticLocking) {
     withLockingUpdateCql
@@ -64,4 +65,26 @@ private[cassandra] trait CassandraUpdate[F[_], M, P] {
   |  row_version = :row_version
   |""".stripMargin
 
+  private lazy val updateMigrationStartedCql =
+    s"UPDATE $tableName SET migration_started = true WHERE $whereAssignments"
+
+  private def updateMigrationStartedStatement = preparedStatement(updateMigrationStartedCql)
+
+  protected[persistence] def updateMigrationStarted(state: PState[P]): F[Unit] =
+    effect.pure(state).mapBlocking { s =>
+      session().execute(updateMigrationStartedStatement.bind(whereBindings(s): _*))
+      ()
+    }
+
+  private lazy val updateMigrationCompleteCql =
+    s"UPDATE $tableName SET migration_complete = true WHERE $whereAssignments"
+
+  private def updateMigrationCompleteStatement = preparedStatement(updateMigrationCompleteCql)
+
+  protected[persistence] def updateMigrationComplete(state: PState[P]): F[Unit] =
+    effect.pure(state).mapBlocking { s =>
+      session().execute(updateMigrationCompleteStatement.bind(whereBindings(s): _*))
+      ()
+    }
+  
 }

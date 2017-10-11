@@ -1,5 +1,6 @@
 package longevity.persistence.streams
 
+import longevity.effect.Effect.Syntax
 import longevity.model.PEv
 import longevity.model.query.Query
 import longevity.persistence.PState
@@ -20,11 +21,16 @@ import scala.concurrent.ExecutionContext
  */
 class PlayRepo[F[_], M](repo: Repo[F, M]) {
 
+  private implicit def implicitF = repo.implicitF
+
   /** streams persistent objects matching a query
    *
    * @param query the query to execute
    */
   def queryToPlay[P: PEv[M, ?]](query: Query[P])(implicit context: ExecutionContext): F[Enumerator[PState[P]]] =
-    repo.pRepoMap(implicitly[PEv[M, P]].key).queryToPlayImpl(query)
+    for {
+      pr <- repo.pRepoF[P]
+      e  <- pr.queryToPlayImpl(query)
+    } yield e
 
 }

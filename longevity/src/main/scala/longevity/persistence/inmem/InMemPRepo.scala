@@ -29,10 +29,12 @@ with InMemWrite[F, M, P] {
 
   protected val logger = Logger[this.type]
 
-  protected var idToPStateMap = Map[DatabaseId[_], PState[P]]()
+  protected var idToPStateMap = Map[DatabaseId, PState[P]]()
   protected var keyValToPStateMap = Map[Any, PState[P]]()
 
   protected[persistence] def createSchemaBlocking(): Unit = ()
+  protected[persistence] def createMigrationSchemaBlocking(): Unit = ()
+  protected[persistence] def dropSchemaBlocking(): Unit = ()
 
   override def toString = s"InMemPRepo[${pTypeKey.name}]"
 

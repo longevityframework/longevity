@@ -42,9 +42,9 @@ private[jdbc] trait JdbcSchema[F[_], M, P] {
     if (s.isEmpty) s else s"$s,"
   }
 
-  private def primaryKeyDef = if (hasPrimaryKey) s"PRIMARY KEY ($partitionColumns)" else s"PRIMARY KEY (id)"
+  private def primaryKeyDef = if (hasPrimaryKey) s"PRIMARY KEY ($primaryKeyColumns)" else s"PRIMARY KEY (id)"
 
-  private def partitionColumns = partitionComponents.map(columnName).mkString(", ")
+  private def primaryKeyColumns = primaryKeyComponents.map(columnName).mkString(", ")
 
   private def columnDef(component: RealizedPropComponent[_ >: P, _, _]) =
     s"${columnName(component)} ${componentToJdbcType(component)}"
@@ -91,5 +91,17 @@ private[jdbc] trait JdbcSchema[F[_], M, P] {
   }
 
   private def scoredPath(prop: RealizedProp[_, _]) = prop.inlinedPath.replace('.', '_')
+
+  protected[persistence] def createMigrationSchemaBlocking(): Unit = {
+    addColumn("migration_started", "boolean")
+    addColumn("migration_complete", "boolean")
+    createIndex(false, s"${tableName}_migration_complete", Seq("migration_complete"))
+  }
+
+  protected[persistence] def dropSchemaBlocking(): Unit = {
+    val dropTable = s"DROP TABLE IF EXISTS $tableName"
+    logger.debug(s"executing SQL: $dropTable")
+    connection().prepareStatement(dropTable).execute()
+  }
 
 }

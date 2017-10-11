@@ -9,6 +9,12 @@ sealed trait QueryFilter[P]
 /** a query that filters nothing and returns everything */
 sealed case class FilterAll[P]() extends QueryFilter[P]
 
+/** a query for all rows that are not already migrated.
+ *
+ * note that this query should NOT be combined into a larger filter with ConditionalFilter!
+ */
+private[longevity] sealed case class FilterUnmigrated[P]() extends QueryFilter[P]
+
 /** an equality query filter. compares a property to a value with an `eq`,
  * `neq`, `lt`, `lte`, `gt`, or `gte` operator.
  *
@@ -75,6 +81,7 @@ object QueryFilter {
 
     filter match {
       case FilterAll() => true
+      case FilterUnmigrated() => true
       case q: RelationalFilter[_, _] => relationalQueryMatches(q)
       case ConditionalFilter(lhs, op, rhs) => op match {
         case AndOp => matches(lhs, p, realizedPType) && matches(rhs, p, realizedPType)

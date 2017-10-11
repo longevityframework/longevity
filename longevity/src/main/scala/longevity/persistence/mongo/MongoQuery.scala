@@ -9,6 +9,7 @@ import longevity.model.query.Ascending
 import longevity.model.query.ConditionalFilter
 import longevity.model.query.Descending
 import longevity.model.query.FilterAll
+import longevity.model.query.FilterUnmigrated
 import longevity.model.query.OrOp
 import longevity.model.query.Query
 import longevity.model.query.QueryFilter
@@ -65,6 +66,7 @@ private[mongo] trait MongoQuery[F[_], M, P] {
   protected def mongoFilter(filter: QueryFilter[P]): Bson = {
     filter match {
       case FilterAll() => doc("$comment", new BsonString("matching FilterAll"))
+      case FilterUnmigrated() => Filters.ne("_migrationComplete", true)
       case RelationalFilter(prop, op, value) => mongoRelationalFilter(prop, op, value)
       case ConditionalFilter(lhs, op, rhs) => op match {
         case AndOp => Filters.and(mongoFilter(lhs), mongoFilter(rhs))

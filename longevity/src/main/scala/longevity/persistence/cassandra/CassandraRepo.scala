@@ -75,6 +75,7 @@ extends Repo[F, M](effect, modelType, persistenceConfig) {
     if (sessionOpt.isEmpty) throw new ConnectionClosedException
     sessionOpt.get.close()
     sessionOpt.get.getCluster.close()
+    pRepoMap.values.foreach { pr => pr.preparedStatements = Map() }
     sessionOpt = None
   }
 

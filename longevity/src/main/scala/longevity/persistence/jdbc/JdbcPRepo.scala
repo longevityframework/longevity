@@ -41,27 +41,27 @@ with JdbcDelete[F, M, P] {
 
   protected val logger = Logger[this.type]
 
-  protected[jdbc] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
-
-  protected val partitionComponents = realizedPType.primaryKey match {
-    case Some(key) => key.partitionProps.flatMap {
-      _.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]
+  protected[jdbc] val tableName = {
+    def raw = camelToUnderscore(typeName(pTypeKey.tpe))
+    persistenceConfig.modelVersion match {
+      case Some(v) => s"${raw}_$v"
+      case None => raw
     }
-    case None => Seq.empty
   }
 
-  protected val postPartitionComponents = realizedPType.primaryKey match {
-    case Some(key) => key.postPartitionProps.flatMap {
-      _.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]
+  protected[jdbc] lazy val primaryKeyComponents: Seq[RealizedPropComponent[_ >: P, _, _]] = {
+    realizedPType.primaryKey match {
+      case Some(key) => key.props.flatMap {
+        _.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]
+      }
+      case None => Seq.empty
     }
-    case None => Seq.empty
   }
 
-  protected val primaryKeyComponents = partitionComponents ++ postPartitionComponents
+  // all components including those in the primary key
+  protected val actualizedComponents = indexedComponents ++ primaryKeyComponents
 
-  protected val actualizedComponents =
-    indexedComponents ++ (primaryKeyComponents: Seq[RealizedPropComponent[_ >: P, _, _]])
-
+  // all components excluding those in the primary key
   protected[jdbc] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
     val keyComponents = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPrimaryKey[M, _, _]]).flatMap {
       _.realizedProp.realizedPropComponents: Seq[RealizedPropComponent[_ >: P, _, _]]
@@ -143,7 +143,7 @@ with JdbcDelete[F, M, P] {
     }
   }
 
-  protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[JdbcId[P]].uuid
+  protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[JdbcId].uuid
 
   protected def whereAssignments = if (hasPrimaryKey) {
     primaryKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
@@ -154,7 +154,7 @@ with JdbcDelete[F, M, P] {
   protected def whereBindings(state: PState[P]) = if (hasPrimaryKey) {
     primaryKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
   } else {
-    Seq(state.id.get.asInstanceOf[JdbcId[P]].uuid)
+    Seq(state.id.get.asInstanceOf[JdbcId].uuid)
   }
 
   private def propValBinding[PP >: P, A](component: RealizedPropComponent[PP, _, A], p: P): AnyRef = {
@@ -170,9 +170,9 @@ with JdbcDelete[F, M, P] {
   protected def jdbcDate(d: DateTime) = new java.util.Date(d.getMillis)
 
   // totally assumes you already called resultSet.next() and it returned true
-  protected def retrieveFromResultSet(resultSet: ResultSet): PState[P] = {
+  protected def retrieveFromResultSet(resultSet: ResultSet, migrating: Boolean = false): PState[P] = {
     val id = if (!hasPrimaryKey) {
-      Some(JdbcId[P](UUID.fromString(resultSet.getString("id"))))
+      Some(JdbcId(UUID.fromString(resultSet.getString("id"))))
     } else {
       None
     }
@@ -187,10 +187,15 @@ with JdbcDelete[F, M, P] {
     } else {
       (None, None)
     }
+    val (migrationStarted, migrationComplete) = if (migrating) {
+      (resultSet.getBoolean("migration_started"), resultSet.getBoolean("migration_complete"))
+    } else {
+      (false, false)
+    }
     import org.json4s.native.JsonMethods._    
     val json = parse(resultSet.getString("p"))
     val p = jsonToEmblematicTranslator.translate[P](json)(pTypeKey)
-    PState[P](id, rowVersion, createdTimestamp, updatedTimestamp, p)
+    PState[P](id, rowVersion, createdTimestamp, updatedTimestamp, migrationStarted, migrationComplete, p, p)
   }
 
   /** converts a duplicate key exception (ie unique constraint violation) from the underlying database

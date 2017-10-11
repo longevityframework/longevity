@@ -32,7 +32,13 @@ with MongoWrite[F, M, P] {
 
   protected val logger = Logger[this.type]
 
-  protected def collectionName = uncapitalize(typeName(pTypeKey.tpe))
+  protected def collectionName = {
+    def raw = uncapitalize(typeName(pTypeKey.tpe))
+    persistenceConfig.modelVersion match {
+      case Some(v) => s"${raw}_$v"
+      case None => raw
+    }
+  }
 
   protected[mongo] def mongoCollection = session().db.getCollection(collectionName, classOf[BsonDocument])
 

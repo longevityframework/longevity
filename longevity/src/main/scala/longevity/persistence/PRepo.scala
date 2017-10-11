@@ -9,6 +9,7 @@ import fs2.Task
 import io.iteratee.{ Enumerator => CatsEnumerator }
 import longevity.exceptions.persistence.UnstablePrimaryKeyException
 import longevity.effect.Effect
+import longevity.effect.Effect.Syntax
 import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.ptype.Key
@@ -32,6 +33,8 @@ private[longevity] abstract class PRepo[F[_], M, P] private[persistence] (
   protected val modelType: ModelType[M],
   protected val pType: PType[M, P]) {
 
+  protected implicit def implicitF = effect
+
   private[persistence] var _repoOption: Option[Repo[F, M]] = None
 
   /** the pool of all the repos for the [[longevity.context.PersistenceContext]] */
@@ -42,13 +45,15 @@ private[longevity] abstract class PRepo[F[_], M, P] private[persistence] (
   /** the type key for the persistent entities this repository handles */
   protected[persistence] val pTypeKey: TypeKey[P] = pType.pTypeKey
 
-  protected def hasPrimaryKey = realizedPType.primaryKey.nonEmpty
+  protected[persistence] def hasPrimaryKey = realizedPType.primaryKey.nonEmpty
 
   def create(unpersisted: P): F[PState[P]]
 
+  private[persistence] def createState(state: PState[P]): F[PState[P]]
+
   def retrieve[V : Key[M, P, ?]](keyVal: V): F[Option[PState[P]]]
 
-  def retrieveOne[V : Key[M, P, ?]](keyVal: V): F[PState[P]] = effect.map(retrieve(keyVal))(_.get)
+  def retrieveOne[V : Key[M, P, ?]](keyVal: V): F[PState[P]] = retrieve(keyVal).map(_.get)
 
   def update(state: PState[P]): F[PState[P]]
 
@@ -75,6 +80,14 @@ private[longevity] abstract class PRepo[F[_], M, P] private[persistence] (
     effect.map(effect.pure(query))(q => chunkeratorToPlayEnumerator.adapt(queryToChunkerator(q)))
 
   protected[persistence] def createSchemaBlocking(): Unit
+
+  protected[persistence] def createMigrationSchemaBlocking(): Unit
+
+  protected[persistence] def updateMigrationStarted(state: PState[P]): F[Unit]
+
+  protected[persistence] def updateMigrationComplete(state: PState[P]): F[Unit]
+
+  protected[persistence] def dropSchemaBlocking(): Unit
 
   protected def validateStablePrimaryKey(state: PState[P]): Unit = {
     realizedPType.primaryKey.map { key =>

@@ -68,8 +68,7 @@ private[longevity] class RealizedPType[M, P](
 
       def accumulateKey[V](key: Key[M, P, _]) = acc + (kvtk -> realizedKeyForKey(key))
 
-      def accumulatePKey[V](key: PrimaryKey[M, P, _]) =
-        acc + (kvtk -> realizedKeyForPrimaryKey(key))
+      def accumulatePKey[V](key: PrimaryKey[M, P, _]) = acc + (kvtk -> realizedKeyForPrimaryKey(key))
 
       pType.primaryKey match {
         case Some(pk) if pk == key => accumulatePKey(pk)

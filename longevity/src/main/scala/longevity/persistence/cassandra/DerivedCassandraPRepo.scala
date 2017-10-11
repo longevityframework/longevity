@@ -10,11 +10,16 @@ private[cassandra] trait DerivedCassandraPRepo[F[_], M, P, Poly >: P] extends Ca
 
   override protected[cassandra] val tableName: String = polyRepo.tableName
 
+  override protected[persistence] def hasPrimaryKey = polyRepo.hasPrimaryKey
+
   override protected def jsonStringForP(p: P): String = {
     // we use the poly type key here so we get the discriminator in the JSON
     import org.json4s.native.JsonMethods._
     compact(render(emblematicToJsonTranslator.translate[Poly](p)(polyRepo.pTypeKey)))
   }
+
+  override protected[cassandra] val (partitionComponents, postPartitionComponents) =
+    (polyRepo.partitionComponents, polyRepo.postPartitionComponents)
 
   override protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
     myIndexedComponents ++ polyRepo.indexedComponents
@@ -23,15 +28,17 @@ private[cassandra] trait DerivedCassandraPRepo[F[_], M, P, Poly >: P] extends Ca
   private def myIndexedComponents = super.indexedComponents
 
   override protected[persistence] def createSchemaBlocking(): Unit = {
-    createActualizedPropColumns()
+    createIndexedPropColumns()
     createIndexes()
   }
 
-  private def createActualizedPropColumns(): Unit = {
-    actualizedComponents.map {
-      prop => addColumn(columnName(prop), componentToCassandraType(prop))
-    }
+  override protected def createIndexes(): Unit = myIndexedComponents.foreach(createIndex)
+  
+  private def createIndexedPropColumns(): Unit = myIndexedComponents.map {
+    prop => addColumn(columnName(prop), componentToCassandraType(prop))
   }
+
+  override protected[persistence] def dropSchemaBlocking(): Unit = ()
 
   override protected def updateColumnNames(isCreate: Boolean = true): Seq[String] = {
     super.updateColumnNames(isCreate) :+ "discriminator"

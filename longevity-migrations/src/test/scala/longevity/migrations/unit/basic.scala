@@ -1,4 +1,6 @@
-package model1 {
+package longevity.migrations.unit
+
+package basic {
 
   import longevity.model.annotations._
 

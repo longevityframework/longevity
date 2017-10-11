@@ -2,8 +2,6 @@ package longevity.migrations
 
 import longevity.model.PEv
 
-// TODO: scaladocs
-
 /** a single step in a [[Migration]]
  * 
  * @tparam M1 the initial version of the model

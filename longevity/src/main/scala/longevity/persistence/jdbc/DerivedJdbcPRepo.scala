@@ -10,17 +10,19 @@ private[persistence] trait DerivedJdbcPRepo[F[_], M, P, Poly >: P] extends JdbcP
 
   override protected[jdbc] val tableName: String = polyRepo.tableName
 
+  override protected[persistence] def hasPrimaryKey = polyRepo.hasPrimaryKey
+
   override protected def jsonStringForP(p: P): String = {
     // we use the poly type key here so we get the discriminator in the JSON
     import org.json4s.native.JsonMethods._
     compact(render(emblematicToJsonTranslator.translate[Poly](p)(polyRepo.pTypeKey)))
   }
 
-  override protected[jdbc] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
-    myIndexedComponents ++ polyRepo.indexedComponents
-  }
+  override protected[jdbc] lazy val primaryKeyComponents: Seq[RealizedPropComponent[_ >: P, _, _]] =
+    polyRepo.primaryKeyComponents
 
-  private def myIndexedComponents = super.indexedComponents
+  override protected[jdbc] lazy val indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] =
+    super.indexedComponents ++ polyRepo.indexedComponents
 
   override protected[persistence] def createSchemaBlocking(): Unit = {
     createActualizedPropColumns()
@@ -33,6 +35,8 @@ private[persistence] trait DerivedJdbcPRepo[F[_], M, P, Poly >: P] extends JdbcP
       prop => addColumn(columnName(prop), componentToJdbcType(prop))
     }
   }
+
+  override protected[persistence] def dropSchemaBlocking(): Unit = ()
 
   override protected def updateColumnNames(isCreate: Boolean = true): Seq[String] = {
     super.updateColumnNames(isCreate) :+ "discriminator"

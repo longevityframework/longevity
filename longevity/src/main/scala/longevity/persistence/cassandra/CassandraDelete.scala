@@ -44,9 +44,7 @@ private[cassandra] trait CassandraDelete[F[_], M, P] {
     boundStatement.bind(bindings: _*)
   }
 
-  protected[cassandra] def deleteStatement = deleteStatementPreparedOnce
-
-  private lazy val deleteStatementPreparedOnce = preparedStatement(deleteStatementCql)
+  protected[cassandra] def deleteStatement = preparedStatement(deleteStatementCql)
 
   private def deleteStatementCql: String = if (persistenceConfig.optimisticLocking) {
     s"""|

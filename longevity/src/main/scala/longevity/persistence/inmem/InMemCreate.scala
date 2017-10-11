@@ -1,5 +1,6 @@
 package longevity.persistence.inmem
 
+import longevity.effect.Effect.Syntax
 import longevity.persistence.PState
 
 /** implementation of InMemPRepo.create */
@@ -14,18 +15,23 @@ private[inmem] trait InMemCreate[F[_], M, P] {
       (p, rowVersion)
     }
     val fs = effect.mapBlocking(fpr) { case (p, r) =>
-      repo.synchronized {
-        val state = PState(IntId[P](nextId), r, None, None, p)
-        assertUniqueKeyVals(state)
-        registerById(state)
-        registerByKeyVals(state)
-        state
-      }
+      repo.synchronized(createStateBlocking(PState(IntId(nextId), r, None, None, p)))
     }
     effect.map(fs) { s =>
       logger.debug(s"done executing InMemPRepo.create: $s")
       s
     }
+  }
+
+  private[persistence] def createState(state: PState[P]): F[PState[P]] =
+    effect.pure(()).map(_ => repo.synchronized(createStateBlocking(state)))
+
+  // calls to this method must be wrapped in a repo.synchronized call
+  private def createStateBlocking(state: PState[P]): PState[P] = {
+    assertUniqueKeyVals(state)
+    registerById(state)
+    registerByKeyVals(state)
+    state
   }
 
 }

@@ -1,0 +1,11 @@
+use longevity_test ;
+db.dropDatabase() ;
+
+use longevity_migrations_test_basic ;
+db.dropDatabase() ;
+
+use longevity_migrations_test_failures ;
+db.dropDatabase() ;
+
+use longevity_migrations_test_poly ;
+db.dropDatabase() ;

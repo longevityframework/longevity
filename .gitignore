@@ -25,3 +25,7 @@ project/plugins/project/
 /.ensime
 /ensime.sbt
 /.ensime_cache/
+/project/.ensime_cache/
+/longevity_migrations_test_basic.db
+/longevity_migrations_test_failures.db
+/longevity_migrations_test_poly.db

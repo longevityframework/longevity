@@ -21,6 +21,10 @@ private[mongo] trait DerivedMongoPRepo[F[_], M, P, Poly >: P] extends MongoPRepo
     hashed: Boolean = false): Unit =
     super.createIndex("discriminator" +: paths, indexName, unique, hashed)
 
+  override protected[persistence] def createMigrationSchemaBlocking(): Unit = ()
+
+  override protected[persistence] def dropSchemaBlocking(): Unit = ()
+
   override protected def translate(p: P): BsonDocument = {
     // we use the poly type key here so we get the discriminator in the BSON
     domainModelToBsonTranslator.translate[Poly](p, false)(polyRepo.pTypeKey).asDocument

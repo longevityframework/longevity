@@ -1,6 +1,5 @@
 package longevity.model.query
 
-
 /** a query for looking up persistent objects of type `P` */
 case class Query[P](
   filter: QueryFilter[P],

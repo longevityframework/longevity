@@ -1,8 +1,8 @@
 package longevity.migrations
 
-import com.typesafe.config.{ Config, ConfigFactory }
+import com.typesafe.config.{Config, ConfigFactory}
 import longevity.config.LongevityConfig
-import longevity.model.{ ModelType, PEv, PType }
+import longevity.model.{DerivedPType, ModelType, PEv, PType}
 
 /** describes a migration from one version of a domain model to another
  *
@@ -17,43 +17,60 @@ import longevity.model.{ ModelType, PEv, PType }
  * @param config2 the configuration for the final version of the model
  * @param steps the steps to perform to complete the migration
  */
-class Migration[M1 : ModelType, M2: ModelType](
-  val version1: Option[String],
-  val version2: String,
-  val config1: LongevityConfig,
-  val config2: LongevityConfig,
-  steps: Seq[MigrationStep[M1, M2]]) {
+class Migration[M1 : ModelType, M2: ModelType] private (
+  val version1: Option[String], 
+  val version2: String, 
+  val config1: LongevityConfig, 
+  val config2: LongevityConfig, 
+  val steps: Seq[MigrationStep[M1, M2]]) {
 
-  private val modelType1 = implicitly[ModelType[M1]]
-  private val modelType2 = implicitly[ModelType[M2]]
+  private[migrations] val modelType1 = implicitly[ModelType[M1]]
+  private[migrations] val modelType2 = implicitly[ModelType[M2]]
 
   /** checks if the migration is valid. returns a summary of the validity check */
   def validate: ValidationResult = {
-    val (pTypes1, pTypes2) = steps.foldLeft(
+    val (initialPTypes, finalPTypes) = pTypesFromSteps
+    val errors = validationErrors(initialPTypes, finalPTypes)
+    new ValidationResult(errors)
+  }
+
+  private def pTypesFromSteps: (Set[PType[M1, _]], Set[PType[M2, _]]) = {
+    steps.foldLeft(
       (Set[PType[M1, _]](), Set[PType[M2, _]]())) {
-      case ((pTypes1, pTypes2), step) =>
+      case ((initialPTypes, finalPTypes), step) =>
         step match {
           case s: DropStep[M1, M2, _] =>
             val pType1 = modelType1.pTypePool(s.pEv1.key)
-            (pTypes1 + pType1, pTypes2)
+            (initialPTypes + pType1, finalPTypes)
           case s: CreateStep[M1, M2, _] =>
             val pType2 = modelType2.pTypePool(s.pEv2.key)
-            (pTypes1, pTypes2 + pType2)
+            (initialPTypes, finalPTypes + pType2)
           case s: UpdateStep[M1, M2, _, _] =>
             val pType1 = modelType1.pTypePool(s.pEv1.key)
             val pType2 = modelType2.pTypePool(s.pEv2.key)
-            (pTypes1 + pType1, pTypes2 + pType2)
+            (initialPTypes + pType1, finalPTypes + pType2)
         }
     }
-    val missingPTypes1 = modelType1.pTypePool.values.toSet -- pTypes1
-    val missingPTypes2 = modelType2.pTypePool.values.toSet -- pTypes2
-    val errors1 = missingPTypes1.map { pType => new InitialPersistentMissing(pType.name) }
-    val errors2 = missingPTypes2.map { pType => new FinalPersistentMissing(pType.name) }
-    new ValidationResult((errors1 ++ errors2).toSeq)
   }
+
+  private def validationErrors(initialPTypes: Set[PType[M1, _]], finalPTypes: Set[PType[M2, _]]) = {
+    val missingInitialPTypes = nonDerivedPTypesFromModel[M1] -- initialPTypes
+    val missingFinalPTypes = nonDerivedPTypesFromModel[M2] -- finalPTypes
+    val initialMissings = missingInitialPTypes.map { pType => new InitialPersistentMissing(pType.name) }
+    val finalMissings = missingFinalPTypes.map { pType => new FinalPersistentMissing(pType.name) }
+    val initialDeriveds = filterDerived(initialPTypes).map { pType => new InitialDerivedPresent(pType.name) }
+    val finalDeriveds = filterDerived(finalPTypes).map { pType => new FinalDerivedPresent(pType.name) }
+    (initialMissings ++ finalMissings ++ initialDeriveds ++ finalDeriveds).toSeq
+  }
+
+  private def nonDerivedPTypesFromModel[M : ModelType]: Set[PType[M, _]] =
+    implicitly[ModelType[M]].pTypePool.values.filter(!_.isInstanceOf[DerivedPType[_, _, _]]).toSet
+
+  private def filterDerived[M](all: Set[PType[M, _]]) = all.filter(_.isInstanceOf[DerivedPType[_, _, _]]) 
 
 }
 
+/** contains methods for creating a migration builder */
 object Migration {
 
   /** creates a migration builder

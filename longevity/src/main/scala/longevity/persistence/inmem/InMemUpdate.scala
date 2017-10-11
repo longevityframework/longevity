@@ -1,6 +1,7 @@
 package longevity.persistence.inmem
 
 import longevity.persistence.PState
+import longevity.effect.Effect.Syntax
 
 /** implementation of InMemPRepo.update */
 private[inmem] trait InMemUpdate[F[_], M, P] {
@@ -8,7 +9,7 @@ private[inmem] trait InMemUpdate[F[_], M, P] {
 
   def update(state: PState[P]) = {
     val fs = effect.pure(state)
-    val fss = effect.map(fs) { state =>
+    val fss = fs.map { state =>
       logger.debug(s"executing InMemPRepo.update: $state")
       validateStablePrimaryKey(state)
       val rowVersion = if (persistenceConfig.optimisticLocking) {
@@ -16,10 +17,10 @@ private[inmem] trait InMemUpdate[F[_], M, P] {
       } else {
         None
       }
-      val newState = PState[P](state.id, rowVersion, None, None, state.get)
+      val newState = state.copy(rowVersion = rowVersion, orig = state.get)
       (state, newState)
     }
-    val fns = effect.mapBlocking(fss) { case (state, newState) =>
+    val fns = fss.mapBlocking { case (state, newState) =>
       repo.synchronized {
         assertNoWriteConflict(state)
         assertUniqueKeyVals(state)
@@ -29,10 +30,18 @@ private[inmem] trait InMemUpdate[F[_], M, P] {
       }
       newState
     }
-    effect.map(fns) { ns =>
+    fns.map { ns =>
       logger.debug(s"done executing InMemPRepo.update: $ns")
       ns
     }
   }
+
+  // these implementations are a bit naive, but should be sufficient for inmem migrations:
+
+  protected[persistence] def updateMigrationStarted(state: PState[P]): F[Unit] =
+    update(state.copy(migrationStarted = true)).map(_ => ())
+
+  protected[persistence] def updateMigrationComplete(state: PState[P]): F[Unit] =
+    update(state.copy(migrationComplete = true)).map(_ => ())
 
 }

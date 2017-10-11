@@ -3,6 +3,7 @@ package longevity.test
 import journal.Logger
 import longevity.config.BackEnd
 import longevity.context.LongevityContext
+import longevity.model.DerivedPType
 import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.model.realized.RealizedKey
@@ -70,6 +71,11 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] {
   private class RepoSpec[P](val pType: PType[M, P]) {
     private implicit val pEv = pType.pEv
     private val realizedPType = longevityContext.modelType.realizedPTypes(pType)
+    private val realizedPolyPType = pType match {
+      case d: DerivedPType[M, _, P] =>
+        Some(longevityContext.modelType.realizedPTypes(longevityContext.modelType.pTypePool(d.polyPTypeKey)))
+      case _ => None
+    }
     private val pName = pEv.key.name
 
     object Create extends Tag("Create")
@@ -107,10 +113,12 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] {
     it should s"persist updates to a persisted $pName" taggedAs(Update) in {
       val key = randomPTypeKey
       val originalP = randomP(key)
-      val modifiedP = realizedPType.keySet.foldLeft(randomP(key)) { (modified, key) =>
-        def updateByOriginalKeyVal[V](key: RealizedKey[M, P, V]) = {
+      val keys: Seq[RealizedKey[M, _ >: P, _]] =
+        realizedPType.keySet.toSeq ++ realizedPolyPType.map(_.keySet.toSeq).getOrElse(Seq())
+      val modifiedP = keys.foldLeft(randomP(key)) { (modified, key: RealizedKey[M, _ >: P, _]) =>
+        def updateByOriginalKeyVal[V](key: RealizedKey[M, _ >: P, V]): P = {
           val originalKeyVal = key.keyValForP(originalP)
-          key.updateKeyVal(modified, originalKeyVal)
+          key.updateKeyVal(modified, originalKeyVal).asInstanceOf[P]
         }
         updateByOriginalKeyVal(key)
       }

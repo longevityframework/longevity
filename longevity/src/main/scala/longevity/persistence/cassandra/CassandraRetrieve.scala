@@ -27,10 +27,8 @@ private[cassandra] trait CassandraRetrieve[F[_], M, P] {
   protected def retrieveFromBoundStatement(statement: BoundStatement) = {
     val resultSet = session().execute(statement)
     val rowOption = Option(resultSet.one)
-    rowOption.map(retrieveFromRow)
+    rowOption.map(retrieveFromRow(_, false))
   }
-
-  private var keyValSelectStatements = Map[RealizedKey[M, P, _], PreparedStatement]()
 
   private def bindKeyValSelectStatement[V : Key[M, P, ?]](keyVal: V): BoundStatement = {
     val tk = implicitly[Key[M, P, V]].keyValTypeKey
@@ -38,17 +36,9 @@ private[cassandra] trait CassandraRetrieve[F[_], M, P] {
     val propVals = realizedKey.realizedProp.realizedPropComponents.map { component =>
       cassandraValue(component.innerPropPath.get(keyVal))
     }
-    val preparedStatement = synchronized {
-      if (keyValSelectStatements.contains(realizedKey)) {
-        keyValSelectStatements(realizedKey)
-      } else {
-        val statement = keyValSelectStatement(realizedKey)
-        keyValSelectStatements += realizedKey -> statement
-        statement
-      }
-    }
-    logger.debug(s"invoking CQL: ${preparedStatement.getQueryString} with bindings: $propVals")
-    preparedStatement.bind(propVals: _*)
+    val statement = keyValSelectStatement(realizedKey)
+    logger.debug(s"invoking CQL: ${statement.getQueryString} with bindings: $propVals")
+    statement.bind(propVals: _*)
   }
 
   private def keyValSelectStatement(key: RealizedKey[M, P, _]): PreparedStatement = {

@@ -2,6 +2,7 @@ package longevity.persistence.streams
 
 import fs2.Stream
 import fs2.Task
+import longevity.effect.Effect.Syntax
 import longevity.model.PEv
 import longevity.model.query.Query
 import longevity.persistence.PState
@@ -17,11 +18,15 @@ import longevity.persistence.Repo
  */
 class FS2Repo[F[_], M](repo: Repo[F, M]) {
 
+  private implicit def implicitF = repo.implicitF
+
   /** streams persistent objects matching a query
    *
    * @param query the query to execute
    */
-  def queryToFS2[P: PEv[M, ?]](query: Query[P]): F[Stream[Task, PState[P]]] =
-    repo.pRepoMap(implicitly[PEv[M, P]].key).queryToFS2Impl(query)
+  def queryToFS2[P: PEv[M, ?]](query: Query[P]): F[Stream[Task, PState[P]]] = for {
+    pr  <- repo.pRepoF[P]
+    fs2 <- pr.queryToFS2Impl(query)
+  } yield fs2
 
 }

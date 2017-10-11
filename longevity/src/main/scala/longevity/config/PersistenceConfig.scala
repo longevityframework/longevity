@@ -3,6 +3,9 @@ package longevity.config
 /** configuration for persistence that is [[BackEnd back end]] agnostic */
 private[longevity] trait PersistenceConfig {
 
+  /** the domain model version. `None` whenever the model is unversioned */
+  val modelVersion: Option[String]
+
   /** should longevity automatically open the connection when the repositories are created? */
   val autoOpenConnection: Boolean
 

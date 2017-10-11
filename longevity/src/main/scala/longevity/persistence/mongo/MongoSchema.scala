@@ -7,7 +7,6 @@ import org.bson.BsonString
 import org.bson.BsonBoolean
 import org.bson.BsonDocument
 import longevity.model.ptype.Index
-import longevity.model.ptype.Partition
 import longevity.model.realized.RealizedKey
 import longevity.model.realized.RealizedPrimaryKey
 
@@ -100,9 +99,6 @@ private[mongo] trait MongoSchema[F[_], M, P] {
   private def indexName(index: Index[P]): String =
     indexName(index.props.map(realizedPType.realizedProps(_).inlinedPath))
 
-  private def indexName(partition: Partition[P]): String =
-    indexName(partition.props.map(realizedPType.realizedProps(_).inlinedPath))
-
   private def indexName(paths: Seq[String]): String = {
     val cappedSegments: Seq[String] = paths.map {
       path => path.split('.').mkString("_")
@@ -134,6 +130,15 @@ private[mongo] trait MongoSchema[F[_], M, P] {
 
     logger.debug(s"calling MongoCollection.createIndex: $document $options")
     mongoCollection.createIndex(document, options)
+  }
+
+  protected[persistence] def createMigrationSchemaBlocking(): Unit = {
+    createIndex(Seq("_migrationComplete"), "migrationComplete", false)
+  }
+
+  protected[persistence] def dropSchemaBlocking(): Unit = {
+    logger.debug(s"dropping MongoDB collection $collectionName")
+    mongoCollection.drop()
   }
 
 }

@@ -1,7 +1,5 @@
 package longevity.migrations
 
-// TODO scaladoc
-
 /** a validation error that occur in a migration */
 sealed trait ValidationError {
 
@@ -26,4 +24,22 @@ class InitialPersistentMissing(val name: String) extends ValidationError {
  */
 class FinalPersistentMissing(val name: String) extends ValidationError {
   def message = s"The migration is missing a migration to the persistent type $name in the final model"
+}
+
+/** a validation error indicating that the migration includes a derived persistent from the initial domain
+ * model
+ *
+ * @param name the name of the included derived persistent
+ */
+class InitialDerivedPresent(val name: String) extends ValidationError {
+  def message = s"The migration is includes the derived persistent type $name in the initial model"
+}
+
+/** a validation error indicating that the migration includes a derived persistent from the final domain
+ * model
+ *
+ * @param name the name of the included derived persistent
+ */
+class FinalDerivedPresent(val name: String) extends ValidationError {
+  def message = s"The migration is includes the derived persistent type $name in the final model"
 }

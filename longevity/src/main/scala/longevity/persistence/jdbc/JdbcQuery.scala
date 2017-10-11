@@ -8,6 +8,7 @@ import longevity.model.query.ConditionalFilter
 import longevity.model.query.Descending
 import longevity.model.query.EqOp
 import longevity.model.query.FilterAll
+import longevity.model.query.FilterUnmigrated
 import longevity.model.query.GtOp
 import longevity.model.query.GteOp
 import longevity.model.query.LtOp
@@ -31,6 +32,7 @@ private[jdbc] trait JdbcQuery[F[_], M, P] {
 
   protected def queryToChunkerator(query: Query[P]) = {
     logger.debug(s"calling JdbcPRepo.queryToChunkerator: $query")
+    val migrating = query.filter == FilterUnmigrated[P]()
     val c = new Chunkerator[PState[P]] {
       def apply = new CloseableChunkIter[PState[P]] {
         private val resultSet = queryResultSet(query)
@@ -40,7 +42,7 @@ private[jdbc] trait JdbcQuery[F[_], M, P] {
           var i = 0
           val builder = new VectorBuilder[PState[P]]()
           do {
-            builder += retrieveFromResultSet(resultSet)
+            builder += retrieveFromResultSet(resultSet, migrating)
             i += 1
             nextResult = resultSet.next
           } while (i < 20 && hasNext)
@@ -104,6 +106,7 @@ private[jdbc] trait JdbcQuery[F[_], M, P] {
 
   private def filterInfo(filter: QueryFilter[P]): FilterInfo = filter match {
     case FilterAll() => FilterInfo("1 = 1", Seq())
+    case FilterUnmigrated() => FilterInfo("migration_complete is null", Seq())
     case RelationalFilter(lhs, op, rhs) => op match {
       case EqOp      => equalityQueryFilterInfo(lhs, rhs, false)
       case NeqOp     => equalityQueryFilterInfo(lhs, rhs, true)

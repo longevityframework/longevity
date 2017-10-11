@@ -1,6 +1,7 @@
 package longevity.persistence.inmem
 
 import longevity.persistence.PState
+import longevity.model.query.FilterUnmigrated
 import longevity.model.query.Query
 import longevity.model.query.QueryFilter
 import longevity.model.query.QueryOrderBy
@@ -19,7 +20,9 @@ private[inmem] trait InMemQuery[F[_], M, P] {
   }
 
   private def queryResults(query: Query[P]): Seq[PState[P]] = {
-    val matches = allPStates.filter { s =>
+    val matches = if (query.filter == FilterUnmigrated()) {
+      allPStates.filter(!_.migrationComplete)
+    } else allPStates.filter { s =>
       QueryFilter.matches(query.filter, s.get, realizedPType)
     }
     implicit val pOrdering = QueryOrderBy.ordering(query.orderBy, realizedPType)

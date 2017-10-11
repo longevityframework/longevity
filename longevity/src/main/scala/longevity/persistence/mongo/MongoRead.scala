@@ -29,13 +29,15 @@ private[mongo] trait MongoRead[F[_], M, P] {
   protected def bsonToState(document: BsonDocument): PState[P] = {
     val id = if (hasPrimaryKey) None else {
       val objectId = document.getObjectId("_id").getValue
-      Some(MongoId[P](objectId))
+      Some(MongoId(objectId))
     }
     val rv = rowVersionFromDocument(document)
     val cdt = dateTimeFromDocument("_createdTimestamp", document)
-    val mdt = dateTimeFromDocument("_updatedTimestamp", document)
+    val udt = dateTimeFromDocument("_updatedTimestamp", document)
+    val ms = booleanFromDocument("_migrationStarted", document)
+    val mc = booleanFromDocument("_migrationComplete", document)
     val p  = bsonToModelTypeTranslator.translate(document)(pTypeKey)
-    PState(id, rv, cdt, cdt, p)
+    PState(id, rv, cdt, udt, ms, mc, p, p)
   }
 
   private def rowVersionFromDocument(document: BsonDocument) = if (document.isInt64("_rowVersion")) {
@@ -48,6 +50,12 @@ private[mongo] trait MongoRead[F[_], M, P] {
     Some(new DateTime(document.getDateTime(name).getValue, DateTimeZone.UTC))
   } else {
     None
+  }
+
+  private def booleanFromDocument(name: String, document: BsonDocument) = if (document.isBoolean(name)) {
+    document.getBoolean(name).getValue
+  } else {
+    false
   }
 
   protected def propValToMongo[A](value: A, prop: Prop[_ >: P, A]): BsonValue = {

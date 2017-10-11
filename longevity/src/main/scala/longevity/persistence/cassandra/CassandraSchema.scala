@@ -18,6 +18,7 @@ private[cassandra] trait CassandraSchema[F[_], M, P] {
       addColumn("created_timestamp", "timestamp")
       addColumn("updated_timestamp", "timestamp")
     }
+    addColumn("migration_complete", "boolean")
     logger.debug(s"done creating schema for table $tableName")
   }
 
@@ -64,11 +65,8 @@ private[cassandra] trait CassandraSchema[F[_], M, P] {
     }
   }
 
-  protected def componentToCassandraType[A](
-    component: RealizedPropComponent[_ >: P, _, A])
-  : String = {
+  protected def componentToCassandraType[A](component: RealizedPropComponent[_ >: P, _, A]): String =
     CassandraPRepo.basicToCassandraType(component.componentTypeKey)
-  }
 
   protected def createIndexes(): Unit = indexedComponents.foreach(createIndex)
 
@@ -81,6 +79,17 @@ private[cassandra] trait CassandraSchema[F[_], M, P] {
     val createIndex = s"CREATE INDEX IF NOT EXISTS $indexName ON $tableName ($columnName);"
     logger.debug(s"executing CQL: $createIndex")
     session().execute(createIndex)
+  }
+
+  protected[persistence] def createMigrationSchemaBlocking(): Unit = {
+    addColumn("migration_started", "boolean")
+    createIndex(s"${tableName}_migration_complete", "migration_complete")
+  }
+
+  protected[persistence] def dropSchemaBlocking(): Unit = {
+    val dropTable = s"DROP TABLE IF EXISTS $tableName;"
+    logger.debug(s"executing CQL: $dropTable")
+    session().execute(dropTable)
   }
 
 }

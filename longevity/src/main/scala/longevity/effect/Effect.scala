@@ -45,6 +45,51 @@ trait Effect[F[_]] {
 /** contains implicit `Effect` implementations for common effectful classes */
 object Effect {
 
+  /** provides object-oriented forwarders for `Effect` methods. if you have something like this:
+   *
+   * {{{
+   * implicit val effect: Effect[F] = ...
+   * val fa: F[A] = ...
+   * val f: A => B = ...
+   * }}}
+   *
+   * you can now say:
+   *
+   * {{{
+   * import longevity.effect.Effect.Syntax
+   * val fb: F[B] = fa.map(f)
+   * }}}
+   *
+   * instead of:
+   *
+   * {{{
+   * val fb: F[B] = effect.map(fa)(f)
+   * }}}
+   */
+  implicit class Syntax[F[_] : Effect, A](fa: F[A]) {
+
+    private val effect = implicitly[Effect[F]]
+
+    /** map an `F[A]` to an `F[B]` according to function `f` with type `A => B` */
+    def map[B](f: A => B): F[B] = effect.map(fa)(f)
+
+    /** flatMap an `F[A]` to an `F[B]` according to function `f` with type `A => F[B]` */
+    def flatMap[B](f: A => F[B]): F[B] = effect.flatMap(fa)(f)
+
+    /** map an `F[A]` to an `F[B]`, using whatever means the effect has to perform potentially blocking
+     * operations. for example, the effect may choose to perform the operation in a worker thread
+     */
+    def mapBlocking[B](f: A => B): F[B] = effect.mapBlocking(fa)(f)
+
+    /** execute the effects and produce a result. this is only used in the test frameworks, which need
+     * to execute effects to check the result
+     * 
+     * @see longevity.test
+     */
+    def run: A = effect.run(fa)
+
+  }
+
   /** the default duration to await a future in [[Effect.run]] */
   val defaultDuration = Duration(10, SECONDS)
 

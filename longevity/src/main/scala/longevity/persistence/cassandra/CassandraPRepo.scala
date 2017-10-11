@@ -48,27 +48,31 @@ with CassandraDelete[F, M, P] {
 
   protected val logger = Logger[this.type]
   
-  protected[cassandra] val tableName = camelToUnderscore(typeName(pTypeKey.tpe))
-
-  protected val partitionComponents = realizedPType.primaryKey match {
-    case Some(key) => key.partitionProps.flatMap {
-      _.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]
+  protected[cassandra] val tableName = {
+    def raw = camelToUnderscore(typeName(pTypeKey.tpe))
+    persistenceConfig.modelVersion match {
+      case Some(v) => s"${raw}_$v"
+      case None => raw
     }
-    case None => Seq.empty
   }
 
-  protected val postPartitionComponents = realizedPType.primaryKey match {
-    case Some(key) => key.postPartitionProps.flatMap {
-      _.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]
+  protected[cassandra] val (partitionComponents, postPartitionComponents):
+      (Seq[RealizedPropComponent[_ >: P, _, _]], Seq[RealizedPropComponent[_ >: P, _, _]]) = {
+    realizedPType.primaryKey match {
+      case Some(key) =>
+        (
+          key.partitionProps.flatMap(_.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]),
+          key.postPartitionProps.flatMap(_.realizedPropComponents: Seq[RealizedPropComponent[P, _, _]]))
+      case None => (Seq.empty, Seq.empty)
     }
-    case None => Seq.empty
   }
 
-  protected val primaryKeyComponents = partitionComponents ++ postPartitionComponents
+  protected lazy val primaryKeyComponents = partitionComponents ++ postPartitionComponents
 
-  protected val actualizedComponents =
-    indexedComponents ++ (primaryKeyComponents: Seq[RealizedPropComponent[_ >: P, _, _]])
-
+  // all components including those in the primary key
+  protected lazy val actualizedComponents = indexedComponents ++ primaryKeyComponents
+ 
+  // all components excluding those in the primary key
   protected[cassandra] def indexedComponents: Set[RealizedPropComponent[_ >: P, _, _]] = {
     val keyComponents = realizedPType.keySet.filterNot(_.isInstanceOf[RealizedPrimaryKey[M, _, _]]).flatMap {
       _.realizedProp.realizedPropComponents: Seq[RealizedPropComponent[_ >: P, _, _]]
@@ -111,10 +115,11 @@ with CassandraDelete[F, M, P] {
       components.map(columnName).toSeq.sorted
     val componentColumnNames = if (isCreate) names(actualizedComponents) else names(indexedComponents)
     val withP = "p" +: componentColumnNames
+    val withMigrationComplete = "migration_complete" +: withP
     val withDateTimes = if (persistenceConfig.writeTimestamps) {
-      "created_timestamp" +: "updated_timestamp" +: withP
+      "created_timestamp" +: "updated_timestamp" +: withMigrationComplete
     } else {
-      withP
+      withMigrationComplete
     }
     val withRowVersion = if (persistenceConfig.optimisticLocking) {
       "row_version" +: withDateTimes
@@ -134,11 +139,12 @@ with CassandraDelete[F, M, P] {
       components.toSeq.sortBy(columnName).map { component => propValBinding(component, state.get) }
     val componentColumnValues = if (isCreate) values(actualizedComponents) else values(indexedComponents)
     val withP = jsonStringForP(state.get) +: componentColumnValues
+    val withMigrationComplete = false.asInstanceOf[AnyRef] +: withP
     val withDateTimes = if (persistenceConfig.writeTimestamps) {
       state.createdTimestamp.map(cassandraValue).orNull +:
-      state.updatedTimestamp.map(cassandraValue).orNull +: withP
+      state.updatedTimestamp.map(cassandraValue).orNull +: withMigrationComplete
     } else {
-      withP
+      withMigrationComplete
     }
     val withRowVersion = if (persistenceConfig.optimisticLocking) {
       state.rowVersionOrNull +: withDateTimes
@@ -153,7 +159,7 @@ with CassandraDelete[F, M, P] {
     withId
   }
 
-  protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[CassandraId[P]].uuid
+  protected def uuid(state: PState[P]) = state.id.get.asInstanceOf[CassandraId].uuid
 
   protected def whereAssignments = if (hasPrimaryKey) {
     primaryKeyComponents.map(columnName).map(c => s"$c = :$c").mkString("\nAND\n  ")
@@ -164,7 +170,7 @@ with CassandraDelete[F, M, P] {
   protected def whereBindings(state: PState[P]) = if (hasPrimaryKey) {
     primaryKeyComponents.map(_.outerPropPath.get(state.get).asInstanceOf[AnyRef])
   } else {
-    Seq(state.id.get.asInstanceOf[CassandraId[P]].uuid)
+    Seq(state.id.get.asInstanceOf[CassandraId].uuid)
   }
 
   private def propValBinding[PP >: P, A](component: RealizedPropComponent[PP, _, A], p: P): AnyRef = {
@@ -179,9 +185,9 @@ with CassandraDelete[F, M, P] {
 
   protected def cassandraDate(d: DateTime) = new java.util.Date(d.getMillis)
 
-  protected def retrieveFromRow(row: Row): PState[P] = {
+  protected def retrieveFromRow(row: Row, migrating: Boolean = false): PState[P] = {
     val id = if (!hasPrimaryKey) {
-      Some(CassandraId[P](row.getUUID("id")))
+      Some(CassandraId(row.getUUID("id")))
     } else {
       None
     }
@@ -196,21 +202,32 @@ with CassandraDelete[F, M, P] {
     } else {
       (None, None)
     }
+    val (migrationStarted, migrationComplete) = if (migrating) {
+      (row.getBool("migration_started"), row.getBool("migration_complete"))
+    } else {
+      (false, false)
+    }
     import org.json4s.native.JsonMethods._    
     val json = parse(row.getString("p"))
     val p = jsonToEmblematicTranslator.translate[P](json)(pTypeKey)
-    PState[P](id, rowVersion, createdTimestamp, updatedTimestamp, p)
+    PState[P](id, rowVersion, createdTimestamp, updatedTimestamp, migrationStarted, migrationComplete, p, p)
   }
 
-  private var preparedStatements = Map[String, PreparedStatement]()
+  private[cassandra] var preparedStatements = Map[String, PreparedStatement]()
 
   protected def preparedStatement(cql: String): PreparedStatement = {
-    synchronized {
-      if (!preparedStatements.contains(cql)) {
-        preparedStatements += cql -> session().prepare(cql)
+    if (preparedStatements.contains(cql)) {
+      preparedStatements(cql)
+    }
+    else synchronized {
+      if (preparedStatements.contains(cql)) {
+        preparedStatements(cql)
+      } else {
+        val stmt = session().prepare(cql)
+        preparedStatements += cql -> stmt
+        stmt
       }
     }
-    preparedStatements(cql)
   }
 
   override def toString = s"CassandraPRepo[${pTypeKey.name}]"

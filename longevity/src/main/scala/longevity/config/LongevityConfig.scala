@@ -8,6 +8,7 @@ import longevity.exceptions.context.LongevityConfigException
  * the longevity config settings, and their defaults.
  *
  * @param backEnd the back end used by the longevity context
+ * @param modelVersion the domain model version. `None` whenever the model is unversioned
  * @param autoOpenConnection should longevity automatically open the connection when the
  * repositories are created?
  * @param autoCreateSchema should longevity autocreate schema when the connection is opened?
@@ -20,6 +21,7 @@ import longevity.exceptions.context.LongevityConfigException
  */
 case class LongevityConfig(
   backEnd: BackEnd,
+  modelVersion: Option[String],
   autoOpenConnection: Boolean,
   autoCreateSchema: Boolean,
   optimisticLocking: Boolean,

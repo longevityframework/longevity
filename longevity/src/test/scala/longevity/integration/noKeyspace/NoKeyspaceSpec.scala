@@ -19,6 +19,7 @@ class NoKeyspaceSpec extends FlatSpec with Matchers {
   val context = new LongevityContext[Future, basics.DomainModel](
     LongevityConfig(
       backEnd = Cassandra,
+      modelVersion = None,
       autoOpenConnection = false,
       autoCreateSchema = false,
       optimisticLocking = false,

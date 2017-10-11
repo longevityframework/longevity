@@ -54,7 +54,7 @@ private[mongo] trait MongoWrite[F[_], M, P] {
     throw new DuplicateKeyValException(p, realizedKey.key, cause)
   }
 
-  protected def mongoId(state: PState[P]) = state.id.map(_.asInstanceOf[MongoId[P]].objectId)
+  protected def mongoId(state: PState[P]) = state.id.map(_.asInstanceOf[MongoId].objectId)
 
   /** a query that identifies the document to update or delete */
   protected def writeQuery(state: PState[P]) = {

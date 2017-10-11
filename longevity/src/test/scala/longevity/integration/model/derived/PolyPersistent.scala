@@ -9,5 +9,5 @@ trait PolyPersistent {
 }
 
 object PolyPersistent {
-  implicit val idKey = key(props.id)
+  implicit val idKey = primaryKey(props.id)
 }

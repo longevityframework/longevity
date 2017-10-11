@@ -14,6 +14,7 @@ import longevity.model.query.ConditionalFilter
 import longevity.model.query.Descending
 import longevity.model.query.EqOp
 import longevity.model.query.FilterAll
+import longevity.model.query.FilterUnmigrated
 import longevity.model.query.GtOp
 import longevity.model.query.GteOp
 import longevity.model.query.LtOp
@@ -35,6 +36,7 @@ private[cassandra] trait CassandraQuery[F[_], M, P] {
 
   protected def queryToChunkerator(query: Query[P]): Chunkerator[PState[P]] = {
     logger.debug(s"calling CassandraPRepo.queryToChunkerator: $query")
+    val migrating = query.filter == FilterUnmigrated[P]()
     val c = new Chunkerator[PState[P]] {
       def apply = new CloseableChunkIter[PState[P]] {
         private val resultSet = queryResultSet(query)
@@ -43,7 +45,7 @@ private[cassandra] trait CassandraQuery[F[_], M, P] {
           var i = 0
           val builder = new VectorBuilder[PState[P]]()
           while (i < 20 && hasNext) {
-            builder += retrieveFromRow(resultSet.one)
+            builder += retrieveFromRow(resultSet.one, migrating)
             i += 1
           }
           builder.result
@@ -104,6 +106,7 @@ private[cassandra] trait CassandraQuery[F[_], M, P] {
 
   private def filterInfo(filter: QueryFilter[P]): FilterInfo = filter match {
     case FilterAll() => throw new FilterAllInQueryException
+    case FilterUnmigrated() => FilterInfo(s"migration_complete = false", Seq())
     case RelationalFilter(lhs, op, rhs) => op match {
       case EqOp      => equalityQueryFilterInfo(lhs, rhs)
       case NeqOp     => throw new NeqInQueryException
