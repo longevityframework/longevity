@@ -5,7 +5,7 @@ Status](https://travis-ci.org/longevityframework/longevity.svg?branch=master)](h
 
 # longevity - A Persistence Framework for Scala and NoSQL.
 
-## Focus your development on your domain model, not your database model!
+## Focus your development on your domain model, not your database model.
 
 Longevity translates your domain into a natural, easy to understand database model. Your persistent
 objects are stored as JSON, and we add any other database schema needed to keep performance fast.
