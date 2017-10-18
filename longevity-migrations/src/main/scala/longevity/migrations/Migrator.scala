@@ -14,16 +14,90 @@ import longevity.model.PEv
 import longevity.model.query.{ FilterUnmigrated, Query }
 import longevity.persistence.PState
 import scala.concurrent.ExecutionContext
+import scala.io.StdIn.readLine
+import scala.reflect.runtime.{ universe => ru }
 
-/** contains a method to apply the migration */
-object Migrator {
+/** an application to apply a migration.
+ *
+ * expects arguments like so: `<migrationsPackage> <migrationName> <flags>`
+ *
+ * currently supported flags are: `--nonInteractive`
+ */
+object Migrator extends App {
 
-  /** produces an IO for applying the migration */
-  def migrate[M1, M2](migration: Migration[M1, M2]): IO[Unit] = {
-    migration.validate.exception match {
-      case Some(e) => IO.raiseError(e)
-      case None => new Migrator(migration).migrate
+  val (migrationsPackage, migrationName, flags) = processArgs(args)
+  val migration = lookupMigration(migrationsPackage, migrationName)
+  val validationResult = migration.validate
+  if (!validationResult.isValid) {
+    throw new RuntimeException(
+      s"""|The following validation errors were encountered in migration '$migrationName':
+          |\n  - ${validationResult.errors.map(_.message).mkString("\n  - ")}""".stripMargin)
+  }
+
+  if (migrationConfirmed(flags)) {
+    def migrator[M1, M2](migration: Migration[M1, M2]) = new Migrator(migration)
+    val m = migrator(migration)
+    m.migrate.unsafeRunSync
+    println
+    println(s"""|Migration completed successfully. Please remember to update your configuration to
+                |set `longevity.modelVersion` to `${migration.version2}`. Or consider running
+                |`sbt unversion ${migration.version2}` instead.
+                |
+                |Have a nice rest of your day.""".stripMargin)
+  }
+  sys.exit(0)
+
+  private def processArgs(args: Array[String]) = {
+    val migrationsPackage = args(0)
+    val (flags, migrationNames) = args.tail.partition(_.startsWith("--"))
+    if (migrationNames.size == 0) {
+      throw new RuntimeException("migration name argument was not supplied")
     }
+    if (migrationNames.size > 1) {
+      throw new RuntimeException(s"multiple migration name arguments supplied: ${migrationNames.mkString(", ")}")
+    }
+    val migrationName = migrationNames(0)
+    (migrationsPackage, migrationName, flags)
+  }
+
+  private def migrationConfirmed(flags: Seq[String]) =
+    flags.contains("--nonInteractive") ||
+      (userConfirms(backupConfirmation) && userConfirms(serverShutdownConfirmation))
+
+  private def backupConfirmation =
+    s"""|
+        |We strongly recommend that you back up your data before running longevity migrations. The migrations
+        |interface is still experimental, and as with any schema migration system, unanticipated things can
+        |happen that can result in corrupted data.
+        |
+        |Have you backed up your data, or are you otherwise willing to accept the risks (y/N)? """.stripMargin
+
+  private def serverShutdownConfirmation =
+    s"""|
+        |Please shut down any servers or other applications that may be using longevity against the initial
+        |schema before running the migration. Any writes through to the initial schema may be lost. The
+        |initial schema is also dropped as one of the last steps of migration, so even read-only applications
+        |will be interrupted in this process. (We plan to add a --maintainInitialSchema flag to allow for
+        |read-only applications to work through the migration, but it's not in place yet.)
+        |
+        |Have you shut down any applications using longevity against this domain (y/N)? """.stripMargin
+
+  private def userConfirms(message: String): Boolean = {
+    print(message)
+    val response = readLine()
+    response == "y" || response == "Y" || response == "yes" || response == "Yes"
+  }
+
+  // exposed for unit testing
+  private[migrations] def lookupMigration(migrationsPackage: String, migrationName: String): Migration[_, _] = {
+    val runtimeMirror  = ru.runtimeMirror(getClass.getClassLoader)
+    val moduleSymbol   = runtimeMirror.staticModule(s"$migrationsPackage.package$$")
+    val moduleMirror   = runtimeMirror.reflectModule(moduleSymbol)
+    val moduleInstance = moduleMirror.instance
+    val instanceMirror = runtimeMirror.reflect(moduleInstance)
+    val fieldSymbol    = instanceMirror.symbol.info.member(ru.TermName(migrationName)).asTerm.accessed.asTerm
+    val fieldMirror    = instanceMirror.reflectField(fieldSymbol)
+    fieldMirror.get.asInstanceOf[Migration[_, _]]
   }
 
 }
@@ -49,7 +123,7 @@ private[longevity] class Migrator[M1, M2](migration: Migration[M1, M2]) {
     val open2 = repo2.openConnection
     val close2 = repo1.closeConnection
     val body = for {
-      _ <- cartesion.product(repo1.createMigrationSchema, repo2.createSchema)
+      _ <- repo1.createMigrationSchema.product(repo2.createSchema)
       _ <- applyUpdates
       _ <- repo1.dropSchema
     } yield ()

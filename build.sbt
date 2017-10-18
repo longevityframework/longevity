@@ -66,6 +66,7 @@ lazy val longevitySqliteDeps = Project("longevity-sqlite-deps", file("longevity-
   .settings(BuildSettings.publishSettings)
   .settings(
     libraryDependencies += Dependencies.sqliteDep,
+    libraryDependencies += Dependencies.json4sDep,
     homepage := BuildSettings.longevityHomepage,
     pomExtra := BuildSettings.longevityPomExtra)
 
@@ -89,10 +90,8 @@ lazy val longevityMigrations = Project("longevity-migrations", file("longevity-m
 
 lazy val sbtLongevityMigrations = Project("sbt-longevity-migrations", file("sbt-longevity-migrations"))
   .settings(BuildSettings.publishSettings)
-  .settings(ScriptedPlugin.scriptedSettings)
   .settings(
     sbtPlugin := true,
-    scalaVersion := "2.10.6",
     scriptedBufferLog := false,
     scriptedLaunchOpts += "-Dplugin.version=" + version.value,
     libraryDependencies += Dependencies.scalaTestDep % "test",

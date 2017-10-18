@@ -91,7 +91,6 @@ object BuildSettings {
     "-language:implicitConversions",
     "-unchecked")
 
-  private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
-  //private def gitHash = sys.process.Process("git rev-parse HEAD").lineStream_!.head
+  private def gitHash = sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
 }
