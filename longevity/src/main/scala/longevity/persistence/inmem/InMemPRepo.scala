@@ -34,6 +34,7 @@ with InMemWrite[F, M, P] {
 
   protected[persistence] def createSchemaBlocking(): Unit = ()
   protected[persistence] def createMigrationSchemaBlocking(): Unit = ()
+  protected[persistence] def unversionSchemaBlocking(): Unit = ()
   protected[persistence] def dropSchemaBlocking(): Unit = ()
 
   override def toString = s"InMemPRepo[${pTypeKey.name}]"

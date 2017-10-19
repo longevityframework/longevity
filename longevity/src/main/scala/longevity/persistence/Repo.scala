@@ -97,6 +97,15 @@ abstract class Repo[F[_], M] private[persistence](
     logger.debug(s"done creating migration schema")
   }
 
+  private[longevity] def unversionSchema(): F[Unit] =
+    effect.pure(()).mapBlocking(_ => unversionSchemaBlocking())
+
+  private def unversionSchemaBlocking(): Unit = {
+    logger.debug(s"unversioning schema")
+    pRepoMap.values.foreach(_.unversionSchemaBlocking())
+    logger.debug(s"done unversioning schema")
+  }
+
   private[longevity] def dropSchema(): F[Unit] =
     effect.pure(()).mapBlocking(_ => dropSchemaBlocking())
 

@@ -15,6 +15,7 @@ import scala.reflect.runtime.universe.Type
 import scala.reflect.runtime.universe.TypeTag
 import scala.reflect.runtime.universe.typeTag
 import scala.reflect.runtime.universe.RuntimeMirror
+import scala.reflect.runtime.{ universe => ru }
 import typekey.TypeKey
 import typekey.typeKey
 
@@ -125,6 +126,17 @@ package object reflectionUtil {
     } else {
       symbol.typeSignature <:< typeKey[A].tpe
     }
+  }
+
+  private[longevity] def lookupFieldInPackage[A](packageName: String, fieldName: String): A = {
+    val runtimeMirror  = ru.runtimeMirror(getClass.getClassLoader)
+    val moduleSymbol   = runtimeMirror.staticModule(s"$packageName.package$$")
+    val moduleMirror   = runtimeMirror.reflectModule(moduleSymbol)
+    val moduleInstance = moduleMirror.instance
+    val instanceMirror = runtimeMirror.reflect(moduleInstance)
+    val fieldSymbol    = instanceMirror.symbol.info.member(ru.TermName(fieldName)).asTerm.accessed.asTerm
+    val fieldMirror    = instanceMirror.reflectField(fieldSymbol)
+    fieldMirror.get.asInstanceOf[A]
   }
 
 }

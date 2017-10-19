@@ -1,6 +1,7 @@
 package longevity.persistence.mongo
 
 import com.mongodb.MongoCommandException
+import com.mongodb.MongoNamespace
 import com.mongodb.client.model.IndexOptions
 import org.bson.BsonInt32
 import org.bson.BsonString
@@ -134,6 +135,10 @@ private[mongo] trait MongoSchema[F[_], M, P] {
 
   protected[persistence] def createMigrationSchemaBlocking(): Unit = {
     createIndex(Seq("_migrationComplete"), "migrationComplete", false)
+  }
+
+  protected[persistence] def unversionSchemaBlocking(): Unit = {
+    mongoCollection.renameCollection(new MongoNamespace(session().db.getName, rawCollectionName))
   }
 
   protected[persistence] def dropSchemaBlocking(): Unit = {

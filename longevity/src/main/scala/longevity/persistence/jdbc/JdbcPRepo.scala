@@ -41,11 +41,12 @@ with JdbcDelete[F, M, P] {
 
   protected val logger = Logger[this.type]
 
+  protected def rawTableName = camelToUnderscore(typeName(pTypeKey.tpe))
+
   protected[jdbc] val tableName = {
-    def raw = camelToUnderscore(typeName(pTypeKey.tpe))
     persistenceConfig.modelVersion match {
-      case Some(v) => s"${raw}_$v"
-      case None => raw
+      case Some(v) => s"${rawTableName}_$v"
+      case None => rawTableName
     }
   }
 

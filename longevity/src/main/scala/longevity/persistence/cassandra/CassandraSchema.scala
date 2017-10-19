@@ -1,6 +1,7 @@
 package longevity.persistence.cassandra
 
 import com.datastax.driver.core.exceptions.InvalidQueryException
+import longevity.exceptions.persistence.cassandra.UnversionSchemaException
 import longevity.model.realized.RealizedPropComponent
 
 /** implementation of CassandraPRepo.createSchema */
@@ -86,6 +87,8 @@ private[cassandra] trait CassandraSchema[F[_], M, P] {
     createIndex(s"${tableName}_migration_complete", "migration_complete")
   }
 
+  protected[persistence] def unversionSchemaBlocking(): Unit = throw new UnversionSchemaException
+  
   protected[persistence] def dropSchemaBlocking(): Unit = {
     val dropTable = s"DROP TABLE IF EXISTS $tableName;"
     logger.debug(s"executing CQL: $dropTable")

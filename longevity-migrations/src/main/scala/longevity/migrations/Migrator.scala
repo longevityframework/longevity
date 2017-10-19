@@ -1,6 +1,5 @@
 package longevity.migrations
 
-import cats.Cartesian
 import cats.effect.IO
 import cats.implicits._
 import io.iteratee.Enumerator
@@ -9,13 +8,13 @@ import java.util.concurrent.Executors
 import journal.Logger
 import longevity.context.LongevityContext
 import longevity.effect.cats.ioEffect
+import longevity.emblem.reflectionUtil.lookupFieldInPackage
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.model.PEv
 import longevity.model.query.{ FilterUnmigrated, Query }
 import longevity.persistence.PState
 import scala.concurrent.ExecutionContext
 import scala.io.StdIn.readLine
-import scala.reflect.runtime.{ universe => ru }
 
 /** an application to apply a migration.
  *
@@ -89,16 +88,8 @@ object Migrator extends App {
   }
 
   // exposed for unit testing
-  private[migrations] def lookupMigration(migrationsPackage: String, migrationName: String): Migration[_, _] = {
-    val runtimeMirror  = ru.runtimeMirror(getClass.getClassLoader)
-    val moduleSymbol   = runtimeMirror.staticModule(s"$migrationsPackage.package$$")
-    val moduleMirror   = runtimeMirror.reflectModule(moduleSymbol)
-    val moduleInstance = moduleMirror.instance
-    val instanceMirror = runtimeMirror.reflect(moduleInstance)
-    val fieldSymbol    = instanceMirror.symbol.info.member(ru.TermName(migrationName)).asTerm.accessed.asTerm
-    val fieldMirror    = instanceMirror.reflectField(fieldSymbol)
-    fieldMirror.get.asInstanceOf[Migration[_, _]]
-  }
+  private[migrations] def lookupMigration(migrationsPackage: String, migrationName: String): Migration[_, _] =
+    lookupFieldInPackage(migrationsPackage, migrationName)
 
 }
 
@@ -108,7 +99,6 @@ private[longevity] class Migrator[M1, M2](migration: Migration[M1, M2]) {
 
   private val nonBlockingThreadPool = Executors.newCachedThreadPool()
   private implicit val nonBlockingContext = ExecutionContext.fromExecutor(nonBlockingThreadPool)
-  private val cartesion = implicitly[Cartesian[IO]]
 
   private implicit val modelType1 = migration.modelType1
   private implicit val modelType2 = migration.modelType2
@@ -145,7 +135,7 @@ private[longevity] class Migrator[M1, M2](migration: Migration[M1, M2]) {
       case s: UpdateStep[_, _, _, _] => s
     }
     val updateIos = migration.steps.collect(asUpdateStep).map(updateStepToIo)
-    updateIos.fold(IO.pure[Any](()))(cartesion.product(_, _)).map(_ => ())
+    updateIos.fold(IO.pure[Any](()))(_.product(_)).map(_ => ())
   }
 
   private def updateStepToIo(step: UpdateStep[M1, M2, _, _]): IO[Unit] = updateStepToIoTyped(step)

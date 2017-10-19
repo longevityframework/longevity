@@ -87,6 +87,8 @@ private[longevity] abstract class PRepo[F[_], M, P] private[persistence] (
 
   protected[persistence] def updateMigrationComplete(state: PState[P]): F[Unit]
 
+  protected[persistence] def unversionSchemaBlocking(): Unit
+
   protected[persistence] def dropSchemaBlocking(): Unit
 
   protected def validateStablePrimaryKey(state: PState[P]): Unit = {

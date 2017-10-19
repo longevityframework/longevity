@@ -98,6 +98,12 @@ private[jdbc] trait JdbcSchema[F[_], M, P] {
     createIndex(false, s"${tableName}_migration_complete", Seq("migration_complete"))
   }
 
+  protected[persistence] def unversionSchemaBlocking(): Unit = {
+    val renameTable = s"ALTER TABLE $tableName RENAME TO $rawTableName"
+    logger.debug(s"executing SQL: $renameTable")
+    connection().prepareStatement(renameTable).execute()
+  }
+
   protected[persistence] def dropSchemaBlocking(): Unit = {
     val dropTable = s"DROP TABLE IF EXISTS $tableName"
     logger.debug(s"executing SQL: $dropTable")
