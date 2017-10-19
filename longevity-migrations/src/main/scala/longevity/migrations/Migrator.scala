@@ -40,8 +40,7 @@ object Migrator extends App {
     m.migrate.unsafeRunSync
     println
     println(s"""|Migration completed successfully. Please remember to update your configuration to
-                |set `longevity.modelVersion` to `${migration.version2}`. Or consider running
-                |`sbt unversion ${migration.version2}` instead.
+                |set `longevity.modelVersion` to `${migration.version2}`.
                 |
                 |Have a nice rest of your day.""".stripMargin)
   }
