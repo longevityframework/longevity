@@ -61,12 +61,17 @@ layout: page
   - [MongoDB Translation](translation/mongo.html)
   - [MongoDB Keys](translation/mongo-keys.html)
   - [SQLite Translation](translation/sqlite.html)
+- [Migrating to a New Version of Your Domain](migrations)
+  - [Project Setup for Longevity Migrations](migrations/setup.html)
+  - [Tagging a Version of Your Domain Model](migrations/tagging.html)
+  - [Defining Your Migration](migrations/migration.html)
+  - [Running Your Migration](migrations/running.html)
 - [Integration Points](integrations)
   - [Managing Logging](integrations/logging.html)
   - [Using IDEA and Longevity Together](integrations/idea.html)
 
-{% assign upTitle = "longevity site" %}
-{% assign upLink = ".." %}
-{% assign nextTitle="what is longevity" %}
-{% assign nextLink="what-is-longevity.html" %}
+{% assign upTitle   = "longevity site" %}
+{% assign upLink    = ".." %}
+{% assign nextTitle = "what is longevity" %}
+{% assign nextLink  = "what-is-longevity.html" %}
 {% include navigate.html %}

@@ -65,9 +65,8 @@ val accountsContext = LongevityContext[Future, AccountsSubdomain](accountsConfig
 Please see the [Typesafe Config documentation](https://github.com/typesafehub/config#overview) for
 more information on the different ways you can manage your configuration.
 
-Longevity converts the Typesafe Config into a `LongevityConfig` case
-class internally. You can use case class configuration if you
-prefer. Here we use the `LongevityConfig` case class to define the
+Longevity converts the Typesafe Config into a `LongevityConfig` case class internally. You can use
+case class configuration if you prefer. Here we use the `LongevityConfig` case class to define the
 same configuration as found in the `reference.conf` file:
 
 ```scala
@@ -80,6 +79,7 @@ import longevity.context.TestConfig
 
 val longevityConfig = LongevityConfig(
   backEnd = InMem, // one of Cassandra, InMem, JDBC, MongoDB, SQLite
+  modelVersion = None,
   autoOpenConnection = false,
   autoCreateSchema = false,
   optimisticLocking = false,
@@ -117,16 +117,13 @@ The most important configuration setting is `longevity.backEnd`. This
 is where you choose your database. Right now, the options are
 `Cassandra`, `JDBC`, `InMem`, `MongoDB`, and `SQLite`.
 
-The `JDBC` back end is a generic back end that you can use for any
-databases with a JDBC driver. Unfortunately, we are not able to
-provide support for any JDBC driver other than SQLite, because we have
-no way of writing integration tests against this back end without
-specifying the JDBC driver, and the longevity framework team (i.e.,
-me) already has their hands full supporting the other back ends. That
-said, we would be *more* than happy to give you help and advice in
-troubleshooting any problems. In fact, we've made it as easy as
-possible for you to build and maintain your own JDBC-flavored back
-end. See [these
+The `JDBC` back end is a generic back end that you can use for any databases with a JDBC driver.
+Unfortunately, we are not able to provide support for any JDBC driver other than SQLite, because we
+have no way of writing integration tests against this back end without specifying the JDBC driver,
+and the longevity framework team (i.e., me) already has their hands full supporting the other back
+ends. That said, we would be *more* than happy to give you help and advice in troubleshooting any
+problems. In fact, we've tried to make it as easy as possible for you to build and maintain your own
+JDBC-flavored back end. See [these
 instructions](https://github.com/longevityframework/longevity/wiki/How-to-create-a-new-JDBC-back-end)
 for details.
 

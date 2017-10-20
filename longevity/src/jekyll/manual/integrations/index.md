@@ -10,8 +10,8 @@ points:
 - [Managing Logging](logging.html)
 - [Using IDEA and Longevity Together](idea.html)
 
-{% assign prevTitle = "sqlite translation" %}
-{% assign prevLink  = "../translation/sqlite.html" %}
+{% assign prevTitle = "running your migration" %}
+{% assign prevLink  = "../migrations/running.html" %}
 {% assign upTitle   = "user manual" %}
 {% assign upLink    = ".." %}
 {% assign nextTitle = "managing logging" %}

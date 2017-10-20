@@ -26,18 +26,28 @@ Include the following two lines in your `build.sbt` to declare the dependency:
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
 
-libraryDependencies += "org.longevityframework" %% "longevity" % "0.25.1"
+libraryDependencies += "org.longevityframework" %% "longevity" % "0.26.0"
 ```
 
 Include one of the following lines to bring in the library
 dependencies for the back end of your choice:
 
 ```scala
-libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.25.1"
+libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % "0.26.0"
 
-libraryDependencies += "org.longevityframework" %% "longevity-mongodb-deps" % "0.25.1"
+libraryDependencies += "org.longevityframework" %% "longevity-mongodb-deps" % "0.26.0"
 
-libraryDependencies += "org.longevityframework" %% "longevity-sqlite-deps" % "0.25.1"
+libraryDependencies += "org.longevityframework" %% "longevity-sqlite-deps" % "0.26.0"
+```
+
+All longevity artifact versions move in lock-step, so it can be convenient to store it in a
+variable, like so:
+
+```scala
+val longevityVersion = "0.26.0"
+libraryDependencies += "org.longevityframework" %% "longevity"                % longevityVersion
+libraryDependencies += "org.longevityframework" %% "longevity-cassandra-deps" % longevityVersion
+libraryDependencies += "org.longevityframework" %% "longevity-migrations"     % longevityVersion
 ```
 
 ## enabling macro annotations

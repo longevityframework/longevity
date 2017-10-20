@@ -1,6 +1,5 @@
 package longevity.migrations.integration
 
-import cats.Applicative
 import cats.effect.IO
 import cats.implicits._
 import java.util.concurrent.Executors
@@ -51,7 +50,7 @@ abstract class LongevityMigrationSpec[M1, M2] extends FlatSpec with Matchers wit
       val p = context1.testDataGenerator.generate[P1](implicitly[PEv[M1, P1]].key)
       context1.repo.create(p)
     }
-    Applicative[IO].sequence(Vector.fill(numPersistents)(createP))
+    Vector.fill(numPersistents)(createP).sequence
   }
 
 }

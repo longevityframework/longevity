@@ -14,7 +14,7 @@ package object basic {
     Migration.builder[m1.M1, m2.M2](None, "v2", config, config)
       .drop[m1.Dropper]
       .create[m2.Creater]
-      .update[m1.User, m2.User](userToUser)
+      .update(userToUser)
       .build
 
 }
