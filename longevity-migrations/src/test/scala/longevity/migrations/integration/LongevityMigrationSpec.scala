@@ -1,6 +1,5 @@
 package longevity.migrations.integration
 
-import cats.effect.IO
 import cats.implicits._
 import java.util.concurrent.Executors
 import journal.Logger
@@ -12,6 +11,7 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
 /** common code for longevity migration specs.
  *
@@ -31,21 +31,21 @@ abstract class LongevityMigrationSpec[M1, M2] extends FlatSpec with Matchers wit
   protected def migration: Migration[M1, M2]
 
   private val nonBlockingThreadPool = Executors.newCachedThreadPool()
-  private implicit val nonBlockingContext = ExecutionContext.fromExecutor(nonBlockingThreadPool)
+  protected implicit val nonBlockingContext = ExecutionContext.fromExecutor(nonBlockingThreadPool)
   private implicit val modelType1 = migration.modelType1
   private implicit val modelType2 = migration.modelType2
   protected[migrations] val migrator = new Migrator(migration)
   protected val context1 = migrator.context1
   protected val context2 = migrator.context2
 
-  protected def setup[A](testDataIo: IO[A]) = for {
+  protected def setup[A](testDataFuture: => Future[A]) = for {
     _        <- context1.repo.openConnection
     _        <- context1.repo.createSchema
-    testData <- testDataIo
+    testData <- testDataFuture
     _        <- context1.repo.closeConnection
   } yield testData
 
-  protected def createTestData[P1 : PEv[M1, ?]](numPersistents: Int): IO[Vector[PState[P1]]] = {
+  protected def createTestData[P1 : PEv[M1, ?]](numPersistents: Int): Future[Vector[PState[P1]]] = {
     def createP = {
       val p = context1.testDataGenerator.generate[P1](implicitly[PEv[M1, P1]].key)
       context1.repo.create(p)

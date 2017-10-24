@@ -1,6 +1,9 @@
 package longevity.migrations.integration.failures
 
+import cats.implicits._
 import longevity.migrations.integration.basic.BaseBasicMigrationSpec
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 
 abstract class FailuresMigrationSpec extends BaseBasicMigrationSpec {
 
@@ -14,7 +17,7 @@ abstract class FailuresMigrationSpec extends BaseBasicMigrationSpec {
     // there are 100 users, and intermittent failures every 40 rows. so we should encounter exactly
     // 2 intermittent failures on repeated migration attempts
 
-    val testIo = for {
+    val f = for {
       initialUsers <- setup(testData)
       attempt1     <- migrator.migrate.attempt
       _            = attempt1 should equal (Left(IntermittentFailure))
@@ -24,7 +27,7 @@ abstract class FailuresMigrationSpec extends BaseBasicMigrationSpec {
       test         <- results(initialUsers)
     } yield test
 
-    testIo.unsafeRunSync()
+    Await.result(f, Duration.Inf)
   }
 
 }

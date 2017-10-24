@@ -74,7 +74,6 @@ lazy val longevityMigrations = Project("longevity-migrations", file("longevity-m
   .settings(BuildSettings.buildSettings: _*)
   .settings(
     libraryDependencies += Dependencies.catsDep,
-    libraryDependencies += Dependencies.catsEffectDep,
     libraryDependencies += Dependencies.catsIterateeDep,
     libraryDependencies += Dependencies.journalDep,
     libraryDependencies += Dependencies.cassandraDep   % "test",

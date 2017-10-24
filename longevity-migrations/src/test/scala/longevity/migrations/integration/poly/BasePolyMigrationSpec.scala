@@ -1,9 +1,8 @@
 package longevity.migrations.integration.poly
 
-import cats.Applicative
-import cats.effect.IO
 import cats.implicits._
 import longevity.migrations.integration.LongevityMigrationSpec
+import scala.concurrent.Future
 
 abstract class BasePolyMigrationSpec extends LongevityMigrationSpec[m1.M1, m2.M2] {
 
@@ -16,12 +15,12 @@ abstract class BasePolyMigrationSpec extends LongevityMigrationSpec[m1.M1, m2.M2
 
   protected def results(initialUsers: Vector[m1.User]) = for {
     _                 <- context2.repo.openConnection
-    initialFinalPairs <- Applicative[IO].sequence(initialUsers.map(initialFinalPair))
+    initialFinalPairs <- initialUsers.map(initialFinalPair).sequence
     _                 <- context2.repo.closeConnection
     test               = initialFinalPairs.foreach(testPair)
   } yield test
 
-  protected def initialFinalPair(u1: m1.User): IO[(m1.User, m2.User)] = {
+  protected def initialFinalPair(u1: m1.User): Future[(m1.User, m2.User)] = {
     context2.repo.retrieveOne[m2.User](m2.Username(u1.username.value)).map { state2 =>
       (u1, state2.get)
     }

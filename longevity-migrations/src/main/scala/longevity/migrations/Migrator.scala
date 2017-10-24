@@ -1,19 +1,19 @@
 package longevity.migrations
 
-import cats.Cartesian
-import cats.effect.IO
 import cats.implicits._
 import io.iteratee.Enumerator
 import io.iteratee.Iteratee
 import java.util.concurrent.Executors
 import journal.Logger
 import longevity.context.LongevityContext
-import longevity.effect.cats.ioEffect
 import longevity.exceptions.persistence.DuplicateKeyValException
 import longevity.model.PEv
 import longevity.model.query.{ FilterUnmigrated, Query }
 import longevity.persistence.PState
+import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+import scala.concurrent.duration.Duration
 import scala.io.StdIn.readLine
 import scala.reflect.runtime.{ universe => ru }
 
@@ -37,7 +37,7 @@ object Migrator extends App {
   if (migrationConfirmed(flags)) {
     def migrator[M1, M2](migration: Migration[M1, M2]) = new Migrator(migration)
     val m = migrator(migration)
-    m.migrate.unsafeRunSync
+    Await.result(m.migrate, Duration.Inf)
     println
     println(s"""|Migration completed successfully. Please remember to update your configuration to
                 |set `longevity.modelVersion` to `${migration.version2}`.
@@ -107,31 +107,30 @@ private[longevity] class Migrator[M1, M2](migration: Migration[M1, M2]) {
 
   private val nonBlockingThreadPool = Executors.newCachedThreadPool()
   private implicit val nonBlockingContext = ExecutionContext.fromExecutor(nonBlockingThreadPool)
-  private val cartesion = implicitly[Cartesian[IO]]
 
   private implicit val modelType1 = migration.modelType1
   private implicit val modelType2 = migration.modelType2
-  private[migrations] val context1 = LongevityContext[IO, M1](doctoredConfig1)
-  private[migrations] val context2 = LongevityContext[IO, M2](doctoredConfig2)
+  private[migrations] val context1 = LongevityContext[Future, M1](doctoredConfig1)
+  private[migrations] val context2 = LongevityContext[Future, M2](doctoredConfig2)
   private val repo1 = context1.repo
   private val repo2 = context2.repo
 
-  def migrate: IO[Unit] = {
-    val open1 = repo1.openConnection
-    val close1 = repo2.closeConnection
-    val open2 = repo2.openConnection
-    val close2 = repo1.closeConnection
-    val body = for {
+  def migrate: Future[Unit] = {
+    def open1 = repo1.openConnection
+    def close1 = repo2.closeConnection
+    def open2 = repo2.openConnection
+    def close2 = repo1.closeConnection
+    def body = for {
       _ <- repo1.createMigrationSchema.product(repo2.createSchema)
       _ <- applyUpdates
       _ <- repo1.dropSchema
     } yield ()
-    val body2 = for {
+    def body2 = for {
       _ <- open2
       _ <- body.handleErrorWith { case e => for { _ <- close2 } yield throw e }
       _ <- close2
     } yield ()
-    val body1 = for {
+    def body1 = for {
       _ <- open1
       _ <- body2.handleErrorWith { case e => for { _ <- close1 } yield throw e }
       _ <- close1
@@ -139,28 +138,28 @@ private[longevity] class Migrator[M1, M2](migration: Migration[M1, M2]) {
     body1
   }
 
-  private def applyUpdates: IO[Unit] = {
+  private def applyUpdates: Future[Unit] = {
     val asUpdateStep: PartialFunction[MigrationStep[M1, M2], UpdateStep[M1, M2, _, _]] = {
       case s: UpdateStep[_, _, _, _] => s
     }
-    val updateIos = migration.steps.collect(asUpdateStep).map(updateStepToIo)
-    updateIos.fold(IO.pure[Any](()))(cartesion.product(_, _)).map(_ => ())
+    val updateFutures = migration.steps.collect(asUpdateStep).map(updateStepToFuture)
+    updateFutures.toVector.sequence.map(_ => ())
   }
 
-  private def updateStepToIo(step: UpdateStep[M1, M2, _, _]): IO[Unit] = updateStepToIoTyped(step)
+  private def updateStepToFuture(step: UpdateStep[M1, M2, _, _]): Future[Unit] = updateStepToFutureTyped(step)
 
-  private def updateStepToIoTyped[P1, P2](step: UpdateStep[M1, M2, P1, P2]): IO[Unit] = {
+  private def updateStepToFutureTyped[P1, P2](step: UpdateStep[M1, M2, P1, P2]): Future[Unit] = {
     implicit val pEv1 = step.pEv1
     implicit val pEv2 = step.pEv2
-    val e: IO[Enumerator[IO, PState[P1]]] =
-      repo1.queryToIterateeIo[P1, IO](Query(filter = FilterUnmigrated()))
-    val i: Iteratee[IO, PState[P1], Unit] = Iteratee.foreachM[IO, PState[P1]](updateP(_, step.f))
+    val e: Future[Enumerator[Future, PState[P1]]] =
+      repo1.queryToIterateeIo[P1, Future](Query(filter = FilterUnmigrated()))
+    val i: Iteratee[Future, PState[P1], Unit] = Iteratee.foreachM[Future, PState[P1]](updateP(_, step.f))
     e.flatMap(i(_).run)
   }
 
-  private def updateP[P1 : PEv[M1, ?], P2 : PEv[M2, ?]](ps1: PState[P1], f: P1 => P2): IO[Unit] = {
+  private def updateP[P1 : PEv[M1, ?], P2 : PEv[M2, ?]](ps1: PState[P1], f: P1 => P2): Future[Unit] = {
     def startMigration =
-      if (ps1.migrationStarted) IO.pure(()) else repo1.updateMigrationStarted(ps1)
+      if (ps1.migrationStarted) Future.successful(()) else repo1.updateMigrationStarted(ps1)
     def createPs2(ps2: PState[P2], migrationStarted: Boolean) = try {
       repo2.createState(ps2)
     } catch {
@@ -173,7 +172,7 @@ private[longevity] class Migrator[M1, M2](migration: Migration[M1, M2]) {
             "the row was successfully migrated when that failure occurred. In this situation, we could also " +
             "see a DuplicateKeyValException here. We will continue on with the migration, assuming the " +
             "latter. But we advise that you check that the initial version was successfully migrated.")
-        IO.pure(())
+        Future.successful(())
     }
     for {
       _ <- startMigration
