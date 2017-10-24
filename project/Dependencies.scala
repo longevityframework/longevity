@@ -9,7 +9,7 @@ object Dependencies {
   val cassandraDep:      ModuleID = "com.datastax.cassandra"     %  "cassandra-driver-core" % "3.3.0"
   val catsDep:           ModuleID = "org.typelevel"              %% "cats"                  % "0.9.0"
   val catsEffectDep:     ModuleID = "org.typelevel"              %% "cats-effect"           % "0.4"
-  val catsIterateeDep:   ModuleID = "io.iteratee"                %% "iteratee-core"         % "0.13.0"
+  val catsIterateeDep:   ModuleID = "io.iteratee"                %% "iteratee-core"         % "0.12.0"
   val fs2CoreDep:        ModuleID = "co.fs2"                     %% "fs2-core"              % "0.9.7"
   val journalDep:        ModuleID = "io.verizon.journal"         %% "core"                  % "3.0.18" exclude ("ch.qos.logback", "logback-classic")
   val json4sDep:         ModuleID = "org.json4s"                 %% "json4s-native"         % "3.5.3"
