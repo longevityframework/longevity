@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>migrating to a new version of your domain</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> migrating to a new version of your domain </h1>
+          
+          <p>The traditional approach to migrating your database schema and data to keep up with changes to your
+application involves maintaining a sequence on migration scripts - typically written in a database
+query language like SQL or CQL. A number of systems have been developed for managing the appropriate
+application of these scripts. This approach is contrary to the design goals of longevity, where the
+user develops their application code in terms of their domain model, and leaves persistence concerns
+in the hands of longevity. While we are transparent about how we <a href="../translation">translate your
+domain</a> into different back ends, longevity users should be able to define their
+migrations purely in terms of their domains. The longevity migrations framework described here
+serves this purpose.</p>
+
+<p>In longevity, we describe our schema migrations in terms of our <em>domain model</em>. Because the domain
+model is undergoing changes, we save checkpoints of our model off to the side, in another package.
+We define a <code class="highlighter-rouge">longevity.migrations.Migration</code>, that maps from persistent objects in the initial
+model, to persistent objects in the final model, using <em>Scala functions</em>. And we hand this migration
+off to longevity, which applies the changes. Your database is now ready to run against the more
+recent version of your Scala code.</p>
+
+<p>The longevity migrations framework is still in early stages of development, and many potentially
+useful features are not in place yet. This user manual only covers existing functionality. To get a
+sense of potential future directions, check out our <a href="https://github.com/longevityframework/longevity/wiki/Longevity-Migrations---Ideas-for-Future-Directions">migrations
+wishlist</a>
+on GitHub.</p>
+
+<ul>
+  <li><a href="setup.html">Project Setup for Longevity Migrations</a></li>
+  <li><a href="tagging.html">Tagging a Version of Your Domain Model</a></li>
+  <li><a href="migration.html">Defining Your Migration</a></li>
+  <li><a href="running.html">Running Your Migration</a></li>
+</ul>
+
+<p>(To be sure, you are free to user more traditional methods to migrate schema. But you should be aware
+that this may be difficult or impossible, due to the way the various longevity back ends persist
+your data. At present, every back end stores your persistent objects in JSON. Back ends such as
+SQLite and Cassandra store the JSON is regular text columns. You may well have a very difficult time
+applying the necessary changes to these JSON columns using traditional techniques. The MongoDB back
+end stores your persistent objects as BSON, and MongoDB offers update commands that allow you to
+modify your BSON documents dynamically, so a more traditional approach may work for you. It’s also
+possible that we will be adding column-based back ends for
+<a href="https://github.com/longevityframework/longevity/issues/47">SQLite</a> and
+<a href="https://github.com/longevityframework/longevity/issues/46">Cassandra</a> in the future, which will
+also be amenable to more traditional approaches.)</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="../translation/sqlite.html">sqlite translation</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href="..">user manual</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="setup.html">project setup for longevity migrations</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="https://youtu.be/AJMETrjSzzY"                            class="button">Video Demo      </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/api/longevity"                                          class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

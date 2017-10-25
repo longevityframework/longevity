@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>defining your migration</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> defining your migration </h1>
+          
+          <p>Once you have tags for both the initial and final versions of your domain model, you can now proceed
+to build your migration. Migrations are composed of migration steps of three kinds:</p>
+
+<ul>
+  <li>Drop a persistent type that exists in the initial model.</li>
+  <li>Create a new persistent type that does not exist in the initial model</li>
+  <li>Update a persistent type by means of a Scala function.</li>
+</ul>
+
+<p>We’ll walk through an example here that contains one of each of these migration steps. Our initial
+model consists of users and groups of users:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">migrations.version_0_1</span>
+
+<span class="k">import</span> <span class="nn">longevity.annotations.domainModel</span>
+<span class="k">import</span> <span class="nn">longevity.annotations.keyVal</span>
+<span class="k">import</span> <span class="nn">longevity.annotations.persistent</span>
+
+<span class="nd">@domainModel</span> <span class="k">trait</span> <span class="nc">Model</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">Model</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span> <span class="n">last</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">first</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">Model</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Username</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">Model</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">UserGroup</span><span class="o">(</span><span class="n">groupName</span><span class="k">:</span> <span class="kt">GroupName</span><span class="o">,</span> <span class="n">members</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">Username</span><span class="o">])</span>
+
+<span class="k">object</span> <span class="nc">UserGroup</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">groupNameKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">groupName</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">Model</span>, <span class="kt">UserGroup</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">GroupName</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>In the time since this version of the model was released in production, we have gone ahead and made
+some changes to the domain. We decided to drop the concept of groups, and we’ve added blogs. We’ve
+also made some changes to the user type by extracting the last and first name into a
+<a href="../model/components.html">component</a>. As we prepare to release the latest code to production, we
+tag this new version of the model as <code class="highlighter-rouge">version_0_2</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">migrations.version_0_2</span>
+
+<span class="k">import</span> <span class="nn">longevity.annotations.component</span>
+<span class="k">import</span> <span class="nn">longevity.annotations.domainModel</span>
+<span class="k">import</span> <span class="nn">longevity.annotations.keyVal</span>
+<span class="k">import</span> <span class="nn">longevity.annotations.persistent</span>
+
+<span class="nd">@domainModel</span> <span class="k">trait</span> <span class="nc">Model</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">Model</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">Username</span><span class="o">,</span> <span class="n">fullname</span><span class="k">:</span> <span class="kt">Fullname</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">usernameKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">username</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">Model</span>, <span class="kt">User</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Username</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@component</span><span class="o">[</span><span class="kt">Model</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Fullname</span><span class="o">(</span><span class="n">last</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">first</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="nd">@persistent</span><span class="o">[</span><span class="kt">Model</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Blog</span><span class="o">(</span>
+  <span class="n">uri</span><span class="k">:</span> <span class="kt">BlogUri</span><span class="o">,</span>
+  <span class="n">title</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">authors</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">Username</span><span class="o">])</span>
+
+<span class="k">object</span> <span class="nc">Blog</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">uriKey</span> <span class="k">=</span> <span class="n">primaryKey</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="n">uri</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="nd">@keyVal</span><span class="o">[</span><span class="kt">Model</span>, <span class="kt">Blog</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">BlogUri</span><span class="o">(</span><span class="n">uri</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>In order to build out the update step for <code class="highlighter-rouge">User</code>, we need to define a function that will convert
+from type <code class="highlighter-rouge">version_0_1.User</code> to <code class="highlighter-rouge">version_0_2.User</code>. We might do this like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">migrations.version_0_1.</span><span class="o">{</span> <span class="nc">User</span>     <span class="k">=&gt;</span> <span class="nc">User1</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">migrations.version_0_1.</span><span class="o">{</span> <span class="nc">Username</span> <span class="k">=&gt;</span> <span class="nc">Username1</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">migrations.version_0_2.</span><span class="o">{</span> <span class="nc">Fullname</span> <span class="k">=&gt;</span> <span class="nc">Fullname2</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">migrations.version_0_2.</span><span class="o">{</span> <span class="nc">User</span>     <span class="k">=&gt;</span> <span class="nc">User2</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">migrations.version_0_2.</span><span class="o">{</span> <span class="nc">Username</span> <span class="k">=&gt;</span> <span class="nc">Username2</span> <span class="o">}</span>
+
+<span class="k">def</span> <span class="n">updateUsername</span><span class="o">(</span><span class="n">username1</span><span class="k">:</span> <span class="kt">Username1</span><span class="o">)</span> <span class="k">=</span> <span class="nc">Username2</span><span class="o">(</span><span class="n">username1</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">updateUser</span><span class="o">(</span><span class="n">user1</span><span class="k">:</span> <span class="kt">User1</span><span class="o">)</span> <span class="k">=</span>
+  <span class="nc">User2</span><span class="o">(</span>
+    <span class="n">updateUsername</span><span class="o">(</span><span class="n">user1</span><span class="o">.</span><span class="n">username</span><span class="o">),</span>
+    <span class="nc">Fullname2</span><span class="o">(</span><span class="n">user1</span><span class="o">.</span><span class="n">last</span><span class="o">,</span> <span class="n">user1</span><span class="o">.</span><span class="n">first</span><span class="o">))</span>
+</code></pre>
+</div>
+
+<p>To build a migration, we will need to specify a name for our initial version, of type
+<code class="highlighter-rouge">Some[String]</code>, and a name for our final version, of type <code class="highlighter-rouge">String</code>. These values should match what
+is found in the <code class="highlighter-rouge">longevity.modelVersion</code> <a href="../context/config.html">configuration flag</a>. In our case,
+we are applying our first migration, so <code class="highlighter-rouge">longevity.modelVersion</code> is set to <code class="highlighter-rouge">None</code>. We decide to call
+our final version <code class="highlighter-rouge">version_0_2</code>. We are now ready to build our migration, like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.migrations.Migration</span>
+
+<span class="k">val</span> <span class="mi">0</span><span class="n">_1_to_0_2</span> <span class="k">=</span>
+  <span class="nc">Migration</span><span class="o">.</span><span class="n">build</span><span class="o">[</span><span class="kt">version_0_1.Model</span>, <span class="kt">version_0_2.Model</span><span class="o">](</span><span class="nc">None</span><span class="o">,</span> <span class="s">"version_0_2"</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">drop</span><span class="o">[</span><span class="kt">version_0_1.UserGroup</span><span class="o">]</span>
+    <span class="o">.</span><span class="n">create</span><span class="o">[</span><span class="kt">version_0_2.Blog</span><span class="o">]</span>
+    <span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="n">updateUser</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">build</span>
+</code></pre>
+</div>
+
+<p>There are two arguments to <code class="highlighter-rouge">Migration.build</code> that we didn’t specify here: one <a href="../context/config.html">longevity
+config</a> for both the initial and final model. If we leave these unspecified,
+they will be loaded via <code class="highlighter-rouge">com.typesafe.config.ConfigFactory.load()</code>. You don’t have to worry about
+setting <code class="highlighter-rouge">longevity.modelVersion</code> correctly in these configurations; they will be overridden by the
+values you provide for the initial and final versions. This means it is generally the right thing
+to do to use the same configuration you provide to your <code class="highlighter-rouge">LongevityContext</code> in your application.</p>
+
+<p>Every persistent type in both your initial and final domain models must be covered by one of the
+update steps you provide. You can confirm this by calling <code class="highlighter-rouge">migration.validate</code>, which will return a
+<code class="highlighter-rouge">longevity.migrations.ValidationResult</code>, which summarizes the result of the validation process.
+<code class="highlighter-rouge">ValidationResult.isValid</code> will return <code class="highlighter-rouge">true</code> whenever the migration is valid. Running the
+migration, as described in the following section, will always validate a migration before applying
+it.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="tagging.html">tagging a version of your domain model</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">migrating to a new version of your domain</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="running.html">running your migration</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="https://youtu.be/AJMETrjSzzY"                            class="button">Video Demo      </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/api/longevity"                                          class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

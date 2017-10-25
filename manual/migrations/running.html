@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>running your migration</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> running your migration </h1>
+          
+          <p>Now that we have <a href="migration.html">built our migration</a>, we can run it like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sbt migrateSchema 0_1_to_0_2
+</code></pre>
+</div>
+
+<p>Here, the migration process will look for a <code class="highlighter-rouge">longevity.migrations.Migration[_, _]</code> instance in a
+field named <code class="highlighter-rouge">0_1_to_0_2</code> in the <code class="highlighter-rouge">migrationsPackage</code> setting we configured when we <a href="setup.html">set up the
+plugin</a>.</p>
+
+<p>The <code class="highlighter-rouge">migrateSchema</code> task will perform a series of checks before running the migration. First, it
+checks that the migration is valid, as described towards the bottom of the <a href="migration.html">previous
+section</a>. It also asks the user for a couple confirmations.</p>
+
+<p>We ask you to confirm that you have backed up your database before running the migration. As with
+any migration process, things can go wrong along the way, leaving your database in a corrupted
+state. One common example of something that can go wrong is this: You define a new
+<a href="../ptype/keys.html">key</a> for your persistent type, and two existing objects have the same value for
+the new key. Depending on your back end, the type of key, and whether or not your database is
+partitioned, an error like this can result in different outcomes. It could cause the migration
+process to halt with an error, it could silently overwrite, or it could allow the dupicate key
+values in, violating your integrity constraint. This kind of lack of strict integrity is fairly
+typical when working with NoSQL databases. With the SQLite or JDBC back ends, the migration will
+definitely halt with an error in this scenario.</p>
+
+<p>We also ask you to confirm that you have no applications running against the database while the
+migration is running. Any concurrent writes to the initial version of the model may or may not be
+lost by the migration process. Any concurrent reads from the initial version of the model will
+produce correct results, but note that one of the last steps of the migration process is to tear
+down the initial version, so any read-only clients will probably error out towards the end of the
+migration process.</p>
+
+<p>We have considered ways to allow you to keep running your application while the migration is
+running. In particular, see these three items on our “migrations wishlist”:</p>
+
+<ul>
+  <li><a href="https://github.com/longevityframework/longevity/wiki/Longevity-Migrations---Ideas-for-Future-Directions#migration-flag-to-maintain-the-old-schema">Migration flag to maintain the old
+schema</a></li>
+  <li><a href="https://github.com/longevityframework/longevity/wiki/Longevity-Migrations---Ideas-for-Future-Directions#soft-stop-migrations">Soft stop
+migrations</a></li>
+  <li><a href="https://github.com/longevityframework/longevity/wiki/Longevity-Migrations---Ideas-for-Future-Directions#no-stop-migrations">No stop migrations</a></li>
+</ul>
+
+<p>If you are interested in taking on one of these enhancements, please let us know! We would be more
+than happy to help.</p>
+
+<p>You can avoid these interactive confirmation queries by supplying a <code class="highlighter-rouge">--nonInteractive</code> flag to the
+SBT task invocation:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sbt migrateSchema 0_1_to_0_2 --nonInteractive
+</code></pre>
+</div>
+
+<p>This will come in handy if you want to run this task from within a script.</p>
+
+<p>Please note that due to the interactive nature of the <code class="highlighter-rouge">migrateSchema</code> rule, you may encounter
+difficulties running the rule if your build forks runs, for instance like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">fork</span> <span class="n">in</span> <span class="n">run</span> <span class="o">:=</span> <span class="kc">true</span>
+</code></pre>
+</div>
+
+<p>In such situations, you may wish to run <code class="highlighter-rouge">migrateSchema</code> with the <code class="highlighter-rouge">--nonInteractive</code> flag. Or you
+could add the following settings to your build to allow forked runs to share the STDIN and STDOUT
+streams of the SBT process:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">outputStrategy</span> <span class="o">:=</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">StdoutOutput</span><span class="o">)</span>
+<span class="n">connectInput</span> <span class="n">in</span> <span class="n">run</span> <span class="o">:=</span> <span class="kc">true</span>
+</code></pre>
+</div>
+
+<p>The SBT task will let you know once the migration is complete. This migration process has been
+designed to be restartable, so if it does get interrupted mid-way through, you do not have to
+restore from a backup and start over. Just re-run the SBT <code class="highlighter-rouge">migrateSchema</code> command.</p>
+
+<p>After the migration, you will need to make a change to your <a href="../context/config.html">longevity
+configuration</a> to indicate that you are running against a new model version.
+In our example, we specified “version_0_2” as the final version of our migration, so we would update
+our <code class="highlighter-rouge">application.conf</code> file as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>longevity.modelVersion = version_0_2
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="migration.html">defining your migration</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">migrating to a new version of your domain</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="../integrations">integration points</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="https://youtu.be/AJMETrjSzzY"                            class="button">Video Demo      </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/api/longevity"                                          class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

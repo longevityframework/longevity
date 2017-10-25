@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>tagging a version of your domain model</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> tagging a version of your domain model </h1>
+          
+          <p>To migrate your data, you will first need to tag two versions of your domain model. We call the
+first version the <em>initial</em> version. That’s the version that matches the current state of the
+database. The second is the <em>final</em> version. That’s the version that matches the desired state of
+the database. In a typical scenario, the <em>initial</em> version is what is running on production, and the
+<em>final</em> version is the version that you wish to release to production.</p>
+
+<p>To tag the current version of your domain model as “versionX”, run the following command in SBT:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">createVersionTag</span> <span class="n">versionX</span>
+</code></pre>
+</div>
+
+<p>This will make a copy of your domain model code into a new package <code class="highlighter-rouge">versionX</code>. This new package will
+be a sub-package of the <code class="highlighter-rouge">migrationsPackage</code> we set up in SBT in the <a href="setup.html">last section</a>. It’s
+not a strict copy; all of the <code class="highlighter-rouge">package</code> and <code class="highlighter-rouge">import</code> statements that reference your domain model
+package will be adjusted to reference the new <code class="highlighter-rouge">versionX</code> package. At this point, you will want to
+run <code class="highlighter-rouge">sbt compile</code> to make sure the tagging process went smoothly.</p>
+
+<p>Ideally, you would have tagged the initial version of your model right around the time that you did
+your last production release. But if not, that’s okay. You simply need to find the correct version
+from within source control, tag there, and bring the tagged version up to the version control head.
+With a modern source control system such as <a href="https://git-scm.com/">Git</a>, this can be accomplished
+like so:</p>
+
+<ol>
+  <li>Identify a commit along your master branch that has the correct model version. Perhaps you put a
+version control tag there?</li>
+  <li>Check out that commit, and create a new branch from there.</li>
+  <li>Create the model version tag on that branch, and commit the changes.</li>
+  <li>Check out your master branch again.</li>
+  <li>Merge in the branch you just created.</li>
+</ol>
+
+<p>If you already have a release branch, you could just use that branch. But take care to make sure
+that everything else on the release branch is merged into master. Otherwise, merging your release
+branch to master may bring in some unwanted changes. Another possibility for accomplishing this is
+to <a href="https://git-scm.com/docs/git-cherry-pick">cherry pick</a> the single commit where you created
+your version tag.</p>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href="setup.html">project setup for longevity migrations</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">migrating to a new version of your domain</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="migration.html">defining your migration</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="https://youtu.be/AJMETrjSzzY"                            class="button">Video Demo      </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/api/longevity"                                          class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>

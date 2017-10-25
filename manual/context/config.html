@@ -121,9 +121,8 @@ core domain in our blogging application:</p>
 <p>Please see the <a href="https://github.com/typesafehub/config#overview">Typesafe Config documentation</a> for
 more information on the different ways you can manage your configuration.</p>
 
-<p>Longevity converts the Typesafe Config into a <code class="highlighter-rouge">LongevityConfig</code> case
-class internally. You can use case class configuration if you
-prefer. Here we use the <code class="highlighter-rouge">LongevityConfig</code> case class to define the
+<p>Longevity converts the Typesafe Config into a <code class="highlighter-rouge">LongevityConfig</code> case class internally. You can use
+case class configuration if you prefer. Here we use the <code class="highlighter-rouge">LongevityConfig</code> case class to define the
 same configuration as found in the <code class="highlighter-rouge">reference.conf</code> file:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.context.CassandraConfig</span>
@@ -135,7 +134,8 @@ same configuration as found in the <code class="highlighter-rouge">reference.con
 
 <span class="k">val</span> <span class="n">longevityConfig</span> <span class="k">=</span> <span class="nc">LongevityConfig</span><span class="o">(</span>
   <span class="n">backEnd</span> <span class="k">=</span> <span class="nc">InMem</span><span class="o">,</span> <span class="c1">// one of Cassandra, InMem, JDBC, MongoDB, SQLite
-</span>  <span class="n">autoOpenConnection</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
+</span>  <span class="n">modelVersion</span> <span class="k">=</span> <span class="nc">None</span><span class="o">,</span>
+  <span class="n">autoOpenConnection</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
   <span class="n">autoCreateSchema</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
   <span class="n">optimisticLocking</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
   <span class="n">writeTimestamps</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
@@ -173,16 +173,13 @@ same configuration as found in the <code class="highlighter-rouge">reference.con
 is where you choose your database. Right now, the options are
 <code class="highlighter-rouge">Cassandra</code>, <code class="highlighter-rouge">JDBC</code>, <code class="highlighter-rouge">InMem</code>, <code class="highlighter-rouge">MongoDB</code>, and <code class="highlighter-rouge">SQLite</code>.</p>
 
-<p>The <code class="highlighter-rouge">JDBC</code> back end is a generic back end that you can use for any
-databases with a JDBC driver. Unfortunately, we are not able to
-provide support for any JDBC driver other than SQLite, because we have
-no way of writing integration tests against this back end without
-specifying the JDBC driver, and the longevity framework team (i.e.,
-me) already has their hands full supporting the other back ends. That
-said, we would be <em>more</em> than happy to give you help and advice in
-troubleshooting any problems. In fact, we’ve made it as easy as
-possible for you to build and maintain your own JDBC-flavored back
-end. See <a href="https://github.com/longevityframework/longevity/wiki/How-to-create-a-new-JDBC-back-end">these
+<p>The <code class="highlighter-rouge">JDBC</code> back end is a generic back end that you can use for any databases with a JDBC driver.
+Unfortunately, we are not able to provide support for any JDBC driver other than SQLite, because we
+have no way of writing integration tests against this back end without specifying the JDBC driver,
+and the longevity framework team (i.e., me) already has their hands full supporting the other back
+ends. That said, we would be <em>more</em> than happy to give you help and advice in troubleshooting any
+problems. In fact, we’ve tried to make it as easy as possible for you to build and maintain your own
+JDBC-flavored back end. See <a href="https://github.com/longevityframework/longevity/wiki/How-to-create-a-new-JDBC-back-end">these
 instructions</a>
 for details.</p>
 

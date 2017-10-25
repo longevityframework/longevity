@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="longevity, Scala, NoSQL, MongoDB, Cassandra, database, Domain Driven Design" />
+    <meta name="description" content="A Persistence Framework for Scala and NoSQL" />
+
+    <meta property="og:title" content="longevity"/>
+    <meta property="og:description" content="A Persistence Framework for Scala and NoSQL"/>
+    <meta property="og:image" content="http://longevityframework.org/images/longevity.png" />
+    <meta property='og:url' content="http://longevityframework.org/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/stylesheets/longevity.css">
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="/stylesheets/github-light.css">
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" href="/stylesheets/emacs.css">
+
+    <link rel="icon" type="image/png" href="http://longevityframework.org/favicon.png" >
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+      Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-42481814-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    
+    <title>project setup for longevity migrations</title>
+    
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1><a href="/" class="nostyle">longevity</a></h1>
+        <h2>
+          A Persistence Framework for Scala and NoSQL
+        </h2>
+        <a href="https://github.com/longevityframework/longevity" class="button">
+          <small>View project on</small> GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          
+          <h1> project setup for longevity migrations </h1>
+          
+          <p>In addition to the library dependencies you <a href="../prelims/project-setup.html">set up</a> for longevity
+proper, you will need to add another library dependency to your <code class="highlighter-rouge">build.sbt</code> for migrations:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-migrations"</span> <span class="o">%</span> <span class="s">"0.26.0"</span>
+</code></pre>
+</div>
+
+<p>You will also want to add the <code class="highlighter-rouge">sbt-longevity-migrations</code> plugin to your build by adding the
+following line to <code class="highlighter-rouge">project/plugins.sbt</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">"org.longevityframework"</span> <span class="o">%</span> <span class="s">"sbt-longevity-migrations"</span> <span class="o">%</span> <span class="s">"0.1.0"</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">longevity-migrations</code> library dependency will move in lock-step with the other longevity
+artifacts. However, the <code class="highlighter-rouge">sbt-longevity-migrations</code> plugin maintains its own version and release
+cycle.</p>
+
+<p>Enable the SBT plugin back in your <code class="highlighter-rouge">build.sbt</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">enablePlugins</span><span class="o">(</span><span class="n">longevity</span><span class="o">.</span><span class="n">migrations</span><span class="o">.</span><span class="nc">Plugin</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>The plugin requires the following two settings to be added to your build:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">modelPackage</span> <span class="o">:=</span> <span class="s">"com.example.domain"</span>
+<span class="n">migrationsPackage</span> <span class="o">:=</span> <span class="s">"com.example.migrations"</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">modelPackage</code> is the package where your domain model classes are found. The <code class="highlighter-rouge">migrationsPackage</code>
+is a package to contain your migrations and your model tags.</p>
+
+<p>The code for these packages is assumed to live in the standard locations. In the example above,
+the plugin will look for model code in <code class="highlighter-rouge">src/main/scala/com/example/domain</code>, and migrations code in
+<code class="highlighter-rouge">src/main/scala/com/example/migrations</code>. You can override these locations if you like with settings
+<code class="highlighter-rouge">modelSourceDir</code> and <code class="highlighter-rouge">migrationsSourceDir</code>. For instance, if you leave out the <code class="highlighter-rouge">com</code> and <code class="highlighter-rouge">example</code>
+directories in the middle, you could specify this like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">modelSourceDir</span> <span class="o">:=</span> <span class="o">(</span><span class="n">scalaSource</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="s">"domain"</span>
+<span class="n">migrationsSourceDir</span> <span class="o">:=</span> <span class="o">(</span><span class="n">scalaSource</span> <span class="n">in</span> <span class="nc">Compile</span><span class="o">).</span><span class="n">value</span> <span class="o">/</span> <span class="s">"migrations"</span>
+</code></pre>
+</div>
+
+<div style="display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-left: 3em;
+            margin-right: 3em;">
+
+<div style="min-width: 10em">
+
+  prev: <a href=".">migrating to a new version of your domain</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+up: <a href=".">migrating to a new version of your domain</a>
+
+</div>
+
+<div style="min-width: 10em">
+
+next: <a href="tagging.html">tagging a version of your domain model</a>
+
+</div>
+
+</div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="/feature-list.html"                                      class="button">Feature List    </a>
+          <a href="https://youtu.be/AJMETrjSzzY"                            class="button">Video Demo      </a>
+          <a href="/manual"                                                 class="button">User Manual     </a>
+          <a href="/getting-started"                                        class="button">Getting Started </a>
+          <a href="/api/longevity"                                          class="button">Scaladocs       </a>
+          <a href="https://groups.google.com/forum/#!forum/longevity-users" class="button">Discussion Forum</a>
+          <a href="/resources.html"                                         class="button">Resources       </a>
+        </aside>
+      </div>
+    </div>
+  
+  </body>
+</html>
