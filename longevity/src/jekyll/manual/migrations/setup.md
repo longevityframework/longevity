@@ -14,11 +14,12 @@ You will also want to add the `sbt-longevity-migrations` plugin to your build by
 following line to `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.longevityframework" % "sbt-longevity-migrations" % "0.26.0")
+addSbtPlugin("org.longevityframework" % "sbt-longevity-migrations" % "0.1.0")
 ```
 
-The versions of all longevity artifacts move in lock-step, so these two dependencies will have the
-same versions as your other longevity dependencies.
+The `longevity-migrations` library dependency will move in lock-step with the other longevity
+artifacts. However, the `sbt-longevity-migrations` plugin maintains its own version and release
+cycle.
 
 Enable the SBT plugin back in your `build.sbt`:
 
