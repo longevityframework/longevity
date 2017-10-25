@@ -1,5 +1,7 @@
 # Longevity Changelog
 
+## [0.26.0] - 2016.10.25 - Initial Version of Migration Framework
+	
 ## [0.25.0] - 2016.07.24 - Small Improvements
 
 - 2016.07.12 - Add some specialized "implicit not found" error messages for implicit types in
