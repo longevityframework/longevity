@@ -20,9 +20,16 @@ object BuildSettings {
       else
         Some("releases" at nexus + "service/local/staging/deploy/maven2")
     },
-    licenses := Seq("Apache License, Version 2.0" ->
-                    url("http://www.apache.org/licenses/LICENSE-2.0"))
-  )
+    licenses := Seq("Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+    homepage := Some(url("http://longevityframework.org/")),
+    scmInfo  := Some(ScmInfo(
+      url("https://github.com/longevityframework/longevity.git"),
+      "scm:git:git@github.com:longevityframework/longevity.git")),
+    developers := List(Developer(
+      id    = "sullivan-",
+      name  = "John Sullivan",
+      email = "John Sullivan MSCS at gmail",
+      url   = url("https://github.com/sullivan-"))))
 
   val buildSettings = publishSettings ++ Seq(
     scalacOptions ++= compileScalacOptions,
@@ -63,21 +70,6 @@ object BuildSettings {
     packagedArtifacts := Map.empty,
     publish := ((): Unit),
     publishSigned := ((): Unit))
-
-  def longevityHomepage = Some(url("http://longevityframework.org/"))
-
-  def longevityPomExtra = (
-    <scm>
-      <url>git@github.com:longevityframework/longevity.git</url>
-      <connection>scm:git:git@github.com:longevityframework/longevity.git</connection>
-    </scm>
-    <developers>
-      <developer>
-        <id>sullivan-</id>
-        <name>John Sullivan</name>
-        <url>https://github.com/sullivan-</url>
-      </developer>
-    </developers>)
 
   private def githubUrl = "https://github.com/longevityframework/longevity"
 

@@ -34,9 +34,6 @@ lazy val longevity = project.in(file("longevity"))
     libraryDependencies += Dependencies.scalaTestDep    % "optional,test",
     libraryDependencies += Dependencies.sqliteDep       % "optional,test",
 
-    homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra,
-
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
     addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4"))
   .enablePlugins(JekyllPlugin, SiteScaladocPlugin, GhpagesPlugin)
@@ -50,27 +47,21 @@ lazy val longevityCassandraDeps = Project("longevity-cassandra-deps", file("long
   .settings(BuildSettings.publishSettings)
   .settings(
     libraryDependencies += Dependencies.cassandraDep,
-    libraryDependencies += Dependencies.json4sDep,
-    homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra)
+    libraryDependencies += Dependencies.json4sDep)
 
 lazy val longevityMongoDbDeps = Project("longevity-mongodb-deps", file("longevity-mongodb-deps"))
   .settings(BuildSettings.publishSettings)
   .settings(
-    libraryDependencies += Dependencies.mongodbDep,
-    homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra)
+    libraryDependencies += Dependencies.mongodbDep)
 
 lazy val longevitySqliteDeps = Project("longevity-sqlite-deps", file("longevity-sqlite-deps"))
   .settings(BuildSettings.publishSettings)
   .settings(
     libraryDependencies += Dependencies.sqliteDep,
-    libraryDependencies += Dependencies.json4sDep,
-    homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra)
+    libraryDependencies += Dependencies.json4sDep)
 
 lazy val longevityMigrations = Project("longevity-migrations", file("longevity-migrations"))
-  .settings(BuildSettings.buildSettings: _*)
+  .settings(BuildSettings.buildSettings)
   .settings(
     libraryDependencies += Dependencies.catsDep,
     libraryDependencies += Dependencies.catsIterateeDep,
@@ -80,8 +71,6 @@ lazy val longevityMigrations = Project("longevity-migrations", file("longevity-m
     libraryDependencies += Dependencies.mongodbDep     % "test",
     libraryDependencies += Dependencies.slf4jSimpleDep % "test",
     libraryDependencies += Dependencies.sqliteDep      % "test",
-    homepage := BuildSettings.longevityHomepage,
-    pomExtra := BuildSettings.longevityPomExtra,
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
     addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4"))
   .dependsOn(longevity)
