@@ -1,3 +1,0 @@
-> runMain simple.PopulateV1
-> migrateSchema v1_to_v2 --nonInteractive
-> runMain simple.CheckV2

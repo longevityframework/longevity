@@ -59,7 +59,10 @@ object BuildSettings {
 
   )
 
-  val noPublishSettings = commonSettings :+ (packagedArtifacts := Map.empty)
+  val noPublishSettings = commonSettings ++ Seq(
+    packagedArtifacts := Map.empty,
+    publish := ((): Unit),
+    publishSigned := ((): Unit))
 
   def longevityHomepage = Some(url("http://longevityframework.org/"))
 

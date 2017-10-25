@@ -1,8 +1,0 @@
-> createVersionTag v0
-
-# src dir migrations/v0 is created
-$ exists src/main/scala/simple/migrations/v0
-
-# tag files exist with appropriate internal mods
-$ must-mirror src/main/scala/simple/migrations/v0/package.scala expecteds/migrations/v0/package.scala
-$ must-mirror src/main/scala/simple/migrations/v0/Foo.scala     expecteds/migrations/v0/Foo.scala
