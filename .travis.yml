@@ -5,7 +5,7 @@ before_script:
   - sudo chmod +x /usr/local/bin/sbt
 
 script:
-  - sbt -J-Xmx4G clean test sbt-longevity-migrations:scripted doc
+  - sbt -J-Xmx4G clean test doc
 
 scala:
   - 2.12.2
