@@ -25,13 +25,13 @@ Current features are described in detail in the [user manual](manual). They incl
   against a real database.
 - Fully featured in-memory repositories for use in other integration
   testing.
+- Schema migration framework.
 - Test data generation.
 
 ## Upcoming Features
 
 The current high-priority features and improvements are:
 
-- Schema migration framework.
 - Replace home-grown reflection utilities with shapeless/circe.
 - First-class support for optional values.
 
