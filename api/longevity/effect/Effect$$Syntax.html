@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.27-SNAPSHOT API  - longevity.effect.Effect.Syntax</title>
-          <meta name="description" content="longevity 0.27 - SNAPSHOT API - longevity.effect.Effect.Syntax" />
-          <meta name="keywords" content="longevity 0.27 SNAPSHOT API longevity.effect.Effect.Syntax" />
+          <title>longevity 0.26.0 API  - longevity.effect.Effect.Syntax</title>
+          <meta name="description" content="longevity 0.26.0 API - longevity.effect.Effect.Syntax" />
+          <meta name="keywords" content="longevity 0.26.0 API longevity.effect.Effect.Syntax" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.27-SNAPSHOT API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.26.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -152,7 +152,7 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides object-oriented forwarders for <code>Effect</code> methods. if you have something like this:</p><pre><span class="kw">implicit</span> <span class="kw">val</span> effect: Effect[F] = ...
 <span class="kw">val</span> fa: F[A] = ...
 <span class="kw">val</span> f: A <span class="kw">=&gt;</span> B = ...</pre><p>you can now say:</p><pre><span class="kw">import</span> longevity.effect.Effect.Syntax
-<span class="kw">val</span> fb: F[B] = fa.map(f)</pre><p>instead of:</p><pre><span class="kw">val</span> fb: F[B] = effect.map(fa)(f)</pre></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/b31649f1a3501ec9afb46cf28d3247987df0b9eb/src/main/scala/longevity/effect/Effect.scala" target="_blank">Effect.scala</a></dd></dl><div class="toggleContainer block">
+<span class="kw">val</span> fb: F[B] = fa.map(f)</pre><p>instead of:</p><pre><span class="kw">val</span> fb: F[B] = effect.map(fa)(f)</pre></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.26.0/src/main/scala/longevity/effect/Effect.scala" target="_blank">Effect.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
