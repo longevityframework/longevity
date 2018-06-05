@@ -1,7 +1,7 @@
 package longevity.persistence.streams
 
+import cats.effect.IO
 import fs2.Stream
-import fs2.Task
 import longevity.effect.Effect.Syntax
 import longevity.model.PEv
 import longevity.model.query.Query
@@ -24,7 +24,7 @@ class FS2Repo[F[_], M](repo: Repo[F, M]) {
    *
    * @param query the query to execute
    */
-  def queryToFS2[P: PEv[M, ?]](query: Query[P]): F[Stream[Task, PState[P]]] = for {
+  def queryToFS2[P: PEv[M, ?]](query: Query[P]): F[Stream[IO, PState[P]]] = for {
     pr  <- repo.pRepoF[P]
     fs2 <- pr.queryToFS2Impl(query)
   } yield fs2

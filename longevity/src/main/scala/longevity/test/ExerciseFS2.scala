@@ -18,9 +18,9 @@ trait ExerciseFS2[F[_], M, P] extends QuerySpec[F, M, P] {
   }
 
   private def exerciseFS2(query: Query[P], expected: Set[P]): Unit = {
-    val S = fs2.Strategy.fromFixedDaemonPool(8, threadName = "worker")
+    val ec = scala.concurrent.ExecutionContext.Implicits.global
     val source = effect.run(repo.queryToFS2(query))
-    val results = fs2StreamToChunkerator(S).adapt(source).toVector.map(_.get).toSet
+    val results = fs2StreamToChunkerator(ec).adapt(source).toVector.map(_.get).toSet
     val actual = pStates.map(_.get).toSet intersect results
     exerciseStream(query, actual, expected)
   }

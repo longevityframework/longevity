@@ -130,7 +130,6 @@ extends FlatSpec with LongevityIntegrationSpec[F, M] {
   }
 
   private def exerciseToIterator(query: Query[P], expected: Set[P]): Unit = {
-    val S = fs2.Strategy.fromFixedDaemonPool(8, threadName = "worker")
     val source = effect.run(repo.queryToIterator(query))
     val results = source.map(_.get).toSet
     val actual = pStates.map(_.get).toSet intersect results

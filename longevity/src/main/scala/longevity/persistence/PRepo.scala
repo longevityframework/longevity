@@ -3,13 +3,12 @@ package longevity.persistence
 import akka.NotUsed
 import akka.stream.scaladsl.Source
 import cats.Monad
-import typekey.TypeKey
+import cats.effect.IO
 import fs2.Stream
-import fs2.Task
 import io.iteratee.{ Enumerator => CatsEnumerator }
-import longevity.exceptions.persistence.UnstablePrimaryKeyException
 import longevity.effect.Effect
 import longevity.effect.Effect.Syntax
+import longevity.exceptions.persistence.UnstablePrimaryKeyException
 import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.ptype.Key
@@ -22,6 +21,7 @@ import streamadapter.akka.chunkeratorToAkkaSource
 import streamadapter.fs2.chunkeratorToFS2Stream
 import streamadapter.iterateeio.chunkeratorToIterateeIoEnumerator
 import streamadapter.play.chunkeratorToPlayEnumerator
+import typekey.TypeKey
 
 /** an abstract base class for [[Repo]] implementations
  * 
@@ -70,7 +70,7 @@ private[longevity] abstract class PRepo[F[_], M, P] private[persistence] (
   def queryToAkkaStreamImpl(query: Query[P]): F[Source[PState[P], NotUsed]] =
     effect.map(effect.pure(query))(q => chunkeratorToAkkaSource.adapt(queryToChunkerator(q)))
 
-  def queryToFS2Impl(query: Query[P]): F[Stream[Task, PState[P]]] =
+  def queryToFS2Impl(query: Query[P]): F[Stream[IO, PState[P]]] =
     effect.map(effect.pure(query))(q => chunkeratorToFS2Stream.adapt(queryToChunkerator(q)))
 
   def queryToIterateeIoImpl[F2[_]](query: Query[P])(implicit F2: Monad[F2]): F[CatsEnumerator[F2, PState[P]]] =

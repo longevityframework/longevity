@@ -38,8 +38,8 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
   it should "dump helpful debug info" in {
     pointEmblem.debugInfo should equal (
       """|longevity.emblem.testData.geometry.Point {
-         |  x: scala.Double
-         |  y: scala.Double
+         |  x: Double
+         |  y: Double
          |}""".stripMargin)
   }
 

@@ -8,7 +8,7 @@ object BuildSettings {
     organization := "org.longevityframework",
     version := "0.27-SNAPSHOT",
     scalaVersion := Dependencies.scalaVersionString,
-    crossScalaVersions := Seq("2.11.11", Dependencies.scalaVersionString))
+    crossScalaVersions := Seq("2.11.12", Dependencies.scalaVersionString))
 
   val publishSettings = commonSettings ++ Seq(
     publishMavenStyle := true,
@@ -76,6 +76,7 @@ object BuildSettings {
   private def compileScalacOptions = Seq(
     "-Xfuture",
     "-Yno-adapted-args",
+    "-Ypartial-unification",
     "-Ywarn-numeric-widen",
     "-Ywarn-unused-import",
     "-deprecation",
