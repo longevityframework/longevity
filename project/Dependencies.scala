@@ -7,7 +7,7 @@ object Dependencies {
 
   val akkaStreamDep:     ModuleID = "com.typesafe.akka"          %% "akka-stream"           % "2.5.12"
   val cassandraDep:      ModuleID = "com.datastax.cassandra"     %  "cassandra-driver-core" % "3.5.0"
-  val catsDep:           ModuleID = "org.typelevel"              %% "cats-core"             % "1.0.1"
+  val catsDep:           ModuleID = "org.typelevel"              %% "cats-core"             % "1.1.0"
   val catsEffectDep:     ModuleID = "org.typelevel"              %% "cats-effect"           % "0.10.1"
   val catsIterateeDep:   ModuleID = "io.iteratee"                %% "iteratee-core"         % "0.17.0"
   val fs2CoreDep:        ModuleID = "co.fs2"                     %% "fs2-core"              % "0.10.4"
