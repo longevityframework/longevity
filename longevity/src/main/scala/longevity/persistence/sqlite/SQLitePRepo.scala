@@ -1,6 +1,5 @@
 package longevity.persistence.sqlite
 
-import java.sql.Connection
 import longevity.config.PersistenceConfig
 import longevity.effect.Effect
 import longevity.exceptions.persistence.DuplicateKeyValException
@@ -9,6 +8,7 @@ import longevity.model.ModelType
 import longevity.model.PType
 import longevity.model.PolyPType
 import longevity.persistence.PState
+import longevity.persistence.jdbc.JdbcConnection
 import longevity.persistence.jdbc.JdbcPRepo
 import org.sqlite.SQLiteException
 
@@ -17,14 +17,14 @@ private[longevity] class SQLitePRepo[F[_], M, P] private (
   modelType: ModelType[M],
   pType: PType[M, P],
   persistenceConfig: PersistenceConfig,
-  connection: () => Connection)
+  connection: JdbcConnection)
 extends JdbcPRepo[F, M, P](effect, modelType, pType, persistenceConfig, connection) {
 
   override protected def addColumn(columnName: String, columnType: String): Unit = {
     val sql = s"ALTER TABLE $tableName ADD COLUMN $columnName $columnType"
     logger.debug(s"executing SQL: $sql")
     try {
-      connection().prepareStatement(sql).execute()
+      connection.execute(connection.prepareStatement(sql))
     } catch {
       // ignoring this exception is best approximation of ALTER TABLE ADD IF NOT EXISTS
       case e: SQLiteException if e.getMessage.contains("duplicate column name: ") =>
@@ -60,7 +60,7 @@ private[persistence] object SQLitePRepo {
     pType: PType[M, P],
     config: PersistenceConfig,
     polyRepoOpt: Option[SQLitePRepo[F, M, _ >: P]],
-    connection: () => Connection)
+    connection: JdbcConnection)
   : SQLitePRepo[F, M, P] = {
     val repo = pType match {
       case pt: PolyPType[_, _] =>

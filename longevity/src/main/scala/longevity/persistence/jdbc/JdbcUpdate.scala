@@ -17,7 +17,7 @@ private[jdbc] trait JdbcUpdate[F[_], M, P] {
     }
     val fssr = fss.mapBlocking { case (state, newState) =>
       val rowCount = try {
-        bindUpdateStatement(newState, state.rowVersionOrNull).executeUpdate()
+        connection.executeUpdate(bindUpdateStatement(newState, state.rowVersionOrNull))
       } catch {
         convertDuplicateKeyException(newState)
       }
@@ -39,7 +39,7 @@ private[jdbc] trait JdbcUpdate[F[_], M, P] {
       updateColumnValues(state, isCreate = false) ++: whereBindings(state)
     }
     logger.debug(s"invoking SQL: $updateSql with bindings: $columnBindings")
-    val preparedStatement = connection().prepareStatement(updateSql)
+    val preparedStatement = connection.prepareStatement(updateSql)
     columnBindings.zipWithIndex.foreach { case (binding, index) =>
       preparedStatement.setObject(index + 1, binding)
     }
@@ -72,11 +72,11 @@ private[jdbc] trait JdbcUpdate[F[_], M, P] {
 
   protected[persistence] def updateMigrationStarted(state: PState[P]): F[Unit] = {
     effect.pure(state).mapBlocking { state =>
-      val statement = connection().prepareStatement(updateMigrationStartedSql)
+      val statement = connection.prepareStatement(updateMigrationStartedSql)
       whereBindings(state).zipWithIndex.foreach { case (binding, index) =>
         statement.setObject(index + 1, binding)
       }
-      statement.executeUpdate()
+      connection.executeUpdate(statement)
     }
   }
 
@@ -85,11 +85,11 @@ private[jdbc] trait JdbcUpdate[F[_], M, P] {
 
   protected[persistence] def updateMigrationComplete(state: PState[P]): F[Unit] = {
     effect.pure(state).mapBlocking { state =>
-      val statement = connection().prepareStatement(updateMigrationCompleteSql)
+      val statement = connection.prepareStatement(updateMigrationCompleteSql)
       whereBindings(state).zipWithIndex.foreach { case (binding, index) =>
         statement.setObject(index + 1, binding)
       }
-      statement.executeUpdate()
+      connection.executeUpdate(statement)
     }
   }
 

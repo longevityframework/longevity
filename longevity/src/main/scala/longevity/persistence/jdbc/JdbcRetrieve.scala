@@ -24,7 +24,7 @@ private[jdbc] trait JdbcRetrieve[F[_], M, P] {
   }
 
   protected def retrieveFromPreparedStatement(statement: PreparedStatement) = {
-    val resultSet = statement.executeQuery()
+    val resultSet = connection.executeQuery(statement)
     if (resultSet.next()) {
       Some(retrieveFromResultSet(resultSet))
     } else {
@@ -38,7 +38,7 @@ private[jdbc] trait JdbcRetrieve[F[_], M, P] {
       jdbcValue(component.innerPropPath.get(keyVal))
     }
     val sql = keyValSelectStatement(realizedKey)
-    val preparedStatement = connection().prepareStatement(sql)
+    val preparedStatement = connection.prepareStatement(sql)
     logger.debug(s"invoking SQL: $sql with bindings: $propVals")
     propVals.zipWithIndex.foreach { case (propVal, index) =>
       preparedStatement.setObject(index + 1, propVal)

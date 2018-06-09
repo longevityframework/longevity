@@ -16,7 +16,7 @@ private[jdbc] trait JdbcDelete[F[_], M, P] {
       s
     }
     val fsr = effect.mapBlocking(fs2) { state =>
-      val rowCount = bindDeleteStatement(state).executeUpdate()
+      val rowCount = connection.executeUpdate(bindDeleteStatement(state))
       (state, rowCount)
     }
     effect.map(fsr) { case (state, rowCount) =>
@@ -30,7 +30,7 @@ private[jdbc] trait JdbcDelete[F[_], M, P] {
   }
 
   private def bindDeleteStatement(state: PState[P]) = {
-    val preparedStatement = connection().prepareStatement(deleteStatementSql)
+    val preparedStatement = connection.prepareStatement(deleteStatementSql)
     val bindings = if (persistenceConfig.optimisticLocking) {
       whereBindings(state) :+ state.rowVersionOrNull
     } else {
