@@ -76,7 +76,7 @@ private object pEv {
 
         implicit val uniqLong = Arbitrary(Gen.Choose.chooseLong.choose(Long.MinValue, Long.MaxValue))
         implicit val uniqInt = Arbitrary(Gen.Choose.chooseInt.choose(Int.MinValue, Int.MaxValue))
-        implicit val uniqString = Arbitrary(Gen.listOfN(12, Gen.alphaChar).map(_.mkString))
+        implicit val uniqString = Arbitrary(Gen.listOfN(16, Gen.alphaChar).map(_.mkString))
         implicit val arbJoda = Arbitrary(genDateTime.map(_.withZone(UTC)))
         implicit val generic = implicitly[shapeless.Generic[$p]]
         new longevity.model.PEv[$m, $p]

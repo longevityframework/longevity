@@ -23,7 +23,7 @@ trait TestDataGenerator[M] {
 
 private[longevity] object TestDataGenerator {
 
-  private var seed = Seed.apply(System.currentTimeMillis)
+  private var seed = Seed.apply(System.nanoTime)
 
   def apply[M] = new TestDataGenerator[M] {
 
