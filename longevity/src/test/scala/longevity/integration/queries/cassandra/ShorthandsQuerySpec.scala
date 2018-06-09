@@ -1,14 +1,12 @@
 package longevity.integration.queries.cassandra
 
+import longevity.effect.Blocking
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.shorthands._
-import longevity.integration.queries.queryTestsExecutionContext
-import longevity.integration.queries.queryTestsExecutionContext
-import scala.concurrent.Future
 
-class ShorthandsQuerySpec extends QuerySpec[Future, DomainModel, Shorthands](
+class ShorthandsQuerySpec extends QuerySpec[Blocking, DomainModel, Shorthands](
   new LongevityContext(TestLongevityConfigs.cassandraConfig)) {
 
   lazy val sample = randomP

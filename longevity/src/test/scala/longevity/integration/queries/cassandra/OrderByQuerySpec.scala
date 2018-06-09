@@ -1,5 +1,6 @@
 package longevity.integration.queries.cassandra
 
+import longevity.effect.Blocking
 import com.datastax.driver.core.exceptions.InvalidQueryException
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
@@ -8,10 +9,8 @@ import longevity.model.query.Query
 import longevity.test.QuerySpec
 import primaryKeyWithComplexPartialPartition.PrimaryKeyWithComplexPartialPartition
 import primaryKeyWithComplexPartialPartition.DomainModel
-import longevity.integration.queries.queryTestsExecutionContext
-import scala.concurrent.Future
 
-class OrderByQuerySpec extends QuerySpec[Future, DomainModel, PrimaryKeyWithComplexPartialPartition](
+class OrderByQuerySpec extends QuerySpec[Blocking, DomainModel, PrimaryKeyWithComplexPartialPartition](
   new LongevityContext(TestLongevityConfigs.cassandraConfig)) {
 
   lazy val keyProp1 = longevityContext.testDataGenerator.generateString

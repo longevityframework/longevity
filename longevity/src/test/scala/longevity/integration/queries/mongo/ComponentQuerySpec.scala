@@ -1,14 +1,12 @@
 package longevity.integration.queries.mongo
 
+import longevity.effect.Blocking
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.component._
-import longevity.integration.queries.queryTestsExecutionContext
-import longevity.integration.queries.queryTestsExecutionContext
-import scala.concurrent.Future
 
-class ComponentQuerySpec extends QuerySpec[Future, DomainModel, WithComponent](
+class ComponentQuerySpec extends QuerySpec[Blocking, DomainModel, WithComponent](
   new LongevityContext(TestLongevityConfigs.mongoConfig)) {
 
   lazy val sample = randomP

@@ -1,5 +1,6 @@
 package longevity.integration.queries.inmem
 
+import longevity.effect.Blocking
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.integration.model.basics._
@@ -10,16 +11,13 @@ import longevity.test.ExerciseFS2
 import longevity.test.ExerciseIterateeIo
 import longevity.test.ExercisePlayEnumerator
 import longevity.test.QuerySpec
-import longevity.integration.queries.queryTestsExecutionContext
-import longevity.integration.queries.queryTestsExecutionContext
-import scala.concurrent.Future
 
-class BasicsQuerySpec extends QuerySpec[Future, DomainModel, Basics](
+class BasicsQuerySpec extends QuerySpec[Blocking, DomainModel, Basics](
   new LongevityContext(TestLongevityConfigs.inMemConfig))
-    with ExerciseAkkaStreams[Future, DomainModel, Basics]
-    with ExerciseFS2[Future, DomainModel, Basics]
-    with ExerciseIterateeIo[Future, DomainModel, Basics]
-    with ExercisePlayEnumerator[Future, DomainModel, Basics] {
+    with ExerciseAkkaStreams[Blocking, DomainModel, Basics]
+    with ExerciseFS2[Blocking, DomainModel, Basics]
+    with ExerciseIterateeIo[Blocking, DomainModel, Basics]
+    with ExercisePlayEnumerator[Blocking, DomainModel, Basics] {
 
   lazy val sample = randomP
 

@@ -1,14 +1,13 @@
 package longevity.integration.queries.cassandra
 
+import longevity.effect.Blocking
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.exceptions.persistence.cassandra.CompoundPropInOrderingQuery
 import longevity.test.QuerySpec
 import longevity.integration.model.component._
-import longevity.integration.queries.queryTestsExecutionContext
-import scala.concurrent.Future
 
-class ComponentQuerySpec extends QuerySpec[Future, DomainModel, WithComponent](
+class ComponentQuerySpec extends QuerySpec[Blocking, DomainModel, WithComponent](
   new LongevityContext(TestLongevityConfigs.cassandraConfig)) {
 
   lazy val sample = randomP

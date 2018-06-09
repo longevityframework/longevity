@@ -1,14 +1,12 @@
 package longevity.integration.queries.sqlite
 
+import longevity.effect.Blocking
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.integration.model.foreignKey._
 import longevity.test.QuerySpec
-import longevity.integration.queries.queryTestsExecutionContext
-import longevity.integration.queries.queryTestsExecutionContext
-import scala.concurrent.Future
 
-class WithForeignKeyQuerySpec extends QuerySpec[Future, DomainModel, WithForeignKey](
+class WithForeignKeyQuerySpec extends QuerySpec[Blocking, DomainModel, WithForeignKey](
   new LongevityContext(TestLongevityConfigs.sqliteConfig)) {
 
   lazy val sample = randomP

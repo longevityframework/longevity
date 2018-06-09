@@ -1,14 +1,12 @@
 package longevity.integration.queries.inmem
 
+import longevity.effect.Blocking
 import longevity.TestLongevityConfigs
 import longevity.context.LongevityContext
 import longevity.test.QuerySpec
 import longevity.integration.model.basics._
-import longevity.integration.queries.queryTestsExecutionContext
-import longevity.integration.queries.queryTestsExecutionContext
-import scala.concurrent.Future
 
-class OrderByQuerySpec extends QuerySpec[Future, DomainModel, Basics](
+class OrderByQuerySpec extends QuerySpec[Blocking, DomainModel, Basics](
   new LongevityContext(TestLongevityConfigs.inMemConfig)) {
 
   lazy val sample = randomP
