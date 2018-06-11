@@ -29,3 +29,4 @@ project/plugins/project/
 /longevity_migrations_test_basic.db
 /longevity_migrations_test_failures.db
 /longevity_migrations_test_poly.db
+/.idea
