@@ -10,13 +10,13 @@ sure your project is using a compatible Scala version. For example,
 your `build.sbt` file may have:
 
 ```scala
-scalaVersion := "2.11.11"
+scalaVersion := "2.11.12"
 ```
 
 or:
 
 ```scala
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.6"
 ```
 
 ## using sonatype artifacts
