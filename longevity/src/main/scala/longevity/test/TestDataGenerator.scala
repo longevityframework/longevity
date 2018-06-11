@@ -23,9 +23,9 @@ trait TestDataGenerator[M] {
 
 private[longevity] object TestDataGenerator {
 
-  private var seed = Seed.apply(System.nanoTime)
-
   def apply[M] = new TestDataGenerator[M] {
+
+    private var seed = Seed.apply(System.nanoTime)
 
     def generateP[P : PEv[M, ?]]: P = {
       val p = implicitly[PEv[M, P]].arbitrary.arbitrary.pureApply(Gen.Parameters.default, seed)
