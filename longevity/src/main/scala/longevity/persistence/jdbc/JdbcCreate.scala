@@ -30,7 +30,7 @@ private[jdbc] trait JdbcCreate[F[_], M, P] {
 
   private def createStateBlocking(s: PState[P]): PState[P] = {
     try {
-      connection.executeUpdate(bindInsertStatement(s))
+      bindInsertStatement(s).executeUpdate()
     } catch {
       convertDuplicateKeyException(s)
     }
@@ -38,7 +38,7 @@ private[jdbc] trait JdbcCreate[F[_], M, P] {
   }
 
   private def bindInsertStatement(state: PState[P]) = {
-    val insertStatement = connection.prepareStatement(insertSql)
+    val insertStatement = connection().prepareStatement(insertSql)
     val bindings = updateColumnValues(state, isCreate = true)
     logger.debug(s"invoking SQL: $insertStatement with bindings: $bindings")
     bindings.zipWithIndex.foreach { case (binding, index) =>

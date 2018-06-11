@@ -17,6 +17,6 @@ extends BaseJdbcRepo[F, M](effect, modelType, persistenceConfig, jdbcConfig) {
   type R[P] = SQLitePRepo[F, M, P]
 
   protected def buildPRepo[P](pType: PType[M, P], polyRepoOpt: Option[R[_ >: P]] = None): R[P] =
-    SQLitePRepo[F, M, P](effect, modelType, pType, persistenceConfig, polyRepoOpt, wrappedConnection)
+    SQLitePRepo[F, M, P](effect, modelType, pType, persistenceConfig, polyRepoOpt, connection)
 
 }

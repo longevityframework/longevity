@@ -69,11 +69,11 @@ private[jdbc] trait JdbcQuery[F[_], M, P] {
     |""".stripMargin
     val bindings = info.bindValues
     logger.debug(s"executing SQL: $sql with bindings: $bindings")
-    val statement = connection.prepareStatement(sql)
+    val statement = connection().prepareStatement(sql)
     bindings.zipWithIndex.foreach { case (binding, index) =>
       statement.setObject(index + 1, binding)
     }
-    connection.executeQuery(statement)
+    statement.executeQuery()
   }
 
   private def queryOrderByClause(orderBy: QueryOrderBy[P]): String = {

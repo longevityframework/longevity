@@ -22,13 +22,10 @@ extends Repo[F, M](effect, modelType, persistenceConfig) {
 
   private var connectionOpt: Option[Connection] = None
 
-  private lazy val connection = () => connectionOpt match {
+  protected lazy val connection = () => connectionOpt match {
     case Some(c) => c
     case None => throw new ConnectionClosedException
   }
-
-  // TODO replace true with config setting
-  protected lazy val wrappedConnection = new JdbcConnection(connection, jdbcConfig.synchronized)
 
   protected def openBaseConnectionBlocking(): Unit = synchronized {
     if (connectionOpt.nonEmpty) throw new ConnectionOpenException

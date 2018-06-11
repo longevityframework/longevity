@@ -32,7 +32,7 @@ private[jdbc] trait JdbcSchema[F[_], M, P] {
     |)
     |""".stripMargin
     logger.debug(s"executing SQL: $createTable")
-    connection.execute(connection.prepareStatement(createTable))
+    connection().prepareStatement(createTable).execute()
   }
 
   private def idDef = if (hasPrimaryKey) "" else "\n  id text,"
@@ -52,7 +52,7 @@ private[jdbc] trait JdbcSchema[F[_], M, P] {
   protected def addColumn(columnName: String, columnType: String): Unit = {
     val sql = s"ALTER TABLE $tableName ADD COLUMN IF NOT EXISTS $columnName $columnType"
     logger.debug(s"executing SQL: $sql")
-    connection.execute(connection.prepareStatement(sql))
+    connection().prepareStatement(sql).execute()
   }
 
   protected def componentToJdbcType[A](
@@ -87,7 +87,7 @@ private[jdbc] trait JdbcSchema[F[_], M, P] {
     val columnList = columnNames.mkString(", ")
     val createIndex = s"$prefix IF NOT EXISTS $indexName ON $tableName ($columnList);"
     logger.debug(s"executing SQL: $createIndex")
-    connection.execute(connection.prepareStatement(createIndex))
+    connection().prepareStatement(createIndex).execute()
   }
 
   private def scoredPath(prop: RealizedProp[_, _]) = prop.inlinedPath.replace('.', '_')
@@ -101,7 +101,7 @@ private[jdbc] trait JdbcSchema[F[_], M, P] {
   protected[persistence] def dropSchemaBlocking(): Unit = {
     val dropTable = s"DROP TABLE IF EXISTS $tableName"
     logger.debug(s"executing SQL: $dropTable")
-    connection.execute(connection.prepareStatement(dropTable))
+    connection().prepareStatement(dropTable).execute()
   }
 
 }

@@ -1,5 +1,6 @@
 package longevity.persistence.jdbc
 
+import java.sql.Connection
 import java.sql.ResultSet
 import java.util.UUID
 import journal.Logger
@@ -29,7 +30,7 @@ private[persistence] class JdbcPRepo[F[_], M, P] private[persistence] (
   modelType: ModelType[M],
   pType: PType[M, P],
   protected val persistenceConfig: PersistenceConfig,
-  protected val connection: JdbcConnection)
+  protected val connection: () => Connection)
 extends PRepo[F, M, P](effect, modelType, pType)
 with JdbcSchema[F, M, P]
 with JdbcCreate[F, M, P]
@@ -216,7 +217,7 @@ private[persistence] object JdbcPRepo {
     pType: PType[M, P],
     config: PersistenceConfig,
     polyRepoOpt: Option[JdbcPRepo[F, M, _ >: P]],
-    connection: JdbcConnection)
+    connection: () => Connection)
   : JdbcPRepo[F, M, P] = {
     val repo = pType match {
       case pt: PolyPType[_, _] =>
