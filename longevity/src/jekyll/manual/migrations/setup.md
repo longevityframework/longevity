@@ -7,14 +7,14 @@ In addition to the library dependencies you [set up](../prelims/project-setup.ht
 proper, you will need to add another library dependency to your `build.sbt` for migrations:
 
 ```scala
-libraryDependencies += "org.longevityframework" %% "longevity-migrations" % "0.26.0"
+libraryDependencies += "org.longevityframework" %% "longevity-migrations" % "0.27.0"
 ```
 
 You will also want to add the `sbt-longevity-migrations` plugin to your build by adding the
 following line to `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.longevityframework" % "sbt-longevity-migrations" % "0.1.0")
+addSbtPlugin("org.longevityframework" % "sbt-longevity-migrations" % "0.2.0")
 ```
 
 The `longevity-migrations` library dependency will move in lock-step with the other longevity
