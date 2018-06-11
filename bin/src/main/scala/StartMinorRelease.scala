@@ -1,4 +1,4 @@
-// longevity/bin/ReleaseStage3.scala
+// longevity/bin/StartMinorRelease.scala
 
 // covers step 3 in this doc:
 // https://docs.google.com/document/d/1RisEp9o0825YJaYjKu4AM9W8wIYNgEO2jt0RxmioJMo/edit?usp=sharing
@@ -10,10 +10,10 @@
 import scala.sys.process._
 import java.io.File
 
-object ReleaseStage3 extends App {
+object StartMinorRelease extends App {
 
   if (args.length != 1) {
-    sys.error("usage: ReleaseStage3 x.y")
+    sys.error("usage: StartMinorRelease x.y")
   }
 
   val majorMinor = args(0)
