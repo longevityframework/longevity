@@ -27,7 +27,7 @@ object Dependencies {
   val slf4jSimpleDep:         ModuleID = "org.slf4j"                  %  "slf4j-simple"                % "1.7.25"
   val sqliteDep:              ModuleID = "org.xerial"                 %  "sqlite-jdbc"                 % "3.23.1"
   val streamAdapterDep:       ModuleID = "org.longevityframework"     %% "streamadapter"               % "0.2.0"
-  val typekeyDep:             ModuleID = "org.longevityframework"     %% "typekey"                     % "1.0.0"
+  val typekeyDep:             ModuleID = "org.longevityframework"     %% "typekey"                     % "1.0.1"
   val typesafeConfigDep:      ModuleID = "com.typesafe"               %  "config"                      % "1.3.3"
 
 }
