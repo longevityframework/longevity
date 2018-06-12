@@ -36,11 +36,15 @@ class EmblemSpec extends FlatSpec with GivenWhenThen with Matchers {
   }
 
   it should "dump helpful debug info" in {
-    pointEmblem.debugInfo should equal (
-      """|longevity.emblem.testData.geometry.Point {
-         |  x: Double
-         |  y: Double
-         |}""".stripMargin)
+    val debugInfo_211 = """|longevity.emblem.testData.geometry.Point {
+                           |  x: Double
+                           |  y: Double
+                           |}""".stripMargin
+    val debugInfo_212 = """|longevity.emblem.testData.geometry.Point {
+                           |  x: scala.Double
+                           |  y: scala.Double
+                           |}""".stripMargin
+    Set(debugInfo_211, debugInfo_212) should contain (pointEmblem.debugInfo)
   }
 
   behavior of "Emblem.props"
