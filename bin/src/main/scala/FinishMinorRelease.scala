@@ -1,4 +1,4 @@
-// longevity/bin/ReleaseStage6.scala
+// longevity/bin/FinishMinorRelease.scala
 
 // covers step 6 in this doc:
 // https://docs.google.com/document/d/1RisEp9o0825YJaYjKu4AM9W8wIYNgEO2jt0RxmioJMo/edit?usp=sharing
@@ -10,9 +10,9 @@
 import scala.sys.process._
 import java.io.File
 
-object ReleaseStage6 extends App {
+object FinishMinorRelease extends App {
 
-  def usage() = sys.error("usage: ReleaseStage6 x.y")
+  def usage() = sys.error("usage: FinishMinorRelease x.y")
 
   if (args.length != 1) usage()
 
