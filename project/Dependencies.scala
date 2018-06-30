@@ -5,7 +5,7 @@ object Dependencies {
 
   val scalaVersionString = "2.12.6"
 
-  val akkaStreamDep:          ModuleID = "com.typesafe.akka"          %% "akka-stream"                 % "2.5.12"
+  val akkaStreamDep:          ModuleID = "com.typesafe.akka"          %% "akka-stream"                 % "2.5.13"
   val cassandraDep:           ModuleID = "com.datastax.cassandra"     %  "cassandra-driver-core"       % "3.5.0"
   val catsDep:                ModuleID = "org.typelevel"              %% "cats-core"                   % "1.1.0"
   val catsEffectDep:          ModuleID = "org.typelevel"              %% "cats-effect"                 % "0.10.1"
@@ -16,12 +16,12 @@ object Dependencies {
   }
   val json4sDep:              ModuleID = "org.json4s"                 %% "json4s-native"               % "3.5.3"
   val kxbmapConfigsDep:       ModuleID = "com.github.kxbmap"          %% "configs"                     % "0.4.4"
-  val mongodbDep:             ModuleID = "org.mongodb"                %  "mongodb-driver"              % "3.7.1"
+  val mongodbDep:             ModuleID = "org.mongodb"                %  "mongodb-driver"              % "3.8.0"
   val nScalaTimeDep:          ModuleID = "com.github.nscala-time"     %% "nscala-time"                 % "2.20.0"
   val playIterateeDep:        ModuleID = "com.typesafe.play"          %% "play-iteratees"              % "2.6.1"
   val scalaTestDep:           ModuleID = "org.scalatest"              %% "scalatest"                   % "3.0.5"
-  val scalacheckDatetimeDep:  ModuleID = "com.47deg"                  %% "scalacheck-toolbox-datetime" % "0.2.4"
-  val scalacheckDep:          ModuleID = "org.scalacheck"             %% "scalacheck"                  % "1.13.4"
+  val scalacheckDatetimeDep:  ModuleID = "com.47deg"                  %% "scalacheck-toolbox-datetime" % "0.2.5"
+  val scalacheckDep:          ModuleID = "org.scalacheck"             %% "scalacheck"                  % "1.14.0"
   val scalacheckShapelessDep: ModuleID = "com.github.alexarchambault" %% "scalacheck-shapeless_1.13"   % "1.1.6"
   val shapelessDep:           ModuleID = "com.chuusai"                %% "shapeless"                   % "2.3.3"
   val slf4jSimpleDep:         ModuleID = "org.slf4j"                  %  "slf4j-simple"                % "1.7.25"
