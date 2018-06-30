@@ -21,7 +21,7 @@ private[inmem] trait InMemUpdate[F[_], M, P] {
       (state, newState)
     }
     val fns = fss.mapBlocking { case (state, newState) =>
-      repo.synchronized {
+      repoSynchronized {
         assertNoWriteConflict(state)
         assertUniqueKeyVals(state)
         unregisterByKeyVals(state.orig)

@@ -13,7 +13,7 @@ private[inmem] trait InMemWrite[F[_], M, P] {
 
   private var idCounter = 0
 
-  /** caller must wrap this call in synchronized block! */
+  /** caller must wrap this call in repoSynchronized block! */
   protected[inmem] def nextId: Int = {
     val id = idCounter
     idCounter += 1

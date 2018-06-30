@@ -15,7 +15,7 @@ private[inmem] trait InMemCreate[F[_], M, P] {
       (p, rowVersion)
     }
     val fs = effect.mapBlocking(fpr) { case (p, r) =>
-      repo.synchronized(createStateBlocking(PState(IntId(nextId), r, None, None, p)))
+      repoSynchronized(createStateBlocking(PState(IntId(nextId), r, None, None, p)))
     }
     effect.map(fs) { s =>
       logger.debug(s"done executing InMemPRepo.create: $s")
@@ -24,9 +24,9 @@ private[inmem] trait InMemCreate[F[_], M, P] {
   }
 
   private[persistence] def createState(state: PState[P]): F[PState[P]] =
-    effect.pure(()).map(_ => repo.synchronized(createStateBlocking(state)))
+    effect.pure(()).map(_ => repoSynchronized(createStateBlocking(state)))
 
-  // calls to this method must be wrapped in a repo.synchronized call
+  // calls to this method must be wrapped in a repoSynchronized call
   private def createStateBlocking(state: PState[P]): PState[P] = {
     assertUniqueKeyVals(state)
     registerById(state)

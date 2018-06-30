@@ -15,7 +15,7 @@ private[inmem] trait InMemDelete[F[_], M, P] {
       state
     }
     val fs3 = effect.mapBlocking(fs2) { state =>
-      repo.synchronized {
+      repoSynchronized {
         assertNoWriteConflict(state)
         unregisterById(state)
         unregisterByKeyVals(state.orig)

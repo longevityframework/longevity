@@ -9,8 +9,8 @@ abstract class BasePolyMigrationSpec extends LongevityMigrationSpec[m1.M1, m2.M2
   protected def keyspace = "longevity_migrations_test_poly"
 
   protected def testData = for {
-    initialStates     <- createTestData[m1.User](100)
-    initialUsers       = initialStates.map(_.get)
+    initialStates <- createTestData[m1.User](100)
+    initialUsers   = initialStates.map(_.get)
   } yield initialUsers
 
   protected def results(initialUsers: Vector[m1.User]) = for {
