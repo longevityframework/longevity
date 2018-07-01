@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.26.0 API  - longevity.test.TestDataGenerator</title>
-          <meta name="description" content="longevity 0.26.0 API - longevity.test.TestDataGenerator" />
-          <meta name="keywords" content="longevity 0.26.0 API longevity.test.TestDataGenerator" />
+          <title>longevity 0.27.0 API  - longevity.test.TestDataGenerator</title>
+          <meta name="description" content="longevity 0.27.0 API - longevity.test.TestDataGenerator" />
+          <meta name="keywords" content="longevity 0.27.0 API longevity.test.TestDataGenerator" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.26.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.27.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -106,10 +106,6 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
 and <a href="../context/LongevityContext.html" class="extype" name="longevity.context.LongevityContext">longevity context</a>
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="longevity">longevity</a></dd></dl></div>
     </li><li class="current-entities indented2">
-                        <a class="object" href="CustomGeneratorPool$.html" title="provides a factory method for an empty pool of custom generators"></a>
-                        <a class="class" href="CustomGeneratorPool.html" title="a collection of custom generators for test data generation"></a>
-                        <a href="CustomGeneratorPool.html" title="a collection of custom generators for test data generation">CustomGeneratorPool</a>
-                      </li><li class="current-entities indented2">
                         <span class="separator"></span>
                         <a class="trait" href="ExerciseAkkaStreams.html" title="extends QuerySpec to add tests for AkkaStreamsRepo.queryToAkkaStream"></a>
                         <a href="ExerciseAkkaStreams.html" title="extends QuerySpec to add tests for AkkaStreamsRepo.queryToAkkaStream">ExerciseAkkaStreams</a>
@@ -164,24 +160,23 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">TestDataGenerator</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <span class="name">TestDataGenerator</span><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>generates test data for your domain model. you can generate any kind of data
-that occurs in your domain model by calling <a href="#generate[A](implicitevidence$1:typekey.TypeKey[A]):A" class="extmbr" name="longevity.test.TestDataGenerator#generate">TestDataGenerator.generate</a> with
-the appropriate type parameter.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.26.0/src/main/scala/longevity/test/TestDataGenerator.scala" target="_blank">TestDataGenerator.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>generates test data for your domain model. you can generate any persistent that occurs in your
+domain model by calling <a href="#generateP[P](implicitevidence$1:longevity.model.PEv[M,P]):P" class="extmbr" name="longevity.test.TestDataGenerator#generateP">TestDataGenerator.generateP</a> with the appropriate type parameter.
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.27.0/src/main/scala/longevity/test/TestDataGenerator.scala" target="_blank">TestDataGenerator.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">
                   Type Hierarchy
                 </span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 166.00 118.00" height="118pt" width="166pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 162,-114 162,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.test.TestDataGenerator (this trait)" xlink:href="#inheritance-diagram"><path d="M125.667,-49C125.667,-49 32.3333,-49 32.3333,-49 28.1667,-49 24,-44.8333 24,-40.6667 24,-40.6667 24,-32.3333 24,-32.3333 24,-28.1667 28.1667,-24 32.3333,-24 32.3333,-24 125.667,-24 125.667,-24 129.833,-24 134,-28.1667 134,-32.3333 134,-32.3333 134,-40.6667 134,-40.6667 134,-44.8333 129.833,-49 125.667,-49" stroke="#2e6d82" fill="#2e6d82"></path><image xlink:href="../../lib/trait_diagram.png" y="-43.5" x="34" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-33.6" x="54.5938" text-anchor="start">TestDataGenerator</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><path d="M105.167,-110C105.167,-110 52.8333,-110 52.8333,-110 48.6667,-110 44.5,-105.833 44.5,-101.667 44.5,-101.667 44.5,-93.3333 44.5,-93.3333 44.5,-89.1667 48.6667,-85 52.8333,-85 52.8333,-85 105.167,-85 105.167,-85 109.333,-85 113.5,-89.1667 113.5,-93.3333 113.5,-93.3333 113.5,-101.667 113.5,-101.667 113.5,-105.833 109.333,-110 105.167,-110" stroke="#418565" fill="#418565"></path><image xlink:href="../../lib/class_diagram.png" y="-104.5" x="55" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-94.6" x="75.7715" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="TestDataGenerator is a subtype of AnyRef"><path d="M79,-77.7603C79,-68.3675 79,-57.2882 79,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="76.5501,-77.8435 79,-84.8435 81.4501,-77.8435 76.5501,-77.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 178.00 118.00" height="118pt" width="178pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 174,-114 174,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="longevity.test.TestDataGenerator (this trait)" xlink:href="#inheritance-diagram"><path d="M137.167,-49C137.167,-49 32.8333,-49 32.8333,-49 28.6667,-49 24.5,-44.8333 24.5,-40.6667 24.5,-40.6667 24.5,-32.3333 24.5,-32.3333 24.5,-28.1667 28.6667,-24 32.8333,-24 32.8333,-24 137.167,-24 137.167,-24 141.333,-24 145.5,-28.1667 145.5,-32.3333 145.5,-32.3333 145.5,-40.6667 145.5,-40.6667 145.5,-44.8333 141.333,-49 137.167,-49" stroke="#2e6d82" fill="#2e6d82"></path><image xlink:href="../../lib/trait_diagram.png" y="-43.5" x="35" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-33.6" x="55.5391" text-anchor="start">TestDataGenerator[M]</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><path d="M111.167,-110C111.167,-110 58.8333,-110 58.8333,-110 54.6667,-110 50.5,-105.833 50.5,-101.667 50.5,-101.667 50.5,-93.3333 50.5,-93.3333 50.5,-89.1667 54.6667,-85 58.8333,-85 58.8333,-85 111.167,-85 111.167,-85 115.333,-85 119.5,-89.1667 119.5,-93.3333 119.5,-93.3333 119.5,-101.667 119.5,-101.667 119.5,-105.833 115.333,-110 111.167,-110" stroke="#418565" fill="#418565"></path><image xlink:href="../../lib/class_diagram.png" y="-104.5" x="61" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="8.00" font-family="Source Code Pro" y="-94.6" x="81.7715" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="TestDataGenerator[M] is a subtype of AnyRef"><path d="M85,-77.7603C85,-68.3675 85,-57.2882 85,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="82.5501,-77.8435 85,-84.8435 87.4501,-77.8435 82.5501,-77.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
                 <div id="diagram-controls" class="hiddenContent">
                   <button id="diagram-zoom-out" class="diagram-btn"><i class="material-icons"></i></button>
                   <button id="diagram-zoom-in" class="diagram-btn"><i class="material-icons"></i></button>
@@ -241,10 +236,10 @@ the appropriate type parameter.
 
         <div class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="longevity.test.TestDataGenerator#generate" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="generate[A](implicitevidence$1:typekey.TypeKey[A]):A"></a><a id="generate[A](TypeKey[A]):A"></a>
+              <ol><li name="longevity.test.TestDataGenerator#generate" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="generate[A](implicita:org.scalacheck.Arbitrary[A]):A"></a><a id="generate[A](Arbitrary[A]):A"></a>
       <span class="permalink">
-      <a href="../../longevity/test/TestDataGenerator.html#generate[A](implicitevidence$1:typekey.TypeKey[A]):A" title="Permalink">
+      <a href="../../longevity/test/TestDataGenerator.html#generate[A](implicita:org.scalacheck.Arbitrary[A]):A" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -253,13 +248,58 @@ the appropriate type parameter.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">generate</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="typekey.TypeKey">TypeKey</span>[<span class="extype" name="longevity.test.TestDataGenerator.generate.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="longevity.test.TestDataGenerator.generate.A">A</span></span>
+        <span class="name">generate</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="a">a: <span class="extype" name="org.scalacheck.Arbitrary">Arbitrary</span>[<span class="extype" name="longevity.test.TestDataGenerator.generate.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="longevity.test.TestDataGenerator.generate.A">A</span></span>
       </span>
       
-      <p class="shortcomment cmt">generates data for the specified type <code>A</code>
-</p><div class="fullcomment"><div class="comment cmt"><p>generates data for the specified type <code>A</code>
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of data to generate</p></dd><dt>returns</dt><dd class="cmt"><p>the generated data</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt"><p><a href="../exceptions/test/CouldNotGenerateException.html" class="extype" name="longevity.exceptions.test.CouldNotGenerateException"><code>longevity.exceptions.test.CouldNotGenerateException</code></a> when attempting
-to generate data for a type that is not in the domain model</p></span></dd></dl></div>
+      <p class="shortcomment cmt">generates an arbitrary instance of type <code>A</code></p>
+    </li><li name="longevity.test.TestDataGenerator#generateInt" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="generateInt:Int"></a>
+      <span class="permalink">
+      <a href="../../longevity/test/TestDataGenerator.html#generateInt:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateInt</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">generates a random integer</p>
+    </li><li name="longevity.test.TestDataGenerator#generateP" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="generateP[P](implicitevidence$1:longevity.model.PEv[M,P]):P"></a><a id="generateP[P](PEv[M,P]):P"></a>
+      <span class="permalink">
+      <a href="../../longevity/test/TestDataGenerator.html#generateP[P](implicitevidence$1:longevity.model.PEv[M,P]):P" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateP</span><span class="tparams">[<span name="P">P</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../model/PEv.html" class="extype" name="longevity.model.PEv">PEv</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>, <span class="extype" name="longevity.test.TestDataGenerator.generateP.P">P</span>]</span>)</span><span class="result">: <span class="extype" name="longevity.test.TestDataGenerator.generateP.P">P</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">generates a random persistent object of type <code>P</code> in domain model <code>M</code></p>
+    </li><li name="longevity.test.TestDataGenerator#generateString" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="generateString:String"></a>
+      <span class="permalink">
+      <a href="../../longevity/test/TestDataGenerator.html#generateString:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">generates a random string</p>
     </li></ol>
             </div>
 
@@ -278,7 +318,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -294,7 +334,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -314,12 +354,12 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to
-            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>] performed by method any2stringadd in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to
+            <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]] performed by method any2stringadd in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>any2stringadd</dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#-&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="-&gt;[B](y:B):(A,B)"></a><a id="-&gt;[B](B):(TestDataGenerator,B)"></a>
+      <a id="-&gt;[B](y:B):(A,B)"></a><a id="-&gt;[B](B):(TestDataGenerator[M],B)"></a>
       <span class="permalink">
       <a href="../../longevity/test/TestDataGenerator.html#-&gt;[B](y:B):(A,B)" title="Permalink">
         <i class="material-icons"></i>
@@ -330,12 +370,12 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>, <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
+        <span title="gt4s: $minus$greater" class="implicit">-&gt;</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>], <span class="extype" name="scala.Predef.ArrowAssoc.-&gt;.B">B</span>)</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -353,7 +393,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -385,7 +425,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java/lang/index.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -398,7 +438,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
               
         </dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a><a id="ensuring((TestDataGenerator)⇒Boolean,⇒Any):TestDataGenerator"></a>
+      <a id="ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A"></a><a id="ensuring((TestDataGenerator[M])⇒Boolean,⇒Any):TestDataGenerator[M]"></a>
       <span class="permalink">
       <a href="../../longevity/test/TestDataGenerator.html#ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink">
         <i class="material-icons"></i>
@@ -409,16 +449,16 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>) ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ensuring(cond:A=&gt;Boolean):A"></a><a id="ensuring((TestDataGenerator)⇒Boolean):TestDataGenerator"></a>
+      <a id="ensuring(cond:A=&gt;Boolean):A"></a><a id="ensuring((TestDataGenerator[M])⇒Boolean):TestDataGenerator[M]"></a>
       <span class="permalink">
       <a href="../../longevity/test/TestDataGenerator.html#ensuring(cond:A=&gt;Boolean):A" title="Permalink">
         <i class="material-icons"></i>
@@ -429,16 +469,16 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>) ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a><a id="ensuring(Boolean,⇒Any):TestDataGenerator"></a>
+      <a id="ensuring(cond:Boolean,msg:=&gt;Any):A"></a><a id="ensuring(Boolean,⇒Any):TestDataGenerator[M]"></a>
       <span class="permalink">
       <a href="../../longevity/test/TestDataGenerator.html#ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink">
         <i class="material-icons"></i>
@@ -449,16 +489,16 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.Predef.Ensuring#ensuring" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ensuring(cond:Boolean):A"></a><a id="ensuring(Boolean):TestDataGenerator"></a>
+      <a id="ensuring(cond:Boolean):A"></a><a id="ensuring(Boolean):TestDataGenerator[M]"></a>
       <span class="permalink">
       <a href="../../longevity/test/TestDataGenerator.html#ensuring(cond:Boolean):A" title="Permalink">
         <i class="material-icons"></i>
@@ -469,12 +509,12 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a></span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>)</span><span class="result">: <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to
-            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>] performed by method Ensuring in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to
+            <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]] performed by method Ensuring in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>Ensuring</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -489,7 +529,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -505,7 +545,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -521,7 +561,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java/lang/index.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -547,8 +587,8 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to
-            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>] performed by method StringFormat in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to
+            <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]] performed by method StringFormat in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>StringFormat</dd><dt>Annotations</dt><dd>
                 <span class="name">@inline</span><span class="args">()</span>
@@ -585,7 +625,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
@@ -604,7 +644,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -620,7 +660,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -636,7 +676,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -655,7 +695,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -706,7 +746,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -728,7 +768,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.6/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -750,7 +790,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -763,7 +803,7 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
               
         </dd></dl></div>
     </li><li name="scala.Predef.ArrowAssoc#→" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="→[B](y:B):(A,B)"></a><a id="→[B](B):(TestDataGenerator,B)"></a>
+      <a id="→[B](y:B):(A,B)"></a><a id="→[B](B):(TestDataGenerator[M],B)"></a>
       <span class="permalink">
       <a href="../../longevity/test/TestDataGenerator.html#→[B](y:B):(A,B)" title="Permalink">
         <i class="material-icons"></i>
@@ -774,12 +814,12 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>, <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
+        <span title="gt4s: $u2192" class="implicit">→</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="y">y: <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span></span>)</span><span class="result">: (<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>], <span class="extype" name="scala.Predef.ArrowAssoc.→.B">B</span>)</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt class="implicit">Implicit</dt><dd>
-            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to
-            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>] performed by method ArrowAssoc in scala.Predef.
+            This member is added by an implicit conversion from <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to
+            <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]] performed by method ArrowAssoc in scala.Predef.
             
           </dd><dt>Definition Classes</dt><dd>ArrowAssoc</dd></dl></div>
     </li>
@@ -793,25 +833,25 @@ to generate data for a type that is not in the domain model</p></span></dd></dl>
 
         <div id="inheritedMembers">
         <div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
             </div>
         <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from
-                <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>]
+                <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to <span class="extype" name="scala.Predef.any2stringadd">any2stringadd</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.StringFormat">
               <h3>Inherited by implicit conversion StringFormat from
-                <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>]
+                <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to <span class="extype" name="scala.Predef.StringFormat">StringFormat</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.Ensuring">
               <h3>Inherited by implicit conversion Ensuring from
-                <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>]
+                <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to <span class="extype" name="scala.Predef.Ensuring">Ensuring</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]]
               </h3>
             </div><div class="conversion" name="scala.Predef.ArrowAssoc">
               <h3>Inherited by implicit conversion ArrowAssoc from
-                <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a> to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>]
+                <a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>] to <span class="extype" name="scala.Predef.ArrowAssoc">ArrowAssoc</span>[<a href="" class="extype" name="longevity.test.TestDataGenerator">TestDataGenerator</a>[<span class="extype" name="longevity.test.TestDataGenerator.M">M</span>]]
               </h3>
             </div>
         </div>

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>longevity 0.26.0 API  - longevity.model</title>
-          <meta name="description" content="longevity 0.26.0 API - longevity.model" />
-          <meta name="keywords" content="longevity 0.26.0 API longevity.model" />
+          <title>longevity 0.27.0 API  - longevity.model</title>
+          <meta name="description" content="longevity 0.27.0 API - longevity.model" />
+          <meta name="keywords" content="longevity 0.27.0 API longevity.model" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">longevity 0.26.0 API<span id="doc-version"></span></span>
+        <span id="doc-title">longevity 0.27.0 API<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -341,11 +341,11 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for constructing your domain model</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.26.0/src/main/scala/longevity/model/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>provides tools for constructing your domain model</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/longevityframework/longevity/tree/v0.27.0/src/main/scala/longevity/model/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
         </div><div class="toggleContainer block diagram-container" id="content-diagram-container">
                 <span class="toggle diagram-link">
                   Content Hierarchy
@@ -415,7 +415,7 @@ and <a href="../context/LongevityContext.html" class="extype" name="longevity.co
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="a type class for a persistent component" href="CType.html"><span class="name">CType</span></a><span class="tparams">[<span name="M">M</span>, <span name="C">C</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <a title="a type class for a persistent component" href="CType.html"><span class="name">CType</span></a><span class="tparams">[<span name="M">M</span>, <span name="C">C</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">a type class for a persistent component
@@ -470,13 +470,13 @@ your <a href="PType.html" class="extype" name="longevity.model.PType">persistent
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="evidence for a key value" href="KVEv.html"><span class="name">KVEv</span></a><span class="tparams">[<span name="M">M</span>, <span name="P">P</span>, <span name="V">V</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <a title="evidence for a key value" href="KVEv.html"><span class="name">KVEv</span></a><span class="tparams">[<span name="M">M</span>, <span name="P">P</span>, <span name="V">V</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">evidence for a key value</p><div class="fullcomment"><div class="comment cmt"><p>evidence for a key value</p><p>this evidence is provided in the key value type (<code>KVType</code>) for the same key value class. because
 the <code>KVType</code> is typically the companion object for your key value class, this evidence should be
 available when needed.
-</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the domain model</p></dd><dt class="tparam">P</dt><dd class="cmt"><p>the persistent class</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the key value class</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>longevity.model.KVType</p></span><span class="cmt"><p>longevity.model.annotations.keyVal</p></span></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>the domain model</p></dd><dt class="tparam">P</dt><dd class="cmt"><p>the persistent class</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the key value class</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>longevity.model.annotations.keyVal</p></span><span class="cmt"><p>longevity.model.KVType</p></span></dd></dl></div>
     </li><li name="longevity.model.KVType" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="KVType[M,P,V]extendsAnyRef"></a><a id="KVType[M,P,V]:KVType[M,P,V]"></a>
       <span class="permalink">
@@ -489,7 +489,7 @@ available when needed.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="a type class for a key value" href="KVType.html"><span class="name">KVType</span></a><span class="tparams">[<span name="M">M</span>, <span name="P">P</span>, <span name="V">V</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <a title="a type class for a key value" href="KVType.html"><span class="name">KVType</span></a><span class="tparams">[<span name="M">M</span>, <span name="P">P</span>, <span name="V">V</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">a type class for a key value
@@ -507,7 +507,7 @@ available when needed.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="evidence for a domain model." href="ModelEv.html"><span class="name">ModelEv</span></a><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <a title="evidence for a domain model." href="ModelEv.html"><span class="name">ModelEv</span></a><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">evidence for a domain model.</p><div class="fullcomment"><div class="comment cmt"><p>evidence for a domain model.</p><p>the model class <code>M</code> is intended to be a phantom class, available in the root package of the
@@ -523,7 +523,7 @@ default behavior is to find persistent classes in the domain model's package and
       <span class="defval" name="&quot;could not find evidence for domain model ${M}. (Please note that domain model elements must be &quot; +<br/>  &quot;declared in the same package as, or a sub-package of, the package where the domain model is declared.)&quot;">...</span>
     </span>)</span>
               
-        </dd><dt>See also</dt><dd><span class="cmt"><p>longevity.model.ModelType</p></span><span class="cmt"><p>longevity.model.annotations.domainModel</p></span></dd></dl></div>
+        </dd><dt>See also</dt><dd><span class="cmt"><p>longevity.model.annotations.domainModel</p></span><span class="cmt"><p>longevity.model.ModelType</p></span></dd></dl></div>
     </li><li name="longevity.model.ModelType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ModelType[M]extendsAnyRef"></a><a id="ModelType[M]:ModelType[M]"></a>
       <span class="permalink">
@@ -536,7 +536,7 @@ default behavior is to find persistent classes in the domain model's package and
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="a description of a project's domain model." href="ModelType.html"><span class="name">ModelType</span></a><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <a title="a description of a project's domain model." href="ModelType.html"><span class="name">ModelType</span></a><span class="tparams">[<span name="M">M</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">a description of a project's domain model.</p><div class="fullcomment"><div class="comment cmt"><p>a description of a project's domain model. contains a pool of all the <a href="PType.html" class="extype" name="longevity.model.PType">persistent types</a>
@@ -573,7 +573,7 @@ the <code>longevity.model.annotations.domainModel</code> annotation on your mode
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="evidence for a persistent class" href="PEv.html"><span class="name">PEv</span></a><span class="tparams">[<span name="M">M</span>, <span name="P">P</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <a title="evidence for a persistent class" href="PEv.html"><span class="name">PEv</span></a><span class="tparams">[<span name="M">M</span>, <span name="P">P</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">evidence for a persistent class</p><div class="fullcomment"><div class="comment cmt"><p>evidence for a persistent class</p><p>this evidence is provided in the persistent type (<code>PType</code>) for the same persistent class. because
@@ -585,7 +585,7 @@ available when needed.
       <span class="defval" name="&quot;${P} is not a persistent type in domain model ${M}&quot;">...</span>
     </span>)</span>
               
-        </dd><dt>See also</dt><dd><span class="cmt"><p>longevity.model.PType</p></span><span class="cmt"><p>longevity.model.annotations.persistent</p></span></dd></dl></div>
+        </dd><dt>See also</dt><dd><span class="cmt"><p>longevity.model.annotations.persistent</p></span><span class="cmt"><p>longevity.model.PType</p></span></dd></dl></div>
     </li><li name="longevity.model.PType" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="PType[M,P]extendsAnyRef"></a><a id="PType[M,P]:PType[M,P]"></a>
       <span class="permalink">
@@ -598,7 +598,7 @@ available when needed.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="a type class for a persistent object" href="PType.html"><span class="name">PType</span></a><span class="tparams">[<span name="M">M</span>, <span name="P">P</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <a title="a type class for a persistent object" href="PType.html"><span class="name">PType</span></a><span class="tparams">[<span name="M">M</span>, <span name="P">P</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">a type class for a persistent object
@@ -708,9 +708,9 @@ type with concrete subtypes.
 
         <div id="inheritedMembers">
         <div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
             </div>
         
         </div>

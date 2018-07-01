@@ -59,12 +59,10 @@
           
           <h1> polymorphic persistents </h1>
           
-          <p>We can use polymorphism with our <a href="../model/persistents.html">persistent
-objects</a> as well. For example, let’s
-say our blogging system has two kinds of users: members and
-commenters. Only members can have a user profile. Here, we use
-annotations <code class="highlighter-rouge">@polyPersistent</code> and <code class="highlighter-rouge">@derivedPersistent</code> in place of
-<code class="highlighter-rouge">@persistent</code>:</p>
+          <p>We can use polymorphism with our <a href="../model/persistents.html">persistent objects</a> as well. For
+example, let’s say our blogging system has two kinds of users: members and commenters. Only members
+can have a user profile. Here, we use annotations <code class="highlighter-rouge">@polyPersistent</code> and <code class="highlighter-rouge">@derivedPersistent</code> in
+place of <code class="highlighter-rouge">@persistent</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.annotations.component</span>
 <span class="k">import</span> <span class="nn">longevity.model.annotations.derivedPersistent</span>
@@ -77,7 +75,7 @@ annotations <code class="highlighter-rouge">@polyPersistent</code> and <code cla
   <span class="n">description</span><span class="k">:</span> <span class="kt">Markdown</span><span class="o">)</span>
 
 <span class="nd">@polyPersistent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
-<span class="k">trait</span> <span class="nc">User</span> <span class="o">{</span>
+<span class="k">sealed</span> <span class="k">trait</span> <span class="nc">User</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span>
   <span class="k">val</span> <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span>
 <span class="o">}</span>
@@ -97,6 +95,9 @@ annotations <code class="highlighter-rouge">@polyPersistent</code> and <code cla
 </code></pre>
 </div>
 
+<p>As with <a href="components.html">polymorphic components</a>, we must remember to seal the trait to form a
+proper abstract data type.</p>
+
 <p>The non-annotation equivalent is as follows:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.CType</span>
@@ -110,7 +111,7 @@ annotations <code class="highlighter-rouge">@polyPersistent</code> and <code cla
 
 <span class="k">object</span> <span class="nc">UserProfile</span> <span class="k">extends</span> <span class="nc">CType</span><span class="o">[</span><span class="kt">DomainModel</span>, <span class="kt">UserProfile</span><span class="o">]</span>
 
-<span class="k">trait</span> <span class="nc">User</span> <span class="o">{</span>
+<span class="k">sealed</span> <span class="k">trait</span> <span class="nc">User</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">username</span><span class="k">:</span> <span class="kt">Username</span>
   <span class="k">val</span> <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span>
 <span class="o">}</span>

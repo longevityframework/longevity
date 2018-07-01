@@ -65,13 +65,13 @@
 sure your project is using a compatible Scala version. For example,
 your <code class="highlighter-rouge">build.sbt</code> file may have:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">"2.11.11"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">"2.11.12"</span>
 </code></pre>
 </div>
 
 <p>or:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">"2.12.2"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">"2.12.6"</span>
 </code></pre>
 </div>
 
@@ -81,25 +81,25 @@ your <code class="highlighter-rouge">build.sbt</code> file may have:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">resolvers</span> <span class="o">+=</span> <span class="nc">Resolver</span><span class="o">.</span><span class="n">sonatypeRepo</span><span class="o">(</span><span class="s">"releases"</span><span class="o">)</span>
 
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity"</span> <span class="o">%</span> <span class="s">"0.26.0"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity"</span> <span class="o">%</span> <span class="s">"0.27.0"</span>
 </code></pre>
 </div>
 
 <p>Include one of the following lines to bring in the library
 dependencies for the back end of your choice:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-cassandra-deps"</span> <span class="o">%</span> <span class="s">"0.26.0"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-cassandra-deps"</span> <span class="o">%</span> <span class="s">"0.27.0"</span>
 
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-mongodb-deps"</span> <span class="o">%</span> <span class="s">"0.26.0"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-mongodb-deps"</span> <span class="o">%</span> <span class="s">"0.27.0"</span>
 
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-sqlite-deps"</span> <span class="o">%</span> <span class="s">"0.26.0"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-sqlite-deps"</span> <span class="o">%</span> <span class="s">"0.27.0"</span>
 </code></pre>
 </div>
 
 <p>All longevity artifact versions move in lock-step, so it can be convenient to store it in a
 variable, like so:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">longevityVersion</span> <span class="k">=</span> <span class="s">"0.26.0"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">longevityVersion</span> <span class="k">=</span> <span class="s">"0.27.0"</span>
 <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity"</span>                <span class="o">%</span> <span class="n">longevityVersion</span>
 <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-cassandra-deps"</span> <span class="o">%</span> <span class="n">longevityVersion</span>
 <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.longevityframework"</span> <span class="o">%%</span> <span class="s">"longevity-migrations"</span>     <span class="o">%</span> <span class="n">longevityVersion</span>
@@ -122,28 +122,28 @@ Paradise</a> to your build, like so:</p>
 dependencies yourself. If you want to use <code class="highlighter-rouge">cats.effect.IO</code> as an effect, you will need
 <a href="https://github.com/typelevel/cats-effect">cats-effect</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.typelevel"</span> <span class="o">%%</span> <span class="s">"cats-effect"</span> <span class="o">%</span> <span class="s">"0.3"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.typelevel"</span> <span class="o">%%</span> <span class="s">"cats-effect"</span> <span class="o">%</span> <span class="s">"0.10.1"</span>
 </code></pre>
 </div>
 
 <p>If you want to <a href="../query/stream-by.html">stream query results</a> to <a href="http://doc.akka.io/docs/akka/2.4.17/scala/stream/index.html">Akka
 Streams</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.typesafe.akka"</span> <span class="o">%%</span> <span class="s">"akka-stream"</span> <span class="o">%</span> <span class="s">"2.5.3"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.typesafe.akka"</span> <span class="o">%%</span> <span class="s">"akka-stream"</span> <span class="o">%</span> <span class="s">"2.5.12"</span>
 </code></pre>
 </div>
 
 <p>If you want to <a href="../query/stream-by.html">stream query results</a> to
 <a href="https://github.com/functional-streams-for-scala/fs2">FS2</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"co.fs2"</span> <span class="o">%%</span> <span class="s">"fs2-core"</span> <span class="o">%</span> <span class="s">"0.9.6"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"co.fs2"</span> <span class="o">%%</span> <span class="s">"fs2-core"</span> <span class="o">%</span> <span class="s">"0.10.4"</span>
 </code></pre>
 </div>
 
 <p>If you want to <a href="../query/stream-by.html">stream query results</a> to
 <a href="https://github.com/travisbrown/iteratee">iteratee.io</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"io.iteratee"</span> <span class="o">%%</span> <span class="s">"iteratee-core"</span> <span class="o">%</span> <span class="s">"0.12.0"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"io.iteratee"</span> <span class="o">%%</span> <span class="s">"iteratee-core"</span> <span class="o">%</span> <span class="s">"0.17.0"</span>
 </code></pre>
 </div>
 
@@ -157,7 +157,7 @@ Streams</a>:</p>
 <p>If you want to use <code class="highlighter-rouge">longevity.test.RepoCrudSpec</code> or <code class="highlighter-rouge">longevity.test.QuerySpec</code> to <a href="../testing">build integration
 tests</a>, you will need <a href="http://www.scalatest.org/">ScalaTest</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.scalatest"</span> <span class="o">%%</span> <span class="s">"scalatest"</span> <span class="o">%</span> <span class="s">"3.0.1"</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"org.scalatest"</span> <span class="o">%%</span> <span class="s">"scalatest"</span> <span class="o">%</span> <span class="s">"3.0.5"</span>
 </code></pre>
 </div>
 

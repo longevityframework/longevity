@@ -73,7 +73,7 @@ like so:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.joda.time.DateTime</span>
 
-<span class="k">trait</span> <span class="nc">UserVerification</span> <span class="o">{</span>
+<span class="k">sealed</span> <span class="k">trait</span> <span class="nc">UserVerification</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span>
 <span class="o">}</span>
 
@@ -115,7 +115,7 @@ using annotations <code class="highlighter-rouge">@polyComponent</code> and <cod
 <span class="k">import</span> <span class="nn">org.joda.time.DateTime</span>
 
 <span class="nd">@polyComponent</span><span class="o">[</span><span class="kt">DomainModel</span><span class="o">]</span>
-<span class="k">trait</span> <span class="nc">UserVerification</span> <span class="o">{</span>
+<span class="k">sealed</span> <span class="k">trait</span> <span class="nc">UserVerification</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span>
 <span class="o">}</span>
 
@@ -146,6 +146,15 @@ using annotations <code class="highlighter-rouge">@polyComponent</code> and <cod
 </code></pre>
 </div>
 
+<p>Note that to satisfy the requirements for <a href="https://github.com/milessabin/shapeless">shapeless</a>, we
+must form a proper <a href="https://en.wikipedia.org/wiki/Abstract_data_type">abstract data type</a> by sealing
+the <code class="highlighter-rouge">UserVerification</code> trait. This will require us to define all the subclasses in the same file.
+If we forget to seal the trait, you will get an implicit resolution compiler error such as:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>could not find implicit value for parameter arbitrary: org.scalacheck.Arbitrary[UserVerification]
+</code></pre>
+</div>
+
 <p>The non-annotation equivalent is as follows:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">longevity.model.DerivedCType</span>
@@ -153,7 +162,7 @@ using annotations <code class="highlighter-rouge">@polyComponent</code> and <cod
 <span class="k">import</span> <span class="nn">longevity.model.PolyCType</span>
 <span class="k">import</span> <span class="nn">org.joda.time.DateTime</span>
 
-<span class="k">trait</span> <span class="nc">UserVerification</span> <span class="o">{</span>
+<span class="k">sealed</span> <span class="k">trait</span> <span class="nc">UserVerification</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">verificationDate</span><span class="k">:</span> <span class="kt">DateTime</span>
 <span class="o">}</span>
 

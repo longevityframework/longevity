@@ -65,26 +65,25 @@
 </code></pre>
 </div>
 
-<p>You can construct test data with the <code class="highlighter-rouge">generate</code> method by supplying
-the type that you want to generate:</p>
+<p>You can construct test data with the <code class="highlighter-rouge">generateP</code> method by supplying the type of the persistent
+object that you want to generate:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">user</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">generate</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">user</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">generateP</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span>
 </code></pre>
 </div>
 
-<p>All members are filled in with random values. For example, a <code class="highlighter-rouge">Boolean</code>
-will be <code class="highlighter-rouge">true</code> about half the time, and <code class="highlighter-rouge">false</code> about half the
-time. <code class="highlighter-rouge">Options</code> are non-empty about half the time. <code class="highlighter-rouge">Sets</code> and <code class="highlighter-rouge">Lists</code>
-have between 0 and 4 elements. Strings are composed of 8 random
-alphanumeric characters. You can use the generator to generate
-persistent components, <code class="highlighter-rouge">KeyVals</code>, <code class="highlighter-rouge">Options</code>, <code class="highlighter-rouge">Sets</code>, <code class="highlighter-rouge">Lists</code>, and even
-basic types such as <code class="highlighter-rouge">String</code>. For instance:</p>
+<p>All members are filled in with random values. For example, a <code class="highlighter-rouge">Boolean</code> will be <code class="highlighter-rouge">true</code> about half the
+time, and <code class="highlighter-rouge">false</code> about half the time. <code class="highlighter-rouge">Options</code> are non-empty about half the time. <code class="highlighter-rouge">Sets</code> and
+<code class="highlighter-rouge">Lists</code> have vary in size from 0 on up. Strings are composed of 12 random alphanumeric characters.
+Currently, you can use the generator to generate persistent components, <code class="highlighter-rouge">Ints</code> and <code class="highlighter-rouge">Strings</code>. For
+instance:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">userId</span> <span class="k">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">generate</span><span class="o">[</span><span class="kt">UserId</span><span class="o">]</span>
-<span class="k">val</span> <span class="n">bools</span> <span class="k">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">generate</span><span class="o">[</span><span class="kt">List</span><span class="o">[</span><span class="kt">Boolean</span><span class="o">]]</span>
-<span class="k">val</span> <span class="n">sampleString</span> <span class="k">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">generate</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">sampleInt</span> <span class="k">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">generateInt</span>
+<span class="k">val</span> <span class="n">sampleString</span> <span class="k">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">generateString</span>
 </code></pre>
 </div>
+
+<p>In the future, we will probably expand the <code class="highlighter-rouge">TestDataGenerator</code> to generate more data types.</p>
 
 <div style="display: flex;
             justify-content: space-between;
