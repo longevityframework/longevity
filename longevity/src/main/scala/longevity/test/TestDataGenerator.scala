@@ -35,7 +35,7 @@ private[longevity] object TestDataGenerator {
     def generateString: String = generate[String]
     def generate[A](implicit arbitrary: Arbitrary[A]): A = synchronized {
       val a = arbitrary.arbitrary.pureApply(Gen.Parameters.default, seed)
-      seed = seed.next
+      seed = Seed.apply(System.nanoTime)
       a
     }
   }

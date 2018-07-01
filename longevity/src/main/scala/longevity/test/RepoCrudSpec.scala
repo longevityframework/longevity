@@ -27,7 +27,11 @@ import scala.util.control.NonFatal
  *
  * pardon the nasty ScalaDocs for this class. we haven't figured out how to remove the methods
  * inherited from ScalaTest classes yet.
- * 
+ *
+ * to run a single tag in sbt:
+ *
+ *     test-only longevity.integration.subdomain.allAttributes.AllAttributesSpec -- -n Create
+ *
  * @tparam F the effect
  * @tparam M the model
  * 
