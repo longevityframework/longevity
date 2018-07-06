@@ -1,6 +1,6 @@
 # Longevity Changelog
 
-## [0.27.0] - 2017.??.?? - Replace Custom Test Data Generation with ScalaCheck Shapeless
+## [0.27.0] - 2018.07.01 - Replace Custom Test Data Generation with ScalaCheck Shapeless
 
 This is the first baby step in replacing custom reflection-based code with
 [shapeless](https://github.com/milessabin/shapeless).
